@@ -5,12 +5,12 @@ name = "pypi"
 
 [dev-packages]
 rope = "*"
+mypy = "*"
 
 [packages]
 django = "*"
 whitenoise = "*"
 dj-database-url = "*"
-mypy = "*"
 python-dotenv = "*"
 
 [requires]

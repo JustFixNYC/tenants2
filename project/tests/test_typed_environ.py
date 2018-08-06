@@ -34,6 +34,7 @@ def test_multiple_missing_values_are_logged():
     class MyBigEnv(typed_environ.BaseEnvironment):
         FOO: bool
 
+        # Here are some docs for BAR.
         BAR: str
 
     with pytest.raises(ValueError) as excinfo:
@@ -49,4 +50,6 @@ def test_multiple_missing_values_are_logged():
 
       BAR:
         this variable must be defined!
+
+        Here are some docs for BAR.
     ''').strip()

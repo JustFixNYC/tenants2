@@ -1,6 +1,7 @@
 import os
 import sys
 import inspect
+import textwrap
 from typing import (
     MutableMapping,
     get_type_hints,
@@ -125,8 +126,20 @@ class BaseEnvironment:
                 raise ValueError(f"Error evaluating environment variable {name}: {msg}")
             err_output.write(
                 f'{len(errors)} environment variables are not defined properly.\n\n')
+            alldocs = self.get_docs()
+
+            def wrap(text: str) -> str:
+                indent = '    '
+                return '\n'.join(
+                    textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
+
             for name, desc in errors.items():
-                err_output.write(f'  {name}:\n    {desc}\n\n')
+                docs = f'\n\n{wrap(alldocs[name])}' if name in alldocs else ''
+                err_output.writelines([
+                    f'  {name}:\n',
+                    wrap(desc) + docs,
+                    f'\n\n'
+                ])
             names = ', '.join(errors.keys())
             raise ValueError(f"Error evaluating environment variables {names}")
         self.__dict__.update(typed_env)

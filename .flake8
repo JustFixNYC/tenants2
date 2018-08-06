@@ -1,6 +1,7 @@
 [flake8]
 
 exclude = 
-    */migrations/*.py
+    */migrations/*.py,
+    .venv
 
 max-line-length = 100

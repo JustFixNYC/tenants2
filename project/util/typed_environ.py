@@ -67,9 +67,16 @@ class Converters:
         Convert the given string value to the given annotation class.
         '''
 
-        if klass is bool:
-            return Converters.convert_bool(value)
-        raise ValueError(f'Unrecognized type annotation class "{klass}"')
+        # Iterate through all our attributes until we find a class
+        # method that takes a string argument called "value" and
+        # returns exactly the kind of value we're looking for.
+        for name in vars(cls):
+            if name.startswith('convert_'):
+                thing = getattr(cls, name)
+                hints = get_type_hints(thing)
+                if hints.get('value') == str and hints.get('return') == klass:
+                    return thing(value)
+        raise ValueError(f'Unable to find converter from "{klass}" to string')
 
 
 class BaseEnvironment:

@@ -1,4 +1,4 @@
-from .. import typed_environ
+from ..util import typed_environ
 
 
 def test_overriding_default_value_works():

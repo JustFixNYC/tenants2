@@ -6,6 +6,8 @@ name = "pypi"
 [dev-packages]
 rope = "*"
 mypy = "*"
+pytest = "*"
+pytest-django = "*"
 
 [packages]
 django = "*"

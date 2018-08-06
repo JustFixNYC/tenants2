@@ -4,7 +4,7 @@ from ..util import typed_environ
 def test_overriding_default_value_works():
     class MyEnv(typed_environ.BaseEnvironment):
         BLARG: str = 'blarg'
-    
+
     assert MyEnv().BLARG == 'blarg'
     assert MyEnv(env={'BLARG': 'no u'}).BLARG == 'no u'
 

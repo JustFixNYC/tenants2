@@ -111,7 +111,7 @@ class BaseEnvironment:
         Return a dictionary mapping the names of
         this environment's variables to their
         documentation.
-        
+
         Traverses all base classes that derive from BaseEnvironment.
         '''
 

@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/JustFixNYC/tenants2.svg?style=svg)](https://circleci.com/gh/JustFixNYC/tenants2)
+
 This is an attempt at creating a new Tenants app for JustFix.
 
 ## Quick start

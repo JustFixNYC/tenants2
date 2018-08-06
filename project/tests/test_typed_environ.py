@@ -28,6 +28,16 @@ def test_get_docs_work():
     }
 
 
+def test_system_exit_is_raised():
+    class SystemExitEnv(typed_environ.BaseEnvironment):
+        BLAH: bool
+
+    with pytest.raises(SystemExit) as excinfo:
+        SystemExitEnv(exit_when_invalid=True)
+
+    assert excinfo.value.args[0] == 1
+
+
 def test_multiple_missing_values_are_logged():
     output = StringIO()
 

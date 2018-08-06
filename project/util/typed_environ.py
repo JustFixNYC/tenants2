@@ -102,7 +102,8 @@ class BaseEnvironment:
     def __init__(self,
                  env: MutableMapping[str, str] = os.environ,
                  converters: Type[Converters] = Converters,
-                 err_output: IO = sys.stderr) -> None:
+                 err_output: IO = sys.stderr,
+                 exit_when_invalid=False) -> None:
         typed_env = {}
         myclass = self.__class__
         hints = get_type_hints(myclass)
@@ -145,6 +146,8 @@ class BaseEnvironment:
                     wrap(desc) + docs,
                     f'\n\n'
                 ])
+            if exit_when_invalid:
+                raise SystemExit(1)
             raise ValueError(excmsg)
         self.__dict__.update(typed_env)
 
@@ -189,8 +192,8 @@ class BaseEnvironment:
         comments: List[str] = []
         for line in source_lines:
             line = line.strip()
-            if line.startswith('# '):
-                comments.append(line[2:])
+            if line.startswith('#'):
+                comments.append(line[1:].strip())
             else:
                 parts = line.split(' ')
                 varname = parts[0]

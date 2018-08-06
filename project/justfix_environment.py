@@ -13,14 +13,17 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     Our base environment variables.
     '''
 
-    # The URL to the database, as per dj-database-url:
+    # This is the URL to the database, as per dj-database-url:
+    #
     # https://github.com/kennethreitz/dj-database-url#url-schema
     DATABASE_URL: str
 
-    # SECURITY WARNING: keep the secret key used in production secret!
+    # This is a large random value corresponding to Django's
+    # SECRET_KEY setting.
     SECRET_KEY: str
 
-    # SECURITY WARNING: don't run with debug turned on in production!
+    # This indicates whether debugging is enabled (this should always
+    # be false in production).
     DEBUG: bool = False
 
 
@@ -41,5 +44,5 @@ def get() -> JustfixEnvironment:
     is_debug = typed_environ.Converters.convert_bool(
         os.environ.get('DEBUG', 'no'))
     if is_debug:
-        return JustfixDebugEnvironment()
-    return JustfixEnvironment()
+        return JustfixDebugEnvironment(exit_when_invalid=True)
+    return JustfixEnvironment(exit_when_invalid=True)

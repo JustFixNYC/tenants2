@@ -12,14 +12,14 @@ jobs:
 #      - run: sudo chown -R circleci:circleci /usr/local/bin
 #      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - restore_cache:
-          key: tenants2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
       - run:
           command: |
              pipenv sync --dev
 #            sudo pip install pipenv
 #            pipenv install
       - save_cache:
-          key: tenants2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
 #            - "/usr/local/bin"

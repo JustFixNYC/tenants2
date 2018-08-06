@@ -39,7 +39,7 @@ def test_multiple_missing_values_are_logged():
     with pytest.raises(ValueError) as excinfo:
         MyBigEnv(err_output=output)
 
-    assert '2 environment variables are not defined properly' in str(excinfo.value)
+    assert 'Error evaluating environment variables FOO, BAR' in str(excinfo.value)
 
     assert output.getvalue().strip() == dedent('''
     2 environment variables are not defined properly.

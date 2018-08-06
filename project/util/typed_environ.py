@@ -123,11 +123,12 @@ class BaseEnvironment:
             if len(errors) == 1:
                 name, msg = list(errors.items())[0]
                 raise ValueError(f"Error evaluating environment variable {name}: {msg}")
-            msg = f'{len(errors)} environment variables are not defined properly'
-            err_output.write(f'{msg}.\n\n')
+            err_output.write(
+                f'{len(errors)} environment variables are not defined properly.\n\n')
             for name, desc in errors.items():
                 err_output.write(f'  {name}:\n    {desc}\n\n')
-            raise ValueError(msg)
+            names = ', '.join(errors.keys())
+            raise ValueError(f"Error evaluating environment variables {names}")
         self.__dict__.update(typed_env)
 
     @classmethod

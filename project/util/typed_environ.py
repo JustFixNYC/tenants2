@@ -123,9 +123,14 @@ class BaseEnvironment:
         if errors:
             if len(errors) == 1:
                 name, msg = list(errors.items())[0]
-                raise ValueError(f"Error evaluating environment variable {name}: {msg}")
-            err_output.write(
-                f'{len(errors)} environment variables are not defined properly.\n\n')
+                excmsg = f"Error evaluating environment variable {name}: {msg}"
+                firstline = "An environment variable is not defined properly."
+            else:
+                names = ', '.join(errors.keys())
+                excmsg = f"Error evaluating environment variables {names}"
+                firstline = f"{len(errors)} environment variables are not defined properly."
+
+            err_output.write(f'{firstline}\n\n')
             alldocs = self.get_docs()
 
             def wrap(text: str) -> str:
@@ -140,8 +145,7 @@ class BaseEnvironment:
                     wrap(desc) + docs,
                     f'\n\n'
                 ])
-            names = ', '.join(errors.keys())
-            raise ValueError(f"Error evaluating environment variables {names}")
+            raise ValueError(excmsg)
         self.__dict__.update(typed_env)
 
     @classmethod
@@ -176,7 +180,12 @@ class BaseEnvironment:
         '''
 
         result: Dict[str, str] = {}
-        source_lines = inspect.getsource(cls).splitlines()
+
+        try:
+            source_lines = inspect.getsource(cls).splitlines()
+        except OSError:
+            return result
+
         comments: List[str] = []
         for line in source_lines:
             line = line.strip()

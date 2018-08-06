@@ -133,14 +133,14 @@ class BaseEnvironment:
 
             err_output.write(f'{firstline}\n\n')
             alldocs = self.get_docs()
+            indent = '    '
 
             def wrap(text: str) -> str:
-                indent = '    '
                 return '\n'.join(
                     textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
 
             for name, desc in errors.items():
-                docs = f'\n\n{wrap(alldocs[name])}' if name in alldocs else ''
+                docs = f'\n\n{textwrap.indent(alldocs[name], indent)}' if name in alldocs else ''
                 err_output.writelines([
                     f'  {name}:\n',
                     wrap(desc) + docs,
@@ -193,7 +193,7 @@ class BaseEnvironment:
         for line in source_lines:
             line = line.strip()
             if line.startswith('#'):
-                comments.append(line[1:].strip())
+                comments.append(line[2:])
             else:
                 parts = line.split(' ')
                 varname = parts[0]

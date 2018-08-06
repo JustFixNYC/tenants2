@@ -15,7 +15,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # This is the URL to the database, as per dj-database-url:
     #
-    # https://github.com/kennethreitz/dj-database-url#url-schema
+    #   https://github.com/kennethreitz/dj-database-url#url-schema
     DATABASE_URL: str
 
     # This is a large random value corresponding to Django's

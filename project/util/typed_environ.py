@@ -1,6 +1,17 @@
 import os
+import sys
 import inspect
-from typing import MutableMapping, get_type_hints, Type, Dict, List, cast, Any, Optional
+from typing import (
+    MutableMapping,
+    get_type_hints,
+    Type,
+    Dict,
+    List,
+    cast,
+    Any,
+    Optional,
+    IO
+)
 
 
 class Converters:
@@ -75,7 +86,7 @@ class BaseEnvironment:
         >>> env = MyEnv()
         Traceback (most recent call last):
         ...
-        ValueError: FOO must be defined in the environment!
+        ValueError: Error evaluating environment variable FOO: this variable must be defined!
 
     If the required variables are present, they can be
     accessed as attributes:
@@ -89,20 +100,34 @@ class BaseEnvironment:
 
     def __init__(self,
                  env: MutableMapping[str, str] = os.environ,
-                 converters: Type[Converters] = Converters) -> None:
+                 converters: Type[Converters] = Converters,
+                 err_output: IO = sys.stderr) -> None:
         typed_env = {}
         myclass = self.__class__
         hints = get_type_hints(myclass)
+        errors: Dict[str, str] = {}
         for var, klass in hints.items():
-            value = getattr(myclass, var, None)
-            if var in env:
-                value = env[var]
-            if value is None:
-                raise ValueError(f'{var} must be defined in the environment!')
-            if isinstance(value, klass):
-                typed_env[var] = value
-            else:
-                typed_env[var] = converters.convert(value, klass)
+            try:
+                value = getattr(myclass, var, None)
+                if var in env:
+                    value = env[var]
+                if value is None:
+                    raise ValueError('this variable must be defined!')
+                if isinstance(value, klass):
+                    typed_env[var] = value
+                else:
+                    typed_env[var] = converters.convert(value, klass)
+            except ValueError as e:
+                errors[var] = e.args[0]
+        if errors:
+            if len(errors) == 1:
+                name, msg = list(errors.items())[0]
+                raise ValueError(f"Error evaluating environment variable {name}: {msg}")
+            msg = f'{len(errors)} environment variables are not defined properly'
+            err_output.write(f'{msg}.\n\n')
+            for name, desc in errors.items():
+                err_output.write(f'  {name}:\n    {desc}\n\n')
+            raise ValueError(msg)
         self.__dict__.update(typed_env)
 
     @classmethod

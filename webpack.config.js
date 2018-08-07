@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   target: 'web',
-  entry: './frontend/lib/main.ts',
+  entry: ['babel-polyfill', './frontend/lib/main.ts'],
   devtool: 'inline-source-map',
   mode: 'development',
   output: {
@@ -13,8 +13,11 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader' },
+          { loader: 'ts-loader' }
+        ]
       }
     ]
   },

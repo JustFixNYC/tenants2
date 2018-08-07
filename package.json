@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "ts-loader": "^4.4.2",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",

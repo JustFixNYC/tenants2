@@ -11,8 +11,36 @@ from typing import (
     cast,
     Any,
     Optional,
+    Union,
+    Tuple,
     IO
 )
+
+
+def destructure_optional(klass: Any) -> Tuple[bool, Any]:
+    '''
+    Attempts to determine whether the given argument represents
+    an Optional type. If so, "unwraps" the Optional, revealing
+    the underlying type:
+
+        >>> destructure_optional(Optional[int])
+        (True, <class 'int'>)
+
+        >>> destructure_optional(int)
+        (False, <class 'int'>)
+
+        >>> destructure_optional(Union[bool, int])
+        (False, typing.Union[bool, int])
+    '''
+
+    origin = getattr(klass, '__origin__', None)
+    args = getattr(klass, '__args__', [])
+    args_has_none = None.__class__ in args
+
+    if origin is Union and len(args) == 2 and args_has_none:
+        other = [arg for arg in args if arg is not None.__class__][0]
+        return (True, other)
+    return (False, klass)
 
 
 class Converters:
@@ -60,6 +88,14 @@ class Converters:
             return result
         choices = ', '.join(cls.TRUTHY + cls.FALSY)
         raise ValueError(f"'{value}' must be one of the following: {choices}")
+
+    @classmethod
+    def convert_str(cls, value: str) -> str:
+        '''
+        If it's a string type, we just pass it through unchanged.
+        '''
+
+        return value
 
     @classmethod
     def convert(cls, value: str, klass: Any) -> Any:
@@ -117,15 +153,22 @@ class BaseEnvironment:
         errors: Dict[str, str] = {}
         for var, klass in hints.items():
             try:
-                value = getattr(myclass, var, None)
-                if var in env:
-                    value = env[var]
-                if value is None:
-                    raise ValueError('this variable must be defined!')
-                if isinstance(value, klass):
-                    typed_env[var] = value
+                is_optional, klass = destructure_optional(klass)
+                if env.get(var, '').strip():
+                    # The environment variable is non-empty, so let's
+                    # convert it to the expected type.
+                    typed_env[var] = converters.convert(env[var], klass)
+                elif hasattr(myclass, var):
+                    # A default value has been set, so fall back to that.
+                    # Assume a static type-checker has validated
+                    # that the value is of the proper type.
+                    typed_env[var] = getattr(myclass, var)
+                elif is_optional:
+                    # The type is Optional, so set it to None.
+                    typed_env[var] = None
                 else:
-                    typed_env[var] = converters.convert(value, klass)
+                    # The type is not Optional, so raise an error.
+                    raise ValueError('this variable must be defined!')
             except ValueError as e:
                 errors[var] = e.args[0]
         if errors:
@@ -192,17 +235,18 @@ class BaseEnvironment:
         result: Dict[str, str] = {}
 
         try:
-            source_lines = inspect.getsource(cls).splitlines()
+            source_lines = textwrap.dedent(inspect.getsource(cls)).splitlines()
         except OSError:
             return result
 
         comments: List[str] = []
         for line in source_lines:
-            line = line.strip()
-            if line.startswith('#'):
-                comments.append(line[2:])
+            # Assume PEP-8, i.e. indentations are four spaces. So we'll
+            # only pay attention to top-level comments in the class.
+            if line.startswith('    #'):
+                comments.append(line[6:])
             else:
-                parts = line.split(' ')
+                parts = line.strip().split(' ')
                 varname = parts[0]
                 if varname.endswith(':'):
                     varname = varname[:-1]

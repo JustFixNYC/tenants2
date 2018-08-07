@@ -1,5 +1,6 @@
 from io import StringIO
 from textwrap import dedent
+from typing import Optional
 import pytest
 
 from ..util import typed_environ
@@ -11,6 +12,14 @@ def test_overriding_default_value_works():
 
     assert MyEnv().BLARG == 'blarg'
     assert MyEnv(env={'BLARG': 'no u'}).BLARG == 'no u'
+
+
+def test_optional_values_work():
+    class MyOptionalEnv(typed_environ.BaseEnvironment):
+        BLARG: Optional[bool]
+
+    assert MyOptionalEnv().BLARG is None
+    assert MyOptionalEnv(env={'BLARG': 'yes'}).BLARG is True
 
 
 def test_get_docs_work():

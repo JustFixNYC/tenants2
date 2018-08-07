@@ -4,10 +4,18 @@ This is an attempt at creating a new Tenants app for JustFix.
 
 ## Quick start
 
-You'll need Python 3.7 and [pipenv][].
+You'll need Python 3.7 and [pipenv][], as well as Node 8.
 
-First you'll want to instantiate your Python virtual
-environment and enter it:
+First, set up the front-end and configure it to
+continuously re-build itself as you change the source code:
+
+```
+npm install
+npm run watch
+```
+
+Then, in a separate terminal, you'll want to instantiate
+your Python virtual environment and enter it:
 
 ```
 pipenv install --python 3.7
@@ -30,10 +38,20 @@ Then visit http://localhost:8000/ in your browser.
 
 ## Running tests
 
-To run tests:
+To run the back-end Python/Django tests, use:
 
 ```
 pytest
 ```
+
+To run the front-end Node/TypeScript tests, use:
+
+```
+npm test
+```
+
+You can also use `npm run test:watch` to have Jest
+continuously watch the front-end tests for changes and
+re-run them as needed.
 
 [pipenv]: https://docs.pipenv.org/

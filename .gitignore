@@ -4,3 +4,5 @@ db.sqlite3
 .pytest_cache/
 .env
 .coverage
+node_modules/
+frontend/static/frontend/

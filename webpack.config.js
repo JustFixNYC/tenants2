@@ -1,5 +1,7 @@
 const path = require('path');
 
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 module.exports = {
   target: 'web',
   entry: ['babel-polyfill', './frontend/lib/main.ts'],
@@ -21,6 +23,12 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+    })
+  ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },

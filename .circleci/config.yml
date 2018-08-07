@@ -24,6 +24,7 @@ jobs:
           command: |
             node --version
             npm run build
+            npm run sass
             npm test
             pipenv run "pytest"
       - store_test_results:

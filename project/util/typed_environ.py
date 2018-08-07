@@ -2,6 +2,7 @@ import os
 import sys
 import inspect
 import textwrap
+from dataclasses import dataclass
 from typing import (
     MutableMapping,
     get_type_hints,
@@ -15,11 +16,14 @@ from typing import (
     Tuple,
     Callable,
     TypeVar,
+    Generic,
     IO
 )
 
 
 T = TypeVar('T')
+
+Converter = Callable[[str], T]
 
 
 def envhelp(text: str):
@@ -149,11 +153,13 @@ class Converters:
         return value
 
     @classmethod
-    def get_converter(cls, klass: Type[T]) -> Optional[Callable[[str], T]]:
+    def get_converter(cls, klass: Type[T]) -> Converter:
         '''
         Iterate through all our attributes until we find a class
         method that takes a string argument called "value" and
         returns exactly the kind of value we're looking for.
+
+        If none is found, a ValueError is raised.
         '''
 
         for name in vars(cls):
@@ -162,7 +168,7 @@ class Converters:
                 hints = get_type_hints(thing)
                 if hints.get('value') == str and hints.get('return') == klass:
                     return thing
-        return None
+        raise ValueError(f'Unable to find converter from string to "{klass}"')
 
     @classmethod
     def convert(cls, value: str, klass: Type[T]) -> T:
@@ -171,19 +177,67 @@ class Converters:
         '''
 
         converter = cls.get_converter(klass)
-        if converter is not None:
-            return converter(value)
-        raise ValueError(f'Unable to find converter from "{klass}" to string')
+        return converter(value)
 
-    @classmethod
-    def get_env_help(cls, klass: Any) -> str:
+
+@dataclass
+class EnvVarInfo(Generic[T]):
+    '''
+    Encapsulates metadata about an environment variable.
+    '''
+
+    # The name of the variable.
+    name: str
+
+    # Whether or not the variable is optional.
+    is_optional: bool
+
+    # The type of the variable (excluding its optional component).
+    klass: Type[T]
+
+    # Help text for the variable's type.
+    typehelp: str
+
+    # The Converters class/subclass with which the variable can be
+    # converted from a string to its type.
+    #
+    # Note that originally this was a reference to the actual function
+    # that performed the conversion, but this isn't currently possible
+    # with mypy:
+    #
+    #     https://github.com/python/mypy/issues/708
+    converters: Type[Converters]
+
+    @staticmethod
+    def from_env(
+        env: Type['BaseEnvironment'],
+        converters: Type[Converters]
+    ) -> Dict[str, 'EnvVarInfo']:
         '''
-        Attempt to find help on how the converter for the given
-        type expects its environment variable to be formatted.
+        Return a mapping from environment variable names to their
+        metadata for a given environment and converters.
         '''
 
-        converter = cls.get_converter(klass)
-        return get_envhelp(converter)
+        hints = get_type_hints(env)
+        varinfo: Dict[str, EnvVarInfo] = {}
+        for var, hintclass in hints.items():
+            is_optional, klass = destructure_optional(hintclass)
+            convert = converters.get_converter(hintclass)
+            varinfo[var] = EnvVarInfo(
+                name=var,
+                is_optional=is_optional,
+                klass=hintclass,
+                converters=converters,
+                typehelp=get_envhelp(convert)
+            )
+        return varinfo
+
+    def convert(self, value: str) -> T:
+        '''
+        Convert a string to the variable's type.
+        '''
+
+        return self.converters.convert(value, self.klass)
 
 
 class BaseEnvironment:
@@ -220,28 +274,27 @@ class BaseEnvironment:
                  exit_when_invalid=False) -> None:
         typed_env = {}
         myclass = self.__class__
-        hints = get_type_hints(myclass)
+        varinfo = EnvVarInfo.from_env(myclass, converters)
         errors: Dict[str, str] = {}
-        for var, klass in hints.items():
-            is_optional, klass = destructure_optional(klass)
+        for var in varinfo.values():
             try:
-                if env.get(var, '').strip():
+                if env.get(var.name, '').strip():
                     # The environment variable is non-empty, so let's
                     # convert it to the expected type.
-                    typed_env[var] = converters.convert(env[var], klass)
-                elif hasattr(myclass, var):
+                    typed_env[var.name] = var.convert(env[var.name])
+                elif hasattr(myclass, var.name):
                     # A default value has been set, so fall back to that.
                     # Assume a static type-checker has validated
                     # that the value is of the proper type.
-                    typed_env[var] = getattr(myclass, var)
-                elif is_optional:
+                    typed_env[var.name] = getattr(myclass, var.name)
+                elif var.is_optional:
                     # The type is Optional, so set it to None.
-                    typed_env[var] = None
+                    typed_env[var.name] = None
                 else:
                     # The type is not Optional, so raise an error.
                     raise ValueError('this variable must be defined!')
             except ValueError as e:
-                errors[var] = e.args[0]
+                errors[var.name] = e.args[0]
         if errors:
             if len(errors) == 1:
                 name, msg = list(errors.items())[0]

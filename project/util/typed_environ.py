@@ -198,32 +198,26 @@ class EnvVarInfo(Generic[T]):
     # Help text for the variable.
     helptext: str
 
-    # The Converters class/subclass with which the variable can be
-    # converted from a string to its type.
-    #
-    # Note that originally this was a reference to the actual function
-    # that performed the conversion, but this isn't currently possible
-    # with mypy:
-    #
-    #     https://github.com/python/mypy/issues/708
-    converters: Type[Converters]
+    # The environment the variable belongs to.
+    environment: 'BaseEnvironment'
 
     @staticmethod
-    def from_env(
-        env: Type['BaseEnvironment'],
-        converters: Type[Converters]
-    ) -> Dict[str, 'EnvVarInfo']:
+    def from_env(env: 'BaseEnvironment') -> Dict[str, 'EnvVarInfo']:
         '''
         Return a mapping from environment variable names to their
-        metadata for a given environment and converters.
+        metadata for a given environment.
         '''
 
-        hints = get_type_hints(env)
+        hints = get_type_hints(env.__class__)
         varinfo: Dict[str, EnvVarInfo] = {}
         alldocs = env.get_docs()
         for var, hintclass in hints.items():
+            if var.upper() != var:
+                # This isn't actually an environment variable, so
+                # skip it.
+                continue
             is_optional, klass = destructure_optional(hintclass)
-            convert = converters.get_converter(hintclass)
+            convert = env.converters.get_converter(hintclass)
             helptext = '\n\n'.join(filter(None, [
                 alldocs.get(var, ''),
                 get_envhelp(convert),
@@ -232,7 +226,7 @@ class EnvVarInfo(Generic[T]):
                 name=var,
                 is_optional=is_optional,
                 klass=hintclass,
-                converters=converters,
+                environment=env,
                 helptext=helptext
             )
         return varinfo
@@ -242,7 +236,7 @@ class EnvVarInfo(Generic[T]):
         Convert a string to the variable's type.
         '''
 
-        return self.converters.convert(value, self.klass)
+        return self.environment.converters.convert(value, self.klass)
 
 
 class BaseEnvironment:
@@ -272,66 +266,93 @@ class BaseEnvironment:
         'here is a default value'
     '''
 
+    # The raw environment (e.g., the operating system environment).
+    env: MutableMapping[str, str]
+
+    # Converters capable of converting values from the raw environment
+    # to the strongly-typed values we need.
+    converters: Type[Converters]
+
+    # This is where we output any detailed error feedback to.
+    err_output: IO
+
+    # Whether we want to abort the process with a non-zero exit code
+    # when there are problems validating environment variables.
+    exit_when_invalid: bool
+
+    # A mapping from our environment variables to metadata about them.
+    varinfo: Dict[str, EnvVarInfo]
+
     def __init__(self,
                  env: MutableMapping[str, str] = os.environ,
                  converters: Type[Converters] = Converters,
                  err_output: IO = sys.stderr,
                  exit_when_invalid=False) -> None:
+        self.env = env
+        self.converters = converters
+        self.err_output = err_output
+        self.exit_when_invalid = exit_when_invalid
+        self.varinfo = EnvVarInfo.from_env(self)
+
         typed_env = {}
-        myclass = self.__class__
-        varinfo = EnvVarInfo.from_env(myclass, converters)
         errors: Dict[str, str] = {}
-        for var in varinfo.values():
+        for var in self.varinfo.values():
             try:
-                if env.get(var.name, '').strip():
-                    # The environment variable is non-empty, so let's
-                    # convert it to the expected type.
-                    typed_env[var.name] = var.convert(env[var.name])
-                elif hasattr(myclass, var.name):
-                    # A default value has been set, so fall back to that.
-                    # Assume a static type-checker has validated
-                    # that the value is of the proper type.
-                    typed_env[var.name] = getattr(myclass, var.name)
-                elif var.is_optional:
-                    # The type is Optional, so set it to None.
-                    typed_env[var.name] = None
-                else:
-                    # The type is not Optional, so raise an error.
-                    raise ValueError('this variable must be defined!')
+                typed_env[var.name] = self._resolve_value(var)
             except ValueError as e:
                 errors[var.name] = e.args[0]
         if errors:
-            if len(errors) == 1:
-                name, msg = list(errors.items())[0]
-                excmsg = f"Error evaluating environment variable {name}: {msg}"
-                firstline = "An environment variable is not defined properly."
-            else:
-                names = ', '.join(errors.keys())
-                excmsg = f"Error evaluating environment variables {names}"
-                firstline = f"{len(errors)} environment variables are not defined properly."
-
-            err_output.write(f'{firstline}\n\n')
-            indent = '    '
-
-            def wrap(text: str) -> str:
-                return '\n'.join(
-                    textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
-
-            for name, desc in errors.items():
-                var = varinfo[name]
-                details = '\n\n'.join(filter(None, [
-                    wrap(desc),
-                    textwrap.indent(var.helptext, indent)
-                ]))
-                err_output.writelines([
-                    f'  {name}:\n',
-                    details,
-                    f'\n\n'
-                ])
-            if exit_when_invalid:
-                raise SystemExit(1)
-            raise ValueError(excmsg)
+            self._fail(errors)
         self.__dict__.update(typed_env)
+
+    def _resolve_value(self, var: EnvVarInfo[T]) -> Optional[T]:
+        if self.env.get(var.name, '').strip():
+            # The environment variable is non-empty, so let's
+            # convert it to the expected type.
+            return var.convert(self.env[var.name])
+        elif hasattr(self.__class__, var.name):
+            # A default value has been set, so fall back to that.
+            # Assume a static type-checker has validated
+            # that the value is of the proper type.
+            return getattr(self.__class__, var.name)
+        elif var.is_optional:
+            # The type is Optional, so set it to None.
+            return None
+        else:
+            # The type is not Optional, so raise an error.
+            raise ValueError('this variable must be defined!')
+
+    def _fail(self, errors: Dict[str, str]):
+        if len(errors) == 1:
+            name, msg = list(errors.items())[0]
+            excmsg = f"Error evaluating environment variable {name}: {msg}"
+            firstline = "An environment variable is not defined properly."
+        else:
+            names = ', '.join(errors.keys())
+            excmsg = f"Error evaluating environment variables {names}"
+            firstline = f"{len(errors)} environment variables are not defined properly."
+
+        self.err_output.write(f'{firstline}\n\n')
+        indent = '    '
+
+        def wrap(text: str) -> str:
+            return '\n'.join(
+                textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
+
+        for name, desc in errors.items():
+            var = self.varinfo[name]
+            details = '\n\n'.join(filter(None, [
+                wrap(desc),
+                textwrap.indent(var.helptext, indent)
+            ]))
+            self.err_output.writelines([
+                f'  {name}:\n',
+                details,
+                f'\n\n'
+            ])
+        if self.exit_when_invalid:
+            raise SystemExit(1)
+        raise ValueError(excmsg)
 
     @classmethod
     def get_docs(cls) -> Dict[str, str]:
@@ -384,6 +405,8 @@ class BaseEnvironment:
                     varname = varname[:-1]
                 if varname and varname == varname.upper() and comments:
                     result[varname] = '\n'.join(comments)
+                    comments = []
+                else:
                     comments = []
 
         return result

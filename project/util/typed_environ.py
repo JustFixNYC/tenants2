@@ -13,8 +13,43 @@ from typing import (
     Optional,
     Union,
     Tuple,
+    Callable,
+    TypeVar,
     IO
 )
+
+
+T = TypeVar('T')
+
+
+def envhelp(text: str):
+    '''
+    Set the environment variable help for the given converter,
+    which documents how an environment variable string is
+    converted to its Python representation:
+
+        >>> @envhelp('i am some help')
+        ... def boop(): return 'foo'
+
+    The help can then be retrieved with get_envhelp():
+
+        >>> get_envhelp(boop)
+        'i am some help'
+    '''
+
+    def decorator(func: Callable):
+        setattr(func, '__envhelp__', text)
+        return func
+    return decorator
+
+
+def get_envhelp(obj: Any) -> str:
+    '''
+    Return the environment variable help for the given
+    converter, or an empty string if none is available.
+    '''
+
+    return getattr(obj, '__envhelp__', '')
 
 
 def destructure_optional(klass: Any) -> Tuple[bool, Any]:
@@ -72,6 +107,10 @@ class Converters:
         return None
 
     @classmethod
+    @envhelp(
+        f"The value should be one of {', '.join(TRUTHY)} for True, or "
+        f"{', '.join(FALSY)} for False."
+    )
     def convert_bool(cls, value: str) -> bool:
         '''
         Convert the given string value to a boolean, raising
@@ -98,21 +137,41 @@ class Converters:
         return value
 
     @classmethod
-    def convert(cls, value: str, klass: Any) -> Any:
+    def get_converter(cls, klass: Type[T]) -> Optional[Callable[[str], T]]:
         '''
-        Convert the given string value to the given annotation class.
+        Iterate through all our attributes until we find a class
+        method that takes a string argument called "value" and
+        returns exactly the kind of value we're looking for.
         '''
 
-        # Iterate through all our attributes until we find a class
-        # method that takes a string argument called "value" and
-        # returns exactly the kind of value we're looking for.
         for name in vars(cls):
             if name.startswith('convert_'):
                 thing = getattr(cls, name)
                 hints = get_type_hints(thing)
                 if hints.get('value') == str and hints.get('return') == klass:
-                    return thing(value)
+                    return thing
+        return None
+
+    @classmethod
+    def convert(cls, value: str, klass: Type[T]) -> T:
+        '''
+        Convert the given string value to the given annotation class.
+        '''
+
+        converter = cls.get_converter(klass)
+        if converter is not None:
+            return converter(value)
         raise ValueError(f'Unable to find converter from "{klass}" to string')
+
+    @classmethod
+    def get_env_help(cls, klass: Any) -> str:
+        '''
+        Attempt to find help on how the converter for the given
+        type expects its environment variable to be formatted.
+        '''
+
+        converter = cls.get_converter(klass)
+        return get_envhelp(converter)
 
 
 class BaseEnvironment:
@@ -152,8 +211,8 @@ class BaseEnvironment:
         hints = get_type_hints(myclass)
         errors: Dict[str, str] = {}
         for var, klass in hints.items():
+            is_optional, klass = destructure_optional(klass)
             try:
-                is_optional, klass = destructure_optional(klass)
                 if env.get(var, '').strip():
                     # The environment variable is non-empty, so let's
                     # convert it to the expected type.
@@ -191,6 +250,7 @@ class BaseEnvironment:
 
             for name, desc in errors.items():
                 docs = f'\n\n{textwrap.indent(alldocs[name], indent)}' if name in alldocs else ''
+                # TODO: Output envhelp for the converter if it's available.
                 err_output.writelines([
                     f'  {name}:\n',
                     wrap(desc) + docs,

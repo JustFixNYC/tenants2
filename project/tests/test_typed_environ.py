@@ -6,6 +6,10 @@ import pytest
 from ..util import typed_environ
 
 
+def test_get_envhelp_returns_empty_str():
+    assert typed_environ.get_envhelp(int) == ''
+
+
 def test_overriding_default_value_works():
     class MyEnv(typed_environ.BaseEnvironment):
         BLARG: str = 'blarg'

@@ -9,7 +9,8 @@
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css",
     "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\""
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bulma": "^0.7.1",
+    "concurrently": "^3.6.1",
     "jest": "^23.4.2",
     "node-sass": "^4.9.2",
     "npm": "^6.3.0",

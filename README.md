@@ -11,7 +11,7 @@ continuously re-build itself as you change the source code:
 
 ```
 npm install
-npm run watch
+npm start
 ```
 
 Then, in a separate terminal, you'll want to instantiate

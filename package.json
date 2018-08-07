@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css",
+    "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents",
     "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
     "watch": "webpack --watch",

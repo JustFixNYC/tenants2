@@ -221,7 +221,7 @@ class EnvVarInfo(Generic[T]):
             convert = env.converters.get_converter(hintclass)
             helptext = '\n\n'.join(filter(None, [
                 alldocs.get(var, ''),
-                get_envhelp(convert),
+                '\n'.join(textwrap.wrap(get_envhelp(convert))),
             ]))
             varinfo[var] = EnvVarInfo(
                 name=var,

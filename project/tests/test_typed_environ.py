@@ -71,8 +71,8 @@ def test_multiple_missing_values_are_logged():
       FOO:
         this variable must be defined!
 
-        The value should be one of 'yes', 'yup', 'true' for True, or 'no', 'nope', \
-'false' for False.
+        The value should be one of 'yes', 'yup', 'true' for True, or 'no',
+        'nope', 'false' for False.
 
       BAR:
         this variable must be defined!

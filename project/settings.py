@@ -14,6 +14,7 @@ from typing import List
 import dj_database_url
 
 from . import justfix_environment
+from .justfix_environment import BASE_DIR
 
 
 env = justfix_environment.get()
@@ -34,13 +35,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'project',
     'frontend',
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,3 +119,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+
+if DEBUG:
+    CSP_EXCLUDE_URL_PREFIXES = (
+        # The webpack-bundle-analyzer report contains inline JS
+        # that we need to permit if we want to use it, so
+        # allow it during development.
+        f'{STATIC_URL}frontend/report.html'
+    )

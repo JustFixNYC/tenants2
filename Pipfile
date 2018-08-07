@@ -15,6 +15,7 @@ django = "*"
 whitenoise = "*"
 dj-database-url = "*"
 python-dotenv = "*"
+django-csp = "*"
 
 [requires]
 python_version = "3.7"

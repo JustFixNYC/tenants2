@@ -6,3 +6,4 @@ db.sqlite3
 .coverage
 node_modules/
 frontend/static/frontend/
+staticfiles/

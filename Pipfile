@@ -8,6 +8,7 @@ mypy = "*"
 pytest = "*"
 pytest-django = "*"
 "flake8" = "*"
+pytest-cov = "*"
 
 [packages]
 django = "*"

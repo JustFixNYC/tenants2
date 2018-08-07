@@ -21,6 +21,7 @@
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "dependencies": {
     "@types/jest": "^23.3.1",
+    "@types/node": "^10.5.7",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-polyfill": "^6.26.0",

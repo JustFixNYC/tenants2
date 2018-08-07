@@ -22,6 +22,7 @@ jobs:
             - "node_modules"
       - run:
           command: |
+            node --version
             npm run build
             npm test
             pipenv run "pytest"

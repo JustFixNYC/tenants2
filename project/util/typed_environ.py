@@ -223,7 +223,11 @@ class EnvVarInfo(Generic[T]):
         alldocs = env.get_docs()
         for var, hintclass in hints.items():
             is_optional, klass = destructure_optional(hintclass)
-            helptext = alldocs.get(var, '')
+            convert = converters.get_converter(hintclass)
+            helptext = '\n\n'.join(filter(None, [
+                alldocs.get(var, ''),
+                get_envhelp(convert),
+            ]))
             varinfo[var] = EnvVarInfo(
                 name=var,
                 is_optional=is_optional,
@@ -316,7 +320,6 @@ class BaseEnvironment:
             for name, desc in errors.items():
                 var = varinfo[name]
                 docs = f'\n\n{textwrap.indent(var.helptext, indent)}' if var.helptext else ''
-                # TODO: Output envhelp for the converter if it's available.
                 err_output.writelines([
                     f'  {name}:\n',
                     wrap(desc) + docs,

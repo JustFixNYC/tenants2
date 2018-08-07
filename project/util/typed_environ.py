@@ -195,8 +195,8 @@ class EnvVarInfo(Generic[T]):
     # The type of the variable (excluding its optional component).
     klass: Type[T]
 
-    # Help text for the variable's type.
-    typehelp: str
+    # Help text for the variable.
+    helptext: str
 
     # The Converters class/subclass with which the variable can be
     # converted from a string to its type.
@@ -220,15 +220,16 @@ class EnvVarInfo(Generic[T]):
 
         hints = get_type_hints(env)
         varinfo: Dict[str, EnvVarInfo] = {}
+        alldocs = env.get_docs()
         for var, hintclass in hints.items():
             is_optional, klass = destructure_optional(hintclass)
-            convert = converters.get_converter(hintclass)
+            helptext = alldocs.get(var, '')
             varinfo[var] = EnvVarInfo(
                 name=var,
                 is_optional=is_optional,
                 klass=hintclass,
                 converters=converters,
-                typehelp=get_envhelp(convert)
+                helptext=helptext
             )
         return varinfo
 
@@ -306,7 +307,6 @@ class BaseEnvironment:
                 firstline = f"{len(errors)} environment variables are not defined properly."
 
             err_output.write(f'{firstline}\n\n')
-            alldocs = self.get_docs()
             indent = '    '
 
             def wrap(text: str) -> str:
@@ -314,7 +314,8 @@ class BaseEnvironment:
                     textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
 
             for name, desc in errors.items():
-                docs = f'\n\n{textwrap.indent(alldocs[name], indent)}' if name in alldocs else ''
+                var = varinfo[name]
+                docs = f'\n\n{textwrap.indent(var.helptext, indent)}' if var.helptext else ''
                 # TODO: Output envhelp for the converter if it's available.
                 err_output.writelines([
                     f'  {name}:\n',

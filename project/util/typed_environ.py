@@ -319,10 +319,13 @@ class BaseEnvironment:
 
             for name, desc in errors.items():
                 var = varinfo[name]
-                docs = f'\n\n{textwrap.indent(var.helptext, indent)}' if var.helptext else ''
+                details = '\n\n'.join(filter(None, [
+                    wrap(desc),
+                    textwrap.indent(var.helptext, indent)
+                ]))
                 err_output.writelines([
                     f'  {name}:\n',
-                    wrap(desc) + docs,
+                    details,
                     f'\n\n'
                 ])
             if exit_when_invalid:

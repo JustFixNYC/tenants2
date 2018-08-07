@@ -7,6 +7,8 @@ from .util import typed_environ
 
 BASE_DIR = Path(__file__).parent.parent.resolve()
 
+IS_RUNNING_TESTS = False
+
 
 class JustfixEnvironment(typed_environ.BaseEnvironment):
     '''
@@ -34,13 +36,27 @@ class JustfixDebugEnvironment(JustfixEnvironment):
 
     DEBUG = True
 
-    SECRET_KEY = 'for development/testing only!'
+    SECRET_KEY = 'for development only!'
 
     DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 
 
+class JustfixTestingEnvironment(JustfixEnvironment):
+    '''
+    These are the environment defaults when tests are being run.
+    '''
+
+    DEBUG = False
+
+    SECRET_KEY = 'for testing only!'
+
+    DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.testing.sqlite3'}"
+
+
 def get() -> JustfixEnvironment:
     dotenv.load_dotenv(BASE_DIR / '.env')
+    if IS_RUNNING_TESTS:
+        return JustfixTestingEnvironment(exit_when_invalid=True)
     is_debug = typed_environ.Converters.convert_bool(
         os.environ.get('DEBUG', 'no'))
     if is_debug:

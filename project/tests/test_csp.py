@@ -7,7 +7,8 @@ def test_csp_works_on_dynamic_pages(client):
     assert EXPECTED_CSP == response['Content-Security-Policy']
 
 
-def test_csp_works_on_static_assets(client):
-    response = client.get('/static/frontend/styles.css')
+def test_csp_works_on_static_assets(client, staticfiles):
+    assert (staticfiles / 'admin' / 'css' / 'base.css').exists()
+    response = client.get('/static/admin/css/base.css')
     assert 200 == response.status_code
     assert EXPECTED_CSP == response['Content-Security-Policy']

@@ -52,6 +52,18 @@ def get_envhelp(obj: Any) -> str:
     return getattr(obj, '__envhelp__', '')
 
 
+def quotestrings(*strings: str) -> str:
+    '''
+    Enclose the given strings in quotes
+    and comma-separate them, e.g.:
+
+        >>> quotestrings('foo', 'bar')
+        "'foo', 'bar'"
+    '''
+
+    return ', '.join([f"'{s}'" for s in strings])
+
+
 def destructure_optional(klass: Any) -> Tuple[bool, Any]:
     '''
     Attempts to determine whether the given argument represents
@@ -108,8 +120,8 @@ class Converters:
 
     @classmethod
     @envhelp(
-        f"The value should be one of {', '.join(TRUTHY)} for True, or "
-        f"{', '.join(FALSY)} for False."
+        f"The value should be one of {quotestrings(*TRUTHY)} for True, or "
+        f"{quotestrings(*FALSY)} for False."
     )
     def convert_bool(cls, value: str) -> bool:
         '''

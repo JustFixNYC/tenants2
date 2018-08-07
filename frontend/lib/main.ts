@@ -1,17 +1,7 @@
-export async function getMessage(): Promise<string> {
-  return "HELLO FROM JAVASCRIPT-LAND";
-}
+import { startApp } from './app';
 
-if (!module.parent) {
-  window.addEventListener('load', () => {
-    const p = document.createElement('p');
-    getMessage().then(message => {
-      p.textContent = message;
-    }).catch(e => {
-      p.setAttribute('style', 'color: red');
-      p.textContent = e.message;
-    }).then(() => {
-      document.body.appendChild(p);
-    });
-  });
-}
+window.addEventListener('load', () => {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  startApp(div);
+});

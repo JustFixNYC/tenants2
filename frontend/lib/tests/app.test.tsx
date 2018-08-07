@@ -1,4 +1,4 @@
-import { getMessage } from '../main';
+import { getMessage } from '../app';
 
 test('getMessage() works', async () => {
   expect(await getMessage()).toEqual("HELLO FROM JAVASCRIPT-LAND");

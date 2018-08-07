@@ -17,6 +17,7 @@ from typing import (
     Callable,
     TypeVar,
     Generic,
+    NoReturn,
     IO
 )
 
@@ -306,6 +307,15 @@ class BaseEnvironment:
         self.__dict__.update(typed_env)
 
     def _resolve_value(self, var: EnvVarInfo[T]) -> Optional[T]:
+        '''
+        Attempt to resolve the typed value of the given environment
+        variable. Return None if the environment variable is optional
+        and it's not defined (or is empty) in the raw environment.
+
+        If a value for the variable can't be found and it's
+        non-optional, a ValueError is raised.
+        '''
+
         if self.env.get(var.name, '').strip():
             # The environment variable is non-empty, so let's
             # convert it to the expected type.
@@ -322,7 +332,15 @@ class BaseEnvironment:
             # The type is not Optional, so raise an error.
             raise ValueError('this variable must be defined!')
 
-    def _fail(self, errors: Dict[EnvVarInfo, str]):
+    def _fail(self, errors: Dict[EnvVarInfo, str]) -> NoReturn:
+        '''
+        Given a mapping from variables to error strings, output detailed
+        help.
+
+        Depending on the value of `exit_when_invalid`, either abort the
+        process or raise a ValueError.
+        '''
+
         if len(errors) == 1:
             var, msg = list(errors.items())[0]
             excmsg = f"Error evaluating environment variable {var.name}: {msg}"

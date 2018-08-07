@@ -180,7 +180,7 @@ class Converters:
         return converter(value)
 
 
-@dataclass
+@dataclass(frozen=True)
 class EnvVarInfo(Generic[T]):
     '''
     Encapsulates metadata about an environment variable.
@@ -295,12 +295,12 @@ class BaseEnvironment:
         self.varinfo = EnvVarInfo.from_env(self)
 
         typed_env = {}
-        errors: Dict[str, str] = {}
+        errors: Dict[EnvVarInfo, str] = {}
         for var in self.varinfo.values():
             try:
                 typed_env[var.name] = self._resolve_value(var)
             except ValueError as e:
-                errors[var.name] = e.args[0]
+                errors[var] = e.args[0]
         if errors:
             self._fail(errors)
         self.__dict__.update(typed_env)
@@ -322,13 +322,13 @@ class BaseEnvironment:
             # The type is not Optional, so raise an error.
             raise ValueError('this variable must be defined!')
 
-    def _fail(self, errors: Dict[str, str]):
+    def _fail(self, errors: Dict[EnvVarInfo, str]):
         if len(errors) == 1:
-            name, msg = list(errors.items())[0]
-            excmsg = f"Error evaluating environment variable {name}: {msg}"
+            var, msg = list(errors.items())[0]
+            excmsg = f"Error evaluating environment variable {var.name}: {msg}"
             firstline = "An environment variable is not defined properly."
         else:
-            names = ', '.join(errors.keys())
+            names = ', '.join([var.name for var in errors])
             excmsg = f"Error evaluating environment variables {names}"
             firstline = f"{len(errors)} environment variables are not defined properly."
 
@@ -339,14 +339,13 @@ class BaseEnvironment:
             return '\n'.join(
                 textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
 
-        for name, desc in errors.items():
-            var = self.varinfo[name]
+        for var, desc in errors.items():
             details = '\n\n'.join(filter(None, [
                 wrap(desc),
                 textwrap.indent(var.helptext, indent)
             ]))
             self.err_output.writelines([
-                f'  {name}:\n',
+                f'  {var.name}:\n',
                 details,
                 f'\n\n'
             ])

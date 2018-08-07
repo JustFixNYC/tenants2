@@ -3,23 +3,27 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:3.7-node-browsers
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
     steps:
       - checkout
       - restore_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}
       - run:
           command: |
              pipenv sync --dev
+             npm install
       - save_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}
           paths:
             - ".venv"
+            - "node_modules"
       - run:
           command: |
+            npm run build
+            npm test
             pipenv run "pytest"
       - store_test_results:
           path: test-results

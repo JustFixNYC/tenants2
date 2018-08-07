@@ -6,8 +6,11 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents",
+    "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\""
   },
   "repository": {
     "type": "git",
@@ -27,7 +30,11 @@
     "babel-loader": "^7.1.5",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "bulma": "^0.7.1",
+    "concurrently": "^3.6.1",
     "jest": "^23.4.2",
+    "node-sass": "^4.9.2",
+    "npm": "^6.3.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "ts-jest": "^23.1.3",

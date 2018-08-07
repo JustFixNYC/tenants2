@@ -2,6 +2,7 @@
 
 exclude = 
     */migrations/*.py,
-    .venv
+    .venv,
+    node_modules
 
 max-line-length = 100

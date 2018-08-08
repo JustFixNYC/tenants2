@@ -17,6 +17,7 @@ dj-database-url = "*"
 python-dotenv = "*"
 django-csp = "*"
 "psycopg2" = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"

@@ -10,7 +10,8 @@
     "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\""
+    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\"",
+    "postinstall": "npm run sass && npm run build"
   },
   "repository": {
     "type": "git",

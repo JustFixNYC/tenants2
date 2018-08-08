@@ -54,4 +54,26 @@ You can also use `npm run test:watch` to have Jest
 continuously watch the front-end tests for changes and
 re-run them as needed.
 
+## Deployment
+
+The app uses the [twelve-factor methodology][], so
+deploying it should be relatively straightforward.
+
+At the time of this writing, however, the app's
+runtime environment does need *both* Python and Node
+to execute properly, which could complicate matters.
+
+### Deploying to Heroku
+
+This app can be deployed to Heroku. You'll need to
+configure your Heroku app to use [multiple buildpacks][];
+specifically, the `heroku/nodejs` buildpack needs to be
+first and the `heroku/python` buildpack second.
+
+You'll likely want to use [Heroku Postgres][] as your
+database backend.
+
 [pipenv]: https://docs.pipenv.org/
+[twelve-factor methodology]: https://12factor.net/
+[multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
+[Heroku Postgres]: https://www.heroku.com/postgres

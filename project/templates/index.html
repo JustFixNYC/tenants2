@@ -15,6 +15,8 @@
             Or you can visit the <a href="{% url "admin:index" %}">admin</a>, though
             you will probably want to run <code>manage.py createsuperuser</code> first.
         </p>
+        <div id="main">{{ initial_render }}</div>
+        {{ initial_props|json_script:'initial-props' }}
         <script src="{% static "frontend/bundle.js" %}"></script>
     </body>
 </html>

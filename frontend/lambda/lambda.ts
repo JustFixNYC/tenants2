@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import fetch from 'isomorphic-fetch';
 
 import { App, AppProps } from '../lib/app';
 
@@ -10,10 +11,14 @@ import { App, AppProps } from '../lib/app';
  * 
  * @param event The initial properties for our app.
  */
-function handler(event: AppProps): Promise<string> {
+async function handler(event: AppProps): Promise<string> {
+  const url = `${event.serverOrigin}${event.staticURL}admin/css/base.css`;
+  const response = await fetch(url);
+  process.stderr.write(`HALLO ${url} ${response.status}\n`);
+
   return new Promise<string>(resolve => {
     const el = React.createElement(App, event);
-    resolve(ReactDOMServer.renderToString(el));
+    resolve(ReactDOMServer.renderToString(el) + `HALLO ${url} ${response.status}\n`);
   });
 }
 

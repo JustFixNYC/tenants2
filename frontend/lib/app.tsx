@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 type Color = 'black'|'info'|'danger';
 
 export interface AppProps {
+  staticURL: string;
+  adminIndexURL: string;
   loadingMessage: string;
 }
 
@@ -50,9 +52,26 @@ export class App extends React.Component<AppProps, AppState> {
 
   render() {
     return (
-      <p className={`has-text-${this.state.color}`}>
-        { this.state.text }
-      </p>
+      <section className="hero is-fullheight">
+        <div className="hero-head"></div>
+        <div className="hero-body">
+          <div className="container content box has-background-white">
+            <h1 className="title">Ahoy, developer! </h1>
+            <p>
+                For more details on the size of our JS bundle, see the {` `}
+                <a href={`${this.props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
+            </p>
+            <p>
+                Or you can visit the <a href={this.props.adminIndexURL}>admin</a>, though
+                you will probably want to run <code>manage.py createsuperuser</code> first.
+            </p>
+            <p className={`has-text-${this.state.color} is-pulled-right`}>
+              { this.state.text }
+            </p>
+          </div>
+        </div>
+        <div className="hero-foot"></div>
+      </section>
     );
   }
 }

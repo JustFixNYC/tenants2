@@ -8,5 +8,8 @@ lambda.js.map
 .env
 .coverage
 node_modules/
-frontend/static/frontend/
+frontend/static/frontend/*.js
+frontend/static/frontend/*.css
+frontend/static/frontend/*.map
+frontend/static/frontend/report.html
 staticfiles/

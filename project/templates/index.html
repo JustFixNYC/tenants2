@@ -7,14 +7,6 @@
         <title>JustFix.nyc - Technology for Housing Justice</title>
     </head>
     <body>
-        <p>
-            Hello, developer! For more details on the size of our JS bundle, see the
-            <a href="{% static "frontend/report.html" %}">webpack bundle analysis</a>.
-        </p>
-        <p>
-            Or you can visit the <a href="{% url "admin:index" %}">admin</a>, though
-            you will probably want to run <code>manage.py createsuperuser</code> first.
-        </p>
         <div id="main">{{ initial_render }}</div>
         {{ initial_props|json_script:'initial-props' }}
         <script src="{% static "frontend/bundle.js" %}"></script>

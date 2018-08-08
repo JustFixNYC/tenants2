@@ -2,6 +2,8 @@ import json
 import subprocess
 from django.utils.safestring import SafeString
 from django.shortcuts import render
+from django.urls import reverse
+from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
 
@@ -19,7 +21,9 @@ def get_initial_render(initial_props) -> SafeString:
 
 def index(request):
     initial_props = {
-        'loadingMessage': 'Please wait while I compute things.'
+        'loadingMessage': 'Please wait while I compute things.',
+        'staticURL': settings.STATIC_URL,
+        'adminIndexURL': reverse('admin:index'),
     }
 
     return render(request, 'index.html', {

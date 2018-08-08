@@ -1,7 +1,8 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
 
-html, body {
-    // This is just for testing.
-    background: pink;
+.hero {
+    // TODO: This is just the hero URL on the current JustFix.nyc site, we
+    // should eventually host it ourselves.
+    background: url(img/brownstones.jpg) center / cover;
 }

@@ -35,7 +35,6 @@
     "concurrently": "^3.6.1",
     "jest": "^23.4.2",
     "node-sass": "^4.9.2",
-    "npm": "^6.3.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "ts-jest": "^23.1.3",

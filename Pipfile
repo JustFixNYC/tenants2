@@ -16,6 +16,7 @@ whitenoise = "*"
 dj-database-url = "*"
 python-dotenv = "*"
 django-csp = "*"
+"psycopg2" = "*"
 
 [requires]
 python_version = "3.7"

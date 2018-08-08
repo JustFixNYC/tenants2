@@ -351,25 +351,42 @@ class BaseEnvironment:
             firstline = f"{len(errors)} environment variables are not defined properly."
 
         self.err_output.write(f'{firstline}\n\n')
+        self._output_help_with_optional_info(self.err_output, errors)
+        if self.exit_when_invalid:
+            raise SystemExit(1)
+        raise ValueError(excmsg)
+
+    def _output_help_with_optional_info(self, output: IO, info: Dict[EnvVarInfo, str]) -> None:
+        '''
+        Output help about the given environment variables, along with optional
+        extra information about each one.
+        '''
+
         indent = '    '
 
         def wrap(text: str) -> str:
             return '\n'.join(
                 textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
 
-        for var, desc in errors.items():
+        for var, desc in info.items():
             details = '\n\n'.join(filter(None, [
                 wrap(desc),
                 textwrap.indent(var.helptext, indent)
             ]))
-            self.err_output.writelines([
+            output.writelines([
                 f'  {var.name}:\n',
                 details,
                 f'\n\n'
             ])
-        if self.exit_when_invalid:
-            raise SystemExit(1)
-        raise ValueError(excmsg)
+
+    def print_help(self, output: IO = sys.stdout) -> None:
+        '''
+        Print help about all environment variables.
+        '''
+
+        self._output_help_with_optional_info(output, {
+            var: '' for var in self.varinfo.values()
+        })
 
     @classmethod
     def get_docs(cls) -> Dict[str, str]:

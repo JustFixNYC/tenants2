@@ -6,6 +6,15 @@ import pytest
 from ..util import typed_environ
 
 
+def test_print_help_works():
+    class PrintyEnv(typed_environ.BaseEnvironment):
+        THINGY: bool = True
+
+    out = StringIO()
+    PrintyEnv().print_help(out)
+    assert 'THINGY' in out.getvalue()
+
+
 def test_get_envhelp_returns_empty_str():
     assert typed_environ.get_envhelp(int) == ''
 

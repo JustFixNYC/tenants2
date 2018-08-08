@@ -54,6 +54,18 @@ You can also use `npm run test:watch` to have Jest
 continuously watch the front-end tests for changes and
 re-run them as needed.
 
+## Environment variables
+
+For help on environment variables related to the
+Django app, run:
+
+```
+python manage.py envhelp
+```
+
+Alternatively, you can examine
+[project/justfix_environment.py](project/justfix_environment.py).
+
 ## Deployment
 
 The app uses the [twelve-factor methodology][], so

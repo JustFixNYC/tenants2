@@ -19,14 +19,15 @@
   },
   "author": "Atul Varma <atul@justfix.nyc>",
   "license": "ISC",
-  "engines" : {
-    "node" : ">=8.4.0"
+  "engines": {
+    "node": ">=8.4.0"
   },
   "bugs": {
     "url": "https://github.com/justfixnyc/tenants2/issues"
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "dependencies": {
+    "@types/isomorphic-fetch": "0.0.34",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.5.7",
     "@types/react": "^16.4.8",
@@ -37,6 +38,7 @@
     "babel-preset-env": "^1.7.0",
     "bulma": "^0.7.1",
     "concurrently": "^3.6.1",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "^23.4.2",
     "node-sass": "^4.9.2",
     "react": "^16.4.2",

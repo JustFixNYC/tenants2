@@ -7,6 +7,7 @@ export interface AppProps {
   staticURL: string;
   adminIndexURL: string;
   loadingMessage: string;
+  serverOrigin: string;
 }
 
 interface AppState {

@@ -23,6 +23,7 @@ def index(request):
     initial_props = {
         'loadingMessage': 'Please wait while I compute things.',
         'staticURL': settings.STATIC_URL,
+        'serverOrigin': f'http://127.0.0.1:{request.get_port()}',
         'adminIndexURL': reverse('admin:index'),
     }
 

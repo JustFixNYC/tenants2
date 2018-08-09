@@ -18,6 +18,7 @@ python-dotenv = "*"
 django-csp = "*"
 gunicorn = "*"
 "psycopg2-binary" = "*"
+graphene-django = "*"
 
 [requires]
 python_version = "3.7"

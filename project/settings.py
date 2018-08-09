@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'graphene_django',
     'project',
     'frontend',
 ]
@@ -122,10 +123,16 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 
+GRAPHENE = {
+    'SCHEMA': 'project.schema.schema',
+}
+
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (
         # The webpack-bundle-analyzer report contains inline JS
         # that we need to permit if we want to use it, so
         # allow it during development.
-        f'{STATIC_URL}frontend/report.html'
+        f'{STATIC_URL}frontend/report.html',
+        # Bleh, the GraphIQL UI has a bunch of inline script code.
+        '/graphql',
     )

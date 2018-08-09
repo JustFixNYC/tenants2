@@ -59,6 +59,12 @@ class HttpRequest:
     def __iter__(self) -> Iterator[bytes]: ...
     def readlines(self) -> List[bytes]: ...
 
+    # This is a Django session object added by SessionMiddleware.
+    session: Any
+
+    # This is a Django user object added by AuthenticationMiddleware.
+    user: Any
+
 class QueryDict(MultiValueDict[str, str]):
     encoding = str  # type: Any
     def __init__(self, query_string: Union[str, bytes, None]=None, mutable: bool=False, encoding: Optional[str]=None) -> None: ...

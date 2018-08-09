@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "querybuilder": "python manage.py graphql_schema && apollo codegen:generate --queries=frontend/lib/queries/*.graphql --schema schema.json --target typescript && node querybuilder.js",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents",
     "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
@@ -19,8 +20,8 @@
   },
   "author": "Atul Varma <atul@justfix.nyc>",
   "license": "ISC",
-  "engines" : {
-    "node" : ">=8.4.0"
+  "engines": {
+    "node": ">=8.4.0"
   },
   "bugs": {
     "url": "https://github.com/justfixnyc/tenants2/issues"
@@ -31,6 +32,7 @@
     "@types/node": "^10.5.7",
     "@types/react": "^16.4.8",
     "@types/react-dom": "^16.0.7",
+    "apollo": "^1.6.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-polyfill": "^6.26.0",

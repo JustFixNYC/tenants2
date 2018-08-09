@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { setCsrfToken } from './fetch-graphql';
+import { fetchSimpleQuery } from './queries/SimpleQuery';
+
 type Color = 'black'|'info'|'danger';
 
 export interface AppProps {
   staticURL: string;
   adminIndexURL: string;
   loadingMessage: string;
+  csrfToken: string;
 }
 
 interface AppState {
   text: string;
   color: Color;
+  graphQlResult?: string|null;
 }
 
 export async function getMessage(): Promise<string> {
@@ -41,6 +46,11 @@ export class App extends React.Component<AppProps, AppState> {
         text: state.color === 'black' ? `${state.text}.` : state.text
       }));
     }, 1000);
+
+    setCsrfToken(this.props.csrfToken);
+    fetchSimpleQuery({ thing: (new Date()).toString() }).then(result => {
+      this.setState({ graphQlResult: result.hello });
+    });
   }
 
   componentWillUnmount() {
@@ -65,6 +75,7 @@ export class App extends React.Component<AppProps, AppState> {
                 Or you can visit the <a href={this.props.adminIndexURL}>admin</a>, though
                 you will probably want to run <code>manage.py createsuperuser</code> first.
             </p>
+            {this.state.graphQlResult ? <p>GraphQL says <strong>{this.state.graphQlResult}</strong>.</p> : null}
             <p className={`has-text-${this.state.color} is-pulled-right`}>
               { this.state.text }
             </p>

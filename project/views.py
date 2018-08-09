@@ -2,6 +2,7 @@ import json
 import subprocess
 from django.utils.safestring import SafeString
 from django.shortcuts import render
+from django.middleware import csrf
 from django.urls import reverse
 from django.conf import settings
 
@@ -24,6 +25,7 @@ def index(request):
         'loadingMessage': 'Please wait while I compute things.',
         'staticURL': settings.STATIC_URL,
         'adminIndexURL': reverse('admin:index'),
+        'csrfToken': csrf.get_token(request),
     }
 
     return render(request, 'index.html', {

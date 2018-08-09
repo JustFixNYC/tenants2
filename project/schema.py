@@ -2,10 +2,19 @@ import graphene
 
 
 class Query(graphene.ObjectType):
-    hello = graphene.String()
+    '''
+    Here is some help text that gets passed back to
+    GraphQL clients as part of our schema.
+    '''
 
-    def resolve_hello(self, info) -> str:
-        return 'World'
+    hello = graphene.String(thing=graphene.String())
+    there = graphene.Int()
+
+    def resolve_hello(self, info, thing: str) -> str:
+        return f'Hello from GraphQL! You passed in "{thing}"'
+
+    def resolve_there(self, info) -> int:
+        return 123
 
 
 schema = graphene.Schema(query=Query)

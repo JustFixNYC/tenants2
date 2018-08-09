@@ -1,0 +1,3 @@
+query SimpleQuery($thing: String) {
+    hello(thing: $thing)
+}

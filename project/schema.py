@@ -1,4 +1,5 @@
 import graphene
+from graphql import ResolveInfo
 
 
 class Query(graphene.ObjectType):
@@ -10,7 +11,7 @@ class Query(graphene.ObjectType):
     hello = graphene.String(thing=graphene.String())
     there = graphene.Int()
 
-    def resolve_hello(self, info, thing: str) -> str:
+    def resolve_hello(self, info: ResolveInfo, thing: str) -> str:
         return f'Hello from GraphQL! You passed in "{thing}"'
 
     def resolve_there(self, info) -> int:

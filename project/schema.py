@@ -12,7 +12,11 @@ class Query(graphene.ObjectType):
     there = graphene.Int()
 
     def resolve_hello(self, info: ResolveInfo, thing: str) -> str:
-        return f'Hello from GraphQL! You passed in "{thing}"'
+        if info.context.user.is_authenticated:
+            status = "logged in"
+        else:
+            status = "not logged in"
+        return f'Hello from GraphQL! You passed in "{thing}" and are {status}'
 
     def resolve_there(self, info) -> int:
         return 123

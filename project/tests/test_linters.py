@@ -19,7 +19,7 @@ def test_graphql_schema():
     # repo contains the latest version of the generated
     # code (at least during CI).
     subprocess.check_call(
-        ['npm', 'run', 'querybuilder'],
+        'npm run querybuilder',
         cwd=BASE_DIR,
         shell=True
     )

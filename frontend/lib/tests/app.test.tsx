@@ -1,5 +1,11 @@
 import { getMessage } from '../app';
 
+jest.useFakeTimers();
+
 test('getMessage() works', async () => {
-  expect(await getMessage()).toEqual("HELLO FROM JAVASCRIPT-LAND");
+  const promise = getMessage();
+
+  jest.runAllTimers();
+
+  expect(await promise).toEqual("HELLO FROM JAVASCRIPT-LAND");
 });

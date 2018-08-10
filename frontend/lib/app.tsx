@@ -11,6 +11,8 @@ export interface AppProps {
   adminIndexURL: string;
   loadingMessage: string;
   csrfToken: string;
+  username: string|null;
+  debug: boolean;
 }
 
 interface AppState {
@@ -61,23 +63,40 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
+    const { props, state } = this;
+
+    let debugInfo = null;
+
+    if (props.debug) {
+      debugInfo = (
+        <React.Fragment>
+          <p>
+          For more details on the size of our JS bundle, see the {` `}
+          <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
+          </p>
+          <p>
+              Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
+              you will probably want to run <code>manage.py createsuperuser</code> first.
+          </p>
+        </React.Fragment>
+      );
+    }
+
     return (
       <section className="hero is-fullheight">
         <div className="hero-head"></div>
         <div className="hero-body">
           <div className="container content box has-background-white">
-            <h1 className="title">Ahoy, developer! </h1>
-            <p>
-                For more details on the size of our JS bundle, see the {` `}
-                <a href={`${this.props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
-            </p>
-            <p>
-                Or you can visit the <a href={this.props.adminIndexURL}>admin</a>, though
-                you will probably want to run <code>manage.py createsuperuser</code> first.
-            </p>
-            {this.state.graphQlResult ? <p>GraphQL says <strong>{this.state.graphQlResult}</strong>.</p> : null}
-            <p className={`has-text-${this.state.color} is-pulled-right`}>
-              { this.state.text }
+            <h1 className="title">Ahoy, { props.debug ? "developer" : "human" }! </h1>
+            {
+              props.username
+                ? <p>You are currently logged in as {props.username}.</p>
+                : <p>You are currently logged out.</p>
+            }
+            {debugInfo}
+            {state.graphQlResult ? <p>GraphQL says <strong>{state.graphQlResult}</strong>.</p> : null}
+            <p className={`has-text-${state.color} is-pulled-right`}>
+              { state.text }
             </p>
           </div>
         </div>

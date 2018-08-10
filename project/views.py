@@ -21,11 +21,21 @@ def get_initial_render(initial_props) -> SafeString:
 
 
 def index(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+    else:
+        username = None
+
+    # Currently, the schema for this structure needs to be mirrored
+    # in the AppProps interface in frontend/lib/app.tsx. So if you
+    # add or remove anything here, make sure to do the same over there!
     initial_props = {
         'loadingMessage': 'Please wait while I compute things.',
         'staticURL': settings.STATIC_URL,
         'adminIndexURL': reverse('admin:index'),
         'csrfToken': csrf.get_token(request),
+        'username': username,
+        'debug': settings.DEBUG
     }
 
     return render(request, 'index.html', {

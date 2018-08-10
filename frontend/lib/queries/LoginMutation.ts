@@ -7,16 +7,21 @@ import fetchGraphQL from '../fetch-graphql'
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: LogoutMutation
+// GraphQL mutation operation: LoginMutation
 // ====================================================
 
-export interface LogoutMutation_logout {
+export interface LoginMutation_login {
   ok: boolean | null;
   csrfToken: string | null;
 }
 
-export interface LogoutMutation {
-  logout: LogoutMutation_logout | null;
+export interface LoginMutation {
+  login: LoginMutation_login | null;
+}
+
+export interface LoginMutationVariables {
+  username?: string | null;
+  password?: string | null;
 }
 
 /* tslint:disable */
@@ -29,13 +34,13 @@ export interface LogoutMutation {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-export function fetchLogoutMutation(): Promise<LogoutMutation> {
-  // The following query was taken from LogoutMutation.graphql.
-  return fetchGraphQL(`mutation LogoutMutation {
-    logout {
+export function fetchLoginMutation(args: LoginMutationVariables): Promise<LoginMutation> {
+  // The following query was taken from LoginMutation.graphql.
+  return fetchGraphQL(`mutation LoginMutation($username: String, $password: String) {
+    login(username: $username, password: $password) {
         ok,
         csrfToken
     }
 }
-`);
+`, args);
 }

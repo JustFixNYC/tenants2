@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { setCsrfToken } from './fetch-graphql';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
+import { fetchLoginMutation } from './queries/LoginMutation';
 
 type Color = 'black'|'info'|'danger';
 
@@ -71,12 +72,24 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     const { props, state } = this;
 
+    const handleError = (e: Error) => {
+      console.error(e);
+      window.alert(`Alas, a fatal error occurred: ${e.message}`);
+    };
+
     let handleLogout = () => {
       fetchLogoutMutation().then((result) => {
         if (result.logout && result.logout.ok) {
+          if (!result.logout.csrfToken) {
+            throw new Error("Assertion failure, csrfToken should be present!");
+          }
+          setCsrfToken(result.logout.csrfToken);
           this.setState({ username: null });
+          return;
         }
-      });
+        console.error(result);
+        throw new Error("Unexpected result! See console.");
+      }).catch(handleError);
     };
     let debugInfo = null;
 
@@ -105,8 +118,29 @@ export class App extends React.Component<AppProps, AppState> {
         </React.Fragment>
       );
     } else {
+      const handleLoginSubmit = (username: string, password: string) => {
+        fetchLoginMutation({ username: username, password: password }).then(result => {
+          if (result.login) {
+            if (result.login.ok) {
+              if (!result.login.csrfToken) {
+                throw new Error("Assertion failure, csrfToken should be present!");
+              }
+              setCsrfToken(result.login.csrfToken);
+              this.setState({ username });
+            } else {
+              window.alert("Invalid username or password.");
+            }
+            return;
+          }
+          console.error(result);
+          throw new Error("Unexpected result! See console.");
+        }).catch(handleError);
+      };
       loginInfo = (
-        <p>You are currently logged out.</p>
+        <React.Fragment>
+          <p>You are currently logged out.</p>
+          <LoginForm onSubmit={handleLoginSubmit} />
+        </React.Fragment>
       );
     }
 
@@ -126,6 +160,37 @@ export class App extends React.Component<AppProps, AppState> {
         </div>
         <div className="hero-foot"></div>
       </section>
+    );
+  }
+}
+
+interface LoginFormProps {
+  onSubmit: (username: string, password: string) => void;
+}
+
+interface LoginFormState {
+  username: string;
+  password: string;
+}
+
+export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
+  constructor(props: LoginFormProps) {
+    super(props);
+    this.state = { username: '', password: '' };
+  }
+
+  render() {
+    return (
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        this.props.onSubmit(this.state.username, this.state.password);
+      }}>
+        <p><input className="input" type="text" placeholder="username" value={this.state.username}
+         onChange={(e) => { this.setState({ username: e.target.value }); }}/></p>
+        <p><input className="input" type="password" placeholder="password" value={this.state.password}
+         onChange={(e) => { this.setState({ password: e.target.value }); }}/></p>
+        <p><button type="submit" className="button is-primary">Submit</button></p>
+      </form>
     );
   }
 }

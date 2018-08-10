@@ -1,5 +1,6 @@
 mutation LogoutMutation {
     logout {
-        ok
+        ok,
+        csrfToken
     }
 }

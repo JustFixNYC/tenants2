@@ -33,6 +33,7 @@ def index(request):
         'loadingMessage': 'Please wait while I compute things.',
         'staticURL': settings.STATIC_URL,
         'adminIndexURL': reverse('admin:index'),
+        'batchGraphQLURL': reverse('batch-graphql'),
         'csrfToken': csrf.get_token(request),
         'username': username,
         'debug': settings.DEBUG

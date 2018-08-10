@@ -134,5 +134,5 @@ if DEBUG:
         # allow it during development.
         f'{STATIC_URL}frontend/report.html',
         # Bleh, the GraphIQL UI has a bunch of inline script code.
-        '/graphql',
+        '/graphiql',
     )

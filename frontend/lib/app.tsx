@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { setCsrfToken } from './fetch-graphql';
+import { setCsrfToken, setBatchGraphQLURL } from './fetch-graphql';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
@@ -11,6 +11,7 @@ type Color = 'black'|'info'|'danger';
 export interface AppProps {
   staticURL: string;
   adminIndexURL: string;
+  batchGraphQLURL: string;
   loadingMessage: string;
   csrfToken: string;
   username: string|null;
@@ -57,6 +58,7 @@ export class App extends React.Component<AppProps, AppState> {
     }, 1000);
 
     setCsrfToken(this.props.csrfToken);
+    setBatchGraphQLURL(this.props.batchGraphQLURL);
     fetchSimpleQuery({ thing: (new Date()).toString() }).then(result => {
       this.setState({ graphQlResult: result.hello });
     });
@@ -99,6 +101,9 @@ export class App extends React.Component<AppProps, AppState> {
           <p>
           For more details on the size of our JS bundle, see the {` `}
           <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
+          </p>
+          <p>
+            You can interactively inspect GraphQL queries with <a href="/graphiql">GraphiQL</a>.
           </p>
           <p>
               Or you can visit the <a href={props.adminIndexURL}>admin</a>, though

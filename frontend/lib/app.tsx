@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { setCsrfToken } from './fetch-graphql';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
-import { fetchLogout } from './queries/Logout';
+import { fetchLogoutMutation } from './queries/LogoutMutation';
 
 type Color = 'black'|'info'|'danger';
 
@@ -72,7 +72,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { props, state } = this;
 
     let handleLogout = () => {
-      fetchLogout().then((result) => {
+      fetchLogoutMutation().then((result) => {
         if (result.logout && result.logout.ok) {
           this.setState({ username: null });
         }

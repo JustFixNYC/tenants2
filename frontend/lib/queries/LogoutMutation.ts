@@ -7,15 +7,15 @@ import fetchGraphQL from '../fetch-graphql'
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: Logout
+// GraphQL mutation operation: LogoutMutation
 // ====================================================
 
-export interface Logout_logout {
+export interface LogoutMutation_logout {
   ok: boolean | null;
 }
 
-export interface Logout {
-  logout: Logout_logout | null;
+export interface LogoutMutation {
+  logout: LogoutMutation_logout | null;
 }
 
 /* tslint:disable */
@@ -28,9 +28,9 @@ export interface Logout {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-export function fetchLogout(): Promise<Logout> {
-  // The following query was taken from Logout.graphql.
-  return fetchGraphQL(`mutation Logout {
+export function fetchLogoutMutation(): Promise<LogoutMutation> {
+  // The following query was taken from LogoutMutation.graphql.
+  return fetchGraphQL(`mutation LogoutMutation {
     logout {
         ok
     }

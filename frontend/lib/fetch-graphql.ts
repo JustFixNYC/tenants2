@@ -9,7 +9,7 @@ interface GraphQLBody {
   variables?: any;
 }
 
-export default async function fetchGraphQL(query: string, variables: any): Promise<any> {
+export default async function fetchGraphQL(query: string, variables?: any): Promise<any> {
   if (!csrfToken) {
     throw new Error('csrf token has not been set');
   }

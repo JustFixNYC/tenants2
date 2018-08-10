@@ -67,7 +67,11 @@ class Query {
 
   /** Generate the TypeScript code for our function. */
   generateTsCode(): string {
-    const args = `args: ${this.variablesInterfaceName}`;
+    let args = '';
+    
+    if (this.variablesInterfaceName) {
+      args = `args: ${this.variablesInterfaceName}`;
+    }
 
     return [
       `// This file was automatically generated and should not be edited.\n`,
@@ -75,7 +79,7 @@ class Query {
       this.tsInterfaces,
       `export function fetch${this.basename}(${args}): Promise<${this.basename}> {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
-      `  return fetchGraphQL(\`${this.graphQl}\`, args);`,
+      `  return fetchGraphQL(\`${this.graphQl}\`${args ? ', args' : ''});`,
       `}`
     ].join('\n');
   }

@@ -1,5 +1,20 @@
 import graphene
 from graphql import ResolveInfo
+from django.contrib.auth import logout
+
+
+class Logout(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    def mutate(self, info: ResolveInfo):
+        request = info.context
+        if request.user.is_authenticated:
+            logout(request)
+        return Logout(ok=True)
+
+
+class Mutations(graphene.ObjectType):
+    logout = Logout.Field()
 
 
 class Query(graphene.ObjectType):
@@ -22,4 +37,4 @@ class Query(graphene.ObjectType):
         return 123
 
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutations)

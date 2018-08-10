@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { setCsrfToken } from './fetch-graphql';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
+import { fetchLogout } from './queries/Logout';
 
 type Color = 'black'|'info'|'danger';
 
@@ -19,6 +20,7 @@ interface AppState {
   text: string;
   color: Color;
   graphQlResult?: string|null;
+  username: string|null;
 }
 
 export async function getMessage(): Promise<string> {
@@ -34,7 +36,11 @@ export class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
-    this.state = { text: props.loadingMessage, color: 'black' };
+    this.state = {
+      text: props.loadingMessage,
+      color: 'black',
+      username: props.username
+    };
   }
 
   componentDidMount() {
@@ -65,6 +71,13 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     const { props, state } = this;
 
+    let handleLogout = () => {
+      fetchLogout().then((result) => {
+        if (result.logout && result.logout.ok) {
+          this.setState({ username: null });
+        }
+      });
+    };
     let debugInfo = null;
 
     if (props.debug) {
@@ -82,17 +95,28 @@ export class App extends React.Component<AppProps, AppState> {
       );
     }
 
+    let loginInfo;
+
+    if (state.username) {
+      loginInfo = (
+        <React.Fragment>
+          <p>You are currently logged in as {state.username}.</p>
+          <p><button className="button is-primary" onClick={handleLogout}>Logout</button></p>
+        </React.Fragment>
+      );
+    } else {
+      loginInfo = (
+        <p>You are currently logged out.</p>
+      );
+    }
+
     return (
       <section className="hero is-fullheight">
         <div className="hero-head"></div>
         <div className="hero-body">
           <div className="container content box has-background-white">
             <h1 className="title">Ahoy, { props.debug ? "developer" : "human" }! </h1>
-            {
-              props.username
-                ? <p>You are currently logged in as {props.username}.</p>
-                : <p>You are currently logged out.</p>
-            }
+            {loginInfo}
             {debugInfo}
             {state.graphQlResult ? <p>GraphQL says <strong>{state.graphQlResult}</strong>.</p> : null}
             <p className={`has-text-${state.color} is-pulled-right`}>

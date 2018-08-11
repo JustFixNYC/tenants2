@@ -21,7 +21,7 @@ export interface AppProps {
 interface AppState {
   text: string;
   color: Color;
-  graphQlResult?: string|null;
+  graphQlResult?: string;
   username: string|null;
 }
 
@@ -81,16 +81,12 @@ export class App extends React.Component<AppProps, AppState> {
 
     let handleLogout = () => {
       fetchLogoutMutation().then((result) => {
-        if (result.logout && result.logout.ok) {
-          if (!result.logout.csrfToken) {
-            throw new Error("Assertion failure, csrfToken should be present!");
-          }
+        if (result.logout.ok) {
           setCsrfToken(result.logout.csrfToken);
           this.setState({ username: null });
           return;
         }
-        console.error(result);
-        throw new Error("Unexpected result! See console.");
+        throw new Error('Assertion failure, logout should always be ok');
       }).catch(handleError);
     };
     let debugInfo = null;
@@ -125,20 +121,12 @@ export class App extends React.Component<AppProps, AppState> {
     } else {
       const handleLoginSubmit = (username: string, password: string) => {
         fetchLoginMutation({ username: username, password: password }).then(result => {
-          if (result.login) {
-            if (result.login.ok) {
-              if (!result.login.csrfToken) {
-                throw new Error("Assertion failure, csrfToken should be present!");
-              }
-              setCsrfToken(result.login.csrfToken);
-              this.setState({ username });
-            } else {
-              window.alert("Invalid username or password.");
-            }
-            return;
+          if (result.login.ok) {
+            setCsrfToken(result.login.csrfToken);
+            this.setState({ username });
+          } else {
+            window.alert("Invalid username or password.");
           }
-          console.error(result);
-          throw new Error("Unexpected result! See console.");
         }).catch(handleError);
       };
       loginInfo = (

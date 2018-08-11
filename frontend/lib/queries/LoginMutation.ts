@@ -11,17 +11,17 @@ import fetchGraphQL from '../fetch-graphql'
 // ====================================================
 
 export interface LoginMutation_login {
-  ok: boolean | null;
-  csrfToken: string | null;
+  ok: boolean;
+  csrfToken: string;
 }
 
 export interface LoginMutation {
-  login: LoginMutation_login | null;
+  login: LoginMutation_login;
 }
 
 export interface LoginMutationVariables {
-  username?: string | null;
-  password?: string | null;
+  username: string;
+  password: string;
 }
 
 /* tslint:disable */
@@ -36,7 +36,7 @@ export interface LoginMutationVariables {
 //==============================================================
 export function fetchLoginMutation(args: LoginMutationVariables): Promise<LoginMutation> {
   // The following query was taken from LoginMutation.graphql.
-  return fetchGraphQL(`mutation LoginMutation($username: String, $password: String) {
+  return fetchGraphQL(`mutation LoginMutation($username: String!, $password: String!) {
     login(username: $username, password: $password) {
         ok,
         csrfToken

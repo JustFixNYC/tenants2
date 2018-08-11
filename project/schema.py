@@ -15,11 +15,11 @@ class Login(graphene.Mutation):
     '''
 
     class Arguments:
-        username = graphene.String()
-        password = graphene.String()
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
 
-    ok = graphene.Boolean()
-    csrf_token = graphene.String()
+    ok = graphene.Boolean(required=True)
+    csrf_token = graphene.String(required=True)
 
     def mutate(self, info: ResolveInfo, username: str, password: str) -> 'Login':
         request = info.context
@@ -36,8 +36,8 @@ class Logout(graphene.Mutation):
     returns a new CSRF token, because apparently this changes on logout too.
     '''
 
-    ok = graphene.Boolean()
-    csrf_token = graphene.String()
+    ok = graphene.Boolean(required=True)
+    csrf_token = graphene.String(required=True)
 
     def mutate(self, info: ResolveInfo) -> 'Logout':
         request = info.context
@@ -47,8 +47,8 @@ class Logout(graphene.Mutation):
 
 
 class Mutations(graphene.ObjectType):
-    logout = Logout.Field()
-    login = Login.Field()
+    logout = Logout.Field(required=True)
+    login = Login.Field(required=True)
 
 
 class Query(graphene.ObjectType):
@@ -57,7 +57,7 @@ class Query(graphene.ObjectType):
     GraphQL clients as part of our schema.
     '''
 
-    hello = graphene.String(thing=graphene.String())
+    hello = graphene.String(thing=graphene.String(required=True), required=True)
     there = graphene.Int()
 
     def resolve_hello(self, info: ResolveInfo, thing: str) -> str:

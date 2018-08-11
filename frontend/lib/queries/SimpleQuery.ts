@@ -11,11 +11,11 @@ import fetchGraphQL from '../fetch-graphql'
 // ====================================================
 
 export interface SimpleQuery {
-  hello: string | null;
+  hello: string;
 }
 
 export interface SimpleQueryVariables {
-  thing?: string | null;
+  thing: string;
 }
 
 /* tslint:disable */
@@ -30,7 +30,7 @@ export interface SimpleQueryVariables {
 //==============================================================
 export function fetchSimpleQuery(args: SimpleQueryVariables): Promise<SimpleQuery> {
   // The following query was taken from SimpleQuery.graphql.
-  return fetchGraphQL(`query SimpleQuery($thing: String) {
+  return fetchGraphQL(`query SimpleQuery($thing: String!) {
     hello(thing: $thing)
 }
 `, args);

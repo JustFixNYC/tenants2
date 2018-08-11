@@ -11,12 +11,12 @@ import fetchGraphQL from '../fetch-graphql'
 // ====================================================
 
 export interface LogoutMutation_logout {
-  ok: boolean | null;
-  csrfToken: string | null;
+  ok: boolean;
+  csrfToken: string;
 }
 
 export interface LogoutMutation {
-  logout: LogoutMutation_logout | null;
+  logout: LogoutMutation_logout;
 }
 
 /* tslint:disable */

@@ -1,4 +1,4 @@
-import { createStore, Store, applyMiddleware, Middleware } from 'redux';
+import { createStore, Store, applyMiddleware } from 'redux';
 
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 
@@ -29,14 +29,6 @@ export interface AppState {
   username: string|null;
 }
 
-declare module 'redux' {
-  // It seems we need to extend the type definition of dispatch to support
-  // our own app's actions, or else we won't type-check properly.
-  export interface Dispatch {
-    (action: AppAction): AppState;
-  }
-}
-
 const INITIAL_STATE: AppState = { username: null };
 
 function reducer(state: AppState = INITIAL_STATE, action: AppAction): AppState {
@@ -61,12 +53,12 @@ export type AppStore = Store<AppState, AppAction>;
 
 type AppDispatch = (action: AppAction) => AppState;
 
-const simpleQueryMiddleware: Middleware<{}, AppState, AppDispatch> = api => next => (action: AppAction): AppState => {
+const simpleQueryMiddleware = (store: AppStore) => (next: AppDispatch) => (action: AppAction): AppState => {
   if (action.type === 'fetch-simple-query') {
     fetchSimpleQuery({ thing: action.thing }).then(result => {
-      api.dispatch({ type: 'simple-query-ok', result: result.hello });
+      store.dispatch({ type: 'simple-query-ok', result: result.hello });
     }).catch(e => {
-      api.dispatch({ type: 'simple-query-error' });
+      store.dispatch({ type: 'simple-query-error' });
     });
   }
 
@@ -76,6 +68,10 @@ const simpleQueryMiddleware: Middleware<{}, AppState, AppDispatch> = api => next
 export function createAppStore(): AppStore {
   return createStore(
     reducer,
-    applyMiddleware(simpleQueryMiddleware)
+
+    // The type definitions for middleware in Redux are extremely
+    // confusing so I'm just going to typecast here for the sake
+    // of better type safety in the actual middleware.
+    applyMiddleware(simpleQueryMiddleware as any)
   );
 }

@@ -6,7 +6,8 @@ import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginForm } from './login-form';
-import { createAppStore, AppState, AppStore } from './redux-store';
+
+type Color = 'black'|'info'|'danger';
 
 export interface AppProps {
   staticURL: string;
@@ -18,23 +19,57 @@ export interface AppProps {
   debug: boolean;
 }
 
+interface AppState {
+  text: string;
+  color: Color;
+  graphQlResult?: string;
+  username: string|null;
+}
+
+export async function getMessage(): Promise<string> {
+  return new Promise<string>(resolve => {
+    setTimeout(() => {
+      resolve("HELLO FROM JAVASCRIPT-LAND");
+    }, 3000);
+  });
+}
+
 export class App extends React.Component<AppProps, AppState> {
-  store: AppStore;
+  interval?: number;
 
   constructor(props: AppProps) {
     super(props);
-    this.store = createAppStore();
-    this.store.dispatch({ type: 'set-user', username: this.props.username });
-    this.state = this.store.getState();
-    this.store.subscribe(() => {
-      this.setState(this.store.getState());
-    });
+    this.state = {
+      text: props.loadingMessage,
+      color: 'black',
+      username: props.username
+    };
   }
 
   componentDidMount() {
+    getMessage().then(text => {
+      this.setState({ text, color: 'info' });
+    }).catch(e => {
+      this.setState({ text: e.message, color: 'danger' });
+    });
+    this.interval = window.setInterval(() => {
+      this.setState(state => ({
+        text: state.color === 'black' ? `${state.text}.` : state.text
+      }));
+    }, 1000);
+
     setCsrfToken(this.props.csrfToken);
     setBatchGraphQLURL(this.props.batchGraphQLURL);
-    this.store.dispatch({ type: 'fetch-simple-query', thing: (new Date()).toString() });
+    fetchSimpleQuery({ thing: (new Date()).toString() }).then(result => {
+      this.setState({ graphQlResult: result.hello });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      window.clearInterval(this.interval);
+      this.interval = undefined;
+    }
   }
 
   render() {
@@ -111,9 +146,10 @@ export class App extends React.Component<AppProps, AppState> {
             <h1 className="title">Ahoy, { props.debug ? "developer" : "human" }! </h1>
             {loginInfo}
             {debugInfo}
-            {state.simpleQuery && state.simpleQuery.state === 'ok'
-             ? <p>GraphQL says <strong>{state.simpleQuery.result}</strong>.</p>
-             : null}
+            {state.graphQlResult ? <p>GraphQL says <strong>{state.graphQlResult}</strong>.</p> : null}
+            <p className={`has-text-${state.color} is-pulled-right`}>
+              { state.text }
+            </p>
           </div>
         </div>
         <div className="hero-foot"></div>

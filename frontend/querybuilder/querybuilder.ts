@@ -73,11 +73,12 @@ class Query {
       args = `args: ${this.variablesInterfaceName}`;
     }
 
+    const fetchGraphQL = 'fetchGraphQL: (query: string, args?: any) => Promise<any>';
+
     return [
       `// This file was automatically generated and should not be edited.\n`,
-      `import fetchGraphQL from '../fetch-graphql'`,
       this.tsInterfaces,
-      `export function fetch${this.basename}(${args}): Promise<${this.basename}> {`,
+      `export function fetch${this.basename}(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
       `  return fetchGraphQL(\`${this.graphQl}\`${args ? ', args' : ''});`,
       `}`

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { setCsrfToken, setBatchGraphQLURL } from './fetch-graphql';
+import GraphQlClient from './graphql-client';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
@@ -36,9 +36,11 @@ export async function getMessage(): Promise<string> {
 
 export class App extends React.Component<AppProps, AppState> {
   interval?: number;
+  gqlClient: GraphQlClient;
 
   constructor(props: AppProps) {
     super(props);
+    this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
     this.state = {
       text: props.loadingMessage,
       color: 'black',
@@ -58,9 +60,7 @@ export class App extends React.Component<AppProps, AppState> {
       }));
     }, 1000);
 
-    setCsrfToken(this.props.csrfToken);
-    setBatchGraphQLURL(this.props.batchGraphQLURL);
-    fetchSimpleQuery({ thing: (new Date()).toString() }).then(result => {
+    fetchSimpleQuery(this.gqlClient.fetch, { thing: (new Date()).toString() }).then(result => {
       this.setState({ graphQlResult: result.hello });
     });
   }
@@ -81,9 +81,9 @@ export class App extends React.Component<AppProps, AppState> {
     };
 
     let handleLogout = () => {
-      fetchLogoutMutation().then((result) => {
+      fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
         if (result.logout.ok) {
-          setCsrfToken(result.logout.csrfToken);
+          this.gqlClient.csrfToken = result.logout.csrfToken;
           this.setState({ username: null });
           return;
         }
@@ -121,9 +121,12 @@ export class App extends React.Component<AppProps, AppState> {
       );
     } else {
       const handleLoginSubmit = (username: string, password: string) => {
-        fetchLoginMutation({ username: username, password: password }).then(result => {
+        fetchLoginMutation(this.gqlClient.fetch, {
+          username: username,
+          password: password
+        }).then(result => {
           if (result.login.ok) {
-            setCsrfToken(result.login.csrfToken);
+            this.gqlClient.csrfToken = result.login.csrfToken;
             this.setState({ username });
           } else {
             window.alert("Invalid username or password.");

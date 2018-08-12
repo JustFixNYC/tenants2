@@ -1,6 +1,5 @@
 // This file was automatically generated and should not be edited.
 
-import fetchGraphQL from '../fetch-graphql'
 
 
 /* tslint:disable */
@@ -34,7 +33,7 @@ export interface LoginMutationVariables {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-export function fetchLoginMutation(args: LoginMutationVariables): Promise<LoginMutation> {
+export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
   // The following query was taken from LoginMutation.graphql.
   return fetchGraphQL(`mutation LoginMutation($username: String!, $password: String!) {
     login(username: $username, password: $password) {

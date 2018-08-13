@@ -1,24 +1,60 @@
+import fetch from 'isomorphic-fetch';
+
+import { autobind } from "./util";
+
+const DEFAULT_TIMEOUT_MS = 100;
+
 interface GraphQLBody {
   query: any;
   variables?: any;
 }
 
+interface queuedRequest {
+  query: string;
+  variables?: any;
+  resolve: (result: any) => void;
+  reject: (error: Error) => void;
+}
+
+export class GraphQlError extends Error {
+  constructor(message: string, readonly result: any) {
+    super(message);
+  }
+}
+
 export default class GraphQlClient {
   csrfToken: string;
+  private readonly requestQueue: queuedRequest[] = [];
+  private timeout?: any;
 
-  constructor(readonly batchGraphQLURL: string, csrfToken: string) {
+  constructor(
+    readonly batchGraphQLURL: string,
+    csrfToken: string,
+    readonly timeoutMs: number|null = DEFAULT_TIMEOUT_MS,
+    readonly fetchImpl: typeof fetch = fetch
+  ) {
     this.csrfToken = csrfToken;
-    this.fetch = this.fetch.bind(this);
+    autobind(this, 'fetch', 'fetchQueuedRequests');
   }
 
-  async fetch(query: string, variables?: any): Promise<any> {
-    const body: GraphQLBody = { query };
+  getRequestQueue(): queuedRequest[] {
+    return this.requestQueue.slice();
+  }
 
-    if (variables !== undefined) {
-      body.variables = variables;
-    }
+  private createBodies(requests: queuedRequest[]): GraphQLBody[] {
+    return requests.map(({ query, variables }) => {
+      const body: GraphQLBody = { query };
 
-    const response = await fetch(this.batchGraphQLURL, {
+      if (variables !== undefined) {
+        body.variables = variables;
+      }
+
+      return body;
+    });
+  }
+
+  private async fetchBodies(bodies: GraphQLBody[]): Promise<Response> {
+    return this.fetchImpl(this.batchGraphQLURL, {
       method: 'POST',
       credentials: "same-origin",
       headers: {
@@ -26,21 +62,58 @@ export default class GraphQlClient {
         'Accept': 'application/json',
         'X-CSRFToken': this.csrfToken,
       },
-      body: JSON.stringify([body])
+      body: JSON.stringify(bodies)
     });
+  }
 
-    const results = await response.json();
-  
-    // Even though we are technically using batching (just to make sure it
-    // works), we're only batching one request right now, so unwrap it.
-    if (Array.isArray(results) && results.length === 1) {
-      const result = results[0];
+  private resolveRequests(requests: queuedRequest[], results: any[]) {
+    requests.forEach(({ resolve, reject }, i) => {
+      const result = results[i];
       if (result && result.data) {
-        return result.data;
+        resolve(result.data);
+      } else {
+        reject(new GraphQlError('GraphQL request failed', result));
       }
+    });
+  }
+
+  private rejectRequests(requests: queuedRequest[], error: Error) {
+    requests.forEach(({ reject }) => reject(error));
+  }
+
+  async fetchQueuedRequests() {
+    if (this.timeout !== undefined) {
+      clearTimeout(this.timeout);
+      this.timeout = undefined;
     }
 
-    console.error(results);
-    throw new Error(`Unexpected result, see console`);  
+    const requests = this.requestQueue.splice(0);
+
+    try {
+      const bodies = this.createBodies(requests);
+      const response = await this.fetchBodies(bodies);
+      const results = await response.json();
+
+      if (Array.isArray(results) && results.length === requests.length) {
+        this.resolveRequests(requests, results);
+      }
+
+      throw new GraphQlError(
+        `Result is not an array with size equal to requests`,
+        results
+      );
+    } catch (e) {
+      this.rejectRequests(requests, e);
+    }
+  }
+
+  async fetch(query: string, variables?: any): Promise<any> {
+    if (this.timeout === undefined && this.timeoutMs !== null) {
+      this.timeout = setTimeout(this.fetchQueuedRequests, this.timeoutMs);
+    }
+
+    return new Promise((resolve, reject) => {
+      this.requestQueue.push({ query, variables, resolve, reject });
+    });
   }
 }

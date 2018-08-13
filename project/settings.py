@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'graphene_django',
-    'project',
+    'project.apps.DefaultConfig',
     'frontend',
 ]
 

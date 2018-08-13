@@ -6,6 +6,7 @@ import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginForm } from './login-form';
+import { autobind } from './util';
 
 export interface AppProps {
   staticURL: string;
@@ -31,32 +32,48 @@ export class App extends React.Component<AppProps, AppState> {
     this.state = {
       username: props.username
     };
+    autobind(this, 'handleFetchError', 'handleLogout', 'handleLoginSubmit');
   }
 
   componentDidMount() {
     fetchSimpleQuery(this.gqlClient.fetch, { thing: (new Date()).toString() }).then(result => {
       this.setState({ simpleQueryResult: result.hello });
-    });
+    }).catch(this.handleFetchError);
+  }
+
+  handleFetchError(e: Error) {
+    console.error(e);
+    window.alert(`Alas, a fatal error occurred: ${e.message}`);
+  }
+
+  handleLogout() {
+    fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
+      if (result.logout.ok) {
+        this.gqlClient.csrfToken = result.logout.csrfToken;
+        this.setState({ username: null });
+        return;
+      }
+      throw new Error('Assertion failure, logout should always be ok');
+    }).catch(this.handleFetchError);
+  }
+
+  handleLoginSubmit(username: string, password: string) {
+    fetchLoginMutation(this.gqlClient.fetch, {
+      username: username,
+      password: password
+    }).then(result => {
+      if (result.login.ok) {
+        this.gqlClient.csrfToken = result.login.csrfToken;
+        this.setState({ username });
+      } else {
+        window.alert("Invalid username or password.");
+      }
+    }).catch(this.handleFetchError);
   }
 
   render() {
     const { props, state } = this;
 
-    const handleError = (e: Error) => {
-      console.error(e);
-      window.alert(`Alas, a fatal error occurred: ${e.message}`);
-    };
-
-    let handleLogout = () => {
-      fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
-        if (result.logout.ok) {
-          this.gqlClient.csrfToken = result.logout.csrfToken;
-          this.setState({ username: null });
-          return;
-        }
-        throw new Error('Assertion failure, logout should always be ok');
-      }).catch(handleError);
-    };
     let debugInfo = null;
 
     if (props.debug) {
@@ -83,27 +100,14 @@ export class App extends React.Component<AppProps, AppState> {
       loginInfo = (
         <React.Fragment>
           <p>You are currently logged in as {state.username}.</p>
-          <p><button className="button is-primary" onClick={handleLogout}>Logout</button></p>
+          <p><button className="button is-primary" onClick={this.handleLogout}>Logout</button></p>
         </React.Fragment>
       );
     } else {
-      const handleLoginSubmit = (username: string, password: string) => {
-        fetchLoginMutation(this.gqlClient.fetch, {
-          username: username,
-          password: password
-        }).then(result => {
-          if (result.login.ok) {
-            this.gqlClient.csrfToken = result.login.csrfToken;
-            this.setState({ username });
-          } else {
-            window.alert("Invalid username or password.");
-          }
-        }).catch(handleError);
-      };
       loginInfo = (
         <React.Fragment>
           <p>You are currently logged out.</p>
-          <LoginForm onSubmit={handleLoginSubmit} />
+          <LoginForm onSubmit={this.handleLoginSubmit} />
         </React.Fragment>
       );
     }

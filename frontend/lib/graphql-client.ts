@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch';
-
-import { autobind } from "./util";
+import autobind from '../../node_modules/autobind-decorator';
 
 const DEFAULT_TIMEOUT_MS = 100;
 
@@ -34,7 +33,6 @@ export default class GraphQlClient {
     readonly fetchImpl: typeof fetch = fetch
   ) {
     this.csrfToken = csrfToken;
-    autobind(this, 'fetch', 'fetchQueuedRequests');
   }
 
   getRequestQueue(): queuedRequest[] {
@@ -81,6 +79,7 @@ export default class GraphQlClient {
     requests.forEach(({ reject }) => reject(error));
   }
 
+  @autobind
   async fetchQueuedRequests() {
     if (this.timeout !== undefined) {
       clearTimeout(this.timeout);
@@ -107,6 +106,7 @@ export default class GraphQlClient {
     }
   }
 
+  @autobind
   async fetch(query: string, variables?: any): Promise<any> {
     if (this.timeout === undefined && this.timeoutMs !== null) {
       this.timeout = setTimeout(this.fetchQueuedRequests, this.timeoutMs);

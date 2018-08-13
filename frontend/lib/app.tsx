@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import autobind from 'autobind-decorator';
 
 import GraphQlClient from './graphql-client';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginForm } from './login-form';
-import { autobind } from './util';
 
 export interface AppProps {
   staticURL: string;
@@ -34,7 +34,6 @@ export class App extends React.Component<AppProps, AppState> {
       username: props.username,
       csrfToken: props.csrfToken
     };
-    autobind(this, 'handleFetchError', 'handleLogout', 'handleLoginSubmit');
   }
 
   componentDidMount() {
@@ -43,11 +42,13 @@ export class App extends React.Component<AppProps, AppState> {
     }).catch(this.handleFetchError);
   }
 
+  @autobind
   handleFetchError(e: Error) {
     console.error(e);
     window.alert(`Alas, a fatal error occurred: ${e.message}`);
   }
 
+  @autobind
   handleLogout() {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
@@ -58,6 +59,7 @@ export class App extends React.Component<AppProps, AppState> {
     }).catch(this.handleFetchError);
   }
 
+  @autobind
   handleLoginSubmit(username: string, password: string) {
     fetchLoginMutation(this.gqlClient.fetch, {
       username: username,

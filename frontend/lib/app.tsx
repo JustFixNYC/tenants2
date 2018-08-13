@@ -80,15 +80,15 @@ export class App extends React.Component<AppProps, AppState> {
       debugInfo = (
         <React.Fragment>
           <p>
-          For more details on the size of our JS bundle, see the {` `}
-          <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
+            For more details on the size of our JS bundle, see the {` `}
+            <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
           </p>
           <p>
             You can interactively inspect GraphQL queries with <a href="/graphiql">GraphiQL</a>.
           </p>
           <p>
-              Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
-              you will probably want to run <code>manage.py createsuperuser</code> first.
+            Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
+            you will probably want to run <code>manage.py createsuperuser</code> first.
           </p>
         </React.Fragment>
       );

@@ -72,6 +72,9 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   componentDidUpdate(prevProps: AppProps, prevState: AppState) {
+    if (prevProps !== this.props) {
+      throw new Error('Assertion failure, props are not expected to change');
+    }
     if (prevState.csrfToken !== this.state.csrfToken) {
       this.gqlClient.csrfToken = this.state.csrfToken;
     }

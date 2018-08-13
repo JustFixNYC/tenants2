@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 
 // Assume we've been compiled to the root project dir.
-const LIB_PATH = path.join('frontend', 'lib', 'queries');
+export const LIB_PATH = path.join('frontend', 'lib', 'queries');
 const GEN_PATH = path.join(LIB_PATH, '__generated__');
 const SCHEMA_PATH = path.join('schema.json');
 const DOT_GRAPHQL = '.graphql';

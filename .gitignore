@@ -13,7 +13,6 @@ frontend/static/frontend/*.css
 frontend/static/frontend/*.map
 frontend/static/frontend/report.html
 staticfiles/
-schema.json
 frontend/lib/queries/__generated__/
 querybuilder.js
 querybuilder.js.map

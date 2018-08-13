@@ -1,8 +1,22 @@
+// @ts-check
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
+/**
+ * @typedef {import("webpack").Configuration} WebpackConfig
+ * @typedef {import("webpack").Plugin} WebpackPlugin
+ */
+
+/**
+ * This creates a webpack configuration for a command-line
+ * node script written in TypeScript.
+ * 
+ * @param {String} entry The entrypoint of the node script.
+ * @param {String} filename The JS filename to output to.
+ * @returns {WebpackConfig}
+ */
 function createNodeScriptConfig(entry, filename) {
   return {
     target: 'node',
@@ -33,6 +47,15 @@ function createNodeScriptConfig(entry, filename) {
   };
 }
 
+/**
+ * This returns an array of webpack plugins used for development,
+ * or an empty array if we're on a production deployment.
+ * 
+ * It includes dynamic require() calls because the modules
+ * won't be installed on production deployments.
+ * 
+ * @returns {WebpackPlugin[]} The array of plugins.
+ */
 function getWebDevPlugins() {
   if (IS_PRODUCTION) {
     return [];
@@ -48,6 +71,11 @@ function getWebDevPlugins() {
   ];
 }
 
+/**
+ * This is our webpack configuration for the web front-end.
+ *
+ * @type {WebpackConfig}
+ */
 const webConfig = {
   target: 'web',
   entry: ['babel-polyfill', './frontend/lib/main.ts'],

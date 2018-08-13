@@ -30,7 +30,6 @@ def index(request):
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
     initial_props = {
-        'loadingMessage': 'Please wait while I compute things.',
         'staticURL': settings.STATIC_URL,
         'adminIndexURL': reverse('admin:index'),
         'batchGraphQLURL': reverse('batch-graphql'),

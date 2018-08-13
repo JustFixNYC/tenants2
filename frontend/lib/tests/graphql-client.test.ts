@@ -1,18 +1,5 @@
 import GraphQlClient from "../graphql-client";
-
-interface TestClient {
-  mockFetch: jest.Mock;
-  client: GraphQlClient;
-}
-
-function createClient(enableTimeout: boolean = false): TestClient {
-  const timeoutMs = enableTimeout ? undefined : null;
-  const mockFetch = jest.fn()
-    .mockName('fetch')
-    .mockReturnValue(new Promise(() => {}));
-  const client = new GraphQlClient('/mygraphql', 'mycsrf', timeoutMs, mockFetch);
-  return { client, mockFetch };
-}
+import { createTestGraphQlClient as createClient } from './util';
 
 describe('GraphQLClient', () => {
   jest.useFakeTimers();

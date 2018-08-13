@@ -9,13 +9,35 @@ import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginForm } from './login-form';
 
 export interface AppProps {
+  /**
+   * The URL of the server's static files, e.g. "/static/".
+   */
   staticURL: string;
+
+  /**
+   * The URL of the server's Django admin, e.g. "/admin/".
+   */
   adminIndexURL: string;
-  batchGraphQLURL: string;
-  loadingMessage: string;
-  csrfToken: string;
+
+  /**
+   * The username of the currently logged-in user, or null if not logged-in.
+   */
   username: string|null;
+
+  /**
+   * Whether the site is in development mode (corresponds to settings.DEBUG in
+   * the Django app).
+   */
   debug: boolean;
+
+  /** The GraphQL client to use for requests. */
+  gqlClient?: GraphQlClient;
+
+  /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
+  batchGraphQLURL?: string;
+
+  /** The CSRF token; required if a GraphQL client is not provided. */
+  csrfToken?: string;
 }
 
 interface AppState {
@@ -29,10 +51,17 @@ export class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
-    this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
+    if (props.gqlClient) {
+      this.gqlClient = props.gqlClient;
+    } else {
+      if (!this.props.batchGraphQLURL || !this.props.csrfToken) {
+        throw new Error("Assertion failure, need props to construct GraphQL client");
+      }
+      this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
+    }
     this.state = {
       username: props.username,
-      csrfToken: props.csrfToken
+      csrfToken: this.gqlClient.csrfToken
     };
   }
 

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "querybuilder": "apollo codegen:generate --queries=frontend/lib/queries/*.graphql --schema schema.json --target typescript && node querybuilder.js",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents",
     "sass:watch": "npm run sass -- --watch",
     "build": "webpack",
@@ -58,7 +57,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(frontend/lib/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(frontend/(lib|querybuilder)/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",

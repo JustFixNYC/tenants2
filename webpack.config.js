@@ -2,34 +2,35 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const lambdaConfig = {
-  target: 'node',
-  entry: './frontend/lambda/lambda.ts',
-  // Tried source-map-support but the line numbers are weird, so
-  // disabling source map support for now.
-  devtool: undefined,
-  mode: 'development',
-  externals: [nodeExternals()],
-  output: {
-    filename: 'lambda.js',
-    path: path.resolve(__dirname)
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: [
-          { loader: 'ts-loader' }
-        ]
-      }
-    ]
-  },
-  resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
-  },
-
-};
+function createNodeScriptConfig(entry, filename) {
+  return {
+    target: 'node',
+    entry,
+    // Tried source-map-support but the line numbers are weird, so
+    // disabling source map support for now.
+    devtool: undefined,
+    mode: 'development',
+    externals: [nodeExternals()],
+    output: {
+      filename,
+      path: path.resolve(__dirname)
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: [
+            { loader: 'ts-loader' }
+          ]
+        },
+      ]
+    },
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ]
+    },
+  };
+}
 
 const webConfig = {
   target: 'web',
@@ -49,7 +50,7 @@ const webConfig = {
           { loader: 'babel-loader' },
           { loader: 'ts-loader' }
         ]
-      }
+      },
     ]
   },
   plugins: [
@@ -63,4 +64,8 @@ const webConfig = {
   },
 };
 
-module.exports = [ lambdaConfig, webConfig ];
+module.exports = [
+  createNodeScriptConfig('./frontend/lambda/lambda.ts', 'lambda.js'),
+  createNodeScriptConfig('./frontend/querybuilder/querybuilder.ts', 'querybuilder.js'),
+  webConfig,
+];

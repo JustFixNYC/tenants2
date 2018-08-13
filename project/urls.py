@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from graphene_django.views import GraphQLView
 
 from .views import index
 
@@ -22,4 +24,13 @@ from .views import index
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
+
+    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
 ]
+
+if settings.DEBUG:
+    # Graphene throws an assertion error if we attempt to enable *both* graphiql
+    # *and* batch mode on the same endpoint, so we'll use a separate one for
+    # graphiql.
+    urlpatterns.append(
+        path('graphiql', GraphQLView.as_view(graphiql=True)))

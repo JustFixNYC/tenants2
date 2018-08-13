@@ -19,6 +19,7 @@ export interface AppProps {
 }
 
 interface AppState {
+  csrfToken: string;
   simpleQueryResult?: string;
   username: string|null;
 }
@@ -30,7 +31,8 @@ export class App extends React.Component<AppProps, AppState> {
     super(props);
     this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
     this.state = {
-      username: props.username
+      username: props.username,
+      csrfToken: props.csrfToken
     };
     autobind(this, 'handleFetchError', 'handleLogout', 'handleLoginSubmit');
   }
@@ -49,8 +51,7 @@ export class App extends React.Component<AppProps, AppState> {
   handleLogout() {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
-        this.gqlClient.csrfToken = result.logout.csrfToken;
-        this.setState({ username: null });
+        this.setState({ username: null, csrfToken: result.logout.csrfToken });
         return;
       }
       throw new Error('Assertion failure, logout should always be ok');
@@ -63,12 +64,17 @@ export class App extends React.Component<AppProps, AppState> {
       password: password
     }).then(result => {
       if (result.login.ok) {
-        this.gqlClient.csrfToken = result.login.csrfToken;
-        this.setState({ username });
+        this.setState({ username, csrfToken: result.login.csrfToken });
       } else {
         window.alert("Invalid username or password.");
       }
     }).catch(this.handleFetchError);
+  }
+
+  componentDidUpdate(prevProps: AppProps, prevState: AppState) {
+    if (prevState.csrfToken !== this.state.csrfToken) {
+      this.gqlClient.csrfToken = this.state.csrfToken;
+    }
   }
 
   render() {

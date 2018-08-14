@@ -20,7 +20,7 @@ def get_initial_render(initial_props) -> SafeString:
     return SafeString(result.stdout.decode('utf-8'))
 
 
-def index(request):
+def react_rendered_view(request, url):
     if request.user.is_authenticated:
         username = request.user.username
     else:
@@ -30,6 +30,7 @@ def index(request):
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
     initial_props = {
+        'url': f'/{url}',
         'staticURL': settings.STATIC_URL,
         'adminIndexURL': reverse('admin:index'),
         'batchGraphQLURL': reverse('batch-graphql'),

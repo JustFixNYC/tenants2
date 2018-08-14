@@ -1,14 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import GraphQlClient from './graphql-client';
-import { fetchSimpleQuery } from './queries/SimpleQuery';
+
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
-import { LoginForm } from './login-form';
+import { IndexPage } from './index-page';
+
 
 export interface AppProps {
+  /** The URL to render */
+  url: string;
+
   /**
    * The URL of the server's static files, e.g. "/static/".
    */
@@ -42,7 +47,6 @@ export interface AppProps {
 
 interface AppState {
   csrfToken: string;
-  simpleQueryResult?: string;
   username: string|null;
 }
 
@@ -63,12 +67,6 @@ export class App extends React.Component<AppProps, AppState> {
       username: props.username,
       csrfToken: this.gqlClient.csrfToken
     };
-  }
-
-  componentDidMount() {
-    fetchSimpleQuery(this.gqlClient.fetch, { thing: (new Date()).toString() }).then(result => {
-      this.setState({ simpleQueryResult: result.hello });
-    }).catch(this.handleFetchError);
   }
 
   @autobind
@@ -114,63 +112,37 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     const { props, state } = this;
 
-    let debugInfo = null;
-
-    if (props.debug) {
-      debugInfo = (
-        <React.Fragment>
-          <p>
-            For more details on the size of our JS bundle, see the {` `}
-            <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
-          </p>
-          <p>
-            You can interactively inspect GraphQL queries with <a href="/graphiql">GraphiQL</a>.
-          </p>
-          <p>
-            Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
-            you will probably want to run <code>manage.py createsuperuser</code> first.
-          </p>
-        </React.Fragment>
-      );
-    }
-
-    let loginInfo;
-
-    if (state.username) {
-      loginInfo = (
-        <React.Fragment>
-          <p>You are currently logged in as {state.username}.</p>
-          <p><button className="button is-primary" onClick={this.handleLogout}>Logout</button></p>
-        </React.Fragment>
-      );
-    } else {
-      loginInfo = (
-        <React.Fragment>
-          <p>You are currently logged out.</p>
-          <LoginForm onSubmit={this.handleLoginSubmit} />
-        </React.Fragment>
-      );
-    }
-
     return (
-      <section className="hero is-fullheight">
-        <div className="hero-head"></div>
-        <div className="hero-body">
-          <div className="container content box has-background-white">
-            <h1 className="title">Ahoy, { props.debug ? "developer" : "human" }! </h1>
-            {loginInfo}
-            {debugInfo}
-            {state.simpleQueryResult ? <p>GraphQL says <strong>{state.simpleQueryResult}</strong>.</p> : null}
-          </div>
-        </div>
-        <div className="hero-foot"></div>
-      </section>
+      <Switch>
+        <Route path="/" exact>
+          <IndexPage
+           gqlClient={this.gqlClient}
+           staticURL={props.staticURL}
+           adminIndexURL={props.adminIndexURL}
+           debug={props.debug}
+           username={state.username}
+           onFetchError={this.handleFetchError}
+           onLogout={this.handleLogout}
+           onLoginSubmit={this.handleLoginSubmit}
+          />
+        </Route>
+        <Route path="/about" exact>
+          <p>This is another page.</p>
+        </Route>
+        <Route>
+          <p>Sorry, the page you are looking for doesn't seem to exist.</p>
+        </Route>
+      </Switch>
     );
   }
 }
 
 export function startApp(container: Element, initialProps: AppProps) {
-  const el = <App {...initialProps}/>;
+  const el = (
+    <BrowserRouter>
+      <App {...initialProps}/>
+    </BrowserRouter>
+  );
   if (container.children.length) {
     // Initial content has been generated server-side, so bind to it.
     ReactDOM.hydrate(el, container);

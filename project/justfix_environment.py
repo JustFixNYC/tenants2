@@ -54,7 +54,7 @@ class JustfixTestingEnvironment(JustfixEnvironment):
 
 
 def get() -> JustfixEnvironment:
-    dotenv.load_dotenv(BASE_DIR / '.env')
+    dotenv.load_dotenv(BASE_DIR / '.justfix-env')
     if IS_RUNNING_TESTS:
         return JustfixTestingEnvironment(exit_when_invalid=True)
     is_debug = typed_environ.Converters.convert_bool(

@@ -2,8 +2,11 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
-// dotenv is a dev dependency, so no biggie if it can't be found.
-try { require('dotenv').config(); } catch (e) { }
+try {
+  require('dotenv').config({ path: path.join(__dirname, '.justfix-env') });
+} catch (e) {
+  // dotenv is a dev dependency, so no biggie if it can't be found.
+}
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 

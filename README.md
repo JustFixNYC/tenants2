@@ -6,7 +6,14 @@ This is an attempt at creating a new Tenants app for JustFix.
 
 You'll need Python 3.7 and [pipenv][], as well as Node 8.
 
-First, set up the front-end and configure it to
+First create an environment file and optionally edit it as you
+see fit:
+
+```
+cp .justfix-env.sample .justfix-env
+```
+
+Then set up the front-end and configure it to
 continuously re-build itself as you change the source code:
 
 ```
@@ -65,6 +72,11 @@ python manage.py envhelp
 
 Alternatively, you can examine
 [project/justfix_environment.py](project/justfix_environment.py).
+
+For the Node front-end, the only environment variable that
+matters right now is `NODE_ENV`, which can be set to
+`production` for production or any other value for
+development.
 
 ## GraphQL
 

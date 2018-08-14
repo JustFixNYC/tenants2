@@ -1,0 +1,7 @@
+# Turning DEBUG on will ensure a good developer experience
+# and make it so you don't have to configure a bunch of
+# other settings.
+DEBUG=true
+
+# The only other valid value for this is 'production'.
+NODE_ENV=development

@@ -14,7 +14,7 @@ import { App, AppProps } from '../lib/app';
 function handler(event: AppProps): Promise<string> {
   return new Promise<string>(resolve => {
     const el = React.createElement(StaticRouter, {
-      location: event.initialRequest.url,
+      location: event.initialURL,
       context: {}
     }, React.createElement(App, event));
     resolve(ReactDOMServer.renderToString(el));

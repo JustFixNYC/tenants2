@@ -1,7 +1,4 @@
 export interface AppRequestInfo {
-  /** The URL to render */
-  url: string;
-
   /**
    * The username of the currently logged-in user, or null if not logged-in.
    */

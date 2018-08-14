@@ -13,6 +13,9 @@ import { AppServerInfo } from './app-server-info';
 
 
 export interface AppProps {
+  /** The initial URL to render on page load. */
+  initialURL: string;
+
   /** The initial request that the App was started with. */
   initialRequest: AppRequestInfo;
 
@@ -24,7 +27,7 @@ interface AppState {
   /**
    * The current request that the App is serving, which can
    * be different from the initial request if e.g. the user
-   * has navigated since the initial page load.
+   * has logged out since the initial page load.
    */
   request: AppRequestInfo;
 }

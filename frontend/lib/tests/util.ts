@@ -34,5 +34,4 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 export const FakeRequestInfo: Readonly<AppRequestInfo> = {
   username: null,
   csrfToken: 'mycsrf',
-  url: '/',
 };

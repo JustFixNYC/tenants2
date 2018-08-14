@@ -2,8 +2,10 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
+const BASE_DIR = __dirname;
+
 try {
-  require('dotenv').config({ path: path.join(__dirname, '.justfix-env') });
+  require('dotenv').config({ path: path.join(BASE_DIR, '.justfix-env') });
 } catch (e) {
   // dotenv is a dev dependency, so no biggie if it can't be found.
 }
@@ -46,7 +48,7 @@ function createNodeScriptConfig(entry, filename) {
     externals: [nodeExternals()],
     output: {
       filename,
-      path: path.resolve(__dirname)
+      path: path.resolve(BASE_DIR)
     },
     module: {
       rules: [
@@ -101,7 +103,7 @@ const webConfig = {
   mode: 'development',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'frontend', 'static', 'frontend')
+    path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {
     rules: [

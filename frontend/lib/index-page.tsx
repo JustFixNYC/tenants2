@@ -5,12 +5,12 @@ import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
 import { AppServerInfo } from './app-server-info';
-import { AppRequestInfo } from './app-request-info';
+import { AppSessionInfo } from './app-session-info';
 
 export interface IndexPageProps {
   gqlClient: GraphQlClient;
   server: AppServerInfo;
-  request: AppRequestInfo;
+  request: AppSessionInfo;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (username: string, password: string) => void;

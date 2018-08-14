@@ -30,8 +30,8 @@ def react_rendered_view(request, url):
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
     initial_props = {
-        'initialRequest': {
-            'url': f'/{url}',
+        'initialURL': f'/{url}',
+        'initialSession': {
             'csrfToken': csrf.get_token(request),
             'username': username,
         },

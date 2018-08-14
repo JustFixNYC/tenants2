@@ -1,4 +1,4 @@
-export interface AppRequestInfo {
+export interface AppSessionInfo {
   /**
    * The username of the currently logged-in user, or null if not logged-in.
    */

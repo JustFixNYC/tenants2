@@ -8,7 +8,7 @@ import GraphQlClient from './graphql-client';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { IndexPage } from './index-page';
-import { AppRequestInfo } from './app-request-info';
+import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
 
 
@@ -16,8 +16,8 @@ export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
 
-  /** The initial request that the App was started with. */
-  initialRequest: AppRequestInfo;
+  /** The initial session state the App was started with. */
+  initialSession: AppSessionInfo;
 
   /** Metadata about the server. */
   server: AppServerInfo;
@@ -29,7 +29,7 @@ interface AppState {
    * be different from the initial request if e.g. the user
    * has logged out since the initial page load.
    */
-  request: AppRequestInfo;
+  session: AppSessionInfo;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -39,9 +39,9 @@ export class App extends React.Component<AppProps, AppState> {
     super(props);
     this.gqlClient = new GraphQlClient(
       props.server.batchGraphQLURL,
-      props.initialRequest.csrfToken
+      props.initialSession.csrfToken
     );
-    this.state = { request: props.initialRequest };
+    this.state = { session: props.initialSession };
   }
 
   @autobind
@@ -55,8 +55,8 @@ export class App extends React.Component<AppProps, AppState> {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
         this.setState(state => ({
-          request: {
-            ...state.request,
+          session: {
+            ...state.session,
             username: null,
             csrfToken: result.logout.csrfToken
           },
@@ -75,8 +75,8 @@ export class App extends React.Component<AppProps, AppState> {
     }).then(result => {
       if (result.login.ok) {
         this.setState(state => ({
-          request: {
-            ...state.request,
+          session: {
+            ...state.session,
             username,
             csrfToken: result.login.csrfToken
           }
@@ -91,8 +91,8 @@ export class App extends React.Component<AppProps, AppState> {
     if (prevProps !== this.props) {
       throw new Error('Assertion failure, props are not expected to change');
     }
-    if (prevState.request.csrfToken !== this.state.request.csrfToken) {
-      this.gqlClient.csrfToken = this.state.request.csrfToken;
+    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
+      this.gqlClient.csrfToken = this.state.session.csrfToken;
     }
   }
 
@@ -105,7 +105,7 @@ export class App extends React.Component<AppProps, AppState> {
           <IndexPage
            gqlClient={this.gqlClient}
            server={this.props.server}
-           request={this.state.request}
+           request={this.state.session}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

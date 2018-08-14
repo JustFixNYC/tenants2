@@ -25,7 +25,7 @@ class Login(graphene.Mutation):
         request = info.context
         user = authenticate(username=username, password=password)
         if user is None:
-            return Login(ok=False)
+            return Login(ok=False, csrf_token=csrf.get_token(request))
         login(request, user)
         return Login(ok=True, csrf_token=csrf.get_token(request))
 

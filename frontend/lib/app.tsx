@@ -55,13 +55,12 @@ export class App extends React.Component<AppProps, AppState> {
   handleLogout() {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
-        this.setState(state => ({
+        this.setState({
           session: {
-            ...state.session,
             username: null,
             csrfToken: result.logout.csrfToken
           },
-        }));
+        });
         return;
       }
       throw new Error('Assertion failure, logout should always be ok');
@@ -75,13 +74,12 @@ export class App extends React.Component<AppProps, AppState> {
       password: password
     }).then(result => {
       if (result.login.ok) {
-        this.setState(state => ({
+        this.setState({
           session: {
-            ...state.session,
             username,
             csrfToken: result.login.csrfToken
           }
-        }));
+        });
       } else {
         window.alert("Invalid username or password.");
       }

@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import dotenv
 
 from .util import typed_environ
 
@@ -54,7 +53,13 @@ class JustfixTestingEnvironment(JustfixEnvironment):
 
 
 def get() -> JustfixEnvironment:
-    dotenv.load_dotenv(BASE_DIR / '.justfix-env')
+    try:
+        import dotenv
+        dotenv.load_dotenv(BASE_DIR / '.justfix-env')
+    except ModuleNotFoundError:
+        # dotenv is a dev dependency, so no biggie if it can't be found.
+        pass
+
     if IS_RUNNING_TESTS:
         return JustfixTestingEnvironment(exit_when_invalid=True)
     is_debug = typed_environ.Converters.convert_bool(

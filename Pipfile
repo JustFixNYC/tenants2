@@ -9,12 +9,12 @@ pytest = "*"
 pytest-django = "*"
 "flake8" = "*"
 pytest-cov = "*"
+python-dotenv = "*"
 
 [packages]
 django = "*"
 whitenoise = "*"
 dj-database-url = "*"
-python-dotenv = "*"
 django-csp = "*"
 gunicorn = "*"
 "psycopg2-binary" = "*"

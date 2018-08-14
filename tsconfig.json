@@ -16,7 +16,9 @@
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
 
     // Just in case we run "tsc" from the command-line, don't splatter
-    // our repo with a bunch of JS files.
+    // our repo with a bunch of JS files. (Note that we don't actually
+    // use this directory for anything, as our actual output is
+    // configured via webpack, not this file.)
     "outDir": "./tsc-build/",                        /* Redirect output structure to the directory. */
 
     // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */

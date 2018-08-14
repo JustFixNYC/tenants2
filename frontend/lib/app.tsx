@@ -97,8 +97,6 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const { props, state } = this;
-
     return (
       <Switch>
         <Route path="/" exact>

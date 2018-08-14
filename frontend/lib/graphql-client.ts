@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import autobind from '../../node_modules/autobind-decorator';
+import autobind from 'autobind-decorator';
 
 const DEFAULT_TIMEOUT_MS = 100;
 

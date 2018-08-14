@@ -1,49 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import GraphQlClient from './graphql-client';
-import { fetchSimpleQuery } from './queries/SimpleQuery';
+
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
-import { LoginForm } from './login-form';
+import { IndexPage } from './index-page';
+import { AppSessionInfo } from './app-session-info';
+import { AppServerInfo } from './app-server-info';
+import { getAppStaticContext } from './app-static-context';
+
 
 export interface AppProps {
-  /**
-   * The URL of the server's static files, e.g. "/static/".
-   */
-  staticURL: string;
+  /** The initial URL to render on page load. */
+  initialURL: string;
 
-  /**
-   * The URL of the server's Django admin, e.g. "/admin/".
-   */
-  adminIndexURL: string;
+  /** The initial session state the App was started with. */
+  initialSession: AppSessionInfo;
 
-  /**
-   * The username of the currently logged-in user, or null if not logged-in.
-   */
-  username: string|null;
-
-  /**
-   * Whether the site is in development mode (corresponds to settings.DEBUG in
-   * the Django app).
-   */
-  debug: boolean;
-
-  /** The GraphQL client to use for requests. */
-  gqlClient?: GraphQlClient;
-
-  /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
-  batchGraphQLURL?: string;
-
-  /** The CSRF token; required if a GraphQL client is not provided. */
-  csrfToken?: string;
+  /** Metadata about the server. */
+  server: AppServerInfo;
 }
 
 interface AppState {
-  csrfToken: string;
-  simpleQueryResult?: string;
-  username: string|null;
+  /**
+   * The current session state of the App, which can
+   * be different from the initial session if e.g. the user
+   * has logged out since the initial page load.
+   */
+  session: AppSessionInfo;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -51,24 +38,11 @@ export class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
-    if (props.gqlClient) {
-      this.gqlClient = props.gqlClient;
-    } else {
-      if (!this.props.batchGraphQLURL || !this.props.csrfToken) {
-        throw new Error("Assertion failure, need props to construct GraphQL client");
-      }
-      this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
-    }
-    this.state = {
-      username: props.username,
-      csrfToken: this.gqlClient.csrfToken
-    };
-  }
-
-  componentDidMount() {
-    fetchSimpleQuery(this.gqlClient.fetch, { thing: (new Date()).toString() }).then(result => {
-      this.setState({ simpleQueryResult: result.hello });
-    }).catch(this.handleFetchError);
+    this.gqlClient = new GraphQlClient(
+      props.server.batchGraphQLURL,
+      props.initialSession.csrfToken
+    );
+    this.state = { session: props.initialSession };
   }
 
   @autobind
@@ -81,7 +55,13 @@ export class App extends React.Component<AppProps, AppState> {
   handleLogout() {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
-        this.setState({ username: null, csrfToken: result.logout.csrfToken });
+        this.setState(state => ({
+          session: {
+            ...state.session,
+            username: null,
+            csrfToken: result.logout.csrfToken
+          },
+        }));
         return;
       }
       throw new Error('Assertion failure, logout should always be ok');
@@ -95,7 +75,13 @@ export class App extends React.Component<AppProps, AppState> {
       password: password
     }).then(result => {
       if (result.login.ok) {
-        this.setState({ username, csrfToken: result.login.csrfToken });
+        this.setState(state => ({
+          session: {
+            ...state.session,
+            username,
+            csrfToken: result.login.csrfToken
+          }
+        }));
       } else {
         window.alert("Invalid username or password.");
       }
@@ -106,71 +92,47 @@ export class App extends React.Component<AppProps, AppState> {
     if (prevProps !== this.props) {
       throw new Error('Assertion failure, props are not expected to change');
     }
-    if (prevState.csrfToken !== this.state.csrfToken) {
-      this.gqlClient.csrfToken = this.state.csrfToken;
+    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
+      this.gqlClient.csrfToken = this.state.session.csrfToken;
     }
   }
 
   render() {
-    const { props, state } = this;
-
-    let debugInfo = null;
-
-    if (props.debug) {
-      debugInfo = (
-        <React.Fragment>
-          <p>
-            For more details on the size of our JS bundle, see the {` `}
-            <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
-          </p>
-          <p>
-            You can interactively inspect GraphQL queries with <a href="/graphiql">GraphiQL</a>.
-          </p>
-          <p>
-            Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
-            you will probably want to run <code>manage.py createsuperuser</code> first.
-          </p>
-        </React.Fragment>
-      );
-    }
-
-    let loginInfo;
-
-    if (state.username) {
-      loginInfo = (
-        <React.Fragment>
-          <p>You are currently logged in as {state.username}.</p>
-          <p><button className="button is-primary" onClick={this.handleLogout}>Logout</button></p>
-        </React.Fragment>
-      );
-    } else {
-      loginInfo = (
-        <React.Fragment>
-          <p>You are currently logged out.</p>
-          <LoginForm onSubmit={this.handleLoginSubmit} />
-        </React.Fragment>
-      );
-    }
-
     return (
-      <section className="hero is-fullheight">
-        <div className="hero-head"></div>
-        <div className="hero-body">
-          <div className="container content box has-background-white">
-            <h1 className="title">Ahoy, { props.debug ? "developer" : "human" }! </h1>
-            {loginInfo}
-            {debugInfo}
-            {state.simpleQueryResult ? <p>GraphQL says <strong>{state.simpleQueryResult}</strong>.</p> : null}
-          </div>
-        </div>
-        <div className="hero-foot"></div>
-      </section>
+      <Switch>
+        <Route path="/" exact>
+          <IndexPage
+           gqlClient={this.gqlClient}
+           server={this.props.server}
+           session={this.state.session}
+           onFetchError={this.handleFetchError}
+           onLogout={this.handleLogout}
+           onLoginSubmit={this.handleLoginSubmit}
+          />
+        </Route>
+        <Route path="/about" exact>
+          <p>This is another page.</p>
+        </Route>
+        <Route render={(props) => {
+          const staticContext = getAppStaticContext(props);
+          if (staticContext) {
+            staticContext.statusCode = 404;
+          }
+          return (
+            <p>Sorry, the page you are looking for doesn't seem to exist.</p>
+          );
+        }} />
+      </Switch>
     );
   }
 }
 
 export function startApp(container: Element, initialProps: AppProps) {
-  const el = <App {...initialProps}/>;
+  const el = (
+    <BrowserRouter>
+      <App {...initialProps}/>
+    </BrowserRouter>
+  );
   if (container.children.length) {
     // Initial content has been generated server-side, so bind to it.
     ReactDOM.hydrate(el, container);

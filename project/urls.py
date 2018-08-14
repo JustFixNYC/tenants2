@@ -14,17 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.conf import settings
 from graphene_django.views import GraphQLView
 
-from .views import index
+from .views import react_rendered_view
 
 
 urlpatterns = [
-    path('', index),
     path('admin/', admin.site.urls),
-
     path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
 ]
 
@@ -34,3 +32,5 @@ if settings.DEBUG:
     # graphiql.
     urlpatterns.append(
         path('graphiql', GraphQLView.as_view(graphiql=True)))
+
+urlpatterns.append(re_path(r'^(?P<url>.*)$', react_rendered_view))

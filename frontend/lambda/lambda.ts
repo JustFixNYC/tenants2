@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
@@ -59,6 +60,13 @@ function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
 }
 
 if (!module.parent) {
+  // We're outputting our result to stdout, so we want all
+  // console.log() statements to go to stderr, so they don't
+  // corrupt our output.
+  Object.defineProperty(global, 'console', {
+    value: new Console(process.stderr)
+  });
+
   handleFromJSONStream(process.stdin).then(buf => {
     process.stdout.write(buf);
     process.exit(0);

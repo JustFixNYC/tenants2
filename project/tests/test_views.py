@@ -3,3 +3,8 @@ def test_index_works(client):
     assert response.status_code == 200
     assert b"JustFix.nyc" in response.content
     assert b"data-reactroot" in response.content
+
+
+def test_404_works(client):
+    response = client.get('/nonexistent')
+    assert response.status_code == 404

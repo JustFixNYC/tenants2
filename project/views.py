@@ -1,5 +1,6 @@
 import json
 import subprocess
+from typing import NamedTuple
 from django.utils.safestring import SafeString
 from django.shortcuts import render
 from django.middleware import csrf
@@ -9,7 +10,12 @@ from django.conf import settings
 from project.justfix_environment import BASE_DIR
 
 
-def get_initial_render(initial_props) -> SafeString:
+class LambdaResponse(NamedTuple):
+    html: SafeString
+    status: int
+
+
+def run_react_lambda(initial_props) -> LambdaResponse:
     result = subprocess.run(
         ['node', 'lambda.js'],
         input=json.dumps(initial_props).encode('utf-8'),
@@ -17,7 +23,15 @@ def get_initial_render(initial_props) -> SafeString:
         check=True,
         cwd=BASE_DIR
     )
-    return SafeString(result.stdout.decode('utf-8'))
+
+    # The structure of this response is defined in
+    # the LambdaResponse interface in frontend/lambda/lambda.ts.
+    response = json.loads(result.stdout.decode('utf-8'))
+
+    return LambdaResponse(
+        html=SafeString(response['html']),
+        status=response['status']
+    )
 
 
 def react_rendered_view(request, url):
@@ -43,7 +57,9 @@ def react_rendered_view(request, url):
         },
     }
 
+    lambda_response = run_react_lambda(initial_props)
+
     return render(request, 'index.html', {
-        'initial_render': get_initial_render(initial_props),
+        'initial_render': lambda_response.html,
         'initial_props': initial_props,
-    })
+    }, status=lambda_response.status)

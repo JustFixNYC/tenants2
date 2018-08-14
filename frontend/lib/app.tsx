@@ -10,6 +10,7 @@ import { fetchLoginMutation } from './queries/LoginMutation';
 import { IndexPage } from './index-page';
 import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
+import { getAppStaticContext } from './app-static-context';
 
 
 export interface AppProps {
@@ -112,9 +113,15 @@ export class App extends React.Component<AppProps, AppState> {
         <Route path="/about" exact>
           <p>This is another page.</p>
         </Route>
-        <Route>
-          <p>Sorry, the page you are looking for doesn't seem to exist.</p>
-        </Route>
+        <Route render={(props) => {
+          const staticContext = getAppStaticContext(props);
+          if (staticContext) {
+            staticContext.statusCode = 404;
+          }
+          return (
+            <p>Sorry, the page you are looking for doesn't seem to exist.</p>
+          );
+        }} />
       </Switch>
     );
   }

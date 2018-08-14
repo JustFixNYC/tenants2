@@ -4,21 +4,41 @@ import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
 import { App, AppProps } from '../lib/app';
+import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+
+/**
+ * This is the structure that our lambda returns to clients.
+ */
+interface LambdaResponse {
+  /** The HTML of the initial render of the page. */
+  html: string;
+
+  /** The HTTP status code of the page. */
+  status: number;
+}
 
 /**
  * This is a handler for serverless environments that,
  * given initial app properties, returns the initial
- * HTML rendering of the app.
+ * HTML rendering of the app, along with other response
+ * metadata.
  * 
  * @param event The initial properties for our app.
  */
-function handler(event: AppProps): Promise<string> {
-  return new Promise<string>(resolve => {
+function handler(event: AppProps): Promise<LambdaResponse> {
+  return new Promise<LambdaResponse>(resolve => {
+    const context: AppStaticContext = {
+      statusCode: 200,
+    };
     const el = React.createElement(StaticRouter, {
       location: event.initialURL,
-      context: {}
+      context: appStaticContextAsStaticRouterContext(context)
     }, React.createElement(App, event));
-    resolve(ReactDOMServer.renderToString(el));
+    const html = ReactDOMServer.renderToString(el);
+    resolve({
+      html,
+      status: context.statusCode
+    });
   });
 }
 
@@ -52,8 +72,8 @@ function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
       } catch (e) {
         return reject(e);
       }
-      handler(obj as AppProps).then(html => {
-        resolve(Buffer.from(html, 'utf-8'));
+      handler(obj as AppProps).then(response => {
+        resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
       }).catch(reject);
     });
   });

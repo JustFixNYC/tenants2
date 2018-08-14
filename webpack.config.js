@@ -13,7 +13,19 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 /**
  * @typedef {import("webpack").Configuration} WebpackConfig
  * @typedef {import("webpack").Plugin} WebpackPlugin
+ * @typedef {import("ts-loader").Options} TsLoaderOptions
  */
+
+/** @type Partial<TsLoaderOptions> */
+const tsLoaderOptions = {
+  /**
+   * Without this setting, TypeScript compiles *everything* including
+   * files not relevant to the bundle we're building, which often
+   * results in spurious errors. For more information, see
+   * https://github.com/TypeStrong/ts-loader/issues/267.
+   */
+  onlyCompileBundledFiles: true
+};
 
 /**
  * This creates a webpack configuration for a command-line
@@ -42,7 +54,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'ts-loader' }
+            { loader: 'ts-loader', options: tsLoaderOptions }
           ]
         },
       ]
@@ -98,7 +110,7 @@ const webConfig = {
         exclude: /node_modules/,
         use: [
           { loader: 'babel-loader' },
-          { loader: 'ts-loader' }
+          { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },
     ]

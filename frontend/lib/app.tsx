@@ -8,46 +8,25 @@ import GraphQlClient from './graphql-client';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { IndexPage } from './index-page';
+import { AppRequestInfo } from './app-request-info';
+import { AppServerInfo } from './app-server-info';
 
 
 export interface AppProps {
-  /** The URL to render */
-  url: string;
+  /** The initial request that the App was started with. */
+  initialRequest: AppRequestInfo;
 
-  /**
-   * The URL of the server's static files, e.g. "/static/".
-   */
-  staticURL: string;
-
-  /**
-   * The URL of the server's Django admin, e.g. "/admin/".
-   */
-  adminIndexURL: string;
-
-  /**
-   * The username of the currently logged-in user, or null if not logged-in.
-   */
-  username: string|null;
-
-  /**
-   * Whether the site is in development mode (corresponds to settings.DEBUG in
-   * the Django app).
-   */
-  debug: boolean;
-
-  /** The GraphQL client to use for requests. */
-  gqlClient?: GraphQlClient;
-
-  /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
-  batchGraphQLURL?: string;
-
-  /** The CSRF token; required if a GraphQL client is not provided. */
-  csrfToken?: string;
+  /** Metadata about the server. */
+  server: AppServerInfo;
 }
 
 interface AppState {
-  csrfToken: string;
-  username: string|null;
+  /**
+   * The current request that the App is serving, which can
+   * be different from the initial request if e.g. the user
+   * has navigated since the initial page load.
+   */
+  request: AppRequestInfo;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -55,18 +34,11 @@ export class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
-    if (props.gqlClient) {
-      this.gqlClient = props.gqlClient;
-    } else {
-      if (!this.props.batchGraphQLURL || !this.props.csrfToken) {
-        throw new Error("Assertion failure, need props to construct GraphQL client");
-      }
-      this.gqlClient = new GraphQlClient(this.props.batchGraphQLURL, this.props.csrfToken);
-    }
-    this.state = {
-      username: props.username,
-      csrfToken: this.gqlClient.csrfToken
-    };
+    this.gqlClient = new GraphQlClient(
+      props.server.batchGraphQLURL,
+      props.initialRequest.csrfToken
+    );
+    this.state = { request: props.initialRequest };
   }
 
   @autobind
@@ -79,7 +51,13 @@ export class App extends React.Component<AppProps, AppState> {
   handleLogout() {
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
-        this.setState({ username: null, csrfToken: result.logout.csrfToken });
+        this.setState(state => ({
+          request: {
+            ...state.request,
+            username: null,
+            csrfToken: result.logout.csrfToken
+          },
+        }));
         return;
       }
       throw new Error('Assertion failure, logout should always be ok');
@@ -93,7 +71,13 @@ export class App extends React.Component<AppProps, AppState> {
       password: password
     }).then(result => {
       if (result.login.ok) {
-        this.setState({ username, csrfToken: result.login.csrfToken });
+        this.setState(state => ({
+          request: {
+            ...state.request,
+            username,
+            csrfToken: result.login.csrfToken
+          }
+        }));
       } else {
         window.alert("Invalid username or password.");
       }
@@ -104,8 +88,8 @@ export class App extends React.Component<AppProps, AppState> {
     if (prevProps !== this.props) {
       throw new Error('Assertion failure, props are not expected to change');
     }
-    if (prevState.csrfToken !== this.state.csrfToken) {
-      this.gqlClient.csrfToken = this.state.csrfToken;
+    if (prevState.request.csrfToken !== this.state.request.csrfToken) {
+      this.gqlClient.csrfToken = this.state.request.csrfToken;
     }
   }
 
@@ -117,10 +101,8 @@ export class App extends React.Component<AppProps, AppState> {
         <Route path="/" exact>
           <IndexPage
            gqlClient={this.gqlClient}
-           staticURL={props.staticURL}
-           adminIndexURL={props.adminIndexURL}
-           debug={props.debug}
-           username={state.username}
+           server={this.props.server}
+           request={this.state.request}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

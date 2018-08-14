@@ -3,15 +3,13 @@ import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 
 import { IndexPage, IndexPageProps  } from '../index-page';
-import { createTestGraphQlClient } from './util';
+import { createTestGraphQlClient, FakeServerInfo, FakeRequestInfo } from './util';
 
 test('index page issues a SimpleQuery when mounted', () => {
   const { client } = createTestGraphQlClient();
   const props: IndexPageProps = {
-    staticURL: '/mystatic/',
-    adminIndexURL: '/myadmin/',
-    username: 'boop',
-    debug: false,
+    server: FakeServerInfo,
+    request: FakeRequestInfo,
     gqlClient: client,
     onFetchError: jest.fn(),
     onLogout: jest.fn(),

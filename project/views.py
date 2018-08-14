@@ -30,13 +30,17 @@ def react_rendered_view(request, url):
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
     initial_props = {
-        'url': f'/{url}',
-        'staticURL': settings.STATIC_URL,
-        'adminIndexURL': reverse('admin:index'),
-        'batchGraphQLURL': reverse('batch-graphql'),
-        'csrfToken': csrf.get_token(request),
-        'username': username,
-        'debug': settings.DEBUG
+        'initialRequest': {
+            'url': f'/{url}',
+            'csrfToken': csrf.get_token(request),
+            'username': username,
+        },
+        'server': {
+            'staticURL': settings.STATIC_URL,
+            'adminIndexURL': reverse('admin:index'),
+            'batchGraphQLURL': reverse('batch-graphql'),
+            'debug': settings.DEBUG
+        },
     }
 
     return render(request, 'index.html', {

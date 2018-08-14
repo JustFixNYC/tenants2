@@ -12,10 +12,9 @@ import { App, AppProps } from '../lib/app';
  * @param event The initial properties for our app.
  */
 function handler(event: AppProps): Promise<string> {
-  process.stderr.write(`hmmm ${event.url}\n`);
   return new Promise<string>(resolve => {
     const el = React.createElement(StaticRouter, {
-      location: event.url,
+      location: event.initialRequest.url,
       context: {}
     }, React.createElement(App, event));
     resolve(ReactDOMServer.renderToString(el));

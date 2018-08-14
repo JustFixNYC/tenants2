@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
+import { AppServerInfo } from './app-server-info';
+import { AppRequestInfo } from './app-request-info';
 
 export interface IndexPageProps {
   gqlClient: GraphQlClient;
-  staticURL: string;
-  adminIndexURL: string;
-  debug: boolean;
-  username: string|null;
+  server: AppServerInfo;
+  request: AppRequestInfo;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (username: string, password: string) => void;
@@ -34,21 +34,22 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
 
   render() {
     const { props, state } = this;
+    const { request, server } = this.props;
 
     let debugInfo = null;
 
-    if (props.debug) {
+    if (server.debug) {
       debugInfo = (
         <React.Fragment>
           <p>
             For more details on the size of our JS bundle, see the {` `}
-            <a href={`${props.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
+            <a href={`${server.staticURL}frontend/report.html`}>webpack bundle analysis report</a>.
           </p>
           <p>
             You can interactively inspect GraphQL queries with <a href="/graphiql">GraphiQL</a>.
           </p>
           <p>
-            Or you can visit the <a href={props.adminIndexURL}>admin</a>, though
+            Or you can visit the <a href={server.adminIndexURL}>admin</a>, though
             you will probably want to run <code>manage.py createsuperuser</code> first.
           </p>
         </React.Fragment>
@@ -57,10 +58,10 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
 
     let loginInfo;
 
-    if (props.username) {
+    if (request.username) {
       loginInfo = (
         <React.Fragment>
-          <p>You are currently logged in as {props.username}.</p>
+          <p>You are currently logged in as {request.username}.</p>
           <p><button className="button is-primary" onClick={props.onLogout}>Logout</button></p>
         </React.Fragment>
       );
@@ -78,7 +79,7 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
         <div className="hero-head"></div>
         <div className="hero-body">
           <div className="container content box has-background-white">
-            <h1 className="title">Ahoyy, { props.debug ? "developer" : "human" }! </h1>
+            <h1 className="title">Ahoyy, { server.debug ? "developer" : "human" }! </h1>
             {loginInfo}
             {debugInfo}
             <p>Go to <Link to="/about">another page</Link>.</p>

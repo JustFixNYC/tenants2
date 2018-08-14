@@ -10,7 +10,7 @@ import { AppSessionInfo } from './app-session-info';
 export interface IndexPageProps {
   gqlClient: GraphQlClient;
   server: AppServerInfo;
-  request: AppSessionInfo;
+  session: AppSessionInfo;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (username: string, password: string) => void;
@@ -34,7 +34,7 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
 
   render() {
     const { props, state } = this;
-    const { request, server } = this.props;
+    const { session, server } = this.props;
 
     let debugInfo = null;
 
@@ -58,10 +58,10 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
 
     let loginInfo;
 
-    if (request.username) {
+    if (session.username) {
       loginInfo = (
         <React.Fragment>
-          <p>You are currently logged in as {request.username}.</p>
+          <p>You are currently logged in as {session.username}.</p>
           <p><button className="button is-primary" onClick={props.onLogout}>Logout</button></p>
         </React.Fragment>
       );
@@ -79,7 +79,7 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
         <div className="hero-head"></div>
         <div className="hero-body">
           <div className="container content box has-background-white">
-            <h1 className="title">Ahoyy, { server.debug ? "developer" : "human" }! </h1>
+            <h1 className="title">Ahoy, { server.debug ? "developer" : "human" }! </h1>
             {loginInfo}
             {debugInfo}
             <p>Go to <Link to="/about">another page</Link>.</p>

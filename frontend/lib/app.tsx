@@ -26,8 +26,8 @@ export interface AppProps {
 
 interface AppState {
   /**
-   * The current request that the App is serving, which can
-   * be different from the initial request if e.g. the user
+   * The current session state of the App, which can
+   * be different from the initial session if e.g. the user
    * has logged out since the initial page load.
    */
   session: AppSessionInfo;
@@ -104,7 +104,7 @@ export class App extends React.Component<AppProps, AppState> {
           <IndexPage
            gqlClient={this.gqlClient}
            server={this.props.server}
-           request={this.state.session}
+           session={this.state.session}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

@@ -11,6 +11,13 @@ from project.justfix_environment import BASE_DIR
 
 
 class LambdaResponse(NamedTuple):
+    '''
+    Encapsulates the result of the server-side renderer.
+
+    This is more or less the same as the LambdaResponse
+    interface defined in frontend/lambda/lambda.ts.
+    '''
+
     html: SafeString
     status: int
 
@@ -24,8 +31,6 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         cwd=BASE_DIR
     )
 
-    # The structure of this response is defined in
-    # the LambdaResponse interface in frontend/lambda/lambda.ts.
     response = json.loads(result.stdout.decode('utf-8'))
 
     return LambdaResponse(

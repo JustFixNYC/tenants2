@@ -31,7 +31,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   batchGraphQLURL: '/mygarphql'
 };
 
-export const FakeRequestInfo: Readonly<AppSessionInfo> = {
+export const FakeSessionInfo: Readonly<AppSessionInfo> = {
   username: null,
   csrfToken: 'mycsrf',
 };

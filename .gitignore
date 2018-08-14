@@ -9,6 +9,7 @@ lambda.js.map
 .justfix-env
 .coverage
 node_modules/
+tsc-build/
 frontend/static/frontend/*.js
 frontend/static/frontend/*.css
 frontend/static/frontend/*.map

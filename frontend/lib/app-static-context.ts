@@ -15,7 +15,7 @@ export interface AppStaticContext {
  * This is an extremely awkward workaround to what appears to be a
  * bug in react-router's typings.
  */
-export function appStaticContextAsStaticRouterContext(obj: AppStaticContext) {
+export function appStaticContextAsStaticRouterContext(obj: AppStaticContext): StaticRouterContext {
   return obj as StaticRouterContext;
 }
 

@@ -288,7 +288,8 @@ class BaseEnvironment:
                  env: MutableMapping[str, str] = os.environ,
                  converters: Type[Converters] = Converters,
                  err_output: IO = sys.stderr,
-                 exit_when_invalid=False) -> None:
+                 exit_when_invalid=False,
+                 throw_when_invalid=True) -> None:
         self.env = env
         self.converters = converters
         self.err_output = err_output
@@ -302,7 +303,7 @@ class BaseEnvironment:
                 typed_env[var.name] = self._resolve_value(var)
             except ValueError as e:
                 errors[var] = e.args[0]
-        if errors:
+        if errors and (throw_when_invalid or exit_when_invalid):
             self._fail(errors)
         self.__dict__.update(typed_env)
 

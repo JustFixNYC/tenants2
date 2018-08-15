@@ -50,7 +50,7 @@ def test_get_docs_work():
     }
 
 
-def test_system_exit_is_raised():
+def test_system_exit_is_raised_if_exit_when_invalid_is_true():
     class SystemExitEnv(typed_environ.BaseEnvironment):
         BLAH: bool
 
@@ -58,6 +58,16 @@ def test_system_exit_is_raised():
         SystemExitEnv(exit_when_invalid=True)
 
     assert excinfo.value.args[0] == 1
+
+
+def test_nothing_is_raised_if_throw_when_invalid_is_false():
+    class YuckyEnv(typed_environ.BaseEnvironment):
+        BLAH: bool
+        THINGY: bool = True
+
+    e = YuckyEnv(throw_when_invalid=False)
+    assert e.THINGY is True
+    assert not hasattr(e, 'BLAH')
 
 
 def test_multiple_missing_values_are_logged():

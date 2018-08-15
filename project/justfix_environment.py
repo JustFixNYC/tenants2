@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+from typing import Type
 
 from .util import typed_environ
 
@@ -27,17 +27,28 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # be false in production).
     DEBUG: bool = False
 
+    # This is only useful when DEBUG is False. If it is True, it
+    # applies all development defaults. Useful for testing
+    # production-like setups in a jiffy.
+    USE_DEVELOPMENT_DEFAULTS: bool = False
 
-class JustfixDebugEnvironment(JustfixEnvironment):
+
+class JustfixDevelopmentDefaults(JustfixEnvironment):
+    '''
+    Reasonable defaults for developing the project.
+    '''
+
+    SECRET_KEY = 'for development only!'
+
+    DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+
+
+class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
     '''
     These are the environment defaults when DEBUG is set.
     '''
 
     DEBUG = True
-
-    SECRET_KEY = 'for development only!'
-
-    DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 
 
 class JustfixTestingEnvironment(JustfixEnvironment):
@@ -60,10 +71,15 @@ def get() -> JustfixEnvironment:
         # dotenv is a dev dependency, so no biggie if it can't be found.
         pass
 
+    env_class: Type[JustfixEnvironment] = JustfixEnvironment
+
     if IS_RUNNING_TESTS:
-        return JustfixTestingEnvironment(exit_when_invalid=True)
-    is_debug = typed_environ.Converters.convert_bool(
-        os.environ.get('DEBUG', 'no'))
-    if is_debug:
-        return JustfixDebugEnvironment(exit_when_invalid=True)
-    return JustfixEnvironment(exit_when_invalid=True)
+        env_class = JustfixTestingEnvironment
+    else:
+        env = JustfixEnvironment(throw_when_invalid=False)
+        if env.DEBUG:
+            env_class = JustfixDebugEnvironment
+        elif env.USE_DEVELOPMENT_DEFAULTS:
+            env_class = JustfixDevelopmentDefaults
+
+    return env_class(exit_when_invalid=True)

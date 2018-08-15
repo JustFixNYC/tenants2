@@ -163,6 +163,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 
+STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
 }

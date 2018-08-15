@@ -1,4 +1,6 @@
 [![CircleCI](https://circleci.com/gh/JustFixNYC/tenants2.svg?style=svg)](https://circleci.com/gh/JustFixNYC/tenants2)
+[![Maintainability](https://api.codeclimate.com/v1/badges/de475123649c132f858b/maintainability)](https://codeclimate.com/github/JustFixNYC/tenants2/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/de475123649c132f858b/test_coverage)](https://codeclimate.com/github/JustFixNYC/tenants2/test_coverage)
 
 This is an attempt at creating a new Tenants app for JustFix.
 

@@ -4,4 +4,3 @@ version: 2
 exclude_patterns:
 - ".venv/"
 - "**/migrations/*"
-- "**/tests/*"

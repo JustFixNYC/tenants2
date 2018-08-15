@@ -10,6 +10,7 @@ lambda.js.map
 .coverage
 node_modules/
 tsc-build/
+coverage/
 frontend/static/frontend/*.js
 frontend/static/frontend/*.css
 frontend/static/frontend/*.map

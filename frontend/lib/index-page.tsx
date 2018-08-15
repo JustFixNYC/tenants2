@@ -32,14 +32,11 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
     }).catch(this.props.onFetchError);
   }
 
-  render() {
-    const { props, state } = this;
-    const { session, server } = this.props;
-
-    let debugInfo = null;
+  renderDebugInfo(): JSX.Element|null {
+    const { server } = this.props;
 
     if (server.debug) {
-      debugInfo = (
+      return (
         <React.Fragment>
           <p>
             For more details on the size of our JS bundle, see the {` `}
@@ -56,23 +53,32 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
       );
     }
 
-    let loginInfo;
+    return null;
+  }
+
+  renderLoginInfo(): JSX.Element {
+    const { props } = this;
+    const { session } = props;
 
     if (session.username) {
-      loginInfo = (
+      return (
         <React.Fragment>
           <p>You are currently logged in as {session.username}.</p>
           <p><button className="button is-primary" onClick={props.onLogout}>Logout</button></p>
         </React.Fragment>
       );
-    } else {
-      loginInfo = (
-        <React.Fragment>
-          <p>You are currently logged out.</p>
-          <LoginForm onSubmit={props.onLoginSubmit} />
-        </React.Fragment>
-      );
     }
+    return (
+      <React.Fragment>
+        <p>You are currently logged out.</p>
+        <LoginForm onSubmit={props.onLoginSubmit} />
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    const { state } = this;
+    const { server } = this.props;
 
     return (
       <section className="hero is-fullheight">
@@ -80,8 +86,8 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
         <div className="hero-body">
           <div className="container content box has-background-white">
             <h1 className="title">Ahoy, { server.debug ? "developer" : "human" }! </h1>
-            {loginInfo}
-            {debugInfo}
+            {this.renderLoginInfo()}
+            {this.renderDebugInfo()}
             <p>Go to <Link to="/about">another page</Link>.</p>
             {state.simpleQueryResult ? <p>GraphQL says <strong>{state.simpleQueryResult}</strong>.</p> : null}
           </div>

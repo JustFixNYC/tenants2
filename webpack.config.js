@@ -59,7 +59,24 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'ts-loader', options: tsLoaderOptions }
+            {
+              loader: 'ts-loader',
+              options: {
+                ...tsLoaderOptions,
+                compilerOptions: {
+                  /**
+                   * We don't want to pass "import" statements directly
+                   * to Node because it doesn't like them, so have TypeScript
+                   * convert them to require() calls.
+                   * 
+                   * Also note that we're not being very type-safe here,
+                   * because of a bug in ts-loader/typescript's typings that
+                   * expect "module" to be a numeric enum instead of a string.
+                   */
+                  module: 'commonjs',
+                }
+              }
+            }
           ]
         },
       ]
@@ -102,11 +119,14 @@ function getPlugins() {
  */
 const webConfig = {
   target: 'web',
-  entry: ['babel-polyfill', './frontend/lib/main.ts'],
+  entry: {
+    main: ['babel-polyfill', './frontend/lib/main.ts'],
+  },
   devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
   mode: MODE,
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {

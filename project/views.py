@@ -58,6 +58,8 @@ def react_rendered_view(request, url: str):
         username = None
 
     url = f'/{url}'
+    webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
+    main_js_bundle_url = f'{webpack_public_path_url}main.bundle.js'
 
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
@@ -70,6 +72,7 @@ def react_rendered_view(request, url: str):
         },
         'server': {
             'staticURL': settings.STATIC_URL,
+            'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),
             'batchGraphQLURL': reverse('batch-graphql'),
             'debug': settings.DEBUG
@@ -81,6 +84,7 @@ def react_rendered_view(request, url: str):
     logger.info(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 
     return render(request, 'index.html', {
+        'main_js_bundle_url': main_js_bundle_url,
         'initial_render': lambda_response.html,
         'initial_props': initial_props,
     }, status=lambda_response.status)

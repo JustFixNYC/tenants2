@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch';
 import autobind from 'autobind-decorator';
 
 const DEFAULT_TIMEOUT_MS = 100;
@@ -13,6 +12,13 @@ interface queuedRequest {
   variables?: any;
   resolve: (result: any) => void;
   reject: (error: Error) => void;
+}
+
+async function getFetch(): Promise<typeof fetch> {
+  if (typeof(fetch) === 'function') {
+    return Promise.resolve(fetch);
+  }
+  return (await import(/* webpackChunkName: "fetch" */ 'isomorphic-fetch')).default;
 }
 
 export class GraphQlError extends Error {
@@ -30,7 +36,7 @@ export default class GraphQlClient {
     readonly batchGraphQLURL: string,
     csrfToken: string,
     readonly timeoutMs: number|null = DEFAULT_TIMEOUT_MS,
-    readonly fetchImpl: typeof fetch = fetch
+    readonly fetchImpl: typeof fetch|null = null
   ) {
     this.csrfToken = csrfToken;
   }
@@ -52,7 +58,8 @@ export default class GraphQlClient {
   }
 
   private async fetchBodies(bodies: GraphQLBody[]): Promise<Response> {
-    return this.fetchImpl(this.batchGraphQLURL, {
+    const fetch = this.fetchImpl || (await getFetch());
+    return fetch(this.batchGraphQLURL, {
       method: 'POST',
       credentials: "same-origin",
       headers: {

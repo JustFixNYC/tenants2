@@ -9,6 +9,6 @@
     <body>
         <div id="main">{{ initial_render }}</div>
         {{ initial_props|json_script:'initial-props' }}
-        <script src="{% static "frontend/bundle.js" %}"></script>
+        <script src="{{ main_js_bundle_url }}"></script>
     </body>
 </html>

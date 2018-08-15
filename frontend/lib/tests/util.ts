@@ -26,6 +26,7 @@ export function createTestGraphQlClient(enableTimeout: boolean = false): TestCli
 
 export const FakeServerInfo: Readonly<AppServerInfo> = {
   staticURL: '/mystatic/',
+  webpackPublicPathURL: '/mystatic/myfrontend/',
   adminIndexURL: '/myadmin/',  
   debug: false,
   batchGraphQLURL: '/mygarphql'

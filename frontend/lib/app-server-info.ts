@@ -5,6 +5,11 @@ export interface AppServerInfo {
   staticURL: string;
 
   /**
+   * The URL to generated webpack bundles for lazy-loading, e.g. "/static/frontend/".
+   */
+  webpackPublicPathURL: string;
+
+  /**
    * The URL of the server's Django admin, e.g. "/admin/".
    */
   adminIndexURL: string;

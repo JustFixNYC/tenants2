@@ -1,4 +1,10 @@
 // @ts-check
+/**
+ * @typedef {import("webpack").Configuration} WebpackConfig
+ * @typedef {import("webpack").Plugin} WebpackPlugin
+ * @typedef {import("ts-loader").Options} TsLoaderOptions
+ */
+
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
@@ -12,11 +18,8 @@ try {
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-/**
- * @typedef {import("webpack").Configuration} WebpackConfig
- * @typedef {import("webpack").Plugin} WebpackPlugin
- * @typedef {import("ts-loader").Options} TsLoaderOptions
- */
+ /** @type WebpackConfig["mode"] */
+const MODE = IS_PRODUCTION ? 'production' : 'development';
 
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {
@@ -44,7 +47,7 @@ function createNodeScriptConfig(entry, filename) {
     // Tried source-map-support but the line numbers are weird, so
     // disabling source map support for now.
     devtool: undefined,
-    mode: 'development',
+    mode: MODE,
     externals: [nodeExternals()],
     output: {
       filename,
@@ -56,7 +59,24 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'ts-loader', options: tsLoaderOptions }
+            {
+              loader: 'ts-loader',
+              options: {
+                ...tsLoaderOptions,
+                compilerOptions: {
+                  /**
+                   * We don't want to pass "import" statements directly
+                   * to Node because it doesn't like them, so have TypeScript
+                   * convert them to require() calls.
+                   * 
+                   * Also note that we're not being very type-safe here,
+                   * because of a bug in ts-loader/typescript's typings that
+                   * expect "module" to be a numeric enum instead of a string.
+                   */
+                  module: 'commonjs',
+                }
+              }
+            }
           ]
         },
       ]
@@ -68,27 +88,28 @@ function createNodeScriptConfig(entry, filename) {
 }
 
 /**
- * This returns an array of webpack plugins used for development,
- * or an empty array if we're on a production deployment.
+ * This returns an array of webpack plugins.
  * 
- * It includes dynamic require() calls because the modules
+ * It includes dynamic require() calls because some modules
  * won't be installed on production deployments.
  * 
  * @returns {WebpackPlugin[]} The array of plugins.
  */
-function getWebDevPlugins() {
-  if (IS_PRODUCTION) {
-    return [];
-  }
+function getPlugins() {
+  /** @type WebpackPlugin[] */
+  const plugins = [];
 
-  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
-  return [
-    new BundleAnalyzerPlugin({
+  try {
+    const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    plugins.push(new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-    })
-  ];
+    }));
+  } catch (e) {
+    // The bundle analyzer is a dev dependency, so ignore if it's not found.
+  }
+
+  return plugins;
 }
 
 /**
@@ -98,11 +119,14 @@ function getWebDevPlugins() {
  */
 const webConfig = {
   target: 'web',
-  entry: ['babel-polyfill', './frontend/lib/main.ts'],
-  devtool: 'inline-source-map',
-  mode: 'development',
+  entry: {
+    main: ['babel-polyfill', './frontend/lib/main.ts'],
+  },
+  devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
+  mode: MODE,
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {
@@ -117,7 +141,7 @@ const webConfig = {
       },
     ]
   },
-  plugins: getWebDevPlugins(),
+  plugins: getPlugins(),
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },

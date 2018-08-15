@@ -43,8 +43,7 @@ jobs:
             # Combine the test coverage reports
             ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
             # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
-            ./cc-test-reporter upload-coverage || true
-            ./cc-test-reporter after-build --exit-code 0
+            ./cc-test-reporter upload-coverage --debug || true
       - store_test_results:
           path: test-results
       - store_artifacts:

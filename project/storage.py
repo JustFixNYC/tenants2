@@ -14,10 +14,13 @@ class CompressedStaticFilesStorage(StaticFilesStorage):
         * https://code.djangoproject.com/ticket/29677
     '''
 
+    def _compress_path(self, path, compressor):
+        if compressor.should_compress(path):
+            abspath = self.path(path)
+            for compressed_path in compressor.compress(abspath):
+                yield path, compressed_path, True
+
     def post_process(self, paths, **options):
         compressor = Compressor()
         for path in paths:
-            if compressor.should_compress(path):
-                abspath = self.path(path)
-                for compressed_path in compressor.compress(abspath):
-                    yield path, compressed_path, True
+            yield from self._compress_path(path, compressor)

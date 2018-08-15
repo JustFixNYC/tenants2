@@ -7,6 +7,7 @@ jobs:
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
+          CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
     steps:
       - checkout
       - restore_cache:
@@ -21,12 +22,28 @@ jobs:
             - ".venv"
             - "node_modules"
       - run:
+          name: CodeClimate before-build
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+      - run:
           command: |
             node --version
             npm run build
             npm run sass
             npm test
-            pipenv run "pytest"
+            pipenv run "pytest" --cov-report xml:./coverage/python/coverage.xml
+      - run:
+          name: CodeClimate combine and upload coverage
+          command: |
+            # Format the various coverage reports
+            ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.jest.json coverage/jest/lcov.info
+            ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.python.json coverage/python/coverage.xml
+            # Combine the test coverage reports
+            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
+            # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
+            ./cc-test-reporter upload-coverage || true
       - store_test_results:
           path: test-results
       - store_artifacts:

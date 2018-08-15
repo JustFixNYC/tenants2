@@ -3,6 +3,16 @@ module.exports = {
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
+  "roots": [
+    "frontend"
+  ],
+  "collectCoverage": true,
+  "coverageReporters": [
+    "lcov",
+    "text",
+    "html"
+  ],
+  "coverageDirectory": "./coverage/jest/",
   "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": [
     "ts",

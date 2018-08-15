@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'project.apps.DefaultConfig',
     'frontend',
+    'legacy_tenants',
 ]
 
 MIDDLEWARE = [
@@ -168,6 +169,8 @@ STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
 }
+
+LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

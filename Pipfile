@@ -19,6 +19,7 @@ django-csp = "*"
 gunicorn = "*"
 "psycopg2-binary" = "*"
 graphene-django = "*"
+pymongo = "*"
 
 [requires]
 python_version = "3.7"

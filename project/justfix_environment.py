@@ -32,6 +32,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # production-like setups in a jiffy.
     USE_DEVELOPMENT_DEFAULTS: bool = False
 
+    # This is the URL to the MongoDB instance of the legacy
+    # tenants app, e.g. "mongodb://localhost:27017/somedb". If undefined,
+    # connectivity to the legacy tenants app will be disabled.
+    LEGACY_MONGODB_URL: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

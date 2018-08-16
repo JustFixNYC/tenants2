@@ -15,6 +15,6 @@ class Command(BaseCommand):
         user = get_user_by_phone_number(phone)
 
         if user:
-            self.stdout.write(json.dumps(user.dict(), indent=2))
+            self.stdout.write(json.dumps(user.dict(), indent=2, default=str))
         else:
             self.stdout.write(f"No user exists with phone # {phone}.\n")

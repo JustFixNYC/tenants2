@@ -65,6 +65,16 @@ class MongoTenant(MongoObject):
     phone: str
     address: str
     borough: str
+    actionFlags: List[str]
+
+    @property
+    def isRentStabilized(self) -> bool:
+        return 'isRentStabilized' in self.actionFlags
+
+    @property
+    def isHarassmentEligible(self) -> bool:
+        # Yes, the action flag is misspelled in the legacy app.
+        return 'isHarassmentElligible' in self.actionFlags
 
 
 class MongoUser(pydantic.BaseModel):

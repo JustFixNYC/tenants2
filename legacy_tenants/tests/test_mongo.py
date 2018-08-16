@@ -18,6 +18,22 @@ def mock_mongodb():
         yield db
 
 
+def test_is_rent_stabilized_works():
+    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': []})
+    assert tenant.isRentStabilized is False
+
+    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': ['isRentStabilized']})
+    assert tenant.isRentStabilized is True
+
+
+def test_is_harassment_eligible_works():
+    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': []})
+    assert tenant.isHarassmentEligible is False
+
+    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': ['isHarassmentElligible']})
+    assert tenant.isHarassmentEligible is True
+
+
 def test_get_user_by_phone_number_returns_none(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = None
     assert mongo.get_user_by_phone_number('blah') is None

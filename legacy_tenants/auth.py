@@ -1,6 +1,9 @@
 import base64
 import hashlib
+from typing import Optional
 from django.utils.crypto import pbkdf2
+from django.conf import settings
+from django.contrib.auth.models import User
 
 from .mongo import get_db
 
@@ -41,6 +44,8 @@ def try_password(phone: str, password: str) -> bool:
     '''
 
     ident = get_db()['identities'].find_one({'phone': phone})
+    if ident is None:
+        return False
     expected_hash = ident['password'].encode('ascii')
     salt = convert_salt_to_bytes(ident['salt'])
     hashval = base64.b64encode(
@@ -48,3 +53,23 @@ def try_password(phone: str, password: str) -> bool:
     )
 
     return hashval == expected_hash
+
+
+class LegacyTenantsAppBackend:
+    '''
+    A Django authentication backend that authenticates against the
+    legacy tenants app.
+    '''
+
+    def authenticate(self, request, username: Optional[str]=None,
+                     password: Optional[str]=None):
+        if settings.LEGACY_MONGODB_URL and username and password:
+            if try_password(username, password):
+                try:
+                    user = User.objects.get(username=username)
+                except User.DoesNotExist:
+                    user = User(username=username)
+                    user.save()
+                return user
+
+        return None

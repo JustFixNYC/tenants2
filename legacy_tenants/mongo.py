@@ -9,6 +9,11 @@ _db = None
 
 
 class MongoObject(pydantic.BaseModel):
+    '''
+    Base properties shared by all MongoDB documents
+    in the legacy tenants app.
+    '''
+
     id: str
     version: int
     created: datetime.datetime

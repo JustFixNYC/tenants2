@@ -3,17 +3,12 @@ from django.contrib.auth.models import User
 import pytest
 
 from .. import auth
-
-
-SALT = (b'WD\x1c\xef\xbf\xbdw#3\xef\xbf\xbd`\xef'
-        b'\xbf\xbdo\xef\xbf\xbd\xdd\x8dC\xef\xbf\xbd').decode('utf-8')
-
-SALT_BYTES = b'WD\x1c\xfdw#3\xfd`\xfdo\xfdMC\xfd'
-
-PASSWORD_HASH = ("QTpO6r2r4RmHmgSj8cppCtkGVszO+W83K9trJpTtqGeNTIDr"
-                 "4o7DxPUsM3TpQ8jJSMtFASSrWLZPqK0XR/L8Dw==")
-
-PASSWORD = "password"
+from .example_legacy_data import (
+    SALT,
+    SALT_BYTES,
+    PASSWORD_HASH,
+    PASSWORD
+)
 
 
 def test_validate_password_returns_true():

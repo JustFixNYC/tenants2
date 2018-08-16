@@ -8,7 +8,18 @@ import pydantic
 _db = None
 
 
-class MongoIdentity(pydantic.BaseModel):
+class MongoObject(pydantic.BaseModel):
+    id: str
+    version: int
+    created: datetime.datetime
+
+    def __init__(self, *args, **kwargs):
+        kwargs['id'] = str(kwargs['_id'])
+        kwargs['version'] = kwargs['__v']
+        super().__init__(*args, **kwargs)
+
+
+class MongoIdentity(MongoObject):
     '''
     Corresponds to the Identity model of the legacy app.
     '''
@@ -20,7 +31,7 @@ class MongoIdentity(pydantic.BaseModel):
     phone: str
 
 
-class MongoAdvocate(pydantic.BaseModel):
+class MongoAdvocate(MongoObject):
     '''
     Corresponds to the Advocate model of the legacy app.
     '''
@@ -37,7 +48,7 @@ class MongoTenantSharingInfo(pydantic.BaseModel):
     enabled: bool
 
 
-class MongoTenant(pydantic.BaseModel):
+class MongoTenant(MongoObject):
     '''
     Corresponds to the Tenant model of the legacy app.
     '''
@@ -88,7 +99,6 @@ def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
         advocate = db['advocates'].find_one({'_id': user['_userdata']})
     elif user['kind'] == 'Tenant':
         tenant = db['tenants'].find_one({'_id': user['_userdata']})
-
     return MongoUser(**{
         'identity': ident,
         'advocate_info': advocate,

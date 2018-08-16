@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User
 import factory.django
 
-from ..models import (
-    LegacyUserInfo
-)
+from ..models import LegacyUserInfo
 
 
 class UserFactory(factory.django.DjangoModelFactory):

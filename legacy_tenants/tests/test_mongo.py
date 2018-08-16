@@ -26,6 +26,7 @@ def test_get_user_by_phone_number_returns_none(mock_mongodb):
 def test_get_user_by_phone_number_returns_advocate(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = IDENTITY
     mock_mongodb['users'].find_one.return_value = {
+        '_id': 'aewgaeg',
         'kind': 'Advocate',
         '_userdata': 'blah',
     }
@@ -39,6 +40,7 @@ def test_get_user_by_phone_number_returns_advocate(mock_mongodb):
 def test_get_user_by_phone_number_returns_tenant(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = IDENTITY
     mock_mongodb['users'].find_one.return_value = {
+        '_id': 'aewgaeg',
         'kind': 'Tenant',
         '_userdata': 'blah',
     }

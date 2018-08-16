@@ -1,6 +1,7 @@
 import datetime
-from typing import List, Optional
+from typing import List, Optional, Iterator
 import pymongo
+from bson.objectid import ObjectId
 from django.conf import settings
 import pydantic
 
@@ -58,7 +59,7 @@ class MongoTenant(MongoObject):
     Corresponds to the Tenant model of the legacy app.
     '''
 
-    updated: datetime.datetime
+    updated: Optional[datetime.datetime]
     sharing: MongoTenantSharingInfo
     fullName: str
     phone: str
@@ -73,12 +74,24 @@ class MongoUser(pydantic.BaseModel):
     and structure have been changed.
     '''
 
+    id: str
+
     identity: MongoIdentity
 
     # If the user isn't an advocate, this will be None.
     advocate_info: Optional[MongoAdvocate]
 
     tenant_info: Optional[MongoTenant]
+
+
+def get_advocate_tenants(advocate: MongoAdvocate) -> Iterator[MongoTenant]:
+    '''
+    Given an advocate, find all their tenants.
+    '''
+
+    db = get_db()
+    for tenant in db['tenants'].find({'advocate': ObjectId(advocate.id)}):
+        yield MongoTenant(**tenant)
 
 
 def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
@@ -105,6 +118,7 @@ def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
     elif user['kind'] == 'Tenant':
         tenant = db['tenants'].find_one({'_id': user['_userdata']})
     return MongoUser(**{
+        'id': str(user['_id']),
         'identity': ident,
         'advocate_info': advocate,
         'tenant_info': tenant

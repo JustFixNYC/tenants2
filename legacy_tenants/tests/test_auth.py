@@ -5,8 +5,31 @@ import pytest
 from .. import auth
 
 
+SALT = (b'WD\x1c\xef\xbf\xbdw#3\xef\xbf\xbd`\xef'
+        b'\xbf\xbdo\xef\xbf\xbd\xdd\x8dC\xef\xbf\xbd').decode('utf-8')
+
+SALT_BYTES = b'WD\x1c\xfdw#3\xfd`\xfdo\xfdMC\xfd'
+
+PASSWORD_HASH = ("QTpO6r2r4RmHmgSj8cppCtkGVszO+W83K9trJpTtqGeNTIDr"
+                 "4o7DxPUsM3TpQ8jJSMtFASSrWLZPqK0XR/L8Dw==")
+
+PASSWORD = "password"
+
+
+def test_validate_password_returns_true():
+    assert auth.validate_password(PASSWORD, PASSWORD_HASH, SALT) is True
+
+
+def test_validate_password_returns_false():
+    assert auth.validate_password('not password', PASSWORD_HASH, SALT) is False
+
+
 def test_convert_salt_to_bytes_returns_ascii_encoding():
     assert auth.convert_salt_to_bytes('blarg') == b'blarg'
+
+
+def test_convert_salt_to_bytes_does_weird_conversion_thing():
+    assert auth.convert_salt_to_bytes(SALT) == SALT_BYTES
 
 
 def test_backend_returns_none_if_username_or_pwd_are_none(settings):

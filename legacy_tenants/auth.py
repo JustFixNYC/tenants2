@@ -37,6 +37,21 @@ def convert_salt_to_bytes(salt: str) -> bytes:
         return bytes([ord(ch) & 0x00ff for ch in salt])
 
 
+def validate_password(password: str, expected_hash: str, salt: str) -> bool:
+    '''
+    Validates whether the given password is valid, given its
+    expected hash and salt.
+    '''
+
+    salt_bytes = convert_salt_to_bytes(salt)
+
+    hashval = base64.b64encode(
+        pbkdf2(password, salt_bytes, 10000, dklen=64, digest=hashlib.sha1)
+    )
+
+    return hashval == expected_hash.encode('ascii')
+
+
 def try_password(phone: str, password: str) -> bool:
     '''
     Return whether the password for the given user account
@@ -46,13 +61,7 @@ def try_password(phone: str, password: str) -> bool:
     ident = get_db()['identities'].find_one({'phone': phone})
     if ident is None:
         return False
-    expected_hash = ident['password'].encode('ascii')
-    salt = convert_salt_to_bytes(ident['salt'])
-    hashval = base64.b64encode(
-        pbkdf2(password, salt, 10000, dklen=64, digest=hashlib.sha1)
-    )
-
-    return hashval == expected_hash
+    return validate_password(password, ident['password'], ident['salt'])
 
 
 class LegacyTenantsAppBackend:

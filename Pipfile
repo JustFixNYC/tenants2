@@ -10,6 +10,7 @@ pytest-django = "*"
 "flake8" = "*"
 pytest-cov = "*"
 python-dotenv = "*"
+factory-boy = "*"
 
 [packages]
 django = "*"

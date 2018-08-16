@@ -45,6 +45,23 @@ class MongoAdvocate(MongoObject):
     code: str
 
 
+class MongoGeoInfo(pydantic.BaseModel):
+    '''
+    Information about a tenant's geographic location.
+    '''
+
+    bin: Optional[str]
+    cd: str
+    zip: str
+    bUSPS: str
+    bCode: str
+    streetName: str
+    streetNum: str
+    lat: Optional[float]
+    lon: Optional[float]
+    bbl: Optional[str]
+
+
 class MongoTenantSharingInfo(pydantic.BaseModel):
     '''
     Information about a tenant's profile sharing.
@@ -66,6 +83,7 @@ class MongoTenant(MongoObject):
     address: str
     borough: str
     actionFlags: List[str]
+    geo: MongoGeoInfo
 
     @property
     def isRentStabilized(self) -> bool:

@@ -145,12 +145,12 @@ def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
         advocate = db['advocates'].find_one({'_id': user['_userdata']})
     elif user['kind'] == 'Tenant':
         tenant = db['tenants'].find_one({'_id': user['_userdata']})
-    return MongoUser(**{
-        'id': str(user['_id']),
-        'identity': ident,
-        'advocate_info': advocate,
-        'tenant_info': tenant
-    })
+    return MongoUser(
+        id=str(user['_id']),
+        identity=ident,
+        advocate_info=advocate,
+        tenant_info=tenant
+    )
 
 
 def get_db():

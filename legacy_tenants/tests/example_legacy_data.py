@@ -126,3 +126,9 @@ IDENTITY = {
   "phone": "0005552342",
   "__v": 0
 }
+
+USER = {
+  '_id': 'aewgaeg',
+  'kind': 'Tenant',
+  '_userdata': 'blah',
+}

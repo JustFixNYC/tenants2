@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 import factory.django
 
 from ..models import LegacyUserInfo
+from .. import mongo
+from . import example_legacy_data
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -22,3 +24,15 @@ class LegacyUserInfoFactory(factory.django.DjangoModelFactory):
     mongo_id = '507f1f77bcf86cd799439011'
 
     phone_number = '1234567890'
+
+
+def MongoTenantFactory(**kwargs):
+    return mongo.MongoTenant(**{**example_legacy_data.TENANT, **kwargs})
+
+
+def MongoIdentityFactory(**kwargs):
+    return mongo.MongoIdentity(**{**example_legacy_data.IDENTITY, **kwargs})
+
+
+def MongoAdvocateFactory(**kwargs):
+    return mongo.MongoAdvocate(**{**example_legacy_data.ADVOCATE, **kwargs})

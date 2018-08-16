@@ -2,7 +2,8 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 from .. import mongo
-from .example_legacy_data import TENANT, ADVOCATE, IDENTITY
+from . import factories
+from .example_legacy_data import TENANT, ADVOCATE, IDENTITY, USER
 
 
 @pytest.fixture
@@ -19,18 +20,18 @@ def mock_mongodb():
 
 
 def test_is_rent_stabilized_works():
-    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': []})
+    tenant = factories.MongoTenantFactory(actionFlags=[])
     assert tenant.isRentStabilized is False
 
-    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': ['isRentStabilized']})
+    tenant = factories.MongoTenantFactory(actionFlags=['isRentStabilized'])
     assert tenant.isRentStabilized is True
 
 
 def test_is_harassment_eligible_works():
-    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': []})
+    tenant = factories.MongoTenantFactory(actionFlags=[])
     assert tenant.isHarassmentEligible is False
 
-    tenant = mongo.MongoTenant(**{**TENANT, 'actionFlags': ['isHarassmentElligible']})
+    tenant = factories.MongoTenantFactory(actionFlags=['isHarassmentElligible'])
     assert tenant.isHarassmentEligible is True
 
 
@@ -41,11 +42,7 @@ def test_get_user_by_phone_number_returns_none(mock_mongodb):
 
 def test_get_user_by_phone_number_returns_advocate(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = IDENTITY
-    mock_mongodb['users'].find_one.return_value = {
-        '_id': 'aewgaeg',
-        'kind': 'Advocate',
-        '_userdata': 'blah',
-    }
+    mock_mongodb['users'].find_one.return_value = {**USER, 'kind': 'Advocate'}
     mock_mongodb['advocates'].find_one.return_value = ADVOCATE
     user = mongo.get_user_by_phone_number('blah')
     assert isinstance(user.advocate_info, mongo.MongoAdvocate)
@@ -55,11 +52,7 @@ def test_get_user_by_phone_number_returns_advocate(mock_mongodb):
 
 def test_get_user_by_phone_number_returns_tenant(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = IDENTITY
-    mock_mongodb['users'].find_one.return_value = {
-        '_id': 'aewgaeg',
-        'kind': 'Tenant',
-        '_userdata': 'blah',
-    }
+    mock_mongodb['users'].find_one.return_value = {**USER, 'kind': 'Tenant'}
     mock_mongodb['tenants'].find_one.return_value = TENANT
     user = mongo.get_user_by_phone_number('blah')
     assert user.advocate_info is None

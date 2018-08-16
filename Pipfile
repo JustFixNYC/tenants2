@@ -21,6 +21,7 @@ gunicorn = "*"
 "psycopg2-binary" = "*"
 graphene-django = "*"
 pymongo = "*"
+pydantic = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,11 +1,79 @@
+from typing import List, Optional
 import pymongo
 from django.conf import settings
+import pydantic
 
 
 _db = None
 
 
+class MongoIdentity(pydantic.BaseModel):
+    '''
+    Corresponds to the Identity model of the legacy app.
+    '''
+
+    salt: str
+    provider: str
+    roles: List[str]
+    password: str
+    phone: str
+
+
+class MongoAdvocate(pydantic.BaseModel):
+    '''
+    Corresponds to the Advocate model of the legacy app.
+    '''
+
+    code: str
+
+
+class MongoUser(pydantic.BaseModel):
+    '''
+    Corresponds to the User model of the legacy app.
+    While it's semantically the same, the field names
+    and structure have been changed.
+    '''
+
+    identity: MongoIdentity
+
+    # If the user isn't an advocate, this will be None.
+    advocate_info: Optional[MongoAdvocate]
+
+
+def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
+    '''
+    Attempt to find the given user identified by their phone
+    number. Returns None if the user doesn't exist.
+    '''
+
+    # I'm sure there's some way to do a join in mongoDB
+    # and get all this information with a single query, but
+    # I don't know what it is, and efficiency isn't terribly
+    # important here, so we'll just use multiple queries for now.
+
+    db = get_db()
+    ident = db['identities'].find_one({'phone': phone})
+    if ident is None:
+        return None
+
+    user = db['users'].find_one({'_identity': ident['_id']})
+    if user['kind'] == 'Advocate':
+        advocate = db['advocates'].find_one({'_id': user['_userdata']})
+    else:
+        advocate = None
+
+    return MongoUser(**{
+        'identity': ident,
+        'advocate_info': advocate
+    })
+
+
 def get_db():
+    '''
+    Retrieve a database connection to the MongoDB instance of
+    the legacy tenants app.
+    '''
+
     global _db
 
     if _db is None:

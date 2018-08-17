@@ -11,6 +11,8 @@ from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
 
+LAMBDA_TIMEOUT_SECS = 5
+
 NS_PER_MS = 1e+6
 
 logger = logging.getLogger(__name__)
@@ -32,18 +34,36 @@ class LambdaResponse(NamedTuple):
     render_time: int
 
 
-def run_react_lambda(initial_props) -> LambdaResponse:
-    start_time = time.time_ns()
-    result = subprocess.run(
+def create_lambda_runner() -> subprocess.Popen:
+    child = subprocess.Popen(
         ['node', 'lambda.js'],
-        input=json.dumps(initial_props).encode('utf-8'),
+        stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
-        check=True,
         cwd=BASE_DIR
     )
+    logger.debug(f"Created lambda runner with pid {child.pid}.")
+    return child
+
+
+def run_react_lambda(initial_props) -> LambdaResponse:
+    start_time = time.time_ns()
+    child = create_lambda_runner()
+    try:
+        (stdout, _) = child.communicate(
+            json.dumps(initial_props).encode('utf-8'),
+            LAMBDA_TIMEOUT_SECS
+        )
+    except subprocess.TimeoutExpired as e:
+        child.kill()
+        logger.warn(f"Killed runaway lambda runner with pid {child.pid}.")
+        raise e
+
+    if child.returncode != 0:
+        raise Exception('lambda failed')
+
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 
-    response = json.loads(result.stdout.decode('utf-8'))
+    response = json.loads(stdout.decode('utf-8'))
 
     return LambdaResponse(
         html=SafeString(response['html']),

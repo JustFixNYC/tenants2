@@ -23,8 +23,6 @@ class LegacyUserInfoFactory(factory.django.DjangoModelFactory):
 
     role = LegacyUserInfo.TENANT
 
-    phone_number = '1234567890'
-
 
 def MongoTenantFactory(**kwargs):
     return mongo.MongoTenant(**{**example_legacy_data.TENANT, **kwargs})

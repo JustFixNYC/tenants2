@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from users.models import JustfixUser, PHONE_NUMBER_LEN
+from users.models import JustfixUser
 from . import mongo
 
 
@@ -34,11 +34,6 @@ class LegacyUserInfo(models.Model):
         choices=ROLE_CHOICES
     )
 
-    phone_number = models.CharField(
-        max_length=PHONE_NUMBER_LEN,
-        unique=True
-    )
-
     @classmethod
     def is_legacy_user(cls, user: User) -> bool:
         return hasattr(user, 'legacy_info')
@@ -50,4 +45,3 @@ class LegacyUserInfo(models.Model):
             self.role = self.ADVOCATE
         else:
             raise ValueError('mongo user is neither tenant nor advocate')
-        self.phone_number = mongo_user.identity.phone

@@ -74,16 +74,19 @@ class LegacyTenantsAppBackend:
             mongo_user = mongo.get_user_by_phone_number(phone_number)
             if mongo_user and try_password(mongo_user.identity, password):
                 try:
-                    legacy_user = LegacyUserInfo.objects.get(phone_number=phone_number)
-                except LegacyUserInfo.DoesNotExist:
+                    user = JustfixUser.objects.get(phone_number=phone_number)
+                except JustfixUser.DoesNotExist:
                     user = JustfixUser(
                         username=f"legacy_{phone_number}",
                         phone_number=phone_number
                     )
                     user.save()
+                if LegacyUserInfo.is_legacy_user(user):
+                    legacy_user = user.legacy_info
+                else:
                     legacy_user = LegacyUserInfo(user=user)
                 legacy_user.update_from_mongo_user(mongo_user)
                 legacy_user.save()
-                return legacy_user.user
+                return user
 
         return None

@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from users.models import JustfixUser, PHONE_NUMBER_LEN
 from . import mongo
 
 
 # https://stackoverflow.com/a/25418489
 MONGODB_ID_LEN = 24
-
-PHONE_NUMBER_LEN = 10
 
 
 class LegacyUserInfo(models.Model):
@@ -25,7 +24,7 @@ class LegacyUserInfo(models.Model):
     ]
 
     user = models.OneToOneField(
-        User,
+        JustfixUser,
         on_delete=models.CASCADE,
         related_name='legacy_info'
     )

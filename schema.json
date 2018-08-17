@@ -123,7 +123,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "username",
+                  "name": "phoneNumber",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",

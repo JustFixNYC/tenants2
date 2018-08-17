@@ -57,7 +57,7 @@ export class App extends React.Component<AppProps, AppState> {
       if (result.logout.ok) {
         this.setState({
           session: {
-            username: null,
+            phoneNumber: null,
             csrfToken: result.logout.csrfToken
           },
         });
@@ -68,20 +68,20 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   @autobind
-  handleLoginSubmit(username: string, password: string) {
+  handleLoginSubmit(phoneNumber: string, password: string) {
     fetchLoginMutation(this.gqlClient.fetch, {
-      username: username,
+      phoneNumber: phoneNumber,
       password: password
     }).then(result => {
       if (result.login.ok) {
         this.setState({
           session: {
-            username,
+            phoneNumber,
             csrfToken: result.login.csrfToken
           }
         });
       } else {
-        window.alert("Invalid username or password.");
+        window.alert("Invalid phone number or password.");
       }
     }).catch(this.handleFetchError);
   }

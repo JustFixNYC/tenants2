@@ -1,8 +1,8 @@
 export interface AppSessionInfo {
   /**
-   * The username of the currently logged-in user, or null if not logged-in.
+   * The phone number of the currently logged-in user, or null if not logged-in.
    */
-  username: string|null;
+  phoneNumber: string|null;
 
   /** The CSRF token; required if a GraphQL client is not provided. */
   csrfToken: string;

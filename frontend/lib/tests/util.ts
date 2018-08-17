@@ -33,6 +33,6 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 };
 
 export const FakeSessionInfo: Readonly<AppSessionInfo> = {
-  username: null,
+  phoneNumber: null,
   csrfToken: 'mycsrf',
 };

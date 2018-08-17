@@ -19,7 +19,7 @@ export interface LoginMutation {
 }
 
 export interface LoginMutationVariables {
-  username: string;
+  phoneNumber: string;
   password: string;
 }
 
@@ -35,8 +35,8 @@ export interface LoginMutationVariables {
 //==============================================================
 export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
   // The following query was taken from LoginMutation.graphql.
-  return fetchGraphQL(`mutation LoginMutation($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+  return fetchGraphQL(`mutation LoginMutation($phoneNumber: String!, $password: String!) {
+    login(phoneNumber: $phoneNumber, password: $password) {
         ok,
         csrfToken
     }

@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
 import factory.django
 
+from users.models import JustfixUser
 from ..models import LegacyUserInfo
 from .. import mongo
 from . import example_legacy_data
@@ -8,9 +8,11 @@ from . import example_legacy_data
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = User
+        model = JustfixUser
 
     username = 'boop'
+
+    phone_number = '5551234567'
 
 
 class LegacyUserInfoFactory(factory.django.DjangoModelFactory):

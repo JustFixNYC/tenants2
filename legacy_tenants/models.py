@@ -32,11 +32,6 @@ class LegacyUserInfo(models.Model):
         choices=ROLE_CHOICES
     )
 
-    mongo_id = models.CharField(
-        max_length=MONGODB_ID_LEN,
-        unique=True
-    )
-
     phone_number = models.CharField(
         max_length=PHONE_NUMBER_LEN,
         unique=True

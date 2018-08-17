@@ -21,8 +21,6 @@ class LegacyUserInfoFactory(factory.django.DjangoModelFactory):
 
     role = LegacyUserInfo.TENANT
 
-    mongo_id = '507f1f77bcf86cd799439011'
-
     phone_number = '1234567890'
 
 

@@ -2,6 +2,7 @@ from io import StringIO
 from unittest.mock import patch
 from django.core.management import call_command
 
+from . import factories
 from .example_legacy_data import TENANT
 
 
@@ -12,14 +13,16 @@ def get_cmd_output(*args):
 
 
 def test_try_legacy_password_reports_when_correct():
-    with patch('legacy_tenants.auth.try_password', return_value=True):
-        assert get_cmd_output('try_legacy_password', '1234567890', 'pwd') == \
+    with patch('legacy_tenants.mongo.get_user_by_phone_number') as get_user:
+        get_user.return_value = factories.MongoUserFactory()
+        assert get_cmd_output('try_legacy_password', '1234567890', 'password') == \
             'Password is correct!\n'
 
 
 def test_try_legacy_password_reports_when_incorrect():
-    with patch('legacy_tenants.auth.try_password', return_value=False):
-        assert get_cmd_output('try_legacy_password', '1234567890', 'pwd') == \
+    with patch('legacy_tenants.mongo.get_user_by_phone_number') as get_user:
+        get_user.return_value = factories.MongoUserFactory()
+        assert get_cmd_output('try_legacy_password', '1234567890', 'INVALID') == \
             'Invalid password!\n'
 
 

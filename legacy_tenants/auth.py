@@ -5,7 +5,8 @@ from django.utils.crypto import pbkdf2
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from .mongo import get_db
+from . import mongo
+from .models import LegacyUserInfo
 
 
 def convert_salt_to_bytes(salt: str) -> bytes:
@@ -52,16 +53,13 @@ def validate_password(password: str, expected_hash: str, salt: str) -> bool:
     return hashval == expected_hash.encode('ascii')
 
 
-def try_password(phone: str, password: str) -> bool:
+def try_password(identity: mongo.MongoIdentity, password: str) -> bool:
     '''
     Return whether the password for the given user account
-    (identified by phone number) is correct.
+    is correct.
     '''
 
-    ident = get_db()['identities'].find_one({'phone': phone})
-    if ident is None:
-        return False
-    return validate_password(password, ident['password'], ident['salt'])
+    return validate_password(password, identity.password, identity.salt)
 
 
 class LegacyTenantsAppBackend:
@@ -70,15 +68,19 @@ class LegacyTenantsAppBackend:
     legacy tenants app.
     '''
 
-    def authenticate(self, request, username: Optional[str]=None,
+    def authenticate(self, request, phone_number: Optional[str]=None,
                      password: Optional[str]=None):
-        if settings.LEGACY_MONGODB_URL and username and password:
-            if try_password(username, password):
+        if settings.LEGACY_MONGODB_URL and phone_number and password:
+            mongo_user = mongo.get_user_by_phone_number(phone_number)
+            if mongo_user and try_password(mongo_user.identity, password):
                 try:
-                    user = User.objects.get(username=username)
-                except User.DoesNotExist:
-                    user = User(username=username)
+                    legacy_user = LegacyUserInfo.objects.get(phone_number=phone_number)
+                except LegacyUserInfo.DoesNotExist:
+                    user = User(username=f"legacy_{phone_number}")
                     user.save()
-                return user
+                    legacy_user = LegacyUserInfo(user=user)
+                legacy_user.update_from_mongo_user(mongo_user)
+                legacy_user.save()
+                return legacy_user.user
 
         return None

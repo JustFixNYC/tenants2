@@ -34,3 +34,17 @@ def MongoIdentityFactory(**kwargs):
 
 def MongoAdvocateFactory(**kwargs):
     return mongo.MongoAdvocate(**{**example_legacy_data.ADVOCATE, **kwargs})
+
+
+def MongoUserFactory(is_advocate=False, **extra_kwargs):
+    kwargs = {
+        'id': 'abcd',
+        'identity': example_legacy_data.IDENTITY,
+    }
+    if is_advocate:
+        kwargs['advocate_info'] = example_legacy_data.ADVOCATE
+    else:
+        kwargs['tenant_info'] = example_legacy_data.TENANT
+
+    kwargs.update(extra_kwargs)
+    return mongo.MongoUser(**kwargs)

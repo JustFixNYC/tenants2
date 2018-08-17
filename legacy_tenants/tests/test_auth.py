@@ -50,7 +50,7 @@ def test_backend_creates_user_if_they_do_not_exist(settings):
         user = backend.authenticate(None, '1234567890', 'password')
         get_user.assert_called_with('1234567890')
         assert isinstance(user, User)
-        assert user.username == 'legacy_1234567890'
+        assert user.username == '1234567890'
 
 
 def test_backend_returns_false_if_password_is_wrong(settings):

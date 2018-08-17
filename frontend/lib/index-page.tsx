@@ -13,7 +13,7 @@ export interface IndexPageProps {
   session: AppSessionInfo;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
-  onLoginSubmit: (username: string, password: string) => void;
+  onLoginSubmit: (phoneNumber: string, password: string) => void;
 }
 
 interface IndexPageState {

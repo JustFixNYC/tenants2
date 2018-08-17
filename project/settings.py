@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'project.apps.DefaultConfig',
     'frontend',
     'legacy_tenants.apps.LegacyTenantsConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -102,11 +103,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.JustfixUser'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'legacy_tenants.auth.LegacyTenantsAppBackend',
 ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

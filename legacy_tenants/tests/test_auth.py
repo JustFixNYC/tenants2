@@ -1,7 +1,7 @@
 from unittest.mock import patch
-from django.contrib.auth.models import User
 import pytest
 
+from users.models import JustfixUser
 from .. import auth, mongo
 from . import factories
 from .example_legacy_data import (
@@ -49,8 +49,8 @@ def test_backend_creates_user_if_they_do_not_exist(settings):
         get_user.return_value = factories.MongoUserFactory()
         user = backend.authenticate(None, '1234567890', 'password')
         get_user.assert_called_with('1234567890')
-        assert isinstance(user, User)
-        assert user.username == '1234567890'
+        assert isinstance(user, JustfixUser)
+        assert user.username == 'legacy_1234567890'
 
 
 def test_backend_returns_false_if_password_is_wrong(settings):
@@ -70,5 +70,5 @@ def test_backend_returns_existing_user(settings):
         get_user.return_value = mongo_user
         user = backend.authenticate(None, mongo_user.identity.phone, 'password')
         auth_user = backend.authenticate(None, mongo_user.identity.phone, 'password')
-        assert isinstance(auth_user, User)
+        assert isinstance(auth_user, JustfixUser)
         assert user.pk == auth_user.pk

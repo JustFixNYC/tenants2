@@ -53,9 +53,9 @@ def run_react_lambda(initial_props) -> LambdaResponse:
 
 def react_rendered_view(request, url: str):
     if request.user.is_authenticated:
-        username = request.user.username
+        phone_number = request.user.phone_number
     else:
-        username = None
+        phone_number = None
 
     url = f'/{url}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
@@ -68,7 +68,7 @@ def react_rendered_view(request, url: str):
         'initialURL': url,
         'initialSession': {
             'csrfToken': csrf.get_token(request),
-            'username': username,
+            'phoneNumber': phone_number,
         },
         'server': {
             'staticURL': settings.STATIC_URL,

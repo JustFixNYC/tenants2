@@ -3,9 +3,9 @@ import hashlib
 from typing import Optional
 from django.utils.crypto import pbkdf2
 from django.conf import settings
-from django.contrib.auth.models import User
 
 from . import mongo
+from users.models import JustfixUser
 from .models import LegacyUserInfo
 
 
@@ -68,22 +68,25 @@ class LegacyTenantsAppBackend:
     legacy tenants app.
     '''
 
-    def authenticate(self, request, username: Optional[str]=None,
+    def authenticate(self, request, phone_number: Optional[str]=None,
                      password: Optional[str]=None):
-        # For now we're going to assume that the system sets phone numbers to usernames.
-        phone_number = username
-
         if settings.LEGACY_MONGODB_URL and phone_number and password:
             mongo_user = mongo.get_user_by_phone_number(phone_number)
             if mongo_user and try_password(mongo_user.identity, password):
                 try:
-                    legacy_user = LegacyUserInfo.objects.get(phone_number=phone_number)
-                except LegacyUserInfo.DoesNotExist:
-                    user = User(username=phone_number)
+                    user = JustfixUser.objects.get(phone_number=phone_number)
+                except JustfixUser.DoesNotExist:
+                    user = JustfixUser(
+                        username=f"legacy_{phone_number}",
+                        phone_number=phone_number
+                    )
                     user.save()
+                if LegacyUserInfo.is_legacy_user(user):
+                    legacy_user = user.legacy_info
+                else:
                     legacy_user = LegacyUserInfo(user=user)
                 legacy_user.update_from_mongo_user(mongo_user)
                 legacy_user.save()
-                return legacy_user.user
+                return user
 
         return None

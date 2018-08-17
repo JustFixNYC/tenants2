@@ -15,15 +15,15 @@ class Login(graphene.Mutation):
     '''
 
     class Arguments:
-        username = graphene.String(required=True)
+        phone_number = graphene.String(required=True)
         password = graphene.String(required=True)
 
     ok = graphene.Boolean(required=True)
     csrf_token = graphene.String(required=True)
 
-    def mutate(self, info: ResolveInfo, username: str, password: str) -> 'Login':
+    def mutate(self, info: ResolveInfo, phone_number: str, password: str) -> 'Login':
         request = info.context
-        user = authenticate(username=username, password=password)
+        user = authenticate(phone_number=phone_number, password=password)
         if user is None:
             return Login(ok=False, csrf_token=csrf.get_token(request))
         login(request, user)

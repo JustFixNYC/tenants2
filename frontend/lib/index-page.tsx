@@ -60,10 +60,10 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
     const { props } = this;
     const { session } = props;
 
-    if (session.username) {
+    if (session.phoneNumber) {
       return (
         <React.Fragment>
-          <p>You are currently logged in as {session.username}.</p>
+          <p>You are currently logged in as {session.phoneNumber}.</p>
           <p><button className="button is-primary" onClick={props.onLogout}>Logout</button></p>
         </React.Fragment>
       );

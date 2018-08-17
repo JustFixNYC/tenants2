@@ -3,7 +3,7 @@ import json
 import subprocess
 import time
 import logging
-from threading import Lock
+from threading import RLock
 from typing import NamedTuple, List
 from django.utils.safestring import SafeString
 from django.shortcuts import render
@@ -19,11 +19,15 @@ LAMBDA_TIMEOUT_SECS = 5
 
 NS_PER_MS = 1e+6
 
+LAMBDA_JS_PATH = BASE_DIR / 'lambda.js'
+
 logger = logging.getLogger(__name__)
 
 lambda_pool: List[subprocess.Popen] = []
 
-lambda_pool_lock = Lock()
+lambda_pool_lock = RLock()
+
+lambda_js_mtime = 0.0
 
 
 class LambdaResponse(NamedTuple):
@@ -44,7 +48,7 @@ class LambdaResponse(NamedTuple):
 
 def create_lambda_runner() -> subprocess.Popen:
     child = subprocess.Popen(
-        ['node', 'lambda.js'],
+        ['node', str(LAMBDA_JS_PATH)],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         cwd=BASE_DIR
@@ -63,7 +67,18 @@ def empty_lambda_pool():
 
 
 def get_lambda_runner_from_pool() -> subprocess.Popen:
+    global lambda_js_mtime
+
     with lambda_pool_lock:
+        if settings.DEBUG:
+            mtime = LAMBDA_JS_PATH.stat().st_mtime
+            if mtime != lambda_js_mtime:
+                lambda_js_mtime = mtime
+                logger.info(
+                    f"Change detected in {LAMBDA_JS_PATH.name}, "
+                    "restarting React lambda runners."
+                )
+                empty_lambda_pool()
         while len(lambda_pool) < LAMBDA_POOL_SIZE:
             lambda_pool.append(create_lambda_runner())
         return lambda_pool.pop(0)

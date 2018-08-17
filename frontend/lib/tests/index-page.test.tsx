@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 
-import { IndexPage, IndexPageProps  } from '../index-page';
+import IndexPage, { IndexPageProps  } from '../index-page';
 import { createTestGraphQlClient, FakeServerInfo, FakeSessionInfo } from './util';
 
 test('index page issues a SimpleQuery when mounted', () => {

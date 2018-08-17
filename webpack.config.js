@@ -7,6 +7,7 @@
 
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 const BASE_DIR = __dirname;
 
@@ -30,6 +31,14 @@ const tsLoaderOptions = {
    * https://github.com/TypeStrong/ts-loader/issues/267.
    */
   onlyCompileBundledFiles: true
+};
+
+const baseBabelOptions = {
+  babelrc: false,
+  plugins: [
+    "babel-plugin-syntax-dynamic-import",
+    "react-loadable/babel"
+  ]
 };
 
 /**
@@ -59,24 +68,8 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                ...tsLoaderOptions,
-                compilerOptions: {
-                  /**
-                   * We don't want to pass "import" statements directly
-                   * to Node because it doesn't like them, so have TypeScript
-                   * convert them to require() calls.
-                   * 
-                   * Also note that we're not being very type-safe here,
-                   * because of a bug in ts-loader/typescript's typings that
-                   * expect "module" to be a numeric enum instead of a string.
-                   */
-                  module: 'commonjs',
-                }
-              }
-            }
+            { loader: 'babel-loader', options: baseBabelOptions },
+            { loader: 'ts-loader', options: tsLoaderOptions }
           ]
         },
       ]
@@ -98,6 +91,10 @@ function createNodeScriptConfig(entry, filename) {
 function getPlugins() {
   /** @type WebpackPlugin[] */
   const plugins = [];
+
+  plugins.push(new ReactLoadablePlugin({
+    filename: 'react-loadable.json'
+  }));
 
   try {
     const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -135,7 +132,17 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'babel-loader' },
+          {
+            loader: 'babel-loader',
+            options: {
+              ...baseBabelOptions,
+              presets: ["env"],
+              plugins: [
+                ...baseBabelOptions.plugins,
+                "babel-plugin-transform-object-rest-spread",
+              ],
+            }
+          },
           { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },

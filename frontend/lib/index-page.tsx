@@ -20,7 +20,7 @@ interface IndexPageState {
   simpleQueryResult?: string;
 }
 
-export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
+export default class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
   constructor(props: IndexPageProps) {
     super(props);
     this.state = {};

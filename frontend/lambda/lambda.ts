@@ -1,10 +1,16 @@
+import fs from 'fs';
+import { promisify } from 'util';
 import { Console } from 'console';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+import Loadable, { LoadableCaptureProps } from 'react-loadable';
+import { getBundles } from 'react-loadable/webpack';
 
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+
+const readFile = promisify(fs.readFile);
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -15,6 +21,12 @@ interface LambdaResponse {
 
   /** The HTTP status code of the page. */
   status: number;
+
+  /**
+   * Names of all JS bundles to include in the HTML output
+   * (excluding the main bundle).
+   */
+  bundleFiles: string[];
 }
 
 /**
@@ -25,19 +37,31 @@ interface LambdaResponse {
  * 
  * @param event The initial properties for our app.
  */
-function handler(event: AppProps): Promise<LambdaResponse> {
+async function handler(event: AppProps): Promise<LambdaResponse> {
+  await Loadable.preloadAll();
+
+  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
+
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
     };
-    const el = React.createElement(StaticRouter, {
+    const modules: string[] = [];
+    const appEl = React.createElement(App, event);
+    const routerEl = React.createElement(StaticRouter, {
       location: event.initialURL,
       context: appStaticContextAsStaticRouterContext(context)
-    }, React.createElement(App, event));
-    const html = ReactDOMServer.renderToString(el);
+    }, appEl);
+    const loadableProps: LoadableCaptureProps = {
+      report(moduleName) { modules.push(moduleName) }
+    };
+    const loadableEl = React.createElement(Loadable.Capture, loadableProps, routerEl);
+    const html = ReactDOMServer.renderToString(loadableEl);
+    const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
     resolve({
       html,
-      status: context.statusCode
+      status: context.statusCode,
+      bundleFiles
     });
   });
 }

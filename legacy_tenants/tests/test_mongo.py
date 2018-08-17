@@ -35,6 +35,13 @@ def test_is_harassment_eligible_works():
     assert tenant.isHarassmentEligible is True
 
 
+def test_get_advocate_tenants_works(mock_mongodb):
+    mock_mongodb['tenants'].find.return_value = [TENANT]
+    tenants = list(mongo.get_advocate_tenants(factories.MongoAdvocateFactory()))
+    assert len(tenants) == 1
+    assert isinstance(tenants[0], mongo.MongoTenant)
+
+
 def test_get_user_by_phone_number_returns_none(mock_mongodb):
     mock_mongodb['identities'].find_one.return_value = None
     assert mongo.get_user_by_phone_number('blah') is None

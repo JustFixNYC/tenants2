@@ -7,3 +7,7 @@ class BaseModel:
 
     def dict(self) -> Dict[str, Any]:
         ...
+
+
+class ValidationError(Exception):
+    ...

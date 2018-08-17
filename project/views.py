@@ -2,7 +2,7 @@ import json
 import subprocess
 import time
 import logging
-from typing import NamedTuple
+from typing import NamedTuple, List
 from django.utils.safestring import SafeString
 from django.shortcuts import render
 from django.middleware import csrf
@@ -26,6 +26,7 @@ class LambdaResponse(NamedTuple):
 
     html: SafeString
     status: int
+    bundle_files: List[str]
 
     # The amount of time rendering took, in milliseconds.
     render_time: int
@@ -47,6 +48,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     return LambdaResponse(
         html=SafeString(response['html']),
         status=response['status'],
+        bundle_files=response['bundleFiles'],
         render_time=render_time
     )
 
@@ -59,7 +61,6 @@ def react_rendered_view(request, url: str):
 
     url = f'/{url}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
-    main_js_bundle_url = f'{webpack_public_path_url}main.bundle.js'
 
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
@@ -80,11 +81,16 @@ def react_rendered_view(request, url: str):
     }
 
     lambda_response = run_react_lambda(initial_props)
+    bundle_files = lambda_response.bundle_files + ['main.bundle.js']
+    bundle_urls = [
+        f'{webpack_public_path_url}{bundle_file}'
+        for bundle_file in bundle_files
+    ]
 
     logger.info(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 
     return render(request, 'index.html', {
-        'main_js_bundle_url': main_js_bundle_url,
         'initial_render': lambda_response.html,
+        'bundle_urls': bundle_urls,
         'initial_props': initial_props,
     }, status=lambda_response.status)

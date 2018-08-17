@@ -1,5 +1,6 @@
 db.sqlite3
 db.testing.sqlite3
+*.lambda.js
 lambda.js
 lambda.js.map
 .vscode/
@@ -19,3 +20,4 @@ staticfiles/
 frontend/lib/queries/__generated__/
 querybuilder.js
 querybuilder.js.map
+react-loadable.json

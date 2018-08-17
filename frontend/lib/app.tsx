@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
 
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
-import { IndexPage } from './index-page';
 import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
@@ -32,6 +32,13 @@ interface AppState {
    */
   session: AppSessionInfo;
 }
+
+const LoadableIndexPage = Loadable({
+  loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
+  loading() {
+    return <div>Loading...</div>;
+  }
+});
 
 export class App extends React.Component<AppProps, AppState> {
   gqlClient: GraphQlClient;
@@ -99,7 +106,7 @@ export class App extends React.Component<AppProps, AppState> {
     return (
       <Switch>
         <Route path="/" exact>
-          <IndexPage
+          <LoadableIndexPage
            gqlClient={this.gqlClient}
            server={this.props.server}
            session={this.state.session}
@@ -124,8 +131,13 @@ export function startApp(container: Element, initialProps: AppProps) {
     </BrowserRouter>
   );
   if (container.children.length) {
-    // Initial content has been generated server-side, so bind to it.
-    ReactDOM.hydrate(el, container);
+    // Initial content has been generated server-side, so preload any
+    // necessary JS bundles and bind to the DOM.
+    Loadable.preloadReady().then(() => {
+      ReactDOM.hydrate(el, container);
+    }).catch(e => {
+      window.alert("Loadable.preloadReady() failed!");
+    });
   } else {
     // No initial content was provided, so generate a DOM from scratch.
     ReactDOM.render(el, container);

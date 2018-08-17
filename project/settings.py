@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'project.apps.DefaultConfig',
     'frontend',
+    'legacy_tenants.apps.LegacyTenantsConfig',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'legacy_tenants.auth.LegacyTenantsAppBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -168,6 +174,8 @@ STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
 }
+
+LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

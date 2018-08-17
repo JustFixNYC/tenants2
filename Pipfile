@@ -10,6 +10,7 @@ pytest-django = "*"
 "flake8" = "*"
 pytest-cov = "*"
 python-dotenv = "*"
+factory-boy = "*"
 
 [packages]
 django = "*"
@@ -19,6 +20,8 @@ django-csp = "*"
 gunicorn = "*"
 "psycopg2-binary" = "*"
 graphene-django = "*"
+pymongo = "*"
+pydantic = "*"
 
 [requires]
 python_version = "3.7"

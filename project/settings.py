@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'project.apps.DefaultConfig',
     'frontend',
-    'legacy_tenants',
+    'legacy_tenants.apps.LegacyTenantsConfig',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +102,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'legacy_tenants.auth.LegacyTenantsAppBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

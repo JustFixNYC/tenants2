@@ -1,7 +1,9 @@
+import atexit
 import json
 import subprocess
 import time
 import logging
+from threading import Lock
 from typing import NamedTuple, List
 from django.utils.safestring import SafeString
 from django.shortcuts import render
@@ -11,11 +13,17 @@ from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
 
+LAMBDA_POOL_SIZE = 5
+
 LAMBDA_TIMEOUT_SECS = 5
 
 NS_PER_MS = 1e+6
 
 logger = logging.getLogger(__name__)
+
+lambda_pool: List[subprocess.Popen] = []
+
+lambda_pool_lock = Lock()
 
 
 class LambdaResponse(NamedTuple):
@@ -41,13 +49,29 @@ def create_lambda_runner() -> subprocess.Popen:
         stdout=subprocess.PIPE,
         cwd=BASE_DIR
     )
-    logger.debug(f"Created lambda runner with pid {child.pid}.")
+    logger.info(f"Created React lambda runner with pid {child.pid}.")
     return child
+
+
+@atexit.register
+def empty_lambda_pool():
+    with lambda_pool_lock:
+        while lambda_pool:
+            child = lambda_pool.pop()
+            child.kill()
+            logger.info(f"Destroyed React lambda runner with pid {child.pid}.")
+
+
+def get_lambda_runner_from_pool() -> subprocess.Popen:
+    with lambda_pool_lock:
+        while len(lambda_pool) < LAMBDA_POOL_SIZE:
+            lambda_pool.append(create_lambda_runner())
+        return lambda_pool.pop(0)
 
 
 def run_react_lambda(initial_props) -> LambdaResponse:
     start_time = time.time_ns()
-    child = create_lambda_runner()
+    child = get_lambda_runner_from_pool()
     try:
         (stdout, _) = child.communicate(
             json.dumps(initial_props).encode('utf-8'),
@@ -55,11 +79,11 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         )
     except subprocess.TimeoutExpired as e:
         child.kill()
-        logger.warn(f"Killed runaway lambda runner with pid {child.pid}.")
+        logger.warn(f"Killed runaway React lambda runner with pid {child.pid}.")
         raise e
 
     if child.returncode != 0:
-        raise Exception('lambda failed')
+        raise Exception('React lambda runner failed')
 
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 

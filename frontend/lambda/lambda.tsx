@@ -47,16 +47,18 @@ async function handler(event: AppProps): Promise<LambdaResponse> {
       statusCode: 200,
     };
     const modules: string[] = [];
-    const appEl = React.createElement(App, event);
-    const routerEl = React.createElement(StaticRouter, {
-      location: event.initialURL,
-      context: appStaticContextAsStaticRouterContext(context)
-    }, appEl);
     const loadableProps: LoadableCaptureProps = {
       report(moduleName) { modules.push(moduleName) }
     };
-    const loadableEl = React.createElement(Loadable.Capture, loadableProps, routerEl);
-    const html = ReactDOMServer.renderToString(loadableEl);
+    const html = ReactDOMServer.renderToString(
+      <Loadable.Capture {...loadableProps}>
+        <StaticRouter
+         location={event.initialURL}
+         context={appStaticContextAsStaticRouterContext(context)}>
+          <App {...event} />
+        </StaticRouter>
+      </Loadable.Capture>
+    );
     const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
     resolve({
       html,

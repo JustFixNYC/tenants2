@@ -155,7 +155,7 @@ const webConfig = {
 };
 
 module.exports = [
-  createNodeScriptConfig('./frontend/lambda/lambda.ts', 'lambda.js'),
+  createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js'),
   createNodeScriptConfig('./frontend/querybuilder/querybuilder.ts', 'querybuilder.js'),
   webConfig,
 ];

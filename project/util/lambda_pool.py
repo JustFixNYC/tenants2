@@ -2,6 +2,7 @@ import atexit
 import logging
 import subprocess
 import json
+from dataclasses import dataclass
 from typing import List, Dict, Any
 from threading import RLock
 from pathlib import Path
@@ -10,6 +11,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
+@dataclass
 class LambdaPool:
     '''
     This class maintains a pool of "warmed up" lambda processes that are
@@ -32,16 +34,32 @@ class LambdaPool:
     the caller's process terminates.
     '''
 
-    def __init__(self, name: str, script_path: Path, cwd: Path, size: int=5,
-                 timeout_secs: int=5, interpreter_path=Path('node'),
-                 restart_on_script_change: bool=False) -> None:
-        self.name = name
-        self.script_path = script_path
-        self.cwd = cwd
-        self.size = size
-        self.timeout_secs = timeout_secs
-        self.interpreter_path = interpreter_path
-        self.restart_on_script_change = restart_on_script_change
+    # A descriptive name for the lambda process, used in logging messages.
+    name: str
+
+    # A path to the lambda process' script.
+    script_path: Path
+
+    # The current working directory to run the lambda process in.
+    cwd: Path
+
+    # How many "warmed up" lambda processes to have running.
+    size: int = 5
+
+    # The number of seconds we'll give a lambda process to handle its
+    # event and return a response before we consider it a runaway and
+    # terminate it.
+    timeout_secs: int = 5
+
+    # The path to the interpreter for the lambda process' script.
+    interpreter_path: Path = Path('node')
+
+    # Whether to restart the pool of warmed-up processes whenever
+    # we detect that the lambda process' script has changed. This is
+    # useful for development.
+    restart_on_script_change: bool = False
+
+    def __post_init__(self) -> None:
         self.__processes: List[subprocess.Popen] = []
         self.__lock = RLock()
         self.__script_path_mtime = 0.0

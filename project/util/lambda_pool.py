@@ -128,7 +128,10 @@ class LambdaPool:
             # anything later.
             atexit.unregister(self.empty)
 
-    def run_handler(self, event: Any) -> Any:
+    def run_handler(self,
+                    event: Any,
+                    timeout_secs: Optional[int] = None,
+                    enable_stderr: bool = True) -> Any:
         '''
         Send an event to a lambda process and return its response.
 
@@ -142,20 +145,25 @@ class LambdaPool:
         valid UTF-8 encoded JSON.
         '''
 
+        if timeout_secs is None:
+            timeout_secs = self.timeout_secs
+
+        stderr_file = self.stderr if enable_stderr else None
+
         child = self.__get_process()
         try:
             (stdout, stderr) = child.communicate(
                 json.dumps(event).encode('utf-8'),
-                self.timeout_secs
+                timeout_secs
             )
         except subprocess.TimeoutExpired as e:
             child.kill()
             logger.warn(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
             raise e
 
-        if self.stderr:
-            self.stderr.write(stderr)
-            self.stderr.flush()
+        if stderr_file:
+            stderr_file.write(stderr)
+            stderr_file.flush()
 
         if child.returncode != 0:
             logger.warn(f'{self.name} lambda process crashed.')

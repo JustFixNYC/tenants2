@@ -27,7 +27,7 @@ Then, in a separate terminal, you'll want to instantiate
 your Python virtual environment and enter it:
 
 ```
-pipenv install --python 3.7
+pipenv install --dev --python 3.7
 pipenv shell
 ```
 

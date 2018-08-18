@@ -1,5 +1,3 @@
-import json
-import subprocess
 import time
 import logging
 from typing import NamedTuple, List
@@ -10,10 +8,18 @@ from django.urls import reverse
 from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
+from project.util.lambda_pool import LambdaPool
 
 NS_PER_MS = 1e+6
 
 logger = logging.getLogger(__name__)
+
+lambda_pool = LambdaPool(
+    'React',
+    BASE_DIR / 'lambda.js',
+    cwd=BASE_DIR,
+    restart_on_script_change=settings.DEBUG
+)
 
 
 class LambdaResponse(NamedTuple):
@@ -34,16 +40,8 @@ class LambdaResponse(NamedTuple):
 
 def run_react_lambda(initial_props) -> LambdaResponse:
     start_time = time.time_ns()
-    result = subprocess.run(
-        ['node', 'lambda.js'],
-        input=json.dumps(initial_props).encode('utf-8'),
-        stdout=subprocess.PIPE,
-        check=True,
-        cwd=BASE_DIR
-    )
+    response = lambda_pool.run_handler(initial_props)
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
-
-    response = json.loads(result.stdout.decode('utf-8'))
 
     return LambdaResponse(
         html=SafeString(response['html']),

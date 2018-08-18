@@ -33,14 +33,14 @@ class LambdaPool:
     '''
 
     def __init__(self, name: str, script_path: Path, cwd: Path, size: int=5,
-                 timeout_secs: int=5, node_path=Path('node'),
+                 timeout_secs: int=5, interpreter_path=Path('node'),
                  restart_on_script_change: bool=False) -> None:
         self.name = name
         self.script_path = script_path
         self.cwd = cwd
         self.size = size
         self.timeout_secs = timeout_secs
-        self.node_path = node_path
+        self.interpreter_path = interpreter_path
         self.restart_on_script_change = restart_on_script_change
         self.__processes: List[subprocess.Popen] = []
         self.__lock = RLock()
@@ -53,7 +53,7 @@ class LambdaPool:
         '''
 
         child = subprocess.Popen(
-            [str(self.node_path), str(self.script_path)],
+            [str(self.interpreter_path), str(self.script_path)],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             cwd=self.cwd

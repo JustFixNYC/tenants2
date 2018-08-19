@@ -10,11 +10,20 @@
 // ====================================================
 
 export interface LoginMutation_login_errors {
+  /**
+   * The camel-cased name of the input field, or '__all__' for non-field errors.
+   */
   field: string;
+  /**
+   * A list of human-readable validation errors.
+   */
   messages: string[];
 }
 
 export interface LoginMutation_login {
+  /**
+   * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
+   */
   errors: LoginMutation_login_errors[];
   csrfToken: string | null;
 }

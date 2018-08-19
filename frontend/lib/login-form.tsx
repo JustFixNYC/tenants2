@@ -29,7 +29,7 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         <ListFieldErrors errors={errors && errors.nonFieldErrors} />
         <p><input className="input" type="text" placeholder="phone number" value={this.state.phoneNumber}
          onChange={(e) => { this.setState({ phoneNumber: e.target.value }); }}/></p>
-        <ListFieldErrors errors={errors && errors.fieldErrors['phone_number']} />
+        <ListFieldErrors errors={errors && errors.fieldErrors['phoneNumber']} />
         <p><input className="input" type="password" placeholder="password" value={this.state.password}
          onChange={(e) => { this.setState({ password: e.target.value }); }}/></p>
         <ListFieldErrors errors={errors && errors.fieldErrors['password']} />

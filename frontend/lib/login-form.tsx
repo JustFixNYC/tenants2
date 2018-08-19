@@ -1,10 +1,12 @@
 import React from 'react';
+import { LoginInput } from './queries/LoginMutation';
+
 import { FormErrors, ListFieldErrors } from './forms';
 
 
 interface LoginFormProps {
   onSubmit: (phoneNumber: string, password: string) => void;
-  loginErrors?: FormErrors;
+  loginErrors?: FormErrors<LoginInput>;
 }
 
 interface LoginFormState {

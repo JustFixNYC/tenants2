@@ -8,7 +8,7 @@ import GraphQlClient from './graphql-client';
 
 import { getFormErrors, FormErrors } from './forms';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
-import { fetchLoginMutation } from './queries/LoginMutation';
+import { fetchLoginMutation, LoginInput } from './queries/LoginMutation';
 import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
@@ -33,7 +33,7 @@ interface AppState {
    */
   session: AppSessionInfo;
 
-  loginErrors?: FormErrors;
+  loginErrors?: FormErrors<LoginInput>;
 }
 
 const LoadableIndexPage = Loadable({
@@ -93,7 +93,7 @@ export class App extends React.Component<AppProps, AppState> {
         });
       } else {
         this.setState({
-          loginErrors: getFormErrors(result.login.errors)
+          loginErrors: getFormErrors<LoginInput>(result.login.errors)
         });
       }
     }).catch(this.handleFetchError);

@@ -19,13 +19,12 @@ interface FormFieldError {
 }
 
 // This type is parameterized by the form input, so that each
-// key corresponds to the name of a form input field. In practice,
-// this might be hard to achieve, so we'll default the parameter to "any".
-export type FormFieldErrorMap<T = any> = {
+// key corresponds to the name of a form input field.
+export type FormFieldErrorMap<T> = {
   [K in keyof T]?: string[];
 }
 
-export interface FormErrors {
+export interface FormErrors<T> {
   /**
    * Non-field errors that don't correspond to any particular field.
    */
@@ -34,7 +33,7 @@ export interface FormErrors {
   /**
    * Field-specific errors.
    */
-  fieldErrors: FormFieldErrorMap;
+  fieldErrors: FormFieldErrorMap<T>;
 }
 
 /**
@@ -74,8 +73,8 @@ function simplifyErrors(errors: GrapheneDjangoFormErrors): FormFieldError[] {
  * 
  * @param errors A list of simplified errors.
  */
-function createFormErrors(errors: FormFieldError[]): FormErrors {
-  const result: FormErrors = {
+function createFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
+  const result: FormErrors<T> = {
     nonFieldErrors: [],
     fieldErrors: {}
   };
@@ -84,9 +83,18 @@ function createFormErrors(errors: FormFieldError[]): FormErrors {
     if (error.field === '__all__') {
       result.nonFieldErrors.push(...error.messages);
     } else {
-      const fieldErrors = result.fieldErrors[error.field] || [];
-      fieldErrors.push(...error.messages);
-      result.fieldErrors[error.field] = fieldErrors;
+      // Note that we're forcing a typecast here. It's not ideal, but
+      // it seems better than the alternative of not parameterizing
+      // this type at all.
+      const field: keyof T = error.field as any;
+
+      // This code looks weird because TypeScript is being fidgety.
+      const arr = result.fieldErrors[field];
+      if (arr) {
+        arr.push(...error.messages);
+      } else {
+        result.fieldErrors[field] = [...error.messages];
+      }
     }
   });
 
@@ -94,7 +102,7 @@ function createFormErrors(errors: FormFieldError[]): FormErrors {
 }
 
 /** Convert a list of Graphene-Django's form errors into a more manageable form. */
-export function getFormErrors(errors: GrapheneDjangoFormErrors): FormErrors {
+export function getFormErrors<T>(errors: GrapheneDjangoFormErrors): FormErrors<T> {
   return createFormErrors(simplifyErrors(errors));
 }
 

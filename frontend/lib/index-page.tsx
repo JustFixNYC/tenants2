@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { fetchSimpleQuery } from './queries/SimpleQuery';
+import { LoginInput } from './queries/LoginMutation';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
 import { AppServerInfo } from './app-server-info';
@@ -12,7 +13,7 @@ export interface IndexPageProps {
   gqlClient: GraphQlClient;
   server: AppServerInfo;
   session: AppSessionInfo;
-  loginErrors?: FormErrors;
+  loginErrors?: FormErrors<LoginInput>;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (phoneNumber: string, password: string) => void;

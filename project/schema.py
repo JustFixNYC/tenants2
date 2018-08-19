@@ -9,16 +9,19 @@ from django.middleware import csrf
 from . import forms
 
 
-class CamelCasedErrorsMixin:
-    '''
-    Graphene-Django's default implementation for form field validation
-    errors doesn't convert field names to camel case, but we want to,
-    because the input was provided using camel case field names, so the
-    errors should use them too.
-    '''
+class JustfixDjangoFormMutation(DjangoFormMutation):
+    class Meta:
+        abstract = True
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        '''
+        Graphene-Django's default implementation for form field validation
+        errors doesn't convert field names to camel case, but we want to,
+        because the input was provided using camel case field names, so the
+        errors should use them too.
+        '''
+
         form = cls.get_form(root, info, **input)
 
         if form.is_valid():
@@ -32,7 +35,7 @@ class CamelCasedErrorsMixin:
             return cls(errors=errors)
 
 
-class Login(CamelCasedErrorsMixin, DjangoFormMutation):
+class Login(JustfixDjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
     (if it wasn't, it's because the credentials were invalid). It also returns

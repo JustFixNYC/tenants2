@@ -233,15 +233,23 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ErrorType",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -279,32 +287,44 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ErrorType",
-          "description": null,
+          "name": "StrictFormFieldErrorType",
+          "description": "This is similar to Graphene-Django's default form field\nerror type, but with all fields required, to simplify\nthe type system.",
           "fields": [
             {
               "name": "field",
-              "description": null,
+              "description": "The camel-cased name of the input field, or '__all__' for non-field errors.",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "messages",
-              "description": null,
+              "description": "A list of human-readable validation errors.",
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,

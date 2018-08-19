@@ -1,17 +1,7 @@
 import React from 'react';
 
 /**
- * These are Graphene-Django's extremely complicated form validation error types.
- */
-interface GrapheneDjangoFormFieldError {
-  field: string | null;
-  messages: (string | null)[] | null;
-}
-
-type GrapheneDjangoFormErrors = (GrapheneDjangoFormFieldError | null)[] | null;
-
-/**
- * These are our much simpler form validation error types.
+ * This is the form validation error type returned from the server.
  */
 interface FormFieldError {
   field: string;
@@ -37,43 +27,12 @@ export interface FormErrors<T> {
 }
 
 /**
- * Graphene-Django's forms error typing is rife with nullable types that, in
- * practice, should never actually be null. I'm not sure if this is
- * a bug in Graphene-Django's form handling, or a misconception on my part,
- * but for now this function converts Django-Graphene's errors to a
- * simpler type that we can work more easily with. It also raises
- * assertion errors if any of our assumptions prove wrong at runtime.
+ * Re-structure a list of errors from the server into a more convenient
+ * format for us to process.
  * 
- * @param errors Raw errors given to us from Graphene-Django's GraphQL response.
- *   It is assumed that there is at least one error in this list.
+ * @param errors A list of errors from the server.
  */
-function simplifyErrors(errors: GrapheneDjangoFormErrors): FormFieldError[] {
-  if (!errors || errors.length === 0) {
-    throw new Error('Assertion failure, errors should be a non-empty array');
-  }
-
-  return errors.map(error => {
-    if (!error || !error.field || !error.messages) {
-      throw new Error('Assertion failure, error should have non-empty field and messages');
-    }
-    return {
-      field: error.field,
-      messages: error.messages.map(message => {
-        if (!message) {
-          throw new Error("Assertion failure, message should be non-empty");
-        }
-        return message;
-      })
-    };
-  });
-}
-
-/**
- * Re-structure a list of simplified errors into a more convenient format for us to process.
- * 
- * @param errors A list of simplified errors.
- */
-function createFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
+export function getFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
   const result: FormErrors<T> = {
     nonFieldErrors: [],
     fieldErrors: {}
@@ -99,11 +58,6 @@ function createFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
   });
 
   return result;
-}
-
-/** Convert a list of Graphene-Django's form errors into a more manageable form. */
-export function getFormErrors<T>(errors: GrapheneDjangoFormErrors): FormErrors<T> {
-  return createFormErrors(simplifyErrors(errors));
 }
 
 /** A simple JSX component that displays some errors. */

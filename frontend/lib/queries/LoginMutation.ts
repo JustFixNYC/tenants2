@@ -10,12 +10,12 @@
 // ====================================================
 
 export interface LoginMutation_login_errors {
-  field: string | null;
-  messages: (string | null)[] | null;
+  field: string;
+  messages: string[];
 }
 
 export interface LoginMutation_login {
-  errors: (LoginMutation_login_errors | null)[] | null;
+  errors: LoginMutation_login_errors[];
   csrfToken: string | null;
 }
 

@@ -9,9 +9,14 @@
 // GraphQL mutation operation: LoginMutation
 // ====================================================
 
+export interface LoginMutation_login_errors {
+  field: string | null;
+  messages: (string | null)[] | null;
+}
+
 export interface LoginMutation_login {
-  ok: boolean;
-  csrfToken: string;
+  errors: (LoginMutation_login_errors | null)[] | null;
+  csrfToken: string | null;
 }
 
 export interface LoginMutation {
@@ -19,8 +24,7 @@ export interface LoginMutation {
 }
 
 export interface LoginMutationVariables {
-  phoneNumber: string;
-  password: string;
+  input: LoginInput;
 }
 
 /* tslint:disable */
@@ -30,14 +34,26 @@ export interface LoginMutationVariables {
 // START Enums and Input Objects
 //==============================================================
 
+/**
+ * 
+ */
+export interface LoginInput {
+  phoneNumber: string;
+  password: string;
+  clientMutationId?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
 export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
   // The following query was taken from LoginMutation.graphql.
-  return fetchGraphQL(`mutation LoginMutation($phoneNumber: String!, $password: String!) {
-    login(phoneNumber: $phoneNumber, password: $password) {
-        ok,
+  return fetchGraphQL(`mutation LoginMutation($input: LoginInput!) {
+    login(input: $input) {
+        errors {
+            field,
+            messages
+        },
         csrfToken
     }
 }

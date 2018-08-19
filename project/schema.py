@@ -1,10 +1,13 @@
 import graphene
+from graphene_django.forms.mutation import DjangoFormMutation
 from graphql import ResolveInfo
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout, login
 from django.middleware import csrf
 
+from . import forms
 
-class Login(graphene.Mutation):
+
+class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
     (if it wasn't, it's because the credentials were invalid). It also returns
@@ -14,20 +17,16 @@ class Login(graphene.Mutation):
         https://docs.djangoproject.com/en/2.1/ref/csrf/
     '''
 
-    class Arguments:
-        phone_number = graphene.String(required=True)
-        password = graphene.String(required=True)
+    class Meta:
+        form_class = forms.LoginForm
 
-    ok = graphene.Boolean(required=True)
-    csrf_token = graphene.String(required=True)
+    csrf_token = graphene.String()
 
-    def mutate(self, info: ResolveInfo, phone_number: str, password: str) -> 'Login':
+    @classmethod
+    def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
         request = info.context
-        user = authenticate(phone_number=phone_number, password=password)
-        if user is None:
-            return Login(ok=False, csrf_token=csrf.get_token(request))
-        login(request, user)
-        return Login(ok=True, csrf_token=csrf.get_token(request))
+        login(request, form.authenticated_user)
+        return cls(errors=[], csrf_token=csrf.get_token(request))
 
 
 class Logout(graphene.Mutation):

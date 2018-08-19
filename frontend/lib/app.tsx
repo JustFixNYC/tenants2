@@ -76,11 +76,11 @@ export class App extends React.Component<AppProps, AppState> {
 
   @autobind
   handleLoginSubmit(phoneNumber: string, password: string) {
-    fetchLoginMutation(this.gqlClient.fetch, {
+    fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password
-    }).then(result => {
-      if (result.login.ok) {
+    }}).then(result => {
+      if (result.login.csrfToken) {
         this.setState({
           session: {
             phoneNumber,
@@ -88,6 +88,7 @@ export class App extends React.Component<AppProps, AppState> {
           }
         });
       } else {
+        console.log(result.login.errors);
         window.alert("Invalid phone number or password.");
       }
     }).catch(this.handleFetchError);

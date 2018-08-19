@@ -1,6 +1,9 @@
-mutation LoginMutation($phoneNumber: String!, $password: String!) {
-    login(phoneNumber: $phoneNumber, password: $password) {
-        ok,
+mutation LoginMutation($input: LoginInput!) {
+    login(input: $input) {
+        errors {
+            field,
+            messages
+        },
         csrfToken
     }
 }

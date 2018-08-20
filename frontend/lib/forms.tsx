@@ -72,3 +72,46 @@ export function ListFieldErrors({ errors }: { errors: string[]|undefined }): JSX
     </ul>
   );
 }
+
+/**
+ * Base properties that form fields need to have.
+ */
+export interface BaseFormFieldProps<T> {
+  onChange: (value: T) => void;
+  errors?: string[];
+  value: T;
+}
+
+/**
+ * Valid types of textual form field input.
+ */
+export type TextualInputType = 'text'|'password';
+
+/**
+ * Properties for textual form field input.
+ */
+export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
+  type?: TextualInputType;
+  label: string;
+};
+
+/** A JSX component for textual form input. */
+export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
+  const type: TextualInputType = props.type || 'text';
+
+  return (
+    <div>
+      <p>
+        <input
+          className="input"
+          type={type}
+          // TODO: This should really be a <label>, not a placeholder.
+          placeholder={props.label}
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      </p>
+    <ListFieldErrors errors={props.errors} />
+  </div>
+  );
+}

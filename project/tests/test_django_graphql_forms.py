@@ -18,7 +18,7 @@ class Foo(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form, info):
-        return cls(baz_field=f"{form.cleaned_data['bar_field']} back", errors=[])
+        return cls(baz_field=f"{form.cleaned_data['bar_field']} back")
 
 
 class Mutations(graphene.ObjectType):

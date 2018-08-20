@@ -38,6 +38,7 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
     # it's required, to simplify the type system.
     errors = graphene.List(
         graphene.NonNull(StrictFormFieldErrorType),
+        default_value=[],
         required=True,
         description=(
             "A list of validation errors in the form, if any. "

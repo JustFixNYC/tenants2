@@ -2,6 +2,7 @@ from pathlib import Path
 from graphene.test import Client
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sessions.middleware import SessionMiddleware
 import subprocess
 import pytest
 
@@ -44,6 +45,7 @@ def graphql_client() -> Client:
 
     req = RequestFactory().get('/')
     req.user = AnonymousUser()
+    SessionMiddleware().process_request(req)
     client = Client(schema, context_value=req)
 
     # Attach the request to the client for easy retrieval/alteration.

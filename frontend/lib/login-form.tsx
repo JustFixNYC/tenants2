@@ -8,6 +8,14 @@ interface LoginFormProps {
   loginErrors?: FormErrors<LoginInput>;
 }
 
+/** Get just the keys of a type whose values are strings. */
+type StringPropNames<T> = NonNullable<{ [K in keyof T]: T[K] extends string ? K : never }[keyof T]>;
+
+/** Narrow a mapping to include only its string values. */
+type StringProps<T> = {
+  [K in StringPropNames<LoginInput>]: string;
+}
+
 /**
  * A union of form field names that are actually capable of
  * being filled out by users.
@@ -57,7 +65,7 @@ export class LoginForm extends React.Component<LoginFormProps, FillableFormInput
     this.state = { phoneNumber: '', password: '' };
   }
 
-  renderWidget(fieldName: FillableFormFields<LoginInput>) {
+  renderTextualWidget(fieldName: FillableFormFields<StringProps<LoginInput>>) {
     const errors = this.props.loginErrors;
     const meta = LOGIN_FIELD_METADATA[fieldName];
 
@@ -95,8 +103,8 @@ export class LoginForm extends React.Component<LoginFormProps, FillableFormInput
         this.props.onSubmit(this.state);
       }}>
         <ListFieldErrors errors={errors && errors.nonFieldErrors} />
-        {this.renderWidget('phoneNumber')}
-        {this.renderWidget('password')}
+        {this.renderTextualWidget('phoneNumber')}
+        {this.renderTextualWidget('password')}
         <p><button type="submit" className="button is-primary">Submit</button></p>
       </form>
     );

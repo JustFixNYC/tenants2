@@ -3,13 +3,18 @@ import { LoginInput } from './queries/globalTypes';
 
 import { FormErrors, ListFieldErrors } from './forms';
 
-
 interface LoginFormProps {
   onSubmit: (input: LoginInput) => void;
   loginErrors?: FormErrors<LoginInput>;
 }
 
-type LoginFormState = LoginInput;
+type FormFields = Exclude<keyof LoginInput, 'clientMutationId'>;
+
+type FormInput = {
+  [K in FormFields]: LoginInput[K]
+};
+
+type LoginFormState = FormInput;
 
 type FormFieldInputType = 'text'|'password';
 
@@ -19,7 +24,7 @@ interface FormFieldMetadata {
 }
 
 type FormFieldMetadataMap<T> = {
-  [K in keyof T]: FormFieldMetadata
+  [K in FormFields]: FormFieldMetadata
 };
 
 const LOGIN_FIELD_METADATA: FormFieldMetadataMap<LoginInput> = {
@@ -39,15 +44,9 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     this.state = { phoneNumber: '', password: '' };
   }
 
-  renderWidget(fieldName: keyof LoginInput) {
+  renderWidget(fieldName: FormFields) {
     const errors = this.props.loginErrors;
     const meta = LOGIN_FIELD_METADATA[fieldName];
-
-    if (!meta) {
-      // TODO: Argh, we shouldn't have to do this, our type system
-      // should elimiate the possibility.
-      throw new Error(`Assertion failure, no metadata for "${fieldName}"`);
-    }
 
     return (
       <div>
@@ -55,12 +54,18 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           <input
             className="input"
             type={meta.type}
-            // TODO: We should use a <label>, not a placeholder.
             placeholder={meta.label}
-            // TODO: Ugh, figure out how to not have to typecast to any here.
-            value={this.state[fieldName] as any}
-            // TODO: Ugh, figure out how to not have to typecast to any here.
-            onChange={(e) => { this.setState({ [fieldName]: e.target.value } as any); }}
+            value={this.state[fieldName]}
+            onChange={(e) => {
+              const value = e.target.value;
+              // We really shouldn't have to provide a full state here,
+              // but TypeScript complains if we attempt to provide a
+              // partial one. :(
+              this.setState(state => ({
+                ...state,
+                [fieldName]: value
+              }));
+            }}
           />
         </p>
         <ListFieldErrors errors={errors && errors.fieldErrors[fieldName]} />

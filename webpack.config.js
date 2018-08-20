@@ -36,6 +36,7 @@ const tsLoaderOptions = {
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
+    "babel-plugin-transform-object-rest-spread",
     "babel-plugin-syntax-dynamic-import",
     "react-loadable/babel"
   ]
@@ -137,10 +138,6 @@ const webConfig = {
             options: {
               ...baseBabelOptions,
               presets: ["env"],
-              plugins: [
-                ...baseBabelOptions.plugins,
-                "babel-plugin-transform-object-rest-spread",
-              ],
             }
           },
           { loader: 'ts-loader', options: tsLoaderOptions }

@@ -143,8 +143,27 @@ export function runApolloCodegen(force: boolean = false) {
   }
 }
 
+function argvHasOption(...opts: string[]): boolean {
+  for (let opt of opts) {
+    if (process.argv.indexOf(opt) !== -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 if (!module.parent) {
-  runApolloCodegen();
+  if (argvHasOption('-h', '--help')) {
+    console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
+    console.log(`options:\n`);
+    console.log('  -f / --force   Force run Apollo Codgen');
+    console.log('  -h / --help    Show this help');
+    process.exit(0);
+  }
+
+  const forceApolloCodegen = argvHasOption('-f', '--force');
+
+  runApolloCodegen(forceApolloCodegen);
 
   console.log(`Building type-safe functions to access the GraphQL`);
   console.log(`queries in ${LIB_PATH}...\n`);

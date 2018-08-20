@@ -5,14 +5,11 @@ import { FormErrors, ListFieldErrors } from './forms';
 
 
 interface LoginFormProps {
-  onSubmit: (phoneNumber: string, password: string) => void;
+  onSubmit: (input: LoginInput) => void;
   loginErrors?: FormErrors<LoginInput>;
 }
 
-interface LoginFormState {
-  phoneNumber: string;
-  password: string;
-}
+type LoginFormState = LoginInput;
 
 export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   constructor(props: LoginFormProps) {
@@ -26,7 +23,7 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     return (
       <form onSubmit={(event) => {
         event.preventDefault();
-        this.props.onSubmit(this.state.phoneNumber, this.state.password);
+        this.props.onSubmit(this.state);
       }}>
         <ListFieldErrors errors={errors && errors.nonFieldErrors} />
         <p><input className="input" type="text" placeholder="phone number" value={this.state.phoneNumber}

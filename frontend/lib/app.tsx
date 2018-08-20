@@ -79,7 +79,7 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   @autobind
-  handleLoginSubmit(phoneNumber: string, password: string) {
+  handleLoginSubmit({ phoneNumber, password }: LoginInput) {
     fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password

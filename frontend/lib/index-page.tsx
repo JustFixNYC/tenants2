@@ -16,7 +16,7 @@ export interface IndexPageProps {
   loginErrors?: FormErrors<LoginInput>;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
-  onLoginSubmit: (phoneNumber: string, password: string) => void;
+  onLoginSubmit: (input: LoginInput) => void;
 }
 
 interface IndexPageState {

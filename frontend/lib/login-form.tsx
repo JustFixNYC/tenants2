@@ -8,23 +8,36 @@ interface LoginFormProps {
   loginErrors?: FormErrors<LoginInput>;
 }
 
-type FormFields = Exclude<keyof LoginInput, 'clientMutationId'>;
+/**
+ * A union of form field names that are actually capable of
+ * being filled out by users.
+ **/
+type FillableFormFields<T> = Exclude<keyof T, 'clientMutationId'>;
 
-type FormInput = {
-  [K in FormFields]: LoginInput[K]
+/**
+ * A version of a GraphQL form input type that contains only
+ * the fields users fill out.
+ */
+type FillableFormInput<T> = {
+  [K in FillableFormFields<T>]: T[K]
 };
 
-type LoginFormState = FormInput;
-
+/**
+ * Valid values that can be passed as the "type" attribute
+ * for <input> fields.
+ */
 type FormFieldInputType = 'text'|'password';
 
+/**
+ * Metadata for form fields in a form.
+ */
 interface FormFieldMetadata {
   label: string;
   type: FormFieldInputType;
 }
 
 type FormFieldMetadataMap<T> = {
-  [K in FormFields]: FormFieldMetadata
+  [K in FillableFormFields<T>]: FormFieldMetadata
 };
 
 const LOGIN_FIELD_METADATA: FormFieldMetadataMap<LoginInput> = {
@@ -38,13 +51,13 @@ const LOGIN_FIELD_METADATA: FormFieldMetadataMap<LoginInput> = {
   }
 };
 
-export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
+export class LoginForm extends React.Component<LoginFormProps, FillableFormInput<LoginInput>> {
   constructor(props: LoginFormProps) {
     super(props);
     this.state = { phoneNumber: '', password: '' };
   }
 
-  renderWidget(fieldName: FormFields) {
+  renderWidget(fieldName: FillableFormFields<LoginInput>) {
     const errors = this.props.loginErrors;
     const meta = LOGIN_FIELD_METADATA[fieldName];
 

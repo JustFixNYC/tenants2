@@ -77,9 +77,20 @@ export function ListFieldErrors({ errors }: { errors: string[]|undefined }): JSX
  * Base properties that form fields need to have.
  */
 export interface BaseFormFieldProps<T> {
+  /** Event handler to call when the field's value changes. */
   onChange: (value: T) => void;
+
+  /** List of validation errors, if any, for the field. */
   errors?: string[];
+
+  /** The current value of the field. */
   value: T;
+
+  /**
+   * The machine-readable name of the field
+   * (e.g. the value of the "name" attribute in an <input> field).
+   **/
+  name: string;
 }
 
 /**
@@ -104,6 +115,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
       <p>
         <input
           className="input"
+          name={props.name}
           type={type}
           // TODO: This should really be a <label>, not a placeholder.
           placeholder={props.label}

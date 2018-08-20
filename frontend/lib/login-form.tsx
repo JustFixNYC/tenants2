@@ -32,7 +32,8 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         this.setState(state => ({ ...state, [field]: value }));
       },
       errors: this.props.errors && this.props.errors.fieldErrors[field],
-      value: this.state[field]
+      value: this.state[field],
+      name: field
     };
   }
 

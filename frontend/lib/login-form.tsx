@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoginInput } from './queries/LoginMutation';
+import { LoginInput } from './queries/globalTypes';
 
 import { FormErrors, ListFieldErrors } from './forms';
 

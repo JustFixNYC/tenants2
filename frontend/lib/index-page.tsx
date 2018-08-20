@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { fetchSimpleQuery } from './queries/SimpleQuery';
-import { LoginInput } from './queries/LoginMutation';
+import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
 import { AppServerInfo } from './app-server-info';

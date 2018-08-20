@@ -8,7 +8,8 @@ import GraphQlClient from './graphql-client';
 
 import { getFormErrors, FormErrors } from './forms';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
-import { fetchLoginMutation, LoginInput } from './queries/LoginMutation';
+import { fetchLoginMutation } from './queries/LoginMutation';
+import { LoginInput } from './queries/globalTypes';
 import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';

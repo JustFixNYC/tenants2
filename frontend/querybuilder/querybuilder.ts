@@ -7,6 +7,9 @@ export const LIB_PATH = path.join('frontend', 'lib', 'queries');
 const GEN_PATH = path.join(LIB_PATH, '__generated__');
 const SCHEMA_PATH = path.join('schema.json');
 const DOT_GRAPHQL = '.graphql';
+export const COPY_FROM_GEN_TO_LIB = [
+  'globalTypes.ts',
+];
 
 /**
  * This class is responsible for taking a raw text
@@ -108,7 +111,10 @@ function doesApolloCodegenNeedToBeRun(): boolean {
   const inputFiles = [SCHEMA_PATH, ...queries.map(q => q.graphQlPath)];
   const latestInputMod = Math.max(...inputFiles.map(f => fs.statSync(f).mtimeMs));
 
-  const outputFiles = queries.map(q => q.tsInterfacesPath);
+  const outputFiles = [
+    ...COPY_FROM_GEN_TO_LIB.map(filename => path.join(LIB_PATH, filename)),
+    ...queries.map(q => q.tsInterfacesPath)
+  ];
   const earliestOutputMod = Math.min(...outputFiles.map(f => {
     if (!fs.existsSync(f)) return 0;
     return fs.statSync(f).mtimeMs;
@@ -130,7 +136,9 @@ export function runApolloCodegen(force: boolean = false) {
     'codegen:generate',
     '--queries', `${LIB_PATH}/*.graphql`,
     '--schema', SCHEMA_PATH,
-    '--target', 'typescript'
+    '--target', 'typescript',
+    '--outputFlat',
+    GEN_PATH,
   ], {
     stdio: 'inherit'
   });
@@ -141,6 +149,20 @@ export function runApolloCodegen(force: boolean = false) {
     console.log(`apollo failed, exiting with status ${child.status}.`);
     process.exit(child.status);
   }
+
+  // https://github.com/apollographql/apollo-cli/issues/543
+  fs.readdirSync(GEN_PATH)
+    .forEach(filename => {
+      const abspath = path.join(GEN_PATH, filename);
+      const contents = fs.readFileSync(abspath, { encoding: 'utf-8' })
+        .replace('"globalTypes"', '"./globalTypes"');
+      fs.writeFileSync(abspath, contents, { encoding: 'utf-8' });
+    });
+
+  COPY_FROM_GEN_TO_LIB.forEach(filename => {
+    const content = fs.readFileSync(path.join(GEN_PATH, filename));
+    fs.writeFileSync(path.join(LIB_PATH, filename), content);
+  });
 }
 
 function argvHasOption(...opts: string[]): boolean {

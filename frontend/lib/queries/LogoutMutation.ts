@@ -1,7 +1,5 @@
 // This file was automatically generated and should not be edited.
 
-
-
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -18,25 +16,6 @@ export interface LogoutMutation {
   logout: LogoutMutation_logout;
 }
 
-/* tslint:disable */
-// This file was automatically generated and should not be edited.
-
-//==============================================================
-// START Enums and Input Objects
-//==============================================================
-
-/**
- * 
- */
-export interface LoginInput {
-  phoneNumber: string;
-  password: string;
-  clientMutationId?: string | null;
-}
-
-//==============================================================
-// END Enums and Input Objects
-//==============================================================
 export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, ): Promise<LogoutMutation> {
   // The following query was taken from LogoutMutation.graphql.
   return fetchGraphQL(`mutation LogoutMutation {

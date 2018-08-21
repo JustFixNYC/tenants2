@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import {
   runApolloCodegen,
-  Query,
+  GraphQlFile,
   LIB_PATH,
   COPY_FROM_GEN_TO_LIB,
   strContains,
@@ -28,7 +28,7 @@ test('getGraphQlFragments() works', () => {
 describe('querybuilder', () => {
   it('should have generated up-to-date TS files based on latest schema and queries', () => {
     runApolloCodegen();
-    Query.fromDir().forEach(query => {
+    GraphQlFile.fromDir().forEach(query => {
       const expected = query.generateTsCode();
       const actual = fs.readFileSync(query.tsCodePath, { encoding: 'utf-8' });
 
@@ -39,7 +39,7 @@ describe('querybuilder', () => {
   });
 
   it('should not have generated any TS files that lack graphQL queries', () => {
-    const queries = Query.fromDir();
+    const queries = GraphQlFile.fromDir();
 
     fs.readdirSync(LIB_PATH).forEach(filename => {
       if (!/\.ts$/.test(filename)) return;

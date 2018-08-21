@@ -4,7 +4,8 @@
     "frontend"
   ],
   "exclude": [
-    "frontend/static"
+    "frontend/static",
+    "frontend/lib/queries/__generated__",
   ],
   "compilerOptions": {
     /* Basic Options */

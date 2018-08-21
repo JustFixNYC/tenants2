@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { runApolloCodegen, Query, LIB_PATH } from "../querybuilder";
+import { runApolloCodegen, Query, LIB_PATH, COPY_FROM_GEN_TO_LIB } from "../querybuilder";
 
 
 describe('querybuilder', () => {
@@ -24,6 +24,8 @@ describe('querybuilder', () => {
 
     fs.readdirSync(LIB_PATH).forEach(filename => {
       if (!/\.ts$/.test(filename)) return;
+
+      if (COPY_FROM_GEN_TO_LIB.indexOf(filename) !== -1) return;
 
       const tsCodePath = path.join(LIB_PATH, filename);
       for (let query of queries) {

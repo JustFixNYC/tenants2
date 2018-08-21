@@ -7,6 +7,9 @@ export const LIB_PATH = path.join('frontend', 'lib', 'queries');
 const GEN_PATH = path.join(LIB_PATH, '__generated__');
 const SCHEMA_PATH = path.join('schema.json');
 const DOT_GRAPHQL = '.graphql';
+export const COPY_FROM_GEN_TO_LIB = [
+  'globalTypes.ts',
+];
 
 /**
  * This class is responsible for taking a raw text
@@ -108,13 +111,33 @@ function doesApolloCodegenNeedToBeRun(): boolean {
   const inputFiles = [SCHEMA_PATH, ...queries.map(q => q.graphQlPath)];
   const latestInputMod = Math.max(...inputFiles.map(f => fs.statSync(f).mtimeMs));
 
-  const outputFiles = queries.map(q => q.tsInterfacesPath);
+  const outputFiles = [
+    ...COPY_FROM_GEN_TO_LIB.map(filename => path.join(LIB_PATH, filename)),
+    ...queries.map(q => q.tsInterfacesPath)
+  ];
   const earliestOutputMod = Math.min(...outputFiles.map(f => {
     if (!fs.existsSync(f)) return 0;
     return fs.statSync(f).mtimeMs;
   }));
 
   return latestInputMod > earliestOutputMod;
+}
+
+function fixInvalidGlobaltypesReferences() {
+  // This is a fix for a bug in Apollo 1.7.0:
+  //
+  //   https://github.com/apollographql/apollo-cli/issues/543
+  //
+  // At the time of this writing, the bug is actually fixed but
+  // a new release hasn't been issued yet. Once one has, we should
+  // upgrade to it and remove this code.
+  fs.readdirSync(GEN_PATH)
+    .forEach(filename => {
+      const abspath = path.join(GEN_PATH, filename);
+      const contents = fs.readFileSync(abspath, { encoding: 'utf-8' })
+        .replace('"globalTypes"', '"./globalTypes"');
+      fs.writeFileSync(abspath, contents, { encoding: 'utf-8' });
+    });
 }
 
 /**
@@ -130,7 +153,9 @@ export function runApolloCodegen(force: boolean = false) {
     'codegen:generate',
     '--queries', `${LIB_PATH}/*.graphql`,
     '--schema', SCHEMA_PATH,
-    '--target', 'typescript'
+    '--target', 'typescript',
+    '--outputFlat',
+    GEN_PATH,
   ], {
     stdio: 'inherit'
   });
@@ -141,10 +166,35 @@ export function runApolloCodegen(force: boolean = false) {
     console.log(`apollo failed, exiting with status ${child.status}.`);
     process.exit(child.status);
   }
+
+  fixInvalidGlobaltypesReferences();
+  COPY_FROM_GEN_TO_LIB.forEach(filename => {
+    const content = fs.readFileSync(path.join(GEN_PATH, filename));
+    fs.writeFileSync(path.join(LIB_PATH, filename), content);
+  });
+}
+
+function argvHasOption(...opts: string[]): boolean {
+  for (let opt of opts) {
+    if (process.argv.indexOf(opt) !== -1) {
+      return true;
+    }
+  }
+  return false;
 }
 
 if (!module.parent) {
-  runApolloCodegen();
+  if (argvHasOption('-h', '--help')) {
+    console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
+    console.log(`options:\n`);
+    console.log('  -f / --force   Force run Apollo Codgen');
+    console.log('  -h / --help    Show this help');
+    process.exit(0);
+  }
+
+  const forceApolloCodegen = argvHasOption('-f', '--force');
+
+  runApolloCodegen(forceApolloCodegen);
 
   console.log(`Building type-safe functions to access the GraphQL`);
   console.log(`queries in ${LIB_PATH}...\n`);

@@ -2,18 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { fetchSimpleQuery } from './queries/SimpleQuery';
+import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
 import { AppServerInfo } from './app-server-info';
 import { AppSessionInfo } from './app-session-info';
+import { FormErrors } from './forms';
 
 export interface IndexPageProps {
   gqlClient: GraphQlClient;
   server: AppServerInfo;
   session: AppSessionInfo;
+  loginErrors?: FormErrors<LoginInput>;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
-  onLoginSubmit: (phoneNumber: string, password: string) => void;
+  onLoginSubmit: (input: LoginInput) => void;
 }
 
 interface IndexPageState {
@@ -71,7 +74,7 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
     return (
       <React.Fragment>
         <p>You are currently logged out.</p>
-        <LoginForm onSubmit={props.onLoginSubmit} />
+        <LoginForm errors={props.loginErrors} onSubmit={props.onLoginSubmit} />
       </React.Fragment>
     );
   }

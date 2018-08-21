@@ -6,8 +6,10 @@ import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
 
+import { getFormErrors, FormErrors } from './forms';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
+import { LoginInput } from './queries/globalTypes';
 import { AppSessionInfo } from './app-session-info';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
@@ -31,6 +33,8 @@ interface AppState {
    * has logged out since the initial page load.
    */
   session: AppSessionInfo;
+
+  loginErrors?: FormErrors<LoginInput>;
 }
 
 const LoadableIndexPage = Loadable({
@@ -75,20 +79,23 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   @autobind
-  handleLoginSubmit(phoneNumber: string, password: string) {
-    fetchLoginMutation(this.gqlClient.fetch, {
+  handleLoginSubmit({ phoneNumber, password }: LoginInput) {
+    fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password
-    }).then(result => {
-      if (result.login.ok) {
+    }}).then(result => {
+      if (result.login.csrfToken) {
         this.setState({
+          loginErrors: undefined,
           session: {
             phoneNumber,
             csrfToken: result.login.csrfToken
           }
         });
       } else {
-        window.alert("Invalid phone number or password.");
+        this.setState({
+          loginErrors: getFormErrors<LoginInput>(result.login.errors)
+        });
       }
     }).catch(this.handleFetchError);
   }
@@ -110,6 +117,7 @@ export class App extends React.Component<AppProps, AppState> {
            gqlClient={this.gqlClient}
            server={this.props.server}
            session={this.state.session}
+           loginErrors={this.state.loginErrors}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

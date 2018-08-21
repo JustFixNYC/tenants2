@@ -7,13 +7,13 @@ import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
 import { AppServerInfo } from './app-server-info';
-import { AppSessionInfo } from './app-session-info';
+import { AllSessionInfo } from './queries/AllSessionInfo';
 import { FormErrors } from './forms';
 
 export interface IndexPageProps {
   gqlClient: GraphQlClient;
   server: AppServerInfo;
-  session: AppSessionInfo;
+  session: AllSessionInfo;
   loginErrors?: FormErrors<LoginInput>;
   loginLoading: boolean;
   logoutLoading: boolean;

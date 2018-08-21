@@ -5,8 +5,7 @@ mutation LoginMutation($input: LoginInput!) {
             messages
         },
         session {
-            phoneNumber,
-            csrfToken
+            ...AllSessionInfo
         }
     }
 }

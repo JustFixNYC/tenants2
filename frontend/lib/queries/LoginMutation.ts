@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -56,10 +57,10 @@ export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => 
             messages
         },
         session {
-            phoneNumber,
-            csrfToken
+            ...AllSessionInfo
         }
     }
 }
-`, args);
+
+${AllSessionInfo.graphQL}`, args);
 }

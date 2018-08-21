@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -31,10 +32,10 @@ export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) =>
   return fetchGraphQL(`mutation LogoutMutation {
     logout {
         session {
-            phoneNumber,
-            csrfToken
+            ...AllSessionInfo
         }
     }
 }
-`);
+
+${AllSessionInfo.graphQL}`);
 }

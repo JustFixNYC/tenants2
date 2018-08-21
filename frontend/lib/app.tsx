@@ -10,7 +10,7 @@ import { getFormErrors, FormErrors } from './forms';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginInput } from './queries/globalTypes';
-import { AppSessionInfo } from './app-session-info';
+import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
 
@@ -20,7 +20,7 @@ export interface AppProps {
   initialURL: string;
 
   /** The initial session state the App was started with. */
-  initialSession: AppSessionInfo;
+  initialSession: AllSessionInfo;
 
   /** Metadata about the server. */
   server: AppServerInfo;
@@ -32,7 +32,7 @@ interface AppState {
    * be different from the initial session if e.g. the user
    * has logged out since the initial page load.
    */
-  session: AppSessionInfo;
+  session: AllSessionInfo;
 
   loginErrors?: FormErrors<LoginInput>;
 

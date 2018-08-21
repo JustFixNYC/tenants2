@@ -11,6 +11,32 @@ export const COPY_FROM_GEN_TO_LIB = [
   'globalTypes.ts',
 ];
 
+/** Returns whether a source string contains any of the given strings. */
+export function strContains(source: string, ...strings: string[]): boolean {
+  for (let string of strings) {
+    if (source.indexOf(string) >= 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/** Returns a list of all fragments the given GraphQL code uses. */
+export function getGraphQlFragments(source: string): string[] {
+  const re = /\.\.\.([A-Za-z0-9]+)/g;
+  const results = [];
+  let m = null;
+
+  do {
+    m = re.exec(source);
+    if (m) {
+      results.push(m[1]);
+    }
+  } while (m);
+
+  return results;
+}
+
 /**
  * This class is responsible for taking a raw text
  * GraphQL query, Apollo codegen:generate'd TypeScript
@@ -44,6 +70,9 @@ export class Query {
   /** The path to the Apollo codegen:generate'd Typescript interfaces for the query. */
   tsInterfacesPath: string;
 
+  /** External fragments that the GraphQL refers to, if any. */
+  fragments: string[];
+
   constructor(readonly graphQlFilename: string, genPath: string = GEN_PATH) {
     const fullPath = path.join(LIB_PATH, graphQlFilename);
     this.graphQlPath = fullPath;
@@ -52,9 +81,37 @@ export class Query {
     this.tsInterfacesFilename = `${this.basename}.ts`;
     this.tsInterfacesPath = path.join(genPath, this.tsInterfacesFilename);
     this.tsCodePath = path.join(LIB_PATH, `${this.basename}.ts`);
+    this.fragments = getGraphQlFragments(this.graphQl);
   }
 
-  /** Generate the TypeScript code for our function. */
+  /** Returns whether our GraphQL contains any of the given strings. */
+  graphQlContains(...strings: string[]): boolean {
+    return strContains(this.graphQl, ...strings);
+  }
+
+  getGraphQlTemplateLiteral(): string {
+    const parts = [this.graphQl];
+
+    this.fragments.forEach(fragmentName => {
+      parts.push('${' + fragmentName + '.graphQL}');
+    });
+
+    return '`' + parts.join('\n') + '`';
+  }
+
+  getTsCodeHeader(): string {
+    const lines = [
+      '// This file was automatically generated and should not be edited.\n'
+    ];
+
+    this.fragments.forEach(fragmentName => {
+      lines.push(`import * as ${fragmentName} from './${fragmentName}'`);
+    });
+
+    return lines.join('\n');
+  }
+
+  /** Generate the TypeScript code that clients will use. */
   generateTsCode(): string {
     if (!fs.existsSync(this.tsInterfacesPath)) {
       throw new Error(`Expected ${this.tsInterfacesPath} to exist!`);
@@ -69,6 +126,24 @@ export class Query {
       throw new Error(`Expected ${this.tsInterfacesFilename} to define "${this.basename}"!`);
     }
 
+    if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
+      return this.generateTsCodeForQueryOrMutation(tsInterfaces);
+    } else if (this.graphQlContains(`fragment ${this.basename}`)) {
+      return this.generateTsCodeForFragment(tsInterfaces);
+    } else {
+      throw new Error(`${this.basename} is an unrecognized GraphQL type`);
+    }
+  }
+
+  generateTsCodeForFragment(tsInterfaces: string): string {
+    return [
+      this.getTsCodeHeader(),
+      tsInterfaces,
+      `export const graphQL = ${this.getGraphQlTemplateLiteral()};`
+    ].join('\n');
+  }
+
+  generateTsCodeForQueryOrMutation(tsInterfaces: string): string {
     let variablesInterfaceName = `${this.basename}Variables`;
     let args = '';
 
@@ -79,11 +154,11 @@ export class Query {
     const fetchGraphQL = 'fetchGraphQL: (query: string, args?: any) => Promise<any>';
 
     return [
-      `// This file was automatically generated and should not be edited.\n`,
+      this.getTsCodeHeader(),
       tsInterfaces,
       `export function fetch${this.basename}(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
-      `  return fetchGraphQL(\`${this.graphQl}\`${args ? ', args' : ''});`,
+      `  return fetchGraphQL(${this.getGraphQlTemplateLiteral()}${args ? ', args' : ''});`,
       `}`
     ].join('\n');
   }

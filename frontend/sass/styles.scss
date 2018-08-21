@@ -1,6 +1,56 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
 
+$justfix-blue: #0096D7;
+
+.hero nav.navbar {
+    background: $justfix-blue;
+
+    .navbar-item:focus, .navbar-link:focus {
+        outline: 2px dashed white;
+    }
+
+    .navbar-item, .navbar-link {
+        color: white;
+    }
+
+    .navbar-link::after {
+        border-color: white;
+    }
+
+    .is-active {
+        .navbar-dropdown {
+            .navbar-item:focus, .navbar-link:focus {
+                outline: 2px dashed $justfix-blue;
+            }
+        }
+
+        .navbar-item, .navbar-link {
+            color: $justfix-blue;
+        }
+
+        .navbar-link::after {
+            border-color: $justfix-blue;
+        }
+    }
+
+    a.navbar-item:hover,
+    a.navbar-item.is-active,
+    .navbar-link:hover,
+    .navbar-link.is-active {
+        color: $justfix-blue;
+    }
+
+    .navbar-link:hover::after,
+    .navbar-link.is-active::after {
+        border-color: $justfix-blue;
+    }
+}
+
+.button:focus {
+    text-decoration: underline;
+}
+
 .hero {
     background: url(img/brownstones.jpg) center / cover;
 }

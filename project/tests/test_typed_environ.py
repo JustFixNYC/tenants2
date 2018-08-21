@@ -19,6 +19,14 @@ def test_get_envhelp_returns_empty_str():
     assert typed_environ.get_envhelp(int) == ''
 
 
+def test_exception_raised_if_converter_not_found():
+    class NoConverterEnv(typed_environ.BaseEnvironment):
+        OOF: StringIO
+
+    with pytest.raises(ValueError, match='Unable to find converter'):
+        NoConverterEnv(env={'OOF': 'hmm'})
+
+
 def test_overriding_default_value_works():
     class MyEnv(typed_environ.BaseEnvironment):
         BLARG: str = 'blarg'

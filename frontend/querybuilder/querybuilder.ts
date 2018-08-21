@@ -142,33 +142,39 @@ export class GraphQlFile {
 
   /** Generate the TypeScript code that clients will use. */
   generateTsCode(): string {
+    if (this.graphQl.indexOf(this.basename) === -1) {
+      throw new Error(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
+    }
+
+    if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
+      return this.generateTsCodeForQueryOrMutation();
+    } else if (this.graphQlContains(`fragment ${this.basename}`)) {
+      return this.generateTsCodeForFragment();
+    } else {
+      throw new Error(`${this.basename} is an unrecognized GraphQL type`);
+    }
+  }
+
+  /** Return the TypeScript interfaces code created by Apollo codegen:generate. */
+  getTsInterfaces(): string {
     if (!fs.existsSync(this.tsInterfacesPath)) {
       throw new Error(`Expected ${this.tsInterfacesPath} to exist!`);
     }
 
     const tsInterfaces = fs.readFileSync(this.tsInterfacesPath, { encoding: 'utf-8' });
 
-    if (this.graphQl.indexOf(this.basename) === -1) {
-      throw new Error(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
-    }
     if (tsInterfaces.indexOf(this.basename) === -1) {
       throw new Error(`Expected ${this.tsInterfacesFilename} to define "${this.basename}"!`);
     }
 
-    if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
-      return this.generateTsCodeForQueryOrMutation(tsInterfaces);
-    } else if (this.graphQlContains(`fragment ${this.basename}`)) {
-      return this.generateTsCodeForFragment(tsInterfaces);
-    } else {
-      throw new Error(`${this.basename} is an unrecognized GraphQL type`);
-    }
+    return tsInterfaces;
   }
 
   /** Generate the TypeScript code when our file is a GraphQL fragment. */
-  generateTsCodeForFragment(tsInterfaces: string): string {
+  generateTsCodeForFragment(): string {
     return [
       this.getTsCodeHeader(),
-      tsInterfaces,
+      this.getTsInterfaces(),
       `export const graphQL = ${this.getGraphQlTemplateLiteral()};`
     ].join('\n');
   }
@@ -177,7 +183,8 @@ export class GraphQlFile {
    * Generate the TypeScript code when our file is a GraphQL
    * query or mutation.
    */
-  generateTsCodeForQueryOrMutation(tsInterfaces: string): string {
+  generateTsCodeForQueryOrMutation(): string {
+    const tsInterfaces = this.getTsInterfaces();
     let variablesInterfaceName = `${this.basename}Variables`;
     let args = '';
 

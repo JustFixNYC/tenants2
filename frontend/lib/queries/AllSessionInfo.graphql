@@ -1,0 +1,4 @@
+fragment AllSessionInfo on SessionInfo {
+    phoneNumber
+    csrfToken
+}

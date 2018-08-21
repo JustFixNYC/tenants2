@@ -1,6 +1,6 @@
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo } from "../app-server-info";
-import { AppSessionInfo } from "../app-session-info";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -32,7 +32,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   batchGraphQLURL: '/mygarphql'
 };
 
-export const FakeSessionInfo: Readonly<AppSessionInfo> = {
+export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
 };

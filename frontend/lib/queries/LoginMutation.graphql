@@ -4,6 +4,8 @@ mutation LoginMutation($input: LoginInput!) {
             field,
             messages
         },
-        csrfToken
+        session {
+            ...AllSessionInfo
+        }
     }
 }

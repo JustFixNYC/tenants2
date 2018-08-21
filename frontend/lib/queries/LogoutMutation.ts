@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -7,9 +8,19 @@
 // GraphQL mutation operation: LogoutMutation
 // ====================================================
 
-export interface LogoutMutation_logout {
-  ok: boolean;
+export interface LogoutMutation_logout_session {
+  /**
+   * The phone number of the currently logged-in user, or null if not logged-in.
+   */
+  phoneNumber: string | null;
+  /**
+   * The cross-site request forgery (CSRF) token.
+   */
   csrfToken: string;
+}
+
+export interface LogoutMutation_logout {
+  session: LogoutMutation_logout_session;
 }
 
 export interface LogoutMutation {
@@ -20,9 +31,11 @@ export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) =>
   // The following query was taken from LogoutMutation.graphql.
   return fetchGraphQL(`mutation LogoutMutation {
     logout {
-        ok,
-        csrfToken
+        session {
+            ...AllSessionInfo
+        }
     }
 }
-`);
+
+${AllSessionInfo.graphQL}`);
 }

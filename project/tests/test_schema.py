@@ -1,22 +1,23 @@
 import pytest
 
-from project.justfix_environment import BASE_DIR
 from users.tests.factories import UserFactory
 from project.util import schema_json
+from project.views import FRONTEND_QUERY_DIR
 
 
-FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries'
-
-
-def get_frontend_query(filename):
-    return (FRONTEND_QUERY_DIR / filename).read_text()
+def get_frontend_queries(*filenames):
+    return '\n'.join([
+        (FRONTEND_QUERY_DIR / filename).read_text()
+        for filename in filenames
+    ])
 
 
 @pytest.mark.django_db
 def test_login_works(graphql_client):
     user = UserFactory(phone_number='5551234567', password='blarg')
     result = graphql_client.execute(
-        get_frontend_query('LoginMutation.graphql'),
+        get_frontend_queries(
+            'LoginMutation.graphql', 'AllSessionInfo.graphql'),
         variable_values={
             'input': {
                 'phoneNumber': '5551234567',
@@ -27,7 +28,7 @@ def test_login_works(graphql_client):
 
     login = result['data']['login']
     assert login['errors'] == []
-    assert len(login['csrfToken']) > 0
+    assert len(login['session']['csrfToken']) > 0
     assert graphql_client.request.user.pk == user.pk
 
 
@@ -35,10 +36,10 @@ def test_login_works(graphql_client):
 def test_logout_works(graphql_client):
     user = UserFactory()
     graphql_client.request.user = user
-    logout_mutation = get_frontend_query('LogoutMutation.graphql')
+    logout_mutation = get_frontend_queries(
+        'LogoutMutation.graphql', 'AllSessionInfo.graphql')
     result = graphql_client.execute(logout_mutation)
-
-    assert len(result['data']['logout']['csrfToken']) > 0
+    assert len(result['data']['logout']['session']['csrfToken']) > 0
     assert graphql_client.request.user.pk is None
 
 

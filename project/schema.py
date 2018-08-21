@@ -1,3 +1,4 @@
+from typing import Optional
 import graphene
 from graphql import ResolveInfo
 from django.contrib.auth import logout, login
@@ -5,6 +6,30 @@ from django.middleware import csrf
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from . import forms
+
+
+class SessionInfo(graphene.ObjectType):
+    phone_number = graphene.String(
+        description=(
+            "The phone number of the currently logged-in user, or "
+            "null if not logged-in."
+        )
+    )
+
+    csrf_token = graphene.String(
+        description="The cross-site request forgery (CSRF) token.",
+        required=True
+    )
+
+    def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.phone_number
+
+    def resolve_csrf_token(self, info: ResolveInfo) -> str:
+        request = info.context
+        return csrf.get_token(request)
 
 
 class Login(DjangoFormMutation):
@@ -20,29 +45,28 @@ class Login(DjangoFormMutation):
     class Meta:
         form_class = forms.LoginForm
 
-    csrf_token = graphene.String()
+    session = graphene.Field(SessionInfo)
 
     @classmethod
     def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
         request = info.context
         login(request, form.authenticated_user)
-        return cls(errors=[], csrf_token=csrf.get_token(request))
+        return cls(errors=[], session=SessionInfo())
 
 
 class Logout(graphene.Mutation):
     '''
-    Logs out the user, returning whether the logout was successful. It also
-    returns a new CSRF token, because apparently this changes on logout too.
+    Logs out the user. Clients should pay attention to the
+    CSRF token, because apparently this changes on logout too.
     '''
 
-    ok = graphene.Boolean(required=True)
-    csrf_token = graphene.String(required=True)
+    session = graphene.NonNull(SessionInfo)
 
     def mutate(self, info: ResolveInfo) -> 'Logout':
         request = info.context
         if request.user.is_authenticated:
             logout(request)
-        return Logout(ok=True, csrf_token=csrf.get_token(request))
+        return Logout(session=SessionInfo())
 
 
 class Mutations(graphene.ObjectType):
@@ -56,8 +80,12 @@ class Query(graphene.ObjectType):
     GraphQL clients as part of our schema.
     '''
 
+    session = graphene.NonNull(SessionInfo)
     hello = graphene.String(thing=graphene.String(required=True), required=True)
     there = graphene.Int()
+
+    def resolve_session(self, info: ResolveInfo) -> SessionInfo:
+        return SessionInfo()
 
     def resolve_hello(self, info: ResolveInfo, thing: str) -> str:
         if info.context.user.is_authenticated:

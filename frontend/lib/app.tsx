@@ -35,6 +35,8 @@ interface AppState {
   session: AppSessionInfo;
 
   loginErrors?: FormErrors<LoginInput>;
+
+  loginLoading: boolean;
 }
 
 const LoadableIndexPage = Loadable({
@@ -53,7 +55,10 @@ export class App extends React.Component<AppProps, AppState> {
       props.server.batchGraphQLURL,
       props.initialSession.csrfToken
     );
-    this.state = { session: props.initialSession };
+    this.state = {
+      session: props.initialSession,
+      loginLoading: false
+    };
   }
 
   @autobind
@@ -80,6 +85,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   @autobind
   handleLoginSubmit({ phoneNumber, password }: LoginInput) {
+    this.setState({ loginLoading: true });
     fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password
@@ -87,6 +93,7 @@ export class App extends React.Component<AppProps, AppState> {
       if (result.login.csrfToken) {
         this.setState({
           loginErrors: undefined,
+          loginLoading: false,
           session: {
             phoneNumber,
             csrfToken: result.login.csrfToken
@@ -94,6 +101,7 @@ export class App extends React.Component<AppProps, AppState> {
         });
       } else {
         this.setState({
+          loginLoading: false,
           loginErrors: getFormErrors<LoginInput>(result.login.errors)
         });
       }
@@ -118,6 +126,7 @@ export class App extends React.Component<AppProps, AppState> {
            server={this.props.server}
            session={this.state.session}
            loginErrors={this.state.loginErrors}
+           loginLoading={this.state.loginLoading}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

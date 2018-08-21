@@ -91,6 +91,9 @@ export interface BaseFormFieldProps<T> {
    * (e.g. the value of the "name" attribute in an <input> field).
    **/
   name: string;
+
+  /** Whether the form field is disabled. */
+  isDisabled: boolean;
 }
 
 /**
@@ -115,6 +118,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
       <p>
         <input
           className="input"
+          disabled={props.isDisabled}
           name={props.name}
           type={type}
           // TODO: This should really be a <label>, not a placeholder.

@@ -14,6 +14,7 @@ export interface IndexPageProps {
   server: AppServerInfo;
   session: AppSessionInfo;
   loginErrors?: FormErrors<LoginInput>;
+  loginLoading: boolean;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (input: LoginInput) => void;
@@ -74,7 +75,7 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
     return (
       <React.Fragment>
         <p>You are currently logged out.</p>
-        <LoginForm errors={props.loginErrors} onSubmit={props.onLoginSubmit} />
+        <LoginForm errors={props.loginErrors} isLoading={props.loginLoading} onSubmit={props.onLoginSubmit} />
       </React.Fragment>
     );
   }

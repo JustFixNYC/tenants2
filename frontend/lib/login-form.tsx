@@ -1,11 +1,13 @@
 import React from 'react';
 import { LoginInput } from './queries/globalTypes';
+import classnames from 'classnames';
 
 import { FormErrors, ListFieldErrors, BaseFormFieldProps, TextualFormField } from './forms';
 import autobind from 'autobind-decorator';
 
 interface LoginFormProps {
   onSubmit: (input: LoginInput) => void;
+  isLoading: boolean;
   errors?: FormErrors<LoginInput>;
 }
 
@@ -20,7 +22,9 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   @autobind
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    if (!this.props.isLoading) {
+      this.props.onSubmit(this.state);
+    }
   }
 
   fieldPropsFor<K extends keyof LoginFormState>(field: K): BaseFormFieldProps<LoginFormState[K]>  {
@@ -33,7 +37,8 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       },
       errors: this.props.errors && this.props.errors.fieldErrors[field],
       value: this.state[field],
-      name: field
+      name: field,
+      isDisabled: this.props.isLoading
     };
   }
 
@@ -43,7 +48,9 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         <ListFieldErrors errors={this.props.errors && this.props.errors.nonFieldErrors} />
         <TextualFormField label="Phone number" {...this.fieldPropsFor('phoneNumber')} />
         <TextualFormField label="Password" type="password" {...this.fieldPropsFor('password')} />
-        <p><button type="submit" className="button is-primary">Submit</button></p>
+        <p><button type="submit" className={classnames('button', 'is-primary', {
+          'is-loading': this.props.isLoading
+        })}>Submit</button></p>
       </form>
     );
   }

@@ -1,11 +1,8 @@
 import pytest
 
-from project.justfix_environment import BASE_DIR
 from users.tests.factories import UserFactory
 from project.util import schema_json
-
-
-FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries'
+from project.views import FRONTEND_QUERY_DIR
 
 
 def get_frontend_queries(*filenames):

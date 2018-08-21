@@ -80,8 +80,12 @@ class Query(graphene.ObjectType):
     GraphQL clients as part of our schema.
     '''
 
+    session = graphene.NonNull(SessionInfo)
     hello = graphene.String(thing=graphene.String(required=True), required=True)
     there = graphene.Int()
+
+    def resolve_session(self, info: ResolveInfo) -> SessionInfo:
+        return SessionInfo()
 
     def resolve_hello(self, info: ResolveInfo, thing: str) -> str:
         if info.context.user.is_authenticated:

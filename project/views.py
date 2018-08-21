@@ -1,14 +1,16 @@
 import time
 import logging
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Dict, Any
 from django.utils.safestring import SafeString
 from django.shortcuts import render
-from django.middleware import csrf
 from django.urls import reverse
 from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
+from project.schema import schema
+
+FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries'
 
 NS_PER_MS = 1e+6
 
@@ -51,12 +53,22 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     )
 
 
-def react_rendered_view(request, url: str):
-    if request.user.is_authenticated:
-        phone_number = request.user.phone_number
-    else:
-        phone_number = None
+def get_initial_session(request) -> Dict[str, Any]:
+    result = schema.execute(
+        '''
+        query GetInitialSession {
+            session {
+                ...AllSessionInfo
+            }
+        }
+        %s
+        ''' % (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
+        context_value=request
+    )
+    return result.data['session']
 
+
+def react_rendered_view(request, url: str):
     url = f'/{url}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
 
@@ -65,10 +77,7 @@ def react_rendered_view(request, url: str):
     # add or remove anything here, make sure to do the same over there!
     initial_props = {
         'initialURL': url,
-        'initialSession': {
-            'csrfToken': csrf.get_token(request),
-            'phoneNumber': phone_number,
-        },
+        'initialSession': get_initial_session(request),
         'server': {
             'staticURL': settings.STATIC_URL,
             'webpackPublicPathURL': webpack_public_path_url,

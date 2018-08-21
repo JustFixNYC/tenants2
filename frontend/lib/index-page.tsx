@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { LoginInput } from './queries/globalTypes';
@@ -15,6 +16,7 @@ export interface IndexPageProps {
   session: AppSessionInfo;
   loginErrors?: FormErrors<LoginInput>;
   loginLoading: boolean;
+  logoutLoading: boolean;
   onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (input: LoginInput) => void;
@@ -68,7 +70,9 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
       return (
         <React.Fragment>
           <p>You are currently logged in as {session.phoneNumber}.</p>
-          <p><button className="button is-primary" onClick={props.onLogout}>Logout</button></p>
+          <p><button className={classnames('button', 'is-primary', {
+            'is-loading': props.logoutLoading
+          })} onClick={props.onLogout}>Logout</button></p>
         </React.Fragment>
       );
     }

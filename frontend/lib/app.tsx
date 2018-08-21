@@ -37,6 +37,8 @@ interface AppState {
   loginErrors?: FormErrors<LoginInput>;
 
   loginLoading: boolean;
+
+  logoutLoading: boolean;
 }
 
 const LoadableIndexPage = Loadable({
@@ -57,7 +59,8 @@ export class App extends React.Component<AppProps, AppState> {
     );
     this.state = {
       session: props.initialSession,
-      loginLoading: false
+      loginLoading: false,
+      logoutLoading: false
     };
   }
 
@@ -69,9 +72,11 @@ export class App extends React.Component<AppProps, AppState> {
 
   @autobind
   handleLogout() {
+    this.setState({ logoutLoading: true });
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       if (result.logout.ok) {
         this.setState({
+          logoutLoading: false,
           session: {
             phoneNumber: null,
             csrfToken: result.logout.csrfToken
@@ -127,6 +132,7 @@ export class App extends React.Component<AppProps, AppState> {
            session={this.state.session}
            loginErrors={this.state.loginErrors}
            loginLoading={this.state.loginLoading}
+           logoutLoading={this.state.logoutLoading}
            onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}

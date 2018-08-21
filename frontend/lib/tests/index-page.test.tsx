@@ -11,6 +11,7 @@ test('index page issues a SimpleQuery when mounted', () => {
     server: FakeServerInfo,
     session: FakeSessionInfo,
     loginLoading: false,
+    logoutLoading: false,
     gqlClient: client,
     onFetchError: jest.fn(),
     onLogout: jest.fn(),

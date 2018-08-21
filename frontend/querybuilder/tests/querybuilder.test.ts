@@ -38,8 +38,8 @@ describe('querybuilder', () => {
     });
   });
 
-  it('should not have generated any TS files that lack graphQL queries', () => {
-    const queries = GraphQlFile.fromDir();
+  it('should not have generated any TS files that lack graphQL queries/fragments', () => {
+    const graphQlFiles = GraphQlFile.fromDir();
 
     fs.readdirSync(LIB_PATH).forEach(filename => {
       if (!/\.ts$/.test(filename)) return;
@@ -47,13 +47,13 @@ describe('querybuilder', () => {
       if (COPY_FROM_GEN_TO_LIB.indexOf(filename) !== -1) return;
 
       const tsCodePath = path.join(LIB_PATH, filename);
-      for (let query of queries) {
-        if (query.tsCodePath == tsCodePath) {
+      for (let file of graphQlFiles) {
+        if (file.tsCodePath == tsCodePath) {
           return;
         }
       }
 
-      throw new Error(`No matching GraphQL query for ${filename}, perhaps it should be removed?`);
+      throw new Error(`No matching GraphQL file for ${filename}, perhaps it should be removed?`);
     });
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { LoginInput } from './queries/globalTypes';
 import classnames from 'classnames';
 
-import { FormErrors, ListFieldErrors, BaseFormFieldProps, TextualFormField } from './forms';
+import { FormErrors, NonFieldErrors, BaseFormFieldProps, TextualFormField } from './forms';
 import autobind from 'autobind-decorator';
 
 interface LoginFormProps {
@@ -45,12 +45,16 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <ListFieldErrors errors={this.props.errors && this.props.errors.nonFieldErrors} />
+        <NonFieldErrors errors={this.props.errors} />
         <TextualFormField label="Phone number" {...this.fieldPropsFor('phoneNumber')} />
         <TextualFormField label="Password" type="password" {...this.fieldPropsFor('password')} />
-        <p><button type="submit" className={classnames('button', 'is-primary', {
-          'is-loading': this.props.isLoading
-        })}>Submit</button></p>
+        <div className="field">
+          <div className="control">
+            <button type="submit" className={classnames('button', 'is-primary', {
+              'is-loading': this.props.isLoading
+            })}>Log in</button>
+          </div>
+        </div>
       </form>
     );
   }

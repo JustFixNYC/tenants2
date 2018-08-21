@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 /**
  * This is the form validation error type returned from the server.
@@ -60,16 +61,18 @@ export function getFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
   return result;
 }
 
-/** A simple JSX component that displays some errors. */
-export function ListFieldErrors({ errors }: { errors: string[]|undefined }): JSX.Element|null {
+/** A JSX component that displays non-field errors. */
+export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element|null {
+  const errors = props.errors && props.errors.nonFieldErrors;
+
   if (!errors) {
     return null;
   }
 
   return (
-    <ul>
-      {errors.map(error => <li key={error}>{error}</li>)}
-    </ul>
+    <React.Fragment>
+      {errors.map(error => <div className="notification is-danger" key={error}>{error}</div>)}
+    </React.Fragment>
   );
 }
 
@@ -113,21 +116,25 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || 'text';
 
+  // TODO: Assign an id to the input and make the label point to it.
   return (
-    <div>
-      <p>
+    <div className="field">
+      <label className="label">{props.label}</label>
+      <div className="control">
         <input
-          className="input"
+          className={classnames('input', {
+            'is-danger': !!props.errors
+          })}
           disabled={props.isDisabled}
           name={props.name}
           type={type}
-          // TODO: This should really be a <label>, not a placeholder.
-          placeholder={props.label}
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
         />
-      </p>
-    <ListFieldErrors errors={props.errors} />
-  </div>
+      </div>
+      {props.errors
+        ? <p className="help is-danger">{props.errors.join(' ')}</p>
+        : null}
+    </div>
   );
 }

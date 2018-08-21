@@ -90,14 +90,16 @@ export class App extends React.Component<AppProps, AppState> {
 
   @autobind
   handleLoginSubmit({ phoneNumber, password }: LoginInput) {
-    this.setState({ loginLoading: true });
+    this.setState({
+      loginLoading: true,
+      loginErrors: undefined
+    });
     fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password
     }}).then(result => {
       if (result.login.csrfToken) {
         this.setState({
-          loginErrors: undefined,
           loginLoading: false,
           session: {
             phoneNumber,

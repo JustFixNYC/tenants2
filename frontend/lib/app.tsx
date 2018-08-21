@@ -74,17 +74,10 @@ export class App extends React.Component<AppProps, AppState> {
   handleLogout() {
     this.setState({ logoutLoading: true });
     fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
-      if (result.logout.ok) {
-        this.setState({
-          logoutLoading: false,
-          session: {
-            phoneNumber: null,
-            csrfToken: result.logout.csrfToken
-          },
-        });
-        return;
-      }
-      throw new Error('Assertion failure, logout should always be ok');
+      this.setState({
+        logoutLoading: false,
+        session: result.logout.session
+      });
     }).catch(this.handleFetchError);
   }
 
@@ -98,13 +91,10 @@ export class App extends React.Component<AppProps, AppState> {
       phoneNumber: phoneNumber,
       password: password
     }}).then(result => {
-      if (result.login.csrfToken) {
+      if (result.login.session) {
         this.setState({
           loginLoading: false,
-          session: {
-            phoneNumber,
-            csrfToken: result.login.csrfToken
-          }
+          session: result.login.session
         });
       } else {
         this.setState({

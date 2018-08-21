@@ -20,12 +20,23 @@ export interface LoginMutation_login_errors {
   messages: string[];
 }
 
+export interface LoginMutation_login_session {
+  /**
+   * The phone number of the currently logged-in user, or null if not logged-in.
+   */
+  phoneNumber: string | null;
+  /**
+   * The cross-site request forgery (CSRF) token.
+   */
+  csrfToken: string;
+}
+
 export interface LoginMutation_login {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
   errors: LoginMutation_login_errors[];
-  csrfToken: string | null;
+  session: LoginMutation_login_session | null;
 }
 
 export interface LoginMutation {
@@ -44,7 +55,10 @@ export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => 
             field,
             messages
         },
-        csrfToken
+        session {
+            phoneNumber,
+            csrfToken
+        }
     }
 }
 `, args);

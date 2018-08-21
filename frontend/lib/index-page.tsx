@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
-import { fetchSimpleQuery } from './queries/SimpleQuery';
 import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
 import GraphQlClient from './graphql-client';
@@ -11,31 +10,22 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import { FormErrors } from './forms';
 
 export interface IndexPageProps {
-  gqlClient: GraphQlClient;
   server: AppServerInfo;
   session: AllSessionInfo;
   loginErrors?: FormErrors<LoginInput>;
   loginLoading: boolean;
   logoutLoading: boolean;
-  onFetchError: (e: Error) => void;
   onLogout: () => void;
   onLoginSubmit: (input: LoginInput) => void;
 }
 
 interface IndexPageState {
-  simpleQueryResult?: string;
 }
 
 export default class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
   constructor(props: IndexPageProps) {
     super(props);
     this.state = {};
-  }
-
-  componentDidMount() {
-    fetchSimpleQuery(this.props.gqlClient.fetch, { thing: (new Date()).toString() }).then(result => {
-      this.setState({ simpleQueryResult: result.hello });
-    }).catch(this.props.onFetchError);
   }
 
   renderDebugInfo(): JSX.Element|null {
@@ -85,7 +75,6 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
   }
 
   render() {
-    const { state } = this;
     const { server } = this.props;
 
     return (
@@ -97,7 +86,6 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
             {this.renderLoginInfo()}
             {this.renderDebugInfo()}
             <p>Go to <Link to="/about">another page</Link>.</p>
-            {state.simpleQueryResult ? <p>GraphQL says <strong>{state.simpleQueryResult}</strong>.</p> : null}
           </div>
         </div>
         <div className="hero-foot"></div>

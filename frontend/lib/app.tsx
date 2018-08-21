@@ -119,13 +119,11 @@ export class App extends React.Component<AppProps, AppState> {
       <Switch>
         <Route path="/" exact>
           <LoadableIndexPage
-           gqlClient={this.gqlClient}
            server={this.props.server}
            session={this.state.session}
            loginErrors={this.state.loginErrors}
            loginLoading={this.state.loginLoading}
            logoutLoading={this.state.logoutLoading}
-           onFetchError={this.handleFetchError}
            onLogout={this.handleLogout}
            onLoginSubmit={this.handleLoginSubmit}
           />

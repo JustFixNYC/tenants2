@@ -81,21 +81,9 @@ class Query(graphene.ObjectType):
     '''
 
     session = graphene.NonNull(SessionInfo)
-    hello = graphene.String(thing=graphene.String(required=True), required=True)
-    there = graphene.Int()
 
     def resolve_session(self, info: ResolveInfo) -> SessionInfo:
         return SessionInfo()
-
-    def resolve_hello(self, info: ResolveInfo, thing: str) -> str:
-        if info.context.user.is_authenticated:
-            status = "logged in"
-        else:
-            status = "not logged in"
-        return f'Hello from GraphQL! You passed in "{thing}" and are {status}'
-
-    def resolve_there(self, info) -> int:
-        return 123
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

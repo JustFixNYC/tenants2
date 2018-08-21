@@ -19,10 +19,6 @@ def MongoTenantFactory(**kwargs):
     return mongo.MongoTenant(**{**example_legacy_data.TENANT, **kwargs})
 
 
-def MongoIdentityFactory(**kwargs):
-    return mongo.MongoIdentity(**{**example_legacy_data.IDENTITY, **kwargs})
-
-
 def MongoAdvocateFactory(**kwargs):
     return mongo.MongoAdvocate(**{**example_legacy_data.ADVOCATE, **kwargs})
 

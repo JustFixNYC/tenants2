@@ -1,10 +1,10 @@
-import React, { ReactEventHandler } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 
 import { AppServerInfo } from './app-server-info';
 import autobind from 'autobind-decorator';
-import { JsxEmit } from 'typescript';
+import { AriaExpandableButton } from './aria';
+import { bulmaClasses } from './bulma';
 
 type Dropdown = 'developer';
 
@@ -38,13 +38,6 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     }));
   }
 
-  @autobind
-  handleHamburgerKeyDown(e: React.KeyboardEvent) {
-    if (trapEnterOrSpace(e)) {
-      this.toggleHamburger();
-    }
-  }
-
   render() {
     const { state } = this;
     const { server } = this.props;
@@ -75,7 +68,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
             </Link>
             <AriaExpandableButton
-              className={classnames('navbar-burger', isActiveClass(state.isHamburgerOpen))}
+              className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}
               isExpanded={state.isHamburgerOpen}
               aria-label="menu"
               onToggle={this.toggleHamburger}
@@ -85,7 +78,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               <span aria-hidden="true"></span>
             </AriaExpandableButton>
           </div>
-          <div className={classnames('navbar-menu', isActiveClass(state.isHamburgerOpen))}>
+          <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
             <div className="navbar-end">
               {developerMenu}
             </div>
@@ -94,46 +87,6 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
       </nav>
     );
   }
-}
-
-const KEY_ENTER = 13;
-const KEY_SPACE = 32;
-
-function trapEnterOrSpace(e: React.KeyboardEvent): boolean {
-  if (e.which === KEY_ENTER || e.which === KEY_SPACE) {
-    e.preventDefault();
-    return true;
-  }
-  return false;
-}
-
-function ariaBool(value: boolean): 'true'|'false' {
-  return value ? 'true' : 'false';
-}
-
-function isActiveClass(value: boolean): 'is-active'|null {
-  return value ? 'is-active' : null;
-}
-
-interface AriaExpandableButtonProps {
-  className: string;
-  'aria-label'?: string;
-  isExpanded: boolean;
-  onToggle: () => void;
-  children: any;
-}
-
-function AriaExpandableButton(props: AriaExpandableButtonProps): JSX.Element {
-  return (
-    <a className={props.className}
-       role="button"
-       aria-label={props['aria-label']}
-       aria-expanded={ariaBool(props.isExpanded)}
-       tabIndex={0}
-       onClick={props.onToggle}
-       onKeyDown={(e) => { if (trapEnterOrSpace(e)) props.onToggle(); }}
-    >{props.children}</a>
-  );
 }
 
 interface NavbarDropdownProps {
@@ -157,7 +110,7 @@ function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
       >{props.name}</AriaExpandableButton>;
 
   return (
-    <div className={classnames('navbar-item', 'has-dropdown', isActiveClass(props.isActive))}>
+    <div className={bulmaClasses('navbar-item', 'has-dropdown', props.isActive && 'is-active')}>
       {link}
       <div className="navbar-dropdown">
         {props.children}

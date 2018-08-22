@@ -33,6 +33,7 @@ class LambdaResponse(NamedTuple):
     '''
 
     html: SafeString
+    title_tag: SafeString
     status: int
     bundle_files: List[str]
 
@@ -47,6 +48,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
 
     return LambdaResponse(
         html=SafeString(response['html']),
+        title_tag=SafeString(response['titleTag']),
         status=response['status'],
         bundle_files=response['bundleFiles'],
         render_time=render_time
@@ -98,6 +100,7 @@ def react_rendered_view(request, url: str):
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,
+        'title_tag': lambda_response.title_tag,
         'bundle_urls': bundle_urls,
         'initial_props': initial_props,
     }, status=lambda_response.status)

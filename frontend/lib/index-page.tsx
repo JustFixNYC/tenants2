@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
+import Helmet from 'react-helmet';
 
 import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
@@ -55,6 +56,9 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
 
     return (
       <section className="hero is-fullheight">
+        <Helmet>
+          <title>JustFix.nyc - Technology for Housing Justice</title>
+        </Helmet>
         <div className="hero-head">
           <Navbar server={server} />
         </div>

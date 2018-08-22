@@ -6,6 +6,7 @@ import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import Loadable, { LoadableCaptureProps } from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
+import Helmet from 'react-helmet';
 
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
@@ -18,6 +19,9 @@ const readFile = promisify(fs.readFile);
 interface LambdaResponse {
   /** The HTML of the initial render of the page. */
   html: string;
+
+  /** The <title> tag for the initial render of the page. */
+  titleTag: string;
 
   /** The HTTP status code of the page. */
   status: number;
@@ -59,9 +63,11 @@ async function handler(event: AppProps): Promise<LambdaResponse> {
         </StaticRouter>
       </Loadable.Capture>
     );
+    const helmet = Helmet.renderStatic();
     const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
     resolve({
       html,
+      titleTag: helmet.title.toString(),
       status: context.statusCode,
       bundleFiles
     });

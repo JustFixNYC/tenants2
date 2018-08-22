@@ -13,6 +13,7 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
+import { Helmet } from 'react-helmet';
 
 
 export interface AppProps {
@@ -129,7 +130,12 @@ export class App extends React.Component<AppProps, AppState> {
           />
         </Route>
         <Route path="/about" exact>
-          <p>This is another page.</p>
+          <div>
+            <Helmet>
+              <title>About</title>
+            </Helmet>
+            <p>This is another page.</p>
+          </div>
         </Route>
         <Route render={NotFound} />
       </Switch>

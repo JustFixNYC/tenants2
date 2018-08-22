@@ -10,5 +10,9 @@ exclude_patterns:
 
 checks:
   similar-code:
-    config:
-      threshold: 3
+    # This setting is confusing, I wanted to configure it to
+    # only complain if 3 or more instances of similar code is
+    # found (it defaults to 2), but changing the threshold to
+    # 3 made it even *more* sensitive, so I'm just disabling
+    # it entirely now.
+    enabled: false

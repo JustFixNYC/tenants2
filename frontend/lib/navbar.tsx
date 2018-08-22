@@ -38,49 +38,60 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     }));
   }
 
-  render() {
+  renderDevMenu(): JSX.Element|null {
     const { state } = this;
     const { server } = this.props;
 
-    let developerMenu = null;
+    if (!server.debug) return null;
 
-    if (server.debug) {
-      developerMenu = (
-        <NavbarDropdown
-          name="Developer"
-          isHamburgerOpen={state.isHamburgerOpen}
-          isActive={state.currentDropdown === 'developer'}
-          onToggle={() => this.toggleDropdown('developer')}
+    return (
+      <NavbarDropdown
+        name="Developer"
+        isHamburgerOpen={state.isHamburgerOpen}
+        isActive={state.currentDropdown === 'developer'}
+        onToggle={() => this.toggleDropdown('developer')}
+      >
+        <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack bundle analysis</a>
+        <a className="navbar-item" href="/graphiql">GraphiQL</a>
+        <a className="navbar-item" href={server.adminIndexURL}>Admin</a>
+        <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
+      </NavbarDropdown>
+    );
+  }
+
+  renderNavbarBrand(): JSX.Element {
+    const { state } = this;
+    const { server } = this.props;
+
+    return (
+      <div className="navbar-brand">
+        <Link className="navbar-item" to="/">
+          <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
+        </Link>
+        <AriaExpandableButton
+          className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}
+          isExpanded={state.isHamburgerOpen}
+          aria-label="menu"
+          onToggle={this.toggleHamburger}
         >
-          <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack bundle analysis</a>
-          <a className="navbar-item" href="/graphiql">GraphiQL</a>
-          <a className="navbar-item" href={server.adminIndexURL}>Admin</a>
-          <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
-        </NavbarDropdown>
-      );
-    }
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </AriaExpandableButton>
+      </div>
+    );
+  }
+
+  render() {
+    const { state } = this;
 
     return (
       <nav className="navbar">
         <div className="container">
-          <div className="navbar-brand">
-            <Link className="navbar-item" to="/">
-              <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
-            </Link>
-            <AriaExpandableButton
-              className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}
-              isExpanded={state.isHamburgerOpen}
-              aria-label="menu"
-              onToggle={this.toggleHamburger}
-            >
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </AriaExpandableButton>
-          </div>
+          {this.renderNavbarBrand()}
           <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
             <div className="navbar-end">
-              {developerMenu}
+              {this.renderDevMenu()}
             </div>
           </div>
         </div>

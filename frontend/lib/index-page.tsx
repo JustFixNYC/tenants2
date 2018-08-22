@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import Helmet from 'react-helmet';
 
 import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
 import { AppServerInfo } from './app-server-info';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { FormErrors } from './forms';
-import Navbar from './navbar';
+import Page from './page';
 
 export interface IndexPageProps {
   server: AppServerInfo;
@@ -55,25 +54,14 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
     const { server } = this.props;
 
     return (
-      <section className="hero is-fullheight">
-        <Helmet>
-          <title>JustFix.nyc - Technology for Housing Justice</title>
-        </Helmet>
-        <div className="hero-head">
-          <Navbar server={server} />
+      <Page server={server} title="JustFix.nyc - Technology for Housing Justice">
+        <h1 className="title">Ahoy, { server.debug ? "developer" : "human" }! </h1>
+        {this.renderLoginInfo()}
+        <div className="content">
+          <br/>
+          <p>Go to <Link to="/about">another page</Link>.</p>
         </div>
-        <div className="hero-body">
-          <div className="container content box has-background-white">
-            <h1 className="title">Ahoy, { server.debug ? "developer" : "human" }! </h1>
-            {this.renderLoginInfo()}
-            <div className="content">
-              <br/>
-              <p>Go to <Link to="/about">another page</Link>.</p>
-            </div>
-          </div>
-        </div>
-        <div className="hero-foot"></div>
-      </section>
+      </Page>
     );
   }
 }

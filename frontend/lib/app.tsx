@@ -13,7 +13,7 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo } from './app-server-info';
 import { NotFound } from './not-found';
-import { Helmet } from 'react-helmet';
+import Page from './page';
 
 
 export interface AppProps {
@@ -130,12 +130,9 @@ export class App extends React.Component<AppProps, AppState> {
           />
         </Route>
         <Route path="/about" exact>
-          <div>
-            <Helmet>
-              <title>About</title>
-            </Helmet>
+          <Page title="about" server={this.props.server}>
             <p>This is another page.</p>
-          </div>
+          </Page>
         </Route>
         <Route render={NotFound} />
       </Switch>

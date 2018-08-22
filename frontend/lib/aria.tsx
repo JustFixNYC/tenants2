@@ -16,11 +16,11 @@ export function ariaBool(value: boolean): 'true'|'false' {
 }
 
 export interface AriaExpandableButtonProps {
-  className: string;
+  className?: string;
   'aria-label'?: string;
   isExpanded: boolean;
   onToggle: () => void;
-  children: any;
+  children?: any;
 }
 
 export function AriaExpandableButton(props: AriaExpandableButtonProps): JSX.Element {

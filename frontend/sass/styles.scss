@@ -6,7 +6,7 @@ $justfix-blue: #0096D7;
 .hero nav.navbar {
     background: $justfix-blue;
 
-    .navbar-item:focus, .navbar-link:focus {
+    .navbar-item:focus, .navbar-link:focus, .navbar-burger:focus {
         outline: 2px dashed white;
     }
 
@@ -44,6 +44,10 @@ $justfix-blue: #0096D7;
     .navbar-link:hover::after,
     .navbar-link.is-active::after {
         border-color: $justfix-blue;
+    }
+
+    .navbar-burger {
+        color: white;
     }
 }
 

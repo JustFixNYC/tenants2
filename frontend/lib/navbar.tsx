@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { AppServerInfo } from './app-server-info';
+import autobind from 'autobind-decorator';
 
 type Dropdown = 'developer';
 
@@ -12,18 +13,35 @@ interface NavbarProps {
 
 interface NavbarState {
   currentDropdown: Dropdown|null;
+  isHamburgerOpen: boolean;
 }
 
 export default class Navbar extends React.Component<NavbarProps, NavbarState> {
   constructor(props: NavbarProps) {
     super(props);
-    this.state = { currentDropdown: null };
+    this.state = { currentDropdown: null, isHamburgerOpen: false };
   }
 
   toggleDropdown(dropdown: Dropdown) {
     this.setState(state => ({
-      currentDropdown: state.currentDropdown === dropdown ? null : dropdown
+      currentDropdown: state.currentDropdown === dropdown ? null : dropdown,
+      isHamburgerOpen: false
     }));
+  }
+
+  @autobind
+  toggleHamburger() {
+    this.setState(state => ({
+      currentDropdown: null,
+      isHamburgerOpen: !state.isHamburgerOpen
+    }));
+  }
+
+  @autobind
+  handleHamburgerKeyDown(e: React.KeyboardEvent) {
+    if (trapEnterOrSpace(e)) {
+      this.toggleHamburger();
+    }
   }
 
   render() {
@@ -36,6 +54,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
       developerMenu = (
         <NavbarDropdown
           name="Developer"
+          isHamburgerOpen={state.isHamburgerOpen}
           isActive={state.currentDropdown === 'developer'}
           onToggle={() => this.toggleDropdown('developer')}
         >
@@ -54,8 +73,19 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
             <Link className="navbar-item" to="/">
               <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
             </Link>
+            <a className={classnames('navbar-burger', isActiveClass(state.isHamburgerOpen))}
+               role="button"
+               aria-label="menu"
+               aria-expanded={ariaBool(state.isHamburgerOpen)}
+               tabIndex={0}
+               onClick={this.toggleHamburger}
+               onKeyDown={this.handleHamburgerKeyDown}>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
           </div>
-          <div className="navbar-menu">
+          <div className={classnames('navbar-menu', isActiveClass(state.isHamburgerOpen))}>
             <div className="navbar-end">
               {developerMenu}
             </div>
@@ -69,27 +99,50 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
 const KEY_ENTER = 13;
 const KEY_SPACE = 32;
 
+function trapEnterOrSpace(e: React.KeyboardEvent): boolean {
+  if (e.which === KEY_ENTER || e.which === KEY_SPACE) {
+    e.preventDefault();
+    return true;
+  }
+  return false;
+}
+
+function ariaBool(value: boolean): 'true'|'false' {
+  return value ? 'true' : 'false';
+}
+
+function isActiveClass(value: boolean): 'is-active'|null {
+  return value ? 'is-active' : null;
+}
+
 interface NavbarDropdownProps {
   name: string;
   children: any;
+  isHamburgerOpen: boolean;
   isActive: boolean;
   onToggle: () => void;
 }
 
 function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.which === KEY_ENTER || e.which === KEY_SPACE) {
-      e.preventDefault();
-      props.onToggle();
-    }
-  };
+  // If the hamburger menu is open, our navbar-link is just
+  // inert text; but if it's closed and we're on desktop, it's an
+  // interactive menu toggle button. Kind of odd.
+  let link = props.isHamburgerOpen
+    ? <a className="navbar-link">{props.name}</a>
+    : (
+      <a className="navbar-link"
+         role="button"
+         aria-label="menu"
+         aria-expanded={ariaBool(props.isActive)}
+         tabIndex={0}
+         onClick={props.onToggle}
+         onKeyDown={(e) => { if (trapEnterOrSpace(e)) props.onToggle(); }}
+      >{props.name}</a>
+    );
 
   return (
-    <div className={classnames('navbar-item', 'has-dropdown', props.isActive ? 'is-active' : null)}>
-      <a className="navbar-link" tabIndex={0} onClick={props.onToggle} onKeyDown={handleKeyDown}>
-        {props.name}
-      </a>
-
+    <div className={classnames('navbar-item', 'has-dropdown', isActiveClass(props.isActive))}>
+      {link}
       <div className="navbar-dropdown">
         {props.children}
       </div>

@@ -7,8 +7,6 @@ import { FakeServerInfo, FakeSessionInfo } from './util';
 
 test('index page renders', () => {
   const props: IndexPageProps = {
-    server: FakeServerInfo,
-    session: FakeSessionInfo,
     loginLoading: false,
     logoutLoading: false,
     onLogout: jest.fn(),

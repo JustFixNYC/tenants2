@@ -1,11 +1,9 @@
 import React from 'react';
 import { Helmet } from "react-helmet";
 import Navbar from './navbar';
-import { AppServerInfo } from './app-server-info';
 
 interface PageProps {
   title: string;
-  server: AppServerInfo;
   children?: any;
 }
 
@@ -16,7 +14,7 @@ export default function Page(props: PageProps): JSX.Element {
         <title>{props.title}</title>
       </Helmet>
       <div className="hero-head">
-        <Navbar server={props.server} />
+        <Navbar/>
       </div>
       <div className="hero-body">
         <div className="container content box has-background-white">

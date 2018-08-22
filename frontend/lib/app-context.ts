@@ -1,3 +1,7 @@
+import React from 'react';
+
+import { AllSessionInfo } from './queries/AllSessionInfo';
+
 export interface AppServerInfo {
   /**
    * The URL of the server's static files, e.g. "/static/".
@@ -23,3 +27,21 @@ export interface AppServerInfo {
    */
   debug: boolean;
 }
+
+export interface AppContextType {
+  server: AppServerInfo;
+  session: AllSessionInfo;
+}
+
+class UnimplementedError extends Error {}
+
+export const defaultContext: AppContextType = {
+  get server(): AppServerInfo {
+    throw new UnimplementedError();
+  },
+  get session(): AllSessionInfo {
+    throw new UnimplementedError();
+  }
+};
+
+export const AppContext = React.createContext<AppContextType>(defaultContext);

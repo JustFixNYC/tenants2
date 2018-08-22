@@ -11,7 +11,7 @@ import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { AppServerInfo } from './app-server-info';
+import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
 import Page from './page';
 
@@ -116,26 +116,31 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
+    const appContext: AppContextType = {
+      server: this.props.server,
+      session: this.state.session
+    };
+
     return (
-      <Switch>
-        <Route path="/" exact>
-          <LoadableIndexPage
-           server={this.props.server}
-           session={this.state.session}
-           loginErrors={this.state.loginErrors}
-           loginLoading={this.state.loginLoading}
-           logoutLoading={this.state.logoutLoading}
-           onLogout={this.handleLogout}
-           onLoginSubmit={this.handleLoginSubmit}
-          />
-        </Route>
-        <Route path="/about" exact>
-          <Page title="about" server={this.props.server}>
-            <p>This is another page.</p>
-          </Page>
-        </Route>
-        <Route render={NotFound} />
-      </Switch>
+      <AppContext.Provider value={appContext}>
+        <Switch>
+          <Route path="/" exact>
+            <LoadableIndexPage
+            loginErrors={this.state.loginErrors}
+            loginLoading={this.state.loginLoading}
+            logoutLoading={this.state.logoutLoading}
+            onLogout={this.handleLogout}
+            onLoginSubmit={this.handleLoginSubmit}
+            />
+          </Route>
+          <Route path="/about" exact>
+            <Page title="about">
+              <p>This is another page.</p>
+            </Page>
+          </Route>
+          <Route render={NotFound} />
+        </Switch>
+      </AppContext.Provider>
     );
   }
 }

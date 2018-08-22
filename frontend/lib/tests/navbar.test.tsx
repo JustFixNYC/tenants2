@@ -1,8 +1,9 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import Navbar from '../navbar';
-import { FakeServerInfo } from './util';
+import { FakeDebugAppContext } from './util';
 import { MemoryRouter } from 'react-router';
+import { AppContext } from '../app-context';
 
 
 describe('Navbar', () => {
@@ -13,7 +14,9 @@ describe('Navbar', () => {
   beforeEach(() => {
     navbar = mount(
       <MemoryRouter>
-        <Navbar server={{...FakeServerInfo, debug: true}} />
+        <AppContext.Provider value={FakeDebugAppContext}>
+          <Navbar/>
+        </AppContext.Provider>
       </MemoryRouter>
     );
     setLocals();

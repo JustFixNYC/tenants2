@@ -126,6 +126,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
             'is-danger': !!props.errors
           })}
           disabled={props.isDisabled}
+          aria-label={props.label}
           name={props.name}
           type={type}
           value={props.value}

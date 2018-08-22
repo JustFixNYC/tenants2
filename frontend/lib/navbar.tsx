@@ -8,7 +8,7 @@ import { bulmaClasses } from './bulma';
 
 type Dropdown = 'developer';
 
-interface NavbarProps {
+export interface NavbarProps {
   server: AppServerInfo;
 }
 
@@ -97,7 +97,7 @@ interface NavbarDropdownProps {
   onToggle: () => void;
 }
 
-function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
+export function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
   // If the hamburger menu is open, our navbar-link is just
   // inert text; but if it's closed and we're on desktop, it's an
   // interactive menu toggle button. Kind of odd.

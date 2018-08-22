@@ -9,9 +9,8 @@ def test_get_initial_session_works(graphql_client):
 def test_index_works(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert b'<title data-react-helmet="true">JustFix.nyc' in response.content
-    assert b"JustFix.nyc" in response.content
-    assert b"data-reactroot" in response.content
+    assert 'JustFix.nyc' in response.context['title_tag']
+    assert '<nav' in response.context['initial_render']
 
 
 def test_404_works(client):

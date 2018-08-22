@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import { AppServerInfo } from './app-server-info';
 import autobind from 'autobind-decorator';
+import { JsxEmit } from 'typescript';
 
 type Dropdown = 'developer';
 
@@ -73,17 +74,16 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
             <Link className="navbar-item" to="/">
               <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
             </Link>
-            <a className={classnames('navbar-burger', isActiveClass(state.isHamburgerOpen))}
-               role="button"
-               aria-label="menu"
-               aria-expanded={ariaBool(state.isHamburgerOpen)}
-               tabIndex={0}
-               onClick={this.toggleHamburger}
-               onKeyDown={this.handleHamburgerKeyDown}>
+            <AriaExpandableButton
+              className={classnames('navbar-burger', isActiveClass(state.isHamburgerOpen))}
+              isExpanded={state.isHamburgerOpen}
+              aria-label="menu"
+              onToggle={this.toggleHamburger}
+            >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
-            </a>
+            </AriaExpandableButton>
           </div>
           <div className={classnames('navbar-menu', isActiveClass(state.isHamburgerOpen))}>
             <div className="navbar-end">
@@ -115,6 +115,27 @@ function isActiveClass(value: boolean): 'is-active'|null {
   return value ? 'is-active' : null;
 }
 
+interface AriaExpandableButtonProps {
+  className: string;
+  'aria-label'?: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children: any;
+}
+
+function AriaExpandableButton(props: AriaExpandableButtonProps): JSX.Element {
+  return (
+    <a className={props.className}
+       role="button"
+       aria-label={props['aria-label']}
+       aria-expanded={ariaBool(props.isExpanded)}
+       tabIndex={0}
+       onClick={props.onToggle}
+       onKeyDown={(e) => { if (trapEnterOrSpace(e)) props.onToggle(); }}
+    >{props.children}</a>
+  );
+}
+
 interface NavbarDropdownProps {
   name: string;
   children: any;
@@ -129,16 +150,11 @@ function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
   // interactive menu toggle button. Kind of odd.
   let link = props.isHamburgerOpen
     ? <a className="navbar-link">{props.name}</a>
-    : (
-      <a className="navbar-link"
-         role="button"
-         aria-label="menu"
-         aria-expanded={ariaBool(props.isActive)}
-         tabIndex={0}
-         onClick={props.onToggle}
-         onKeyDown={(e) => { if (trapEnterOrSpace(e)) props.onToggle(); }}
-      >{props.name}</a>
-    );
+    : <AriaExpandableButton
+        className="navbar-link"
+        isExpanded={props.isActive}
+        onToggle={props.onToggle}
+      >{props.name}</AriaExpandableButton>;
 
   return (
     <div className={classnames('navbar-item', 'has-dropdown', isActiveClass(props.isActive))}>

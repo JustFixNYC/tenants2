@@ -51,7 +51,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
         isActive={state.currentDropdown === 'developer'}
         onToggle={() => this.toggleDropdown('developer')}
       >
-        <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack bundle analysis</a>
+        <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack analysis</a>
         <a className="navbar-item" href="/graphiql">GraphiQL</a>
         <a className="navbar-item" href={server.adminIndexURL}>Admin</a>
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>

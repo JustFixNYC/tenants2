@@ -76,9 +76,12 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
       statusCode: 200,
     };
     const modules: string[] = [];
+
+    /* istanbul ignore next */
     const loadableProps: LoadableCaptureProps = {
       report(moduleName) { modules.push(moduleName) }
     };
+
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
     const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
@@ -138,6 +141,11 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
 
 exports.handler = errorCatchingHandler;
 
+/** Return whether the argument is a plain ol' JS object (not an array). */
+export function isPlainJsObject(obj: any): boolean {
+  return (typeof(obj) === "object" && obj !== null && !Array.isArray(obj));
+}
+
 /**
  * This takes an input stream, decodes it as JSON, passes it
  * to the serverless handler, and returns the handler's response
@@ -158,12 +166,12 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
       let obj: any;
       try {
         obj = JSON.parse(buffer.toString('utf-8'));
-        if (typeof(obj) !== "object" ||
-            obj === null ||
-            Array.isArray(obj)) {
+        /* istanbul ignore next: we are covering this but istanbul is weird. */
+        if (!isPlainJsObject(obj)) {
           throw new Error("Expected input to be a JS object!");
         }
       } catch (e) {
+        /* istanbul ignore next: we are covering this but istanbul is weird. */
         return reject(e);
       }
       errorCatchingHandler(obj as EventProps).then(response => {
@@ -173,6 +181,7 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
   });
 }
 
+/* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
   // We're outputting our result to stdout, so we want all
   // console.log() statements to go to stderr, so they don't

@@ -2,7 +2,7 @@
 
 import { Readable } from 'stream';
 
-import { errorCatchingHandler, handleFromJSONStream, LambdaResponse } from '../lambda';
+import { errorCatchingHandler, handleFromJSONStream, LambdaResponse, isPlainJsObject } from '../lambda';
 import { AppProps } from '../../lib/app';
 import { FakeServerInfo, FakeSessionInfo, FakeAppContext } from '../../lib/tests/util';
 
@@ -23,6 +23,12 @@ test('lambda catches errors', async () => {
     testInternalServerError: true
   });
   expect(response.status).toBe(500);
+});
+
+test('isPlainJsObject works', () => {
+  expect(isPlainJsObject(null)).toBe(false);
+  expect(isPlainJsObject([])).toBe(false);
+  expect(isPlainJsObject({})).toBe(true);
 });
 
 describe('handleFromJSONStream', () => {

@@ -116,15 +116,17 @@ export class App extends React.Component<AppProps, AppState> {
     }
   }
 
-  render() {
-    const appContext: AppContextType = {
+  getAppContext(): AppContextType {
+    return {
       server: this.props.server,
       session: this.state.session
     };
+  }
 
+  render() {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
-        <AppContext.Provider value={appContext}>
+        <AppContext.Provider value={this.getAppContext()}>
           <Switch>
             <Route path="/" exact>
               <LoadableIndexPage

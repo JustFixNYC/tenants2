@@ -40,7 +40,15 @@ export function ErrorDebugInfo(props: ErrorInfo): JSX.Element {
 }
 
 export function getErrorString(error: any): string {
-  return error ? error.stack || error.toString() : "Unknown error";
+  if (error) {
+    if (typeof(error.stack) === 'string') {
+      return error.stack;
+    }
+    try {
+      return error.toString();
+    } catch (e) {}
+  }
+  return "Unknown error";
 }
 
 export function ErrorDisplay(props: { debug: boolean } & ErrorInfo): JSX.Element {

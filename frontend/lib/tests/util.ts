@@ -1,5 +1,5 @@
 import GraphQlClient from "../graphql-client";
-import { AppServerInfo } from "../app-server-info";
+import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 interface TestClient {
@@ -35,4 +35,17 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
+};
+
+export const FakeAppContext: AppContextType = {
+  server: FakeServerInfo,
+  session: FakeSessionInfo
+};
+
+export const FakeDebugAppContext: AppContextType = {
+  ...FakeAppContext,
+  server: {
+    ...FakeAppContext.server,
+    debug: true
+  }
 };

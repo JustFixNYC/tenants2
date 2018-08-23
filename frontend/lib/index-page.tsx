@@ -1,18 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import Helmet from 'react-helmet';
 
 import { LoginInput } from './queries/globalTypes';
 import { LoginForm } from './login-form';
-import { AppServerInfo } from './app-server-info';
-import { AllSessionInfo } from './queries/AllSessionInfo';
+import { AppContext, AppContextType } from './app-context';
 import { FormErrors } from './forms';
-import Navbar from './navbar';
+import Page from './page';
 
 export interface IndexPageProps {
-  server: AppServerInfo;
-  session: AllSessionInfo;
   loginErrors?: FormErrors<LoginInput>;
   loginLoading: boolean;
   logoutLoading: boolean;
@@ -29,9 +25,8 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
     this.state = {};
   }
 
-  renderLoginInfo(): JSX.Element {
+  renderLoginInfo({ session }: AppContextType): JSX.Element {
     const { props } = this;
-    const { session } = props;
 
     if (session.phoneNumber) {
       return (
@@ -52,28 +47,21 @@ export default class IndexPage extends React.Component<IndexPageProps, IndexPage
   }
 
   render() {
-    const { server } = this.props;
-
     return (
-      <section className="hero is-fullheight">
-        <Helmet>
-          <title>JustFix.nyc - Technology for Housing Justice</title>
-        </Helmet>
-        <div className="hero-head">
-          <Navbar server={server} />
-        </div>
-        <div className="hero-body">
-          <div className="container content box has-background-white">
-            <h1 className="title">Ahoy, { server.debug ? "developer" : "human" }! </h1>
-            {this.renderLoginInfo()}
-            <div className="content">
-              <br/>
-              <p>Go to <Link to="/about">another page</Link>.</p>
-            </div>
-          </div>
-        </div>
-        <div className="hero-foot"></div>
-      </section>
+      <Page title="JustFix.nyc - Technology for Housing Justice">
+        <AppContext.Consumer>
+          {appContext => (
+            <React.Fragment>
+              <h1 className="title">Ahoy, { appContext.server.debug ? "developer" : "human" }! </h1>
+              {this.renderLoginInfo(appContext)}
+              <div className="content">
+                <br/>
+                <p>Go to <Link to="/about">another page</Link>.</p>
+              </div>
+            </React.Fragment>
+          )}
+        </AppContext.Consumer>
+      </Page>
     );
   }
 }

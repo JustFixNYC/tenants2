@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppServerInfo } from './app-server-info';
 import autobind from 'autobind-decorator';
 import { AriaExpandableButton } from './aria';
 import { bulmaClasses } from './bulma';
+import { AppContext, AppContextType } from './app-context';
 
 type Dropdown = 'developer';
 
 export interface NavbarProps {
-  server: AppServerInfo;
 }
 
 interface NavbarState {
@@ -38,9 +37,8 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     }));
   }
 
-  renderDevMenu(): JSX.Element|null {
+  renderDevMenu({ server }: AppContextType): JSX.Element|null {
     const { state } = this;
-    const { server } = this.props;
 
     if (!server.debug) return null;
 
@@ -59,9 +57,8 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     );
   }
 
-  renderNavbarBrand(): JSX.Element {
+  renderNavbarBrand({ server }: AppContextType): JSX.Element {
     const { state } = this;
-    const { server } = this.props;
 
     return (
       <div className="navbar-brand">
@@ -86,16 +83,20 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     const { state } = this;
 
     return (
-      <nav className="navbar">
-        <div className="container">
-          {this.renderNavbarBrand()}
-          <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
-            <div className="navbar-end">
-              {this.renderDevMenu()}
+      <AppContext.Consumer>
+        {appContext => (
+          <nav className="navbar">
+            <div className="container">
+              {this.renderNavbarBrand(appContext)}
+              <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
+                <div className="navbar-end">
+                  {this.renderDevMenu(appContext)}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </nav>
+          </nav>
+        )}
+      </AppContext.Consumer>
     );
   }
 }

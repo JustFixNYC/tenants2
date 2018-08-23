@@ -14,6 +14,7 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
 import Page from './page';
+import { ErrorBoundary } from './error-boundary';
 
 
 export interface AppProps {
@@ -45,7 +46,7 @@ interface AppState {
 const LoadableIndexPage = Loadable({
   loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
   loading() {
-    return <div>Loading...</div>;
+    return <Page title="Loading...">Loading...</Page>;
   }
 });
 
@@ -115,32 +116,36 @@ export class App extends React.Component<AppProps, AppState> {
     }
   }
 
-  render() {
-    const appContext: AppContextType = {
+  getAppContext(): AppContextType {
+    return {
       server: this.props.server,
       session: this.state.session
     };
+  }
 
+  render() {
     return (
-      <AppContext.Provider value={appContext}>
-        <Switch>
-          <Route path="/" exact>
-            <LoadableIndexPage
-              loginErrors={this.state.loginErrors}
-              loginLoading={this.state.loginLoading}
-              logoutLoading={this.state.logoutLoading}
-              onLogout={this.handleLogout}
-              onLoginSubmit={this.handleLoginSubmit}
-            />
-          </Route>
-          <Route path="/about" exact>
-            <Page title="about">
-              <p>This is another page.</p>
-            </Page>
-          </Route>
-          <Route render={NotFound} />
-        </Switch>
-      </AppContext.Provider>
+      <ErrorBoundary debug={this.props.server.debug}>
+        <AppContext.Provider value={this.getAppContext()}>
+          <Switch>
+            <Route path="/" exact>
+              <LoadableIndexPage
+                loginErrors={this.state.loginErrors}
+                loginLoading={this.state.loginLoading}
+                logoutLoading={this.state.logoutLoading}
+                onLogout={this.handleLogout}
+                onLoginSubmit={this.handleLoginSubmit}
+              />
+            </Route>
+            <Route path="/about" exact>
+              <Page title="about">
+                <p>This is another page.</p>
+              </Page>
+            </Route>
+            <Route render={NotFound} />
+          </Switch>
+        </AppContext.Provider>
+      </ErrorBoundary>
     );
   }
 }

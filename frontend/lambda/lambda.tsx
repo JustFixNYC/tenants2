@@ -1,3 +1,5 @@
+require('source-map-support').install();
+
 import fs from 'fs';
 import { promisify } from 'util';
 import { Console } from 'console';
@@ -8,6 +10,7 @@ import Loadable, { LoadableCaptureProps } from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 import Helmet from 'react-helmet';
 
+import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 
@@ -16,7 +19,7 @@ const readFile = promisify(fs.readFile);
 /**
  * This is the structure that our lambda returns to clients.
  */
-interface LambdaResponse {
+export interface LambdaResponse {
   /** The HTML of the initial render of the page. */
   html: string;
 
@@ -33,38 +36,55 @@ interface LambdaResponse {
   bundleFiles: string[];
 }
 
+/** Our event handler props are a superset of our app props. */
+type EventProps = AppProps & {
+  /**
+   * This isn't particularly, elegant, but it's used during integration testing
+   *to ensure that this process' handling of internal server errors works properly.
+   */
+  testInternalServerError?: boolean
+};
+
+/** Render the HTML for the requested URL and return it. */
+function renderAppHtml(
+  event: AppProps,
+  context: AppStaticContext,
+  loadableProps: LoadableCaptureProps
+): string {
+  return ReactDOMServer.renderToString(
+    <Loadable.Capture {...loadableProps}>
+      <StaticRouter
+      location={event.initialURL}
+      context={appStaticContextAsStaticRouterContext(context)}>
+        <App {...event} />
+      </StaticRouter>
+    </Loadable.Capture>
+  );
+}
+
 /**
- * This is a handler for serverless environments that,
- * given initial app properties, returns the initial
- * HTML rendering of the app, along with other response
- * metadata.
+ * Generate the response for a given handler request, including the initial
+ * HTML for the requested URL.
  * 
- * @param event The initial properties for our app.
+ * @param event The request.
+ * @param bundleStats Statistics on what modules exist in which JS bundles, for
+ *   lazy loading purposes.
  */
-async function handler(event: AppProps): Promise<LambdaResponse> {
-  await Loadable.preloadAll();
-
-  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
-
+function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
     };
     const modules: string[] = [];
+
+    /* istanbul ignore next */
     const loadableProps: LoadableCaptureProps = {
       report(moduleName) { modules.push(moduleName) }
     };
-    const html = ReactDOMServer.renderToString(
-      <Loadable.Capture {...loadableProps}>
-        <StaticRouter
-         location={event.initialURL}
-         context={appStaticContextAsStaticRouterContext(context)}>
-          <App {...event} />
-        </StaticRouter>
-      </Loadable.Capture>
-    );
+
+    const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
+    const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
     resolve({
       html,
       titleTag: helmet.title.toString(),
@@ -74,7 +94,57 @@ async function handler(event: AppProps): Promise<LambdaResponse> {
   });
 }
 
-exports.handler = handler;
+/**
+ * This is a handler for serverless environments that,
+ * given initial app properties, returns the initial
+ * HTML rendering of the app, along with other response
+ * metadata.
+ * 
+ * @param event The initial properties for our app.
+ */
+async function baseHandler(event: EventProps): Promise<LambdaResponse> {
+  await Loadable.preloadAll();
+
+  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
+
+  if (event.testInternalServerError) {
+    throw new Error('Testing internal server error');
+  }
+
+  return generateResponse(event, stats);
+}
+
+/**
+ * This just wraps our base handler in logic that wraps any errors in
+ * a response that shows an error page with a 500 response.
+ */
+export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
+  return baseHandler(event).catch(error => {
+    console.error(error);
+
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <ErrorDisplay
+        debug={event.server.debug}
+        error={getErrorString(error)}
+        isServerSide={true}
+      />
+    );
+    const titleTag = Helmet.renderStatic().title.toString();
+    return {
+      html,
+      titleTag,
+      status: 500,
+      bundleFiles: []
+    };
+  });
+}
+
+exports.handler = errorCatchingHandler;
+
+/** Return whether the argument is a plain ol' JS object (not an array). */
+export function isPlainJsObject(obj: any): boolean {
+  return (typeof(obj) === "object" && obj !== null && !Array.isArray(obj));
+}
 
 /**
  * This takes an input stream, decodes it as JSON, passes it
@@ -83,34 +153,35 @@ exports.handler = handler;
  * 
  * @param input An input stream with UTF-8 encoded JSON content.
  */
-function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
+export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const buffers: Buffer[] = [];
 
-    process.stdin.on('data', data => {
+    input.on('data', data => {
       buffers.push(data);
     });
 
-    process.stdin.on('end', () => {
+    input.on('end', () => {
       const buffer = Buffer.concat(buffers);
       let obj: any;
       try {
         obj = JSON.parse(buffer.toString('utf-8'));
-        if (typeof(obj) !== "object" ||
-            obj === null ||
-            Array.isArray(obj)) {
+        /* istanbul ignore next: we are covering this but istanbul is weird. */
+        if (!isPlainJsObject(obj)) {
           throw new Error("Expected input to be a JS object!");
         }
       } catch (e) {
+        /* istanbul ignore next: we are covering this but istanbul is weird. */
         return reject(e);
       }
-      handler(obj as AppProps).then(response => {
+      errorCatchingHandler(obj as EventProps).then(response => {
         resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
       }).catch(reject);
     });
   });
 }
 
+/* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
   // We're outputting our result to stdout, so we want all
   // console.log() statements to go to stderr, so they don't

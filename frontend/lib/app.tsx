@@ -46,7 +46,7 @@ interface AppState {
 const LoadableIndexPage = Loadable({
   loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
   loading() {
-    return <div>Loading...</div>;
+    return <Page title="Loading...">Loading...</Page>;
   }
 });
 

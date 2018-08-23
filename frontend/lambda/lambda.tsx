@@ -36,6 +36,23 @@ interface LambdaResponse {
   bundleFiles: string[];
 }
 
+/** Render the HTML for the current URL and return it. */
+function renderAppHtml(
+  event: AppProps,
+  context: AppStaticContext,
+  loadableProps: LoadableCaptureProps
+): string {
+  return ReactDOMServer.renderToString(
+    <Loadable.Capture {...loadableProps}>
+      <StaticRouter
+      location={event.initialURL}
+      context={appStaticContextAsStaticRouterContext(context)}>
+        <App {...event} />
+      </StaticRouter>
+    </Loadable.Capture>
+  );
+}
+
 /**
  * This is a handler for serverless environments that,
  * given initial app properties, returns the initial
@@ -57,15 +74,7 @@ async function baseHandler(event: AppProps): Promise<LambdaResponse> {
     const loadableProps: LoadableCaptureProps = {
       report(moduleName) { modules.push(moduleName) }
     };
-    const html = ReactDOMServer.renderToString(
-      <Loadable.Capture {...loadableProps}>
-        <StaticRouter
-         location={event.initialURL}
-         context={appStaticContextAsStaticRouterContext(context)}>
-          <App {...event} />
-        </StaticRouter>
-      </Loadable.Capture>
-    );
+    const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
     const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
     resolve({

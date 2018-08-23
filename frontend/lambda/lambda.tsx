@@ -8,6 +8,7 @@ import Loadable, { LoadableCaptureProps } from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 import Helmet from 'react-helmet';
 
+import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 
@@ -41,7 +42,7 @@ interface LambdaResponse {
  * 
  * @param event The initial properties for our app.
  */
-async function handler(event: AppProps): Promise<LambdaResponse> {
+async function baseHandler(event: AppProps): Promise<LambdaResponse> {
   await Loadable.preloadAll();
 
   const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
@@ -74,7 +75,32 @@ async function handler(event: AppProps): Promise<LambdaResponse> {
   });
 }
 
-exports.handler = handler;
+/**
+ * This just wraps our base handler in logic that wraps any errors in
+ * a response that shows an error page with a 500 response.
+ */
+function errorCatchingHandler(event: AppProps): Promise<LambdaResponse> {
+  return baseHandler(event).catch(error => {
+    console.error(error);
+
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <ErrorDisplay
+        debug={event.server.debug}
+        error={getErrorString(error)}
+        isServerSide={true}
+      />
+    );
+    const titleTag = Helmet.renderStatic().title.toString();
+    return {
+      html,
+      titleTag,
+      status: 500,
+      bundleFiles: []
+    };
+  });
+}
+
+exports.handler = errorCatchingHandler;
 
 /**
  * This takes an input stream, decodes it as JSON, passes it
@@ -104,7 +130,7 @@ function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
       } catch (e) {
         return reject(e);
       }
-      handler(obj as AppProps).then(response => {
+      errorCatchingHandler(obj as AppProps).then(response => {
         resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
       }).catch(reject);
     });

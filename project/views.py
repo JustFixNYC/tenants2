@@ -95,6 +95,9 @@ def react_rendered_view(request, url: str):
         f'{webpack_public_path_url}{bundle_file}'
         for bundle_file in bundle_files
     ]
+    if lambda_response.status == 500:
+        # It's a 500 error page, don't include any client-side JS.
+        bundle_urls = []
 
     logger.info(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 

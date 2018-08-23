@@ -14,6 +14,7 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
 import Page from './page';
+import { ErrorBoundary } from './error-boundary';
 
 
 export interface AppProps {
@@ -122,25 +123,27 @@ export class App extends React.Component<AppProps, AppState> {
     };
 
     return (
-      <AppContext.Provider value={appContext}>
-        <Switch>
-          <Route path="/" exact>
-            <LoadableIndexPage
-              loginErrors={this.state.loginErrors}
-              loginLoading={this.state.loginLoading}
-              logoutLoading={this.state.logoutLoading}
-              onLogout={this.handleLogout}
-              onLoginSubmit={this.handleLoginSubmit}
-            />
-          </Route>
-          <Route path="/about" exact>
-            <Page title="about">
-              <p>This is another page.</p>
-            </Page>
-          </Route>
-          <Route render={NotFound} />
-        </Switch>
-      </AppContext.Provider>
+      <ErrorBoundary debug={this.props.server.debug}>
+        <AppContext.Provider value={appContext}>
+          <Switch>
+            <Route path="/" exact>
+              <LoadableIndexPage
+                loginErrors={this.state.loginErrors}
+                loginLoading={this.state.loginLoading}
+                logoutLoading={this.state.logoutLoading}
+                onLogout={this.handleLogout}
+                onLoginSubmit={this.handleLoginSubmit}
+              />
+            </Route>
+            <Route path="/about" exact>
+              <Page title="about">
+                <p>This is another page.</p>
+              </Page>
+            </Route>
+            <Route render={NotFound} />
+          </Switch>
+        </AppContext.Provider>
+      </ErrorBoundary>
     );
   }
 }

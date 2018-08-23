@@ -126,11 +126,11 @@ export class App extends React.Component<AppProps, AppState> {
         <Switch>
           <Route path="/" exact>
             <LoadableIndexPage
-            loginErrors={this.state.loginErrors}
-            loginLoading={this.state.loginLoading}
-            logoutLoading={this.state.logoutLoading}
-            onLogout={this.handleLogout}
-            onLoginSubmit={this.handleLoginSubmit}
+              loginErrors={this.state.loginErrors}
+              loginLoading={this.state.loginLoading}
+              logoutLoading={this.state.logoutLoading}
+              onLogout={this.handleLogout}
+              onLoginSubmit={this.handleLoginSubmit}
             />
           </Route>
           <Route path="/about" exact>

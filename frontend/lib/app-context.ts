@@ -47,12 +47,14 @@ export interface AppContextType {
   session: AllSessionInfo;
 }
 
+/* istanbul ignore next: this will never be executed in practice. */
 class UnimplementedError extends Error {
   constructor() {
     super("This is unimplemented!");
   }
 }
 
+/* istanbul ignore next: this will never be executed in practice. */
 /**
  * The default AppContext will raise an exception when any of its
  * properties are accessed; because this information is very

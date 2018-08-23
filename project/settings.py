@@ -176,6 +176,13 @@ STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
+    # Setting this to None is very important for error logging, as
+    # its default value of
+    # graphene_django.debug.middleware.DjangoDebugMiddleware somehow
+    # silently eats all errors:
+    #
+    #   https://github.com/graphql-python/graphene-django/issues/504
+    'MIDDLEWARE': None
 }
 
 LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL

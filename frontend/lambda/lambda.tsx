@@ -19,7 +19,7 @@ const readFile = promisify(fs.readFile);
 /**
  * This is the structure that our lambda returns to clients.
  */
-interface LambdaResponse {
+export interface LambdaResponse {
   /** The HTML of the initial render of the page. */
   html: string;
 
@@ -42,10 +42,10 @@ type EventProps = AppProps & {
    * This isn't particularly, elegant, but it's used during integration testing
    *to ensure that this process' handling of internal server errors works properly.
    */
-  testInternalServerError: true
+  testInternalServerError?: boolean
 };
 
-/** Render the HTML for the current URL and return it. */
+/** Render the HTML for the requested URL and return it. */
 function renderAppHtml(
   event: AppProps,
   context: AppStaticContext,
@@ -62,7 +62,15 @@ function renderAppHtml(
   );
 }
 
-function generateResponse(event: AppProps, bundlerStats: any): Promise<LambdaResponse> {
+/**
+ * Generate the response for a given handler request, including the initial
+ * HTML for the requested URL.
+ * 
+ * @param event The request.
+ * @param bundleStats Statistics on what modules exist in which JS bundles, for
+ *   lazy loading purposes.
+ */
+function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
@@ -73,7 +81,7 @@ function generateResponse(event: AppProps, bundlerStats: any): Promise<LambdaRes
     };
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundles(bundlerStats, modules).map(bundle => bundle.file);
+    const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
     resolve({
       html,
       titleTag: helmet.title.toString(),
@@ -107,7 +115,7 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  * This just wraps our base handler in logic that wraps any errors in
  * a response that shows an error page with a 500 response.
  */
-function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
+export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
     console.error(error);
 
@@ -137,15 +145,15 @@ exports.handler = errorCatchingHandler;
  * 
  * @param input An input stream with UTF-8 encoded JSON content.
  */
-function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
+export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const buffers: Buffer[] = [];
 
-    process.stdin.on('data', data => {
+    input.on('data', data => {
       buffers.push(data);
     });
 
-    process.stdin.on('end', () => {
+    input.on('end', () => {
       const buffer = Buffer.concat(buffers);
       let obj: any;
       try {

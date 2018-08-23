@@ -10,6 +10,11 @@ from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
 
+# This is changed by test suites to ensure that
+# everything works okay when the server-side renderer fails
+# (relatively) gracefully.
+TEST_INTERNAL_SERVER_ERROR = False
+
 FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries'
 
 NS_PER_MS = 1e+6
@@ -87,6 +92,7 @@ def react_rendered_view(request, url: str):
             'batchGraphQLURL': reverse('batch-graphql'),
             'debug': settings.DEBUG
         },
+        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR
     }
 
     lambda_response = run_react_lambda(initial_props)

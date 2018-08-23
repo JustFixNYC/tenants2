@@ -36,6 +36,15 @@ interface LambdaResponse {
   bundleFiles: string[];
 }
 
+/** Our event handler props are a superset of our app props. */
+type EventProps = AppProps & {
+  /**
+   * This isn't particularly, elegant, but it's used during integration testing
+   *to ensure that this process' handling of internal server errors works properly.
+   */
+  testInternalServerError: true
+};
+
 /** Render the HTML for the current URL and return it. */
 function renderAppHtml(
   event: AppProps,
@@ -53,19 +62,7 @@ function renderAppHtml(
   );
 }
 
-/**
- * This is a handler for serverless environments that,
- * given initial app properties, returns the initial
- * HTML rendering of the app, along with other response
- * metadata.
- * 
- * @param event The initial properties for our app.
- */
-async function baseHandler(event: AppProps): Promise<LambdaResponse> {
-  await Loadable.preloadAll();
-
-  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
-
+function generateResponse(event: AppProps, bundlerStats: any): Promise<LambdaResponse> {
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
@@ -76,7 +73,7 @@ async function baseHandler(event: AppProps): Promise<LambdaResponse> {
     };
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundles(stats, modules).map(bundle => bundle.file);
+    const bundleFiles = getBundles(bundlerStats, modules).map(bundle => bundle.file);
     resolve({
       html,
       titleTag: helmet.title.toString(),
@@ -87,10 +84,30 @@ async function baseHandler(event: AppProps): Promise<LambdaResponse> {
 }
 
 /**
+ * This is a handler for serverless environments that,
+ * given initial app properties, returns the initial
+ * HTML rendering of the app, along with other response
+ * metadata.
+ * 
+ * @param event The initial properties for our app.
+ */
+async function baseHandler(event: EventProps): Promise<LambdaResponse> {
+  await Loadable.preloadAll();
+
+  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
+
+  if (event.testInternalServerError) {
+    throw new Error('Testing internal server error');
+  }
+
+  return generateResponse(event, stats);
+}
+
+/**
  * This just wraps our base handler in logic that wraps any errors in
  * a response that shows an error page with a 500 response.
  */
-function errorCatchingHandler(event: AppProps): Promise<LambdaResponse> {
+function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
     console.error(error);
 
@@ -141,7 +158,7 @@ function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
       } catch (e) {
         return reject(e);
       }
-      errorCatchingHandler(obj as AppProps).then(response => {
+      errorCatchingHandler(obj as EventProps).then(response => {
         resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
       }).catch(reject);
     });

@@ -1,3 +1,5 @@
+require('source-map-support').install();
+
 import fs from 'fs';
 import { promisify } from 'util';
 import { Console } from 'console';

@@ -23,10 +23,11 @@ export function ErrorDebugInfo(props: ErrorInfo): JSX.Element {
     <React.Fragment>
       <p>The error occurred {props.isServerSide ? 'on the server' : 'in the browser'}.</p>
       <h2>Error</h2>
-      <p>
-        The following traceback may not have useful line numbers. See your
-        {props.isServerSide ? ' server' : ' browser'} console for better details.
-      </p>
+      {!props.isServerSide && (
+        <p>
+          The following traceback may not have useful line numbers. See your browser console for better details.
+        </p>
+      )}
       <pre>{props.error}</pre>
       {props.componentStack && (
         <React.Fragment>

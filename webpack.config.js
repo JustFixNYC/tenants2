@@ -54,9 +54,7 @@ function createNodeScriptConfig(entry, filename) {
   return {
     target: 'node',
     entry,
-    // Tried source-map-support but the line numbers are weird, so
-    // disabling source map support for now.
-    devtool: undefined,
+    devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
     mode: MODE,
     externals: [nodeExternals()],
     output: {

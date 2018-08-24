@@ -56,5 +56,9 @@ $justfix-blue: #0096D7;
 }
 
 .hero {
-    background: url(img/brownstones.jpg) center / cover;
+    background: url(img/brownstones_small.jpg) center / cover;
+
+    @media screen and (min-width: 800px) {
+        background: url(img/brownstones.jpg) center / cover;
+    }
 }

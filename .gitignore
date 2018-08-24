@@ -1,8 +1,7 @@
 db.sqlite3
 db.testing.sqlite3
-*.lambda.js
-lambda.js
-lambda.js.map
+*lambda.js
+*lambda.js.map
 .vscode/
 .mypy_cache/
 .pytest_cache/

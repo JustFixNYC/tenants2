@@ -13,7 +13,7 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
-import Page from './page';
+import Page, { createLoadablePage } from './page';
 import { ErrorBoundary } from './error-boundary';
 
 
@@ -43,12 +43,8 @@ interface AppState {
   logoutLoading: boolean;
 }
 
-const LoadableIndexPage = Loadable({
-  loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
-  loading() {
-    return <Page title="Loading...">Loading...</Page>;
-  }
-});
+const LoadableIndexPage = createLoadablePage(() =>
+  import(/* webpackChunkName: "index-page" */ './index-page'));
 
 export class App extends React.Component<AppProps, AppState> {
   gqlClient: GraphQlClient;

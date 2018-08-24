@@ -15,6 +15,15 @@ def test_index_works(client):
     assert '<nav' in response.context['initial_render']
 
 
+def test_pages_with_extra_bundles_work(client):
+    response = client.get('/__loadable-example-page')
+    assert response.status_code == 200
+    assert response.context['bundle_urls'] == [
+        '/static/frontend/example-loadable-page.bundle.js',
+        '/static/frontend/main.bundle.js'
+    ]
+
+
 def test_404_works(client):
     response = client.get('/nonexistent')
     assert response.status_code == 404

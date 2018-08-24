@@ -13,7 +13,7 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
-import Page, { createLoadablePage } from './page';
+import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 
 
@@ -43,8 +43,15 @@ interface AppState {
   logoutLoading: boolean;
 }
 
-const LoadableIndexPage = createLoadablePage(() =>
-  import(/* webpackChunkName: "index-page" */ './index-page'));
+const LoadableIndexPage = Loadable({
+  loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
+  loading: LoadingPage
+});
+
+const LoadableExamplePage = Loadable({
+  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './example-loadable-page'),
+  loading: LoadingPage
+});
 
 export class App extends React.Component<AppProps, AppState> {
   gqlClient: GraphQlClient;
@@ -144,6 +151,7 @@ export class App extends React.Component<AppProps, AppState> {
                 <p>This is another page.</p>
               </Page>
             </Route>
+            <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />
           </Switch>
         </AppContext.Provider>

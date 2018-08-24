@@ -85,6 +85,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
     const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
+    console.log("UM", event.initialURL, bundleFiles, modules);
     resolve({
       html,
       titleTag: helmet.title.toString(),

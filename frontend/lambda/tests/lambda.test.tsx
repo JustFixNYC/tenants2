@@ -18,11 +18,14 @@ test('lambda works', async () => {
 });
 
 test('lambda catches errors', async () => {
+  const mockConsoleError = jest.fn();
+  jest.spyOn(console, 'error').mockImplementation(mockConsoleError);
   const response = await errorCatchingHandler({
     ...fakeAppProps,
     testInternalServerError: true
   });
   expect(response.status).toBe(500);
+  expect(mockConsoleError.mock.calls.length).toBe(1);
 });
 
 test('isPlainJsObject works', () => {

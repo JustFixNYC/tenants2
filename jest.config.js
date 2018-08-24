@@ -22,5 +22,6 @@ module.exports = {
     "json",
     "node"
   ],
+  "restoreMocks": true,
   "setupTestFrameworkScriptFile": "./frontend/lib/tests/setup.ts"
 };

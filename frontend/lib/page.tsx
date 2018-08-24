@@ -43,7 +43,7 @@ export function createLoadablePage<Props>(
           </Page>
         );
       }
-      return <Page title="Loading...">Loading...!</Page>;
+      return <Page title="Loading...">Loading...</Page>;
     }
   });
 }

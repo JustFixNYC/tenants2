@@ -68,19 +68,22 @@ export class App extends React.Component<AppProps, AppState> {
 
   @autobind
   handleFetchError(e: Error) {
+    window.alert(`Unfortunately, a network error occurred. Please try again later.`);
     console.error(e);
-    window.alert(`Alas, a fatal error occurred: ${e.message}`);
   }
 
   @autobind
   handleLogout() {
     this.setState({ logoutLoading: true });
-    fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
+    return fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
       this.setState({
         logoutLoading: false,
         session: result.logout.session
       });
-    }).catch(this.handleFetchError);
+    }).catch(e => {
+      this.setState({ logoutLoading: false });
+      this.handleFetchError(e);
+    });
   }
 
   @autobind
@@ -89,7 +92,7 @@ export class App extends React.Component<AppProps, AppState> {
       loginLoading: true,
       loginErrors: undefined
     });
-    fetchLoginMutation(this.gqlClient.fetch, { input: {
+    return fetchLoginMutation(this.gqlClient.fetch, { input: {
       phoneNumber: phoneNumber,
       password: password
     }}).then(result => {
@@ -104,7 +107,10 @@ export class App extends React.Component<AppProps, AppState> {
           loginErrors: getFormErrors<LoginInput>(result.login.errors)
         });
       }
-    }).catch(this.handleFetchError);
+    }).catch(e => {
+      this.setState({ loginLoading: false });
+      this.handleFetchError(e)
+    });
   }
 
   componentDidUpdate(prevProps: AppProps, prevState: AppState) {

@@ -17,6 +17,10 @@ export interface LogoutMutation_logout_session {
    * The cross-site request forgery (CSRF) token.
    */
   csrfToken: string;
+  /**
+   * Whether or not the currently logged-in user is a staff member.
+   */
+  isStaff: boolean;
 }
 
 export interface LogoutMutation_logout {

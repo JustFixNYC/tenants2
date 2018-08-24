@@ -21,6 +21,11 @@ class SessionInfo(graphene.ObjectType):
         required=True
     )
 
+    is_staff = graphene.Boolean(
+        description="Whether or not the currently logged-in user is a staff member.",
+        required=True
+    )
+
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -30,6 +35,9 @@ class SessionInfo(graphene.ObjectType):
     def resolve_csrf_token(self, info: ResolveInfo) -> str:
         request = info.context
         return csrf.get_token(request)
+
+    def resolve_is_staff(self, info: ResolveInfo) -> bool:
+        return info.context.user.is_staff
 
 
 class Login(DjangoFormMutation):

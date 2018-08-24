@@ -51,3 +51,17 @@ def test_schema_json_is_up_to_date():
 
     if not schema_json.is_up_to_date():
         raise Exception(err_msg)
+
+
+def test_is_staff_works(graphql_client):
+    def get_is_staff():
+        result = graphql_client.execute('query { session { isStaff } }')
+        return result['data']['session']['isStaff']
+
+    assert get_is_staff() is False, "anonymous user is not staff"
+
+    graphql_client.request.user = UserFactory.build(is_staff=False)
+    assert get_is_staff() is False
+
+    graphql_client.request.user = UserFactory.build(is_staff=True)
+    assert get_is_staff() is True

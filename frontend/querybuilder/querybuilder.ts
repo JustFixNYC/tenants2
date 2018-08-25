@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
 import chokidar from 'chokidar';
+import chalk from 'chalk';
 
 
 /**
@@ -346,20 +347,24 @@ function watch(options: MainOptions, debounceMs = 250) {
     SCHEMA_PATH,
     path.posix.join(...LIB_PATH_PARTS, `*${DOT_GRAPHQL}`)
   ];
+  const checkIfMyFileHasChanged = () => {
+    if (!myFileContents.equals(fs.readFileSync(myFile))) {
+      console.log(chalk.yellowBright(
+        `WARNING: ${myFile} has changed, consider pressing Ctrl-C\n` +
+        `and re-running this command.`
+      ));
+    }
+  };
   chokidar.watch([myFile], {
     ignoreInitial: true,
     awaitWriteFinish: true
-  }).on('all', () => {
-    if (!myFileContents.equals(fs.readFileSync(myFile))) {
-      console.log(
-        `WARNING: ${myFile} has changed, consider pressing Ctrl-C\n` +
-        `and re-running this command.`
-      );
-    }
-  });
+  }).on('all', checkIfMyFileHasChanged);
   chokidar.watch(paths).on('all', debouncer(() => {
-    main(options);
+    if (main(options) !== 0) {
+      console.log(chalk.redBright('ERROR: Rebuilding GraphQL queries failed!'));
+    }
     console.log(`Waiting for changes in ${paths.join(', ')}...`);
+    checkIfMyFileHasChanged();
   }, debounceMs));
 }
 

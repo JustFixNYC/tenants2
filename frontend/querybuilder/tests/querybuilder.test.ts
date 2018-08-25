@@ -9,8 +9,20 @@ import {
   LIB_PATH,
   COPY_FROM_GEN_TO_LIB,
   strContains,
-  getGraphQlFragments
+  getGraphQlFragments,
+  argvHasOption
 } from "../querybuilder";
+
+test('argvHasOption() works', () => {
+  const oldArgv = process.argv;
+  try {
+    process.argv = ['foo', '-b'];
+    expect(argvHasOption('-b', '--bar')).toBe(true);
+    expect(argvHasOption('-z', '--baz')).toBe(false);
+  } finally {
+    process.argv = oldArgv;
+  }
+});
 
 test('strContains() works', () => {
   expect(strContains('blarg', 'foo', 'bar')).toBe(false);

@@ -257,12 +257,12 @@ function fixInvalidGlobaltypesReferences() {
 }
 
 /**
- * Run Apollo codegen:generate if needed.
+ * Run Apollo codegen:generate if needed, returning 0 on success, nonzero on errors.
  * 
  * @param force Force running of Apollo Codegen, regardless of file modification dates.
  */
-export function runApolloCodegen(force: boolean = false) {
-  if (!force && !doesApolloCodegenNeedToBeRun()) return;
+export function runApolloCodegen(force: boolean = false): number {
+  if (!force && !doesApolloCodegenNeedToBeRun()) return 0;
 
   const child = child_process.spawnSync('node', [
     'node_modules/apollo/bin/run',
@@ -279,8 +279,7 @@ export function runApolloCodegen(force: boolean = false) {
     throw child.error;
   }
   if (child.status !== 0) {
-    console.log(`apollo failed, exiting with status ${child.status}.`);
-    process.exit(child.status);
+    return child.status;
   }
 
   fixInvalidGlobaltypesReferences();
@@ -288,13 +287,14 @@ export function runApolloCodegen(force: boolean = false) {
     const content = fs.readFileSync(path.join(GEN_PATH, filename));
     fs.writeFileSync(path.join(LIB_PATH, filename), content);
   });
+  return 0;
 }
 
 /**
  * Return whether our command-line arguments represent any of the given
  * options.
  */
-function argvHasOption(...opts: string[]): boolean {
+export function argvHasOption(...opts: string[]): boolean {
   for (let opt of opts) {
     if (process.argv.indexOf(opt) !== -1) {
       return true;
@@ -303,18 +303,11 @@ function argvHasOption(...opts: string[]): boolean {
   return false;
 }
 
-if (!module.parent) {
-  if (argvHasOption('-h', '--help')) {
-    console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
-    console.log(`options:\n`);
-    console.log('  -f / --force   Force run Apollo Codgen');
-    console.log('  -h / --help    Show this help');
-    process.exit(0);
+function main(options: { forceApolloCodegen: boolean }): number {
+  const apolloStatus = runApolloCodegen(options.forceApolloCodegen);
+  if (apolloStatus !== 0) {
+    return apolloStatus;
   }
-
-  const forceApolloCodegen = argvHasOption('-f', '--force');
-
-  runApolloCodegen(forceApolloCodegen);
 
   console.log(`Building type-safe functions to access the GraphQL`);
   console.log(`queries in ${LIB_PATH}...\n`);
@@ -327,4 +320,19 @@ if (!module.parent) {
   });
 
   console.log('\nDone!');
+  return 0;
+}
+
+if (!module.parent) {
+  if (argvHasOption('-h', '--help')) {
+    console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
+    console.log(`options:\n`);
+    console.log('  -f / --force   Force run Apollo Codgen');
+    console.log('  -h / --help    Show this help');
+    process.exit(0);
+  }
+
+  process.exit(main({
+    forceApolloCodegen: argvHasOption('-f', '--force')
+  }));
 }

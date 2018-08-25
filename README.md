@@ -105,8 +105,8 @@ though developers can manually regenerate it via
 Client-side GraphQL code is generated as follows:
 
 1. Raw queries are in `frontend/lib/queries/` and given a `.graphql`
-   extension.  Currently, they must consist of **one** query or
-   mutation that has the same name as the base name of the file.
+   extension.  Currently, they must consist of **one** query,
+   mutation, or fragment that has the same name as the base name of the file.
    For instance, if the file is called `SimpleQuery.graphql`,
    then the contained query should be called `SimpleQuery`, e.g.:
 
@@ -116,19 +116,26 @@ Client-side GraphQL code is generated as follows:
     }
     ```
 
-2. Once a raw query has been written, the developer runs
-   `node querybuilder.js`.  This does the following:
+2. The querybuilder, which runs as part of `npm start`, will notice
+   changes to any of these raw queries *or* the server's `schema.json`,
+   and do the following:
 
     1. It runs [Apollo Code Generation][] to validate the raw queries
        against the server's GraphQL schema and create TypeScript
        interfaces for them.
 
-    2. It runs a script that takes the TypeScript interfaces and adds
-       a function to them that is responsible for performing the query
-       in a type-safe way.  It is named `fetch` followed by whatever
-       the query is called (e.g., `fetchSimpleQuery`).  The resultant
-       TS file (which includes the interfaces) is created next to the
-       original `.graphql` file.
+    2. For queries and mutations, it adds a function to the TypeScript
+       interfaces that is responsible for performing the query in a
+       type-safe way.  It is named `fetch` followed by whatever
+       the query is called (e.g., `fetchSimpleQuery`).
+       
+    3. The resultant TypeScript interfaces and/or function is written
+       to a file that is created next to the original `.graphql` file
+       (e.g., `SimpleQuery.ts`).
+
+    If the developer prefers not to rely on `npm start`
+    to automatically rebuild queries for them, they can also manually
+    run `node querybuilder.js`.
 
 At this point the developer can import the final TS file and use the query.
 

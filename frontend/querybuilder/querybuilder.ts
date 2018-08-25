@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as child_process from 'child_process';
+import chokidar from 'chokidar';
+
 
 /**
  * The following directory paths assume we've been compiled to the
@@ -11,7 +13,8 @@ import * as child_process from 'child_process';
  * The path to the directory where we'll get our GraphQL queries, and
  * where we'll put our generated TypeScript source code.
  */
-export const LIB_PATH = path.join('frontend', 'lib', 'queries');
+const LIB_PATH_PARTS = ['frontend', 'lib', 'queries'];
+export const LIB_PATH = path.join(...LIB_PATH_PARTS);
 
 /** The path into which Apollo codegen:generate will put its generated files. */
 const GEN_PATH = path.join(LIB_PATH, '__generated__');
@@ -54,6 +57,20 @@ export function getGraphQlFragments(source: string): string[] {
   } while (m);
 
   return results;
+}
+
+/**
+ * Write the given file to disk, but only if its new contents are
+ * different from its existing contents.
+ * 
+ * Returns true if the file's contents have changed, false otherwise.
+ */
+function writeFileIfChangedSync(path: string, contents: string): boolean {
+  if (fs.existsSync(path) && fs.readFileSync(path, { encoding: 'utf-8' }) === contents) {
+    return false;
+  }
+  fs.writeFileSync(path, contents, { encoding: 'utf-8' });
+  return true;
 }
 
 /**
@@ -205,8 +222,8 @@ export class GraphQlFile {
   }
 
   /** Write out our TypeScript code to a file. */
-  writeTsCode() {
-    fs.writeFileSync(this.tsCodePath, this.generateTsCode());
+  writeTsCode(): boolean {
+    return writeFileIfChangedSync(this.tsCodePath, this.generateTsCode());
   }
 
   /** Scan the directory containing our GraphQL queries. */
@@ -284,8 +301,8 @@ export function runApolloCodegen(force: boolean = false): number {
 
   fixInvalidGlobaltypesReferences();
   COPY_FROM_GEN_TO_LIB.forEach(filename => {
-    const content = fs.readFileSync(path.join(GEN_PATH, filename));
-    fs.writeFileSync(path.join(LIB_PATH, filename), content);
+    const content = fs.readFileSync(path.join(GEN_PATH, filename), { encoding: 'utf-8' });
+    writeFileIfChangedSync(path.join(LIB_PATH, filename), content);
   });
   return 0;
 }
@@ -303,7 +320,51 @@ export function argvHasOption(...opts: string[]): boolean {
   return false;
 }
 
-function main(options: { forceApolloCodegen: boolean }): number {
+/** Options for our main querybuilder functionality. */
+interface MainOptions {
+  /** Whether to force-run Apollo codegen:generate even if we don't think it's necessary. */
+  forceApolloCodegen: boolean;
+}
+
+/** A simple debouncer to aid in file watching. */
+export function debouncer(func: () => void, debounceMs: number) {
+  let timeout: any = null;
+
+  return () => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(func,  debounceMs);
+  };
+}
+
+/** Watch GraphQL queries and schema and re-build queries when they change. */
+function watch(options: MainOptions, debounceMs = 250) {
+  const myFile = path.basename(process.argv[1]);
+  const myFileContents = fs.readFileSync(myFile);
+  const paths = [
+    SCHEMA_PATH,
+    path.posix.join(...LIB_PATH_PARTS, `*${DOT_GRAPHQL}`)
+  ];
+  chokidar.watch([myFile], {
+    ignoreInitial: true,
+    awaitWriteFinish: true
+  }).on('all', () => {
+    if (!myFileContents.equals(fs.readFileSync(myFile))) {
+      console.log(
+        `WARNING: ${myFile} has changed, consider pressing Ctrl-C\n` +
+        `and re-running this command.`
+      );
+    }
+  });
+  chokidar.watch(paths).on('all', debouncer(() => {
+    main(options);
+    console.log(`Waiting for changes in ${paths.join(', ')}...`);
+  }, debounceMs));
+}
+
+/** Our main query-building functionality. */
+function main(options: MainOptions): number {
   const apolloStatus = runApolloCodegen(options.forceApolloCodegen);
   if (apolloStatus !== 0) {
     return apolloStatus;
@@ -315,8 +376,9 @@ function main(options: { forceApolloCodegen: boolean }): number {
   // Find all raw GraphQL queries and generate type-safe functions
   // for them.
   GraphQlFile.fromDir().forEach(query => {
-    console.log(`Writing ${query.tsCodePath}...`);
-    query.writeTsCode();
+    if (query.writeTsCode()) {
+      console.log(`Wrote ${query.tsCodePath}.`);
+    }
   });
 
   console.log('\nDone!');
@@ -328,11 +390,18 @@ if (!module.parent) {
     console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
     console.log(`options:\n`);
     console.log('  -f / --force   Force run Apollo Codgen');
+    console.log('  -w / --watch   Watch files for changes');
     console.log('  -h / --help    Show this help');
     process.exit(0);
   }
 
-  process.exit(main({
+  const mainOptions = {
     forceApolloCodegen: argvHasOption('-f', '--force')
-  }));
+  };
+
+  if (argvHasOption('-w', '--watch')) {
+    watch(mainOptions);
+  } else {
+    process.exit(main(mainOptions));
+  }
 }

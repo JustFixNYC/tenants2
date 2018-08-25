@@ -9,9 +9,10 @@
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "npm run sass -- --watch",
+    "querybuilder:watch": "node querybuilder.js --watch",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\"",
+    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\"",
     "postinstall": "npm run sass && npm run build"
   },
   "repository": {
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
     "@types/dotenv": "^4.0.3",
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
@@ -36,6 +38,7 @@
     "@types/webpack-bundle-analyzer": "^2.9.2",
     "@types/webpack-node-externals": "^1.6.3",
     "apollo": "^1.7.0",
+    "chokidar": "^2.0.4",
     "concurrently": "^3.6.1",
     "dotenv": "^6.0.0",
     "enzyme": "^3.4.1",

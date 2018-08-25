@@ -10,8 +10,24 @@ import {
   COPY_FROM_GEN_TO_LIB,
   strContains,
   getGraphQlFragments,
-  argvHasOption
+  argvHasOption,
+  debouncer
 } from "../querybuilder";
+
+test('debouncer() works', () => {
+  const fn = jest.fn();
+  jest.useFakeTimers();
+
+  const debouncedFn = debouncer(fn, 1000);
+  debouncedFn();
+  debouncedFn();
+  jest.runTimersToTime(500);
+  debouncedFn();
+  expect(fn.mock.calls).toHaveLength(0);
+
+  jest.runTimersToTime(1001);
+  expect(fn.mock.calls).toHaveLength(1);
+});
 
 test('argvHasOption() works', () => {
   const oldArgv = process.argv;

@@ -12,11 +12,11 @@ import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
-import { NotFound } from './not-found';
+import { NotFound } from './pages/not-found';
 import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
-import LoginPage from './login-page';
-import LogoutPage from './logout-page';
+import LoginPage from './pages/login-page';
+import LogoutPage from './pages/logout-page';
 import Routes from './routes';
 
 
@@ -47,12 +47,12 @@ interface AppState {
 }
 
 const LoadableIndexPage = Loadable({
-  loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
+  loader: () => import(/* webpackChunkName: "index-page" */ './pages/index-page'),
   loading: LoadingPage
 });
 
 const LoadableExamplePage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './example-loadable-page'),
+  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page'),
   loading: LoadingPage
 });
 

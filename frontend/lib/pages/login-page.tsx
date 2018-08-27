@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { LoginInput } from './queries/globalTypes';
-import { LoginForm } from './login-form';
-import { FormErrors } from './forms';
-import Page from './page';
+import { LoginInput } from '../queries/globalTypes';
+import { LoginForm } from '../login-form';
+import { FormErrors } from '../forms';
+import Page from '../page';
 import { Redirect } from 'react-router';
-import Routes from './routes';
+import Routes from '../routes';
 
 export interface LoginPageProps {
   loginErrors?: FormErrors<LoginInput>;

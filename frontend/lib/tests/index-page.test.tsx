@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 
-import IndexPage, { IndexPageProps  } from '../index-page';
+import IndexPage, { IndexPageProps  } from '../pages/index-page';
 
 test('index page renders', () => {
   const props: IndexPageProps = {};

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Page from './page';
+import Page from '../page';
 import { Link } from 'react-router-dom';
-import { AppContext } from './app-context';
-import Routes from './routes';
+import { AppContext } from '../app-context';
+import Routes from '../routes';
 
 export interface IndexPageProps {
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Page from './page';
+import Page from '../page';
 import { Link } from 'react-router-dom';
-import { AppContext } from './app-context';
-import { bulmaClasses } from './bulma';
-import Routes from './routes';
+import { AppContext } from '../app-context';
+import { bulmaClasses } from '../bulma';
+import Routes from '../routes';
 
 export interface LogoutPageProps {
   logoutLoading: boolean;

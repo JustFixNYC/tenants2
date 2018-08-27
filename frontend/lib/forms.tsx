@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import autobind from 'autobind-decorator';
 
 /**
  * This is the form validation error type returned from the server.
@@ -138,4 +139,60 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
         : null}
     </div>
   );
+}
+
+export interface BaseFormProps<FormInput> {
+  onSubmit: (input: FormInput) => void;
+  isLoading: boolean;
+  errors?: FormErrors<FormInput>;
+}
+
+export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
+  initialState: FormInput;
+  children: (context: FormContext<FormInput>) => JSX.Element;
+}
+
+export interface FormContext<FormInput> extends FormProps<FormInput> {
+  fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
+}
+
+export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
+  constructor(props: FormProps<FormInput>) {
+    super(props);
+    this.state = props.initialState;
+  }
+
+  @autobind
+  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!this.props.isLoading) {
+      this.props.onSubmit(this.state);
+    }
+  }
+
+  @autobind
+  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>  {
+    return {
+      onChange: (value) => {
+        // I'm not sure why Typescript dislikes this, but it seems
+        // like the only way to get around it is to cast to "any". :(
+        this.setState({ [field]: value } as any);
+      },
+      errors: this.props.errors && this.props.errors.fieldErrors[field],
+      value: this.state[field],
+      name: field,
+      isDisabled: this.props.isLoading
+    };
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        {this.props.children({
+          ...this.props,
+          fieldPropsFor: this.fieldPropsFor
+        })}
+      </form>
+    );
+  }
 }

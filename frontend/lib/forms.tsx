@@ -188,6 +188,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <NonFieldErrors errors={this.props.errors} />
         {this.props.children({
           ...this.props,
           fieldPropsFor: this.fieldPropsFor

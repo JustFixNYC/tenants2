@@ -3,7 +3,7 @@ import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link } from 'react-router-dom';
-import { BaseFormProps, Form, TextualFormField, FormErrors, getFormErrors } from '../forms';
+import { TextualFormField, FormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
@@ -15,49 +15,26 @@ const initialState: OnboardingStep1Input = {
   aptNumber: ''
 };
 
-interface FormState {
-  isLoading: boolean;
-  errors?: FormErrors<OnboardingStep1Input>;
-}
-
 interface OnboardingStep1Props {
   fetch: (query: string, variables?: any) => Promise<any>;
 }
 
-export default class OnboardingStep1 extends React.Component<OnboardingStep1Props, FormState> {
-  constructor(props: OnboardingStep1Props) {
-    super(props);
-    this.state = { isLoading: false };
-  }
-
+export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
   @autobind
   handleSubmit(input: OnboardingStep1Input) {
-    this.setState({ isLoading: true, errors: undefined });
-    return fetchOnboardingStep1Mutation(this.props.fetch, { input }).then(result => {
-      const { errors } = result.onboardingStep1;
-      if (errors) {
-        this.setState({
-          isLoading: false,
-          errors: getFormErrors<OnboardingStep1Input>(errors)
-        });
-      } else {
-        // TODO: Set name/address/apt # in state or something.
-        this.setState({ isLoading: false });
-      }
-    }).catch(e => {
-      this.setState({ isLoading: false });
-    });
+    return fetchOnboardingStep1Mutation(this.props.fetch, { input })
+      .then(result => result.onboardingStep1);
   }
 
   render() {
-    const { state } = this;
-
     return (
       <Page title="Tell us about yourself!">
         <h1 className="title">Tell us about yourself!</h1>
         <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
         <br/>
-        <Form isLoading={state.isLoading} onSubmit={this.handleSubmit} errors={state.errors} initialState={initialState}>
+        <FormSubmitter onSubmit={this.handleSubmit}
+                       initialState={initialState}
+                       onSuccess={(output) => { console.log('TODO IMPLEMENT THIS!'); }}>
           {(ctx) => (
             <React.Fragment>
               <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />
@@ -75,7 +52,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
               </div>
             </React.Fragment>
           )}
-        </Form>
+        </FormSubmitter>
       </Page>
     );
   }

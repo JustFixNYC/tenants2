@@ -141,13 +141,61 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   );
 }
 
+type WithFieldErrors = {
+  errors: FormFieldError[];
+};
+
+interface FormSubmitterProps<FormInput, FormOutput extends WithFieldErrors> {
+  onSubmit: (input: FormInput) => Promise<FormOutput>;
+  onSuccess: (output: FormOutput) => void;
+  initialState: FormInput;
+  children: (context: FormContext<FormInput>) => JSX.Element;
+}
+
+type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
+
+export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+  constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
+    super(props);
+    this.state = {
+      isLoading: false
+    };
+  }
+
+  @autobind
+  handleSubmit(input: FormInput) {
+    this.setState({ isLoading: true, errors: undefined });
+    return this.props.onSubmit(input).then(output => {
+      if (output.errors.length) {
+        this.setState({
+          isLoading: false,
+          errors: getFormErrors<FormInput>(output.errors)
+        });
+      } else {
+        this.setState({ isLoading: false });
+        this.props.onSuccess(output);
+      }
+    }).catch(e => {
+      this.setState({ isLoading: false });
+    });
+  }
+
+  render() {
+    return (
+      <Form isLoading={this.state.isLoading} errors={this.state.errors} initialState={this.props.initialState} onSubmit={this.handleSubmit}>
+        {this.props.children}
+      </Form>
+    );
+  }
+}
+
 export interface BaseFormProps<FormInput> {
-  onSubmit: (input: FormInput) => void;
   isLoading: boolean;
   errors?: FormErrors<FormInput>;
 }
 
 export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
+  onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
 }

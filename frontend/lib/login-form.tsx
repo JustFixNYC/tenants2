@@ -4,7 +4,11 @@ import { LoginInput } from './queries/globalTypes';
 import { TextualFormField, Form, BaseFormProps } from './forms';
 import { bulmaClasses } from './bulma';
 
-export class LoginForm extends React.Component<BaseFormProps<LoginInput>> {
+interface LoginFormProps extends BaseFormProps<LoginInput> {
+  onSubmit: (input: LoginInput) => void;
+}
+
+export class LoginForm extends React.Component<LoginFormProps> {
   render() {
     return (
       <Form {...this.props} initialState={{ phoneNumber: '', password: '' }}>

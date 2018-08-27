@@ -1,9 +1,9 @@
 import React from 'react';
 import { LoginInput } from './queries/globalTypes';
-import classnames from 'classnames';
 
 import { FormErrors, NonFieldErrors, BaseFormFieldProps, TextualFormField } from './forms';
 import autobind from 'autobind-decorator';
+import { bulmaClasses } from './bulma';
 
 interface LoginFormProps {
   onSubmit: (input: LoginInput) => void;
@@ -50,7 +50,7 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         <TextualFormField label="Password" type="password" {...this.fieldPropsFor('password')} />
         <div className="field">
           <div className="control">
-            <button type="submit" className={classnames('button', 'is-primary', {
+            <button type="submit" className={bulmaClasses('button', 'is-primary', {
               'is-loading': this.props.isLoading
             })}>Sign in</button>
           </div>

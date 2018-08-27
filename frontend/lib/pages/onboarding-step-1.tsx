@@ -3,38 +3,63 @@ import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link } from 'react-router-dom';
-import { BaseFormProps, Form, TextualFormField } from '../forms';
+import { BaseFormProps, Form, TextualFormField, FormErrors, getFormErrors } from '../forms';
+import { OnboardingStep1Input } from '../queries/globalTypes';
+import autobind from 'autobind-decorator';
+import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 
 
-interface OnboardingPage1Input {
-  name: string;
-  address: string;
-  aptNumber: string;
-}
-
-const initialState: OnboardingPage1Input = {
+const initialState: OnboardingStep1Input = {
   name: '',
   address: '',
   aptNumber: ''
 };
 
-type OnboardingPage1FormProps = BaseFormProps<OnboardingPage1Input>;
+interface FormState {
+  isLoading: boolean;
+  errors?: FormErrors<OnboardingStep1Input>;
+}
 
-const fakeProps: OnboardingPage1FormProps = {
-  onSubmit(input) {
-    window.alert("TODO IMPLEMENT THIS");
-  },
-  isLoading: false,
-};
+interface OnboardingStep1Props {
+  onFetchError: (e: Error) => void;
+  fetch: (query: string, variables?: any) => Promise<any>;
+}
 
-export default class OnboardingPage1 extends React.Component {
+export default class OnboardingStep1 extends React.Component<OnboardingStep1Props, FormState> {
+  constructor(props: OnboardingStep1Props) {
+    super(props);
+    this.state = { isLoading: false };
+  }
+
+  @autobind
+  handleSubmit(input: OnboardingStep1Input) {
+    this.setState({ isLoading: true, errors: undefined });
+    return fetchOnboardingStep1Mutation(this.props.fetch, { input }).then(result => {
+      const { errors } = result.onboardingStep1;
+      if (errors) {
+        this.setState({
+          isLoading: false,
+          errors: getFormErrors<OnboardingStep1Input>(errors)
+        });
+      } else {
+        // TODO: Set name/address/apt # in state or something.
+        this.setState({ isLoading: false });
+      }
+    }).catch(e => {
+      this.setState({ isLoading: false });
+      this.props.onFetchError(e);
+    });
+  }
+
   render() {
+    const { state } = this;
+
     return (
       <Page title="Tell us about yourself!">
         <h1 className="title">Tell us about yourself!</h1>
         <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
         <br/>
-        <Form {...fakeProps} initialState={initialState}>
+        <Form isLoading={state.isLoading} onSubmit={this.handleSubmit} errors={state.errors} initialState={initialState}>
           {(ctx) => (
             <React.Fragment>
               <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />

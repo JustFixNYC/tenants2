@@ -40,6 +40,15 @@ class SessionInfo(graphene.ObjectType):
         return info.context.user.is_staff
 
 
+class OnboardingStep1(DjangoFormMutation):
+    class Meta:
+        form_class = forms.OnboardingStep1Form
+
+    @classmethod
+    def perform_mutate(cls, form: forms.OnboardingStep1Form, info: ResolveInfo):
+        return cls(errors=[])
+
+
 class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -80,6 +89,7 @@ class Logout(graphene.Mutation):
 class Mutations(graphene.ObjectType):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
+    onboarding_step_1 = OnboardingStep1.Field(required=True)
 
 
 class Query(graphene.ObjectType):

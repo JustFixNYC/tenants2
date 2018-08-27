@@ -13,12 +13,12 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './pages/not-found';
-import Page, { LoadingPage } from './page';
+import { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
 import Routes from './routes';
-import OnboardingPage1 from './pages/onboarding-step-1';
+import OnboardingStep1 from './pages/onboarding-step-1';
 
 
 export interface AppProps {
@@ -158,7 +158,7 @@ export class App extends React.Component<AppProps, AppState> {
               />
             </Route>
             <Route path={Routes.onboarding.index}>
-              <OnboardingPage1 />
+              <OnboardingStep1 fetch={this.gqlClient.fetch} onFetchError={this.handleFetchError} />
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

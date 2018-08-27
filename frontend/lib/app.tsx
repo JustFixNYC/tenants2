@@ -74,6 +74,14 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   @autobind
+  fetch(query: string, variables?: any): Promise<any> {
+    return this.gqlClient.fetch(query, variables).catch(e => {
+      this.handleFetchError(e);
+      throw e;
+    });
+  }
+
+  @autobind
   handleFetchError(e: Error) {
     window.alert(`Unfortunately, a network error occurred. Please try again later.`);
     console.error(e);
@@ -158,7 +166,7 @@ export class App extends React.Component<AppProps, AppState> {
               />
             </Route>
             <Route path={Routes.onboarding.index}>
-              <OnboardingStep1 fetch={this.gqlClient.fetch} onFetchError={this.handleFetchError} />
+              <OnboardingStep1 fetch={this.fetch} />
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

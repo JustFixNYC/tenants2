@@ -21,7 +21,6 @@ interface FormState {
 }
 
 interface OnboardingStep1Props {
-  onFetchError: (e: Error) => void;
   fetch: (query: string, variables?: any) => Promise<any>;
 }
 
@@ -47,7 +46,6 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       }
     }).catch(e => {
       this.setState({ isLoading: false });
-      this.props.onFetchError(e);
     });
   }
 

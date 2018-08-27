@@ -40,10 +40,6 @@ interface AppState {
    */
   session: AllSessionInfo;
 
-  loginErrors?: FormErrors<LoginInput>;
-
-  loginLoading: boolean;
-
   logoutLoading: boolean;
 }
 
@@ -68,7 +64,6 @@ export class App extends React.Component<AppProps, AppState> {
     );
     this.state = {
       session: props.initialSession,
-      loginLoading: false,
       logoutLoading: false
     };
   }
@@ -90,42 +85,19 @@ export class App extends React.Component<AppProps, AppState> {
   @autobind
   handleLogout() {
     this.setState({ logoutLoading: true });
-    return fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
+    return fetchLogoutMutation(this.fetch).then((result) => {
       this.setState({
         logoutLoading: false,
         session: result.logout.session
       });
     }).catch(e => {
       this.setState({ logoutLoading: false });
-      this.handleFetchError(e);
     });
   }
 
   @autobind
-  handleLoginSubmit({ phoneNumber, password }: LoginInput) {
-    this.setState({
-      loginLoading: true,
-      loginErrors: undefined
-    });
-    return fetchLoginMutation(this.gqlClient.fetch, { input: {
-      phoneNumber: phoneNumber,
-      password: password
-    }}).then(result => {
-      if (result.login.session) {
-        this.setState({
-          loginLoading: false,
-          session: result.login.session
-        });
-      } else {
-        this.setState({
-          loginLoading: false,
-          loginErrors: getFormErrors<LoginInput>(result.login.errors)
-        });
-      }
-    }).catch(e => {
-      this.setState({ loginLoading: false });
-      this.handleFetchError(e)
-    });
+  handleSessionChange(session: AllSessionInfo) {
+    this.setState({ session });
   }
 
   componentDidUpdate(prevProps: AppProps, prevState: AppState) {
@@ -154,9 +126,8 @@ export class App extends React.Component<AppProps, AppState> {
             </Route>
             <Route path={Routes.login} exact>
               <LoginPage
-                loginErrors={this.state.loginErrors}
-                loginLoading={this.state.loginLoading}
-                onLoginSubmit={this.handleLoginSubmit}
+                fetch={this.fetch}
+                onSuccess={this.handleSessionChange}
               />
             </Route>
             <Route path={Routes.logout} exact>

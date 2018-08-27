@@ -5,7 +5,7 @@ import autobind from 'autobind-decorator';
 /**
  * This is the form validation error type returned from the server.
  */
-interface FormFieldError {
+export interface FormFieldError {
   field: string;
   messages: string[];
 }

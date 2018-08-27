@@ -17,3 +17,10 @@ export function getElement<K extends keyof HTMLElementTagNameMap>(
   }
   return node as HTMLElementTagNameMap[K];
 }
+
+export function assertNotNull<T>(thing: T|null): thing is T {
+  if (thing === null) {
+    throw new Error('Assertion failure, expected argument to not be null!');
+  }
+  return true;
+}

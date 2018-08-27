@@ -6,11 +6,13 @@ import { FormErrors } from '../forms';
 import Page from '../page';
 import { Redirect } from 'react-router';
 import Routes from '../routes';
+import { GraphQLFetch } from '../graphql-client';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
+import autobind from 'autobind-decorator';
 
 export interface LoginPageProps {
-  loginErrors?: FormErrors<LoginInput>;
-  loginLoading: boolean;
-  onLoginSubmit: (input: LoginInput) => void;
+  fetch: GraphQLFetch;
+  onSuccess: (session: AllSessionInfo) => void;
 }
 
 interface LoginPageState {
@@ -23,16 +25,13 @@ export default class LoginPage extends React.Component<LoginPageProps, LoginPage
     this.state = { loginSuccessful: false };
   }
 
-  componentDidUpdate(prevProps: LoginPageProps) {
-    if (prevProps.loginLoading && !this.props.loginLoading && !this.props.loginErrors) {
-      // Login was successful!
-      this.setState({ loginSuccessful: true });
-    }
+  @autobind
+  handleSuccess(session: AllSessionInfo) {
+    this.setState({ loginSuccessful: true });
+    this.props.onSuccess(session);
   }
 
   render() {
-    const { props } = this;
-
     if (this.state.loginSuccessful) {
       return <Redirect to={Routes.home} />;
     }
@@ -40,7 +39,7 @@ export default class LoginPage extends React.Component<LoginPageProps, LoginPage
     return (
       <Page title="Sign in">
         <h1 className="title">Sign in</h1>
-        <LoginForm errors={props.loginErrors} isLoading={props.loginLoading} onSubmit={props.onLoginSubmit} />
+        <LoginForm fetch={this.props.fetch} onSuccess={this.handleSuccess} />
       </Page>
     );
   }

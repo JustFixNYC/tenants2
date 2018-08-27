@@ -21,6 +21,12 @@ export interface LoginMutation_login_errors {
   messages: string[];
 }
 
+export interface LoginMutation_login_session_onboardingStep1 {
+  name: string;
+  address: string;
+  aptNumber: string;
+}
+
 export interface LoginMutation_login_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -34,6 +40,7 @@ export interface LoginMutation_login_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
+  onboardingStep1: LoginMutation_login_session_onboardingStep1 | null;
 }
 
 export interface LoginMutation_login {

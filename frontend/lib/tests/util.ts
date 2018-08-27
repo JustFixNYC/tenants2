@@ -35,7 +35,8 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
-  isStaff: false
+  isStaff: false,
+  onboardingStep1: null
 };
 
 export const FakeAppContext: AppContextType = {

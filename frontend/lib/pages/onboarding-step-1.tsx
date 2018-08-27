@@ -7,16 +7,21 @@ import { TextualFormField, FormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
+import { GraphQLFetch } from '../graphql-client';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { assertNotNull } from '../util';
 
 
-const initialState: OnboardingStep1Input = {
+const blankInitialState: OnboardingStep1Input = {
   name: '',
   address: '',
   aptNumber: ''
 };
 
 interface OnboardingStep1Props {
-  fetch: (query: string, variables?: any) => Promise<any>;
+  fetch: GraphQLFetch;
+  onSuccess: (session: AllSessionInfo) => void;
+  initialState?: OnboardingStep1Input|null;
 }
 
 export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
@@ -33,8 +38,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
         <br/>
         <FormSubmitter onSubmit={this.handleSubmit}
-                       initialState={initialState}
-                       onSuccess={(output) => { console.log('TODO IMPLEMENT THIS!'); }}>
+                       initialState={this.props.initialState || blankInitialState}
+                       onSuccess={(output) => { assertNotNull(output.session) && this.props.onSuccess(output.session); }}>
           {(ctx) => (
             <React.Fragment>
               <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />

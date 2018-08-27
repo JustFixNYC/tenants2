@@ -72,6 +72,8 @@ def get_initial_session(request) -> Dict[str, Any]:
         ''' % (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
         context_value=request
     )
+    if result.errors:
+        raise Exception(result.errors)
     return result.data['session']
 
 

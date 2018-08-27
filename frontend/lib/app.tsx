@@ -137,7 +137,11 @@ export class App extends React.Component<AppProps, AppState> {
               />
             </Route>
             <Route path={Routes.onboarding.index}>
-              <OnboardingStep1 fetch={this.fetch} />
+              <OnboardingStep1
+                fetch={this.fetch}
+                onSuccess={this.handleSessionChange}
+                initialState={this.state.session.onboardingStep1}
+              />
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

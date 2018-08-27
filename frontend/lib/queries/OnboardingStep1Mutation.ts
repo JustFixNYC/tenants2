@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -20,11 +21,34 @@ export interface OnboardingStep1Mutation_onboardingStep1_errors {
   messages: string[];
 }
 
+export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 {
+  name: string;
+  address: string;
+  aptNumber: string;
+}
+
+export interface OnboardingStep1Mutation_onboardingStep1_session {
+  /**
+   * The phone number of the currently logged-in user, or null if not logged-in.
+   */
+  phoneNumber: string | null;
+  /**
+   * The cross-site request forgery (CSRF) token.
+   */
+  csrfToken: string;
+  /**
+   * Whether or not the currently logged-in user is a staff member.
+   */
+  isStaff: boolean;
+  onboardingStep1: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 | null;
+}
+
 export interface OnboardingStep1Mutation_onboardingStep1 {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
   errors: OnboardingStep1Mutation_onboardingStep1_errors[];
+  session: OnboardingStep1Mutation_onboardingStep1_session | null;
 }
 
 export interface OnboardingStep1Mutation {
@@ -42,8 +66,12 @@ export function fetchOnboardingStep1Mutation(fetchGraphQL: (query: string, args?
         errors {
             field,
             messages
+        },
+        session {
+            ...AllSessionInfo
         }
     }
 }
-`, args);
+
+${AllSessionInfo.graphQL}`, args);
 }

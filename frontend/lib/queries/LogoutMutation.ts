@@ -8,6 +8,12 @@ import * as AllSessionInfo from './AllSessionInfo'
 // GraphQL mutation operation: LogoutMutation
 // ====================================================
 
+export interface LogoutMutation_logout_session_onboardingStep1 {
+  name: string;
+  address: string;
+  aptNumber: string;
+}
+
 export interface LogoutMutation_logout_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -21,6 +27,7 @@ export interface LogoutMutation_logout_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
+  onboardingStep1: LogoutMutation_logout_session_onboardingStep1 | null;
 }
 
 export interface LogoutMutation_logout {

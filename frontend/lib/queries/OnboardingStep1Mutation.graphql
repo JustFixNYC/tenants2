@@ -3,6 +3,9 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
         errors {
             field,
             messages
+        },
+        session {
+            ...AllSessionInfo
         }
     }
 }

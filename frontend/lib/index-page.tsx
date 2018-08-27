@@ -3,6 +3,7 @@ import React from 'react';
 import Page from './page';
 import { Link } from 'react-router-dom';
 import { AppContext } from './app-context';
+import Routes from './routes';
 
 export interface IndexPageProps {
 }
@@ -15,9 +16,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         <h2 className="subtitle">
           Learn the steps to take action to fight for your right to a safe and healthy home!
         </h2>
-        <Link className="button is-medium is-fullwidth is-primary" to="/onboarding">Get started</Link>
+        <Link className="button is-medium is-fullwidth is-primary" to={Routes.onboarding.index}>Get started</Link>
         <br/>
-        <p>Already have an account? <Link to="/login">Sign in!</Link></p>
+        <p>Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
       </Page>
     );
   }

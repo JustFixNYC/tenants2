@@ -17,6 +17,7 @@ import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './login-page';
 import LogoutPage from './logout-page';
+import Routes from './routes';
 
 
 export interface AppProps {
@@ -139,21 +140,26 @@ export class App extends React.Component<AppProps, AppState> {
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
           <Switch>
-            <Route path="/" exact>
+            <Route path={Routes.home} exact>
               <LoadableIndexPage />
             </Route>
-            <Route path="/login" exact>
+            <Route path={Routes.login} exact>
               <LoginPage
                 loginErrors={this.state.loginErrors}
                 loginLoading={this.state.loginLoading}
                 onLoginSubmit={this.handleLoginSubmit}
               />
             </Route>
-            <Route path="/logout" exact>
+            <Route path={Routes.logout} exact>
               <LogoutPage
                 logoutLoading={this.state.logoutLoading}
                 onLogout={this.handleLogout}
               />
+            </Route>
+            <Route path={Routes.onboarding.index}>
+              <Page title="Onboarding">
+                <p>TODO IMPLEMENT ONBOARDING HERE</p>
+              </Page>
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

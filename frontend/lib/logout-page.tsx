@@ -4,6 +4,7 @@ import Page from './page';
 import { Link } from 'react-router-dom';
 import { AppContext } from './app-context';
 import { bulmaClasses } from './bulma';
+import Routes from './routes';
 
 export interface LogoutPageProps {
   logoutLoading: boolean;
@@ -28,7 +29,7 @@ export default class LogoutPage extends React.Component<LogoutPageProps> {
             return (
               <Page title="Signed out">
                 <h1 className="title">You are now signed out.</h1>
-                <p><Link to="/login">Sign back in</Link></p>
+                <p><Link to={Routes.login}>Sign back in</Link></p>
               </Page>
             );
           }

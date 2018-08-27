@@ -5,6 +5,7 @@ import { LoginForm } from './login-form';
 import { FormErrors } from './forms';
 import Page from './page';
 import { Redirect } from 'react-router';
+import Routes from './routes';
 
 export interface LoginPageProps {
   loginErrors?: FormErrors<LoginInput>;
@@ -33,7 +34,7 @@ export default class LoginPage extends React.Component<LoginPageProps, LoginPage
     const { props } = this;
 
     if (this.state.loginSuccessful) {
-      return <Redirect to="/" />;
+      return <Redirect to={Routes.home} />;
     }
 
     return (

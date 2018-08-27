@@ -18,6 +18,7 @@ import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
 import Routes from './routes';
+import OnboardingPage1 from './pages/onboarding-step-1';
 
 
 export interface AppProps {
@@ -157,9 +158,7 @@ export class App extends React.Component<AppProps, AppState> {
               />
             </Route>
             <Route path={Routes.onboarding.index}>
-              <Page title="Onboarding">
-                <p>TODO IMPLEMENT ONBOARDING HERE</p>
-              </Page>
+              <OnboardingPage1 />
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

@@ -161,7 +161,7 @@ export class GraphQlFile {
   /** Generate the TypeScript code that clients will use. */
   generateTsCode(): string {
     if (this.graphQl.indexOf(this.basename) === -1) {
-      throw new Error(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
+      throw new ToolError(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
     }
 
     if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
@@ -169,20 +169,20 @@ export class GraphQlFile {
     } else if (this.graphQlContains(`fragment ${this.basename}`)) {
       return this.generateTsCodeForFragment();
     } else {
-      throw new Error(`${this.basename} is an unrecognized GraphQL type`);
+      throw new ToolError(`${this.basename} is an unrecognized GraphQL type`);
     }
   }
 
   /** Return the TypeScript interfaces code created by Apollo codegen:generate. */
   getTsInterfaces(): string {
     if (!fs.existsSync(this.tsInterfacesPath)) {
-      throw new Error(`Expected ${this.tsInterfacesPath} to exist!`);
+      throw new ToolError(`Expected ${this.tsInterfacesPath} to exist!`);
     }
 
     const tsInterfaces = fs.readFileSync(this.tsInterfacesPath, { encoding: 'utf-8' });
 
     if (tsInterfaces.indexOf(this.basename) === -1) {
-      throw new Error(`Expected ${this.tsInterfacesFilename} to define "${this.basename}"!`);
+      throw new ToolError(`Expected ${this.tsInterfacesFilename} to define "${this.basename}"!`);
     }
 
     return tsInterfaces;
@@ -234,6 +234,12 @@ export class GraphQlFile {
       .map(filename => new GraphQlFile(filename));
   }
 }
+
+/**
+ * A custom error that indicates an error from this tool, which
+ * users can take steps to resolve.
+ */
+class ToolError extends Error {}
 
 /**
  * Determine whether we need to run Apollo codegen:generate, based on
@@ -360,7 +366,19 @@ function watch(options: MainOptions, debounceMs = 250) {
     awaitWriteFinish: true
   }).on('all', checkIfMyFileHasChanged);
   chokidar.watch(paths).on('all', debouncer(() => {
-    if (main(options) !== 0) {
+    let exitCode = 1;
+
+    try {
+      exitCode = main(options);
+    } catch (e) {
+      if (e instanceof ToolError) {
+        console.log(e.message);
+      } else {
+        throw e;
+      }
+    }
+
+    if (exitCode !== 0) {
       console.log(chalk.redBright('ERROR: Rebuilding GraphQL queries failed!'));
     }
     console.log(`Waiting for changes in ${paths.join(', ')}...`);

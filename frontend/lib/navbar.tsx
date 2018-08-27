@@ -90,6 +90,9 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
                 <div className="navbar-end">
                   {appContext.session.isStaff && <a className="navbar-item" href={appContext.server.adminIndexURL}>Admin</a>}
+                  {appContext.session.phoneNumber
+                    ? <a className="navbar-item" href="/logout">Sign out</a>
+                    : <a className="navbar-item" href="/login">Sign in</a> }
                   {this.renderDevMenu(appContext)}
                 </div>
               </div>

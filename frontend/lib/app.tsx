@@ -15,6 +15,8 @@ import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './not-found';
 import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
+import LoginPage from './login-page';
+import LogoutPage from './logout-page';
 
 
 export interface AppProps {
@@ -138,18 +140,20 @@ export class App extends React.Component<AppProps, AppState> {
         <AppContext.Provider value={this.getAppContext()}>
           <Switch>
             <Route path="/" exact>
-              <LoadableIndexPage
+              <LoadableIndexPage />
+            </Route>
+            <Route path="/login" exact>
+              <LoginPage
                 loginErrors={this.state.loginErrors}
                 loginLoading={this.state.loginLoading}
-                logoutLoading={this.state.logoutLoading}
-                onLogout={this.handleLogout}
                 onLoginSubmit={this.handleLoginSubmit}
               />
             </Route>
-            <Route path="/about" exact>
-              <Page title="about">
-                <p>This is another page.</p>
-              </Page>
+            <Route path="/logout" exact>
+              <LogoutPage
+                logoutLoading={this.state.logoutLoading}
+                onLogout={this.handleLogout}
+              />
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

@@ -1,67 +1,46 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 
-import { LoginInput } from './queries/globalTypes';
-import { LoginForm } from './login-form';
-import { AppContext, AppContextType } from './app-context';
-import { FormErrors } from './forms';
 import Page from './page';
+import { Link } from 'react-router-dom';
+import { AppContext } from './app-context';
 
 export interface IndexPageProps {
-  loginErrors?: FormErrors<LoginInput>;
-  loginLoading: boolean;
-  logoutLoading: boolean;
-  onLogout: () => void;
-  onLoginSubmit: (input: LoginInput) => void;
 }
 
-interface IndexPageState {
-}
-
-export default class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
-  constructor(props: IndexPageProps) {
-    super(props);
-    this.state = {};
+export default class IndexPage extends React.Component<IndexPageProps> {
+  renderSignedOut() {
+    return (
+      <Page title="Technology for Housing Justice">
+        <h1 className="title">Level the playing field between you and your landlord.</h1>
+        <h2 className="subtitle">
+          Learn the steps to take action to fight for your right to a safe and healthy home!
+        </h2>
+        <Link className="button is-medium is-fullwidth is-primary" to="/onboarding">Get started</Link>
+        <br/>
+        <p>Already have an account? <Link to="/login">Sign in!</Link></p>
+      </Page>
+    );
   }
 
-  renderLoginInfo({ session }: AppContextType): JSX.Element {
-    const { props } = this;
-
-    if (session.phoneNumber) {
-      return (
-        <React.Fragment>
-          <p>You are currently logged in as {session.phoneNumber}.</p>
-          <p><button className={classnames('button', 'is-primary', {
-            'is-loading': props.logoutLoading
-          })} onClick={props.onLogout}>Logout</button></p>
-        </React.Fragment>
-      );
-    }
+  renderSignedIn() {
     return (
-      <React.Fragment>
-        <p>You are currently logged out.</p>
-        <LoginForm errors={props.loginErrors} isLoading={props.loginLoading} onSubmit={props.onLoginSubmit} />
-      </React.Fragment>
+      <Page title="TODO SHOW SOMETHING HERE">
+        <h1>TODO SHOW SOMETHING HERE</h1>
+      </Page>
     );
   }
 
   render() {
     return (
-      <Page title="JustFix.nyc - Technology for Housing Justice">
-        <AppContext.Consumer>
-          {appContext => (
-            <React.Fragment>
-              <h1 className="title">Ahoy, { appContext.server.debug ? "developer" : "human" }! </h1>
-              {this.renderLoginInfo(appContext)}
-              <div className="content">
-                <br/>
-                <p>Go to <Link to="/about">another page</Link>.</p>
-              </div>
-            </React.Fragment>
-          )}
-        </AppContext.Consumer>
-      </Page>
+      <AppContext.Consumer>
+        {(appContext) => {
+          if (appContext.session.phoneNumber) {
+            return this.renderSignedIn();
+          } else {
+            return this.renderSignedOut();
+          }
+        }}
+      </AppContext.Consumer>
     );
   }
 }

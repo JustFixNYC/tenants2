@@ -3,15 +3,9 @@ import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 
 import IndexPage, { IndexPageProps  } from '../index-page';
-import { FakeServerInfo, FakeSessionInfo } from './util';
 
 test('index page renders', () => {
-  const props: IndexPageProps = {
-    loginLoading: false,
-    logoutLoading: false,
-    onLogout: jest.fn(),
-    onLoginSubmit: jest.fn()
-  };
+  const props: IndexPageProps = {};
 
   const page = mount(
     <MemoryRouter>
@@ -19,5 +13,5 @@ test('index page renders', () => {
     </MemoryRouter>
   );
 
-  expect(page.html()).toContain('Ahoy');
+  expect(page.html()).toContain('Level the playing field');
 });

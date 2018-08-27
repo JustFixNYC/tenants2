@@ -52,7 +52,7 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           <div className="control">
             <button type="submit" className={classnames('button', 'is-primary', {
               'is-loading': this.props.isLoading
-            })}>Log in</button>
+            })}>Sign in</button>
           </div>
         </div>
       </form>

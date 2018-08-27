@@ -12,13 +12,13 @@ export default function Page(props: PageProps): JSX.Element {
   return (
     <section className="hero is-fullheight">
       <Helmet>
-        <title>{props.title}</title>
+        <title>JustFix.nyc - {props.title}</title>
       </Helmet>
       <div className="hero-head">
         <Navbar/>
       </div>
       <div className="hero-body">
-        <div className="container content box has-background-white">
+        <div className="container box has-background-white">
           {props.children}
         </div>
       </div>

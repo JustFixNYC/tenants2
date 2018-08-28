@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
+import { Redirect } from 'react-router';
+import { LocationDescriptor } from 'history';
 
 /**
  * This is the form validation error type returned from the server.
@@ -148,23 +150,31 @@ type WithFieldErrors = {
 interface FormSubmitterProps<FormInput, FormOutput extends WithFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess: (output: FormOutput) => void;
+  onSuccessRedirect?: LocationDescriptor;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
 }
 
-type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
+type FormSubmitterState<FormInput> = BaseFormProps<FormInput> & {
+  wasSuccessfullySubmitted: boolean
+};
 
 export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      wasSuccessfullySubmitted: false
     };
   }
 
   @autobind
   handleSubmit(input: FormInput) {
-    this.setState({ isLoading: true, errors: undefined });
+    this.setState({
+      isLoading: true,
+      errors: undefined,
+      wasSuccessfullySubmitted: false
+    });
     return this.props.onSubmit(input).then(output => {
       if (output.errors.length) {
         this.setState({
@@ -172,7 +182,10 @@ export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extend
           errors: getFormErrors<FormInput>(output.errors)
         });
       } else {
-        this.setState({ isLoading: false });
+        this.setState({
+          isLoading: false,
+          wasSuccessfullySubmitted: true
+        });
         this.props.onSuccess(output);
       }
     }).catch(e => {
@@ -181,6 +194,9 @@ export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extend
   }
 
   render() {
+    if (this.state.wasSuccessfullySubmitted && this.props.onSuccessRedirect) {
+      return <Redirect push to={this.props.onSuccessRedirect} />;
+    }
     return (
       <Form isLoading={this.state.isLoading} errors={this.state.errors} initialState={this.props.initialState} onSubmit={this.handleSubmit}>
         {this.props.children}

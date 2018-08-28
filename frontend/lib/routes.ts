@@ -10,7 +10,9 @@ const Routes = {
 
   /** The onboarding flow. */
   onboarding: {
-    index: '/onboarding'
+    latestStep: '/onboarding',
+    step1: '/onboarding/step/1',
+    step2: '/onboarding/step/2',
   }
 };
 

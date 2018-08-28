@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -13,7 +13,7 @@ import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage } from './page';
+import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
@@ -136,12 +136,25 @@ export class App extends React.Component<AppProps, AppState> {
                 onLogout={this.handleLogout}
               />
             </Route>
-            <Route path={Routes.onboarding.index}>
+            <Route path={Routes.onboarding.latestStep} exact render={() => {
+              const { session } = this.state;
+              let target = Routes.onboarding.step1;
+
+              if (session.onboardingStep1) {
+                target = Routes.onboarding.step2
+              }
+
+              return <Redirect to={target} />
+            }} />
+            <Route path={Routes.onboarding.step1} exact>
               <OnboardingStep1
-                fetch={this.fetch}
-                onSuccess={this.handleSessionChange}
-                initialState={this.state.session.onboardingStep1}
-              />
+                  fetch={this.fetch}
+                  onSuccess={this.handleSessionChange}
+                  initialState={this.state.session.onboardingStep1}
+                />
+            </Route>
+            <Route path={Routes.onboarding.step2} exact>
+              <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

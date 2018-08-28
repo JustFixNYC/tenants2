@@ -39,6 +39,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <br/>
         <FormSubmitter onSubmit={this.handleSubmit}
                        initialState={this.props.initialState || blankInitialState}
+                       onSuccessRedirect={Routes.onboarding.step2}
                        onSuccess={(output) => { assertNotNull(output.session) && this.props.onSuccess(output.session); }}>
           {(ctx) => (
             <React.Fragment>

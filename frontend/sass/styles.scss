@@ -19,10 +19,8 @@ $justfix-blue: #0096D7;
     }
 
     .is-active {
-        .navbar-dropdown {
-            .navbar-item:focus, .navbar-link:focus {
-                outline: 2px dashed $justfix-blue;
-            }
+        .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
+            outline: 2px dashed $justfix-blue;
         }
 
         .navbar-item, .navbar-link {

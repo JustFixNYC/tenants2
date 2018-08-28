@@ -3,7 +3,7 @@ import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link } from 'react-router-dom';
-import { TextualFormField, FormSubmitter } from '../forms';
+import { TextualFormField, FormSubmitter, FormContext } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
@@ -31,6 +31,27 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       .then(result => result.onboardingStep1);
   }
 
+  @autobind
+  renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
+    return (
+      <React.Fragment>
+        <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />
+        <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
+        <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
+        <div className="field is-grouped">
+          <div className="control">
+            <Link to={Routes.home} className="button is-text">Cancel</Link>
+          </div>
+          <div className="control">
+            <button type="submit" className={bulmaClasses('button', 'is-primary', {
+              'is-loading': ctx.isLoading
+            })}>Next</button>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+
   render() {
     return (
       <Page title="Tell us about yourself!">
@@ -41,23 +62,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
                        initialState={this.props.initialState || blankInitialState}
                        onSuccessRedirect={Routes.onboarding.step2}
                        onSuccess={(output) => { assertNotNull(output.session) && this.props.onSuccess(output.session); }}>
-          {(ctx) => (
-            <React.Fragment>
-              <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />
-              <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
-              <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
-              <div className="field is-grouped">
-                <div className="control">
-                  <Link to={Routes.home} className="button is-text">Cancel</Link>
-                </div>
-                <div className="control">
-                  <button type="submit" className={bulmaClasses('button', 'is-primary', {
-                    'is-loading': ctx.isLoading
-                  })}>Next</button>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
+          {this.renderForm}
         </FormSubmitter>
       </Page>
     );

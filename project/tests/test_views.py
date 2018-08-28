@@ -1,6 +1,13 @@
 from unittest.mock import patch
+import pytest
 
-from project.views import get_initial_session
+from project.views import get_initial_session, execute_query
+
+
+def test_execute_query_raises_exception_on_errors(graphql_client):
+    with pytest.raises(Exception) as exc_info:
+        execute_query(graphql_client.request, 'bloop')
+    assert 'bloop' in str(exc_info.value)
 
 
 def test_get_initial_session_works(graphql_client):

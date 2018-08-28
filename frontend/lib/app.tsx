@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -34,6 +34,8 @@ export interface AppProps {
   server: AppServerInfo;
 }
 
+export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
+
 interface AppState {
   /**
    * The current session state of the App, which can
@@ -42,6 +44,7 @@ interface AppState {
    */
   session: AllSessionInfo;
 
+  /** Whether the user is currently logging out. */
   logoutLoading: boolean;
 }
 
@@ -55,10 +58,11 @@ const LoadableExamplePage = Loadable({
   loading: LoadingPage
 });
 
-export class App extends React.Component<AppProps, AppState> {
+export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
+  pageBodyRef: RefObject<HTMLDivElement>;
 
-  constructor(props: AppProps) {
+  constructor(props: AppPropsWithRouter) {
     super(props);
     this.gqlClient = new GraphQlClient(
       props.server.batchGraphQLURL,
@@ -68,6 +72,7 @@ export class App extends React.Component<AppProps, AppState> {
       session: props.initialSession,
       logoutLoading: false
     };
+    this.pageBodyRef = React.createRef();
   }
 
   @autobind
@@ -102,12 +107,14 @@ export class App extends React.Component<AppProps, AppState> {
     this.setState({ session });
   }
 
-  componentDidUpdate(prevProps: AppProps, prevState: AppState) {
-    if (prevProps !== this.props) {
-      throw new Error('Assertion failure, props are not expected to change');
-    }
+  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
+    }
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      if (this.pageBodyRef.current) {
+        this.pageBodyRef.current.focus();
+      }
     }
   }
 
@@ -169,7 +176,8 @@ export class App extends React.Component<AppProps, AppState> {
               <Navbar/>
             </div>
             <div className="hero-body">
-              <div className="container box has-background-white">
+              <div className="container box has-background-white" ref={this.pageBodyRef}
+                   data-is-noninteractive tabIndex={-1}>
               {this.renderRoutes()}
               </div>
             </div>
@@ -180,6 +188,8 @@ export class App extends React.Component<AppProps, AppState> {
     );
   }
 }
+
+export const App = withRouter(AppWithoutRouter);
 
 export function startApp(container: Element, initialProps: AppProps) {
   const el = (

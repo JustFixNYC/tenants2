@@ -1,21 +1,24 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { App, AppProps } from '../app';
+import { AppWithoutRouter, AppPropsWithRouter } from '../app';
 import { createTestGraphQlClient, FakeSessionInfo, FakeServerInfo } from './util';
 
-describe('App', () => {
+describe('AppWithoutRouter', () => {
   const buildApp = () => {
     const { client } = createTestGraphQlClient();
-    const props: AppProps = {
+    const props: AppPropsWithRouter = {
       initialURL: '/',
       initialSession: FakeSessionInfo,
       server: FakeServerInfo,
+      history: null as any,
+      location: null as any,
+      match: null as any
     };
-  
-    const wrapper = shallow(<App {...props} />);
-    const app = wrapper.instance() as App;
-  
+
+    const wrapper = shallow(<AppWithoutRouter {...props} />);
+    const app = wrapper.instance() as AppWithoutRouter;
+
     app.gqlClient = client;
     return { client, app };
   };

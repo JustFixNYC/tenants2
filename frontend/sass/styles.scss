@@ -62,3 +62,8 @@ $justfix-blue: #0096D7;
         background: url(img/brownstones.jpg) center / cover;
     }
 }
+
+// https://css-tricks.com/focus-styles-non-interactive-elements/
+[data-is-noninteractive] {
+    outline: none;
+}

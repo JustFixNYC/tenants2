@@ -60,8 +60,16 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     )
 
 
+def execute_query(request, query: str) -> Dict[str, Any]:
+    result = schema.execute(query, context_value=request)
+    if result.errors:
+        raise Exception(result.errors)
+    return result.data
+
+
 def get_initial_session(request) -> Dict[str, Any]:
-    result = schema.execute(
+    data = execute_query(
+        request,
         '''
         query GetInitialSession {
             session {
@@ -70,9 +78,8 @@ def get_initial_session(request) -> Dict[str, Any]:
         }
         %s
         ''' % (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
-        context_value=request
     )
-    return result.data['session']
+    return data['session']
 
 
 def react_rendered_view(request, url: str):

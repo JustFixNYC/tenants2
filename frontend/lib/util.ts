@@ -17,3 +17,18 @@ export function getElement<K extends keyof HTMLElementTagNameMap>(
   }
   return node as HTMLElementTagNameMap[K];
 }
+
+/**
+ * Assert that the given argument isn't null and return true. Throw
+ * an exception otherwise.
+ * 
+ * This is primarily useful for situations where we're unable to
+ * statically verify that something isn't null (e.g. due to the limitations
+ * of typings we didn't write) but are sure it won't be in practice.
+ */
+export function assertNotNull<T>(thing: T|null): thing is T {
+  if (thing === null) {
+    throw new Error('Assertion failure, expected argument to not be null!');
+  }
+  return true;
+}

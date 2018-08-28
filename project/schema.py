@@ -3,9 +3,17 @@ import graphene
 from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
+from graphene_django.forms.mutation import fields_for_form
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from . import forms
+
+
+ONBOARDING_STEP_1_SESSION_KEY = 'onboarding_step_1'
+
+
+class OnboardingStep1Info(graphene.ObjectType):
+    locals().update(fields_for_form(forms.OnboardingStep1Form(), [], []))
 
 
 class SessionInfo(graphene.ObjectType):
@@ -26,6 +34,8 @@ class SessionInfo(graphene.ObjectType):
         required=True
     )
 
+    onboarding_step_1 = graphene.Field(OnboardingStep1Info)
+
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -38,6 +48,24 @@ class SessionInfo(graphene.ObjectType):
 
     def resolve_is_staff(self, info: ResolveInfo) -> bool:
         return info.context.user.is_staff
+
+    def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
+        request = info.context
+        obinfo = request.session.get(ONBOARDING_STEP_1_SESSION_KEY)
+        return OnboardingStep1Info(**obinfo) if obinfo else None
+
+
+class OnboardingStep1(DjangoFormMutation):
+    class Meta:
+        form_class = forms.OnboardingStep1Form
+
+    session = graphene.Field(SessionInfo)
+
+    @classmethod
+    def perform_mutate(cls, form: forms.OnboardingStep1Form, info: ResolveInfo):
+        request = info.context
+        request.session[ONBOARDING_STEP_1_SESSION_KEY] = form.cleaned_data
+        return cls(errors=[], session=SessionInfo())
 
 
 class Login(DjangoFormMutation):
@@ -80,6 +108,7 @@ class Logout(graphene.Mutation):
 class Mutations(graphene.ObjectType):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
+    onboarding_step_1 = OnboardingStep1.Field(required=True)
 
 
 class Query(graphene.ObjectType):

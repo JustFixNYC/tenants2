@@ -1,4 +1,4 @@
-import { getElement } from '../util';
+import { getElement, assertNotNull } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -16,5 +16,15 @@ describe('getElement()', () => {
     } finally {
       document.body.removeChild(div);
     }
+  });
+});
+
+describe('assertNotNull()', () => {
+  it('raises exception when null', () => {
+    expect(() => assertNotNull(null)).toThrowError('expected argument to not be null');
+  });
+
+  it('returns true when not null', () => {
+    expect(assertNotNull('')).toBe(true);
   });
 });

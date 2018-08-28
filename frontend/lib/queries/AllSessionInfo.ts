@@ -7,6 +7,12 @@
 // GraphQL fragment: AllSessionInfo
 // ====================================================
 
+export interface AllSessionInfo_onboardingStep1 {
+  name: string;
+  address: string;
+  aptNumber: string;
+}
+
 export interface AllSessionInfo {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -20,11 +26,17 @@ export interface AllSessionInfo {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
+  onboardingStep1: AllSessionInfo_onboardingStep1 | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
     phoneNumber
     csrfToken
     isStaff
+    onboardingStep1 {
+        name
+        address
+        aptNumber
+    }
 }
 `;

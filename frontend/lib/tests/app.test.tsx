@@ -35,6 +35,32 @@ describe('App', () => {
     expect(windowAlert.mock.calls[0][0]).toContain('network error');
   });
 
+  describe('fetch()', () => {
+    it('delegates to GraphQL client fetch', async () => {
+      const { app, client } = buildApp();
+      const promise = app.fetch('bleh', 'vars');
+      const request = client.getRequestQueue()[0];
+
+      expect(request.query).toBe('bleh');
+      expect(request.variables).toBe('vars');
+      request.resolve('response');
+      expect(await promise).toBe('response');
+    });
+
+    it('calls handleFetchError() on exceptions', async () => {
+      const { app, client } = buildApp();
+      const handleErr = app.handleFetchError = jest.fn();
+      const promise = app.fetch('bleh', 'vars');
+      const err = new Error('alas');
+
+      client.getRequestQueue()[0].reject(err);
+      try { await promise; } catch (e) {}
+
+      expect(promise).rejects.toBe(err);
+      expect(handleErr.mock.calls).toEqual([[err]]);
+    });
+  });
+
   describe('handleLogout', () => {
     it('sets state and makes request upon starting', () => {
       const { app, client } = buildApp();
@@ -69,57 +95,6 @@ describe('App', () => {
       client.getRequestQueue()[0].reject(new Error('kaboom'));
       await logout;
       expect(app.state.logoutLoading).toBe(false);
-      expect(handleFetchError.mock.calls).toHaveLength(1);
-    });
-  });
-
-  describe('handleLoginSubmit()', () => {
-    let payload = { phoneNumber: '1', password: '2' };
-
-    it('sets state when successful', async () => {
-      const { app, client } = buildApp();
-      const login = app.handleLoginSubmit(payload);
-
-      expect(app.state.loginLoading).toBe(true);
-      client.getRequestQueue()[0].resolve({
-        login: {
-          session: FakeSessionInfo
-        }
-      });
-      await login;
-      expect(app.state.loginLoading).toBe(false);
-    });
-
-    it('sets state when validation errors occur', async () => {
-      const { app, client } = buildApp();
-      const login = app.handleLoginSubmit(payload);
-
-      expect(app.state.loginLoading).toBe(true);
-      client.getRequestQueue()[0].resolve({
-        login: {
-          errors: [{
-            field: '__all__',
-            messages: ['nope.']
-          }]
-        }
-      });
-      await login;
-      expect(app.state.loginLoading).toBe(false);
-      expect(app.state.loginErrors).toEqual({
-        nonFieldErrors: ['nope.'],
-        fieldErrors: {}
-      });
-    });
-
-    it('sets state when network error occurs', async () => {
-      const { app, client } = buildApp();
-      const login = app.handleLoginSubmit(payload);
-
-      const handleFetchError = jest.fn();
-      app.handleFetchError = handleFetchError;
-      client.getRequestQueue()[0].reject(new Error('kaboom'));
-      await login;
-      expect(app.state.loginLoading).toBe(false);
       expect(handleFetchError.mock.calls).toHaveLength(1);
     });
   });

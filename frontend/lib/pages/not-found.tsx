@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { getAppStaticContext } from './app-static-context';
-import Page from './page';
+import { getAppStaticContext } from '../app-static-context';
+import Page from '../page';
 
 
 export function NotFound(props: RouteComponentProps<any>): JSX.Element {

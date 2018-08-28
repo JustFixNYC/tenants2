@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 import { AriaExpandableButton } from './aria';
 import { bulmaClasses } from './bulma';
 import { AppContext, AppContextType } from './app-context';
+import Routes from './routes';
 
 type Dropdown = 'developer';
 
@@ -61,7 +62,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
 
     return (
       <div className="navbar-brand">
-        <Link className="navbar-item" to="/">
+        <Link className="navbar-item" to={Routes.home}>
           <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
         </Link>
         <AriaExpandableButton
@@ -90,6 +91,9 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
                 <div className="navbar-end">
                   {appContext.session.isStaff && <a className="navbar-item" href={appContext.server.adminIndexURL}>Admin</a>}
+                  {appContext.session.phoneNumber
+                    ? <Link className="navbar-item" to={Routes.logout}>Sign out</Link>
+                    : <Link className="navbar-item" to={Routes.login}>Sign in</Link> }
                   {this.renderDevMenu(appContext)}
                 </div>
               </div>

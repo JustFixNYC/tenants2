@@ -4,13 +4,13 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { LoginInput } from "./globalTypes";
+import { OnboardingStep1Input } from "./globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: LoginMutation
+// GraphQL mutation operation: OnboardingStep1Mutation
 // ====================================================
 
-export interface LoginMutation_login_errors {
+export interface OnboardingStep1Mutation_onboardingStep1_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
@@ -21,13 +21,13 @@ export interface LoginMutation_login_errors {
   messages: string[];
 }
 
-export interface LoginMutation_login_session_onboardingStep1 {
+export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 {
   name: string;
   address: string;
   aptNumber: string;
 }
 
-export interface LoginMutation_login_session {
+export interface OnboardingStep1Mutation_onboardingStep1_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
@@ -40,29 +40,29 @@ export interface LoginMutation_login_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
-  onboardingStep1: LoginMutation_login_session_onboardingStep1 | null;
+  onboardingStep1: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 | null;
 }
 
-export interface LoginMutation_login {
+export interface OnboardingStep1Mutation_onboardingStep1 {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
-  errors: LoginMutation_login_errors[];
-  session: LoginMutation_login_session | null;
+  errors: OnboardingStep1Mutation_onboardingStep1_errors[];
+  session: OnboardingStep1Mutation_onboardingStep1_session | null;
 }
 
-export interface LoginMutation {
-  login: LoginMutation_login;
+export interface OnboardingStep1Mutation {
+  onboardingStep1: OnboardingStep1Mutation_onboardingStep1;
 }
 
-export interface LoginMutationVariables {
-  input: LoginInput;
+export interface OnboardingStep1MutationVariables {
+  input: OnboardingStep1Input;
 }
 
-export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
-  // The following query was taken from LoginMutation.graphql.
-  return fetchGraphQL(`mutation LoginMutation($input: LoginInput!) {
-    login(input: $input) {
+export function fetchOnboardingStep1Mutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: OnboardingStep1MutationVariables): Promise<OnboardingStep1Mutation> {
+  // The following query was taken from OnboardingStep1Mutation.graphql.
+  return fetchGraphQL(`mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
+    onboardingStep1(input: $input) {
         errors {
             field,
             messages

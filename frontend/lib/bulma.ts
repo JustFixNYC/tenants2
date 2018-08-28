@@ -8,7 +8,10 @@ import classnames from 'classnames';
  */
 export type BulmaClassName = 
   'is-active' |
+  'is-primary' |
+  'is-loading' |
   'has-dropdown' |
+  'button' |
   'navbar-burger' |
   'navbar-menu' |
   'navbar-item';

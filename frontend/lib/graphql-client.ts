@@ -2,6 +2,8 @@ import autobind from 'autobind-decorator';
 
 const DEFAULT_TIMEOUT_MS = 100;
 
+export type GraphQLFetch = (query: string, variables?: any) => Promise<any>;
+
 interface GraphQLBody {
   query: any;
   variables?: any;

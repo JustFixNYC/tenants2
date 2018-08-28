@@ -2,4 +2,9 @@ fragment AllSessionInfo on SessionInfo {
     phoneNumber
     csrfToken
     isStaff
+    onboardingStep1 {
+        name
+        address
+        aptNumber
+    }
 }

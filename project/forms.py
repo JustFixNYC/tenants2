@@ -6,6 +6,14 @@ from django.contrib.auth import authenticate
 from users.models import PHONE_NUMBER_LEN, JustfixUser
 
 
+class OnboardingStep1Form(forms.Form):
+    name = forms.CharField(max_length=100)
+
+    address = forms.CharField(max_length=200)
+
+    apt_number = forms.CharField(max_length=10)
+
+
 class LoginForm(forms.Form):
     phone_number = forms.CharField(max_length=PHONE_NUMBER_LEN)
 

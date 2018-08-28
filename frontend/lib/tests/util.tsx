@@ -1,6 +1,9 @@
+import React from 'react';
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { shallow, ShallowWrapper } from "enzyme";
+import { MemoryRouter } from "react-router";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -24,6 +27,11 @@ export function createTestGraphQlClient(enableTimeout: boolean = false): TestCli
   return { client, mockFetch };
 }
 
+export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper } {
+  const wrapper = shallow(<MemoryRouter>{child}</MemoryRouter>);
+  return { wrapper };
+}
+
 export const FakeServerInfo: Readonly<AppServerInfo> = {
   staticURL: '/mystatic/',
   webpackPublicPathURL: '/mystatic/myfrontend/',
@@ -35,7 +43,8 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
-  isStaff: false
+  isStaff: false,
+  onboardingStep1: null
 };
 
 export const FakeAppContext: AppContextType = {

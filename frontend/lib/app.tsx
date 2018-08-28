@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -12,9 +12,14 @@ import { fetchLoginMutation } from './queries/LoginMutation';
 import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
-import { NotFound } from './not-found';
+import { NotFound } from './pages/not-found';
 import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
+import LoginPage from './pages/login-page';
+import LogoutPage from './pages/logout-page';
+import Routes from './routes';
+import OnboardingStep1 from './pages/onboarding-step-1';
+import { RedirectToLatestOnboardingStep } from './onboarding';
 
 
 export interface AppProps {
@@ -36,20 +41,16 @@ interface AppState {
    */
   session: AllSessionInfo;
 
-  loginErrors?: FormErrors<LoginInput>;
-
-  loginLoading: boolean;
-
   logoutLoading: boolean;
 }
 
 const LoadableIndexPage = Loadable({
-  loader: () => import(/* webpackChunkName: "index-page" */ './index-page'),
+  loader: () => import(/* webpackChunkName: "index-page" */ './pages/index-page'),
   loading: LoadingPage
 });
 
 const LoadableExamplePage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './example-loadable-page'),
+  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page'),
   loading: LoadingPage
 });
 
@@ -64,9 +65,16 @@ export class App extends React.Component<AppProps, AppState> {
     );
     this.state = {
       session: props.initialSession,
-      loginLoading: false,
       logoutLoading: false
     };
+  }
+
+  @autobind
+  fetch(query: string, variables?: any): Promise<any> {
+    return this.gqlClient.fetch(query, variables).catch(e => {
+      this.handleFetchError(e);
+      throw e;
+    });
   }
 
   @autobind
@@ -78,42 +86,19 @@ export class App extends React.Component<AppProps, AppState> {
   @autobind
   handleLogout() {
     this.setState({ logoutLoading: true });
-    return fetchLogoutMutation(this.gqlClient.fetch).then((result) => {
+    return fetchLogoutMutation(this.fetch).then((result) => {
       this.setState({
         logoutLoading: false,
         session: result.logout.session
       });
     }).catch(e => {
       this.setState({ logoutLoading: false });
-      this.handleFetchError(e);
     });
   }
 
   @autobind
-  handleLoginSubmit({ phoneNumber, password }: LoginInput) {
-    this.setState({
-      loginLoading: true,
-      loginErrors: undefined
-    });
-    return fetchLoginMutation(this.gqlClient.fetch, { input: {
-      phoneNumber: phoneNumber,
-      password: password
-    }}).then(result => {
-      if (result.login.session) {
-        this.setState({
-          loginLoading: false,
-          session: result.login.session
-        });
-      } else {
-        this.setState({
-          loginLoading: false,
-          loginErrors: getFormErrors<LoginInput>(result.login.errors)
-        });
-      }
-    }).catch(e => {
-      this.setState({ loginLoading: false });
-      this.handleFetchError(e)
-    });
+  handleSessionChange(session: AllSessionInfo) {
+    this.setState({ session });
   }
 
   componentDidUpdate(prevProps: AppProps, prevState: AppState) {
@@ -132,24 +117,43 @@ export class App extends React.Component<AppProps, AppState> {
     };
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.state.session.phoneNumber;
+  }
+
   render() {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
           <Switch>
-            <Route path="/" exact>
-              <LoadableIndexPage
-                loginErrors={this.state.loginErrors}
-                loginLoading={this.state.loginLoading}
-                logoutLoading={this.state.logoutLoading}
-                onLogout={this.handleLogout}
-                onLoginSubmit={this.handleLoginSubmit}
+            <Route path={Routes.home} exact>
+              <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
+            </Route>
+            <Route path={Routes.login} exact>
+              <LoginPage
+                fetch={this.fetch}
+                onSuccess={this.handleSessionChange}
               />
             </Route>
-            <Route path="/about" exact>
-              <Page title="about">
-                <p>This is another page.</p>
-              </Page>
+            <Route path={Routes.logout} exact>
+              <LogoutPage
+                isLoggedIn={this.isLoggedIn}
+                logoutLoading={this.state.logoutLoading}
+                onLogout={this.handleLogout}
+              />
+            </Route>
+            <Route path={Routes.onboarding.latestStep} exact>
+              <RedirectToLatestOnboardingStep session={this.state.session} />
+            </Route>
+            <Route path={Routes.onboarding.step1} exact>
+              <OnboardingStep1
+                fetch={this.fetch}
+                onSuccess={this.handleSessionChange}
+                initialState={this.state.session.onboardingStep1}
+              />
+            </Route>
+            <Route path={Routes.onboarding.step2} exact>
+              <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
             </Route>
             <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
             <Route render={NotFound} />

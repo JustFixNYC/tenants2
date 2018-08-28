@@ -64,6 +64,21 @@ $justfix-blue: #0096D7;
 }
 
 // https://css-tricks.com/focus-styles-non-interactive-elements/
-[data-is-noninteractive] {
+[data-jf-is-noninteractive] {
     outline: none;
+}
+
+// Bulma is supposed to support this, but at the moment it
+// doesn't:
+// https://github.com/jgthms/bulma/issues/150
+//
+// Until it does, we'll use this from:
+// https://webaim.org/techniques/css/invisiblecontent/
+.jf-sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }

@@ -32,3 +32,11 @@ export function assertNotNull<T>(thing: T|null): thing is T {
   }
   return true;
 }
+
+/**
+ * This class can be used to omit a set of keys from a type.
+ * 
+ * This type was taken from:
+ * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
+ */
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

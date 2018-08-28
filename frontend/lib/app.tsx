@@ -19,6 +19,7 @@ import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
 import Routes from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
+import { RedirectToLatestOnboardingStep } from './onboarding';
 
 
 export interface AppProps {
@@ -139,16 +140,9 @@ export class App extends React.Component<AppProps, AppState> {
                 onLogout={this.handleLogout}
               />
             </Route>
-            <Route path={Routes.onboarding.latestStep} exact render={() => {
-              const { session } = this.state;
-              let target = Routes.onboarding.step1;
-
-              if (session.onboardingStep1) {
-                target = Routes.onboarding.step2
-              }
-
-              return <Redirect to={target} />
-            }} />
+            <Route path={Routes.onboarding.latestStep} exact>
+              <RedirectToLatestOnboardingStep session={this.state.session} />
+            </Route>
             <Route path={Routes.onboarding.step1} exact>
               <OnboardingStep1
                   fetch={this.fetch}

@@ -35,6 +35,32 @@ describe('App', () => {
     expect(windowAlert.mock.calls[0][0]).toContain('network error');
   });
 
+  describe('fetch()', () => {
+    it('delegates to GraphQL client fetch', async () => {
+      const { app, client } = buildApp();
+      const promise = app.fetch('bleh', 'vars');
+      const request = client.getRequestQueue()[0];
+
+      expect(request.query).toBe('bleh');
+      expect(request.variables).toBe('vars');
+      request.resolve('response');
+      expect(await promise).toBe('response');
+    });
+
+    it('calls handleFetchError() on exceptions', async () => {
+      const { app, client } = buildApp();
+      const handleErr = app.handleFetchError = jest.fn();
+      const promise = app.fetch('bleh', 'vars');
+      const err = new Error('alas');
+
+      client.getRequestQueue()[0].reject(err);
+      try { await promise; } catch (e) {}
+
+      expect(promise).rejects.toBe(err);
+      expect(handleErr.mock.calls).toEqual([[err]]);
+    });
+  });
+
   describe('handleLogout', () => {
     it('sets state and makes request upon starting', () => {
       const { app, client } = buildApp();

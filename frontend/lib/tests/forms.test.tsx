@@ -2,6 +2,7 @@ import React from 'react';
 import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
+import { MemoryRouter, Route } from 'react-router';
 
 describe('getFormErrors()', () => {
   it('works with an empty array', () => {
@@ -80,6 +81,32 @@ describe('FormSubmitter', () => {
     const form = wrapper.instance() as FormSubmitter<MyFormInput, MyFormOutput>;
     return { form, client, onSuccess };
   };
+
+  it('optionally redirects when successful', async () => {
+    let latestPath;
+    const promise = Promise.resolve({ errors: [] });
+    const wrapper = mount(
+      <MemoryRouter>
+        <Route render={(props) => {
+          latestPath = props.location.pathname;
+          return (
+            <FormSubmitter
+              onSubmit={() => promise}
+              onSuccess={() => {}}
+              onSuccessRedirect="/blah"
+              initialState={myInitialState}
+            >
+              {(ctx) => <br/>}
+            </FormSubmitter>
+          );
+        }} />
+      </MemoryRouter>
+    );
+    wrapper.find('form').simulate('submit');
+    await promise;
+    expect(wrapper.html()).toBeNull();
+    expect(latestPath).toBe('/blah');
+  });
 
   it('sets state when successful', async () => {
     const { form, client, onSuccess } = buildForm();

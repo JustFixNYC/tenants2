@@ -8,6 +8,9 @@ import { debouncer } from './util';
 import autobind from 'autobind-decorator';
 
 
+/**
+ * This lets us know if querybuilder itself has changed.
+ */
 class MyFileWatcher {
   private contents: Buffer;
 

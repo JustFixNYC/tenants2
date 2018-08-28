@@ -4,6 +4,12 @@ import * as child_process from 'child_process';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
 
+import {
+  strContains,
+  getGraphQlFragments,
+  argvHasOption,
+  debouncer
+} from "./util";
 
 /**
  * The following directory paths assume we've been compiled to the
@@ -33,32 +39,6 @@ const DOT_GRAPHQL = '.graphql';
 export const COPY_FROM_GEN_TO_LIB = [
   'globalTypes.ts',
 ];
-
-/** Returns whether a source string contains any of the given strings. */
-export function strContains(source: string, ...strings: string[]): boolean {
-  for (let string of strings) {
-    if (source.indexOf(string) >= 0) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/** Returns a list of all fragments the given GraphQL code uses. */
-export function getGraphQlFragments(source: string): string[] {
-  const re = /\.\.\.([A-Za-z0-9]+)/g;
-  const results = [];
-  let m = null;
-
-  do {
-    m = re.exec(source);
-    if (m) {
-      results.push(m[1]);
-    }
-  } while (m);
-
-  return results;
-}
 
 /**
  * Write the given file to disk, but only if its new contents are
@@ -314,35 +294,10 @@ export function runApolloCodegen(force: boolean = false): number {
   return 0;
 }
 
-/**
- * Return whether our command-line arguments represent any of the given
- * options.
- */
-export function argvHasOption(...opts: string[]): boolean {
-  for (let opt of opts) {
-    if (process.argv.indexOf(opt) !== -1) {
-      return true;
-    }
-  }
-  return false;
-}
-
 /** Options for our main querybuilder functionality. */
 interface MainOptions {
   /** Whether to force-run Apollo codegen:generate even if we don't think it's necessary. */
   forceApolloCodegen: boolean;
-}
-
-/** A simple debouncer to aid in file watching. */
-export function debouncer(func: () => void, debounceMs: number) {
-  let timeout: any = null;
-
-  return () => {
-    if (timeout !== null) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(func,  debounceMs);
-  };
 }
 
 /** Watch GraphQL queries and schema and re-build queries when they change. */

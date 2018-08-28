@@ -1,6 +1,6 @@
 import React from 'react';
-import IndexPage from '../pages/index-page';
-import { shallowWithRouter } from './util';
+import IndexPage from '../../pages/index-page';
+import { shallowWithRouter } from '../util';
 
 describe('index page', () => {
   it('renders when logged in', () => {

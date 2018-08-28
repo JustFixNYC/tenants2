@@ -143,6 +143,10 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   );
 }
 
+/**
+ * Any form validation done by the server will return an object that
+ * looks like this.
+ */
 type WithFieldErrors = {
   errors: FormFieldError[];
 };
@@ -159,6 +163,7 @@ type FormSubmitterState<FormInput> = BaseFormProps<FormInput> & {
   wasSuccessfullySubmitted: boolean
 };
 
+/** This class encapsulates common logic for form submission. */
 export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
     super(props);
@@ -220,6 +225,7 @@ export interface FormContext<FormInput> extends FormProps<FormInput> {
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
 }
 
+/** This class encapsulates view logic for forms. */
 export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
   constructor(props: FormProps<FormInput>) {
     super(props);

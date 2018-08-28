@@ -2,7 +2,7 @@ import React from 'react';
 import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
-import { MemoryRouter, Route } from 'react-router';
+import { MemoryRouter, Route, Switch } from 'react-router';
 
 describe('getFormErrors()', () => {
   it('works with an empty array', () => {
@@ -83,29 +83,25 @@ describe('FormSubmitter', () => {
   };
 
   it('optionally redirects when successful', async () => {
-    let latestPath;
     const promise = Promise.resolve({ errors: [] });
     const wrapper = mount(
       <MemoryRouter>
-        <Route render={(props) => {
-          latestPath = props.location.pathname;
-          return (
+        <Switch>
+          <Route path="/blah" exact><p>This is blah.</p></Route>
+          <Route>
             <FormSubmitter
               onSubmit={() => promise}
               onSuccess={() => {}}
               onSuccessRedirect="/blah"
               initialState={myInitialState}
-            >
-              {(ctx) => <br/>}
-            </FormSubmitter>
-          );
-        }} />
+              children={(ctx) => <p>This is the form.</p>} />
+          </Route>
+        </Switch>
       </MemoryRouter>
     );
     wrapper.find('form').simulate('submit');
     await promise;
-    expect(wrapper.html()).toBeNull();
-    expect(latestPath).toBe('/blah');
+    expect(wrapper.html()).toBe('<p>This is blah.</p>');
   });
 
   it('sets state when successful', async () => {

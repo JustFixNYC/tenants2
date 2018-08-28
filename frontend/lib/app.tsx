@@ -20,6 +20,7 @@ import LogoutPage from './pages/logout-page';
 import Routes from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
+import Navbar from './navbar';
 
 
 export interface AppProps {
@@ -121,43 +122,59 @@ export class App extends React.Component<AppProps, AppState> {
     return !!this.state.session.phoneNumber;
   }
 
+  renderRoutes(): JSX.Element {
+    return (
+      <Switch>
+        <Route path={Routes.home} exact>
+          <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
+        </Route>
+        <Route path={Routes.login} exact>
+          <LoginPage
+            fetch={this.fetch}
+            onSuccess={this.handleSessionChange}
+          />
+        </Route>
+        <Route path={Routes.logout} exact>
+          <LogoutPage
+            isLoggedIn={this.isLoggedIn}
+            logoutLoading={this.state.logoutLoading}
+            onLogout={this.handleLogout}
+          />
+        </Route>
+        <Route path={Routes.onboarding.latestStep} exact>
+          <RedirectToLatestOnboardingStep session={this.state.session} />
+        </Route>
+        <Route path={Routes.onboarding.step1} exact>
+          <OnboardingStep1
+            fetch={this.fetch}
+            onSuccess={this.handleSessionChange}
+            initialState={this.state.session.onboardingStep1}
+          />
+        </Route>
+        <Route path={Routes.onboarding.step2} exact>
+          <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
+        </Route>
+        <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
+        <Route render={NotFound} />
+      </Switch>
+    );
+  }
+
   render() {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
-          <Switch>
-            <Route path={Routes.home} exact>
-              <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
-            </Route>
-            <Route path={Routes.login} exact>
-              <LoginPage
-                fetch={this.fetch}
-                onSuccess={this.handleSessionChange}
-              />
-            </Route>
-            <Route path={Routes.logout} exact>
-              <LogoutPage
-                isLoggedIn={this.isLoggedIn}
-                logoutLoading={this.state.logoutLoading}
-                onLogout={this.handleLogout}
-              />
-            </Route>
-            <Route path={Routes.onboarding.latestStep} exact>
-              <RedirectToLatestOnboardingStep session={this.state.session} />
-            </Route>
-            <Route path={Routes.onboarding.step1} exact>
-              <OnboardingStep1
-                fetch={this.fetch}
-                onSuccess={this.handleSessionChange}
-                initialState={this.state.session.onboardingStep1}
-              />
-            </Route>
-            <Route path={Routes.onboarding.step2} exact>
-              <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
-            </Route>
-            <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
-            <Route render={NotFound} />
-          </Switch>
+          <section className="hero is-fullheight">
+            <div className="hero-head">
+              <Navbar/>
+            </div>
+            <div className="hero-body">
+              <div className="container box has-background-white">
+              {this.renderRoutes()}
+              </div>
+            </div>
+            <div className="hero-foot"></div>
+          </section>
         </AppContext.Provider>
       </ErrorBoundary>
     );

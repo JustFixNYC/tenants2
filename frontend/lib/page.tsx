@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from "react-helmet";
 import Navbar from './navbar';
 import Loadable from 'react-loadable';
+import { AriaAnnouncement } from './aria';
 
 interface PageProps {
   title: string;
@@ -14,6 +15,7 @@ export default function Page(props: PageProps): JSX.Element {
       <Helmet>
         <title>JustFix.nyc - {props.title}</title>
       </Helmet>
+      <AriaAnnouncement text={props.title} />
       {props.children}
     </React.Fragment>
   );

@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { Redirect } from 'react-router';
 import { LocationDescriptor } from 'history';
+import { AriaAnnouncement } from './aria';
 
 /**
  * This is the form validation error type returned from the server.
@@ -258,6 +259,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
+        {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
         {this.props.children({
           ...this.props,

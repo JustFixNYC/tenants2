@@ -21,7 +21,7 @@ import Routes from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
 import Navbar from './navbar';
-import { AriaAnnouncer, AriaAnnouncement } from './aria';
+import { AriaAnnouncer } from './aria';
 
 
 export interface AppProps {
@@ -47,12 +47,6 @@ interface AppState {
 
   /** Whether the user is currently logging out. */
   logoutLoading: boolean;
-
-  /**
-   * An announcement to vocalize to screen reader users, to provide
-   * context for what's going on.
-   */
-  ariaAnnouncement: string;
 }
 
 const LoadableIndexPage = Loadable({
@@ -77,8 +71,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     );
     this.state = {
       session: props.initialSession,
-      logoutLoading: false,
-      ariaAnnouncement: ''
+      logoutLoading: false
     };
     this.pageBodyRef = React.createRef();
   }
@@ -123,10 +116,6 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       const body = this.pageBodyRef.current;
       if (body) {
         body.focus();
-        const h1 = body.querySelector('h1');
-        if (h1 && h1.textContent) {
-          this.setState({ ariaAnnouncement: h1.textContent });
-        }
       }
     }
   }
@@ -185,7 +174,6 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
           <AriaAnnouncer>
-            <AriaAnnouncement text={this.state.ariaAnnouncement} />
             <section className="hero is-fullheight">
               <div className="hero-head">
                 <Navbar/>

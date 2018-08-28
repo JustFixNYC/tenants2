@@ -46,6 +46,10 @@ interface AriaAnnouncerState {
   announcement: string;
 }
 
+/**
+ * An announcer to vocalize text to screen reader users, to provide
+ * context for what's going on.
+ */
 export class AriaAnnouncer extends React.Component<AriaAnnouncerProps, AriaAnnouncerState> {
   constructor(props: AriaAnnouncerProps) {
     super(props);

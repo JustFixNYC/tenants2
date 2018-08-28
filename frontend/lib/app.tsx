@@ -180,7 +180,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               </div>
               <div className="hero-body">
                 <div className="container box has-background-white" ref={this.pageBodyRef}
-                    data-jf-is-noninteractive tabIndex={-1}>
+                     data-jf-is-noninteractive tabIndex={-1}>
                 {this.renderRoutes()}
                 </div>
               </div>

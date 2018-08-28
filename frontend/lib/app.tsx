@@ -132,6 +132,7 @@ export class App extends React.Component<AppProps, AppState> {
             </Route>
             <Route path={Routes.logout} exact>
               <LogoutPage
+                isLoggedIn={!!this.state.session.phoneNumber}
                 logoutLoading={this.state.logoutLoading}
                 onLogout={this.handleLogout}
               />

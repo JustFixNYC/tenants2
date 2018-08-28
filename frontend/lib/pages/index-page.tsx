@@ -26,7 +26,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
   renderSignedIn() {
     return (
       <Page title="TODO SHOW SOMETHING HERE">
-        <h1>TODO SHOW SOMETHING HERE</h1>
+        <h1 className="title">Hello authenticated user!</h1>
+        <p>We don't have anything for you here just yet.</p>
+        <p>Perhaps you'd like to go through our <Link to={Routes.onboarding.latestStep}>onboarding</Link>?</p>
       </Page>
     );
   }

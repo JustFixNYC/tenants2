@@ -6,10 +6,11 @@ import { AppContext } from '../app-context';
 import Routes from '../routes';
 
 export interface IndexPageProps {
+  isLoggedIn: boolean;
 }
 
 export default class IndexPage extends React.Component<IndexPageProps> {
-  renderSignedOut() {
+  renderLoggedOut() {
     return (
       <Page title="Technology for Housing Justice">
         <h1 className="title">Level the playing field between you and your landlord.</h1>
@@ -23,7 +24,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
     );
   }
 
-  renderSignedIn() {
+  renderLoggedIn() {
     return (
       <Page title="TODO SHOW SOMETHING HERE">
         <h1 className="title">Hello authenticated user!</h1>
@@ -34,16 +35,10 @@ export default class IndexPage extends React.Component<IndexPageProps> {
   }
 
   render() {
-    return (
-      <AppContext.Consumer>
-        {(appContext) => {
-          if (appContext.session.phoneNumber) {
-            return this.renderSignedIn();
-          } else {
-            return this.renderSignedOut();
-          }
-        }}
-      </AppContext.Consumer>
-    );
+    if (this.props.isLoggedIn) {
+      return this.renderLoggedIn();
+    } else {
+      return this.renderLoggedOut();
+    }
   }
 }

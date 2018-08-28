@@ -117,12 +117,14 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
+    const isLoggedIn = !!this.state.session.phoneNumber;
+
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
           <Switch>
             <Route path={Routes.home} exact>
-              <LoadableIndexPage />
+              <LoadableIndexPage isLoggedIn={isLoggedIn} />
             </Route>
             <Route path={Routes.login} exact>
               <LoginPage
@@ -132,7 +134,7 @@ export class App extends React.Component<AppProps, AppState> {
             </Route>
             <Route path={Routes.logout} exact>
               <LogoutPage
-                isLoggedIn={!!this.state.session.phoneNumber}
+                isLoggedIn={isLoggedIn}
                 logoutLoading={this.state.logoutLoading}
                 onLogout={this.handleLogout}
               />

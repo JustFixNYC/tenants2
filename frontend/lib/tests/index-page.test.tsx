@@ -1,17 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { MemoryRouter } from 'react-router';
+import IndexPage from '../pages/index-page';
+import { shallowWithRouter } from './util';
 
-import IndexPage, { IndexPageProps  } from '../pages/index-page';
+describe('index page', () => {
+  it('renders when logged in', () => {
+    const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={true} />);
+    expect(wrapper.html()).toContain('Hello authenticated user');
+  });
 
-test('index page renders', () => {
-  const props: IndexPageProps = {};
-
-  const page = mount(
-    <MemoryRouter>
-      <IndexPage {...props} />
-    </MemoryRouter>
-  );
-
-  expect(page.html()).toContain('Level the playing field');
+  it('renders when logged out', () => {
+    const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={false} />);
+    expect(wrapper.html()).toContain('Level the playing field');
+  });
 });

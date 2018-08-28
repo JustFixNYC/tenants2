@@ -9,7 +9,6 @@ module.exports = {
   "collectCoverage": true,
   "coverageReporters": [
     "lcov",
-    "text",
     "html"
   ],
   "coverageDirectory": "./coverage/jest/",

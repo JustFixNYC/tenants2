@@ -8,6 +8,7 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import autobind from 'autobind-decorator';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { assertNotNull } from './util';
+import { LocationDescriptor } from 'history';
 
 const initialState: LoginInput = {
   phoneNumber: '',
@@ -17,6 +18,7 @@ const initialState: LoginInput = {
 export interface LoginFormProps {
   fetch: GraphQLFetch;
   onSuccess: (session: AllSessionInfo) => void;
+  onSuccessRedirect?: LocationDescriptor;
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {
@@ -29,6 +31,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
     return (
       <FormSubmitter onSubmit={this.handleSubmit}
                      initialState={initialState}
+                     onSuccessRedirect={this.props.onSuccessRedirect}
                      onSuccess={(output) => assertNotNull(output.session) && this.props.onSuccess(output.session) } >
         {(ctx) => (
           <React.Fragment>

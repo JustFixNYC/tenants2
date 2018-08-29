@@ -25,6 +25,14 @@ interface OnboardingStep1Props {
   initialState?: OnboardingStep1Input|null;
 }
 
+export function Step1AddressModal(): JSX.Element {
+  return (
+    <Modal title="Why do you need to know my address?" onCloseGoBack>
+      <div className="content box">Because something something.</div>
+    </Modal>
+  );
+}
+
 export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
   @autobind
   handleSubmit(input: OnboardingStep1Input) {
@@ -50,11 +58,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           </div>
         </div>
         <Link to={Routes.onboarding.step1AddressModal}>Why do you need to know my address?</Link>
-        <Route path={Routes.onboarding.step1AddressModal} exact render={() => (
-          <Modal title="Why do you need to know my address?" onCloseGoBack>
-            <div className="content box">Because something something.</div>
-          </Modal>
-        )} />
+        <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
       </React.Fragment>
     );
   }

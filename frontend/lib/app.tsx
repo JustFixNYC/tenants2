@@ -17,7 +17,7 @@ import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
-import Routes from './routes';
+import Routes, { isModalRoute } from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
 import Navbar from './navbar';
@@ -117,7 +117,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
     }
-    if (prevProps.location.pathname !== this.props.location.pathname) {
+    const prevPathname = prevProps.location.pathname;
+    const pathname = this.props.location.pathname;
+    if (prevPathname !== pathname && !isModalRoute(prevPathname, pathname)) {
       const body = this.pageBodyRef.current;
       if (body) {
         body.focus();

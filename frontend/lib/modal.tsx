@@ -77,6 +77,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
         includeDefaultStyles={false}
         dialogClass={DIALOG_CLASS}
         underlayClass={UNDERLAY_CLASS}
+        focusDialog
       >
         {this.renderBody()}
       </AriaModal>

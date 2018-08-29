@@ -10,6 +10,7 @@ const DIALOG_CLASS = "jf-modal-dialog"
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
 interface ModalProps {
+  title: string;
   children: any;
 }
 
@@ -67,7 +68,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
     return (
       <AriaModal
-        titleText="BOOP"
+        titleText={this.props.title}
         onExit={this.handleClose}
         includeDefaultStyles={false}
         dialogClass={DIALOG_CLASS}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps } from '../aria';
-import { shallow } from 'enzyme';
+import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps, AriaAnnouncer, AriaAnnouncement, AriaAnnouncementWithoutContext } from '../aria';
+import { shallow, mount } from 'enzyme';
 
 
 test('ariaBool() works', () => {
@@ -74,5 +74,33 @@ describe('AriaExpandableButton', () => {
   it('renders children', () => {
     const btn = shallow(<AriaExpandableButton {...props}>Blarg</AriaExpandableButton>);
     expect(btn.html()).toContain('Blarg');
+  });
+});
+
+describe('AriaAnnouncer', () => {
+  it('sets its text to the text of descendant announcements', () => {
+    const wrapper = mount(
+      <AriaAnnouncer>
+        <AriaAnnouncement text="oh hai" />
+      </AriaAnnouncer>
+    );
+
+    expect(wrapper.find('[aria-live="polite"]').html()).toContain("oh hai");
+  });
+});
+
+describe('AriaAnnouncement', () => {
+  const AriaAnnouncement = AriaAnnouncementWithoutContext;
+
+  it('calls announce on mount and again when text changes', () => {
+    const announce = jest.fn();
+    const wrapper = mount(<AriaAnnouncement announce={announce} text="boop" />);
+    expect(announce.mock.calls).toHaveLength(1);
+
+    wrapper.setProps({ text: 'boop' });
+    expect(announce.mock.calls).toHaveLength(1);
+
+    wrapper.setProps({ text: 'blop' });
+    expect(announce.mock.calls).toHaveLength(2);
   });
 });

@@ -95,7 +95,7 @@ interface AriaAnnouncementProps extends AriaContextType {
   text: string;
 }
 
-class AriaAnnouncementWithoutContext extends React.Component<AriaAnnouncementProps> {
+export class AriaAnnouncementWithoutContext extends React.Component<AriaAnnouncementProps> {
   componentDidMount() {
     this.props.announce(this.props.text);
   }

@@ -3,6 +3,7 @@ import Page from '../page';
 import { Modal } from '../modal';
 
 
+/* istanbul ignore next: this is tested by integration tests. */
 export default function ExampleModalPage(): JSX.Element {
   return (
     <Page title="Example modal page">

@@ -6,11 +6,14 @@ name = "pypi"
 [dev-packages]
 mypy = "*"
 pytest = "*"
-pytest-django = "*"
+# DO NOT UPGRADE, latest version breaks paths on Windows:
+# https://github.com/pytest-dev/pytest-django/issues/641
+pytest-django = "==3.3.3"
 "flake8" = "*"
 pytest-cov = "*"
 python-dotenv = "*"
 factory-boy = "*"
+requests-mock = "*"
 
 [packages]
 django = "*"
@@ -22,6 +25,7 @@ gunicorn = "*"
 graphene-django = "*"
 pymongo = "*"
 pydantic = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

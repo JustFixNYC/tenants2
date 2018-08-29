@@ -1,8 +1,39 @@
 import React from 'react';
-import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps } from '../forms';
+import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
+
+describe('TextualFormField', () => {
+  const makeButton = (props: Partial<TextualFormFieldProps> = {}) => {
+    const defaultProps: TextualFormFieldProps = {
+      onChange: jest.fn(),
+      value: '',
+      name: 'foo',
+      isDisabled: false,
+      label: 'Foo'
+    };
+    return shallow(
+      <TextualFormField
+        {...defaultProps}
+        {...props}
+      />
+    );
+  }
+
+  it('renders properly when it has no errors', () => {
+    const html = makeButton().html();
+    expect(html).toContain('aria-invalid="false"');
+    expect(html).not.toContain('is-danger');
+  });
+
+  it('renders properly when it has errors', () => {
+    const html = makeButton({ errors: ['this cannot be blank'] }).html();
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('aria-label="Foo, this cannot be blank"');
+    expect(html).toContain('is-danger');
+  });
+});
 
 describe('getFormErrors()', () => {
   it('works with an empty array', () => {

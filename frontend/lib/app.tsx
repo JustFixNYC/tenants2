@@ -158,7 +158,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.onboarding.latestStep} exact>
           <RedirectToLatestOnboardingStep session={this.state.session} />
         </Route>
-        <Route path={Routes.onboarding.step1} exact>
+        <Route path={Routes.onboarding.step1}>
           <OnboardingStep1
             fetch={this.fetch}
             onSuccess={this.handleSessionChange}

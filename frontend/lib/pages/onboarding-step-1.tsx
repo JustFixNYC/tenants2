@@ -2,7 +2,7 @@ import React from 'react';
 import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { TextualFormField, FormSubmitter, FormContext } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
@@ -10,6 +10,7 @@ import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation
 import { GraphQLFetch } from '../graphql-client';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { assertNotNull } from '../util';
+import { Modal } from '../modal';
 
 
 const blankInitialState: OnboardingStep1Input = {
@@ -48,6 +49,12 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             })}>Next</button>
           </div>
         </div>
+        <Link to={Routes.onboarding.step1AddressModal}>Why do you need to know my address?</Link>
+        <Route path={Routes.onboarding.step1AddressModal} exact render={() => (
+          <Modal title="Why do you need to know my address?" onCloseGoBack>
+            <div className="content box">Because something something.</div>
+          </Modal>
+        )} />
       </React.Fragment>
     );
   }

@@ -12,6 +12,7 @@ const Routes = {
   onboarding: {
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
+    step1AddressModal: '/onboarding/step/1/address',
     step2: '/onboarding/step/2',
   }
 };

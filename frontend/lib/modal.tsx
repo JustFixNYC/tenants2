@@ -12,6 +12,7 @@ const UNDERLAY_CLASS = "jf-modal-underlay";
 interface ModalProps {
   title: string;
   children: any;
+  onCloseGoBack?: boolean;
 }
 
 type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
@@ -31,6 +32,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   @autobind
   handleClose() {
     this.setState({ isActive: false });
+    if (this.props.onCloseGoBack) {
+      this.props.history.goBack();
+    }
   }
 
   componentDidMount() {

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { Redirect } from 'react-router';
 import { LocationDescriptor } from 'history';
-import { AriaAnnouncement } from './aria';
+import { AriaAnnouncement, ariaBool } from './aria';
 
 /**
  * This is the form validation error type returned from the server.
@@ -119,6 +119,14 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
 /** A JSX component for textual form input. */
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || 'text';
+  let ariaLabel = props.label;
+  let errorHelp = null;
+
+  if (props.errors) {
+    const allErrors = props.errors.join(' ');
+    errorHelp = <p className="help is-danger">{allErrors}</p>;
+    ariaLabel = `${ariaLabel}, ${allErrors}`;
+  }
 
   // TODO: Assign an id to the input and make the label point to it.
   return (
@@ -130,16 +138,15 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
             'is-danger': !!props.errors
           })}
           disabled={props.isDisabled}
-          aria-label={props.label}
+          aria-invalid={ariaBool(!!props.errors)}
+          aria-label={ariaLabel}
           name={props.name}
           type={type}
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>
-      {props.errors
-        ? <p className="help is-danger">{props.errors.join(' ')}</p>
-        : null}
+      {errorHelp}
     </div>
   );
 }

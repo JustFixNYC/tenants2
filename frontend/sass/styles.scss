@@ -19,10 +19,8 @@ $justfix-blue: #0096D7;
     }
 
     .is-active {
-        .navbar-dropdown {
-            .navbar-item:focus, .navbar-link:focus {
-                outline: 2px dashed $justfix-blue;
-            }
+        .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
+            outline: 2px dashed $justfix-blue;
         }
 
         .navbar-item, .navbar-link {
@@ -61,4 +59,24 @@ $justfix-blue: #0096D7;
     @media screen and (min-width: 800px) {
         background: url(img/brownstones.jpg) center / cover;
     }
+}
+
+// https://css-tricks.com/focus-styles-non-interactive-elements/
+[data-jf-is-noninteractive] {
+    outline: none;
+}
+
+// Bulma is supposed to support this, but at the moment it
+// doesn't:
+// https://github.com/jgthms/bulma/issues/150
+//
+// Until it does, we'll use this from:
+// https://webaim.org/techniques/css/invisiblecontent/
+.jf-sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }

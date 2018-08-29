@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -20,6 +20,8 @@ import LogoutPage from './pages/logout-page';
 import Routes from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
+import Navbar from './navbar';
+import { AriaAnnouncer } from './aria';
 
 
 export interface AppProps {
@@ -33,6 +35,8 @@ export interface AppProps {
   server: AppServerInfo;
 }
 
+export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
+
 interface AppState {
   /**
    * The current session state of the App, which can
@@ -41,6 +45,7 @@ interface AppState {
    */
   session: AllSessionInfo;
 
+  /** Whether the user is currently logging out. */
   logoutLoading: boolean;
 }
 
@@ -54,10 +59,11 @@ const LoadableExamplePage = Loadable({
   loading: LoadingPage
 });
 
-export class App extends React.Component<AppProps, AppState> {
+export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
+  pageBodyRef: RefObject<HTMLDivElement>;
 
-  constructor(props: AppProps) {
+  constructor(props: AppPropsWithRouter) {
     super(props);
     this.gqlClient = new GraphQlClient(
       props.server.batchGraphQLURL,
@@ -67,6 +73,7 @@ export class App extends React.Component<AppProps, AppState> {
       session: props.initialSession,
       logoutLoading: false
     };
+    this.pageBodyRef = React.createRef();
   }
 
   @autobind
@@ -101,12 +108,15 @@ export class App extends React.Component<AppProps, AppState> {
     this.setState({ session });
   }
 
-  componentDidUpdate(prevProps: AppProps, prevState: AppState) {
-    if (prevProps !== this.props) {
-      throw new Error('Assertion failure, props are not expected to change');
-    }
+  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
+    }
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      const body = this.pageBodyRef.current;
+      if (body) {
+        body.focus();
+      }
     }
   }
 
@@ -121,48 +131,69 @@ export class App extends React.Component<AppProps, AppState> {
     return !!this.state.session.phoneNumber;
   }
 
+  renderRoutes(): JSX.Element {
+    return (
+      <Switch>
+        <Route path={Routes.home} exact>
+          <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
+        </Route>
+        <Route path={Routes.login} exact>
+          <LoginPage
+            fetch={this.fetch}
+            onSuccess={this.handleSessionChange}
+          />
+        </Route>
+        <Route path={Routes.logout} exact>
+          <LogoutPage
+            isLoggedIn={this.isLoggedIn}
+            logoutLoading={this.state.logoutLoading}
+            onLogout={this.handleLogout}
+          />
+        </Route>
+        <Route path={Routes.onboarding.latestStep} exact>
+          <RedirectToLatestOnboardingStep session={this.state.session} />
+        </Route>
+        <Route path={Routes.onboarding.step1} exact>
+          <OnboardingStep1
+            fetch={this.fetch}
+            onSuccess={this.handleSessionChange}
+            initialState={this.state.session.onboardingStep1}
+          />
+        </Route>
+        <Route path={Routes.onboarding.step2} exact>
+          <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
+        </Route>
+        <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
+        <Route render={NotFound} />
+      </Switch>
+    );
+  }
+
   render() {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
-          <Switch>
-            <Route path={Routes.home} exact>
-              <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
-            </Route>
-            <Route path={Routes.login} exact>
-              <LoginPage
-                fetch={this.fetch}
-                onSuccess={this.handleSessionChange}
-              />
-            </Route>
-            <Route path={Routes.logout} exact>
-              <LogoutPage
-                isLoggedIn={this.isLoggedIn}
-                logoutLoading={this.state.logoutLoading}
-                onLogout={this.handleLogout}
-              />
-            </Route>
-            <Route path={Routes.onboarding.latestStep} exact>
-              <RedirectToLatestOnboardingStep session={this.state.session} />
-            </Route>
-            <Route path={Routes.onboarding.step1} exact>
-              <OnboardingStep1
-                fetch={this.fetch}
-                onSuccess={this.handleSessionChange}
-                initialState={this.state.session.onboardingStep1}
-              />
-            </Route>
-            <Route path={Routes.onboarding.step2} exact>
-              <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
-            </Route>
-            <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
-            <Route render={NotFound} />
-          </Switch>
+          <AriaAnnouncer>
+            <section className="hero is-fullheight">
+              <div className="hero-head">
+                <Navbar/>
+              </div>
+              <div className="hero-body">
+                <div className="container box has-background-white" ref={this.pageBodyRef}
+                     data-jf-is-noninteractive tabIndex={-1}>
+                {this.renderRoutes()}
+                </div>
+              </div>
+              <div className="hero-foot"></div>
+            </section>
+          </AriaAnnouncer>
         </AppContext.Provider>
       </ErrorBoundary>
     );
   }
 }
+
+export const App = withRouter(AppWithoutRouter);
 
 export function startApp(container: Element, initialProps: AppProps) {
   const el = (

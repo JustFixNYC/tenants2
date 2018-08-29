@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from "react-helmet";
 import Navbar from './navbar';
 import Loadable from 'react-loadable';
+import { AriaAnnouncement } from './aria';
 
 interface PageProps {
   title: string;
@@ -10,20 +11,13 @@ interface PageProps {
 
 export default function Page(props: PageProps): JSX.Element {
   return (
-    <section className="hero is-fullheight">
+    <React.Fragment>
       <Helmet>
         <title>JustFix.nyc - {props.title}</title>
       </Helmet>
-      <div className="hero-head">
-        <Navbar/>
-      </div>
-      <div className="hero-body">
-        <div className="container box has-background-white">
-          {props.children}
-        </div>
-      </div>
-      <div className="hero-foot"></div>
-    </section>
+      <AriaAnnouncement text={props.title} />
+      {props.children}
+    </React.Fragment>
   );
 }
 

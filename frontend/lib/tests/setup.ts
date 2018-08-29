@@ -12,7 +12,9 @@ Object.keys(FakeAppContext).forEach(prop => {
   });
 });
 
-// react-aria-modal seems to call this, but jsdom
-// doesn't support it, and throws an exception when
-// it's called. So we'll just stub it out.
-window.scroll = jest.fn();
+if (typeof(window) !== 'undefined') {
+  // react-aria-modal seems to call this, but jsdom
+  // doesn't support it, and throws an exception when
+  // it's called. So we'll just stub it out.
+  window.scroll = jest.fn();
+}

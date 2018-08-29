@@ -1,17 +1,27 @@
 import React from 'react';
-import { shallowWithRouter } from '../util';
-import OnboardingStep1, { Step1AddressModal } from '../../pages/onboarding-step-1';
+
+import * as rt from 'react-testing-library'
+
+import OnboardingStep1 from '../../pages/onboarding-step-1';
+import { MemoryRouter } from 'react-router';
 
 
 describe('onboarding step 1 page', () => {
-  it('renders', () => {
-    const { wrapper } = shallowWithRouter(
-      <OnboardingStep1 fetch={jest.fn()} onSuccess={jest.fn()} />
-    );
-    expect(wrapper.html()).toContain('Tell us about yourself!');
-  });
+  afterEach(rt.cleanup);
 
-  it('can call modals without throwing', () => {
-    Step1AddressModal();
+  it('has openable modals', () => {
+    const thing = rt.render(
+      <MemoryRouter>
+        <OnboardingStep1 fetch={jest.fn()} onSuccess={jest.fn()} />
+      </MemoryRouter>
+    );
+
+    const link = thing.getByText(/Why do you need/i, { selector: 'a' });
+    rt.fireEvent.click(link);
+    expect(thing.getByLabelText(/Why do you need/i, {
+      selector: 'div[role="dialog"]'
+    })).toBeTruthy();
+    const closeBtn = thing.getByLabelText("close");
+    rt.fireEvent.click(closeBtn);
   });
 });

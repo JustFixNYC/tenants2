@@ -22,6 +22,7 @@ import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
+import { Modal } from './modal';
 
 
 export interface AppProps {
@@ -162,6 +163,16 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         </Route>
         <Route path={Routes.onboarding.step2} exact>
           <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
+        </Route>
+        <Route path="/__example-modal" exact>
+          <Page title="Example modal page">
+            <p>Here is a page with a modal.</p>
+            <Modal>
+              <div className="box content">
+                <p>This is an example modal.</p>
+              </div>
+            </Modal>
+          </Page>
         </Route>
         <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
         <Route render={NotFound} />

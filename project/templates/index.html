@@ -7,7 +7,8 @@
         {{ title_tag }}
     </head>
     <body>
-        <div id="main">{{ initial_render }}</div>
+        <div id="main" {% if modal_html %}hidden{% endif %}>{{ initial_render }}</div>
+        <div id="prerendered-modal">{{ modal_html }}</div>
         {{ initial_props|json_script:'initial-props' }}
         {% for bundle_url in bundle_urls %}
         <script src="{{ bundle_url }}"></script>

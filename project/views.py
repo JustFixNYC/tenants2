@@ -41,6 +41,7 @@ class LambdaResponse(NamedTuple):
     title_tag: SafeString
     status: int
     bundle_files: List[str]
+    modal_html: SafeString
 
     # The amount of time rendering took, in milliseconds.
     render_time: int
@@ -53,6 +54,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
 
     return LambdaResponse(
         html=SafeString(response['html']),
+        modal_html=SafeString(response['modalHtml']),
         title_tag=SafeString(response['titleTag']),
         status=response['status'],
         bundle_files=response['bundleFiles'],
@@ -116,6 +118,7 @@ def react_rendered_view(request, url: str):
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,
+        'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
         'bundle_urls': bundle_urls,
         'initial_props': initial_props,

@@ -31,6 +31,18 @@ def test_pages_with_extra_bundles_work(client):
     ]
 
 
+def test_pages_with_prerendered_modals_work(client):
+    response = client.get('/__example-modal')
+    assert response.status_code == 200
+    assert 'jf-modal-dialog' in response.context['modal_html']
+
+    # We need to make the main content hidden when pre-rendering,
+    # or else the content behind the modal will be keyboard-navigable.
+    # Perhaps someday when the "inert" attribute is widely supported,
+    # we could use that instead.
+    assert b'<div id="main" hidden' in response.content
+
+
 def test_404_works(client):
     response = client.get('/nonexistent')
     assert response.status_code == 404

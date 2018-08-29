@@ -2,7 +2,7 @@ import React from 'react';
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { shallow, ShallowWrapper } from "enzyme";
+import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
 import { MemoryRouter } from "react-router";
 
 interface TestClient {
@@ -29,6 +29,11 @@ export function createTestGraphQlClient(enableTimeout: boolean = false): TestCli
 
 export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper } {
   const wrapper = shallow(<MemoryRouter>{child}</MemoryRouter>);
+  return { wrapper };
+}
+
+export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper } {
+  const wrapper = mount(<MemoryRouter>{child}</MemoryRouter>);
   return { wrapper };
 }
 

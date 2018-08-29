@@ -34,6 +34,9 @@ export interface LambdaResponse {
    * (excluding the main bundle).
    */
   bundleFiles: string[];
+
+  /** The pre-rendered modal to show, if any. */
+  modalHtml: string;
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -85,11 +88,16 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
     const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
+    let modalHtml = '';
+    if (context.modal) {
+      modalHtml = ReactDOMServer.renderToStaticMarkup(context.modal);
+    }
     resolve({
       html,
       titleTag: helmet.title.toString(),
       status: context.statusCode,
-      bundleFiles
+      bundleFiles,
+      modalHtml
     });
   });
 }
@@ -134,7 +142,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       html,
       titleTag,
       status: 500,
-      bundleFiles: []
+      bundleFiles: [],
+      modalHtml: ''
     };
   });
 }

@@ -17,7 +17,7 @@ import Page, { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
-import Routes from './routes';
+import Routes, { isModalRoute } from './routes';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { RedirectToLatestOnboardingStep } from './onboarding';
 import Navbar from './navbar';
@@ -56,6 +56,11 @@ const LoadableIndexPage = Loadable({
 
 const LoadableExamplePage = Loadable({
   loader: () => import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page'),
+  loading: LoadingPage
+});
+
+const LoadableExampleModalPage = Loadable({
+  loader: () => import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page'),
   loading: LoadingPage
 });
 
@@ -112,7 +117,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
     }
-    if (prevProps.location.pathname !== this.props.location.pathname) {
+    const prevPathname = prevProps.location.pathname;
+    const pathname = this.props.location.pathname;
+    if (prevPathname !== pathname && !isModalRoute(prevPathname, pathname)) {
       const body = this.pageBodyRef.current;
       if (body) {
         body.focus();
@@ -153,7 +160,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.onboarding.latestStep} exact>
           <RedirectToLatestOnboardingStep session={this.state.session} />
         </Route>
-        <Route path={Routes.onboarding.step1} exact>
+        <Route path={Routes.onboarding.step1}>
           <OnboardingStep1
             fetch={this.fetch}
             onSuccess={this.handleSessionChange}
@@ -163,6 +170,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.onboarding.step2} exact>
           <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
         </Route>
+        <Route path="/__example-modal" exact component={LoadableExampleModalPage} />>
         <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
         <Route render={NotFound} />
       </Switch>

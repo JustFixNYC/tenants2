@@ -80,3 +80,30 @@ $justfix-blue: #0096D7;
     height: 1px;
     overflow: hidden;
 }
+
+// This is basically the same as react-aria-modal's default
+// underlay styling.
+.jf-modal-underlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    overflow: hidden auto;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+// This is quite similar to Bulma's .modal styling.
+.jf-modal-dialog {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    cursor: default;
+}

@@ -57,7 +57,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             })}>Next</button>
           </div>
         </div>
-        <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal}>
+        <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need to know my address?
         </ModalLink>
       </React.Fragment>

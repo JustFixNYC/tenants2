@@ -1,9 +1,9 @@
 import React from 'react';
+import  _ from 'lodash';
 import AriaModal from 'react-aria-modal';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
-import { LocationDescriptor } from 'history';
 import { Link, LinkProps } from 'react-router-dom';
 
 
@@ -103,7 +103,7 @@ interface LinkToModalRouteProps extends LinkProps {
 export function ModalLink(props: LinkToModalRouteProps): JSX.Element {
   return (
     <React.Fragment>
-      <Link {...props}>{props.children}</Link>
+      <Link {..._.omit(props, 'component')}>{props.children}</Link>
       <Route path={props.to} exact component={props.component} />
     </React.Fragment>
   );

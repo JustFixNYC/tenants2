@@ -10,6 +10,6 @@ describe('index page', () => {
 
   it('renders when logged out', () => {
     const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={false} />);
-    expect(wrapper.html()).toContain('Level the playing field');
+    expect(wrapper.html()).toContain('Get started');
   });
 });

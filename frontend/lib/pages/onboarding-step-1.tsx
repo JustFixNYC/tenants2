@@ -10,7 +10,7 @@ import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation
 import { GraphQLFetch } from '../graphql-client';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { assertNotNull } from '../util';
-import { Modal } from '../modal';
+import { Modal, ModalLink } from '../modal';
 
 
 const blankInitialState: OnboardingStep1Input = {
@@ -57,8 +57,9 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             })}>Next</button>
           </div>
         </div>
-        <Link to={Routes.onboarding.step1AddressModal}>Why do you need to know my address?</Link>
-        <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
+        <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal}>
+          Why do you need to know my address?
+        </ModalLink>
       </React.Fragment>
     );
   }

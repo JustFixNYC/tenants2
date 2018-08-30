@@ -1,8 +1,10 @@
 import React from 'react';
 import AriaModal from 'react-aria-modal';
 import autobind from 'autobind-decorator';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
+import { LocationDescriptor } from 'history';
+import { Link, LinkProps } from 'react-router-dom';
 
 
 const DIALOG_CLASS = "jf-modal-dialog"
@@ -85,3 +87,23 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 }
 
 export const Modal = withRouter(ModalWithoutRouter);
+
+interface LinkToModalRouteProps extends LinkProps {
+  to: string;
+  component: React.ComponentType;
+  children: any;
+}
+
+/**
+ * A component that's similar to React Router's <Link> but
+ * assumes the link target is a modal, and simultaneously
+ * defines a route that points to said modal.
+ */
+export function ModalLink(props: LinkToModalRouteProps): JSX.Element {
+  return (
+    <React.Fragment>
+      <Link {...props}>{props.children}</Link>
+      <Route path={props.to} exact component={props.component} />
+    </React.Fragment>
+  );
+}

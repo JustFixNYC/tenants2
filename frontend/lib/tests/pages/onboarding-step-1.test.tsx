@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as rt from 'react-testing-library'
 
-import OnboardingStep1 from '../../pages/onboarding-step-1';
+import OnboardingStep1, { areAddressesTheSame } from '../../pages/onboarding-step-1';
 import { MemoryRouter } from 'react-router';
 
 
@@ -24,4 +24,9 @@ describe('onboarding step 1 page', () => {
     const closeBtn = thing.getByText("Got it!");
     rt.fireEvent.click(closeBtn);
   });
+});
+
+test('areAddressesTheSame() works', () => {
+  expect(areAddressesTheSame('150 court street   ', '150 COURT STREET')).toBe(true);
+  expect(areAddressesTheSame('150 court st   ', '150 COURT STREET')).toBe(false);
 });

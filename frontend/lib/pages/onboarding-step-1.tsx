@@ -11,7 +11,7 @@ import { GraphQLFetch } from '../graphql-client';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
-import { DjangoChoices } from '../common-data';
+import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
 
@@ -30,6 +30,10 @@ interface OnboardingStep1Props {
 
 interface OnboardingStep1State {
   successSession?: AllSessionInfo;
+}
+
+export function areAddressesTheSame(a: string, b: string): boolean {
+  return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
 
 export function Step1AddressModal(): JSX.Element {
@@ -95,7 +99,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     const finalStep1 = assertNotNull(successSession.onboardingStep1);
     const nextStep = Routes.onboarding.step2;
 
-    if (finalStep1.address.toUpperCase() === enteredAddress.toUpperCase()) {
+    if (areAddressesTheSame(finalStep1.address, enteredAddress)) {
       return <Redirect push to={nextStep} />;
     }
 
@@ -107,7 +111,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       <Modal title="Is this your address?" onClose={handleClose} render={({close}) => (
         <div className="content box">
           <h1 className="title">Is this your address?</h1>
-          <p>{finalStep1.address}</p>
+          <p>{finalStep1.address}, {getDjangoChoiceLabel(BOROUGH_CHOICES, finalStep1.borough)}</p>
           <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
           <Link to={nextStep} className="button is-primary is-fullwidth">Yes!</Link>
         </div>

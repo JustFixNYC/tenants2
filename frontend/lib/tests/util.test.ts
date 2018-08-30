@@ -24,7 +24,7 @@ describe('assertNotNull()', () => {
     expect(() => assertNotNull(null)).toThrowError('expected argument to not be null');
   });
 
-  it('returns true when not null', () => {
-    expect(assertNotNull('')).toBe(true);
+  it('returns argument when not null', () => {
+    expect(assertNotNull('')).toBe('');
   });
 });

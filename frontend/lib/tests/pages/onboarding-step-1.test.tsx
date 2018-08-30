@@ -1,67 +1,40 @@
 import React from 'react';
 
-import * as rt from 'react-testing-library'
-
 import OnboardingStep1, { areAddressesTheSame } from '../../pages/onboarding-step-1';
 import { MemoryRouter } from 'react-router';
 import { FakeSessionInfo, createTestGraphQlClient } from '../util';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
+import ReactTestingLibraryPal from '../rtl-pal';
 
-
-function clickButtonOrLink(rr: rt.RenderResult, matcher: RegExp|string) {
-  rt.fireEvent.click(rr.getByText(matcher, {
-    selector: 'a, button'
-  }));
-}
-
-type FormFieldFill = [RegExp, string];
-
-function fillFormFields(rr: rt.RenderResult, fills: FormFieldFill[]) {
-  fills.forEach(([matcher, value]) => {
-    const input = rr.getByLabelText(matcher, {
-      selector: 'input, select'
-    }) as HTMLInputElement;
-    input.value = value;
-  });
-}
-
-function getDialogWithLabel(rr: rt.RenderResult, matcher: RegExp|string): HTMLDivElement {
-  return rr.getByLabelText(matcher, {
-    selector: 'div[role="dialog"]'
-  }) as HTMLDivElement;
-}
 
 describe('onboarding step 1 page', () => {
-  afterEach(rt.cleanup);
+  afterEach(ReactTestingLibraryPal.cleanup);
 
   it('has openable modals', () => {
-    const thing = rt.render(
+    const pal = ReactTestingLibraryPal.render(
       <MemoryRouter>
         <OnboardingStep1 fetch={jest.fn()} onSuccess={jest.fn()} />
       </MemoryRouter>
     );
-
-    clickButtonOrLink(thing, /Why do you need/i);
-    getDialogWithLabel(thing, /Why do you need/i);
-    clickButtonOrLink(thing, "Got it!");
+    pal.clickButtonOrLink(/Why do you need/i);
+    pal.getDialogWithLabel(/Why do you need/i);
+    pal.clickButtonOrLink("Got it!");
   });
 
   it('opens confirmation modal if address returned from server is different', async () => {
     const { client } = createTestGraphQlClient();
-    const thing = rt.render(
+    const pal = ReactTestingLibraryPal.render(
       <MemoryRouter>
         <OnboardingStep1 fetch={client.fetch} onSuccess={jest.fn()} />
       </MemoryRouter>
     );
-
-    fillFormFields(thing, [
+    pal.fillFormFields([
       [/full name/i, 'boop jones'],
       [/address/i, '150 court'],
       [/borough/i, 'BROOKLYN'],
       [/apartment number/i, '2']
     ]);
-    clickButtonOrLink(thing, 'Next');
-
+    pal.clickButtonOrLink('Next');
     let session: AllSessionInfo = {
       ...FakeSessionInfo,
       onboardingStep1: {
@@ -72,7 +45,7 @@ describe('onboarding step 1 page', () => {
       }
     };
     client.getRequestQueue()[0].resolve({ onboardingStep1: { errors: [], session } });
-    await rt.waitForElement(() => getDialogWithLabel(thing, /Is this your address/i));
+    await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Is this your address/i));
   });
 });
 

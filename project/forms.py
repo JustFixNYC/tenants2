@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser
 from project.common_data import Choices
+from project import geocoding
 
 
 BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
@@ -18,6 +19,29 @@ class OnboardingStep1Form(forms.Form):
     borough = forms.ChoiceField(choices=BOROUGH_CHOICES)
 
     apt_number = forms.CharField(max_length=10)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        address = cleaned_data.get('address')
+        borough = cleaned_data.get('borough')
+        if address and borough:
+            features = geocoding.search(', '.join([address, borough]))
+            if features is None:
+                # Hmm, the geocoding service is unavailable. This
+                # is unfortunate, but we don't want it to block
+                # onboarding, so keep a note of it and let the
+                # user continue.
+                address_verified = False
+            elif len(features) == 0:
+                # The geocoding service is available, but the
+                # address produces no results.
+                raise forms.ValidationError('The address provided is invalid.')
+            else:
+                address_verified = True
+                address = features[0].properties.name
+            cleaned_data['address'] = address
+            cleaned_data['address_verified'] = address_verified
+        return cleaned_data
 
 
 class LoginForm(forms.Form):

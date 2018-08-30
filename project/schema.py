@@ -15,6 +15,15 @@ ONBOARDING_STEP_1_SESSION_KEY = 'onboarding_step_1'
 class OnboardingStep1Info(graphene.ObjectType):
     locals().update(fields_for_form(forms.OnboardingStep1Form(), [], []))
 
+    address_verified = graphene.Boolean(
+        required=True,
+        description=(
+            "Whether the user's address was verified by a geocoder. "
+            "If False, it is because the geocoder service was unavailable, "
+            "not because the address is invalid."
+        )
+    )
+
 
 class SessionInfo(graphene.ObjectType):
     phone_number = graphene.String(

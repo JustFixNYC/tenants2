@@ -1,6 +1,37 @@
 from unittest.mock import patch
+from django.conf import settings
 
-from project.forms import LoginForm
+from project.forms import LoginForm, OnboardingStep1Form
+from .test_geocoding import EXAMPLE_SEARCH
+
+
+ADDRESS_FORM_DATA = {
+    'address': '150 court',
+    'borough': 'BROOKLYN'
+}
+
+
+def test_onboarding_step_1_form_sets_address_to_geocoder_value(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
+    form.full_clean()
+    assert form.cleaned_data['address'] == '150 COURT STREET'
+    assert form.cleaned_data['address_verified'] is True
+
+
+def test_onboarding_step_1_form_works_when_geocoder_is_unavailable(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, status_code=500)
+    form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
+    form.full_clean()
+    assert form.cleaned_data['address'] == '150 court'
+    assert form.cleaned_data['address_verified'] is False
+
+
+def test_onboarding_step_1_form_raises_err_on_invalid_address(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json={'features': []})
+    form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
+    form.full_clean()
+    assert 'The address provided is invalid.' in form.errors['__all__']
 
 
 def test_login_form_is_invalid_if_fields_are_invalid():

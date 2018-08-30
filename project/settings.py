@@ -185,6 +185,10 @@ GRAPHENE = {
     'MIDDLEWARE': None
 }
 
+GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
+
+GEOCODING_TIMEOUT = 3
+
 LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 if DEBUG:

@@ -5,6 +5,7 @@ fragment AllSessionInfo on SessionInfo {
     onboardingStep1 {
         name
         address
-        aptNumber
+        aptNumber,
+        borough
     }
 }

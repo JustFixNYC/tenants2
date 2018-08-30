@@ -25,6 +25,7 @@ export interface LoginMutation_login_session_onboardingStep1 {
   name: string;
   address: string;
   aptNumber: string;
+  borough: string;
 }
 
 export interface LoginMutation_login_session {

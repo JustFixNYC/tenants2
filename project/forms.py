@@ -4,12 +4,18 @@ from django.forms import ValidationError
 from django.contrib.auth import authenticate
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser
+from project.common_data import Choices
+
+
+BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
 
 class OnboardingStep1Form(forms.Form):
     name = forms.CharField(max_length=100)
 
     address = forms.CharField(max_length=200)
+
+    borough = forms.ChoiceField(choices=BOROUGH_CHOICES)
 
     apt_number = forms.CharField(max_length=10)
 

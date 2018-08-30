@@ -3,7 +3,7 @@ import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link, Route } from 'react-router-dom';
-import { TextualFormField, FormSubmitter, FormContext } from '../forms';
+import { TextualFormField, FormSubmitter, FormContext, SelectFormField } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
@@ -11,12 +11,15 @@ import { GraphQLFetch } from '../graphql-client';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
+import { DjangoChoices } from '../common-data';
 
+const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
   address: '',
-  aptNumber: ''
+  aptNumber: '',
+  borough: '',
 };
 
 interface OnboardingStep1Props {
@@ -46,6 +49,11 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       <React.Fragment>
         <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />
         <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
+        <SelectFormField
+          label="What is your borough?"
+          {...ctx.fieldPropsFor('borough')}
+          choices={BOROUGH_CHOICES}
+        />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
         <div className="field is-grouped">
           <div className="control">

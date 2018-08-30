@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { Redirect } from 'react-router';
 import { LocationDescriptor } from 'history';
 import { AriaAnnouncement, ariaBool } from './aria';
+import { DjangoChoices } from './common-data';
 
 /**
  * This is the form validation error type returned from the server.
@@ -103,6 +104,60 @@ export interface BaseFormFieldProps<T> {
   isDisabled: boolean;
 }
 
+function formatErrors(props: BaseFormFieldProps<any> & { label: string }): {
+  errorHelp: JSX.Element|null,
+  ariaLabel: string
+} {
+  let ariaLabel = props.label;
+  let errorHelp = null;
+
+  if (props.errors) {
+    const allErrors = props.errors.join(' ');
+    errorHelp = <p className="help is-danger">{allErrors}</p>;
+    ariaLabel = `${ariaLabel}, ${allErrors}`;
+  }
+
+  return { errorHelp, ariaLabel };
+}
+
+export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
+  choices: DjangoChoices;
+  label: string;
+}
+
+/** A JSX component that encapsulates a <select> tag. */
+export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
+  let { ariaLabel, errorHelp } = formatErrors(props);
+
+  // TODO: Assign an id to the input and make the label point to it.
+  return (
+    <div className="field">
+      <label className="label">{props.label}</label>
+      <div className="control">
+        <div className="select">
+          <select
+            className={classnames({
+              'is-danger': !!props.errors
+            })}
+            value={props.value}
+            aria-invalid={ariaBool(!!props.errors)}
+            aria-label={ariaLabel}
+            disabled={props.isDisabled}
+            name={props.name}
+            onChange={(e) => props.onChange(e.target.value)}
+          >
+            <option value=""></option>
+            {props.choices.map(([choice, label]) => (
+              <option key={choice} value={choice}>{label}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      {errorHelp}
+    </div>
+  );
+}
+
 /**
  * Valid types of textual form field input.
  */
@@ -119,14 +174,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
 /** A JSX component for textual form input. */
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || 'text';
-  let ariaLabel = props.label;
-  let errorHelp = null;
-
-  if (props.errors) {
-    const allErrors = props.errors.join(' ');
-    errorHelp = <p className="help is-danger">{allErrors}</p>;
-    ariaLabel = `${ariaLabel}, ${allErrors}`;
-  }
+  let { ariaLabel, errorHelp } = formatErrors(props);
 
   // TODO: Assign an id to the input and make the label point to it.
   return (

@@ -25,6 +25,7 @@ export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1
   name: string;
   address: string;
   aptNumber: string;
+  borough: string;
 }
 
 export interface OnboardingStep1Mutation_onboardingStep1_session {

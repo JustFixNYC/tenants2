@@ -11,6 +11,7 @@ export interface AllSessionInfo_onboardingStep1 {
   name: string;
   address: string;
   aptNumber: string;
+  borough: string;
 }
 
 export interface AllSessionInfo {
@@ -36,7 +37,8 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     onboardingStep1 {
         name
         address
-        aptNumber
+        aptNumber,
+        borough
     }
 }
 `;

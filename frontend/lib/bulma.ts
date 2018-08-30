@@ -10,7 +10,10 @@ export type BulmaClassName =
   'is-active' |
   'is-primary' |
   'is-loading' |
+  'is-danger' |
   'has-dropdown' |
+  'select' |
+  'input' |
   'button' |
   'navbar-burger' |
   'navbar-menu' |

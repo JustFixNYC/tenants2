@@ -1,10 +1,10 @@
 import React from 'react';
-import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { Redirect } from 'react-router';
 import { LocationDescriptor } from 'history';
 import { AriaAnnouncement, ariaBool } from './aria';
 import { DjangoChoices } from './common-data';
+import { bulmaClasses } from './bulma';
 
 /**
  * This is the form validation error type returned from the server.
@@ -134,11 +134,10 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
     <div className="field">
       <label className="label">{props.label}</label>
       <div className="control">
-        <div className="select">
+        <div className={bulmaClasses('select', {
+          'is-danger': !!props.errors
+        })}>
           <select
-            className={classnames({
-              'is-danger': !!props.errors
-            })}
             value={props.value}
             aria-invalid={ariaBool(!!props.errors)}
             aria-label={ariaLabel}
@@ -182,7 +181,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
       <label className="label">{props.label}</label>
       <div className="control">
         <input
-          className={classnames('input', {
+          className={bulmaClasses('input', {
             'is-danger': !!props.errors
           })}
           disabled={props.isDisabled}

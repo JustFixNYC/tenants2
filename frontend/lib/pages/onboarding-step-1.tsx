@@ -56,7 +56,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="What is your name?" {...ctx.fieldPropsFor('name')} />
+        <TextualFormField label="What is your full name?" {...ctx.fieldPropsFor('name')} />
         <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
         <SelectFormField
           label="What is your borough?"

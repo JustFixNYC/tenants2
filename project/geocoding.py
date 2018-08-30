@@ -5,8 +5,6 @@ import requests
 from django.conf import settings
 
 
-SEARCH_TIMEOUT = 3
-
 logger = logging.getLogger(__name__)
 
 
@@ -62,7 +60,7 @@ def search(text: str) -> Optional[List[Feature]]:
         response = requests.get(
             settings.GEOCODING_SEARCH_URL,
             {'text': text},
-            timeout=SEARCH_TIMEOUT
+            timeout=settings.GEOCODING_TIMEOUT
         )
         if response.status_code != 200:
             raise Exception(f'Expected 200 response, got {response.status_code}')
@@ -70,13 +68,3 @@ def search(text: str) -> Optional[List[Feature]]:
     except Exception:
         logger.exception(f'Error while retrieving data from {settings.GEOCODING_SEARCH_URL}')
         return None
-
-
-if __name__ == '__main__':
-    import sys
-    features = search(sys.argv[1])
-    if features is None:
-        print("Geosearch failed, exiting.")
-        sys.exit(1)
-    for feature in features:
-        print(feature.properties.label)

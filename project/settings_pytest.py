@@ -12,6 +12,7 @@ LEGACY_MONGODB_URL = ''
 # while we're testing, so just point this at a
 # nonexistent localhost port.
 GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
+GEOCODING_TIMEOUT = 0.001
 
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.

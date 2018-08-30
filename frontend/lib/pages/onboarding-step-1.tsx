@@ -65,6 +65,21 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       .then(result => result.onboardingStep1);
   }
 
+  renderFormButtons(isLoading: boolean): JSX.Element {
+    return (
+      <div className="field is-grouped">
+        <div className="control">
+          <Link to={Routes.home} className="button is-text">Cancel</Link>
+        </div>
+        <div className="control">
+          <button type="submit" className={bulmaClasses('button', 'is-primary', {
+            'is-loading': isLoading
+          })}>Next</button>
+        </div>
+      </div>
+    );
+  }
+
   @autobind
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
@@ -77,16 +92,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           choices={BOROUGH_CHOICES}
         />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
-        <div className="field is-grouped">
-          <div className="control">
-            <Link to={Routes.home} className="button is-text">Cancel</Link>
-          </div>
-          <div className="control">
-            <button type="submit" className={bulmaClasses('button', 'is-primary', {
-              'is-loading': ctx.isLoading
-            })}>Next</button>
-          </div>
-        </div>
+        {this.renderFormButtons(ctx.isLoading)}
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?
         </ModalLink>

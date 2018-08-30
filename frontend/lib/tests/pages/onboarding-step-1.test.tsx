@@ -4,9 +4,32 @@ import * as rt from 'react-testing-library'
 
 import OnboardingStep1, { areAddressesTheSame } from '../../pages/onboarding-step-1';
 import { MemoryRouter } from 'react-router';
-import { createTestGraphQlClient, FakeSessionInfo } from '../util';
+import { FakeSessionInfo, createTestGraphQlClient } from '../util';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 
+
+function clickButtonOrLink(rr: rt.RenderResult, matcher: RegExp|string) {
+  rt.fireEvent.click(rr.getByText(matcher, {
+    selector: 'a, button'
+  }));
+}
+
+type FormFieldFill = [RegExp, string];
+
+function fillFormFields(rr: rt.RenderResult, fills: FormFieldFill[]) {
+  fills.forEach(([matcher, value]) => {
+    const input = rr.getByLabelText(matcher, {
+      selector: 'input, select'
+    }) as HTMLInputElement;
+    input.value = value;
+  });
+}
+
+function getDialogWithLabel(rr: rt.RenderResult, matcher: RegExp|string): HTMLDivElement {
+  return rr.getByLabelText(matcher, {
+    selector: 'div[role="dialog"]'
+  }) as HTMLDivElement;
+}
 
 describe('onboarding step 1 page', () => {
   afterEach(rt.cleanup);
@@ -18,35 +41,27 @@ describe('onboarding step 1 page', () => {
       </MemoryRouter>
     );
 
-    const link = thing.getByText(/Why do you need/i, { selector: 'a' });
-    rt.fireEvent.click(link);
-    expect(thing.getByLabelText(/Why do you need/i, {
-      selector: 'div[role="dialog"]'
-    })).toBeTruthy();
-    const closeBtn = thing.getByText("Got it!");
-    rt.fireEvent.click(closeBtn);
+    clickButtonOrLink(thing, /Why do you need/i);
+    getDialogWithLabel(thing, /Why do you need/i);
+    clickButtonOrLink(thing, "Got it!");
   });
 
   it('opens confirmation modal if address returned from server is different', async () => {
-    const onSuccess = jest.fn();
-    const resolvers: Function[] = [];
-    const fetch = () => new Promise((resolve, reject) => resolvers.push(resolve));
+    const { client } = createTestGraphQlClient();
     const thing = rt.render(
       <MemoryRouter>
-        <OnboardingStep1 fetch={fetch} onSuccess={onSuccess} />
+        <OnboardingStep1 fetch={client.fetch} onSuccess={jest.fn()} />
       </MemoryRouter>
     );
 
-    const setField = (matcher: RegExp, value: string) => {
-      const input = thing.getByLabelText(matcher, { selector: 'input, select' }) as HTMLInputElement;
-      input.value = value;
-    };
-    setField(/full name/i, 'boop jones');
-    setField(/address/i, '150 court');
-    setField(/borough/i, 'BROOKLYN');
-    setField(/apartment number/i, '2');
-    rt.fireEvent.click(thing.getByText('Next'));
-    expect(resolvers).toHaveLength(1);
+    fillFormFields(thing, [
+      [/full name/i, 'boop jones'],
+      [/address/i, '150 court'],
+      [/borough/i, 'BROOKLYN'],
+      [/apartment number/i, '2']
+    ]);
+    clickButtonOrLink(thing, 'Next');
+
     let session: AllSessionInfo = {
       ...FakeSessionInfo,
       onboardingStep1: {
@@ -56,10 +71,8 @@ describe('onboarding step 1 page', () => {
         aptNumber: '2'
       }
     };
-    resolvers[0]({ onboardingStep1: { errors: [], session } });
-    await rt.waitForElement(() => thing.getByLabelText(/Is this your address/i, {
-      selector: 'div[role="dialog"]'
-    }));
+    client.getRequestQueue()[0].resolve({ onboardingStep1: { errors: [], session } });
+    await rt.waitForElement(() => getDialogWithLabel(thing, /Is this your address/i));
   });
 });
 

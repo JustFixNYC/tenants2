@@ -6,20 +6,15 @@ import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
 
-import { getFormErrors, FormErrors } from './forms';
 import { fetchLogoutMutation } from './queries/LogoutMutation';
-import { fetchLoginMutation } from './queries/LoginMutation';
-import { LoginInput } from './queries/globalTypes';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType } from './app-context';
 import { NotFound } from './pages/not-found';
-import Page, { LoadingPage } from './page';
+import { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
 import Routes, { isModalRoute } from './routes';
-import OnboardingStep1 from './pages/onboarding-step-1';
-import { RedirectToLatestOnboardingStep } from './onboarding';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 
@@ -61,6 +56,11 @@ const LoadableExamplePage = Loadable({
 
 const LoadableExampleModalPage = Loadable({
   loader: () => import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page'),
+  loading: LoadingPage
+});
+
+const LoadableOnboardingRoutes = Loadable({
+  loader: () => import(/* webpackChunkName: "onboarding" */ './onboarding'),
   loading: LoadingPage
 });
 
@@ -157,19 +157,13 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
             onLogout={this.handleLogout}
           />
         </Route>
-        <Route path={Routes.onboarding.latestStep} exact>
-          <RedirectToLatestOnboardingStep session={this.state.session} />
-        </Route>
-        <Route path={Routes.onboarding.step1}>
-          <OnboardingStep1
+        <Route path={Routes.onboarding.prefix} render={() => (
+          <LoadableOnboardingRoutes
+            session={this.state.session}
             fetch={this.fetch}
-            onSuccess={this.handleSessionChange}
-            initialState={this.state.session.onboardingStep1}
+            onSessionChange={this.handleSessionChange}
           />
-        </Route>
-        <Route path={Routes.onboarding.step2} exact>
-          <Page title="Oops">Sorry, this page hasn't been built yet.</Page>
-        </Route>
+        )} />
         <Route path="/__example-modal" exact component={LoadableExampleModalPage} />>
         <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
         <Route render={NotFound} />

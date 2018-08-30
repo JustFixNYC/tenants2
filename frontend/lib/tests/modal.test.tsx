@@ -24,7 +24,6 @@ describe('Modal', () => {
     );
     expect(wrapper.html()).toContain("hello");
 
-    window.scroll = jest.fn();
     wrapper.find('button[aria-label="close"]').simulate('click');
     expect(wrapper.html()).toBeNull();
   });

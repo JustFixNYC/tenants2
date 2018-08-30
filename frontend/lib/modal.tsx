@@ -11,9 +11,15 @@ const DIALOG_CLASS = "jf-modal-dialog"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
+interface ModalRenderPropContext {
+  /** Handler the render prop can call to close the modal. */
+  close: () => void;
+}
+
 interface ModalProps {
   title: string;
-  children: any;
+  children?: any;
+  render?: (ctx: ModalRenderPropContext) => JSX.Element;
   onCloseGoBack?: boolean;
 }
 
@@ -56,6 +62,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   renderBody(): JSX.Element {
     return (
       <React.Fragment>
+        {this.props.render && this.props.render({ close: this.handleClose })}
         {this.props.children}
         <button onClick={this.handleClose} className="modal-close is-large" aria-label="close"></button>
       </React.Fragment>

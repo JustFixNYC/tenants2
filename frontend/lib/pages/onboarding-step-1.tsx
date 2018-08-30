@@ -30,9 +30,18 @@ interface OnboardingStep1Props {
 
 export function Step1AddressModal(): JSX.Element {
   return (
-    <Modal title="Why do you need to know my address?" onCloseGoBack>
-      <div className="content box">Because something something.</div>
-    </Modal>
+    <Modal title="Why do you need my address?" onCloseGoBack render={({close}) => (
+      <div className="content box">
+        <h1 className="title">Your privacy is very important to us!</h1>
+        <p>
+          {`We use your address to find information about your
+            building and landlord. We use open data provided from
+            the following New York City and State agencies: 
+            HPD, DHCR, DOF, DOB and DCP.`}
+        </p>
+        <button className="button is-primary" onClick={close}>Got it!</button>
+      </div>
+    )} />
   );
 }
 
@@ -66,7 +75,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           </div>
         </div>
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
-          Why do you need to know my address?
+          Why do you need my address?
         </ModalLink>
       </React.Fragment>
     );

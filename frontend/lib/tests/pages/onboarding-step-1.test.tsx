@@ -21,7 +21,7 @@ describe('onboarding step 1 page', () => {
     expect(thing.getByLabelText(/Why do you need/i, {
       selector: 'div[role="dialog"]'
     })).toBeTruthy();
-    const closeBtn = thing.getByLabelText("close");
+    const closeBtn = thing.getByText("Got it!");
     rt.fireEvent.click(closeBtn);
   });
 });

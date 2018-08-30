@@ -20,6 +20,7 @@ interface ModalProps {
   title: string;
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
+  onClose?: () => void;
   onCloseGoBack?: boolean;
 }
 
@@ -42,6 +43,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     this.setState({ isActive: false });
     if (this.props.onCloseGoBack) {
       this.props.history.goBack();
+    }
+    if (this.props.onClose) {
+      this.props.onClose();
     }
   }
 

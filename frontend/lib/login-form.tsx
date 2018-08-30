@@ -32,7 +32,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
       <FormSubmitter onSubmit={this.handleSubmit}
                      initialState={initialState}
                      onSuccessRedirect={this.props.onSuccessRedirect}
-                     onSuccess={(output) => assertNotNull(output.session) && this.props.onSuccess(output.session) } >
+                     onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session)) } >
         {(ctx) => (
           <React.Fragment>
             <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />

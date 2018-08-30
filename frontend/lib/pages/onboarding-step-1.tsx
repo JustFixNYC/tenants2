@@ -2,7 +2,7 @@ import React from 'react';
 import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 import { TextualFormField, FormSubmitter, FormContext, SelectFormField } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
@@ -28,6 +28,10 @@ interface OnboardingStep1Props {
   initialState?: OnboardingStep1Input|null;
 }
 
+interface OnboardingStep1State {
+  successSession?: AllSessionInfo;
+}
+
 export function Step1AddressModal(): JSX.Element {
   return (
     <Modal title="Why do you need my address?" onCloseGoBack render={({close}) => (
@@ -45,7 +49,12 @@ export function Step1AddressModal(): JSX.Element {
   );
 }
 
-export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
+export default class OnboardingStep1 extends React.Component<OnboardingStep1Props, OnboardingStep1State> {
+  constructor(props: OnboardingStep1Props) {
+    super(props);
+    this.state = {};
+  }
+
   @autobind
   handleSubmit(input: OnboardingStep1Input) {
     return fetchOnboardingStep1Mutation(this.props.fetch, { input })
@@ -77,7 +86,32 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?
         </ModalLink>
+        {this.state.successSession && this.renderSuccessModalOrRedirect(this.state.successSession, ctx.fieldPropsFor('address').value)}
       </React.Fragment>
+    );
+  }
+
+  renderSuccessModalOrRedirect(successSession: AllSessionInfo, enteredAddress: string): JSX.Element {
+    const finalStep1 = assertNotNull(successSession.onboardingStep1);
+    const nextStep = Routes.onboarding.step2;
+
+    if (finalStep1.address.toUpperCase() === enteredAddress.toUpperCase()) {
+      return <Redirect push to={nextStep} />;
+    }
+
+    const handleClose = () => {
+      this.setState({ successSession: undefined });
+    };
+
+    return (
+      <Modal title="Is this your address?" onClose={handleClose} render={({close}) => (
+        <div className="content box">
+          <h1 className="title">Is this your address?</h1>
+          <p>{finalStep1.address}</p>
+          <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
+          <Link to={nextStep} className="button is-primary is-fullwidth">Yes!</Link>
+        </div>
+      )} />
     );
   }
 
@@ -89,8 +123,11 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <br/>
         <FormSubmitter onSubmit={this.handleSubmit}
                        initialState={this.props.initialState || blankInitialState}
-                       onSuccessRedirect={Routes.onboarding.step2}
-                       onSuccess={(output) => { assertNotNull(output.session) && this.props.onSuccess(output.session); }}>
+                       onSuccess={(output) => {
+                         const successSession = assertNotNull(output.session);
+                         this.props.onSuccess(successSession);
+                         this.setState({ successSession })
+                       }}>
           {this.renderForm}
         </FormSubmitter>
       </Page>

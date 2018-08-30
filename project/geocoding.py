@@ -1,10 +1,9 @@
 from typing import List, Optional
+import logging
 import pydantic
 import requests
-import logging
+from django.conf import settings
 
-
-SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
 SEARCH_TIMEOUT = 3
 
@@ -48,7 +47,7 @@ class Feature(pydantic.BaseModel):
     properties: FeatureProperties
 
 
-def search(text) -> Optional[List[Feature]]:
+def search(text: str) -> Optional[List[Feature]]:
     '''
     Retrieves geo search results for the given search
     criteria. For more details, see:
@@ -60,12 +59,16 @@ def search(text) -> Optional[List[Feature]]:
     '''
 
     try:
-        response = requests.get(SEARCH_URL, {'text': text}, timeout=SEARCH_TIMEOUT)
+        response = requests.get(
+            settings.GEOCODING_SEARCH_URL,
+            {'text': text},
+            timeout=SEARCH_TIMEOUT
+        )
         if response.status_code != 200:
             raise Exception(f'Expected 200 response, got {response.status_code}')
         return [Feature(**kwargs) for kwargs in response.json()['features']]
     except Exception:
-        logger.exception(f'Error while retrieving data from {SEARCH_URL}')
+        logger.exception(f'Error while retrieving data from {settings.GEOCODING_SEARCH_URL}')
         return None
 
 

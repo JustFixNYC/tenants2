@@ -20,6 +20,7 @@ def _exec_onboarding_step_1(graphql_client, **input_kwargs):
             'name': '',
             'address': '',
             'aptNumber': '',
+            'borough': '',
             **input_kwargs
         }}
     )
@@ -36,6 +37,7 @@ def test_onboarding_step_1_works(graphql_client):
     info = {
         'name': 'boop',
         'address': '123 boop way',
+        'borough': 'MANHATTAN',
         'aptNumber': '3B'
     }
     result = _exec_onboarding_step_1(graphql_client, **info)

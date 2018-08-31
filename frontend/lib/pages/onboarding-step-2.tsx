@@ -12,6 +12,7 @@ import Routes from '../routes';
 import { bulmaClasses } from '../bulma';
 import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
+import { NextButton } from './onboarding-step-1';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -84,11 +85,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
         <div className="control">
           <Link to={Routes.onboarding.step1} className="button is-text">Back</Link>
         </div>
-        <div className="control">
-          <button type="submit" className={bulmaClasses('button', 'is-primary', {
-            'is-loading': isLoading
-          })}>Next</button>
-        </div>
+        <NextButton isLoading={isLoading} />
       </div>
     );
   }

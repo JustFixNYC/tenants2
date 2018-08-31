@@ -14,6 +14,14 @@ describe('getLatestOnboardingStep()', () => {
       onboardingStep1: {} as any
     })).toBe(Routes.onboarding.step2);
   });
+
+  it('returns step 3 when step 2 is complete', () => {
+    expect(getLatestOnboardingStep({
+      ...FakeSessionInfo,
+      onboardingStep1: {} as any,
+      onboardingStep2: {} as any
+    })).toBe(Routes.onboarding.step3);
+  });
 });
 
 test('RedirectToLatestOnboardingStep returns a redirect', () => {

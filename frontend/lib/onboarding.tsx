@@ -17,6 +17,10 @@ export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescri
     target = Routes.onboarding.step2
   }
 
+  if (session.onboardingStep2) {
+    target = Routes.onboarding.step3;
+  }
+
   return target;
 }
 

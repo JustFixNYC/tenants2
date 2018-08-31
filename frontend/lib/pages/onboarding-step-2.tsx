@@ -1,17 +1,17 @@
 import React from 'react';
-import { OnboardingStep2Input } from "../../queries/globalTypes";
-import { GraphQLFetch } from "../../graphql-client";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
-import Page from '../../page';
-import { FormSubmitter, FormContext, CheckboxFormField } from '../../forms';
+import { OnboardingStep2Input } from "../queries/globalTypes";
+import { GraphQLFetch } from "../graphql-client";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import Page from '../page';
+import { FormSubmitter, FormContext, CheckboxFormField } from '../forms';
 import autobind from 'autobind-decorator';
-import { fetchOnboardingStep2Mutation } from '../../queries/OnboardingStep2Mutation';
-import { assertNotNull } from '../../util';
+import { fetchOnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
+import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
-import Routes from '../../routes';
-import { bulmaClasses } from '../../bulma';
-import { Modal } from '../../modal';
-import AlertableCheckbox from '../../alertable-checkbox';
+import Routes from '../routes';
+import { bulmaClasses } from '../bulma';
+import { Modal } from '../modal';
+import AlertableCheckbox from '../alertable-checkbox';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,

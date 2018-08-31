@@ -7,7 +7,7 @@ import Page from './page';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { GraphQLFetch } from './graphql-client';
 import { Link } from 'react-router-dom';
-import OnboardingStep2 from './tests/pages/onboarding-step-2';
+import OnboardingStep2 from './pages/onboarding-step-2';
 
 
 export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescriptor {

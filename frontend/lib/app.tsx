@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -172,6 +172,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
             onSessionChange={this.handleSessionChange}
           />
         )} />
+        <Route path="/__example-redirect" exact render={() => <Redirect to="/" />} />
         <Route path="/__example-modal" exact component={LoadableExampleModalPage} />>
         <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
         <Route render={NotFound} />

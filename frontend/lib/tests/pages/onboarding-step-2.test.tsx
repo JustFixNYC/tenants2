@@ -19,9 +19,15 @@ describe('onboarding step 2 page', () => {
 
   it('opens eviction modal', () => {
     const pal = ReactTestingLibraryPal.render(createOnboarding());
+    const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
 
+    // When we enable the checkbox, the dialog should show.
     pal.click(/eviction/i, 'label');
-    pal.getDialogWithLabel(/You need legal help/i);
+    getDialog();
     pal.clickButtonOrLink("Continue with letter");
+
+    // Disabling the checkbox should *not* show the dialog.
+    pal.click(/eviction/i, 'label');
+    expect(getDialog).toThrow();
   });
 });

@@ -97,6 +97,8 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
     return (
       <Page title="What type of housing issues are you experiencing?">
         <h1 className="title">What type of housing issues are you experiencing?</h1>
+        <p>Please select <strong>all the issues</strong> that relate to your housing situation. You can add more details later on.</p>
+        <br/>
         <FormSubmitter
           onSubmit={this.handleSubmit}
           initialState={this.props.initialState || blankInitialState}

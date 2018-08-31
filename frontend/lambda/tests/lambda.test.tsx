@@ -15,6 +15,16 @@ const fakeAppProps: AppProps = {
 test('lambda works', async () => {
   const response = await errorCatchingHandler(fakeAppProps);
   expect(response.status).toBe(200);
+  expect(response.location).toBeNull();
+});
+
+test('lambda redirects', async () => {
+  const response = await errorCatchingHandler({
+    ...fakeAppProps,
+    initialURL: '/__example-redirect'
+  });
+  expect(response.status).toBe(302);
+  expect(response.location).toBe('/');
 });
 
 test('lambda catches errors', async () => {

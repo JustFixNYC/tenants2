@@ -22,6 +22,12 @@ def test_index_works(client):
     assert '<nav' in response.context['initial_render']
 
 
+def test_pages_with_redirects_work(client):
+    response = client.get('/__example-redirect')
+    assert response.status_code == 302
+    assert response['location'] == '/'
+
+
 def test_pages_with_extra_bundles_work(client):
     response = client.get('/__loadable-example-page')
     assert response.status_code == 200

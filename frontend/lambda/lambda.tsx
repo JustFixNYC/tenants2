@@ -37,6 +37,9 @@ export interface LambdaResponse {
 
   /** The pre-rendered modal to show, if any. */
   modalHtml: string;
+
+  /** The location to redirect to, if the status is 301 or 302. */
+  location: string|null;
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -92,12 +95,18 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(context.modal);
     }
+    let location = null;
+    if (context.url) {
+      context.statusCode = 302;
+      location = context.url;
+    }
     resolve({
       html,
       titleTag: helmet.title.toString(),
       status: context.statusCode,
       bundleFiles,
-      modalHtml
+      modalHtml,
+      location
     });
   });
 }
@@ -143,7 +152,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       titleTag,
       status: 500,
       bundleFiles: [],
-      modalHtml: ''
+      modalHtml: '',
+      location: null
     };
   });
 }

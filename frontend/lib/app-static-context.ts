@@ -10,6 +10,12 @@ export interface AppStaticContext {
   /** The HTTP status code we want our matched route to return. */
   statusCode: number;
 
+  /**
+   * The URL to redirect to, if any. This is automatically populated by
+   * react-router's default <Redirect> component.
+   */
+  url?: string;
+
   /** The modal to render server-side, if any. */
   modal?: JSX.Element;
 }

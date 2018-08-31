@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField } from '../forms';
+import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField, ChoiceFormFieldProps, SelectFormField } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
@@ -29,6 +29,41 @@ describe('TextualFormField', () => {
 
   it('renders properly when it has errors', () => {
     const html = makeButton({ errors: ['this cannot be blank'] }).html();
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('aria-label="Foo, this cannot be blank"');
+    expect(html).toContain('is-danger');
+  });
+});
+
+describe('SelectFormField', () => {
+  const makeSelect = (props: Partial<ChoiceFormFieldProps> = {}) => {
+    const defaultProps: ChoiceFormFieldProps = {
+      onChange: jest.fn(),
+      value: '',
+      name: 'foo',
+      isDisabled: false,
+      choices: [
+        ['BAR', 'Bar'],
+        ['BAZ', 'Baz']
+      ],
+      label: 'Foo'
+    };
+    return shallow(
+      <SelectFormField
+        {...defaultProps}
+        {...props}
+      />
+    );
+  }
+
+  it('renders properly when it has no errors', () => {
+    const html = makeSelect().html();
+    expect(html).toContain('aria-invalid="false"');
+    expect(html).not.toContain('is-danger');
+  });
+
+  it('renders properly when it has errors', () => {
+    const html = makeSelect({ errors: ['this cannot be blank'] }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');

@@ -9,7 +9,6 @@ import { fetchOnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation
 import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
-import { bulmaClasses } from '../bulma';
 import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton } from './onboarding-step-1';

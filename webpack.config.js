@@ -59,7 +59,8 @@ function createNodeScriptConfig(entry, filename) {
     externals: [nodeExternals()],
     output: {
       filename,
-      path: path.resolve(BASE_DIR)
+      path: path.resolve(BASE_DIR),
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     },
     module: {
       rules: [

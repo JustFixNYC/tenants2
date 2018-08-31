@@ -161,6 +161,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
           <LoadableOnboardingRoutes
             session={this.state.session}
             fetch={this.fetch}
+            onCancelOnboarding={
+              // If onboarding is explicitly cancelled, we want to flush the
+              // user's session to preserve their privacy, so that any
+              // sensitive data they've entered is removed from their browser.
+              // Since it's assumed they're not logged in anyways, we can do
+              // this by "logging out", which also clears all session data.
+              this.handleLogout
+            }
             onSessionChange={this.handleSessionChange}
           />
         )} />

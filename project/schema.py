@@ -109,8 +109,7 @@ class Logout(graphene.Mutation):
 
     def mutate(self, info: ResolveInfo) -> 'Logout':
         request = info.context
-        if request.user.is_authenticated:
-            logout(request)
+        logout(request)
         return Logout(session=SessionInfo())
 
 

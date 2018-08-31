@@ -22,9 +22,10 @@ const blankInitialState: OnboardingStep1Input = {
   borough: '',
 };
 
-interface OnboardingStep1Props {
+export interface OnboardingStep1Props {
   fetch: GraphQLFetch;
   onSuccess: (session: AllSessionInfo) => void;
+  onCancel: () => void;
   initialState?: OnboardingStep1Input|null;
 }
 
@@ -69,7 +70,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     return (
       <div className="field is-grouped">
         <div className="control">
-          <Link to={Routes.home} className="button is-text">Cancel</Link>
+          <Link to={Routes.home} className="button is-text" onClick={this.props.onCancel}>Cancel</Link>
         </div>
         <div className="control">
           <button type="submit" className={bulmaClasses('button', 'is-primary', {

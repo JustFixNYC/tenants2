@@ -26,6 +26,7 @@ export function RedirectToLatestOnboardingStep(props: { session: AllSessionInfo 
 export interface OnboardingRoutesProps {
   session: AllSessionInfo;
   fetch: GraphQLFetch;
+  onCancelOnboarding: () => void;
   onSessionChange: (session: AllSessionInfo) => void;
 }
 
@@ -37,6 +38,7 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
       </Route>
       <Route path={Routes.onboarding.step1}>
         <OnboardingStep1
+          onCancel={props.onCancelOnboarding}
           fetch={props.fetch}
           onSuccess={props.onSessionChange}
           initialState={props.session.onboardingStep1}

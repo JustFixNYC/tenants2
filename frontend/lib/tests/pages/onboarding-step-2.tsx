@@ -10,6 +10,8 @@ import { assertNotNull } from '../../util';
 import { Link } from 'react-router-dom';
 import Routes from '../../routes';
 import { bulmaClasses } from '../../bulma';
+import { Modal } from '../../modal';
+import AlertableCheckbox from '../../alertable-checkbox';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -18,6 +20,24 @@ const blankInitialState: OnboardingStep2Input = {
   hasPests: false,
   hasCalled311: false,
 };
+
+export function Step2EvictionModal(): JSX.Element {
+  return (
+    <Modal title="You need legal help" onCloseGoBack render={({close}) => (
+      <div className="content box">
+        <h1 className="title">You need legal help</h1>
+        <p>
+          If you're in an eviction, it's important to try to get legal help right away.
+        </p>
+        <p>
+          Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
+        </p>
+        <a href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</a>
+        <button className="button is-text is-fullwidth" onClick={close}>Continue with letter</button>
+      </div>
+    )} />
+  );
+}
 
 export interface OnboardingStep2Props {
   fetch: GraphQLFetch;
@@ -36,9 +56,11 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
   renderForm(ctx: FormContext<OnboardingStep2Input>): JSX.Element {
     return (
       <React.Fragment>
-        <CheckboxFormField {...ctx.fieldPropsFor('isInEviction')}>
+        <AlertableCheckbox modal={Step2EvictionModal}
+                           modalPath={Routes.onboarding.step2EvictionModal}
+                           {...ctx.fieldPropsFor('isInEviction')}>
           I received an eviction notice.
-        </CheckboxFormField>
+        </AlertableCheckbox>
         <CheckboxFormField {...ctx.fieldPropsFor('needsRepairs')}>
           I need repairs made in my apartment.
         </CheckboxFormField>

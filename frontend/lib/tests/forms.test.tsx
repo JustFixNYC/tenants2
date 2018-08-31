@@ -1,16 +1,23 @@
 import React from 'react';
-import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField, ChoiceFormFieldProps, SelectFormField } from '../forms';
+import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField, ChoiceFormFieldProps, SelectFormField, BaseFormFieldProps, formatErrors } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
+import { assertNotNull } from '../util';
+
+function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
+  return {
+    onChange: jest.fn(),
+    name: 'foo',
+    isDisabled: false,
+    ...props
+  };
+}
 
 describe('TextualFormField', () => {
   const makeButton = (props: Partial<TextualFormFieldProps> = {}) => {
     const defaultProps: TextualFormFieldProps = {
-      onChange: jest.fn(),
-      value: '',
-      name: 'foo',
-      isDisabled: false,
+      ...baseFieldProps({ value: '' }),
       label: 'Foo'
     };
     return shallow(
@@ -38,10 +45,7 @@ describe('TextualFormField', () => {
 describe('SelectFormField', () => {
   const makeSelect = (props: Partial<ChoiceFormFieldProps> = {}) => {
     const defaultProps: ChoiceFormFieldProps = {
-      onChange: jest.fn(),
-      value: '',
-      name: 'foo',
-      isDisabled: false,
+      ...baseFieldProps({ value: '' }),
       choices: [
         ['BAR', 'Bar'],
         ['BAZ', 'Baz']
@@ -73,10 +77,7 @@ describe('SelectFormField', () => {
 describe('CheckboxFormField', () => {
   const makeCheckbox = (props: Partial<BooleanFormFieldProps> = {}) => {
     const defaultProps: BooleanFormFieldProps = {
-      onChange: jest.fn(),
-      value: false,
-      name: 'foo',
-      isDisabled: false,
+      ...baseFieldProps({ value: false }),
       children: 'Foo'
     };
     return shallow(
@@ -95,6 +96,31 @@ describe('CheckboxFormField', () => {
   it('renders properly when it has errors', () => {
     const html = makeCheckbox({ errors: ['this must be checked'] }).html();
     expect(html).toContain('aria-invalid="true"');
+  });
+});
+
+describe('formatErrors()', () => {
+  it('concatenates errors', () => {
+    const { errorHelp } = formatErrors({
+      ...baseFieldProps({ value: '' }),
+      errors: ['foo', 'bar']
+    });
+    expect(shallow(assertNotNull(errorHelp)).html())
+      .toBe('<p class="help is-danger">foo, bar</p>');
+  });
+
+  it('returns null for errorHelp when no errors exist', () => {
+    expect(formatErrors({
+      ...baseFieldProps({ value: '' })
+    }).errorHelp).toBeNull();
+  });
+
+  it('creates an ariaLabel', () => {
+    expect(formatErrors({
+      ...baseFieldProps({ value: '' }),
+      errors: ['this field is required'],
+      label: 'Name'
+    }).ariaLabel).toBe('Name, this field is required');
   });
 });
 

@@ -112,16 +112,16 @@ export interface BaseFormFieldProps<T> {
  * dispute on what the best way to present form validation errors
  * to screen readers is, and this approach seems to work).
  */
-function formatErrors(props: BaseFormFieldProps<any> & { label: string }): {
+export function formatErrors(props: BaseFormFieldProps<any> & { label: string }): {
   errorHelp: JSX.Element|null,
   ariaLabel: string
 };
 
-function formatErrors(props: BaseFormFieldProps<any>): {
+export function formatErrors(props: BaseFormFieldProps<any>): {
   errorHelp: JSX.Element|null,
 };
 
-function formatErrors(props: BaseFormFieldProps<any> & { label?: string }): {
+export function formatErrors(props: BaseFormFieldProps<any> & { label?: string }): {
   errorHelp: JSX.Element|null,
   ariaLabel?: string
 } {
@@ -129,7 +129,7 @@ function formatErrors(props: BaseFormFieldProps<any> & { label?: string }): {
   let errorHelp = null;
 
   if (props.errors) {
-    const allErrors = props.errors.join(' ');
+    const allErrors = props.errors.join(', ');
     errorHelp = <p className="help is-danger">{allErrors}</p>;
     if (props.label !== undefined) {
       ariaLabel = `${ariaLabel}, ${allErrors}`;

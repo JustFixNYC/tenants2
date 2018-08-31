@@ -51,6 +51,14 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   componentDidMount() {
     this.setState({ isActive: true });
+
+    // It's possible that this modal was pre-rendered on the
+    // server side. If so, get rid of it, since we've just
+    // replaced it with this component instance.
+    const prerenderedModalEl = document.getElementById('prerendered-modal');
+    if (prerenderedModalEl && prerenderedModalEl.parentNode) {
+      prerenderedModalEl.parentNode.removeChild(prerenderedModalEl);
+    }
   }
 
   renderServerModal(): JSX.Element {

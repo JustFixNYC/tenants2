@@ -12,16 +12,17 @@ declare let __webpack_public_path__: string;
 window.addEventListener('load', () => {
   const div = getElement('div', '#main');
   const initialPropsEl = getElement('script', '#initial-props');
-  const prerenderedModalEl = getElement('div', '#prerendered-modal');
   if (!initialPropsEl.textContent) {
     throw new Error('Assertion failure, #initial-props must contain text');
   }
   const initialProps = JSON.parse(initialPropsEl.textContent) as AppProps;
   __webpack_public_path__  = initialProps.server.webpackPublicPathURL;
-  if (!prerenderedModalEl.parentNode) {
-    throw new Error('Assertion failure, pre-rendered modal must have a parent');
-  }
+
+  // It's possible that the server-side has made our main div
+  // hidden because a pre-rendered modal is intended to contain
+  // all keyboard-focusable elements in case JS couldn't be loaded.
+  // Since JS is now loaded, let's remove that restriction.
   div.removeAttribute('hidden');
-  prerenderedModalEl.parentNode.removeChild(prerenderedModalEl);
+
   startApp(div, initialProps);
 });

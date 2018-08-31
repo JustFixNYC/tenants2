@@ -18,6 +18,15 @@ describe('ModalWithoutRouter', () => {
 });
 
 describe('Modal', () => {
+  it('removes pre-rendered modal on mount', () => {
+    const div = document.createElement('div');
+    div.id = 'prerendered-modal';
+    document.body.appendChild(div);
+    expect(div.parentNode).toBe(document.body);
+    mountWithRouter(<Modal title="blah"><p>hello</p></Modal>);
+    expect(div.parentNode).toBeNull();
+  });
+
   it('renders body when mounted, renders nothing when closed', () => {
     const { wrapper } = mountWithRouter(
       <Modal title="blah"><p>hello</p></Modal>

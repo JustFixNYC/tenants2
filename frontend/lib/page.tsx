@@ -1,6 +1,5 @@
 import React from 'react';
 import { Helmet } from "react-helmet";
-import Navbar from './navbar';
 import Loadable from 'react-loadable';
 import { AriaAnnouncement } from './aria';
 

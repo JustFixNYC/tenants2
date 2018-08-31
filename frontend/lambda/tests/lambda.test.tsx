@@ -4,7 +4,7 @@ import { Readable } from 'stream';
 
 import { errorCatchingHandler, handleFromJSONStream, LambdaResponse, isPlainJsObject } from '../lambda';
 import { AppProps } from '../../lib/app';
-import { FakeServerInfo, FakeSessionInfo, FakeAppContext } from '../../lib/tests/util';
+import { FakeServerInfo, FakeSessionInfo } from '../../lib/tests/util';
 
 const fakeAppProps: AppProps = {
   initialURL: '/',

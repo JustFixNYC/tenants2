@@ -1,6 +1,6 @@
 import React from 'react';
-import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField, ChoiceFormFieldProps, SelectFormField, BaseFormFieldProps, formatErrors } from '../forms';
-import { createTestGraphQlClient, FakeSessionInfo } from './util';
+import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField, ChoiceFormFieldProps, SelectFormField, BaseFormFieldProps, formatErrors } from '../forms';
+import { createTestGraphQlClient } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
 import { assertNotNull } from '../util';

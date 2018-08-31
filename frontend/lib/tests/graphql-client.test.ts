@@ -1,4 +1,3 @@
-import GraphQlClient from "../graphql-client";
 import { createTestGraphQlClient as createClient } from './util';
 
 describe('GraphQLClient', () => {

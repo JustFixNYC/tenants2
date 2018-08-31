@@ -1,13 +1,8 @@
+/// <reference path="main-globals.d.ts" />
+
 import { startApp, AppProps } from './app';
 import { getElement } from './util';
 
-/**
- * This global allows us to tell Webpack where to lazy-load JS
- * bundles from. For more details, see:
- * 
- * https://webpack.js.org/guides/public-path/#on-the-fly
- */
-declare let __webpack_public_path__: string;
 
 window.addEventListener('load', () => {
   const div = getElement('div', '#main');
@@ -16,6 +11,8 @@ window.addEventListener('load', () => {
     throw new Error('Assertion failure, #initial-props must contain text');
   }
   const initialProps = JSON.parse(initialPropsEl.textContent) as AppProps;
+
+  // See main-globals.d.ts for more details on this.
   __webpack_public_path__  = initialProps.server.webpackPublicPathURL;
 
   // It's possible that the server-side has made our main div

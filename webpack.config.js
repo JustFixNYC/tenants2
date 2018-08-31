@@ -30,7 +30,15 @@ const tsLoaderOptions = {
    * results in spurious errors. For more information, see
    * https://github.com/TypeStrong/ts-loader/issues/267.
    */
-  onlyCompileBundledFiles: true
+  onlyCompileBundledFiles: true,
+  compilerOptions: {
+    /**
+     * Allow unused locals during development, because it's useful for
+     * tinkering. Our linter will error on them to ensure that CI fails
+     * if code is committed with them.
+     */
+    noUnusedLocals: false
+  }
 };
 
 const baseBabelOptions = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoginInput } from './queries/globalTypes';
 
-import { TextualFormField, Form, BaseFormProps, FormSubmitter } from './forms';
+import { TextualFormField, FormSubmitter } from './forms';
 import { bulmaClasses } from './bulma';
 import { GraphQLFetch } from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';

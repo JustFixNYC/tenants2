@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';

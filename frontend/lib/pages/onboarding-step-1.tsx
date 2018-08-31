@@ -2,7 +2,7 @@ import React from 'react';
 import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
-import { Link, Route, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { TextualFormField, FormSubmitter, FormContext, SelectFormField } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';

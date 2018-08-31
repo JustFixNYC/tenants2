@@ -33,6 +33,16 @@ interface OnboardingStep1State {
   successSession?: AllSessionInfo;
 }
 
+export function NextButton(props: { isLoading: boolean }) {
+  return (
+    <div className="control">
+      <button type="submit" className={bulmaClasses('button', 'is-primary', {
+        'is-loading': props.isLoading
+      })}>Next</button>
+    </div>
+  );
+}
+
 export function areAddressesTheSame(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
@@ -72,11 +82,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <div className="control">
           <Link to={Routes.home} className="button is-text" onClick={this.props.onCancel}>Cancel</Link>
         </div>
-        <div className="control">
-          <button type="submit" className={bulmaClasses('button', 'is-primary', {
-            'is-loading': isLoading
-          })}>Next</button>
-        </div>
+        <NextButton isLoading={isLoading} />
       </div>
     );
   }

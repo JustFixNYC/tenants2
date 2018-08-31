@@ -15,6 +15,29 @@ export interface LogoutMutation_logout_session_onboardingStep1 {
   borough: string;
 }
 
+export interface LogoutMutation_logout_session_onboardingStep2 {
+  /**
+   * Has the user received an eviction notice?
+   */
+  isInEviction: boolean;
+  /**
+   * Does the user need repairs in their apartment?
+   */
+  needsRepairs: boolean;
+  /**
+   * Is the user missing essential services like water?
+   */
+  hasNoServices: boolean;
+  /**
+   * Does the user have pests like rodents or bed bugs?
+   */
+  hasPests: boolean;
+  /**
+   * Has the user called 311 before?
+   */
+  hasCalled311: boolean;
+}
+
 export interface LogoutMutation_logout_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -29,6 +52,7 @@ export interface LogoutMutation_logout_session {
    */
   isStaff: boolean;
   onboardingStep1: LogoutMutation_logout_session_onboardingStep1 | null;
+  onboardingStep2: LogoutMutation_logout_session_onboardingStep2 | null;
 }
 
 export interface LogoutMutation_logout {

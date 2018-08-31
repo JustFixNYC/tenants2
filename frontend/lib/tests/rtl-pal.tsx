@@ -25,11 +25,14 @@ export default class ReactTestingLibraryPal {
     this.rt = rt;
   }
 
+  /** Click anything with the given text and selector. */
+  click(matcher: RegExp|string, selector: string) {
+    rt.fireEvent.click(this.rr.getByText(matcher, { selector }));
+  }
+
   /** Click a button or link in the render result. */
   clickButtonOrLink(matcher: RegExp|string) {
-    rt.fireEvent.click(this.rr.getByText(matcher, {
-      selector: 'a, button'
-    }));
+    this.click(matcher, 'a, button');
   }
 
   /** Fill out multiple form fields in the render result. */

@@ -7,6 +7,7 @@ import Page from './page';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { GraphQLFetch } from './graphql-client';
 import { Link } from 'react-router-dom';
+import OnboardingStep2 from './pages/onboarding-step-2';
 
 
 export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescriptor {
@@ -14,6 +15,10 @@ export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescri
 
   if (session.onboardingStep1) {
     target = Routes.onboarding.step2
+  }
+
+  if (session.onboardingStep2) {
+    target = Routes.onboarding.step3;
   }
 
   return target;
@@ -44,11 +49,18 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
           initialState={props.session.onboardingStep1}
         />
       </Route>
-      <Route path={Routes.onboarding.step2} exact>
+      <Route path={Routes.onboarding.step2}>
+        <OnboardingStep2
+          fetch={props.fetch}
+          onSuccess={props.onSessionChange}
+          initialState={props.session.onboardingStep2}
+        />
+      </Route>
+      <Route path={Routes.onboarding.step3} exact>
         <Page title="Oops">
           <p>Sorry, this page hasn't been built yet.</p>
           <br/>
-          <Link to={Routes.onboarding.step1}>Go back to step 1</Link>
+          <Link to={Routes.onboarding.step2}>Go back to step 2</Link>
         </Page>
       </Route>
     </Switch>

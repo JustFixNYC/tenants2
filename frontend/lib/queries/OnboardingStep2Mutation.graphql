@@ -1,0 +1,11 @@
+mutation OnboardingStep2Mutation($input: OnboardingStep2Input!) {
+    onboardingStep2(input: $input) {
+        errors {
+            field,
+            messages
+        },
+        session {
+            ...AllSessionInfo
+        }
+    }
+}

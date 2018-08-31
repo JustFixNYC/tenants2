@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps } from '../forms';
+import { getFormErrors, FormSubmitter, FormFieldError, FormErrors, Form, FormProps, TextualFormField, BaseFormProps, TextualFormFieldProps, BooleanFormFieldProps, CheckboxFormField } from '../forms';
 import { createTestGraphQlClient, FakeSessionInfo } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
@@ -32,6 +32,34 @@ describe('TextualFormField', () => {
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
+  });
+});
+
+describe('CheckboxFormField', () => {
+  const makeCheckbox = (props: Partial<BooleanFormFieldProps> = {}) => {
+    const defaultProps: BooleanFormFieldProps = {
+      onChange: jest.fn(),
+      value: false,
+      name: 'foo',
+      isDisabled: false,
+      children: 'Foo'
+    };
+    return shallow(
+      <CheckboxFormField
+        {...defaultProps}
+        {...props}
+      />
+    );
+  }
+
+  it('renders properly when it has no errors', () => {
+    const html = makeCheckbox().html();
+    expect(html).toContain('aria-invalid="false"');
+  });
+
+  it('renders properly when it has errors', () => {
+    const html = makeCheckbox({ errors: ['this must be checked'] }).html();
+    expect(html).toContain('aria-invalid="true"');
   });
 });
 

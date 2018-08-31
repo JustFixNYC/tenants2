@@ -104,9 +104,26 @@ export interface BaseFormFieldProps<T> {
   isDisabled: boolean;
 }
 
+/**
+ * Combine multiple errors into a single string and return it.
+ * 
+ * Also, if we're provided with a label, construct an ARIA label
+ * consisting of the original label followed by the errors (there's
+ * dispute on what the best way to present form validation errors
+ * to screen readers is, and this approach seems to work).
+ */
 function formatErrors(props: BaseFormFieldProps<any> & { label: string }): {
   errorHelp: JSX.Element|null,
   ariaLabel: string
+};
+
+function formatErrors(props: BaseFormFieldProps<any>): {
+  errorHelp: JSX.Element|null,
+};
+
+function formatErrors(props: BaseFormFieldProps<any> & { label?: string }): {
+  errorHelp: JSX.Element|null,
+  ariaLabel?: string
 } {
   let ariaLabel = props.label;
   let errorHelp = null;
@@ -114,7 +131,9 @@ function formatErrors(props: BaseFormFieldProps<any> & { label: string }): {
   if (props.errors) {
     const allErrors = props.errors.join(' ');
     errorHelp = <p className="help is-danger">{allErrors}</p>;
-    ariaLabel = `${ariaLabel}, ${allErrors}`;
+    if (props.label !== undefined) {
+      ariaLabel = `${ariaLabel}, ${allErrors}`;
+    }
   }
 
   return { errorHelp, ariaLabel };
@@ -152,6 +171,29 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
           </select>
         </div>
       </div>
+      {errorHelp}
+    </div>
+  );
+}
+
+export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
+  children: any;
+}
+
+export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
+  const { errorHelp } = formatErrors(props);
+
+  return (
+    <div className="field">
+      <label className="checkbox">
+        <input
+          type="checkbox"
+          checked={props.value}
+          aria-invalid={ariaBool(!!props.errors)}
+          disabled={props.isDisabled}
+          onChange={(e) => props.onChange(e.target.checked)}
+        /> {props.children}
+      </label>
       {errorHelp}
     </div>
   );

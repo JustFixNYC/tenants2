@@ -11,6 +11,8 @@ from . import forms
 
 ONBOARDING_STEP_1_SESSION_KEY = 'onboarding_step_1'
 
+ONBOARDING_STEP_2_SESSION_KEY = 'onboarding_step_2'
+
 
 class OnboardingStep1Info(graphene.ObjectType):
     locals().update(fields_for_form(forms.OnboardingStep1Form(), [], []))
@@ -23,6 +25,10 @@ class OnboardingStep1Info(graphene.ObjectType):
             "not because the address is invalid."
         )
     )
+
+
+class OnboardingStep2Info(graphene.ObjectType):
+    locals().update(fields_for_form(forms.OnboardingStep2Form(), [], []))
 
 
 class SessionInfo(graphene.ObjectType):
@@ -45,6 +51,8 @@ class SessionInfo(graphene.ObjectType):
 
     onboarding_step_1 = graphene.Field(OnboardingStep1Info)
 
+    onboarding_step_2 = graphene.Field(OnboardingStep2Info)
+
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -63,6 +71,11 @@ class SessionInfo(graphene.ObjectType):
         obinfo = request.session.get(ONBOARDING_STEP_1_SESSION_KEY)
         return OnboardingStep1Info(**obinfo) if obinfo else None
 
+    def resolve_onboarding_step_2(self, info: ResolveInfo) -> Optional[OnboardingStep2Info]:
+        request = info.context
+        obinfo = request.session.get(ONBOARDING_STEP_2_SESSION_KEY)
+        return OnboardingStep2Info(**obinfo) if obinfo else None
+
 
 class OnboardingStep1(DjangoFormMutation):
     class Meta:
@@ -74,6 +87,19 @@ class OnboardingStep1(DjangoFormMutation):
     def perform_mutate(cls, form: forms.OnboardingStep1Form, info: ResolveInfo):
         request = info.context
         request.session[ONBOARDING_STEP_1_SESSION_KEY] = form.cleaned_data
+        return cls(errors=[], session=SessionInfo())
+
+
+class OnboardingStep2(DjangoFormMutation):
+    class Meta:
+        form_class = forms.OnboardingStep2Form
+
+    session = graphene.Field(SessionInfo)
+
+    @classmethod
+    def perform_mutate(cls, form: forms.OnboardingStep2Form, info: ResolveInfo):
+        request = info.context
+        request.session[ONBOARDING_STEP_2_SESSION_KEY] = form.cleaned_data
         return cls(errors=[], session=SessionInfo())
 
 
@@ -117,6 +143,7 @@ class Mutations(graphene.ObjectType):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     onboarding_step_1 = OnboardingStep1.Field(required=True)
+    onboarding_step_2 = OnboardingStep2.Field(required=True)
 
 
 class Query(graphene.ObjectType):

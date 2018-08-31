@@ -15,6 +15,7 @@ const Routes = {
     step1: '/onboarding/step/1',
     step1AddressModal: '/onboarding/step/1/address-modal',
     step2: '/onboarding/step/2',
+    step3: '/onboarding/step/3',
   }
 };
 

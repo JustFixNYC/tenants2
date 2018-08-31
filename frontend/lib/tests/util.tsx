@@ -49,7 +49,8 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
   isStaff: false,
-  onboardingStep1: null
+  onboardingStep1: null,
+  onboardingStep2: null
 };
 
 export const FakeAppContext: AppContextType = {

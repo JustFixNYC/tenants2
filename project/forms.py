@@ -44,6 +44,28 @@ class OnboardingStep1Form(forms.Form):
         return cleaned_data
 
 
+class OnboardingStep2Form(forms.Form):
+    is_in_eviction = forms.BooleanField(
+        required=False,
+        help_text="Has the user received an eviction notice?")
+
+    needs_repairs = forms.BooleanField(
+        required=False,
+        help_text="Does the user need repairs in their apartment?")
+
+    has_no_services = forms.BooleanField(
+        required=False,
+        help_text="Is the user missing essential services like water?")
+
+    has_pests = forms.BooleanField(
+        required=False,
+        help_text="Does the user have pests like rodents or bed bugs?")
+
+    has_called_311 = forms.BooleanField(
+        required=False,
+        help_text="Has the user called 311 before?")
+
+
 class LoginForm(forms.Form):
     phone_number = forms.CharField(max_length=PHONE_NUMBER_LEN)
 

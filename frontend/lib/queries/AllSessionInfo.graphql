@@ -7,5 +7,12 @@ fragment AllSessionInfo on SessionInfo {
         address
         aptNumber,
         borough
+    },
+    onboardingStep2 {
+        isInEviction
+        needsRepairs
+        hasNoServices
+        hasPests
+        hasCalled311
     }
 }

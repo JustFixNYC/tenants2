@@ -19,6 +19,15 @@ export interface OnboardingStep1Input {
   clientMutationId?: string | null;
 }
 
+export interface OnboardingStep2Input {
+  isInEviction: boolean;
+  needsRepairs: boolean;
+  hasNoServices: boolean;
+  hasPests: boolean;
+  hasCalled311: boolean;
+  clientMutationId?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

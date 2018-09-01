@@ -3,7 +3,7 @@ import Page from '../page';
 import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link, Redirect } from 'react-router-dom';
-import { TextualFormField, FormSubmitter, FormContext, SelectFormField } from '../forms';
+import { FormSubmitter, FormContext } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
@@ -12,6 +12,7 @@ import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
 import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
+import { TextualFormField, SelectFormField } from '../form-fields';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
 

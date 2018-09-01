@@ -3,7 +3,7 @@ import { OnboardingStep2Input } from "../queries/globalTypes";
 import { GraphQLFetch } from "../graphql-client";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import Page from '../page';
-import { FormSubmitter, FormContext, CheckboxFormField } from '../forms';
+import { FormSubmitter, FormContext } from '../forms';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 import { assertNotNull } from '../util';
@@ -12,6 +12,7 @@ import Routes from '../routes';
 import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton } from './onboarding-step-1';
+import { CheckboxFormField } from '../form-fields';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,

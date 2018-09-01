@@ -1,5 +1,5 @@
 import React from 'react';
-import { BooleanFormFieldProps, CheckboxFormField } from "./forms";
+import { BooleanFormFieldProps, CheckboxFormField } from "./form-fields";
 import { RouteComponentProps, Route, withRouter } from "react-router";
 
 export interface AlertableCheckboxProps extends BooleanFormFieldProps {

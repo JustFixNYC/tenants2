@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoginInput } from './queries/globalTypes';
 
-import { TextualFormField, FormSubmitter } from './forms';
+import { FormSubmitter } from './forms';
 import { bulmaClasses } from './bulma';
 import { GraphQLFetch } from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
@@ -9,6 +9,7 @@ import autobind from 'autobind-decorator';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { assertNotNull } from './util';
 import { LocationDescriptor } from 'history';
+import { TextualFormField } from './form-fields';
 
 const initialState: LoginInput = {
   phoneNumber: '',

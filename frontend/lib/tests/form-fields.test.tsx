@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField } from "../form-fields";
+import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField } from "../form-fields";
 import { shallow } from "enzyme";
 
 function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
@@ -7,6 +7,18 @@ function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T })
     onChange: jest.fn(),
     name: 'foo',
     isDisabled: false,
+    ...props
+  };
+}
+
+function choiceFieldProps(props: Partial<ChoiceFormFieldProps> = {}): ChoiceFormFieldProps {
+  return {
+    ...baseFieldProps({ value: '' }),
+    choices: [
+      ['BAR', 'Bar'],
+      ['BAZ', 'Baz']
+    ],
+    label: 'Foo',
     ...props
   };
 }
@@ -41,19 +53,8 @@ describe('TextualFormField', () => {
 
 describe('SelectFormField', () => {
   const makeSelect = (props: Partial<ChoiceFormFieldProps> = {}) => {
-    const defaultProps: ChoiceFormFieldProps = {
-      ...baseFieldProps({ value: '' }),
-      choices: [
-        ['BAR', 'Bar'],
-        ['BAZ', 'Baz']
-      ],
-      label: 'Foo'
-    };
     return shallow(
-      <SelectFormField
-        {...defaultProps}
-        {...props}
-      />
+      <SelectFormField {...choiceFieldProps(props)} />
     );
   }
 
@@ -65,6 +66,27 @@ describe('SelectFormField', () => {
 
   it('renders properly when it has errors', () => {
     const html = makeSelect({ errors: ['this cannot be blank'] }).html();
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('aria-label="Foo, this cannot be blank"');
+    expect(html).toContain('is-danger');
+  });
+});
+
+describe('RadiosFormField', () => {
+  const makeRadios = (props: Partial<ChoiceFormFieldProps> = {}) => {
+    return shallow(
+      <RadiosFormField {...choiceFieldProps(props)} />
+    );
+  }
+
+  it('renders properly when it has no errors', () => {
+    const html = makeRadios().html();
+    expect(html).toContain('aria-invalid="false"');
+    expect(html).not.toContain('is-danger');
+  });
+
+  it('renders properly when it has errors', () => {
+    const html = makeRadios({ errors: ['this cannot be blank'] }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');

@@ -30,6 +30,33 @@ export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   label: string;
 }
 
+/** A JSX component that encapsulates a set of radio buttons. */
+export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
+  let { ariaLabel, errorHelp } = formatErrors(props);
+
+  return (
+    <div className="field" role="group" aria-label={ariaLabel}>
+      <label className="label" aria-hidden="true">{props.label}</label>
+      <div className="control">
+        {props.choices.map(([choice, label]) => (
+          <label className="radio" key={choice}>
+            <input
+              type="radio"
+              name={props.name}
+              value={choice}
+              checked={props.value === choice}
+              aria-invalid={ariaBool(!!props.errors)}
+              disabled={props.isDisabled}
+              onChange={(e) => props.onChange(choice) }
+            /> {label}
+          </label>
+        ))}
+      </div>
+      {errorHelp}
+    </div>
+  );
+}
+
 /** A JSX component that encapsulates a <select> tag. */
 export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);

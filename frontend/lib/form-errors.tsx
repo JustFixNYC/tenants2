@@ -86,7 +86,14 @@ export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element
   );
 }
 
-type ObjWithErrors = { errors?: string[] };
+/** An object that potentially has form field errors associated with it. */
+export type WithFormFieldErrors = {
+  /**
+   * This should either be undefined, or an array with one or more elements.
+   * It should never be an empty array.
+   */
+  errors?: string[];
+};
 
 /**
  * Combine multiple errors into a single string and return it.
@@ -96,16 +103,16 @@ type ObjWithErrors = { errors?: string[] };
  * dispute on what the best way to present form validation errors
  * to screen readers is, and this approach seems to work).
  */
-export function formatErrors(props: ObjWithErrors & { label: string }): {
+export function formatErrors(props: WithFormFieldErrors & { label: string }): {
   errorHelp: JSX.Element|null,
   ariaLabel: string
 };
 
-export function formatErrors(props: ObjWithErrors): {
+export function formatErrors(props: WithFormFieldErrors): {
   errorHelp: JSX.Element|null,
 };
 
-export function formatErrors(props: ObjWithErrors & { label?: string }): {
+export function formatErrors(props: WithFormFieldErrors & { label?: string }): {
   errorHelp: JSX.Element|null,
   ariaLabel?: string
 } {

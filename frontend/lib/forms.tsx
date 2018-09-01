@@ -5,18 +5,15 @@ import { LocationDescriptor } from 'history';
 import { AriaAnnouncement, ariaBool } from './aria';
 import { DjangoChoices } from './common-data';
 import { bulmaClasses } from './bulma';
-import { formatErrors, WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
+import { formatErrors, WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, WithFormFieldErrors } from './form-errors';
 
 
 /**
  * Base properties that form fields need to have.
  */
-export interface BaseFormFieldProps<T> {
+export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
   /** Event handler to call when the field's value changes. */
   onChange: (value: T) => void;
-
-  /** List of validation errors, if any, for the field. */
-  errors?: string[];
 
   /** The current value of the field. */
   value: T;

@@ -1,5 +1,7 @@
 import React from 'react';
 
+/** The server uses this as the field "name" for non-field errors. */
+const SERVER_NON_FIELD_ERROR = '__all__';
 
 /**
  * This is the form validation error type returned from the server.
@@ -48,7 +50,7 @@ export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> 
   };
 
   errors.forEach(error => {
-    if (error.field === '__all__') {
+    if (error.field === SERVER_NON_FIELD_ERROR) {
       result.nonFieldErrors.push(...error.messages);
     } else {
       // Note that we're forcing a typecast here. It's not ideal, but

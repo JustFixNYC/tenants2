@@ -3,7 +3,7 @@ import { FormSubmitter, Form, TextualFormField, BaseFormProps, TextualFormFieldP
 import { createTestGraphQlClient } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
-import { FormFieldError, FormErrors } from '../form-errors';
+import { ServerFormFieldError, FormErrors } from '../form-errors';
 
 function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
   return {
@@ -100,7 +100,7 @@ describe('CheckboxFormField', () => {
 });
 
 type MyFormOutput = {
-  errors: FormFieldError[],
+  errors: ServerFormFieldError[],
   session: string
 };
 

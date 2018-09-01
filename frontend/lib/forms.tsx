@@ -5,7 +5,7 @@ import { LocationDescriptor } from 'history';
 import { AriaAnnouncement, ariaBool } from './aria';
 import { DjangoChoices } from './common-data';
 import { bulmaClasses } from './bulma';
-import { formatErrors, WithFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
+import { formatErrors, WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 
 
 /**
@@ -132,7 +132,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   );
 }
 
-interface FormSubmitterProps<FormInput, FormOutput extends WithFieldErrors> {
+interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess: (output: FormOutput) => void;
   onSuccessRedirect?: LocationDescriptor;
@@ -145,7 +145,7 @@ type FormSubmitterState<FormInput> = BaseFormProps<FormInput> & {
 };
 
 /** This class encapsulates common logic for form submission. */
-export class FormSubmitter<FormInput, FormOutput extends WithFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
     super(props);
     this.state = {

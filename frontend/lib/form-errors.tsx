@@ -4,7 +4,7 @@ import React from 'react';
 /**
  * This is the form validation error type returned from the server.
  */
-export interface FormFieldError {
+export interface ServerFormFieldError {
   field: string;
   messages: string[];
 }
@@ -13,8 +13,8 @@ export interface FormFieldError {
  * Any form validation done by the server will return an object that
  * looks like this.
  */
-export type WithFieldErrors = {
-  errors: FormFieldError[];
+export type WithServerFormFieldErrors = {
+  errors: ServerFormFieldError[];
 };
 
 // This type is parameterized by the form input, so that each
@@ -41,7 +41,7 @@ export interface FormErrors<T> {
  * 
  * @param errors A list of errors from the server.
  */
-export function getFormErrors<T>(errors: FormFieldError[]): FormErrors<T> {
+export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> {
   const result: FormErrors<T> = {
     nonFieldErrors: [],
     fieldErrors: {}

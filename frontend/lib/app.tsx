@@ -14,7 +14,7 @@ import { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import LogoutPage from './pages/logout-page';
-import Routes, { isModalRoute } from './routes';
+import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 
@@ -172,9 +172,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
             onSessionChange={this.handleSessionChange}
           />
         )} />
-        <Route path="/__example-redirect" exact render={() => <Redirect to="/" />} />
-        <Route path="/__example-modal" exact component={LoadableExampleModalPage} />>
-        <Route path="/__loadable-example-page" exact component={LoadableExamplePage} />
+        <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
+        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
+        <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
         <Route render={NotFound} />
       </Switch>
     );
@@ -192,7 +192,12 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               <div className="hero-body">
                 <div className="container box has-background-white" ref={this.pageBodyRef}
                      data-jf-is-noninteractive tabIndex={-1}>
-                {this.renderRoutes()}
+                <Route path="/" render={(props) => {
+                  if (routeMap.exists(props.location.pathname)) {
+                    return this.renderRoutes();
+                  }
+                  return NotFound(props);
+                }} />
                 </div>
               </div>
               <div className="hero-foot"></div>

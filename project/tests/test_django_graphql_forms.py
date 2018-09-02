@@ -9,6 +9,18 @@ from ..util.django_graphql_forms import DjangoFormMutation
 class FooForm(forms.Form):
     bar_field = forms.CharField()
 
+    multi_field = forms.MultipleChoiceField(choices=[
+        ('A', 'choice a'),
+        ('B', 'choice b')
+    ], required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        multi_field = cleaned_data.get('multi_field')
+
+        if multi_field:
+            assert isinstance(multi_field, list)
+
 
 class Foo(DjangoFormMutation):
     class Meta:
@@ -32,10 +44,13 @@ def jsonify(obj):
     return json.loads(json.dumps(obj))
 
 
-def query(bar_field):
-    return '''
-    mutation {
-        foo(input: {barField: "%s"}) {
+def execute_query(bar_field='blah', multi_field=None):
+    client = Client(schema)
+    input_var = {'barField': bar_field, 'multiField': multi_field}
+
+    return jsonify(client.execute('''
+    mutation MyMutation($input: FooInput!) {
+        foo(input: $input) {
             bazField,
             errors {
                 field,
@@ -43,12 +58,24 @@ def query(bar_field):
             }
         }
     }
-    ''' % bar_field
+    ''', variables={'input': input_var}))
+
+
+def test_muliple_choice_fields_accept_lists():
+    result = execute_query(multi_field=['A', 'B'])
+    assert result['data']['foo']['errors'] == []
+
+    result = execute_query(multi_field=['A', 'b'])
+    assert result['data']['foo']['errors'] == [{
+        'field': 'multiField',
+        'messages': [
+            'Select a valid choice. b is not one of the available choices.'
+        ]
+    }]
 
 
 def test_valid_forms_return_data():
-    client = Client(schema)
-    assert jsonify(client.execute(query('HI'))) == {
+    assert execute_query(bar_field='HI') == {
         'data': {
             'foo': {
                 'bazField': 'HI back',
@@ -59,8 +86,7 @@ def test_valid_forms_return_data():
 
 
 def test_invalid_forms_return_camelcased_errors():
-    client = Client(schema)
-    assert jsonify(client.execute(query(''))) == {
+    assert execute_query(bar_field='') == {
         'data': {
             'foo': {
                 'bazField': None,

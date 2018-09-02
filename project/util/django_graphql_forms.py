@@ -3,9 +3,15 @@
     to resolve some of its limitations.
 '''
 
+from django import forms
 import graphene
 import graphene_django.forms.mutation
+from graphene_django.forms.converter import convert_form_field, convert_form_field_to_list
 from graphene.utils.str_converters import to_camel_case
+
+# Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
+# add support for it.
+convert_form_field.register(forms.MultipleChoiceField)(convert_form_field_to_list)
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):

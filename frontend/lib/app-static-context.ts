@@ -1,4 +1,19 @@
 import { StaticRouterContext, RouteComponentProps } from "react-router";
+import { QueuedRequest } from "./graphql-client";
+
+export type RequestForServer = {
+  query: string;
+  variables: any;
+};
+
+export type ResponseFromServer = {
+  response: any;
+} & RequestForServer;
+
+interface PromiseMapValue {
+  promise: Promise<any>;
+  result?: any;
+}
 
 /**
  * This structure keeps track of anything we need during server-side
@@ -18,6 +33,24 @@ export interface AppStaticContext {
 
   /** The modal to render server-side, if any. */
   modal?: JSX.Element;
+
+  /** The HTTP method of the request we're responding to. */
+  method: 'GET'|'POST';
+
+  /** The decoded application/x-www-form-urlencoded POST body, if we're responding to a POST. */
+  postBody?: any;
+
+  /** Whether or not we've handled the POST request (assuming we're responding to one). */
+  wasPostHandled?: boolean;
+
+  /** Get information about any GraphQL requests our components have made during our render. */
+  getQueuedRequests?: () => QueuedRequest[];
+
+  /** A mapping of Promises we need to fulfill before we can render our final response. */
+  promiseMap: Map<string, PromiseMapValue>;
+
+  /** Responses to any GraphQL queries the server has provided us with in advance. */
+  responsesFromServer: ResponseFromServer[];
 }
 
 /**

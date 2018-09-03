@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
-import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+import { appStaticContextAsStaticRouterContext, AppStaticContext, RequestForServer, ResponseFromServer } from '../lib/app-static-context';
 
 const readFile = promisify(fs.readFile);
 
@@ -40,6 +40,12 @@ export interface LambdaResponse {
 
   /** The location to redirect to, if the status is 301 or 302. */
   location: string|null;
+
+  /**
+   * GraphQL requests we need the server to respond to before we can
+   * render a final response.
+   */
+  requestsForServer: RequestForServer[];
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -48,7 +54,16 @@ type EventProps = AppProps & {
    * This isn't particularly, elegant, but it's used during integration testing
    *to ensure that this process' handling of internal server errors works properly.
    */
-  testInternalServerError?: boolean
+  testInternalServerError?: boolean;
+
+  /** The HTTP method of the request we're responding to. */
+  method: 'GET'|'POST';
+
+  /** The decoded application/x-www-form-urlencoded POST body, if we're responding to a POST. */
+  postBody: any;
+
+  /** Responses to any GraphQL queries the server has provided us with in advance. */
+  responsesFromServer: ResponseFromServer[];
 };
 
 /** Render the HTML for the requested URL and return it. */
@@ -76,39 +91,99 @@ function renderAppHtml(
  * @param bundleStats Statistics on what modules exist in which JS bundles, for
  *   lazy loading purposes.
  */
-function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
-  return new Promise<LambdaResponse>(resolve => {
+function generateResponse(event: EventProps, bundleStats: any): Promise<LambdaResponse> {
+  function render(resolve: (result: LambdaResponse) => void, reject: (reason: any) => void, promiseMap: AppStaticContext["promiseMap"] = new Map()) {
     const context: AppStaticContext = {
       statusCode: 200,
+      method: event.method,
+      postBody: event.postBody,
+      promiseMap,
+      responsesFromServer: event.responsesFromServer
     };
     const modules: string[] = [];
-
+  
     /* istanbul ignore next */
     const loadableProps: LoadableCaptureProps = {
       report(moduleName) { modules.push(moduleName) }
     };
 
     const html = renderAppHtml(event, context, loadableProps);
-    const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
-    let modalHtml = '';
-    if (context.modal) {
-      modalHtml = ReactDOMServer.renderToStaticMarkup(context.modal);
-    }
-    let location = null;
-    if (context.url) {
-      context.statusCode = 302;
-      location = context.url;
-    }
-    resolve({
-      html,
-      titleTag: helmet.title.toString(),
-      status: context.statusCode,
-      bundleFiles,
-      modalHtml,
-      location
+
+    // TODO: If this was a POST and the POST wasn't handled, we should return
+    // some kind of error.
+
+    process.nextTick(() => {
+      const queuedRequests = context.getQueuedRequests ? context.getQueuedRequests() : [];
+      const requestsForServer: RequestForServer[] = queuedRequests.map(req => ({
+        query: req.query,
+        variables: req.variables || null      
+      }));
+
+      if (requestsForServer.length) {
+        resolve({
+          html: '',
+          titleTag: '',
+          status: 0,
+          bundleFiles: [],
+          modalHtml: '',
+          location: null,
+          requestsForServer
+        });
+        return;
+      }
+
+      if (context.promiseMap.size) {
+        const promises: Promise<any>[] = [];
+        for (let mapValue of context.promiseMap.values()) {
+          if (mapValue.result === undefined) {
+            promises.push(mapValue.promise);
+          }
+        }
+        if (promises.length) {
+          // const timeout = setTimeout(() => reject('blah'), 1000);
+
+          // TODO: This assumes that none of the promises will issue
+          // any more subsequent requests from the server. If they do,
+          // we will hang.
+          Promise.all(promises).then(promiseResults => {
+            for (let i = 0; i < promises.length; i++) {
+              for (let mapValue of context.promiseMap.values()) {
+                if (promises[i] === mapValue.promise) {
+                  mapValue.result = promiseResults[i];
+                  break;
+                }
+              }
+            }
+            render(resolve, reject, promiseMap);
+          }).catch(reject);
+          return;
+        }
+      }
+
+      const helmet = Helmet.renderStatic();
+      const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
+      let modalHtml = '';
+      if (context.modal) {
+        modalHtml = ReactDOMServer.renderToStaticMarkup(context.modal);
+      }
+      let location = null;
+      if (context.url) {
+        context.statusCode = 302;
+        location = context.url;
+      }
+      resolve({
+        html,
+        titleTag: helmet.title.toString(),
+        status: context.statusCode,
+        bundleFiles,
+        modalHtml,
+        location,
+        requestsForServer: []
+      });
     });
-  });
+  }
+
+  return new Promise<LambdaResponse>(render);
 }
 
 /**
@@ -153,7 +228,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       status: 500,
       bundleFiles: [],
       modalHtml: '',
-      location: null
+      location: null,
+      requestsForServer: []
     };
   });
 }

@@ -1,11 +1,15 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { Redirect } from 'react-router';
+import { Redirect, Route, RouteComponentProps } from 'react-router';
 import { LocationDescriptor } from 'history';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
+import { getAppStaticContext } from './app-static-context';
+import { AppContext } from './app-context';
 
+
+const CSRF_TOKEN_NAME = "csrfmiddlewaretoken";
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
@@ -19,14 +23,72 @@ type FormSubmitterState<FormInput> = BaseFormProps<FormInput> & {
   wasSuccessfullySubmitted: boolean
 };
 
+type FormSubmitterPropsWithCtx<FormInput, FormOutput extends WithServerFormFieldErrors> =
+  FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any> & {
+    csrfToken: string
+  };
+
 /** This class encapsulates common logic for form submission. */
-export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
-  constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
+export class FormSubmitterWithoutCtx<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithCtx<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+  postedInitialState?: FormInput;
+
+  constructor(props: FormSubmitterPropsWithCtx<FormInput, FormOutput>) {
     super(props);
     this.state = {
       isLoading: false,
       wasSuccessfullySubmitted: false
     };
+    const staticContext = getAppStaticContext(this.props);
+    if (staticContext && staticContext.method === 'POST') {
+      if (staticContext.postBody) {
+        const input = {} as FormInput;
+        for (let key in props.initialState) {
+          input[key] = staticContext.postBody[key];
+        }
+        this.postedInitialState = input;
+        staticContext.wasPostHandled = true;
+
+        const mapKey = JSON.stringify(input);
+        const mapValue = staticContext.promiseMap.get(mapKey);
+
+        if (mapValue) {
+          if (mapValue.result) {
+            this.handleFormOutput(mapValue.result);
+          }
+          return;
+        } else {
+          staticContext.promiseMap.set(mapKey, { promise: props.onSubmit(input) });
+        }
+      }
+    }
+  }
+
+  updateState(state: FormSubmitterState<FormInput>) {
+    const staticContext = getAppStaticContext(this.props);
+
+    if (staticContext) {
+      this.state = state;
+    } else {
+      this.setState(state);
+    }
+  }
+
+  @autobind
+  handleFormOutput(output: FormOutput) {
+    if (output.errors.length) {
+      this.updateState({
+        isLoading: false,
+        errors: getFormErrors<FormInput>(output.errors),
+        wasSuccessfullySubmitted: false
+      });
+    } else {
+      this.updateState({
+        isLoading: false,
+        errors: undefined,
+        wasSuccessfullySubmitted: true
+      });
+      this.props.onSuccess(output);
+    }
   }
 
   @autobind
@@ -36,20 +98,7 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
       errors: undefined,
       wasSuccessfullySubmitted: false
     });
-    return this.props.onSubmit(input).then(output => {
-      if (output.errors.length) {
-        this.setState({
-          isLoading: false,
-          errors: getFormErrors<FormInput>(output.errors)
-        });
-      } else {
-        this.setState({
-          isLoading: false,
-          wasSuccessfullySubmitted: true
-        });
-        this.props.onSuccess(output);
-      }
-    }).catch(e => {
+    return this.props.onSubmit(input).then(this.handleFormOutput).catch(e => {
       this.setState({ isLoading: false });
     });
   }
@@ -59,11 +108,23 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
       return <Redirect push to={this.props.onSuccessRedirect} />;
     }
     return (
-      <Form isLoading={this.state.isLoading} errors={this.state.errors} initialState={this.props.initialState} onSubmit={this.handleSubmit}>
+      <Form isLoading={this.state.isLoading} errors={this.state.errors} initialState={this.postedInitialState || this.props.initialState} onSubmit={this.handleSubmit} csrfToken={this.props.csrfToken}>
         {this.props.children}
       </Form>
     );
   }
+}
+
+export function FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors>(props: FormSubmitterProps<FormInput, FormOutput>): JSX.Element {
+  return (
+    <AppContext.Consumer>
+      {(appCtx) => (
+        <Route render={(routerProps) => (
+          <FormSubmitterWithoutCtx {...routerProps} {...props} csrfToken={appCtx.session.csrfToken} />
+        )} />
+      )}
+    </AppContext.Consumer>
+  );
 }
 
 export interface BaseFormProps<FormInput> {
@@ -75,6 +136,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  csrfToken?: string;
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {
@@ -113,7 +175,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} method={this.props.csrfToken ? "POST" : "GET"}>
+        {this.props.csrfToken && <input type="hidden" name={CSRF_TOKEN_NAME} value={this.props.csrfToken} />}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />

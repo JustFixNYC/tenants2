@@ -17,6 +17,7 @@ import LogoutPage from './pages/logout-page';
 import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
+import { getAppStaticContext } from './app-static-context';
 
 
 export interface AppProps {
@@ -70,9 +71,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
 
   constructor(props: AppPropsWithRouter) {
     super(props);
+    const ctx = getAppStaticContext(props);
+
     this.gqlClient = new GraphQlClient(
       props.server.batchGraphQLURL,
-      props.initialSession.csrfToken
+      props.initialSession.csrfToken,
+      ctx ? null : undefined,
+      undefined,
+      ctx ? ctx.responsesFromServer : []
     );
     this.state = {
       session: props.initialSession,
@@ -180,7 +186,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     );
   }
 
-  render() {
+  renderApp(): JSX.Element {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <AppContext.Provider value={this.getAppContext()}>
@@ -206,6 +212,18 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         </AppContext.Provider>
       </ErrorBoundary>
     );
+  }
+
+  render(): JSX.Element {
+    const result = this.renderApp();
+
+    const appContext = getAppStaticContext(this.props);
+
+    if (appContext) {
+      appContext.getQueuedRequests = this.gqlClient.getRequestQueue;
+    }
+
+    return result;
   }
 }
 

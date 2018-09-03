@@ -1,4 +1,5 @@
 import autobind from 'autobind-decorator';
+import { ResponseFromServer } from './app-static-context';
 
 const DEFAULT_TIMEOUT_MS = 100;
 
@@ -9,7 +10,7 @@ interface GraphQLBody {
   variables?: any;
 }
 
-interface queuedRequest {
+export interface QueuedRequest {
   query: string;
   variables?: any;
   resolve: (result: any) => void;
@@ -31,23 +32,25 @@ export class GraphQlError extends Error {
 
 export default class GraphQlClient {
   csrfToken: string;
-  private readonly requestQueue: queuedRequest[] = [];
+  private readonly requestQueue: QueuedRequest[] = [];
   private timeout?: any;
 
   constructor(
     readonly batchGraphQLURL: string,
     csrfToken: string,
     readonly timeoutMs: number|null = DEFAULT_TIMEOUT_MS,
-    readonly fetchImpl: typeof fetch|null = null
+    readonly fetchImpl: typeof fetch|null = null,
+    readonly responsesFromServer: ResponseFromServer[] = [],
   ) {
     this.csrfToken = csrfToken;
   }
 
-  getRequestQueue(): queuedRequest[] {
+  @autobind
+  getRequestQueue(): QueuedRequest[] {
     return this.requestQueue.slice();
   }
 
-  private createBodies(requests: queuedRequest[]): GraphQLBody[] {
+  private createBodies(requests: QueuedRequest[]): GraphQLBody[] {
     return requests.map(({ query, variables }) => {
       const body: GraphQLBody = { query };
 
@@ -73,7 +76,7 @@ export default class GraphQlClient {
     });
   }
 
-  private resolveRequests(requests: queuedRequest[], results: any[]) {
+  private resolveRequests(requests: QueuedRequest[], results: any[]) {
     requests.forEach(({ resolve, reject }, i) => {
       const result = results[i];
       if (result && result.data) {
@@ -84,7 +87,7 @@ export default class GraphQlClient {
     });
   }
 
-  private rejectRequests(requests: queuedRequest[], error: Error) {
+  private rejectRequests(requests: QueuedRequest[], error: Error) {
     requests.forEach(({ reject }) => reject(error));
   }
 
@@ -117,6 +120,18 @@ export default class GraphQlClient {
 
   @autobind
   async fetch(query: string, variables?: any): Promise<any> {
+    for (let res of this.responsesFromServer) {
+      if (res.query === query) {
+        // TODO: Also deep compare the variables.
+        // TODO: There's some code duplication going on here from resolveRequests().
+        if (res.response.data) {
+          return Promise.resolve(res.response.data);
+        } else {
+          return Promise.reject(new GraphQlError('GraphQL request failed', res.response));
+        }
+      }
+    }
+
     if (this.timeout === undefined && this.timeoutMs !== null) {
       this.timeout = setTimeout(this.fetchQueuedRequests, this.timeoutMs);
     }

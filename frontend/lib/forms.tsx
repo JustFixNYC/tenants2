@@ -59,7 +59,13 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
       return <Redirect push to={this.props.onSuccessRedirect} />;
     }
     return (
-      <Form isLoading={this.state.isLoading} errors={this.state.errors} initialState={this.props.initialState} onSubmit={this.handleSubmit}>
+      <Form
+        isLoading={this.state.isLoading}
+        errors={this.state.errors}
+        initialState={this.props.initialState}
+        onSubmit={this.handleSubmit}
+        wasSuccessfullySubmitted={this.state.wasSuccessfullySubmitted}
+      >
         {this.props.children}
       </Form>
     );
@@ -75,6 +81,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  wasSuccessfullySubmitted?: boolean;
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormSubmitter, Form, BaseFormProps } from '../forms';
+import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter } from '../forms';
 import { createTestGraphQlClient } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
@@ -26,15 +26,18 @@ describe('FormSubmitter', () => {
     const onSuccess = jest.fn();
 
     const wrapper = shallow(
-      <FormSubmitter
+      <FormSubmitterWithoutRouter
+        history={null as any}
+        location={null as any}
+        match={null as any}
         onSubmit={(input: MyFormInput) => client.fetch('blah', { input }).then(r => r.login) }
         onSuccess={(output: MyFormOutput) => { onSuccess(output); }}
         initialState={myInitialState}
       >
         {(ctx) => <br/>}
-      </FormSubmitter>
+      </FormSubmitterWithoutRouter>
     );
-    const form = wrapper.instance() as FormSubmitter<MyFormInput, MyFormOutput>;
+    const form = wrapper.instance() as FormSubmitterWithoutRouter<MyFormInput, MyFormOutput>;
     return { form, client, onSuccess };
   };
 

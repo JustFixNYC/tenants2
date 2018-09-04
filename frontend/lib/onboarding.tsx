@@ -61,7 +61,7 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
           initialState={props.session.onboardingStep2}
         />
       </Route>
-      <Route path={Routes.onboarding.step3} exact>
+      <Route path={Routes.onboarding.step3}>
         <OnboardingStep3
           fetch={props.fetch}
           onSuccess={props.onSessionChange}

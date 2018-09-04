@@ -8,7 +8,6 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import autobind from 'autobind-decorator';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { assertNotNull } from './util';
-import { LocationDescriptor } from 'history';
 import { TextualFormField } from './form-fields';
 
 const initialState: LoginInput = {
@@ -19,7 +18,7 @@ const initialState: LoginInput = {
 export interface LoginFormProps {
   fetch: GraphQLFetch;
   onSuccess: (session: AllSessionInfo) => void;
-  onSuccessRedirect?: LocationDescriptor;
+  onSuccessRedirect?: string;
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {

@@ -1,7 +1,6 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { Redirect } from 'react-router';
-import { LocationDescriptor } from 'history';
+import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
@@ -9,23 +8,22 @@ import { BaseFormFieldProps } from './form-fields';
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
-  onSuccess: (output: FormOutput) => void;
-  onSuccessRedirect?: LocationDescriptor;
+  onSuccess?: (output: FormOutput) => void;
+  onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
 }
 
-type FormSubmitterState<FormInput> = BaseFormProps<FormInput> & {
-  wasSuccessfullySubmitted: boolean
-};
+type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
+
+type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
 
 /** This class encapsulates common logic for form submission. */
-export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
-  constructor(props: FormSubmitterProps<FormInput, FormOutput>) {
+export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+  constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
     super(props);
     this.state = {
-      isLoading: false,
-      wasSuccessfullySubmitted: false
+      isLoading: false
     };
   }
 
@@ -33,8 +31,7 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
   handleSubmit(input: FormInput) {
     this.setState({
       isLoading: true,
-      errors: undefined,
-      wasSuccessfullySubmitted: false
+      errors: undefined
     });
     return this.props.onSubmit(input).then(output => {
       if (output.errors.length) {
@@ -44,10 +41,18 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
         });
       } else {
         this.setState({
-          isLoading: false,
-          wasSuccessfullySubmitted: true
+          isLoading: false
         });
-        this.props.onSuccess(output);
+        const { onSuccessRedirect } = this.props;
+        if (onSuccessRedirect) {
+          let redirect = typeof(onSuccessRedirect) === 'function'
+            ? onSuccessRedirect(output, input)
+            : onSuccessRedirect;
+          this.props.history.push(redirect);
+        }
+        if (this.props.onSuccess) {
+          this.props.onSuccess(output);
+        }
       }
     }).catch(e => {
       this.setState({ isLoading: false });
@@ -55,19 +60,25 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
   }
 
   render() {
-    if (this.state.wasSuccessfullySubmitted && this.props.onSuccessRedirect) {
-      return <Redirect push to={this.props.onSuccessRedirect} />;
-    }
     return (
       <Form
         isLoading={this.state.isLoading}
         errors={this.state.errors}
         initialState={this.props.initialState}
         onSubmit={this.handleSubmit}
-        wasSuccessfullySubmitted={this.state.wasSuccessfullySubmitted}
       >
         {this.props.children}
       </Form>
+    );
+  }
+}
+
+export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
+  render() {
+    return (
+      <Route render={(ctx) => (
+        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
+      )} />
     );
   }
 }
@@ -81,7 +92,6 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
-  wasSuccessfullySubmitted?: boolean;
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {

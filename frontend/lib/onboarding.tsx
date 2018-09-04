@@ -3,12 +3,11 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import Routes from './routes';
 import { Redirect, Switch, Route } from 'react-router';
 import { LocationDescriptor } from 'history';
-import Page from './page';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { GraphQLFetch } from './graphql-client';
-import { Link } from 'react-router-dom';
 import OnboardingStep2 from './pages/onboarding-step-2';
 import OnboardingStep3 from './pages/onboarding-step-3';
+import OnboardingStep4 from './pages/onboarding-step-4';
 
 
 export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescriptor {
@@ -68,12 +67,11 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
           initialState={props.session.onboardingStep3}
         />
       </Route>
-      <Route path={Routes.onboarding.step4} exact>
-        <Page title="Oops">
-          <p>Sorry, this page hasn't been built yet.</p>
-          <br/>
-          <Link to={Routes.onboarding.step3}>Go back to step 3</Link>
-        </Page>
+      <Route path={Routes.onboarding.step4}>
+        <OnboardingStep4
+          fetch={props.fetch}
+          onSuccess={props.onSessionChange}
+        />
       </Route>
     </Switch>
   );

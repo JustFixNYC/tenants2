@@ -2,6 +2,7 @@ from typing import Optional
 from django import forms
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser
 from project.common_data import Choices
@@ -100,6 +101,37 @@ class OnboardingStep3Form(forms.Form):
     receives_public_assistance = forms.BooleanField(
         required=False,
         help_text="Does the user receive public assistance, e.g. Section 8?")
+
+
+class OnboardingStep4Form(forms.Form):
+    phone_number = USPhoneNumberField()
+
+    can_we_sms = forms.BooleanField(required=True)
+
+    password = forms.CharField()
+
+    confirm_password = forms.CharField()
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        validate_password(password)
+        return password
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        if JustfixUser.objects.filter(phone_number=phone_number).exists():
+            # TODO: Are we leaking valuable PII here?
+            raise ValidationError('A user with that phone number already exists.')
+        return phone_number
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError('Passwords do not match!')
 
 
 class LoginForm(forms.Form):

@@ -129,6 +129,19 @@ class OnboardingStep3(DjangoFormMutation):
         return cls(errors=[], session=SessionInfo())
 
 
+class OnboardingStep4(DjangoFormMutation):
+    class Meta:
+        form_class = forms.OnboardingStep4Form
+
+    session = graphene.Field(SessionInfo)
+
+    @classmethod
+    def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
+        # TODO: Actually create user account and associate onboarding details
+        # from previous steps with it.
+        return cls(errors=[], session=SessionInfo())
+
+
 class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -171,6 +184,7 @@ class Mutations(graphene.ObjectType):
     onboarding_step_1 = OnboardingStep1.Field(required=True)
     onboarding_step_2 = OnboardingStep2.Field(required=True)
     onboarding_step_3 = OnboardingStep3.Field(required=True)
+    onboarding_step_4 = OnboardingStep4.Field(required=True)
 
 
 class Query(graphene.ObjectType):

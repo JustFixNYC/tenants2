@@ -34,6 +34,14 @@ export interface OnboardingStep3Input {
   clientMutationId?: string | null;
 }
 
+export interface OnboardingStep4Input {
+  phoneNumber: string;
+  canWeSms: boolean;
+  password: string;
+  confirmPassword: string;
+  clientMutationId?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

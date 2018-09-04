@@ -6,7 +6,7 @@ import Page from '../page';
 import { FormSubmitter, FormContext } from '../forms';
 import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton } from './onboarding-step-1';
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
@@ -15,6 +15,7 @@ import { fetchOnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation
 import { Modal } from '../modal';
 
 export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
+const NEXT_STEP = Routes.onboarding.step4;
 
 /** These are just the values we refer to in code, not necessarily all possible values. */
 export const LeaseChoiceValues = {
@@ -25,6 +26,18 @@ const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
   receivesPublicAssistance: false
 };
+
+export function RentStabilizedModal(): JSX.Element {
+  return (
+    <Modal title="Great news!" onCloseGoTo={NEXT_STEP}>
+      <div className="content box">
+        <h1 className="title">Great news!</h1>
+        <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
+        <Link to={NEXT_STEP} className="button is-primary is-fullwidth">Got it!</Link>
+      </div>
+    </Modal>
+  );
+}
 
 export interface OnboardingStep3Props {
   fetch: GraphQLFetch;
@@ -48,8 +61,6 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           I receive public assistance (Section 8, FEHPS, Link, HASA, other)
         </CheckboxFormField>
         {this.renderFormButtons(ctx.isLoading)}
-        {ctx.wasSuccessfullySubmitted &&
-          this.renderSuccessModalOrRedirect(ctx.fieldPropsFor('leaseType').value) }
       </React.Fragment>
     );
   }
@@ -65,22 +76,13 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
     );
   }
 
-  renderSuccessModalOrRedirect(leaseType: string): JSX.Element {
-    const nextStep = Routes.onboarding.step4;
-
-    if (leaseType === LeaseChoiceValues.RENT_STABILIZED) {
-      return (
-        <Modal title="Great news!">
-          <div className="content box">
-            <h1 className="title">Great news!</h1>
-            <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
-            <Link to={nextStep} className="button is-primary is-fullwidth">Got it!</Link>
-          </div>
-        </Modal>
-      );
-    } else {
-      return <Redirect push to={nextStep} />;
+  getSuccessRedirect(leaseType: string): string {
+    switch (leaseType) {
+      case LeaseChoiceValues.RENT_STABILIZED:
+      return Routes.onboarding.step3RentStabilizedModal;
     }
+
+    return NEXT_STEP;
   }
 
   render() {
@@ -92,8 +94,12 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
         <FormSubmitter
           onSubmit={this.handleSubmit}
           initialState={this.props.initialState || blankInitialState}
-          onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session))}
+          onSuccessRedirect={(output, input) => {
+            this.props.onSuccess(assertNotNull(output.session));
+            return this.getSuccessRedirect(input.leaseType);
+          }}
         >{this.renderForm}</FormSubmitter>
+        <Route path={Routes.onboarding.step3RentStabilizedModal} component={RentStabilizedModal} />
       </Page>
     );
   }

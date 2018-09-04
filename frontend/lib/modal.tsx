@@ -22,6 +22,7 @@ interface ModalProps {
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
   onClose?: () => void;
   onCloseGoBack?: boolean;
+  onCloseGoTo?: string;
 }
 
 type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
@@ -43,6 +44,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     this.setState({ isActive: false });
     if (this.props.onCloseGoBack) {
       this.props.history.goBack();
+    }
+    if (this.props.onCloseGoTo) {
+      this.props.history.push(this.props.onCloseGoTo);
     }
     if (this.props.onClose) {
       this.props.onClose();

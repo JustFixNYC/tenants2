@@ -70,6 +70,15 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
         <p>For more details, visit <a href="https://amirentstabilized.com/">amirentstabilized.com</a>.</p>
       </LeaseInfoModal>
     )
+  },
+  {
+    route: Routes.onboarding.step3NoLeaseModal,
+    leaseType: 'NO_LEASE',
+    component: () => (
+      <LeaseInfoModal title="No lease">
+        <p>If you are a month-to-month tenant, you don't have many rights protecting you from "landlord retaliation".</p>
+      </LeaseInfoModal>
+    )
   }
 ];
 

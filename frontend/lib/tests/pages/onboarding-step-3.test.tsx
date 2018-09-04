@@ -1,6 +1,6 @@
 import React from 'react';
 
-import OnboardingStep3, { OnboardingStep3Props, LeaseChoiceValues, LEASE_CHOICES } from '../../pages/onboarding-step-3';
+import OnboardingStep3, { OnboardingStep3Props, LEASE_CHOICES, LEASE_MODALS } from '../../pages/onboarding-step-3';
 import { MemoryRouter } from 'react-router';
 import ReactTestingLibraryPal from '../rtl-pal';
 import { validateDjangoChoices } from '../../common-data';
@@ -29,7 +29,7 @@ describe('onboarding step 3 page', () => {
     let session: AllSessionInfo = {
       ...FakeSessionInfo,
       onboardingStep3: {
-        leaseType: LeaseChoiceValues.RENT_STABILIZED,
+        leaseType: 'RENT_STABILIZED',
         receivesPublicAssistance: false
       }
     };
@@ -38,6 +38,6 @@ describe('onboarding step 3 page', () => {
   });
 });
 
-test('LeaseChoiceValues are valid', () => {
-  validateDjangoChoices(LEASE_CHOICES, LeaseChoiceValues);
+test('Lease types are valid', () => {
+  validateDjangoChoices(LEASE_CHOICES, LEASE_MODALS.map(info => info.leaseType));
 });

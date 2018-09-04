@@ -7,7 +7,7 @@ test('getDjangoChoiceLabel() works', () => {
 });
 
 test("validateDjangoChoices() works", () => {
-  expect(validateDjangoChoices([['BLAH', 'boop']], {hmm: 'BLAH'})).toBeUndefined();
-  expect(() => validateDjangoChoices([['BLAH', 'boop']], {hmm: 'NOPE'}))
+  expect(validateDjangoChoices([['BLAH', 'boop']], ['BLAH'])).toBeUndefined();
+  expect(() => validateDjangoChoices([['BLAH', 'boop']], ['NOPE']))
     .toThrow('Unable to find label for value NOPE');
 });

@@ -17,27 +17,70 @@ import { Modal } from '../modal';
 export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
 const NEXT_STEP = Routes.onboarding.step4;
 
-/** These are just the values we refer to in code, not necessarily all possible values. */
-export const LeaseChoiceValues = {
-  RENT_STABILIZED: 'RENT_STABILIZED'
-};
-
 const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
   receivesPublicAssistance: false
 };
 
-export function RentStabilizedModal(): JSX.Element {
+export function LeaseInfoModal(props: { children: any, title: string }): JSX.Element {
   return (
-    <Modal title="Great news!" onCloseGoTo={NEXT_STEP}>
+    <Modal title={props.title} onCloseGoTo={NEXT_STEP}>
       <div className="content box">
-        <h1 className="title">Great news!</h1>
-        <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
+        <h1 className="title">{props.title}</h1>
+        {props.children}
         <Link to={NEXT_STEP} className="button is-primary is-fullwidth">Got it!</Link>
       </div>
     </Modal>
   );
 }
+
+type LeaseModalInfo = {
+  route: string;
+  leaseType: string;
+  component: () => JSX.Element;
+};
+
+export const LEASE_MODALS: LeaseModalInfo[] = [
+  {
+    route: Routes.onboarding.step3RentStabilizedModal,
+    leaseType: 'RENT_STABILIZED',
+    component: () => (
+      <LeaseInfoModal title="Great news!">
+        <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
+      </LeaseInfoModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3MarketRateModal,
+    leaseType: 'MARKET_RATE',
+    component: () => (
+      <LeaseInfoModal title="Market rate lease">
+        <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
+        <p>As a market rate tenant you should be aware of "landlord retaliation" and that you are not guaranteed the right to a renewal lease.</p>
+      </LeaseInfoModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3UncertainLeaseModal,
+    leaseType: 'NOT_SURE',
+    component: () => (
+      <LeaseInfoModal title="Not sure about your lease?">
+        <p>If you aren't sure, check your lease.</p>
+        <p>You can also request a copy of your rental history via email from the Division of Housing and Community Renewal. This is a private request and you'll get a letter in the mail in about a week; the landlord will never know.</p>
+        <p>For more details, visit <a href="https://amirentstabilized.com/">amirentstabilized.com</a>.</p>
+      </LeaseInfoModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3NoLeaseModal,
+    leaseType: 'NO_LEASE',
+    component: () => (
+      <LeaseInfoModal title="No lease">
+        <p>If you are a month-to-month tenant, you don't have many rights protecting you from "landlord retaliation".</p>
+      </LeaseInfoModal>
+    )
+  }
+];
 
 export interface OnboardingStep3Props {
   fetch: GraphQLFetch;
@@ -76,10 +119,11 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
     );
   }
 
-  getSuccessRedirect(leaseType: string): string {
-    switch (leaseType) {
-      case LeaseChoiceValues.RENT_STABILIZED:
-      return Routes.onboarding.step3RentStabilizedModal;
+  static getSuccessRedirect(leaseType: string): string {
+    for (let info of LEASE_MODALS) {
+      if (info.leaseType === leaseType) {
+        return info.route;
+      }
     }
 
     return NEXT_STEP;
@@ -96,10 +140,12 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           initialState={this.props.initialState || blankInitialState}
           onSuccessRedirect={(output, input) => {
             this.props.onSuccess(assertNotNull(output.session));
-            return this.getSuccessRedirect(input.leaseType);
+            return OnboardingStep3.getSuccessRedirect(input.leaseType);
           }}
         >{this.renderForm}</FormSubmitter>
-        <Route path={Routes.onboarding.step3RentStabilizedModal} component={RentStabilizedModal} />
+        {LEASE_MODALS.map(info => (
+          <Route key={info.route} path={info.route} component={info.component} />
+        ))}
       </Page>
     );
   }

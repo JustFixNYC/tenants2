@@ -1,6 +1,7 @@
 import React from 'react';
 import Page from '../page';
 import { Modal } from '../modal';
+import { Link } from 'react-router-dom';
 
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -11,6 +12,7 @@ export default function ExampleModalPage(): JSX.Element {
       <Modal title="Example modal">
         <div className="box content">
           <p>This is an example modal.</p>
+          <Link to="/">Here is an example link.</Link>
         </div>
       </Modal>
     </Page>

@@ -18,6 +18,9 @@ const Routes = {
     step2EvictionModal: '/onboarding/step/2/eviction-modal',
     step3: '/onboarding/step/3',
     step3RentStabilizedModal: '/onboarding/step/3/rent-stabilized-modal',
+    step3MarketRateModal: '/onboarding/step/3/market-rate-modal',
+    step3UncertainLeaseModal: '/onboarding/step/3/uncertain-lease-modal',
+    step3NoLeaseModal: '/onboarding/step/3/no-lease-modal',
     step4: '/onboarding/step/4'
   },
 

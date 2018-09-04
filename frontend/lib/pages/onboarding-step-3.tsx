@@ -19,7 +19,8 @@ const NEXT_STEP = Routes.onboarding.step4;
 
 /** These are just the values we refer to in code, not necessarily all possible values. */
 export const LeaseChoiceValues = {
-  RENT_STABILIZED: 'RENT_STABILIZED'
+  RENT_STABILIZED: 'RENT_STABILIZED',
+  MARKET_RATE: 'MARKET_RATE'
 };
 
 const blankInitialState: OnboardingStep3Input = {
@@ -27,15 +28,32 @@ const blankInitialState: OnboardingStep3Input = {
   receivesPublicAssistance: false
 };
 
-export function RentStabilizedModal(): JSX.Element {
+export function LeaseInfoModal(props: { children: any, title: string }): JSX.Element {
   return (
-    <Modal title="Great news!" onCloseGoTo={NEXT_STEP}>
+    <Modal title={props.title} onCloseGoTo={NEXT_STEP}>
       <div className="content box">
-        <h1 className="title">Great news!</h1>
-        <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
+        <h1 className="title">{props.title}</h1>
+        {props.children}
         <Link to={NEXT_STEP} className="button is-primary is-fullwidth">Got it!</Link>
       </div>
     </Modal>
+  );
+}
+
+export function RentStabilizedModal(): JSX.Element {
+  return (
+    <LeaseInfoModal title="Great news!">
+      <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
+    </LeaseInfoModal>
+  );
+}
+
+export function MarketRateModal(): JSX.Element {
+  return (
+    <LeaseInfoModal title="Market rate lease">
+      <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
+      <p>As a market rate tenant you should be aware of "landlord retaliation" and that you are not guaranteed the right to a renewal lease.</p>
+    </LeaseInfoModal>
   );
 }
 
@@ -76,10 +94,13 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
     );
   }
 
-  getSuccessRedirect(leaseType: string): string {
+  static getSuccessRedirect(leaseType: string): string {
     switch (leaseType) {
       case LeaseChoiceValues.RENT_STABILIZED:
       return Routes.onboarding.step3RentStabilizedModal;
+
+      case LeaseChoiceValues.MARKET_RATE:
+      return Routes.onboarding.step3MarketRateModal;
     }
 
     return NEXT_STEP;
@@ -96,10 +117,11 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           initialState={this.props.initialState || blankInitialState}
           onSuccessRedirect={(output, input) => {
             this.props.onSuccess(assertNotNull(output.session));
-            return this.getSuccessRedirect(input.leaseType);
+            return OnboardingStep3.getSuccessRedirect(input.leaseType);
           }}
         >{this.renderForm}</FormSubmitter>
         <Route path={Routes.onboarding.step3RentStabilizedModal} component={RentStabilizedModal} />
+        <Route path={Routes.onboarding.step3MarketRateModal} component={MarketRateModal} />
       </Page>
     );
   }

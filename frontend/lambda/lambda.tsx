@@ -51,6 +51,15 @@ type EventProps = AppProps & {
   testInternalServerError?: boolean
 };
 
+function ServerRouter(props: { event: AppProps, context: AppStaticContext, children: any }): JSX.Element {
+  return (
+    <StaticRouter
+      location={props.event.initialURL}
+      context={appStaticContextAsStaticRouterContext(props.context)}
+      children={props.children} />
+  );
+}
+
 /** Render the HTML for the requested URL and return it. */
 function renderAppHtml(
   event: AppProps,
@@ -59,11 +68,9 @@ function renderAppHtml(
 ): string {
   return ReactDOMServer.renderToString(
     <Loadable.Capture {...loadableProps}>
-      <StaticRouter
-      location={event.initialURL}
-      context={appStaticContextAsStaticRouterContext(context)}>
+      <ServerRouter event={event} context={context}>
         <App {...event} />
-      </StaticRouter>
+      </ServerRouter>
     </Loadable.Capture>
   );
 }
@@ -93,7 +100,11 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
     let modalHtml = '';
     if (context.modal) {
-      modalHtml = ReactDOMServer.renderToStaticMarkup(context.modal);
+      modalHtml = ReactDOMServer.renderToStaticMarkup(
+        <ServerRouter event={event} context={context}>
+          {context.modal}
+        </ServerRouter>
+      );
     }
     let location = null;
     if (context.url) {

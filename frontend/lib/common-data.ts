@@ -27,13 +27,13 @@ export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): str
 }
 
 /**
- * Validate that the values of the given object are valid choices.
+ * Validate that the given values are valid choices.
  * 
  * This is intended to be used in tests. It should be removed from
  * production bundles via tree-shaking.
  */
-export function validateDjangoChoices(choices: DjangoChoices, obj: any) {
-  Object.keys(obj).forEach(key => {
-    getDjangoChoiceLabel(choices, obj[key]);
+export function validateDjangoChoices(choices: DjangoChoices, values: string[]) {
+  values.forEach(value => {
+    getDjangoChoiceLabel(choices, value);
   });
 }

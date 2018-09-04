@@ -13,6 +13,32 @@ BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
 
+class USPhoneNumberField(forms.CharField):
+    '''
+    A field for a United States phone number.
+    '''
+
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 15  # Allow for extra characters, we'll remove them.
+        super().__init__(*args, **kwargs)
+
+    def clean(self, value: str) -> str:
+        cleaned = super().clean(value)
+        cleaned = ''.join([
+            ch for ch in cleaned
+            if ch in '1234567890'
+        ])
+        if len(cleaned) == PHONE_NUMBER_LEN + 1 and cleaned.startswith('1'):
+            # The user specified the country calling code, remove it.
+            cleaned = cleaned[1:]
+        if len(cleaned) != PHONE_NUMBER_LEN:
+            raise ValidationError(
+                'This does not look like a U.S. phone number. '
+                'Please include the area code, e.g. 555-123-4567.'
+            )
+        return cleaned
+
+
 class OnboardingStep1Form(forms.Form):
     name = forms.CharField(max_length=100)
 
@@ -77,7 +103,7 @@ class OnboardingStep3Form(forms.Form):
 
 
 class LoginForm(forms.Form):
-    phone_number = forms.CharField(max_length=PHONE_NUMBER_LEN)
+    phone_number = USPhoneNumberField()
 
     password = forms.CharField()
 

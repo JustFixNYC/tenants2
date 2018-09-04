@@ -20,7 +20,8 @@ const NEXT_STEP = Routes.onboarding.step4;
 /** These are just the values we refer to in code, not necessarily all possible values. */
 export const LeaseChoiceValues = {
   RENT_STABILIZED: 'RENT_STABILIZED',
-  MARKET_RATE: 'MARKET_RATE'
+  MARKET_RATE: 'MARKET_RATE',
+  NOT_SURE: 'NOT_SURE'
 };
 
 const blankInitialState: OnboardingStep3Input = {
@@ -53,6 +54,16 @@ export function MarketRateModal(): JSX.Element {
     <LeaseInfoModal title="Market rate lease">
       <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
       <p>As a market rate tenant you should be aware of "landlord retaliation" and that you are not guaranteed the right to a renewal lease.</p>
+    </LeaseInfoModal>
+  );
+}
+
+export function UncertainLeaseModal(): JSX.Element {
+  return (
+    <LeaseInfoModal title="Not sure about your lease?">
+      <p>If you aren't sure, check your lease.</p>
+      <p>You can also request a copy of your rental history via email from the Division of Housing and Community Renewal. This is a private request and you'll get a letter in the mail in about a week; the landlord will never know.</p>
+      <p>For more details, visit <a href="https://amirentstabilized.com/">amirentstabilized.com</a>.</p>
     </LeaseInfoModal>
   );
 }
@@ -101,6 +112,9 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
 
       case LeaseChoiceValues.MARKET_RATE:
       return Routes.onboarding.step3MarketRateModal;
+
+      case LeaseChoiceValues.NOT_SURE:
+      return Routes.onboarding.step3UncertainLeaseModal;
     }
 
     return NEXT_STEP;
@@ -122,6 +136,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
         >{this.renderForm}</FormSubmitter>
         <Route path={Routes.onboarding.step3RentStabilizedModal} component={RentStabilizedModal} />
         <Route path={Routes.onboarding.step3MarketRateModal} component={MarketRateModal} />
+        <Route path={Routes.onboarding.step3UncertainLeaseModal} component={UncertainLeaseModal} />
       </Page>
     );
   }

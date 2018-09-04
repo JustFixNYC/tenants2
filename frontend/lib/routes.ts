@@ -19,6 +19,7 @@ const Routes = {
     step3: '/onboarding/step/3',
     step3RentStabilizedModal: '/onboarding/step/3/rent-stabilized-modal',
     step3MarketRateModal: '/onboarding/step/3/market-rate-modal',
+    step3UncertainLeaseModal: '/onboarding/step/3/uncertain-lease-modal',
     step4: '/onboarding/step/4'
   },
 

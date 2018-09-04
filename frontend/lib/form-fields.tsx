@@ -39,7 +39,7 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
       <label className="label" aria-hidden="true">{props.label}</label>
       <div className="control">
         {props.choices.map(([choice, label]) => (
-          <label className="radio" key={choice}>
+          <label className="radio jf-radio" key={choice}>
             <input
               type="radio"
               name={props.name}

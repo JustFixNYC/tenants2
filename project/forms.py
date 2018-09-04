@@ -10,6 +10,8 @@ from project import geocoding
 
 BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
+LEASE_CHOICES = Choices.from_file('lease-choices.json')
+
 
 class OnboardingStep1Form(forms.Form):
     name = forms.CharField(max_length=100)
@@ -64,6 +66,14 @@ class OnboardingStep2Form(forms.Form):
     has_called_311 = forms.BooleanField(
         required=False,
         help_text="Has the user called 311 before?")
+
+
+class OnboardingStep3Form(forms.Form):
+    lease_type = forms.ChoiceField(choices=LEASE_CHOICES)
+
+    receives_public_assistance = forms.BooleanField(
+        required=False,
+        help_text="Does the user receive public assistance, e.g. Section 8?")
 
 
 class LoginForm(forms.Form):

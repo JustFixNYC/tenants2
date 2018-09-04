@@ -38,6 +38,14 @@ export interface LogoutMutation_logout_session_onboardingStep2 {
   hasCalled311: boolean;
 }
 
+export interface LogoutMutation_logout_session_onboardingStep3 {
+  leaseType: string;
+  /**
+   * Does the user receive public assistance, e.g. Section 8?
+   */
+  receivesPublicAssistance: boolean;
+}
+
 export interface LogoutMutation_logout_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -53,6 +61,7 @@ export interface LogoutMutation_logout_session {
   isStaff: boolean;
   onboardingStep1: LogoutMutation_logout_session_onboardingStep1 | null;
   onboardingStep2: LogoutMutation_logout_session_onboardingStep2 | null;
+  onboardingStep3: LogoutMutation_logout_session_onboardingStep3 | null;
 }
 
 export interface LogoutMutation_logout {

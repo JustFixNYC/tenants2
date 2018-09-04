@@ -17,6 +17,7 @@ const Routes = {
     step2: '/onboarding/step/2',
     step2EvictionModal: '/onboarding/step/2/eviction-modal',
     step3: '/onboarding/step/3',
+    step4: '/onboarding/step/4'
   },
 
   /** Example pages used in integration tests. */

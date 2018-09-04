@@ -37,6 +37,14 @@ export interface AllSessionInfo_onboardingStep2 {
   hasCalled311: boolean;
 }
 
+export interface AllSessionInfo_onboardingStep3 {
+  leaseType: string;
+  /**
+   * Does the user receive public assistance, e.g. Section 8?
+   */
+  receivesPublicAssistance: boolean;
+}
+
 export interface AllSessionInfo {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -52,6 +60,7 @@ export interface AllSessionInfo {
   isStaff: boolean;
   onboardingStep1: AllSessionInfo_onboardingStep1 | null;
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
+  onboardingStep3: AllSessionInfo_onboardingStep3 | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -70,6 +79,10 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         hasNoServices
         hasPests
         hasCalled311
+    }
+    onboardingStep3 {
+        leaseType
+        receivesPublicAssistance
     }
 }
 `;

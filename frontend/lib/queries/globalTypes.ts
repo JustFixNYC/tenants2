@@ -28,6 +28,12 @@ export interface OnboardingStep2Input {
   clientMutationId?: string | null;
 }
 
+export interface OnboardingStep3Input {
+  leaseType: string;
+  receivesPublicAssistance: boolean;
+  clientMutationId?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

@@ -15,4 +15,8 @@ fragment AllSessionInfo on SessionInfo {
         hasPests
         hasCalled311
     }
+    onboardingStep3 {
+        leaseType
+        receivesPublicAssistance
+    }
 }

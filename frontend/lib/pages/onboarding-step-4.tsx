@@ -7,10 +7,11 @@ import { FormSubmitter, FormContext } from '../forms';
 import autobind from 'autobind-decorator';
 import { fetchOnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation';
 import { assertNotNull } from '../util';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton } from './onboarding-step-1';
 import { CheckboxFormField, TextualFormField } from '../form-fields';
+import { Modal } from '../modal';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -18,6 +19,20 @@ const blankInitialState: OnboardingStep4Input = {
   password: '',
   confirmPassword: ''
 };
+
+export function Step4WelcomeModal(): JSX.Element {
+  return (
+    <Modal title="Welcome!" onCloseGoTo={Routes.onboarding.step4}>
+      <div className="content box">
+        <h1 className="title">Welcome!</h1>
+        <p>
+          We haven't created your account yet because we still need to implement that part.
+        </p>
+        <Link to={Routes.onboarding.step4} className="button is-primary">Go back to step 4, I guess.</Link>
+      </div>
+    </Modal>
+  );
+}
 
 export interface OnboardingStep4Props {
   fetch: GraphQLFetch;
@@ -53,7 +68,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
         <div className="control">
           <Link to={Routes.onboarding.step3} className="button is-text">Back</Link>
         </div>
-        <NextButton isLoading={isLoading} />
+        <NextButton isLoading={isLoading} label="Create account" />
       </div>
     );
   }
@@ -67,9 +82,10 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
         <FormSubmitter
           onSubmit={this.handleSubmit}
           initialState={this.props.initialState || blankInitialState}
-          onSuccessRedirect={Routes.home}
+          onSuccessRedirect={Routes.onboarding.step4WelcomeModal}
           onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session))}
         >{this.renderForm}</FormSubmitter>
+        <Route path={Routes.onboarding.step4WelcomeModal} component={Step4WelcomeModal} />
       </Page>
     );
   }

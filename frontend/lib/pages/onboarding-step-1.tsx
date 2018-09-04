@@ -34,12 +34,12 @@ interface OnboardingStep1State {
   successSession?: AllSessionInfo;
 }
 
-export function NextButton(props: { isLoading: boolean }) {
+export function NextButton(props: { isLoading: boolean, label?: string }) {
   return (
     <div className="control">
       <button type="submit" className={bulmaClasses('button', 'is-primary', {
         'is-loading': props.isLoading
-      })}>Next</button>
+      })}>{props.label || 'Next'}</button>
     </div>
   );
 }

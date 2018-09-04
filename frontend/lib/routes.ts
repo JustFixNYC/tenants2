@@ -21,7 +21,8 @@ const Routes = {
     step3MarketRateModal: '/onboarding/step/3/market-rate-modal',
     step3UncertainLeaseModal: '/onboarding/step/3/uncertain-lease-modal',
     step3NoLeaseModal: '/onboarding/step/3/no-lease-modal',
-    step4: '/onboarding/step/4'
+    step4: '/onboarding/step/4',
+    step4WelcomeModal: '/onboarding/step/4/welcome-modal',
   },
 
   /** Example pages used in integration tests. */

@@ -15,6 +15,11 @@ ONBOARDING_STEP_3_SESSION_KEY = 'onboarding_step_3'
 
 
 def get_session_info():
+    '''
+    Instantiates a session info object. We need to import the
+    package here to avoid a circular import.
+    '''
+
     from project.schema import SessionInfo
 
     return SessionInfo()
@@ -97,6 +102,10 @@ class OnboardingStep4(DjangoFormMutation):
 
 
 class OnboardingMutations:
+    '''
+    A mixin class defining all onboarding-related mutations.
+    '''
+
     onboarding_step_1 = OnboardingStep1.Field(required=True)
     onboarding_step_2 = OnboardingStep2.Field(required=True)
     onboarding_step_3 = OnboardingStep3.Field(required=True)
@@ -104,10 +113,12 @@ class OnboardingMutations:
 
 
 class OnboardingSessionInfo(object):
+    '''
+    A mixin class defining all onboarding-related queries.
+    '''
+
     onboarding_step_1 = graphene.Field(OnboardingStep1Info)
-
     onboarding_step_2 = graphene.Field(OnboardingStep2Info)
-
     onboarding_step_3 = graphene.Field(OnboardingStep3Info)
 
     def __get(self, info: ResolveInfo, key: str, field_class):

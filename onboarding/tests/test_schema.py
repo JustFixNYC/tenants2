@@ -2,15 +2,13 @@ from project.tests.util import get_frontend_queries
 
 
 def _get_step_1_info(graphql_client):
-    result = graphql_client.execute(
+    return graphql_client.execute(
         'query { session { onboardingStep1 { aptNumber } } }'
-    )
-    assert 'errors' not in result
-    return result['data']['session']['onboardingStep1']
+    )['data']['session']['onboardingStep1']
 
 
 def _exec_onboarding_step_1(graphql_client, **input_kwargs):
-    result = graphql_client.execute(
+    return graphql_client.execute(
         get_frontend_queries(
             'OnboardingStep1Mutation.graphql', 'AllSessionInfo.graphql'),
         variable_values={'input': {
@@ -21,8 +19,6 @@ def _exec_onboarding_step_1(graphql_client, **input_kwargs):
             **input_kwargs
         }}
     )
-    assert 'errors' not in result
-    return result
 
 
 def test_onboarding_step_1_validates_data(graphql_client):

@@ -1,3 +1,4 @@
+from typing import Tuple
 from django import forms
 from django.forms import ValidationError
 from django.contrib.auth.password_validation import validate_password
@@ -22,25 +23,35 @@ class OnboardingStep1Form(forms.Form):
 
     apt_number = forms.CharField(max_length=10)
 
+    def __verify_address(self, address: str, borough: str) -> Tuple[str, bool]:
+        '''
+        Attempt to verify the given address, returning the address, and whether it
+        was actually verified. If the address was verified, the returned address
+        may have changed.
+        '''
+
+        features = geocoding.search(', '.join([address, borough]))
+        if features is None:
+            # Hmm, the geocoding service is unavailable. This
+            # is unfortunate, but we don't want it to block
+            # onboarding, so keep a note of it and let the
+            # user continue.
+            address_verified = False
+        elif len(features) == 0:
+            # The geocoding service is available, but the
+            # address produces no results.
+            raise forms.ValidationError('The address provided is invalid.')
+        else:
+            address_verified = True
+            address = features[0].properties.name
+        return address, address_verified
+
     def clean(self):
         cleaned_data = super().clean()
         address = cleaned_data.get('address')
         borough = cleaned_data.get('borough')
         if address and borough:
-            features = geocoding.search(', '.join([address, borough]))
-            if features is None:
-                # Hmm, the geocoding service is unavailable. This
-                # is unfortunate, but we don't want it to block
-                # onboarding, so keep a note of it and let the
-                # user continue.
-                address_verified = False
-            elif len(features) == 0:
-                # The geocoding service is available, but the
-                # address produces no results.
-                raise forms.ValidationError('The address provided is invalid.')
-            else:
-                address_verified = True
-                address = features[0].properties.name
+            address, address_verified = self.__verify_address(address, borough)
             cleaned_data['address'] = address
             cleaned_data['address_verified'] = address_verified
         return cleaned_data

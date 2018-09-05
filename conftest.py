@@ -30,8 +30,24 @@ def staticfiles() -> Path:
     return STATICFILES_DIR
 
 
+class TestGraphQLClient(Client):
+    '''
+    A subclass of the Graphene test client that, by default, ensures
+    that there are no errors in the GraphQL response, i.e. that no
+    exceptions were thrown during the execution of a request.
+
+    If exceptions were thrown, they will have been logged, and py.test will
+    show them.
+    '''
+
+    def execute(self, *args, **kwargs):
+        result = super().execute(*args, **kwargs)
+        assert 'errors' not in result
+        return result
+
+
 @pytest.fixture
-def graphql_client() -> Client:
+def graphql_client() -> TestGraphQLClient:
     '''
     This test fixture returns a Graphene test client that can be
     used for GraphQL-related tests. For more information on the
@@ -46,7 +62,7 @@ def graphql_client() -> Client:
     req = RequestFactory().get('/')
     req.user = AnonymousUser()
     SessionMiddleware().process_request(req)
-    client = Client(schema, context_value=req)
+    client = TestGraphQLClient(schema, context_value=req)
 
     # Attach the request to the client for easy retrieval/alteration.
     client.request = req

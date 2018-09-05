@@ -2,49 +2,7 @@ import pytest
 
 from users.tests.factories import UserFactory
 from project.util import schema_json
-from project.views import FRONTEND_QUERY_DIR
-
-
-def get_frontend_queries(*filenames):
-    return '\n'.join([
-        (FRONTEND_QUERY_DIR / filename).read_text()
-        for filename in filenames
-    ])
-
-
-def _exec_onboarding_step_1(graphql_client, **input_kwargs):
-    return graphql_client.execute(
-        get_frontend_queries(
-            'OnboardingStep1Mutation.graphql', 'AllSessionInfo.graphql'),
-        variable_values={'input': {
-            'name': '',
-            'address': '',
-            'aptNumber': '',
-            'borough': '',
-            **input_kwargs
-        }}
-    )
-
-
-def test_onboarding_step_1_validates_data(graphql_client):
-    result = _exec_onboarding_step_1(graphql_client)
-    ob = result['data']['onboardingStep1']
-    assert len(ob['errors']) > 0
-    assert 'onboarding_step_1' not in graphql_client.request.session
-
-
-def test_onboarding_step_1_works(graphql_client):
-    info = {
-        'name': 'boop',
-        'address': '123 boop way',
-        'borough': 'MANHATTAN',
-        'aptNumber': '3B'
-    }
-    result = _exec_onboarding_step_1(graphql_client, **info)
-    ob = result['data']['onboardingStep1']
-    assert ob['errors'] == []
-    assert ob['session']['onboardingStep1'] == info
-    assert graphql_client.request.session['onboarding_step_1']['apt_number'] == '3B'
+from .util import get_frontend_queries
 
 
 @pytest.mark.django_db

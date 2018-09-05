@@ -15,7 +15,7 @@ import { Modal } from '../modal';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
-  canWeSms: false,
+  canWeSms: true,
   password: '',
   confirmPassword: ''
 };

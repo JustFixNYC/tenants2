@@ -42,13 +42,13 @@ def test_onboarding_step_4_form_fails_on_mismatched_passwords():
 
 
 @pytest.mark.django_db
-def test_onboarding_step_4_form_requires_sms_permission():
+def test_onboarding_step_4_form_does_not_require_sms_permission():
     form = OnboardingStep4Form(data={
         **STEP_4_FORM_DATA,
         'can_we_sms': False
     })
     form.full_clean()
-    assert form.errors == {'can_we_sms': ['This field is required.']}
+    assert form.errors == {}
 
 
 @pytest.mark.django_db

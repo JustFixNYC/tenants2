@@ -61,3 +61,6 @@ class OnboardingInfo(models.Model):
 
     receives_public_assistance = models.BooleanField(
         help_text="Does the user receive public assistance, e.g. Section 8?")
+
+    can_we_sms = models.BooleanField(
+        help_text="Whether we can contact the user via SMS to follow up.")

@@ -91,6 +91,24 @@ class OnboardingStep3(StoreToSessionForm):
     SESSION_KEY = ONBOARDING_STEP_3_SESSION_KEY
 
 
+def pick_model_fields(model, **kwargs):
+    '''
+    Return a dictionary containing only the passed-in kwargs
+    that correspond to fields on the given model, e.g.:
+
+        >>> from django.contrib.auth.models import User
+        >>> pick_model_fields(User, boop=1, username='blah')
+        {'username': 'blah'}
+    '''
+
+    model_fields = set([field.name for field in model._meta.get_fields()])
+
+    return {
+        key: kwargs[key]
+        for key in kwargs if key in model_fields
+    }
+
+
 class OnboardingStep4(DjangoFormMutation):
     class Meta:
         form_class = forms.OnboardingStep4Form
@@ -114,9 +132,9 @@ class OnboardingStep4(DjangoFormMutation):
             phone_number=phone_number,
             password=password,
         )
-        del step_1['name']
 
-        oi = OnboardingInfo(user=user, **step_1, **step_2, **step_3)
+        oi = OnboardingInfo(user=user, **pick_model_fields(
+            OnboardingInfo, **step_1, **step_2, **step_3, **form.cleaned_data))
         oi.full_clean()
         oi.save()
 

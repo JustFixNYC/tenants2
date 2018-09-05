@@ -65,10 +65,12 @@ class OnboardingStep3Form(forms.ModelForm):
         fields = ('lease_type', 'receives_public_assistance')
 
 
-class OnboardingStep4Form(forms.Form):
-    phone_number = USPhoneNumberField()
+class OnboardingStep4Form(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('can_we_sms',)
 
-    can_we_sms = forms.BooleanField(required=True)
+    phone_number = USPhoneNumberField()
 
     password = forms.CharField()
 

@@ -110,17 +110,16 @@ class OnboardingSessionInfo(object):
 
     onboarding_step_3 = graphene.Field(OnboardingStep3Info)
 
-    def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
+    def __get(self, info: ResolveInfo, key: str, field_class):
         request = info.context
-        obinfo = request.session.get(ONBOARDING_STEP_1_SESSION_KEY)
-        return OnboardingStep1Info(**obinfo) if obinfo else None
+        obinfo = request.session.get(key)
+        return field_class(**obinfo) if obinfo else None
+
+    def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
+        return self.__get(info, ONBOARDING_STEP_1_SESSION_KEY, OnboardingStep1Info)
 
     def resolve_onboarding_step_2(self, info: ResolveInfo) -> Optional[OnboardingStep2Info]:
-        request = info.context
-        obinfo = request.session.get(ONBOARDING_STEP_2_SESSION_KEY)
-        return OnboardingStep2Info(**obinfo) if obinfo else None
+        return self.__get(info, ONBOARDING_STEP_2_SESSION_KEY, OnboardingStep2Info)
 
     def resolve_onboarding_step_3(self, info: ResolveInfo) -> Optional[OnboardingStep3Info]:
-        request = info.context
-        obinfo = request.session.get(ONBOARDING_STEP_3_SESSION_KEY)
-        return OnboardingStep3Info(**obinfo) if obinfo else None
+        return self.__get(info, ONBOARDING_STEP_3_SESSION_KEY, OnboardingStep3Info)

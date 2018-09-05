@@ -12,10 +12,10 @@ export interface LoginInput {
 }
 
 export interface OnboardingStep1Input {
-  name: string;
   address: string;
   borough: string;
   aptNumber: string;
+  name: string;
   clientMutationId?: string | null;
 }
 

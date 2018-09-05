@@ -5,23 +5,16 @@ from django.contrib.auth.password_validation import validate_password
 
 from project import geocoding
 from project.forms import USPhoneNumberField
-from project.common_data import Choices
 from users.models import JustfixUser
+from .models import OnboardingInfo
 
 
-BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
+class OnboardingStep1Form(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('address', 'borough', 'apt_number')
 
-LEASE_CHOICES = Choices.from_file('lease-choices.json')
-
-
-class OnboardingStep1Form(forms.Form):
     name = forms.CharField(max_length=100)
-
-    address = forms.CharField(max_length=200)
-
-    borough = forms.ChoiceField(choices=BOROUGH_CHOICES)
-
-    apt_number = forms.CharField(max_length=10)
 
     def __verify_address(self, address: str, borough: str) -> Tuple[str, bool]:
         '''
@@ -57,34 +50,19 @@ class OnboardingStep1Form(forms.Form):
         return cleaned_data
 
 
-class OnboardingStep2Form(forms.Form):
-    is_in_eviction = forms.BooleanField(
-        required=False,
-        help_text="Has the user received an eviction notice?")
-
-    needs_repairs = forms.BooleanField(
-        required=False,
-        help_text="Does the user need repairs in their apartment?")
-
-    has_no_services = forms.BooleanField(
-        required=False,
-        help_text="Is the user missing essential services like water?")
-
-    has_pests = forms.BooleanField(
-        required=False,
-        help_text="Does the user have pests like rodents or bed bugs?")
-
-    has_called_311 = forms.BooleanField(
-        required=False,
-        help_text="Has the user called 311 before?")
+class OnboardingStep2Form(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = (
+            'is_in_eviction', 'needs_repairs', 'has_no_services',
+            'has_pests', 'has_called_311'
+        )
 
 
-class OnboardingStep3Form(forms.Form):
-    lease_type = forms.ChoiceField(choices=LEASE_CHOICES)
-
-    receives_public_assistance = forms.BooleanField(
-        required=False,
-        help_text="Does the user receive public assistance, e.g. Section 8?")
+class OnboardingStep3Form(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('lease_type', 'receives_public_assistance')
 
 
 class OnboardingStep4Form(forms.Form):

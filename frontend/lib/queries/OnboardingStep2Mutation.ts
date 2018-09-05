@@ -23,8 +23,14 @@ export interface OnboardingStep2Mutation_onboardingStep2_errors {
 
 export interface OnboardingStep2Mutation_onboardingStep2_session_onboardingStep1 {
   name: string;
+  /**
+   * The user's address. Only street name and number are required.
+   */
   address: string;
   aptNumber: string;
+  /**
+   * The New York City borough the user's address is in.
+   */
   borough: string;
 }
 
@@ -52,6 +58,9 @@ export interface OnboardingStep2Mutation_onboardingStep2_session_onboardingStep2
 }
 
 export interface OnboardingStep2Mutation_onboardingStep2_session_onboardingStep3 {
+  /**
+   * The type of lease the user has on their dwelling.
+   */
   leaseType: string;
   /**
    * Does the user receive public assistance, e.g. Section 8?

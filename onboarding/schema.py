@@ -1,10 +1,13 @@
 from typing import Optional
+from django.contrib.auth import login, authenticate
 import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
 
 from project.util.django_graphql_forms import DjangoFormMutation
+from users.models import JustfixUser
 from onboarding import forms
+from onboarding.models import OnboardingInfo
 
 
 ONBOARDING_STEP_1_SESSION_KEY = 'onboarding_step_1'
@@ -96,8 +99,31 @@ class OnboardingStep4(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
-        # TODO: Actually create user account and associate onboarding details
-        # from previous steps with it.
+        request = info.context
+        phone_number = form.cleaned_data['phone_number']
+        password = form.cleaned_data['password']
+        step_1 = request.session[ONBOARDING_STEP_1_SESSION_KEY]
+        step_2 = request.session[ONBOARDING_STEP_2_SESSION_KEY]
+        step_3 = request.session[ONBOARDING_STEP_3_SESSION_KEY]
+        del request.session[ONBOARDING_STEP_1_SESSION_KEY]
+        del request.session[ONBOARDING_STEP_2_SESSION_KEY]
+        del request.session[ONBOARDING_STEP_3_SESSION_KEY]
+        user = JustfixUser.objects.create_user(
+            username=phone_number,
+            full_name=step_1['name'],
+            phone_number=phone_number,
+            password=password,
+        )
+        del step_1['name']
+
+        oi = OnboardingInfo(user=user, **step_1, **step_2, **step_3)
+        oi.full_clean()
+        oi.save()
+
+        # This will associate our user with an authentication backend.
+        user_with_backend = authenticate(phone_number=phone_number, password=password)
+        assert user is not None and user.pk == user_with_backend.pk
+        login(request, user_with_backend)
         return cls(errors=[], session=get_session_info())
 
 

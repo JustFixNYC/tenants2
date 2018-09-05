@@ -18,7 +18,8 @@ class OnboardingInfo(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    user = models.OneToOneField(JustfixUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='onboarding_info')
 
     address = models.CharField(
         max_length=200,

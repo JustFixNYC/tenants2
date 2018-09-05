@@ -1,18 +1,19 @@
 import pytest
 
 from project.tests.util import get_frontend_queries
+from users.models import JustfixUser
 
 
 VALID_STEP_DATA = {
     1: {
-        'name': 'boop',
+        'name': 'boop jones',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
         'aptNumber': '3B'
     },
     2: {
         'isInEviction': False,
-        'needsRepairs': False,
+        'needsRepairs': True,
         'hasNoServices': False,
         'hasPests': False,
         'hasCalled311': False
@@ -67,4 +68,16 @@ def test_onboarding_works(graphql_client):
     for i in VALID_STEP_DATA.keys():
         result = _exec_onboarding_step_n(i, graphql_client)
         assert result['errors'] == []
-    # TODO: Verify that a user was created.
+
+    for i in [1, 2, 3]:
+        assert result['session'][f'onboardingStep{i}'] is None
+    assert result['session']['phoneNumber'] == '5551234567'
+
+    request = graphql_client.request
+    user = JustfixUser.objects.get(phone_number='5551234567')
+    oi = user.onboarding_info
+    assert user.full_name == 'boop jones'
+    assert user.pk == request.user.pk
+    assert oi.address == '123 boop way'
+    assert oi.needs_repairs is True
+    assert oi.lease_type == 'MARKET_RATE'

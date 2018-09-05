@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'frontend',
     'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',
+    'onboarding.apps.OnboardingConfig',
 ]
 
 MIDDLEWARE = [

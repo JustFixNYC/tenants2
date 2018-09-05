@@ -2,14 +2,7 @@ import pytest
 
 from users.tests.factories import UserFactory
 from project.util import schema_json
-from project.views import FRONTEND_QUERY_DIR
-
-
-def get_frontend_queries(*filenames):
-    return '\n'.join([
-        (FRONTEND_QUERY_DIR / filename).read_text()
-        for filename in filenames
-    ])
+from .util import get_frontend_queries
 
 
 def _exec_onboarding_step_1(graphql_client, **input_kwargs):

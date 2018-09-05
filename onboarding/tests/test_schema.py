@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import pytest
 
 from project.tests.util import get_frontend_queries
@@ -31,6 +32,12 @@ VALID_STEP_DATA = {
 }
 
 
+@pytest.fixture
+def fake_geocoding():
+    with patch('project.geocoding.search', new=lambda text: None):
+        yield None
+
+
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
         'query { session { onboardingStep1 { aptNumber } } }'
@@ -48,14 +55,14 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
     )['data'][f'onboardingStep{n}']
 
 
-def test_onboarding_step_1_validates_data(graphql_client):
+def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):
     ob = _exec_onboarding_step_n(1, graphql_client, name='')
     assert len(ob['errors']) > 0
     assert 'onboarding_step_1' not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
-def test_onboarding_step_1_works(graphql_client):
+def test_onboarding_step_1_works(graphql_client, fake_geocoding):
     ob = _exec_onboarding_step_n(1, graphql_client)
     assert ob['errors'] == []
     assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
@@ -64,7 +71,7 @@ def test_onboarding_step_1_works(graphql_client):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client):
+def test_onboarding_works(graphql_client, fake_geocoding):
     for i in VALID_STEP_DATA.keys():
         result = _exec_onboarding_step_n(i, graphql_client)
         assert result['errors'] == []

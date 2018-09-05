@@ -118,3 +118,18 @@ $justfix-blue: #0096D7;
 .jf-radio {
     display: block;
 }
+
+.jf-modal-animate {
+    animation-duration: 0.5s;
+    animation-name: jf-fadein;
+}
+
+@keyframes jf-fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1.0;
+    }
+}

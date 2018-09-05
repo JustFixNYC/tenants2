@@ -7,6 +7,8 @@ import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
 
 
+const ANIMATION_CLASS = "jf-modal-animate";
+
 const DIALOG_CLASS = "jf-modal-dialog"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
@@ -29,13 +31,15 @@ type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
 
 interface ModalState {
   isActive: boolean;
+  animate: boolean;
 }
 
 export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
   constructor(props: ModalPropsWithRouter) {
     super(props);
     this.state = {
-      isActive: false
+      isActive: false,
+      animate: true
     };
   }
 
@@ -61,6 +65,12 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     // replaced it with this component instance.
     const prerenderedModalEl = document.getElementById('prerendered-modal');
     if (prerenderedModalEl && prerenderedModalEl.parentNode) {
+      if (prerenderedModalEl.children.length) {
+        // There's an actual modal we're replacing; since it came with the
+        // page, it's already being shown at its final location, so we don't
+        // want to animate ourselves in, lest we disorient the user.
+        this.setState({ animate: false });
+      }
       prerenderedModalEl.parentNode.removeChild(prerenderedModalEl);
     }
   }
@@ -95,13 +105,19 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       return null;
     }
 
+    const underlayClasses = [UNDERLAY_CLASS];
+
+    if (this.state.animate) {
+      underlayClasses.push(ANIMATION_CLASS);
+    }
+
     return (
       <AriaModal
         titleText={this.props.title}
         onExit={this.handleClose}
         includeDefaultStyles={false}
         dialogClass={DIALOG_CLASS}
-        underlayClass={UNDERLAY_CLASS}
+        underlayClass={underlayClasses.join(' ')}
         focusDialog
       >
         {this.renderBody()}

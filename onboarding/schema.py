@@ -41,43 +41,46 @@ class OnboardingStep3Info(graphene.ObjectType):
     locals().update(fields_for_form(forms.OnboardingStep3Form(), [], []))
 
 
-class OnboardingStep1(DjangoFormMutation):
+class StoreToSessionForm(DjangoFormMutation):
+    '''
+    Abstract base class that just stores the form's cleaned data to
+    the current request's session.
+
+    Concrete subclasses must define a SESSION_KEY property that
+    specifies the session key to use.
+    '''
+
+    class Meta:
+        abstract = True
+
+    session = graphene.Field('project.schema.SessionInfo')
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        request.session[cls.SESSION_KEY] = form.cleaned_data
+        return cls(errors=[], session=get_session_info())
+
+
+class OnboardingStep1(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep1Form
 
-    session = graphene.Field('project.schema.SessionInfo')
-
-    @classmethod
-    def perform_mutate(cls, form: forms.OnboardingStep1Form, info: ResolveInfo):
-        request = info.context
-        request.session[ONBOARDING_STEP_1_SESSION_KEY] = form.cleaned_data
-        return cls(errors=[], session=get_session_info())
+    SESSION_KEY = ONBOARDING_STEP_1_SESSION_KEY
 
 
-class OnboardingStep2(DjangoFormMutation):
+class OnboardingStep2(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep2Form
 
-    session = graphene.Field('project.schema.SessionInfo')
-
-    @classmethod
-    def perform_mutate(cls, form: forms.OnboardingStep2Form, info: ResolveInfo):
-        request = info.context
-        request.session[ONBOARDING_STEP_2_SESSION_KEY] = form.cleaned_data
-        return cls(errors=[], session=get_session_info())
+    SESSION_KEY = ONBOARDING_STEP_2_SESSION_KEY
 
 
-class OnboardingStep3(DjangoFormMutation):
+class OnboardingStep3(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep3Form
 
-    session = graphene.Field('project.schema.SessionInfo')
-
-    @classmethod
-    def perform_mutate(cls, form: forms.OnboardingStep3Form, info: ResolveInfo):
-        request = info.context
-        request.session[ONBOARDING_STEP_3_SESSION_KEY] = form.cleaned_data
-        return cls(errors=[], session=get_session_info())
+    SESSION_KEY = ONBOARDING_STEP_3_SESSION_KEY
 
 
 class OnboardingStep4(DjangoFormMutation):

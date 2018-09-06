@@ -25,6 +25,13 @@ const Routes = {
     step4WelcomeModal: '/onboarding/step/4/welcome-modal',
   },
 
+  loc: {
+    prefix: '/loc',
+    home: '/loc',
+    whyMail: '/loc/why-mail',
+    issues: '/loc/issues'
+  },
+
   /** Example pages used in integration tests. */
   examples: {
     redirect: '/__example-redirect',

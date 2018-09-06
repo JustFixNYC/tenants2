@@ -1,11 +1,11 @@
 import React from 'react';
 import IndexPage from '../../pages/index-page';
-import { shallowWithRouter } from '../util';
+import { shallowWithRouter, ensureRedirect } from '../util';
+import Routes from '../../routes';
 
 describe('index page', () => {
   it('renders when logged in', () => {
-    const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={true} />);
-    expect(wrapper.html()).toContain('Hello authenticated user');
+    ensureRedirect(<IndexPage isLoggedIn={true} />, Routes.loc.home);
   });
 
   it('renders when logged out', () => {

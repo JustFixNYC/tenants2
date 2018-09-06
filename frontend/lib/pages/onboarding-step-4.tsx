@@ -12,6 +12,7 @@ import Routes from '../routes';
 import { NextButton } from './onboarding-step-1';
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { Modal } from '../modal';
+import { WelcomeFragment } from '../letter-of-complaint-common';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -24,15 +25,7 @@ export function Step4WelcomeModal(): JSX.Element {
   return (
     <Modal title="Welcome!" onCloseGoTo={Routes.home}>
       <div className="content box">
-        <h1 className="title">Welcome!</h1>
-        <p>
-          We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. This will take about 5 minutes.
-        </p>
-        <ol className="has-text-left">
-          <li>Complete an issue checklist.</li>
-          <li>Review your Letter of Complaint and send it through JustFix.nyc.</li>
-        </ol>
-        <Link to={Routes.home} className="button is-primary">Start Letter</Link>
+        <WelcomeFragment />
       </div>
     </Modal>
   );

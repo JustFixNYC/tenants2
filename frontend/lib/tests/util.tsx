@@ -3,7 +3,7 @@ import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, Route, RouteComponentProps } from "react-router";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -27,14 +27,40 @@ export function createTestGraphQlClient(enableTimeout: boolean = false): TestCli
   return { client, mockFetch };
 }
 
-export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper } {
-  const wrapper = shallow(<MemoryRouter>{child}</MemoryRouter>);
-  return { wrapper };
+const childWithRouterCtx = (child: JSX.Element) => {
+  let routerContext: RouteComponentProps<any> = {} as any;
+  const route = (
+    <Route render={(ctx) => {
+      routerContext.history = ctx.history;
+      routerContext.location = ctx.location;
+      routerContext.match = ctx.match;
+      return child;
+    }} />
+  );
+  return { routerContext, route };
+};
+
+export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper, routerContext: RouteComponentProps<any> } {
+  const { routerContext, route } = childWithRouterCtx(child);
+  const wrapper = shallow(<MemoryRouter>{route}</MemoryRouter>);
+  return { wrapper, routerContext };
 }
 
-export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper } {
-  const wrapper = mount(<MemoryRouter>{child}</MemoryRouter>);
-  return { wrapper };
+export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper, routerContext: RouteComponentProps<any> } {
+  const { routerContext, route } = childWithRouterCtx(child);
+  const wrapper = mount(<MemoryRouter>{route}</MemoryRouter>);
+  return { wrapper, routerContext };
+}
+
+export function ensureRedirect(child: JSX.Element, pathname: string) {
+  const consoleErr = jest.fn();
+  jest.spyOn(console, 'error').mockImplementationOnce(consoleErr);
+  const { routerContext, wrapper } = mountWithRouter(child);
+  wrapper.update();
+  expect(routerContext.location.pathname).toBe(pathname);
+  expect(consoleErr.mock.calls).toHaveLength(1);
+  expect(consoleErr.mock.calls[0][0]).toMatch(
+    /You tried to redirect to the same route you're currently on/i);
 }
 
 export const FakeServerInfo: Readonly<AppServerInfo> = {

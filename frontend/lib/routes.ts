@@ -1,4 +1,14 @@
-import { matchPath } from 'react-router-dom';
+import { matchPath, RouteComponentProps } from 'react-router-dom';
+
+export namespace RouteTypes {
+  export namespace loc {
+    export namespace issues {
+      export namespace area {
+        export type RouteProps = RouteComponentProps<{ area: string }>;
+      }
+    }
+  }
+}
 
 const Routes = {
   /** The login page. */
@@ -31,7 +41,14 @@ const Routes = {
     prefix: '/loc',
     home: '/loc',
     whyMail: '/loc/why-mail',
-    issues: '/loc/issues'
+    issues: {
+      prefix: '/loc/issues',
+      home: '/loc/issues',
+      area: {
+        parameterizedRoute: '/loc/issues/:area',
+        create: (area: string) => `/loc/issues/${area}`,
+      }
+    }
   },
 
   /** Example pages used in integration tests. */
@@ -79,7 +96,7 @@ export class RouteMap {
         } else {
           this.parameterizedRoutes.push(value);
         }
-      } else {
+      } else if (value && typeof(value) === 'object') {
         this.populate(value);
       }
     });

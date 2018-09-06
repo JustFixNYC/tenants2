@@ -89,6 +89,44 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
   );
 }
 
+export interface MultiChoiceFormFieldProps extends BaseFormFieldProps<string[]> {
+  choices: DjangoChoices;
+  label: string;
+}
+
+export class MultiCheckboxFormField extends React.Component<MultiChoiceFormFieldProps> {
+  render() {
+    const { props } = this;
+    let { ariaLabel, errorHelp } = formatErrors(props);
+
+    return (
+      <div className="field" role="group" aria-label={ariaLabel}>
+        <label className="label" aria-hidden="true">{props.label}</label>
+        <div className="control">
+          {props.choices.map(([choice, label]) => (
+            <label className="checkbox jf-checkbox" key={choice}>
+              <input
+                type="checkbox"
+                checked={props.value.indexOf(choice) !== -1}
+                aria-invalid={ariaBool(!!props.errors)}
+                disabled={props.isDisabled}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    props.onChange([...props.value, choice]);
+                  } else {
+                    props.onChange(props.value.filter(c => c !== choice));
+                  }
+                }}
+              /> {label}
+            </label>
+          ))}
+        </div>
+        {errorHelp}
+      </div>
+    );
+  }
+}
+
 export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
   children: any;
 }

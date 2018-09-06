@@ -84,6 +84,7 @@ export interface OnboardingStep1Mutation_onboardingStep1_session {
   onboardingStep1: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 | null;
   onboardingStep2: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep2 | null;
   onboardingStep3: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep3 | null;
+  issues: string[];
 }
 
 export interface OnboardingStep1Mutation_onboardingStep1 {

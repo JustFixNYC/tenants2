@@ -108,14 +108,14 @@ $justfix-blue: #0096D7;
     cursor: default;
 }
 
-.jf-radio.radio + .jf-radio.radio {
+.jf-radio.radio + .jf-radio.radio, .jf-checkbox + .jf-checkbox {
     // This undoes Bulma's default .radio+.radio styling.
     margin-left: 0;
 
     padding-top: 0.5em;
 }
 
-.jf-radio {
+.jf-radio, .jf-checkbox {
     display: block;
 }
 

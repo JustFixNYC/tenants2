@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
+import { GraphQLFetch } from './graphql-client';
+import { Omit } from './util';
 
 /** Details about the server that don't change through the app's lifetime. */
 export interface AppServerInfo {
@@ -45,6 +47,10 @@ export interface AppContextType {
    * log in/out, etc.
    */
   session: AllSessionInfo;
+
+  fetch: GraphQLFetch;
+
+  updateSession: (session: AllSessionInfo) => void;
 }
 
 /* istanbul ignore next: this will never be executed in practice. */
@@ -72,6 +78,12 @@ export const defaultContext: AppContextType = {
   },
   get session(): AllSessionInfo {
     throw new UnimplementedError();
+  },
+  fetch(query: string, variables?: any): Promise<any> {
+    throw new UnimplementedError();
+  },
+  updateSession(session: AllSessionInfo) {
+    throw new UnimplementedError();
   }
 };
 
@@ -85,3 +97,13 @@ export const defaultContext: AppContextType = {
  *   https://reactjs.org/docs/context.html
  */
 export const AppContext = React.createContext<AppContextType>(defaultContext);
+
+export function withAppContext<P extends AppContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AppContextType>> {
+  return function(props: Omit<P, keyof AppContextType>) {
+    return (
+      <AppContext.Consumer>
+        {(context) => <Component {...props} {...context} />}
+      </AppContext.Consumer>
+    );
+  }
+}

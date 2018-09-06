@@ -71,6 +71,7 @@ export interface LogoutMutation_logout_session {
   onboardingStep1: LogoutMutation_logout_session_onboardingStep1 | null;
   onboardingStep2: LogoutMutation_logout_session_onboardingStep2 | null;
   onboardingStep3: LogoutMutation_logout_session_onboardingStep3 | null;
+  issues: string[];
 }
 
 export interface LogoutMutation_logout {

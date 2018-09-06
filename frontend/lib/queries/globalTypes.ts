@@ -5,6 +5,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface IssueAreaInput {
+  area: string;
+  issues?: (string | null)[] | null;
+  clientMutationId?: string | null;
+}
+
 export interface LoginInput {
   phoneNumber: string;
   password: string;

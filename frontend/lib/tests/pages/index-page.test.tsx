@@ -1,6 +1,6 @@
 import React from 'react';
 import IndexPage from '../../pages/index-page';
-import { shallowWithRouter, mountWithRouter, ensureRedirect } from '../util';
+import { shallowWithRouter, ensureRedirect } from '../util';
 import Routes from '../../routes';
 
 describe('index page', () => {

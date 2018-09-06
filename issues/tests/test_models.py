@@ -1,8 +1,24 @@
+import pytest
+
 from issues import models
 
 
-def test_issue_choice_categories_are_valid():
-    categories = set([value for (value, _) in models.ISSUE_AREA_CHOICES.choices])
+def test_issue_choice_areas_are_valid():
+    areas = set([value for (value, _) in models.ISSUE_AREA_CHOICES.choices])
     for value, _ in models.ISSUE_CHOICES.choices:
-        category, _ = value.split('__')
-        assert category in categories
+        area = models.get_issue_area(value)
+        assert area in areas
+
+
+def test_choices_have_valid_length():
+    for value, _ in models.ISSUE_AREA_CHOICES.choices:
+        assert len(value) < models.VALUE_MAXLEN
+    for value, _ in models.ISSUE_CHOICES.choices:
+        assert len(value) < models.VALUE_MAXLEN
+
+
+def test_issue_raises_err_on_mismatched_area():
+    issue = models.Issue(area='BLAH', value='BOOP__FOO')
+    with pytest.raises(ValueError) as exc_info:
+        issue.save()
+    assert exc_info.value.args[0] == 'Issue BOOP__FOO does not match area BLAH'

@@ -1,3 +1,5 @@
+import { matchPath } from 'react-router-dom';
+
 const Routes = {
   /** The login page. */
   login: '/login',
@@ -62,6 +64,7 @@ export function isModalRoute(...paths: string[]): boolean {
  */
 export class RouteMap {
   private existenceMap: Map<string, boolean> = new Map();
+  private parameterizedRoutes: string[] = [];
 
   constructor(routes: any) {
     this.populate(routes);
@@ -71,7 +74,11 @@ export class RouteMap {
     Object.keys(routes).forEach(name => {
       const value = routes[name];
       if (typeof(value) === 'string') {
-        this.existenceMap.set(value, true);
+        if (value.indexOf(':') === -1) {
+          this.existenceMap.set(value, true);
+        } else {
+          this.parameterizedRoutes.push(value);
+        }
       } else {
         this.populate(value);
       }
@@ -79,7 +86,16 @@ export class RouteMap {
   }
 
   exists(pathname: string): boolean {
-    return this.existenceMap.has(pathname);
+    if (this.existenceMap.has(pathname)) {
+      return true;
+    }
+    for (let route of this.parameterizedRoutes) {
+      const match = matchPath(pathname, { path: route });
+      if (match && match.isExact) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 

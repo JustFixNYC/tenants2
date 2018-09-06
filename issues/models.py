@@ -13,6 +13,11 @@ ISSUE_CHOICES = Choices.from_file('issue-choices.json')
 VALUE_MAXLEN = 30
 
 
+def ensure_issue_matches_area(issue: str, area: str):
+    if get_issue_area(issue) != area:
+        raise ValidationError(f'Issue {issue} does not match area {area}')
+
+
 def get_issue_area(value: str) -> str:
     '''
     Issue values consist of their area value followed by two underscores
@@ -53,5 +58,4 @@ class Issue(models.Model):
     objects = IssueManager()
 
     def clean(self):
-        if get_issue_area(self.value) != self.area:
-            raise ValidationError(f'Issue {self.value} does not match area {self.area}')
+        ensure_issue_matches_area(self.value, self.area)

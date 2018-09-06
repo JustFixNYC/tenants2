@@ -6,10 +6,11 @@ from django.middleware import csrf
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
+from issues.schema import IssueMutations, IssueSessionInfo
 from . import forms
 
 
-class SessionInfo(OnboardingSessionInfo, graphene.ObjectType):
+class SessionInfo(OnboardingSessionInfo, IssueSessionInfo, graphene.ObjectType):
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or "
@@ -77,7 +78,7 @@ class Logout(graphene.Mutation):
         return Logout(session=SessionInfo())
 
 
-class Mutations(OnboardingMutations, graphene.ObjectType):
+class Mutations(OnboardingMutations, IssueMutations, graphene.ObjectType):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
 

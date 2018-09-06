@@ -4,6 +4,7 @@
 '''
 
 from django import forms
+from graphql import ResolveInfo
 import graphene
 import graphene_django.forms.mutation
 from graphene_django.forms.converter import convert_form_field, convert_form_field_to_list
@@ -40,6 +41,9 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
     class Meta:
         abstract = True
 
+    # Subclasses can change this if they can only be used by authenticated users.
+    login_required = False
+
     # This is just like our superclass' "errors" attribute, only
     # it's required, to simplify the type system.
     errors = graphene.List(
@@ -53,7 +57,15 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
     )
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
+    def mutate_and_get_payload(cls, root, info: ResolveInfo, **input):
+        request = info.context
+
+        if cls.login_required and not request.user.is_authenticated:
+            return cls(errors=[StrictFormFieldErrorType(
+                field='__all__',
+                messages=['You do not have permission to use this form!']
+            )])
+
         form = cls.get_form(root, info, **input)
 
         if form.is_valid():

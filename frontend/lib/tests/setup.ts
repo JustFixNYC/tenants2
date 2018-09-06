@@ -27,6 +27,13 @@ const originalLog = console.log;
  * AWESOME. So here we'll force some newlines and things to hopefully
  * increase the chance that Jest will actually output something to the
  * console in time for the user to see it.
+ * 
+ * Apparently this is a long-standing problem for some people:
+ * 
+ *   https://github.com/facebook/jest/issues/3853
+ * 
+ * Combined with the general sluggishness of Jest on Windows, I'm
+ * very much regretting not using Mocha at this point.
  */
 console.log = function() {
   originalLog.apply(this, arguments);

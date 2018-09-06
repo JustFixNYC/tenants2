@@ -133,24 +133,8 @@
           "description": null,
           "fields": [
             {
-              "name": "name",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "address",
-              "description": "",
+              "description": "The user's address. Only street name and number are required.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -166,7 +150,7 @@
             },
             {
               "name": "borough",
-              "description": "",
+              "description": "The New York City borough the user's address is in.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -182,6 +166,22 @@
             },
             {
               "name": "aptNumber",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
               "description": "",
               "args": [],
               "type": {
@@ -336,7 +336,7 @@
           "fields": [
             {
               "name": "leaseType",
-              "description": "",
+              "description": "The type of lease the user has on their dwelling.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -560,24 +560,8 @@
           "description": null,
           "fields": [
             {
-              "name": "name",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "address",
-              "description": "",
+              "description": "The user's address. Only street name and number are required.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -593,7 +577,7 @@
             },
             {
               "name": "borough",
-              "description": "",
+              "description": "The New York City borough the user's address is in.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -609,6 +593,22 @@
             },
             {
               "name": "aptNumber",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
               "description": "",
               "args": [],
               "type": {
@@ -735,22 +735,8 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "name",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "address",
-              "description": "",
+              "description": "The user's address. Only street name and number are required.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -764,7 +750,7 @@
             },
             {
               "name": "borough",
-              "description": "",
+              "description": "The New York City borough the user's address is in.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -778,6 +764,20 @@
             },
             {
               "name": "aptNumber",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "name",
               "description": "",
               "type": {
                 "kind": "NON_NULL",
@@ -1042,7 +1042,7 @@
           "fields": [
             {
               "name": "leaseType",
-              "description": "",
+              "description": "The type of lease the user has on their dwelling.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1134,7 +1134,7 @@
           "inputFields": [
             {
               "name": "leaseType",
-              "description": "",
+              "description": "The type of lease the user has on their dwelling.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1181,6 +1181,22 @@
           "description": null,
           "fields": [
             {
+              "name": "canWeSms",
+              "description": "Whether we can contact the user via SMS to follow up.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "phoneNumber",
               "description": "",
               "args": [],
@@ -1190,22 +1206,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "canWeSms",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -1305,6 +1305,20 @@
           "fields": null,
           "inputFields": [
             {
+              "name": "canWeSms",
+              "description": "Whether we can contact the user via SMS to follow up.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "phoneNumber",
               "description": "",
               "type": {
@@ -1313,20 +1327,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "canWeSms",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
                   "ofType": null
                 }
               },

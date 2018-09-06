@@ -12,10 +12,10 @@ export interface LoginInput {
 }
 
 export interface OnboardingStep1Input {
-  name: string;
   address: string;
   borough: string;
   aptNumber: string;
+  name: string;
   clientMutationId?: string | null;
 }
 
@@ -35,8 +35,8 @@ export interface OnboardingStep3Input {
 }
 
 export interface OnboardingStep4Input {
-  phoneNumber: string;
   canWeSms: boolean;
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
   clientMutationId?: string | null;

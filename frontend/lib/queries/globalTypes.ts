@@ -35,8 +35,8 @@ export interface OnboardingStep3Input {
 }
 
 export interface OnboardingStep4Input {
-  phoneNumber: string;
   canWeSms: boolean;
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
   clientMutationId?: string | null;

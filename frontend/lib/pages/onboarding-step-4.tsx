@@ -22,13 +22,17 @@ const blankInitialState: OnboardingStep4Input = {
 
 export function Step4WelcomeModal(): JSX.Element {
   return (
-    <Modal title="Welcome!" onCloseGoTo={Routes.onboarding.step4}>
+    <Modal title="Welcome!" onCloseGoTo={Routes.home}>
       <div className="content box">
         <h1 className="title">Welcome!</h1>
         <p>
-          We haven't created your account yet because we still need to implement that part.
+          We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. This will take about 5 minutes.
         </p>
-        <Link to={Routes.onboarding.step4} className="button is-primary">Go back to step 4, I guess.</Link>
+        <ol className="has-text-left">
+          <li>Complete an issue checklist.</li>
+          <li>Review your Letter of Complaint and send it through JustFix.nyc.</li>
+        </ol>
+        <Link to={Routes.home} className="button is-primary">Start Letter</Link>
       </div>
     </Modal>
   );

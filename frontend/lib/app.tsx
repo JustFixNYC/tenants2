@@ -64,6 +64,11 @@ const LoadableOnboardingRoutes = Loadable({
   loading: LoadingPage
 });
 
+const LoadableLetterOfComplaintRoutes = Loadable({
+  loader: () => import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint'),
+  loading: LoadingPage
+});
+
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
@@ -172,6 +177,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
             onSessionChange={this.handleSessionChange}
           />
         )} />
+        <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
         <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
         <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />

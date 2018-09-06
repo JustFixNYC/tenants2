@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Page from '../page';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Routes from '../routes';
+import { WhyMailALetterOfComplaint } from '../letter-of-complaint-common';
 
 export interface IndexPageProps {
   isLoggedIn: boolean;
@@ -21,15 +22,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         <br/>
         <p>Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
 
-        <h2>Why mail a Certified Letter of Complaint?</h2>
-
-        <p>
-          Under the Warranty of Habitability, your landlord is responsible for keeping your apartment and the building safe and livable at all times.
-        </p>
-
-        <p>
-          In order to have an official record of the requests you've made to your landlord, you should send to mail a Letter of Complaint to your landlord via Certified Mail. We've drafted this letter for you, and we can also mail this letter on your behalf! All you need to do are enter the issues you are experiencing.
-        </p>
+        <WhyMailALetterOfComplaint heading="h2" />
 
         <Link className="button is-medium is-fullwidth is-primary" to={Routes.onboarding.latestStep}>Get started</Link>
 
@@ -48,10 +41,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
 
   renderLoggedIn() {
     return (
-      <Page title="Hello authenticated user!">
-        <h1 className="title">Hello authenticated user!</h1>
-        <p>We still need to implement the whole Letter of Complaint thing.</p>
-      </Page>
+      <Redirect to={Routes.loc.home} />
     );
   }
 

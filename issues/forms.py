@@ -18,6 +18,7 @@ class IssueAreaForm(forms.Form):
 
     other = forms.CharField(
         required=False,
+        max_length=10000,
         help_text="Any other custom issues the user wants to report.")
 
     def clean(self):

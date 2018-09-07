@@ -54,6 +54,11 @@ export interface AllSessionInfo_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
+export interface AllSessionInfo_customIssues {
+  area: string;
+  description: string;
+}
+
 export interface AllSessionInfo {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -71,6 +76,7 @@ export interface AllSessionInfo {
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
   issues: string[];
+  customIssues: AllSessionInfo_customIssues[];
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -95,5 +101,9 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         receivesPublicAssistance
     }
     issues
+    customIssues {
+        area
+        description
+    }
 }
 `;

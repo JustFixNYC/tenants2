@@ -3,6 +3,7 @@ from users.tests.factories import UserFactory
 
 
 def execute_mutation(graphql_client, input):
+    input = {'other': '', **input}
     return graphql_client.execute(
         """
         mutation MyMutation($input: IssueAreaInput!) {
@@ -13,6 +14,10 @@ def execute_mutation(graphql_client, input):
                 }
                 session {
                     issues
+                    customIssues {
+                        area
+                        description
+                    }
                 }
             }
         }
@@ -25,13 +30,19 @@ def execute_mutation(graphql_client, input):
 def test_issue_area_works(graphql_client):
     graphql_client.request.user = UserFactory.create()
 
-    result = execute_mutation(graphql_client, {'area': 'HOME', 'issues': ['HOME__RATS']})
+    result = execute_mutation(graphql_client, {
+        'area': 'HOME',
+        'issues': ['HOME__RATS'],
+        'other': 'boop'
+    })
     assert result['errors'] == []
     assert result['session']['issues'] == ['HOME__RATS']
+    assert result['session']['customIssues'] == [{'area': 'HOME', 'description': 'boop'}]
 
     result = execute_mutation(graphql_client, {'area': 'HOME', 'issues': []})
     assert result['errors'] == []
     assert result['session']['issues'] == []
+    assert result['session']['customIssues'] == []
 
 
 def test_issue_area_requires_auth(graphql_client):
@@ -42,5 +53,6 @@ def test_issue_area_requires_auth(graphql_client):
 
 
 def test_issues_is_empty_when_unauthenticated(graphql_client):
-    result = graphql_client.execute('query { session { issues } }')
+    result = graphql_client.execute('query { session { issues, customIssues { area } } }')
     assert result['data']['session']['issues'] == []
+    assert result['data']['session']['customIssues'] == []

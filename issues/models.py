@@ -69,3 +69,38 @@ class Issue(models.Model):
 
     def clean(self):
         ensure_issue_matches_area(self.value, self.area)
+
+
+class CustomIssueManager(models.Manager):
+    def set_for_user(self, user: JustfixUser, area: str, description: str):
+        self.filter(user=user, area=area).delete()
+        description = description.strip()
+        if description:
+            issue = CustomIssue(user=user, area=area, description=description)
+            issue.full_clean()
+            issue.save()
+
+    def get_for_user(self, user: JustfixUser, area: str) -> str:
+        issues = self.filter(user=user, area=area).all()
+        if len(issues) == 0:
+            return ''
+        return issues[0].description
+
+
+class CustomIssue(models.Model):
+    class Meta:
+        unique_together = ('user', 'area')
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='custom_issues',
+        help_text="The user reporting the custom issue.")
+
+    area = models.CharField(
+        max_length=VALUE_MAXLEN, choices=ISSUE_AREA_CHOICES.choices,
+        help_text="The area this custom issue belongs to.")
+
+    description = models.TextField(
+        help_text="The description of this custom issue."
+        )
+
+    objects = CustomIssueManager()

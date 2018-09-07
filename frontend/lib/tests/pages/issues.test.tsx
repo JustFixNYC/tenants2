@@ -5,7 +5,7 @@ import { FakeSessionInfo, createTestGraphQlClient, FakeAppContext } from '../uti
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import ReactTestingLibraryPal from '../rtl-pal';
 import { AppContextType, AppContext } from '../../app-context';
-import { IssuesRoutes } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea } from '../../pages/issues';
 import Routes from '../../routes';
 
 
@@ -44,9 +44,15 @@ describe('issues checklist', () => {
     pal.clickButtonOrLink('Save');
 
     const req = client.getRequestQueue()[0];
-    expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'] });
+    expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'], other: '' });
     session = {...session, issues: [...session.issues, 'HOME__MICE'] };
     req.resolve({ issueArea: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
   });
+});
+
+test('customIssueForArea() works', () => {
+  const ci = [{area: 'HOME', description: 'blah'}];
+  expect(customIssueForArea('HOME', ci)).toBe('blah');
+  expect(customIssueForArea('BEDROOMS', ci)).toBe('');
 });

@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from users.tests.factories import UserFactory
 from issues import models
+from issues.models import CustomIssue
 
 
 def test_issue_choice_areas_are_valid():
@@ -29,6 +30,9 @@ def test_issue_raises_err_on_mismatched_area():
 @pytest.mark.django_db
 def test_set_area_issues_for_user_works():
     user = UserFactory.create()
+    models.Issue.objects.set_area_issues_for_user(user, 'BEDROOMS', [
+        'BEDROOMS__PAINT'
+    ])
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
         'HOME__MICE'
     ])
@@ -38,3 +42,19 @@ def test_set_area_issues_for_user_works():
     assert models.Issue.objects.get_area_issues_for_user(user, 'HOME') == [
         'HOME__RATS'
     ]
+    assert models.Issue.objects.get_area_issues_for_user(user, 'BEDROOMS') == [
+        'BEDROOMS__PAINT'
+    ]
+
+
+@pytest.mark.django_db
+def test_set_custom_issue_for_user_works():
+    user = UserFactory.create()
+
+    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
+    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+
+    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'blah')
+
+    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'blah'
+    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''

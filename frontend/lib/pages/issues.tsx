@@ -12,12 +12,20 @@ import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
 import { AppContextType, withAppContext } from '../app-context';
-import { MultiCheckboxFormField } from '../form-fields';
+import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
 import { NextButton } from './onboarding-step-1';
+import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
 
 const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
 const ISSUE_CHOICES = require('../../../common-data/issue-choices.json') as DjangoChoices;
+
+export function customIssueForArea(area: string, customIssues: AllSessionInfo_customIssues[]): string {
+  for (let ci of customIssues) {
+    if (ci.area === area) return ci.description;
+  }
+  return '';
+}
 
 function issueArea(issue: string): string {
   return issue.split('__')[0];
@@ -49,6 +57,8 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
+        <p>Don't see your issues listed? You can add additional issues below.</p>
+        <TextareaFormField {...ctx.fieldPropsFor('other')} label="Additional issues" />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );
@@ -70,7 +80,8 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
     const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
     const initialState: IssueAreaInput = {
       area,
-      issues: issuesForArea(area, this.props.session.issues)
+      issues: issuesForArea(area, this.props.session.issues),
+      other: customIssueForArea(area, this.props.session.customIssues)
     }
     if (label === null) {
       return <NotFound {...this.props} />;

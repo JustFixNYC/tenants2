@@ -12,7 +12,7 @@ import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
 import { AppContextType, withAppContext } from '../app-context';
-import { MultiCheckboxFormField, TextualFormField, TextareaFormField } from '../form-fields';
+import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
 import { NextButton } from './onboarding-step-1';
 import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
 

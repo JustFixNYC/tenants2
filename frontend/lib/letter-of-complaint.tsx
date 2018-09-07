@@ -3,7 +3,7 @@ import Page from './page';
 import { WhyMailALetterOfComplaint, WelcomeFragment } from './letter-of-complaint-common';
 import { Link, Switch, Route } from 'react-router-dom';
 import Routes from './routes';
-import { IssuesRoutes } from './tests/pages/issues';
+import { IssuesRoutes } from './pages/issues';
 
 
 export function Welcome(): JSX.Element {

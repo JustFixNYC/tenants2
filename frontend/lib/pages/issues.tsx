@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { DjangoChoices, safeGetDjangoChoiceLabel } from "../../common-data";
-import Page from '../../page';
-import Routes, { RouteTypes } from '../../routes';
+import { DjangoChoices, safeGetDjangoChoiceLabel } from "../common-data";
+import Page from '../page';
+import Routes, { RouteTypes } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
-import { NotFound } from '../../pages/not-found';
-import { FormSubmitter, FormContext } from '../../forms';
-import { IssueAreaInput } from '../../queries/globalTypes';
-import { fetchIssueAreaMutation } from '../../queries/IssueAreaMutation';
+import { NotFound } from './not-found';
+import { FormSubmitter, FormContext } from '../forms';
+import { IssueAreaInput } from '../queries/globalTypes';
+import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
-import { assertNotNull } from '../../util';
-import { AppContextType, withAppContext } from '../../app-context';
-import { MultiCheckboxFormField, BaseFormFieldProps } from '../../form-fields';
-import { NextButton } from '../../pages/onboarding-step-1';
+import { assertNotNull } from '../util';
+import { AppContextType, withAppContext } from '../app-context';
+import { MultiCheckboxFormField, BaseFormFieldProps } from '../form-fields';
+import { NextButton } from './onboarding-step-1';
 
-const ISSUE_AREA_CHOICES = require('../../../../common-data/issue-area-choices.json') as DjangoChoices;
+const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
-const ISSUE_CHOICES = require('../../../../common-data/issue-choices.json') as DjangoChoices;
+const ISSUE_CHOICES = require('../../../common-data/issue-choices.json') as DjangoChoices;
 
 function issueArea(issue: string): string {
   return issue.split('__')[0];

@@ -50,11 +50,17 @@ class IssueManager(models.Manager):
 
 
 class Issue(models.Model):
-    user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE, related_name='issues')
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='issues',
+        help_text="The user reporting the issue.")
 
-    area = models.CharField(max_length=VALUE_MAXLEN, choices=ISSUE_AREA_CHOICES.choices)
+    area = models.CharField(
+        max_length=VALUE_MAXLEN, choices=ISSUE_AREA_CHOICES.choices,
+        help_text="The area this issue belongs to.")
 
-    value = models.CharField(max_length=VALUE_MAXLEN, choices=ISSUE_CHOICES.choices)
+    value = models.CharField(
+        max_length=VALUE_MAXLEN, choices=ISSUE_CHOICES.choices,
+        help_text="The issue the user has reported.")
 
     objects = IssueManager()
 

@@ -616,7 +616,7 @@
           "fields": [
             {
               "name": "area",
-              "description": "",
+              "description": "The area for the issues being set.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -769,7 +769,7 @@
           "inputFields": [
             {
               "name": "area",
-              "description": "",
+              "description": "The area for the issues being set.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

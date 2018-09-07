@@ -5,11 +5,16 @@ from . import models
 
 class IssueAreaForm(forms.Form):
     area = forms.ChoiceField(
-        choices=models.ISSUE_AREA_CHOICES.choices)
+        choices=models.ISSUE_AREA_CHOICES.choices,
+        help_text="The area for the issues being set.")
 
     issues = forms.MultipleChoiceField(
         required=False,
-        choices=models.ISSUE_CHOICES.choices)
+        choices=models.ISSUE_CHOICES.choices,
+        help_text=(
+            "The issues to set. Any issues not listed, but in the same area, will be "
+            "removed."
+        ))
 
     def clean(self):
         cleaned_data = super().clean()

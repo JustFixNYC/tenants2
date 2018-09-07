@@ -11,7 +11,7 @@ import { IssueAreaInput } from '../queries/globalTypes';
 import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
-import { AppContextType, withAppContext } from '../app-context';
+import { AppContextType, withAppContext, AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
 import { NextButton } from './onboarding-step-1';
 import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
@@ -29,6 +29,24 @@ export function customIssueForArea(area: string, customIssues: AllSessionInfo_cu
 
 function issueArea(issue: string): string {
   return issue.split('__')[0];
+}
+
+export function areaIssueCount(area: string, issues: string[], customIssues: AllSessionInfo_customIssues[]): number {
+  let count = 0;
+
+  for (let issue of issues) {
+    if (issueArea(issue) === area) {
+      count += 1;
+    }
+  }
+
+  for (let ci of customIssues) {
+    if (ci.area === area) {
+      count += 1;
+    }
+  }
+
+  return count;
 }
 
 function issuesForArea(area: string, issues: string[]): string[] {
@@ -106,14 +124,30 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
 
 export const IssuesArea = withAppContext(IssuesAreaWithoutCtx);
 
+function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
+  const { area, label } = props;
+
+  return (
+    <AppContext.Consumer>
+      {(ctx) => {
+        const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
+        return (
+          <Link to={Routes.loc.issues.area.create(area)} className="button is-fullwidth">
+            {label}
+            <span className="tag is-info" data-jf-tag-count={count}>{count}</span>
+          </Link>
+        );
+      }}
+    </AppContext.Consumer>
+  );
+}
+
 function IssuesHome(): JSX.Element {
   return (
     <Page title="Issue checklist">
       <h1 className="title">Issue checklist</h1>
       {ISSUE_AREA_CHOICES.map(([value, label]) => (
-        <Link key={value} to={Routes.loc.issues.area.create(value)} className="button is-fullwidth">
-          {label}
-        </Link>
+        <IssueAreaLink key={value} area={value} label={label} />
       ))}
       <br/>
       <div className="field is-grouped">

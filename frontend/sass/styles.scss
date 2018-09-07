@@ -50,7 +50,8 @@ $justfix-blue: #0096D7;
 }
 
 .button:focus {
-    text-decoration: underline;
+    outline: 1px dashed rgba(0, 0, 0, 0.5);
+    outline-offset: -5px;
 }
 
 .hero {
@@ -132,4 +133,12 @@ $justfix-blue: #0096D7;
     to {
         opacity: 1.0;
     }
+}
+
+.tag[data-jf-tag-count] {
+    margin-left: 1em;
+}
+
+.tag[data-jf-tag-count="0"] {
+    display: none;
 }

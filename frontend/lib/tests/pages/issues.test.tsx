@@ -5,7 +5,7 @@ import { FakeSessionInfo, createTestGraphQlClient, FakeAppContext } from '../uti
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import ReactTestingLibraryPal from '../rtl-pal';
 import { AppContextType, AppContext } from '../../app-context';
-import { IssuesRoutes, customIssueForArea } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea, areaIssueCount } from '../../pages/issues';
 import Routes from '../../routes';
 
 
@@ -55,4 +55,14 @@ test('customIssueForArea() works', () => {
   const ci = [{area: 'HOME', description: 'blah'}];
   expect(customIssueForArea('HOME', ci)).toBe('blah');
   expect(customIssueForArea('BEDROOMS', ci)).toBe('');
+});
+
+test('areaIssueCount() works', () => {
+  expect(areaIssueCount('HOME', ['HOME__MICE'], [{
+    area: 'HOME', description: 'boop'
+  }])).toBe(2);
+  expect(areaIssueCount('HOME', ['BEDROOMS_PAINT'], [])).toBe(0);
+  expect(areaIssueCount('HOME', [], [{
+    area: 'BEDROOMS', description: 'boop'
+  }])).toBe(0);
 });

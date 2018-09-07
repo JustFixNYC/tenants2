@@ -18,7 +18,11 @@ export type DjangoChoice = [string, string];
 export type DjangoChoices = DjangoChoice[];
 
 
-/** Retrieve the human-readable label for a choice, given its machine-readable value. */
+/**
+ * Retrieve the human-readable label for a choice, given its machine-readable value.
+ * 
+ * Throw an exception if the choice is invalid.
+ */
 export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): string {
   const result = safeGetDjangoChoiceLabel(choices, value);
   if (result === null) {
@@ -27,6 +31,11 @@ export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): str
   return result;
 }
 
+/**
+ * Retrieve the human-readable label for a choice, given its machine-readable value.
+ * 
+ * Return null if the choice is invalid.
+ */
 export function safeGetDjangoChoiceLabel(choices: DjangoChoices, value: string): string|null {
   for (let [v, label] of choices) {
     if (v === value) return label;

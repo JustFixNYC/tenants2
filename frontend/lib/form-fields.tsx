@@ -102,6 +102,7 @@ export function toggleChoice(choice: string, checked: boolean, choices: string[]
   }
 }
 
+/** A JSX component that encapsulates a set of checkboxes. */
 export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
 

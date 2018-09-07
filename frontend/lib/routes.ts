@@ -1,5 +1,9 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 
+/**
+ * This namespace parallels our Routes object, providing useful types
+ * related to specific routes.
+ */
 export namespace RouteTypes {
   export namespace loc {
     export namespace issues {
@@ -10,6 +14,9 @@ export namespace RouteTypes {
   }
 }
 
+/**
+ * This is an ad-hoc structure that defines URL routes for our app.
+ */
 const Routes = {
   /** The login page. */
   login: '/login',
@@ -37,6 +44,7 @@ const Routes = {
     step4WelcomeModal: '/onboarding/step/4/welcome-modal',
   },
 
+  /** The Letter of Complaint flow. */
   loc: {
     prefix: '/loc',
     home: '/loc',
@@ -106,6 +114,16 @@ export class RouteMap {
     return this.existenceMap.size + this.parameterizedRoutes.length;
   }
 
+  /**
+   * Given a contrete pathname, returns whether a route for it will
+   * potentially match.
+   * 
+   * Note that it doesn't validate that route parameters are necessarily
+   * valid beyond their syntactic structure, e.g. passing
+   * `/objects/200` to this method may return true, but in reality there
+   * may be no object with id "200". Such cases are for route handlers
+   * further down the view heirarchy to resolve.
+   */
   exists(pathname: string): boolean {
     if (this.existenceMap.has(pathname)) {
       return true;

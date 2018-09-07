@@ -48,8 +48,16 @@ export interface AppContextType {
    */
   session: AllSessionInfo;
 
+  /**
+   * A reference to the app's GraphQL interface, for network requets.
+   */
   fetch: GraphQLFetch;
 
+  /**
+   * Currently, we often update the app's state by having network
+   * APIs return a new session state. This makes it easy for
+   * components to just pass the session data back to the app.
+   */
   updateSession: (session: AllSessionInfo) => void;
 }
 
@@ -98,6 +106,10 @@ export const defaultContext: AppContextType = {
  */
 export const AppContext = React.createContext<AppContextType>(defaultContext);
 
+/**
+ * Higher-order component (HOC) factory function to wrap existing
+ * components in a context consumer.
+ */
 export function withAppContext<P extends AppContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AppContextType>> {
   return function(props: Omit<P, keyof AppContextType>) {
     return (

@@ -1,6 +1,7 @@
 from typing import List
 from graphql import ResolveInfo
 import graphene
+from django.utils.module_loading import import_string
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from . import forms, models
@@ -22,7 +23,7 @@ class IssueArea(DjangoFormMutation):
             user, area, form.cleaned_data['issues'])
         models.CustomIssue.objects.set_for_user(
             user, area, form.cleaned_data['other'])
-        return IssueArea(session='project.schema.SessionInfo')
+        return IssueArea(session=import_string('project.schema.SessionInfo')())
 
 
 class IssueMutations:

@@ -56,7 +56,8 @@ const Routes = {
         parameterizedRoute: '/loc/issues/:area',
         create: (area: string) => `/loc/issues/${area}`,
       }
-    }
+    },
+    accessDates: '/loc/access-dates',
   },
 
   /** Example pages used in integration tests. */

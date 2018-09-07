@@ -27,12 +27,24 @@ export function WhyMail(): JSX.Element {
   );
 }
 
+export function AccessDates(): JSX.Element {
+  return (
+    <Page title="Access dates">
+      <h1 className="title">Access dates</h1>
+      <p>Hey, we haven't implemented this yet.</p>
+      <br/>
+      <Link className="button is-text" to={Routes.loc.issues.home}>Back</Link>
+    </Page>
+  );
+}
+
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
     <Switch>
       <Route path={Routes.loc.home} exact component={Welcome} />
       <Route path={Routes.loc.whyMail} exact component={WhyMail} />
       <Route path={Routes.loc.issues.prefix} component={IssuesRoutes} />
+      <Route path={Routes.loc.accessDates} exact component={AccessDates} />
     </Switch>
   );
 }

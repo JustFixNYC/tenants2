@@ -115,6 +115,15 @@ function IssuesHome(): JSX.Element {
           {label}
         </Link>
       ))}
+      <br/>
+      <div className="field is-grouped">
+        <div className="control">
+          <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
+        </div>
+        <div className="control">
+          <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
+        </div>
+      </div>
     </Page>
   );
 }

@@ -44,7 +44,7 @@ describe('issues checklist', () => {
     pal.clickButtonOrLink('Save');
 
     const req = client.getRequestQueue()[0];
-    expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'] });
+    expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'], other: '' });
     session = {...session, issues: [...session.issues, 'HOME__MICE'] };
     req.resolve({ issueArea: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));

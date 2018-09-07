@@ -16,6 +16,10 @@ class IssueAreaForm(forms.Form):
             "removed."
         ))
 
+    other = forms.CharField(
+        required=False,
+        help_text="Any other custom issues the user wants to report.")
+
     def clean(self):
         cleaned_data = super().clean()
         area = cleaned_data.get('area')

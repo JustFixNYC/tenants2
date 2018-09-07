@@ -21,6 +21,14 @@ def convert_form_field_to_required_list(field):
     return graphene.List(graphene.NonNull(graphene.String), required=True)
 
 
+@convert_form_field.register(forms.CharField)
+def convert_form_field_to_required_string(field):
+    # Note that we're *always* setting required to True, even if the
+    # field isn't required. This is because we always want an empty
+    # string to be passed-in if the field is empty, rather than null.
+    return graphene.String(description=field.help_text, required=True)
+
+
 class StrictFormFieldErrorType(graphene.ObjectType):
     '''
     This is similar to Graphene-Django's default form field

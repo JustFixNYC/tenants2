@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DjangoChoices, safeGetDjangoChoiceLabel } from "../common-data";
+import { DjangoChoices, safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
 import Page from '../page';
 import Routes, { RouteTypes } from '../routes';
 import { Switch, Route } from 'react-router';
@@ -94,7 +94,7 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
   }
 
   render() {
-    const area = this.props.match.params.area;
+    const area = slugToAllCaps(this.props.match.params.area);
     const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
     const initialState: IssueAreaInput = {
       area,
@@ -132,7 +132,7 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
         return (
-          <Link to={Routes.loc.issues.area.create(area)} className="button is-fullwidth">
+          <Link to={Routes.loc.issues.area.create(allCapsToSlug(area))} className="button is-fullwidth">
             {label}
             <span className="tag is-info" data-jf-tag-count={count}>{count}</span>
           </Link>

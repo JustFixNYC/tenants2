@@ -54,3 +54,20 @@ export function validateDjangoChoices(choices: DjangoChoices, values: string[]) 
     getDjangoChoiceLabel(choices, value);
   });
 }
+
+/**
+ * Convert an all-caps value, like 'FOO_BAR', to an
+ * all-lowercase slug-friendly value, like 'foo-bar'.
+ */
+export function allCapsToSlug(value: string): string {
+  return value.toLowerCase().replace(/_/g, '-');
+}
+
+/**
+ * Convert an all-lowercase slug-friendly value,
+ * like 'foo-bar', to an all-caps value, like
+ * 'FOO_BAR'.
+ */
+export function slugToAllCaps(value: string): string {
+  return value.toUpperCase().replace(/-/g, '_');
+}

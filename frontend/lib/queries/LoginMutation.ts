@@ -68,6 +68,11 @@ export interface LoginMutation_login_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
+export interface LoginMutation_login_session_customIssues {
+  area: string;
+  description: string;
+}
+
 export interface LoginMutation_login_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -85,6 +90,7 @@ export interface LoginMutation_login_session {
   onboardingStep2: LoginMutation_login_session_onboardingStep2 | null;
   onboardingStep3: LoginMutation_login_session_onboardingStep3 | null;
   issues: string[];
+  customIssues: LoginMutation_login_session_customIssues[];
 }
 
 export interface LoginMutation_login {

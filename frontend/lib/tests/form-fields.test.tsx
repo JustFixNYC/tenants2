@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice } from "../form-fields";
+import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField } from "../form-fields";
 import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
 
@@ -27,7 +27,7 @@ function choiceFieldProps(props: Partial<ChoiceFormFieldProps> = {}): ChoiceForm
 }
 
 describe('TextualFormField', () => {
-  const makeButton = (props: Partial<TextualFormFieldProps> = {}) => {
+  const makeField = (props: Partial<TextualFormFieldProps> = {}) => {
     const defaultProps: TextualFormFieldProps = {
       ...baseFieldProps({ value: '' }),
       label: 'Foo'
@@ -41,13 +41,41 @@ describe('TextualFormField', () => {
   }
 
   it('renders properly when it has no errors', () => {
-    const html = makeButton().html();
+    const html = makeField().html();
     expect(html).toContain('aria-invalid="false"');
     expect(html).not.toContain('is-danger');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeButton({ errors: ['this cannot be blank'] }).html();
+    const html = makeField({ errors: ['this cannot be blank'] }).html();
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('aria-label="Foo, this cannot be blank"');
+    expect(html).toContain('is-danger');
+  });
+});
+
+describe('TextareaFormField', () => {
+  const makeField = (props: Partial<TextualFormFieldProps> = {}) => {
+    const defaultProps: TextualFormFieldProps = {
+      ...baseFieldProps({ value: '' }),
+      label: 'Foo'
+    };
+    return shallow(
+      <TextareaFormField
+        {...defaultProps}
+        {...props}
+      />
+    );
+  }
+
+  it('renders properly when it has no errors', () => {
+    const html = makeField().html();
+    expect(html).toContain('aria-invalid="false"');
+    expect(html).not.toContain('is-danger');
+  });
+
+  it('renders properly when it has errors', () => {
+    const html = makeField({ errors: ['this cannot be blank'] }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');

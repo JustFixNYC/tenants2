@@ -68,6 +68,11 @@ export interface OnboardingStep3Mutation_onboardingStep3_session_onboardingStep3
   receivesPublicAssistance: boolean;
 }
 
+export interface OnboardingStep3Mutation_onboardingStep3_session_customIssues {
+  area: string;
+  description: string;
+}
+
 export interface OnboardingStep3Mutation_onboardingStep3_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -85,6 +90,7 @@ export interface OnboardingStep3Mutation_onboardingStep3_session {
   onboardingStep2: OnboardingStep3Mutation_onboardingStep3_session_onboardingStep2 | null;
   onboardingStep3: OnboardingStep3Mutation_onboardingStep3_session_onboardingStep3 | null;
   issues: string[];
+  customIssues: OnboardingStep3Mutation_onboardingStep3_session_customIssues[];
 }
 
 export interface OnboardingStep3Mutation_onboardingStep3 {

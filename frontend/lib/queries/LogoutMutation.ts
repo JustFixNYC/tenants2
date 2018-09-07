@@ -55,6 +55,11 @@ export interface LogoutMutation_logout_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
+export interface LogoutMutation_logout_session_customIssues {
+  area: string;
+  description: string;
+}
+
 export interface LogoutMutation_logout_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -72,6 +77,7 @@ export interface LogoutMutation_logout_session {
   onboardingStep2: LogoutMutation_logout_session_onboardingStep2 | null;
   onboardingStep3: LogoutMutation_logout_session_onboardingStep3 | null;
   issues: string[];
+  customIssues: LogoutMutation_logout_session_customIssues[];
 }
 
 export interface LogoutMutation_logout {

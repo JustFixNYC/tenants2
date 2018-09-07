@@ -15,6 +15,7 @@ export type BulmaClassName =
   'select' |
   'input' |
   'button' |
+  'textarea' |
   'navbar-burger' |
   'navbar-menu' |
   'navbar-item';

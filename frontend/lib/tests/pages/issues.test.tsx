@@ -5,7 +5,7 @@ import { FakeSessionInfo, createTestGraphQlClient, FakeAppContext } from '../uti
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import ReactTestingLibraryPal from '../rtl-pal';
 import { AppContextType, AppContext } from '../../app-context';
-import { IssuesRoutes } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea } from '../../pages/issues';
 import Routes from '../../routes';
 
 
@@ -49,4 +49,10 @@ describe('issues checklist', () => {
     req.resolve({ issueArea: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
   });
+});
+
+test('customIssueForArea() works', () => {
+  const ci = [{area: 'HOME', description: 'blah'}];
+  expect(customIssueForArea('HOME', ci)).toBe('blah');
+  expect(customIssueForArea('BEDROOMS', ci)).toBe('');
 });

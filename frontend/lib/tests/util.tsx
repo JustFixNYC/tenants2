@@ -78,7 +78,8 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   onboardingStep1: null,
   onboardingStep2: null,
   onboardingStep3: null,
-  issues: []
+  issues: [],
+  customIssues: []
 };
 
 export const FakeAppContext: AppContextType = {

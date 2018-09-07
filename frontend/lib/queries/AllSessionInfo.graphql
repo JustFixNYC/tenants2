@@ -20,4 +20,8 @@ fragment AllSessionInfo on SessionInfo {
         receivesPublicAssistance
     }
     issues
+    customIssues {
+        area
+        description
+    }
 }

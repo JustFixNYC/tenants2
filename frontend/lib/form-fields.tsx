@@ -190,3 +190,27 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
     </div>
   );
 }
+
+/** A JSX component that encapsulates a <textarea>. */
+export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
+  let { ariaLabel, errorHelp } = formatErrors(props);
+
+  // TODO: Assign an id to the input and make the label point to it.
+  return (
+    <div className="field">
+      <label className="label">{props.label}</label>
+      <div className="control">
+        <textarea
+          className={bulmaClasses('textarea', { 'is-danger': !!props.errors })}
+          disabled={props.isDisabled}
+          aria-invalid={ariaBool(!!props.errors)}
+          aria-label={ariaLabel}
+          name={props.name}
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      </div>
+      {errorHelp}
+    </div>
+  );
+}

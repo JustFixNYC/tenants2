@@ -68,6 +68,11 @@ export interface IssueAreaMutation_issueArea_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
+export interface IssueAreaMutation_issueArea_session_customIssues {
+  area: string;
+  description: string;
+}
+
 export interface IssueAreaMutation_issueArea_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -85,6 +90,7 @@ export interface IssueAreaMutation_issueArea_session {
   onboardingStep2: IssueAreaMutation_issueArea_session_onboardingStep2 | null;
   onboardingStep3: IssueAreaMutation_issueArea_session_onboardingStep3 | null;
   issues: string[];
+  customIssues: IssueAreaMutation_issueArea_session_customIssues[];
 }
 
 export interface IssueAreaMutation_issueArea {

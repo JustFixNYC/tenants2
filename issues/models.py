@@ -50,6 +50,9 @@ class IssueManager(models.Manager):
 
 
 class Issue(models.Model):
+    class Meta:
+        unique_together = ('user', 'value')
+
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='issues',
         help_text="The user reporting the issue.")

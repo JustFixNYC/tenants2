@@ -102,6 +102,10 @@ export class RouteMap {
     });
   }
 
+  get size(): number {
+    return this.existenceMap.size + this.parameterizedRoutes.length;
+  }
+
   exists(pathname: string): boolean {
     if (this.existenceMap.has(pathname)) {
       return true;

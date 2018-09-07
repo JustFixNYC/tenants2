@@ -70,7 +70,7 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
     const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
     const initialState: IssueAreaInput = {
       area,
-      issues: issuesForArea(area, this.props.session.issues || [])
+      issues: issuesForArea(area, this.props.session.issues)
     }
     if (label === null) {
       return <NotFound {...this.props} />;

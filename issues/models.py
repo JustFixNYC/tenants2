@@ -33,6 +33,7 @@ def get_issue_area(value: str) -> str:
 
 class IssueManager(models.Manager):
     def set_area_issues_for_user(self, user: JustfixUser, area: str, issues: List[str]):
+        issues = list(set(issues))  # Remove duplicates.
         self.filter(user=user, area=area).delete()
         models = [
             Issue(user=user, area=area, value=value)

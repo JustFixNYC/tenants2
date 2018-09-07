@@ -33,7 +33,7 @@ def test_set_area_issues_for_user_works():
         'HOME__MICE'
     ])
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
-        'HOME__RATS'
+        'HOME__RATS', 'HOME__RATS'
     ])
     assert models.Issue.objects.get_area_issues_for_user(user, 'HOME') == [
         'HOME__RATS'

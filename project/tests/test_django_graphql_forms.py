@@ -64,6 +64,8 @@ def jsonify(obj):
 
 
 def execute_query(bar_field='blah', multi_field=None):
+    if multi_field is None:
+        multi_field = []
     client = Client(schema)
     input_var = {'barField': bar_field, 'multiField': multi_field}
 

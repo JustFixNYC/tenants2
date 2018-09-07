@@ -12,7 +12,7 @@ import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
 import { AppContextType, withAppContext } from '../app-context';
-import { MultiCheckboxFormField, BaseFormFieldProps } from '../form-fields';
+import { MultiCheckboxFormField } from '../form-fields';
 import { NextButton } from './onboarding-step-1';
 
 const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
@@ -42,13 +42,13 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
 
   @autobind
   renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
-    // It's annoying that we have to typecast here, but due to annoying bugs with the GraphQL
-    // schema, we need to.
-    const fieldProps = ctx.fieldPropsFor('issues') as BaseFormFieldProps<string[]>;
-
     return (
       <React.Fragment>
-        <MultiCheckboxFormField {...fieldProps} label="Select your issues" choices={issueChoicesForArea(area)} />
+        <MultiCheckboxFormField
+          {...ctx.fieldPropsFor('issues')}
+          label="Select your issues"
+          choices={issueChoicesForArea(area)}
+        />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );

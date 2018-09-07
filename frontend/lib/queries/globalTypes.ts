@@ -7,7 +7,7 @@
 
 export interface IssueAreaInput {
   area: string;
-  issues?: (string | null)[] | null;
+  issues: string[];
   clientMutationId?: string | null;
 }
 

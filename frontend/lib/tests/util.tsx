@@ -77,12 +77,15 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   isStaff: false,
   onboardingStep1: null,
   onboardingStep2: null,
-  onboardingStep3: null
+  onboardingStep3: null,
+  issues: []
 };
 
 export const FakeAppContext: AppContextType = {
   server: FakeServerInfo,
-  session: FakeSessionInfo
+  session: FakeSessionInfo,
+  fetch: jest.fn(),
+  updateSession: jest.fn()
 };
 
 export const FakeDebugAppContext: AppContextType = {

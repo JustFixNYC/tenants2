@@ -19,4 +19,5 @@ fragment AllSessionInfo on SessionInfo {
         leaseType
         receivesPublicAssistance
     }
+    issues
 }

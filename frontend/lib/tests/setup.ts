@@ -22,6 +22,7 @@ if (typeof(window) !== 'undefined') {
 
 const originalLog = console.log;
 
+/* istanbul ignore next */
 /** 
  * Apparently jest sometimes doesn't log stuff to the console, which is
  * AWESOME. So here we'll force some newlines and things to hopefully

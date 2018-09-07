@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "tsc --noEmit",
-    "test": "jest && npm run lint",
+    "test": "jest",
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "npm run sass -- --watch",

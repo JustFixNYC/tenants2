@@ -135,7 +135,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   getAppContext(): AppContextType {
     return {
       server: this.props.server,
-      session: this.state.session
+      session: this.state.session,
+      fetch: this.fetch,
+      updateSession: this.handleSessionChange
     };
   }
 

@@ -84,6 +84,7 @@ export interface LoginMutation_login_session {
   onboardingStep1: LoginMutation_login_session_onboardingStep1 | null;
   onboardingStep2: LoginMutation_login_session_onboardingStep2 | null;
   onboardingStep3: LoginMutation_login_session_onboardingStep3 | null;
+  issues: string[];
 }
 
 export interface LoginMutation_login {

@@ -70,6 +70,7 @@ export interface AllSessionInfo {
   onboardingStep1: AllSessionInfo_onboardingStep1 | null;
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
+  issues: string[];
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -93,5 +94,6 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         leaseType
         receivesPublicAssistance
     }
+    issues
 }
 `;

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',
     'onboarding.apps.OnboardingConfig',
+    'issues.apps.IssuesConfig',
 ]
 
 MIDDLEWARE = [

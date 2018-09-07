@@ -1,0 +1,11 @@
+mutation IssueAreaMutation($input: IssueAreaInput!) {
+  issueArea(input: $input) {
+    errors {
+      field,
+      messages
+    }
+    session {
+      ...AllSessionInfo
+    }
+  }
+}

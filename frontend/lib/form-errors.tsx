@@ -120,7 +120,9 @@ export function formatErrors(props: WithFormFieldErrors & { label?: string }): {
   let errorHelp = null;
 
   if (props.errors) {
-    const allErrors = props.errors.join(', ');
+    // We expect each error to be a sentence, so we'll join
+    // them with whitespace.
+    const allErrors = props.errors.join(' ');
     errorHelp = <p className="help is-danger">{allErrors}</p>;
     if (props.label !== undefined) {
       ariaLabel = `${ariaLabel}, ${allErrors}`;

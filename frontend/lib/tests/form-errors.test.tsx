@@ -8,7 +8,7 @@ describe('formatErrors()', () => {
       errors: ['foo', 'bar']
     });
     expect(shallow(assertNotNull(errorHelp)).html())
-      .toBe('<p class="help is-danger">foo, bar</p>');
+      .toBe('<p class="help is-danger">foo bar</p>');
   });
 
   it('returns null for errorHelp when no errors exist', () => {

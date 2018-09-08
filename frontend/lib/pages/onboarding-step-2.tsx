@@ -43,7 +43,7 @@ export function Step2EvictionModal(): JSX.Element {
 
 export interface OnboardingStep2Props {
   fetch: GraphQLFetch;
-  onSuccess: (session: AllSessionInfo) => void;
+  onSuccess: (session: Partial<AllSessionInfo>) => void;
   initialState?: OnboardingStep2Input|null;
 }
 

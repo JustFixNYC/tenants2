@@ -45,9 +45,11 @@ def _get_step_1_info(graphql_client):
 
 
 def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
+    queries = [f'OnboardingStep{n}Mutation.graphql']
+    if n == 4:
+        queries.append('AllSessionInfo.graphql')
     return graphql_client.execute(
-        get_frontend_queries(
-            f'OnboardingStep{n}Mutation.graphql', 'AllSessionInfo.graphql'),
+        get_frontend_queries(*queries),
         variable_values={'input': {
             **VALID_STEP_DATA[n],
             **input_kwargs

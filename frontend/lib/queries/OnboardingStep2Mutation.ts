@@ -1,6 +1,5 @@
 // This file was automatically generated and should not be edited.
 
-import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -19,19 +18,6 @@ export interface OnboardingStep2Mutation_output_errors {
    * A list of human-readable validation errors.
    */
   messages: string[];
-}
-
-export interface OnboardingStep2Mutation_output_session_onboardingStep1 {
-  name: string;
-  /**
-   * The user's address. Only street name and number are required.
-   */
-  address: string;
-  aptNumber: string;
-  /**
-   * The New York City borough the user's address is in.
-   */
-  borough: string;
 }
 
 export interface OnboardingStep2Mutation_output_session_onboardingStep2 {
@@ -57,40 +43,8 @@ export interface OnboardingStep2Mutation_output_session_onboardingStep2 {
   hasCalled311: boolean;
 }
 
-export interface OnboardingStep2Mutation_output_session_onboardingStep3 {
-  /**
-   * The type of lease the user has on their dwelling.
-   */
-  leaseType: string;
-  /**
-   * Does the user receive public assistance, e.g. Section 8?
-   */
-  receivesPublicAssistance: boolean;
-}
-
-export interface OnboardingStep2Mutation_output_session_customIssues {
-  area: string;
-  description: string;
-}
-
 export interface OnboardingStep2Mutation_output_session {
-  /**
-   * The phone number of the currently logged-in user, or null if not logged-in.
-   */
-  phoneNumber: string | null;
-  /**
-   * The cross-site request forgery (CSRF) token.
-   */
-  csrfToken: string;
-  /**
-   * Whether or not the currently logged-in user is a staff member.
-   */
-  isStaff: boolean;
-  onboardingStep1: OnboardingStep2Mutation_output_session_onboardingStep1 | null;
   onboardingStep2: OnboardingStep2Mutation_output_session_onboardingStep2 | null;
-  onboardingStep3: OnboardingStep2Mutation_output_session_onboardingStep3 | null;
-  issues: string[];
-  customIssues: OnboardingStep2Mutation_output_session_customIssues[];
 }
 
 export interface OnboardingStep2Mutation_output {
@@ -118,10 +72,15 @@ export function fetchOnboardingStep2Mutation(fetchGraphQL: (query: string, args?
             messages
         },
         session {
-            ...AllSessionInfo
+            onboardingStep2 {
+                isInEviction
+                needsRepairs
+                hasNoServices
+                hasPests
+                hasCalled311
+            }
         }
     }
 }
-
-${AllSessionInfo.graphQL}`, args);
+`, args);
 }

@@ -85,7 +85,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
 
 export interface OnboardingStep3Props {
   fetch: GraphQLFetch;
-  onSuccess: (session: AllSessionInfo) => void;
+  onSuccess: (session: Partial<AllSessionInfo>) => void;
   initialState?: OnboardingStep3Input|null;
 }
 

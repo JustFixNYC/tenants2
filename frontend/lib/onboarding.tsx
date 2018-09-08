@@ -37,7 +37,7 @@ export interface OnboardingRoutesProps {
   session: AllSessionInfo;
   fetch: GraphQLFetch;
   onCancelOnboarding: () => void;
-  onSessionChange: (session: AllSessionInfo) => void;
+  onSessionChange: (session: Partial<AllSessionInfo>) => void;
 }
 
 const PROGRESS_PCT = {

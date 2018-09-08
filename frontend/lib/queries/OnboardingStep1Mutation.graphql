@@ -5,7 +5,12 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
             messages
         },
         session {
-            ...AllSessionInfo
+            onboardingStep1 {
+                name,
+                address,
+                aptNumber,
+                borough
+            }
         }
     }
 }

@@ -52,7 +52,7 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
             **VALID_STEP_DATA[n],
             **input_kwargs
         }}
-    )['data'][f'onboardingStep{n}']
+    )['data'][f'output']
 
 
 def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):

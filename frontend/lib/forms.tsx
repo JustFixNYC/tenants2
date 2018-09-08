@@ -4,6 +4,7 @@ import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
+import { AppContext } from './app-context';
 
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
@@ -11,6 +12,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   initialState: FormInput;
+  initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
 }
 
@@ -18,13 +20,41 @@ type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFi
 
 type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
 
+/**
+ * This component wraps a form and modifies its initial state with any information
+ * passed from the server as a result of a legacy browser POST.
+ */
+function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFormFieldErrors>(
+  props: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+) {
+  return (
+    <AppContext.Consumer>
+      {(appCtx) => {
+        let newProps = props;
+        if (appCtx.legacyFormSubmission) {
+          const initialState: FormInput = appCtx.legacyFormSubmission.input;
+          const output: FormOutput = appCtx.legacyFormSubmission.result;
+          const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
+          newProps = {
+            ...props,
+            initialState,
+            initialErrors
+          };
+          // TODO: Handle the case where there were no errors and we need to redirect.
+        }
+        return <FormSubmitterWithoutRouter {...newProps} />;
+      }}
+    </AppContext.Consumer>
+  );
+}
 
 /** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      errors: props.initialErrors
     };
   }
 
@@ -78,7 +108,7 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
   render() {
     return (
       <Route render={(ctx) => (
-        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
+        <LegacyFormSubmissionWrapper {...this.props} {...ctx} />
       )} />
     );
   }

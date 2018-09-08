@@ -8,7 +8,7 @@ import GraphQlClient from './graphql-client';
 
 import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { AppServerInfo, AppContext, AppContextType } from './app-context';
+import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
 import { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
@@ -28,6 +28,13 @@ export interface AppProps {
 
   /** Metadata about the server. */
   server: AppServerInfo;
+
+  /**
+   * If a form was manually submitted via a browser that doesn't support JS,
+   * the server will have processed the POST data for us and put the
+   * results here.
+   */
+  legacyFormSubmission?: AppLegacyFormSubmission;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -137,7 +144,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       server: this.props.server,
       session: this.state.session,
       fetch: this.fetch,
-      updateSession: this.handleSessionChange
+      updateSession: this.handleSessionChange,
+      legacyFormSubmission: this.props.legacyFormSubmission
     };
   }
 

@@ -114,8 +114,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   @autobind
-  handleSessionChange(session: AllSessionInfo) {
-    this.setState({ session });
+  handleSessionChange(updates: Partial<AllSessionInfo>) {
+    this.setState(state => ({ ...state, session: { ...state.session, updates } }));
   }
 
   componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {

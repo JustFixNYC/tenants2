@@ -13,6 +13,7 @@ import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { DjangoChoices } from '../common-data';
 import { fetchOnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal } from '../modal';
+import { createMutationSubmitHandler } from '../forms-graphql';
 
 export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
 const NEXT_STEP = Routes.onboarding.step4;
@@ -90,12 +91,6 @@ export interface OnboardingStep3Props {
 
 export default class OnboardingStep3 extends React.Component<OnboardingStep3Props> {
   @autobind
-  handleSubmit(input: OnboardingStep3Input) {
-    return fetchOnboardingStep3Mutation(this.props.fetch, { input })
-      .then(result => result.output);
-  }
-
-  @autobind
   renderForm(ctx: FormContext<OnboardingStep3Input>): JSX.Element {
     return (
       <React.Fragment>
@@ -136,7 +131,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
         <p>Your rights vary depending on what type of lease you have. <strong>If you're not sure, we'll help you.</strong></p>
         <br/>
         <FormSubmitter
-          onSubmit={this.handleSubmit}
+          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep3Mutation)}
           initialState={this.props.initialState || blankInitialState}
           onSuccessRedirect={(output, input) => {
             this.props.onSuccess(assertNotNull(output.session));

@@ -5,10 +5,10 @@ import { FormSubmitter } from './forms';
 import { bulmaClasses } from './bulma';
 import { GraphQLFetch } from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import autobind from 'autobind-decorator';
 import { fetchLoginMutation } from './queries/LoginMutation';
 import { assertNotNull } from './util';
 import { TextualFormField } from './form-fields';
+import { createMutationSubmitHandler } from './forms-graphql';
 
 const initialState: LoginInput = {
   phoneNumber: '',
@@ -22,14 +22,9 @@ export interface LoginFormProps {
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {
-  @autobind
-  handleSubmit(input: LoginInput) {
-    return fetchLoginMutation(this.props.fetch, { input }).then(result => result.output);
-  }
-
   render() {
     return (
-      <FormSubmitter onSubmit={this.handleSubmit}
+      <FormSubmitter onSubmit={createMutationSubmitHandler(this.props.fetch, fetchLoginMutation)}
                      initialState={initialState}
                      onSuccessRedirect={this.props.onSuccessRedirect}
                      onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session)) } >

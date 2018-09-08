@@ -26,13 +26,13 @@ const blankInitialState: OnboardingStep1Input = {
 
 export interface OnboardingStep1Props {
   fetch: GraphQLFetch;
-  onSuccess: (session: AllSessionInfo) => void;
+  onSuccess: (session: Partial<AllSessionInfo>) => void;
   onCancel: () => void;
   initialState?: OnboardingStep1Input|null;
 }
 
 interface OnboardingStep1State {
-  successSession?: AllSessionInfo;
+  successInfo?: OnboardingStep1Input;
 }
 
 export function NextButton(props: { isLoading: boolean, label?: string }) {
@@ -99,28 +99,27 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?
         </ModalLink>
-        {this.state.successSession && this.renderSuccessModalOrRedirect(this.state.successSession, ctx.fieldPropsFor('address').value)}
+        {this.state.successInfo && this.renderSuccessModalOrRedirect(this.state.successInfo, ctx.fieldPropsFor('address').value)}
       </React.Fragment>
     );
   }
 
-  renderSuccessModalOrRedirect(successSession: AllSessionInfo, enteredAddress: string): JSX.Element {
-    const finalStep1 = assertNotNull(successSession.onboardingStep1);
+  renderSuccessModalOrRedirect(successInfo: OnboardingStep1Input, enteredAddress: string): JSX.Element {
     const nextStep = Routes.onboarding.step2;
 
-    if (areAddressesTheSame(finalStep1.address, enteredAddress)) {
+    if (areAddressesTheSame(successInfo.address, enteredAddress)) {
       return <Redirect push to={nextStep} />;
     }
 
     const handleClose = () => {
-      this.setState({ successSession: undefined });
+      this.setState({ successInfo: undefined });
     };
 
     return (
       <Modal title="Is this your address?" onClose={handleClose} render={({close}) => (
         <div className="content box">
           <h1 className="title">Is this your address?</h1>
-          <p>{finalStep1.address}, {getDjangoChoiceLabel(BOROUGH_CHOICES, finalStep1.borough)}</p>
+          <p>{successInfo.address}, {getDjangoChoiceLabel(BOROUGH_CHOICES, successInfo.borough)}</p>
           <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
           <Link to={nextStep} className="button is-primary is-fullwidth">Yes!</Link>
         </div>
@@ -138,8 +137,9 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
                        initialState={this.props.initialState || blankInitialState}
                        onSuccess={(output) => {
                          const successSession = assertNotNull(output.session);
+                         const successInfo = assertNotNull(successSession.onboardingStep1);
                          this.props.onSuccess(successSession);
-                         this.setState({ successSession })
+                         this.setState({ successInfo })
                        }}>
           {this.renderForm}
         </FormSubmitter>

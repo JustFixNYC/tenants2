@@ -58,7 +58,7 @@ export interface AppContextType {
    * APIs return a new session state. This makes it easy for
    * components to just pass the session data back to the app.
    */
-  updateSession: (session: AllSessionInfo) => void;
+  updateSession: (session: Partial<AllSessionInfo>) => void;
 }
 
 /* istanbul ignore next: this will never be executed in practice. */
@@ -90,7 +90,7 @@ export const defaultContext: AppContextType = {
   fetch(query: string, variables?: any): Promise<any> {
     throw new UnimplementedError();
   },
-  updateSession(session: AllSessionInfo) {
+  updateSession(session: Partial<AllSessionInfo>) {
     throw new UnimplementedError();
   }
 };

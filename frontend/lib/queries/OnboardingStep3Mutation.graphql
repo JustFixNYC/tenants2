@@ -5,7 +5,10 @@ mutation OnboardingStep3Mutation($input: OnboardingStep3Input!) {
             messages
         },
         session {
-            ...AllSessionInfo
+            onboardingStep3 {
+                leaseType
+                receivesPublicAssistance
+            }
         }
     }
 }

@@ -5,7 +5,11 @@ mutation IssueAreaMutation($input: IssueAreaInput!) {
       messages
     }
     session {
-      ...AllSessionInfo
+      issues
+      customIssues {
+          area
+          description
+      }
     }
   }
 }

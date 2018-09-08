@@ -5,7 +5,13 @@ mutation OnboardingStep2Mutation($input: OnboardingStep2Input!) {
             messages
         },
         session {
-            ...AllSessionInfo
+            onboardingStep2 {
+                isInEviction
+                needsRepairs
+                hasNoServices
+                hasPests
+                hasCalled311
+            }
         }
     }
 }

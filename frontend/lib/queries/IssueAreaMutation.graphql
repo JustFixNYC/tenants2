@@ -1,5 +1,5 @@
 mutation IssueAreaMutation($input: IssueAreaInput!) {
-  issueArea(input: $input) {
+  output: issueArea(input: $input) {
     errors {
       field,
       messages

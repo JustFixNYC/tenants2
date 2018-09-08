@@ -24,7 +24,7 @@ export interface LoginFormProps {
 export class LoginForm extends React.Component<LoginFormProps> {
   @autobind
   handleSubmit(input: LoginInput) {
-    return fetchLoginMutation(this.props.fetch, { input }).then(result => result.login);
+    return fetchLoginMutation(this.props.fetch, { input }).then(result => result.output);
   }
 
   render() {

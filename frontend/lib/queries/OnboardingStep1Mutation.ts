@@ -10,7 +10,7 @@ import { OnboardingStep1Input } from "./globalTypes";
 // GraphQL mutation operation: OnboardingStep1Mutation
 // ====================================================
 
-export interface OnboardingStep1Mutation_onboardingStep1_errors {
+export interface OnboardingStep1Mutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
@@ -21,7 +21,7 @@ export interface OnboardingStep1Mutation_onboardingStep1_errors {
   messages: string[];
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 {
+export interface OnboardingStep1Mutation_output_session_onboardingStep1 {
   name: string;
   /**
    * The user's address. Only street name and number are required.
@@ -34,7 +34,7 @@ export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1
   borough: string;
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep2 {
+export interface OnboardingStep1Mutation_output_session_onboardingStep2 {
   /**
    * Has the user received an eviction notice?
    */
@@ -57,7 +57,7 @@ export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep2
   hasCalled311: boolean;
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep3 {
+export interface OnboardingStep1Mutation_output_session_onboardingStep3 {
   /**
    * The type of lease the user has on their dwelling.
    */
@@ -68,12 +68,12 @@ export interface OnboardingStep1Mutation_onboardingStep1_session_onboardingStep3
   receivesPublicAssistance: boolean;
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1_session_customIssues {
+export interface OnboardingStep1Mutation_output_session_customIssues {
   area: string;
   description: string;
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1_session {
+export interface OnboardingStep1Mutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
@@ -86,23 +86,23 @@ export interface OnboardingStep1Mutation_onboardingStep1_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
-  onboardingStep1: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep1 | null;
-  onboardingStep2: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep2 | null;
-  onboardingStep3: OnboardingStep1Mutation_onboardingStep1_session_onboardingStep3 | null;
+  onboardingStep1: OnboardingStep1Mutation_output_session_onboardingStep1 | null;
+  onboardingStep2: OnboardingStep1Mutation_output_session_onboardingStep2 | null;
+  onboardingStep3: OnboardingStep1Mutation_output_session_onboardingStep3 | null;
   issues: string[];
-  customIssues: OnboardingStep1Mutation_onboardingStep1_session_customIssues[];
+  customIssues: OnboardingStep1Mutation_output_session_customIssues[];
 }
 
-export interface OnboardingStep1Mutation_onboardingStep1 {
+export interface OnboardingStep1Mutation_output {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
-  errors: OnboardingStep1Mutation_onboardingStep1_errors[];
-  session: OnboardingStep1Mutation_onboardingStep1_session | null;
+  errors: OnboardingStep1Mutation_output_errors[];
+  session: OnboardingStep1Mutation_output_session | null;
 }
 
 export interface OnboardingStep1Mutation {
-  onboardingStep1: OnboardingStep1Mutation_onboardingStep1;
+  output: OnboardingStep1Mutation_output;
 }
 
 export interface OnboardingStep1MutationVariables {
@@ -112,7 +112,7 @@ export interface OnboardingStep1MutationVariables {
 export function fetchOnboardingStep1Mutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: OnboardingStep1MutationVariables): Promise<OnboardingStep1Mutation> {
   // The following query was taken from OnboardingStep1Mutation.graphql.
   return fetchGraphQL(`mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
-    onboardingStep1(input: $input) {
+    output: onboardingStep1(input: $input) {
         errors {
             field,
             messages

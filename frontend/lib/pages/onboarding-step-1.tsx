@@ -74,7 +74,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   @autobind
   handleSubmit(input: OnboardingStep1Input) {
     return fetchOnboardingStep1Mutation(this.props.fetch, { input })
-      .then(result => result.onboardingStep1);
+      .then(result => result.output);
   }
 
   renderFormButtons(isLoading: boolean): JSX.Element {

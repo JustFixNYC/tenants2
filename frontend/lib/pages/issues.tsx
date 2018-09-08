@@ -63,7 +63,7 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
   handleSubmit(input: IssueAreaInput) {
     return fetchIssueAreaMutation(this.props.fetch, { input })
-      .then(result => result.issueArea);
+      .then(result => result.output);
   }
 
   @autobind

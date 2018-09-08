@@ -92,7 +92,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
   @autobind
   handleSubmit(input: OnboardingStep3Input) {
     return fetchOnboardingStep3Mutation(this.props.fetch, { input })
-      .then(result => result.onboardingStep3);
+      .then(result => result.output);
   }
 
   @autobind

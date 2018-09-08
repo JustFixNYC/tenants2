@@ -41,7 +41,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
   @autobind
   handleSubmit(input: OnboardingStep4Input) {
     return fetchOnboardingStep4Mutation(this.props.fetch, { input })
-      .then(result => result.onboardingStep4);
+      .then(result => result.output);
   }
 
   @autobind

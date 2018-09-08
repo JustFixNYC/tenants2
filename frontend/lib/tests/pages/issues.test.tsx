@@ -46,7 +46,7 @@ describe('issues checklist', () => {
     const req = client.getRequestQueue()[0];
     expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'], other: '' });
     session = {...session, issues: [...session.issues, 'HOME__MICE'] };
-    req.resolve({ issueArea: { errors: [], session } });
+    req.resolve({ output: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
   });
 });

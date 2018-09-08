@@ -10,7 +10,7 @@ import { LoginInput } from "./globalTypes";
 // GraphQL mutation operation: LoginMutation
 // ====================================================
 
-export interface LoginMutation_login_errors {
+export interface LoginMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
@@ -21,7 +21,7 @@ export interface LoginMutation_login_errors {
   messages: string[];
 }
 
-export interface LoginMutation_login_session_onboardingStep1 {
+export interface LoginMutation_output_session_onboardingStep1 {
   name: string;
   /**
    * The user's address. Only street name and number are required.
@@ -34,7 +34,7 @@ export interface LoginMutation_login_session_onboardingStep1 {
   borough: string;
 }
 
-export interface LoginMutation_login_session_onboardingStep2 {
+export interface LoginMutation_output_session_onboardingStep2 {
   /**
    * Has the user received an eviction notice?
    */
@@ -57,7 +57,7 @@ export interface LoginMutation_login_session_onboardingStep2 {
   hasCalled311: boolean;
 }
 
-export interface LoginMutation_login_session_onboardingStep3 {
+export interface LoginMutation_output_session_onboardingStep3 {
   /**
    * The type of lease the user has on their dwelling.
    */
@@ -68,12 +68,12 @@ export interface LoginMutation_login_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
-export interface LoginMutation_login_session_customIssues {
+export interface LoginMutation_output_session_customIssues {
   area: string;
   description: string;
 }
 
-export interface LoginMutation_login_session {
+export interface LoginMutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
@@ -86,23 +86,23 @@ export interface LoginMutation_login_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
-  onboardingStep1: LoginMutation_login_session_onboardingStep1 | null;
-  onboardingStep2: LoginMutation_login_session_onboardingStep2 | null;
-  onboardingStep3: LoginMutation_login_session_onboardingStep3 | null;
+  onboardingStep1: LoginMutation_output_session_onboardingStep1 | null;
+  onboardingStep2: LoginMutation_output_session_onboardingStep2 | null;
+  onboardingStep3: LoginMutation_output_session_onboardingStep3 | null;
   issues: string[];
-  customIssues: LoginMutation_login_session_customIssues[];
+  customIssues: LoginMutation_output_session_customIssues[];
 }
 
-export interface LoginMutation_login {
+export interface LoginMutation_output {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
-  errors: LoginMutation_login_errors[];
-  session: LoginMutation_login_session | null;
+  errors: LoginMutation_output_errors[];
+  session: LoginMutation_output_session | null;
 }
 
 export interface LoginMutation {
-  login: LoginMutation_login;
+  output: LoginMutation_output;
 }
 
 export interface LoginMutationVariables {
@@ -112,7 +112,7 @@ export interface LoginMutationVariables {
 export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
   // The following query was taken from LoginMutation.graphql.
   return fetchGraphQL(`mutation LoginMutation($input: LoginInput!) {
-    login(input: $input) {
+    output: login(input: $input) {
         errors {
             field,
             messages

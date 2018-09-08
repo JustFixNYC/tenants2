@@ -1,5 +1,5 @@
 mutation LoginMutation($input: LoginInput!) {
-    login(input: $input) {
+    output: login(input: $input) {
         errors {
             field,
             messages

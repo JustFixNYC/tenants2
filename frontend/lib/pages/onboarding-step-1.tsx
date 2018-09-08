@@ -13,6 +13,7 @@ import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
 import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 import { TextualFormField, SelectFormField } from '../form-fields';
+import { createMutationSubmitHandler } from '../forms-graphql';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
 
@@ -69,12 +70,6 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   constructor(props: OnboardingStep1Props) {
     super(props);
     this.state = {};
-  }
-
-  @autobind
-  handleSubmit(input: OnboardingStep1Input) {
-    return fetchOnboardingStep1Mutation(this.props.fetch, { input })
-      .then(result => result.output);
   }
 
   renderFormButtons(isLoading: boolean): JSX.Element {
@@ -139,7 +134,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <h1 className="title">Tell us about yourself!</h1>
         <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
         <br/>
-        <FormSubmitter onSubmit={this.handleSubmit}
+        <FormSubmitter onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep1Mutation)}
                        initialState={this.props.initialState || blankInitialState}
                        onSuccess={(output) => {
                          const successSession = assertNotNull(output.session);

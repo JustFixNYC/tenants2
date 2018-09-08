@@ -13,6 +13,7 @@ import { NextButton } from './onboarding-step-1';
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { Modal } from '../modal';
 import { WelcomeFragment } from '../letter-of-complaint-common';
+import { createMutationSubmitHandler } from '../forms-graphql';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -38,12 +39,6 @@ export interface OnboardingStep4Props {
 }
 
 export default class OnboardingStep4 extends React.Component<OnboardingStep4Props> {
-  @autobind
-  handleSubmit(input: OnboardingStep4Input) {
-    return fetchOnboardingStep4Mutation(this.props.fetch, { input })
-      .then(result => result.onboardingStep4);
-  }
-
   @autobind
   renderForm(ctx: FormContext<OnboardingStep4Input>): JSX.Element {
     return (
@@ -77,7 +72,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
         <p>Now we'll create an account to save your progress.</p>
         <br/>
         <FormSubmitter
-          onSubmit={this.handleSubmit}
+          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep4Mutation)}
           initialState={this.props.initialState || blankInitialState}
           onSuccessRedirect={Routes.onboarding.step4WelcomeModal}
           onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session))}

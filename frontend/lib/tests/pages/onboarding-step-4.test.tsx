@@ -23,7 +23,7 @@ describe('onboarding step 2 page', () => {
     const pal = ReactTestingLibraryPal.render(createOnboarding({ fetch: client.fetch }));
 
     pal.clickButtonOrLink("Create account");
-    client.getRequestQueue()[0].resolve({ onboardingStep4: { errors: [], session: {} } });
+    client.getRequestQueue()[0].resolve({ output: { errors: [], session: {} } });
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Welcome/i));
   });
 });

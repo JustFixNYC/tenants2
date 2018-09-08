@@ -13,6 +13,7 @@ import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton } from './onboarding-step-1';
 import { CheckboxFormField } from '../form-fields';
+import { createMutationSubmitHandler } from '../forms-graphql';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -47,12 +48,6 @@ export interface OnboardingStep2Props {
 }
 
 export default class OnboardingStep2 extends React.Component<OnboardingStep2Props> {
-  @autobind
-  handleSubmit(input: OnboardingStep2Input) {
-    return fetchOnboardingStep2Mutation(this.props.fetch, { input })
-      .then(result => result.onboardingStep2);
-  }
-
   @autobind
   renderForm(ctx: FormContext<OnboardingStep2Input>): JSX.Element {
     return (
@@ -97,7 +92,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
         <p>Please select <strong>all the issues</strong> that relate to your housing situation. You can add more details later on.</p>
         <br/>
         <FormSubmitter
-          onSubmit={this.handleSubmit}
+          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep2Mutation)}
           initialState={this.props.initialState || blankInitialState}
           onSuccessRedirect={Routes.onboarding.step3}
           onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session))}

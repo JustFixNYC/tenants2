@@ -10,7 +10,7 @@ import { IssueAreaInput } from "./globalTypes";
 // GraphQL mutation operation: IssueAreaMutation
 // ====================================================
 
-export interface IssueAreaMutation_issueArea_errors {
+export interface IssueAreaMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
@@ -21,7 +21,7 @@ export interface IssueAreaMutation_issueArea_errors {
   messages: string[];
 }
 
-export interface IssueAreaMutation_issueArea_session_onboardingStep1 {
+export interface IssueAreaMutation_output_session_onboardingStep1 {
   name: string;
   /**
    * The user's address. Only street name and number are required.
@@ -34,7 +34,7 @@ export interface IssueAreaMutation_issueArea_session_onboardingStep1 {
   borough: string;
 }
 
-export interface IssueAreaMutation_issueArea_session_onboardingStep2 {
+export interface IssueAreaMutation_output_session_onboardingStep2 {
   /**
    * Has the user received an eviction notice?
    */
@@ -57,7 +57,7 @@ export interface IssueAreaMutation_issueArea_session_onboardingStep2 {
   hasCalled311: boolean;
 }
 
-export interface IssueAreaMutation_issueArea_session_onboardingStep3 {
+export interface IssueAreaMutation_output_session_onboardingStep3 {
   /**
    * The type of lease the user has on their dwelling.
    */
@@ -68,12 +68,12 @@ export interface IssueAreaMutation_issueArea_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
-export interface IssueAreaMutation_issueArea_session_customIssues {
+export interface IssueAreaMutation_output_session_customIssues {
   area: string;
   description: string;
 }
 
-export interface IssueAreaMutation_issueArea_session {
+export interface IssueAreaMutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
@@ -86,23 +86,23 @@ export interface IssueAreaMutation_issueArea_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
-  onboardingStep1: IssueAreaMutation_issueArea_session_onboardingStep1 | null;
-  onboardingStep2: IssueAreaMutation_issueArea_session_onboardingStep2 | null;
-  onboardingStep3: IssueAreaMutation_issueArea_session_onboardingStep3 | null;
+  onboardingStep1: IssueAreaMutation_output_session_onboardingStep1 | null;
+  onboardingStep2: IssueAreaMutation_output_session_onboardingStep2 | null;
+  onboardingStep3: IssueAreaMutation_output_session_onboardingStep3 | null;
   issues: string[];
-  customIssues: IssueAreaMutation_issueArea_session_customIssues[];
+  customIssues: IssueAreaMutation_output_session_customIssues[];
 }
 
-export interface IssueAreaMutation_issueArea {
+export interface IssueAreaMutation_output {
   /**
    * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
    */
-  errors: IssueAreaMutation_issueArea_errors[];
-  session: IssueAreaMutation_issueArea_session | null;
+  errors: IssueAreaMutation_output_errors[];
+  session: IssueAreaMutation_output_session | null;
 }
 
 export interface IssueAreaMutation {
-  issueArea: IssueAreaMutation_issueArea;
+  output: IssueAreaMutation_output;
 }
 
 export interface IssueAreaMutationVariables {
@@ -112,7 +112,7 @@ export interface IssueAreaMutationVariables {
 export function fetchIssueAreaMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: IssueAreaMutationVariables): Promise<IssueAreaMutation> {
   // The following query was taken from IssueAreaMutation.graphql.
   return fetchGraphQL(`mutation IssueAreaMutation($input: IssueAreaInput!) {
-  issueArea(input: $input) {
+  output: issueArea(input: $input) {
     errors {
       field,
       messages

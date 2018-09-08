@@ -18,6 +18,7 @@ type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFi
 
 type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
 
+
 /** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {

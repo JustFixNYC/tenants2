@@ -1,5 +1,5 @@
 mutation OnboardingStep2Mutation($input: OnboardingStep2Input!) {
-    onboardingStep2(input: $input) {
+    output: onboardingStep2(input: $input) {
         errors {
             field,
             messages

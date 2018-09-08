@@ -54,7 +54,7 @@ describe('onboarding step 1 page', () => {
         aptNumber: '2'
       }
     };
-    client.getRequestQueue()[0].resolve({ onboardingStep1: { errors: [], session } });
+    client.getRequestQueue()[0].resolve({ output: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Is this your address/i));
   });
 });

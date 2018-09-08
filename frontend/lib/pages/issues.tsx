@@ -15,6 +15,7 @@ import { AppContextType, withAppContext, AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
 import { NextButton } from './onboarding-step-1';
 import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
+import { createMutationSubmitHandler } from '../forms-graphql';
 
 const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
@@ -61,12 +62,6 @@ type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps & AppContext
 
 class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
-  handleSubmit(input: IssueAreaInput) {
-    return fetchIssueAreaMutation(this.props.fetch, { input })
-      .then(result => result.issueArea);
-  }
-
-  @autobind
   renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
     return (
       <React.Fragment>
@@ -108,7 +103,7 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
       <Page title={`${label} - Issue checklist`}>
         <h1 className="title">{label} issues</h1>
         <FormSubmitter
-          onSubmit={this.handleSubmit}
+          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchIssueAreaMutation)}
           initialState={initialState}
           onSuccessRedirect={Routes.loc.issues.home}
           onSuccess={(output) => {

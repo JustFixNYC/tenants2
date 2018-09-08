@@ -8,7 +8,7 @@ import * as AllSessionInfo from './AllSessionInfo'
 // GraphQL mutation operation: LogoutMutation
 // ====================================================
 
-export interface LogoutMutation_logout_session_onboardingStep1 {
+export interface LogoutMutation_output_session_onboardingStep1 {
   name: string;
   /**
    * The user's address. Only street name and number are required.
@@ -21,7 +21,7 @@ export interface LogoutMutation_logout_session_onboardingStep1 {
   borough: string;
 }
 
-export interface LogoutMutation_logout_session_onboardingStep2 {
+export interface LogoutMutation_output_session_onboardingStep2 {
   /**
    * Has the user received an eviction notice?
    */
@@ -44,7 +44,7 @@ export interface LogoutMutation_logout_session_onboardingStep2 {
   hasCalled311: boolean;
 }
 
-export interface LogoutMutation_logout_session_onboardingStep3 {
+export interface LogoutMutation_output_session_onboardingStep3 {
   /**
    * The type of lease the user has on their dwelling.
    */
@@ -55,12 +55,12 @@ export interface LogoutMutation_logout_session_onboardingStep3 {
   receivesPublicAssistance: boolean;
 }
 
-export interface LogoutMutation_logout_session_customIssues {
+export interface LogoutMutation_output_session_customIssues {
   area: string;
   description: string;
 }
 
-export interface LogoutMutation_logout_session {
+export interface LogoutMutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
@@ -73,25 +73,25 @@ export interface LogoutMutation_logout_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
-  onboardingStep1: LogoutMutation_logout_session_onboardingStep1 | null;
-  onboardingStep2: LogoutMutation_logout_session_onboardingStep2 | null;
-  onboardingStep3: LogoutMutation_logout_session_onboardingStep3 | null;
+  onboardingStep1: LogoutMutation_output_session_onboardingStep1 | null;
+  onboardingStep2: LogoutMutation_output_session_onboardingStep2 | null;
+  onboardingStep3: LogoutMutation_output_session_onboardingStep3 | null;
   issues: string[];
-  customIssues: LogoutMutation_logout_session_customIssues[];
+  customIssues: LogoutMutation_output_session_customIssues[];
 }
 
-export interface LogoutMutation_logout {
-  session: LogoutMutation_logout_session;
+export interface LogoutMutation_output {
+  session: LogoutMutation_output_session;
 }
 
 export interface LogoutMutation {
-  logout: LogoutMutation_logout;
+  output: LogoutMutation_output;
 }
 
 export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, ): Promise<LogoutMutation> {
   // The following query was taken from LogoutMutation.graphql.
   return fetchGraphQL(`mutation LogoutMutation {
-    logout {
+    output: logout {
         session {
             ...AllSessionInfo
         }

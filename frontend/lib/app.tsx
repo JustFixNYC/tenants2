@@ -106,7 +106,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     return fetchLogoutMutation(this.fetch).then((result) => {
       this.setState({
         logoutLoading: false,
-        session: result.logout.session
+        session: result.output.session
       });
     }).catch(e => {
       this.setState({ logoutLoading: false });

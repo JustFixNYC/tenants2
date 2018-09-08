@@ -33,7 +33,7 @@ describe('onboarding step 3 page', () => {
         receivesPublicAssistance: false
       }
     };
-    client.getRequestQueue()[0].resolve({ onboardingStep3: { errors: [], session } });
+    client.getRequestQueue()[0].resolve({ output: { errors: [], session } });
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Great news/i));
   });
 });

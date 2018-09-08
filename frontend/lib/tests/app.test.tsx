@@ -38,6 +38,12 @@ describe('AppWithoutRouter', () => {
     expect(windowAlert.mock.calls[0][0]).toContain('network error');
   });
 
+  it('handles session updates', () => {
+    const { app } = buildApp();
+    app.handleSessionChange({ csrfToken: 'blug' });
+    expect(app.state.session.csrfToken).toBe('blug');
+  });
+
   describe('fetch()', () => {
     it('delegates to GraphQL client fetch', async () => {
       const { app, client } = buildApp();

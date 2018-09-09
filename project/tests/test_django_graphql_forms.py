@@ -104,6 +104,12 @@ def execute_form_with_auth_query(some_field='HI', user=None):
     ''', variables={'input': input_var}, context_value=req))
 
 
+def test_get_form_class_for_input_type_works():
+    get = DjangoFormMutation.get_form_class_for_input_type
+    assert get('LolInput') is None
+    assert get('FormWithAuthInput') is SimpleForm
+
+
 def test_muliple_choice_fields_accept_lists():
     result = execute_query(multi_field=['A', 'B'])
     assert result['data']['foo']['errors'] == []

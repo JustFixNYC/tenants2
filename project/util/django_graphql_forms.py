@@ -3,7 +3,8 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional
+from typing import Optional, Type, Mapping
+from weakref import WeakValueDictionary
 from django import forms
 from graphql import ResolveInfo, parse, visit
 from graphql.language.visitor import Visitor
@@ -95,6 +96,8 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
     class Meta:
         abstract = True
 
+    _input_type_to_form_mapping: Mapping[str, Type[forms.Form]] = WeakValueDictionary()
+
     # Subclasses can change this if they can only be used by authenticated users.
     login_required = False
 
@@ -109,6 +112,17 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
             "If the form was valid, this list will be empty."
         )
     )
+
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls, form_class=None, **options
+    ):
+        super().__init_subclass_with_meta__(form_class=form_class, **options)
+        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
+
+    @classmethod
+    def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
+        return cls._input_type_to_form_mapping.get(input_type)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info: ResolveInfo, **input):

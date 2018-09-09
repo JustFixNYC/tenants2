@@ -103,8 +103,23 @@ def react_rendered_view(request, url: str):
             'batchGraphQLURL': reverse('batch-graphql'),
             'debug': settings.DEBUG
         },
-        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR
+        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
     }
+
+    if request.method == "POST":
+        # TODO: This is just example code to make a test pass. We
+        # need to replace it with real code!
+        initial_props['legacyFormSubmission'] = {
+            'input': {
+                'exampleField': request.POST['exampleField']
+            },
+            'result': {
+                'errors': [{
+                    'field': 'exampleField',
+                    'messages': ['This value is too long or something']
+                }]
+            }
+        }
 
     lambda_response = run_react_lambda(initial_props)
     bundle_files = lambda_response.bundle_files + ['main.bundle.js']

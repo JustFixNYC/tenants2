@@ -61,6 +61,11 @@ const LoadableExamplePage = Loadable({
   loading: LoadingPage
 });
 
+const LoadableExampleFormPage = Loadable({
+  loader: () => import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page'),
+  loading: LoadingPage
+});
+
 const LoadableExampleModalPage = Loadable({
   loader: () => import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page'),
   loading: LoadingPage
@@ -190,6 +195,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
         <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
+        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />>
         <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
         <Route render={NotFound} />
       </Switch>

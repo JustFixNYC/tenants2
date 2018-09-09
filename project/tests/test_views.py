@@ -59,3 +59,16 @@ def test_500_works(client):
     response = client.get('/')
     assert response.status_code == 500
     assert response.context['bundle_urls'] == []
+
+
+def test_form_submission_works(django_app):
+    response = django_app.get('/__example-form')
+    assert response.status == '200 OK'
+    form = response.form
+    form['exampleField'] = 'hello there buddy'
+
+    response = form.submit()
+
+    assert response.status == '200 OK'
+    form = response.form
+    assert form['exampleField'].value == 'hello there buddy'

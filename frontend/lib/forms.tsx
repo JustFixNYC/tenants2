@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
@@ -7,6 +7,8 @@ import { BaseFormFieldProps } from './form-fields';
 import { AppContext } from './app-context';
 
 
+type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
@@ -14,6 +16,8 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  extraFields?: JSX.Element;
+  extraFormAttributes?: HTMLFormAttrs;
 }
 
 type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
@@ -30,13 +34,26 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
   return (
     <AppContext.Consumer>
       {(appCtx) => {
-        let newProps = props;
+        let newProps: FormSubmitterPropsWithRouter<FormInput, FormOutput> = {
+          ...props,
+          extraFields: (
+            <React.Fragment>
+              <input type="hidden" name="csrfmiddlewaretoken" value={appCtx.session.csrfToken} />
+              {props.extraFields}
+            </React.Fragment>
+          ),
+          extraFormAttributes: {
+            ...props.extraFormAttributes,
+            method: 'POST',
+            action: props.location.pathname
+          }
+        };
         if (appCtx.legacyFormSubmission) {
           const initialState: FormInput = appCtx.legacyFormSubmission.input;
           const output: FormOutput = appCtx.legacyFormSubmission.result;
           const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
-            ...props,
+            ...newProps,
             initialState,
             initialErrors
           };
@@ -97,6 +114,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         errors={this.state.errors}
         initialState={this.props.initialState}
         onSubmit={this.handleSubmit}
+        extraFields={this.props.extraFields}
+        extraFormAttributes={this.props.extraFormAttributes}
       >
         {this.props.children}
       </Form>
@@ -123,6 +142,8 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  extraFields?: JSX.Element;
+  extraFormAttributes?: HTMLFormAttrs;
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {
@@ -161,7 +182,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
+        {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />

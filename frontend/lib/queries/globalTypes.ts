@@ -5,6 +5,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ExampleInput {
+  exampleField: string;
+  clientMutationId?: string | null;
+}
+
 export interface IssueAreaInput {
   area: string;
   issues: string[];

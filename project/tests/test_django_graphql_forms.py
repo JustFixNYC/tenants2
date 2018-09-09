@@ -2,7 +2,6 @@ import json
 import graphene
 from graphene.test import Client
 from django import forms
-from django.http import QueryDict
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
 
@@ -12,6 +11,7 @@ from ..util.django_graphql_forms import (
     get_input_type_from_query,
     convert_post_data_to_input
 )
+from .util import qdict
 
 
 class FooForm(forms.Form):
@@ -112,21 +112,6 @@ def test_get_form_class_for_input_type_works():
     get = DjangoFormMutation.get_form_class_for_input_type
     assert get('LolInput') is None
     assert get('FormWithAuthInput') is SimpleForm
-
-
-def qdict(d=None):
-    '''
-    Convert the given dictionary of lists into a QueryDict, or
-    return an empty QueryDict if nothing is provided.
-    '''
-
-    qd = QueryDict(mutable=True)
-    if d is None:
-        return qd
-    for key in d:
-        assert isinstance(d[key], list)
-        qd.setlist(key, d[key])
-    return qd
 
 
 def test_convert_post_data_to_input_ignores_irrelevant_fields():

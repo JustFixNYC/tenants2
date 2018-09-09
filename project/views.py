@@ -88,21 +88,25 @@ def get_initial_session(request) -> Dict[str, Any]:
     return data['session']
 
 
+class LegacyFormSubmissionError(Exception):
+    pass
+
+
 def get_legacy_form_submission(request):
     graphql = request.POST.get('graphql')
 
     if not graphql:
-        return None
+        raise LegacyFormSubmissionError('No GraphQL query found')
 
     input_type = django_graphql_forms.get_input_type_from_query(graphql)
 
     if not input_type:
-        return None
+        raise LegacyFormSubmissionError('Invalid GraphQL query')
 
     form_class = django_graphql_forms.get_form_class_for_input_type(input_type)
 
     if not form_class:
-        return None
+        raise LegacyFormSubmissionError('Invalid GraphQL input type')
 
     input = django_graphql_forms.convert_post_data_to_input(form_class, request.POST)
 
@@ -135,9 +139,10 @@ def react_rendered_view(request, url: str):
     }
 
     if request.method == "POST":
-        legacy_form_submission = get_legacy_form_submission(request)
-        if legacy_form_submission is None:
-            return HttpResponseBadRequest('Invalid POST data')
+        try:
+            legacy_form_submission = get_legacy_form_submission(request)
+        except LegacyFormSubmissionError as e:
+            return HttpResponseBadRequest(e.args[0])
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)

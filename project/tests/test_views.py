@@ -1,7 +1,31 @@
 from unittest.mock import patch
 import pytest
 
-from project.views import get_initial_session, execute_query
+from project.views import (
+    get_initial_session,
+    execute_query,
+    get_legacy_form_submission,
+    LegacyFormSubmissionError
+)
+from .util import qdict
+
+
+def test_get_legacy_form_submission_raises_errors(graphql_client):
+    request = graphql_client.request
+    with pytest.raises(LegacyFormSubmissionError, match='No GraphQL query found'):
+        get_legacy_form_submission(request)
+
+    request.POST = qdict({'graphql': ['boop']})
+
+    with pytest.raises(LegacyFormSubmissionError, match='Invalid GraphQL query'):
+        get_legacy_form_submission(request)
+
+    request.POST = qdict({'graphql': ['''
+        mutation Foo($input: NonExistentInput!) { foo(input: $input) }
+    ''']})
+
+    with pytest.raises(LegacyFormSubmissionError, match='Invalid GraphQL input type'):
+        get_legacy_form_submission(request)
 
 
 def test_execute_query_raises_exception_on_errors(graphql_client):
@@ -13,6 +37,12 @@ def test_execute_query_raises_exception_on_errors(graphql_client):
 def test_get_initial_session_works(graphql_client):
     request = graphql_client.request
     assert len(get_initial_session(request)['csrfToken']) > 0
+
+
+def test_invalid_post_returns_400(client):
+    response = client.post('/')
+    assert response.status_code == 400
+    assert response.content == b'No GraphQL query found'
 
 
 def test_index_works(client):

@@ -122,6 +122,11 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
+        '''
+        Given the name of a GraphQL input type that has been defined by us,
+        return the form class it corresponds to.
+        '''
+
         return cls._input_type_to_form_mapping.get(input_type)
 
     @classmethod

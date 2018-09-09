@@ -4,6 +4,15 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import { GraphQLFetch } from './graphql-client';
 import { Omit } from './util';
 
+/** Metadata about forms submitted via legacy POST. */
+export interface AppLegacyFormSubmission {
+  /** The original form input. */
+  input: any;
+
+  /** The result of the GraphQL mutation for the form. */
+  result: any;
+}
+
 /** Details about the server that don't change through the app's lifetime. */
 export interface AppServerInfo {
   /**
@@ -59,6 +68,9 @@ export interface AppContextType {
    * components to just pass the session data back to the app.
    */
   updateSession: (session: Partial<AllSessionInfo>) => void;
+
+  /** If a form was submitted via a non-JS browser, data will be here. */
+  legacyFormSubmission?: AppLegacyFormSubmission;
 }
 
 /* istanbul ignore next: this will never be executed in practice. */

@@ -14,6 +14,7 @@ pytest-cov = "*"
 python-dotenv = "*"
 factory-boy = "*"
 requests-mock = "*"
+django-webtest = "*"
 
 [packages]
 django = "*"

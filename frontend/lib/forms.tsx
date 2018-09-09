@@ -1,30 +1,79 @@
-import React from 'react';
+import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
+import { AppContext } from './app-context';
+import { Omit } from './util';
+import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 
+
+type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   initialState: FormInput;
+  initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  extraFields?: JSX.Element;
+  extraFormAttributes?: HTMLFormAttrs;
 }
 
 type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
 
 type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
 
+/**
+ * This component wraps a form and modifies its initial state with any information
+ * passed from the server as a result of a legacy browser POST.
+ */
+function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFormFieldErrors>(
+  props: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+) {
+  return (
+    <AppContext.Consumer>
+      {(appCtx) => {
+        let newProps: FormSubmitterPropsWithRouter<FormInput, FormOutput> = {
+          ...props,
+          extraFields: (
+            <React.Fragment>
+              <input type="hidden" name="csrfmiddlewaretoken" value={appCtx.session.csrfToken} />
+              {props.extraFields}
+            </React.Fragment>
+          ),
+          extraFormAttributes: {
+            ...props.extraFormAttributes,
+            method: 'POST',
+            action: props.location.pathname
+          }
+        };
+        if (appCtx.legacyFormSubmission) {
+          const initialState: FormInput = appCtx.legacyFormSubmission.input;
+          const output: FormOutput = appCtx.legacyFormSubmission.result;
+          const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
+          newProps = {
+            ...newProps,
+            initialState,
+            initialErrors
+          };
+          // TODO: Handle the case where there were no errors and we need to redirect.
+        }
+        return <FormSubmitterWithoutRouter {...newProps} />;
+      }}
+    </AppContext.Consumer>
+  );
+}
 
 /** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      errors: props.initialErrors
     };
   }
 
@@ -67,9 +116,42 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         errors={this.state.errors}
         initialState={this.props.initialState}
         onSubmit={this.handleSubmit}
+        extraFields={this.props.extraFields}
+        extraFormAttributes={this.props.extraFormAttributes}
       >
         {this.props.children}
       </Form>
+    );
+  }
+}
+
+type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
+  mutation: FetchMutationInfo<FormInput, FormOutput>
+};
+
+export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<LegacyFormSubmitterProps<FormInput, FormOutput>> {
+  render() {
+    return (
+      <AppContext.Consumer>
+        {(appCtx) => {
+          return (
+            <Route render={(ctx) => {
+              const { mutation, ...otherProps } = this.props;
+              const props: FormSubmitterProps<FormInput, FormOutput> = {
+                ...otherProps,
+                onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
+                extraFields: (
+                  <React.Fragment>
+                    <input type="hidden" name="graphql" value={mutation.graphQL} />
+                    {otherProps.extraFields}
+                  </React.Fragment>
+                )
+              };
+              return <LegacyFormSubmissionWrapper {...props} {...ctx} />
+            }} />
+          );
+        }}
+      </AppContext.Consumer>
     );
   }
 }
@@ -93,6 +175,8 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
+  extraFields?: JSX.Element;
+  extraFormAttributes?: HTMLFormAttrs;
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {
@@ -131,7 +215,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
+        {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />

@@ -51,9 +51,9 @@ export interface OnboardingStep3MutationVariables {
   input: OnboardingStep3Input;
 }
 
-export function fetchOnboardingStep3Mutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: OnboardingStep3MutationVariables): Promise<OnboardingStep3Mutation> {
+export const OnboardingStep3Mutation = {
   // The following query was taken from OnboardingStep3Mutation.graphql.
-  return fetchGraphQL(`mutation OnboardingStep3Mutation($input: OnboardingStep3Input!) {
+  graphQL: `mutation OnboardingStep3Mutation($input: OnboardingStep3Input!) {
     output: onboardingStep3(input: $input) {
         errors {
             field,
@@ -67,5 +67,10 @@ export function fetchOnboardingStep3Mutation(fetchGraphQL: (query: string, args?
         }
     }
 }
-`, args);
-}
+`,
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: OnboardingStep3MutationVariables): Promise<OnboardingStep3Mutation> {
+    return fetchGraphQL(OnboardingStep3Mutation.graphQL, args);
+  }
+};
+
+export const fetchOnboardingStep3Mutation = OnboardingStep3Mutation.fetch;

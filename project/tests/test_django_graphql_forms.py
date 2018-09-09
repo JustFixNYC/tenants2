@@ -6,7 +6,12 @@ from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
 
 from users.tests.factories import UserFactory
-from ..util.django_graphql_forms import DjangoFormMutation
+from ..util.django_graphql_forms import (
+    DjangoFormMutation,
+    get_input_type_from_query,
+    convert_post_data_to_input
+)
+from .util import qdict
 
 
 class FooForm(forms.Form):
@@ -103,6 +108,59 @@ def execute_form_with_auth_query(some_field='HI', user=None):
     ''', variables={'input': input_var}, context_value=req))
 
 
+def test_get_form_class_for_input_type_works():
+    get = DjangoFormMutation.get_form_class_for_input_type
+    assert get('LolInput') is None
+    assert get('FormWithAuthInput') is SimpleForm
+
+
+def test_convert_post_data_to_input_ignores_irrelevant_fields():
+    class NullForm(forms.Form):
+        pass
+
+    assert convert_post_data_to_input(NullForm, qdict({'blah': ['z']})) == {}
+
+
+def test_convert_post_data_to_input_works_with_char_fields():
+    assert convert_post_data_to_input(SimpleForm, qdict({
+        'someField': ['boop'],
+    })) == {'someField': 'boop'}
+
+    assert convert_post_data_to_input(SimpleForm, qdict({
+        'someField': [''],
+    })) == {'someField': ''}
+
+    assert convert_post_data_to_input(SimpleForm, qdict()) == {'someField': None}
+
+
+def test_convert_post_data_to_input_works_with_multi_choice_fields():
+    class MultiChoiceForm(forms.Form):
+        field = forms.MultipleChoiceField(choices=[
+            ('CHOICE_A', 'Choice A'),
+            ('CHOICE_B', 'Choice B')
+        ])
+
+    assert convert_post_data_to_input(MultiChoiceForm, qdict()) == {'field': []}
+
+    assert convert_post_data_to_input(MultiChoiceForm, qdict({
+        'field': ['CHOICE_A']
+    })) == {'field': ['CHOICE_A']}
+
+    assert convert_post_data_to_input(MultiChoiceForm, qdict({
+        'field': ['CHOICE_A', 'CHOICE_B']
+    })) == {'field': ['CHOICE_A', 'CHOICE_B']}
+
+
+def test_convert_post_data_to_input_works_with_bool_fields():
+    class BoolForm(forms.Form):
+        bool_field = forms.BooleanField()
+
+    assert convert_post_data_to_input(BoolForm, qdict()) == {'boolField': False}
+    assert convert_post_data_to_input(BoolForm, qdict({
+        'boolField': ['on']
+    })) == {'boolField': True}
+
+
 def test_muliple_choice_fields_accept_lists():
     result = execute_query(multi_field=['A', 'B'])
     assert result['data']['foo']['errors'] == []
@@ -163,3 +221,23 @@ def test_invalid_forms_return_camelcased_errors():
             }
         }
     }
+
+
+def test_get_input_type_from_query_works():
+    # Ensure non-nullable input works.
+    assert get_input_type_from_query(
+        'mutation Foo($input: BarInput!) { foo(input: $input) }') == 'BarInput'
+
+    # Ensure nullable input works.
+    assert get_input_type_from_query(
+        'mutation Foo($input: BarInput) { foo(input: $input) }') == 'BarInput'
+
+    # Ensure syntax errors return None.
+    assert get_input_type_from_query('LOL') is None
+
+    # Ensure queries w/o variable definitons work.
+    assert get_input_type_from_query('query { blah }') is None
+
+    # Ensure the variable definition must be for "input".
+    assert get_input_type_from_query(
+        'mutation Foo($boop: BarInput!) { foo(input: $boop) }') is None

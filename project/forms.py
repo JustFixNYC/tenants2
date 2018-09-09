@@ -51,3 +51,7 @@ class LoginForm(forms.Form):
                 raise ValidationError('Invalid phone number or password.',
                                       code='authenticate_failed')
             self.authenticated_user = user
+
+
+class ExampleForm(forms.Form):
+    example_field = forms.CharField(max_length=5)

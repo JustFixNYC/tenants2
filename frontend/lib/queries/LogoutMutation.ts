@@ -88,9 +88,9 @@ export interface LogoutMutation {
   output: LogoutMutation_output;
 }
 
-export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, ): Promise<LogoutMutation> {
+export const LogoutMutation = {
   // The following query was taken from LogoutMutation.graphql.
-  return fetchGraphQL(`mutation LogoutMutation {
+  graphQL: `mutation LogoutMutation {
     output: logout {
         session {
             ...AllSessionInfo
@@ -98,5 +98,10 @@ export function fetchLogoutMutation(fetchGraphQL: (query: string, args?: any) =>
     }
 }
 
-${AllSessionInfo.graphQL}`);
-}
+${AllSessionInfo.graphQL}`,
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, ): Promise<LogoutMutation> {
+    return fetchGraphQL(LogoutMutation.graphQL);
+  }
+};
+
+export const fetchLogoutMutation = LogoutMutation.fetch;

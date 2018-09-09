@@ -126,8 +126,7 @@ Client-side GraphQL code is generated as follows:
 
     2. For queries and mutations, it adds a function to the TypeScript
        interfaces that is responsible for performing the query in a
-       type-safe way.  It is named `fetch` followed by whatever
-       the query is called (e.g., `fetchSimpleQuery`).
+       type-safe way.
        
     3. The resultant TypeScript interfaces and/or function is written
        to a file that is created next to the original `.graphql` file

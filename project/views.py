@@ -1,11 +1,13 @@
 import time
 import logging
 from typing import NamedTuple, List, Dict, Any, Optional
+from django.http import HttpResponseBadRequest
 from django.utils.safestring import SafeString
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
 
+from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
@@ -64,8 +66,8 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     )
 
 
-def execute_query(request, query: str) -> Dict[str, Any]:
-    result = schema.execute(query, context_value=request)
+def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
+    result = schema.execute(query, context_value=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)
     return result.data
@@ -86,6 +88,36 @@ def get_initial_session(request) -> Dict[str, Any]:
     return data['session']
 
 
+class LegacyFormSubmissionError(Exception):
+    pass
+
+
+def get_legacy_form_submission(request):
+    graphql = request.POST.get('graphql')
+
+    if not graphql:
+        raise LegacyFormSubmissionError('No GraphQL query found')
+
+    input_type = django_graphql_forms.get_input_type_from_query(graphql)
+
+    if not input_type:
+        raise LegacyFormSubmissionError('Invalid GraphQL query')
+
+    form_class = django_graphql_forms.get_form_class_for_input_type(input_type)
+
+    if not form_class:
+        raise LegacyFormSubmissionError('Invalid GraphQL input type')
+
+    input = django_graphql_forms.convert_post_data_to_input(form_class, request.POST)
+
+    result = execute_query(request, graphql, variables={'input': input})
+
+    return {
+        'input': input,
+        'result': result['output']
+    }
+
+
 def react_rendered_view(request, url: str):
     url = f'/{url}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
@@ -103,8 +135,15 @@ def react_rendered_view(request, url: str):
             'batchGraphQLURL': reverse('batch-graphql'),
             'debug': settings.DEBUG
         },
-        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR
+        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
     }
+
+    if request.method == "POST":
+        try:
+            legacy_form_submission = get_legacy_form_submission(request)
+        except LegacyFormSubmissionError as e:
+            return HttpResponseBadRequest(e.args[0])
+        initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)
     bundle_files = lambda_response.bundle_files + ['main.bundle.js']

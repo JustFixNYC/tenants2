@@ -1,9 +1,14 @@
 import { WithServerFormFieldErrors } from "./form-errors";
 import { GraphQLFetch } from "./graphql-client";
 
-interface FetchMutation<FormInput, FormOutput extends WithServerFormFieldErrors> {
+export interface FetchMutation<FormInput, FormOutput extends WithServerFormFieldErrors> {
   (fetch: GraphQLFetch, args: { input: FormInput  }): Promise<{ output: FormOutput }>;
 }
+
+export interface FetchMutationInfo<FormInput, FormOutput extends WithServerFormFieldErrors> {
+  graphQL: string;
+  fetch: FetchMutation<FormInput, FormOutput>;
+};
 
 /**
  * This wraps a mutation in a submit handler, for use with the forms API.

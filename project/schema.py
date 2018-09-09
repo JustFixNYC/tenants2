@@ -42,6 +42,17 @@ class SessionInfo(OnboardingSessionInfo, IssueSessionInfo, graphene.ObjectType):
         return info.context.user.is_staff
 
 
+class Example(DjangoFormMutation):
+    class Meta:
+        form_class = forms.ExampleForm
+
+    response = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
+        return cls(response=f"hello there {form.cleaned_data['example_field']}")
+
+
 class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -81,6 +92,7 @@ class Logout(graphene.Mutation):
 class Mutations(OnboardingMutations, IssueMutations, graphene.ObjectType):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
+    example = Example.Field(required=True)
 
 
 class Query(graphene.ObjectType):

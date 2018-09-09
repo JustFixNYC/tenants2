@@ -172,3 +172,6 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
                     key = to_camel_case(key)
                 errors.append(StrictFormFieldErrorType(field=key, messages=value))
             return cls(errors=errors)
+
+
+get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type

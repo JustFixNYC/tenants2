@@ -72,3 +72,4 @@ def test_form_submission_works(django_app):
     assert response.status == '200 OK'
     form = response.form
     assert form['exampleField'].value == 'hello there buddy'
+    assert 'Ensure this value has at most 5 characters (it has 17)' in response

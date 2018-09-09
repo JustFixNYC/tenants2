@@ -1,11 +1,13 @@
 import time
 import logging
 from typing import NamedTuple, List, Dict, Any, Optional
+from django.http import HttpResponseBadRequest
 from django.utils.safestring import SafeString
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
 
+from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
@@ -64,8 +66,8 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     )
 
 
-def execute_query(request, query: str) -> Dict[str, Any]:
-    result = schema.execute(query, context_value=request)
+def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
+    result = schema.execute(query, context_value=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)
     return result.data
@@ -84,6 +86,32 @@ def get_initial_session(request) -> Dict[str, Any]:
         ''' % (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
     )
     return data['session']
+
+
+def get_legacy_form_submission(request):
+    graphql = request.POST.get('graphql')
+
+    if not graphql:
+        return None
+
+    input_type = django_graphql_forms.get_input_type_from_query(graphql)
+
+    if not input_type:
+        return None
+
+    form_class = django_graphql_forms.get_form_class_for_input_type(input_type)
+
+    if not form_class:
+        return None
+
+    input = django_graphql_forms.convert_post_data_to_input(form_class, request.POST)
+
+    result = execute_query(request, graphql, variables={'input': input})
+
+    return {
+        'input': input,
+        'result': result['output']
+    }
 
 
 def react_rendered_view(request, url: str):
@@ -107,20 +135,10 @@ def react_rendered_view(request, url: str):
     }
 
     if request.method == "POST":
-        # TODO: This is just example code to make a test pass. We
-        # need to replace it with real code!
-        assert 'graphql' in request.POST
-        initial_props['legacyFormSubmission'] = {
-            'input': {
-                'exampleField': request.POST['exampleField']
-            },
-            'result': {
-                'errors': [{
-                    'field': 'exampleField',
-                    'messages': ['This value is too long or something']
-                }]
-            }
-        }
+        legacy_form_submission = get_legacy_form_submission(request)
+        if legacy_form_submission is None:
+            return HttpResponseBadRequest('Invalid POST data')
+        initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)
     bundle_files = lambda_response.bundle_files + ['main.bundle.js']

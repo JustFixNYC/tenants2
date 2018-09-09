@@ -6,7 +6,8 @@ from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
 
 from users.tests.factories import UserFactory
-from ..util.django_graphql_forms import DjangoFormMutation
+from ..util.django_graphql_forms import (
+    DjangoFormMutation, get_input_type_from_query)
 
 
 class FooForm(forms.Form):
@@ -163,3 +164,23 @@ def test_invalid_forms_return_camelcased_errors():
             }
         }
     }
+
+
+def test_get_input_type_from_query_works():
+    # Ensure non-nullable input works.
+    assert get_input_type_from_query(
+        'mutation Foo($input: BarInput!) { foo(input: $input) }') == 'BarInput'
+
+    # Ensure nullable input works.
+    assert get_input_type_from_query(
+        'mutation Foo($input: BarInput) { foo(input: $input) }') == 'BarInput'
+
+    # Ensure syntax errors return None.
+    assert get_input_type_from_query('LOL') is None
+
+    # Ensure queries w/o variable definitons work.
+    assert get_input_type_from_query('query { blah }') is None
+
+    # Ensure the variable definition must be for "input".
+    assert get_input_type_from_query(
+        'mutation Foo($boop: BarInput!) { foo(input: $boop) }') is None

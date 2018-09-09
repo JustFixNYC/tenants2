@@ -3,8 +3,12 @@
     to resolve some of its limitations.
 '''
 
+from typing import Optional
 from django import forms
-from graphql import ResolveInfo
+from graphql import ResolveInfo, parse, visit
+from graphql.language.visitor import Visitor
+from graphql.language.ast import NamedType, VariableDefinition
+from graphql.error import GraphQLSyntaxError
 import graphene
 import graphene_django.forms.mutation
 from graphene_django.forms.converter import convert_form_field
@@ -27,6 +31,42 @@ def convert_form_field_to_required_string(field):
     # field isn't required. This is because we always want an empty
     # string to be passed-in if the field is empty, rather than null.
     return graphene.String(description=field.help_text, required=True)
+
+
+def get_input_type_from_query(query: str) -> Optional[str]:
+    '''
+    Given a GraphQL query for a DjangoFormMutation, return the input type, e.g.:
+
+        >>> get_input_type_from_query(
+        ...     'mutation FooMutation($input: BarInput!) { foo(input: $input) }')
+        'BarInput'
+
+    If the input type cannot be found, return None.
+    '''
+
+    try:
+        ast = parse(query)
+    except GraphQLSyntaxError:
+        return None
+
+    class InputTypeVisitor(Visitor):
+        in_input_definition: bool = False
+        input_type: Optional[str] = None
+
+        def enter(self, node, *args):
+            if isinstance(node, VariableDefinition) and node.variable.name.value == 'input':
+                self.in_input_definition = True
+            elif isinstance(node, NamedType) and self.in_input_definition:
+                self.input_type = node.name.value
+
+        def leave(self, node, *args):
+            if isinstance(node, VariableDefinition) and node.variable.name.value == 'input':
+                self.in_input_definition = False
+
+    visitor = InputTypeVisitor()
+    visit(ast, visitor)
+
+    return visitor.input_type
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):

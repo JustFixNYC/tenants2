@@ -3,9 +3,10 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Mapping
+from typing import Optional, Type, Mapping, Dict, Any
 from weakref import WeakValueDictionary
 from django import forms
+from django.http import QueryDict
 from graphql import ResolveInfo, parse, visit
 from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
@@ -13,7 +14,7 @@ from graphql.error import GraphQLSyntaxError
 import graphene
 import graphene_django.forms.mutation
 from graphene_django.forms.converter import convert_form_field
-from graphene.utils.str_converters import to_camel_case
+from graphene.utils.str_converters import to_camel_case, to_snake_case
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
@@ -68,6 +69,23 @@ def get_input_type_from_query(query: str) -> Optional[str]:
     visit(ast, visitor)
 
     return visitor.input_type
+
+
+def convert_post_data_to_input(
+    form_class: Type[forms.Form],
+    data: QueryDict
+) -> Dict[str, Any]:
+    '''
+    Given a QueryDict that represents POST data, return a dictionary
+    suitable for passing to a GraphQL mutation that is derived from
+    the given form.
+    '''
+
+    snake_cased_data = QueryDict(mutable=True)
+    for key in data:
+        snake_cased_data.setlist(to_snake_case(key), data.getlist(key))
+    form = form_class(data=snake_cased_data)
+    return {to_camel_case(field): form[field].data for field in form.fields}
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):

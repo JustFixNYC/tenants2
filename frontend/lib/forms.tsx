@@ -5,6 +5,8 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext } from './app-context';
+import { Omit } from './util';
+import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -123,11 +125,42 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 }
 
+type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
+  mutation: FetchMutationInfo<FormInput, FormOutput>
+};
+
+export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<LegacyFormSubmitterProps<FormInput, FormOutput>> {
+  render() {
+    return (
+      <AppContext.Consumer>
+        {(appCtx) => {
+          return (
+            <Route render={(ctx) => {
+              const { mutation, ...otherProps } = this.props;
+              const props: FormSubmitterProps<FormInput, FormOutput> = {
+                ...otherProps,
+                onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
+                extraFields: (
+                  <React.Fragment>
+                    <input type="hidden" name="graphql" value={mutation.graphQL} />
+                    {otherProps.extraFields}
+                  </React.Fragment>
+                )
+              };
+              return <LegacyFormSubmissionWrapper {...props} {...ctx} />
+            }} />
+          );
+        }}
+      </AppContext.Consumer>
+    );
+  }
+}
+
 export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
   render() {
     return (
       <Route render={(ctx) => (
-        <LegacyFormSubmissionWrapper {...this.props} {...ctx} />
+        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
       )} />
     );
   }

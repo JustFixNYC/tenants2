@@ -1,10 +1,9 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormSubmitter } from '../forms';
-import { createMutationSubmitHandler } from '../forms-graphql';
+import { LegacyFormSubmitter } from '../forms';
 import { AppContext } from '../app-context';
-import { fetchExampleMutation } from '../queries/ExampleMutation';
+import { ExampleMutation } from '../queries/ExampleMutation';
 import { TextualFormField } from '../form-fields';
 import { bulmaClasses } from '../bulma';
 
@@ -15,8 +14,8 @@ export default function ExampleFormPage(): JSX.Element {
     {(appCtx) => (
       <Page title="Example form page">
         This is an example form page.
-        <FormSubmitter
-          onSubmit={createMutationSubmitHandler(appCtx.fetch, fetchExampleMutation)}
+        <LegacyFormSubmitter
+          mutation={ExampleMutation}
           initialState={{ exampleField: '' }}
         >
           {(ctx) => (
@@ -31,7 +30,7 @@ export default function ExampleFormPage(): JSX.Element {
               </div>
             </React.Fragment>
           )}
-        </FormSubmitter>
+        </LegacyFormSubmitter>
       </Page>
     )}
     </AppContext.Consumer>

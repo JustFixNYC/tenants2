@@ -36,9 +36,9 @@ export interface ExampleMutationVariables {
   input: ExampleInput;
 }
 
-export function fetchExampleMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: ExampleMutationVariables): Promise<ExampleMutation> {
+export const ExampleMutation = {
   // The following query was taken from ExampleMutation.graphql.
-  return fetchGraphQL(`mutation ExampleMutation($input: ExampleInput!) {
+  graphQL: `mutation ExampleMutation($input: ExampleInput!) {
     output: example(input: $input) {
         errors {
             field,
@@ -47,5 +47,10 @@ export function fetchExampleMutation(fetchGraphQL: (query: string, args?: any) =
         response
     }
 }
-`, args);
-}
+`,
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: ExampleMutationVariables): Promise<ExampleMutation> {
+    return fetchGraphQL(ExampleMutation.graphQL, args);
+  }
+};
+
+export const fetchExampleMutation = ExampleMutation.fetch;

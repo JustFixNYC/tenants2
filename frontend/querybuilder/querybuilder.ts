@@ -191,10 +191,15 @@ export class GraphQlFile {
     return [
       this.getTsCodeHeader(),
       tsInterfaces,
-      `export function fetch${this.basename}(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
+      `export const ${this.basename} = {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
-      `  return fetchGraphQL(${this.getGraphQlTemplateLiteral()}${args ? ', args' : ''});`,
-      `}`
+      `  graphQL: ${this.getGraphQlTemplateLiteral()},`,
+      `  fetch(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
+      `    return fetchGraphQL(${this.basename}.graphQL${args ? ', args' : ''});`,
+      `  }`,
+      `};`,
+      ``,
+      `export const fetch${this.basename} = ${this.basename}.fetch;`
     ].join('\n');
   }
 

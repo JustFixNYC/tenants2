@@ -46,9 +46,9 @@ export interface IssueAreaMutationVariables {
   input: IssueAreaInput;
 }
 
-export function fetchIssueAreaMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: IssueAreaMutationVariables): Promise<IssueAreaMutation> {
+export const IssueAreaMutation = {
   // The following query was taken from IssueAreaMutation.graphql.
-  return fetchGraphQL(`mutation IssueAreaMutation($input: IssueAreaInput!) {
+  graphQL: `mutation IssueAreaMutation($input: IssueAreaInput!) {
   output: issueArea(input: $input) {
     errors {
       field,
@@ -63,5 +63,10 @@ export function fetchIssueAreaMutation(fetchGraphQL: (query: string, args?: any)
     }
   }
 }
-`, args);
-}
+`,
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: IssueAreaMutationVariables): Promise<IssueAreaMutation> {
+    return fetchGraphQL(IssueAreaMutation.graphQL, args);
+  }
+};
+
+export const fetchIssueAreaMutation = IssueAreaMutation.fetch;

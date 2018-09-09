@@ -109,6 +109,7 @@ def react_rendered_view(request, url: str):
     if request.method == "POST":
         # TODO: This is just example code to make a test pass. We
         # need to replace it with real code!
+        assert 'graphql' in request.POST
         initial_props['legacyFormSubmission'] = {
             'input': {
                 'exampleField': request.POST['exampleField']

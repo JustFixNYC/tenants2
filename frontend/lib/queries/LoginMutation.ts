@@ -109,9 +109,9 @@ export interface LoginMutationVariables {
   input: LoginInput;
 }
 
-export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
+export const LoginMutation = {
   // The following query was taken from LoginMutation.graphql.
-  return fetchGraphQL(`mutation LoginMutation($input: LoginInput!) {
+  graphQL: `mutation LoginMutation($input: LoginInput!) {
     output: login(input: $input) {
         errors {
             field,
@@ -123,5 +123,10 @@ export function fetchLoginMutation(fetchGraphQL: (query: string, args?: any) => 
     }
 }
 
-${AllSessionInfo.graphQL}`, args);
-}
+${AllSessionInfo.graphQL}`,
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
+    return fetchGraphQL(LoginMutation.graphQL, args);
+  }
+};
+
+export const fetchLoginMutation = LoginMutation.fetch;

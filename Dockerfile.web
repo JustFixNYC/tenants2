@@ -1,0 +1,38 @@
+FROM python:3.7.0
+
+ENV NODE_VERSION=8
+
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
+
+RUN apt-get update && \
+  apt-get install -y \
+    nodejs
+
+RUN pip install pipenv
+
+ENV NODE_ENV=production
+
+COPY Pipfile* /tmp/tenants2/
+
+WORKDIR /tmp/tenants2
+
+RUN pipenv install --system --keep-outdated
+
+WORKDIR /tenants2
+
+COPY package*.json /tenants2/
+
+RUN useradd -d /home/myuser myuser
+RUN chown myuser /tenants2
+RUN mkdir /home/myuser && chown myuser /home/myuser
+USER myuser
+
+RUN npm install --no-save
+
+ADD --chown=myuser:myuser . /tenants2/
+
+RUN npm run sass && npm run build
+
+RUN USE_DEVELOPMENT_DEFAULTS=yup python manage.py collectstatic
+
+CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

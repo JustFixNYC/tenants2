@@ -12,8 +12,7 @@
     "querybuilder:watch": "node querybuilder.js --watch",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\"",
-    "postinstall": "npm run sass && npm run build"
+    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\""
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,6 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
-    "@types/chokidar": "^1.7.5",
     "@types/dotenv": "^4.0.3",
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
@@ -38,8 +36,6 @@
     "@types/webpack-bundle-analyzer": "^2.9.2",
     "@types/webpack-node-externals": "^1.6.3",
     "apollo": "^1.7.0",
-    "chalk": "^2.4.1",
-    "chokidar": "^2.0.4",
     "concurrently": "^3.6.1",
     "dotenv": "^6.0.0",
     "enzyme": "^3.4.1",
@@ -50,6 +46,7 @@
     "webpack-bundle-analyzer": "^2.13.1"
   },
   "dependencies": {
+    "@types/chokidar": "^1.7.5",
     "@types/classnames": "^2.2.6",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/lodash": "^4.14.116",
@@ -69,6 +66,8 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bulma": "^0.7.1",
+    "chokidar": "^2.0.4",
+    "chalk": "^2.4.1",
     "classnames": "^2.2.6",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.10",

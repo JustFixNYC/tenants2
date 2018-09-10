@@ -11,5 +11,6 @@ RUN apt-get update && \
 RUN pip install pipenv
 
 ENV PATH /tenants2/node_modules/.bin:$PATH
+ENV DDM_IS_RUNNING_IN_DOCKER yup
 
 ENTRYPOINT ["python", "/tenants2/docker_django_management.py"]

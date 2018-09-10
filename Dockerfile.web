@@ -1,3 +1,12 @@
+# This Dockerfile can be used to deploy a production instance
+# to Heroku.
+#
+# It's similar to the development Dockerfile--in fact,
+# the first several lines should be identical--but it contains
+# extra directives to install all dependencies, generate static
+# assets, and so forth, so that the final container is completely
+# self-contained.
+
 FROM python:3.7.0
 
 ENV NODE_VERSION=8
@@ -9,6 +18,8 @@ RUN apt-get update && \
     nodejs
 
 RUN pip install pipenv
+
+# This is where we start to deviate from the development Dockerfile.
 
 ENV NODE_ENV=production
 
@@ -22,6 +33,7 @@ WORKDIR /tenants2
 
 COPY package*.json /tenants2/
 
+# Make sure we run as a non-root user.
 RUN useradd -m myuser
 RUN chown myuser /tenants2
 USER myuser
@@ -32,6 +44,10 @@ ADD --chown=myuser:myuser . /tenants2/
 
 RUN npm run sass && npm run build
 
+# We specify 'USE_DEVELOPMENT_DEFAULTS=yup' for this single
+# command so that it can be run without raising any errors
+# about undefined environment variables (this is fine, since
+# collectstatic doesn't need to use any production env vars).
 RUN USE_DEVELOPMENT_DEFAULTS=yup python manage.py collectstatic
 
 CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

@@ -11,3 +11,5 @@ RUN apt-get update && \
 RUN pip install pipenv
 
 ENV PATH /tenants2/node_modules/.bin:$PATH
+
+ENTRYPOINT ["python", "/tenants2/docker_django_management.py"]

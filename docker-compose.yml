@@ -6,7 +6,6 @@ services:
       service: base_app
     volumes:
       - .:/tenants2:delegated
-    entrypoint: python /tenants2/docker_django_management.py
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"

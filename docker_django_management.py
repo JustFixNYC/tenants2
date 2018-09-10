@@ -102,8 +102,13 @@ if False:
     # This is just needed so mypy will work; it's never executed.
     from typing import Iterator, Any, List  # NOQA
 
+# If the owner of the app directory on the Docker host is
+# root, we're probably on Windows. So force a non-root user ID,
+# as some of our tooling might not work when run as root.
+DEFAULT_NON_ROOT_UID = 500
+
 MY_DIR = os.path.abspath(os.path.dirname(__file__))
-HOST_UID = os.stat(MY_DIR).st_uid
+HOST_UID = os.stat(MY_DIR).st_uid or DEFAULT_NON_ROOT_UID
 
 HOST_USER = os.environ.get('DDM_HOST_USER', 'docker_user')
 USER_OWNED_DIRS = os.environ.get('DDM_USER_OWNED_DIRS', '')

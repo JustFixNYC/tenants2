@@ -171,7 +171,42 @@ first and the `heroku/python` buildpack second.
 You'll likely want to use [Heroku Postgres][] as your
 database backend.
 
+#### Deploying to Heroku via Docker
+
+It's also possible to deploy to Heroku using their
+[Container Registry and Runtime][].  To push the
+container to their registry, run:
+
+```
+heroku container:push --recursive
+```
+
+Then to deploy it, run:
+
+```
+heroku container:release web
+```
+
+##### Locally testing the production Docker container
+
+You can build the production Docker container locally with:
+
+```
+docker build -f Dockerfile.web -t tenants2 .
+```
+
+Then you can run it:
+
+```
+docker run --rm -it -e PORT=8000 -p 8000:8000 -e USE_DEVELOPMENT_DEFAULTS=yup tenants2
+```
+
+You can visit the server at http://localhost:8000/ and even create accounts
+and such, as it uses an ephemeral SQLite database built-in to the
+container, but the data will go away once the container is removed.
+
 [pipenv]: https://docs.pipenv.org/
 [twelve-factor methodology]: https://12factor.net/
 [multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
 [Heroku Postgres]: https://www.heroku.com/postgres
+[Container Registry and Runtime]: https://devcenter.heroku.com/articles/container-registry-and-runtime

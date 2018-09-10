@@ -1,30 +1,22 @@
-version: '3'
+version: '2'
 services:
   app:
-    build: .
+    extends:
+      file: docker-services.yml
+      service: base_app
     volumes:
       - .:/tenants2:delegated
-      # Note that we're storing our Python and Node dependencies
-      # in separate volumes, outside of the Docker Host's filesystem.
-      # This is done to ensure that the Linux-based shared libraries
-      # in these directories won't get mixed up with Darwin or
-      # other non-Linux native code compiled on the Docker Host.
-      - python-venv:/venv/
-      - node-modules:/tenants2/node_modules/
     entrypoint: python /tenants2/docker_django_management.py
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
-    environment:
-      # This is used by pipenv, but not really documented anywhere:
-      #   https://github.com/pypa/pipenv/blob/master/pipenv/environments.py#L208
-      - VIRTUAL_ENV=/venv
-
-      - PYTHONUNBUFFERED=yup
-      - DDM_VENV_DIR=/venv
-      - DDM_USER_OWNED_DIRS=/venv:/tenants2/node_modules
-      - DDM_HOST_USER=justfix
-    working_dir: /tenants2
+  node:
+    extends:
+      file: docker-services.yml
+      service: base_app
+    volumes:
+      - .:/tenants2:delegated
+    command: npm start
 volumes:
   node-modules:
   python-venv:

@@ -161,19 +161,9 @@ At the time of this writing, however, the app's
 runtime environment does need *both* Python and Node
 to execute properly, which could complicate matters.
 
-### Deploying to Heroku
+### Deploying to Heroku via Docker
 
-This app can be deployed to Heroku. You'll need to
-configure your Heroku app to use [multiple buildpacks][];
-specifically, the `heroku/nodejs` buildpack needs to be
-first and the `heroku/python` buildpack second.
-
-You'll likely want to use [Heroku Postgres][] as your
-database backend.
-
-#### Deploying to Heroku via Docker
-
-It's also possible to deploy to Heroku using their
+It's possible to deploy to Heroku using their
 [Container Registry and Runtime][].  To push the
 container to their registry, run:
 
@@ -187,7 +177,10 @@ Then to deploy it, run:
 heroku container:release web
 ```
 
-##### Locally testing the production Docker container
+You'll likely want to use [Heroku Postgres][] as your
+database backend.
+
+#### Locally testing the production Docker container
 
 You can build the production Docker container locally with:
 

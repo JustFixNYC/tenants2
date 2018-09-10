@@ -22,9 +22,8 @@ WORKDIR /tenants2
 
 COPY package*.json /tenants2/
 
-RUN useradd -d /home/myuser myuser
+RUN useradd -m myuser
 RUN chown myuser /tenants2
-RUN mkdir /home/myuser && chown myuser /home/myuser
 USER myuser
 
 RUN npm install --no-save

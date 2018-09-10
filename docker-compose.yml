@@ -1,0 +1,21 @@
+version: '2'
+services:
+  app:
+    extends:
+      file: docker-services.yml
+      service: base_app
+    volumes:
+      - .:/tenants2:delegated
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+  frontend:
+    extends:
+      file: docker-services.yml
+      service: base_app
+    volumes:
+      - .:/tenants2:delegated
+    command: npm start
+volumes:
+  node-modules:
+  python-venv:

@@ -2,6 +2,7 @@ db.sqlite3
 db.testing.sqlite3
 *lambda.js
 *lambda.js.map
+__pycache__/
 .vscode/
 .mypy_cache/
 .pytest_cache/

@@ -1,2 +1,5 @@
 [run]
-omit = .venv/*
+omit =
+  .venv/*
+  docker_django_management.py
+  manage.py

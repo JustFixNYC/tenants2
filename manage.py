@@ -5,7 +5,8 @@ import sys
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
     try:
-        from django.core.management import execute_from_command_line
+        os.environ.setdefault("DDM_CONTAINER_NAME", "app")
+        from docker_django_management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "

@@ -16,6 +16,10 @@ services:
     ports:
       - "8000:8000"
     environment:
+      # This is used by pipenv, but not really documented anywhere:
+      #   https://github.com/pypa/pipenv/blob/master/pipenv/environments.py#L208
+      - VIRTUAL_ENV=/venv
+
       - PYTHONUNBUFFERED=yup
       - DDM_VENV_DIR=/venv
       - DDM_USER_OWNED_DIRS=/venv:/tenants2/node_modules

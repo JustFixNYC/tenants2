@@ -7,7 +7,7 @@ echo "----- Clearing Python cache -----"
 find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 echo "----- Updating Python Dependencies -----"
-pipenv install --dev --keep-outdated --system
+pipenv install --dev --keep-outdated
 
 echo "----- Updating Node Dependencies -----"
 npm install --no-save

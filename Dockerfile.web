@@ -11,16 +11,26 @@ FROM python:3.7.0
 
 ENV NODE_VERSION=8
 
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-
-RUN apt-get update && \
-  apt-get install -y \
-    nodejs && \
-  pip install pipenv
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+  && apt-get update \
+  && apt-get install -y \
+    nodejs \
+  && rm -rf /var/lib/apt/lists/* \
+  && pip install pipenv
 
 ENV PATH /tenants2/node_modules/.bin:$PATH
 
 # This is where we start to deviate from the base Dockerfile.
+
+# The way we're using lots of layers here is intentional, as
+# we're first installing our dependencies--which don't change
+# very often--and then copying over the rest of our source code,
+# which does change often. This means we can iterate faster
+# because we e.g. don't have to re-install all our dependencies
+# if we change a single line of code (it also reduces the amount
+# of data we need to transfer to send our image somewhere, if
+# the destination already has cached layers from previous
+# builds we've sent).
 
 ENV NODE_ENV=production
 
@@ -43,17 +53,19 @@ RUN npm install --no-save
 
 ADD --chown=myuser:myuser . /tenants2/
 
-RUN npm run build
-
-# We specify 'USE_DEVELOPMENT_DEFAULTS=yup' for this single
-# command so that it can be run without raising any errors
-# about undefined environment variables (this is fine, since
-# collectstatic doesn't need to use any production env vars).
-RUN USE_DEVELOPMENT_DEFAULTS=yup python manage.py collectstatic && \
-  \
+RUN npm run build \
+  #
+  # We specify 'USE_DEVELOPMENT_DEFAULTS=yup' for this single
+  # command so that it can be run without raising any errors
+  # about undefined environment variables (this is fine, since
+  # collectstatic doesn't need to use any production env vars).
+  #
+  && RUN USE_DEVELOPMENT_DEFAULTS=yup python manage.py collectstatic \
+  #
   # This is kind of gross, but it makes it easy to test out this
   # container locally, as it sets up a SQLite database that
   # comes with the container.
-  USE_DEVELOPMENT_DEFAULTS=yup python manage.py migrate
+  #
+  && USE_DEVELOPMENT_DEFAULTS=yup python manage.py migrate
 
 CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

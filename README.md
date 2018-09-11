@@ -152,6 +152,75 @@ One quick way to do this is to run:
 python manage.py runprodserver
 ```
 
+## Developing with Docker
+
+You can alternatively develop the app via [Docker][], which
+means you don't have to install any dependencies. However,
+Docker takes a bit of time to learn how to use.
+
+To set everything up, run:
+
+```
+bash docker-update.sh
+```
+
+Then run:
+
+```
+docker-compose up
+```
+
+This will start up all services and you can visit
+http://localhost:8000/ to visit the app.
+
+[Docker]: https://docs.docker.com/install/
+
+### Updating the containers
+
+Whenever you update your repository via e.g. `git pull` or
+`git checkout`, you should update your containers by running:
+
+```
+bash docker-update.sh
+```
+
+### Starting over
+
+If your Docker setup appears to be in an irredeemable state
+and `bash docker-update.sh` doesn't fix it--or
+if you just want to free up extra disk space used up by
+the app--you can destroy everything by running:
+
+```
+docker-compose down -v
+```
+
+Note that this may delete all the data in your
+instance's database.
+
+At this point you can re-run `bash docker-update.sh` to set
+everything up again.
+
+### Accessing the app container
+
+To access the app container, run:
+
+```sh
+docker-compose run app bash
+```
+
+This will run an interactive bash session inside the main app container.
+In this container, the `/tenants2` directory is mapped to the root of
+the repository on your host; you can run any command, like `python manage.py`
+or `pytest`, from there.
+
+### A `manage.py` shortcut
+
+Note that if you don't have Django installed on your host system, you
+can just run `python manage.py` directly from outside the container--the
+`manage.py` script has been modified to run itself in a Docker container
+if it detects that Django isn't installed.
+
 ## Deployment
 
 The app uses the [twelve-factor methodology][], so

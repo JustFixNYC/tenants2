@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 from io import BytesIO
 from django.http import FileResponse
@@ -28,7 +29,9 @@ def pdf_response(html: str, filename: str):
 
 
 def example_pdf(request):
-    return pdf_response(render_to_string('loc/example.html'), 'example.pdf')
+    return pdf_response(render_to_string('loc/example.html', {
+        'now': str(datetime.datetime.now())
+    }), 'example.pdf')
 
 
 def letter_of_complaint_pdf(request):

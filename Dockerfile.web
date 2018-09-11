@@ -1,7 +1,7 @@
 # This Dockerfile can be used to deploy a production instance
 # to Heroku.
 #
-# It's similar to the development Dockerfile--in fact,
+# It's similar to the base Dockerfile--in fact,
 # the first several lines should be identical--but it contains
 # extra directives to install all dependencies, generate static
 # assets, and so forth, so that the final container is completely
@@ -15,11 +15,12 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
 
 RUN apt-get update && \
   apt-get install -y \
-    nodejs
+    nodejs && \
+  pip install pipenv
 
-RUN pip install pipenv
+ENV PATH /tenants2/node_modules/.bin:$PATH
 
-# This is where we start to deviate from the development Dockerfile.
+# This is where we start to deviate from the base Dockerfile.
 
 ENV NODE_ENV=production
 

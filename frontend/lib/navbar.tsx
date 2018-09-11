@@ -52,6 +52,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
       >
         <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack analysis</a>
         <a className="navbar-item" href="/graphiql">GraphiQL</a>
+        <a className="navbar-item" href="/loc/example.pdf">Example PDF</a>
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
       </NavbarDropdown>
     );

@@ -91,6 +91,7 @@ export interface LoginMutation_output_session {
   onboardingStep3: LoginMutation_output_session_onboardingStep3 | null;
   issues: string[];
   customIssues: LoginMutation_output_session_customIssues[];
+  accessDates: string[];
 }
 
 export interface LoginMutation_output {

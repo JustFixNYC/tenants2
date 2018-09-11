@@ -5,6 +5,13 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface AccessDatesInput {
+  date1: string;
+  date2: string;
+  date3: string;
+  clientMutationId?: string | null;
+}
+
 export interface ExampleInput {
   exampleField: string;
   clientMutationId?: string | null;

@@ -77,6 +77,7 @@ export interface AllSessionInfo {
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
   issues: string[];
   customIssues: AllSessionInfo_customIssues[];
+  accessDates: string[];
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -105,5 +106,6 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         area
         description
     }
+    accessDates
 }
 `;

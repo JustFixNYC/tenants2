@@ -78,6 +78,7 @@ export interface LogoutMutation_output_session {
   onboardingStep3: LogoutMutation_output_session_onboardingStep3 | null;
   issues: string[];
   customIssues: LogoutMutation_output_session_customIssues[];
+  accessDates: string[];
 }
 
 export interface LogoutMutation_output {

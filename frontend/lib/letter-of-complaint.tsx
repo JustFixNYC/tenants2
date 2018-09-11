@@ -4,6 +4,7 @@ import { WhyMailALetterOfComplaint, WelcomeFragment } from './letter-of-complain
 import { Link, Switch, Route } from 'react-router-dom';
 import Routes from './routes';
 import { IssuesRoutes } from './pages/issues';
+import AccessDatesPage from './pages/access-dates';
 
 
 export function Welcome(): JSX.Element {
@@ -27,13 +28,13 @@ export function WhyMail(): JSX.Element {
   );
 }
 
-export function AccessDates(): JSX.Element {
+export function YourLandlord(): JSX.Element {
   return (
-    <Page title="Access dates">
-      <h1 className="title">Access dates</h1>
+    <Page title="Your landlord">
+      <h1 className="title">Your landlord</h1>
       <p>Hey, we haven't implemented this yet.</p>
       <br/>
-      <Link className="button is-text" to={Routes.loc.issues.home}>Back</Link>
+      <Link className="button is-text" to={Routes.loc.accessDates}>Back</Link>
     </Page>
   );
 }
@@ -44,7 +45,8 @@ export default function LetterOfComplaintRoutes(): JSX.Element {
       <Route path={Routes.loc.home} exact component={Welcome} />
       <Route path={Routes.loc.whyMail} exact component={WhyMail} />
       <Route path={Routes.loc.issues.prefix} component={IssuesRoutes} />
-      <Route path={Routes.loc.accessDates} exact component={AccessDates} />
+      <Route path={Routes.loc.accessDates} exact component={AccessDatesPage} />
+      <Route path={Routes.loc.yourLandlord} exact component={YourLandlord} />
     </Switch>
   );
 }

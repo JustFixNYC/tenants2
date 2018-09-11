@@ -1,0 +1,11 @@
+mutation AccessDatesMutation($input: AccessDatesInput!) {
+    output: accessDates(input: $input) {
+        errors {
+            field,
+            messages
+        },
+        session {
+            accessDates
+        }
+    }
+}

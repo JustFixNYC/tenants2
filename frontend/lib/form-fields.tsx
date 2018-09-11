@@ -153,7 +153,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
 /**
  * Valid types of textual form field input.
  */
-export type TextualInputType = 'text'|'password';
+export type TextualInputType = 'text'|'password'|'date';
 
 /**
  * Properties for textual form field input.

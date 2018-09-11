@@ -36,11 +36,12 @@ ENV PATH /tenants2/node_modules/.bin:$PATH
 
 ENV NODE_ENV=production
 
-COPY Pipfile* /tmp/tenants2/
+COPY Pipfile* requirements.production.txt /tmp/tenants2/
 
 WORKDIR /tmp/tenants2
 
-RUN pipenv install --system --keep-outdated
+RUN pipenv install --system --keep-outdated \
+  && pip install -r requirements.production.txt
 
 WORKDIR /tenants2
 

@@ -45,6 +45,35 @@ python manage.py runserver
 
 Then visit http://localhost:8000/ in your browser.
 
+### Production dependencies
+
+Some of this project's dependencies are cumbersome
+to install on some platforms, so they're not installed
+by default.
+
+However, they are present in the Docker development
+environment (described below), and they are
+required to develop some functionality, as well as
+for production deployment. They can be installed via:
+
+```
+pipenv run pip install -r requirements.production.txt
+```
+
+These dependencies are described below.
+
+#### WeasyPrint
+
+[WeasyPrint][] is used for PDF generation. If it's
+not installed during development, then any PDF-related
+functionality will fail.
+
+Instructions for installing it can be found on the
+[WeasyPrint installation docs][].
+
+[WeasyPrint]: http://weasyprint.org/
+[WeasyPrint installation docs]: https://weasyprint.readthedocs.io/en/latest/install.html
+
 ## Running tests
 
 To run the back-end Python/Django tests, use:

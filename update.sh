@@ -8,6 +8,7 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 echo "----- Updating Python Dependencies -----"
 pipenv install --dev --keep-outdated
+pip install -r requirements.production.txt
 
 echo "----- Updating Node Dependencies -----"
 npm install --no-save

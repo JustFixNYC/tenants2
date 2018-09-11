@@ -18,11 +18,14 @@ from django.urls import path, re_path
 from django.conf import settings
 from graphene_django.views import GraphQLView
 
+import loc.views
 from .views import react_rendered_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('loc/letter.pdf', loc.views.letter_of_complaint_pdf),
+    path('loc/example.pdf', loc.views.example_pdf),
     path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
 ]
 

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'onboarding.apps.OnboardingConfig',
     'issues.apps.IssuesConfig',
+    'loc.apps.LocConfig'
 ]
 
 MIDDLEWARE = [

@@ -6,7 +6,7 @@ This is an attempt at creating a new Tenants app for JustFix.
 
 ## Quick start
 
-You'll need Python 3.7 and [pipenv][], as well as Node 8.
+You'll need Python 3.7.0 and [pipenv][], as well as Node 8.
 
 First create an environment file and optionally edit it as you
 see fit:

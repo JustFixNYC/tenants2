@@ -10,9 +10,10 @@
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "npm run sass -- --watch",
     "querybuilder:watch": "node querybuilder.js --watch",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "npm run sass && concurrently --kill-others \"npm run watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\""
+    "webpack": "webpack",
+    "webpack:watch": "webpack --watch",
+    "build": "npm run sass && npm run webpack",
+    "start": "npm run sass && concurrently --kill-others \"npm run webpack:watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\""
   },
   "repository": {
     "type": "git",

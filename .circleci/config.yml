@@ -31,7 +31,6 @@ jobs:
           command: |
             node --version
             npm run build
-            npm run sass
             npm test -- --runInBand
             npm run lint
             pipenv run "pytest" --cov-report xml:./coverage/python/coverage.xml

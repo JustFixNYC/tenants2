@@ -1,5 +1,6 @@
 import re
 from difflib import unified_diff
+import pytest
 
 from project.justfix_environment import BASE_DIR
 
@@ -49,8 +50,19 @@ def ensure_starts_with(path_1, path_2):
 
 def ensure_file_contains(path, text):
     if text not in path.read_text():
-        raise Exception(
+        raise AssertionError(
             f'Expected to find "{text}" in the contents of {path.name}!')
+
+
+def test_helper_function_failure_conditions():
+    with pytest.raises(AssertionError):
+        ensure_file_contains(BASE_DOCKERFILE, "lololol")
+
+    with pytest.raises(AssertionError):
+        ensure_starts_with(README, GITIGNORE)
+
+    with pytest.raises(AssertionError):
+        get_match('lololol', BASE_DOCKERFILE)
 
 
 def test_everything_uses_the_same_version_of_python():

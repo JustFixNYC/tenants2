@@ -9,10 +9,12 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
+let devDependenciesAvailable = false;
 const BASE_DIR = __dirname;
 
 try {
   require('dotenv').config({ path: path.join(BASE_DIR, '.justfix-env') });
+  devDependenciesAvailable = true;
 } catch (e) {
   // dotenv is a dev dependency, so no biggie if it can't be found.
 }
@@ -158,8 +160,15 @@ const webConfig = {
   },
 };
 
-module.exports = [
+const webpackConfigs = [
   createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js'),
-  createNodeScriptConfig('./frontend/querybuilder/cli.ts', 'querybuilder.js'),
   webConfig,
 ];
+
+if (devDependenciesAvailable) {
+  webpackConfigs.push(
+    createNodeScriptConfig('./frontend/querybuilder/cli.ts', 'querybuilder.js')
+  );
+}
+
+module.exports = webpackConfigs;

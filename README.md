@@ -6,7 +6,7 @@ This is an attempt at creating a new Tenants app for JustFix.
 
 ## Quick start
 
-You'll need Python 3.7 and [pipenv][], as well as Node 8.
+You'll need Python 3.7.0 and [pipenv][], as well as Node 8.
 
 First create an environment file and optionally edit it as you
 see fit:
@@ -161,17 +161,45 @@ At the time of this writing, however, the app's
 runtime environment does need *both* Python and Node
 to execute properly, which could complicate matters.
 
-### Deploying to Heroku
+### Deploying to Heroku via Docker
 
-This app can be deployed to Heroku. You'll need to
-configure your Heroku app to use [multiple buildpacks][];
-specifically, the `heroku/nodejs` buildpack needs to be
-first and the `heroku/python` buildpack second.
+It's possible to deploy to Heroku using their
+[Container Registry and Runtime][].  To push the
+container to their registry, run:
+
+```
+heroku container:push --recursive
+```
+
+Then to deploy it, run:
+
+```
+heroku container:release web
+```
 
 You'll likely want to use [Heroku Postgres][] as your
 database backend.
+
+#### Locally testing the production Docker container
+
+You can build the production Docker container locally with:
+
+```
+docker build -f Dockerfile.web -t tenants2 .
+```
+
+Then you can run it:
+
+```
+docker run --rm -it -e PORT=8000 -p 8000:8000 -e USE_DEVELOPMENT_DEFAULTS=yup tenants2
+```
+
+You can visit the server at http://localhost:8000/ and even create accounts
+and such, as it uses an ephemeral SQLite database built-in to the
+container, but the data will go away once the container is removed.
 
 [pipenv]: https://docs.pipenv.org/
 [twelve-factor methodology]: https://12factor.net/
 [multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
 [Heroku Postgres]: https://www.heroku.com/postgres
+[Container Registry and Runtime]: https://devcenter.heroku.com/articles/container-registry-and-runtime

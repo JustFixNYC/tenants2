@@ -1,3 +1,4 @@
+# The following lines should be identical to our .gitignore.
 db.sqlite3
 db.testing.sqlite3
 *lambda.js
@@ -21,3 +22,7 @@ frontend/lib/queries/__generated__/
 querybuilder.js
 querybuilder.js.map
 react-loadable.json
+
+# Here we begin to deviate from our .gitignore.
+Dockerfile*
+README.md

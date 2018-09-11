@@ -15,6 +15,10 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && apt-get update \
   && apt-get install -y \
     nodejs \
+    # This is for CircleCI.
+    ca-certificates \
+    # These are for WeasyPrint.
+    libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info \
   && rm -rf /var/lib/apt/lists/* \
   && pip install pipenv
 
@@ -34,11 +38,12 @@ ENV PATH /tenants2/node_modules/.bin:$PATH
 
 ENV NODE_ENV=production
 
-COPY Pipfile* /tmp/tenants2/
+COPY Pipfile* requirements.production.txt /tmp/tenants2/
 
 WORKDIR /tmp/tenants2
 
-RUN pipenv install --system --keep-outdated
+RUN pipenv install --system --keep-outdated \
+  && pip install -r requirements.production.txt
 
 WORKDIR /tenants2
 

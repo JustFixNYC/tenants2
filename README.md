@@ -45,6 +45,35 @@ python manage.py runserver
 
 Then visit http://localhost:8000/ in your browser.
 
+### Production dependencies
+
+Some of this project's dependencies are cumbersome
+to install on some platforms, so they're not installed
+by default.
+
+However, they are present in the Docker development
+environment (described below), and they are
+required to develop some functionality, as well as
+for production deployment. They can be installed via:
+
+```
+pipenv run pip install -r requirements.production.txt
+```
+
+These dependencies are described below.
+
+#### WeasyPrint
+
+[WeasyPrint][] is used for PDF generation. If it's
+not installed during development, then any PDF-related
+functionality will fail.
+
+Instructions for installing it can be found on the
+[WeasyPrint installation docs][].
+
+[WeasyPrint]: http://weasyprint.org/
+[WeasyPrint installation docs]: https://weasyprint.readthedocs.io/en/latest/install.html
+
 ## Running tests
 
 To run the back-end Python/Django tests, use:
@@ -220,6 +249,40 @@ Note that if you don't have Django installed on your host system, you
 can just run `python manage.py` directly from outside the container--the
 `manage.py` script has been modified to run itself in a Docker container
 if it detects that Django isn't installed.
+
+## Changing the Dockerfile
+
+Our continuous integration pipeline, [CircleCI][[], uses
+a built image from the `Dockerfile` on Docker Hub as its
+base to ensure that the testing/CI environment has parity
+with development and production.
+
+Whenever you change the `Dockerfile`, you will need to
+push the new version to Docker Hub and change the
+tag in `.circleci/config.yml` to correspond to the new
+version you've pushed.
+
+To push your new version, you will need to:
+
+1. Come up with a unique tag name; preferably one that isn't
+   [already taken][].  (While you can use an existing one, it's
+   recommended that you create a new one so that other pull
+   requests using the existing one don't break.)
+
+   For the rest of these instructions we'll assume your new
+   tag is called `0.1`.
+
+2. Run `docker build -t justfixnyc/tenants2_base:0.1 .`
+   to build the new image.
+
+3. Run `docker push justfixnyc/tenants2_base:0.1` to
+   push the new image to Docker Hub.
+
+4. In `.circleci/config.yml`, edit the reference to
+   `justfixnyc/tenants2_base` to point to the new tag.
+
+[CircleCI]: https://circleci.com/
+[already taken]: https://hub.docker.com/r/justfixnyc/tenants2_base/tags/
 
 ## Deployment
 

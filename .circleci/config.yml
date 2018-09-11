@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: circleci/python:3.7-node-browsers
+      - image: justfixnyc/tenants2_base:0.1
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
@@ -11,13 +11,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
       - run:
           command: |
              pipenv sync --dev
              npm install --no-save
+             pipenv run pip install -r requirements.production.txt
       - save_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
             - "node_modules"

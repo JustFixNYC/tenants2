@@ -31,15 +31,17 @@ class LandlordDetails(DjangoFormMutation):
     session = graphene.Field('project.schema.SessionInfo')
 
     @classmethod
-    def perform_mutate(cls, form: forms.LandlordDetailsForm, info: ResolveInfo):
+    def get_form_kwargs(cls, root, info: ResolveInfo, **input):
         user = info.context.user
         if hasattr(user, 'landlord_details'):
             details = user.landlord_details
         else:
             details = models.LandlordDetails(user=user)
-        details.name = form.cleaned_data['name']
-        details.address = form.cleaned_data['address']
-        details.save()
+        return {"data": input, "instance": details}
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LandlordDetailsForm, info: ResolveInfo):
+        form.save()
         return LandlordDetails(session=import_string('project.schema.SessionInfo'))
 
 

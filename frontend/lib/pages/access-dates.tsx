@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { assertNotNull } from '../util';
 
 
-function getInitialState(accessDates: string[]): AccessDatesInput {
+export function getInitialState(accessDates: string[]): AccessDatesInput {
   const result: AccessDatesInput = {
     date1: '',
     date2: '',

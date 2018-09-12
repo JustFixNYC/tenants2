@@ -91,6 +91,7 @@ export interface OnboardingStep4Mutation_output_session {
   onboardingStep3: OnboardingStep4Mutation_output_session_onboardingStep3 | null;
   issues: string[];
   customIssues: OnboardingStep4Mutation_output_session_customIssues[];
+  accessDates: string[];
 }
 
 export interface OnboardingStep4Mutation_output {

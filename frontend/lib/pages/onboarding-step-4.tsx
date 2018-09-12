@@ -9,7 +9,7 @@ import { fetchOnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation
 import { assertNotNull } from '../util';
 import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
-import { NextButton } from './onboarding-step-1';
+import { NextButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { Modal } from '../modal';
 import { WelcomeFragment } from '../letter-of-complaint-common';

@@ -58,6 +58,7 @@ const Routes = {
       }
     },
     accessDates: '/loc/access-dates',
+    yourLandlord: '/loc/your-landlord'
   },
 
   /** Example pages used in integration tests. */

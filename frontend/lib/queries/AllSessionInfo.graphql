@@ -24,4 +24,5 @@ fragment AllSessionInfo on SessionInfo {
         area
         description
     }
+    accessDates
 }

@@ -8,7 +8,7 @@ import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
 import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
-import { NextButton } from './onboarding-step-1';
+import { NextButton } from "../buttons";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { DjangoChoices } from '../common-data';
 import { fetchOnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';

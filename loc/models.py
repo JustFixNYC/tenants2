@@ -29,3 +29,16 @@ class AccessDate(models.Model):
         help_text="The date on which the user's dwelling will be accessible.")
 
     objects = AccessDateManager()
+
+
+class LandlordDetails(models.Model):
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='landlord_details',
+        help_text="The user whose landlord details this is for.")
+
+    name = models.CharField(
+        max_length=100, help_text="The landlord's name.")
+
+    address = models.CharField(
+        max_length=1000,
+        help_text="The full mailing address for the landlord.")

@@ -3,6 +3,8 @@ from typing import List
 from django import forms
 from django.core.exceptions import ValidationError
 
+from . import models
+
 
 class AccessDatesForm(forms.Form):
     NUM_DATE_FIELDS = 3
@@ -27,3 +29,9 @@ class AccessDatesForm(forms.Form):
             if date is not None:
                 result.append(date)
         return result
+
+
+class LandlordDetailsForm(forms.ModelForm):
+    class Meta:
+        model = models.LandlordDetails
+        fields = ('name', 'address')

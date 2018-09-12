@@ -73,6 +73,17 @@ export interface LoginMutation_output_session_customIssues {
   description: string;
 }
 
+export interface LoginMutation_output_session_landlordDetails {
+  /**
+   * The landlord's name.
+   */
+  name: string;
+  /**
+   * The full mailing address for the landlord.
+   */
+  address: string;
+}
+
 export interface LoginMutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -92,6 +103,7 @@ export interface LoginMutation_output_session {
   issues: string[];
   customIssues: LoginMutation_output_session_customIssues[];
   accessDates: string[];
+  landlordDetails: LoginMutation_output_session_landlordDetails | null;
 }
 
 export interface LoginMutation_output {

@@ -24,6 +24,12 @@ export interface IssueAreaInput {
   clientMutationId?: string | null;
 }
 
+export interface LandlordDetailsInput {
+  name: string;
+  address: string;
+  clientMutationId?: string | null;
+}
+
 export interface LoginInput {
   phoneNumber: string;
   password: string;

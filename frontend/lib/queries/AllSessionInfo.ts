@@ -59,6 +59,17 @@ export interface AllSessionInfo_customIssues {
   description: string;
 }
 
+export interface AllSessionInfo_landlordDetails {
+  /**
+   * The landlord's name.
+   */
+  name: string;
+  /**
+   * The full mailing address for the landlord.
+   */
+  address: string;
+}
+
 export interface AllSessionInfo {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -78,6 +89,7 @@ export interface AllSessionInfo {
   issues: string[];
   customIssues: AllSessionInfo_customIssues[];
   accessDates: string[];
+  landlordDetails: AllSessionInfo_landlordDetails | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -107,5 +119,9 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         description
     }
     accessDates
+    landlordDetails {
+        name
+        address
+    }
 }
 `;

@@ -80,7 +80,8 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   onboardingStep3: null,
   issues: [],
   customIssues: [],
-  accessDates: []
+  accessDates: [],
+  landlordDetails: null
 };
 
 export const FakeAppContext: AppContextType = {

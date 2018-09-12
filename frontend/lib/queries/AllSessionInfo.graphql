@@ -25,4 +25,8 @@ fragment AllSessionInfo on SessionInfo {
         description
     }
     accessDates
+    landlordDetails {
+        name
+        address
+    }
 }

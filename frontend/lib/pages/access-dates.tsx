@@ -6,9 +6,8 @@ import { TextualFormField } from '../form-fields';
 import { AccessDatesMutation } from '../queries/AccessDatesMutation';
 import { AppContextType, withAppContext } from '../app-context';
 import { AccessDatesInput } from '../queries/globalTypes';
-import { NextButton } from './onboarding-step-1';
+import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
-import { Link } from 'react-router-dom';
 import { assertNotNull } from '../util';
 
 
@@ -31,9 +30,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label="Second access date (optional)" type="date" {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" {...ctx.fieldPropsFor('date3')} />
       <div className="field is-grouped">
-        <div className="control">
-          <Link to={Routes.loc.issues.home} className="button is-text">Cancel and go back</Link>
-        </div>
+        <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={ctx.isLoading} />
       </div>
     </React.Fragment>

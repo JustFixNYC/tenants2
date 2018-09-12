@@ -1,6 +1,5 @@
 import React from 'react';
 import Page from '../page';
-import { bulmaClasses } from '../bulma';
 import Routes from '../routes';
 import { Link, Redirect } from 'react-router-dom';
 import { FormSubmitter, FormContext } from '../forms';
@@ -14,6 +13,7 @@ import { Modal, ModalLink } from '../modal';
 import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 import { TextualFormField, SelectFormField } from '../form-fields';
 import { createMutationSubmitHandler } from '../forms-graphql';
+import { NextButton } from '../buttons';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
 
@@ -33,16 +33,6 @@ export interface OnboardingStep1Props {
 
 interface OnboardingStep1State {
   successInfo?: OnboardingStep1Input;
-}
-
-export function NextButton(props: { isLoading: boolean, label?: string }) {
-  return (
-    <div className="control">
-      <button type="submit" className={bulmaClasses('button', 'is-primary', {
-        'is-loading': props.isLoading
-      })}>{props.label || 'Next'}</button>
-    </div>
-  );
 }
 
 export function areAddressesTheSame(a: string, b: string): boolean {

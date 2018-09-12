@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
-import { NextButton } from './onboarding-step-1';
+import { NextButton } from "../buttons";
 import { CheckboxFormField } from '../form-fields';
 import { createMutationSubmitHandler } from '../forms-graphql';
 

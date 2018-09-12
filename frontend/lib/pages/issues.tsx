@@ -13,7 +13,7 @@ import autobind from 'autobind-decorator';
 import { assertNotNull } from '../util';
 import { AppContextType, withAppContext, AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
-import { NextButton } from './onboarding-step-1';
+import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
 import { createMutationSubmitHandler } from '../forms-graphql';
 
@@ -80,9 +80,7 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="field is-grouped">
-        <div className="control">
-          <Link to={Routes.loc.issues.home} className="button is-text">Cancel and go back</Link>
-        </div>
+        <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
     );

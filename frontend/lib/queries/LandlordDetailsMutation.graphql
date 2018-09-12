@@ -1,0 +1,14 @@
+mutation LandlordDetailsMutation($input: LandlordDetailsInput!) {
+    output: landlordDetails(input: $input) {
+        errors {
+            field,
+            messages
+        },
+        session {
+            landlordDetails {
+                name
+                address
+            }
+        }
+    }
+}

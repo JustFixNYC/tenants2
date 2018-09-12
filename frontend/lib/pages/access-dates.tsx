@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter } from '../forms';
+import { LegacyFormSubmitter, FormContext } from '../forms';
 import { TextualFormField } from '../form-fields';
 import { AccessDatesMutation } from '../queries/AccessDatesMutation';
 import { AppContextType, withAppContext } from '../app-context';
@@ -24,6 +24,22 @@ export function getInitialState(accessDates: string[]): AccessDatesInput {
   return result;
 }
 
+function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
+  return (
+    <React.Fragment>
+      <TextualFormField label="First access date" type="date" {...ctx.fieldPropsFor('date1')} />
+      <TextualFormField label="Second access date (optional)" type="date" {...ctx.fieldPropsFor('date2')} />
+      <TextualFormField label="Third access date (optional)" type="date" {...ctx.fieldPropsFor('date3')} />
+      <div className="field is-grouped">
+        <div className="control">
+          <Link to={Routes.loc.issues.home} className="button is-text">Cancel and go back</Link>
+        </div>
+        <NextButton isLoading={ctx.isLoading} />
+      </div>
+    </React.Fragment>
+  );
+}
+
 function AccessDatesPageWithAppContext(props: AppContextType): JSX.Element {
   return (
     <Page title="Access dates">
@@ -40,19 +56,7 @@ function AccessDatesPageWithAppContext(props: AppContextType): JSX.Element {
         }}
         onSuccessRedirect={Routes.loc.yourLandlord}
       >
-        {(ctx) => (
-          <React.Fragment>
-            <TextualFormField label="First access date" type="date" {...ctx.fieldPropsFor('date1')} />
-            <TextualFormField label="Second access date (optional)" type="date" {...ctx.fieldPropsFor('date2')} />
-            <TextualFormField label="Third access date (optional)" type="date" {...ctx.fieldPropsFor('date3')} />
-            <div className="field is-grouped">
-              <div className="control">
-                <Link to={Routes.loc.issues.home} className="button is-text">Cancel and go back</Link>
-              </div>
-              <NextButton isLoading={ctx.isLoading} />
-            </div>
-          </React.Fragment>
-        )}
+        {renderForm}
       </LegacyFormSubmitter>
     </Page>
   );

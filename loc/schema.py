@@ -32,4 +32,4 @@ class LocSessionInfo:
         user = info.context.user
         if not user.is_authenticated:
             return []
-        return [ad.date for ad in user.access_dates.all()]
+        return models.AccessDate.objects.get_for_user(user)

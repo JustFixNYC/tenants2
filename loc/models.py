@@ -13,6 +13,9 @@ class AccessDateManager(models.Manager):
             for date in dates
         ])
 
+    def get_for_user(self, user: JustfixUser) -> List[datetime.date]:
+        return [ad.date for ad in user.access_dates.all()]
+
 
 class AccessDate(models.Model):
     class Meta:

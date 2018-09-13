@@ -142,3 +142,8 @@ $justfix-blue: #0096D7;
 .tag[data-jf-tag-count="0"] {
     display: none;
 }
+
+.jf-loc-preview iframe {
+    width: 100%;
+    min-height: 20em;
+}

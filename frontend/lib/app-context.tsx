@@ -33,6 +33,12 @@ export interface AppServerInfo {
   /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
   batchGraphQLURL: string;
 
+  /** The letter of complaint URL (HTML format). */
+  locHtmlURL: string;
+
+  /** The letter of complaint URL (PDF format). */
+  locPdfURL: string;
+
   /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in
    * the Django app).

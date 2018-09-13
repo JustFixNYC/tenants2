@@ -133,6 +133,8 @@ def react_rendered_view(request, url: str):
             'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),
             'batchGraphQLURL': reverse('batch-graphql'),
+            'locHtmlURL': reverse('loc', args=('html',)),
+            'locPdfURL': reverse('loc', args=('pdf',)),
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

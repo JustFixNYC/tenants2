@@ -44,6 +44,13 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
     }
   }
 
+  componentWillUnmount() {
+    if (this.animationRequest !== null) {
+      window.cancelAnimationFrame(this.animationRequest);
+      this.animationRequest = null;
+    }
+  }
+
   render() {
     return (
       <progress className="progress is-info" value={this.state.pct} max="100">

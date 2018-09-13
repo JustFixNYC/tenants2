@@ -68,7 +68,9 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   webpackPublicPathURL: '/mystatic/myfrontend/',
   adminIndexURL: '/myadmin/',  
   debug: false,
-  batchGraphQLURL: '/mygarphql'
+  batchGraphQLURL: '/mygarphql',
+  locHtmlURL: '/myletter.html',
+  locPdfURL: '/myletter.pdf'
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {

@@ -46,8 +46,8 @@ function LetterRequestPageWithAppContext(props: AppContextType): JSX.Element {
       <h1 className="title">Review the Letter of Complaint</h1>
       <div className="content">
         <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
-        <div className="box has-text-centered">
-          Hey, we haven't implemented this yet.
+        <div className="box has-text-centered jf-loc-preview">
+          <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
         </div>
       </div>
       <LegacyFormSubmitter

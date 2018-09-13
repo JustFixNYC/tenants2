@@ -8,6 +8,7 @@ import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
 import { RouteProgressBar } from './progress-bar';
 import LetterRequestPage from './pages/letter-request';
+import LetterConfirmation from './pages/loc-confirmation';
 
 
 export function Welcome(): JSX.Element {
@@ -31,15 +32,6 @@ export function WhyMail(): JSX.Element {
   );
 }
 
-export function Confirmation(): JSX.Element {
-  return (
-    <Page title="Your letter of complaint has been created!">
-      <h1 className="title">Your letter of complaint has been created!</h1>
-      <p>Hey, we haven't implemented this yet.</p>
-    </Page>
-  );
-}
-
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
     <RouteProgressBar label="Letter of Complaint">
@@ -49,7 +41,7 @@ export default function LetterOfComplaintRoutes(): JSX.Element {
       <Route path={Routes.loc.accessDates} exact component={AccessDatesPage} />
       <Route path={Routes.loc.yourLandlord} exact component={LandlordDetailsPage} />
       <Route path={Routes.loc.preview} exact component={LetterRequestPage} />
-      <Route path={Routes.loc.confirmation} exact component={Confirmation} />
+      <Route path={Routes.loc.confirmation} exact component={LetterConfirmation} />
     </RouteProgressBar>
   );
 }

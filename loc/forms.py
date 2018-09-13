@@ -35,3 +35,9 @@ class LandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails
         fields = ('name', 'address')
+
+
+class LetterRequestForm(forms.ModelForm):
+    class Meta:
+        model = models.LetterRequest
+        fields = ('mail_choice',)

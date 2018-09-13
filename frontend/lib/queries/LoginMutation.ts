@@ -4,7 +4,7 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { LoginInput } from "./globalTypes";
+import { LoginInput, LetterRequestMailChoice } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: LoginMutation
@@ -84,6 +84,14 @@ export interface LoginMutation_output_session_landlordDetails {
   address: string;
 }
 
+export interface LoginMutation_output_session_letterRequest {
+  updatedAt: any;
+  /**
+   * How the letter of complaint will be mailed.
+   */
+  mailChoice: LetterRequestMailChoice;
+}
+
 export interface LoginMutation_output_session {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -104,6 +112,7 @@ export interface LoginMutation_output_session {
   customIssues: LoginMutation_output_session_customIssues[];
   accessDates: string[];
   landlordDetails: LoginMutation_output_session_landlordDetails | null;
+  letterRequest: LoginMutation_output_session_letterRequest | null;
 }
 
 export interface LoginMutation_output {

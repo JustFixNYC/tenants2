@@ -29,4 +29,8 @@ fragment AllSessionInfo on SessionInfo {
         name
         address
     }
+    letterRequest {
+        updatedAt
+        mailChoice
+    }
 }

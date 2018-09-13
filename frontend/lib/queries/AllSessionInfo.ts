@@ -3,6 +3,8 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
+import { LetterRequestMailChoice } from "./globalTypes";
+
 // ====================================================
 // GraphQL fragment: AllSessionInfo
 // ====================================================
@@ -70,6 +72,14 @@ export interface AllSessionInfo_landlordDetails {
   address: string;
 }
 
+export interface AllSessionInfo_letterRequest {
+  updatedAt: any;
+  /**
+   * How the letter of complaint will be mailed.
+   */
+  mailChoice: LetterRequestMailChoice;
+}
+
 export interface AllSessionInfo {
   /**
    * The phone number of the currently logged-in user, or null if not logged-in.
@@ -90,6 +100,7 @@ export interface AllSessionInfo {
   customIssues: AllSessionInfo_customIssues[];
   accessDates: string[];
   landlordDetails: AllSessionInfo_landlordDetails | null;
+  letterRequest: AllSessionInfo_letterRequest | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -122,6 +133,10 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     landlordDetails {
         name
         address
+    }
+    letterRequest {
+        updatedAt
+        mailChoice
     }
 }
 `;

@@ -1,0 +1,14 @@
+mutation LetterRequestMutation($input: LetterRequestInput!) {
+    output: letterRequest(input: $input) {
+        errors {
+            field,
+            messages
+        },
+        session {
+            letterRequest {
+                updatedAt
+                mailChoice
+            }
+        }
+    }
+}

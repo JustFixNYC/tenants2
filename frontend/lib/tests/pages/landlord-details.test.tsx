@@ -7,14 +7,13 @@ import { AppContextType, AppContext } from '../../app-context';
 import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 
-
-function createAccessDates(props: Partial<AppContextType> = {}): JSX.Element {
+export function createLoCRoutes(initialRoute: string, props: Partial<AppContextType>): JSX.Element {
   const ctx: AppContextType = {
     ...FakeAppContext,
     ...props
   };
   return (
-    <MemoryRouter initialEntries={[Routes.loc.yourLandlord]}>
+    <MemoryRouter initialEntries={[initialRoute]}>
       <AppContext.Provider value={ctx}>
         <LetterOfComplaintRoutes/>
       </AppContext.Provider>
@@ -28,7 +27,7 @@ describe('landlord details page', () => {
   it('redirects to next step after successful submission', async () => {
     const { client } = createTestGraphQlClient();
     const updateSession = jest.fn();
-    const pal = ReactTestingLibraryPal.render(createAccessDates({
+    const pal = ReactTestingLibraryPal.render(createLoCRoutes(Routes.loc.yourLandlord, {
       fetch: client.fetch,
       updateSession
     }));
@@ -45,7 +44,7 @@ describe('landlord details page', () => {
       session: { landlordDetails: { name, address } } }
     });
 
-    await pal.rt.waitForElement(() => pal.rr.getByText(/Preview letter of complaint/i));
+    await pal.rt.waitForElement(() => pal.rr.getByText(/Review the letter of complaint/i));
     expect(updateSession.mock.calls).toHaveLength(1);
     expect(updateSession.mock.calls[0][0]).toEqual({ landlordDetails: { name, address } });
   });

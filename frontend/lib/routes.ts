@@ -59,7 +59,8 @@ const Routes = {
     },
     accessDates: '/loc/access-dates',
     yourLandlord: '/loc/your-landlord',
-    preview: '/loc/preview'
+    preview: '/loc/preview',
+    confirmation: '/loc/confirmation'
   },
 
   /** Example pages used in integration tests. */

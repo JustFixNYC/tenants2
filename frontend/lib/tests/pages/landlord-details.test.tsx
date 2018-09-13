@@ -45,7 +45,7 @@ describe('landlord details page', () => {
       session: { landlordDetails: { name, address } } }
     });
 
-    await pal.rt.waitForElement(() => pal.rr.getByText(/Preview letter of complaint/i));
+    await pal.rt.waitForElement(() => pal.rr.getByText(/Review the letter of complaint/i));
     expect(updateSession.mock.calls).toHaveLength(1);
     expect(updateSession.mock.calls[0][0]).toEqual({ landlordDetails: { name, address } });
   });

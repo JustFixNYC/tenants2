@@ -5,6 +5,14 @@
 // START Enums and Input Objects
 //==============================================================
 
+/**
+ * An enumeration.
+ */
+export enum LetterRequestMailChoice {
+  USER_WILL_MAIL = "USER_WILL_MAIL",
+  WE_WILL_MAIL = "WE_WILL_MAIL",
+}
+
 export interface AccessDatesInput {
   date1: string;
   date2: string;
@@ -27,6 +35,11 @@ export interface IssueAreaInput {
 export interface LandlordDetailsInput {
   name: string;
   address: string;
+  clientMutationId?: string | null;
+}
+
+export interface LetterRequestInput {
+  mailChoice: string;
   clientMutationId?: string | null;
 }
 

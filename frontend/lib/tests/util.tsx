@@ -81,7 +81,8 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   issues: [],
   customIssues: [],
   accessDates: [],
-  landlordDetails: null
+  landlordDetails: null,
+  letterRequest: null
 };
 
 export const FakeAppContext: AppContextType = {

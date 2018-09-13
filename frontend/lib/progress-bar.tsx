@@ -1,5 +1,6 @@
 import React from 'react';
 import autobind from "autobind-decorator";
+import { RouteComponentProps, withRouter, Route, RouteProps, Switch } from 'react-router';
 
 interface ProgressBarState {
   pct: number;
@@ -51,3 +52,47 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
     );
   }
 }
+
+interface RouteProgressBarProps extends RouteComponentProps<any> {
+  children: React.ReactNode;
+  label: string;
+}
+
+function childIsRoute(child: React.ReactChild): child is React.ReactElement<RouteProps> {
+  return !!child && typeof(child) === 'object' && child.type === Route;
+}
+
+/**
+ * This component can be used to show a progress bar that
+ * represents a series of steps the user is working through,
+ * where each step is a route.
+ * 
+ * The routes should be children of this element.
+ */
+export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.Element => {
+  const { pathname } = props.location;
+  let numSteps = 0;
+  let currStep = 0;
+
+  React.Children.map(props.children, (child, i) => {
+    if (childIsRoute(child) && child.props.path) {
+      numSteps += 1;
+      if (pathname.indexOf(child.props.path) === 0) {
+        currStep = numSteps;
+      }
+    }
+  });
+
+  const pct = Math.floor((currStep / numSteps) * 100);
+
+  return (
+    <React.Fragment>
+      <ProgressBar pct={pct}>
+        {props.label} step {currStep} of {numSteps}
+      </ProgressBar>
+      <Switch>
+        {props.children}
+      </Switch>
+    </React.Fragment>
+  );
+});

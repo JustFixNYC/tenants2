@@ -1,14 +1,14 @@
 import React from 'react';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import Routes from './routes';
-import { Redirect, Switch, Route } from 'react-router';
+import { Redirect, Route } from 'react-router';
 import { LocationDescriptor } from 'history';
 import OnboardingStep1 from './pages/onboarding-step-1';
 import { GraphQLFetch } from './graphql-client';
 import OnboardingStep2 from './pages/onboarding-step-2';
 import OnboardingStep3 from './pages/onboarding-step-3';
 import OnboardingStep4 from './pages/onboarding-step-4';
-import { ProgressBar } from './progress-bar';
+import { RouteProgressBar } from './progress-bar';
 
 
 export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescriptor {
@@ -40,35 +40,13 @@ export interface OnboardingRoutesProps {
   onSessionChange: (session: Partial<AllSessionInfo>) => void;
 }
 
-const PROGRESS_PCT = {
-  [Routes.onboarding.step1]: 25,
-  [Routes.onboarding.step2]: 50,
-  [Routes.onboarding.step3]: 75,
-  [Routes.onboarding.step4]: 100,
-};
-
-function OnboardingProgressBar(): JSX.Element {
-  return (
-    <Route render={(ctx) => {
-      const baseRoute = ctx.location.pathname.slice(0, Routes.onboarding.step1.length);
-      const pct = PROGRESS_PCT[baseRoute];
-      return typeof(pct) === 'number' && (
-        <ProgressBar pct={pct}>
-          Onboarding is {pct}% complete.
-        </ProgressBar>
-      );
-    }} />
-  );
-}
-
 export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Element {
   return (
     <div>
-      <OnboardingProgressBar />
-      <Switch>
-        <Route path={Routes.onboarding.latestStep} exact>
-          <RedirectToLatestOnboardingStep session={props.session} />
-        </Route>
+      <Route path={Routes.onboarding.latestStep} exact render={() => (
+        <RedirectToLatestOnboardingStep session={props.session} />
+      )} />
+      <RouteProgressBar label="Onboarding">
         <Route path={Routes.onboarding.step1}>
           <OnboardingStep1
             onCancel={props.onCancelOnboarding}
@@ -97,7 +75,7 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
             onSuccess={props.onSessionChange}
           />
         </Route>
-      </Switch>
+      </RouteProgressBar>
     </div>
   );
 }

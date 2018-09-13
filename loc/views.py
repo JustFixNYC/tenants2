@@ -1,7 +1,9 @@
+from typing import Dict, Any
 import datetime
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from io import BytesIO
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 
 
@@ -28,14 +30,36 @@ def pdf_response(html: str, filename: str):
     return FileResponse(BytesIO(pdf_bytes), filename=filename)
 
 
-def example_pdf(request):
-    return pdf_response(render_to_string('loc/example.html', {
+def example_doc(request, format):
+    return render_document(request, 'loc/example.html', {
         'now': str(datetime.datetime.now())
-    }), 'example.pdf')
+    }, format)
 
 
-def letter_of_complaint_pdf(request):
-    html = render_to_string('loc/letter-of-complaint.html', {
+@login_required
+def letter_of_complaint_doc(request, format):
+    return render_document(request, 'loc/letter-of-complaint.html', {
         'user': request.user
-    })
-    return pdf_response(html, 'letter-of-complaint.pdf')
+    }, format)
+
+
+def template_name_to_pdf_filename(template_name: str) -> str:
+    '''
+    Convert the given template name into a suitable filename for
+    its PDF rendering:
+
+        >>> template_name_to_pdf_filename('blah/foo-thing.html')
+        'foo-thing.pdf'
+    '''
+
+    filename = PurePosixPath(template_name)
+    return f'{filename.stem}.pdf'
+
+
+def render_document(request, template_name: str, context: Dict[str, Any], format: str):
+    if format not in ['html', 'pdf']:
+        raise ValueError(f'unknown format "{format}"')
+    html = render_to_string(template_name, context=context, request=request)
+    if format == 'html':
+        return HttpResponse(html)
+    return pdf_response(html, template_name_to_pdf_filename(template_name))

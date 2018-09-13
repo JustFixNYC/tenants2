@@ -7,14 +7,13 @@ import { AppContextType, AppContext } from '../../app-context';
 import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 
-
-function createAccessDates(props: Partial<AppContextType> = {}): JSX.Element {
+export function createLoCRoutes(initialRoute: string, props: Partial<AppContextType>): JSX.Element {
   const ctx: AppContextType = {
     ...FakeAppContext,
     ...props
   };
   return (
-    <MemoryRouter initialEntries={[Routes.loc.yourLandlord]}>
+    <MemoryRouter initialEntries={[initialRoute]}>
       <AppContext.Provider value={ctx}>
         <LetterOfComplaintRoutes/>
       </AppContext.Provider>
@@ -28,7 +27,7 @@ describe('landlord details page', () => {
   it('redirects to next step after successful submission', async () => {
     const { client } = createTestGraphQlClient();
     const updateSession = jest.fn();
-    const pal = ReactTestingLibraryPal.render(createAccessDates({
+    const pal = ReactTestingLibraryPal.render(createLoCRoutes(Routes.loc.yourLandlord, {
       fetch: client.fetch,
       updateSession
     }));

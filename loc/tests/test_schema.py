@@ -15,6 +15,11 @@ DEFAULT_LANDLORD_DETAILS_INPUT = {
 }
 
 
+DEFAULT_LETTER_REQUEST_INPUT = {
+    'mailChoice': 'WE_WILL_MAIL'
+}
+
+
 def execute_ad_mutation(graphql_client, **input):
     input = {**DEFAULT_ACCESS_DATES_INPUT, **input}
     return graphql_client.execute(
@@ -49,6 +54,29 @@ def execute_ld_mutation(graphql_client, **input):
                     landlordDetails {
                         name
                         address
+                    }
+                }
+            }
+        }
+        """,
+        variables={'input': input}
+    )['data']['output']
+
+
+def execute_lr_mutation(graphql_client, **input):
+    input = {**DEFAULT_LETTER_REQUEST_INPUT, **input}
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: LetterRequestInput!) {
+            output: letterRequest(input: $input) {
+                errors {
+                    field
+                    messages
+                }
+                session {
+                    letterRequest {
+                        mailChoice,
+                        updatedAt
                     }
                 }
             }
@@ -123,3 +151,36 @@ def test_landlord_details_is_null_when_user_has_not_yet_provided_it(graphql_clie
     graphql_client.request.user = UserFactory.create()
     result = graphql_client.execute('query { session { landlordDetails { name } } }')
     assert result['data']['session']['landlordDetails'] is None
+
+
+@pytest.mark.django_db
+def test_letter_request_works(graphql_client):
+    graphql_client.request.user = UserFactory.create()
+
+    result = execute_lr_mutation(graphql_client)
+    assert result['errors'] == []
+    assert result['session']['letterRequest']['mailChoice'] == 'WE_WILL_MAIL'
+    assert isinstance(result['session']['letterRequest']['updatedAt'], str)
+
+    result = execute_lr_mutation(graphql_client, mailChoice='USER_WILL_MAIL')
+    assert result['errors'] == []
+    assert result['session']['letterRequest']['mailChoice'] == 'USER_WILL_MAIL'
+
+
+def test_letter_request_requires_auth(graphql_client):
+    result = execute_lr_mutation(graphql_client)
+    assert result['errors'] == [{'field': '__all__', 'messages': [
+        'You do not have permission to use this form!'
+    ]}]
+
+
+def test_letter_request_is_null_when_unauthenticated(graphql_client):
+    result = graphql_client.execute('query { session { letterRequest { updatedAt } } }')
+    assert result['data']['session']['letterRequest'] is None
+
+
+@pytest.mark.django_db
+def test_letter_request_is_null_when_user_has_not_yet_requested_letter(graphql_client):
+    graphql_client.request.user = UserFactory.create()
+    result = graphql_client.execute('query { session { letterRequest { updatedAt } } }')
+    assert result['data']['session']['letterRequest'] is None

@@ -45,9 +45,33 @@ class LandlordDetails(DjangoFormMutation):
         return LandlordDetails(session=import_string('project.schema.SessionInfo'))
 
 
+class LetterRequest(DjangoFormMutation):
+    class Meta:
+        form_class = forms.LetterRequestForm
+
+    login_required = True
+
+    session = graphene.Field('project.schema.SessionInfo')
+
+    @classmethod
+    def get_form_kwargs(cls, root, info: ResolveInfo, **input):
+        user = info.context.user
+        if hasattr(user, 'letter_request'):
+            details = user.letter_request
+        else:
+            details = models.LetterRequest(user=user)
+        return {"data": input, "instance": details}
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
+        form.save()
+        return LetterRequest(session=import_string('project.schema.SessionInfo'))
+
+
 class LocMutations:
     access_dates = AccessDates.Field(required=True)
     landlord_details = LandlordDetails.Field(required=True)
+    letter_request = LetterRequest.Field(required=True)
 
 
 class LandlordDetailsType(DjangoObjectType):
@@ -56,9 +80,16 @@ class LandlordDetailsType(DjangoObjectType):
         only_fields = ('name', 'address')
 
 
+class LetterRequestType(DjangoObjectType):
+    class Meta:
+        model = models.LetterRequest
+        only_fields = ('mail_choice', 'updated_at')
+
+
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
     landlord_details = graphene.Field(LandlordDetailsType)
+    letter_request = graphene.Field(LetterRequestType)
 
     def resolve_access_dates(self, info: ResolveInfo):
         user = info.context.user
@@ -71,3 +102,9 @@ class LocSessionInfo:
         if not user.is_authenticated or not hasattr(user, 'landlord_details'):
             return None
         return user.landlord_details
+
+    def resolve_letter_request(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated or not hasattr(user, 'letter_request'):
+            return None
+        return user.letter_request

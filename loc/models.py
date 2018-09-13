@@ -2,7 +2,11 @@ from typing import List
 import datetime
 from django.db import models
 
+from project.common_data import Choices
 from users.models import JustfixUser
+
+
+LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
 
 class AccessDateManager(models.Manager):
@@ -42,3 +46,21 @@ class LandlordDetails(models.Model):
     address = models.CharField(
         max_length=1000,
         help_text="The full mailing address for the landlord.")
+
+
+class LetterRequest(models.Model):
+    '''
+    A completed letter of complaint request submitted by a user.
+    '''
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='letter_request')
+
+    mail_choice = models.TextField(
+        max_length=30,
+        choices=LOC_MAILING_CHOICES,
+        help_text="How the letter of complaint will be mailed.")

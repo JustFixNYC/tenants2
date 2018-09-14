@@ -12,8 +12,9 @@
     "querybuilder:watch": "node querybuilder.js --watch",
     "webpack": "webpack",
     "webpack:watch": "webpack --watch",
+    "webpack:querybuilder": "webpack --config frontend/webpack/querybuilder.config.js --silent",
     "build": "npm run sass && npm run webpack",
-    "start": "npm run sass && concurrently --kill-others \"npm run webpack:watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\""
+    "start": "npm run sass && npm run webpack:querybuilder && concurrently --kill-others \"npm run webpack:watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\""
   },
   "repository": {
     "type": "git",

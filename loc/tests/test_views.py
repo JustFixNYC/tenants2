@@ -1,6 +1,31 @@
 import pytest
 
-from loc.views import can_we_render_pdfs, render_document
+from users.tests.factories import UserFactory
+from issues.models import Issue, CustomIssue
+from loc.models import LandlordDetails
+from loc.views import (
+    can_we_render_pdfs, render_document, get_issues, get_landlord_name)
+
+
+@pytest.mark.django_db
+def test_get_landlord_name_works():
+    user = UserFactory()
+    assert get_landlord_name(user) == ''
+
+    user.landlord_details = LandlordDetails(name="Blarg")
+    assert get_landlord_name(user) == 'Blarg'
+
+
+@pytest.mark.django_db
+def test_get_issues_works():
+    user = UserFactory()
+    Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
+    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'Bleh.')
+
+    assert get_issues(user) == [
+        ('Entire home and hallways', ['Mice']),
+        ('Bedrooms', ['Bleh.']),
+    ]
 
 
 def test_render_document_raises_err_on_invalid_format():

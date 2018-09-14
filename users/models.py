@@ -24,7 +24,9 @@ class JustfixUser(AbstractUser):
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username', 'email']
 
-    def formatted_phone_number(self):
+    def formatted_phone_number(self) -> str:
+        if len(self.phone_number) != PHONE_NUMBER_LEN:
+            return self.phone_number
         area_code = self.phone_number[0:3]
         first_three_digits = self.phone_number[3:6]
         last_digits = self.phone_number[6:]

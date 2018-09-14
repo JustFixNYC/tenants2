@@ -21,7 +21,7 @@ PDF_STYLES_CSS = MY_STATIC_DIR.joinpath(*PDF_STYLES_PATH_PARTS)
 def can_we_render_pdfs():
     try:
         import weasyprint  # noqa
-    except Exception:
+    except Exception:      # pragma: nocover
         return False
     return True
 
@@ -39,8 +39,10 @@ def example_doc(request, format):
     }, format)
 
 
-def get_landlord_name(user):
-    return hasattr(user, 'landlord_details') and user.landlord_details.name
+def get_landlord_name(user) -> str:
+    if hasattr(user, 'landlord_details'):
+        return user.landlord_details.name
+    return ''
 
 
 def get_issues(user):

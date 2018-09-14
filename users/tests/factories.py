@@ -13,6 +13,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     password = 'test123'
 
+    full_name = 'Boop Jones'
+
     @classmethod
     def _create(cls, model_class, *args, **kwargs):
         return JustfixUser.objects.create_user(*args, **kwargs)

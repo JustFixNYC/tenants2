@@ -64,3 +64,11 @@ class LetterRequest(models.Model):
         max_length=30,
         choices=LOC_MAILING_CHOICES,
         help_text="How the letter of complaint will be mailed.")
+
+    def __str__(self):
+        if not (self.created_at and self.user and self.user.full_name):
+            return super().__str__()
+        return (
+            f"{self.user.full_name}'s letter of complaint request from "
+            f"{self.created_at.strftime('%A, %B %d %Y')}"
+        )

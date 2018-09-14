@@ -25,4 +25,6 @@ class JustfixUser(AbstractUser):
     REQUIRED_FIELDS = ['username', 'email']
 
     def __str__(self):
+        if self.full_name:
+            return f"{self.phone_number} ({self.full_name})"
         return self.phone_number

@@ -64,3 +64,11 @@ class OnboardingInfo(models.Model):
 
     can_we_sms = models.BooleanField(
         help_text="Whether we can contact the user via SMS to follow up.")
+
+    def __str__(self):
+        if not (self.created_at and self.user and self.user.full_name):
+            return super().__str__()
+        return (
+            f"{self.user.full_name}'s onboarding info from "
+            f"{self.created_at.strftime('%A, %B %d %Y')}"
+        )

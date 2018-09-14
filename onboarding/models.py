@@ -34,7 +34,7 @@ class OnboardingInfo(models.Model):
     )
 
     borough = models.CharField(
-        max_length=20, choices=BOROUGH_CHOICES,
+        max_length=20, choices=BOROUGH_CHOICES.choices,
         help_text="The New York City borough the user's address is in."
     )
 
@@ -56,7 +56,7 @@ class OnboardingInfo(models.Model):
         help_text="Has the user called 311 before?")
 
     lease_type = models.CharField(
-        max_length=30, choices=LEASE_CHOICES,
+        max_length=30, choices=LEASE_CHOICES.choices,
         help_text="The type of lease the user has on their dwelling.")
 
     receives_public_assistance = models.BooleanField(

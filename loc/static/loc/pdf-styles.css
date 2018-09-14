@@ -5,3 +5,7 @@ html {
 .has-text-right {
     text-align: right;
 }
+
+.jf-signature {
+    float: right;
+}

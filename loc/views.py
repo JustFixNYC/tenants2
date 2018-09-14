@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
@@ -6,18 +6,22 @@ from django.http import FileResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 
+from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
+
 
 MY_DIR = Path(__file__).parent.resolve()
 
-MY_STATIC_DIR = MY_DIR / 'static' / 'loc'
+MY_STATIC_DIR = MY_DIR / 'static'
 
-PDF_STYLES_CSS = MY_STATIC_DIR / 'pdf-styles.css'
+PDF_STYLES_PATH_PARTS = ['loc', 'pdf-styles.css']
+
+PDF_STYLES_CSS = MY_STATIC_DIR.joinpath(*PDF_STYLES_PATH_PARTS)
 
 
 def can_we_render_pdfs():
     try:
         import weasyprint  # noqa
-    except Exception:
+    except Exception:      # pragma: nocover
         return False
     return True
 
@@ -25,8 +29,7 @@ def can_we_render_pdfs():
 def pdf_response(html: str, filename: str):
     import weasyprint
 
-    css = f"<style>{PDF_STYLES_CSS.read_text()}</style>"
-    pdf_bytes = weasyprint.HTML(string=css + html).write_pdf()
+    pdf_bytes = weasyprint.HTML(string=html).write_pdf()
     return FileResponse(BytesIO(pdf_bytes), filename=filename)
 
 
@@ -36,10 +39,42 @@ def example_doc(request, format):
     }, format)
 
 
+def get_landlord_name(user) -> str:
+    if hasattr(user, 'landlord_details'):
+        return user.landlord_details.name
+    return ''
+
+
+def get_issues(user):
+    issue_areas: Dict[str, List[str]] = {}
+
+    def append_to_area(area, value):
+        area = ISSUE_AREA_CHOICES.get_label(area)
+        if area not in issue_areas:
+            issue_areas[area] = []
+        issue_areas[area].append(value)
+
+    for issue in user.issues.all():
+        append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
+
+    for issue in user.custom_issues.all():
+        append_to_area(issue.area, issue.description)
+
+    return [
+        (area, issue_areas[area]) for area in issue_areas
+    ]
+
+
 @login_required
 def letter_of_complaint_doc(request, format):
+    user = request.user
+
     return render_document(request, 'loc/letter-of-complaint.html', {
-        'user': request.user
+        'today': datetime.date.today(),
+        'landlord_name': get_landlord_name(user),
+        'issues': get_issues(user),
+        'access_dates': [date.date for date in user.access_dates.all()],
+        'user': user
     }, format)
 
 
@@ -59,7 +94,19 @@ def template_name_to_pdf_filename(template_name: str) -> str:
 def render_document(request, template_name: str, context: Dict[str, Any], format: str):
     if format not in ['html', 'pdf']:
         raise ValueError(f'unknown format "{format}"')
-    html = render_to_string(template_name, context=context, request=request)
+
     if format == 'html':
+        html = render_to_string(template_name, context={
+            **context,
+            'is_pdf': False,
+            'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS)
+        }, request=request)
         return HttpResponse(html)
+
+    html = render_to_string(template_name, context={
+        **context,
+        'is_pdf': True,
+        'pdf_styles_css': PDF_STYLES_CSS.read_text()
+    }, request=request)
+
     return pdf_response(html, template_name_to_pdf_filename(template_name))

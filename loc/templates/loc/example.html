@@ -1,7 +1,13 @@
+{% extends "loc/base.html" %}
+
+{% block title %}Example PDF{% endblock %}
+
+{% block body %}
 <h1>Example PDF</h1>
 
 <p>
-  This is an example PDF that can be used to debug styling issues.
+  This is an example {% if is_pdf %}PDF{% else %}HTML preview of a PDF{% endif %}
+  that can be used to debug styling issues.
   It was generated at <strong>{{ now }}</strong>.
 </p>
 
@@ -29,3 +35,4 @@
   <li>Two</li>
   <li>Three</li>
 </ul>
+{% endblock %}

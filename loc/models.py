@@ -62,7 +62,7 @@ class LetterRequest(models.Model):
 
     mail_choice = models.TextField(
         max_length=30,
-        choices=LOC_MAILING_CHOICES,
+        choices=LOC_MAILING_CHOICES.choices,
         help_text="How the letter of complaint will be mailed.")
 
     def __str__(self):

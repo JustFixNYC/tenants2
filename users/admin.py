@@ -13,7 +13,7 @@ class JustfixUserAdmin(UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
-    list_display = ['full_name', 'phone_number']
+    list_display = ['phone_number', 'full_name']
     fieldsets = (
         (_('Personal info'), {'fields': ('full_name', 'email', 'phone_number')}),
         ('Username and password', {

@@ -1,10 +1,12 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
 from django.http import FileResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+
+from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -36,11 +38,40 @@ def example_doc(request, format):
     }, format)
 
 
+def get_landlord_name(user):
+    return hasattr(user, 'landlord_details') and user.landlord_details.name
+
+
+def get_issues(user):
+    issue_areas: Dict[str, List[str]] = {}
+
+    def append_to_area(area, value):
+        area = ISSUE_AREA_CHOICES.get_label(area)
+        if area not in issue_areas:
+            issue_areas[area] = []
+        issue_areas[area].append(value)
+
+    for issue in user.issues.all():
+        append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
+
+    for issue in user.custom_issues.all():
+        append_to_area(issue.area, issue.description)
+
+    return [
+        (area, issue_areas[area]) for area in issue_areas
+    ]
+
+
 @login_required
 def letter_of_complaint_doc(request, format):
+    user = request.user
+
     return render_document(request, 'loc/letter-of-complaint.html', {
         'today': datetime.date.today(),
-        'user': request.user
+        'landlord_name': get_landlord_name(user),
+        'issues': get_issues(user),
+        'access_dates': [date.date for date in user.access_dates.all()],
+        'user': user
     }, format)
 
 

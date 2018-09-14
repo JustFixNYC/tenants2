@@ -1,7 +1,51 @@
 <p class="has-text-right">{{ today }}</p>
 
-<h2>Dear Landlord Person,</h2>
+<h2>
+  {% if landlord_name %}
+    Dear {{ landlord_name }},
+  {% else %}
+    To whom it may concern,
+  {% endif %}
+</h2>
 
-<p>Hi! This is a letter of complaint from {{ user.full_name }}.</p>
+{% if issues %}
+  <p>I need the following repairs in my apartment referenced below and/or in the public areas of the building:</p>
 
-<p>We need to finish writing this.</p>
+  <h3>Issues</h3>
+
+  {% for area, area_issues in issues %}
+    <h4>{{ area }}</h4>
+    <ul>
+      {% for issue in area_issues %}
+        <li>{{ issue }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+  {% if access_dates %}
+    <p>
+      Below are some access dates provided for when repairs can be made.
+      Please contact (using the information provided below) in order
+      to make arrangements. <strong>Anyone coming to perform repairs
+      should arrive no later than 12pm during the provided dates.</strong>
+    </p>
+    <ul>
+      {% for date in access_dates %}
+        <li>{{ date }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% else %}
+    <p>I have no issues with my apartment. It's awesome.</p>
+{% endif %}
+
+<p class="jf-signature">
+  Regards,<br/>
+  {{ user.full_name|default:"Anonymous" }}<br/>
+  {% if user.onboarding_info %}
+    {{ user.onboarding_info.address }}<br/>
+    {{ user.onboarding_info.borough }}<br/>
+  {% endif %}
+  {{ user.formatted_phone_number }}
+</p>

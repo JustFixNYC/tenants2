@@ -24,6 +24,12 @@ class JustfixUser(AbstractUser):
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username', 'email']
 
+    def formatted_phone_number(self):
+        area_code = self.phone_number[0:3]
+        first_three_digits = self.phone_number[3:6]
+        last_digits = self.phone_number[6:]
+        return f"({area_code}) {first_three_digits}-{last_digits}"
+
     def __str__(self):
         if self.full_name:
             return f"{self.phone_number} ({self.full_name})"

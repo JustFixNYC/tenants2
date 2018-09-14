@@ -20,8 +20,8 @@ const BLANK_INPUT: LandlordDetailsInput = {
 function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   return (
     <React.Fragment>
-      <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
-      <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
+      <TextualFormField label="Landlord's name (optional)" type="text" {...ctx.fieldPropsFor('name')} />
+      <TextareaFormField label="Landlord's address (optional)" {...ctx.fieldPropsFor('address')} />
       <div className="field is-grouped">
         <BackButton to={Routes.loc.accessDates} />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />

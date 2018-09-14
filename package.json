@@ -52,7 +52,6 @@
   "dependencies": {
     "@types/classnames": "^2.2.6",
     "@types/isomorphic-fetch": "0.0.34",
-    "@types/lodash": "^4.14.116",
     "@types/node": "^10.5.7",
     "@types/react": "^16.4.8",
     "@types/react-aria-modal": "^2.12.1",
@@ -71,7 +70,6 @@
     "bulma": "^0.7.1",
     "classnames": "^2.2.6",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.10",
     "node-sass": "^4.9.3",
     "react": "^16.4.2",
     "react-aria-modal": "^3.0.0",

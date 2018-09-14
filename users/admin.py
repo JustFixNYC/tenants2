@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 from onboarding.admin import OnboardingInline
+from issues.admin import IssueInline, CustomIssueInline
 
 
 class JustfixUserAdmin(UserAdmin):
@@ -26,7 +27,7 @@ class JustfixUserAdmin(UserAdmin):
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    inlines = (OnboardingInline,)
+    inlines = (OnboardingInline, IssueInline, CustomIssueInline)
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

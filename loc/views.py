@@ -39,6 +39,7 @@ def example_doc(request, format):
 @login_required
 def letter_of_complaint_doc(request, format):
     return render_document(request, 'loc/letter-of-complaint.html', {
+        'today': datetime.date.today(),
         'user': request.user
     }, format)
 

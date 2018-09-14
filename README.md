@@ -169,18 +169,6 @@ At this point the developer can import the final TS file and use the query.
 
 [Apollo Code Generation]: https://github.com/apollographql/apollo-cli#code-generation
 
-## Running the server in production mode
-
-Occasionally you might want to run the server in production mode on your
-local system, without actually deploying it, to ensure that everything
-works in production.
-
-One quick way to do this is to run:
-
-```
-python manage.py runprodserver
-```
-
 ## Developing with Docker
 
 You can alternatively develop the app via [Docker][], which

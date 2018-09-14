@@ -6,6 +6,7 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
+import loc.admin
 
 
 class JustfixUserAdmin(UserAdmin):
@@ -27,7 +28,7 @@ class JustfixUserAdmin(UserAdmin):
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    inlines = (OnboardingInline, IssueInline, CustomIssueInline)
+    inlines = (OnboardingInline, IssueInline, CustomIssueInline) + loc.admin.user_inlines
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

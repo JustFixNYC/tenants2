@@ -9,9 +9,16 @@ function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest }): J
   const { mailChoice, updatedAt } = props.letterRequest;
 
   if (mailChoice === LetterRequestMailChoice.WE_WILL_MAIL) {
+    const dateStr = new Intl.DateTimeFormat("en-US", {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'America/New_York'
+    }).format(new Date(updatedAt));
     return (
       <React.Fragment>
-        <p>We've received your request to mail a letter of complaint on {updatedAt}.</p>
+        <p>We've received your request to mail a letter of complaint on {dateStr}.</p>
         <p>We'll send you your certified mail tracking number once we have it!</p>
       </React.Fragment>
     );

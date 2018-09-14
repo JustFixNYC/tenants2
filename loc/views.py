@@ -11,9 +11,11 @@ from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 MY_DIR = Path(__file__).parent.resolve()
 
-MY_STATIC_DIR = MY_DIR / 'static' / 'loc'
+MY_STATIC_DIR = MY_DIR / 'static'
 
-PDF_STYLES_CSS = MY_STATIC_DIR / 'pdf-styles.css'
+PDF_STYLES_PATH_PARTS = ['loc', 'pdf-styles.css']
+
+PDF_STYLES_CSS = MY_STATIC_DIR.joinpath(*PDF_STYLES_PATH_PARTS)
 
 
 def can_we_render_pdfs():
@@ -27,8 +29,7 @@ def can_we_render_pdfs():
 def pdf_response(html: str, filename: str):
     import weasyprint
 
-    css = f"<style>{PDF_STYLES_CSS.read_text()}</style>"
-    pdf_bytes = weasyprint.HTML(string=css + html).write_pdf()
+    pdf_bytes = weasyprint.HTML(string=html).write_pdf()
     return FileResponse(BytesIO(pdf_bytes), filename=filename)
 
 
@@ -91,7 +92,19 @@ def template_name_to_pdf_filename(template_name: str) -> str:
 def render_document(request, template_name: str, context: Dict[str, Any], format: str):
     if format not in ['html', 'pdf']:
         raise ValueError(f'unknown format "{format}"')
-    html = render_to_string(template_name, context=context, request=request)
+
     if format == 'html':
+        html = render_to_string(template_name, context={
+            **context,
+            'is_pdf': False,
+            'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS)
+        }, request=request)
         return HttpResponse(html)
+
+    html = render_to_string(template_name, context={
+        **context,
+        'is_pdf': True,
+        'pdf_styles_css': PDF_STYLES_CSS.read_text()
+    }, request=request)
+
     return pdf_response(html, template_name_to_pdf_filename(template_name))

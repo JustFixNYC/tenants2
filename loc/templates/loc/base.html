@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% if is_pdf %}
+      <style>{{ pdf_styles_css }}</style>
+    {% else %}
+      {% load static %}
+      <link rel="stylesheet" href="{% static stylesheet_path %}">
+    {% endif %}
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+  </body>
+</html>

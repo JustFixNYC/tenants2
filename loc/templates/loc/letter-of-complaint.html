@@ -1,3 +1,8 @@
+{% extends "loc/base.html" %}
+
+{% block title %}Letter of complaint{% endblock %}
+
+{% block body %}
 <p class="has-text-right">{{ today }}</p>
 
 <h2>
@@ -49,3 +54,4 @@
   {% endif %}
   {{ user.formatted_phone_number }}
 </p>
+{% endblock %}

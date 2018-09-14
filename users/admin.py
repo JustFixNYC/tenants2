@@ -13,8 +13,15 @@ class JustfixUserAdmin(UserAdmin):
     model = JustfixUser
     list_display = ['full_name', 'phone_number']
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'email', 'phone_number')}),
+        ('Username and password', {
+            'fields': ('username', 'password'),
+            'description': (
+                "Note that the username is largely useless, and is an artifact of Django. "
+                "We don't really use it anywhere, but nonetheless, it must exist, and it "
+                "must be unique."
+            )
+        }),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),

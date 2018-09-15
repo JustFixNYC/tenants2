@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
 export function BackButton(props: {
-  to: LocationDescriptor<any>
+  to: LocationDescriptor<any>,
+  label?: string
 }): JSX.Element {
   return (
     <div className="control">
-      <Link to={props.to} className="button is-text">Cancel and go back</Link>
+      <Link to={props.to} className="button is-text">{props.label || "Cancel and go back"}</Link>
     </div>
   );
 }

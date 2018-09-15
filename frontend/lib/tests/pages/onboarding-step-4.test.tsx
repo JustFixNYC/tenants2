@@ -1,18 +1,24 @@
 import React from 'react';
 
-import OnboardingStep4, { OnboardingStep4Props } from '../../pages/onboarding-step-4';
+import OnboardingStep4 from '../../pages/onboarding-step-4';
 import { MemoryRouter } from 'react-router';
 import ReactTestingLibraryPal from '../rtl-pal';
-import { createTestGraphQlClient } from '../util';
+import { createTestGraphQlClient, FakeAppContext } from '../util';
+import { AppContext, AppContextType } from '../../app-context';
 
 
-function createOnboarding(props: Partial<OnboardingStep4Props> = {}): JSX.Element {
-  const finalProps: OnboardingStep4Props = {
-    fetch: jest.fn(),
-    onSuccess: jest.fn(),
+function createOnboarding(props: Partial<AppContextType> = {}): JSX.Element {
+  const appCtx: AppContextType = {
+    ...FakeAppContext,
     ...props
   };
-  return (<MemoryRouter><OnboardingStep4 {...finalProps} /></MemoryRouter>);
+  return (
+    <MemoryRouter>
+      <AppContext.Provider value={appCtx}>
+        <OnboardingStep4 />
+      </AppContext.Provider>
+    </MemoryRouter>
+  );
 }
 
 describe('onboarding step 2 page', () => {

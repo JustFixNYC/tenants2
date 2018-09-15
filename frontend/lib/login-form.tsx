@@ -1,14 +1,10 @@
 import React from 'react';
 import { LoginInput } from './queries/globalTypes';
 
-import { FormSubmitter } from './forms';
-import { bulmaClasses } from './bulma';
-import { GraphQLFetch } from './graphql-client';
-import { AllSessionInfo } from './queries/AllSessionInfo';
-import { fetchLoginMutation } from './queries/LoginMutation';
-import { assertNotNull } from './util';
+import { SessionUpdatingFormSubmitter } from './forms';
+import { LoginMutation } from './queries/LoginMutation';
 import { TextualFormField } from './form-fields';
-import { createMutationSubmitHandler } from './forms-graphql';
+import { NextButton } from './buttons';
 
 const initialState: LoginInput = {
   phoneNumber: '',
@@ -16,32 +12,27 @@ const initialState: LoginInput = {
 };
 
 export interface LoginFormProps {
-  fetch: GraphQLFetch;
-  onSuccess: (session: AllSessionInfo) => void;
-  onSuccessRedirect?: string;
+  onSuccessRedirect: string;
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {
   render() {
     return (
-      <FormSubmitter onSubmit={createMutationSubmitHandler(this.props.fetch, fetchLoginMutation)}
-                     initialState={initialState}
-                     onSuccessRedirect={this.props.onSuccessRedirect}
-                     onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session)) } >
+      <SessionUpdatingFormSubmitter
+        mutation={LoginMutation}
+        initialState={initialState}
+        onSuccessRedirect={this.props.onSuccessRedirect}
+      >
         {(ctx) => (
           <React.Fragment>
             <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
             <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
             <div className="field">
-              <div className="control">
-                <button type="submit" className={bulmaClasses('button', 'is-primary', {
-                  'is-loading': ctx.isLoading
-                })}>Sign in</button>
-              </div>
+              <NextButton isLoading={ctx.isLoading} label="Sign in" />
             </div>
           </React.Fragment>
         )}
-      </FormSubmitter>
+      </SessionUpdatingFormSubmitter>
     );
   }
 }

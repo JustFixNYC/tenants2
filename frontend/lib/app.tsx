@@ -164,12 +164,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
-        <Route path={Routes.login} exact>
-          <LoginPage
-            fetch={this.fetch}
-            onSuccess={this.handleSessionChange}
-          />
-        </Route>
+        <Route path={Routes.login} exact component={LoginPage} />
         <Route path={Routes.logout} exact>
           <LogoutPage
             isLoggedIn={this.isLoggedIn}

@@ -1,20 +1,26 @@
 import React from 'react';
 
-import OnboardingStep3, { OnboardingStep3Props, LEASE_CHOICES, LEASE_MODALS } from '../../pages/onboarding-step-3';
+import OnboardingStep3, { LEASE_CHOICES, LEASE_MODALS } from '../../pages/onboarding-step-3';
 import { MemoryRouter } from 'react-router';
 import ReactTestingLibraryPal from '../rtl-pal';
 import { validateDjangoChoices } from '../../common-data';
-import { createTestGraphQlClient, FakeSessionInfo } from '../util';
+import { createTestGraphQlClient, FakeSessionInfo, FakeAppContext } from '../util';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
+import { AppContextType, AppContext } from '../../app-context';
 
 
-function createOnboarding(props: Partial<OnboardingStep3Props> = {}): JSX.Element {
-  const finalProps: OnboardingStep3Props = {
-    fetch: jest.fn(),
-    onSuccess: jest.fn(),
+function createOnboarding(props: Partial<AppContextType> = {}): JSX.Element {
+  const appCtx: AppContextType = {
+    ...FakeAppContext,
     ...props
   };
-  return (<MemoryRouter><OnboardingStep3 {...finalProps} /></MemoryRouter>);
+  return (
+    <MemoryRouter>
+      <AppContext.Provider value={appCtx}>
+        <OnboardingStep3 />
+      </AppContext.Provider>
+    </MemoryRouter>
+  );
 }
 
 describe('onboarding step 3 page', () => {

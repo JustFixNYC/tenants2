@@ -7,11 +7,17 @@ import { AccessDatesMutation } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
+import { dateAsISO, addDays } from '../util';
 
+/**
+ * The minimum number of days from today that the first access date
+ * should be.
+ */
+const MIN_DAYS = 7;
 
-export function getInitialState(accessDates: string[]): AccessDatesInput {
+export function getInitialState(accessDates: string[], now: Date = new Date()): AccessDatesInput {
   const result: AccessDatesInput = {
-    date1: '',
+    date1: dateAsISO(addDays(now, MIN_DAYS)),
     date2: '',
     date3: ''
   };

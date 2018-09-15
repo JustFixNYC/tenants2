@@ -40,3 +40,21 @@ export function assertNotNull<T>(thing: T|null): T|never {
  * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
  */
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+/**
+ * Convert a Date to just the date part of its ISO representation,
+ * e.g. '2018-09-15'.
+ */
+export function dateAsISO(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+/**
+ * Convert a Date to just the date part of its ISO representation,
+ * e.g. '2018-09-15'.
+ */
+export function addDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(date.getDate() + days);
+  return result;
+}

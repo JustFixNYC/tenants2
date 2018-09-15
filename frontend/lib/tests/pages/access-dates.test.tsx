@@ -54,7 +54,10 @@ test('getInitialState() works', () => {
   const date1 = '2018-01-02';
   const date2 = '2019-01-02';
 
-  expect(getInitialState([])).toEqual(BLANK);
+  expect(getInitialState([], new Date(2018, 0, 1))).toEqual({
+    ...BLANK,
+    date1: '2018-01-08'
+  });
   expect(getInitialState([date1])).toEqual({ ...BLANK, date1 });
   expect(getInitialState([date1, date2])).toEqual({ ...BLANK, date1, date2 });
 });

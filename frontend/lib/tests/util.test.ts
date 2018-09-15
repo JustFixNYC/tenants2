@@ -1,4 +1,4 @@
-import { getElement, assertNotNull } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -27,4 +27,12 @@ describe('assertNotNull()', () => {
   it('returns argument when not null', () => {
     expect(assertNotNull('')).toBe('');
   });
+});
+
+test('dateAsISIO() works', () => {
+  expect(dateAsISO(new Date(2018, 0, 2))).toBe('2018-01-02');
+});
+
+test('addDays() works', () => {
+  expect(addDays(new Date(2018, 0, 30), 7).toDateString()).toBe('Tue Feb 06 2018');
 });

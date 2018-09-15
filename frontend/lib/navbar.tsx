@@ -18,9 +18,12 @@ interface NavbarState {
 }
 
 export default class Navbar extends React.Component<NavbarProps, NavbarState> {
+  navbarRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: NavbarProps) {
     super(props);
     this.state = { currentDropdown: null, isHamburgerOpen: false };
+    this.navbarRef = React.createRef();
   }
 
   toggleDropdown(dropdown: Dropdown) {
@@ -36,6 +39,27 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
       currentDropdown: null,
       isHamburgerOpen: !state.isHamburgerOpen
     }));
+  }
+
+  @autobind
+  handleFocus(e: FocusEvent) {
+    if ((this.state.currentDropdown || this.state.isHamburgerOpen) &&
+        this.navbarRef.current &&
+        e.target instanceof Node &&
+        !this.navbarRef.current.contains(e.target)) {
+      this.setState({
+        currentDropdown: null,
+        isHamburgerOpen: false
+      });
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('focus', this.handleFocus, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('focus', this.handleFocus, true);
   }
 
   renderDevMenu({ server }: AppContextType): JSX.Element|null {
@@ -86,7 +110,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     return (
       <AppContext.Consumer>
         {appContext => (
-          <nav className="navbar">
+          <nav className="navbar" ref={this.navbarRef}>
             <div className="container">
               {this.renderNavbarBrand(appContext)}
               <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>

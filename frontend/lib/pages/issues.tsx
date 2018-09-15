@@ -6,16 +6,14 @@ import Routes, { RouteTypes } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
-import { FormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { IssueAreaInput } from '../queries/globalTypes';
-import { fetchIssueAreaMutation } from '../queries/IssueAreaMutation';
+import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
-import { assertNotNull } from '../util';
-import { AppContextType, withAppContext, AppContext } from '../app-context';
+import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
-import { AllSessionInfo_customIssues } from '../queries/AllSessionInfo';
-import { createMutationSubmitHandler } from '../forms-graphql';
+import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
 
 const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
@@ -58,9 +56,9 @@ function issueChoicesForArea(area: string): DjangoChoices {
   return ISSUE_CHOICES.filter(([value, label]) => issueArea(value) === area);
 }
 
-type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps & AppContextType;
+type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
 
-class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
+export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
   renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
     return (
@@ -89,33 +87,28 @@ class IssuesAreaWithoutCtx extends React.Component<IssuesAreaPropsWithCtx> {
   render() {
     const area = slugToAllCaps(this.props.match.params.area);
     const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
-    const initialState: IssueAreaInput = {
+    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
       area,
-      issues: issuesForArea(area, this.props.session.issues),
-      other: customIssueForArea(area, this.props.session.customIssues)
-    }
+      issues: issuesForArea(area, session.issues),
+      other: customIssueForArea(area, session.customIssues)
+    });
     if (label === null) {
       return <NotFound {...this.props} />;
     }
     return (
       <Page title={`${label} - Issue checklist`}>
         <h1 className="title">{label} issues</h1>
-        <FormSubmitter
-          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchIssueAreaMutation)}
-          initialState={initialState}
+        <SessionUpdatingFormSubmitter
+          mutation={IssueAreaMutation}
+          initialState={getInitialState}
           onSuccessRedirect={Routes.loc.issues.home}
-          onSuccess={(output) => {
-            this.props.updateSession(assertNotNull(output.session));
-          }}
         >
           {(formCtx) => this.renderForm(formCtx, area)}
-        </FormSubmitter>
+        </SessionUpdatingFormSubmitter>
       </Page>
     );
   }
 }
-
-export const IssuesArea = withAppContext(IssuesAreaWithoutCtx);
 
 function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
   const { area, label } = props;

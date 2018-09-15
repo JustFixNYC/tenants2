@@ -65,6 +65,12 @@ class OnboardingInfo(models.Model):
     can_we_sms = models.BooleanField(
         help_text="Whether we can contact the user via SMS to follow up.")
 
+    @property
+    def borough_label(self) -> str:
+        if not self.borough:
+            return ''
+        return BOROUGH_CHOICES.get_label(self.borough)
+
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):
             return super().__str__()

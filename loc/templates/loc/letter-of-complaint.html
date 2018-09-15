@@ -50,7 +50,7 @@
   {{ user.full_name|default:"Anonymous" }}<br/>
   {% if user.onboarding_info %}
     {{ user.onboarding_info.address }}<br/>
-    {{ user.onboarding_info.borough }}<br/>
+    {{ user.onboarding_info.borough_label }}<br/>
   {% endif %}
   {{ user.formatted_phone_number }}
 </p>

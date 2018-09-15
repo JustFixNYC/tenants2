@@ -68,25 +68,20 @@ const PREFERRED_TIME_ZONE = 'America/New_York';
  * Intl object, however, we'll return a less-friendly string like
  * "Sat Sep 15 2018".
  */
-export function friendlyDate(date: Date) {
-  const baseOptions = {
+export function friendlyDate(date: Date, timeZone: string = PREFERRED_TIME_ZONE) {
+  const options = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   };
-  let result: string;
   try {
-    result = new Intl.DateTimeFormat("en-US", {
-      ...baseOptions,
-      timeZone: PREFERRED_TIME_ZONE
-    }).format(date);
+    return new Intl.DateTimeFormat("en-US", { ...options, timeZone}).format(date);
   } catch (e) {
     try {
-      result = new Intl.DateTimeFormat("en-US", baseOptions).format(date);
+      return new Intl.DateTimeFormat("en-US", options).format(date);
     } catch (e) {
-      result = date.toDateString();
+      return date.toDateString();
     }
   }
-  return result;
 }

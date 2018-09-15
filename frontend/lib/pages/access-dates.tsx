@@ -1,14 +1,12 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField } from '../form-fields';
 import { AccessDatesMutation } from '../queries/AccessDatesMutation';
-import { AppContextType, withAppContext } from '../app-context';
 import { AccessDatesInput } from '../queries/globalTypes';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
-import { assertNotNull } from '../util';
 
 
 export function getInitialState(accessDates: string[]): AccessDatesInput {
@@ -37,7 +35,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
   );
 }
 
-function AccessDatesPageWithAppContext(props: AppContextType): JSX.Element {
+export default function AccessDatesPage(): JSX.Element {
   return (
     <Page title="Access dates">
       <h1 className="title">Access dates</h1>
@@ -45,20 +43,13 @@ function AccessDatesPageWithAppContext(props: AppContextType): JSX.Element {
         <p>Access dates are times you know when you will be home for the landlord to schedule repairs.</p>
         <p>Please provide up to three access dates you will be available (allowing at least a week for the letter to be received).</p>
       </div>
-      <LegacyFormSubmitter
+      <SessionUpdatingFormSubmitter
         mutation={AccessDatesMutation}
-        initialState={getInitialState(props.session.accessDates)}
-        onSuccess={(output) => {
-          props.updateSession(assertNotNull(output.session));
-        }}
+        initialState={(session) => getInitialState(session.accessDates)}
         onSuccessRedirect={Routes.loc.yourLandlord}
       >
         {renderForm}
-      </LegacyFormSubmitter>
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 }
-
-const AccessDatesPage = withAppContext(AccessDatesPageWithAppContext);
-
-export default AccessDatesPage;

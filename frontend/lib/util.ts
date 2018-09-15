@@ -58,3 +58,35 @@ export function addDays(date: Date, days: number): Date {
   result.setDate(date.getDate() + days);
   return result;
 }
+
+/** Our preferred time zone, which we assume most/all users are in. */
+const PREFERRED_TIME_ZONE = 'America/New_York';
+
+/**
+ * Return the given date formatted in a friendly way, like
+ * "Saturday, September 15, 2018". If the browser doesn't have the
+ * Intl object, however, we'll return a less-friendly string like
+ * "Sat Sep 15 2018".
+ */
+export function friendlyDate(date: Date) {
+  const baseOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  let result: string;
+  try {
+    result = new Intl.DateTimeFormat("en-US", {
+      ...baseOptions,
+      timeZone: PREFERRED_TIME_ZONE
+    }).format(date);
+  } catch (e) {
+    try {
+      result = new Intl.DateTimeFormat("en-US", baseOptions).format(date);
+    } catch (e) {
+      result = date.toDateString();
+    }
+  }
+  return result;
+}

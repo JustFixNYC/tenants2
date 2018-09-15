@@ -5,8 +5,9 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext } from './app-context';
-import { Omit } from './util';
+import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
+import { AllSessionInfo } from './queries/AllSessionInfo';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -125,10 +126,40 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 }
 
+interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
+  session: Partial<AllSessionInfo>|null;
+}
+
+type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'onSuccess'|'initialState'> & {
+  initialState: (session: AllSessionInfo) => FormInput;
+};
+
+/**
+ * This form submitter supports a very common use case in which the GraphQL mutation,
+ * when successful, simply returns a 'session' key that contains updates to the
+ * session state.
+ */
+export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionUpdatingFormOutput> extends React.Component<SessionUpdatingFormSubmitterProps<FormInput, FormOutput>> {
+  render() {
+    return (
+      <AppContext.Consumer>
+        {(appCtx) => {
+          return <LegacyFormSubmitter
+            {...this.props}
+            initialState={this.props.initialState(appCtx.session)}
+            onSuccess={(output) => { appCtx.updateSession(assertNotNull(output.session)); }}
+          />;
+        }}
+      </AppContext.Consumer>
+    );
+  }
+}
+
 type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
   mutation: FetchMutationInfo<FormInput, FormOutput>
 };
 
+/** A form submitter that supports submission via legacy browser POST. */
 export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<LegacyFormSubmitterProps<FormInput, FormOutput>> {
   render() {
     return (

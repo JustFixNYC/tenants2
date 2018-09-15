@@ -1,13 +1,12 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { RadiosFormField } from '../form-fields';
 
-import { AppContextType, withAppContext } from '../app-context';
+import { withAppContext } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
-import { assertNotNull } from '../util';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { DjangoChoices } from '../common-data';
@@ -40,30 +39,27 @@ function getInitialState(session: AllSessionInfo): LetterRequestInput {
   return { mailChoice: LetterRequestMailChoice.WE_WILL_MAIL };
 }
 
-function LetterRequestPageWithAppContext(props: AppContextType): JSX.Element {
+const LetterPreview = withAppContext((props) => (
+  <div className="box has-text-centered jf-loc-preview">
+    <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
+  </div>
+));
+
+export default function LetterRequestPage(): JSX.Element {
   return (
     <Page title="Review the Letter of Complaint">
       <h1 className="title">Review the Letter of Complaint</h1>
       <div className="content">
         <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
-        <div className="box has-text-centered jf-loc-preview">
-          <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
-        </div>
+        <LetterPreview />
       </div>
-      <LegacyFormSubmitter
+      <SessionUpdatingFormSubmitter
         mutation={LetterRequestMutation}
-        initialState={getInitialState(props.session)}
-        onSuccess={(output) => {
-          props.updateSession(assertNotNull(output.session));
-        }}
+        initialState={getInitialState}
         onSuccessRedirect={Routes.loc.confirmation}
       >
         {renderForm}
-      </LegacyFormSubmitter>
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 }
-
-const LetterRequestPage = withAppContext(LetterRequestPageWithAppContext);
-
-export default LetterRequestPage;

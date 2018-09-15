@@ -1,13 +1,11 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField, TextareaFormField } from '../form-fields';
 
-import { AppContextType, withAppContext } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
-import { assertNotNull } from '../util';
 import { LandlordDetailsInput } from '../queries/globalTypes';
 import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
 
@@ -30,7 +28,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   );
 }
 
-function LandlordDetailsPageWithAppContext(props: AppContextType): JSX.Element {
+export default function LandlordDetailsPage(): JSX.Element {
   return (
     <Page title="Your landlord">
       <h1 className="title">Your landlord</h1>
@@ -38,20 +36,13 @@ function LandlordDetailsPageWithAppContext(props: AppContextType): JSX.Element {
         <p>If you have your landlord's name and contact information, please enter it below.</p>
         <p>If you don't know, we'll look it up for you.</p>
       </div>
-      <LegacyFormSubmitter
+      <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsMutation}
-        initialState={props.session.landlordDetails || BLANK_INPUT}
-        onSuccess={(output) => {
-          props.updateSession(assertNotNull(output.session));
-        }}
+        initialState={(session) => session.landlordDetails || BLANK_INPUT}
         onSuccessRedirect={Routes.loc.preview}
       >
         {renderForm}
-      </LegacyFormSubmitter>
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 }
-
-const LandlordDetailsPage = withAppContext(LandlordDetailsPageWithAppContext);
-
-export default LandlordDetailsPage;

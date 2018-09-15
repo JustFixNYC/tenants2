@@ -4,18 +4,13 @@ import { withAppContext, AppContextType } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
 import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
 import Page from '../page';
+import { friendlyDate } from '../util';
 
 function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest }): JSX.Element {
   const { mailChoice, updatedAt } = props.letterRequest;
 
   if (mailChoice === LetterRequestMailChoice.WE_WILL_MAIL) {
-    const dateStr = new Intl.DateTimeFormat("en-US", {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'America/New_York'
-    }).format(new Date(updatedAt));
+    const dateStr = friendlyDate(new Date(updatedAt));
     return (
       <React.Fragment>
         <p>We've received your request to mail a letter of complaint on {dateStr}.</p>

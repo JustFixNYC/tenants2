@@ -1,23 +1,51 @@
 import React from 'react';
 
-import { LoginForm } from '../login-form';
 import Page from '../page';
 import Routes from '../routes';
-import { GraphQLFetch } from '../graphql-client';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { SessionUpdatingFormSubmitter } from '../forms';
+import { LoginMutation } from '../queries/LoginMutation';
+import { TextualFormField } from '../form-fields';
+import { NextButton } from '../buttons';
+import { LoginInput } from '../queries/globalTypes';
 
-export interface LoginPageProps {
-  fetch: GraphQLFetch;
-  onSuccess: (session: AllSessionInfo) => void;
+const initialState: LoginInput = {
+  phoneNumber: '',
+  password: ''
+};
+
+export interface LoginFormProps {
+  onSuccessRedirect: string;
 }
 
-export default class LoginPage extends React.Component<LoginPageProps> {
+export class LoginForm extends React.Component<LoginFormProps> {
   render() {
     return (
-      <Page title="Sign in">
-        <h1 className="title">Sign in</h1>
-        <LoginForm fetch={this.props.fetch} onSuccess={this.props.onSuccess} onSuccessRedirect={Routes.home} />
-      </Page>
+      <SessionUpdatingFormSubmitter
+        mutation={LoginMutation}
+        initialState={initialState}
+        onSuccessRedirect={this.props.onSuccessRedirect}
+      >
+        {(ctx) => (
+          <React.Fragment>
+            <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
+            <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
+            <div className="field">
+              <NextButton isLoading={ctx.isLoading} label="Sign in" />
+            </div>
+          </React.Fragment>
+        )}
+      </SessionUpdatingFormSubmitter>
     );
   }
+}
+
+export interface LoginPageProps {}
+
+export default function LoginPage(): JSX.Element {
+  return (
+    <Page title="Sign in">
+      <h1 className="title">Sign in</h1>
+      <LoginForm onSuccessRedirect={Routes.home} />
+    </Page>
+  );
 }

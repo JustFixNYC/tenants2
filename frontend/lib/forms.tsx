@@ -131,7 +131,7 @@ interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
 }
 
 type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'onSuccess'|'initialState'> & {
-  initialState: (session: AllSessionInfo) => FormInput;
+  initialState: ((session: AllSessionInfo) => FormInput)|FormInput;
 };
 
 /**
@@ -144,9 +144,12 @@ export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionU
     return (
       <AppContext.Consumer>
         {(appCtx) => {
+          let initialState = (typeof(this.props.initialState) === 'function')
+            ? this.props.initialState(appCtx.session)
+            : this.props.initialState;
           return <LegacyFormSubmitter
             {...this.props}
-            initialState={this.props.initialState(appCtx.session)}
+            initialState={initialState}
             onSuccess={(output) => { appCtx.updateSession(assertNotNull(output.session)); }}
           />;
         }}

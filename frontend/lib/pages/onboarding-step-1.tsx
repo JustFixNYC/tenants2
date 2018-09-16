@@ -119,7 +119,7 @@ export default class OnboardingStep1 extends React.Component {
         //
         // However, we will leave this button here for tests and legacy
         // non-HTML5 browsers that happen to have styling disabled.
-        <button type="submit" className="button is-invisible">Cancel signup (for legacy browsers)</button>
+        <button type="submit" className="button jf-is-legacy-fallback">Cancel signup (for legacy browsers)</button>
       )}</SessionUpdatingFormSubmitter>
     );
   }

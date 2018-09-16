@@ -121,6 +121,21 @@ def test_convert_post_data_to_input_ignores_irrelevant_fields():
     assert convert_post_data_to_input(NullForm, qdict({'blah': ['z']})) == {}
 
 
+def test_convert_post_data_to_input_works_with_date_fields():
+    class DateForm(forms.Form):
+        date1 = forms.DateField()
+
+    assert convert_post_data_to_input(DateForm, qdict({
+        'date1': ['2018-09-23'],
+    })) == {'date1': '2018-09-23'}
+
+    assert convert_post_data_to_input(DateForm, qdict({
+        'date1': ['I AM NOT A DATE'],
+    })) == {'date1': 'I AM NOT A DATE'}
+
+    assert convert_post_data_to_input(DateForm, qdict()) == {'date1': None}
+
+
 def test_convert_post_data_to_input_works_with_char_fields():
     assert convert_post_data_to_input(SimpleForm, qdict({
         'someField': ['boop'],

@@ -9,11 +9,11 @@ from . import models
 class AccessDatesForm(forms.Form):
     NUM_DATE_FIELDS = 3
 
-    date_1 = forms.DateField(required=True)
+    date1 = forms.DateField(required=True)
 
-    date_2 = forms.DateField(required=False)
+    date2 = forms.DateField(required=False)
 
-    date_3 = forms.DateField(required=False)
+    date3 = forms.DateField(required=False)
 
     def clean(self):
         dates = self.get_cleaned_dates(super().clean())
@@ -25,7 +25,7 @@ class AccessDatesForm(forms.Form):
             cleaned_data = self.cleaned_data
         result = []
         for i in range(self.NUM_DATE_FIELDS):
-            date = cleaned_data.get(f'date_{i + 1}')
+            date = cleaned_data.get(f'date{i + 1}')
             if date is not None:
                 result.append(date)
         return result

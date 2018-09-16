@@ -1,4 +1,5 @@
 import React from 'react';
+import * as rt from 'react-testing-library'
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext } from "./util";
@@ -7,33 +8,28 @@ import { AppContext } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 
 /** Options for AppTester. */
-interface AppTesterOptions {
+interface AppTesterPalOptions {
   /** The URL to initially set the router context to. */
   url: string;
 };
 
 /**
- * This encapsulates a ReactTestingLibraryPal along with a number of common
- * React contexts and utilities.
+ * This extends ReactTestingLibraryPal by wrapping your JSX in a
+ * number of common React contexts and providing some
+ * extra app-specific utilities.
  * 
  * When using it, be sure to add the following to your test suite:
  *
- *   afterEach(AppTester.cleanup);
+ *   afterEach(AppTesterPal.cleanup);
  */
-export class AppTester {
-  /**
-   * The ReactTestingLibraryPal that encapsulates your passed-in JSX, wrapped
-   * in common contexts.
-   */
-  readonly pal: ReactTestingLibraryPal;
-
+export class AppTesterPal extends ReactTestingLibraryPal {
   /**
    * A mock GraphQL client with which you can respond to any requests.
    */
   readonly client: GraphQlClient;
 
-  constructor(el: JSX.Element, options?: Partial<AppTesterOptions>) {
-    const o: AppTesterOptions = {
+  constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
+    const o: AppTesterPalOptions = {
       url: '/',
       ...options
     };
@@ -42,15 +38,15 @@ export class AppTester {
       ...FakeAppContext,
       fetch: client.fetch
     };
-  
-    this.client = client;
-    this.pal = ReactTestingLibraryPal.render(
+    super(rt.render(
       <MemoryRouter initialEntries={[o.url]} initialIndex={0}>
         <AppContext.Provider value={appContext}>
           {el}
         </AppContext.Provider>
       </MemoryRouter>
-    );  
+    ));
+  
+    this.client = client;
   }
 
   /**
@@ -59,13 +55,5 @@ export class AppTester {
    */
   respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(output: FormOutput) {
     this.client.getRequestQueue()[0].resolve({ output });
-  }
-
-  /**
-   * Cleanup any used resources. This should always be called
-   * via afterEach() for any tests that use this class.
-   */
-  static cleanup() {
-    ReactTestingLibraryPal.cleanup();
   }
 }

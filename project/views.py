@@ -114,7 +114,8 @@ def get_legacy_form_submission(request):
 
     return {
         'input': input,
-        'result': result['output']
+        'result': result['output'],
+        'POST': request.POST.dict()
     }
 
 

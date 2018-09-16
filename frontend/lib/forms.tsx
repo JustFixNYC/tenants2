@@ -4,7 +4,7 @@ import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
-import { AppContext } from './app-context';
+import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
@@ -32,13 +32,16 @@ type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
  * passed from the server as a result of a legacy browser POST.
  */
 function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFormFieldErrors>(
-  props: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+  props: FormSubmitterPropsWithRouter<FormInput, FormOutput> & {
+    isSubmissionOurs: (submission: AppLegacyFormSubmission) => boolean;
+  }
 ) {
   return (
     <AppContext.Consumer>
       {(appCtx) => {
+        const { isSubmissionOurs, ...otherProps } = props;
         let newProps: FormSubmitterPropsWithRouter<FormInput, FormOutput> = {
-          ...props,
+          ...otherProps,
           extraFields: (
             <React.Fragment>
               <input type="hidden" name="csrfmiddlewaretoken" value={appCtx.session.csrfToken} />
@@ -51,7 +54,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
             action: props.location.pathname
           }
         };
-        if (appCtx.legacyFormSubmission) {
+        if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
           const initialState: FormInput = appCtx.legacyFormSubmission.input;
           const output: FormOutput = appCtx.legacyFormSubmission.result;
           const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
@@ -171,6 +174,8 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
           return (
             <Route render={(ctx) => {
               const { mutation, ...otherProps } = this.props;
+              const isOurs = (sub: AppLegacyFormSubmission) =>
+                sub.POST['graphql'] === mutation.graphQL;
               const props: FormSubmitterProps<FormInput, FormOutput> = {
                 ...otherProps,
                 onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
@@ -181,7 +186,8 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
                   </React.Fragment>
                 )
               };
-              return <LegacyFormSubmissionWrapper {...props} {...ctx} />
+              return <LegacyFormSubmissionWrapper
+                      isSubmissionOurs={isOurs} {...props} {...ctx} />
             }} />
           );
         }}

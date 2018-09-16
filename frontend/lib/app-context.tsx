@@ -11,6 +11,12 @@ export interface AppLegacyFormSubmission {
 
   /** The result of the GraphQL mutation for the form. */
   result: any;
+
+  /**
+   * The raw POST data. If more than one value was supplied for a key,
+   * the last value is present here.
+   */
+  POST: Partial<{ [key: string]: string }>;
 }
 
 /** Details about the server that don't change through the app's lifetime. */

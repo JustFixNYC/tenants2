@@ -22,14 +22,14 @@ describe('onboarding step 1 page', () => {
 
   it('calls onCancel when cancel is clicked', () => {
     const onCancel = jest.fn();
-    const pal = ReactTestingLibraryPal.render(createOnboarding({ onCancel }));
+    const pal = new ReactTestingLibraryPal(createOnboarding({ onCancel }));
     expect(onCancel.mock.calls).toHaveLength(0);
     pal.clickButtonOrLink("Cancel");
     expect(onCancel.mock.calls).toHaveLength(1);
   });
 
   it('has openable modals', () => {
-    const pal = ReactTestingLibraryPal.render(createOnboarding());
+    const pal = new ReactTestingLibraryPal(createOnboarding());
     pal.clickButtonOrLink(/Why do you need/i);
     pal.getDialogWithLabel(/Why do you need/i);
     pal.clickButtonOrLink("Got it!");
@@ -37,7 +37,7 @@ describe('onboarding step 1 page', () => {
 
   it('opens confirmation modal if address returned from server is different', async () => {
     const { client } = createTestGraphQlClient();
-    const pal = ReactTestingLibraryPal.render(createOnboarding({ fetch: client.fetch }));
+    const pal = new ReactTestingLibraryPal(createOnboarding({ fetch: client.fetch }));
     pal.fillFormFields([
       [/full name/i, 'boop jones'],
       [/address/i, '150 court'],

@@ -19,9 +19,13 @@ export default class ReactTestingLibraryPal {
    * 
    *   https://github.com/kentcdodds/react-testing-library
    */
-  rt: typeof rt;
+  readonly rt: typeof rt;
 
-  constructor(readonly rr: rt.RenderResult) {
+  readonly rr: rt.RenderResult;
+
+  /** Create a testing pal from the given JSX. */
+  constructor(el: JSX.Element) {
+    this.rr = rt.render(el);
     this.rt = rt;
   }
 
@@ -50,11 +54,6 @@ export default class ReactTestingLibraryPal {
     return this.rr.getByLabelText(matcher, {
       selector: 'div[role="dialog"]'
     }) as HTMLDivElement;
-  }
-
-  /** Create a testing pal from the given JSX. */
-  static render(el: JSX.Element): ReactTestingLibraryPal {
-    return new ReactTestingLibraryPal(rt.render(el));
   }
 
   /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */

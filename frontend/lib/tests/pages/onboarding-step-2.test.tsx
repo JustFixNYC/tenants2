@@ -18,7 +18,7 @@ describe('onboarding step 2 page', () => {
   afterEach(ReactTestingLibraryPal.cleanup);
 
   it('opens eviction modal', () => {
-    const pal = ReactTestingLibraryPal.render(createOnboarding());
+    const pal = new ReactTestingLibraryPal(createOnboarding());
     const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
 
     // When we enable the checkbox, the dialog should show.

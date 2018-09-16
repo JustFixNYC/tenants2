@@ -1,42 +1,33 @@
-import ReactTestingLibraryPal from '../rtl-pal';
-import { FakeSessionInfo } from '../util';
+import React from 'react';
 import Routes from '../../routes';
-import { createLoCRoutes } from './landlord-details.test';
 import { LetterRequestMailChoice } from '../../queries/globalTypes';
-import { AllSessionInfo_letterRequest } from '../../queries/AllSessionInfo';
-import { AppContextType } from '../../app-context';
+import { AppTesterPal } from '../app-tester-pal';
+import LetterOfComplaintRoutes from '../../letter-of-complaint';
 
-function letterRequest(letterRequest: AllSessionInfo_letterRequest): Partial<AppContextType> {
-  return {
-    session: {
-      ...FakeSessionInfo,
-      letterRequest
-    }
-  };
-}
 
 describe('letter of complaint confirmation', () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
+
+  const createPal = (mailChoice: LetterRequestMailChoice) =>
+    new AppTesterPal(<LetterOfComplaintRoutes/>, {
+      url: Routes.loc.confirmation,
+      session: {
+        letterRequest: {
+          updatedAt: "2018-09-14T01:42:12.829983+00:00",
+          mailChoice
+        }
+      }
+    });
 
   it('mentions date of reception when we will mail', async () => {
-    const pal = ReactTestingLibraryPal.render(createLoCRoutes(
-      Routes.loc.confirmation,
-      letterRequest({
-        updatedAt: "2018-09-14T01:42:12.829983+00:00",
-        mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
-      })
-    ));
+    const pal = createPal(LetterRequestMailChoice.WE_WILL_MAIL);
+
     pal.rr.getByText(/We've received your request .* Thursday, September 13, 2018/i);
   });
 
   it('tells user to print it out and mail it', async () => {
-    const pal = ReactTestingLibraryPal.render(createLoCRoutes(
-      Routes.loc.confirmation,
-      letterRequest({
-        updatedAt: "2018-09-14T01:42:12.829983+00:00",
-        mailChoice: LetterRequestMailChoice.USER_WILL_MAIL
-      })
-    ));
+    const pal = createPal(LetterRequestMailChoice.USER_WILL_MAIL);
+
     pal.rr.getByText(/print it out and mail it/i);
   });
 });

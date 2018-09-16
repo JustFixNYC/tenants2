@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
-import GraphQlClient from "../graphql-client";
+import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo } from "./util";
 import { MemoryRouter } from "react-router";
 import { AppContext, AppContextType } from "../app-context";
@@ -72,12 +72,25 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     this.client = client;
   }
 
+  private getFirstRequest(): queuedRequest {
+    return this.client.getRequestQueue()[0];
+  }
+
   /**
    * Assuming that our GraphQL client has been issued a
    * form request, responds with the given mock output.
    */
   respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(output: FormOutput) {
-    this.client.getRequestQueue()[0].resolve({ output });
+    this.getFirstRequest().resolve({ output });
+  }
+
+  /**
+   * Assuming that our GraphQL client has been issued a
+   * form request, asserts the request's GraphQL query
+   * matches the given pattern.
+   */
+  expectGraphQL(match: RegExp) {
+    expect(this.getFirstRequest().query).toMatch(match);
   }
 
   /**
@@ -86,8 +99,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * equals the given value.
    */
   expectFormInput<FormInput>(expected: FormInput) {
-    const req = this.client.getRequestQueue()[0];
-    const actual = req.variables['input'];
+    const actual = this.getFirstRequest().variables['input'];
     expect(actual).toEqual(expected);
   }
 }

@@ -11,6 +11,8 @@ export type BulmaClassName =
   'is-primary' |
   'is-loading' |
   'is-danger' |
+  'is-text' |
+  'is-light' |
   'has-dropdown' |
   'select' |
   'input' |

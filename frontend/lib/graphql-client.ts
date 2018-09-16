@@ -9,7 +9,7 @@ interface GraphQLBody {
   variables?: any;
 }
 
-interface queuedRequest {
+export interface queuedRequest {
   query: string;
   variables?: any;
   resolve: (result: any) => void;

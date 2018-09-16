@@ -31,7 +31,7 @@ def test_logout_works(graphql_client):
     graphql_client.request.user = user
     logout_mutation = get_frontend_queries(
         'LogoutMutation.graphql', 'AllSessionInfo.graphql')
-    result = graphql_client.execute(logout_mutation)
+    result = graphql_client.execute(logout_mutation, variables={'input': {}})
     assert len(result['data']['output']['session']['csrfToken']) > 0
     assert graphql_client.request.user.pk is None
 

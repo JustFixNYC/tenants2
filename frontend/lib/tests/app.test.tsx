@@ -69,42 +69,4 @@ describe('AppWithoutRouter', () => {
       expect(handleErr.mock.calls).toEqual([[err]]);
     });
   });
-
-  describe('handleLogout', () => {
-    it('sets state and makes request upon starting', () => {
-      const { app, client } = buildApp();
-
-      expect(app.state.logoutLoading).toBe(false);
-      app.handleLogout();
-      expect(app.state.logoutLoading).toBe(true);
-      const requests = client.getRequestQueue();
-      expect(requests.length).toBe(1);
-      expect(requests[0].query).toMatch('LogoutMutation');  
-    });
-
-    it('sets state when successful', async () => {
-      const { app, client } = buildApp();
-      const logout = app.handleLogout();
-
-      client.getRequestQueue()[0].resolve({
-        logout: {
-          session: FakeSessionInfo
-        }
-      });
-      await logout;
-      expect(app.state.logoutLoading).toBe(false);
-    });
-
-    it('sets state when network error occurs', async () => {
-      const { app, client } = buildApp();
-      const logout = app.handleLogout();
-
-      const handleFetchError = jest.fn();
-      app.handleFetchError = handleFetchError;
-      client.getRequestQueue()[0].reject(new Error('kaboom'));
-      await logout;
-      expect(app.state.logoutLoading).toBe(false);
-      expect(handleFetchError.mock.calls).toHaveLength(1);
-    });
-  });
 });

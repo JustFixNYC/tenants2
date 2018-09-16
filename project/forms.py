@@ -53,5 +53,14 @@ class LoginForm(forms.Form):
             self.authenticated_user = user
 
 
+class LogoutForm(forms.Form):
+    '''
+    This is a pretty pointless form, but our current architecture makes it
+    a lot easier to log out this way.
+    '''
+
+    pass
+
+
 class ExampleForm(forms.Form):
     example_field = forms.CharField(max_length=5)

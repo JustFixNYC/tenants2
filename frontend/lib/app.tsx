@@ -6,14 +6,13 @@ import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
 
-import { fetchLogoutMutation } from './queries/LogoutMutation';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
 import { LoadingPage } from './page';
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
-import LogoutPage from './pages/logout-page';
+import { LogoutPage } from './pages/logout-page';
 import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
@@ -46,9 +45,6 @@ interface AppState {
    * has logged out since the initial page load.
    */
   session: AllSessionInfo;
-
-  /** Whether the user is currently logging out. */
-  logoutLoading: boolean;
 }
 
 const LoadableIndexPage = Loadable({
@@ -92,8 +88,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       props.initialSession.csrfToken
     );
     this.state = {
-      session: props.initialSession,
-      logoutLoading: false
+      session: props.initialSession
     };
     this.pageBodyRef = React.createRef();
   }
@@ -110,19 +105,6 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   handleFetchError(e: Error) {
     window.alert(`Unfortunately, a network error occurred. Please try again later.`);
     console.error(e);
-  }
-
-  @autobind
-  handleLogout() {
-    this.setState({ logoutLoading: true });
-    return fetchLogoutMutation(this.fetch).then((result) => {
-      this.setState({
-        logoutLoading: false,
-        session: result.output.session
-      });
-    }).catch(e => {
-      this.setState({ logoutLoading: false });
-    });
   }
 
   @autobind
@@ -165,28 +147,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
         <Route path={Routes.login} exact component={LoginPage} />
-        <Route path={Routes.logout} exact>
-          <LogoutPage
-            isLoggedIn={this.isLoggedIn}
-            logoutLoading={this.state.logoutLoading}
-            onLogout={this.handleLogout}
-          />
-        </Route>
-        <Route path={Routes.onboarding.prefix} render={() => (
-          <LoadableOnboardingRoutes
-            session={this.state.session}
-            fetch={this.fetch}
-            onCancelOnboarding={
-              // If onboarding is explicitly cancelled, we want to flush the
-              // user's session to preserve their privacy, so that any
-              // sensitive data they've entered is removed from their browser.
-              // Since it's assumed they're not logged in anyways, we can do
-              // this by "logging out", which also clears all session data.
-              this.handleLogout
-            }
-            onSessionChange={this.handleSessionChange}
-          />
-        )} />
+        <Route path={Routes.logout} exact component={LogoutPage} />
+        <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
         <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>

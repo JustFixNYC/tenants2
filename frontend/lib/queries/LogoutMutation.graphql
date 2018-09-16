@@ -1,5 +1,9 @@
-mutation LogoutMutation {
-    output: logout {
+mutation LogoutMutation($input: LogoutInput!) {
+    output: logout(input: $input) {
+        errors {
+            field,
+            messages
+        }
         session {
             ...AllSessionInfo
         }

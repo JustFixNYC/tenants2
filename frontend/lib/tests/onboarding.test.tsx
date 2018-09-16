@@ -1,7 +1,8 @@
-import { FakeSessionInfo } from "./util";
+import React from 'react';
+
+import { FakeSessionInfo, ensureRedirect } from "./util";
 import { getLatestOnboardingStep, RedirectToLatestOnboardingStep } from "../onboarding";
 import Routes from "../routes";
-import { Redirect } from "react-router";
 
 describe('getLatestOnboardingStep()', () => {
   it('returns step 1 by default', () => {
@@ -34,6 +35,5 @@ describe('getLatestOnboardingStep()', () => {
 });
 
 test('RedirectToLatestOnboardingStep returns a redirect', () => {
-  const result = RedirectToLatestOnboardingStep({ session: FakeSessionInfo });
-  expect(result.type).toBe(Redirect);
+  ensureRedirect(<RedirectToLatestOnboardingStep />, '/onboarding/step/1');
 });

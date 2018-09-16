@@ -1,19 +1,20 @@
 import React from 'react';
-import { shallowWithRouter } from '../util';
-import LogoutPage from '../../pages/logout-page';
+import { LogoutPage } from '../../pages/logout-page';
+import { AppTesterPal } from '../app-tester-pal';
 
 describe('logout page', () => {
-  const props = {
-    isLoggedIn: false,
-    logoutLoading: false,
-    onLogout: jest.fn()
-  };
+  const pageWithPhoneNumber = (phoneNumber: string|null) => (
+    new AppTesterPal(<LogoutPage/>, { session: { phoneNumber } })
+  );
+
   it('renders when logged out', () => {
-    const { wrapper } = shallowWithRouter(<LogoutPage {...props} isLoggedIn={false} />);
-    expect(wrapper.html()).toContain('You are now signed out.');
+    pageWithPhoneNumber(null).rr.getByText(/You are now signed out/);
   });
-  it('renders when logged in', () => {
-    const { wrapper } = shallowWithRouter(<LogoutPage {...props} isLoggedIn={true} />);
-    expect(wrapper.html()).toContain('Are you sure you want to sign out?');
+
+  it('submits logout form', () => {
+    const pal = pageWithPhoneNumber('5551234567')
+    pal.rr.getByText(/Are you sure/);
+    pal.clickButtonOrLink(/sign out/i);
+    pal.expectGraphQL(/LogoutMutation/);
   });
 });

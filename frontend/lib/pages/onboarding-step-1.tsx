@@ -129,10 +129,7 @@ export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1
         <React.Fragment>
           {this.state.isMounted && this.cancelControlRef.current
             ? ReactDOM.createPortal(
-                <button type="button" onClick={(e) => {
-                  e.preventDefault();
-                  ctx.submit();
-                }} className={bulmaClasses('button', 'is-light', {
+                <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
                   'is-loading': ctx.isLoading
                 })}>Cancel signup</button>,
                 this.cancelControlRef.current

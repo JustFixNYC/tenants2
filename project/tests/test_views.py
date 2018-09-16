@@ -5,6 +5,7 @@ from project.views import (
     get_initial_session,
     execute_query,
     get_legacy_form_submission,
+    fix_newlines,
     LegacyFormSubmissionError
 )
 from .util import qdict
@@ -91,20 +92,35 @@ def test_500_works(client):
     assert response.context['bundle_urls'] == []
 
 
-def test_form_submission_works(django_app):
+def test_fix_newlines_works():
+    assert fix_newlines({'boop': 'hello\r\nthere'}) == {'boop': 'hello\nthere'}
+
+
+def test_form_submission_redirects_on_success(django_app):
+    form = django_app.get('/__example-form').form
+
+    # Sometimes browsers will munge the newlines in our own
+    # hidden inputs before submitting; let's make sure that
+    # we account for that.
+    assert '\r\n' not in form['graphql'].value
+    assert '\n' in form['graphql'].value
+    form['graphql'] = form['graphql'].value.replace('\n', '\r\n')
+
+    form['exampleField'] = 'hi'
+    response = form.submit()
+    assert response.status == '302 Found'
+    assert response['Location'] == '/'
+
+
+def test_form_submission_shows_errors(django_app):
     response = django_app.get('/__example-form')
     assert response.status == '200 OK'
+
     form = response.form
     form['exampleField'] = 'hello there buddy'
-
     response = form.submit()
 
     assert response.status == '200 OK'
     form = response.form
     assert form['exampleField'].value == 'hello there buddy'
     assert 'Ensure this value has at most 5 characters (it has 17)' in response
-
-    form['exampleField'] = 'hi'
-    response = form.submit()
-    assert response.status == '302 Found'
-    assert response['Location'] == '/'

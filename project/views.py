@@ -92,6 +92,14 @@ class LegacyFormSubmissionError(Exception):
     pass
 
 
+def fix_newlines(d: Dict[str, str]) -> Dict[str, str]:
+    result = dict()
+    result.update(d)
+    for key in d:
+        result[key] = result[key].replace('\r\n', '\n')
+    return result
+
+
 def get_legacy_form_submission(request):
     graphql = request.POST.get('graphql')
 
@@ -115,7 +123,7 @@ def get_legacy_form_submission(request):
     return {
         'input': input,
         'result': result['output'],
-        'POST': request.POST.dict()
+        'POST': fix_newlines(request.POST.dict())
     }
 
 

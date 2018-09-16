@@ -4,6 +4,7 @@ import GraphQlClient from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext } from "./util";
 import { MemoryRouter } from "react-router";
 import { AppContext } from "../app-context";
+import { WithServerFormFieldErrors } from '../form-errors';
 
 /** Options for AppTester. */
 interface AppTesterOptions {
@@ -13,7 +14,7 @@ interface AppTesterOptions {
 
 /**
  * This encapsulates a ReactTestingLibraryPal along with a number of common
- * React contexts.
+ * React contexts and utilities.
  * 
  * When using it, be sure to add the following to your test suite:
  *
@@ -50,6 +51,14 @@ export class AppTester {
         </AppContext.Provider>
       </MemoryRouter>
     );  
+  }
+
+  /**
+   * Assuming that our GraphQL client has been issued a
+   * form request, responds with the given mock output.
+   */
+  respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(output: FormOutput) {
+    this.client.getRequestQueue()[0].resolve({ output });
   }
 
   /**

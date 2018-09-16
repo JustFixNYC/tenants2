@@ -17,6 +17,8 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
         <SessionUpdatingFormSubmitter
           mutation={LogoutMutation}
           initialState={{}}
+          // This looks odd but it's required for legacy POST to work.
+          onSuccessRedirect={Routes.logout}
         >{(ctx) => (
             <NextButton isLoading={ctx.isLoading} label="Yes, sign out" />
         )}</SessionUpdatingFormSubmitter>

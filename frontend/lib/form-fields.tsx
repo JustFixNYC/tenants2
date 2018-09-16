@@ -150,6 +150,16 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
   );
 }
 
+export function HiddenFormField(props: BaseFormFieldProps<string>): JSX.Element {
+  if (props.errors) {
+    throw new Error(
+      `Hidden fields should have no errors, but "${props.name}" does: ` +
+      `${JSON.stringify(props.errors)}`
+    );
+  }
+  return <input type="hidden" name={props.name} value={props.value} />;
+}
+
 /**
  * Valid types of textual form field input.
  */

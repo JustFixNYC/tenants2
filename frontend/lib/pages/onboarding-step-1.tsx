@@ -100,6 +100,30 @@ export default class OnboardingStep1 extends React.Component {
     );
   }
 
+  renderHiddenLogoutForm() {
+    return (
+      <SessionUpdatingFormSubmitter
+        mutation={LogoutMutation}
+        initialState={{}}
+        extraFormAttributes={{id: LOGOUT_FORM_ID}}
+        onSuccessRedirect={Routes.home}
+      >{(ctx) => (
+        // If onboarding is explicitly cancelled, we want to flush the
+        // user's session to preserve their privacy, so that any
+        // sensitive data they've entered is removed from their browser.
+        // Since it's assumed they're not logged in anyways, we can do
+        // this by "logging out", which also clears all session data.
+        //
+        // We won't actually render anything visible here because the submit
+        // will be triggered by the cancel button in our earlier form.
+        //
+        // However, we will leave this button here for tests and legacy
+        // non-HTML5 browsers that happen to have styling disabled.
+        <button type="submit" className="button is-invisible">Cancel signup (for legacy browsers)</button>
+      )}</SessionUpdatingFormSubmitter>
+    );
+  }
+
   render() {
     return (
       <Page title="Tell us about yourself!">
@@ -120,25 +144,7 @@ export default class OnboardingStep1 extends React.Component {
         >
           {this.renderForm}
         </SessionUpdatingFormSubmitter>
-        <SessionUpdatingFormSubmitter
-          mutation={LogoutMutation}
-          initialState={{}}
-          extraFormAttributes={{id: LOGOUT_FORM_ID}}
-          onSuccessRedirect={Routes.home}
-        >{(ctx) => (
-          // If onboarding is explicitly cancelled, we want to flush the
-          // user's session to preserve their privacy, so that any
-          // sensitive data they've entered is removed from their browser.
-          // Since it's assumed they're not logged in anyways, we can do
-          // this by "logging out", which also clears all session data.
-          //
-          // We won't actually render anything visible here because the submit
-          // will be triggered by the cancel button in our earlier form.
-          //
-          // However, we will leave this button here for tests and legacy
-          // non-HTML5 browsers that happen to have styling disabled.
-          <button type="submit" className="button is-invisible">Cancel signup (for legacy browsers)</button>
-        )}</SessionUpdatingFormSubmitter>
+        {this.renderHiddenLogoutForm()}
         <Route path={Routes.onboarding.step1ConfirmAddressModal} exact component={ConfirmAddressModal} />
       </Page>
     );

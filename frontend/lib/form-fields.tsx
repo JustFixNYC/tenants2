@@ -114,6 +114,8 @@ export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.El
           <label className="checkbox jf-checkbox" key={choice}>
             <input
               type="checkbox"
+              name={props.name}
+              value={choice}
               checked={props.value.indexOf(choice) !== -1}
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}

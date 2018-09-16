@@ -8,6 +8,7 @@ import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
+import { getAppStaticContext } from './app-static-context';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -63,12 +64,38 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
             initialState,
             initialErrors
           };
-          // TODO: Handle the case where there were no errors and we need to redirect.
+          if (output.errors.length === 0) {
+            const redirect = getSuccessRedirect(newProps, initialState, output);
+            if (redirect) {
+              const appStaticCtx = assertNotNull(getAppStaticContext(props));
+              appStaticCtx.url = redirect;
+              return null;
+            }
+            // TODO: If we're still here, that means the form submission was successful.
+            // When processing forms on the client-side, we'd call the form's onSuccess
+            // handler here, but we don't want to do that here because it would likely
+            // result in a component state change, and our components are stateless
+            // during server-side rendering. So I'm not really sure what to do here.
+          }
         }
         return <FormSubmitterWithoutRouter {...newProps} />;
       }}
     </AppContext.Consumer>
   );
+}
+
+function getSuccessRedirect<FormInput, FormOutput extends WithServerFormFieldErrors>(
+  props: FormSubmitterPropsWithRouter<FormInput, FormOutput>,
+  input: FormInput,
+  output: FormOutput
+): string|null {
+  const { onSuccessRedirect } = props;
+  if (onSuccessRedirect) {
+    return typeof(onSuccessRedirect) === 'function'
+      ? onSuccessRedirect(output, input)
+      : onSuccessRedirect;
+  }
+  return null;
 }
 
 /** This class encapsulates common logic for form submission. */
@@ -97,11 +124,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         this.setState({
           isLoading: false
         });
-        const { onSuccessRedirect } = this.props;
-        if (onSuccessRedirect) {
-          let redirect = typeof(onSuccessRedirect) === 'function'
-            ? onSuccessRedirect(output, input)
-            : onSuccessRedirect;
+        const redirect = getSuccessRedirect(this.props, input, output);
+        if (redirect) {
           this.props.history.push(redirect);
         }
         if (this.props.onSuccess) {

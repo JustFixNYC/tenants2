@@ -103,3 +103,8 @@ def test_form_submission_works(django_app):
     form = response.form
     assert form['exampleField'].value == 'hello there buddy'
     assert 'Ensure this value has at most 5 characters (it has 17)' in response
+
+    form['exampleField'] = 'hi'
+    response = form.submit()
+    assert response.status == '302 Found'
+    assert response['Location'] == '/'

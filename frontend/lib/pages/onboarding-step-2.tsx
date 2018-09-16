@@ -1,19 +1,14 @@
 import React from 'react';
 import { OnboardingStep2Input } from "../queries/globalTypes";
-import { GraphQLFetch } from "../graphql-client";
-import { AllSessionInfo } from "../queries/AllSessionInfo";
 import Page from '../page';
-import { FormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
-import { fetchOnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
-import { assertNotNull } from '../util';
-import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { Modal } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
-import { NextButton } from "../buttons";
+import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField } from '../form-fields';
-import { createMutationSubmitHandler } from '../forms-graphql';
+import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -41,13 +36,7 @@ export function Step2EvictionModal(): JSX.Element {
   );
 }
 
-export interface OnboardingStep2Props {
-  fetch: GraphQLFetch;
-  onSuccess: (session: Partial<AllSessionInfo>) => void;
-  initialState?: OnboardingStep2Input|null;
-}
-
-export default class OnboardingStep2 extends React.Component<OnboardingStep2Props> {
+export default class OnboardingStep2 extends React.Component {
   @autobind
   renderForm(ctx: FormContext<OnboardingStep2Input>): JSX.Element {
     return (
@@ -77,9 +66,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="field is-grouped">
-        <div className="control">
-          <Link to={Routes.onboarding.step1} className="button is-text">Back</Link>
-        </div>
+        <BackButton to={Routes.onboarding.step1} label="Back" />
         <NextButton isLoading={isLoading} />
       </div>
     );
@@ -91,12 +78,11 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
         <h1 className="title">What type of housing issues are you experiencing?</h1>
         <p>Please select <strong>all the issues</strong> that relate to your housing situation. You can add more details later on.</p>
         <br/>
-        <FormSubmitter
-          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep2Mutation)}
-          initialState={this.props.initialState || blankInitialState}
+        <SessionUpdatingFormSubmitter
+          mutation={OnboardingStep2Mutation}
+          initialState={(session) => session.onboardingStep2 || blankInitialState}
           onSuccessRedirect={Routes.onboarding.step3}
-          onSuccess={(output) => this.props.onSuccess(assertNotNull(output.session))}
-        >{this.renderForm}</FormSubmitter>
+        >{this.renderForm}</SessionUpdatingFormSubmitter>
       </Page>
     );
   }

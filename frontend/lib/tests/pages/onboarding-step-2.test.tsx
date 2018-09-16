@@ -1,24 +1,14 @@
 import React from 'react';
 
-import OnboardingStep2, { OnboardingStep2Props } from '../../pages/onboarding-step-2';
-import { MemoryRouter } from 'react-router';
-import ReactTestingLibraryPal from '../rtl-pal';
+import OnboardingStep2 from '../../pages/onboarding-step-2';
+import { AppTesterPal } from '../app-tester-pal';
 
-
-function createOnboarding(props: Partial<OnboardingStep2Props> = {}): JSX.Element {
-  const finalProps: OnboardingStep2Props = {
-    fetch: jest.fn(),
-    onSuccess: jest.fn(),
-    ...props
-  };
-  return (<MemoryRouter><OnboardingStep2 {...finalProps} /></MemoryRouter>);
-}
 
 describe('onboarding step 2 page', () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
 
   it('opens eviction modal', () => {
-    const pal = ReactTestingLibraryPal.render(createOnboarding());
+    const pal = new AppTesterPal(<OnboardingStep2 />);
     const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
 
     // When we enable the checkbox, the dialog should show.

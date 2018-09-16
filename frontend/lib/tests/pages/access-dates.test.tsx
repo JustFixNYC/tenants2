@@ -1,51 +1,33 @@
 import React from 'react';
 
 import { getInitialState } from '../../pages/access-dates';
-import { MemoryRouter } from 'react-router';
-import ReactTestingLibraryPal from '../rtl-pal';
-import { createTestGraphQlClient, FakeAppContext } from '../util';
-import { AppContextType, AppContext } from '../../app-context';
 import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
+import { AppTesterPal } from '../app-tester-pal';
+import { AccessDatesMutation_output } from '../../queries/AccessDatesMutation';
 
-
-function createAccessDates(props: Partial<AppContextType> = {}): JSX.Element {
-  const ctx: AppContextType = {
-    ...FakeAppContext,
-    ...props
-  };
-  return (
-    <MemoryRouter initialEntries={[Routes.loc.accessDates]}>
-      <AppContext.Provider value={ctx}>
-        <LetterOfComplaintRoutes/>
-      </AppContext.Provider>
-    </MemoryRouter>
-  );
-}
 
 describe('access dates page', () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
 
   it('redirects to next step after successful submission', async () => {
-    const { client } = createTestGraphQlClient();
-    const updateSession = jest.fn();
-    const pal = ReactTestingLibraryPal.render(createAccessDates({
-      fetch: client.fetch,
-      updateSession
-    }));
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes/>, {
+      url: Routes.loc.accessDates
+    });
 
     pal.fillFormFields([
       [/First access date/i, "2018-01-02"]
     ]);
     pal.clickButtonOrLink('Next');
-    client.getRequestQueue()[0].resolve({ output: {
+    pal.respondWithFormOutput<AccessDatesMutation_output>({
       errors: [],
-      session: { accessDates: ['2018-01-02'] } }
+      session: { accessDates: ['2018-01-02'] }
     });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/Your landlord/i));
-    expect(updateSession.mock.calls).toHaveLength(1);
-    expect(updateSession.mock.calls[0][0]).toEqual({ accessDates: ['2018-01-02'] });
+    const { mock } = pal.appContext.updateSession;
+    expect(mock.calls).toHaveLength(1);
+    expect(mock.calls[0][0]).toEqual({ accessDates: ['2018-01-02'] });
   });
 });
 

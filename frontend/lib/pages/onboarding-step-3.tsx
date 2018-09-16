@@ -1,19 +1,15 @@
 import React from 'react';
 import { OnboardingStep3Input } from "../queries/globalTypes";
-import { GraphQLFetch } from "../graphql-client";
-import { AllSessionInfo } from "../queries/AllSessionInfo";
 import Page from '../page';
-import { FormSubmitter, FormContext } from '../forms';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
-import { assertNotNull } from '../util';
 import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
-import { NextButton } from "../buttons";
+import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { DjangoChoices } from '../common-data';
-import { fetchOnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
+import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal } from '../modal';
-import { createMutationSubmitHandler } from '../forms-graphql';
 
 export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
 const NEXT_STEP = Routes.onboarding.step4;
@@ -83,13 +79,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
   }
 ];
 
-export interface OnboardingStep3Props {
-  fetch: GraphQLFetch;
-  onSuccess: (session: Partial<AllSessionInfo>) => void;
-  initialState?: OnboardingStep3Input|null;
-}
-
-export default class OnboardingStep3 extends React.Component<OnboardingStep3Props> {
+export default class OnboardingStep3 extends React.Component {
   @autobind
   renderForm(ctx: FormContext<OnboardingStep3Input>): JSX.Element {
     return (
@@ -98,19 +88,11 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
           I receive public assistance (Section 8, FEHPS, Link, HASA, other)
         </CheckboxFormField>
-        {this.renderFormButtons(ctx.isLoading)}
-      </React.Fragment>
-    );
-  }
-
-  renderFormButtons(isLoading: boolean): JSX.Element {
-    return (
-      <div className="field is-grouped">
-        <div className="control">
-          <Link to={Routes.onboarding.step2} className="button is-text">Back</Link>
+        <div className="field is-grouped">
+          <BackButton to={Routes.onboarding.step2} label="Back" />
+          <NextButton isLoading={ctx.isLoading} />
         </div>
-        <NextButton isLoading={isLoading} />
-      </div>
+      </React.Fragment>
     );
   }
 
@@ -130,14 +112,11 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
         <h1 className="title">What type of lease do you have?</h1>
         <p>Your rights vary depending on what type of lease you have. <strong>If you're not sure, we'll help you.</strong></p>
         <br/>
-        <FormSubmitter
-          onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep3Mutation)}
-          initialState={this.props.initialState || blankInitialState}
-          onSuccessRedirect={(output, input) => {
-            this.props.onSuccess(assertNotNull(output.session));
-            return OnboardingStep3.getSuccessRedirect(input.leaseType);
-          }}
-        >{this.renderForm}</FormSubmitter>
+        <SessionUpdatingFormSubmitter
+          mutation={OnboardingStep3Mutation}
+          initialState={(session) => session.onboardingStep3 || blankInitialState}
+          onSuccessRedirect={(_, input) => OnboardingStep3.getSuccessRedirect(input.leaseType)}
+        >{this.renderForm}</SessionUpdatingFormSubmitter>
         {LEASE_MODALS.map(info => (
           <Route key={info.route} path={info.route} component={info.component} />
         ))}

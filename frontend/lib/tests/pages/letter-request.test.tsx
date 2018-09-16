@@ -1,29 +1,29 @@
-import ReactTestingLibraryPal from '../rtl-pal';
-import { createTestGraphQlClient } from '../util';
+import React from 'react';
 import Routes from '../../routes';
-import { createLoCRoutes } from './landlord-details.test';
+import { AppTesterPal } from '../app-tester-pal';
+import LetterOfComplaintRoutes from '../../letter-of-complaint';
+import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
+import { LetterRequestMailChoice } from '../../queries/globalTypes';
 
 
 describe('landlord details page', () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
 
   it('redirects to next step after successful submission', async () => {
-    const { client } = createTestGraphQlClient();
-    const updateSession = jest.fn();
-    const pal = ReactTestingLibraryPal.render(createLoCRoutes(Routes.loc.preview, {
-      fetch: client.fetch,
-      updateSession
-    }));
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
+      url: Routes.loc.preview,
+    });
     pal.clickButtonOrLink('Finish');
     const updatedAt = "2018-01-01Tblahtime";
-    const mailChoice = "WE_WILL_MAIL";
-    client.getRequestQueue()[0].resolve({ output: {
+    const mailChoice = LetterRequestMailChoice.WE_WILL_MAIL;
+    pal.respondWithFormOutput<LetterRequestMutation_output>({
       errors: [],
       session: { letterRequest: { updatedAt, mailChoice } }
-    }});
+    });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/Your letter of complaint has been created/i));
-    expect(updateSession.mock.calls).toHaveLength(1);
-    expect(updateSession.mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
+    const { mock } = pal.appContext.updateSession;
+    expect(mock.calls).toHaveLength(1);
+    expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
   });
 });

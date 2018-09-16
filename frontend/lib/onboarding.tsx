@@ -55,26 +55,9 @@ export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Elem
             initialState={props.session.onboardingStep1}
           />
         </Route>
-        <Route path={Routes.onboarding.step2}>
-          <OnboardingStep2
-            fetch={props.fetch}
-            onSuccess={props.onSessionChange}
-            initialState={props.session.onboardingStep2}
-          />
-        </Route>
-        <Route path={Routes.onboarding.step3}>
-          <OnboardingStep3
-            fetch={props.fetch}
-            onSuccess={props.onSessionChange}
-            initialState={props.session.onboardingStep3}
-          />
-        </Route>
-        <Route path={Routes.onboarding.step4}>
-          <OnboardingStep4
-            fetch={props.fetch}
-            onSuccess={props.onSessionChange}
-          />
-        </Route>
+        <Route path={Routes.onboarding.step2} component={OnboardingStep2} />
+        <Route path={Routes.onboarding.step3} component={OnboardingStep3} />
+        <Route path={Routes.onboarding.step4} component={OnboardingStep4} />
       </RouteProgressBar>
     </div>
   );

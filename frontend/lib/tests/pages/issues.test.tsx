@@ -1,52 +1,42 @@
 import React from 'react';
 
-import { MemoryRouter } from 'react-router';
-import { FakeSessionInfo, createTestGraphQlClient, FakeAppContext } from '../util';
-import { AllSessionInfo } from '../../queries/AllSessionInfo';
-import ReactTestingLibraryPal from '../rtl-pal';
-import { AppContextType, AppContext } from '../../app-context';
 import { IssuesRoutes, customIssueForArea, areaIssueCount } from '../../pages/issues';
 import Routes from '../../routes';
+import { AppTesterPal } from '../app-tester-pal';
+import { IssueAreaInput } from '../../queries/globalTypes';
+import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
 
 
 const routes = Routes.loc.issues;
 
-function createIssuesPage(url: string, appContextProps: Partial<AppContextType> = {}): JSX.Element {
-  const appContext = {
-    ...FakeAppContext,
-    ...appContextProps
-  };
-  return (
-    <MemoryRouter initialEntries={[url]} initialIndex={0}>
-      <AppContext.Provider value={appContext}>
-        <IssuesRoutes />
-      </AppContext.Provider>
-    </MemoryRouter>
-  );
-}
 
 describe('issues checklist', () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
 
   it('returns 404 for invalid area routes', () => {
-    const pal = ReactTestingLibraryPal.render(createIssuesPage(routes.area.create('LOL')));
+    const pal = new AppTesterPal(<IssuesRoutes />, {
+      url: routes.area.create('LOL')
+    });
     pal.rr.getByText('Alas.');
   });
 
   it('works on valid area routes', async () => {
-    const { client } = createTestGraphQlClient();
-    let session: AllSessionInfo = { ...FakeSessionInfo, issues: ['BEDROOMS_PAINT'] };
-    const pal = ReactTestingLibraryPal.render(createIssuesPage(routes.area.create('HOME'), {
-      fetch: client.fetch,
-      session
-    }));
+    const pal = new AppTesterPal(<IssuesRoutes />, {
+      url: routes.area.create('HOME'),
+      session: {
+        issues: ['BEDROOMS__PAINT']
+      }
+    });
     pal.click(/Mice/i, 'label');
     pal.clickButtonOrLink('Save');
 
-    const req = client.getRequestQueue()[0];
-    expect(req.variables['input']).toEqual({ area: 'HOME', issues: ['HOME__MICE'], other: '' });
-    session = {...session, issues: [...session.issues, 'HOME__MICE'] };
-    req.resolve({ output: { errors: [], session } });
+    pal.expectFormInput<IssueAreaInput>({
+      area: 'HOME', issues: ['HOME__MICE'], other: ''
+    });
+    pal.respondWithFormOutput<IssueAreaMutation_output>({
+      errors: [],
+      session: { issues: ['HOME__MICE'], customIssues: [] }
+    });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
   });
 });

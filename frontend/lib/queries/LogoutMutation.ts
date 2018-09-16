@@ -4,11 +4,22 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { LetterRequestMailChoice } from "./globalTypes";
+import { LogoutInput, LetterRequestMailChoice } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: LogoutMutation
 // ====================================================
+
+export interface LogoutMutation_output_errors {
+  /**
+   * The camel-cased name of the input field, or '__all__' for non-field errors.
+   */
+  field: string;
+  /**
+   * A list of human-readable validation errors.
+   */
+  messages: string[];
+}
 
 export interface LogoutMutation_output_session_onboardingStep1 {
   name: string;
@@ -105,6 +116,10 @@ export interface LogoutMutation_output_session {
 }
 
 export interface LogoutMutation_output {
+  /**
+   * A list of validation errors in the form, if any. If the form was valid, this list will be empty.
+   */
+  errors: LogoutMutation_output_errors[];
   session: LogoutMutation_output_session;
 }
 
@@ -112,10 +127,18 @@ export interface LogoutMutation {
   output: LogoutMutation_output;
 }
 
+export interface LogoutMutationVariables {
+  input: LogoutInput;
+}
+
 export const LogoutMutation = {
   // The following query was taken from LogoutMutation.graphql.
-  graphQL: `mutation LogoutMutation {
-    output: logout {
+  graphQL: `mutation LogoutMutation($input: LogoutInput!) {
+    output: logout(input: $input) {
+        errors {
+            field,
+            messages
+        }
         session {
             ...AllSessionInfo
         }
@@ -123,8 +146,8 @@ export const LogoutMutation = {
 }
 
 ${AllSessionInfo.graphQL}`,
-  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, ): Promise<LogoutMutation> {
-    return fetchGraphQL(LogoutMutation.graphQL);
+  fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LogoutMutationVariables): Promise<LogoutMutation> {
+    return fetchGraphQL(LogoutMutation.graphQL, args);
   }
 };
 

@@ -76,15 +76,19 @@ class Login(DjangoFormMutation):
         return cls(errors=[], session=SessionInfo())
 
 
-class Logout(graphene.Mutation):
+class Logout(DjangoFormMutation):
     '''
     Logs out the user. Clients should pay attention to the
     CSRF token, because apparently this changes on logout too.
     '''
 
+    class Meta:
+        form_class = forms.LogoutForm
+
     session = graphene.NonNull(SessionInfo)
 
-    def mutate(self, info: ResolveInfo) -> 'Logout':
+    @classmethod
+    def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
         request = info.context
         logout(request)
         return Logout(session=SessionInfo())

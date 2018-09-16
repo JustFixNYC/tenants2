@@ -49,6 +49,10 @@ export interface LoginInput {
   clientMutationId?: string | null;
 }
 
+export interface LogoutInput {
+  clientMutationId?: string | null;
+}
+
 export interface OnboardingStep1Input {
   address: string;
   borough: string;

@@ -1,21 +1,24 @@
 import React from 'react';
 import Page from '../page';
 import Routes from '../routes';
-import { Link, Redirect } from 'react-router-dom';
-import { FormSubmitter, FormContext } from '../forms';
+import { Link, Route } from 'react-router-dom';
+import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
-import { fetchOnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
-import { GraphQLFetch } from '../graphql-client';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
 import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 import { TextualFormField, SelectFormField } from '../form-fields';
-import { createMutationSubmitHandler } from '../forms-graphql';
 import { NextButton } from '../buttons';
+import { withAppContext, AppContextType } from '../app-context';
+import { LogoutMutation } from '../queries/LogoutMutation';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
+
+// Our cancel button actually submits a different form than the one it's in; this
+// is used to link the button to the form.
+const LOGOUT_FORM_ID = 'logout';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -23,17 +26,6 @@ const blankInitialState: OnboardingStep1Input = {
   aptNumber: '',
   borough: '',
 };
-
-export interface OnboardingStep1Props {
-  fetch: GraphQLFetch;
-  onSuccess: (session: Partial<AllSessionInfo>) => void;
-  onCancel: () => void;
-  initialState?: OnboardingStep1Input|null;
-}
-
-interface OnboardingStep1State {
-  successInfo?: OnboardingStep1Input;
-}
 
 export function areAddressesTheSame(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
@@ -56,17 +48,30 @@ export function Step1AddressModal(): JSX.Element {
   );
 }
 
-export default class OnboardingStep1 extends React.Component<OnboardingStep1Props, OnboardingStep1State> {
-  constructor(props: OnboardingStep1Props) {
-    super(props);
-    this.state = {};
-  }
+export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.Element => {
+  const onboardingStep1 = props.session.onboardingStep1 || blankInitialState;
+  const borough = onboardingStep1.borough
+    ? getDjangoChoiceLabel(BOROUGH_CHOICES, onboardingStep1.borough)
+    : '';
 
+  return (
+    <Modal title="Is this your address?" onCloseGoBack render={({close}) => (
+      <div className="content box">
+        <h1 className="title">Is this your address?</h1>
+        <p>{onboardingStep1.address}, {borough}</p>
+        <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
+        <Link to={Routes.onboarding.step2} className="button is-primary is-fullwidth">Yes!</Link>
+      </div>
+    )} />
+  );
+});
+
+export default class OnboardingStep1 extends React.Component {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="field is-grouped">
         <div className="control">
-          <Link to={Routes.home} className="button is-text" onClick={this.props.onCancel}>Cancel</Link>
+          <button type="submit" className="button is-light" form={LOGOUT_FORM_ID}>Cancel signup</button>
         </div>
         <NextButton isLoading={isLoading} />
       </div>
@@ -85,35 +90,13 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           choices={BOROUGH_CHOICES}
         />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
-        {this.renderFormButtons(ctx.isLoading)}
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?
         </ModalLink>
-        {this.state.successInfo && this.renderSuccessModalOrRedirect(this.state.successInfo, ctx.fieldPropsFor('address').value)}
+        <br/>
+        <br/>
+        {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
-    );
-  }
-
-  renderSuccessModalOrRedirect(successInfo: OnboardingStep1Input, enteredAddress: string): JSX.Element {
-    const nextStep = Routes.onboarding.step2;
-
-    if (areAddressesTheSame(successInfo.address, enteredAddress)) {
-      return <Redirect push to={nextStep} />;
-    }
-
-    const handleClose = () => {
-      this.setState({ successInfo: undefined });
-    };
-
-    return (
-      <Modal title="Is this your address?" onClose={handleClose} render={({close}) => (
-        <div className="content box">
-          <h1 className="title">Is this your address?</h1>
-          <p>{successInfo.address}, {getDjangoChoiceLabel(BOROUGH_CHOICES, successInfo.borough)}</p>
-          <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
-          <Link to={nextStep} className="button is-primary is-fullwidth">Yes!</Link>
-        </div>
-      )} />
     );
   }
 
@@ -123,16 +106,40 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <h1 className="title">Tell us about yourself!</h1>
         <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
         <br/>
-        <FormSubmitter onSubmit={createMutationSubmitHandler(this.props.fetch, fetchOnboardingStep1Mutation)}
-                       initialState={this.props.initialState || blankInitialState}
-                       onSuccess={(output) => {
-                         const successSession = assertNotNull(output.session);
-                         const successInfo = assertNotNull(successSession.onboardingStep1);
-                         this.props.onSuccess(successSession);
-                         this.setState({ successInfo })
-                       }}>
+        <SessionUpdatingFormSubmitter
+          mutation={OnboardingStep1Mutation}
+          initialState={(session) => session.onboardingStep1 || blankInitialState}
+          onSuccessRedirect={(output, input) => {
+            const successSession = assertNotNull(output.session);
+            const successInfo = assertNotNull(successSession.onboardingStep1);
+            if (areAddressesTheSame(successInfo.address, input.address)) {
+              return Routes.onboarding.step2;
+            }
+            return Routes.onboarding.step1ConfirmAddressModal;
+          }}
+        >
           {this.renderForm}
-        </FormSubmitter>
+        </SessionUpdatingFormSubmitter>
+        <SessionUpdatingFormSubmitter
+          mutation={LogoutMutation}
+          initialState={{}}
+          extraFormAttributes={{id: LOGOUT_FORM_ID}}
+          onSuccessRedirect={Routes.home}
+        >{(ctx) => (
+          // If onboarding is explicitly cancelled, we want to flush the
+          // user's session to preserve their privacy, so that any
+          // sensitive data they've entered is removed from their browser.
+          // Since it's assumed they're not logged in anyways, we can do
+          // this by "logging out", which also clears all session data.
+          //
+          // We won't actually render anything visible here because the submit
+          // will be triggered by the cancel button in our earlier form.
+          //
+          // However, we will leave this button here for tests and legacy
+          // non-HTML5 browsers that happen to have styling disabled.
+          <button type="submit" className="button is-invisible">Cancel signup (for legacy browsers)</button>
+        )}</SessionUpdatingFormSubmitter>
+        <Route path={Routes.onboarding.step1ConfirmAddressModal} exact component={ConfirmAddressModal} />
       </Page>
     );
   }

@@ -4,11 +4,11 @@ import Routes from './routes';
 import { Redirect, Route } from 'react-router';
 import { LocationDescriptor } from 'history';
 import OnboardingStep1 from './pages/onboarding-step-1';
-import { GraphQLFetch } from './graphql-client';
 import OnboardingStep2 from './pages/onboarding-step-2';
 import OnboardingStep3 from './pages/onboarding-step-3';
 import OnboardingStep4 from './pages/onboarding-step-4';
 import { RouteProgressBar } from './progress-bar';
+import { AppContextType, withAppContext } from './app-context';
 
 
 export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescriptor {
@@ -29,32 +29,16 @@ export function getLatestOnboardingStep(session: AllSessionInfo): LocationDescri
   return target;
 }
 
-export function RedirectToLatestOnboardingStep(props: { session: AllSessionInfo }): JSX.Element {
+export const RedirectToLatestOnboardingStep = withAppContext((props: AppContextType): JSX.Element => {
   return <Redirect to={getLatestOnboardingStep(props.session)} />
-}
+});
 
-export interface OnboardingRoutesProps {
-  session: AllSessionInfo;
-  fetch: GraphQLFetch;
-  onCancelOnboarding: () => void;
-  onSessionChange: (session: Partial<AllSessionInfo>) => void;
-}
-
-export default function OnboardingRoutes(props: OnboardingRoutesProps): JSX.Element {
+export default function OnboardingRoutes(): JSX.Element {
   return (
     <div>
-      <Route path={Routes.onboarding.latestStep} exact render={() => (
-        <RedirectToLatestOnboardingStep session={props.session} />
-      )} />
+      <Route path={Routes.onboarding.latestStep} exact component={RedirectToLatestOnboardingStep} />
       <RouteProgressBar label="Onboarding">
-        <Route path={Routes.onboarding.step1}>
-          <OnboardingStep1
-            onCancel={props.onCancelOnboarding}
-            fetch={props.fetch}
-            onSuccess={props.onSessionChange}
-            initialState={props.session.onboardingStep1}
-          />
-        </Route>
+        <Route path={Routes.onboarding.step1} component={OnboardingStep1} />
         <Route path={Routes.onboarding.step2} component={OnboardingStep2} />
         <Route path={Routes.onboarding.step3} component={OnboardingStep3} />
         <Route path={Routes.onboarding.step4} component={OnboardingStep4} />

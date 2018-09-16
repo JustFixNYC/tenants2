@@ -10,10 +10,7 @@ describe('onboarding step 1 page', () => {
 
   it('calls onCancel when cancel is clicked', () => {
     const pal = new AppTesterPal(<OnboardingStep1/>);
-    // Annoyingly, it seems like jsdom/react-testing-library doesn't support
-    // the "form" attribute on <button> elements, so we can't click the "real"
-    // button, which is unfortunate. But we'll use 
-    pal.clickButtonOrLink('Cancel signup (for legacy browsers)');
+    pal.clickButtonOrLink('Cancel signup');
     pal.expectGraphQL(/LogoutMutation/);
     pal.expectFormInput({});
   });

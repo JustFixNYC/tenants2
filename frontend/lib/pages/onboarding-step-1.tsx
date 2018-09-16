@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Page from '../page';
 import Routes from '../routes';
 import { Link, Route } from 'react-router-dom';
@@ -13,12 +14,9 @@ import { TextualFormField, SelectFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
+import { bulmaClasses } from '../bulma';
 
 const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
-
-// Our cancel button actually submits a different form than the one it's in; this
-// is used to link the button to the form.
-const LOGOUT_FORM_ID = 'logout';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -66,13 +64,22 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   );
 });
 
-export default class OnboardingStep1 extends React.Component {
+interface OnboardingStep1State {
+  isMounted: boolean;
+}
+
+export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1State> {
+  readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();
+  readonly state = { isMounted: false };
+
+  componentDidMount() {
+    this.setState({ isMounted: true });
+  }
+
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="field is-grouped">
-        <div className="control">
-          <button type="submit" className="button is-light" form={LOGOUT_FORM_ID}>Cancel signup</button>
-        </div>
+        <div className="control" ref={this.cancelControlRef} />
         <NextButton isLoading={isLoading} />
       </div>
     );
@@ -105,7 +112,6 @@ export default class OnboardingStep1 extends React.Component {
       <SessionUpdatingFormSubmitter
         mutation={LogoutMutation}
         initialState={{}}
-        extraFormAttributes={{id: LOGOUT_FORM_ID}}
         onSuccessRedirect={Routes.home}
       >{(ctx) => (
         // If onboarding is explicitly cancelled, we want to flush the
@@ -114,12 +120,25 @@ export default class OnboardingStep1 extends React.Component {
         // Since it's assumed they're not logged in anyways, we can do
         // this by "logging out", which also clears all session data.
         //
-        // We won't actually render anything visible here because the submit
-        // will be triggered by the cancel button in our earlier form.
-        //
-        // However, we will leave this button here for tests and legacy
-        // non-HTML5 browsers that happen to have styling disabled.
-        <button type="submit" className="button jf-is-legacy-fallback">Cancel signup (for legacy browsers)</button>
+        // This is complicated by the fact that we want the cancel
+        // button to appear as though it's in the main form, while
+        // actually submitting a completely different form. HTML5
+        // supports this via the <button> element's "form" attribute,
+        // but not all browsers support that, so we'll do something
+        // a bit clever/kludgy here to work around that.
+        <React.Fragment>
+          {this.state.isMounted && this.cancelControlRef.current
+            ? ReactDOM.createPortal(
+                <button type="button" onClick={(e) => {
+                  e.preventDefault();
+                  ctx.submit();
+                }} className={bulmaClasses('button', 'is-light', {
+                  'is-loading': ctx.isLoading
+                })}>Cancel signup</button>,
+                this.cancelControlRef.current
+              )
+            : <button type="submit" className="button is-light">Cancel signup</button>}
+        </React.Fragment>
       )}</SessionUpdatingFormSubmitter>
     );
   }

@@ -214,6 +214,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
 }
 
 export interface FormContext<FormInput> extends FormProps<FormInput> {
+  submit: () => void,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
 }
 
@@ -225,11 +226,16 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   }
 
   @autobind
-  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  submit() {
     if (!this.props.isLoading) {
       this.props.onSubmit(this.state);
     }
+  }
+
+  @autobind
+  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    this.submit();
   }
 
   @autobind
@@ -256,6 +262,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         <NonFieldErrors errors={this.props.errors} />
         {this.props.children({
           ...this.props,
+          submit: this.submit,
           fieldPropsFor: this.fieldPropsFor
         })}
       </form>

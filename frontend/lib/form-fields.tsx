@@ -141,6 +141,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
       <label className="checkbox">
         <input
           type="checkbox"
+          name={props.name}
           checked={props.value}
           aria-invalid={ariaBool(!!props.errors)}
           disabled={props.isDisabled}

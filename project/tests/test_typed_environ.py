@@ -35,6 +35,13 @@ def test_overriding_default_value_works():
     assert MyEnv(env={'BLARG': 'no u'}).BLARG == 'no u'
 
 
+def test_ints_work():
+    class MyIntyEnv(typed_environ.BaseEnvironment):
+        INTY: int
+
+    assert MyIntyEnv(env={'INTY': '5'}).INTY == 5
+
+
 def test_optional_values_work():
     class MyOptionalEnv(typed_environ.BaseEnvironment):
         BLARG: Optional[bool]

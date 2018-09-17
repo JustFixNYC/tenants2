@@ -15,6 +15,7 @@ import dj_database_url
 
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
+from .util.settings_util import parse_secure_proxy_ssl_header
 
 
 env = justfix_environment.get()
@@ -26,6 +27,15 @@ DEBUG = env.DEBUG
 # TODO: Figure out if this can securely stay at '*'.
 ALLOWED_HOSTS: List[str] = ['*']
 
+
+if env.SECURE_PROXY_SSL_HEADER:
+    SECURE_PROXY_SSL_HEADER = parse_secure_proxy_ssl_header(
+        env.SECURE_PROXY_SSL_HEADER
+    )
+
+SECURE_SSL_REDIRECT = env.SECURE_SSL_REDIRECT
+
+SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
 # Application definition
 

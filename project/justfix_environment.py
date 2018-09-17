@@ -37,6 +37,20 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # connectivity to the legacy tenants app will be disabled.
     LEGACY_MONGODB_URL: str = ''
 
+    # This is an optional HTTP request header field name and
+    # value indicating that the request is actually secure.
+    # For example, Heroku deployments should set this to
+    # "X-Forwarded-Proto: https".
+    SECURE_PROXY_SSL_HEADER: str = ''
+
+    # If true, redirects all non-HTTPS requests to HTTPS.
+    SECURE_SSL_REDIRECT: bool = True
+
+    # If set to a non-zero integer value, sets the HTTP
+    # Strict Transport Security (HSTS) header on all
+    # responses that do not already have it.
+    SECURE_HSTS_SECONDS: int = 0
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''
@@ -46,6 +60,8 @@ class JustfixDevelopmentDefaults(JustfixEnvironment):
     SECRET_KEY = 'for development only!'
 
     DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+
+    SECURE_SSL_REDIRECT = False
 
 
 class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
@@ -66,6 +82,8 @@ class JustfixTestingEnvironment(JustfixEnvironment):
     SECRET_KEY = 'for testing only!'
 
     DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.testing.sqlite3'}"
+
+    SECURE_SSL_REDIRECT = False
 
 
 def get() -> JustfixEnvironment:

@@ -20,7 +20,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
     <React.Fragment>
       <TextualFormField label="Landlord's name (optional)" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address (optional)" {...ctx.fieldPropsFor('address')} />
-      <div className="field is-grouped">
+      <div className="buttons">
         <BackButton to={Routes.loc.accessDates} />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
       </div>

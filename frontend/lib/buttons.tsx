@@ -9,9 +9,7 @@ export function BackButton(props: {
   label?: string
 }): JSX.Element {
   return (
-    <div className="control">
-      <Link to={props.to} className="button is-text">{props.label || "Cancel and go back"}</Link>
-    </div>
+    <Link to={props.to} className="button is-text">{props.label || "Cancel and go back"}</Link>
   );
 }
 
@@ -19,9 +17,9 @@ export function NextButton(props: {
   isLoading: boolean;
   label?: string;
 }): JSX.Element {
-  return (<div className="control">
+  return (
     <button type="submit" className={bulmaClasses('button', 'is-primary', {
       'is-loading': props.isLoading
     })}>{props.label || 'Next'}</button>
-  </div>);
+  );
 }

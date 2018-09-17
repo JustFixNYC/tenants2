@@ -65,7 +65,7 @@ export default class OnboardingStep2 extends React.Component {
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="field is-grouped">
+      <div className="buttons">
         <BackButton to={Routes.onboarding.step1} label="Back" />
         <NextButton isLoading={isLoading} />
       </div>

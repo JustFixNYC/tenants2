@@ -33,7 +33,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label="First access date" type="date" {...ctx.fieldPropsFor('date1')} />
       <TextualFormField label="Second access date (optional)" type="date" {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" {...ctx.fieldPropsFor('date3')} />
-      <div className="field is-grouped">
+      <div className="buttons">
         <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={ctx.isLoading} />
       </div>

@@ -88,7 +88,7 @@ export default class OnboardingStep3 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
           I receive public assistance (Section 8, FEHPS, Link, HASA, other)
         </CheckboxFormField>
-        <div className="field is-grouped">
+        <div className="buttons">
           <BackButton to={Routes.onboarding.step2} label="Back" />
           <NextButton isLoading={ctx.isLoading} />
         </div>

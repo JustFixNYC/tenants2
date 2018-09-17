@@ -39,7 +39,7 @@ export default class OnboardingStep4 extends React.Component {
         </CheckboxFormField>
         <TextualFormField label="Create a password" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
-        <div className="field is-grouped">
+        <div className="buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Create account" />
         </div>

@@ -23,7 +23,7 @@ function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
         choices={LOC_MAILING_CHOICES}
         {...ctx.fieldPropsFor('mailChoice') }
       />
-      <div className="field is-grouped">
+      <div className="buttons">
         <BackButton to={Routes.loc.yourLandlord} />
         <NextButton isLoading={ctx.isLoading} label="Finish" />
       </div>

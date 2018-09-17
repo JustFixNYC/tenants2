@@ -80,7 +80,9 @@ export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1
     return (
       <div className="field is-grouped">
         <div className="control" ref={this.cancelControlRef} />
-        <NextButton isLoading={isLoading} />
+        <div className="control">
+          <NextButton isLoading={isLoading} />
+        </div>
       </div>
     );
   }

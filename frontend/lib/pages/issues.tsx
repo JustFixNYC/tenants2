@@ -78,7 +78,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="field is-grouped">
+      <div className="buttons">
         <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
@@ -137,13 +137,9 @@ function IssuesHome(): JSX.Element {
         <IssueAreaLink key={value} area={value} label={label} />
       ))}
       <br/>
-      <div className="field is-grouped">
-        <div className="control">
-          <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
-        </div>
-        <div className="control">
-          <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
-        </div>
+      <div className="buttons">
+        <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
+        <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
       </div>
     </Page>
   );

@@ -148,10 +148,9 @@ $justfix-blue: #0096D7;
     min-height: 20em;
 }
 
+// A mixin to automatically expand collapsed parts of
+// a navbar for clients that have JS disabled.
 @mixin autoexpand-fallback {
-    animation-duration: 3s;
-    animation-name: jf-slidedown-fallback;
-    overflow: hidden;
     display: block;
     .navbar-item, .navbar-link {
         color: $justfix-blue;
@@ -161,34 +160,36 @@ $justfix-blue: #0096D7;
     }
 }
 
-@media screen and (max-width: $desktop - 1) {
-    html.jf-no-js .navbar-menu {
-        @include autoexpand-fallback();
-    }
+// As soon as we have JS, remove the bottom navbar, since
+// it's just there as a no-JS fallback.
+html:not(.jf-no-js) .hero-foot nav.navbar {
+    visibility: hidden;
 }
 
-@media screen and (min-width: $desktop) {
-    html.jf-no-js .navbar-item .navbar-dropdown {
-        @include autoexpand-fallback();
-    }
-}
+// Styles to display on systems that either have
+// no JS, or which haven't yet loaded it.
+html.jf-no-js {
+    @media screen and (max-width: $desktop - 1) {
+        // Don't show the hamburger at all, since people
+        // will just be confused by its lack of interactivity.
+        .navbar-burger {
+            visibility: hidden;
+        }
 
-@keyframes jf-slidedown-fallback {
-    0% {
-        max-height: 0;
-        padding: 0 0;
-        opacity: 0;
-    }
-
-    50% {
-        max-height: 0;
-        padding: 0 0;
-        opacity: 0;
+        .hero-foot .navbar-menu {
+            @include autoexpand-fallback();
+        }
     }
 
-    100% {
-        max-height: 1000px;
-        padding: 0.5rem 0;
-        opacity: 1.0;
+    @media screen and (min-width: $desktop) {
+        // Don't show any links with dropdowns in the top
+        // navbar, since they won't be interactive.
+        .hero-head .navbar-link {
+            visibility: hidden;
+        }
+
+        .hero-foot .navbar-item .navbar-dropdown {
+            @include autoexpand-fallback();
+        }
     }
 }

@@ -55,6 +55,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
             action: props.location.pathname
           }
         };
+        /* istanbul ignore next: this is tested by integration tests. */
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
           const initialState: FormInput = appCtx.legacyFormSubmission.input;
           const output: FormOutput = appCtx.legacyFormSubmission.result;

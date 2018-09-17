@@ -22,6 +22,7 @@ export interface AccessDatesInput {
 
 export interface ExampleInput {
   exampleField: string;
+  boolField: boolean;
   clientMutationId?: string | null;
 }
 

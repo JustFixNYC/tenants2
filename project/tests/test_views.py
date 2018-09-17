@@ -122,5 +122,27 @@ def test_form_submission_shows_errors(django_app):
 
     assert response.status == '200 OK'
     form = response.form
+
+    # Ensure the form preserves the input from our last submission.
     assert form['exampleField'].value == 'hello there buddy'
+
     assert 'Ensure this value has at most 5 characters (it has 17)' in response
+
+
+def test_form_submission_preserves_boolean_fields(django_app):
+    form = django_app.get('/__example-form').form
+
+    assert form['boolField'].value is None
+    form['boolField'] = True
+    response = form.submit()
+
+    assert response.status == '200 OK'
+    form = response.form
+
+    assert form['boolField'].value == 'on'
+    form['boolField'] = False
+    response = form.submit()
+
+    assert response.status == '200 OK'
+    form = response.form
+    assert form['boolField'].value is None

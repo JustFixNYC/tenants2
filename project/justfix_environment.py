@@ -43,6 +43,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # "X-Forwarded-Proto: https".
     SECURE_PROXY_SSL_HEADER: str = ''
 
+    # If true, redirects all non-HTTPS requests to HTTPS.
+    SECURE_SSL_REDIRECT: bool = True
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''
@@ -52,6 +55,8 @@ class JustfixDevelopmentDefaults(JustfixEnvironment):
     SECRET_KEY = 'for development only!'
 
     DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+
+    SECURE_SSL_REDIRECT = False
 
 
 class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
@@ -72,6 +77,8 @@ class JustfixTestingEnvironment(JustfixEnvironment):
     SECRET_KEY = 'for testing only!'
 
     DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.testing.sqlite3'}"
+
+    SECURE_SSL_REDIRECT = False
 
 
 def get() -> JustfixEnvironment:

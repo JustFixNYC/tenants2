@@ -33,6 +33,8 @@ if env.SECURE_PROXY_SSL_HEADER:
         env.SECURE_PROXY_SSL_HEADER
     )
 
+SECURE_SSL_REDIRECT = env.SECURE_SSL_REDIRECT
+
 
 # Application definition
 

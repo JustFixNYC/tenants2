@@ -8,6 +8,7 @@ from project.views import (
     fix_newlines,
     LegacyFormSubmissionError
 )
+from users.tests.factories import UserFactory
 from .util import qdict
 
 
@@ -146,3 +147,28 @@ def test_form_submission_preserves_boolean_fields(django_app):
     assert response.status == '200 OK'
     form = response.form
     assert form['boolField'].value is None
+
+
+@pytest.mark.django_db
+def test_successful_login_redirects_to_next(django_app):
+    UserFactory(phone_number='5551234567', password='test123')
+    form = django_app.get('/login?next=/boop').form
+
+    form['phoneNumber'] = '5551234567'
+    form['password'] = 'test123'
+    response = form.submit()
+
+    assert response.status == '302 Found'
+    assert response['Location'] == '/boop'
+
+
+@pytest.mark.django_db
+def test_unsuccessful_login_shows_error(django_app):
+    form = django_app.get('/login?next=/boop').form
+
+    form['phoneNumber'] = '5551234567'
+    form['password'] = 'test123'
+    response = form.submit()
+
+    assert response.status == '200 OK'
+    assert 'Invalid phone number or password' in response

@@ -46,12 +46,12 @@ describe('FormSubmitter', () => {
     const wrapper = mount(
       <MemoryRouter>
         <Switch>
-          <Route path="/blah" exact><p>This is blah.</p></Route>
+          <Route path="/login" exact><p>This is blah.</p></Route>
           <Route>
             <FormSubmitter
               onSubmit={() => promise}
               onSuccess={() => {}}
-              onSuccessRedirect="/blah"
+              onSuccessRedirect="/login"
               initialState={myInitialState}
               children={(ctx) => <p>This is the form.</p>} />
           </Route>

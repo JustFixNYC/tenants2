@@ -129,6 +129,9 @@ def get_legacy_form_submission(request):
 
 def react_rendered_view(request, url: str):
     url = f'/{url}'
+    querystring = request.GET.urlencode()
+    if querystring:
+        url += f'?{querystring}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
 
     # Currently, the schema for this structure needs to be mirrored

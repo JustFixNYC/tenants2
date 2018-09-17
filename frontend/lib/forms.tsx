@@ -9,6 +9,7 @@ import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
+import { routeMap } from './routes';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -127,7 +128,14 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         });
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
-          this.props.history.push(redirect);
+          if (routeMap.exists(redirect)) {
+            this.props.history.push(redirect);
+          } else {
+            // This isn't a route we can serve from this single-page app,
+            // but it might be something our underlying Django app can
+            // serve, so force a browser refresh.
+            window.location.href = redirect;
+          }
         }
         if (this.props.onSuccess) {
           this.props.onSuccess(output);

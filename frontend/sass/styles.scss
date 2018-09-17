@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
-
-$justfix-blue: #0096D7;
+@import "./_colors.scss";
+@import "./_no-js.scss";
 
 .hero nav.navbar {
     background: $justfix-blue;
@@ -146,50 +146,4 @@ $justfix-blue: #0096D7;
 .jf-loc-preview iframe {
     width: 100%;
     min-height: 20em;
-}
-
-// A mixin to automatically expand collapsed parts of
-// a navbar for clients that have JS disabled.
-@mixin autoexpand-fallback {
-    display: block;
-    .navbar-item, .navbar-link {
-        color: $justfix-blue;
-    }
-    .navbar-item:focus, .navbar-link:focus {
-        outline: 2px dashed $justfix-blue;
-    }
-}
-
-// As soon as we have JS, remove the bottom navbar, since
-// it's just there as a no-JS fallback.
-html:not(.jf-no-js) .hero-foot nav.navbar {
-    visibility: hidden;
-}
-
-// Styles to display on systems that either have
-// no JS, or which haven't yet loaded it.
-html.jf-no-js {
-    @media screen and (max-width: $desktop - 1) {
-        // Don't show the hamburger at all, since people
-        // will just be confused by its lack of interactivity.
-        .navbar-burger {
-            visibility: hidden;
-        }
-
-        .hero-foot .navbar-menu {
-            @include autoexpand-fallback();
-        }
-    }
-
-    @media screen and (min-width: $desktop) {
-        // Don't show any links with dropdowns in the top
-        // navbar, since they won't be interactive.
-        .hero-head .navbar-link {
-            visibility: hidden;
-        }
-
-        .hero-foot .navbar-item .navbar-dropdown {
-            @include autoexpand-fallback();
-        }
-    }
 }

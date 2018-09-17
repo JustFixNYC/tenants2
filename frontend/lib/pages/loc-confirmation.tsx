@@ -31,7 +31,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <div className="content">
         {letterRequest && <LetterStatus letterRequest={letterRequest} />}
         <p className="has-text-centered">
-          <a href={props.server.locPdfURL} target="_blank" className="button is-text">Download your letter of complaint (PDF)</a>
+          <a href={props.server.locPdfURL} target="_blank" className="button is-text">Download letter (PDF)</a>
         </p>
         <h2>What happens next?</h2>
         <p>

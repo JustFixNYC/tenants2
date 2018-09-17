@@ -154,6 +154,10 @@ class Converters:
         return value
 
     @classmethod
+    def convert_int(cls, value: str) -> int:
+        return int(value)
+
+    @classmethod
     def get_converter(cls, klass: Type[T]) -> Converter:
         '''
         Iterate through all our attributes until we find a class

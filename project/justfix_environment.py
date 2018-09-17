@@ -46,6 +46,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If true, redirects all non-HTTPS requests to HTTPS.
     SECURE_SSL_REDIRECT: bool = True
 
+    # If set to a non-zero integer value, sets the HTTP
+    # Strict Transport Security (HSTS) header on all
+    # responses that do not already have it.
+    SECURE_HSTS_SECONDS: int = 0
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

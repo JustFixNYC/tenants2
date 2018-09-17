@@ -37,6 +37,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # connectivity to the legacy tenants app will be disabled.
     LEGACY_MONGODB_URL: str = ''
 
+    # This is an optional HTTP request header field name and
+    # value indicating that the request is actually secure.
+    # For example, Heroku deployments should set this to
+    # "X-Forwarded-Proto: https".
+    SECURE_PROXY_SSL_HEADER: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

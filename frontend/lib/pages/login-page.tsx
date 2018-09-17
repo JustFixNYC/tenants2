@@ -2,7 +2,7 @@ import React from 'react';
 import querystring from 'querystring';
 
 import Page from '../page';
-import Routes from '../routes';
+import Routes, { routeMap } from '../routes';
 import { SessionUpdatingFormSubmitter } from '../forms';
 import { LoginMutation } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
@@ -10,6 +10,7 @@ import { NextButton } from '../buttons';
 import { LoginInput } from '../queries/globalTypes';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType } from '../app-context';
+import { History } from 'history';
 
 const NEXT = 'next';
 
@@ -22,6 +23,17 @@ export interface LoginFormProps {
   next: string;
 }
 
+export function performRedirect(redirect: string, history: History) {
+  if (routeMap.exists(redirect)) {
+    history.push(redirect);
+  } else {
+    // This isn't a route we can serve from this single-page app,
+    // but it might be something our underlying Django app can
+    // serve, so force a browser refresh.
+    window.location.href = redirect;
+  }
+}
+
 export class LoginForm extends React.Component<LoginFormProps> {
   render() {
     return (
@@ -29,6 +41,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         mutation={LoginMutation}
         initialState={initialState}
         onSuccessRedirect={this.props.next}
+        performRedirect={performRedirect}
       >
         {(ctx) => (
           <React.Fragment>

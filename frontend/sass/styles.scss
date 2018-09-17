@@ -19,6 +19,10 @@
     }
 
     .is-active {
+        &.navbar-menu, .navbar-dropdown {
+            animation: jf-slidedown 0.5s;
+        }
+
         .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
             outline: 2px dashed $justfix-blue;
         }
@@ -123,6 +127,19 @@
 .jf-modal-animate {
     animation-duration: 0.5s;
     animation-name: jf-fadein;
+}
+
+@keyframes jf-slidedown {
+    from {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+    }
+
+    to {
+        max-height: 1000px;
+    }
 }
 
 @keyframes jf-fadein {

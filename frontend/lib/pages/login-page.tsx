@@ -23,14 +23,24 @@ export interface LoginFormProps {
   next: string;
 }
 
-export function performRedirect(redirect: string, history: History) {
+/* istanbul ignore next: mocking window.location is unreasonably hard in jest/jsdom. */
+function defaultPerformHardRedirect(redirect: string) {
+  window.location.href = redirect;
+}
+
+/**
+ * Based on the type of URL we're given, perform either a "hard" redirect
+ * whereby we leave our single-page application (SPA), or a "soft" redirect,
+ * in which we stay in our SPA.
+ */
+export function performHardOrSoftRedirect(redirect: string, history: History, performHardRedirect = defaultPerformHardRedirect) {
   if (routeMap.exists(redirect)) {
     history.push(redirect);
   } else {
     // This isn't a route we can serve from this single-page app,
     // but it might be something our underlying Django app can
     // serve, so force a browser refresh.
-    window.location.href = redirect;
+    performHardRedirect(redirect);
   }
 }
 
@@ -41,7 +51,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         mutation={LoginMutation}
         initialState={initialState}
         onSuccessRedirect={this.props.next}
-        performRedirect={performRedirect}
+        performRedirect={performHardOrSoftRedirect}
       >
         {(ctx) => (
           <React.Fragment>

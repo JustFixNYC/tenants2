@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginPage, { getQuerystringVar, getPostOrQuerystringVar } from '../../pages/login-page';
+import LoginPage, { getQuerystringVar, getPostOrQuerystringVar, performHardOrSoftRedirect } from '../../pages/login-page';
 import { mountWithRouter } from '../util';
 import { Route } from 'react-router';
 
@@ -46,5 +46,24 @@ describe('getPostOrQuerystringVar()', () => {
 
   it('returns undefined when POST exists but does not contain variable', () => {
     expect(getPostOrQuerystringVar(postInfo({ blah: 'oof' }, '?zoof=z'), 'zoof')).toBeUndefined();
+  });
+});
+
+describe('performHardOrSoftRedirect()', () => {
+  it('performs a soft redirect when the route is known to be in our SPA', () => {
+    const push = jest.fn();
+    const hardRedirect = jest.fn();
+    performHardOrSoftRedirect('/login', { push } as any, hardRedirect);
+    expect(hardRedirect.mock.calls.length).toBe(0);
+    expect(push.mock.calls.length).toBe(1);
+    expect(push.mock.calls[0][0]).toBe('/login');
+  });
+
+  it('performs a hard redirect when the route is unknown', () => {
+    const push = jest.fn();
+    const hardRedirect = jest.fn();
+    performHardOrSoftRedirect('/loc/letter.pdf', { push } as any, hardRedirect);
+    expect(push.mock.calls.length).toBe(0);
+    expect(hardRedirect.mock.calls.length).toBe(1);
   });
 });

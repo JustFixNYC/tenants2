@@ -114,6 +114,8 @@ export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.El
           <label className="checkbox jf-checkbox" key={choice}>
             <input
               type="checkbox"
+              name={props.name}
+              value={choice}
               checked={props.value.indexOf(choice) !== -1}
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
@@ -139,6 +141,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
       <label className="checkbox">
         <input
           type="checkbox"
+          name={props.name}
           checked={props.value}
           aria-invalid={ariaBool(!!props.errors)}
           disabled={props.isDisabled}
@@ -148,6 +151,16 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
       {errorHelp}
     </div>
   );
+}
+
+export function HiddenFormField(props: BaseFormFieldProps<string>): JSX.Element {
+  if (props.errors) {
+    throw new Error(
+      `Hidden fields should have no errors, but "${props.name}" does: ` +
+      `${JSON.stringify(props.errors)}`
+    );
+  }
+  return <input type="hidden" name={props.name} value={props.value} />;
 }
 
 /**

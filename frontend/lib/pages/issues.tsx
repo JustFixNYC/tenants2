@@ -11,7 +11,7 @@ import { IssueAreaInput } from '../queries/globalTypes';
 import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, TextareaFormField } from '../form-fields';
+import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
 
@@ -63,6 +63,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
     return (
       <React.Fragment>
+        <HiddenFormField {...ctx.fieldPropsFor('area')} />
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor('issues')}
           label="Select your issues"

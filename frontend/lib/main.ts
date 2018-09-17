@@ -21,5 +21,7 @@ window.addEventListener('load', () => {
   // Since JS is now loaded, let's remove that restriction.
   div.removeAttribute('hidden');
 
+  document.documentElement.classList.remove('jf-no-js');
+
   startApp(div, initialProps);
 });

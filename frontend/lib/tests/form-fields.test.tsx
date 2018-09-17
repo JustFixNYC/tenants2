@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField } from "../form-fields";
+import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField, HiddenFormField } from "../form-fields";
 import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
 
@@ -54,6 +54,32 @@ describe('TextualFormField', () => {
   });
 });
 
+describe('HiddenFormField', () => {
+  const makeField = (props: Partial<BaseFormFieldProps<string>> = {}) => {
+    const defaultProps: BaseFormFieldProps<string> = {
+      ...baseFieldProps({ value: '' }),
+    };
+    return shallow(
+      <HiddenFormField
+        {...defaultProps}
+        {...props}
+      />
+    );
+  }
+
+  it('renders name and value attrs', () => {
+    const html = makeField({ name: 'boop', value: 'blah' }).html();
+    expect(html).toContain('name="boop"');
+    expect(html).toContain('value="blah"');
+  });
+
+  it('throws an exception when it has errors', () => {
+    expect(() =>
+      makeField({ errors: ['this cannot be blank'] }).html()
+    ).toThrow(/Hidden fields should have no errors, but "foo" does/);
+  });
+});
+
 describe('TextareaFormField', () => {
   const makeField = (props: Partial<TextualFormFieldProps> = {}) => {
     const defaultProps: TextualFormFieldProps = {
@@ -67,6 +93,12 @@ describe('TextareaFormField', () => {
       />
     );
   }
+
+  it('renders name attr and sets value', () => {
+    const html = makeField({ name: 'blarg', value: 'boof'}).html();
+    expect(html).toContain('name="blarg"');
+    expect(html).toContain('>boof</textarea>');
+  });
 
   it('renders properly when it has no errors', () => {
     const html = makeField().html();
@@ -89,6 +121,16 @@ describe('SelectFormField', () => {
     );
   }
 
+  it('renders option values', () => {
+    const html = makeSelect().html();
+    expect(html).toContain('<option value="BAR">Bar</option>');
+  });
+
+  it('assigns name attr', () => {
+    const html = makeSelect().html();
+    expect(html).toContain('name="foo"');
+  });
+
   it('renders properly when it has no errors', () => {
     const html = makeSelect().html();
     expect(html).toContain('aria-invalid="false"');
@@ -109,6 +151,12 @@ describe('RadiosFormField', () => {
       <RadiosFormField {...choiceFieldProps(props)} />
     );
   }
+
+  it('renders name and value attrs', () => {
+    const html = makeRadios().html();
+    expect(html).toContain('name="foo"');
+    expect(html).toContain('value="BAR"');
+  });
 
   it('renders properly when it has no errors', () => {
     const html = makeRadios().html();
@@ -152,6 +200,12 @@ describe('MultiCheckboxFormField', () => {
     expect(onChange.mock.calls[0][0]).toEqual(['BAR']);
   });
 
+  it('renders name and value attrs', () => {
+    const html = makeMultiCheckbox().html();
+    expect(html).toContain('name="foo"');
+    expect(html).toContain('value="BAR"');
+  });
+
   it('renders properly when it has no errors', () => {
     const html = makeMultiCheckbox().html();
     expect(html).toContain('aria-invalid="false"');
@@ -176,6 +230,11 @@ describe('CheckboxFormField', () => {
       />
     );
   }
+
+  it('renders name attr', () => {
+    const html = makeCheckbox().html();
+    expect(html).toContain('name="foo"');
+  });
 
   it('renders properly when it has no errors', () => {
     const html = makeCheckbox().html();

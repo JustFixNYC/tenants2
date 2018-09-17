@@ -3,8 +3,15 @@ import React from 'react';
 import Page from "../page";
 import { LegacyFormSubmitter } from '../forms';
 import { ExampleMutation } from '../queries/ExampleMutation';
-import { TextualFormField } from '../form-fields';
-import { bulmaClasses } from '../bulma';
+import { TextualFormField, CheckboxFormField } from '../form-fields';
+import { NextButton } from '../buttons';
+import Routes from '../routes';
+import { ExampleInput } from '../queries/globalTypes';
+
+const INITIAL_STATE: ExampleInput = {
+  exampleField: '',
+  boolField: false
+};
 
 /* istanbul ignore next: this is tested by integration tests. */
 export default function ExampleFormPage(): JSX.Element {
@@ -13,17 +20,17 @@ export default function ExampleFormPage(): JSX.Element {
       This is an example form page.
       <LegacyFormSubmitter
         mutation={ExampleMutation}
-        initialState={{ exampleField: '' }}
+        initialState={INITIAL_STATE}
+        onSuccessRedirect={Routes.home}
       >
         {(ctx) => (
           <React.Fragment>
             <TextualFormField label="Example field" {...ctx.fieldPropsFor('exampleField')} />
+            <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
+              Example boolean field
+            </CheckboxFormField>
             <div className="field">
-              <div className="control">
-                <button type="submit" className={bulmaClasses('button', 'is-primary', {
-                  'is-loading': ctx.isLoading
-                })}>Submit</button>
-              </div>
+              <NextButton isLoading={ctx.isLoading} label="Submit" />
             </div>
           </React.Fragment>
         )}

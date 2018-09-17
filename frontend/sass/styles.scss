@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
-
-$justfix-blue: #0096D7;
+@import "./_colors.scss";
+@import "./_no-js.scss";
 
 .hero nav.navbar {
     background: $justfix-blue;
@@ -146,8 +146,4 @@ $justfix-blue: #0096D7;
 .jf-loc-preview iframe {
     width: 100%;
     min-height: 20em;
-}
-
-.jf-is-legacy-fallback {
-    display: none;
 }

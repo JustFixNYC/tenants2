@@ -64,3 +64,5 @@ class LogoutForm(forms.Form):
 
 class ExampleForm(forms.Form):
     example_field = forms.CharField(max_length=5)
+
+    bool_field = forms.BooleanField(required=False)

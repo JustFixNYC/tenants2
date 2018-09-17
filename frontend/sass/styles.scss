@@ -148,6 +148,47 @@ $justfix-blue: #0096D7;
     min-height: 20em;
 }
 
-.jf-is-legacy-fallback {
-    display: none;
+@mixin autoexpand-fallback {
+    animation-duration: 3s;
+    animation-name: jf-slidedown-fallback;
+    overflow: hidden;
+    display: block;
+    .navbar-item, .navbar-link {
+        color: $justfix-blue;
+    }
+    .navbar-item:focus, .navbar-link:focus {
+        outline: 2px dashed $justfix-blue;
+    }
+}
+
+@media screen and (max-width: $desktop - 1) {
+    html.jf-no-js .navbar-menu {
+        @include autoexpand-fallback();
+    }
+}
+
+@media screen and (min-width: $desktop) {
+    html.jf-no-js .navbar-item .navbar-dropdown {
+        @include autoexpand-fallback();
+    }
+}
+
+@keyframes jf-slidedown-fallback {
+    0% {
+        max-height: 0;
+        padding: 0 0;
+        opacity: 0;
+    }
+
+    50% {
+        max-height: 0;
+        padding: 0 0;
+        opacity: 0;
+    }
+
+    100% {
+        max-height: 1000px;
+        padding: 0.5rem 0;
+        opacity: 1.0;
+    }
 }

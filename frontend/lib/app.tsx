@@ -113,15 +113,23 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     this.setState(state => ({ session: { ...state.session, ...updates } }));
   }
 
+  handleFocusDuringPathnameChange(prevPathname: string, pathname: string) {
+    // Modals handle focus changes themselves, so don't manage focus if
+    // we're moving to or from a modal.
+    if (!isModalRoute(prevPathname, pathname)) {
+      // This isn't a modal, so focus on the page's body to ensure
+      // focus isn't lost in the page transition.
+      const body = this.pageBodyRef.current;
+      if (body) {
+        body.focus();
+      }
+    }
+  }
+
   handlePathnameChange(prevPathname: string, pathname: string) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
-      if (!isModalRoute(prevPathname, pathname)) {
-        const body = this.pageBodyRef.current;
-        if (body) {
-          body.focus();
-        }
-      }
+      this.handleFocusDuringPathnameChange(prevPathname, pathname);
     }
   }
 

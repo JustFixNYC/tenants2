@@ -57,14 +57,8 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     const { client } = createTestGraphQlClient();
     const appContext: AppTesterAppContext = {
       ...FakeAppContext,
-      session: {
-        ...FakeSessionInfo,
-        ...o.session
-      },
-      server: {
-        ...FakeServerInfo,
-        ...o.server
-      },
+      session: { ...FakeSessionInfo, ...o.session },
+      server: { ...FakeServerInfo, ...o.server },
       fetch: client.fetch,
       updateSession: jest.fn()
     };

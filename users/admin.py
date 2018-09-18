@@ -28,6 +28,12 @@ class JustfixUserAdmin(UserAdmin):
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('phone_number', 'username', 'password1', 'password2'),
+        }),
+    )
     inlines = (OnboardingInline, IssueInline, CustomIssueInline) + loc.admin.user_inlines
 
 

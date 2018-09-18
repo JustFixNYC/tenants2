@@ -141,6 +141,7 @@ def react_rendered_view(request, url: str):
         'initialURL': url,
         'initialSession': get_initial_session(request),
         'server': {
+            'originURL': request.build_absolute_uri('/')[:-1],
             'staticURL': settings.STATIC_URL,
             'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),

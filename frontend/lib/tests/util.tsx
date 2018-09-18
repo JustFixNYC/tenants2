@@ -64,6 +64,7 @@ export function ensureRedirect(child: JSX.Element, pathname: string) {
 }
 
 export const FakeServerInfo: Readonly<AppServerInfo> = {
+  originURL: 'https://myserver.com',
   staticURL: '/mystatic/',
   webpackPublicPathURL: '/mystatic/myfrontend/',
   adminIndexURL: '/myadmin/',  

@@ -159,7 +159,7 @@ def test_successful_login_redirects_to_next(django_app):
     response = form.submit()
 
     assert response.status == '302 Found'
-    assert response['Location'] == '/boop'
+    assert response['Location'] == 'http://testserver/boop'
 
 
 @pytest.mark.django_db

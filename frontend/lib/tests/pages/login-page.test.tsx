@@ -1,13 +1,15 @@
 import React from 'react';
-import LoginPage, { getQuerystringVar, getPostOrQuerystringVar, performHardOrSoftRedirect } from '../../pages/login-page';
-import { mountWithRouter } from '../util';
+import LoginPage, { getQuerystringVar, getPostOrQuerystringVar, performHardOrSoftRedirect, absolutifyURLToOurOrigin } from '../../pages/login-page';
 import { Route } from 'react-router';
+import { AppTesterPal } from '../app-tester-pal';
 
-test('login page renders', () => {
-  const { wrapper } = mountWithRouter(
-    <Route component={LoginPage} />
-  );
-  expect(wrapper.html()).toContain('Sign in');
+test('login page sets "next" input to expected value', () => {
+  const pal = new AppTesterPal(<Route component={LoginPage} />, {
+    url: '/login?next=/bop',
+    server: { originURL: 'https://blarg.com' }
+  });
+  pal.rr.getByText(/Sign in/i);
+  expect(pal.getElement('input', '[name="next"]').value).toEqual('https://blarg.com/bop');
 });
 
 const searchInfo = (search: string) => ({
@@ -65,5 +67,31 @@ describe('performHardOrSoftRedirect()', () => {
     performHardOrSoftRedirect('/loc/letter.pdf', { push } as any, hardRedirect);
     expect(push.mock.calls.length).toBe(0);
     expect(hardRedirect.mock.calls.length).toBe(1);
+  });
+});
+
+describe('absolutifyURLToOurOrigin()', () => {
+  it('passes through valid already-valid URLs', () => {
+    expect(absolutifyURLToOurOrigin('https://blah.com/bop', 'https://blah.com'))
+      .toBe('https://blah.com/bop');
+  });
+
+  it('prefixes relative URLs with our origin', () => {
+    expect(absolutifyURLToOurOrigin('/bop', 'https://blah.com'))
+      .toBe('https://blah.com/bop');
+  });
+
+  it('ensures other weird values supplied by untrusted parties are rooted at our origin', () => {
+    expect(absolutifyURLToOurOrigin('//evilsite.com', 'https://blah.com'))
+      .toBe('https://blah.com//evilsite.com');
+
+    expect(absolutifyURLToOurOrigin('', 'https://blah.com'))
+      .toBe('https://blah.com/');
+
+    expect(absolutifyURLToOurOrigin('bop', 'https://blah.com'))
+      .toBe('https://blah.com/bop');
+
+    expect(absolutifyURLToOurOrigin('https://blah.cometothisevilsite.com', 'https://blah.com'))
+      .toBe('https://blah.com/https://blah.cometothisevilsite.com');
   });
 });

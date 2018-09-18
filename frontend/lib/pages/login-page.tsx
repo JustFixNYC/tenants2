@@ -114,9 +114,26 @@ export function getPostOrQuerystringVar(info: LocationSearchInfo & HttpPostInfo,
   return getQuerystringVar(info, name);
 }
 
+/**
+ * Given a URL passed to us by an untrusted party, ensure that it has
+ * the given origin, to mitigate the possibility of us being used as
+ * an open redirect: http://cwe.mitre.org/data/definitions/601.html.
+ */
+export function absolutifyURLToOurOrigin(url: string, origin: string): string {
+  if (url.indexOf(`${origin}/`) === 0) {
+    return url;
+  }
+  if (url[0] !== '/') {
+    url = `/${url}`;
+  }
+  return `${origin}${url}`;
+}
+
 const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
-  let next = getPostOrQuerystringVar(props, NEXT) || Routes.home;
-  // TODO: Validate the next URL.
+  let next = absolutifyURLToOurOrigin(
+    getPostOrQuerystringVar(props, NEXT) || Routes.home,
+    props.server.originURL
+  );
 
   return (
     <Page title="Sign in">

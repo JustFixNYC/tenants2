@@ -113,12 +113,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     this.setState(state => ({ session: { ...state.session, ...updates } }));
   }
 
-  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
-    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
-      this.gqlClient.csrfToken = this.state.session.csrfToken;
-    }
-    const prevPathname = prevProps.location.pathname;
-    const pathname = this.props.location.pathname;
+  handlePathnameChange(prevPathname: string, pathname: string) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
       if (!isModalRoute(prevPathname, pathname)) {
@@ -128,6 +123,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         }
       }
     }
+  }
+
+  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
+    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
+      this.gqlClient.csrfToken = this.state.session.csrfToken;
+    }
+    this.handlePathnameChange(prevProps.location.pathname,
+                              this.props.location.pathname);
   }
 
   getAppContext(): AppContextType {

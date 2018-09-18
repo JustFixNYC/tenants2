@@ -11,6 +11,7 @@ GA_SNIPPET = """\
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', '%(GA_TRACKING_ID)s');
+  window.GA_TRACKING_ID = '%(GA_TRACKING_ID)s';
 </script>""".strip()
 
 

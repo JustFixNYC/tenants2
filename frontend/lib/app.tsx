@@ -16,6 +16,7 @@ import { LogoutPage } from './pages/logout-page';
 import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
+import { trackPageView } from './google-analytics';
 
 
 export interface AppProps {
@@ -118,10 +119,13 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     }
     const prevPathname = prevProps.location.pathname;
     const pathname = this.props.location.pathname;
-    if (prevPathname !== pathname && !isModalRoute(prevPathname, pathname)) {
-      const body = this.pageBodyRef.current;
-      if (body) {
-        body.focus();
+    if (prevPathname !== pathname) {
+      trackPageView(pathname);
+      if (!isModalRoute(prevPathname, pathname)) {
+        const body = this.pageBodyRef.current;
+        if (body) {
+          body.focus();
+        }
       }
     }
   }

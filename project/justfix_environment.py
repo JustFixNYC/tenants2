@@ -51,6 +51,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # responses that do not already have it.
     SECURE_HSTS_SECONDS: int = 0
 
+    # The Google Analytics Tracking ID for the app.
+    # If empty (the default), Google Analytics is disabled.
+    GA_TRACKING_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

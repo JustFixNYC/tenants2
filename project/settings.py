@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'project.context_processors.ga_snippet',
             ],
         },
     },
@@ -204,6 +205,20 @@ GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 GEOCODING_TIMEOUT = 3
 
 LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
+
+GA_TRACKING_ID = env.GA_TRACKING_ID
+
+CSP_SCRIPT_SRC = [
+    "'self'",
+    'https://www.googletagmanager.com',
+]
+
+CSP_IMG_SRC = [
+    "'self'",
+    'https://www.google-analytics.com'
+]
+
+CSP_INCLUDE_NONCE_IN = ['script-src']
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

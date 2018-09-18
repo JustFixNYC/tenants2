@@ -41,6 +41,30 @@ describe('FormSubmitter', () => {
     return { form, client, onSuccess };
   };
 
+  it('optionally uses performRedirect() for redirection', async () => {
+    const promise = Promise.resolve({ errors: [] });
+    const performRedirect = jest.fn();
+    const wrapper = mount(
+      <MemoryRouter>
+        <Switch>
+          <Route>
+            <FormSubmitter
+              onSubmit={() => promise}
+              onSuccess={() => {}}
+              onSuccessRedirect="/blah"
+              performRedirect={performRedirect}
+              initialState={myInitialState}
+              children={(ctx) => <p>This is the form.</p>} />
+          </Route>
+        </Switch>
+      </MemoryRouter>
+    );
+    wrapper.find('form').simulate('submit');
+    await promise;
+    expect(performRedirect.mock.calls).toHaveLength(1);
+    expect(performRedirect.mock.calls[0][0]).toBe('/blah');
+  });
+
   it('optionally redirects when successful', async () => {
     const promise = Promise.resolve({ errors: [] });
     const wrapper = mount(

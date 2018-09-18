@@ -21,6 +21,9 @@ export interface AppLegacyFormSubmission {
 
 /** Details about the server that don't change through the app's lifetime. */
 export interface AppServerInfo {
+  /** The server's origin URL, e.g. "http://boop.com". */
+  originURL: string;
+
   /**
    * The URL of the server's static files, e.g. "/static/".
    */

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../graphql-client";
-import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo } from "./util";
+import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
 import { MemoryRouter } from "react-router";
-import { AppContext, AppContextType } from "../app-context";
+import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 
@@ -14,6 +14,9 @@ interface AppTesterPalOptions {
 
   /** Any updates to the app session. */
   session: Partial<AllSessionInfo>;
+
+  /** Any updates to the server info. */
+  server: Partial<AppServerInfo>;
 };
 
 /**
@@ -48,15 +51,14 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     const o: AppTesterPalOptions = {
       url: '/',
       session: {},
+      server: {},
       ...options
     };
     const { client } = createTestGraphQlClient();
     const appContext: AppTesterAppContext = {
       ...FakeAppContext,
-      session: {
-        ...FakeSessionInfo,
-        ...o.session
-      },
+      session: { ...FakeSessionInfo, ...o.session },
+      server: { ...FakeServerInfo, ...o.server },
       fetch: client.fetch,
       updateSession: jest.fn()
     };

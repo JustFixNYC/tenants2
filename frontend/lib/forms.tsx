@@ -9,6 +9,7 @@ import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
+import { History } from 'history';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -17,6 +18,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
+  performRedirect?: (redirect: string, history: History) => void;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
@@ -99,6 +101,10 @@ function getSuccessRedirect<FormInput, FormOutput extends WithServerFormFieldErr
   return null;
 }
 
+export function defaultPerformRedirect(redirect: string, history: History) {
+  history.push(redirect);
+}
+
 /** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
@@ -127,7 +133,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         });
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
-          this.props.history.push(redirect);
+          const performRedirect = this.props.performRedirect || defaultPerformRedirect;
+          performRedirect(redirect, this.props.history);
         }
         if (this.props.onSuccess) {
           this.props.onSuccess(output);

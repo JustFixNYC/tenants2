@@ -1,4 +1,5 @@
 import * as rt from 'react-testing-library'
+import { getElement } from '../util';
 
 /**
  * A type for expressing how to fill out a form field.
@@ -27,6 +28,19 @@ export default class ReactTestingLibraryPal {
   constructor(el: JSX.Element) {
     this.rr = rt.render(el);
     this.rt = rt;
+  }
+
+  /**
+   * Find an element within our render result.
+   * 
+   * @param tagName The name of the element's HTML tag.
+   * @param selector The selector for the element, not including its HTML tag.
+   */
+  getElement<K extends keyof HTMLElementTagNameMap>(
+    tagName: K,
+    selector: string
+  ): HTMLElementTagNameMap[K] {
+    return getElement(tagName, selector, this.rr.baseElement);
   }
 
   /** Click anything with the given text and selector. */

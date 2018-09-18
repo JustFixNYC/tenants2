@@ -123,6 +123,7 @@ AUTHENTICATION_BACKENDS = [
     'legacy_tenants.auth.LegacyTenantsAppBackend',
 ]
 
+LOGIN_URL = '/login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

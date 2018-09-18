@@ -16,6 +16,7 @@ import { LogoutPage } from './pages/logout-page';
 import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
+import { trackPageView } from './google-analytics';
 
 
 export interface AppProps {
@@ -112,18 +113,32 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     this.setState(state => ({ session: { ...state.session, ...updates } }));
   }
 
-  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
-    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
-      this.gqlClient.csrfToken = this.state.session.csrfToken;
-    }
-    const prevPathname = prevProps.location.pathname;
-    const pathname = this.props.location.pathname;
-    if (prevPathname !== pathname && !isModalRoute(prevPathname, pathname)) {
+  handleFocusDuringPathnameChange(prevPathname: string, pathname: string) {
+    // Modals handle focus changes themselves, so don't manage focus if
+    // we're moving to or from a modal.
+    if (!isModalRoute(prevPathname, pathname)) {
+      // This isn't a modal, so focus on the page's body to ensure
+      // focus isn't lost in the page transition.
       const body = this.pageBodyRef.current;
       if (body) {
         body.focus();
       }
     }
+  }
+
+  handlePathnameChange(prevPathname: string, pathname: string) {
+    if (prevPathname !== pathname) {
+      trackPageView(pathname);
+      this.handleFocusDuringPathnameChange(prevPathname, pathname);
+    }
+  }
+
+  componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
+    if (prevState.session.csrfToken !== this.state.session.csrfToken) {
+      this.gqlClient.csrfToken = this.state.session.csrfToken;
+    }
+    this.handlePathnameChange(prevProps.location.pathname,
+                              this.props.location.pathname);
   }
 
   getAppContext(): AppContextType {

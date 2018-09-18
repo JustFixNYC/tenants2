@@ -44,6 +44,25 @@ describe('AppWithoutRouter', () => {
     expect(app.state.session.csrfToken).toBe('blug');
   });
 
+  it('tracks pathname changes in google analytics', () => {
+    const { app } = buildApp();
+
+    const mockGtag = jest.fn();
+    window.gtag = mockGtag;
+    try {
+      app.handlePathnameChange('/old', '/new');
+      expect(mockGtag.mock.calls).toHaveLength(1);
+      expect(mockGtag.mock.calls[0][2]).toEqual({ page_path: '/new' });
+      mockGtag.mockClear();
+
+      // Ensure it doesn't track anything when the pathname doesn't change.
+      app.handlePathnameChange('/new', '/new');
+      expect(mockGtag.mock.calls).toHaveLength(0);
+    } finally {
+      delete window.gtag;
+    }
+  });
+
   describe('fetch()', () => {
     it('delegates to GraphQL client fetch', async () => {
       const { app, client } = buildApp();

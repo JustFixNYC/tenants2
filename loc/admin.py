@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django import forms
+from django.utils.html import format_html
+from django.urls import reverse
 
 from . import models
 
@@ -21,7 +23,6 @@ class LandlordDetailsForm(forms.ModelForm):
 
 
 class LandlordDetailsInline(admin.StackedInline):
-    # model = models.LandlordDetails
     form = LandlordDetailsForm
     model = models.LandlordDetails
     verbose_name = "Landlord details"
@@ -32,6 +33,18 @@ class LetterRequestInline(admin.StackedInline):
     model = models.LetterRequest
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
+
+    readonly_fields = ['loc_actions']
+
+    def loc_actions(self, obj):
+        if obj.pk is None:
+            return 'This user has not yet completed the letter of complaint process.'
+        return format_html(
+            '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
+            reverse('loc_for_user', kwargs={'user_id': obj.user.pk})
+        )
+    loc_actions.short_description = "Letter of complaint actions"  # type: ignore
+    loc_actions.allow_tags = True  # type: ignore
 
 
 user_inlines = (

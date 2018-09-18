@@ -64,3 +64,29 @@ def test_example_pdf_works(client):
     res = client.get('/loc/example.pdf')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
+
+
+@pytest.mark.skipif(not can_we_render_pdfs(),
+                    reason='PDF generation is unsupported')
+def test_admin_letter_pdf_works(admin_client):
+    user = UserFactory()
+    res = admin_client.get(f'/loc/admin/{user.pk}/letter.pdf')
+    assert res.status_code == 200
+    assert res['Content-Type'] == 'application/pdf'
+
+
+def test_admin_letter_pdf_returns_404_for_nonexistent_users(admin_client):
+    res = admin_client.get(f'/loc/admin/1024/letter.pdf')
+    assert res.status_code == 404
+
+
+@pytest.mark.django_db
+def test_admin_letter_pdf_is_inaccessible_to_non_staff_users(client):
+    user = UserFactory()
+    client.force_login(user)
+
+    # Yes, even the user's own LoC should be forbidden to them.
+    res = client.get(f'/loc/admin/{user.pk}/letter.pdf')
+
+    assert res.status_code == 302
+    assert res.url == f"/login?next=/loc/admin/{user.pk}/letter.pdf"

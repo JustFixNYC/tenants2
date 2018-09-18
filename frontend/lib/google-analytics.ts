@@ -1,5 +1,3 @@
-/* istanbul ignore next: Not much use in unit testing this; typescript is good enough! */
-
 /**
  * An "opaque type" for a Google Analytics (GA) tracking ID that
  * ensures we don't confuse a tracking ID with other kinds
@@ -8,7 +6,7 @@
 type TrackingID = string & {_: 'Google Analytics Tracking ID'};
 
 /** This is used as a placeholder tracking ID when GA isn't configured. */
-const UNKNOWN_TRACKING_ID = 'UNKNOWN' as TrackingID;
+export const UNKNOWN_TRACKING_ID = 'UNKNOWN' as TrackingID;
 
 /**
  * The gtag API is provided by Google Analytics:
@@ -49,12 +47,13 @@ const GA_TRACKING_ID: TrackingID =
  * A safe reference to gtag API we can use. If GA isn't configured,
  * this is essentially a no-op.
  */
-const gtag: GoogleTagAPI = function gtag() {
+export const gtag: GoogleTagAPI = function gtag() {
   if (typeof(window) !== 'undefined' && typeof(window.gtag) === 'function') {
     window.gtag.apply(window, arguments);
   }
 };
 
+/* istanbul ignore next */
 /**
  * If our environment has set gtag but not a tracking ID, something
  * is amiss. Bail!

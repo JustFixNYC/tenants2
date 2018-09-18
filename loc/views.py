@@ -3,9 +3,11 @@ import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
 from django.http import FileResponse, HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 
+from users.models import JustfixUser
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 
@@ -65,10 +67,7 @@ def get_issues(user):
     ]
 
 
-@login_required
-def letter_of_complaint_doc(request, format):
-    user = request.user
-
+def render_letter_of_complaint(request, user: JustfixUser, format: str):
     return render_document(request, 'loc/letter-of-complaint.html', {
         'today': datetime.date.today(),
         'landlord_name': get_landlord_name(user),
@@ -76,6 +75,17 @@ def letter_of_complaint_doc(request, format):
         'access_dates': [date.date for date in user.access_dates.all()],
         'user': user
     }, format)
+
+
+@login_required
+def letter_of_complaint_doc(request, format):
+    return render_letter_of_complaint(request, request.user, format)
+
+
+@permission_required('loc.view_letter_request')
+def letter_of_complaint_pdf_for_user(request, user_id: int):
+    user = get_object_or_404(JustfixUser, pk=user_id)
+    return render_letter_of_complaint(request, user, 'pdf')
 
 
 def template_name_to_pdf_filename(template_name: str) -> str:

@@ -55,6 +55,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If empty (the default), Google Analytics is disabled.
     GA_TRACKING_ID: str = ''
 
+    # The access token for Rollbar. If empty (the default),
+    # Rollbar is disabled.
+    ROLLBAR_ACCESS_TOKEN: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

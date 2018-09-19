@@ -14,6 +14,10 @@ LEGACY_MONGODB_URL = ''
 GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
 GEOCODING_TIMEOUT = 0.001
 
+# Disable a bunch of third-party integrations by default.
+GA_TRACKING_ID = ''
+ROLLBAR_ACCESS_TOKEN = ''
+
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.
 PASSWORD_HASHERS = (

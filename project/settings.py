@@ -83,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'project.context_processors.ga_snippet',
+                'project.context_processors.rollbar_snippet',
             ],
         },
     },
@@ -208,6 +209,8 @@ LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
+ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
+
 CSP_SCRIPT_SRC = [
     "'self'",
     'https://www.google-analytics.com'
@@ -216,6 +219,11 @@ CSP_SCRIPT_SRC = [
 CSP_IMG_SRC = [
     "'self'",
     'https://www.google-analytics.com'
+]
+
+CSP_CONNECT_SRC = [
+    "'self'",
+    'https://api.rollbar.com'
 ]
 
 if DEBUG:

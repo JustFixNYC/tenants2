@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from project.util.admin_util import admin_field
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 from onboarding.admin import OnboardingInline
@@ -40,10 +41,12 @@ class JustfixUserAdmin(UserAdmin):
     )
     inlines = (OnboardingInline, IssueInline, CustomIssueInline) + loc.admin.user_inlines
 
+    @admin_field(
+        short_description="Issues",
+        admin_order_field=ISSUE_COUNT
+    )
     def issue_count(self, obj):
         return getattr(obj, ISSUE_COUNT)
-    issue_count.short_description = "Issues"  # type: ignore
-    issue_count.admin_order_field = ISSUE_COUNT  # type: ignore
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)

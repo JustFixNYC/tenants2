@@ -8,6 +8,7 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
+from loc.models import LOC_MAILING_CHOICES
 import loc.admin
 
 
@@ -66,7 +67,7 @@ class JustfixUserAdmin(UserAdmin):
             MAILING_NEEDED: Count(
                 'letter_request',
                 distinct=True,
-                filter=Q(letter_request__mail_choice='WE_WILL_MAIL')
+                filter=Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL)
             )
         })
         return queryset

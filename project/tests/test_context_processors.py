@@ -33,4 +33,4 @@ def test_ga_snippet_works(client, settings):
     assert "window.GA_TRACKING_ID = 'UA-1234';" in html
     match = re.search(r'script nonce="([^"]+)"', html)
     nonce = match.group(1)
-    assert f"nonce-{nonce}" in res['Content-Security-Policy']
+    assert f"'unsafe-inline' 'nonce-{nonce}" in res['Content-Security-Policy']

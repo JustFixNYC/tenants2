@@ -11,4 +11,7 @@ def test_csp_works_on_static_assets(client, staticfiles):
     assert (staticfiles / 'admin' / 'css' / 'base.css').exists()
     response = client.get('/static/admin/css/base.css')
     assert 200 == response.status_code
-    assert EXPECTED_CSP in response['Content-Security-Policy']
+
+    csp = response['Content-Security-Policy']
+    assert 'unsafe-inline' not in csp
+    assert EXPECTED_CSP in csp

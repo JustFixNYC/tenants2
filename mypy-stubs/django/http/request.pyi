@@ -65,6 +65,9 @@ class HttpRequest:
     # This is a Django user object added by AuthenticationMiddleware.
     user: Any
 
+    # This is provided by our own custom CSP middleware.
+    def allow_inline_script(self, script: str) -> None: ...
+
 class QueryDict(MultiValueDict[str, str]):
     encoding = str  # type: Any
     def __init__(self, query_string: Union[str, bytes, None]=None, mutable: bool=False, encoding: Optional[str]=None) -> None: ...

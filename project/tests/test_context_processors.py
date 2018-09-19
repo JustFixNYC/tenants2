@@ -1,4 +1,3 @@
-import re
 import pytest
 from django.urls import path
 from django.template import RequestContext
@@ -30,7 +29,4 @@ def test_ga_snippet_works(client, settings):
     assert res.status_code == 200
     html = res.content.decode('utf-8')
     assert 'UA-1234' in html
-    assert "window.GA_TRACKING_ID = 'UA-1234';" in html
-    match = re.search(r'script nonce="([^"]+)"', html)
-    nonce = match.group(1)
-    assert f"'unsafe-inline' 'nonce-{nonce}" in res['Content-Security-Policy']
+    assert f"'unsafe-inline' 'sha256-" in res['Content-Security-Policy']

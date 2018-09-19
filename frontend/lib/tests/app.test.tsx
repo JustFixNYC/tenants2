@@ -47,19 +47,20 @@ describe('AppWithoutRouter', () => {
   it('tracks pathname changes in google analytics', () => {
     const { app } = buildApp();
 
-    const mockGtag = jest.fn();
-    window.gtag = mockGtag;
+    const mockGa = jest.fn();
+    window.ga = mockGa;
     try {
       app.handlePathnameChange('/old', '/new');
-      expect(mockGtag.mock.calls).toHaveLength(1);
-      expect(mockGtag.mock.calls[0][2]).toEqual({ page_path: '/new' });
-      mockGtag.mockClear();
+      expect(mockGa.mock.calls).toHaveLength(2);
+      expect(mockGa.mock.calls[0]).toEqual(['set', 'page', '/new']);
+      expect(mockGa.mock.calls[1]).toEqual(['send', 'pageview']);
+      mockGa.mockClear();
 
       // Ensure it doesn't track anything when the pathname doesn't change.
       app.handlePathnameChange('/new', '/new');
-      expect(mockGtag.mock.calls).toHaveLength(0);
+      expect(mockGa.mock.calls).toHaveLength(0);
     } finally {
-      delete window.gtag;
+      delete window.ga;
     }
   });
 

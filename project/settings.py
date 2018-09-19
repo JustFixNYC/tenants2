@@ -58,7 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'project.middleware.CSP1CompatMiddleware',
+    'project.middleware.CSPHashingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -210,15 +210,13 @@ GA_TRACKING_ID = env.GA_TRACKING_ID
 
 CSP_SCRIPT_SRC = [
     "'self'",
-    'https://www.googletagmanager.com',
+    'https://www.google-analytics.com'
 ]
 
 CSP_IMG_SRC = [
     "'self'",
     'https://www.google-analytics.com'
 ]
-
-CSP_INCLUDE_NONCE_IN = ['script-src']
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, get_type_hints
 
 
 def admin_field(
@@ -17,6 +17,25 @@ def admin_field(
     also to ensure that mypy helps us, instead of us
     having to sprinkle all these attribute assignments
     with 'type: ignore' directives.
+
+    It also automatically looks at the type signature
+    of the decorated function, and if it returns a boolean,
+    it lets Django-admin know that. For example, say we
+    have the following field:
+
+        >>> @admin_field(short_description="Is it cool?")
+        ... def is_cool() -> bool:
+        ...     return True
+
+    The decorator has examined the return type and added a
+    'boolean' attribute to the function:
+
+        >>> is_cool.boolean
+        True
+
+    This attribute tells Django's admin to show the field
+    as a colored checkmark rather than the word "True" or
+    "False".
     '''
 
     def decorator(fn):
@@ -26,5 +45,7 @@ def admin_field(
             fn.allow_tags = allow_tags
         if admin_order_field is not None:
             fn.admin_order_field = admin_order_field
+        if get_type_hints(fn).get('return') == bool:
+            fn.boolean = True
         return fn
     return decorator

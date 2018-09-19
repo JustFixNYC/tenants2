@@ -3,6 +3,7 @@ from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
 
+from project.util.admin_util import admin_field
 from . import models
 
 
@@ -36,6 +37,10 @@ class LetterRequestInline(admin.StackedInline):
 
     readonly_fields = ['loc_actions']
 
+    @admin_field(
+        short_description="Letter of complaint actions",
+        allow_tags=True
+    )
     def loc_actions(self, obj):
         if obj.pk is None:
             return 'This user has not yet completed the letter of complaint process.'
@@ -43,8 +48,6 @@ class LetterRequestInline(admin.StackedInline):
             '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
             reverse('loc_for_user', kwargs={'user_id': obj.user.pk})
         )
-    loc_actions.short_description = "Letter of complaint actions"  # type: ignore
-    loc_actions.allow_tags = True  # type: ignore
 
 
 user_inlines = (

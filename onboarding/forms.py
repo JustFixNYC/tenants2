@@ -76,6 +76,8 @@ class OnboardingStep4Form(forms.ModelForm):
 
     confirm_password = forms.CharField()
 
+    agree_to_terms = forms.BooleanField(required=True)
+
     def clean_password(self):
         password = self.cleaned_data['password']
         validate_password(password)

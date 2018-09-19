@@ -27,7 +27,8 @@ VALID_STEP_DATA = {
         'phoneNumber': '5551234567',
         'canWeSms': True,
         'password': 'blarg1234',
-        'confirmPassword': 'blarg1234'
+        'confirmPassword': 'blarg1234',
+        'agreeToTerms': True
     }
 }
 

@@ -18,7 +18,8 @@ STEP_4_FORM_DATA = {
     'phone_number': '555-123-4567',
     'can_we_sms': True,
     'password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
-    'confirm_password': 'iamasuperstrongpassword#@$reowN@#rokeNER'
+    'confirm_password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
+    'agree_to_terms': True,
 }
 
 
@@ -27,6 +28,18 @@ def test_onboarding_step_4_form_works():
     form = OnboardingStep4Form(data=STEP_4_FORM_DATA)
     form.full_clean()
     assert form.errors == {}
+
+
+@pytest.mark.django_db
+def test_onboarding_step_4_form_requires_agreeing_to_terms():
+    form = OnboardingStep4Form(data={
+        **STEP_4_FORM_DATA,
+        'agree_to_terms': False
+    })
+    form.full_clean()
+    assert form.errors == {
+        'agree_to_terms': ['This field is required.']
+    }
 
 
 @pytest.mark.django_db

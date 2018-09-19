@@ -15,7 +15,8 @@ const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
   canWeSms: true,
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  agreeToTerms: false
 };
 
 export function Step4WelcomeModal(): JSX.Element {
@@ -39,6 +40,9 @@ export default class OnboardingStep4 extends React.Component {
         </CheckboxFormField>
         <TextualFormField label="Create a password" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
+        <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
+          I agree to the JustFix terms and conditions, which are currently unspecified.
+        </CheckboxFormField>
         <div className="buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Create account" />

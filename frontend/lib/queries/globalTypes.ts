@@ -82,6 +82,7 @@ export interface OnboardingStep4Input {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
+  agreeToTerms: boolean;
   clientMutationId?: string | null;
 }
 

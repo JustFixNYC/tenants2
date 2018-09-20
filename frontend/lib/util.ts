@@ -85,3 +85,43 @@ export function friendlyDate(date: Date, timeZone: string = PREFERRED_TIME_ZONE)
     }
   }
 }
+
+/**
+ * Call the given callback within the given time period, if it isn't
+ * called earlier.
+ * 
+ * Note that callers should call the return value of this function,
+ * rather than the original callback, as only the return value contains
+ * the bookeeping logic ensuring that the callback is only called once.
+ */
+export function callOnceWithinMs(cb: () => void, timeoutMs: number): () => void {
+  let timeout: number|null = null;
+  const wrapped = () => {
+    if (timeout !== null) {
+      window.clearTimeout(timeout);
+      timeout = null;
+      cb();
+    }
+  };
+  timeout = window.setTimeout(wrapped, timeoutMs);
+  return wrapped;
+}
+
+/**
+ * Given an unknown argument that might be an object with a named property
+ * that is a function, returns said function, or undefined.
+ */
+export function getFunctionProperty(obj: unknown, name: string): Function|undefined {
+  // I thought that it'd be easier to narrow the 'unknown' type here, but
+  // the only way I could accomplish it was by doing the following. But
+  // I really wanted a chance to use the shiny new unknown type!
+  //
+  // So here here we are.
+  if (obj instanceof Object) {
+    const desc = Object.getOwnPropertyDescriptor(obj, name);
+    if (desc && typeof(desc.value) === 'function') {
+      return desc.value;
+    }
+  }
+  return undefined;
+}

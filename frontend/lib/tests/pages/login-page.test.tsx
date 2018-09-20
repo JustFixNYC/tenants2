@@ -2,6 +2,7 @@ import React from 'react';
 import LoginPage, { getQuerystringVar, getPostOrQuerystringVar, performHardOrSoftRedirect, absolutifyURLToOurOrigin } from '../../pages/login-page';
 import { Route } from 'react-router';
 import { AppTesterPal } from '../app-tester-pal';
+import { setHardRedirector } from '../hard-redirect';
 
 test('login page sets "next" input to expected value', () => {
   const pal = new AppTesterPal(<Route component={LoginPage} />, {
@@ -52,10 +53,16 @@ describe('getPostOrQuerystringVar()', () => {
 });
 
 describe('performHardOrSoftRedirect()', () => {
+  let hardRedirect = jest.fn();
+
+  beforeEach(() => {
+    hardRedirect = jest.fn();
+    setHardRedirector(hardRedirect);
+  });
+
   it('performs a soft redirect when the route is known to be in our SPA', () => {
     const push = jest.fn();
-    const hardRedirect = jest.fn();
-    performHardOrSoftRedirect('/login', { push } as any, hardRedirect);
+    performHardOrSoftRedirect('/login', { push } as any);
     expect(hardRedirect.mock.calls.length).toBe(0);
     expect(push.mock.calls.length).toBe(1);
     expect(push.mock.calls[0][0]).toBe('/login');
@@ -63,8 +70,7 @@ describe('performHardOrSoftRedirect()', () => {
 
   it('performs a hard redirect when the route is unknown', () => {
     const push = jest.fn();
-    const hardRedirect = jest.fn();
-    performHardOrSoftRedirect('/loc/letter.pdf', { push } as any, hardRedirect);
+    performHardOrSoftRedirect('/loc/letter.pdf', { push } as any);
     expect(push.mock.calls.length).toBe(0);
     expect(hardRedirect.mock.calls.length).toBe(1);
   });

@@ -20,9 +20,12 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
 
     var_name = 'GA_SNIPPET'
 
+    GA_ORIGIN = 'https://www.google-analytics.com'
+
     csp_updates = {
-        'IMG_SRC': 'https://www.google-analytics.com',
-        'SCRIPT_SRC': 'https://www.google-analytics.com'
+        'IMG_SRC': GA_ORIGIN,
+        'SCRIPT_SRC': GA_ORIGIN,
+        'CONNECT_SRC': GA_ORIGIN
     }
 
     def is_enabled(self):

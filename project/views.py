@@ -45,6 +45,7 @@ class LambdaResponse(NamedTuple):
     bundle_files: List[str]
     modal_html: SafeString
     location: Optional[str]
+    traceback: Optional[str]
 
     # The amount of time rendering took, in milliseconds.
     render_time: int
@@ -62,6 +63,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         status=response['status'],
         bundle_files=response['bundleFiles'],
         location=response['location'],
+        traceback=response['traceback'],
         render_time=render_time
     )
 
@@ -169,6 +171,7 @@ def react_rendered_view(request, url: str):
     if lambda_response.status == 500:
         # It's a 500 error page, don't include any client-side JS.
         bundle_urls = []
+        logger.error(lambda_response.traceback)
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 

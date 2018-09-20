@@ -2,6 +2,7 @@ import React from 'react';
 
 import { DetailedHTMLProps, AnchorHTMLAttributes, MouseEvent } from "react";
 import { Omit, callOnceWithinMs, getFunctionProperty } from "./util";
+import hardRedirect from './tests/hard-redirect';
 
 /**
  * The analytics.js API is provided by Google Analytics:
@@ -77,7 +78,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
       // so let's ensure that we navigate regardless within a reasonable
       // time window to be safe.
       hitCallback: callOnceWithinMs(() => {
-        document.location.href = href;
+        hardRedirect(href);
       }, 1000)
     });
     e.preventDefault();

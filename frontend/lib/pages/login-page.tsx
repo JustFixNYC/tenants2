@@ -11,6 +11,7 @@ import { LoginInput } from '../queries/globalTypes';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType } from '../app-context';
 import { History } from 'history';
+import hardRedirect from '../tests/hard-redirect';
 
 const NEXT = 'next';
 
@@ -23,24 +24,19 @@ export interface LoginFormProps {
   next: string;
 }
 
-/* istanbul ignore next: mocking window.location is unreasonably hard in jest/jsdom. */
-function defaultPerformHardRedirect(redirect: string) {
-  window.location.href = redirect;
-}
-
 /**
  * Based on the type of URL we're given, perform either a "hard" redirect
  * whereby we leave our single-page application (SPA), or a "soft" redirect,
  * in which we stay in our SPA.
  */
-export function performHardOrSoftRedirect(redirect: string, history: History, performHardRedirect = defaultPerformHardRedirect) {
+export function performHardOrSoftRedirect(redirect: string, history: History) {
   if (routeMap.exists(redirect)) {
     history.push(redirect);
   } else {
     // This isn't a route we can serve from this single-page app,
     // but it might be something our underlying Django app can
     // serve, so force a browser refresh.
-    performHardRedirect(redirect);
+    hardRedirect(redirect);
   }
 }
 

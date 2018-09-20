@@ -1,6 +1,7 @@
 import React from 'react';
 import { ga, trackPageView, OutboundLink, handleOutboundLinkClick } from "../google-analytics";
 import ReactTestingLibraryPal from "./rtl-pal";
+import { setHardRedirector } from './hard-redirect';
 
 describe('ga()', () => {
   describe('if window.ga is undefined', () => {
@@ -41,13 +42,16 @@ test('helper functions do not explode', () => {
 
 describe('OutboundLink', () => {
   let ga = jest.fn();
+  let hardRedirect = jest.fn();
 
   beforeEach(() => {
     jest.useFakeTimers();
     window.ga = ga = jest.fn();
+    hardRedirect = jest.fn();
+    setHardRedirector(hardRedirect);
   });
 
-  it('sends hit to GA on click', () => {
+  it('sends hit to GA on click and then redirects', () => {
     const pal = new ReactTestingLibraryPal(
       <OutboundLink href="https://boop.com/">boop</OutboundLink>
     );
@@ -56,6 +60,20 @@ describe('OutboundLink', () => {
     expect(ga.mock.calls[0].slice(0, 5)).toEqual([
       'send', 'event', 'outbound', 'click', 'https://boop.com/'
     ]);
+
+    jest.advanceTimersByTime(400);
+    expect(hardRedirect.mock.calls).toHaveLength(0);
+    ga.mock.calls[0][5].hitCallback();
+    expect(hardRedirect.mock.calls).toEqual([['https://boop.com/']]);
+  });
+
+  it('redirects after a timeout if GA has not responded', () => {
+    const pal = new ReactTestingLibraryPal(
+      <OutboundLink href="https://boop.com/">boop</OutboundLink>
+    );
+    pal.clickButtonOrLink('boop');
+    jest.advanceTimersByTime(1001);
+    expect(hardRedirect.mock.calls).toEqual([['https://boop.com/']]);
   });
 
   it('prevents default click behavior when using GA', () => {

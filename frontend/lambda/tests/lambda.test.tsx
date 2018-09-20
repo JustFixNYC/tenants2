@@ -2,7 +2,7 @@
 
 import { Readable } from 'stream';
 
-import { errorCatchingHandler, handleFromJSONStream, LambdaResponse, isPlainJsObject } from '../lambda';
+import { errorCatchingHandler, handleFromJSONStream, LambdaResponse, isPlainJsObject, getBundleFiles } from '../lambda';
 import { AppProps } from '../../lib/app';
 import { FakeServerInfo, FakeSessionInfo } from '../../lib/tests/util';
 
@@ -17,6 +17,13 @@ test('lambda works', async () => {
   const response = await errorCatchingHandler(fakeAppProps);
   expect(response.status).toBe(200);
   expect(response.location).toBeNull();
+});
+
+test('getBundleFiles() filters out source maps', () => {
+  expect(getBundleFiles([
+    { file: 'boop.js' },
+    { file: 'boop.js.map' }
+  ])).toEqual(['boop.js']);
 });
 
 test('lambda redirects', async () => {

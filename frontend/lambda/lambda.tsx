@@ -78,6 +78,13 @@ function renderAppHtml(
   );
 }
 
+export function getBundleFiles(files: { file: string }[]): string[] {
+  const SOURCE_MAP_RE = /.+\.js\.map$/;
+  return files
+    .filter(bundle => !SOURCE_MAP_RE.test(bundle.file))
+    .map(bundle => bundle.file);
+}
+
 /**
  * Generate the response for a given handler request, including the initial
  * HTML for the requested URL.
@@ -100,7 +107,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
 
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundles(bundleStats, modules).map(bundle => bundle.file);
+    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules));
     let modalHtml = '';
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(

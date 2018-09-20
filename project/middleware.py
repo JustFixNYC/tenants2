@@ -7,6 +7,13 @@ from csp.middleware import CSPMiddleware
 
 
 CspUpdateDict = Dict[str, Union[str, List[str]]]
+SimpleCspUpdateDict = Dict[str, List[str]]
+
+
+def to_str_list(value: Union[str, List[str]]) -> List[str]:
+    if isinstance(value, str):
+        return [value]
+    return value
 
 
 class CSPHashingMiddleware(CSPMiddleware):
@@ -74,18 +81,14 @@ class CSPHashingMiddleware(CSPMiddleware):
         request.allow_inline_script = allow_inline_script
         request.csp_update = partial(self._csp_update, request)
 
-    def _merge_csp_updates(self, csp_updates: List[CspUpdateDict]) -> Dict[str, List[str]]:
-        final_updates: Dict[str, List[str]] = {}
+    def _merge_csp_updates(self, csp_updates: List[CspUpdateDict]) -> SimpleCspUpdateDict:
+        result: SimpleCspUpdateDict = {}
 
         for update in csp_updates:
             for key, value in update.items():
-                if isinstance(value, str):
-                    value = [value]
-                updates = final_updates.get(key, ["'self'"])
-                updates.extend(value)
-                final_updates[key] = updates
+                result[key] = result.get(key, ["'self'"]) + to_str_list(value)
 
-        return final_updates
+        return result
 
     def process_response(self, request, response):
         script_hashes: List[str] = getattr(request, '_csp_script_hashes', [])

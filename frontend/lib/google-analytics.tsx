@@ -65,7 +65,9 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // If any modifier key is pressed, odds are that the user is trying to
   // invoke some browser-specific behavior to e.g. open the link in a
   // new window or tab. We don't want to break that.
-  if (!(e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
+  const isModifierPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+
+  if (!isModifierPressed) {
     const { href } = e.currentTarget;
 
     ga('send', 'event', 'outbound', 'click', href, {

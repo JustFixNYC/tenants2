@@ -9,6 +9,7 @@ import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
+import { OutboundLink } from '../google-analytics';
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -29,7 +30,7 @@ export function Step2EvictionModal(): JSX.Element {
         <p>
           Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
         </p>
-        <a href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</a>
+        <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</OutboundLink>
         <button className="button is-text is-fullwidth" onClick={close}>Continue with letter</button>
       </div>
     )} />

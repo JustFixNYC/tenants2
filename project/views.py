@@ -2,6 +2,8 @@ import time
 import logging
 from typing import NamedTuple, List, Dict, Any, Optional
 from django.http import HttpResponseBadRequest
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import SafeString
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -184,3 +186,23 @@ def react_rendered_view(request, url: str):
         'bundle_urls': bundle_urls,
         'initial_props': initial_props,
     }, status=lambda_response.status)
+
+
+@csrf_exempt
+@require_POST
+def example_server_error(request, id: str):
+    '''
+    This endpoint can be used to test integration with whatever
+    error reporting system is configured.
+    '''
+
+    logger.error(
+        f"This is an example server error log message with id '{id}'. "
+        f"If you can read this, it means errors from the logging system "
+        f"are being reported properly."
+    )
+    raise Exception(
+        f"This is an example server exception with id '{id}'. "
+        f"If you can read this, it means unexpected internal server "
+        f"errors are being reported properly."
+    )

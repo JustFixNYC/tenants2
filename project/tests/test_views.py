@@ -172,3 +172,8 @@ def test_unsuccessful_login_shows_error(django_app):
 
     assert response.status == '200 OK'
     assert 'Invalid phone number or password' in response
+
+
+def test_example_server_error_works(client):
+    with pytest.raises(Exception, match="with id 'boop'"):
+        client.post('/__example-server-error/boop')

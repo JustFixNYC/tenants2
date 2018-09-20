@@ -5,6 +5,7 @@ import { LetterRequestMailChoice } from '../queries/globalTypes';
 import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
 import Page from '../page';
 import { friendlyDate } from '../util';
+import { OutboundLink } from '../google-analytics';
 
 function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest }): JSX.Element {
   const { mailChoice, updatedAt } = props.letterRequest;
@@ -31,7 +32,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <div className="content">
         {letterRequest && <LetterStatus letterRequest={letterRequest} />}
         <p className="has-text-centered">
-          <a href={props.server.locPdfURL} target="_blank" className="button is-text">Download letter (PDF)</a>
+          <OutboundLink href={props.server.locPdfURL} target="_blank" className="button is-text">Download letter (PDF)</OutboundLink>
         </p>
         <h2>What happens next?</h2>
         <p>

@@ -4,6 +4,7 @@ import Page from '../page';
 import { Link, Redirect } from 'react-router-dom';
 import Routes from '../routes';
 import { WhyMailALetterOfComplaint } from '../letter-of-complaint-common';
+import { OutboundLink } from '../google-analytics';
 
 export interface IndexPageProps {
   isLoggedIn: boolean;
@@ -29,7 +30,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         <h2>About JustFix.nyc</h2>
 
         <p>
-          JustFix.nyc is a nonprofit that builds tools for tenants and organizers fighting displacement. We encourage tenants to take affirmative actions to fight for safe and healthy homes. Want to know more? <a href="https://www.justfix.nyc">Visit our website.</a>
+          JustFix.nyc is a nonprofit that builds tools for tenants and organizers fighting displacement. We encourage tenants to take affirmative actions to fight for safe and healthy homes. Want to know more? <OutboundLink href="https://www.justfix.nyc">Visit our website.</OutboundLink>
         </p>
 
         <p><strong>Disclaimer:</strong> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary.</p>

@@ -72,6 +72,16 @@ export function trackPageView(pathname: string) {
   ga('send', 'pageview');
 }
 
+/**
+ * When we call ga(), it's actually possible that GA never loaded,
+ * and window.ga is just the stub in the GA snippet that came with
+ * our page. There are other potential edge cases where our
+ * hit callback might never be called, so let's ensure that we
+ * navigate regardless once the given number of milliseconds
+ * have elapsed, just to be safe.
+ */
+const OUTBOUND_LINK_TIMEOUT_MS = 1000;
+
 /** An event handler executed when a user clicks on an outbound link. */
 export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // If any modifier key is pressed, odds are that the user is trying to
@@ -80,17 +90,17 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   const isModifierPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
 
   if (!isModifierPressed) {
-    const { href } = e.currentTarget;
+    const { href, target } = e.currentTarget;
 
     ga('send', 'event', 'outbound', 'click', href, {
       transport: 'beacon',
-      // It's actually possible that GA never loaded, and window.ga is just
-      // the stub in the GA snippet; there are other potential edge cases,
-      // so let's ensure that we navigate regardless within a reasonable
-      // time window to be safe.
       hitCallback: callOnceWithinMs(() => {
-        hardRedirect(href);
-      }, 1000)
+        if (target) {
+          window.open(href, target);
+        } else {
+          hardRedirect(href);
+        }
+      }, OUTBOUND_LINK_TIMEOUT_MS)
     });
     e.preventDefault();
   }

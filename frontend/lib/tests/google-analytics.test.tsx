@@ -41,14 +41,18 @@ test('helper functions do not explode', () => {
 });
 
 describe('OutboundLink', () => {
-  let ga = jest.fn();
-  let hardRedirect = jest.fn();
+  const gaMock = jest.fn();
+  const hardRedirect = jest.fn();
+  const callHitCallback = () => {
+    gaMock.mock.calls[0][5].hitCallback();
+  };
 
   beforeEach(() => {
     jest.useFakeTimers();
-    window.ga = ga = jest.fn();
-    hardRedirect = jest.fn();
+    window.ga = gaMock;
     setHardRedirector(hardRedirect);
+    gaMock.mockReset();
+    hardRedirect.mockReset();
   });
 
   it('sends hit to GA on click and then redirects', () => {
@@ -56,31 +60,43 @@ describe('OutboundLink', () => {
       <OutboundLink href="https://boop.com/">boop</OutboundLink>
     );
     pal.clickButtonOrLink('boop');
-    expect(ga.mock.calls).toHaveLength(1);
-    expect(ga.mock.calls[0].slice(0, 5)).toEqual([
+    expect(gaMock.mock.calls).toHaveLength(1);
+    expect(gaMock.mock.calls[0].slice(0, 5)).toEqual([
       'send', 'event', 'outbound', 'click', 'https://boop.com/'
     ]);
 
     jest.advanceTimersByTime(400);
     expect(hardRedirect.mock.calls).toHaveLength(0);
-    ga.mock.calls[0][5].hitCallback();
+    callHitCallback();
     expect(hardRedirect.mock.calls).toEqual([['https://boop.com/']]);
+  });
+
+  it('opens link in a new window if "target" prop is set', () => {
+    const mockOpen = jest.fn();
+    window.open = mockOpen;
+    const pal = new ReactTestingLibraryPal(
+      <OutboundLink href="https://bap.com/" target="_blank">bap</OutboundLink>
+    );
+    pal.clickButtonOrLink('bap');
+    callHitCallback();
+    expect(hardRedirect.mock.calls).toHaveLength(0);
+    expect(mockOpen.mock.calls).toEqual([['https://bap.com/', '_blank']]);
   });
 
   it('redirects after a timeout if GA has not responded', () => {
     const pal = new ReactTestingLibraryPal(
-      <OutboundLink href="https://boop.com/">boop</OutboundLink>
+      <OutboundLink href="https://blorp.com/">blorp</OutboundLink>
     );
-    pal.clickButtonOrLink('boop');
+    pal.clickButtonOrLink('blorp');
     jest.advanceTimersByTime(1001);
-    expect(hardRedirect.mock.calls).toEqual([['https://boop.com/']]);
+    expect(hardRedirect.mock.calls).toEqual([['https://blorp.com/']]);
   });
 
   it('prevents default click behavior when using GA', () => {
     const preventDefault = jest.fn();
     const e = { currentTarget: { href: 'blah' }, preventDefault } as any;
     handleOutboundLinkClick(e);
-    expect(ga.mock.calls).toHaveLength(1);
+    expect(gaMock.mock.calls).toHaveLength(1);
     expect(preventDefault.mock.calls).toHaveLength(1);
   });
 
@@ -88,7 +104,7 @@ describe('OutboundLink', () => {
     const preventDefault = jest.fn();
     const e = { shiftKey: true, preventDefault } as any;
     handleOutboundLinkClick(e);
-    expect(ga.mock.calls).toHaveLength(0);
+    expect(gaMock.mock.calls).toHaveLength(0);
     expect(preventDefault.mock.calls).toHaveLength(0);
   });
 });

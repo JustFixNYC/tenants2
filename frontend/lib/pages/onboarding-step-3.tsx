@@ -10,6 +10,7 @@ import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { DjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal } from '../modal';
+import { OutboundLink } from '../google-analytics';
 
 export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
 const NEXT_STEP = Routes.onboarding.step4;
@@ -64,7 +65,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
       <LeaseInfoModal title="Not sure about your lease?">
         <p>If you aren't sure, check your lease.</p>
         <p>You can also request a copy of your rental history via email from the Division of Housing and Community Renewal. This is a private request and you'll get a letter in the mail in about a week; the landlord will never know.</p>
-        <p>For more details, visit <a href="https://amirentstabilized.com/">amirentstabilized.com</a>.</p>
+        <p>For more details, visit <OutboundLink href="https://amirentstabilized.com/">amirentstabilized.com</OutboundLink>.</p>
       </LeaseInfoModal>
     )
   },

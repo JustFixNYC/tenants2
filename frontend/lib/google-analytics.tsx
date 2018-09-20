@@ -82,6 +82,15 @@ export function trackPageView(pathname: string) {
  */
 const OUTBOUND_LINK_TIMEOUT_MS = 1000;
 
+/** Follow the given link. */
+function follow(href: string, target: string) {
+  if (target) {
+    window.open(href, target);
+  } else {
+    hardRedirect(href);
+  }
+}
+
 /** An event handler executed when a user clicks on an outbound link. */
 export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // If any modifier key is pressed, odds are that the user is trying to
@@ -94,13 +103,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
 
     ga('send', 'event', 'outbound', 'click', href, {
       transport: 'beacon',
-      hitCallback: callOnceWithinMs(() => {
-        if (target) {
-          window.open(href, target);
-        } else {
-          hardRedirect(href);
-        }
-      }, OUTBOUND_LINK_TIMEOUT_MS)
+      hitCallback: callOnceWithinMs(() => follow(href, target), OUTBOUND_LINK_TIMEOUT_MS)
     });
     e.preventDefault();
   }

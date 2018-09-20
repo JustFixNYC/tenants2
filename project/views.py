@@ -206,3 +206,7 @@ def example_server_error(request, id: str):
         f"If you can read this, it means unexpected internal server "
         f"errors are being reported properly."
     )
+
+
+def redirect_favicon(request):
+    return redirect(f'{settings.STATIC_URL}favicon.ico')

@@ -177,3 +177,9 @@ def test_unsuccessful_login_shows_error(django_app):
 def test_example_server_error_works(client):
     with pytest.raises(Exception, match="with id 'boop'"):
         client.post('/__example-server-error/boop')
+
+
+def test_favicon_works(client, staticfiles):
+    res = client.get('/favicon.ico', follow=True)
+    assert res.status_code == 200
+    assert res['Content-Type'] == 'image/x-icon'

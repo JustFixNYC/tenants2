@@ -18,12 +18,13 @@ from django.urls import path, re_path, include
 from django.conf import settings
 from graphene_django.views import GraphQLView
 
-from .views import react_rendered_view, example_server_error
+from .views import react_rendered_view, example_server_error, redirect_favicon
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('loc/', include('loc.urls')),
+    path('favicon.ico', redirect_favicon),
     path('__example-server-error/<slug:id>', example_server_error),
     path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
 ]

@@ -4,8 +4,7 @@ from django.template import RequestContext
 from django.template import Template
 from django.http import HttpResponse
 
-from project.context_processors import (
-    ga_snippet, rollbar_snippet, get_rollbar_js_url)
+from project.context_processors import ga_snippet, rollbar_snippet
 
 
 def show_ga_snippet(request):
@@ -25,11 +24,14 @@ urlpatterns = [
 
 
 def test_ga_snippet_is_empty_when_tracking_id_is_not_set(settings):
-    assert ga_snippet(None) == ''
+    assert ga_snippet(None) == {}
 
 
-def ensure_response_sets_csp(res):
-    assert f"'unsafe-inline' 'sha256-" in res['Content-Security-Policy']
+def ensure_response_sets_csp(res, *args):
+    csp = res['Content-Security-Policy']
+    assert f"'unsafe-inline' 'sha256-" in csp
+    for arg in args:
+        assert arg in csp
 
 
 @pytest.mark.urls(__name__)
@@ -39,11 +41,11 @@ def test_ga_snippet_works(client, settings):
     assert res.status_code == 200
     html = res.content.decode('utf-8')
     assert 'UA-1234' in html
-    ensure_response_sets_csp(res)
+    ensure_response_sets_csp(res, 'google-analytics.com')
 
 
 def test_rollbar_snippet_is_empty_when_access_token_is_not_set(settings):
-    assert rollbar_snippet(None) == ''
+    assert rollbar_snippet(None) == {}
 
 
 @pytest.mark.urls(__name__)
@@ -57,7 +59,7 @@ def test_rollbar_snippet_works(client, settings):
     res, html = get_html()
     assert 'accessToken: "boop"' in html
     assert 'environment: "production"' in html
-    ensure_response_sets_csp(res)
+    ensure_response_sets_csp(res, 'rollbar.com')
 
     settings.DEBUG = True
     res, html = get_html()
@@ -65,6 +67,7 @@ def test_rollbar_snippet_works(client, settings):
 
 
 def test_rollbar_js_url_exists(staticfiles, client):
-    res = client.get(get_rollbar_js_url())
+    url = rollbar_snippet.get_context()['rollbar_js_url']
+    res = client.get(url)
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/javascript; charset="utf-8"'

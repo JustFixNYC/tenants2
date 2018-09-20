@@ -211,21 +211,6 @@ GA_TRACKING_ID = env.GA_TRACKING_ID
 
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 
-CSP_SCRIPT_SRC = [
-    "'self'",
-    'https://www.google-analytics.com'
-]
-
-CSP_IMG_SRC = [
-    "'self'",
-    'https://www.google-analytics.com'
-]
-
-CSP_CONNECT_SRC = [
-    "'self'",
-    'https://api.rollbar.com'
-]
-
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (
         # The webpack-bundle-analyzer report contains inline JS

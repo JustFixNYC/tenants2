@@ -1,9 +1,19 @@
 import base64
 from functools import partial
 from hashlib import sha256
+from typing import Dict, List, Union
 
 from csp.middleware import CSPMiddleware
-from csp.decorators import csp_update
+
+
+CspUpdateDict = Dict[str, Union[str, List[str]]]
+SimpleCspUpdateDict = Dict[str, List[str]]
+
+
+def to_str_list(value: Union[str, List[str]]) -> List[str]:
+    if isinstance(value, str):
+        return [value]
+    return value
 
 
 class CSPHashingMiddleware(CSPMiddleware):
@@ -20,6 +30,11 @@ class CSPHashingMiddleware(CSPMiddleware):
 
     Your HttpResponse can then include an inline script
     with that content, and it will be run on all browsers.
+
+    Additionally, the 'csp_update' method is available on
+    requests, which allows CSP updates to be made, e.g.:
+
+        request.csp_update(SCRIPT_SRC='https://blah.com')
 
     Notes on CSP 1.0 support
     ------------------------
@@ -55,16 +70,38 @@ class CSPHashingMiddleware(CSPMiddleware):
         prev = getattr(request, '_csp_script_hashes', [])
         setattr(request, '_csp_script_hashes', prev + [hashval])
 
+    def _csp_update(self, request, **kwargs):
+        update = dict((k.lower().replace('_', '-'), v) for k, v in kwargs.items())
+        prev = getattr(request, '_csp_updates', [])
+        setattr(request, '_csp_updates', prev + [update])
+
     def process_request(self, request):
         super().process_request(request)
         allow_inline_script = partial(self._allow_inline_script, request)
         request.allow_inline_script = allow_inline_script
+        request.csp_update = partial(self._csp_update, request)
+
+    def _merge_csp_updates(self, csp_updates: List[CspUpdateDict]) -> SimpleCspUpdateDict:
+        result: SimpleCspUpdateDict = {}
+
+        for update in csp_updates:
+            for key, value in update.items():
+                result[key] = result.get(key, ["'self'"]) + to_str_list(value)
+
+        return result
 
     def process_response(self, request, response):
-        script_hashes = getattr(request, '_csp_script_hashes', [])
+        script_hashes: List[str] = getattr(request, '_csp_script_hashes', [])
+        csp_updates: List[CspUpdateDict] = getattr(
+            request, '_csp_updates', [])
+        response_csp_update: CspUpdateDict = getattr(
+            response, '_csp_update', {})
+
+        csp_updates.append(response_csp_update)
 
         if script_hashes:
-            all_updates = ["'unsafe-inline'"] + script_hashes
-            csp_update(SCRIPT_SRC=all_updates)(lambda: response)()
+            csp_updates.append({'script-src': ["'unsafe-inline'"] + script_hashes})
+
+        setattr(response, '_csp_update', self._merge_csp_updates(csp_updates))
 
         return super().process_response(request, response)

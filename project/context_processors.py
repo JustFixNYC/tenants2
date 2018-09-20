@@ -1,69 +1,75 @@
 from pathlib import Path
 from django.conf import settings
-from django.utils.functional import SimpleLazyObject
-from django.utils.safestring import SafeString
 
-
-GA_INLINE_SCRIPT = """\
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', '%(GA_TRACKING_ID)s', 'auto');
-ga('send', 'pageview');
-""".strip()
-
-
-def ga_snippet(request):
-    if not settings.GA_TRACKING_ID:
-        return ''
-
-    def _get_val():
-        inline_script = GA_INLINE_SCRIPT % {
-            'GA_TRACKING_ID': settings.GA_TRACKING_ID
-        }
-        request.allow_inline_script(inline_script)
-        return SafeString(f"<script>{inline_script}</script>")
-
-    return {'GA_SNIPPET': SimpleLazyObject(_get_val)}
+from project.util.js_snippet import JsSnippetContextProcessor
 
 
 MY_DIR = Path(__file__).parent.resolve()
 
-ROLLBAR_SNIPPET_JS = MY_DIR / 'static' / 'vendor' / 'rollbar-snippet.min.js'
 
-ROLLBAR_INLINE_SCRIPT = """\
-var _rollbarConfig = {
-    accessToken: "%(ROLLBAR_ACCESS_TOKEN)s",
-    rollbarJsUrl: "%(rollbar_js_url)s",
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    payload: {
-        environment: "%(environment)s"
+class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
+    template = '''
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '%(GA_TRACKING_ID)s', 'auto');
+    ga('send', 'pageview');
+    '''
+
+    var_name = 'GA_SNIPPET'
+
+    csp_updates = {
+        'IMG_SRC': 'https://www.google-analytics.com',
+        'SCRIPT_SRC': 'https://www.google-analytics.com'
     }
-};
-// Rollbar Snippet
-""" + ROLLBAR_SNIPPET_JS.read_text() + """
-// End Rollbar Snippet
-""".strip()  # noqa
+
+    def is_enabled(self):
+        return settings.GA_TRACKING_ID
+
+    def get_context(self):
+        return {
+            'GA_TRACKING_ID': settings.GA_TRACKING_ID
+        }
 
 
-def get_rollbar_js_url():
-    return f'{settings.STATIC_URL}vendor/rollbar-2.4.6.min.js'
+ga_snippet = GoogleAnalyticsSnippet()
 
 
-def rollbar_snippet(request):
-    if not settings.ROLLBAR_ACCESS_TOKEN:
-        return ''
+class RollbarSnippet(JsSnippetContextProcessor):
+    SNIPPET_JS = MY_DIR / 'static' / 'vendor' / 'rollbar-snippet.min.js'
 
-    def _get_val():
-        inline_script = ROLLBAR_INLINE_SCRIPT % {
+    template = """\
+    var _rollbarConfig = {
+        accessToken: "%(ROLLBAR_ACCESS_TOKEN)s",
+        rollbarJsUrl: "%(rollbar_js_url)s",
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        payload: {
+            environment: "%(environment)s"
+        }
+    };
+    // Rollbar Snippet
+    """ + SNIPPET_JS.read_text() + """
+    // End Rollbar Snippet
+    """
+
+    csp_updates = {
+        'CONNECT_SRC': 'https://api.rollbar.com'
+    }
+
+    var_name = 'ROLLBAR_SNIPPET'
+
+    def is_enabled(self):
+        return settings.ROLLBAR_ACCESS_TOKEN
+
+    def get_context(self):
+        return {
             'ROLLBAR_ACCESS_TOKEN': settings.ROLLBAR_ACCESS_TOKEN,
             'environment': 'development' if settings.DEBUG else 'production',
-            'rollbar_js_url': get_rollbar_js_url()
+            'rollbar_js_url': f'{settings.STATIC_URL}vendor/rollbar-2.4.6.min.js'
         }
-        request.allow_inline_script(inline_script)
-        return SafeString(f"<script>{inline_script}</script>")
 
-    return {'ROLLBAR_SNIPPET': SimpleLazyObject(_get_val)}
+
+rollbar_snippet = RollbarSnippet()

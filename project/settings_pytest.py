@@ -17,6 +17,10 @@ GEOCODING_TIMEOUT = 0.001
 # Disable a bunch of third-party integrations by default.
 GA_TRACKING_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
+ROLLBAR = {}  # type: ignore
+LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
+    'class': 'logging.NullHandler'
+}
 
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.

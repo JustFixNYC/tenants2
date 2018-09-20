@@ -146,6 +146,11 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
+        'rollbar': {
+            # This will be replaced by a real handler if Rollbar is enabled.
+            'level': 'ERROR',
+            'class': 'logging.NullHandler'
+        },
         'console': {
             'class': 'logging.StreamHandler',
         },
@@ -164,7 +169,7 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['console'],
+            'handlers': ['console', 'rollbar'],
             'level': 'INFO',
         },
         'django': {
@@ -209,7 +214,21 @@ LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
+# If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
+
+if env.ROLLBAR_SERVER_ACCESS_TOKEN:
+    # The following will enable Rollbar on the server-side.
+    ROLLBAR = {
+        'access_token': env.ROLLBAR_SERVER_ACCESS_TOKEN,
+        'environment': 'development' if DEBUG else 'production',
+        'root': str(BASE_DIR),
+    }
+    LOGGING['handlers']['rollbar'].update({    # type: ignore
+        'class': 'rollbar.logger.RollbarHandler'
+    })
+    MIDDLEWARE.append(
+        'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

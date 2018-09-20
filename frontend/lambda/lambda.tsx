@@ -40,6 +40,9 @@ export interface LambdaResponse {
 
   /** The location to redirect to, if the status is 301 or 302. */
   location: string|null;
+
+  /** The error traceback, if the status is 500. */
+  traceback: string|null;
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -117,7 +120,8 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
       status: context.statusCode,
       bundleFiles,
       modalHtml,
-      location
+      location,
+      traceback: null
     });
   });
 }
@@ -148,8 +152,6 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  */
 export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
-    console.error(error);
-
     const html = ReactDOMServer.renderToStaticMarkup(
       <ErrorDisplay
         debug={event.server.debug}
@@ -164,7 +166,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       status: 500,
       bundleFiles: [],
       modalHtml: '',
-      location: null
+      location: null,
+      traceback: error.stack
     };
   });
 }

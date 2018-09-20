@@ -27,6 +27,7 @@ graphene-django = "*"
 pymongo = "*"
 pydantic = "*"
 requests = "*"
+rollbar = "*"
 
 [requires]
 python_version = "3.7"

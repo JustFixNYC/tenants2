@@ -33,6 +33,23 @@ declare global {
   }
 }
 
+/**
+ * For the most part, ga() is just a "fire and forget" function,
+ * but sometimes we need to pass it callbacks that it calls
+ * after it's registered a "hit" with GA. When we don't actually
+ * have GA configured, though, we want to simulate this
+ * behavior, so the following helper can be used to call
+ * any hit callbacks that have been passed to our ga() stub.
+ */
+function callAnyHitCallbacks(args: unknown[]) {
+  for (let arg of args) {
+    const hitCallback = getFunctionProperty(arg, 'hitCallback');
+    if (hitCallback) {
+      setTimeout(hitCallback, 0);
+    }
+  }
+}
+
 /** 
  * A safe reference to a GA API we can use. If GA isn't configured,
  * this is largely a no-op.
@@ -41,13 +58,7 @@ export const ga: GoogleAnalyticsAPI = function ga() {
   if (typeof(window) !== 'undefined' && typeof(window.ga) === 'function') {
     window.ga.apply(window, arguments);
   } else {
-    // If anything passed a hit callback, just call it immediately.
-    Array.from(arguments).forEach((arg: unknown) => {
-      const hitCallback = getFunctionProperty(arg, 'hitCallback');
-      if (hitCallback) {
-        setTimeout(hitCallback, 0);
-      }
-    });
+    callAnyHitCallbacks(Array.from(arguments));
   }
 };
 

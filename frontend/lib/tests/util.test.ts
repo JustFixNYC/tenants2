@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -60,4 +60,44 @@ describe('friendlyDate()', () => {
     expect(friendlyDate(new Date(dateStr), 'America/New_York'))
       .toMatch(/Jan 0/);
   });
+});
+
+describe('callOnceWithinMs()', () => {
+  beforeEach(() => { jest.useFakeTimers(); });
+
+  it('calls the callback if the given time has elapsed', () => {
+    const cb = jest.fn();
+    callOnceWithinMs(cb, 100);
+    jest.advanceTimersByTime(200);
+    expect(cb.mock.calls).toHaveLength(1);
+  });
+
+  it('does not call the callback if it has already been called', () => {
+    const cb = jest.fn();
+    const wrapper = callOnceWithinMs(cb, 1000);
+    jest.advanceTimersByTime(200);
+    wrapper();
+    expect(cb.mock.calls).toHaveLength(1);
+    jest.advanceTimersByTime(2000);
+    expect(cb.mock.calls).toHaveLength(1);
+  });
+
+  it('ensures the callback can only be called once by clients', () => {
+    const cb = jest.fn();
+    const wrapper = callOnceWithinMs(cb, 1000);
+    wrapper();
+    wrapper();
+    expect(cb.mock.calls).toHaveLength(1);
+  });
+});
+
+test('getFunctionProperty() works', () => {
+  const fn = () => {};
+
+  for (let thing of [{}, fn, { fn }, null, undefined]) {
+    expect(getFunctionProperty(thing, 'blop')).toBeUndefined();
+  }
+
+  expect(getFunctionProperty({ blop: fn }, 'blop')).toBe(fn);
+  expect(getFunctionProperty({ fn }, 'fn')).toBe(fn);
 });

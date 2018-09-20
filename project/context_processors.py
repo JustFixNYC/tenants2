@@ -20,6 +20,11 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
 
     var_name = 'GA_SNIPPET'
 
+    csp_updates = {
+        'IMG_SRC': 'https://www.google-analytics.com',
+        'SCRIPT_SRC': 'https://www.google-analytics.com'
+    }
+
     def is_enabled(self):
         return settings.GA_TRACKING_ID
 
@@ -49,6 +54,10 @@ class RollbarSnippet(JsSnippetContextProcessor):
     """ + SNIPPET_JS.read_text() + """
     // End Rollbar Snippet
     """
+
+    csp_updates = {
+        'CONNECT_SRC': 'https://api.rollbar.com'
+    }
 
     var_name = 'ROLLBAR_SNIPPET'
 

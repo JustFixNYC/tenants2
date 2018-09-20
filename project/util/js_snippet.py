@@ -6,6 +6,8 @@ from django.http import HttpRequest
 from django.utils.safestring import SafeString
 from django.utils.functional import SimpleLazyObject
 
+from project.middleware import CspUpdateDict
+
 
 class JsSnippetContextProcessor(metaclass=abc.ABCMeta):
     '''
@@ -39,6 +41,18 @@ class JsSnippetContextProcessor(metaclass=abc.ABCMeta):
 
         pass
 
+    @property
+    def csp_updates(self) -> CspUpdateDict:
+        '''
+        A dictionary of CSP updates to apply to the CSP policy, if
+        any. The dictionary should be structured like the keyword
+        arguments to the @csp_update decorator from django-csp:
+
+            https://django-csp.readthedocs.io/en/latest/decorators.html#csp-update
+        '''
+
+        return {}
+
     def is_enabled(self) -> bool:
         '''
         Whether or not the JS snippet is enabled. This should return False
@@ -63,6 +77,7 @@ class JsSnippetContextProcessor(metaclass=abc.ABCMeta):
 
         inline_script = self._template % self.get_context()
         request.allow_inline_script(inline_script)
+        request.csp_update(**self.csp_updates)
         return SafeString(f"<script>{inline_script}</script>")
 
     def __call__(self, request: HttpRequest) -> Dict[str, str]:

@@ -27,8 +27,11 @@ def test_ga_snippet_is_empty_when_tracking_id_is_not_set(settings):
     assert ga_snippet(None) == {}
 
 
-def ensure_response_sets_csp(res):
-    assert f"'unsafe-inline' 'sha256-" in res['Content-Security-Policy']
+def ensure_response_sets_csp(res, *args):
+    csp = res['Content-Security-Policy']
+    assert f"'unsafe-inline' 'sha256-" in csp
+    for arg in args:
+        assert arg in csp
 
 
 @pytest.mark.urls(__name__)
@@ -38,7 +41,7 @@ def test_ga_snippet_works(client, settings):
     assert res.status_code == 200
     html = res.content.decode('utf-8')
     assert 'UA-1234' in html
-    ensure_response_sets_csp(res)
+    ensure_response_sets_csp(res, 'google-analytics.com')
 
 
 def test_rollbar_snippet_is_empty_when_access_token_is_not_set(settings):
@@ -56,7 +59,7 @@ def test_rollbar_snippet_works(client, settings):
     res, html = get_html()
     assert 'accessToken: "boop"' in html
     assert 'environment: "production"' in html
-    ensure_response_sets_csp(res)
+    ensure_response_sets_csp(res, 'rollbar.com')
 
     settings.DEBUG = True
     res, html = get_html()

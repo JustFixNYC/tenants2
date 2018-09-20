@@ -24,6 +24,11 @@ class CSPHashingMiddleware(CSPMiddleware):
     Your HttpResponse can then include an inline script
     with that content, and it will be run on all browsers.
 
+    Additionally, the 'csp_update' method is available on
+    requests, which allows CSP updates to be made, e.g.:
+
+        request.csp_update(SCRIPT_SRC='https://blah.com')
+
     Notes on CSP 1.0 support
     ------------------------
 
@@ -76,7 +81,7 @@ class CSPHashingMiddleware(CSPMiddleware):
             for key, value in update.items():
                 if isinstance(value, str):
                     value = [value]
-                updates = final_updates.get(key, [])
+                updates = final_updates.get(key, ["'self'"])
                 updates.extend(value)
                 final_updates[key] = updates
 

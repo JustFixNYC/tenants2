@@ -23,7 +23,7 @@ describe('onboarding step 1 page', () => {
   });
 
   it('opens confirmation modal if address returned from server is different', async () => {
-    const pal = new AppTesterPal(<OnboardingStep1 />);
+    const pal = new AppTesterPal(<OnboardingStep1 disableProgressiveEnhancement />);
     pal.fillFormFields([
       [/full name/i, 'boop jones'],
       [/address/i, '150 court'],

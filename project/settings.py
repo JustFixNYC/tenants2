@@ -230,6 +230,11 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 
+CSP_CONNECT_SRC = [
+    "'self'",
+    "https://geosearch.planninglabs.nyc"
+]
+
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (
         # The webpack-bundle-analyzer report contains inline JS

@@ -70,6 +70,7 @@
     "babel-preset-env": "^1.7.0",
     "bulma": "^0.7.1",
     "classnames": "^2.2.6",
+    "downshift": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
     "node-sass": "^4.9.3",
     "react": "^16.4.2",

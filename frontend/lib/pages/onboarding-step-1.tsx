@@ -9,27 +9,13 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
-import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 import { TextualFormField, SelectFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
-
-const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
-
-/**
- * The keys here were obtained experimentally, I'm not actually sure
- * if/where they are formally specified.
- */
-const BOROUGH_GID_TO_CHOICE: { [key: string]: string|undefined } = {
-  'whosonfirst:borough:1': 'MANHATTAN',
-  'whosonfirst:borough:2': 'BRONX',
-  'whosonfirst:borough:3': 'BROOKLYN',
-  'whosonfirst:borough:4': 'QUEENS',
-  'whosonfirst:borough:5': 'STATEN_ISLAND',
-};
+import { getBoroughLabel, BOROUGH_CHOICES } from '../boroughs';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -61,9 +47,7 @@ export function Step1AddressModal(): JSX.Element {
 
 export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.Element => {
   const onboardingStep1 = props.session.onboardingStep1 || blankInitialState;
-  const borough = onboardingStep1.borough
-    ? getDjangoChoiceLabel(BOROUGH_CHOICES, onboardingStep1.borough)
-    : '';
+  const borough = getBoroughLabel(onboardingStep1.borough) || '';
 
   return (
     <Modal title="Is this your address?" onCloseGoBack render={({close}) => (
@@ -137,10 +121,10 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             if (isEnhanced && !this.props.disableProgressiveEnhancement) {
               const addressProps = ctx.fieldPropsFor('address');
               const boroughProps = ctx.fieldPropsFor('borough');
+              const borough = getBoroughLabel(boroughProps.value) || '';
               let initialValue = '';
 
-              if (addressProps.value && boroughProps.value) {
-                const borough = getDjangoChoiceLabel(BOROUGH_CHOICES, boroughProps.value);
+              if (addressProps.value && borough) {
                 initialValue = `${addressProps.value}, ${borough}`;
               }
 
@@ -148,8 +132,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
                 label="What is your address?"
                 initialValue={initialValue}
                 onChange={selection => {
-                  addressProps.onChange(selection.name);
-                  boroughProps.onChange(BOROUGH_GID_TO_CHOICE[selection.borough_gid] || '');
+                  addressProps.onChange(selection.address);
+                  boroughProps.onChange(selection.borough || '');
                 }}
               />;
             } else {

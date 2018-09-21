@@ -2,8 +2,24 @@ import React from 'react';
 import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
+import { BoroughChoice } from './boroughs';
 
-type GeoAutocompleteItem = GeoSearchProperties;
+/**
+ * The keys here were obtained experimentally, I'm not actually sure
+ * if/where they are formally specified.
+ */
+const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
+  'whosonfirst:borough:1': BoroughChoice.MANHATTAN,
+  'whosonfirst:borough:2': BoroughChoice.BRONX,
+  'whosonfirst:borough:3': BoroughChoice.BROOKLYN,
+  'whosonfirst:borough:4': BoroughChoice.QUEENS,
+  'whosonfirst:borough:5': BoroughChoice.STATEN_ISLAND,
+};
+
+type GeoAutocompleteItem = {
+  address: string;
+  borough?: BoroughChoice;
+};
 
 interface GeoAutocompleteProps {
   label: string;
@@ -37,7 +53,7 @@ interface GeoSearchResults {
 }
 
 interface GeoAutocompleteState {
-  results: GeoAutocompleteItem[];
+  results: GeoSearchProperties[];
 }
 
 /**
@@ -70,7 +86,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     this.abortController = new AbortController();
   }
 
-  renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
+  renderAutocomplete(ds: ControllerStateAndHelpers<GeoSearchProperties>): JSX.Element {
     return (
       <div className="field jf-autocomplete-field">
         <label className="label" {...ds.getLabelProps()}>{this.props.label}</label>
@@ -146,15 +162,23 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
+  @autobind
+  handleChange(value: GeoSearchProperties) {
+    this.props.onChange({
+      address: value.name,
+      borough: BOROUGH_GID_TO_CHOICE[value.borough_gid]
+    });
+  }
+
   componentWillUnmount() {
     this.resetSearchRequest();
   }
 
   render() {
-    const GeoAutocomplete = Downshift as DownshiftInterface<GeoAutocompleteItem>;
+    const GeoAutocomplete = Downshift as DownshiftInterface<GeoSearchProperties>;
     return (
       <GeoAutocomplete
-        onChange={this.props.onChange}
+        onChange={this.handleChange}
         onInputValueChange={this.handleInputValueChange}
         defaultInputValue={this.props.initialValue}
         itemToString={item => item ? `${item.name}, ${item.borough}` : ''}

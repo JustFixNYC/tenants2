@@ -133,6 +133,9 @@ const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
  */
 const GEO_AUTOCOMPLETE_URL = 'https://geosearch.planninglabs.nyc/v1/autocomplete';
 
+/** The maximum number of autocomplete suggestions to show. */
+const MAX_SUGGESTIONS = 5;
+
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
   keyThrottleTimeout: number|null;
   abortController: AbortController;
@@ -153,7 +156,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className="control">
           <input className="input" {...ds.getInputProps()} />
           <ul className={classnames({
-            'jf-autocomplete-open': ds.isOpen
+            'jf-autocomplete-open': ds.isOpen && this.state.results.length > 0
           })} {...ds.getMenuProps()}>
             {ds.isOpen &&
               this.state.results
@@ -170,7 +173,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
                   return (
                     <li {...props}>
-                      {item.label}
+                      {item.name}, {item.borough}
                     </li>
                   );
                 })
@@ -201,7 +204,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   @autobind
   handleSearchResults(results: GeoSearchResults) {
-    this.setState({ results: results.features.map(feature => feature.properties) });
+    this.setState({
+      results: results.features.map(feature => feature.properties).slice(0, MAX_SUGGESTIONS)
+    });
   }
 
   @autobind

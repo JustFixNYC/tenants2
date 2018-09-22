@@ -1,14 +1,20 @@
 import React from 'react';
+import autobind from 'autobind-decorator';
 
 interface ProgressiveEnhancementProps {
-  renderEnhanced: () => JSX.Element;
+  renderEnhanced: (ctx: ProgressiveEnhancementContext) => JSX.Element;
   renderBaseline: () => JSX.Element;
   disabled?: boolean;
 }
 
 interface ProgressiveEnhancementState {
   isMounted: boolean;
-  caughtError: boolean;
+  hasCaughtError: boolean;
+  hasFallenback: boolean;
+}
+
+interface ProgressiveEnhancementContext {
+  fallbackToBaseline: () => void;
 }
 
 export class ProgressiveEnhancement extends React.Component<ProgressiveEnhancementProps, ProgressiveEnhancementState> {
@@ -16,13 +22,14 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
     super(props);
     this.state = {
       isMounted: false,
-      caughtError: false
+      hasCaughtError: false,
+      hasFallenback: false
     };
   }
 
   componentDidCatch(error: Error) {
     if (this.isEnhanced()) {
-      this.setState({ caughtError: true });
+      this.setState({ hasCaughtError: true });
     } else {
       throw error;
     }
@@ -32,13 +39,25 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
     this.setState({ isMounted: true });
   }
 
+  @autobind
+  fallbackToBaseline() {
+    this.setState({ hasFallenback: true });
+  }
+
   isEnhanced() {
-    return this.state.isMounted && !this.props.disabled && !this.state.caughtError;
+    return (
+      this.state.isMounted &&
+      !this.props.disabled &&
+      !this.state.hasCaughtError &&
+      !this.state.hasFallenback
+    );
   }
 
   render() {
     if (this.isEnhanced()) {
-      return this.props.renderEnhanced();
+      return this.props.renderEnhanced({
+        fallbackToBaseline: this.fallbackToBaseline
+      });
     } else {
       return this.props.renderBaseline();
     }

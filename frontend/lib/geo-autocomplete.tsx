@@ -25,6 +25,7 @@ interface GeoAutocompleteProps {
   label: string;
   initialValue: string;
   onChange: (item: GeoAutocompleteItem) => void;
+  onNetworkError: (err: Error) => void;
 };
 
 interface GeoSearchProperties {
@@ -135,7 +136,11 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     if (e instanceof DOMException && e.name === 'AbortError') {
       // Don't worry about it, the user just aborted the request.
     } else {
-      console.error('Alas, an error occurred: ', e);
+      // TODO: It would be nice if we could further differentiate
+      // between a "you aren't connected to the internet"
+      // error versus a "you issued a bad request" error, so that
+      // we could report the error if it's the latter.
+      this.props.onNetworkError(e);
     }
   }
 

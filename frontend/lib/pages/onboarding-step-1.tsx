@@ -106,7 +106,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
               />
             </React.Fragment>
           )}
-          renderEnhanced={() => {
+          renderEnhanced={({ fallbackToBaseline }) => {
             const addressProps = ctx.fieldPropsFor('address');
             const boroughProps = ctx.fieldPropsFor('borough');
             const borough = getBoroughLabel(boroughProps.value) || '';
@@ -123,6 +123,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
                 addressProps.onChange(selection.address);
                 boroughProps.onChange(selection.borough || '');
               }}
+              onNetworkError={fallbackToBaseline}
             />;
           }}
         />

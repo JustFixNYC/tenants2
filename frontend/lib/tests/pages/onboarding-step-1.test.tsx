@@ -43,8 +43,7 @@ describe('onboarding step 1 page', () => {
       [/address/i, "150 cou"]
     ]);
     await fetch.resolvePromisesAndTimers();
-    const li = pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
-    pal.rt.fireEvent.click(li);
+    pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink('Next');
     pal.expectFormInput({
       name: "boop jones",

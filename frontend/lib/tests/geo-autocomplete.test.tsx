@@ -40,9 +40,8 @@ describe("GeoAutocomplete", () => {
     pal.fillFormFields([[/address/i, '150 cou']]);
     await fetch.resolvePromisesAndTimers();
     expect(onNetworkError.mock.calls).toHaveLength(0);
-    const li = pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
     expect(onChange.mock.calls).toHaveLength(0);
-    pal.rt.fireEvent.click(li);
+    pal.clickListItem(/150 COURT STREET/);
     expect(onChange.mock.calls).toHaveLength(1);
     expect(onChange.mock.calls[0][0]).toEqual({
       address: '150 COURT STREET',

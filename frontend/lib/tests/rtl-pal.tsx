@@ -59,7 +59,7 @@ export default class ReactTestingLibraryPal {
       const input = this.rr.getByLabelText(matcher, {
         selector: 'input, select'
       }) as HTMLInputElement;
-      input.value = value;
+      rt.fireEvent.change(input, { target: { value } });
     });
   }
 

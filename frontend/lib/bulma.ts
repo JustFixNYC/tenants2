@@ -14,6 +14,7 @@ export type BulmaClassName =
   'is-text' |
   'is-light' |
   'has-dropdown' |
+  'control' |
   'select' |
   'input' |
   'button' |

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughLabel } from './boroughs';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
+import { bulmaClasses } from './bulma';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -55,6 +56,7 @@ interface GeoSearchResults {
 }
 
 interface GeoAutocompleteState {
+  isLoading: boolean;
   results: GeoAutocompleteItem[];
 }
 
@@ -82,6 +84,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   constructor(props: GeoAutocompleteProps) {
     super(props);
     this.state = {
+      isLoading: false,
       results: []
     };
     this.keyThrottleTimeout = null;
@@ -115,7 +118,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     return (
       <div className="field jf-autocomplete-field">
         <label className="label" {...ds.getLabelProps()}>{this.props.label}</label>
-        <div className="control">
+        <div className={bulmaClasses('control', {
+          'is-loading': this.state.isLoading
+        })}>
           <input className="input" {...ds.getInputProps()} />
           <ul className={classnames({
             'jf-autocomplete-open': ds.isOpen && results.length > 0
@@ -154,17 +159,19 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
+      this.setState({ isLoading: true });
       this.keyThrottleTimeout = window.setTimeout(() => {
         fetch(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
           signal: this.abortController.signal
         }).then(response => response.json())
           .then(results => this.setState({
+            isLoading: false,
             results: geoSearchResultsToAutocompleteItems(results)
           }))
           .catch(this.handleFetchError);
       }, AUTOCOMPLETE_KEY_THROTTLE_MS);
     } else {
-      this.setState({ results: [] });
+      this.setState({ results: [], isLoading: false });
     }
   }
 

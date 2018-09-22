@@ -1,22 +1,44 @@
-type MockFetch = jest.Mock & typeof MockFetchMixin;
+type FetchAPI = typeof window.fetch;
 
-const MockFetchMixin = {
-  mockReturnJson(this: jest.Mock, result: any) {
-    this.mockResolvedValue({ json: () => Promise.resolve(result) });
-  },
-  resolvePromises(): Promise<void> {
-    return new Promise((resolve) => {
-      process.nextTick(resolve);
-    });
-  },
-  resolvePromisesAndTimers(): Promise<void> {
-    jest.runAllTimers();
-    return this.resolvePromises();
-  }
-};
+/**
+ * This is an API for a mock window.fetch, which provides
+ * some convenience methods for network communications.
+ */
+interface MockFetch extends jest.MockInstance<FetchAPI> {
+  /** Mock the return of a JSON response. */
+  mockReturnJson(result: any): void;
 
+  /**
+   * Fetch returns a promise, and we need to cycle the
+   * event loop in order to process it. That's what this
+   * method does.
+   */
+  resolvePromises(): Promise<void>;
+
+  /**
+   * It's often the case that one needs to cycle the
+   * event loop and run any pending jest timers, so this
+   * is a convenience method to provide that.
+   */
+  resolvePromisesAndTimers(): Promise<void>;
+}
+
+/** Create and return a mock window.fetch API. */
 export function createMockFetch(): MockFetch {
-  const mock = jest.fn();
+  const mock = jest.fn<FetchAPI>();
   window.fetch = mock;
-  return Object.assign(mock, MockFetchMixin);
+  return Object.assign(mock, {
+    mockReturnJson(this: jest.Mock, result: any) {
+      this.mockResolvedValue({ json: () => Promise.resolve(result) });
+    },
+    resolvePromises(): Promise<void> {
+      return new Promise((resolve) => {
+        process.nextTick(resolve);
+      });
+    },
+    resolvePromisesAndTimers(): Promise<void> {
+      jest.runAllTimers();
+      return this.resolvePromises();
+    }
+  });
 };

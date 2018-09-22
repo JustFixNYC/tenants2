@@ -77,6 +77,11 @@ const GEO_AUTOCOMPLETE_URL = 'https://geosearch.planninglabs.nyc/v1/autocomplete
 /** The maximum number of autocomplete suggestions to show. */
 const MAX_SUGGESTIONS = 5;
 
+/**
+ * An address autocomplete field. This should only be used as a
+ * progressive enhancement, since it requires JavaScript and uses
+ * a third-party API that might become unavailable.
+ */
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
   keyThrottleTimeout: number|null;
   abortController: AbortController;
@@ -88,6 +93,10 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       results: []
     };
     this.keyThrottleTimeout = null;
+
+    // At the time of writing, AbortController isn't supported on older
+    // browsers like IE11, so this will throw. Yet another reason this
+    // component should only be used as a progressive enhancement!
     this.abortController = new AbortController();
   }
 

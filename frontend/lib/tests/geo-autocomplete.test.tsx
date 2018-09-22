@@ -3,16 +3,8 @@ import ReactTestingLibraryPal from './rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
 import { BoroughChoice } from '../boroughs';
 import { createMockFetch } from './mock-fetch';
+import { FakeGeoResults } from './util';
 
-
-export const FAKE_GEO_RESULTS: any = {
-  features: [{
-    properties: {
-      borough_gid: 'whosonfirst:borough:1',
-      name: '150 COURT STREET'
-    }
-  }]
-};
 
 describe("GeoAutocomplete", () => {
   const onChange = jest.fn();
@@ -35,7 +27,7 @@ describe("GeoAutocomplete", () => {
   afterEach(ReactTestingLibraryPal.cleanup);
 
   it('shows suggestions and calls onChange() when one is clicked', async () => {
-    fetch.mockReturnJson(FAKE_GEO_RESULTS);
+    fetch.mockReturnJson(FakeGeoResults);
     const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
     pal.fillFormFields([[/address/i, '150 cou']]);
     await fetch.resolvePromisesAndTimers();
@@ -84,7 +76,7 @@ describe("GeoAutocomplete", () => {
   });
 
   it('converts API results to autocomplete items', () => {
-    expect(geoSearchResultsToAutocompleteItems(FAKE_GEO_RESULTS)).toEqual([{
+    expect(geoSearchResultsToAutocompleteItems(FakeGeoResults)).toEqual([{
       borough: 'MANHATTAN',
       address: '150 COURT STREET'
     }]);

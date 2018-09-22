@@ -4,7 +4,7 @@ import OnboardingStep1, { areAddressesTheSame } from '../../pages/onboarding-ste
 import { AppTesterPal } from '../app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
 import { createMockFetch } from '../mock-fetch';
-import { FAKE_GEO_RESULTS } from '../geo-autocomplete.test';
+import { FakeGeoResults } from '../util';
 
 
 describe('onboarding step 1 page', () => {
@@ -36,7 +36,7 @@ describe('onboarding step 1 page', () => {
     jest.useFakeTimers();
     const fetch = createMockFetch();
     const pal = new AppTesterPal(<OnboardingStep1 />);
-    fetch.mockReturnJson(FAKE_GEO_RESULTS);
+    fetch.mockReturnJson(FakeGeoResults);
     pal.fillFormFields([
       [/full name/i, 'boop jones'],
       [/apartment number/i, '2'],

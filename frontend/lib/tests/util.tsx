@@ -102,3 +102,12 @@ export const FakeDebugAppContext: AppContextType = {
     debug: true
   }
 };
+
+export const FakeGeoResults: any = {
+  features: [{
+    properties: {
+      borough_gid: 'whosonfirst:borough:1',
+      name: '150 COURT STREET'
+    }
+  }]
+};

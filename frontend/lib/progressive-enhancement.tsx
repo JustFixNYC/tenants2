@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
 
-interface ProgressiveEnhancementProps {
+export interface ProgressiveEnhancementProps {
   renderEnhanced: (ctx: ProgressiveEnhancementContext) => JSX.Element|React.ReactPortal;
   renderBaseline: () => JSX.Element;
   disabled?: boolean;

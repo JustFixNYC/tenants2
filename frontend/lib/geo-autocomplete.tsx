@@ -2,7 +2,7 @@ import React from 'react';
 import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import { BoroughChoice } from './boroughs';
+import { BoroughChoice, getBoroughLabel } from './boroughs';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 
 /**
@@ -17,14 +17,14 @@ const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
   'whosonfirst:borough:5': BoroughChoice.STATEN_ISLAND,
 };
 
-type GeoAutocompleteItem = {
+export interface GeoAutocompleteItem {
   address: string;
-  borough?: BoroughChoice;
+  borough: BoroughChoice;
 };
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
   label: string;
-  initialValue: string;
+  initialValue?: GeoAutocompleteItem;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
 };
@@ -55,7 +55,7 @@ interface GeoSearchResults {
 }
 
 interface GeoAutocompleteState {
-  results: GeoSearchProperties[];
+  results: GeoAutocompleteItem[];
 }
 
 /**
@@ -88,7 +88,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     this.abortController = new AbortController();
   }
 
-  renderAutocomplete(ds: ControllerStateAndHelpers<GeoSearchProperties>): JSX.Element {
+  renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
     let { errorHelp } = formatErrors(this.props);
 
     return (
@@ -103,7 +103,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
               this.state.results
                 .map((item, index) => {
                   const props = ds.getItemProps({
-                    key: item.label,
+                    key: item.address + item.borough,
                     index,
                     item,
                     className: classnames({
@@ -114,7 +114,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
                   return (
                     <li {...props}>
-                      {item.name}, {item.borough}
+                      {geoAutocompleteItemToString(item)}
                     </li>
                   );
                 })
@@ -149,13 +149,6 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   @autobind
-  handleSearchResults(results: GeoSearchResults) {
-    this.setState({
-      results: results.features.map(feature => feature.properties).slice(0, MAX_SUGGESTIONS)
-    });
-  }
-
-  @autobind
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
@@ -163,7 +156,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         fetch(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
           signal: this.abortController.signal
         }).then(response => response.json())
-          .then(this.handleSearchResults)
+          .then(results => this.setState({
+            results: geoSearchResultsToAutocompleteItems(results)
+          }))
           .catch(this.handleFetchError);
       }, AUTOCOMPLETE_KEY_THROTTLE_MS);
     } else {
@@ -171,29 +166,43 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
-  @autobind
-  handleChange(value: GeoSearchProperties) {
-    this.props.onChange({
-      address: value.name,
-      borough: BOROUGH_GID_TO_CHOICE[value.borough_gid]
-    });
-  }
-
   componentWillUnmount() {
     this.resetSearchRequest();
   }
 
   render() {
-    const GeoAutocomplete = Downshift as DownshiftInterface<GeoSearchProperties>;
+    const GeoAutocomplete = Downshift as DownshiftInterface<GeoAutocompleteItem>;
+
     return (
       <GeoAutocomplete
-        onChange={this.handleChange}
+        onChange={this.props.onChange}
         onInputValueChange={this.handleInputValueChange}
-        defaultInputValue={this.props.initialValue}
-        itemToString={item => item ? `${item.name}, ${item.borough}` : ''}
+        defaultSelectedItem={this.props.initialValue}
+        itemToString={geoAutocompleteItemToString}
       >
         {(downshift) => this.renderAutocomplete(downshift)}
       </GeoAutocomplete>
     );
   }
+}
+
+function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
+  if (!item) return '';
+  return `${item.address}, ${getBoroughLabel(item.borough)}`;
+}
+
+function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
+  return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
+    const { borough_gid } = feature.properties;
+    const borough = BOROUGH_GID_TO_CHOICE[borough_gid];
+
+    if (!borough) {
+      throw new Error(`No borough found for ${borough_gid}!`);
+    }
+
+    return {
+      address: feature.properties.name,
+      borough
+    }
+  });
 }

@@ -15,7 +15,7 @@ import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
-import { getBoroughLabel, BOROUGH_CHOICES } from '../boroughs';
+import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement } from '../progressive-enhancement';
 
 const blankInitialState: OnboardingStep1Input = {
@@ -109,19 +109,17 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           renderEnhanced={({ fallbackToBaseline }) => {
             const addressProps = ctx.fieldPropsFor('address');
             const boroughProps = ctx.fieldPropsFor('borough');
-            const borough = getBoroughLabel(boroughProps.value) || '';
-            let initialValue = '';
-
-            if (addressProps.value && borough) {
-              initialValue = `${addressProps.value}, ${borough}`;
-            }
+            let initialValue = addressProps.value && boroughProps.value
+              ? { address: addressProps.value,
+                  borough: boroughProps.value as BoroughChoice }
+              : undefined;
 
             return <GeoAutocomplete
               label="What is your address?"
               initialValue={initialValue}
               onChange={selection => {
                 addressProps.onChange(selection.address);
-                boroughProps.onChange(selection.borough || '');
+                boroughProps.onChange(selection.borough);
               }}
               onNetworkError={fallbackToBaseline}
               errors={addressProps.errors || boroughProps.errors}

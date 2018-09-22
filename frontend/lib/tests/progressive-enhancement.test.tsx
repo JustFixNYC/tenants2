@@ -53,6 +53,15 @@ describe("ProgressiveEnhancement", () => {
     expect(mockConsoleError).toHaveBeenCalled();
   });
 
+  it("propagates error if enhancement is disabled and baseline throws", () => {
+    expect(() => new ReactTestingLibraryPal(
+      <ProgressiveEnhancement {...props}
+        disabled
+        renderBaseline={() => <HorribleComponent/> }/>
+    )).toThrow(/blaah/);
+    expect(mockConsoleError).toHaveBeenCalled();
+  });
+
   it("propagates error if both enhanced and baseline throw", () => {
     expect(() => new ReactTestingLibraryPal(
       <ProgressiveEnhancement {...props}

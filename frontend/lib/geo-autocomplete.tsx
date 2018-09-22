@@ -3,6 +3,7 @@ import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downsh
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice } from './boroughs';
+import { WithFormFieldErrors, formatErrors } from './form-errors';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -21,7 +22,7 @@ type GeoAutocompleteItem = {
   borough?: BoroughChoice;
 };
 
-interface GeoAutocompleteProps {
+interface GeoAutocompleteProps extends WithFormFieldErrors {
   label: string;
   initialValue: string;
   onChange: (item: GeoAutocompleteItem) => void;
@@ -88,6 +89,8 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   renderAutocomplete(ds: ControllerStateAndHelpers<GeoSearchProperties>): JSX.Element {
+    let { errorHelp } = formatErrors(this.props);
+
     return (
       <div className="field jf-autocomplete-field">
         <label className="label" {...ds.getLabelProps()}>{this.props.label}</label>
@@ -118,6 +121,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
             }
           </ul>
         </div>
+        {errorHelp}
       </div>
     );
   }

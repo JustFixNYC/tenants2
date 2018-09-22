@@ -124,6 +124,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
                 boroughProps.onChange(selection.borough || '');
               }}
               onNetworkError={fallbackToBaseline}
+              errors={addressProps.errors || boroughProps.errors}
             />;
           }}
         />

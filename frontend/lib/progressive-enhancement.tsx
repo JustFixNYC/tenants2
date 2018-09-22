@@ -14,7 +14,7 @@ interface ProgressiveEnhancementState {
 }
 
 interface ProgressiveEnhancementContext {
-  fallbackToBaseline: () => void;
+  fallbackToBaseline: (err?: Error) => void;
 }
 
 export class ProgressiveEnhancement extends React.Component<ProgressiveEnhancementProps, ProgressiveEnhancementState> {
@@ -40,8 +40,11 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
   }
 
   @autobind
-  fallbackToBaseline() {
+  fallbackToBaseline(err?: Error) {
     this.setState({ hasFallenback: true });
+    if (err) {
+      console.error('Falling back to baseline implementation due to error: ', err);
+    }
   }
 
   isEnhanced() {

@@ -88,8 +88,29 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     this.abortController = new AbortController();
   }
 
+  renderListItem(ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
+                 item: GeoAutocompleteItem,
+                 index: number): JSX.Element {
+    const props = ds.getItemProps({
+      key: item.address + item.borough,
+      index,
+      item,
+      className: classnames({
+        'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
+        'jf-autocomplete-is-selected': ds.selectedItem === item
+      })
+    });
+
+    return (
+      <li {...props}>
+        {geoAutocompleteItemToString(item)}
+      </li>
+    );
+  }
+
   renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
-    let { errorHelp } = formatErrors(this.props);
+    const { errorHelp } = formatErrors(this.props);
+    const { results } = this.state;
 
     return (
       <div className="field jf-autocomplete-field">
@@ -97,28 +118,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className="control">
           <input className="input" {...ds.getInputProps()} />
           <ul className={classnames({
-            'jf-autocomplete-open': ds.isOpen && this.state.results.length > 0
+            'jf-autocomplete-open': ds.isOpen && results.length > 0
           })} {...ds.getMenuProps()}>
-            {ds.isOpen &&
-              this.state.results
-                .map((item, index) => {
-                  const props = ds.getItemProps({
-                    key: item.address + item.borough,
-                    index,
-                    item,
-                    className: classnames({
-                      'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
-                      'jf-autocomplete-is-selected': ds.selectedItem === item
-                    })
-                  });
-
-                  return (
-                    <li {...props}>
-                      {geoAutocompleteItemToString(item)}
-                    </li>
-                  );
-                })
-            }
+            {ds.isOpen && results.map((item, i) => this.renderListItem(ds, item, i))}
           </ul>
         </div>
         {errorHelp}

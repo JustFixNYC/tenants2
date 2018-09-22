@@ -62,21 +62,12 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   );
 });
 
-interface OnboardingStep1State {
-  isMounted: boolean;
-}
-
 interface OnboardingStep1Props {
   disableProgressiveEnhancement?: boolean;
 }
 
-export default class OnboardingStep1 extends React.Component<OnboardingStep1Props, OnboardingStep1State> {
+export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
   readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();
-  readonly state = { isMounted: false };
-
-  componentDidMount() {
-    this.setState({ isMounted: true });
-  }
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
@@ -161,16 +152,18 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         // supports this via the <button> element's "form" attribute,
         // but not all browsers support that, so we'll do something
         // a bit clever/kludgy here to work around that.
-        <React.Fragment>
-          {this.state.isMounted && this.cancelControlRef.current
-            ? ReactDOM.createPortal(
-                <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
-                  'is-loading': ctx.isLoading
-                })}>Cancel signup</button>,
-                this.cancelControlRef.current
-              )
-            : <button type="submit" className="button is-light">Cancel signup</button>}
-        </React.Fragment>
+        <ProgressiveEnhancement
+          disabled={this.props.disableProgressiveEnhancement}
+          renderBaseline={() => <button type="submit" className="button is-light">Cancel signup</button>}
+          renderEnhanced={() => {
+            if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
+            return ReactDOM.createPortal(
+              <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
+                'is-loading': ctx.isLoading
+              })}>Cancel signup</button>,
+              this.cancelControlRef.current
+            )
+          }} />
       )}</SessionUpdatingFormSubmitter>
     );
   }

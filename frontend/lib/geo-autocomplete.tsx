@@ -28,6 +28,7 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   initialValue?: GeoAutocompleteItem;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
+  fetch?: typeof window.fetch;
 };
 
 interface GeoSearchProperties {
@@ -161,7 +162,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     if (value.length > 3 && value.indexOf(' ') > 0) {
       this.setState({ isLoading: true });
       this.keyThrottleTimeout = window.setTimeout(() => {
-        fetch(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
+        (this.props.fetch || fetch)(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
           signal: this.abortController.signal
         }).then(response => response.json())
           .then(results => this.setState({
@@ -195,12 +196,12 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 }
 
-function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
+export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
   return `${item.address}, ${getBoroughLabel(item.borough)}`;
 }
 
-function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
+export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
   return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
     const { borough_gid } = feature.properties;
     const borough = BOROUGH_GID_TO_CHOICE[borough_gid];

@@ -2,9 +2,10 @@ import React from 'react';
 import ReactTestingLibraryPal from './rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
 import { BoroughChoice } from '../boroughs';
+import { createMockFetch } from './mock-fetch';
 
 
-const FAKE_RESULTS: any = {
+export const FAKE_GEO_RESULTS: any = {
   features: [{
     properties: {
       borough_gid: 'whosonfirst:borough:1',
@@ -16,7 +17,7 @@ const FAKE_RESULTS: any = {
 describe("GeoAutocomplete", () => {
   const onChange = jest.fn();
   const onNetworkError = jest.fn();
-  const fetch = jest.fn();
+  const fetch = createMockFetch();
   const props = {
     label: 'enter an address',
     onChange,
@@ -33,46 +34,37 @@ describe("GeoAutocomplete", () => {
 
   afterEach(ReactTestingLibraryPal.cleanup);
 
-  it('shows suggestions and calls onChange() when one is clicked', (done) => {
-    fetch.mockResolvedValue({ json: () => Promise.resolve(FAKE_RESULTS) });
+  it('shows suggestions and calls onChange() when one is clicked', async () => {
+    fetch.mockReturnJson(FAKE_GEO_RESULTS);
     const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
     pal.fillFormFields([[/address/i, '150 cou']]);
-    jest.runAllTimers();
-    process.nextTick(() => {
-      expect(onNetworkError.mock.calls).toHaveLength(0);
-      const li = pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
-      expect(onChange.mock.calls).toHaveLength(0);
-      pal.rt.fireEvent.click(li);
-      expect(onChange.mock.calls).toHaveLength(1);
-      expect(onChange.mock.calls[0][0]).toEqual({
-        address: '150 COURT STREET',
-        borough: 'MANHATTAN'
-      });
-      done();
+    await fetch.resolvePromisesAndTimers();
+    expect(onNetworkError.mock.calls).toHaveLength(0);
+    const li = pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
+    expect(onChange.mock.calls).toHaveLength(0);
+    pal.rt.fireEvent.click(li);
+    expect(onChange.mock.calls).toHaveLength(1);
+    expect(onChange.mock.calls[0][0]).toEqual({
+      address: '150 COURT STREET',
+      borough: 'MANHATTAN'
     });
   });
 
-  it("calls onNetworkError on failure", (done) => {
+  it("calls onNetworkError on failure", async () => {
     fetch.mockRejectedValue(new Error('blah'));
     const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
     pal.fillFormFields([[/address/i, '150 cou']]);
-    jest.runAllTimers();
-    process.nextTick(() => {
-      expect(onNetworkError.mock.calls).toHaveLength(1);
-      expect(onNetworkError.mock.calls[0][0].message).toEqual('blah');
-      done();
-    });
+    await fetch.resolvePromisesAndTimers();
+    expect(onNetworkError.mock.calls).toHaveLength(1);
+    expect(onNetworkError.mock.calls[0][0].message).toEqual('blah');
   });
 
-  it("ignores AbortError exceptions", (done) => {
+  it("ignores AbortError exceptions", async () => {
     fetch.mockRejectedValue(new DOMException('aborted', 'AbortError'));
     const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
     pal.fillFormFields([[/address/i, '150 cou']]);
-    jest.runAllTimers();
-    process.nextTick(() => {
-      expect(onNetworkError.mock.calls).toHaveLength(0);
-      done();
-    });
+    await fetch.resolvePromisesAndTimers();
+    expect(onNetworkError.mock.calls).toHaveLength(0);
   });
 
   it("throttles network requests", () => {
@@ -93,7 +85,7 @@ describe("GeoAutocomplete", () => {
   });
 
   it('converts API results to autocomplete items', () => {
-    expect(geoSearchResultsToAutocompleteItems(FAKE_RESULTS)).toEqual([{
+    expect(geoSearchResultsToAutocompleteItems(FAKE_GEO_RESULTS)).toEqual([{
       borough: 'MANHATTAN',
       address: '150 COURT STREET'
     }]);

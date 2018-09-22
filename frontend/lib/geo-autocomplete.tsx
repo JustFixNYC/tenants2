@@ -28,7 +28,6 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   initialValue?: GeoAutocompleteItem;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
-  fetch?: typeof window.fetch;
 };
 
 interface GeoSearchProperties {
@@ -162,7 +161,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     if (value.length > 3 && value.indexOf(' ') > 0) {
       this.setState({ isLoading: true });
       this.keyThrottleTimeout = window.setTimeout(() => {
-        (this.props.fetch || fetch)(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
+        fetch(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
           signal: this.abortController.signal
         }).then(response => response.json())
           .then(results => this.setState({

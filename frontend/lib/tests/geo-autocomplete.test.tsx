@@ -33,14 +33,21 @@ describe("GeoAutocomplete", () => {
 
   afterEach(ReactTestingLibraryPal.cleanup);
 
-  it('shows suggestions', (done) => {
+  it('shows suggestions and calls onChange() when one is clicked', (done) => {
     fetch.mockResolvedValue({ json: () => Promise.resolve(FAKE_RESULTS) });
     const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
     pal.fillFormFields([[/address/i, '150 cou']]);
     jest.runAllTimers();
     process.nextTick(() => {
       expect(onNetworkError.mock.calls).toHaveLength(0);
-      pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
+      const li = pal.rr.getByText(/150 COURT STREET/, { selector: 'li' });
+      expect(onChange.mock.calls).toHaveLength(0);
+      pal.rt.fireEvent.click(li);
+      expect(onChange.mock.calls).toHaveLength(1);
+      expect(onChange.mock.calls[0][0]).toEqual({
+        address: '150 COURT STREET',
+        borough: 'MANHATTAN'
+      });
       done();
     });
   });

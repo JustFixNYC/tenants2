@@ -1,24 +1,30 @@
 import React from 'react';
 
 interface ProgressiveEnhancementProps {
-  children: (isEnhanced: boolean) => JSX.Element;
+  renderEnhanced: () => JSX.Element;
+  renderBaseline: () => JSX.Element;
+  disabled?: boolean;
 }
 
 interface ProgressiveEnhancementState {
-  isEnhanced: boolean;
+  isMounted: boolean;
 }
 
 export class ProgressiveEnhancement extends React.Component<ProgressiveEnhancementProps, ProgressiveEnhancementState> {
   constructor(props: ProgressiveEnhancementProps) {
     super(props);
-    this.state = { isEnhanced: false };
+    this.state = { isMounted: false };
   }
 
   componentDidMount() {
-    this.setState({ isEnhanced: true });
+    this.setState({ isMounted: true });
   }
 
   render() {
-    return this.props.children(this.state.isEnhanced);
+    if (this.state.isMounted && !this.props.disabled) {
+      return this.props.renderEnhanced();
+    } else {
+      return this.props.renderBaseline();
+    }
   }
 }

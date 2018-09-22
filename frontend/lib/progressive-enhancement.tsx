@@ -13,7 +13,7 @@ interface ProgressiveEnhancementState {
   hasFallenback: boolean;
 }
 
-interface ProgressiveEnhancementContext {
+export interface ProgressiveEnhancementContext {
   fallbackToBaseline: (err?: Error) => void;
 }
 

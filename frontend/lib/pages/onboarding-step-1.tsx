@@ -16,7 +16,7 @@ import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
-import { ProgressiveEnhancement } from '../progressive-enhancement';
+import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -89,6 +89,39 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     );
   }
 
+  renderBaselineAddressFields(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
+    return (
+      <React.Fragment>
+        <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
+        <SelectFormField
+          label="What is your borough?"
+          {...ctx.fieldPropsFor('borough')}
+          choices={BOROUGH_CHOICES}
+        />
+      </React.Fragment>
+    );
+  }
+
+  renderEnhancedAddressField(ctx: FormContext<OnboardingStep1Input>, pe: ProgressiveEnhancementContext) {
+    const addressProps = ctx.fieldPropsFor('address');
+    const boroughProps = ctx.fieldPropsFor('borough');
+    let initialValue = addressProps.value && boroughProps.value
+      ? { address: addressProps.value,
+          borough: boroughProps.value as BoroughChoice }
+      : undefined;
+
+    return <GeoAutocomplete
+      label="What is your address?"
+      initialValue={initialValue}
+      onChange={selection => {
+        addressProps.onChange(selection.address);
+        boroughProps.onChange(selection.borough);
+      }}
+      onNetworkError={pe.fallbackToBaseline}
+      errors={addressProps.errors || boroughProps.errors}
+    />;
+  }
+
   @autobind
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
@@ -96,36 +129,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <TextualFormField label="What is your full name?" {...ctx.fieldPropsFor('name')} />
         <ProgressiveEnhancement
           disabled={this.props.disableProgressiveEnhancement}
-          renderBaseline={() => (
-            <React.Fragment>
-              <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
-              <SelectFormField
-                label="What is your borough?"
-                {...ctx.fieldPropsFor('borough')}
-                choices={BOROUGH_CHOICES}
-              />
-            </React.Fragment>
-          )}
-          renderEnhanced={({ fallbackToBaseline }) => {
-            const addressProps = ctx.fieldPropsFor('address');
-            const boroughProps = ctx.fieldPropsFor('borough');
-            let initialValue = addressProps.value && boroughProps.value
-              ? { address: addressProps.value,
-                  borough: boroughProps.value as BoroughChoice }
-              : undefined;
-
-            return <GeoAutocomplete
-              label="What is your address?"
-              initialValue={initialValue}
-              onChange={selection => {
-                addressProps.onChange(selection.address);
-                boroughProps.onChange(selection.borough);
-              }}
-              onNetworkError={fallbackToBaseline}
-              errors={addressProps.errors || boroughProps.errors}
-            />;
-          }}
-        />
+          renderBaseline={() => this.renderBaselineAddressFields(ctx)}
+          renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?

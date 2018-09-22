@@ -16,6 +16,7 @@ import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES } from '../boroughs';
+import { ProgressiveEnhancement } from '../progressive-enhancement';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -63,29 +64,6 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
 
 interface OnboardingStep1State {
   isMounted: boolean;
-}
-
-interface ProgressiveEnhancementProps {
-  children: (isEnhanced: boolean) => JSX.Element;
-}
-
-interface ProgressiveEnhancementState {
-  isEnhanced: boolean;
-}
-
-export class ProgressiveEnhancement extends React.Component<ProgressiveEnhancementProps, ProgressiveEnhancementState> {
-  constructor(props: ProgressiveEnhancementProps) {
-    super(props);
-    this.state = { isEnhanced: false };
-  }
-
-  componentDidMount() {
-    this.setState({ isEnhanced: true });
-  }
-
-  render() {
-    return this.props.children(this.state.isEnhanced);
-  }
 }
 
 interface OnboardingStep1Props {

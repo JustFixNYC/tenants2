@@ -32,6 +32,21 @@ describe('onboarding step 1 page', () => {
     pal.clickButtonOrLink("Got it!");
   });
 
+  it('shows initial address and borough in autocomplete field', () => {
+    const pal = new AppTesterPal(<OnboardingStep1 />, {
+      session: {
+        onboardingStep1: {
+          name: 'boop jones',
+          aptNumber: '2',
+          address: "150 DOOMBRINGER STREET",
+          borough: "MANHATTAN"
+        }
+      }
+    });
+    const input = pal.rr.getByLabelText(/address/) as HTMLInputElement;
+    expect(input.value).toEqual('150 DOOMBRINGER STREET, Manhattan');
+  });
+
   it('uses geo autocomplete in progressively enhanced experience', async () => {
     jest.useFakeTimers();
     const fetch = createMockFetch();

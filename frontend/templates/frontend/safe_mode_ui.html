@@ -1,21 +1,40 @@
 {% if is_safe_mode_enabled %}
-<aside class="safe-mode safe-mode-disable">
-  <form method="post" action="{% url 'safe_mode:disable' %}">
-    {% csrf_token %}
-    <button class="button-primary" type="submit">Deactivate compatibility mode</button>
-    This site is currently in <strong>compatibility mode</strong>. For an enhanced
-    experience, you can disable it, but this may cause compatibility issues
-    with your current browser.
-  </form>
-</aside>
+<div class="container safe-mode-disable">
+  <div class="notification is-info">
+    <form method="post" action="{% url 'safe_mode:disable' %}">
+      {% csrf_token %}
+      <div class="columns">
+        <div class="column is-8">
+          This site is currently in <strong>compatibility mode</strong>. For an enhanced
+          experience, you can disable it, but this may cause compatibility issues
+          with your current browser.
+        </div>
+        <div class="column is-4 has-text-right">
+          <button class="button is-fullwidth" type="submit">Deactivate compatibility mode</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% else %}
 <aside id="safe-mode-enable" class="safe-mode" hidden tabindex="-1" role="alert">
-  <form method="post" action="{% url 'safe_mode:enable' %}">
-    {% csrf_token %}
-    <button class="button-primary" type="submit">Activate compatibility mode</button>
-    Having problems using this page? We're sorry for the inconvenience.
-    Activate this site's <strong>compatibility mode</strong> for a better
-    experience.
-  </form>
+  <div class="container">
+    <div class="notification is-danger">
+      <form method="post" action="{% url 'safe_mode:enable' %}">
+        {% csrf_token %}
+        <div class="columns">
+          <div class="column is-8">
+            Having problems using this page? We're sorry for the inconvenience.
+            Activate this site's <strong>compatibility mode</strong> for a better
+            experience.
+          </div>
+          <div class="column is-4 has-text-right">
+            <button class="button is-fullwidth" type="submit">Activate compatibility mode</button>
+          </div>
+        </div>
+      </form>
+      <button class="delete">close</button>
+    </div>
+  </div>
 </aside>
 {% endif %}

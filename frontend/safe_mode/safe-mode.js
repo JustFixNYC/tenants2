@@ -69,14 +69,26 @@
       if (el && el.hasAttribute('hidden') && validErrorsExist()) {
         el.removeAttribute('hidden');
         el.focus();
-        errors = [];
-        errorsToIgnore = [];
+
+        /** @type {HTMLButtonElement|null} */
+        var deleteBtn = el.querySelector('button.delete');
+        if (deleteBtn) {
+          deleteBtn.onclick = function() {
+            if (el) {
+              el.setAttribute('hidden', '');
+            }
+          };
+        }
       }
     }, SHOW_UI_DELAY_MS);
   }
 
   /** Our public API. See safe-mode.d.ts for more documentation. */
   window.SafeMode = {
+    showUI: function() {
+      errors.push('showUI() called');
+      scheduleShowUICheck();
+    },
     ignoreError: function(e) {
       errorsToIgnore.push(e.toString());
     }

@@ -199,32 +199,18 @@
 
 aside.safe-mode {
     position: fixed;
-    background-color: $danger;
-    color: white;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 1em;
     z-index: 1000;
+}
 
-    strong {
-        color: white;
-    }
-
-    form {
-        margin-bottom: 0;
-    }
-
-    button {
-        margin: 0 0 0 1em;
-        float: right;
-    }
+.safe-mode-disable .notification {
+    background-color: $justfix-blue;
+    border-radius: 0;
 }
 
 [hidden] {
     display: none;
-}
-
-aside.safe-mode.safe-mode-disable {
-    background-color: transparentize(black, 0.2);
 }

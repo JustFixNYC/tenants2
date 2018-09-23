@@ -5,5 +5,11 @@ interface Window {
      * shouldn't show its UI if it sees the error.
      */
     ignoreError(e: Error): void;
+
+    /**
+     * Show the safe-mode opt-in UI. This is intended primarily
+     * for manual testing, but client code can use it too.
+     */
+    showUI(): void;
   }
 }

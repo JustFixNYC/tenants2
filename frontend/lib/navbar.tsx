@@ -59,14 +59,24 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
 
   componentDidMount() {
     window.addEventListener('focus', this.handleFocus, true);
+    window.addEventListener('resize', this.handleResize, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener('focus', this.handleFocus, true);
+    window.removeEventListener('resize', this.handleResize, false);
   }
 
   isDropdownActive(dropdown: Dropdown) {
     return this.state.currentDropdown === dropdown || this.state.currentDropdown === 'all';
+  }
+
+  @autobind
+  handleResize() {
+    this.setState({
+      currentDropdown: null,
+      isHamburgerOpen: false
+    });
   }
 
   @autobind

@@ -166,7 +166,7 @@ export function HiddenFormField(props: BaseFormFieldProps<string>): JSX.Element 
 /**
  * Valid types of textual form field input.
  */
-export type TextualInputType = 'text'|'password'|'date';
+export type TextualInputType = 'text'|'password'|'date'|'tel';
 
 /**
  * Properties for textual form field input.

@@ -34,7 +34,7 @@ export default class OnboardingStep4 extends React.Component {
   renderForm(ctx: FormContext<OnboardingStep4Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
+        <TextualFormField label="Phone number" type="tel" {...ctx.fieldPropsFor('phoneNumber')} />
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>

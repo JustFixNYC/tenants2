@@ -69,8 +69,13 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
     return this.state.currentDropdown === dropdown || this.state.currentDropdown === 'all';
   }
 
+  @autobind
+  handleShowSafeModeUI() {
+    window.SafeMode.showUI();
+  }
+
   renderDevMenu(): JSX.Element|null {
-    const { server } = this.props;
+    const { server, session } = this.props;
     const { state } = this;
 
     if (!server.debug) return null;
@@ -86,6 +91,8 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
         <a className="navbar-item" href="/graphiql">GraphiQL</a>
         <a className="navbar-item" href="/loc/example.pdf">Example PDF</a>
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
+        {!session.isSafeModeEnabled &&
+          <a className="navbar-item" href="#" onClick={this.handleShowSafeModeUI}>Show safe mode UI</a>}
       </NavbarDropdown>
     );
   }

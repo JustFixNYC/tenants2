@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
+        {{ SAFE_MODE_SNIPPET }}
         {{ ROLLBAR_SNIPPET }}
         {{ GA_SNIPPET }}
         {{ title_tag }}
@@ -11,9 +12,12 @@
     <body>
         <div id="prerendered-modal">{{ modal_html }}</div>
         <div id="main" {% if modal_html %}hidden{% endif %}>{{ initial_render }}</div>
-        {{ initial_props|json_script:'initial-props' }}
-        {% for bundle_url in bundle_urls %}
-        <script src="{{ bundle_url }}"></script>
-        {% endfor %}
+        {% if not is_safe_mode_enabled %}
+            {{ initial_props|json_script:'initial-props' }}
+            {% for bundle_url in bundle_urls %}
+            <script src="{{ bundle_url }}"></script>
+            {% endfor %}
+        {% endif %}
+        {% include 'frontend/safe_mode_ui.html' %}
     </body>
 </html>

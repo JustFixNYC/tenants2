@@ -75,7 +75,7 @@ class JsSnippetContextProcessor(metaclass=abc.ABCMeta):
         This can be overridden to provide multiple HTML tags.
         '''
 
-        inline_script = self._template % self.get_context()
+        inline_script = dedent(self.template).strip() % self.get_context()
         request.allow_inline_script(inline_script)
         request.csp_update(**self.csp_updates)
         return SafeString(f"<script>{inline_script}</script>")
@@ -90,9 +90,3 @@ class JsSnippetContextProcessor(metaclass=abc.ABCMeta):
         return {
             self.var_name: SimpleLazyObject(partial(self.get_html, request))
         }
-
-    # A dedented version of our template.
-    _template: str
-
-    def __init__(self):
-        self._template = dedent(self.template).strip()

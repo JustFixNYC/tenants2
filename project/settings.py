@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'frontend.context_processors.safe_mode',
                 'project.context_processors.ga_snippet',
                 'project.context_processors.rollbar_snippet',
             ],

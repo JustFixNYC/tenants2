@@ -1,8 +1,16 @@
 require('source-map-support').install();
 
+// We're outputting our result to stdout, so we want all
+// console.log() statements to go to stderr, so they don't
+// corrupt our output.
+//
+// It's also important that we do this as early as possible,
+// so that even logging statements at the top level of modules
+// we import are sent to stderr.
+import './redirect-console-to-stderr';
+
 import fs from 'fs';
 import { promisify } from 'util';
-import { Console } from 'console';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
@@ -223,13 +231,6 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
 
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
-  // We're outputting our result to stdout, so we want all
-  // console.log() statements to go to stderr, so they don't
-  // corrupt our output.
-  Object.defineProperty(global, 'console', {
-    value: new Console(process.stderr)
-  });
-
   handleFromJSONStream(process.stdin).then(buf => {
     process.stdout.write(buf);
     process.exit(0);

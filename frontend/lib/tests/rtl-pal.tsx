@@ -48,6 +48,11 @@ export default class ReactTestingLibraryPal {
     rt.fireEvent.click(this.rr.getByText(matcher, { selector }));
   }
 
+  /** Click a list item in the render result. */
+  clickListItem(matcher: RegExp|string) {
+    this.click(matcher, 'li');
+  }
+
   /** Click a button or link in the render result. */
   clickButtonOrLink(matcher: RegExp|string) {
     this.click(matcher, 'a, button');
@@ -59,7 +64,7 @@ export default class ReactTestingLibraryPal {
       const input = this.rr.getByLabelText(matcher, {
         selector: 'input, select'
       }) as HTMLInputElement;
-      input.value = value;
+      rt.fireEvent.change(input, { target: { value } });
     });
   }
 

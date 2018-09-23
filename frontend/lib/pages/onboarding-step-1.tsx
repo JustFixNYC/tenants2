@@ -9,14 +9,14 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
-import { DjangoChoices, getDjangoChoiceLabel } from '../common-data';
 import { TextualFormField, SelectFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
-
-const BOROUGH_CHOICES = require('../../../common-data/borough-choices.json') as DjangoChoices;
+import { GeoAutocomplete } from '../geo-autocomplete';
+import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
+import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 
 const blankInitialState: OnboardingStep1Input = {
   name: '',
@@ -48,9 +48,7 @@ export function Step1AddressModal(): JSX.Element {
 
 export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.Element => {
   const onboardingStep1 = props.session.onboardingStep1 || blankInitialState;
-  const borough = onboardingStep1.borough
-    ? getDjangoChoiceLabel(BOROUGH_CHOICES, onboardingStep1.borough)
-    : '';
+  const borough = getBoroughLabel(onboardingStep1.borough) || '';
 
   return (
     <Modal title="Is this your address?" onCloseGoBack render={({close}) => (
@@ -64,17 +62,12 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   );
 });
 
-interface OnboardingStep1State {
-  isMounted: boolean;
+interface OnboardingStep1Props {
+  disableProgressiveEnhancement?: boolean;
 }
 
-export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1State> {
+export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
   readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();
-  readonly state = { isMounted: false };
-
-  componentDidMount() {
-    this.setState({ isMounted: true });
-  }
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
@@ -87,17 +80,48 @@ export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1
     );
   }
 
-  @autobind
-  renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
+  renderBaselineAddressFields(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="What is your full name?" {...ctx.fieldPropsFor('name')} />
         <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
         <SelectFormField
           label="What is your borough?"
           {...ctx.fieldPropsFor('borough')}
           choices={BOROUGH_CHOICES}
         />
+      </React.Fragment>
+    );
+  }
+
+  renderEnhancedAddressField(ctx: FormContext<OnboardingStep1Input>, pe: ProgressiveEnhancementContext) {
+    const addressProps = ctx.fieldPropsFor('address');
+    const boroughProps = ctx.fieldPropsFor('borough');
+    let initialValue = addressProps.value && boroughProps.value
+      ? { address: addressProps.value,
+          borough: boroughProps.value as BoroughChoice }
+      : undefined;
+
+    return <GeoAutocomplete
+      label="What is your address?"
+      initialValue={initialValue}
+      onChange={selection => {
+        addressProps.onChange(selection.address);
+        boroughProps.onChange(selection.borough);
+      }}
+      onNetworkError={pe.fallbackToBaseline}
+      errors={addressProps.errors || boroughProps.errors}
+    />;
+  }
+
+  @autobind
+  renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
+    return (
+      <React.Fragment>
+        <TextualFormField label="What is your full name?" {...ctx.fieldPropsFor('name')} />
+        <ProgressiveEnhancement
+          disabled={this.props.disableProgressiveEnhancement}
+          renderBaseline={() => this.renderBaselineAddressFields(ctx)}
+          renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
         <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
           Why do you need my address?
@@ -128,16 +152,18 @@ export default class OnboardingStep1 extends React.Component<{}, OnboardingStep1
         // supports this via the <button> element's "form" attribute,
         // but not all browsers support that, so we'll do something
         // a bit clever/kludgy here to work around that.
-        <React.Fragment>
-          {this.state.isMounted && this.cancelControlRef.current
-            ? ReactDOM.createPortal(
-                <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
-                  'is-loading': ctx.isLoading
-                })}>Cancel signup</button>,
-                this.cancelControlRef.current
-              )
-            : <button type="submit" className="button is-light">Cancel signup</button>}
-        </React.Fragment>
+        <ProgressiveEnhancement
+          disabled={this.props.disableProgressiveEnhancement}
+          renderBaseline={() => <button type="submit" className="button is-light">Cancel signup</button>}
+          renderEnhanced={() => {
+            if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
+            return ReactDOM.createPortal(
+              <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
+                'is-loading': ctx.isLoading
+              })}>Cancel signup</button>,
+              this.cancelControlRef.current
+            )
+          }} />
       )}</SessionUpdatingFormSubmitter>
     );
   }

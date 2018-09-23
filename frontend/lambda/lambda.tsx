@@ -1,4 +1,7 @@
-require('source-map-support').install();
+// Register source map support ASAP so any exceptions thrown
+// at the top level of imported modules have source-mapped
+// stack traces.
+import 'source-map-support/register'
 
 // We're outputting our result to stdout, so we want all
 // console.log() statements to go to stderr, so they don't

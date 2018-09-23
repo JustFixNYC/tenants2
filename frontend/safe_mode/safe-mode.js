@@ -21,6 +21,18 @@
   var SHOW_UI_DELAY_MS = 250;
 
   /**
+   * The data attribute we're using to determine whether the
+   * safe mode opt-in UI is hidden or not. We're not using the
+   * standard 'hidden' attribute because under some situations,
+   * e.g. if JS in the client browser is completely disabled or
+   * this script fails to run, we actually want the UI to be
+   * visible even if it has this attribute, and we don't want
+   * e.g. assistive technologies to hide the element just because
+   * it has the 'hidden' attribute.
+   */
+  var HIDDEN_ATTR = 'data-safe-mode-hidden';
+
+  /**
    * A list of error messages that other client-side code has told
    * us to ignore.
    * 
@@ -66,8 +78,8 @@
     showUiTimeout = window.setTimeout(function() {
       var el = document.getElementById('safe-mode-enable');
 
-      if (el && el.hasAttribute('hidden') && validErrorsExist()) {
-        el.removeAttribute('hidden');
+      if (el && el.hasAttribute(HIDDEN_ATTR) && validErrorsExist()) {
+        el.removeAttribute(HIDDEN_ATTR);
         el.focus();
 
         /** @type {HTMLButtonElement|null} */
@@ -75,7 +87,7 @@
         if (deleteBtn) {
           deleteBtn.onclick = function() {
             if (el) {
-              el.setAttribute('hidden', '');
+              el.setAttribute(HIDDEN_ATTR, '');
             }
           };
         }
@@ -111,4 +123,7 @@
    * the UI just in case.
    */
   window.addEventListener('load', scheduleShowUICheck);
+
+  var htmlEl = document.getElementsByTagName('html')[0];
+  htmlEl.removeAttribute('data-safe-mode-no-js');
 })();

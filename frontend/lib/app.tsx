@@ -194,10 +194,6 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                 }} />
                 </div>
               </div>
-              <div className="hero-foot">
-                {/* This is a no-JS fallback. */}
-                <Navbar />
-              </div>
             </section>
           </AriaAnnouncer>
         </AppContext.Provider>

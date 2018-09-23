@@ -19,7 +19,7 @@
   </div>
 </div>
 {% else %}
-<aside id="safe-mode-enable" class="safe-mode" hidden tabindex="-1" role="alert">
+<aside id="safe-mode-enable" class="safe-mode" data-safe-mode-hidden tabindex="-1" role="alert">
   <div class="container">
     <div class="notification is-danger">
       <form method="post" action="{% url 'safe_mode:enable' %}">

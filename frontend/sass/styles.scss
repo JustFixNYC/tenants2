@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
 @import "./_colors.scss";
-@import "./_no-js.scss";
+@import "./_safe-mode.scss";
 
 .hero nav.navbar {
     background: $justfix-blue;
@@ -195,32 +195,4 @@
 
 .jf-autocomplete-field ul li {
     padding: 0.5rem;
-}
-
-aside.safe-mode {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1em;
-    z-index: 1000;
-}
-
-.safe-mode-disable {
-    background-color: $justfix-blue;
-}
-
-.safe-mode-disable .notification {
-    // This is a TERRIBLE hack to try to ensure that the
-    // safe mode UI isn't overlapped by any dropdowns in
-    // the perma-expanded navbar above it.
-    @media screen and (min-width: $desktop) {
-        padding-top: 200px;
-    }
-
-    background-color: $justfix-blue;
-}
-
-[hidden] {
-    display: none;
 }

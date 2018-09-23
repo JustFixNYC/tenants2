@@ -1,28 +1,63 @@
 // @ts-check
+
+/**
+ * This file contains ES3-compliant JavaScript that will be minified and inserted
+ * into the top of the page as an inline snippet. Its purpose is to listen for any
+ * uncaught errors that are raised on the page and present a UI to opt the user
+ * into "safe mode" (also known as "compatibility mode"), whereby we deliver
+ * nearly zero JavaScript to the client browser.
+ */
 (function() {
+  /**
+   * The amount of time from when we receive an error to when we show the
+   * opt-in UI for activating safe mode.
+   * 
+   * The reason there is any delay is because in some cases, an error
+   * event occurs and our own client-side code later deals with it
+   * gracefully on its own, obviating the need for the user to enter
+   * safe mode. We need to provide some leeway for that code to
+   * let us know that the error has been handled, hence this delay.
+   */
   var SHOW_UI_DELAY_MS = 250;
 
-  /** @type {string[]} */
+  /**
+   * A list of error messages that other client-side code has told
+   * us to ignore.
+   * 
+   * @type {string[]}
+   */
   var errorsToIgnore = [];
 
-  /** @type {string[]} */
+  /**
+   * A list of error messages that we've received so far.
+   * 
+   * @type {string[]}
+   */
   var errors = [];
 
-  /** @type {number|null} */
+  /**
+   * Book-keeping used to control the display of the UI.
+   * 
+   * @type {number|null}
+   */
   var showUiTimeout = null;
 
-  function checkValidErrors() {
-    var validErrors = 0;
+  /**
+   * Check to see if any valid errors have been logged and return
+   * true if so.
+   * 
+   * @returns {boolean}
+   */
+  function validErrorsExist() {
     for (var i = 0; i < errors.length; i++) {
       if (errorsToIgnore.indexOf(errors[i]) === -1) {
-        validErrors += 1;
+        return true;
       }
     }
-    errors = [];
-    errorsToIgnore = [];
-    return validErrors > 0;
+    return false;
   }
 
+  /** Shedule a check to see if we should display the opt-in UI. */
   function scheduleShowUICheck() {
     if (showUiTimeout !== null) {
       window.clearTimeout(showUiTimeout);
@@ -31,19 +66,23 @@
     showUiTimeout = window.setTimeout(function() {
       var el = document.getElementById('safe-mode-enable');
 
-      if (checkValidErrors() && el && el.hasAttribute('hidden')) {
+      if (el && el.hasAttribute('hidden') && validErrorsExist()) {
         el.removeAttribute('hidden');
         el.focus();
+        errors = [];
+        errorsToIgnore = [];
       }
     }, SHOW_UI_DELAY_MS);
   }
 
+  /** Our public API. See safe-mode.d.ts for more documentation. */
   window.SafeMode = {
     ignoreError: function(e) {
       errorsToIgnore.push(e.toString());
     }
   };
 
+  /** Listen for any error events. */
   window.addEventListener('error', function(e) {
     try {
       errors.push(e.error.toString());
@@ -53,5 +92,11 @@
     scheduleShowUICheck();
   });
 
+  /**
+   * It's possible that some errors occurred while our page
+   * was loading, but the opt-in UI wasn't available yet.
+   * If that was the case, schedule another check to display
+   * the UI just in case.
+   */
   window.addEventListener('load', scheduleShowUICheck);
 })();

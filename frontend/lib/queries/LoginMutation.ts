@@ -105,6 +105,10 @@ export interface LoginMutation_output_session {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
+  /**
+   * Whether or not the current session has safe/compatibility mode compatibility mode) enabled.
+   */
+  isSafeModeEnabled: boolean;
   onboardingStep1: LoginMutation_output_session_onboardingStep1 | null;
   onboardingStep2: LoginMutation_output_session_onboardingStep2 | null;
   onboardingStep3: LoginMutation_output_session_onboardingStep3 | null;

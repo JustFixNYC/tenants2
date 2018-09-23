@@ -1,3 +1,4 @@
+from typing import Dict, Any
 from project.util.js_snippet import JsSnippetContextProcessor
 import frontend.safe_mode
 
@@ -12,6 +13,7 @@ class SafeModeJsSnippet(JsSnippetContextProcessor):
 
 def safe_mode(request):
     is_enabled = frontend.safe_mode.is_enabled(request)
-    ctx = {'is_safe_mode_enabled': is_enabled}
-    ctx.update(SafeModeJsSnippet()(request))
+    ctx: Dict[str, Any] = {'is_safe_mode_enabled': is_enabled}
+    if not is_enabled:
+        ctx.update(SafeModeJsSnippet()(request))
     return ctx

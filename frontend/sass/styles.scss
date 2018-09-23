@@ -3,6 +3,20 @@
 @import "./_colors.scss";
 @import "./_safe-mode.scss";
 
+html[data-safe-mode-no-js] {
+    // Don't show the hamburger at all, since people
+    // will just be confused by its lack of interactivity.
+    .navbar-burger {
+        display: none;
+    }
+}
+
+html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
+    &.navbar-menu, .navbar-dropdown {
+        animation: jf-slidedown 0.5s;
+    }
+}
+
 .hero nav.navbar {
     background: $justfix-blue;
 
@@ -19,16 +33,28 @@
     }
 
     .is-active {
-        &.navbar-menu, .navbar-dropdown {
-            animation: jf-slidedown 0.5s;
-        }
-
         .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
             outline: 2px dashed $justfix-blue;
         }
 
         .navbar-item, .navbar-link {
             color: $justfix-blue;
+        }
+
+        // This handles the extremely weird case where the hamburger
+        // is active, but the browser window is also wide enough to
+        // not be showing the menu bar.
+        //
+        // Most significantly, this is the case in safe mode, when
+        // we show both the hamburger and all dropdowns simultaneously,
+        // and have no ability to change the DOM via JS.
+        //
+        // This is probably a symptom of how horrible all this CSS is.
+        @media screen and (min-width: $desktop) {
+            .navbar-end > .navbar-item:not(:hover) {
+                color: white;
+                outline-color: white;
+            }
         }
 
         .navbar-link::after {

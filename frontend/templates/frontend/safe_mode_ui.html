@@ -1,19 +1,21 @@
 {% if is_safe_mode_enabled %}
-<div class="container safe-mode-disable">
-  <div class="notification is-info">
-    <form method="post" action="{% url 'safe_mode:disable' %}">
-      {% csrf_token %}
-      <div class="columns">
-        <div class="column is-8">
-          This site is currently in <strong>compatibility mode</strong>. For an enhanced
-          experience, you can disable it, but this may cause compatibility issues
-          with your current browser.
+<div class="safe-mode-disable">
+  <div class="container">
+    <div class="notification is-info">
+      <form method="post" action="{% url 'safe_mode:disable' %}">
+        {% csrf_token %}
+        <div class="columns">
+          <div class="column is-8">
+            This site is currently in <strong>compatibility mode</strong>. For an enhanced
+            experience, you can disable it, but this may cause compatibility issues
+            with your current browser.
+          </div>
+          <div class="column is-4 has-text-right">
+            <button class="button is-fullwidth" type="submit">Deactivate compatibility mode</button>
+          </div>
         </div>
-        <div class="column is-4 has-text-right">
-          <button class="button is-fullwidth" type="submit">Deactivate compatibility mode</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 {% else %}

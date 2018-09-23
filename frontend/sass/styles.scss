@@ -206,9 +206,19 @@ aside.safe-mode {
     z-index: 1000;
 }
 
-.safe-mode-disable .notification {
+.safe-mode-disable {
     background-color: $justfix-blue;
-    border-radius: 0;
+}
+
+.safe-mode-disable .notification {
+    // This is a TERRIBLE hack to try to ensure that the
+    // safe mode UI isn't overlapped by any dropdowns in
+    // the perma-expanded navbar above it.
+    @media screen and (min-width: $desktop) {
+        padding-top: 200px;
+    }
+
+    background-color: $justfix-blue;
 }
 
 [hidden] {

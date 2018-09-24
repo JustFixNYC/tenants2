@@ -88,6 +88,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (window.SafeMode) {
       window.SafeMode.reportError(error);
     }
+    if (window.Rollbar) {
+      window.Rollbar.error("ErrorBoundary caught an error!", error);
+    }
   }
 
   render() {

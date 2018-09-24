@@ -80,6 +80,12 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
       if (window.SafeMode) {
         window.SafeMode.ignoreError(error);
       }
+      if (window.Rollbar) {
+        window.Rollbar.error(
+          "ProgressiveEnhancement caught an error, reverting to baseline.",
+          error
+        );
+      }
     } else {
       throw error;
     }

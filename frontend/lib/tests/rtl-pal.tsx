@@ -58,6 +58,12 @@ export default class ReactTestingLibraryPal {
     this.click(matcher, 'a, button');
   }
 
+  clickRadioButton(matcher: RegExp|string) {
+    rt.fireEvent.click(this.rr.getByLabelText(matcher, {
+      selector: 'input'
+    }));
+  }
+
   /** Fill out multiple form fields in the render result. */
   fillFormFields(fills: FormFieldFill[]) {
     fills.forEach(([matcher, value]) => {

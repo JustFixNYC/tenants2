@@ -74,9 +74,9 @@ describe('onboarding step 1 page', () => {
     pal.fillFormFields([
       [/full name/i, 'boop jones'],
       [/address/i, '150 court'],
-      [/borough/i, 'BROOKLYN'],
       [/apartment number/i, '2']
     ]);
+    pal.clickRadioButton(/Brooklyn/);
     pal.clickButtonOrLink('Next');
     pal.respondWithFormOutput<OnboardingStep1Mutation_output>({
       errors: [],

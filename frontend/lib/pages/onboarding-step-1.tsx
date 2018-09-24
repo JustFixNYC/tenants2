@@ -9,7 +9,7 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
 import { Modal, ModalLink } from '../modal';
-import { TextualFormField, SelectFormField } from '../form-fields';
+import { TextualFormField, RadiosFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
@@ -84,7 +84,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     return (
       <React.Fragment>
         <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
-        <SelectFormField
+        <RadiosFormField
           label="What is your borough?"
           {...ctx.fieldPropsFor('borough')}
           choices={BOROUGH_CHOICES}

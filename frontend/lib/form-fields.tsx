@@ -138,7 +138,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
 
   return (
     <div className="field">
-      <label className="checkbox">
+      <label className="checkbox jf-single-checkbox">
         <input
           type="checkbox"
           name={props.name}

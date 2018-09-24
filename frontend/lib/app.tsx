@@ -68,6 +68,11 @@ const LoadableExampleModalPage = Loadable({
   loading: LoadingPage
 });
 
+const LoadableClientSideErrorPage = Loadable({
+  loader: () => import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page'),
+  loading: LoadingPage
+});
+
 const LoadableOnboardingRoutes = Loadable({
   loader: () => import(/* webpackChunkName: "onboarding" */ './onboarding'),
   loading: LoadingPage
@@ -169,6 +174,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
         <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />>
         <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
+        <Route path={Routes.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
         <Route render={NotFound} />
       </Switch>
     );

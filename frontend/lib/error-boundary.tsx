@@ -79,6 +79,15 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       error: getErrorString(error),
       componentStack: info.componentStack
     });
+    // Unfortunately, it seems like the React error boundary
+    // behaves differently in development vs. produciton. In
+    // development, it dispatches an error event from the window,
+    // which safe mode and other libraries (e.g. Rollbar) can
+    // intercept. In production, however, this doesn't seem to
+    // occur, so we need to call them manually.
+    if (window.SafeMode) {
+      window.SafeMode.reportError(error);
+    }
   }
 
   render() {

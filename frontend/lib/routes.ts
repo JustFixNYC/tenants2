@@ -69,7 +69,8 @@ const Routes = {
     redirect: '/__example-redirect',
     modal: '/__example-modal',
     form: '/__example-form',
-    loadable: '/__loadable-example-page'
+    loadable: '/__loadable-example-page',
+    clientSideError: '/__example-client-side-error',
   }
 };
 

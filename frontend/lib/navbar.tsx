@@ -4,25 +4,28 @@ import { Link } from 'react-router-dom';
 import autobind from 'autobind-decorator';
 import { AriaExpandableButton } from './aria';
 import { bulmaClasses } from './bulma';
-import { AppContext, AppContextType } from './app-context';
+import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
 
-type Dropdown = 'developer';
+type Dropdown = 'developer'|'all';
 
-export interface NavbarProps {
-}
+export type NavbarProps = AppContextType;
 
 interface NavbarState {
   currentDropdown: Dropdown|null;
   isHamburgerOpen: boolean;
 }
 
-export default class Navbar extends React.Component<NavbarProps, NavbarState> {
+class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> {
   navbarRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: NavbarProps) {
     super(props);
-    this.state = { currentDropdown: null, isHamburgerOpen: false };
+    if (props.session.isSafeModeEnabled) {
+      this.state = { currentDropdown: 'all', isHamburgerOpen: true };
+    } else {
+      this.state = { currentDropdown: null, isHamburgerOpen: false };
+    }
     this.navbarRef = React.createRef();
   }
 
@@ -56,13 +59,33 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
 
   componentDidMount() {
     window.addEventListener('focus', this.handleFocus, true);
+    window.addEventListener('resize', this.handleResize, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener('focus', this.handleFocus, true);
+    window.removeEventListener('resize', this.handleResize, false);
   }
 
-  renderDevMenu({ server }: AppContextType): JSX.Element|null {
+  isDropdownActive(dropdown: Dropdown) {
+    return this.state.currentDropdown === dropdown || this.state.currentDropdown === 'all';
+  }
+
+  @autobind
+  handleResize() {
+    this.setState({
+      currentDropdown: null,
+      isHamburgerOpen: false
+    });
+  }
+
+  @autobind
+  handleShowSafeModeUI() {
+    window.SafeMode.showUI();
+  }
+
+  renderDevMenu(): JSX.Element|null {
+    const { server, session } = this.props;
     const { state } = this;
 
     if (!server.debug) return null;
@@ -71,18 +94,21 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
       <NavbarDropdown
         name="Developer"
         isHamburgerOpen={state.isHamburgerOpen}
-        isActive={state.currentDropdown === 'developer'}
+        isActive={this.isDropdownActive('developer')}
         onToggle={() => this.toggleDropdown('developer')}
       >
         <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack analysis</a>
         <a className="navbar-item" href="/graphiql">GraphiQL</a>
         <a className="navbar-item" href="/loc/example.pdf">Example PDF</a>
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
+        {!session.isSafeModeEnabled &&
+          <a className="navbar-item" href="#" onClick={this.handleShowSafeModeUI}>Show safe mode UI</a>}
       </NavbarDropdown>
     );
   }
 
-  renderNavbarBrand({ server }: AppContextType): JSX.Element {
+  renderNavbarBrand(): JSX.Element {
+    const { server } = this.props;
     const { state } = this;
 
     return (
@@ -106,29 +132,30 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
 
   render() {
     const { state } = this;
+    const { session, server } = this.props;
 
     return (
-      <AppContext.Consumer>
-        {appContext => (
-          <nav className="navbar" ref={this.navbarRef}>
-            <div className="container">
-              {this.renderNavbarBrand(appContext)}
-              <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
-                <div className="navbar-end">
-                  {appContext.session.isStaff && <a className="navbar-item" href={appContext.server.adminIndexURL}>Admin</a>}
-                  {appContext.session.phoneNumber
-                    ? <Link className="navbar-item" to={Routes.logout}>Sign out</Link>
-                    : <Link className="navbar-item" to={Routes.login}>Sign in</Link> }
-                  {this.renderDevMenu(appContext)}
-                </div>
-              </div>
+      <nav className="navbar" ref={this.navbarRef}>
+        <div className="container">
+          {this.renderNavbarBrand()}
+          <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
+            <div className="navbar-end">
+              {session.isStaff && <a className="navbar-item" href={server.adminIndexURL}>Admin</a>}
+              {session.phoneNumber
+                ? <Link className="navbar-item" to={Routes.logout}>Sign out</Link>
+                : <Link className="navbar-item" to={Routes.login}>Sign in</Link> }
+              {this.renderDevMenu()}
             </div>
-          </nav>
-        )}
-      </AppContext.Consumer>
+          </div>
+        </div>
+      </nav>
     );
   }
 }
+
+const Navbar = withAppContext(NavbarWithoutAppContext);
+
+export default Navbar;
 
 interface NavbarDropdownProps {
   name: string;

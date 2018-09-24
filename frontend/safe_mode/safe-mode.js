@@ -1,0 +1,145 @@
+// @ts-check
+
+/**
+ * This file contains ES3-compliant JavaScript that will be minified and inserted
+ * into the top of the page as an inline snippet. Its purpose is to listen for any
+ * uncaught errors that are raised on the page and present a UI to opt the user
+ * into "safe mode" (also known as "compatibility mode"), whereby we deliver
+ * nearly zero JavaScript to the client browser.
+ */
+(function() {
+  /**
+   * The amount of time from when we receive an error to when we show the
+   * opt-in UI for activating safe mode.
+   * 
+   * The reason there is any delay is because in some cases, an error
+   * event occurs and our own client-side code later deals with it
+   * gracefully on its own, obviating the need for the user to enter
+   * safe mode. We need to provide some leeway for that code to
+   * let us know that the error has been handled, hence this delay.
+   */
+  var SHOW_UI_DELAY_MS = 250;
+
+  /**
+   * The data attribute we're using to determine whether the
+   * safe mode opt-in UI is hidden or not. We're not using the
+   * standard 'hidden' attribute because under some situations,
+   * e.g. if JS in the client browser is completely disabled or
+   * this script fails to run, we actually want the UI to be
+   * visible even if it has this attribute, and we don't want
+   * e.g. assistive technologies to hide the element just because
+   * it has the 'hidden' attribute.
+   */
+  var HIDDEN_ATTR = 'data-safe-mode-hidden';
+
+  /**
+   * A list of error messages that other client-side code has told
+   * us to ignore.
+   * 
+   * @type {string[]}
+   */
+  var errorsToIgnore = [];
+
+  /**
+   * A list of error messages that we've received so far.
+   * 
+   * @type {string[]}
+   */
+  var errors = [];
+
+  /**
+   * Book-keeping used to control the display of the UI.
+   * 
+   * @type {number|null}
+   */
+  var showUiTimeout = null;
+
+  /**
+   * Check to see if any valid errors have been logged and return
+   * true if so.
+   * 
+   * @returns {boolean}
+   */
+  function validErrorsExist() {
+    for (var i = 0; i < errors.length; i++) {
+      if (errorsToIgnore.indexOf(errors[i]) === -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Shedule a check to see if we should display the opt-in UI. */
+  function scheduleShowUICheck() {
+    if (showUiTimeout !== null) {
+      window.clearTimeout(showUiTimeout);
+      showUiTimeout = null;
+    }
+    showUiTimeout = window.setTimeout(function() {
+      var el = document.getElementById('safe-mode-enable');
+
+      showUiTimeout = null;
+
+      if (el && el.hasAttribute(HIDDEN_ATTR) && validErrorsExist()) {
+        el.removeAttribute(HIDDEN_ATTR);
+        el.focus();
+
+        /** @type {HTMLButtonElement|null} */
+        var deleteBtn = el.querySelector('button.delete');
+        if (deleteBtn) {
+          deleteBtn.onclick = function() {
+            if (el) {
+              el.setAttribute(HIDDEN_ATTR, '');
+            }
+          };
+        }
+      }
+
+      errors = [];
+      errorsToIgnore = [];
+    }, SHOW_UI_DELAY_MS);
+  }
+
+  /**
+   * Record the given error and show the safe mode opt-in API
+   * if needed.
+   * 
+   * @param err {Error}
+   */
+  function reportError(err) {
+    try {
+      errors.push(err.toString());
+    } catch (e) {
+      errors.push('unknown error');
+    }
+    scheduleShowUICheck();
+  }
+
+  /** Our public API. See safe-mode.d.ts for more documentation. */
+  window.SafeMode = {
+    showUI: function() {
+      errors.push('showUI() called');
+      scheduleShowUICheck();
+    },
+    reportError: reportError,
+    ignoreError: function(e) {
+      errorsToIgnore.push(e.toString());
+    }
+  };
+
+  /** Listen for any error events and report them. */
+  window.addEventListener('error', function(e) {
+    reportError(e.error);
+  });
+
+  /**
+   * It's possible that some errors occurred while our page
+   * was loading, but the opt-in UI wasn't available yet.
+   * If that was the case, schedule another check to display
+   * the UI just in case.
+   */
+  window.addEventListener('load', scheduleShowUICheck);
+
+  var htmlEl = document.getElementsByTagName('html')[0];
+  htmlEl.removeAttribute('data-safe-mode-no-js');
+})();

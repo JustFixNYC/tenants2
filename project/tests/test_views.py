@@ -10,6 +10,7 @@ from project.views import (
 )
 from users.tests.factories import UserFactory
 from .util import qdict
+from frontend.tests import test_safe_mode
 
 
 def test_get_legacy_form_submission_raises_errors(graphql_client):
@@ -47,11 +48,33 @@ def test_invalid_post_returns_400(client):
     assert response.content == b'No GraphQL query found'
 
 
-def test_index_works(client):
+# HTML we know will appear in pages only when safe mode is enabled/disabled.
+SAFE_MODE_ENABLED_SENTINEL = "navbar-menu is-active"
+SAFE_MODE_DISABLED_SENTINEL = "main.bundle.js"
+
+
+def test_index_works_when_not_in_safe_mode(client):
     response = client.get('/')
     assert response.status_code == 200
     assert 'JustFix.nyc' in response.context['title_tag']
     assert '<nav' in response.context['initial_render']
+
+    html = response.content.decode('utf-8')
+    assert SAFE_MODE_ENABLED_SENTINEL not in html
+    assert SAFE_MODE_DISABLED_SENTINEL in html
+    test_safe_mode.assert_html_is_not_in_safe_mode(html)
+
+
+@pytest.mark.django_db
+def test_index_works_when_in_safe_mode(client):
+    test_safe_mode.enable_safe_mode(client)
+    response = client.get('/')
+    assert response.status_code == 200
+
+    html = response.content.decode('utf-8')
+    assert SAFE_MODE_ENABLED_SENTINEL in html
+    assert SAFE_MODE_DISABLED_SENTINEL not in html
+    test_safe_mode.assert_html_is_in_safe_mode(html)
 
 
 def test_pages_with_redirects_work(client):
@@ -98,7 +121,7 @@ def test_fix_newlines_works():
 
 
 def test_form_submission_redirects_on_success(django_app):
-    form = django_app.get('/__example-form').form
+    form = django_app.get('/__example-form').forms[0]
 
     # Sometimes browsers will munge the newlines in our own
     # hidden inputs before submitting; let's make sure that
@@ -117,12 +140,12 @@ def test_form_submission_shows_errors(django_app):
     response = django_app.get('/__example-form')
     assert response.status == '200 OK'
 
-    form = response.form
+    form = response.forms[0]
     form['exampleField'] = 'hello there buddy'
     response = form.submit()
 
     assert response.status == '200 OK'
-    form = response.form
+    form = response.forms[0]
 
     # Ensure the form preserves the input from our last submission.
     assert form['exampleField'].value == 'hello there buddy'
@@ -131,28 +154,28 @@ def test_form_submission_shows_errors(django_app):
 
 
 def test_form_submission_preserves_boolean_fields(django_app):
-    form = django_app.get('/__example-form').form
+    form = django_app.get('/__example-form').forms[0]
 
     assert form['boolField'].value is None
     form['boolField'] = True
     response = form.submit()
 
     assert response.status == '200 OK'
-    form = response.form
+    form = response.forms[0]
 
     assert form['boolField'].value == 'on'
     form['boolField'] = False
     response = form.submit()
 
     assert response.status == '200 OK'
-    form = response.form
+    form = response.forms[0]
     assert form['boolField'].value is None
 
 
 @pytest.mark.django_db
 def test_successful_login_redirects_to_next(django_app):
     UserFactory(phone_number='5551234567', password='test123')
-    form = django_app.get('/login?next=/boop').form
+    form = django_app.get('/login?next=/boop').forms[0]
 
     form['phoneNumber'] = '5551234567'
     form['password'] = 'test123'
@@ -164,7 +187,7 @@ def test_successful_login_redirects_to_next(django_app):
 
 @pytest.mark.django_db
 def test_unsuccessful_login_shows_error(django_app):
-    form = django_app.get('/login?next=/boop').form
+    form = django_app.get('/login?next=/boop').forms[0]
 
     form['phoneNumber'] = '5551234567'
     form['password'] = 'test123'

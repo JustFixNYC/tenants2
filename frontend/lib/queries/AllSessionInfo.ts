@@ -93,6 +93,10 @@ export interface AllSessionInfo {
    * Whether or not the currently logged-in user is a staff member.
    */
   isStaff: boolean;
+  /**
+   * Whether or not the current session has safe/compatibility mode compatibility mode) enabled.
+   */
+  isSafeModeEnabled: boolean;
   onboardingStep1: AllSessionInfo_onboardingStep1 | null;
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
@@ -107,6 +111,7 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     phoneNumber
     csrfToken
     isStaff
+    isSafeModeEnabled
     onboardingStep1 {
         name
         address

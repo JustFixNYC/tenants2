@@ -2,6 +2,7 @@ fragment AllSessionInfo on SessionInfo {
     phoneNumber
     csrfToken
     isStaff
+    isSafeModeEnabled
     onboardingStep1 {
         name
         address

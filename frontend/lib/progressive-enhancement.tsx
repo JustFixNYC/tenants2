@@ -77,6 +77,9 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
   componentDidCatch(error: Error) {
     if (this.isEnhanced()) {
       this.setState({ hasCaughtError: true });
+      if (window.SafeMode) {
+        window.SafeMode.ignoreError(error);
+      }
     } else {
       throw error;
     }

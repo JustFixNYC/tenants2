@@ -7,6 +7,7 @@ module.exports = {
     "frontend"
   ],
   "collectCoverage": true,
+  "coveragePathIgnorePatterns": ["/node_modules/", "safe-mode-globals.d.ts"],
   "coverageReporters": [
     "lcov",
     "html"

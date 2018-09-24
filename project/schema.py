@@ -8,6 +8,7 @@ from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
 from issues.schema import IssueMutations, IssueSessionInfo
 from loc.schema import LocMutations, LocSessionInfo
+from frontend import safe_mode
 from . import forms
 
 
@@ -29,6 +30,14 @@ class SessionInfo(LocSessionInfo, OnboardingSessionInfo, IssueSessionInfo, graph
         required=True
     )
 
+    is_safe_mode_enabled = graphene.Boolean(
+        description=(
+            "Whether or not the current session has safe/compatibility mode "
+            "compatibility mode) enabled."
+        ),
+        required=True
+    )
+
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -41,6 +50,9 @@ class SessionInfo(LocSessionInfo, OnboardingSessionInfo, IssueSessionInfo, graph
 
     def resolve_is_staff(self, info: ResolveInfo) -> bool:
         return info.context.user.is_staff
+
+    def resolve_is_safe_mode_enabled(self, info: ResolveInfo) -> bool:
+        return safe_mode.is_enabled(info.context)
 
 
 class Example(DjangoFormMutation):

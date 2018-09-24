@@ -8,7 +8,7 @@ MY_DIR = Path(__file__).parent.resolve()
 
 SESSION_KEY = 'enable_safe_mode'
 
-SAFE_MODE_JS = MY_DIR / 'safe_mode' / 'safe-mode.min.js'
+SAFE_MODE_JS = MY_DIR / 'safe-mode.min.js'
 
 
 def is_enabled(request: HttpRequest) -> bool:

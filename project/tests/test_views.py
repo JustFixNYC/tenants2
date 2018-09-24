@@ -10,6 +10,7 @@ from project.views import (
 )
 from users.tests.factories import UserFactory
 from .util import qdict
+from frontend.tests import test_safe_mode
 
 
 def test_get_legacy_form_submission_raises_errors(graphql_client):
@@ -47,11 +48,33 @@ def test_invalid_post_returns_400(client):
     assert response.content == b'No GraphQL query found'
 
 
-def test_index_works(client):
+# HTML we know will appear in pages only when safe mode is enabled/disabled.
+SAFE_MODE_ENABLED_SENTINEL = "navbar-menu is-active"
+SAFE_MODE_DISABLED_SENTINEL = "main.bundle.js"
+
+
+def test_index_works_when_not_in_safe_mode(client):
     response = client.get('/')
     assert response.status_code == 200
     assert 'JustFix.nyc' in response.context['title_tag']
     assert '<nav' in response.context['initial_render']
+
+    html = response.content.decode('utf-8')
+    assert SAFE_MODE_ENABLED_SENTINEL not in html
+    assert SAFE_MODE_DISABLED_SENTINEL in html
+    test_safe_mode.assert_html_is_not_in_safe_mode(html)
+
+
+@pytest.mark.django_db
+def test_index_works_when_in_safe_mode(client):
+    test_safe_mode.enable_safe_mode(client)
+    response = client.get('/')
+    assert response.status_code == 200
+
+    html = response.content.decode('utf-8')
+    assert SAFE_MODE_ENABLED_SENTINEL in html
+    assert SAFE_MODE_DISABLED_SENTINEL not in html
+    test_safe_mode.assert_html_is_in_safe_mode(html)
 
 
 def test_pages_with_redirects_work(client):

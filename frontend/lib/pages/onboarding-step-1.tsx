@@ -55,8 +55,8 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
       <div className="content box">
         <h1 className="title">Is this your address?</h1>
         <p>{onboardingStep1.address}, {borough}</p>
-        <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
         <Link to={Routes.onboarding.step2} className="button is-primary is-fullwidth">Yes!</Link>
+        <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
       </div>
     )} />
   );

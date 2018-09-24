@@ -78,6 +78,8 @@
     showUiTimeout = window.setTimeout(function() {
       var el = document.getElementById('safe-mode-enable');
 
+      showUiTimeout = null;
+
       if (el && el.hasAttribute(HIDDEN_ATTR) && validErrorsExist()) {
         el.removeAttribute(HIDDEN_ATTR);
         el.focus();
@@ -92,7 +94,25 @@
           };
         }
       }
+
+      errors = [];
+      errorsToIgnore = [];
     }, SHOW_UI_DELAY_MS);
+  }
+
+  /**
+   * Record the given error and show the safe mode opt-in API
+   * if needed.
+   * 
+   * @param err {Error}
+   */
+  function reportError(err) {
+    try {
+      errors.push(err.toString());
+    } catch (e) {
+      errors.push('unknown error');
+    }
+    scheduleShowUICheck();
   }
 
   /** Our public API. See safe-mode.d.ts for more documentation. */
@@ -101,19 +121,15 @@
       errors.push('showUI() called');
       scheduleShowUICheck();
     },
+    reportError: reportError,
     ignoreError: function(e) {
       errorsToIgnore.push(e.toString());
     }
   };
 
-  /** Listen for any error events. */
+  /** Listen for any error events and report them. */
   window.addEventListener('error', function(e) {
-    try {
-      errors.push(e.error.toString());
-    } catch (e) {
-      errors.push('unknown error');
-    }
-    scheduleShowUICheck();
+    reportError(e.error);
   });
 
   /**

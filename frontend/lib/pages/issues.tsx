@@ -118,10 +118,14 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
+        const iconSrc = `${ctx.server.staticURL}frontend/img/issues/${allCapsToSlug(area)}.svg`;
         return (
           <Link to={Routes.loc.issues.area.create(allCapsToSlug(area))} className="button is-fullwidth">
-            {label}
-            <span className="tag is-info" data-jf-tag-count={count}>{count}</span>
+            <span className="icon">
+              <img src={iconSrc} alt="" />
+            </span>
+            <span>{label}</span>
+            <span className="tag is-light" data-jf-tag-count={count}>{count}</span>
           </Link>
         );
       }}

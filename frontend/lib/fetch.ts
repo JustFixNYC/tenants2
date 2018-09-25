@@ -9,7 +9,7 @@ let dynamicImport: Promise<typeof fetch>|null = null;
  * ensures that only one request for the code bundle we need is
  * ever made.
  */
-function dynamicallyImportFetch(): Promise<typeof fetch> {
+export function dynamicallyImportFetch(): Promise<typeof fetch> {
   if (!dynamicImport) {
     dynamicImport = import(/* webpackChunkName: "fetch" */ 'isomorphic-fetch')
       .then(res => res.default);

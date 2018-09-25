@@ -45,11 +45,18 @@ def test_letter_html_works(admin_client):
 
 
 @pytest.mark.django_db
-def test_letter_html_includes_full_name(client):
+def test_letter_html_includes_expected_content(client):
     user = UserFactory(first_name="Bobby", last_name="Denver")
+    Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
     client.force_login(user)
     res = client.get('/loc/letter.html')
-    assert b'Bobby Denver' in res.content
+    html = res.content.decode('utf-8')
+
+    assert 'Bobby Denver' in html
+
+    # Make sure the section symbol is in there, to ensure that
+    # we don't have any unicode issues.
+    assert u"\u00A7" in html
 
 
 def test_example_html_works(client):

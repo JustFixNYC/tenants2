@@ -130,7 +130,7 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
         const iconSrc = `${ctx.server.staticURL}${getIssueAreaImagePath(area)}`;
         const url = Routes.loc.issues.area.create(allCapsToSlug(area));
-        const actionLabel = count === 0 ? 'Add issues' : 'Add or change issues';
+        const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
 
         return (
           <div className="box">

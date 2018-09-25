@@ -131,35 +131,61 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
         const iconSrc = `${ctx.server.staticURL}${getIssueAreaImagePath(area)}`;
         const url = Routes.loc.issues.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
+        const title = `${actionLabel} for ${label}`;
+        const issueLabel = getIssueLabel(count);
+        const ariaLabel = `${title} (${issueLabel})`;
 
         return (
-          <div className="box">
-            <article className="media">
-              <div className="media-left">
-                <figure className="image is-128x128 is-clipped">
-                  <Link to={url} className=""><img src={iconSrc} alt={`${actionLabel} for ${label}`} /></Link>
-                </figure>
-              </div>
-              <div className="media-content">
-              <p><strong>{label}</strong></p>
-              <p><span data-jf-tag-count={count}>{getIssueLabel(count)}</span></p>
-              <br/>
-              <p><Link to={url}>{actionLabel}<span className="jf-sr-only"> for ${label}</span>&hellip;</Link></p>
-              </div>
-            </article>
-          </div>
+          <Link to={url} className="jf-issue-area-link" title={title} aria-label={ariaLabel}>
+              <img src={iconSrc} alt="" />
+            <p><strong>{label}</strong></p>
+            <p className="is-size-7">{issueLabel}</p>
+          </Link>
         );
       }}
     </AppContext.Consumer>
   );
 }
 
+/**
+ * "Chunk" an array into groups of two so that they can
+ * be added into a two-column Bulma layout.
+ */
+export function groupByTwo<T>(arr: T[]): [T, T|null][] {
+  const result: [T, T|null][] = [];
+  let prev: T|null = null;
+
+  for (let curr of arr) {
+    if (prev) {
+      result.push([prev, curr]);
+      prev = null;
+    } else {
+      prev = curr;
+    }
+  }
+
+  if (prev) {
+    result.push([prev, null]);
+  }
+
+  return result;
+}
+
 function IssuesHome(): JSX.Element {
+  const columnForArea = (area: string, label: string) => (
+    <div className="column">
+      <IssueAreaLink area={area} label={label} />
+    </div>
+  );
+
   return (
     <Page title="Issue checklist">
       <h1 className="title">Issue checklist</h1>
-      {ISSUE_AREA_CHOICES.map(([value, label]) => (
-        <IssueAreaLink key={value} area={value} label={label} />
+      {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
+        <div className="columns is-mobile" key={i}>
+          {columnForArea(...a)}
+          {b && columnForArea(...b)}
+        </div>
       ))}
       <br/>
       <div className="buttons">

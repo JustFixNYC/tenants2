@@ -233,3 +233,23 @@ html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
 .jf-autocomplete-field ul li {
     padding: 0.5rem;
 }
+
+.jf-issue-area-link {
+    color: $button-text-color;
+    display: block;
+    border: 1px solid $button-text-hover-background-color;
+    text-align: center;
+    padding: 0.5em;
+    height: 100%;
+
+    img {
+        width: 64px;
+        height: 64px;
+        overflow: hidden;
+    }
+}
+
+.jf-issue-area-link:hover {
+    color: $button-text-hover-color;
+    background: $button-text-hover-background-color;
+}

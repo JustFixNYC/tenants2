@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo } from '../../pages/issues';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
@@ -75,4 +75,10 @@ test('issue area images exist', () => {
       throw new Error(`Expected ${imgPath} to exist for issue area ${area}`);
     }
   });
+});
+
+test('groupByTwo() works', () => {
+  expect(groupByTwo([1])).toEqual([[1, null]]);
+  expect(groupByTwo([1, 2])).toEqual([[1, 2]]);
+  expect(groupByTwo([1, 2, 3])).toEqual([[1, 2], [3, null]]);
 });

@@ -18,7 +18,6 @@
     ["HOME__DOORBELL BROKEN", "Doorbell Broken"],
     ["HOME__BUZZER DEFECTIVE", "Buzzer Defective"],
     ["HOME__BUZZER BROKEN", "Buzzer Broken"],
-    
     ["BEDROOMS__PAINT", "Peeling paint"],
     ["BEDROOMS__WALLS", "Cracked walls"],
     ["BEDROOMS__MOLD ON WALLS", "Mold on Walls"],
@@ -34,7 +33,6 @@
     ["BEDROOMS__ELECTRICITY", "Electricity defective"],
     ["BEDROOMS__WIRING EXPOSED", "Electric wiring exposed"],
     ["BEDROOMS__OUTLETS", "Outlets defective"],
- 
     ["KITCHEN__MOLD", "Mold on walls"],
     ["KITCHEN__WATER", "Water damage"],
     ["KITCHEN__PAINT", "Peeling Paint"],
@@ -61,7 +59,6 @@
     ["KITCHEN__WATER PRESSURE", "Inadequate Water pressure"],
     ["KITCHEN__PIPES", "Pipes Leaking"],
     ["KITCHEN__DRAIN", "Drain Stoppage"],
-    
     ["LIVING_ROOM__MOLD", "Mold on walls"],
     ["LIVING_ROOM__WATER", "Water damage"],
     ["LIVING_ROOM__PAINT", "Peeling paint"],
@@ -77,7 +74,6 @@
     ["LIVING_ROOM__ELECTRICITY", "Electricity defective"],
     ["LIVING_ROOM__WIRING EXPOSED", "Electric wiring exposed"],
     ["LIVING_ROOM__OUTLETS", "Outlets defective"],   
-    
     ["BATHROOMS__MOLD", "Mold on walls"],
     ["BATHROOMS__WATER", "Water damage"],
     ["BATHROOMS__PAINT", "Peeling paint"],
@@ -115,9 +111,6 @@
     ["BATHROOMS__SHOWER FAUCET LEAKING", "Shower: Inadequate Water pressure"],
     ["BATHROOMS__SHOWER NO FAUCET", "Shower: Leaky shower head"],
     ["BATHROOMS__SHOWER DRAIN", "Shower: Drain Stoppage"],
-
-
-    
     ["PUBLIC_AREAS__PAINTING_OVERDUE", "Painting overdue (3 years)"],
     ["PUBLIC_AREAS__PAINT", "Peeling/flaking paint"],
     ["PUBLIC_AREAS__NO HEAT", "No Heat"],
@@ -134,8 +127,7 @@
     ["PUBLIC_AREAS__ILLEGAL APARTMENTS", "Illegal apartments in basement"],
     ["PUBLIC_AREAS__NO SUPER", "Inadequate / no super service"],
     ["PUBLIC_AREAS__RENT RECEIPTS", "No rent receipts given"],
-    ["PUBLIC_AREAS__INCOMPLETE RENT RECEIPTS", "Rent receipts incomplete (no date/ NYC address for landlord, etc.)"],
-    
+    ["PUBLIC_AREAS__INCOMPLETE RENT RECEIPTS", "Rent receipts incomplete (no date/ NYC address for landlord, etc.)"], 
     ["LANDLORD__RETALIATION", "Retaliation for seeking repairs"],
     ["LANDLORD__RENT", "Not receiving rent receipts"],
     ["LANDLORD__NO_LEASE", "No lease"],
@@ -150,5 +142,4 @@
     ["LANDLORD__CHANGING LOCKS", "Changing locks without supplying a new key"],
     ["LANDLORD__BUYOUT", "Constant buyout demands"],
     ["LANDLORD__TREATENING EVICTION", "Threatening eviction on false claims"]
-
 ]

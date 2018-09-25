@@ -8,7 +8,8 @@ from users.models import JustfixUser
 
 VALID_STEP_DATA = {
     1: {
-        'name': 'boop jones',
+        'firstName': 'boop',
+        'lastName': 'jones',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
         'aptNumber': '3B'
@@ -60,7 +61,7 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
 
 
 def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):
-    ob = _exec_onboarding_step_n(1, graphql_client, name='')
+    ob = _exec_onboarding_step_n(1, graphql_client, firstName='')
     assert len(ob['errors']) > 0
     assert 'onboarding_step_1' not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None

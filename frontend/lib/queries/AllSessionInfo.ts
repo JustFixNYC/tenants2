@@ -10,7 +10,8 @@ import { LetterRequestMailChoice } from "./globalTypes";
 // ====================================================
 
 export interface AllSessionInfo_onboardingStep1 {
-  name: string;
+  firstName: string;
+  lastName: string;
   /**
    * The user's address. Only street name and number are required.
    */
@@ -113,7 +114,8 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     isStaff
     isSafeModeEnabled
     onboardingStep1 {
-        name
+        firstName
+        lastName
         address
         aptNumber,
         borough

@@ -346,7 +346,23 @@
               "deprecationReason": null
             },
             {
-              "name": "name",
+              "name": "firstName",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastName",
               "description": "",
               "args": [],
               "type": {
@@ -1289,7 +1305,23 @@
               "deprecationReason": null
             },
             {
-              "name": "name",
+              "name": "firstName",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastName",
               "description": "",
               "args": [],
               "type": {
@@ -1407,7 +1439,21 @@
               "defaultValue": null
             },
             {
-              "name": "name",
+              "name": "firstName",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "lastName",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

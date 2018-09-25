@@ -36,7 +36,8 @@ describe('onboarding step 1 page', () => {
     const pal = new AppTesterPal(<OnboardingStep1 />, {
       session: {
         onboardingStep1: {
-          name: 'boop jones',
+          firstName: 'boop',
+          lastName: 'jones',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
           borough: "MANHATTAN"
@@ -53,7 +54,8 @@ describe('onboarding step 1 page', () => {
     const pal = new AppTesterPal(<OnboardingStep1 />);
     fetch.mockReturnJson(FakeGeoResults);
     pal.fillFormFields([
-      [/full name/i, 'boop jones'],
+      [/first name/i, 'boop'],
+      [/last name/i, 'jones'],
       [/apartment number/i, '2'],
       [/address/i, "150 cou"]
     ]);
@@ -61,7 +63,8 @@ describe('onboarding step 1 page', () => {
     pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink('Next');
     pal.expectFormInput({
-      name: "boop jones",
+      firstName: "boop",
+      lastName: "jones",
       aptNumber: "2",
       address: "150 COURT STREET",
       borough: "MANHATTAN"
@@ -72,7 +75,8 @@ describe('onboarding step 1 page', () => {
     jest.useRealTimers();
     const pal = new AppTesterPal(<OnboardingStep1 disableProgressiveEnhancement />);
     pal.fillFormFields([
-      [/full name/i, 'boop jones'],
+      [/first name/i, 'boop'],
+      [/last name/i, 'jones'],
       [/address/i, '150 court'],
       [/apartment number/i, '2']
     ]);
@@ -82,7 +86,8 @@ describe('onboarding step 1 page', () => {
       errors: [],
       session: {
         onboardingStep1: {
-          name: 'boop jones',
+          firstName: 'boop',
+          lastName: 'jones',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
           aptNumber: '2'

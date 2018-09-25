@@ -4,7 +4,8 @@ fragment AllSessionInfo on SessionInfo {
     isStaff
     isSafeModeEnabled
     onboardingStep1 {
-        name
+        firstName
+        lastName
         address
         aptNumber,
         borough

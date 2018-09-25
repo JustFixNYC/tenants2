@@ -22,7 +22,8 @@ export interface LoginMutation_output_errors {
 }
 
 export interface LoginMutation_output_session_onboardingStep1 {
-  name: string;
+  firstName: string;
+  lastName: string;
   /**
    * The user's address. Only street name and number are required.
    */

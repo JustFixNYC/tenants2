@@ -19,7 +19,8 @@ import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 
 const blankInitialState: OnboardingStep1Input = {
-  name: '',
+  firstName: '',
+  lastName: '',
   address: '',
   aptNumber: '',
   borough: '',
@@ -117,7 +118,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="What is your full name?" {...ctx.fieldPropsFor('name')} />
+        <TextualFormField label="What is your first name?" {...ctx.fieldPropsFor('firstName')} />
+        <TextualFormField label="What is your last name?" {...ctx.fieldPropsFor('lastName')} />
         <ProgressiveEnhancement
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}

@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 
 from project import geocoding
 from project.forms import USPhoneNumberField
-from users.models import JustfixUser, FULL_NAME_MAXLEN
+from users.models import JustfixUser
 from .models import OnboardingInfo
 
 
@@ -14,7 +14,9 @@ class OnboardingStep1Form(forms.ModelForm):
         model = OnboardingInfo
         fields = ('address', 'borough', 'apt_number')
 
-    name = forms.CharField(max_length=FULL_NAME_MAXLEN)
+    first_name = forms.CharField(max_length=30)
+
+    last_name = forms.CharField(max_length=150)
 
     def __verify_address(self, address: str, borough: str) -> Tuple[str, bool]:
         '''

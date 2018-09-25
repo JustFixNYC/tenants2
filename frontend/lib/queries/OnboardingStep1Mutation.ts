@@ -21,7 +21,8 @@ export interface OnboardingStep1Mutation_output_errors {
 }
 
 export interface OnboardingStep1Mutation_output_session_onboardingStep1 {
-  name: string;
+  firstName: string;
+  lastName: string;
   /**
    * The user's address. Only street name and number are required.
    */
@@ -63,7 +64,8 @@ export const OnboardingStep1Mutation = {
         },
         session {
             onboardingStep1 {
-                name,
+                firstName,
+                lastName,
                 address,
                 aptNumber,
                 borough

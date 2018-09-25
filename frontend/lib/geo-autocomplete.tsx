@@ -86,6 +86,7 @@ const MAX_SUGGESTIONS = 5;
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
   keyThrottleTimeout: number|null;
   abortController?: AbortController;
+  requestId: number;
 
   constructor(props: GeoAutocompleteProps) {
     super(props);
@@ -93,6 +94,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       isLoading: false,
       results: []
     };
+    this.requestId = 0;
     this.keyThrottleTimeout = null;
     this.abortController = createAbortController();
   }
@@ -148,6 +150,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       this.abortController.abort();
       this.abortController = createAbortController();
     }
+    this.requestId++;
   }
 
   @autobind
@@ -164,15 +167,18 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   async fetchResults(value: string): Promise<void> {
+    const originalRequestId = this.requestId;
     const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
     const res = await awesomeFetch(url, {
       signal: this.abortController && this.abortController.signal
     });
     const results = await res.json();
-    this.setState({
-      isLoading: false,
-      results: geoSearchResultsToAutocompleteItems(results)
-    });
+    if (this.requestId === originalRequestId) {
+      this.setState({
+        isLoading: false,
+        results: geoSearchResultsToAutocompleteItems(results)
+      });
+    }
   }
 
   @autobind

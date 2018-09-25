@@ -118,8 +118,14 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="What is your first name?" {...ctx.fieldPropsFor('firstName')} />
-        <TextualFormField label="What is your last name?" {...ctx.fieldPropsFor('lastName')} />
+        <div className="columns">
+          <div className="column">
+            <TextualFormField label="What is your first name?" {...ctx.fieldPropsFor('firstName')} />
+          </div>
+          <div className="column">
+            <TextualFormField label="What is your last name?" {...ctx.fieldPropsFor('lastName')} />
+          </div>
+        </div>
         <ProgressiveEnhancement
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}

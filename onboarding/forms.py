@@ -9,6 +9,15 @@ from users.models import JustfixUser
 from .models import OnboardingInfo
 
 
+# Whenever we change the fields in any of the onboarding
+# forms, we should change this number to ensure that we
+# never use an old session's onboarding data with the
+# new validation logic. The downside is that the old
+# session's onboarding data will disappear, but hopefully
+# we won't have to do this often.
+FIELD_SCHEMA_VERSION = 2
+
+
 class OnboardingStep1Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo

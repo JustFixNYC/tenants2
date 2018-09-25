@@ -24,7 +24,7 @@ def session_key_for_step(step: int) -> str:
     '''
 
     assert step in SESSION_STEPS
-    return f'onboarding_step_{step}'
+    return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
 def get_session_info():

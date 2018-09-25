@@ -51,13 +51,13 @@ export default class OnboardingStep2 extends React.Component {
           I need repairs made in my apartment.
         </CheckboxFormField>
         <CheckboxFormField {...ctx.fieldPropsFor('hasNoServices')}>
-          I'm living without essential services (heat/gas/hot water).
+          I'm living without essential services (heat, gas, hot water).
         </CheckboxFormField>
         <CheckboxFormField {...ctx.fieldPropsFor('hasPests')}>
           I have pests (rodents, cockroaches, bed bugs).
         </CheckboxFormField>
         <CheckboxFormField {...ctx.fieldPropsFor('hasCalled311')}>
-          I've called 311 before to report these issues.
+          I've already called 311 to report these issues but my landlord still hasn't made repairs.
         </CheckboxFormField>
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>

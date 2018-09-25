@@ -54,7 +54,15 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     component: () => (
       <LeaseInfoModal title="Market rate lease">
         <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
-        <p>As a market rate tenant you should be aware of "landlord retaliation" and that you are not guaranteed the right to a renewal lease.</p>
+      </LeaseInfoModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3NychaModal,
+    leaseType: 'NYCHA',
+    component: () => (
+      <LeaseInfoModal title="NYCHA">
+        <p>We’ll make sure your letter gets to the head of the Housing Authority. You should also download the <OutboundLink href="https://www1.nyc.gov/site/nycha/residents/mynycha.page" target="_blank">MyNYCHA app</OutboundLink> to make service requests.</p>
       </LeaseInfoModal>
     )
   },
@@ -65,16 +73,22 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
       <LeaseInfoModal title="Not sure about your lease?">
         <p>If you aren't sure, check your lease.</p>
         <p>You can also request a copy of your rental history via email from the Division of Housing and Community Renewal. This is a private request and you'll get a letter in the mail in about a week; the landlord will never know.</p>
-        <p>For more details, visit <OutboundLink href="https://amirentstabilized.com/">amirentstabilized.com</OutboundLink>.</p>
+        <p>For more details, visit <OutboundLink href="http://www.nyshcr.org/rent/tenantresources.htm" target="_blank">The NY State Homes and Community Renewal</OutboundLink>.</p>
       </LeaseInfoModal>
     )
   },
   {
-    route: Routes.onboarding.step3NoLeaseModal,
-    leaseType: 'NO_LEASE',
+    route: Routes.onboarding.step3OtherModal,
+    leaseType: 'OTHER',
     component: () => (
-      <LeaseInfoModal title="No lease">
-        <p>If you are a month-to-month tenant, you don't have many rights protecting you from "landlord retaliation".</p>
+      <LeaseInfoModal title="Other">
+        <p>Here are some other types of housing you may live in:</p>
+        <ul className="has-text-left">
+          <li>COOP</li>
+          <li>Mitchell Lama</li>
+          <li>No lease</li>
+        </ul>
+        <p>You can still send a letter as well. This is a formal way to request repairs from your landlord and is a good tactic before calling 311.</p>
       </LeaseInfoModal>
     )
   }

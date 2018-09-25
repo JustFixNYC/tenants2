@@ -2,10 +2,6 @@
     ["RENT_STABILIZED", "Rent Stabilized"],
     ["MARKET_RATE", "Market Rate"],
     ["NYCHA", "NYCHA"],
-    ["MITCHELL_LAMA", "Mitchell Lama"],
-    ["COOP", "COOP"],
-    ["NO_LEASE", "No Lease"],
-    ["SHELTER", "Shelter"],
     ["NOT_SURE", "I'm not sure"],
     ["OTHER", "Other"]
 ]

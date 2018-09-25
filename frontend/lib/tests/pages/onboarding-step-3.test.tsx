@@ -1,7 +1,7 @@
 import React from 'react';
 
 import OnboardingStep3, { LEASE_CHOICES, LEASE_MODALS } from '../../pages/onboarding-step-3';
-import { validateDjangoChoices } from '../../common-data';
+import { validateDjangoChoices, getDjangoChoiceLabel } from '../../common-data';
 import { AppTesterPal } from '../app-tester-pal';
 import { OnboardingStep3Mutation_output } from '../../queries/OnboardingStep3Mutation';
 
@@ -9,21 +9,26 @@ import { OnboardingStep3Mutation_output } from '../../queries/OnboardingStep3Mut
 describe('onboarding step 3 page', () => {
   afterEach(AppTesterPal.cleanup);
 
-  it('displays modal when user chooses "rent stabilized"', async () => {
-    const pal = new AppTesterPal(<OnboardingStep3 />);
+  LEASE_MODALS.forEach(info => {
+    const { leaseType } = info;
+    const label = getDjangoChoiceLabel(LEASE_CHOICES, leaseType);
 
-    pal.click(/rent stabilized/i, 'label');
-    pal.clickButtonOrLink('Next');
-    pal.respondWithFormOutput<OnboardingStep3Mutation_output>({
-      errors: [],
-      session: {
-        onboardingStep3: {
-          leaseType: 'RENT_STABILIZED',
-          receivesPublicAssistance: false
-        }  
-      }
+    it(`displays modal when user chooses "${label}"`, async () => {
+      const pal = new AppTesterPal(<OnboardingStep3 />);
+
+      pal.click(label, 'label');
+      pal.clickButtonOrLink('Next');
+      pal.respondWithFormOutput<OnboardingStep3Mutation_output>({
+        errors: [],
+        session: {
+          onboardingStep3: {
+            leaseType,
+            receivesPublicAssistance: false
+          }
+        }
+      });
+      await pal.rt.waitForElement(() => pal.getDialogWithLabel(/.+/i));
     });
-    await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Great news/i));
   });
 });
 

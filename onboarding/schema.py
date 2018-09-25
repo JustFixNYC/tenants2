@@ -6,7 +6,7 @@ import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
 
-from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation, StrictFormFieldErrorType
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -126,8 +126,11 @@ class OnboardingStep4(DjangoFormMutation):
     session = graphene.Field('project.schema.SessionInfo')
 
     @classmethod
-    def __extract_all_step_session_data(cls, request: HttpRequest) -> Dict[str, Any]:
+    def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
         result: Dict[str, Any] = {}
+        for step in SESSION_STEPS:
+            if session_key_for_step(step) not in request.session:
+                return None
         for step in SESSION_STEPS:
             key = session_key_for_step(step)
             result.update(request.session[key])
@@ -135,11 +138,18 @@ class OnboardingStep4(DjangoFormMutation):
         return result
 
     @classmethod
+    def _make_error(cls, message: str):
+        err = StrictFormFieldErrorType(field='__all__', messages=[message])
+        return cls(errors=[err])
+
+    @classmethod
     def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
         password = form.cleaned_data['password'] or None
         prev_steps = cls.__extract_all_step_session_data(request)
+        if prev_steps is None:
+            return cls._make_error("You haven't completed all the previous steps yet.")
         user = JustfixUser.objects.create_user(
             username=phone_number,
             first_name=prev_steps['first_name'],

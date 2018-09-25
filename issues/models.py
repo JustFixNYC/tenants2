@@ -10,7 +10,7 @@ ISSUE_AREA_CHOICES = Choices.from_file('issue-area-choices.json')
 
 ISSUE_CHOICES = Choices.from_file('issue-choices.json')
 
-VALUE_MAXLEN = 30
+VALUE_MAXLEN = 60
 
 
 def ensure_issue_matches_area(issue: str, area: str):

@@ -13,6 +13,13 @@ def test_issue_choice_areas_are_valid():
         assert area in areas
 
 
+def test_choices_have_no_duplicates():
+    values = set()
+    for value, _ in models.ISSUE_CHOICES.choices:
+        assert value not in values
+        values.add(value)
+
+
 def test_choices_have_valid_length():
     for value, _ in models.ISSUE_AREA_CHOICES.choices:
         assert len(value) < models.VALUE_MAXLEN

@@ -2,5 +2,15 @@
     ["HOME__MICE", "Mice"],
     ["HOME__RATS", "Rats"],
     ["BEDROOMS__PAINT", "Peeling paint"],
-    ["BEDROOMS__WALLS", "Cracked walls"]
+    ["BEDROOMS__WALLS", "Cracked walls"],
+    ["KITCHEN__MOLD", "Mold on walls"],
+    ["KITCHEN__WATER", "Water damage"],
+    ["LIVING_ROOM__PAINT", "Peeling paint"],
+    ["LIVING_ROOM__WALLS", "Cracked walls"],
+    ["BATHROOMS__PAINT", "Peeling paint"],
+    ["BATHROOMS__WALLS", "Cracked walls"],
+    ["PUBLIC_AREAS__PAINTING_OVERDUE", "Painting overdue (3 years)"],
+    ["PUBLIC_AREAS__PAINT", "Peeling/flaking paint"],
+    ["LANDLORD__RENT", "Not receiving rent receipts"],
+    ["LANDLORD__NO_LEASE", "No lease"]
 ]

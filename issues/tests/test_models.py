@@ -1,3 +1,4 @@
+import re
 import pytest
 from django.core.exceptions import ValidationError
 
@@ -18,6 +19,20 @@ def test_choices_have_no_duplicates():
     for value, _ in models.ISSUE_CHOICES.choices:
         assert value not in values
         values.add(value)
+
+
+def test_choices_have_valid_chars():
+    pattern = re.compile(r'[A-Z_]+')
+    violations = []
+    for value, _ in models.ISSUE_CHOICES.choices:
+        if not pattern.fullmatch(value):
+            violations.append(value)
+    vstr = '\n'.join(violations)
+    if vstr:
+        raise Exception(
+            f"The following issue choices consist of more "
+            f"than underscores and uppercase letters: {vstr}"
+        )
 
 
 def test_choices_have_valid_length():

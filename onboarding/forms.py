@@ -5,8 +5,17 @@ from django.contrib.auth.password_validation import validate_password
 
 from project import geocoding
 from project.forms import USPhoneNumberField
-from users.models import JustfixUser, FULL_NAME_MAXLEN
+from users.models import JustfixUser
 from .models import OnboardingInfo
+
+
+# Whenever we change the fields in any of the onboarding
+# forms, we should change this number to ensure that we
+# never use an old session's onboarding data with the
+# new validation logic. The downside is that the old
+# session's onboarding data will disappear, but hopefully
+# we won't have to do this often.
+FIELD_SCHEMA_VERSION = 2
 
 
 class OnboardingStep1Form(forms.ModelForm):
@@ -14,7 +23,9 @@ class OnboardingStep1Form(forms.ModelForm):
         model = OnboardingInfo
         fields = ('address', 'borough', 'apt_number')
 
-    name = forms.CharField(max_length=FULL_NAME_MAXLEN)
+    first_name = forms.CharField(max_length=30)
+
+    last_name = forms.CharField(max_length=150)
 
     def __verify_address(self, address: str, borough: str) -> Tuple[str, bool]:
         '''

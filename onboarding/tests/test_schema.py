@@ -4,11 +4,13 @@ from django.contrib.auth.hashers import is_password_usable
 
 from project.tests.util import get_frontend_queries
 from users.models import JustfixUser
+from onboarding.schema import session_key_for_step
 
 
 VALID_STEP_DATA = {
     1: {
-        'name': 'boop jones',
+        'firstName': 'boop',
+        'lastName': 'jones',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
         'aptNumber': '3B'
@@ -60,9 +62,9 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
 
 
 def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):
-    ob = _exec_onboarding_step_n(1, graphql_client, name='')
+    ob = _exec_onboarding_step_n(1, graphql_client, firstName='')
     assert len(ob['errors']) > 0
-    assert 'onboarding_step_1' not in graphql_client.request.session
+    assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
@@ -70,7 +72,7 @@ def test_onboarding_step_1_works(graphql_client, fake_geocoding):
     ob = _exec_onboarding_step_n(1, graphql_client)
     assert ob['errors'] == []
     assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
-    assert graphql_client.request.session['onboarding_step_1']['apt_number'] == '3B'
+    assert graphql_client.request.session[session_key_for_step(1)]['apt_number'] == '3B'
     assert _get_step_1_info(graphql_client)['aptNumber'] == '3B'
 
 

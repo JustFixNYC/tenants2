@@ -58,7 +58,8 @@ export interface OnboardingStep1Input {
   address: string;
   borough: string;
   aptNumber: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   clientMutationId?: string | null;
 }
 

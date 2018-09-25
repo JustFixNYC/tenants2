@@ -24,7 +24,7 @@ def session_key_for_step(step: int) -> str:
     '''
 
     assert step in SESSION_STEPS
-    return f'onboarding_step_{step}'
+    return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
 def get_session_info():
@@ -142,7 +142,8 @@ class OnboardingStep4(DjangoFormMutation):
         prev_steps = cls.__extract_all_step_session_data(request)
         user = JustfixUser.objects.create_user(
             username=phone_number,
-            full_name=prev_steps['name'],
+            first_name=prev_steps['first_name'],
+            last_name=prev_steps['last_name'],
             phone_number=phone_number,
             password=password,
         )

@@ -44,6 +44,14 @@ def test_letter_html_works(admin_client):
     assert res['Content-Type'] == 'text/html; charset=utf-8'
 
 
+@pytest.mark.django_db
+def test_letter_html_includes_full_name(client):
+    user = UserFactory(first_name="Bobby", last_name="Denver")
+    client.force_login(user)
+    res = client.get('/loc/letter.html')
+    assert b'Bobby Denver' in res.content
+
+
 def test_example_html_works(client):
     res = client.get('/loc/example.html')
     assert res.status_code == 200

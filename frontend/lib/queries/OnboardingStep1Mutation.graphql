@@ -6,7 +6,8 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
         },
         session {
             onboardingStep1 {
-                name,
+                firstName,
+                lastName,
                 address,
                 aptNumber,
                 borough

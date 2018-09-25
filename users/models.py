@@ -14,15 +14,14 @@ class JustfixUser(AbstractUser):
         help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
     )
 
-    full_name = models.CharField(
-        'Full name',
-        max_length=FULL_NAME_MAXLEN,
-        blank=True,
-        help_text="The user's full name."
-    )
-
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username', 'email']
+
+    @property
+    def full_name(self) -> str:
+        if self.first_name and self.last_name:
+            return ' '.join([self.first_name, self.last_name])
+        return ''
 
     def formatted_phone_number(self) -> str:
         if len(self.phone_number) != PHONE_NUMBER_LEN:

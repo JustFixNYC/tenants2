@@ -20,9 +20,9 @@ class JustfixUserAdmin(UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
-    list_display = ['phone_number', 'full_name', 'issue_count', 'mailing_needed']
+    list_display = ['phone_number', 'first_name', 'last_name', 'issue_count', 'mailing_needed']
     fieldsets = (
-        (_('Personal info'), {'fields': ('full_name', 'email', 'phone_number')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number')}),
         ('Username and password', {
             'fields': ('username', 'password'),
             'description': (

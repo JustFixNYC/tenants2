@@ -70,6 +70,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           choices={issueChoicesForArea(area)}
         />
         <p>Don't see your issues listed? You can add additional issues below.</p>
+        <br/>
         <TextareaFormField {...ctx.fieldPropsFor('other')} label="Additional issues" />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>

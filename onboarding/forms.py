@@ -72,15 +72,16 @@ class OnboardingStep4Form(forms.ModelForm):
 
     phone_number = USPhoneNumberField()
 
-    password = forms.CharField()
+    password = forms.CharField(required=False)
 
-    confirm_password = forms.CharField()
+    confirm_password = forms.CharField(required=False)
 
     agree_to_terms = forms.BooleanField(required=True)
 
     def clean_password(self):
         password = self.cleaned_data['password']
-        validate_password(password)
+        if password:
+            validate_password(password)
         return password
 
     def clean_phone_number(self):

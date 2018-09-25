@@ -10,7 +10,7 @@ describe('onboarding step 4 page', () => {
   it('displays welcome modal on successful signup', async () => {
     const pal = new AppTesterPal(<OnboardingStep4 />);
 
-    pal.clickButtonOrLink("Create account");
+    pal.clickButtonOrLink(/finish/i);
     pal.respondWithFormOutput({ errors: [], session: {} });
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Welcome/i));
   });

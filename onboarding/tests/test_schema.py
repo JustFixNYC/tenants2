@@ -1,5 +1,6 @@
 from unittest.mock import patch
 import pytest
+from django.contrib.auth.hashers import is_password_usable
 
 from project.tests.util import get_frontend_queries
 from users.models import JustfixUser
@@ -73,11 +74,16 @@ def test_onboarding_step_1_works(graphql_client, fake_geocoding):
     assert _get_step_1_info(graphql_client)['aptNumber'] == '3B'
 
 
+def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
+    for i in step_data.keys():
+        result = _exec_onboarding_step_n(i, graphql_client, **step_data[i])
+        assert result['errors'] == []
+    return result
+
+
 @pytest.mark.django_db
 def test_onboarding_works(graphql_client, fake_geocoding):
-    for i in VALID_STEP_DATA.keys():
-        result = _exec_onboarding_step_n(i, graphql_client)
-        assert result['errors'] == []
+    result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
         assert result['session'][f'onboardingStep{i}'] is None
@@ -88,6 +94,28 @@ def test_onboarding_works(graphql_client, fake_geocoding):
     oi = user.onboarding_info
     assert user.full_name == 'boop jones'
     assert user.pk == request.user.pk
+    assert is_password_usable(user.password) is True
     assert oi.address == '123 boop way'
     assert oi.needs_repairs is True
     assert oi.lease_type == 'MARKET_RATE'
+
+
+@pytest.mark.django_db
+def test_onboarding_works_without_password(graphql_client, fake_geocoding):
+    result = execute_onboarding(graphql_client, {
+        **VALID_STEP_DATA,
+        4: {
+            **VALID_STEP_DATA[4],
+            'password': '',
+            'confirmPassword': '',
+        }
+    })
+
+    assert result['session']['phoneNumber'] == '5551234567'
+    request = graphql_client.request
+    user = JustfixUser.objects.get(phone_number='5551234567')
+    oi = user.onboarding_info
+    assert user.full_name == 'boop jones'
+    assert user.pk == request.user.pk
+    assert is_password_usable(user.password) is False
+    assert oi.address == '123 boop way'

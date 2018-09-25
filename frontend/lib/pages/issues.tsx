@@ -15,7 +15,7 @@ import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../f
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
 
-const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
+export const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
 const ISSUE_CHOICES = require('../../../common-data/issue-choices.json') as DjangoChoices;
 
@@ -111,6 +111,16 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   }
 }
 
+export function getIssueLabel(count: number): string {
+  return count === 0 ? 'No issues reported'
+    : count === 1 ? 'One issue reported'
+      : `${count} issues reported`;
+}
+
+export function getIssueAreaImagePath(area: string): string {
+  return `frontend/img/issues/${allCapsToSlug(area)}.svg`;
+}
+
 function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
   const { area, label } = props;
 
@@ -118,15 +128,26 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
-        const iconSrc = `${ctx.server.staticURL}frontend/img/issues/${allCapsToSlug(area)}.svg`;
+        const iconSrc = `${ctx.server.staticURL}${getIssueAreaImagePath(area)}`;
+        const url = Routes.loc.issues.area.create(allCapsToSlug(area));
+        const actionLabel = count === 0 ? 'Add issues' : 'Add or change issues';
+
         return (
-          <Link to={Routes.loc.issues.area.create(allCapsToSlug(area))} className="button is-fullwidth">
-            <span className="icon">
-              <img src={iconSrc} alt="" />
-            </span>
-            <span>{label}</span>
-            <span className="tag is-light" data-jf-tag-count={count}>{count}</span>
-          </Link>
+          <div className="box">
+            <article className="media">
+              <div className="media-left">
+                <figure className="image is-128x128">
+                  <Link to={url} className=""><img src={iconSrc} alt={`${actionLabel} for ${label}`} /></Link>
+                </figure>
+              </div>
+              <div className="media-content">
+              <p><strong>{label}</strong></p>
+              <p><span data-jf-tag-count={count}>{getIssueLabel(count)}</span></p>
+              <br/>
+              <p><Link to={url}>{actionLabel}<span className="jf-sr-only"> for ${label}</span>&hellip;</Link></p>
+              </div>
+            </article>
+          </div>
         );
       }}
     </AppContext.Consumer>

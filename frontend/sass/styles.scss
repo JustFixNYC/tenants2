@@ -197,14 +197,6 @@ html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
     }
 }
 
-.tag[data-jf-tag-count] {
-    margin-left: 1em;
-}
-
-.tag[data-jf-tag-count="0"] {
-    display: none;
-}
-
 .jf-loc-preview iframe {
     width: 100%;
     min-height: 20em;

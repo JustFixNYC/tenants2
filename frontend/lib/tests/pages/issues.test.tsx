@@ -1,6 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, customIssueForArea, areaIssueCount } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath } from '../../pages/issues';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
@@ -55,4 +57,22 @@ test('areaIssueCount() works', () => {
   expect(areaIssueCount('HOME', [], [{
     area: 'BEDROOMS', description: 'boop'
   }])).toBe(0);
+});
+
+test('getIssueLabel() works', () => {
+  expect(getIssueLabel(0)).toBe('No issues reported');
+  expect(getIssueLabel(1)).toBe('One issue reported');
+  expect(getIssueLabel(2)).toBe('2 issues reported');
+  expect(getIssueLabel(99)).toBe('99 issues reported');
+});
+
+test('issue area images exist', () => {
+  const STATIC_ROOT = path.join(__dirname, '..', '..', '..', 'static');
+
+  ISSUE_AREA_CHOICES.forEach(([area, _]) => {
+    const imgPath = path.resolve(path.join(STATIC_ROOT, getIssueAreaImagePath(area)));
+    if (!fs.existsSync(imgPath)) {
+      throw new Error(`Expected ${imgPath} to exist for issue area ${area}`);
+    }
+  });
 });

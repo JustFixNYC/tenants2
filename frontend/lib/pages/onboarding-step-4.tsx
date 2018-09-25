@@ -38,14 +38,18 @@ export default class OnboardingStep4 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>
-        <TextualFormField label="Create a password" type="password" {...ctx.fieldPropsFor('password')} />
-        <TextualFormField label="Please confirm your password" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
           I agree to the JustFix terms and conditions, which are currently unspecified.
         </CheckboxFormField>
+        <p>
+          You can optionally create a password-protected account now, which will allow you to securely log in and check your progress.
+        </p>
+        <br/>
+        <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
+        <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <div className="buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
-          <NextButton isLoading={ctx.isLoading} label="Create account" />
+          <NextButton isLoading={ctx.isLoading} label="Finish" />
         </div>
       </React.Fragment>
     );
@@ -54,8 +58,10 @@ export default class OnboardingStep4 extends React.Component {
   render() {
     return (
       <Page title="Last step! Let's create your account.">
-        <h1 className="title">Last step! Let's create your account.</h1>
-        <p>Now we'll create an account to save your progress.</p>
+        <h1 className="title">Last step!</h1>
+        <p>
+          We just need a way to follow-up with you.
+        </p>
         <br/>
         <SessionUpdatingFormSubmitter
           mutation={OnboardingStep4Mutation}

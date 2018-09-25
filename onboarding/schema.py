@@ -1,5 +1,6 @@
 from typing import Optional, Dict, Any
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
+from django.conf import settings
 from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
@@ -137,7 +138,7 @@ class OnboardingStep4(DjangoFormMutation):
     def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
-        password = form.cleaned_data['password']
+        password = form.cleaned_data['password'] or None
         prev_steps = cls.__extract_all_step_session_data(request)
         user = JustfixUser.objects.create_user(
             username=phone_number,
@@ -151,10 +152,8 @@ class OnboardingStep4(DjangoFormMutation):
         oi.full_clean()
         oi.save()
 
-        # This will associate our user with an authentication backend.
-        user_with_backend = authenticate(phone_number=phone_number, password=password)
-        assert user is not None and user.pk == user_with_backend.pk
-        login(request, user_with_backend)
+        user.backend = settings.AUTHENTICATION_BACKENDS[0]
+        login(request, user)
         return cls(errors=[], session=get_session_info())
 
 

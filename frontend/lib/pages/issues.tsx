@@ -136,7 +136,7 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
           <div className="box">
             <article className="media">
               <div className="media-left">
-                <figure className="image is-128x128">
+                <figure className="image is-128x128 is-clipped">
                   <Link to={url} className=""><img src={iconSrc} alt={`${actionLabel} for ${label}`} /></Link>
                 </figure>
               </div>

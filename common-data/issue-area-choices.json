@@ -1,4 +1,9 @@
 [
     ["HOME", "Entire home and hallways"],
-    ["BEDROOMS", "Bedrooms"]
+    ["BEDROOMS", "Bedrooms"],
+    ["KITCHEN", "Kitchen"],
+    ["LIVING_ROOM", "Living room"],
+    ["BATHROOMS", "Bathrooms"],
+    ["PUBLIC_AREAS", "Public areas"],
+    ["LANDLORD", "Landlord harassment"]
 ]

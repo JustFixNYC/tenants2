@@ -1,5 +1,7 @@
 import pytest
 from users.tests.factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
+from .test_landlord_lookup import mock_lookup_success
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -147,10 +149,29 @@ def test_landlord_details_is_null_when_unauthenticated(graphql_client):
 
 
 @pytest.mark.django_db
-def test_landlord_details_is_null_when_user_has_not_yet_provided_it(graphql_client):
+def test_landlord_details_is_null_when_user_has_no_onboarding_info(graphql_client):
     graphql_client.request.user = UserFactory.create()
     result = graphql_client.execute('query { session { landlordDetails { name } } }')
     assert result['data']['session']['landlordDetails'] is None
+
+
+@pytest.mark.django_db
+def test_landlord_details_are_created_when_user_has_onboarding_info(
+    graphql_client,
+    requests_mock
+):
+    oi = OnboardingInfoFactory()
+    graphql_client.request.user = oi.user
+    assert not hasattr(oi.user, 'landlord_details')
+    mock_lookup_success(requests_mock)
+    result = graphql_client.execute(
+        'query { session { landlordDetails { name, address, isLookedUp } } }')
+    assert result['data']['session']['landlordDetails'] == {
+        'address': '123 DOOMBRINGER STREET 4 11299',
+        'isLookedUp': True,
+        'name': 'BOBBY DENVER'
+    }
+    assert hasattr(oi.user, 'landlord_details')
 
 
 @pytest.mark.django_db

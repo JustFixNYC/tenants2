@@ -71,6 +71,12 @@ class OnboardingInfo(models.Model):
             return ''
         return BOROUGH_CHOICES.get_label(self.borough)
 
+    @property
+    def full_address(self) -> str:
+        if not (self.borough and self.address):
+            return ''
+        return f"{self.address}, {self.borough_label}"
+
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):
             return super().__str__()

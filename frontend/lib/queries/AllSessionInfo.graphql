@@ -30,6 +30,7 @@ fragment AllSessionInfo on SessionInfo {
     landlordDetails {
         name
         address
+        isLookedUp
     }
     letterRequest {
         updatedAt

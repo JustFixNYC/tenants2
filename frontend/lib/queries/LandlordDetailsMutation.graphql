@@ -8,6 +8,7 @@ mutation LandlordDetailsMutation($input: LandlordDetailsInput!) {
             landlordDetails {
                 name
                 address
+                isLookedUp
             }
         }
     }

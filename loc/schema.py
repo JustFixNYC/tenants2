@@ -103,6 +103,15 @@ class LandlordDetails(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsForm
 
+    @classmethod
+    def resolve(cls, parent, info: ResolveInfo):
+        result = super().resolve(parent, info)
+        if result is None:
+            user = info.context.user
+            if user.is_authenticated:
+                return models.LandlordDetails.create_lookup_for_user(user)
+        return result
+
 
 class LetterRequest(OneToOneUserModelFormMutation):
     class Meta:
@@ -118,7 +127,7 @@ class LocMutations:
 class LandlordDetailsType(DjangoObjectType):
     class Meta:
         model = models.LandlordDetails
-        only_fields = ('name', 'address')
+        only_fields = ('name', 'address', 'is_looked_up')
 
 
 class LetterRequestType(DjangoObjectType):

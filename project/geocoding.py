@@ -35,6 +35,9 @@ class FeatureProperties(pydantic.BaseModel):
     # The full address, e.g. "666 FIFTH AVENUE, Manhattan, New York, NY, USA"
     label: str
 
+    # The borough, block, lot number of the address, e.g. "3002920026".
+    pad_bbl: str
+
 
 class Feature(pydantic.BaseModel):
     # This is generally "Feature".

@@ -122,7 +122,7 @@ interface IssueAutocompleteItem {
   searchableText: string;
 }
 
-const IssueDownshift = Downshift as DownshiftInterface<IssueAutocompleteItem|null>;
+const IssueDownshift = Downshift as DownshiftInterface<IssueAutocompleteItem|string>;
 
 const ALL_AUTOCOMPLETE_ITEMS: IssueAutocompleteItem[] = ISSUE_CHOICES.map(([value, label]) => {
   const areaValue = issueArea(value);
@@ -154,16 +154,27 @@ function doesAreaMatchSearch(areaValue: string, searchString: string): boolean {
 }
 
 interface IssueAutocompleteProps {
+  selectedItem: string;
   inputValue: string;
   onInputValueChange: (value: string) => void;
+}
+
+function autocompleteItemToString(item: IssueAutocompleteItem|string|null): string {
+  return item
+    ? typeof(item) === 'string'
+      ? item
+      : `${item.areaLabel} - ${item.label}`
+    : '';
 }
 
 class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
   render() {
     return <IssueDownshift
       onInputValueChange={this.props.onInputValueChange}
+      onChange={(item) => this.props.onInputValueChange(autocompleteItemToString(item))}
       inputValue={this.props.inputValue}
-      itemToString={(item) => item ? `${item.areaLabel} - ${item.label}` : ''}
+      selectedItem={this.props.selectedItem}
+      itemToString={autocompleteItemToString}
     >{(ds) => {
       const results = ds.inputValue
         ? filterAutocompleteItems(ds.inputValue)
@@ -280,6 +291,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
         <ProgressiveEnhancement
           renderEnhanced={() => (
             <IssueAutocomplete
+              selectedItem={this.state.searchText}
               inputValue={this.state.searchText}
               onInputValueChange={(searchText) => {
                 this.setState({ searchText })

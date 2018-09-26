@@ -10,9 +10,13 @@ import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { DjangoChoices } from '../common-data';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { exactSubsetOrDefault } from '../util';
 
 const LOC_MAILING_CHOICES = require('../../../common-data/loc-mailing-choices.json') as DjangoChoices;
+
+const DEFAULT_INPUT: LetterRequestInput = {
+  mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
+};
 
 
 function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
@@ -31,14 +35,6 @@ function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
   );
 }
 
-function getInitialState(session: AllSessionInfo): LetterRequestInput {
-  if (session.letterRequest) {
-    const { mailChoice } = session.letterRequest;
-    return { mailChoice };
-  }
-  return { mailChoice: LetterRequestMailChoice.WE_WILL_MAIL };
-}
-
 const LetterPreview = withAppContext((props) => (
   <div className="box has-text-centered jf-loc-preview">
     <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
@@ -55,7 +51,7 @@ export default function LetterRequestPage(): JSX.Element {
       </div>
       <SessionUpdatingFormSubmitter
         mutation={LetterRequestMutation}
-        initialState={getInitialState}
+        initialState={(session) => exactSubsetOrDefault(session.letterRequest, DEFAULT_INPUT)}
         onSuccessRedirect={Routes.loc.confirmation}
       >
         {renderForm}

@@ -9,7 +9,7 @@ import Routes from '../routes';
 import { LandlordDetailsInput } from '../queries/globalTypes';
 import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
 import { AppContextType, withAppContext } from '../app-context';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { exactSubsetOrDefault } from '../util';
 
 
 const BLANK_INPUT: LandlordDetailsInput = {
@@ -46,14 +46,6 @@ function getIntroText(isLookedUp: boolean|null): JSX.Element {
     );
 }
 
-function getInitialState(session: AllSessionInfo): LandlordDetailsInput {
-  if (session.landlordDetails) {
-    const { name, address } = session.landlordDetails;
-    return { name, address };
-  }
-  return BLANK_INPUT;
-}
-
 export default withAppContext(function LandlordDetailsPage(props: AppContextType): JSX.Element {
   const { landlordDetails } = props.session;
 
@@ -65,7 +57,7 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
       </div>
       <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsMutation}
-        initialState={getInitialState}
+        initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}
         onSuccessRedirect={Routes.loc.preview}
       >
         {renderForm}

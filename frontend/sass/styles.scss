@@ -84,12 +84,8 @@ html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
     outline-offset: -5px;
 }
 
-.hero {
-    background: url(img/brownstones_small.jpg) center / cover;
-
-    @media screen and (min-width: 800px) {
-        background: url(img/brownstones.jpg) center / cover;
-    }
+.jf-hero.hero.is-fullheight .hero-body {
+    align-items: flex-start;
 }
 
 // https://css-tricks.com/focus-styles-non-interactive-elements/

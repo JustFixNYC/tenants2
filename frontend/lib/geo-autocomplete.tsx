@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughLabel } from './boroughs';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
+import { awesomeFetch, createAbortController } from './fetch';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -84,7 +85,8 @@ const MAX_SUGGESTIONS = 5;
  */
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
   keyThrottleTimeout: number|null;
-  abortController: AbortController;
+  abortController?: AbortController;
+  requestId: number;
 
   constructor(props: GeoAutocompleteProps) {
     super(props);
@@ -92,12 +94,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       isLoading: false,
       results: []
     };
+    this.requestId = 0;
     this.keyThrottleTimeout = null;
-
-    // At the time of writing, AbortController isn't supported on older
-    // browsers like IE11, so this will throw. Yet another reason this
-    // component should only be used as a progressive enhancement!
-    this.abortController = new AbortController();
+    this.abortController = createAbortController();
   }
 
   renderListItem(ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
@@ -147,8 +146,11 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       window.clearTimeout(this.keyThrottleTimeout);
       this.keyThrottleTimeout = null;
     }
-    this.abortController.abort();
-    this.abortController = new AbortController();
+    if (this.abortController) {
+      this.abortController.abort();
+      this.abortController = createAbortController();
+    }
+    this.requestId++;
   }
 
   @autobind
@@ -164,20 +166,28 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
+  async fetchResults(value: string): Promise<void> {
+    const originalRequestId = this.requestId;
+    const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
+    const res = await awesomeFetch(url, {
+      signal: this.abortController && this.abortController.signal
+    });
+    const results = await res.json();
+    if (this.requestId === originalRequestId) {
+      this.setState({
+        isLoading: false,
+        results: geoSearchResultsToAutocompleteItems(results)
+      });
+    }
+  }
+
   @autobind
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
       this.setState({ isLoading: true });
       this.keyThrottleTimeout = window.setTimeout(() => {
-        fetch(`${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`, {
-          signal: this.abortController.signal
-        }).then(response => response.json())
-          .then(results => this.setState({
-            isLoading: false,
-            results: geoSearchResultsToAutocompleteItems(results)
-          }))
-          .catch(this.handleFetchError);
+        this.fetchResults(value).catch(this.handleFetchError);
       }, AUTOCOMPLETE_KEY_THROTTLE_MS);
     } else {
       this.setState({ results: [], isLoading: false });

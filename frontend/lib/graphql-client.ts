@@ -1,4 +1,5 @@
 import autobind from 'autobind-decorator';
+import { awesomeFetch } from './fetch';
 
 const DEFAULT_TIMEOUT_MS = 100;
 
@@ -14,13 +15,6 @@ export interface queuedRequest {
   variables?: any;
   resolve: (result: any) => void;
   reject: (error: Error) => void;
-}
-
-async function getFetch(): Promise<typeof fetch> {
-  if (typeof(fetch) === 'function') {
-    return Promise.resolve(fetch);
-  }
-  return (await import(/* webpackChunkName: "fetch" */ 'isomorphic-fetch')).default;
 }
 
 export class GraphQlError extends Error {
@@ -60,7 +54,7 @@ export default class GraphQlClient {
   }
 
   private async fetchBodies(bodies: GraphQLBody[]): Promise<Response> {
-    const fetch = this.fetchImpl || (await getFetch());
+    const fetch = this.fetchImpl || awesomeFetch;
     return fetch(this.batchGraphQLURL, {
       method: 'POST',
       credentials: "same-origin",

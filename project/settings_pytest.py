@@ -13,7 +13,7 @@ LEGACY_MONGODB_URL = ''
 # nonexistent localhost port.
 GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
 GEOCODING_TIMEOUT = 0.001
-LANDLORD_LOOKUP_URL = GEOCODING_SEARCH_URL
+LANDLORD_LOOKUP_URL = "http://127.0.0.1:9999/api/landlord"
 LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
 
 # Disable a bunch of third-party integrations by default.

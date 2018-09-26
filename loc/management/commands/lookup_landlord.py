@@ -13,5 +13,5 @@ class Command(BaseCommand):
         info = lookup_landlord(options['address'])
         if info is None:
             raise CommandError('Landlord lookup failed!')
-        self.stdout.write(f"Landlord name: {info.ownername}")
-        self.stdout.write(f"Landlord address: {info.businessaddr}")
+        self.stdout.write(f"Landlord name: {info.name}")
+        self.stdout.write(f"Landlord address: {info.address}")

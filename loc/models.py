@@ -73,8 +73,8 @@ class LandlordDetails(models.Model):
                 lookup_date=timezone.now()
             )
             if info:
-                details.name = info.ownername
-                details.address = info.businessaddr or ''
+                details.name = info.name
+                details.address = info.address
                 details.is_looked_up = True
             details.save()
             return details

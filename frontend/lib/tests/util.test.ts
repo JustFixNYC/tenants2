@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -100,4 +100,19 @@ test('getFunctionProperty() works', () => {
 
   expect(getFunctionProperty({ blop: fn }, 'blop')).toBe(fn);
   expect(getFunctionProperty({ fn }, 'fn')).toBe(fn);
+});
+
+test('exactSubsetOrDefault() trims superset keys to subset keys', () => {
+  expect(
+    exactSubsetOrDefault({
+      foo: 1,
+      bar: 2
+    }, { bar: 5 })
+  ).toEqual({ bar: 2 });
+});
+
+test('exactSubsetOrDefault() returns default if first arg is null', () => {
+  expect(
+    exactSubsetOrDefault(null, { bar: 5 })
+  ).toEqual({ bar: 5 });
 });

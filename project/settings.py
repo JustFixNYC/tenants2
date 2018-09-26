@@ -211,6 +211,10 @@ GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
 GEOCODING_TIMEOUT = 3
 
+LANDLORD_LOOKUP_URL = "https://whoownswhat.justfix.nyc/api/landlord"
+
+LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
+
 LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 GA_TRACKING_ID = env.GA_TRACKING_ID

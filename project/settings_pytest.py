@@ -9,10 +9,12 @@ from .settings import *  # noqa
 LEGACY_MONGODB_URL = ''
 
 # We don't want any actual network requests to go out
-# while we're testing, so just point this at a
+# while we're testing, so just point these at a
 # nonexistent localhost port.
 GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
 GEOCODING_TIMEOUT = 0.001
+LANDLORD_LOOKUP_URL = GEOCODING_SEARCH_URL
+LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
 
 # Disable a bunch of third-party integrations by default.
 GA_TRACKING_ID = ''

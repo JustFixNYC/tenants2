@@ -83,6 +83,10 @@ export interface LogoutMutation_output_session_landlordDetails {
    * The full mailing address for the landlord.
    */
   address: string;
+  /**
+   * Whether the name and address was looked up automatically, or manually entered by the user.
+   */
+  isLookedUp: boolean;
 }
 
 export interface LogoutMutation_output_session_letterRequest {

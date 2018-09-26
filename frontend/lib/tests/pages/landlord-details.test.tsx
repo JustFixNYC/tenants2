@@ -23,12 +23,12 @@ describe('landlord details page', () => {
     pal.clickButtonOrLink('Preview letter');
     pal.respondWithFormOutput<LandlordDetailsMutation_output>({
       errors: [],
-      session: { landlordDetails: { name, address } }
+      session: { landlordDetails: { name, address, isLookedUp: false } }
     });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/Review the letter of complaint/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
-    expect(mock.calls[0][0]).toEqual({ landlordDetails: { name, address } });
+    expect(mock.calls[0][0]).toEqual({ landlordDetails: { name, address, isLookedUp: false } });
   });
 });

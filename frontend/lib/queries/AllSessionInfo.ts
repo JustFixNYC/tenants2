@@ -71,6 +71,10 @@ export interface AllSessionInfo_landlordDetails {
    * The full mailing address for the landlord.
    */
   address: string;
+  /**
+   * Whether the name and address was looked up automatically, or manually entered by the user.
+   */
+  isLookedUp: boolean;
 }
 
 export interface AllSessionInfo_letterRequest {
@@ -140,6 +144,7 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     landlordDetails {
         name
         address
+        isLookedUp
     }
     letterRequest {
         updatedAt

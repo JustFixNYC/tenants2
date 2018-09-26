@@ -1,9 +1,11 @@
-from typing import List
+from typing import List, Optional
 import datetime
 from django.db import models
+from django.utils import timezone
 
 from project.common_data import Choices
 from users.models import JustfixUser
+from .landlord_lookup import lookup_landlord
 
 
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
@@ -47,6 +49,36 @@ class LandlordDetails(models.Model):
         max_length=1000,
         blank=True,
         help_text="The full mailing address for the landlord.")
+
+    lookup_date = models.DateField(
+        null=True,
+        help_text="When we last tried to look up the landlord's details."
+    )
+
+    is_looked_up = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the name and address was looked up automatically, "
+            "or manually entered by the user."
+        )
+    )
+
+    @classmethod
+    def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
+        if hasattr(user, 'onboarding_info'):
+            oi = user.onboarding_info
+            info = lookup_landlord(f"{oi.address}, {oi.borough_label}")
+            details = LandlordDetails(
+                user=user,
+                lookup_date=timezone.now()
+            )
+            if info:
+                details.name = info.ownername
+                details.address = info.businessaddr or ''
+                details.is_looked_up = True
+            details.save()
+            return details
+        return None
 
 
 class LetterRequest(models.Model):

@@ -125,3 +125,23 @@ export function getFunctionProperty(obj: unknown, name: string): Function|undefi
   }
   return undefined;
 }
+
+/**
+ * Given an object whose interface is a superset of another, this
+ * "trims" the superset to contain only the keys specified by
+ * the subset.
+ * 
+ * If the superset is null, the subset is returned.
+ */
+export function exactSubsetOrDefault<Subset, Superset extends Subset>(superset: Superset|null, defaultSubset: Subset): Subset {
+  if (!superset) {
+    return defaultSubset;
+  }
+  const result = {} as Subset;
+
+  for (let key in defaultSubset) {
+    result[key] = superset[key];
+  }
+
+  return result;
+}

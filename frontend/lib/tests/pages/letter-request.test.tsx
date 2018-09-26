@@ -3,8 +3,12 @@ import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
-import { LetterRequestMailChoice } from '../../queries/globalTypes';
+import { LetterRequestMailChoice, LetterRequestInput } from '../../queries/globalTypes';
 
+const PRE_EXISTING_LETTER_REQUEST = {
+  mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
+  updatedAt: 'blahh'
+};
 
 describe('landlord details page', () => {
   afterEach(AppTesterPal.cleanup);
@@ -12,8 +16,12 @@ describe('landlord details page', () => {
   it('redirects to next step after successful submission', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: Routes.loc.preview,
+      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
     });
     pal.clickButtonOrLink('Finish');
+    pal.expectFormInput<LetterRequestInput>({
+      mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
+    });
     const updatedAt = "2018-01-01Tblahtime";
     const mailChoice = LetterRequestMailChoice.WE_WILL_MAIL;
     pal.respondWithFormOutput<LetterRequestMutation_output>({

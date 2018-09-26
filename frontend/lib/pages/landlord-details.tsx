@@ -9,6 +9,7 @@ import Routes from '../routes';
 import { LandlordDetailsInput } from '../queries/globalTypes';
 import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
 import { AppContextType, withAppContext } from '../app-context';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
 
 
 const BLANK_INPUT: LandlordDetailsInput = {
@@ -29,9 +30,8 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   );
 }
 
-export default withAppContext(function LandlordDetailsPage(props: AppContextType): JSX.Element {
-  const { landlordDetails } = props.session;
-  let intro = landlordDetails && landlordDetails.isLookedUp
+function getIntroText(isLookedUp: boolean|null): JSX.Element {
+  return isLookedUp
     ? (
       <React.Fragment>
         <p>Below is your landlord’s information as registered with the NYC Department of Housing Preservation and Development.</p>
@@ -44,22 +44,28 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
         <p>If you don't know, we'll look it up for you.</p>
       </React.Fragment>
     );
+}
+
+function getInitialState(session: AllSessionInfo): LandlordDetailsInput {
+  if (session.landlordDetails) {
+    const { name, address } = session.landlordDetails;
+    return { name, address };
+  }
+  return BLANK_INPUT;
+}
+
+export default withAppContext(function LandlordDetailsPage(props: AppContextType): JSX.Element {
+  const { landlordDetails } = props.session;
 
   return (
     <Page title="Your landlord">
       <h1 className="title">Your landlord</h1>
       <div className="content">
-        {intro}
+        {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
       </div>
       <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsMutation}
-        initialState={(session) => {
-          if (session.landlordDetails) {
-            const { name, address } = session.landlordDetails;
-            return { name, address };
-          }
-          return BLANK_INPUT;
-        }}
+        initialState={getInitialState}
         onSuccessRedirect={Routes.loc.preview}
       >
         {renderForm}

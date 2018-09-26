@@ -25,6 +25,7 @@ export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element 
     return (
       <Page title="Network error">
         <p>Unfortunately, a network error occurred.</p>
+        <br/>
         <button className="button" onClick={props.retry}>Retry</button>
       </Page>
     );

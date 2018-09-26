@@ -21,3 +21,14 @@ def test_borough_label_works():
 
     info.borough = 'STATEN_ISLAND'
     assert info.borough_label == 'Staten Island'
+
+
+def test_full_address_works():
+    info = OnboardingInfo()
+    assert info.full_address == ''
+
+    info.borough = 'STATEN_ISLAND'
+    assert info.full_address == ''
+
+    info.address = '123 Boop street'
+    assert info.full_address == '123 Boop street, Staten Island'

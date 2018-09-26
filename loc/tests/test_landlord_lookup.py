@@ -15,13 +15,22 @@ MY_DIR = Path(__file__).parent.resolve()
 EXAMPLE_SEARCH = json.loads((MY_DIR / 'test_landlord_lookup_example_search.json').read_text())
 
 
-def test_lookup_landlord_command_works(requests_mock):
+def mock_lookup_success(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, json=EXAMPLE_SEARCH)
+
+
+def mock_lookup_failure(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
+    requests_mock.get(settings.LANDLORD_LOOKUP_URL, status_code=500)
+
+
+def test_lookup_landlord_command_works(requests_mock):
+    mock_lookup_success(requests_mock)
     call_command('lookup_landlord', '150 court, brooklyn')
 
     with pytest.raises(CommandError):
-        requests_mock.get(settings.LANDLORD_LOOKUP_URL, status_code=500)
+        mock_lookup_failure(requests_mock)
         call_command('lookup_landlord', '150 court, brooklyn')
 
 

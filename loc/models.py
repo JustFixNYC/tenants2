@@ -38,6 +38,13 @@ class AccessDate(models.Model):
 
 
 class LandlordDetails(models.Model):
+    '''
+    This represents the landlord details for a user's address, either
+    manually entered by them or automatically looked up by us (or a
+    combination of the two, if the user decided to change what we
+    looked up).
+    '''
+
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name='landlord_details',
         help_text="The user whose landlord details this is for.")
@@ -65,9 +72,24 @@ class LandlordDetails(models.Model):
 
     @classmethod
     def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
+        '''
+        Create an instance of this class by attempting to look up details on the
+        given user's address.
+
+        Assumes that the user does not yet have an instance of this class associated
+        with them.
+
+        If the lookup fails, this method will still create an instance of this class,
+        but it will set the lookup date, so that another lookup can be attempted
+        later.
+
+        However, if the user doesn't have any address information, this will return
+        None, as it has no address to lookup the landlord for.
+        '''
+
         if hasattr(user, 'onboarding_info'):
             oi = user.onboarding_info
-            info = lookup_landlord(f"{oi.address}, {oi.borough_label}")
+            info = lookup_landlord(oi.full_address)
             details = LandlordDetails(
                 user=user,
                 lookup_date=timezone.now()

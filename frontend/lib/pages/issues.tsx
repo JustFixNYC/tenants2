@@ -15,7 +15,7 @@ import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../f
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
 import Downshift, { DownshiftInterface } from 'downshift';
-import { ProgressiveEnhancement } from '../progressive-enhancement';
+import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 export const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
@@ -288,18 +288,15 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
     return (
       <Page title="Issue checklist">
         <h1 className="title">Issue checklist</h1>
-        <ProgressiveEnhancement
-          renderEnhanced={() => (
-            <IssueAutocomplete
-              selectedItem={this.state.searchText}
-              inputValue={this.state.searchText}
-              onInputValueChange={(searchText) => {
-                this.setState({ searchText })
-              }}
-            />
-          )}
-          renderBaseline={() => <span/>}
-        />
+        <SimpleProgressiveEnhancement>
+          <IssueAutocomplete
+            selectedItem={this.state.searchText}
+            inputValue={this.state.searchText}
+            onInputValueChange={(searchText) => {
+              this.setState({ searchText })
+            }}
+          />
+        </SimpleProgressiveEnhancement>
         {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
           <div className="columns is-mobile" key={i}>
             {columnForArea(...a)}

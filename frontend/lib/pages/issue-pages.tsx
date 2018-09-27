@@ -159,12 +159,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
     return <IssueAutocomplete
       inputValue={this.state.searchText}
       onInputValueChange={(searchText) => {
-        // Note that this shouldn't be *too* spammy on GA because of
-        // how it manages hit rate limits:
-        //
-        // https://developers.google.com/analytics/devguides/collection/protocol/v1/limits-quotas
-        ga('send', 'event', 'issue-search', 'change');
-
+        ga('send', 'event', 'issue-search', 'change', searchText);
         this.setState({ searchText })
       }}
     />;

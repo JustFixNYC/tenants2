@@ -14,7 +14,7 @@ import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
-import Downshift, { DownshiftInterface } from 'downshift';
+import Downshift, { DownshiftInterface, ControllerStateAndHelpers } from 'downshift';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 export const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
@@ -167,6 +167,29 @@ function autocompleteItemToString(item: IssueAutocompleteItem|string|null): stri
 }
 
 export class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
+  renderAutocompleteList(ds: ControllerStateAndHelpers<IssueAutocompleteItem|string>): JSX.Element {
+    const results = ds.inputValue ? filterAutocompleteItems(ds.inputValue) : [];
+
+    return (
+      <ul className={classnames({
+        'jf-autocomplete-open': ds.isOpen && results.length > 0
+      })} {...ds.getMenuProps()}>
+        {ds.isOpen && results.map((item, index) => {
+          const props = ds.getItemProps({
+            key: item.value,
+            index,
+            item,
+            className: classnames({
+              'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
+              'jf-autocomplete-is-selected': ds.selectedItem === item
+            })
+          });
+          return <li {...props}>{item.areaLabel} - {item.label}</li>
+        })}
+      </ul>
+    );
+  }
+
   render() {
     return <IssueDownshift
       onInputValueChange={this.props.onInputValueChange}
@@ -175,31 +198,12 @@ export class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
       selectedItem={this.props.inputValue}
       itemToString={autocompleteItemToString}
     >{(ds) => {
-      const results = ds.inputValue
-        ? filterAutocompleteItems(ds.inputValue)
-        : [];
-
       return (
         <div className="field jf-autocomplete-field">
           <label className="jf-sr-only" {...ds.getLabelProps()}>Search</label>
           <div className="control">
             <input className="input" placeholder="Search for issues here" {...ds.getInputProps()} />
-            <ul className={classnames({
-              'jf-autocomplete-open': ds.isOpen && results.length > 0
-            })} {...ds.getMenuProps()}>
-              {ds.isOpen && results.map((item, index) => {
-                const props = ds.getItemProps({
-                  key: item.value,
-                  index,
-                  item,
-                  className: classnames({
-                    'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
-                    'jf-autocomplete-is-selected': ds.selectedItem === item            
-                  })
-                });
-                return <li {...props}>{item.areaLabel} - {item.label}</li>
-              })}
-          </ul>
+            {this.renderAutocompleteList(ds)}
           </div>
         </div>
       );

@@ -16,7 +16,7 @@ export interface ProgressiveEnhancementProps {
    * version, or if it's determined that the browser doesn't have
    * the requisite functionality to run the enhanced version.
    */
-  renderBaseline: () => JSX.Element;
+  renderBaseline?: () => JSX.Element;
 
   /**
    * If this is true, the baseline version of the component will
@@ -118,7 +118,19 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
         fallbackToBaseline: this.fallbackToBaseline
       });
     } else {
-      return this.props.renderBaseline();
+      return this.props.renderBaseline ? this.props.renderBaseline() : null;
     }
   }
+}
+
+/**
+ * A simplified progressive enhancement component that just
+ * renders its children when enabled, and doesn't render
+ * anything when disabled.
+ */
+export function SimpleProgressiveEnhancement(props: { children: JSX.Element, disabled?: boolean }): JSX.Element {
+  return <ProgressiveEnhancement
+    renderEnhanced={() => props.children}
+    disabled={props.disabled}
+  />;
 }

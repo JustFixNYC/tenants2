@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import { ProgressiveEnhancementProps, ProgressiveEnhancement } from "../progressive-enhancement";
+import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement } from "../progressive-enhancement";
 import ReactTestingLibraryPal from './rtl-pal';
 
 
@@ -92,5 +92,25 @@ describe("ProgressiveEnhancement", () => {
       'Falling back to baseline implementation due to error: ',
       err
     );
+  });
+});
+
+describe("SimpleProgressiveEnhancement", () => {
+  it("renders children when enabled", () => {
+    const pal = new ReactTestingLibraryPal(
+      <SimpleProgressiveEnhancement>
+        <span>i am enhanced</span>
+      </SimpleProgressiveEnhancement>
+    );
+    pal.rr.getByText(/i am enhanced/);
+  });
+
+  it("renders children when enabled", () => {
+    const pal = new ReactTestingLibraryPal(
+      <SimpleProgressiveEnhancement disabled>
+        <span>i am enhanced</span>
+      </SimpleProgressiveEnhancement>
+    );
+    expect(pal.rr.container.childElementCount).toBe(0);
   });
 });

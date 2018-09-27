@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { DjangoChoices, safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
+import classnames from 'classnames';
+import { DjangoChoices, safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps, getDjangoChoiceLabel } from "../common-data";
 import Page from '../page';
 import Routes, { RouteTypes } from '../routes';
 import { Switch, Route } from 'react-router';
@@ -14,6 +14,8 @@ import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
+import Downshift, { DownshiftInterface, ControllerStateAndHelpers } from 'downshift';
+import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 export const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
 
@@ -112,6 +114,103 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   }
 }
 
+interface IssueAutocompleteItem {
+  value: string;
+  label: string;
+  areaValue: string;
+  areaLabel: string;
+  searchableText: string;
+}
+
+const IssueDownshift = Downshift as DownshiftInterface<IssueAutocompleteItem|string>;
+
+const ALL_AUTOCOMPLETE_ITEMS: IssueAutocompleteItem[] = ISSUE_CHOICES.map(([value, label]) => {
+  const areaValue = issueArea(value);
+  const areaLabel = getDjangoChoiceLabel(ISSUE_AREA_CHOICES, areaValue);
+  return {
+    value,
+    label,
+    areaValue,
+    areaLabel,
+    searchableText: [areaLabel.toLowerCase(), '-', label.toLowerCase()].join(' ')
+  }
+});
+
+function filterAutocompleteItems(searchString: string): IssueAutocompleteItem[] {
+  searchString = searchString.toLowerCase();
+  return ALL_AUTOCOMPLETE_ITEMS.filter(item =>
+    item.searchableText.indexOf(searchString) !== -1);
+}
+
+export function doesAreaMatchSearch(areaValue: string, searchString: string): boolean {
+  if (!searchString) return false;
+  const items = filterAutocompleteItems(searchString);
+  for (let item of items) {
+    if (item.areaValue === areaValue) {
+      return true;
+    }
+  }
+  return false;
+}
+
+interface IssueAutocompleteProps {
+  inputValue: string;
+  onInputValueChange: (value: string) => void;
+}
+
+function autocompleteItemToString(item: IssueAutocompleteItem|string|null): string {
+  return item
+    ? typeof(item) === 'string'
+      ? item
+      : `${item.areaLabel} - ${item.label}`
+    : '';
+}
+
+export class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
+  renderAutocompleteList(ds: ControllerStateAndHelpers<IssueAutocompleteItem|string>): JSX.Element {
+    const results = ds.inputValue ? filterAutocompleteItems(ds.inputValue) : [];
+
+    return (
+      <ul className={classnames({
+        'jf-autocomplete-open': ds.isOpen && results.length > 0
+      })} {...ds.getMenuProps()}>
+        {ds.isOpen && results.map((item, index) => {
+          const props = ds.getItemProps({
+            key: item.value,
+            index,
+            item,
+            className: classnames({
+              'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
+              'jf-autocomplete-is-selected': ds.selectedItem === item
+            })
+          });
+          return <li {...props}>{item.areaLabel} - {item.label}</li>
+        })}
+      </ul>
+    );
+  }
+
+  render() {
+    return <IssueDownshift
+      onInputValueChange={this.props.onInputValueChange}
+      onChange={(item) => this.props.onInputValueChange(autocompleteItemToString(item))}
+      inputValue={this.props.inputValue}
+      selectedItem={this.props.inputValue}
+      itemToString={autocompleteItemToString}
+    >{(ds) => {
+      return (
+        <div className="field jf-autocomplete-field">
+          <label className="jf-sr-only" {...ds.getLabelProps()}>Search</label>
+          <div className="control">
+            <input className="input" placeholder="Search for issues here" {...ds.getInputProps()} />
+            {this.renderAutocompleteList(ds)}
+          </div>
+        </div>
+      );
+    }}</IssueDownshift>;
+  }
+}
+
 export function getIssueLabel(count: number): string {
   return count === 0 ? 'No issues reported'
     : count === 1 ? 'One issue reported'
@@ -122,7 +221,7 @@ export function getIssueAreaImagePath(area: string): string {
   return `frontend/img/issues/${allCapsToSlug(area)}.svg`;
 }
 
-function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
+function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boolean }): JSX.Element {
   const { area, label } = props;
 
   return (
@@ -137,7 +236,7 @@ function IssueAreaLink(props: { area: string, label: string }): JSX.Element {
         const ariaLabel = `${title} (${issueLabel})`;
 
         return (
-          <Link to={url} className="jf-issue-area-link" title={title} aria-label={ariaLabel}>
+          <Link to={url} className={classnames('jf-issue-area-link', props.isHighlighted && 'jf-highlight')} title={title} aria-label={ariaLabel}>
               <img src={iconSrc} alt="" />
             <p><strong>{label}</strong></p>
             <p className="is-size-7">{issueLabel}</p>
@@ -172,29 +271,56 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
   return result;
 }
 
-function IssuesHome(): JSX.Element {
-  const columnForArea = (area: string, label: string) => (
-    <div className="column">
-      <IssueAreaLink area={area} label={label} />
-    </div>
-  );
+interface IssuesHomeState {
+  searchText: string;
+}
 
-  return (
-    <Page title="Issue checklist">
-      <h1 className="title">Issue checklist</h1>
-      {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
-        <div className="columns is-mobile" key={i}>
-          {columnForArea(...a)}
-          {b && columnForArea(...b)}
+class IssuesHome extends React.Component<{}, IssuesHomeState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = { searchText: '' };
+  }
+
+  renderColumnForArea(area: string, label: string): JSX.Element {
+    return <div className="column">
+      <IssueAreaLink
+        area={area}
+        label={label}
+        isHighlighted={doesAreaMatchSearch(area, this.state.searchText)}
+      />
+    </div>;
+  }
+
+  renderAutocomplete(): JSX.Element {
+    return <IssueAutocomplete
+      inputValue={this.state.searchText}
+      onInputValueChange={(searchText) => {
+        this.setState({ searchText })
+      }}
+    />;
+  }
+
+  render() {
+    return (
+      <Page title="Issue checklist">
+        <h1 className="title">Issue checklist</h1>
+        <SimpleProgressiveEnhancement>
+          {this.renderAutocomplete()}
+        </SimpleProgressiveEnhancement>
+        {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
+          <div className="columns is-mobile" key={i}>
+            {this.renderColumnForArea(...a)}
+            {b && this.renderColumnForArea(...b)}
+          </div>
+        ))}
+        <br/>
+        <div className="buttons">
+          <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
+          <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
         </div>
-      ))}
-      <br/>
-      <div className="buttons">
-        <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
-        <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
-      </div>
-    </Page>
-  );
+      </Page>
+    );  
+  }
 }
 
 export function IssuesRoutes(): JSX.Element {

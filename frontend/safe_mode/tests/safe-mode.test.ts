@@ -19,6 +19,8 @@ describe("safe mode", () => {
     deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete';
     div.appendChild(deleteBtn);
+
+    window.ga = jest.fn();
   });
 
   afterEach(() => {

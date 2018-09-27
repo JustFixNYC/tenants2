@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo, IssueAutocomplete } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo, IssueAutocomplete, doesAreaMatchSearch } from '../../pages/issues';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
@@ -103,4 +103,9 @@ test('IssueAutocomplete works', () => {
     <IssueAutocomplete inputValue="zzzzzzz" onInputValueChange={mockChange} />
   );
   expect(pal.rr.container.querySelector('li')).toBeNull();
+});
+
+test("doesAreaMatchSearch() works", () => {
+  expect(doesAreaMatchSearch('HOME', 'heat')).toBe(true);
+  expect(doesAreaMatchSearch('BATHROOMS', 'refrigerator')).toBe(false);
 });

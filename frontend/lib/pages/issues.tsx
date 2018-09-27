@@ -142,7 +142,7 @@ function filterAutocompleteItems(searchString: string): IssueAutocompleteItem[] 
     item.searchableText.indexOf(searchString) !== -1);
 }
 
-function doesAreaMatchSearch(areaValue: string, searchString: string): boolean {
+export function doesAreaMatchSearch(areaValue: string, searchString: string): boolean {
   if (!searchString) return false;
   const items = filterAutocompleteItems(searchString);
   for (let item of items) {

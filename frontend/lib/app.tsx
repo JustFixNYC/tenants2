@@ -16,7 +16,7 @@ import { LogoutPage } from './pages/logout-page';
 import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
-import { trackPageView } from './google-analytics';
+import { trackPageView, ga } from './google-analytics';
 
 
 export interface AppProps {
@@ -110,6 +110,15 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   @autobind
   handleFetchError(e: Error) {
     window.alert(`Unfortunately, a network error occurred. Please try again later.`);
+    // We're going to track exceptions in GA because we want to know how frequently
+    // folks are experiencing them. However, we won't report the errors
+    // to a service like Rollbar because these errors are only worth investigating
+    // if they're server-side, and we've already got error reporting configured
+    // over there.
+    ga('send', 'exception', {
+      exDescription: e.message,
+      exFatal: false
+    });
     console.error(e);
   }
 

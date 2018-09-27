@@ -2,11 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo } from '../../pages/issues';
+import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo, IssueAutocomplete } from '../../pages/issues';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
+import ReactTestingLibraryPal from '../rtl-pal';
 
 
 const routes = Routes.loc.issues;
@@ -81,4 +82,15 @@ test('groupByTwo() works', () => {
   expect(groupByTwo([1])).toEqual([[1, null]]);
   expect(groupByTwo([1, 2])).toEqual([[1, 2]]);
   expect(groupByTwo([1, 2, 3])).toEqual([[1, 2], [3, null]]);
+});
+
+test('IssueAutocomplete works', () => {
+  const mockChange = jest.fn();
+  const pal = new ReactTestingLibraryPal(
+    <IssueAutocomplete
+      inputValue="zzzzz"
+      onInputValueChange={mockChange}
+    />
+  );
+  pal.rr.getByLabelText(/search/i);
 });

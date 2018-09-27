@@ -154,7 +154,6 @@ function doesAreaMatchSearch(areaValue: string, searchString: string): boolean {
 }
 
 interface IssueAutocompleteProps {
-  selectedItem: string;
   inputValue: string;
   onInputValueChange: (value: string) => void;
 }
@@ -167,13 +166,13 @@ function autocompleteItemToString(item: IssueAutocompleteItem|string|null): stri
     : '';
 }
 
-class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
+export class IssueAutocomplete extends React.Component<IssueAutocompleteProps> {
   render() {
     return <IssueDownshift
       onInputValueChange={this.props.onInputValueChange}
       onChange={(item) => this.props.onInputValueChange(autocompleteItemToString(item))}
       inputValue={this.props.inputValue}
-      selectedItem={this.props.selectedItem}
+      selectedItem={this.props.inputValue}
       itemToString={autocompleteItemToString}
     >{(ds) => {
       const results = ds.inputValue
@@ -290,7 +289,6 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
         <h1 className="title">Issue checklist</h1>
         <SimpleProgressiveEnhancement>
           <IssueAutocomplete
-            selectedItem={this.state.searchText}
             inputValue={this.state.searchText}
             onInputValueChange={(searchText) => {
               this.setState({ searchText })

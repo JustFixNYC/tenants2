@@ -281,28 +281,36 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
     this.state = { searchText: '' };
   }
 
-  render() {
-    const columnForArea = (area: string, label: string) => (
-      <div className="column">
-        <IssueAreaLink area={area} label={label} isHighlighted={doesAreaMatchSearch(area, this.state.searchText)} />
-      </div>
-    );
+  renderColumnForArea(area: string, label: string): JSX.Element {
+    return <div className="column">
+      <IssueAreaLink
+        area={area}
+        label={label}
+        isHighlighted={doesAreaMatchSearch(area, this.state.searchText)}
+      />
+    </div>;
+  }
 
+  renderAutocomplete(): JSX.Element {
+    return <IssueAutocomplete
+      inputValue={this.state.searchText}
+      onInputValueChange={(searchText) => {
+        this.setState({ searchText })
+      }}
+    />;
+  }
+
+  render() {
     return (
       <Page title="Issue checklist">
         <h1 className="title">Issue checklist</h1>
         <SimpleProgressiveEnhancement>
-          <IssueAutocomplete
-            inputValue={this.state.searchText}
-            onInputValueChange={(searchText) => {
-              this.setState({ searchText })
-            }}
-          />
+          {this.renderAutocomplete()}
         </SimpleProgressiveEnhancement>
         {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
           <div className="columns is-mobile" key={i}>
-            {columnForArea(...a)}
-            {b && columnForArea(...b)}
+            {this.renderColumnForArea(...a)}
+            {b && this.renderColumnForArea(...b)}
           </div>
         ))}
         <br/>

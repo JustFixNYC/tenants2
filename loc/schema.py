@@ -1,38 +1,12 @@
 from graphql import ResolveInfo
 import graphene
-from django.utils.module_loading import import_string
 from graphene_django.types import DjangoObjectType
 
-from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.session_mutation import SessionFormMutation
 from . import forms, models
 
 
-class SessionMutation(DjangoFormMutation):
-    '''
-    A base class that can be used for any form mutation
-    that returns the current user's session.
-    '''
-
-    class Meta:
-        abstract = True
-
-    session = graphene.Field('project.schema.SessionInfo')
-
-    @classmethod
-    def mutation_success(cls, **kwargs):
-        '''
-        This can be returned by any perform_mutate() method
-        to return a success condition along with the session.
-        '''
-
-        return cls(
-            errors=[],
-            session=import_string('project.schema.SessionInfo'),
-            **kwargs
-        )
-
-
-class OneToOneUserModelFormMutation(SessionMutation):
+class OneToOneUserModelFormMutation(SessionFormMutation):
     '''
     A base class that can be used to make any
     ModelForm that represents a one-to-one relationship
@@ -86,7 +60,7 @@ class OneToOneUserModelFormMutation(SessionMutation):
             return None
 
 
-class AccessDates(SessionMutation):
+class AccessDates(SessionFormMutation):
     class Meta:
         form_class = forms.AccessDatesForm
 

@@ -6,7 +6,8 @@ import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
 
-from project.util.django_graphql_forms import DjangoFormMutation, StrictFormFieldErrorType
+from project.util.django_graphql_forms import StrictFormFieldErrorType
+from project.util.session_mutation import SessionFormMutation
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -25,17 +26,6 @@ def session_key_for_step(step: int) -> str:
 
     assert step in SESSION_STEPS
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
-
-
-def get_session_info():
-    '''
-    Instantiates a session info object. We need to import the
-    package here to avoid a circular import.
-    '''
-
-    from project.schema import SessionInfo
-
-    return SessionInfo()
 
 
 class OnboardingStep1Info(graphene.ObjectType):
@@ -59,7 +49,7 @@ class OnboardingStep3Info(graphene.ObjectType):
     locals().update(fields_for_form(forms.OnboardingStep3Form(), [], []))
 
 
-class StoreToSessionForm(DjangoFormMutation):
+class StoreToSessionForm(SessionFormMutation):
     '''
     Abstract base class that just stores the form's cleaned data to
     the current request's session.
@@ -71,13 +61,11 @@ class StoreToSessionForm(DjangoFormMutation):
     class Meta:
         abstract = True
 
-    session = graphene.Field('project.schema.SessionInfo')
-
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         request.session[cls.SESSION_KEY] = form.cleaned_data
-        return cls(errors=[], session=get_session_info())
+        return cls.mutation_success()
 
 
 class OnboardingStep1(StoreToSessionForm):
@@ -119,11 +107,9 @@ def pick_model_fields(model, **kwargs):
     }
 
 
-class OnboardingStep4(DjangoFormMutation):
+class OnboardingStep4(SessionFormMutation):
     class Meta:
         form_class = forms.OnboardingStep4Form
-
-    session = graphene.Field('project.schema.SessionInfo')
 
     @classmethod
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
@@ -165,7 +151,7 @@ class OnboardingStep4(DjangoFormMutation):
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
-        return cls(errors=[], session=get_session_info())
+        return cls.mutation_success()
 
 
 class OnboardingMutations:

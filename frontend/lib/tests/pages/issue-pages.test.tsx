@@ -2,12 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, customIssueForArea, areaIssueCount, getIssueLabel, ISSUE_AREA_CHOICES, getIssueAreaImagePath, groupByTwo, IssueAutocomplete, doesAreaMatchSearch } from '../../pages/issues';
+import { IssuesRoutes, getIssueLabel, getIssueAreaImagePath, groupByTwo, IssueAutocomplete, doesAreaMatchSearch } from '../../pages/issue-pages';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
 import ReactTestingLibraryPal from '../rtl-pal';
+import { ISSUE_AREA_CHOICES } from '../../issues';
 
 
 const routes = Routes.loc.issues;
@@ -42,22 +43,6 @@ describe('issues checklist', () => {
     });
     await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
   });
-});
-
-test('customIssueForArea() works', () => {
-  const ci = [{area: 'HOME', description: 'blah'}];
-  expect(customIssueForArea('HOME', ci)).toBe('blah');
-  expect(customIssueForArea('BEDROOMS', ci)).toBe('');
-});
-
-test('areaIssueCount() works', () => {
-  expect(areaIssueCount('HOME', ['HOME__MICE'], [{
-    area: 'HOME', description: 'boop'
-  }])).toBe(2);
-  expect(areaIssueCount('HOME', ['BEDROOMS_PAINT'], [])).toBe(0);
-  expect(areaIssueCount('HOME', [], [{
-    area: 'BEDROOMS', description: 'boop'
-  }])).toBe(0);
 });
 
 test('getIssueLabel() works', () => {

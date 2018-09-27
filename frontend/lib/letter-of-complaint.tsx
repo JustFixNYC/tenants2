@@ -3,7 +3,7 @@ import Page from './page';
 import { WhyMailALetterOfComplaint, WelcomeFragment } from './letter-of-complaint-common';
 import { Link, Route } from 'react-router-dom';
 import Routes from './routes';
-import { IssuesRoutes } from './pages/issues';
+import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
 import { RouteProgressBar } from './progress-bar';

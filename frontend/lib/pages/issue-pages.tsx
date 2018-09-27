@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { DjangoChoices, safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps, getDjangoChoiceLabel } from "../common-data";
+import { safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps, getDjangoChoiceLabel } from "../common-data";
 import Page from '../page';
 import Routes, { RouteTypes } from '../routes';
 import { Switch, Route } from 'react-router';
@@ -13,50 +13,10 @@ import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
-import { AllSessionInfo_customIssues, AllSessionInfo } from '../queries/AllSessionInfo';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
 import Downshift, { DownshiftInterface, ControllerStateAndHelpers } from 'downshift';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
-
-export const ISSUE_AREA_CHOICES = require('../../../common-data/issue-area-choices.json') as DjangoChoices;
-
-const ISSUE_CHOICES = require('../../../common-data/issue-choices.json') as DjangoChoices;
-
-export function customIssueForArea(area: string, customIssues: AllSessionInfo_customIssues[]): string {
-  for (let ci of customIssues) {
-    if (ci.area === area) return ci.description;
-  }
-  return '';
-}
-
-function issueArea(issue: string): string {
-  return issue.split('__')[0];
-}
-
-export function areaIssueCount(area: string, issues: string[], customIssues: AllSessionInfo_customIssues[]): number {
-  let count = 0;
-
-  for (let issue of issues) {
-    if (issueArea(issue) === area) {
-      count += 1;
-    }
-  }
-
-  for (let ci of customIssues) {
-    if (ci.area === area) {
-      count += 1;
-    }
-  }
-
-  return count;
-}
-
-function issuesForArea(area: string, issues: string[]): string[] {
-  return issues.filter(issue => issueArea(issue) === area);
-}
-
-function issueChoicesForArea(area: string): DjangoChoices {
-  return ISSUE_CHOICES.filter(([value, label]) => issueArea(value) === area);
-}
+import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, issueArea, areaIssueCount, ISSUE_CHOICES } from '../issues';
 
 type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
 

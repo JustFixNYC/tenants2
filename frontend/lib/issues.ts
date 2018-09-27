@@ -17,21 +17,11 @@ export function issueArea(issue: string): string {
 }
 
 export function areaIssueCount(area: string, issues: string[], customIssues: AllSessionInfo_customIssues[]): number {
-  let count = 0;
-
-  for (let issue of issues) {
-    if (issueArea(issue) === area) {
-      count += 1;
-    }
-  }
-
-  for (let ci of customIssues) {
-    if (ci.area === area) {
-      count += 1;
-    }
-  }
-
-  return count;
+  return issues.reduce((total, issue) =>
+    issueArea(issue) === area ? total + 1 : total,
+  0) + customIssues.reduce((total, ci) =>
+    ci.area === area ? total + 1 : total,
+  0);
 }
 
 export function issuesForArea(area: string, issues: string[]): string[] {

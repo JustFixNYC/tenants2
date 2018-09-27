@@ -15,7 +15,7 @@ import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../f
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
-import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, issueArea, areaIssueCount, ISSUE_CHOICES } from '../issues';
+import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
 
 type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;

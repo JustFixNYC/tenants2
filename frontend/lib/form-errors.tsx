@@ -1,4 +1,5 @@
 import React from 'react';
+import { ga } from './google-analytics';
 
 /** The server uses this as the field "name" for non-field errors. */
 const SERVER_NON_FIELD_ERROR = '__all__';
@@ -35,6 +36,17 @@ export interface FormErrors<T> {
    * Field-specific errors.
    */
   fieldErrors: FormFieldErrorMap<T>;
+}
+
+/**
+ * Log errors from the server to Google Analytics.
+ */
+export function trackFormErrors(errors: ServerFormFieldError[]): void {
+  for (let error of errors) {
+    for (let message of error.messages) {
+      ga('send', 'event', 'form-error', error.field, message);
+    }
+  }
 }
 
 /**

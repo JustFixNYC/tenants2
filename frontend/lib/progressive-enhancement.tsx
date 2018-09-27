@@ -1,5 +1,6 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
+import { ga } from './google-analytics';
 
 export interface ProgressiveEnhancementProps {
   /**
@@ -86,6 +87,10 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
           error
         );
       }
+      ga('send', 'exception', {
+        exDescription: error.message,
+        exFatal: false
+      });
     } else {
       throw error;
     }

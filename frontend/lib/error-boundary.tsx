@@ -1,5 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import { ga } from './google-analytics';
 
 type ComponentStackInfo = {
   componentStack: string;
@@ -74,9 +75,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   componentDidCatch(error: Error, info: ComponentStackInfo) {
+    const errorString = getErrorString(error);
     this.setState({
       hasError: true,
-      error: getErrorString(error),
+      error: errorString,
       componentStack: info.componentStack
     });
     // Unfortunately, it seems like the React error boundary
@@ -91,6 +93,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (window.Rollbar) {
       window.Rollbar.error("ErrorBoundary caught an error!", error);
     }
+    ga('send', 'exception', {
+      exDescription: errorString,
+      exFatal: true
+    });
   }
 
   render() {

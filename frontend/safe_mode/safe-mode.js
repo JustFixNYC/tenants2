@@ -84,12 +84,19 @@
         el.removeAttribute(HIDDEN_ATTR);
         el.focus();
 
+        if (window.ga) {
+          window.ga('send', 'event', 'safe-mode', 'show');
+        }
+
         /** @type {HTMLButtonElement|null} */
         var deleteBtn = el.querySelector('button.delete');
         if (deleteBtn) {
           deleteBtn.onclick = function() {
             if (el) {
               el.setAttribute(HIDDEN_ATTR, '');
+            }
+            if (window.ga) {
+              window.ga('send', 'event', 'safe-mode', 'hide');
             }
           };
         }

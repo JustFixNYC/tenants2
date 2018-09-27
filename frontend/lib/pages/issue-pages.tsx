@@ -17,6 +17,7 @@ import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
+import { ga } from '../google-analytics';
 
 type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
 
@@ -158,6 +159,12 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
     return <IssueAutocomplete
       inputValue={this.state.searchText}
       onInputValueChange={(searchText) => {
+        // Note that this shouldn't be *too* spammy on GA because of
+        // how it manages hit rate limits:
+        //
+        // https://developers.google.com/analytics/devguides/collection/protocol/v1/limits-quotas
+        ga('send', 'event', 'issue-search', 'change');
+
         this.setState({ searchText })
       }}
     />;

@@ -6,6 +6,7 @@ import { AriaExpandableButton } from './aria';
 import { bulmaClasses } from './bulma';
 import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
+import { ga } from './google-analytics';
 
 type Dropdown = 'developer'|'all';
 
@@ -30,6 +31,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   toggleDropdown(dropdown: Dropdown) {
+    ga('send', 'event', 'dropdown', 'toggle', dropdown);
     this.setState(state => ({
       currentDropdown: state.currentDropdown === dropdown ? null : dropdown,
       isHamburgerOpen: false
@@ -38,6 +40,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
 
   @autobind
   toggleHamburger() {
+    ga('send', 'event', 'hamburger', 'toggle');
     this.setState(state => ({
       currentDropdown: null,
       isHamburgerOpen: !state.isHamburgerOpen

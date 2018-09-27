@@ -15,11 +15,43 @@ export interface GoogleAnalyticsAPI {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/single-page-applications
   (cmd: 'set', fieldName: 'page', fieldValue: string): void;
   (cmd: 'send', hitType: 'pageview'): void;
+
+  // https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
+  (cmd: 'send', hitType: 'exception', fieldsObject: {
+    exDescription: string,
+    exFatal: boolean
+  }): void;
+
+  // A custom event for when a user clicks on an outbound link.
   // https://support.google.com/analytics/answer/1136920?hl=en
   (cmd: 'send', hitType: 'event', eventCategory: 'outbound', eventAction: 'click', url: string, fields: {
     transport: 'beacon',
     hitCallback: () => void
   }): void;
+
+  // A custom event for when the user toggles the hamburger menu.
+  (cmd: 'send', hitType: 'event', eventCategory: 'hamburger', eventAction: 'toggle'): void;
+
+  /**
+   * A custom event for when the user toggles a dropdown.
+   * 
+   * @param name The name of the dropdown that was toggled.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'dropdown', eventAction: 'toggle', name: string): void;
+
+  // A custom event for when the safe mode (aka compatibility mode) opt-in is shown or hidden.
+  (cmd: 'send', hitType: 'event', eventCategory: 'safe-mode', eventAction: 'show'|'hide'): void;
+
+  // A custom event for when the issue search is interacted with.
+  (cmd: 'send', hitType: 'event', eventCategory: 'issue-search', eventAction: 'change'): void;
+
+  /**
+   * A custom event for tracking form errors.
+   * 
+   * @param formField The form field the error occurred in.
+   * @param message The text of the error.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'form-error', formField: string, message: string): void;
 };
 
 declare global {

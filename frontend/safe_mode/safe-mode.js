@@ -69,6 +69,31 @@
     return false;
   }
 
+  /**
+   * Configure the opt-in UI to close itself when its close button is clicked.
+   *
+   * @param {HTMLElement} el The HTML element for the opt-in UI.
+   */
+  function setupUICloseButton(el) {
+    /** @type {HTMLButtonElement|null} */
+    var closeBtn = el.querySelector('button.delete');
+
+    if (closeBtn) {
+      // We may be called multiple times on the same
+      // element over time, but it should only be triggered once
+      // when clicked, so we'll bind by setting onclick rather than
+      // via addEventListener().
+      closeBtn.onclick = function() {
+        if (el) {
+          el.setAttribute(HIDDEN_ATTR, '');
+        }
+        if (window.ga) {
+          window.ga('send', 'event', 'safe-mode', 'hide');
+        }
+      };
+    }
+  }
+
   /** Shedule a check to see if we should display the opt-in UI. */
   function scheduleShowUICheck() {
     if (showUiTimeout !== null) {
@@ -88,18 +113,7 @@
           window.ga('send', 'event', 'safe-mode', 'show');
         }
 
-        /** @type {HTMLButtonElement|null} */
-        var deleteBtn = el.querySelector('button.delete');
-        if (deleteBtn) {
-          deleteBtn.onclick = function() {
-            if (el) {
-              el.setAttribute(HIDDEN_ATTR, '');
-            }
-            if (window.ga) {
-              window.ga('send', 'event', 'safe-mode', 'hide');
-            }
-          };
-        }
+        setupUICloseButton(el);
       }
 
       errors = [];

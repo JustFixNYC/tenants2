@@ -1,0 +1,31 @@
+.jf-autocomplete-is-highlighted {
+    color: white;
+    background-color: $justfix-blue;
+}
+
+.jf-autocomplete-is-selected {
+    font-weight: bold;
+}
+
+.jf-autocomplete-field .control {
+    position: relative;
+}
+
+.jf-autocomplete-field ul {
+    position: absolute;
+    top: 2em;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid black;
+    z-index: 100;
+    display: none;
+}
+
+.jf-autocomplete-field ul.jf-autocomplete-open {
+    display: block;
+}
+
+.jf-autocomplete-field ul li {
+    padding: 0.5rem;
+}

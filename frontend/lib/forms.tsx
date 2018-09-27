@@ -2,7 +2,7 @@ import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
-import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors } from './form-errors';
+import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
@@ -123,6 +123,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     });
     return this.props.onSubmit(input).then(output => {
       if (output.errors.length) {
+        trackFormErrors(output.errors);
         this.setState({
           isLoading: false,
           errors: getFormErrors<FormInput>(output.errors)

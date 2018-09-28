@@ -30,15 +30,11 @@
     outline: none;
 }
 
-// Anything with this class will only be perceivable to
+// Anything with this mixin will only be perceivable to
 // screen readers.
 //
-// Bulma is supposed to support this, but at the moment it
-// doesn't: https://github.com/jgthms/bulma/issues/150
-//
-// Until it does, we'll use this implementation, which
-// is taken from: https://webaim.org/techniques/css/invisiblecontent/
-.jf-sr-only {
+// It's taken from: https://webaim.org/techniques/css/invisiblecontent/
+@mixin sr-only() {
     position: absolute;
     left: -10000px;
     top: auto;
@@ -47,14 +43,66 @@
     overflow: hidden;
 }
 
+// Bulma is supposed to support this, but at the moment it
+// doesn't: https://github.com/jgthms/bulma/issues/150
+//
+// Until it does, we'll use our own class.
+.jf-sr-only {
+    @include sr-only();
+}
+
 .jf-radio.radio + .jf-radio.radio {
     // This undoes Bulma's default .radio+.radio styling.
     margin-left: 0;
 }
 
+.jf-checkbox input, .jf-single-checkbox input, .jf-radio input {
+    @include sr-only();
+}
+
+.jf-radio-symbol {
+    box-shadow: 0 0 0 2px $white, 0 0 0 4px $radio-outline-color;
+    min-width: 1.2em;
+    min-height: 1.2em;
+    border-radius: 100%;
+    margin: 0.3em 0.6em 0.3em 0.3em;
+}
+
+input:checked + .jf-radio-symbol {
+    background-color: $radio-color;
+}
+
+input:focus + .jf-radio-symbol {
+    outline: 1px dashed black;
+    outline-offset: 5px;
+}
+
+.jf-checkbox-symbol {
+    min-width: 1.4em;
+    min-height: 1.4em;
+    margin: 0.3em 0.6em 0.3em 0.3em;
+    border-radius: 2px;
+    border: 2px solid $checkbox-outline-color;
+    background-color: white;
+}
+
+input:checked + .jf-checkbox-symbol {
+    border-color: $checkbox-color;
+    background-color: $checkbox-color;
+    background-image: url('./img/correct8.png');
+    background-image: url('./img/correct8.svg');
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+input:focus + .jf-checkbox-symbol {
+    outline: 1px dashed black;
+    outline-offset: 2px;
+}
+
 .jf-radio, .jf-checkbox, .jf-single-checkbox {
     display: flex;
-    min-height: 2em;
+    min-height: 2.25em;
 
     input {
         min-width: 1.4em;
@@ -74,7 +122,7 @@
 }
 
 .jf-single-checkbox {
-    align-items: top;
+    align-items: center;
 }
 
 .jf-loc-preview iframe {

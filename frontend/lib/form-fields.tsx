@@ -146,7 +146,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           disabled={props.isDisabled}
           onChange={(e) => props.onChange(e.target.checked)}
-        /> {props.children}
+        /> <span className="jf-checkbox-symbol"/> {props.children}
       </label>
       {errorHelp}
     </div>

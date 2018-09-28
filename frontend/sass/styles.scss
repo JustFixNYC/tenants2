@@ -56,16 +56,16 @@
     margin-left: 0;
 }
 
-.jf-checkbox input {
+.jf-checkbox input, .jf-single-checkbox input {
     @include sr-only();
 }
 
 .jf-checkbox-symbol {
     min-width: 1.4em;
     min-height: 1.4em;
-    margin: 0.3em;
+    margin: 0.3em 0.6em 0.3em 0.3em;
     border-radius: 4px;
-    border: 1px solid black;
+    border: 1px solid $grey-dark;
     background-color: white;
 }
 
@@ -105,7 +105,7 @@ input:focus + .jf-checkbox-symbol {
 }
 
 .jf-single-checkbox {
-    align-items: top;
+    align-items: center;
 }
 
 .jf-loc-preview iframe {

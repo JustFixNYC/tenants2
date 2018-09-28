@@ -8,7 +8,7 @@ $justfix-blue: #0096D7;
 $turquoise:    hsl(171, 100%, 41%);
 
 $primary: $justfix-blue;
-$primary-invert: findColorInvert($justfix-blue);
+$primary-invert: findColorInvert($primary);
 
 $info: $turquoise;
 $info-invert: findColorInvert($turquoise);

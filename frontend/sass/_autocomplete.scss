@@ -1,6 +1,6 @@
 .jf-autocomplete-is-highlighted {
-    color: white;
-    background-color: $justfix-blue;
+    color: $primary-invert;
+    background-color: $primary;
 }
 
 .jf-autocomplete-is-selected {
@@ -16,8 +16,8 @@
     top: 2em;
     left: 0;
     width: 100%;
-    background: white;
-    border: 1px solid black;
+    background: $primary-invert;
+    border: 1px solid $border;
     z-index: 100;
     display: none;
 }

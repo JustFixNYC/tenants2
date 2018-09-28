@@ -61,7 +61,7 @@
 }
 
 .jf-radio-symbol {
-    box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey;
+    box-shadow: 0 0 0 2px $white, 0 0 0 4px $radio-outline-color;
     min-width: 1.2em;
     min-height: 1.2em;
     border-radius: 100%;
@@ -74,7 +74,7 @@ input:checked + .jf-radio-symbol {
 
 input:focus + .jf-radio-symbol {
     outline: 1px dashed black;
-    outline-offset: 4px;
+    outline-offset: 5px;
 }
 
 .jf-checkbox-symbol {
@@ -82,7 +82,7 @@ input:focus + .jf-radio-symbol {
     min-height: 1.4em;
     margin: 0.3em 0.6em 0.3em 0.3em;
     border-radius: 2px;
-    border: 1px solid $grey-dark;
+    border: 2px solid $checkbox-outline-color;
     background-color: white;
 }
 

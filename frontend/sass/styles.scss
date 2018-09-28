@@ -117,18 +117,6 @@ input:focus + .jf-checkbox-symbol {
 .jf-radio, .jf-checkbox, .jf-single-checkbox {
     display: flex;
     min-height: 2.25em;
-
-    input {
-        min-width: 1.4em;
-        min-height: 1.4em;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-    }
-
-    input:focus {
-        outline-offset: 4px;
-        outline: 1px dashed $border-hover;
-    }
 }
 
 .jf-radio, .jf-checkbox {

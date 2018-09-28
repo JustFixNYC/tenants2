@@ -30,14 +30,10 @@
     outline: none;
 }
 
-// Anything with this class will only be perceivable to
+// Anything with this mixin will only be perceivable to
 // screen readers.
 //
-// Bulma is supposed to support this, but at the moment it
-// doesn't: https://github.com/jgthms/bulma/issues/150
-//
-// Until it does, we'll use this implementation, which
-// is taken from: https://webaim.org/techniques/css/invisiblecontent/
+// It's taken from: https://webaim.org/techniques/css/invisiblecontent/
 @mixin sr-only() {
     position: absolute;
     left: -10000px;
@@ -47,9 +43,16 @@
     overflow: hidden;
 }
 
+// Bulma is supposed to support this, but at the moment it
+// doesn't: https://github.com/jgthms/bulma/issues/150
+//
+// Until it does, we'll use our own class.
 .jf-sr-only {
     @include sr-only();
 }
+
+$radio-color: $justfix-blue;
+$checkbox-color: $justfix-blue;
 
 .jf-radio.radio + .jf-radio.radio {
     // This undoes Bulma's default .radio+.radio styling.
@@ -69,7 +72,7 @@
 }
 
 input:checked + .jf-radio-symbol {
-    background-color: $justfix-blue;
+    background-color: $radio-color;
 }
 
 input:focus + .jf-radio-symbol {
@@ -87,8 +90,8 @@ input:focus + .jf-radio-symbol {
 }
 
 input:checked + .jf-checkbox-symbol {
-    border-color: $justfix-blue;
-    background-color: $justfix-blue;
+    border-color: $checkbox-color;
+    background-color: $checkbox-color;
     background-image: url('./img/correct8.png');
     background-image: url('./img/correct8.svg');
     background-repeat: no-repeat;

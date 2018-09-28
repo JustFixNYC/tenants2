@@ -82,7 +82,7 @@ input:checked + .jf-radio-symbol {
 }
 
 input:focus + .jf-radio-symbol {
-    outline: 1px dashed $border-hover;
+    outline: 2px dotted $border-hover;
     outline-offset: 5px;
 }
 
@@ -110,7 +110,7 @@ input:checked + .jf-checkbox-symbol {
 }
 
 input:focus + .jf-checkbox-symbol {
-    outline: 1px dashed $border-hover;
+    outline: 2px dotted $border-hover;
     outline-offset: 2px;
 }
 

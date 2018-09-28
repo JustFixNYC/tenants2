@@ -11,8 +11,17 @@
 // Bulma's button default focus styling is not easy
 // to distinguish, so we'll make it stand out more here.
 .button:focus {
-    outline: 1px dashed rgba(0, 0, 0, 0.5);
+    outline-width: 1px;
+    outline-style: dashed;
     outline-offset: -5px;
+}
+
+.button.is-primary:focus {
+    outline-color: $primary-invert;
+}
+
+.button.is-text:focus {
+    outline-color: $text-invert;
 }
 
 // We want the content of our pages to be aligned to

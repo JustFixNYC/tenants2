@@ -38,7 +38,7 @@
 //
 // Until it does, we'll use this implementation, which
 // is taken from: https://webaim.org/techniques/css/invisiblecontent/
-.jf-sr-only {
+@mixin sr-only() {
     position: absolute;
     left: -10000px;
     top: auto;
@@ -47,19 +47,20 @@
     overflow: hidden;
 }
 
+.jf-sr-only {
+    @include sr-only();
+}
+
 .jf-radio.radio + .jf-radio.radio {
     // This undoes Bulma's default .radio+.radio styling.
     margin-left: 0;
 }
 
-.jf-checkbox {
-    position: relative;
+.jf-checkbox input {
+    @include sr-only();
 }
 
 .jf-checkbox-symbol {
-    position: absolute;
-    top: 0;
-    left: 0;
     min-width: 1.4em;
     min-height: 1.4em;
     margin: 0.3em;
@@ -75,6 +76,11 @@ input:checked + .jf-checkbox-symbol {
     background-image: url('./img/correct8.png');
     background-repeat: no-repeat;
     background-position: 0.3em 0.3em;
+}
+
+input:focus + .jf-checkbox-symbol {
+    outline: 1px dashed black;
+    outline-offset: 2px;
 }
 
 .jf-radio, .jf-checkbox, .jf-single-checkbox {

@@ -120,7 +120,7 @@ export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.El
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(toggleChoice(choice, e.target.checked, props.value))}
-            /> {label}
+            /> <span className="jf-checkbox-symbol"/> {label}
           </label>
         ))}
       </div>

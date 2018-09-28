@@ -53,7 +53,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
 
   render() {
     return (
-      <progress className="progress is-info" value={this.state.pct} max="100">
+      <progress className="progress is-primary" value={this.state.pct} max="100">
         {this.props.children || `${this.state.pct}%`}
       </progress>
     );

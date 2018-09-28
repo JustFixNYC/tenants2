@@ -1,0 +1,14 @@
+@import "../../node_modules/bulma/sass/utilities/functions.sass";
+
+$justfix-blue: #0096D7;
+
+// This is just copy-pasted from bulma's initial-variables.sass; we don't
+// want to import that yet because we might want to override some of its
+// variables.
+$turquoise:    hsl(171, 100%, 41%);
+
+$primary: $justfix-blue;
+$primary-invert: findColorInvert($justfix-blue);
+
+$info: $turquoise;
+$info-invert: findColorInvert($turquoise);

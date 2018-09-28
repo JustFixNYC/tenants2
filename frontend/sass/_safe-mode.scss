@@ -7,8 +7,8 @@ aside.safe-mode {
     z-index: 1000;
 }
 
-.safe-mode-disable, .safe-mode-disable .notification {
-    background-color: $justfix-blue;
+.safe-mode-disable {
+    background-color: $primary;
 }
 
 .safe-mode[data-safe-mode-hidden] {

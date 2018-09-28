@@ -1,7 +1,6 @@
 @charset "utf-8";
 @import "./_bulma-overrides.scss";
 @import "../../node_modules/bulma/bulma.sass";
-@import "./_colors.scss";
 @import "./_safe-mode.scss";
 @import "./_navbar.scss";
 @import "./_modal.scss";
@@ -21,7 +20,7 @@
 }
 
 .button.is-text:focus {
-    outline-color: $text-invert;
+    outline-color: $text;
 }
 
 // We want the content of our pages to be aligned to
@@ -71,7 +70,7 @@
 }
 
 .jf-radio-symbol {
-    box-shadow: 0 0 0 2px $white, 0 0 0 4px $radio-outline-color;
+    box-shadow: 0 0 0 2px $primary-invert, 0 0 0 4px $border-hover;
     min-width: 1.2em;
     min-height: 1.2em;
     border-radius: 100%;
@@ -79,11 +78,11 @@
 }
 
 input:checked + .jf-radio-symbol {
-    background-color: $radio-color;
+    background-color: $primary;
 }
 
 input:focus + .jf-radio-symbol {
-    outline: 1px dashed black;
+    outline: 1px dashed $border-hover;
     outline-offset: 5px;
 }
 
@@ -92,21 +91,26 @@ input:focus + .jf-radio-symbol {
     min-height: 1.4em;
     margin: 0.3em 0.6em 0.3em 0.3em;
     border-radius: 2px;
-    border: 2px solid $checkbox-outline-color;
-    background-color: white;
+    border: 2px solid $border-hover;
 }
 
 input:checked + .jf-checkbox-symbol {
-    border-color: $checkbox-color;
-    background-color: $checkbox-color;
+    border-color: $primary;
+    background-color: $primary;
+
+    // Note that the only color present in the background
+    // image needs to be $primary-invert. If $primary ever
+    // changes drastically, the background image may need
+    // to be changed!
     background-image: url('./img/correct8.png');
     background-image: url('./img/correct8.svg');
+
     background-repeat: no-repeat;
     background-position: 50%;
 }
 
 input:focus + .jf-checkbox-symbol {
-    outline: 1px dashed black;
+    outline: 1px dashed $border-hover;
     outline-offset: 2px;
 }
 
@@ -123,7 +127,7 @@ input:focus + .jf-checkbox-symbol {
 
     input:focus {
         outline-offset: 4px;
-        outline: 1px dashed black;
+        outline: 1px dashed $border-hover;
     }
 }
 

@@ -56,8 +56,25 @@
     margin-left: 0;
 }
 
-.jf-checkbox input, .jf-single-checkbox input {
+.jf-checkbox input, .jf-single-checkbox input, .jf-radio input {
     @include sr-only();
+}
+
+.jf-radio-symbol {
+    box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey;
+    min-width: 1.2em;
+    min-height: 1.2em;
+    border-radius: 100%;
+    margin: 0.3em 0.6em 0.3em 0.3em;
+}
+
+input:checked + .jf-radio-symbol {
+    background-color: $justfix-blue;
+}
+
+input:focus + .jf-radio-symbol {
+    outline: 1px dashed black;
+    outline-offset: 4px;
 }
 
 .jf-checkbox-symbol {

@@ -48,7 +48,7 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(choice) }
-            /> {label}
+            /> <span className="jf-radio-symbol" /> {label}
           </label>
         ))}
       </div>

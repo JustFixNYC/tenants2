@@ -51,9 +51,6 @@
     @include sr-only();
 }
 
-$radio-color: $justfix-blue;
-$checkbox-color: $justfix-blue;
-
 .jf-radio.radio + .jf-radio.radio {
     // This undoes Bulma's default .radio+.radio styling.
     margin-left: 0;

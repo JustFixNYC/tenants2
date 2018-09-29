@@ -56,8 +56,13 @@ class GitInfo(BaseEnvironment):
             IS_GIT_REPO_PRISTINE=str(is_dirty(dir) or has_extra_files(dir)),
         )
 
+    @classmethod
+    def from_dir_or_env(cls, dir: Path) -> 'GitInfo':
+        if have_git() and is_git_repo(dir):
+            return GitInfo(env=GitInfo.create_env_dict(dir))
+        return GitInfo()
 
-def get_git_info(dir: Path) -> GitInfo:
-    if have_git() and is_git_repo(dir):
-        return GitInfo(env=GitInfo.create_env_dict(dir))
-    return GitInfo()
+    def get_version_str(self):
+        if self.IS_GIT_REPO_PRISTINE:
+            return self.GIT_REVISION
+        return f"{self.GIT_REVISION}.modified"

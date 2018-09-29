@@ -45,8 +45,11 @@ def has_extra_files(dir: Path) -> bool:
 
 
 class GitInfo(BaseEnvironment):
+    # The 40-character revision of the project's git repo.
     GIT_REVISION: str
 
+    # Whether or not the git repo is "pristine", i.e. has no added or
+    # changed files.
     IS_GIT_REPO_PRISTINE: bool
 
     @staticmethod
@@ -58,11 +61,22 @@ class GitInfo(BaseEnvironment):
 
     @classmethod
     def from_dir_or_env(cls, dir: Path) -> 'GitInfo':
+        '''
+        If the given directory is a git repository, pulls git info from there.
+        Otherwise, it's assumed that the git revision information lives in the
+        environment, and we'll pull it from there.
+        '''
+
         if have_git() and is_git_repo(dir):
             return GitInfo(env=GitInfo.create_env_dict(dir))
         return GitInfo()
 
     def get_version_str(self):
+        '''
+        Returns a 40-character version identifier for the project. If the
+        project isn't pristine, this will end in ".mod" (for "modified").
+        '''
+
         if self.IS_GIT_REPO_PRISTINE:
             return self.GIT_REVISION
         return f"{self.GIT_REVISION[:-4]}.mod"

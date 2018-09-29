@@ -48,6 +48,17 @@ T = TypeVar('T', bound='GitInfo')
 
 
 class GitInfo(BaseEnvironment):
+    '''
+    We need some way of letting production deployments, which
+    don't contain the project's git repository, what revision
+    they're using. This class is used to do that, via
+    environment variables.
+
+    At the same time, we need an easy way to *generate* those
+    environment variables from a Git repository, which this
+    class also provides some utility methods for.
+    '''
+
     # The 40-character revision of the project's git repo.
     GIT_REVISION: str
 

@@ -40,7 +40,7 @@ def run_local_container(container_name: str, port: int):
         '-e',
         'USE_DEVELOPMENT_DEFAULTS=yup',
         container_name
-    ])
+    ], cwd=BASE_DIR)
 
 
 def deploy_local(args):

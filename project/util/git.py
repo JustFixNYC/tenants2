@@ -53,7 +53,7 @@ class GitInfo(BaseEnvironment):
     def create_env_dict(dir: Path) -> Dict[str, str]:
         return dict(
             GIT_REVISION=git_revision(dir).decode('ascii'),
-            IS_GIT_REPO_PRISTINE=str(is_dirty(dir) or has_extra_files(dir)),
+            IS_GIT_REPO_PRISTINE=str(not is_dirty(dir) and not has_extra_files(dir)),
         )
 
     @classmethod
@@ -65,4 +65,4 @@ class GitInfo(BaseEnvironment):
     def get_version_str(self):
         if self.IS_GIT_REPO_PRISTINE:
             return self.GIT_REVISION
-        return f"{self.GIT_REVISION}.modified"
+        return f"{self.GIT_REVISION[:-4]}.mod"

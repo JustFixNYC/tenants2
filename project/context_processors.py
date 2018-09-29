@@ -50,7 +50,11 @@ class RollbarSnippet(JsSnippetContextProcessor):
         captureUncaught: true,
         captureUnhandledRejections: true,
         payload: {
-            environment: "%(environment)s"
+            environment: "%(environment)s",
+            client: {
+                source_map_enabled: true,
+                code_version: "%(code_version)s"
+            }
         }
     };
     // Rollbar Snippet
@@ -71,7 +75,8 @@ class RollbarSnippet(JsSnippetContextProcessor):
         return {
             'ROLLBAR_ACCESS_TOKEN': settings.ROLLBAR_ACCESS_TOKEN,
             'environment': 'development' if settings.DEBUG else 'production',
-            'rollbar_js_url': f'{settings.STATIC_URL}vendor/rollbar-2.4.6.min.js'
+            'rollbar_js_url': f'{settings.STATIC_URL}vendor/rollbar-2.4.6.min.js',
+            'code_version': settings.GIT_INFO.get_version_str(),
         }
 
 

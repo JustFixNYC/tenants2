@@ -16,6 +16,7 @@ import dj_database_url
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
 from .util.settings_util import parse_secure_proxy_ssl_header
+from .util import git
 
 
 env = justfix_environment.get()
@@ -219,6 +220,8 @@ LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
+GIT_INFO = git.GitInfo.from_dir_or_env(BASE_DIR)
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 
@@ -227,6 +230,7 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     ROLLBAR = {
         'access_token': env.ROLLBAR_SERVER_ACCESS_TOKEN,
         'environment': 'development' if DEBUG else 'production',
+        'code_version': GIT_INFO.get_version_str(),
         'root': str(BASE_DIR),
     }
     LOGGING['handlers']['rollbar'].update({    # type: ignore

@@ -281,20 +281,19 @@ At the time of this writing, however, the app's
 runtime environment does need *both* Python and Node
 to execute properly, which could complicate matters.
 
+A Python 3 script, `deploy.py`, is located in the
+repository's root directory and can assist with
+deployment. It has no dependencies other than
+Python 3.
+
 ### Deploying to Heroku via Docker
 
 It's possible to deploy to Heroku using their
-[Container Registry and Runtime][].  To push the
-container to their registry, run:
+[Container Registry and Runtime][].  To build
+and push the container to their registry, run:
 
 ```
-heroku container:push --recursive
-```
-
-Then to deploy it, run:
-
-```
-heroku container:release web
+python3 deploy.py heroku
 ```
 
 You'll likely want to use [Heroku Postgres][] as your
@@ -302,16 +301,10 @@ database backend.
 
 #### Locally testing the production Docker container
 
-You can build the production Docker container locally with:
+You can build and run the production Docker container locally with:
 
 ```
-docker build -f Dockerfile.web -t tenants2 .
-```
-
-Then you can run it:
-
-```
-docker run --rm -it -e PORT=8000 -p 8000:8000 -e USE_DEVELOPMENT_DEFAULTS=yup tenants2
+python3 deploy.py local
 ```
 
 You can visit the server at http://localhost:8000/ and even create accounts

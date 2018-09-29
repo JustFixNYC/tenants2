@@ -58,6 +58,12 @@ RUN npm install --no-save
 
 ADD --chown=myuser:myuser . /tenants2/
 
+ARG GIT_REVISION
+ARG IS_GIT_REPO_PRISTINE
+
+ENV GIT_REVISION=$GIT_REVISION
+ENV IS_GIT_REPO_PRISTINE=$IS_GIT_REPO_PRISTINE
+
 RUN npm run build \
   #
   # We specify 'USE_DEVELOPMENT_DEFAULTS=yup' for this single

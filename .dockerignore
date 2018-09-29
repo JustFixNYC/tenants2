@@ -28,5 +28,6 @@ react-loadable.json
 Dockerfile*
 README.md
 deploy-to-heroku.sh
+deploy.py
 .dockerignore
 .git

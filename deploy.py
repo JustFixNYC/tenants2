@@ -1,9 +1,14 @@
 import argparse
 import sys
 import subprocess
+from typing import ItemsView, List
 
 from project.justfix_environment import BASE_DIR
 from project.util.git import GitInfo
+
+
+def get_git_info_env_items() -> ItemsView[str, str]:
+    return GitInfo.create_env_dict(BASE_DIR).items()
 
 
 def build_local_container(container_name: str):
@@ -16,8 +21,7 @@ def build_local_container(container_name: str):
         container_name
     ]
 
-    envdict = GitInfo.create_env_dict(BASE_DIR)
-    for name, value in envdict.items():
+    for name, value in get_git_info_env_items():
         args.append('--build-arg')
         args.append(f'{name}={value}')
     args.append('.')
@@ -51,8 +55,45 @@ def deploy_local(args):
     run_local_container(container_name, port)
 
 
+def heroku_cli(args: List[str]):
+    call = subprocess.check_call
+
+    # At least on Windows, Heroku seems to return non-zero
+    # exit codes even when it's successful:
+    #
+    #     https://github.com/heroku/cli/issues/1051
+    #
+    # To avoid this problem we'll just ignore the exit code
+    # if we're on windows.
+    if sys.platform == 'win32':
+        call = subprocess.call
+
+    call(['heroku'] + args, cwd=BASE_DIR)
+
+
 def deploy_heroku(args):
-    print("TODO heroku")
+    heroku_cli(['maintenance:on'])
+    heroku_cli([
+        'container:push',
+        '--arg',
+        ','.join([
+            f'{name}={value}'
+            for name, value in get_git_info_env_items()
+        ]),
+        '--recursive',
+    ])
+    heroku_cli([
+        'container:release',
+        'web'
+    ])
+    heroku_cli([
+        'run',
+        '--exit-code',
+        'python',
+        'manage.py',
+        'migrate'
+    ])
+    heroku_cli(['maintenance:off'])
 
 
 def main():

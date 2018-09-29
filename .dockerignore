@@ -27,7 +27,6 @@ react-loadable.json
 # Here we begin to deviate from our .gitignore.
 Dockerfile*
 README.md
-deploy-to-heroku.sh
 deploy.py
 .dockerignore
 .git

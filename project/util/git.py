@@ -1,6 +1,6 @@
 """Utilities for verifying git integrity."""
 
-from typing import Dict
+from typing import Dict, Type, TypeVar
 from pathlib import Path
 import subprocess
 
@@ -44,6 +44,9 @@ def has_extra_files(dir: Path) -> bool:
     return output.strip() != b""
 
 
+T = TypeVar('T', bound='GitInfo')
+
+
 class GitInfo(BaseEnvironment):
     # The 40-character revision of the project's git repo.
     GIT_REVISION: str
@@ -52,15 +55,19 @@ class GitInfo(BaseEnvironment):
     # changed files.
     IS_GIT_REPO_PRISTINE: bool
 
-    @staticmethod
-    def create_env_dict(dir: Path) -> Dict[str, str]:
+    @classmethod
+    def create_env_dict(cls: Type[T], dir: Path) -> Dict[str, str]:
         return dict(
             GIT_REVISION=git_revision(dir).decode('ascii'),
             IS_GIT_REPO_PRISTINE=str(not is_dirty(dir) and not has_extra_files(dir)),
         )
 
     @classmethod
-    def from_dir_or_env(cls, dir: Path) -> 'GitInfo':
+    def from_dir(cls: Type[T], dir: Path) -> T:
+        return cls(env=cls.create_env_dict(dir))
+
+    @classmethod
+    def from_dir_or_env(cls: Type[T], dir: Path) -> T:
         '''
         If the given directory is a git repository, pulls git info from there.
         Otherwise, it's assumed that the git revision information lives in the
@@ -68,8 +75,8 @@ class GitInfo(BaseEnvironment):
         '''
 
         if have_git() and is_git_repo(dir):
-            return GitInfo(env=GitInfo.create_env_dict(dir))
-        return GitInfo()
+            return cls.from_dir(dir)
+        return cls()
 
     def get_version_str(self):
         '''

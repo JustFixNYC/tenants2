@@ -123,7 +123,7 @@ export class RouteMap {
   }
 
   /**
-   * Given a contrete pathname, returns whether a route for it will
+   * Given a concrete pathname, returns whether a route for it will
    * potentially match.
    * 
    * Note that it doesn't validate that route parameters are necessarily

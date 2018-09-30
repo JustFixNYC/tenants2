@@ -44,8 +44,8 @@ export function isRemovedCharNonDigit(value: string, prevValue: string): boolean
  * Optionally, the previous value of the phone number (before the user
  * pressed a key) can be provided. The function will automatically detect
  * if the user tried to backspace, and if so, the most recent digit will
- * be removed, rather than a parenthesis or hyphen, to ensure that
- * habituation of text input isn't broken.
+ * be removed along with any non-digits, to ensure that habituation of text
+ * input isn't broken.
  * 
  * @param value The phone number.
  * @param prevValue The optional previous value of the phone number.
@@ -54,7 +54,7 @@ export function formatPhoneNumber(value: string, prevValue?: string): string {
   const chars = getFirstTenDigits(value);
 
   if (typeof(prevValue) === 'string' && isRemovedCharNonDigit(value, prevValue)) {
-    // The user just deleted a character that was a hyphen or parenthesis,
+    // The user just deleted a character that was a non-digit,
     // but because we automatically insert such characters for them, it's
     // likely that the user really meant to delete the most recent *digit*,
     // so we will remove that.

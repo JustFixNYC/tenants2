@@ -1,4 +1,7 @@
-import { getFirstTenDigits, unformatPhoneNumber, isRemovedCharNonDigit, formatPhoneNumber } from "../phone-number-form-field";
+import React from 'react';
+
+import { getFirstTenDigits, unformatPhoneNumber, isRemovedCharNonDigit, formatPhoneNumber, PhoneNumberFormFieldProps, PhoneNumberFormField } from "../phone-number-form-field";
+import ReactTestingLibraryPal from "./rtl-pal";
 
 test("getFirstTenDigits() works", () => {
   expect(getFirstTenDigits("(555) 123-4567 99999999999")).toEqual([
@@ -37,5 +40,26 @@ describe("formatPhoneNumber", () => {
 
   it('truncates phone numbers to ten characters', () => {
     expect(formatPhoneNumber("12345678900")).toBe("(123) 456-7890");
+  });
+});
+
+describe("PhoneNumberFormField", () => {
+  it("works", () => {
+    const label = "wats ur phone number";
+    const onChange = jest.fn();
+    const props: PhoneNumberFormFieldProps = {
+      label,
+      value: '123',
+      onChange,
+      name: 'phone',
+      isDisabled: false
+    };
+    const pal = new ReactTestingLibraryPal(
+      <PhoneNumberFormField {...props} />
+    );
+    const input = pal.rr.getByLabelText(label) as HTMLInputElement;
+    expect(input.value).toBe('(123) ');
+    pal.fillFormFields([[label, '(123) 4']]);
+    expect(onChange.mock.calls).toEqual([["1234"]]);
   });
 });

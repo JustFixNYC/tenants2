@@ -68,7 +68,11 @@ def heroku_cli(args: List[str]):
     if sys.platform == 'win32':
         call = subprocess.call
 
-    call(['heroku'] + args, cwd=BASE_DIR)
+    call(
+        ['heroku'] + args,
+        cwd=BASE_DIR,
+        shell=True if sys.platform == 'win32' else False
+    )
 
 
 def deploy_heroku(args):

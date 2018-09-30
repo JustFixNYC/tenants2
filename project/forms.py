@@ -27,7 +27,7 @@ class USPhoneNumberField(forms.CharField):
         if len(cleaned) != PHONE_NUMBER_LEN:
             raise ValidationError(
                 'This does not look like a U.S. phone number. '
-                'Please include the area code, e.g. 555-123-4567.'
+                'Please include the area code, e.g. (555) 123-4567.'
             )
         return cleaned
 

@@ -12,6 +12,7 @@ import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../tests/hard-redirect';
+import { PhoneNumberFormField } from '../phone-number-form-field';
 
 const NEXT = 'next';
 
@@ -52,7 +53,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         {(ctx) => (
           <React.Fragment>
             <input type="hidden" name={NEXT} value={this.props.next} />
-            <TextualFormField label="Phone number" type="tel" {...ctx.fieldPropsFor('phoneNumber')} />
+            <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
             <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
             <div className="field">
               <NextButton isLoading={ctx.isLoading} label="Sign in" />

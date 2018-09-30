@@ -104,10 +104,11 @@ python manage.py envhelp
 Alternatively, you can examine
 [project/justfix_environment.py](project/justfix_environment.py).
 
-For the Node front-end, the only environment variable that
-matters right now is `NODE_ENV`, which can be set to
-`production` for production or any other value for
-development.
+For the Node front-end:
+
+* `NODE_ENV`, can be set to `production` for production or any
+  other value for development.
+* See [frontend/webpack/webpack-defined-globals.d.ts](frontend/webpack/webpack-defined-globals.d.ts) for more values.
 
 ## GraphQL
 

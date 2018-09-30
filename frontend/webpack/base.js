@@ -7,22 +7,32 @@
 
 const path = require('path');
 const fs = require('fs');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
+const { getEnvBoolean } = require('./env-util');
 
-let devDependenciesAvailable = false;
+/** @type {boolean} Whether or not development dependencies are installed. */
+let DEV_DEPS_AVAIL = (() => {
+  try {
+    require('dotenv');
+    return true;
+  } catch (e) {
+    return false;
+  }
+})();
+
 const BASE_DIR = path.resolve(path.join(__dirname, '..', '..'));
 
 if (!fs.existsSync('package.json')) {
   throw new Error(`Assertion failure, ${BASE_DIR} should contain package.json`);
 }
 
-try {
+if (DEV_DEPS_AVAIL) {
   require('dotenv').config({ path: path.join(BASE_DIR, '.justfix-env') });
-  devDependenciesAvailable = true;
-} catch (e) {
-  // dotenv is a dev dependency, so no biggie if it can't be found.
 }
+
+const DISABLE_WEBPACK_ANALYZER = getEnvBoolean('DISABLE_WEBPACK_ANALYZER', false) || !DEV_DEPS_AVAIL;
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -58,6 +68,22 @@ const baseBabelOptions = {
 };
 
 /**
+ * This returns an array of webpack plugins for all environments.
+ * 
+ * @returns {WebpackPlugin[]} The array of plugins.
+ */
+function getCommonPlugins() {
+  /** @type WebpackPlugin[] */
+  const plugins = [
+    new webpack.DefinePlugin({
+      DISABLE_WEBPACK_ANALYZER
+    })
+  ];
+
+  return plugins;
+}
+
+/**
  * This creates a webpack configuration for a command-line
  * node script written in TypeScript.
  * 
@@ -89,6 +115,7 @@ function createNodeScriptConfig(entry, filename) {
         },
       ]
     },
+    plugins: getCommonPlugins(),
     resolve: {
       extensions: [ '.tsx', '.ts', '.js' ]
     },
@@ -96,29 +123,26 @@ function createNodeScriptConfig(entry, filename) {
 }
 
 /**
- * This returns an array of webpack plugins.
+ * This returns an array of webpack plugins for the web environment.
  * 
  * It includes dynamic require() calls because some modules
  * won't be installed on production deployments.
  * 
  * @returns {WebpackPlugin[]} The array of plugins.
  */
-function getPlugins() {
-  /** @type WebpackPlugin[] */
-  const plugins = [];
+function getWebPlugins() {
+  const plugins = getCommonPlugins();
 
   plugins.push(new ReactLoadablePlugin({
     filename: 'react-loadable.json'
   }));
 
-  try {
+  if (!DISABLE_WEBPACK_ANALYZER) {
     const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
     plugins.push(new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
     }));
-  } catch (e) {
-    // The bundle analyzer is a dev dependency, so ignore if it's not found.
   }
 
   return plugins;
@@ -159,7 +183,7 @@ const webConfig = {
       },
     ]
   },
-  plugins: getPlugins(),
+  plugins: getWebPlugins(),
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
@@ -170,7 +194,7 @@ const webpackConfigs = [
   webConfig,
 ];
 
-if (devDependenciesAvailable) {
+if (DEV_DEPS_AVAIL) {
   exports.querybuilderConfig = createNodeScriptConfig('./frontend/querybuilder/cli.ts', 'querybuilder.js');
   webpackConfigs.push(exports.querybuilderConfig);
 }

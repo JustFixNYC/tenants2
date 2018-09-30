@@ -40,3 +40,5 @@ console.log = function() {
   originalLog.apply(this, arguments);
   originalLog.call(this, chalk.green('\n ^^^ SOMETHING GOT LOGGED! ^^^\n'));
 };
+
+(global as any).DISABLE_WEBPACK_ANALYZER = false;

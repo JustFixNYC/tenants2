@@ -100,7 +100,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
         isActive={this.isDropdownActive('developer')}
         onToggle={() => this.toggleDropdown('developer')}
       >
-        <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack analysis</a>
+        {!DISABLE_WEBPACK_ANALYZER && <a className="navbar-item" href={`${server.staticURL}frontend/report.html`}>Webpack analysis</a>}
         <a className="navbar-item" href="/graphiql">GraphiQL</a>
         <a className="navbar-item" href="/loc/example.pdf">Example PDF</a>
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>

@@ -23,3 +23,11 @@ window.addEventListener('load', () => {
 
   startApp(div, initialProps);
 });
+
+if (process.env.NODE_ENV !== 'production' && DISABLE_DEV_SOURCE_MAPS) {
+  console.log(
+    'Source maps have been disabled to improve compilation speed. To ' +
+    'prevent this, unset the DISABLE_DEV_SOURCE_MAPS ' +
+    'environment variable.'
+  );
+}

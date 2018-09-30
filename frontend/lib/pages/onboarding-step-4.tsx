@@ -10,6 +10,7 @@ import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { Modal } from '../modal';
 import { WelcomeFragment } from '../letter-of-complaint-common';
+import { PhoneNumberFormField } from '../phone-number-form-field';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -34,7 +35,7 @@ export default class OnboardingStep4 extends React.Component {
   renderForm(ctx: FormContext<OnboardingStep4Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="Phone number" type="tel" {...ctx.fieldPropsFor('phoneNumber')} />
+        <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>

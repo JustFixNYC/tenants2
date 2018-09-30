@@ -12,6 +12,13 @@
 /**
  * Whether or not to disable the webpack analyzer.
  * 
- * This is derived from an environment variable of the same name.
+ * Setting this to true can speed up builds.
  */
 declare const DISABLE_WEBPACK_ANALYZER: boolean;
+
+/**
+ * Whether or not to disable source maps in development mode.
+ * 
+ * Setting this to true can speed up builds.
+ */
+declare const DISABLE_DEV_SOURCE_MAPS: boolean;

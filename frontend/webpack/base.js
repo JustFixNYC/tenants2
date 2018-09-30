@@ -34,6 +34,11 @@ if (DEV_DEPS_AVAIL) {
 
 const DISABLE_WEBPACK_ANALYZER = getEnvBoolean('DISABLE_WEBPACK_ANALYZER', false) || !DEV_DEPS_AVAIL;
 
+const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
+
+/** @type WebpackConfig["devtool"] */
+const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'inline-source-map';
+
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
  /** @type WebpackConfig["mode"] */
@@ -76,7 +81,8 @@ function getCommonPlugins() {
   /** @type WebpackPlugin[] */
   const plugins = [
     new webpack.DefinePlugin({
-      DISABLE_WEBPACK_ANALYZER
+      DISABLE_WEBPACK_ANALYZER,
+      DISABLE_DEV_SOURCE_MAPS
     })
   ];
 
@@ -95,7 +101,7 @@ function createNodeScriptConfig(entry, filename) {
   return {
     target: 'node',
     entry,
-    devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
+    devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
     mode: MODE,
     externals: [nodeExternals()],
     output: {
@@ -158,7 +164,7 @@ const webConfig = {
   entry: {
     main: ['babel-polyfill', './frontend/lib/main.ts'],
   },
-  devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
+  devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
   output: {
     filename: '[name].bundle.js',
@@ -189,8 +195,12 @@ const webConfig = {
   },
 };
 
+exports.webConfig = webConfig;
+
+exports.lambdaConfig = createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js');
+
 const webpackConfigs = [
-  createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js'),
+  exports.lambdaConfig,
   webConfig,
 ];
 

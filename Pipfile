@@ -17,7 +17,7 @@ requests-mock = "*"
 django-webtest = "*"
 
 [packages]
-django = "*"
+django = "==2.1.2"
 whitenoise = "*"
 dj-database-url = "*"
 django-csp = "*"

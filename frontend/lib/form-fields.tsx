@@ -4,6 +4,7 @@ import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { DjangoChoices } from "./common-data";
 import { bulmaClasses } from './bulma';
 import { ariaBool } from './aria';
+import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 
 /**
  * Base properties that form fields need to have.
@@ -174,7 +175,32 @@ export type TextualInputType = 'text'|'password'|'date'|'tel';
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
   label: string;
+  required?: boolean;
 };
+
+/**
+ * A button to clear the value of a date field. This is needed primarily
+ * to work around a bug in React+iOS whereby the built-in "clear" button
+ * doesn't work, and (after about an hour of trying) is difficult or
+ * impossible to make work properly. For more details, see:
+ * 
+ * https://github.com/facebook/react/issues/8938#issuecomment-360573204
+ */
+function DateClear(props: TextualFormFieldProps): JSX.Element|null {
+  if (props.value && !props.required) {
+    return (
+      <SimpleProgressiveEnhancement>
+        <button type="button" className="button is-text is-small"
+                onClick={() => props.onChange('')}>
+          Clear
+          <span className="jf-sr-only"> value for {props.label}</span>
+        </button>
+      </SimpleProgressiveEnhancement>
+    );
+  }
+
+  return null;
+}
 
 /** A JSX component for textual form input. */
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
@@ -196,8 +222,10 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           name={props.name}
           type={type}
           value={props.value}
+          required={props.required}
           onChange={(e) => props.onChange(e.target.value)}
         />
+        {type === 'date' && <DateClear {...props} />}
       </div>
       {errorHelp}
     </div>

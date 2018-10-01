@@ -102,12 +102,16 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           borough: boroughProps.value as BoroughChoice }
       : undefined;
 
+    if (!addressProps.errors && boroughProps.errors) {
+      return this.renderBaselineAddressFields(ctx);
+    }
+
     return <GeoAutocomplete
       label="What is your address?"
       initialValue={initialValue}
       onChange={selection => {
         addressProps.onChange(selection.address);
-        boroughProps.onChange(selection.borough);
+        boroughProps.onChange(selection.borough || '');
       }}
       onNetworkError={pe.fallbackToBaseline}
       errors={addressProps.errors || boroughProps.errors}

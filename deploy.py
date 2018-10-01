@@ -90,13 +90,14 @@ def deploy_heroku(args):
         'container:release',
         'web'
     ])
-    heroku_cli([
-        'run',
-        '--exit-code',
-        'python',
-        'manage.py',
-        'migrate'
-    ])
+    if not args.no_migrate:
+        heroku_cli([
+            'run',
+            '--exit-code',
+            'python',
+            'manage.py',
+            'migrate'
+        ])
     heroku_cli(['maintenance:off'])
 
 
@@ -115,6 +116,11 @@ def main():
     parser_heroku = subparsers.add_parser(
         'heroku',
         help="Build container(s) and deploy to Heroku.",
+    )
+    parser_heroku.add_argument(
+        '--no-migrate',
+        action='store_true',
+        help="Don't run database migrations."
     )
     parser_heroku.set_defaults(func=deploy_heroku)
 

@@ -4,6 +4,7 @@ import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { DjangoChoices } from "./common-data";
 import { bulmaClasses } from './bulma';
 import { ariaBool } from './aria';
+import { IosFriendlyDateInput } from './ios-date-input';
 
 /**
  * Base properties that form fields need to have.
@@ -180,13 +181,14 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || 'text';
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const InputComponent = type === 'date' ? IosFriendlyDateInput : 'input';
 
   // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
       <label className="label">{props.label}</label>
       <div className="control">
-        <input
+        <InputComponent
           className={bulmaClasses('input', {
             'is-danger': !!props.errors
           })}

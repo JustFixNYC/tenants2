@@ -28,11 +28,13 @@ export function getInitialState(accessDates: string[], now: Date = new Date()): 
 }
 
 function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
+  const minDate = dateAsISO(addDays(new Date(), MIN_DAYS));
+
   return (
     <React.Fragment>
-      <TextualFormField label="First access date" type="date" required {...ctx.fieldPropsFor('date1')} />
-      <TextualFormField label="Second access date (optional)" type="date" {...ctx.fieldPropsFor('date2')} />
-      <TextualFormField label="Third access date (optional)" type="date" {...ctx.fieldPropsFor('date3')} />
+      <TextualFormField label="First access date" type="date" min={minDate} required {...ctx.fieldPropsFor('date1')} />
+      <TextualFormField label="Second access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date2')} />
+      <TextualFormField label="Third access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date3')} />
       <div className="buttons">
         <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={ctx.isLoading} />

@@ -176,6 +176,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
   label: string;
   required?: boolean;
+  min?: string | number | undefined;
 };
 
 /**
@@ -220,6 +221,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
+          min={props.min}
           type={type}
           value={props.value}
           required={props.required}

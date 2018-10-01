@@ -2,6 +2,7 @@ import React from 'react';
 import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField, HiddenFormField } from "../form-fields";
 import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
+import ReactTestingLibraryPal from './rtl-pal';
 
 const CHOICES: DjangoChoices = [
   ['BAR', 'Bar'],
@@ -51,6 +52,21 @@ describe('TextualFormField', () => {
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
+  });
+});
+
+describe('TextualFormField with type="date"', () => {
+  it('clears value when "clear" is clicked', () => {
+    const onChange = jest.fn();
+    const pal = new ReactTestingLibraryPal(
+      <TextualFormField
+        type="date"
+        label="Boop"
+        {...baseFieldProps({ value: '01/01/2011', onChange })}
+      />
+    );
+    pal.clickButtonOrLink(/Clear/);
+    expect(onChange.mock.calls).toEqual([['']]);
   });
 });
 

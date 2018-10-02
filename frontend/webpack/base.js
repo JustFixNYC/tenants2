@@ -12,6 +12,9 @@ const nodeExternals = require('webpack-node-externals');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const { getEnvBoolean } = require('./env-util');
 
+/** Are we in watch mode, or are we being run as a one-off process? */
+const IN_WATCH_MODE = process.argv.includes('--watch');
+
 /** @type {boolean} Whether or not development dependencies are installed. */
 let DEV_DEPS_AVAIL = (() => {
   try {
@@ -53,6 +56,11 @@ const tsLoaderOptions = {
    * https://github.com/TypeStrong/ts-loader/issues/267.
    */
   onlyCompileBundledFiles: true,
+  /**
+   * We're going to run the type checker in a separate process, so
+   * only transpile for now. This significantly improves compile speed.
+   */
+  transpileOnly: true,
   compilerOptions: {
     /**
      * Allow unused locals during development, because it's useful for
@@ -100,6 +108,7 @@ function getCommonPlugins() {
 function createNodeScriptConfig(entry, filename) {
   return {
     target: 'node',
+    stats: IN_WATCH_MODE ? 'minimal' : 'normal',
     entry,
     devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
     mode: MODE,
@@ -161,6 +170,7 @@ function getWebPlugins() {
  */
 const webConfig = {
   target: 'web',
+  stats: IN_WATCH_MODE ? 'minimal' : 'normal',
   entry: {
     main: ['babel-polyfill', './frontend/lib/main.ts'],
   },

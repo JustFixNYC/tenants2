@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "tsc --noEmit",
+    "lint:watch": "tsc --noEmit --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
@@ -12,12 +13,11 @@
     "querybuilder:watch": "node querybuilder.js --watch",
     "webpack": "webpack",
     "webpack:watch": "webpack --watch",
-    "webpack:watch-parallel": "concurrently --kill-others \"webpack --config frontend/webpack/web.config.js --watch\" \"webpack --config frontend/webpack/lambda.config.js --watch\" \"webpack --config frontend/webpack/querybuilder.config.js --watch\"",
     "webpack:querybuilder": "webpack --config frontend/webpack/querybuilder.config.js --silent",
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
     "build": "npm run sass && npm run webpack && npm run safe_mode_snippet",
-    "start": "npm run sass && npm run webpack:querybuilder && concurrently --kill-others \"npm run webpack:watch-parallel\" \"npm run sass:watch\" \"npm run querybuilder:watch\" \"npm run safe_mode_snippet:watch\""
+    "start": "npm run sass && npm run webpack:querybuilder && concurrently --kill-others \"npm run webpack:watch\" \"npm run lint:watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\" \"npm run safe_mode_snippet:watch\""
   },
   "repository": {
     "type": "git",

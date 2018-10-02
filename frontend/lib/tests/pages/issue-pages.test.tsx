@@ -1,13 +1,12 @@
-import fs from 'fs';
-import path from 'path';
 import React from 'react';
 
-import { IssuesRoutes, getIssueLabel, getIssueAreaImagePath, groupByTwo } from '../../pages/issue-pages';
+import { IssuesRoutes, getIssueLabel, groupByTwo } from '../../pages/issue-pages';
 import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
 import { ISSUE_AREA_CHOICES } from '../../issues';
+import ISSUE_AREA_SVGS from '../../svg/issues';
 
 
 const routes = Routes.loc.issues;
@@ -62,12 +61,10 @@ test('getIssueLabel() works', () => {
 });
 
 test('issue area images exist', () => {
-  const STATIC_ROOT = path.join(__dirname, '..', '..', '..', 'static');
-
   ISSUE_AREA_CHOICES.forEach(([area, _]) => {
-    const imgPath = path.resolve(path.join(STATIC_ROOT, getIssueAreaImagePath(area)));
-    if (!fs.existsSync(imgPath)) {
-      throw new Error(`Expected ${imgPath} to exist for issue area ${area}`);
+    const svg = ISSUE_AREA_SVGS[area];
+    if (!svg) {
+      throw new Error(`Expected ISSUE_AREA_SVGS.${area} to exist`);
     }
   });
 });

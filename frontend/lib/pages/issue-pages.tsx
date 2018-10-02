@@ -18,6 +18,8 @@ import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
 import { ga } from '../google-analytics';
+import ISSUE_AREA_SVGS from '../svg/issues';
+import { assertNotUndefined } from '../util';
 
 type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
 
@@ -81,10 +83,6 @@ export function getIssueLabel(count: number): string {
       : `${count} issues reported`;
 }
 
-export function getIssueAreaImagePath(area: string): string {
-  return `frontend/img/issues/${allCapsToSlug(area)}.svg`;
-}
-
 function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boolean }): JSX.Element {
   const { area, label } = props;
 
@@ -92,16 +90,16 @@ function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boo
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
-        const iconSrc = `${ctx.server.staticURL}${getIssueAreaImagePath(area)}`;
         const url = Routes.loc.issues.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
         const ariaLabel = `${title} (${issueLabel})`;
+        const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
 
         return (
           <Link to={url} className={classnames('jf-issue-area-link', props.isHighlighted && 'jf-highlight')} title={title} aria-label={ariaLabel}>
-              <img src={iconSrc} alt="" />
+            {svg}
             <p><strong>{label}</strong></p>
             <p className="is-size-7">{issueLabel}</p>
           </Link>

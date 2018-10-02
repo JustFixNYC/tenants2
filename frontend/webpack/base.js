@@ -87,7 +87,7 @@ const baseBabelOptions = {
  * @type {WebpackRule}
  */
 const convertSVGsToReactComponents = {
-  test: /\.svg?$/,
+  test: /\.svg$/,
   exclude: /node_modules/,
   use: [
     // Our SVG loader generates JSX code, so we need to use

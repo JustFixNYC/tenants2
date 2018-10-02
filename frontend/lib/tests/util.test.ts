@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -26,6 +26,17 @@ describe('assertNotNull()', () => {
 
   it('returns argument when not null', () => {
     expect(assertNotNull('')).toBe('');
+  });
+});
+
+describe('assertNotUndefined()', () => {
+  it('raises exception when undefined', () => {
+    expect(() => assertNotUndefined(undefined))
+      .toThrowError('expected argument to not be undefined');
+  });
+
+  it('returns argument when not undefined', () => {
+    expect(assertNotUndefined(null)).toBe(null);
   });
 });
 

@@ -57,8 +57,8 @@ const tsLoaderOptions = {
    */
   onlyCompileBundledFiles: true,
   /**
-   * We're going to run the linting in a separate process, so don't
-   * transpile. This significantly improves compile speed.
+   * We're going to run the type checker in a separate process, so
+   * only transpile for now. This significantly improves compile speed.
    */
   transpileOnly: true,
   compilerOptions: {

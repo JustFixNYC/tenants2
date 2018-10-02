@@ -34,6 +34,21 @@ export function assertNotNull<T>(thing: T|null): T|never {
 }
 
 /**
+ * Assert that the given argument isn't undefined and return it. Throw
+ * an exception otherwise.
+ * 
+ * This is primarily useful for situations where we're unable to
+ * statically verify that something isn't undefined (e.g. due to the limitations
+ * of typings we didn't write) but are sure it won't be in practice.
+ */
+export function assertNotUndefined<T>(thing: T|undefined): T|never {
+  if (thing === undefined) {
+    throw new Error('Assertion failure, expected argument to not be undefined!');
+  }
+  return thing;
+}
+
+/**
  * This class can be used to omit a set of keys from a type.
  * 
  * This type was taken from:

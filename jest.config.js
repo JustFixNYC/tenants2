@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   "testURL": "http://localhost",
   "transform": {
@@ -26,6 +28,9 @@ module.exports = {
     "json",
     "node"
   ],
+  "moduleNameMapper": {
+    "\\.svg$": path.join(__dirname, "frontend", "mocks", "svg-mock.js")
+  },
   "restoreMocks": true,
   "setupTestFrameworkScriptFile": "./frontend/lib/tests/setup.ts"
 };

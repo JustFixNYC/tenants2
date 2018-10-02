@@ -2,6 +2,7 @@
 /**
  * @typedef {import("webpack").Configuration} WebpackConfig
  * @typedef {import("webpack").Plugin} WebpackPlugin
+ * @typedef {import("webpack").RuleSetRule} WebpackRule
  * @typedef {import("ts-loader").Options} TsLoaderOptions
  */
 
@@ -81,6 +82,25 @@ const baseBabelOptions = {
 };
 
 /**
+ * Our webpack rule for loading SVGs as React components.
+ * 
+ * @type {WebpackRule}
+ */
+const convertSVGsToReactComponents = {
+  test: /\.svg?$/,
+  exclude: /node_modules/,
+  use: [
+    // Our SVG loader generates JSX code, so we need to use
+    // babel to convert it into regular JS.
+    { loader: 'babel-loader', options: {
+      babelrc: false,
+      plugins: ['babel-plugin-transform-react-jsx']
+    } },
+    { loader: path.resolve(__dirname, 'svg-loader.js') }
+  ]
+};
+
+/**
  * This returns an array of webpack plugins for all environments.
  * 
  * @returns {WebpackPlugin[]} The array of plugins.
@@ -120,12 +140,13 @@ function createNodeScriptConfig(entry, filename) {
     },
     module: {
       rules: [
+        convertSVGsToReactComponents,
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
             { loader: 'babel-loader', options: baseBabelOptions },
-            { loader: 'ts-loader', options: tsLoaderOptions }
+            { loader: 'ts-loader', options: tsLoaderOptions },
           ]
         },
       ]
@@ -183,6 +204,7 @@ const webConfig = {
   },
   module: {
     rules: [
+      convertSVGsToReactComponents,
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,

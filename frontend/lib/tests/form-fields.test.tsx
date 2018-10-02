@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField, HiddenFormField } from "../form-fields";
+import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField, HiddenFormField, renderLabel } from "../form-fields";
 import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
 import ReactTestingLibraryPal from './rtl-pal';
@@ -56,6 +56,8 @@ describe('TextualFormField', () => {
 });
 
 describe('TextualFormField with type="date"', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('clears value when "clear" is clicked', () => {
     const onChange = jest.fn();
     const pal = new ReactTestingLibraryPal(
@@ -260,5 +262,28 @@ describe('CheckboxFormField', () => {
   it('renders properly when it has errors', () => {
     const html = makeCheckbox({ errors: ['this must be checked'] }).html();
     expect(html).toContain('aria-invalid="true"');
+  });
+});
+
+describe('renderLabel()', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  it('defaults to rendering a simple label', () => {
+    const pal = new ReactTestingLibraryPal(
+      renderLabel('Boopy', { htmlFor: 'u' })
+    );
+    const label = pal.getElement('label', '.label');
+    expect(label.getAttribute('for')).toBe('u');
+    expect(label.textContent).toBe('Boopy');
+  });
+
+  it('renders a custom label if provided with a label renderer', () => {
+    const pal = new ReactTestingLibraryPal(
+      renderLabel('Boopy', { className: 'u' }, (label, props) => (
+        <label {...props}>{label.toUpperCase()}</label>
+      ))
+    );
+    const label = pal.getElement('label', '.u');
+    expect(label.textContent).toBe('BOOPY');
   });
 });

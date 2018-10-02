@@ -6,6 +6,7 @@ import { BoroughChoice, getBoroughLabel } from './boroughs';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
+import { renderLabel, LabelRenderer } from './form-fields';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -26,6 +27,7 @@ export interface GeoAutocompleteItem {
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
   label: string;
+  renderLabel?: LabelRenderer;
   initialValue?: GeoAutocompleteItem;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
@@ -125,7 +127,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
     return (
       <div className="field jf-autocomplete-field">
-        <label className="label" {...ds.getLabelProps()}>{this.props.label}</label>
+        {renderLabel(this.props.label, ds.getLabelProps(), this.props.renderLabel)}
         <div className={bulmaClasses('control', {
           'is-loading': this.state.isLoading
         })}>

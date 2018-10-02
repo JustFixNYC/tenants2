@@ -26,6 +26,31 @@ export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
   isDisabled: boolean;
 }
 
+/** The props for an HTML <label> element. */
+export type LabelProps = React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
+
+/**
+ * A label renderer is a function that renders a JSX element containing
+ * a <label> with the given text and the given props somewhere inside it.
+ */
+export type LabelRenderer = (label: string, labelProps: LabelProps) => JSX.Element;
+
+/**
+ * The simplest possible label renderer, which just renders a label using
+ * standard Bulma styling.
+ */
+export const renderSimpleLabel: LabelRenderer = (label, props) => (
+  <label className="label" {...props}>{label}</label>
+);
+
+/**
+ * Given label text, props, and an optional renderer, render a label.
+ */
+export function renderLabel(label: string, labelProps: LabelProps, renderer?: LabelRenderer): JSX.Element {
+  renderer = renderer || renderSimpleLabel;
+  return renderer(label, labelProps);
+}
+
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   choices: DjangoChoices;
   label: string;
@@ -175,6 +200,7 @@ export type TextualInputType = 'text'|'password'|'date'|'tel';
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
   label: string;
+  renderLabel?: LabelRenderer;
   required?: boolean;
   min?: string | number | undefined;
 };
@@ -211,7 +237,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      <label className="label">{props.label}</label>
+      {renderLabel(props.label, {}, props.renderLabel)}
       <div className="control">
         <input
           className={bulmaClasses('input', {
@@ -241,7 +267,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      <label className="label">{props.label}</label>
+      {renderLabel(props.label, {}, props.renderLabel)}
       <div className="control">
         <textarea
           className={bulmaClasses('textarea', { 'is-danger': !!props.errors })}

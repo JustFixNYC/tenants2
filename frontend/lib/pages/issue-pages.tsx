@@ -62,9 +62,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     if (label === null) {
       return <NotFound {...this.props} />;
     }
+    const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
       <Page title={`${label} - Issue checklist`}>
-        <h1 className="title">{label} issues</h1>
+        <h1 className="title jf-issue-area">{svg} {label} issues</h1>
         <SessionUpdatingFormSubmitter
           mutation={IssueAreaMutation}
           initialState={getInitialState}

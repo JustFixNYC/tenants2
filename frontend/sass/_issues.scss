@@ -34,3 +34,9 @@
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+
+.title.jf-issue-area svg {
+    height: 1em;
+    width: 1em;
+    fill: $title-color;
+}

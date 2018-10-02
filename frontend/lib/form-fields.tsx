@@ -26,14 +26,26 @@ export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
   isDisabled: boolean;
 }
 
+/** The props for an HTML <label> element. */
 export type LabelProps = React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
 
+/**
+ * A label renderer is a function that renders a JSX element containing
+ * a <label> with the given text and the given props somewhere inside it.
+ */
 export type LabelRenderer = (label: string, labelProps: LabelProps) => JSX.Element;
 
+/**
+ * The simplest possible label renderer, which just renders a label using
+ * standard Bulma styling.
+ */
 export const renderSimpleLabel: LabelRenderer = (label, props) => (
   <label className="label" {...props}>{label}</label>
 );
 
+/**
+ * Given label text, props, and an optional renderer, render a label.
+ */
 export function renderLabel(label: string, labelProps: LabelProps, renderer?: LabelRenderer): JSX.Element {
   renderer = renderer || renderSimpleLabel;
   return renderer(label, labelProps);

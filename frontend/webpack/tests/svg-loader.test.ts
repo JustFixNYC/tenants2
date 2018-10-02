@@ -10,7 +10,7 @@ const ORIGINAL_SVG = (
 const OPTIMIZED_SVG = (
   `<svg xmlns="http://www.w3.org/2000/svg" ` +
   `viewBox="0 0 261.85 296.88">` +
-  `<path d=\"M10 10h80v80H10V10\"/></svg>`
+  `<path d="M10 10 H 90 V 90 H 10 L 10 10"/></svg>`
 );
 
 test("SVG loader works", async () => {
@@ -20,4 +20,18 @@ test("SVG loader works", async () => {
     ``,
     `module.exports = ${OPTIMIZED_SVG};`
   ]);
+});
+
+const SVG_WITH_TWO_PATHS = (
+`<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" ` +
+`viewBox="0 0 261.85 296.88">` +
+`<defs><style>.cls-1{fill:#434a54;}</style></defs>` +
+`<title>IC icons</title><path class="cls-1" d="M10 10 H 90 V 90 H 10 L 10 10"/>` +
+`<path class="cls-1" d="M10 10 H 90 V 90 H 10 L 10 10"/>` +
+`</svg>`
+);
+
+test("SVG loader works on SVGs with two paths", async () => {
+  const source = await svgLoader(SVG_WITH_TWO_PATHS);
+  expect(source).not.toContain('class');
 });

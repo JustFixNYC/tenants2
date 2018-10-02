@@ -1,78 +1,10 @@
 // @ts-check
 
-const SVGO = require('svgo');
-
-const svgo = new SVGO({
-  plugins: [{
-    cleanupAttrs: true,
-  }, {
-    removeDoctype: true,
-  },{
-    removeXMLProcInst: true,
-  },{
-    removeComments: true,
-  },{
-    removeMetadata: true,
-  },{
-    removeTitle: true,
-  },{
-    removeDesc: true,
-  },{
-    removeUselessDefs: true,
-  },{
-    removeEditorsNSData: true,
-  },{
-    removeEmptyAttrs: true,
-  },{
-    removeHiddenElems: true,
-  },{
-    removeEmptyText: true,
-  },{
-    removeEmptyContainers: true,
-  },{
-    removeViewBox: false,
-  },{
-    cleanupEnableBackground: true,
-  },{
-    convertStyleToAttrs: true,
-  },{
-    convertColors: true,
-  },{
-    convertPathData: true,
-  },{
-    convertTransform: true,
-  },{
-    removeUnknownsAndDefaults: true,
-  },{
-    removeNonInheritableGroupAttrs: true,
-  },{
-    removeUselessStrokeAndFill: true,
-  },{
-    removeUnusedNS: true,
-  },{
-    cleanupIDs: true,
-  },{
-    cleanupNumericValues: true,
-  },{
-    moveElemsAttrsToGroup: true,
-  },{
-    moveGroupAttrsToElems: true,
-  },{
-    collapseGroups: true,
-  },{
-    removeRasterImages: false,
-  },{
-    mergePaths: true,
-  },{
-    convertShapeToPath: true,
-  },{
-    sortAttrs: true,
-  },{
-    removeDimensions: true,
-  },{
-    removeAttrs: { attrs: '(stroke|fill|data-name)' },
-  }]
-});
+// We used to use svgo for this, but it didn't do anything to SVGs with
+// multiple paths, which resulted in malformed JSX (since class attributes
+// weren't removed, among other things) so we'll just roll our own SVG
+// optimization with cheerio.
+const cheerio = require('cheerio');
 
 /**
  * This loader converts an SVG file into a React component. It outputs
@@ -84,11 +16,16 @@ const svgo = new SVGO({
  *   the SVG as a React component.
  */
 module.exports = async function(source) {
-  const result = await svgo.optimize(source);
+  const $ = cheerio.load(source, {xmlMode: true});
+
+  $('defs, title').remove();
+  $('[class]').removeAttr('class');
+  $('[id]').removeAttr('id');
+  $('[data-name]').removeAttr('data-name');
 
   return [
     `const React = require('react');`,
     ``,
-    `module.exports = ${result.data};`
+    `module.exports = ${$.html()};`
   ].join('\n');
 };

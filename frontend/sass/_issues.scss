@@ -6,10 +6,11 @@
     padding: 0.5em;
     height: 100%;
 
-    img {
+    svg {
         width: 48px;
         height: 48px;
         overflow: hidden;
+        fill: $button-text-color;
     }
 }
 

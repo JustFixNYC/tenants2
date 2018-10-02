@@ -26,6 +26,19 @@ export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
   isDisabled: boolean;
 }
 
+export type LabelProps = React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
+
+export type LabelRenderer = (label: string, labelProps: LabelProps) => JSX.Element;
+
+export const renderSimpleLabel: LabelRenderer = (label, props) => (
+  <label className="label" {...props}>{label}</label>
+);
+
+export function renderLabel(label: string, labelProps: LabelProps, renderer?: LabelRenderer): JSX.Element {
+  renderer = renderer || renderSimpleLabel;
+  return renderer(label, labelProps);
+}
+
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   choices: DjangoChoices;
   label: string;
@@ -175,6 +188,7 @@ export type TextualInputType = 'text'|'password'|'date'|'tel';
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
   label: string;
+  renderLabel?: LabelRenderer;
   required?: boolean;
   min?: string | number | undefined;
 };
@@ -211,7 +225,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      <label className="label">{props.label}</label>
+      {renderLabel(props.label, {}, props.renderLabel)}
       <div className="control">
         <input
           className={bulmaClasses('input', {
@@ -241,7 +255,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      <label className="label">{props.label}</label>
+      {renderLabel(props.label, {}, props.renderLabel)}
       <div className="control">
         <textarea
           className={bulmaClasses('textarea', { 'is-danger': !!props.errors })}

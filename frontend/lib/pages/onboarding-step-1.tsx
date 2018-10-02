@@ -8,8 +8,8 @@ import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
-import { Modal, ModalLink } from '../modal';
-import { TextualFormField, RadiosFormField } from '../form-fields';
+import { Modal } from '../modal';
+import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
@@ -25,6 +25,21 @@ const blankInitialState: OnboardingStep1Input = {
   aptNumber: '',
   borough: '',
 };
+
+const renderAddressLabel: LabelRenderer = (label, labelProps) => (
+  <div className="level is-marginless is-mobile">
+    <div className="level-left">
+      <div className="level-item is-marginless">
+        {renderSimpleLabel(label, labelProps)}
+      </div>
+    </div>
+    <div className="level-right">
+      <div className="level-item is-marginless">
+        <Link to={Routes.onboarding.step1AddressModal} className="is-size-7">Why do you need my address?</Link>
+      </div>
+    </div>
+  </div>
+);
 
 export function areAddressesTheSame(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
@@ -84,7 +99,11 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   renderBaselineAddressFields(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     return (
       <React.Fragment>
-        <TextualFormField label="What is your address?" {...ctx.fieldPropsFor('address')} />
+        <TextualFormField
+          label="Address"
+          renderLabel={renderAddressLabel}
+          {...ctx.fieldPropsFor('address')}
+        />
         <RadiosFormField
           label="What is your borough?"
           {...ctx.fieldPropsFor('borough')}
@@ -103,7 +122,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       : undefined;
 
     return <GeoAutocomplete
-      label="What is your address?"
+      label="Address"
+      renderLabel={renderAddressLabel}
       initialValue={initialValue}
       onChange={selection => {
         addressProps.onChange(selection.address);
@@ -131,9 +151,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
-        <ModalLink to={Routes.onboarding.step1AddressModal} component={Step1AddressModal} className="is-size-7">
-          Why do you need my address?
-        </ModalLink>
+        <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
         <br/>
         <br/>
         {this.renderFormButtons(ctx.isLoading)}

@@ -44,7 +44,7 @@ describe('onboarding step 1 page', () => {
         }
       }
     });
-    const input = pal.rr.getByLabelText(/address/) as HTMLInputElement;
+    const input = pal.rr.getByLabelText(/address/i) as HTMLInputElement;
     expect(input.value).toEqual('150 DOOMBRINGER STREET, Manhattan');
   });
 

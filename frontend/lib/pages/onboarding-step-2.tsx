@@ -10,6 +10,9 @@ import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';
+import { Link } from 'react-router-dom';
+
+const excIcon = require('../svg/exclamation-circle-solid.svg') as JSX.Element;
 
 const blankInitialState: OnboardingStep2Input = {
   isInEviction: false,
@@ -46,6 +49,7 @@ export default class OnboardingStep2 extends React.Component {
                            modalPath={Routes.onboarding.step2EvictionModal}
                            {...ctx.fieldPropsFor('isInEviction')}>
           I received an eviction notice.
+          <Link to={Routes.onboarding.step2EvictionModal} className="jf-warning-icon">{excIcon}</Link>
         </AlertableCheckbox>
         <CheckboxFormField {...ctx.fieldPropsFor('needsRepairs')}>
           I need repairs made in my apartment.

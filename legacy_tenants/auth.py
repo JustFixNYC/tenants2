@@ -87,6 +87,13 @@ class LegacyTenantsAppBackend:
                     legacy_user = LegacyUserInfo(user=user)
                 legacy_user.update_from_mongo_user(mongo_user)
                 legacy_user.save()
+                user.save()
                 return user
 
         return None
+
+    def get_user(self, user_id):
+        try:
+            return JustfixUser.objects.get(pk=user_id)
+        except JustfixUser.DoesNotExist:
+            return None

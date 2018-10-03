@@ -42,6 +42,8 @@ class MongoAdvocate(MongoObject):
     Corresponds to the Advocate model of the legacy app.
     '''
 
+    firstName: str
+    lastName: str
     code: str
 
 
@@ -78,6 +80,8 @@ class MongoTenant(MongoObject):
 
     updated: Optional[datetime.datetime]
     sharing: MongoTenantSharingInfo
+    firstName: str
+    lastName: str
     fullName: str
     phone: str
     address: str

@@ -8,6 +8,8 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
+from legacy_tenants.admin import LegacyUserInline
+from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
 import loc.admin
 
@@ -41,7 +43,20 @@ class JustfixUserAdmin(UserAdmin):
             'fields': ('phone_number', 'username', 'password1', 'password2'),
         }),
     )
-    inlines = (OnboardingInline, IssueInline, CustomIssueInline) + loc.admin.user_inlines
+    inlines = (
+        LegacyUserInline,
+        OnboardingInline,
+        IssueInline,
+        CustomIssueInline
+    ) + loc.admin.user_inlines
+
+    def get_formsets_with_inlines(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            # Don't show the legacy user inline if they're not a legacy user.
+            if (isinstance(inline, LegacyUserInline) and
+                    not LegacyUserInfo.is_legacy_user(obj)):
+                continue
+            yield inline.get_formset(request, obj), inline
 
     @admin_field(
         short_description="Issues",

@@ -2,6 +2,9 @@ ADVOCATE = {
   "_id": "59011f04d18396000fe76b0f",
   "created": "2017-08-14T21:03:17.381Z",
   "code": "myadvocatecode",
+  "fullName": "Boop Jones",
+  "lastName": "Jones",
+  "firstName": "Boop",
   "__v": 0
 }
 
@@ -96,9 +99,9 @@ TENANT = {
   "unit": "12",
   "address": "654 Park Place",
   "borough": "Brooklyn",
-  "fullName": "Test Test",
+  "fullName": "Testy Test",
   "lastName": "Test",
-  "firstName": "Test",
+  "firstName": "Testy",
   "currentAcuityEventId": "",
   "advocateRole": "none",
   "__v": 2

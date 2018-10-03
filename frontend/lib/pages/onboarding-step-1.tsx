@@ -152,8 +152,6 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
         <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
-        <br/>
-        <br/>
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );

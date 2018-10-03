@@ -28,6 +28,7 @@ pymongo = "*"
 pydantic = "*"
 requests = "*"
 rollbar = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.7"

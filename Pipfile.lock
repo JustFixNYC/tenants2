@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ccd7b250e6945bb24233e7a172a0b24a9575cac72b0bb5669d27546f2c9d460c"
+            "sha256": "26817eb601541cc54a2c95bd3992e340988616c16058c8d98aca0b216ed93519"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -155,6 +155,13 @@
             "index": "pypi",
             "version": "==0.13"
         },
+        "pyjwt": {
+            "hashes": [
+                "sha256:30b1380ff43b55441283cc2b2676b755cca45693ae3097325dea01f3d110628c",
+                "sha256:4ee413b357d53fd3fb44704577afac88e72e878716116270d722723d65b42176"
+            ],
+            "version": "==1.6.4"
+        },
         "pymongo": {
             "hashes": [
                 "sha256:08dea6dbff33363419af7af3bf2e9a373ff71eb22833dd7063f9b953f09a0bdf",
@@ -190,6 +197,13 @@
             ],
             "index": "pypi",
             "version": "==3.7.1"
+        },
+        "pysocks": {
+            "hashes": [
+                "sha256:3fe52c55890a248676fd69dc9e3c4e811718b777834bcaab7a8125cf9deac672"
+            ],
+            "markers": "python_version >= '3.0'",
+            "version": "==1.6.8"
         },
         "pytz": {
             "hashes": [
@@ -233,6 +247,14 @@
                 "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb"
             ],
             "version": "==1.11.0"
+        },
+        "twilio": {
+            "hashes": [
+                "sha256:450c75ea442ceb4d1de4218602751b373b412ac5f0992675edecb038a48a9f88",
+                "sha256:764133c8f36affd411c04a860885b8c04b3c3cf5f507b11626940c8540bbebd7"
+            ],
+            "index": "pypi",
+            "version": "==6.18.0"
         },
         "typing": {
             "hashes": [
@@ -551,7 +573,6 @@
                 "sha256:1fe722f2ab857685fc96edec567dc40b1875b21219b3b348e58cd8c4d5ea7df3",
                 "sha256:263690003a3e092ca1ec4df787f93feb0004e39d7bac9cba2c19a552c765894b"
             ],
-            "markers": "python_version != '3.2.*' and python_version >= '2.7' and python_version != '3.1.*' and python_version != '3.0.*'",
             "version": "==1.8.2"
         },
         "webtest": {

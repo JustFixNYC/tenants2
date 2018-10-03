@@ -49,6 +49,12 @@ export interface AppServerInfo {
   locPdfURL: string;
 
   /**
+   * The URL that automatically logs-in the current user to the legacy tenant
+   * app and redirects them there.
+   */
+  redirectToLegacyAppURL: string;
+
+  /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in
    * the Django app).
    */

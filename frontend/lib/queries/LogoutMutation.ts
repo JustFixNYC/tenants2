@@ -114,6 +114,10 @@ export interface LogoutMutation_output_session {
    * Whether or not the current session has safe/compatibility mode compatibility mode) enabled.
    */
   isSafeModeEnabled: boolean;
+  /**
+   * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
+   */
+  prefersLegacyApp: boolean | null;
   onboardingStep1: LogoutMutation_output_session_onboardingStep1 | null;
   onboardingStep2: LogoutMutation_output_session_onboardingStep2 | null;
   onboardingStep3: LogoutMutation_output_session_onboardingStep3 | null;

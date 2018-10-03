@@ -152,6 +152,7 @@ def react_rendered_view(request, url: str):
             'batchGraphQLURL': reverse('batch-graphql'),
             'locHtmlURL': reverse('loc', args=('html',)),
             'locPdfURL': reverse('loc', args=('pdf',)),
+            'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

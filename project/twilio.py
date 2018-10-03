@@ -7,14 +7,19 @@ from twilio.rest import Client
 logger = logging.getLogger(__name__)
 
 
+def _ensure_setting_is_nonempty(setting: str):
+    if not getattr(settings, setting):
+        raise ImproperlyConfigured(
+            f"TWILIO_ACCOUNT_SID is non-empty, but "
+            f"{setting} is empty!"
+        )
+
+
 def validate_settings():
-    if settings.TWILIO_ACCOUNT_SID:
-        for key in ['TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER']:
-            if not getattr(settings, key):
-                raise ImproperlyConfigured(
-                    f"TWILIO_ACCOUNT_SID is non-empty, but "
-                    f"{key} is empty!"
-                )
+    if not settings.TWILIO_ACCOUNT_SID:
+        return
+    for setting in ['TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER']:
+        _ensure_setting_is_nonempty(setting)
 
 
 def send_sms(phone_number: str, body: str):

@@ -3,6 +3,7 @@ from typing import List, Optional, Iterator
 import pymongo
 from bson.objectid import ObjectId
 from django.conf import settings
+from django.utils.crypto import get_random_string
 import pydantic
 
 
@@ -155,6 +156,22 @@ def get_user_by_phone_number(phone: str) -> Optional[MongoUser]:
         advocate_info=advocate,
         tenant_info=tenant
     )
+
+
+def create_autologin_doc(phone: str) -> str:
+    '''
+    Create an auto-login document in the legacy DB and return
+    its key.
+    '''
+
+    db = get_db()
+    key = get_random_string(length=40)
+    db['autologins'].insert({
+        'created': datetime.datetime.utcnow(),
+        'key': key,
+        'phone': phone
+    })
+    return key
 
 
 def get_db():

@@ -224,6 +224,12 @@ GA_TRACKING_ID = env.GA_TRACKING_ID
 
 GIT_INFO = git.GitInfo.from_dir_or_env(BASE_DIR)
 
+TWILIO_ACCOUNT_SID = env.TWILIO_ACCOUNT_SID
+
+TWILIO_AUTH_TOKEN = env.TWILIO_AUTH_TOKEN
+
+TWILIO_PHONE_NUMBER = env.TWILIO_PHONE_NUMBER
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 

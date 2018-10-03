@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 
 from users.models import JustfixUser
+from users.tests.factories import UserFactory
 from .. import auth, mongo
 from . import factories
 from .example_legacy_data import (
@@ -72,3 +73,16 @@ def test_backend_returns_existing_user(settings):
         auth_user = backend.authenticate(None, mongo_user.identity.phone, 'password')
         assert isinstance(auth_user, JustfixUser)
         assert user.pk == auth_user.pk
+
+
+@pytest.mark.django_db
+def test_get_user_returns_none_for_nonexistent_user():
+    backend = auth.LegacyTenantsAppBackend()
+    assert backend.get_user(999) is None
+
+
+@pytest.mark.django_db
+def test_get_user_returns_user_if_they_exist():
+    backend = auth.LegacyTenantsAppBackend()
+    user = UserFactory()
+    assert backend.get_user(user.pk) == user

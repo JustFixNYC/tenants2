@@ -14,6 +14,8 @@ class LegacyUserInfoFactory(factory.django.DjangoModelFactory):
 
     role = LegacyUserInfo.TENANT
 
+    prefers_legacy_app = True
+
 
 def MongoTenantFactory(**kwargs):
     return mongo.MongoTenant(**{**example_legacy_data.TENANT, **kwargs})

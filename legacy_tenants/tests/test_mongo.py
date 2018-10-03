@@ -1,3 +1,5 @@
+import pytest
+
 from .. import mongo
 from . import factories
 from .example_legacy_data import TENANT, ADVOCATE, IDENTITY, USER
@@ -49,3 +51,20 @@ def test_get_user_by_phone_number_returns_tenant(mock_mongodb):
     assert user.advocate_info is None
     assert isinstance(user.tenant_info, mongo.MongoTenant)
     assert isinstance(user.identity, mongo.MongoIdentity)
+
+
+def get_autologin_doc(mock_mongodb):
+    return mock_mongodb['autologins'].insert.call_args[0][0]
+
+
+def test_create_autologin_doc_works(mock_mongodb):
+    key = mongo.create_autologin_doc('5551234567')
+    assert len(key) == 40
+    doc = get_autologin_doc(mock_mongodb)
+    assert doc['key'] == key
+    assert doc['phone'] == '5551234567'
+
+
+def test_get_db_raises_assertion_if_settings_not_configured():
+    with pytest.raises(AssertionError, match="must be defined"):
+        mongo.get_db()

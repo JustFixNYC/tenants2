@@ -37,6 +37,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # connectivity to the legacy tenants app will be disabled.
     LEGACY_MONGODB_URL: str = ''
 
+    # This is the URL for the origin of the legacy tenants app,
+    # e.g. "https://beta.justfix.nyc".
+    LEGACY_ORIGIN: str = 'https://beta.justfix.nyc'
+
     # This is an optional HTTP request header field name and
     # value indicating that the request is actually secure.
     # For example, Heroku deployments should set this to

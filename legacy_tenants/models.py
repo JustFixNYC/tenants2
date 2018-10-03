@@ -34,6 +34,14 @@ class LegacyUserInfo(models.Model):
         choices=ROLE_CHOICES
     )
 
+    prefers_legacy_app = models.BooleanField(
+        default=True,
+        help_text=(
+            "Whether we should redirect this user to the legacy "
+            "tenant app after they log in."
+        )
+    )
+
     @classmethod
     def is_legacy_user(cls, user: User) -> bool:
         return hasattr(user, 'legacy_info')
@@ -41,7 +49,11 @@ class LegacyUserInfo(models.Model):
     def update_from_mongo_user(self, mongo_user: mongo.MongoUser):
         if mongo_user.tenant_info:
             self.role = self.TENANT
+            self.user.first_name = mongo_user.tenant_info.firstName
+            self.user.last_name = mongo_user.tenant_info.lastName
         elif mongo_user.advocate_info:
             self.role = self.ADVOCATE
+            self.user.first_name = mongo_user.advocate_info.firstName
+            self.user.last_name = mongo_user.advocate_info.lastName
         else:
             raise ValueError('mongo user is neither tenant nor advocate')

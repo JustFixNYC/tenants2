@@ -3,6 +3,7 @@ fragment AllSessionInfo on SessionInfo {
     csrfToken
     isStaff
     isSafeModeEnabled
+    prefersLegacyApp
     onboardingStep1 {
         firstName
         lastName

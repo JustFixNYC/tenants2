@@ -13,6 +13,7 @@ import { withAppContext, AppContextType } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../tests/hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
+import { assertNotNull } from '../util';
 
 const NEXT = 'next';
 
@@ -23,6 +24,7 @@ const initialState: LoginInput = {
 
 export interface LoginFormProps {
   next: string;
+  redirectToLegeacyAppURL: string;
 }
 
 /**
@@ -47,7 +49,12 @@ export class LoginForm extends React.Component<LoginFormProps> {
       <SessionUpdatingFormSubmitter
         mutation={LoginMutation}
         initialState={initialState}
-        onSuccessRedirect={this.props.next}
+        onSuccessRedirect={(output, input) => {
+          if (assertNotNull(output.session).prefersLegacyApp) {
+            return this.props.redirectToLegeacyAppURL;
+          }
+          return this.props.next;
+        }}
         performRedirect={performHardOrSoftRedirect}
       >
         {(ctx) => (
@@ -135,7 +142,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
   return (
     <Page title="Sign in">
       <h1 className="title">Sign in</h1>
-      <LoginForm next={next} />
+      <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
     </Page>
   );
 });

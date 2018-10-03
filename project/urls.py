@@ -18,6 +18,7 @@ from django.urls import path, re_path, include
 from django.conf import settings
 from graphene_django.views import GraphQLView
 
+from legacy_tenants.views import redirect_to_legacy_app
 from .views import react_rendered_view, example_server_error, redirect_favicon
 
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('loc/', include('loc.urls')),
     path('safe-mode/', include('frontend.safe_mode')),
+    path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
     path('__example-server-error/<slug:id>', example_server_error),
     path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),

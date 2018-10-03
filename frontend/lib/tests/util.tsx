@@ -71,12 +71,14 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   debug: false,
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
-  locPdfURL: '/myletter.pdf'
+  locPdfURL: '/myletter.pdf',
+  redirectToLegacyAppURL: '/myredirect-to-legacy-app'
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   phoneNumber: null,
   csrfToken: 'mycsrf',
+  prefersLegacyApp: false,
   isStaff: false,
   onboardingStep1: null,
   onboardingStep2: null,

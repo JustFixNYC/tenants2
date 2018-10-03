@@ -8,11 +8,18 @@ from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
 from issues.schema import IssueMutations, IssueSessionInfo
 from loc.schema import LocMutations, LocSessionInfo
+from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
 from . import forms
 
 
-class SessionInfo(LocSessionInfo, OnboardingSessionInfo, IssueSessionInfo, graphene.ObjectType):
+class SessionInfo(
+    LegacyUserSessionInfo,
+    LocSessionInfo,
+    OnboardingSessionInfo,
+    IssueSessionInfo,
+    graphene.ObjectType
+):
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or "

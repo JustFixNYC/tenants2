@@ -94,7 +94,7 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
     outbox: List[FakeSmsMessage] = []
 
     class FakeTwilioClient():
-        def __init__(self, account_sid, auth_token):
+        def __init__(self, account_sid, auth_token, http_client):
             pass
 
         @property

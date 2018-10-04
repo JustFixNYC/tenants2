@@ -230,6 +230,8 @@ TWILIO_AUTH_TOKEN = env.TWILIO_AUTH_TOKEN
 
 TWILIO_PHONE_NUMBER = env.TWILIO_PHONE_NUMBER
 
+TWILIO_TIMEOUT = 3
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 

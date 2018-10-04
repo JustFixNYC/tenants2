@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from './page';
 import { WhyMailALetterOfComplaint } from './letter-of-complaint-common';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Routes from './routes';
 import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';

@@ -23,7 +23,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
       <TextualFormField label="Landlord's name (optional)" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address (optional)" {...ctx.fieldPropsFor('address')} />
       <div className="buttons">
-        <BackButton to={Routes.loc.accessDates} />
+        <BackButton to={Routes.loc.accessDates} label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
       </div>
     </React.Fragment>
@@ -35,7 +35,7 @@ function getIntroText(isLookedUp: boolean|null): JSX.Element {
     ? (
       <React.Fragment>
         <p>Below is your landlord’s information as registered with the NYC Department of Housing Preservation and Development.</p>
-        <p>This may be different than where you send your rent checks. If you think this information is wrong you can change it, and we can double check for you.</p>
+        <p>This may be different from where you send your rent checks.</p>
       </React.Fragment>
     )
     : (

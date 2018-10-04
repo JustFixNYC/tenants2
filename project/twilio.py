@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 
 
 def _ensure_setting_is_nonempty(setting: str):
+    '''
+    Make sure the Django setting with the given name is truthy.
+    '''
+
     if not getattr(settings, setting):
         raise ImproperlyConfigured(
             f"TWILIO_ACCOUNT_SID is non-empty, but "
@@ -17,13 +21,23 @@ def _ensure_setting_is_nonempty(setting: str):
 
 
 def validate_settings():
+    '''
+    Ensure that the Twilio-related settings are defined properly.
+    '''
+
     if not settings.TWILIO_ACCOUNT_SID:
+        # Twilio integration is disabled, no need to check anything else.
         return
     for setting in ['TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER']:
         _ensure_setting_is_nonempty(setting)
 
 
 class JustfixHttpClient(TwilioHttpClient):
+    '''
+    Just like the standard Twilio HTTP client, but with a default timeout
+    to ensure that our server doesn't hang if Twilio becomes unresponsive.
+    '''
+
     def request(self, *args, **kwargs):
         timeout = kwargs.get('timeout')
         if timeout is None:
@@ -32,6 +46,13 @@ class JustfixHttpClient(TwilioHttpClient):
 
 
 def send_sms(phone_number: str, body: str, fail_silently=False):
+    '''
+    Send an SMS message to the given phone number, with the given body.
+
+    If `fail_silently` is True, any exceptions raised will be logged,
+    but not propagated.
+    '''
+
     if settings.TWILIO_ACCOUNT_SID:
         client = Client(settings.TWILIO_ACCOUNT_SID,
                         settings.TWILIO_AUTH_TOKEN,

@@ -47,7 +47,7 @@ export function areAddressesTheSame(a: string, b: string): boolean {
 
 export function Step1AddressModal(): JSX.Element {
   return (
-    <Modal title="Why do you need my address?" onCloseGoBack render={({close}) => (
+    <Modal title="Your privacy is very important to us!" onCloseGoBack render={({close}) => (
       <div className="content box">
         <h1 className="title">Your privacy is very important to us!</h1>
         <p>
@@ -150,8 +150,13 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
-        <TextualFormField label="What is your apartment number?" {...ctx.fieldPropsFor('aptNumber')} />
+        <TextualFormField label="Apartment number" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
+        <p>
+          Your privacy is very important to us! {" "}
+          <Link to={Routes.onboarding.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
+        </p>
+        <br/>
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );
@@ -196,8 +201,6 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     return (
       <Page title="Tell us about yourself!">
         <h1 className="title">Tell us about yourself!</h1>
-        <p>JustFix.nyc is a nonprofit based in NYC. We're here to help you learn your rights and take action to get repairs in your apartment!</p>
-        <br/>
         <SessionUpdatingFormSubmitter
           mutation={OnboardingStep1Mutation}
           initialState={(session) => session.onboardingStep1 || blankInitialState}

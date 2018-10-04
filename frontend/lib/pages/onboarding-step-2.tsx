@@ -52,7 +52,7 @@ export default class OnboardingStep2 extends React.Component {
           <Link to={Routes.onboarding.step2EvictionModal} className="jf-warning-icon">{excIcon}</Link>
         </AlertableCheckbox>
         <CheckboxFormField {...ctx.fieldPropsFor('needsRepairs')}>
-          I need repairs made in my apartment.
+          I need repairs made in my apartment/building.
         </CheckboxFormField>
         <CheckboxFormField {...ctx.fieldPropsFor('hasNoServices')}>
           I'm living without essential services (heat, gas, hot water).
@@ -61,7 +61,7 @@ export default class OnboardingStep2 extends React.Component {
           I have pests (rodents, cockroaches, bed bugs).
         </CheckboxFormField>
         <CheckboxFormField {...ctx.fieldPropsFor('hasCalled311')}>
-          I've already called 311 to report these issues but my landlord still hasn't made repairs.
+          I've already called 311 but nothing has changed.
         </CheckboxFormField>
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
@@ -80,8 +80,8 @@ export default class OnboardingStep2 extends React.Component {
   render() {
     return (
       <Page title="What type of housing issues are you experiencing?">
-        <h1 className="title">What type of housing issues are you experiencing?</h1>
-        <p>Please select <strong>all the issues</strong> that relate to your housing situation. You can add more details later on.</p>
+        <h1 className="title">What are you experiencing?</h1>
+        <p>Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
         <br/>
         <SessionUpdatingFormSubmitter
           mutation={OnboardingStep2Mutation}

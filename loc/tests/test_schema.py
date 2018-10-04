@@ -175,17 +175,27 @@ def test_landlord_details_are_created_when_user_has_onboarding_info(
 
 
 @pytest.mark.django_db
-def test_letter_request_works(graphql_client):
-    graphql_client.request.user = UserFactory.create()
+def test_letter_request_works(graphql_client, smsoutbox):
+    graphql_client.request.user = UserFactory.create(full_name='Boop Jones')
 
     result = execute_lr_mutation(graphql_client)
     assert result['errors'] == []
     assert result['session']['letterRequest']['mailChoice'] == 'WE_WILL_MAIL'
     assert isinstance(result['session']['letterRequest']['updatedAt'], str)
 
+    # Ensure we text them if they want us to mail the letter.
+    assert len(smsoutbox) == 2
+    assert 'Boop' in smsoutbox[0].body
+    assert 'http://testserver/' in smsoutbox[1].body
+
+    smsoutbox[:] = []
+
     result = execute_lr_mutation(graphql_client, mailChoice='USER_WILL_MAIL')
     assert result['errors'] == []
     assert result['session']['letterRequest']['mailChoice'] == 'USER_WILL_MAIL'
+
+    # Ensure no SMS is sent if the user said they'd mail it themselves.
+    assert smsoutbox == []
 
 
 def test_letter_request_requires_auth(graphql_client):

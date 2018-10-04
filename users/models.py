@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from project import twilio
+
+
 PHONE_NUMBER_LEN = 10
 
 FULL_NAME_MAXLEN = 150
@@ -30,6 +33,9 @@ class JustfixUser(AbstractUser):
         first_three_digits = self.phone_number[3:6]
         last_digits = self.phone_number[6:]
         return f"({area_code}) {first_three_digits}-{last_digits}"
+
+    def send_sms(self, body: str, fail_silently=True):
+        twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
 
     def __str__(self):
         if self.full_name:

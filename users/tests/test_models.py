@@ -28,3 +28,11 @@ def test_full_name_only_renders_if_both_first_and_last_are_present():
 
     assert JustfixUser(first_name='Bobby').full_name == ''
     assert JustfixUser(last_name='Denver').full_name == ''
+
+
+def test_send_sms_works(smsoutbox):
+    user = JustfixUser(phone_number='5551234500')
+    user.send_sms('hello there')
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == '+15551234500'
+    assert smsoutbox[0].body == 'hello there'

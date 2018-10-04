@@ -95,7 +95,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client, fake_geocoding):
+def test_onboarding_works(graphql_client, fake_geocoding, smsoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
@@ -111,6 +111,9 @@ def test_onboarding_works(graphql_client, fake_geocoding):
     assert oi.address == '123 boop way'
     assert oi.needs_repairs is True
     assert oi.lease_type == 'MARKET_RATE'
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == "+15551234567"
+    assert "Welcome to JustFix, boop" in smsoutbox[0].body
 
 
 @pytest.mark.django_db

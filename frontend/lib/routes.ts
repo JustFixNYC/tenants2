@@ -50,7 +50,6 @@ const Routes = {
   loc: {
     prefix: '/loc',
     home: '/loc',
-    whyMail: '/loc/why-mail',
     issues: {
       prefix: '/loc/issues',
       home: '/loc/issues',

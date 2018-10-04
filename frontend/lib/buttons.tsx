@@ -1,7 +1,8 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import { bulmaClasses } from './bulma';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
 export function BackButton(props: {
@@ -21,5 +22,21 @@ export function NextButton(props: {
     <button type="submit" className={bulmaClasses('button', 'is-primary', {
       'is-loading': props.isLoading
     })}>{props.label || 'Next'}</button>
+  );
+}
+
+export function CenteredPrimaryButtonLink(props: LinkProps): JSX.Element {
+  props = {
+    ...props,
+    className: classnames(
+      props.className,
+      bulmaClasses('button', 'is-primary'),
+      'jf-is-extra-wide'
+    )
+  };
+  return (
+    <p className="has-text-centered">
+      <Link {...props} />
+    </p>
   );
 }

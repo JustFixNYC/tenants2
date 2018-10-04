@@ -69,17 +69,6 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     )
   },
   {
-    route: Routes.onboarding.step3UncertainLeaseModal,
-    leaseType: 'NOT_SURE',
-    component: () => (
-      <LeaseInfoModal title="Not sure about your lease?">
-        <p>If you aren't sure, check your lease.</p>
-        <p>You can also request a copy of your rental history via email from the Division of Housing and Community Renewal. This is a private request and you'll get a letter in the mail in about a week; the landlord will never know.</p>
-        <p>For more details, visit <OutboundLink href="http://www.nyshcr.org/rent/tenantresources.htm" target="_blank">The NY State Homes and Community Renewal</OutboundLink>.</p>
-      </LeaseInfoModal>
-    )
-  },
-  {
     route: Routes.onboarding.step3OtherModal,
     leaseType: 'OTHER',
     component: () => (

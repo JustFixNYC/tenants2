@@ -4,12 +4,9 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { OnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation';
-import { Route } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
-import { Modal } from '../modal';
-import { WelcomeFragment } from '../letter-of-complaint-common';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 
 const blankInitialState: OnboardingStep4Input = {
@@ -20,16 +17,6 @@ const blankInitialState: OnboardingStep4Input = {
   agreeToTerms: false
 };
 
-export function Step4WelcomeModal(): JSX.Element {
-  return (
-    <Modal title="Welcome!" onCloseGoTo={Routes.home}>
-      <div className="content box">
-        <WelcomeFragment />
-      </div>
-    </Modal>
-  );
-}
-
 export default class OnboardingStep4 extends React.Component {
   @autobind
   renderForm(ctx: FormContext<OnboardingStep4Input>): JSX.Element {
@@ -39,15 +26,15 @@ export default class OnboardingStep4 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>
-        <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
-          I agree to the JustFix terms and conditions, which are currently unspecified.
-        </CheckboxFormField>
         <p>
           You can optionally create a password-protected account now, which will allow you to securely log in and check your progress.
         </p>
         <br/>
         <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
+        <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
+          I agree to the JustFix terms and conditions, which are currently unspecified.
+        </CheckboxFormField>
         <div className="buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Finish" />
@@ -58,18 +45,13 @@ export default class OnboardingStep4 extends React.Component {
 
   render() {
     return (
-      <Page title="Last step! Let's create your account.">
-        <h1 className="title">Last step!</h1>
-        <p>
-          We just need a way to follow-up with you.
-        </p>
-        <br/>
+      <Page title="Contact information">
+        <h1 className="title">Contact information</h1>
         <SessionUpdatingFormSubmitter
           mutation={OnboardingStep4Mutation}
           initialState={blankInitialState}
-          onSuccessRedirect={Routes.onboarding.step4WelcomeModal}
+          onSuccessRedirect={Routes.loc.home}
         >{this.renderForm}</SessionUpdatingFormSubmitter>
-        <Route path={Routes.onboarding.step4WelcomeModal} component={Step4WelcomeModal} />
       </Page>
     );
   }

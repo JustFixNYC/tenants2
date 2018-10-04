@@ -28,7 +28,7 @@ describe('onboarding step 1 page', () => {
   it('has openable modals', () => {
     const pal = new AppTesterPal(<OnboardingStep1 />);
     pal.clickButtonOrLink(/Why do you need/i);
-    pal.getDialogWithLabel(/Why do you need/i);
+    pal.getDialogWithLabel(/Your privacy is very important/i);
     pal.clickButtonOrLink("Got it!");
   });
 

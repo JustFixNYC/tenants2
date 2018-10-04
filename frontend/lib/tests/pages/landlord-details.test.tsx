@@ -35,7 +35,7 @@ describe('landlord details page', () => {
       url: Routes.loc.yourLandlord,
       session: { landlordDetails: LOOKED_UP_LANDLORD_DETAILS }
     });
-    pal.rr.getByText(/If you think this information is wrong/i);
+    pal.rr.getByText(/This may be different .+ rent checks/i);
   });
 
   it('redirects to next step after successful submission', async () => {

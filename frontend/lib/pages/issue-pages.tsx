@@ -179,7 +179,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
         ))}
         <br/>
         <div className="buttons">
-          <Link to={Routes.loc.whyMail} className="button is-text">Back</Link>
+          <Link to={Routes.loc.home} className="button is-text">Back</Link>
           <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
         </div>
       </Page>

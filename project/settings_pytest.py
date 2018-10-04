@@ -8,6 +8,11 @@ from .settings import *  # noqa
 # to override settings if they want to enable it.
 LEGACY_MONGODB_URL = ''
 
+# Disable Twilio by default.
+TWILIO_ACCOUNT_SID = ''
+TWILIO_AUTH_TOKEN = ''
+TWILIO_PHONE_NUMBER = ''
+
 # We don't want any actual network requests to go out
 # while we're testing, so just point these at a
 # nonexistent localhost port.

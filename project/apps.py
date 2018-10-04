@@ -10,6 +10,10 @@ class DefaultConfig(AppConfig):
     name = 'project'
 
     def ready(self):
+        from project import twilio
+
+        twilio.validate_settings()
+
         if settings.DEBUG:
             from project.util import schema_json
 

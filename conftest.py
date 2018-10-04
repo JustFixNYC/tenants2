@@ -1,4 +1,7 @@
 from pathlib import Path
+from dataclasses import dataclass
+from typing import List, Iterator
+from unittest.mock import patch
 from graphene.test import Client
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
@@ -68,3 +71,42 @@ def graphql_client() -> TestGraphQLClient:
     client.request = req
 
     return client
+
+
+@dataclass
+class FakeSmsMessage:
+    to: str
+    from_: str
+    body: str
+
+
+@pytest.fixture
+def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
+    '''
+    This is like pytest-django's built-in 'mailoutbox'
+    fixture, only for SMS messages.
+    '''
+
+    settings.TWILIO_ACCOUNT_SID = 'test account sid'
+    settings.TWILIO_AUTH_TOKEN = 'test auth token'
+    settings.TWILIO_PHONE_NUMBER = '0001234567'
+
+    outbox: List[FakeSmsMessage] = []
+
+    class FakeTwilioClient():
+        def __init__(self, account_sid, auth_token, http_client):
+            pass
+
+        @property
+        def messages(self):
+            return self
+
+        def create(self, to: str, from_: str, body: str):
+            outbox.append(FakeSmsMessage(
+                to=to,
+                from_=from_,
+                body=body
+            ))
+
+    with patch('project.twilio.Client', FakeTwilioClient):
+        yield outbox

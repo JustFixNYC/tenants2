@@ -6,3 +6,10 @@ def test_envhelp_works():
     out = StringIO()
     call_command('envhelp', stdout=out)
     assert 'DEBUG' in out.getvalue()
+
+
+def test_sendtestsms_works(smsoutbox):
+    call_command('sendtestsms', '5551234568', 'blarg')
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == '+15551234568'
+    assert smsoutbox[0].body == 'blarg'

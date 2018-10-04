@@ -69,6 +69,19 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # the server-side.
     ROLLBAR_SERVER_ACCESS_TOKEN: str = ''
 
+    # The Twilio account SID used to send text messages. If
+    # empty, text message integration will be disabled.
+    TWILIO_ACCOUNT_SID: str = ''
+
+    # The Twilio auth token. If TWILIO_ACCOUNT_SID is
+    # specified, this must also be specified.
+    TWILIO_AUTH_TOKEN: str = ''
+
+    # The 10-digit U.S. phone number to send Twilio messages from,
+    # e.g. "5551234567". If TWILIO_ACCOUNT_SID is
+    # specified, this must also be specified.
+    TWILIO_PHONE_NUMBER: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

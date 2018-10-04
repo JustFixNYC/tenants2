@@ -7,12 +7,14 @@ import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
-import { DjangoChoices } from '../common-data';
+import { filterDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal } from '../modal';
 import { OutboundLink } from '../google-analytics';
 
-export const LEASE_CHOICES = require('../../../common-data/lease-choices.json') as DjangoChoices;
+export const LEASE_CHOICES = filterDjangoChoices(
+  require('../../../common-data/lease-choices.json'), ['NOT_SURE']);
+
 const NEXT_STEP = Routes.onboarding.step4;
 
 const blankInitialState: OnboardingStep3Input = {

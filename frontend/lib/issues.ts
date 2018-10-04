@@ -1,9 +1,11 @@
-import { DjangoChoices } from "./common-data";
+import { DjangoChoices, filterDjangoChoices } from "./common-data";
 import { AllSessionInfo_customIssues } from "./queries/AllSessionInfo";
 
-export const ISSUE_AREA_CHOICES = require('../../common-data/issue-area-choices.json') as DjangoChoices;
+export const ISSUE_AREA_CHOICES = filterDjangoChoices(
+  require('../../common-data/issue-area-choices.json'), ['LANDLORD']);
 
-export const ISSUE_CHOICES = require('../../common-data/issue-choices.json') as DjangoChoices;
+export const ISSUE_CHOICES = filterDjangoChoices(
+  require('../../common-data/issue-choices.json'), /^LANDLORD__/);
 
 export function customIssueForArea(area: string, customIssues: AllSessionInfo_customIssues[]): string {
   for (let ci of customIssues) {

@@ -32,6 +32,21 @@ export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): str
 }
 
 /**
+ * Filter out the given values from either the given list of choices, or anything
+ * that matches the given regular expression.
+ */
+export function filterDjangoChoices(choices: DjangoChoices, values: string[]|RegExp): DjangoChoices {
+  if (Array.isArray(values)) {
+    if (process.env.NODE_ENV !== 'production') {
+      validateDjangoChoices(choices, values);
+    }
+    return choices.filter(([value, _]) => !values.includes(value));
+  } else {
+    return choices.filter(([value, _]) => !values.test(value));
+  }
+}
+
+/**
  * Retrieve the human-readable label for a choice, given its machine-readable value.
  * 
  * Return null if the choice is invalid.

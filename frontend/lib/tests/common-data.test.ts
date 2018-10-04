@@ -1,4 +1,4 @@
-import { getDjangoChoiceLabel, validateDjangoChoices, allCapsToSlug, slugToAllCaps } from "../common-data";
+import { getDjangoChoiceLabel, validateDjangoChoices, allCapsToSlug, slugToAllCaps, filterDjangoChoices, DjangoChoices } from "../common-data";
 
 test('getDjangoChoiceLabel() works', () => {
   expect(getDjangoChoiceLabel([['BLAH', 'boop']], 'BLAH')).toBe('boop');
@@ -18,4 +18,10 @@ test("allCapsToSlug() works", () => {
 
 test("slugToAllCaps() works", () => {
   expect(slugToAllCaps('boop-blap-bonk')).toBe('BOOP_BLAP_BONK');
+});
+
+test("filterDjangoChoices() works", () => {
+  const choices: DjangoChoices = [["FOO", "Foo"], ["BAR", "Bar"]];
+  expect(filterDjangoChoices(choices, ["FOO"])).toEqual([["BAR", "Bar"]]);
+  expect(filterDjangoChoices(choices, /^BA/)).toEqual([["FOO", "Foo"]]);
 });

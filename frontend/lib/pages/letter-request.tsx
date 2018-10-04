@@ -23,12 +23,12 @@ function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
   return (
     <React.Fragment>
       <RadiosFormField
-        label="Would you like JustFix.nyc to mail this letter to your landlord via Certified Mail on your behalf? We will cover the Certified mailing costs for you!"
+        label="JustFix.nyc will mail this letter to your landlord via certified mail and will cover the mailing costs for you."
         choices={LOC_MAILING_CHOICES}
         {...ctx.fieldPropsFor('mailChoice') }
       />
       <div className="buttons">
-        <BackButton to={Routes.loc.yourLandlord} />
+        <BackButton to={Routes.loc.yourLandlord} label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Finish" />
       </div>
     </React.Fragment>

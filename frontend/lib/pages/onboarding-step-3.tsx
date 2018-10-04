@@ -101,7 +101,7 @@ export default class OnboardingStep3 extends React.Component {
       <React.Fragment>
         <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={LEASE_CHOICES} label="Lease type" />
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
-          I receive public assistance (Section 8, FEHPS, Link, HASA, other)
+          I also receive a housing voucher (Section 8, FEPS, Link, HASA, other)
         </CheckboxFormField>
         <div className="buttons">
           <BackButton to={Routes.onboarding.step2} label="Back" />
@@ -125,7 +125,7 @@ export default class OnboardingStep3 extends React.Component {
     return (
       <Page title="What type of lease do you have?">
         <h1 className="title">What type of lease do you have?</h1>
-        <p>Your rights vary depending on what type of lease you have. <strong>If you're not sure, we'll help you.</strong></p>
+        <p>Your rights vary depending on what type of lease you have.</p>
         <br/>
         <SessionUpdatingFormSubmitter
           mutation={OnboardingStep3Mutation}

@@ -677,13 +677,13 @@
           "enumValues": [
             {
               "name": "WE_WILL_MAIL",
-              "description": "Yes, have JustFix.nyc mail this letter on my behalf.",
+              "description": "Yes, have JustFix.nyc mail this letter for me.",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "USER_WILL_MAIL",
-              "description": "No thanks, I'll mail it myself.",
+              "description": "No thanks, I'll mail it myself. (You'll get a link to a PDF on the next page.)",
               "isDeprecated": false,
               "deprecationReason": null
             }

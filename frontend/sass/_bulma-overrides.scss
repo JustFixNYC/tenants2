@@ -12,3 +12,9 @@ $primary-invert: findColorInvert($primary);
 
 $info: $turquoise;
 $info-invert: findColorInvert($turquoise);
+
+// Disable the widescreen breakpoint
+$widescreen-enabled: false;
+
+// Disable the fullhd breakpoint
+$fullhd-enabled: false;

@@ -47,7 +47,7 @@ const Routes = {
       noLease: '/onboarding/step/3/learn-more-no-lease-modal',
     },
     step4: '/onboarding/step/4',
-    step4WelcomeModal: '/onboarding/step/4/welcome-modal',
+    step4TermsModal: '/onboarding/step/4/terms-modal',
   },
 
   /** The Letter of Complaint flow. */

@@ -8,6 +8,7 @@ import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
+import { Modal, ModalLink } from '../modal';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -16,6 +17,20 @@ const blankInitialState: OnboardingStep4Input = {
   confirmPassword: '',
   agreeToTerms: false
 };
+
+export function TermsModal(): JSX.Element {
+  const title = "JustFix Terms and Conditions";
+
+  return (
+    <Modal title={title} onCloseGoBack render={(ctx) => (
+      <div className="content box">
+        <h1 className="title">{title}</h1>
+        <p>Ah, the ol' unspecified terms and conditions.</p>
+        <button onClick={ctx.close} className="button is-primary is-fullwidth">Got it!</button>
+      </div>
+    )}/>
+  );
+}
 
 export default class OnboardingStep4 extends React.Component {
   @autobind
@@ -33,7 +48,10 @@ export default class OnboardingStep4 extends React.Component {
         <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
-          I agree to the JustFix terms and conditions, which are currently unspecified.
+          I agree to the &nbsp;
+          <ModalLink to={Routes.onboarding.step4TermsModal} component={TermsModal}>
+            JustFix terms and conditions
+          </ModalLink>, which are currently unspecified.
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />

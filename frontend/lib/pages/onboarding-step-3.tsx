@@ -94,7 +94,7 @@ export default class OnboardingStep3 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
           I also receive a housing voucher (Section 8, FEPS, Link, HASA, other)
         </CheckboxFormField>
-        <div className="buttons">
+        <div className="buttons jf-two-buttons">
           <BackButton to={Routes.onboarding.step2} label="Back" />
           <NextButton isLoading={ctx.isLoading} />
         </div>

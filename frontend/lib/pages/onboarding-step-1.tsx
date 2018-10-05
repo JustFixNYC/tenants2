@@ -87,7 +87,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="field is-grouped">
+      <div className="field is-grouped jf-two-buttons">
         <div className="control" ref={this.cancelControlRef} />
         <div className="control">
           <NextButton isLoading={isLoading} />

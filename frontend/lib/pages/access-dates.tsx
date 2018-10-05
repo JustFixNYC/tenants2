@@ -35,7 +35,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label="First access date (at least a week from today)" type="date" min={minDate} required {...ctx.fieldPropsFor('date1')} />
       <TextualFormField label="Second access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date3')} />
-      <div className="buttons">
+      <div className="buttons jf-two-buttons">
         <BackButton to={Routes.loc.issues.home} label="Back" />
         <NextButton isLoading={ctx.isLoading} />
       </div>

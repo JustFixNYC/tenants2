@@ -35,7 +35,7 @@ export default class OnboardingStep4 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
           I agree to the JustFix terms and conditions, which are currently unspecified.
         </CheckboxFormField>
-        <div className="buttons">
+        <div className="buttons jf-two-buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Finish" />
         </div>

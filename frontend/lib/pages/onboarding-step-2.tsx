@@ -70,7 +70,7 @@ export default class OnboardingStep2 extends React.Component {
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="buttons">
+      <div className="buttons jf-two-buttons">
         <BackButton to={Routes.onboarding.step1} label="Back" />
         <NextButton isLoading={isLoading} />
       </div>

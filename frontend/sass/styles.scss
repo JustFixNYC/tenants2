@@ -146,3 +146,9 @@ input:focus + .jf-checkbox-symbol {
     padding-left: 2em;
     padding-right: 2em;
 }
+
+// A class used around groups of two buttons to
+// put them on opposite sides of the screen.
+.jf-two-buttons, .field.is-grouped.jf-two-buttons {
+    justify-content: space-between;
+}

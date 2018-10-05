@@ -27,7 +27,7 @@ function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
         choices={LOC_MAILING_CHOICES}
         {...ctx.fieldPropsFor('mailChoice') }
       />
-      <div className="buttons">
+      <div className="buttons jf-two-buttons">
         <BackButton to={Routes.loc.yourLandlord} label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Finish" />
       </div>

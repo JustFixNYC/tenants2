@@ -44,7 +44,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="buttons">
+      <div className="buttons jf-two-buttons">
         <BackButton to={Routes.loc.issues.home} />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
@@ -178,7 +178,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
           </div>
         ))}
         <br/>
-        <div className="buttons">
+        <div className="buttons jf-two-buttons">
           <Link to={Routes.loc.home} className="button is-text">Back</Link>
           <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
         </div>

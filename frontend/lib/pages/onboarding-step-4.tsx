@@ -48,10 +48,16 @@ export default class OnboardingStep4 extends React.Component {
         <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
-          I agree to the &nbsp;
-          <ModalLink to={Routes.onboarding.step4TermsModal} component={TermsModal}>
-            JustFix terms and conditions
-          </ModalLink>, which are currently unspecified.
+          <span>
+            {/*
+              * The <span> this is contained in is required to break flexbox layout of
+              * these items, which is quite annoying.
+              */}
+            I agree to the {" "}
+            <ModalLink to={Routes.onboarding.step4TermsModal} component={TermsModal}>
+              JustFix terms and conditions
+            </ModalLink>, which are currently unspecified.
+          </span>
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />

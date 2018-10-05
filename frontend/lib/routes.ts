@@ -43,6 +43,8 @@ const Routes = {
     step3OtherModal: '/onboarding/step/3/other-modal',
     step3LearnMoreModals: {
       rentStabilized: '/onboarding/step/3/learn-more-rent-stabilized-modal',
+      marketRate: '/onboarding/step/3/learn-more-market-rate-modal',
+      noLease: '/onboarding/step/3/learn-more-no-lease-modal',
     },
     step4: '/onboarding/step/4',
     step4WelcomeModal: '/onboarding/step/4/welcome-modal',

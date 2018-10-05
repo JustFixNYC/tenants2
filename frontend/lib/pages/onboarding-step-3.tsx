@@ -103,6 +103,24 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
         <p>Check your lease to make sure.</p>
       </LeaseLearnMoreModal>
     )
+  },
+  {
+    route: Routes.onboarding.step3LearnMoreModals.marketRate,
+    leaseType: 'MARKET_RATE',
+    component: () => (
+      <LeaseLearnMoreModal title="Is your lease Market Rate?">
+        <p>If you live in a newer building and your rent is over $2700 a month, you probably have a market rate lease.</p>
+      </LeaseLearnMoreModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3LearnMoreModals.noLease,
+    leaseType: 'NO_LEASE',
+    component: () => (
+      <LeaseLearnMoreModal title="Alas.">
+        <p>It's important that you have a lease. If you are a month to month tenant, you don't have as many rights.</p>
+      </LeaseLearnMoreModal>
+    )
   }
 ];
 

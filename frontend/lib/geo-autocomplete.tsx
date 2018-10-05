@@ -1,5 +1,5 @@
 import React from 'react';
-import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
+import Downshift, { ControllerStateAndHelpers, DownshiftInterface, DownshiftState, StateChangeOptions } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughLabel } from './boroughs';
@@ -7,6 +7,34 @@ import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
+
+enum StateChangeTypes {
+  unknown = '__autocomplete_unknown__',
+  mouseUp = '__autocomplete_mouseup__',
+  itemMouseEnter = '__autocomplete_item_mouseenter__',
+  keyDownArrowUp = '__autocomplete_keydown_arrow_up__',
+  keyDownArrowDown = '__autocomplete_keydown_arrow_down__',
+  keyDownEscape = '__autocomplete_keydown_escape__',
+  keyDownEnter = '__autocomplete_keydown_enter__',
+  clickItem = '__autocomplete_click_item__',
+  blurInput = '__autocomplete_blur_input__',
+  changeInput = '__autocomplete_change_input__',
+  keyDownSpaceButton = '__autocomplete_keydown_space_button__',
+  clickButton = '__autocomplete_click_button__',
+  blurButton = '__autocomplete_blur_button__',
+  controlledPropUpdatedSelectedItem = '__autocomplete_controlled_prop_updated_selected_item__',
+  touchStart = '__autocomplete_touchstart__',
+}
+
+function stateReducer(state: DownshiftState<GeoAutocompleteItem>, changes: StateChangeOptions<GeoAutocompleteItem>): Partial<StateChangeOptions<GeoAutocompleteItem>> {
+  if (changes.type === StateChangeTypes.blurInput ||
+      changes.type === StateChangeTypes.mouseUp ||
+      changes.type === StateChangeTypes.keyDownEscape) {
+    changes = {...changes};
+    delete changes.inputValue;
+  }
+  return changes;
+}
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -22,7 +50,7 @@ const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
 
 export interface GeoAutocompleteItem {
   address: string;
-  borough: BoroughChoice;
+  borough: BoroughChoice|null;
 };
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
@@ -185,6 +213,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   @autobind
   handleInputValueChange(value: string) {
+    this.props.onChange({ address: value, borough: null });
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
       this.setState({ isLoading: true });
@@ -205,6 +234,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
     return (
       <GeoAutocomplete
+        stateReducer={stateReducer}
         onChange={this.props.onChange}
         onInputValueChange={this.handleInputValueChange}
         defaultSelectedItem={this.props.initialValue}
@@ -218,6 +248,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
+  if (!item.borough) return item.address;
   return `${item.address}, ${getBoroughLabel(item.borough)}`;
 }
 

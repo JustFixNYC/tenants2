@@ -169,7 +169,8 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
       onBlur: () => this.selectIncompleteAddress(ds),
-      onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event)
+      onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
+      onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
     });
   }
 
@@ -235,7 +236,6 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
-  @autobind
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
@@ -256,7 +256,6 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     return (
       <GeoDownshift
         onChange={this.props.onChange}
-        onInputValueChange={this.handleInputValueChange}
         defaultSelectedItem={this.props.initialValue}
         itemToString={geoAutocompleteItemToString}
       >

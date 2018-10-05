@@ -21,4 +21,11 @@ describe('onboarding step 4 page', () => {
     pal.respondWithFormOutput({ errors: [], session: {} });
     await pal.rt.waitForElement(() => pal.rr.getByText('LETTER OF COMPLAINT'));
   });
+
+  it('opens terms and conditions modal when link is clicked', async () => {
+    const pal = new AppTesterPal(<OnboardingStep4 />);
+
+    pal.clickButtonOrLink(/terms/i);
+    pal.getDialogWithLabel(/terms/i);
+  });
 });

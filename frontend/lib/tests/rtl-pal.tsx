@@ -58,18 +58,32 @@ export default class ReactTestingLibraryPal {
     this.click(matcher, 'a, button, a > .jf-sr-only, button > .jf-sr-only');
   }
 
+  /** Click a radio button in the render result. */
   clickRadioButton(matcher: RegExp|string) {
     rt.fireEvent.click(this.rr.getByLabelText(matcher, {
       selector: 'input'
     }));
   }
 
+  /**
+   * Return a form field (e.g. an <input> or <select>) in the render result,
+   * given label text or a regular expression matching the label text.
+   */
+  getFormField(label: string|RegExp): HTMLInputElement {
+    return this.rr.getByLabelText(label, {
+      selector: 'input, select'
+    }) as HTMLInputElement;
+  }
+
+  /** Send a keyDown event to the given form field with the give key code. */
+  keyDownOnFormField(label: string|RegExp, keyCode: number) {
+    rt.fireEvent.keyDown(this.getFormField(label), { keyCode });
+  }
+
   /** Fill out multiple form fields in the render result. */
   fillFormFields(fills: FormFieldFill[]) {
     fills.forEach(([matcher, value]) => {
-      const input = this.rr.getByLabelText(matcher, {
-        selector: 'input, select'
-      }) as HTMLInputElement;
+      const input = this.getFormField(matcher);
       rt.fireEvent.change(input, { target: { value } });
     });
   }

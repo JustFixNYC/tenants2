@@ -6,7 +6,7 @@ from django.contrib.auth.password_validation import validate_password
 from project import geocoding
 from project.forms import USPhoneNumberField
 from users.models import JustfixUser
-from .models import OnboardingInfo
+from .models import OnboardingInfo, BOROUGH_CHOICES
 
 
 # Whenever we change the fields in any of the onboarding
@@ -16,6 +16,16 @@ from .models import OnboardingInfo
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
 FIELD_SCHEMA_VERSION = 2
+
+# The keys here were obtained experimentally, I'm not actually sure
+# if/where they are formally specified.
+BOROUGH_GID_TO_CHOICE = {
+    'whosonfirst:borough:1': BOROUGH_CHOICES.MANHATTAN,
+    'whosonfirst:borough:2': BOROUGH_CHOICES.BRONX,
+    'whosonfirst:borough:3': BOROUGH_CHOICES.BROOKLYN,
+    'whosonfirst:borough:4': BOROUGH_CHOICES.QUEENS,
+    'whosonfirst:borough:5': BOROUGH_CHOICES.STATEN_ISLAND,
+}
 
 
 class OnboardingStep1Form(forms.ModelForm):
@@ -27,14 +37,15 @@ class OnboardingStep1Form(forms.ModelForm):
 
     last_name = forms.CharField(max_length=150)
 
-    def __verify_address(self, address: str, borough: str) -> Tuple[str, bool]:
+    def __verify_address(self, address: str, borough: str) -> Tuple[str, str, bool]:
         '''
         Attempt to verify the given address, returning the address, and whether it
         was actually verified. If the address was verified, the returned address
         may have changed.
         '''
 
-        features = geocoding.search(', '.join([address, borough]))
+        borough_label = BOROUGH_CHOICES.get_label(borough)
+        features = geocoding.search(', '.join([address, borough_label]))
         if features is None:
             # Hmm, the geocoding service is unavailable. This
             # is unfortunate, but we don't want it to block
@@ -47,16 +58,19 @@ class OnboardingStep1Form(forms.ModelForm):
             raise forms.ValidationError('The address provided is invalid.')
         else:
             address_verified = True
-            address = features[0].properties.name
-        return address, address_verified
+            props = features[0].properties
+            address = props.name
+            borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
+        return address, borough, address_verified
 
     def clean(self):
         cleaned_data = super().clean()
         address = cleaned_data.get('address')
         borough = cleaned_data.get('borough')
         if address and borough:
-            address, address_verified = self.__verify_address(address, borough)
+            address, borough, address_verified = self.__verify_address(address, borough)
             cleaned_data['address'] = address
+            cleaned_data['borough'] = borough
             cleaned_data['address_verified'] = address_verified
         return cleaned_data
 

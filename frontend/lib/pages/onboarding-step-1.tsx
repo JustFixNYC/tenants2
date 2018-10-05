@@ -121,16 +121,20 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           borough: boroughProps.value as BoroughChoice }
       : undefined;
 
+    if (boroughProps.errors && !addressProps.errors) {
+      return this.renderBaselineAddressFields(ctx);
+    }
+
     return <GeoAutocomplete
       label="Address"
       renderLabel={renderAddressLabel}
       initialValue={initialValue}
       onChange={selection => {
         addressProps.onChange(selection.address);
-        boroughProps.onChange(selection.borough);
+        boroughProps.onChange(selection.borough || '');
       }}
       onNetworkError={pe.fallbackToBaseline}
-      errors={addressProps.errors || boroughProps.errors}
+      errors={addressProps.errors}
     />;
   }
 
@@ -207,7 +211,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           onSuccessRedirect={(output, input) => {
             const successSession = assertNotNull(output.session);
             const successInfo = assertNotNull(successSession.onboardingStep1);
-            if (areAddressesTheSame(successInfo.address, input.address)) {
+            if (areAddressesTheSame(successInfo.address, input.address) &&
+                successInfo.borough === input.borough) {
               return Routes.onboarding.step2;
             }
             return Routes.onboarding.step1ConfirmAddressModal;

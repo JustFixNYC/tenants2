@@ -32,6 +32,9 @@ class FeatureProperties(pydantic.BaseModel):
     # The borough, e.g. "Manhattan"
     borough: str
 
+    # e.g. "whosonfirst:borough:2"
+    borough_gid: str
+
     # The full address, e.g. "666 FIFTH AVENUE, Manhattan, New York, NY, USA"
     label: str
 

@@ -4,6 +4,7 @@ import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteIt
 import { BoroughChoice } from '../boroughs';
 import { createMockFetch } from './mock-fetch';
 import { FakeGeoResults } from './util';
+import { KEY_TAB } from '../key-codes';
 
 
 describe("GeoAutocomplete", () => {
@@ -38,6 +39,32 @@ describe("GeoAutocomplete", () => {
     expect(onChange.mock.calls[0][0]).toEqual({
       address: '150 COURT STREET',
       borough: 'MANHATTAN'
+    });
+  });
+
+  it('auto-completes to first suggestion when tab is pressed', async () => {
+    fetch.mockReturnJson(FakeGeoResults);
+    const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
+    pal.fillFormFields([[/address/i, '150 cou']]);
+    await fetch.resolvePromisesAndTimers();
+    pal.keyDownOnFormField(/address/i, KEY_TAB);
+    expect(onChange.mock.calls).toHaveLength(1);
+    expect(onChange.mock.calls[0][0]).toEqual({
+      address: '150 COURT STREET',
+      borough: 'MANHATTAN'
+    });
+  });
+
+  it('selects incomplete address when tab is pressed and no suggestions exist', async () => {
+    fetch.mockReturnJson({ features: [] });
+    const pal = new ReactTestingLibraryPal(<GeoAutocomplete {...props} />);
+    pal.fillFormFields([[/address/i, '150 cou']]);
+    await fetch.resolvePromisesAndTimers();
+    pal.keyDownOnFormField(/address/i, KEY_TAB);
+    expect(onChange.mock.calls).toHaveLength(1);
+    expect(onChange.mock.calls[0][0]).toEqual({
+      address: '150 cou',
+      borough: null
     });
   });
 

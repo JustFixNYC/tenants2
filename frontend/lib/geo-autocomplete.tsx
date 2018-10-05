@@ -7,6 +7,7 @@ import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
+import { KEY_ENTER, KEY_TAB } from './key-codes';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -22,7 +23,7 @@ const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
 
 export interface GeoAutocompleteItem {
   address: string;
-  borough: BoroughChoice;
+  borough: BoroughChoice | null;
 };
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
@@ -62,6 +63,8 @@ interface GeoAutocompleteState {
   isLoading: boolean;
   results: GeoAutocompleteItem[];
 }
+
+const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
 
 /**
  * The amount of ms we'll wait after the user pressed a key
@@ -121,6 +124,56 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
+  /**
+   * Set the current selected item to an address consisting of the user's current
+   * input and no borough.
+   * 
+   * This is basically a fallback to ensure that the user's input isn't lost if
+   * they are typing and happen to (intentionally or accidentally) do something
+   * that causes the autocomplete to lose focus.
+   */
+  selectIncompleteAddress(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
+    if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
+      ds.selectItem({
+        address: ds.inputValue || '',
+        borough: null
+      });
+    }
+  }
+
+  /**
+   * If the result list is non-empty and visible, and the user hasn't selected
+   * anything, select the first item in the list and return true.
+   * 
+   * Otherwise, return false.
+   */
+  selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
+    const { results } = this.state;
+    if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
+      ds.selectItem(results[0]);
+      return true;
+    }
+    return false;
+  }
+
+  handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
+    if (event.keyCode === KEY_ENTER || event.keyCode === KEY_TAB) {
+      if (this.selectFirstResult(ds)) {
+        event.preventDefault();
+      } else {
+        this.selectIncompleteAddress(ds);
+      }
+    }
+  }
+
+  getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
+    return ds.getInputProps({
+      onBlur: () => this.selectIncompleteAddress(ds),
+      onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
+      onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
+    });
+  }
+
   renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
     const { errorHelp } = formatErrors(this.props);
     const { results } = this.state;
@@ -131,7 +184,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className={bulmaClasses('control', {
           'is-loading': this.state.isLoading
         })}>
-          <input className="input" {...ds.getInputProps()} />
+          <input className="input" {...this.getInputProps(ds)} />
           <ul className={classnames({
             'jf-autocomplete-open': ds.isOpen && results.length > 0
           })} {...ds.getMenuProps()}>
@@ -183,7 +236,6 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
-  @autobind
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
     if (value.length > 3 && value.indexOf(' ') > 0) {
@@ -201,23 +253,21 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   render() {
-    const GeoAutocomplete = Downshift as DownshiftInterface<GeoAutocompleteItem>;
-
     return (
-      <GeoAutocomplete
+      <GeoDownshift
         onChange={this.props.onChange}
-        onInputValueChange={this.handleInputValueChange}
         defaultSelectedItem={this.props.initialValue}
         itemToString={geoAutocompleteItemToString}
       >
         {(downshift) => this.renderAutocomplete(downshift)}
-      </GeoAutocomplete>
+      </GeoDownshift>
     );
   }
 }
 
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
+  if (!item.borough) return item.address;
   return `${item.address}, ${getBoroughLabel(item.borough)}`;
 }
 

@@ -6,11 +6,13 @@ import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
+import { IconLink } from "../icon-link";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { filterDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal } from '../modal';
 import { OutboundLink } from '../google-analytics';
+import { twoTuple } from '../util';
 
 export const LEASE_CHOICES = filterDjangoChoices(
   require('../../../common-data/lease-choices.json'), ['NOT_SURE']);
@@ -31,6 +33,18 @@ export function LeaseInfoModal(props: { children: any, title: string }): JSX.Ele
         <Link to={NEXT_STEP} className="button is-primary is-fullwidth">Got it!</Link>
       </div>
     </Modal>
+  );
+}
+
+export function LeaseLearnMoreModal(props: { children: any, title: string }): JSX.Element {
+  return (
+    <Modal title={props.title} onCloseGoBack render={(ctx) => (
+      <div className="content box">
+        <h1 className="title">{props.title}</h1>
+        {props.children}
+        <button onClick={ctx.close} className="button is-primary is-fullwidth">Got it!</button>
+      </div>
+    )}/>
   );
 }
 
@@ -73,24 +87,66 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     leaseType: 'OTHER',
     component: () => (
       <LeaseInfoModal title="Other">
-        <p>Here are some other types of housing you may live in:</p>
-        <ul className="has-text-left">
-          <li>COOP</li>
-          <li>Mitchell Lama</li>
-          <li>No lease</li>
-        </ul>
-        <p>You can still send a letter as well. This is a formal way to request repairs from your landlord and is a good tactic before calling 311.</p>
+        <p>This is a formal way to request repairs from your landlord and is a good tactic before calling 311.</p>
       </LeaseInfoModal>
     )
   }
 ];
+
+export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
+  {
+    route: Routes.onboarding.step3LearnMoreModals.rentStabilized,
+    leaseType: 'RENT_STABILIZED',
+    component: () => (
+      <LeaseLearnMoreModal title="About rent stabilization">
+        <p>If your building has more than 6 units and was built before 1971, your apartment is likely rent stabilized.</p>
+        <p>Check your lease to make sure.</p>
+      </LeaseLearnMoreModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3LearnMoreModals.marketRate,
+    leaseType: 'MARKET_RATE',
+    component: () => (
+      <LeaseLearnMoreModal title="Is your lease Market Rate?">
+        <p>If you live in a newer building and your rent is over $2700 a month, you probably have a market rate lease.</p>
+      </LeaseLearnMoreModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3LearnMoreModals.noLease,
+    leaseType: 'NO_LEASE',
+    component: () => (
+      <LeaseLearnMoreModal title="Alas.">
+        <p>It's important that you have a lease. If you are a month to month tenant, you don't have as many rights.</p>
+      </LeaseLearnMoreModal>
+    )
+  }
+];
+
+export const ALL_LEASE_MODALS = [...LEASE_MODALS, ...LEASE_LEARN_MORE_MODALS];
+
+const LEASE_LEARN_MORE_MODAL_MAP = new Map(
+  LEASE_LEARN_MORE_MODALS.map(info => twoTuple(info.leaseType, info)));
+
+const leaseChoicesWithInfo = LEASE_CHOICES.map(([value, label]) => {
+  const info = LEASE_LEARN_MORE_MODAL_MAP.get(value);
+  const title = `Learn more about ${label} leases`;
+
+  return twoTuple(value, info ? (
+    <>
+      {label}
+      <IconLink type="info" title={title} to={info.route} />
+    </>
+  ) : label);
+});
 
 export default class OnboardingStep3 extends React.Component {
   @autobind
   renderForm(ctx: FormContext<OnboardingStep3Input>): JSX.Element {
     return (
       <React.Fragment>
-        <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={LEASE_CHOICES} label="Lease type" />
+        <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={leaseChoicesWithInfo} label="Lease type" />
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
           I also receive a housing voucher (Section 8, FEPS, Link, HASA, other)
         </CheckboxFormField>
@@ -123,7 +179,7 @@ export default class OnboardingStep3 extends React.Component {
           initialState={(session) => session.onboardingStep3 || blankInitialState}
           onSuccessRedirect={(_, input) => OnboardingStep3.getSuccessRedirect(input.leaseType)}
         >{this.renderForm}</SessionUpdatingFormSubmitter>
-        {LEASE_MODALS.map(info => (
+        {ALL_LEASE_MODALS.map(info => (
           <Route key={info.route} path={info.route} component={info.component} />
         ))}
       </Page>

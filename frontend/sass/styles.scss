@@ -6,6 +6,7 @@
 @import "./_modal.scss";
 @import "./_issues.scss";
 @import "./_autocomplete.scss";
+@import "./_icon-link.scss";
 
 // Bulma's button default focus styling is not easy
 // to distinguish, so we'll make it stand out more here.
@@ -130,16 +131,6 @@ input:focus + .jf-checkbox-symbol {
 .jf-loc-preview iframe {
     width: 100%;
     min-height: 20em;
-}
-
-.jf-warning-icon {
-    margin-left: 0.25em;
-
-    svg {
-        width: 1em;
-        height: 1em;
-        color: $orange;
-    }
 }
 
 .jf-is-extra-wide {

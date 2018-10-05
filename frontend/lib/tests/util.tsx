@@ -40,6 +40,11 @@ const childWithRouterCtx = (child: JSX.Element) => {
   return { routerContext, route };
 };
 
+// https://stackoverflow.com/a/6969486
+export function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper, routerContext: RouteComponentProps<any> } {
   const { routerContext, route } = childWithRouterCtx(child);
   const wrapper = shallow(<MemoryRouter>{route}</MemoryRouter>);

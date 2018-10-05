@@ -160,3 +160,17 @@ export function exactSubsetOrDefault<Subset, Superset extends Subset>(superset: 
 
   return result;
 }
+
+/**
+ * This just takes two arguments and wraps them in an Array.
+ * More significantly, it associates TypeScript's Tuple type
+ * with the array, which is useful because TypeScript doesn't
+ * otherwise know how to infer a Tuple from an Array.
+ * 
+ * This solution was inspired by the following gist:
+ * 
+ * https://gist.github.com/whitecolor/0f4ae76a687a187e48e4eaf158905bed
+ */
+export function twoTuple<A, B>(a: A, b: B): [A, B] {
+  return [a, b];
+}

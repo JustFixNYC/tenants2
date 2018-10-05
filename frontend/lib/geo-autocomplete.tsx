@@ -63,6 +63,8 @@ interface GeoAutocompleteState {
   results: GeoAutocompleteItem[];
 }
 
+const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
+
 /**
  * The amount of ms we'll wait after the user pressed a key
  * before we'll issue a network request to fetch autocompletion
@@ -121,28 +123,38 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
-  getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
+  selectIncompleteAddress(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
+    if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
+      ds.selectItem({
+        address: ds.inputValue || '',
+        borough: null
+      });
+    }
+  }
+
+  selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
     const { results } = this.state;
-    const selectFirstResult = (): boolean => {
-      if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
-        ds.selectItem(results[0]);
-        return true;
+    if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
+      ds.selectItem(results[0]);
+      return true;
+    }
+    return false;
+  }
+
+  handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
+    if (event.keyCode === 13 || event.keyCode === 9) {
+      if (this.selectFirstResult(ds)) {
+        event.preventDefault();
+      } else {
+        this.selectIncompleteAddress(ds);
       }
-      if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
-        ds.selectItem({
-          address: ds.inputValue || '',
-          borough: null
-        });
-      }
-      return false;
-    };
+    }
+  }
+
+  getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
-      onBlur: selectFirstResult,
-      onKeyDown(event) {
-        if ((event.keyCode === 13 || event.keyCode === 9) && selectFirstResult()) {
-          event.preventDefault();
-        }
-      }
+      onBlur: () => this.selectIncompleteAddress(ds),
+      onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event)
     });
   }
 
@@ -226,17 +238,15 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   render() {
-    const GeoAutocomplete = Downshift as DownshiftInterface<GeoAutocompleteItem>;
-
     return (
-      <GeoAutocomplete
+      <GeoDownshift
         onChange={this.props.onChange}
         onInputValueChange={this.handleInputValueChange}
         defaultSelectedItem={this.props.initialValue}
         itemToString={geoAutocompleteItemToString}
       >
         {(downshift) => this.renderAutocomplete(downshift)}
-      </GeoAutocomplete>
+      </GeoDownshift>
     );
   }
 }

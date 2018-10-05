@@ -121,6 +121,10 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           borough: boroughProps.value as BoroughChoice }
       : undefined;
 
+    if (boroughProps.errors && !addressProps.errors) {
+      return this.renderBaselineAddressFields(ctx);
+    }
+
     return <GeoAutocomplete
       label="Address"
       renderLabel={renderAddressLabel}
@@ -130,7 +134,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         boroughProps.onChange(selection.borough || '');
       }}
       onNetworkError={pe.fallbackToBaseline}
-      errors={addressProps.errors || boroughProps.errors}
+      errors={addressProps.errors}
     />;
   }
 

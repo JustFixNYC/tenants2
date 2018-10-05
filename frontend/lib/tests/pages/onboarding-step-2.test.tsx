@@ -12,12 +12,8 @@ describe('onboarding step 2 page', () => {
     const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
 
     // When we enable the checkbox, the dialog should show.
-    pal.click(/eviction/i, 'label');
+    pal.click(/I received an eviction notice/i, 'label');
     getDialog();
     pal.clickButtonOrLink("Continue with letter");
-
-    // Disabling the checkbox should *not* show the dialog.
-    pal.click(/eviction/i, 'label');
-    expect(getDialog).toThrow();
   });
 });

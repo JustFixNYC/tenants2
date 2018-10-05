@@ -49,7 +49,10 @@ export default class OnboardingStep2 extends React.Component {
                            modalPath={Routes.onboarding.step2EvictionModal}
                            {...ctx.fieldPropsFor('isInEviction')}>
           I received an eviction notice.
-          <Link to={Routes.onboarding.step2EvictionModal} className="jf-warning-icon">{excIcon}</Link>
+          <Link to={Routes.onboarding.step2EvictionModal} className="jf-warning-icon">
+            {excIcon}
+            <aside className="jf-sr-only">If you are in an eviction, you need legal help.</aside>
+          </Link>
         </AlertableCheckbox>
         <CheckboxFormField {...ctx.fieldPropsFor('needsRepairs')}>
           I need repairs made in my apartment/building.

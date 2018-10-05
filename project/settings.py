@@ -193,7 +193,14 @@ LOGGING = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+_STATIC_ROOT_PATH = BASE_DIR / 'staticfiles'
+
+STATIC_ROOT = str(_STATIC_ROOT_PATH)
+
+if not _STATIC_ROOT_PATH.exists():
+    # This avoids a spurious warning from whitenoise that
+    # shows up even in development mode.
+    _STATIC_ROOT_PATH.mkdir()
 
 STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 

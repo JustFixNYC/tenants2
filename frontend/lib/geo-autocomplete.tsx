@@ -124,6 +124,14 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
+  /**
+   * Set the current selected item to an address consisting of the user's current
+   * input and no borough.
+   * 
+   * This is basically a fallback to ensure that the user's input isn't lost if
+   * they are typing and happen to (intentionally or accidentally) do something
+   * that causes the autocomplete to lose focus.
+   */
   selectIncompleteAddress(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
       ds.selectItem({
@@ -133,6 +141,12 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
+  /**
+   * If the result list is non-empty and visible, and the user hasn't selected
+   * anything, select the first item in the list and return true.
+   * 
+   * Otherwise, return false.
+   */
   selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
     const { results } = this.state;
     if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {

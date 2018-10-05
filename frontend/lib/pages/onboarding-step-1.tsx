@@ -211,7 +211,8 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           onSuccessRedirect={(output, input) => {
             const successSession = assertNotNull(output.session);
             const successInfo = assertNotNull(successSession.onboardingStep1);
-            if (areAddressesTheSame(successInfo.address, input.address)) {
+            if (areAddressesTheSame(successInfo.address, input.address) &&
+                successInfo.borough === input.borough) {
               return Routes.onboarding.step2;
             }
             return Routes.onboarding.step1ConfirmAddressModal;

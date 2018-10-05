@@ -1,9 +1,7 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
 import { Omit } from './util';
-
-const KEY_ENTER = 13;
-const KEY_SPACE = 32;
+import { KEY_ENTER, KEY_SPACE } from './key-codes';
 
 function trapEnterOrSpace(e: React.KeyboardEvent): boolean {
   if (e.which === KEY_ENTER || e.which === KEY_SPACE) {

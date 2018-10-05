@@ -7,6 +7,7 @@ import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
+import { KEY_ENTER, KEY_TAB } from './key-codes';
 
 /**
  * The keys here were obtained experimentally, I'm not actually sure
@@ -142,7 +143,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 
   handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
-    if (event.keyCode === 13 || event.keyCode === 9) {
+    if (event.keyCode === KEY_ENTER || event.keyCode === KEY_TAB) {
       if (this.selectFirstResult(ds)) {
         event.preventDefault();
       } else {

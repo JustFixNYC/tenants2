@@ -127,7 +127,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       initialValue={initialValue}
       onChange={selection => {
         addressProps.onChange(selection.address);
-        boroughProps.onChange(selection.borough);
+        boroughProps.onChange(selection.borough || '');
       }}
       onNetworkError={pe.fallbackToBaseline}
       errors={addressProps.errors || boroughProps.errors}

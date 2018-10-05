@@ -1,5 +1,5 @@
 import React from 'react';
-import Downshift, { ControllerStateAndHelpers, DownshiftInterface, DownshiftState, StateChangeOptions } from 'downshift';
+import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughLabel } from './boroughs';
@@ -22,7 +22,7 @@ const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
 
 export interface GeoAutocompleteItem {
   address: string;
-  borough: BoroughChoice;
+  borough: BoroughChoice | null;
 };
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
@@ -127,6 +127,12 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
         ds.selectItem(results[0]);
         return true;
+      }
+      if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
+        ds.selectItem({
+          address: ds.inputValue || '',
+          borough: null
+        });
       }
       return false;
     };
@@ -237,6 +243,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
+  if (!item.borough) return item.address;
   return `${item.address}, ${getBoroughLabel(item.borough)}`;
 }
 

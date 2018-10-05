@@ -1,5 +1,5 @@
 import React from 'react';
-import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
+import Downshift, { ControllerStateAndHelpers, DownshiftInterface, DownshiftState, StateChangeOptions } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughLabel } from './boroughs';
@@ -121,6 +121,25 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
+  getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
+    const { results } = this.state;
+    const selectFirstResult = (): boolean => {
+      if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
+        ds.selectItem(results[0]);
+        return true;
+      }
+      return false;
+    };
+    return ds.getInputProps({
+      onBlur: selectFirstResult,
+      onKeyDown(event) {
+        if ((event.keyCode === 13 || event.keyCode === 9) && selectFirstResult()) {
+          event.preventDefault();
+        }
+      }
+    });
+  }
+
   renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
     const { errorHelp } = formatErrors(this.props);
     const { results } = this.state;
@@ -131,7 +150,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className={bulmaClasses('control', {
           'is-loading': this.state.isLoading
         })}>
-          <input className="input" {...ds.getInputProps()} />
+          <input className="input" {...this.getInputProps(ds)} />
           <ul className={classnames({
             'jf-autocomplete-open': ds.isOpen && results.length > 0
           })} {...ds.getMenuProps()}>

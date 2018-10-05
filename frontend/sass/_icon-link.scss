@@ -1,0 +1,24 @@
+.jf-warning-icon, .jf-info-icon {
+    margin-left: 0.25em;
+
+    svg {
+        width: 1em;
+        height: 1em;
+    }
+}
+
+.jf-warning-icon {
+    color: $orange;
+
+    &:hover {
+        color: darken($orange, 10%);
+    }
+}
+
+.jf-info-icon {
+    color: $blue;
+
+    &:hover {
+        color: darken($blue, 10%);
+    }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
-import { DjangoChoices } from "./common-data";
+import { ReactDjangoChoices } from "./common-data";
 import { bulmaClasses } from './bulma';
 import { ariaBool } from './aria';
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
@@ -52,7 +52,7 @@ export function renderLabel(label: string, labelProps: LabelProps, renderer?: La
 }
 
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
-  choices: DjangoChoices;
+  choices: ReactDjangoChoices;
   label: string;
 }
 
@@ -116,7 +116,7 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
 }
 
 export interface MultiChoiceFormFieldProps extends BaseFormFieldProps<string[]> {
-  choices: DjangoChoices;
+  choices: ReactDjangoChoices;
   label: string;
 }
 

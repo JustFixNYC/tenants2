@@ -19,6 +19,15 @@ export type DjangoChoices = DjangoChoice[];
 
 
 /**
+ * An enhancement of DjangoChoice that makes it more flexible for use in
+ * React-based user interfaces.
+ */
+export type ReactDjangoChoice = [string, string|JSX.Element];
+
+export type ReactDjangoChoices = ReactDjangoChoice[];
+
+
+/**
  * Retrieve the human-readable label for a choice, given its machine-readable value.
  * 
  * Throw an exception if the choice is invalid.

@@ -55,7 +55,7 @@ export default class ReactTestingLibraryPal {
 
   /** Click a button or link in the render result. */
   clickButtonOrLink(matcher: RegExp|string) {
-    this.click(matcher, 'a, button');
+    this.click(matcher, 'a, button, a > .jf-sr-only, button > .jf-sr-only');
   }
 
   clickRadioButton(matcher: RegExp|string) {

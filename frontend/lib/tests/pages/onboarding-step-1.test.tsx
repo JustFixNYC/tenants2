@@ -80,7 +80,7 @@ describe('onboarding step 1 page', () => {
       [/address/i, '150 court'],
       [/apartment number/i, '2']
     ]);
-    pal.clickRadioButton(/Brooklyn/);
+    pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink('Next');
     pal.respondWithFormOutput<OnboardingStep1Mutation_output>({
       errors: [],

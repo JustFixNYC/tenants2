@@ -128,6 +128,16 @@ input:focus + .jf-checkbox-symbol {
     align-items: center;
 }
 
+// This class is largely empty; its main purpose is
+// to wrap our label text so it breaks the flexbox layout of our
+// <label> elements, which is an annoying hack. For more details,
+// see https://github.com/JustFixNYC/tenants2/issues/260.
+.jf-label-text {
+    // This makes text wrap properly on IE11. For more details,
+    // see https://stackoverflow.com/a/35113633/2422398.
+    flex: 1;
+}
+
 .jf-loc-preview iframe {
     width: 100%;
     min-height: 20em;

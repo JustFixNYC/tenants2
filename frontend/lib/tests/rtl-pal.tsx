@@ -58,8 +58,8 @@ export default class ReactTestingLibraryPal {
     this.click(matcher, 'a, button, a > .jf-sr-only, button > .jf-sr-only');
   }
 
-  /** Click a radio button in the render result. */
-  clickRadioButton(matcher: RegExp|string) {
+  /** Click a radio button or checkbox in the render result. */
+  clickRadioOrCheckbox(matcher: RegExp|string) {
     rt.fireEvent.click(this.rr.getByLabelText(matcher, {
       selector: 'input'
     }));

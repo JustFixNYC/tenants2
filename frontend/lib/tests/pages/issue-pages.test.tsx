@@ -29,7 +29,7 @@ describe('issues checklist', () => {
         issues: ['BEDROOMS__PAINT']
       }
     });
-    pal.click(/Mice/i, 'label');
+    pal.clickRadioOrCheckbox(/Mice/i);
     pal.clickButtonOrLink('Save');
 
     pal.expectFormInput<IssueAreaInput>({

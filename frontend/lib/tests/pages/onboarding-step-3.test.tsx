@@ -30,7 +30,7 @@ describe('onboarding step 3 page', () => {
     it(`displays modal when user chooses "${label}"`, async () => {
       const pal = new AppTesterPal(<OnboardingStep3 />);
 
-      pal.click(new RegExp('^' + escapeRegExp(label)), 'label');
+      pal.clickRadioOrCheckbox(new RegExp('^' + escapeRegExp(label)));
       pal.clickButtonOrLink('Next');
       pal.respondWithFormOutput<OnboardingStep3Mutation_output>({
         errors: [],

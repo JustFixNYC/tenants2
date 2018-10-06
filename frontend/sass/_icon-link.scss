@@ -16,9 +16,9 @@
 }
 
 .jf-info-icon {
-    color: $blue;
+    color: $justfix-blue;
 
     &:hover {
-        color: darken($blue, 10%);
+        color: darken($justfix-blue, 10%);
     }
 }

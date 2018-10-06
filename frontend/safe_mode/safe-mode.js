@@ -163,4 +163,17 @@
 
   var htmlEl = document.getElementsByTagName('html')[0];
   htmlEl.removeAttribute('data-safe-mode-no-js');
+
+  /*
+   * This isn't specifically related to safe mode per se, but
+   * we want to remove the annoying grey highlight from iOS
+   * taps, but doing this means running a teensy bit of JS
+   * to enable our :active styles too. It's nice to have it
+   * happen ASAP so we'll just do it here, since this snippet
+   * loads very early during page load.
+   * 
+   * For more details, see:
+   * https://css-tricks.com/snippets/css/remove-gray-highlight-when-tapping-links-in-mobile-safari/
+   */
+  document.addEventListener("touchstart", function(){}, true);
 })();

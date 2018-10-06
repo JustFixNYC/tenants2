@@ -38,7 +38,7 @@ interface ModalState {
   animate: boolean;
 }
 
-function getOneDirLevelUp(path: string) {
+export function getOneDirLevelUp(path: string) {
   return path.split('/').slice(0, -1).join('/');
 }
 

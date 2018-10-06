@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ModalWithoutRouter, Modal } from "../modal";
+import { ModalWithoutRouter, Modal, getOneDirLevelUp } from "../modal";
 import { mountWithRouter } from "./util";
 
 describe('ModalWithoutRouter', () => {
@@ -36,4 +36,8 @@ describe('Modal', () => {
     wrapper.find('a[aria-label="close"]').simulate('click');
     expect(wrapper.html()).toBeNull();
   });
+});
+
+test("getOneDirLevelUp() works", () => {
+  expect(getOneDirLevelUp('/foo/bar')).toBe('/foo');
 });

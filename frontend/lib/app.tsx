@@ -17,6 +17,7 @@ import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
+import { Action } from 'history';
 
 
 export interface AppProps {
@@ -140,10 +141,26 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     }
   }
 
-  handlePathnameChange(prevPathname: string, pathname: string) {
+  handleScrollPositionDuringPathnameChange(prevPathname: string, pathname: string, action: Action) {
+    // We don't need to worry about scroll position during modal transitions, and
+    // we only need to adjust it when the user is navigating to a new page.
+    if (!isModalRoute(prevPathname, pathname) && action === "PUSH") {
+      const scrollEl = document.documentElement;
+      if (typeof(scrollEl.scrollIntoView) === 'function') {
+        scrollEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    }
+  }
+
+  handlePathnameChange(prevPathname: string, pathname: string, action: Action) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
       this.handleFocusDuringPathnameChange(prevPathname, pathname);
+      this.handleScrollPositionDuringPathnameChange(prevPathname, pathname, action);
     }
   }
 
@@ -152,7 +169,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       this.gqlClient.csrfToken = this.state.session.csrfToken;
     }
     this.handlePathnameChange(prevProps.location.pathname,
-                              this.props.location.pathname);
+                              this.props.location.pathname,
+                              this.props.history.action);
   }
 
   getAppContext(): AppContextType {

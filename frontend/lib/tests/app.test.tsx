@@ -50,14 +50,14 @@ describe('AppWithoutRouter', () => {
     const mockGa = jest.fn();
     window.ga = mockGa;
     try {
-      app.handlePathnameChange('/old', '/new');
+      app.handlePathnameChange('/old', '/new', "PUSH");
       expect(mockGa.mock.calls).toHaveLength(2);
       expect(mockGa.mock.calls[0]).toEqual(['set', 'page', '/new']);
       expect(mockGa.mock.calls[1]).toEqual(['send', 'pageview']);
       mockGa.mockClear();
 
       // Ensure it doesn't track anything when the pathname doesn't change.
-      app.handlePathnameChange('/new', '/new');
+      app.handlePathnameChange('/new', '/new', "PUSH");
       expect(mockGa.mock.calls).toHaveLength(0);
     } finally {
       delete window.ga;

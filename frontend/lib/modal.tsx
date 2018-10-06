@@ -15,6 +15,12 @@ const UNDERLAY_CLASS = "jf-modal-underlay";
 interface ModalRenderPropContext {
   /** Handler the render prop can call to close the modal. */
   close: () => void;
+
+  /**
+   * Returns Link properties for closing the modal, to be used by
+   * e.g. custom-rendered "ok" buttons.
+   */
+  getLinkCloseProps: () => LinkProps;
 }
 
 interface ModalProps {
@@ -22,7 +28,7 @@ interface ModalProps {
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
   onClose?: () => void;
-  onCloseGoBack?: boolean;
+  onCloseGoBackOneDirLevel?: boolean;
   onCloseGoTo?: string;
 }
 
@@ -31,6 +37,10 @@ type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
 interface ModalState {
   isActive: boolean;
   animate: boolean;
+}
+
+function getOneDirLevelUp(path: string) {
+  return path.split('/').slice(0, -1).join('/');
 }
 
 export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
@@ -42,14 +52,37 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     };
   }
 
+  get closeDestination(): string|null {
+    if (this.props.onCloseGoBackOneDirLevel) {
+      return getOneDirLevelUp(this.props.location.pathname);
+    } else if (this.props.onCloseGoTo) {
+      return this.props.onCloseGoTo;
+    }
+    return null;
+  }
+
+  @autobind
+  getLinkCloseProps(): LinkProps {
+    const { closeDestination } = this;
+    if (!closeDestination) {
+      throw new Error("Cannot get Link close props when closeDestination is null!");
+    }
+    return {
+      to: closeDestination,
+      onClick: (e) => {
+        e.preventDefault();
+        this.handleClose();
+      }
+    };
+  }
+
   @autobind
   handleClose() {
     this.setState({ isActive: false });
-    if (this.props.onCloseGoBack) {
+    if (this.props.onCloseGoBackOneDirLevel && this.props.history.action === "PUSH") {
       this.props.history.goBack();
-    }
-    if (this.props.onCloseGoTo) {
-      this.props.history.push(this.props.onCloseGoTo);
+    } else if (this.closeDestination) {
+      this.props.history.push(this.closeDestination);
     }
     if (this.props.onClose) {
       this.props.onClose();
@@ -87,7 +120,10 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   renderBody(): JSX.Element {
     return (
       <React.Fragment>
-        {this.props.render && this.props.render({ close: this.handleClose })}
+        {this.props.render && this.props.render({
+          close: this.handleClose,
+          getLinkCloseProps: this.getLinkCloseProps
+        })}
         {this.props.children}
         <button onClick={this.handleClose} className="modal-close is-large" aria-label="close"></button>
       </React.Fragment>

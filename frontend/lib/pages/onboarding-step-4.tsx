@@ -22,7 +22,7 @@ export function TermsModal(): JSX.Element {
   const title = "JustFix Terms and Conditions";
 
   return (
-    <Modal title={title} onCloseGoBack render={(ctx) => (
+    <Modal title={title} onCloseGoBackOneDirLevel render={(ctx) => (
       <div className="content box">
         <h1 className="title">{title}</h1>
         <p>Ah, the ol' unspecified terms and conditions.</p>

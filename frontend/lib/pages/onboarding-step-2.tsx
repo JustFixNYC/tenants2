@@ -23,7 +23,7 @@ const blankInitialState: OnboardingStep2Input = {
 
 export function Step2EvictionModal(): JSX.Element {
   return (
-    <Modal title="You need legal help" onCloseGoBack render={({close}) => (
+    <Modal title="You need legal help" onCloseGoBackOneDirLevel render={({close}) => (
       <div className="content box">
         <h1 className="title">You need legal help</h1>
         <p>

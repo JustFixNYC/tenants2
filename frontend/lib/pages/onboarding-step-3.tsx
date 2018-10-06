@@ -38,7 +38,7 @@ export function LeaseInfoModal(props: { children: any, title: string }): JSX.Ele
 
 export function LeaseLearnMoreModal(props: { children: any, title: string }): JSX.Element {
   return (
-    <Modal title={props.title} onCloseGoBack render={(ctx) => (
+    <Modal title={props.title} onCloseGoBackOneDirLevel render={(ctx) => (
       <div className="content box">
         <h1 className="title">{props.title}</h1>
         {props.children}

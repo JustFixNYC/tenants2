@@ -47,7 +47,7 @@ export function areAddressesTheSame(a: string, b: string): boolean {
 
 export function Step1AddressModal(): JSX.Element {
   return (
-    <Modal title="Your privacy is very important to us!" onCloseGoBack render={({close}) => (
+    <Modal title="Your privacy is very important to us!" onCloseGoBackOneDirLevel render={(ctx) => (
       <div className="content box">
         <h1 className="title">Your privacy is very important to us!</h1>
         <p>
@@ -56,7 +56,7 @@ export function Step1AddressModal(): JSX.Element {
             the following New York City and State agencies: 
             HPD, DHCR, DOF, DOB and DCP.`}
         </p>
-        <button className="button is-primary" onClick={close}>Got it!</button>
+        <Link className="button is-primary" {...ctx.getLinkCloseProps()}>Got it!</Link>
       </div>
     )} />
   );
@@ -67,7 +67,7 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   const borough = getBoroughLabel(onboardingStep1.borough) || '';
 
   return (
-    <Modal title="Is this your address?" onCloseGoBack render={({close}) => (
+    <Modal title="Is this your address?" onCloseGoBackOneDirLevel render={({close}) => (
       <div className="content box">
         <h1 className="title">Is this your address?</h1>
         <p>{onboardingStep1.address}, {borough}</p>

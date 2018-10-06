@@ -7,7 +7,7 @@ import OnboardingStep1 from './pages/onboarding-step-1';
 import OnboardingStep2 from './pages/onboarding-step-2';
 import OnboardingStep3 from './pages/onboarding-step-3';
 import OnboardingStep4 from './pages/onboarding-step-4';
-import { RouteProgressBar } from './progress-bar';
+import { RouteProgressBar, ProgressStepRoute } from './progress-bar';
 import { AppContextType, withAppContext } from './app-context';
 
 
@@ -33,16 +33,18 @@ export const RedirectToLatestOnboardingStep = withAppContext((props: AppContextT
   return <Redirect to={getLatestOnboardingStep(props.session)} />
 });
 
+const steps: ProgressStepRoute[] = [
+  { path: Routes.onboarding.step1, component: OnboardingStep1 },
+  { path: Routes.onboarding.step2, component: OnboardingStep2 },
+  { path: Routes.onboarding.step3, component: OnboardingStep3 },
+  { path: Routes.onboarding.step4, component: OnboardingStep4 },
+];
+
 export default function OnboardingRoutes(): JSX.Element {
   return (
     <div>
       <Route path={Routes.onboarding.latestStep} exact component={RedirectToLatestOnboardingStep} />
-      <RouteProgressBar label="Onboarding">
-        <Route path={Routes.onboarding.step1} component={OnboardingStep1} />
-        <Route path={Routes.onboarding.step2} component={OnboardingStep2} />
-        <Route path={Routes.onboarding.step3} component={OnboardingStep3} />
-        <Route path={Routes.onboarding.step4} component={OnboardingStep4} />
-      </RouteProgressBar>
+      <RouteProgressBar label="Onboarding" steps={steps} />
     </div>
   );
 }

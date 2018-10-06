@@ -1,6 +1,6 @@
 import React from 'react';
 import autobind from "autobind-decorator";
-import { RouteComponentProps, withRouter, Route, RouteProps, Switch } from 'react-router';
+import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
 
 interface ProgressBarState {
   pct: number;
@@ -60,33 +60,30 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
   }
 }
 
-interface RouteProgressBarProps extends RouteComponentProps<any> {
-  children: React.ReactNode;
-  label: string;
+export interface ProgressStepRoute {
+  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+  exact?: boolean;
+  path: string;
 }
 
-function childIsRoute(child: React.ReactChild): child is React.ReactElement<RouteProps> {
-  return !!child && typeof(child) === 'object' && child.type === Route;
+interface RouteProgressBarProps extends RouteComponentProps<any> {
+  steps: ProgressStepRoute[];
+  label: string;
 }
 
 /**
  * This component can be used to show a progress bar that
  * represents a series of steps the user is working through,
  * where each step is a route.
- * 
- * The routes should be children of this element.
  */
 export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.Element => {
   const { pathname } = props.location;
-  let numSteps = 0;
+  let numSteps = props.steps.length;
   let currStep = 0;
 
-  React.Children.map(props.children, (child, i) => {
-    if (childIsRoute(child) && child.props.path) {
-      numSteps += 1;
-      if (pathname.indexOf(child.props.path) === 0) {
-        currStep = numSteps;
-      }
+  props.steps.map((step, i) => {
+    if (pathname.indexOf(step.path) === 0) {
+      currStep = i + 1;
     }
   });
 
@@ -98,7 +95,7 @@ export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.E
         {props.label} step {currStep} of {numSteps}
       </ProgressBar>
       <Switch>
-        {props.children}
+        {props.steps.map(step => <Route key={step.path} {...step} />)}
       </Switch>
     </React.Fragment>
   );

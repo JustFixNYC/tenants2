@@ -1,12 +1,11 @@
 import React from 'react';
 import Page from './page';
 import { WhyMailALetterOfComplaint } from './letter-of-complaint-common';
-import { Route } from 'react-router-dom';
 import Routes from './routes';
 import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
-import { RouteProgressBar } from './progress-bar';
+import { RouteProgressBar, ProgressStepRoute } from './progress-bar';
 import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { CenteredPrimaryButtonLink } from './buttons';
@@ -34,15 +33,17 @@ export function Welcome(): JSX.Element {
   );
 }
 
+const steps: ProgressStepRoute[] = [
+  { path: Routes.loc.home, exact: true, component: Welcome },
+  { path: Routes.loc.issues.prefix, component: IssuesRoutes },
+  { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
+  { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
+  { path: Routes.loc.preview, exact: true, component: LetterRequestPage },
+  { path: Routes.loc.confirmation, exact: true, component: LetterConfirmation }
+];
+
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
-    <RouteProgressBar label="Letter of Complaint">
-      <Route path={Routes.loc.home} exact component={Welcome} />
-      <Route path={Routes.loc.issues.prefix} component={IssuesRoutes} />
-      <Route path={Routes.loc.accessDates} exact component={AccessDatesPage} />
-      <Route path={Routes.loc.yourLandlord} exact component={LandlordDetailsPage} />
-      <Route path={Routes.loc.preview} exact component={LetterRequestPage} />
-      <Route path={Routes.loc.confirmation} exact component={LetterConfirmation} />
-    </RouteProgressBar>
+    <RouteProgressBar label="Letter of Complaint" steps={steps} />
   );
 }

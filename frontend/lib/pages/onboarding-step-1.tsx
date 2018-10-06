@@ -8,7 +8,7 @@ import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
-import { Modal } from '../modal';
+import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
@@ -47,7 +47,7 @@ export function areAddressesTheSame(a: string, b: string): boolean {
 
 export function Step1AddressModal(): JSX.Element {
   return (
-    <Modal title="Your privacy is very important to us!" onCloseGoBackOneDirLevel render={(ctx) => (
+    <Modal title="Your privacy is very important to us!" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <h1 className="title">Your privacy is very important to us!</h1>
         <p>
@@ -67,12 +67,12 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   const borough = getBoroughLabel(onboardingStep1.borough) || '';
 
   return (
-    <Modal title="Is this your address?" onCloseGoBackOneDirLevel render={({close}) => (
+    <Modal title="Is this your address?" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <h1 className="title">Is this your address?</h1>
         <p>{onboardingStep1.address}, {borough}</p>
         <Link to={Routes.onboarding.step2} className="button is-primary is-fullwidth">Yes!</Link>
-        <button className="button is-text is-fullwidth" onClick={close}>No, go back.</button>
+        <Link {...ctx.getLinkCloseProps()} className="button is-text is-fullwidth">No, go back.</Link>
       </div>
     )} />
   );

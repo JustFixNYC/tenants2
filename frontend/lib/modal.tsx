@@ -12,10 +12,11 @@ const DIALOG_CLASS = "jf-modal-dialog"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
-interface ModalRenderPropContext {
-  /** Handler the render prop can call to close the modal. */
-  close: () => void;
+type BackOrUpOneDirLevel = 1;
 
+export const BackOrUpOneDirLevel = 1;
+
+interface ModalRenderPropContext {
   /**
    * Returns Link properties for closing the modal, to be used by
    * e.g. custom-rendered "ok" buttons.
@@ -27,9 +28,7 @@ interface ModalProps {
   title: string;
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
-  onClose?: () => void;
-  onCloseGoBackOneDirLevel?: boolean;
-  onCloseGoTo?: string;
+  onCloseGoTo: string|BackOrUpOneDirLevel;
 }
 
 type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
@@ -52,13 +51,15 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     };
   }
 
-  get closeDestination(): string|null {
-    if (this.props.onCloseGoBackOneDirLevel) {
-      return getOneDirLevelUp(this.props.location.pathname);
-    } else if (this.props.onCloseGoTo) {
-      return this.props.onCloseGoTo;
+  get closeDestination(): string {
+    const goTo = this.props.onCloseGoTo;
+    if (typeof(goTo) === 'string') {
+      return goTo;
     }
-    return null;
+    switch (goTo) {
+      case BackOrUpOneDirLevel:
+      return getOneDirLevelUp(this.props.location.pathname);
+    }
   }
 
   @autobind
@@ -79,13 +80,10 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   @autobind
   handleClose() {
     this.setState({ isActive: false });
-    if (this.props.onCloseGoBackOneDirLevel && this.props.history.action === "PUSH") {
+    if (this.props.onCloseGoTo === BackOrUpOneDirLevel && this.props.history.action === "PUSH") {
       this.props.history.goBack();
     } else if (this.closeDestination) {
       this.props.history.push(this.closeDestination);
-    }
-    if (this.props.onClose) {
-      this.props.onClose();
     }
   }
 
@@ -121,7 +119,6 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     return (
       <React.Fragment>
         {this.props.render && this.props.render({
-          close: this.handleClose,
           getLinkCloseProps: this.getLinkCloseProps
         })}
         {this.props.children}

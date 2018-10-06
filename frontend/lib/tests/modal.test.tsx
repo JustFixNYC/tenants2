@@ -23,13 +23,13 @@ describe('Modal', () => {
     div.id = 'prerendered-modal';
     document.body.appendChild(div);
     expect(div.parentNode).toBe(document.body);
-    mountWithRouter(<Modal title="blah"><p>hello</p></Modal>);
+    mountWithRouter(<Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>);
     expect(div.parentNode).toBeNull();
   });
 
   it('renders body when mounted, renders nothing when closed', () => {
     const { wrapper } = mountWithRouter(
-      <Modal title="blah"><p>hello</p></Modal>
+      <Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>
     );
     expect(wrapper.html()).toContain("hello");
 

@@ -10,7 +10,7 @@ import { IconLink } from "../icon-link";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { filterDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
-import { Modal } from '../modal';
+import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { OutboundLink } from '../google-analytics';
 import { twoTuple } from '../util';
 
@@ -38,11 +38,11 @@ export function LeaseInfoModal(props: { children: any, title: string }): JSX.Ele
 
 export function LeaseLearnMoreModal(props: { children: any, title: string }): JSX.Element {
   return (
-    <Modal title={props.title} onCloseGoBackOneDirLevel render={(ctx) => (
+    <Modal title={props.title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <h1 className="title">{props.title}</h1>
         {props.children}
-        <button onClick={ctx.close} className="button is-primary is-fullwidth">Got it!</button>
+        <Link {...ctx.getLinkCloseProps()} className="button is-primary is-fullwidth">Got it!</Link>
       </div>
     )}/>
   );

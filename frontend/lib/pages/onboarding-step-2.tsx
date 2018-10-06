@@ -4,13 +4,14 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import Routes from '../routes';
-import { Modal } from '../modal';
+import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton, BackButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';
+import { Link } from 'react-router-dom';
 
 
 const blankInitialState: OnboardingStep2Input = {
@@ -23,7 +24,7 @@ const blankInitialState: OnboardingStep2Input = {
 
 export function Step2EvictionModal(): JSX.Element {
   return (
-    <Modal title="You need legal help" onCloseGoBackOneDirLevel render={({close}) => (
+    <Modal title="You need legal help" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <h1 className="title">You need legal help</h1>
         <p>
@@ -33,7 +34,7 @@ export function Step2EvictionModal(): JSX.Element {
           Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
         </p>
         <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</OutboundLink>
-        <button className="button is-text is-fullwidth" onClick={close}>Continue with letter</button>
+        <Link className="button is-text is-fullwidth" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
       </div>
     )} />
   );

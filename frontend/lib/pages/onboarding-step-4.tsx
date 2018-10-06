@@ -8,7 +8,8 @@ import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
-import { Modal, ModalLink } from '../modal';
+import { Modal, ModalLink, BackOrUpOneDirLevel } from '../modal';
+import { Link } from 'react-router-dom';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -22,11 +23,11 @@ export function TermsModal(): JSX.Element {
   const title = "JustFix Terms and Conditions";
 
   return (
-    <Modal title={title} onCloseGoBackOneDirLevel render={(ctx) => (
+    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <h1 className="title">{title}</h1>
         <p>Ah, the ol' unspecified terms and conditions.</p>
-        <button onClick={ctx.close} className="button is-primary is-fullwidth">Got it!</button>
+        <Link {...ctx.getLinkCloseProps()} className="button is-primary is-fullwidth">Got it!</Link>
       </div>
     )}/>
   );

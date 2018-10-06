@@ -145,14 +145,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     // We don't need to worry about scroll position during modal transitions, and
     // we only need to adjust it when the user is navigating to a new page.
     if (!isModalRoute(prevPathname, pathname) && action === "PUSH") {
-      const scrollEl = document.documentElement;
-      if (typeof(scrollEl.scrollIntoView) === 'function') {
-        scrollEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-      }
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     }
   }
 

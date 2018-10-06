@@ -4,6 +4,13 @@ import { startApp, AppProps } from './app';
 import { getElement } from './util';
 
 
+function polyfillSmoothScroll() {
+  if (!('scrollBehavior' in document.documentElement.style)) {
+    import(/* webpackChunkName: "smoothscroll-polyfill" */ 'smoothscroll-polyfill')
+      .then((smoothscroll) => smoothscroll.polyfill());
+  }
+}
+
 window.addEventListener('load', () => {
   const div = getElement('div', '#main');
   const initialPropsEl = getElement('script', '#initial-props');
@@ -22,6 +29,7 @@ window.addEventListener('load', () => {
   div.removeAttribute('hidden');
 
   startApp(div, initialProps);
+  polyfillSmoothScroll();
 });
 
 if (process.env.NODE_ENV !== 'production' && DISABLE_DEV_SOURCE_MAPS) {

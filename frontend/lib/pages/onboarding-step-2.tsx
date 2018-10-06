@@ -12,6 +12,7 @@ import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';
 import { Link } from 'react-router-dom';
+import { glueToLastWord } from '../word-glue';
 
 
 const blankInitialState: OnboardingStep2Input = {
@@ -48,12 +49,14 @@ export default class OnboardingStep2 extends React.Component {
         <AlertableCheckbox modal={Step2EvictionModal}
                            modalPath={Routes.onboarding.step2EvictionModal}
                            {...ctx.fieldPropsFor('isInEviction')}>
-          I received an eviction notice.
-          <IconLink
-            type="warning"
-            to={Routes.onboarding.step2EvictionModal}
-            title="If you are in an eviction, you need legal help."
-          />
+          {glueToLastWord(
+            'I received an eviction notice.', 
+            <IconLink
+              type="warning"
+              to={Routes.onboarding.step2EvictionModal}
+              title="If you are in an eviction, you need legal help."
+            />
+          )}
         </AlertableCheckbox>
         <CheckboxFormField {...ctx.fieldPropsFor('needsRepairs')}>
           I need repairs made in my apartment/building.

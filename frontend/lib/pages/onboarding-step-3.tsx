@@ -13,6 +13,7 @@ import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { OutboundLink } from '../google-analytics';
 import { twoTuple } from '../util';
+import { glueToLastWord } from '../word-glue';
 
 export const LEASE_CHOICES = filterDjangoChoices(
   require('../../../common-data/lease-choices.json'), ['NOT_SURE']);
@@ -134,10 +135,7 @@ const leaseChoicesWithInfo = LEASE_CHOICES.map(([value, label]) => {
   const title = `Learn more about ${label} leases`;
 
   return twoTuple(value, info ? (
-    <>
-      {label}
-      <IconLink type="info" title={title} to={info.route} />
-    </>
+    glueToLastWord(label, <IconLink type="info" title={title} to={info.route} />)
   ) : label);
 });
 

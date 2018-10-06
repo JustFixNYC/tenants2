@@ -153,3 +153,9 @@ input:focus + .jf-checkbox-symbol {
 .jf-two-buttons, .field.is-grouped.jf-two-buttons {
     justify-content: space-between;
 }
+
+// This is used to "glue" content together, so that e.g. an icon doesn't
+// word-wrap to be orphaned from the content it's associated with.
+.jf-word-glue {
+    white-space: pre;
+}

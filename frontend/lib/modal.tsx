@@ -64,12 +64,8 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   @autobind
   getLinkCloseProps(): LinkProps {
-    const { closeDestination } = this;
-    if (!closeDestination) {
-      throw new Error("Cannot get Link close props when closeDestination is null!");
-    }
     return {
-      to: closeDestination,
+      to: this.closeDestination,
       onClick: (e) => {
         e.preventDefault();
         this.handleClose();
@@ -122,7 +118,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
           getLinkCloseProps: this.getLinkCloseProps
         })}
         {this.props.children}
-        <button onClick={this.handleClose} className="modal-close is-large" aria-label="close"></button>
+        <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
       </React.Fragment>
     );
   }

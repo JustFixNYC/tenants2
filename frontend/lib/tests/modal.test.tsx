@@ -5,14 +5,14 @@ import { mountWithRouter } from "./util";
 
 describe('ModalWithoutRouter', () => {
   it('pre-renders modal when on server-side', () => {
-    const ctx = { staticContext: {} } as any;
+    const ctx = { staticContext: {}, onCloseGoTo: '/' } as any;
     const modal = new ModalWithoutRouter(ctx);
     modal.render();
     expect(ctx.staticContext.modal).toBeTruthy();
   });
 
   it('renders nothing when not active', () => {
-    const modal = new ModalWithoutRouter({} as any);
+    const modal = new ModalWithoutRouter({ onCloseGoTo: '/' } as any);
     expect(modal.render()).toBeNull();
   });
 });
@@ -33,7 +33,7 @@ describe('Modal', () => {
     );
     expect(wrapper.html()).toContain("hello");
 
-    wrapper.find('button[aria-label="close"]').simulate('click');
+    wrapper.find('a[aria-label="close"]').simulate('click');
     expect(wrapper.html()).toBeNull();
   });
 });

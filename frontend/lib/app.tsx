@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage, friendlyLoad, IMPERCEPTIBLE_MS, LoadingOverlayManager } from "./loading-page";
+import { LoadingPage, friendlyLoad, LoadingOverlayManager } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -51,49 +51,41 @@ interface AppState {
 
 const LoadableIndexPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExampleFormPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExampleModalPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExampleLoadingPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableClientSideErrorPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableOnboardingRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableLetterOfComplaintRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
-  delay: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 

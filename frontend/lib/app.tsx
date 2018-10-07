@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage } from './page';
+import { LoadingPage, friendlyLoad, IMPERCEPTIBLE_MS } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -50,37 +50,44 @@ interface AppState {
 }
 
 const LoadableIndexPage = Loadable({
-  loader: () => import(/* webpackChunkName: "index-page" */ './pages/index-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExamplePage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExampleFormPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableExampleModalPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableClientSideErrorPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableOnboardingRoutes = Loadable({
-  loader: () => import(/* webpackChunkName: "onboarding" */ './onboarding'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 
 const LoadableLetterOfComplaintRoutes = Loadable({
-  loader: () => import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
+  timeout: IMPERCEPTIBLE_MS,
   loading: LoadingPage
 });
 

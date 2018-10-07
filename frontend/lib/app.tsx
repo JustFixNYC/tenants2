@@ -73,6 +73,12 @@ const LoadableExampleModalPage = Loadable({
   loading: LoadingPage
 });
 
+const LoadableExampleLoadingPage = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
+  timeout: IMPERCEPTIBLE_MS,
+  loading: LoadingPage
+});
+
 const LoadableClientSideErrorPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
   timeout: IMPERCEPTIBLE_MS,
@@ -198,8 +204,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
-        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
-        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />>
+        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />
+        <Route path={Routes.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
+        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />
         <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
         <Route path={Routes.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
         <Route render={NotFound} />

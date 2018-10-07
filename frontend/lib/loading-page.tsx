@@ -13,7 +13,14 @@ export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element 
       <button className="button" onClick={props.retry}>Retry</button>
     </Page>);
   }
-  return <Page title="Loading...">Loading...</Page>;
+  return (
+    <Page title="Loading...">
+      <div className="jf-loading-page">
+        <h1 className="jf-loading-message subtitle">Loading&hellip;</h1>
+        <div className="jf-loader"/>
+      </div>
+    </Page>
+  );
 }
 
 export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {

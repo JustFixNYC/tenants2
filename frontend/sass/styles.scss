@@ -159,3 +159,22 @@ input:focus + .jf-checkbox-symbol {
 .jf-word-glue {
     white-space: pre;
 }
+
+.jf-loading-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .jf-loading-message {
+        padding-bottom: 3em;
+    }
+
+    .jf-loader {
+        @include loader();
+        border-bottom-color: black;
+        border-left-color: black;
+        width: 64px;
+        height: 64px;
+    }
+}

@@ -72,6 +72,7 @@ const Routes = {
   examples: {
     redirect: '/__example-redirect',
     modal: '/__example-modal',
+    loadingPage: '/__example-loading-page',
     form: '/__example-form',
     loadable: '/__loadable-example-page',
     clientSideError: '/__example-client-side-error',

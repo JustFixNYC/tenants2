@@ -34,20 +34,15 @@ $jf-loading-fade-ms: 500ms;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: black;
-    background: white;
+    color: $primary;
+    background: $primary-invert;
     height: 100%;
     transition: opacity $jf-loading-fade-ms;
 
-    .jf-loading-message {
-        padding-bottom: 3em;
-        font-size: 24px;
-    }
-
     .jf-loader {
         @include loader();
-        border-bottom-color: black;
-        border-left-color: black;
+        border-bottom-color: $primary;
+        border-left-color: $primary;
         width: 64px;
         height: 64px;
     }

@@ -116,7 +116,6 @@ function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {
   return (
     <div className="jf-loading-overlay-wrapper" aria-hidden="true">
       <div className="jf-loading-overlay">
-        <h1 className="jf-loading-message">Loading&hellip;</h1>
         <div className="jf-loader"/>
       </div>
     </div>

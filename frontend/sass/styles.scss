@@ -117,7 +117,7 @@ input:focus + .jf-checkbox-symbol {
 
 .jf-radio, .jf-checkbox, .jf-single-checkbox {
     display: flex;
-    min-height: 2.25em;
+    padding: 0.25em 0;
 }
 
 .jf-radio, .jf-checkbox {

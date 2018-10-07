@@ -7,6 +7,7 @@
 @import "./_issues.scss";
 @import "./_autocomplete.scss";
 @import "./_icon-link.scss";
+@import "./_loading-overlay.scss";
 
 // Bulma's button default focus styling is not easy
 // to distinguish, so we'll make it stand out more here.
@@ -160,21 +161,21 @@ input:focus + .jf-checkbox-symbol {
     white-space: pre;
 }
 
-.jf-loading-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.jf-loading-page-devtools {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background: black;
+    color: white;
+    padding: 1em;
+    z-index: 1100;
+    font-family: monospace;
 
-    .jf-loading-message {
-        padding-bottom: 3em;
+    label {
+        display: block;
     }
 
-    .jf-loader {
-        @include loader();
-        border-bottom-color: black;
-        border-left-color: black;
-        width: 64px;
-        height: 64px;
+    input {
+        margin-right: 1em;
     }
 }

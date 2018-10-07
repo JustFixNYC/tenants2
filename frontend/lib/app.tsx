@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage, friendlyLoad, IMPERCEPTIBLE_MS } from "./loading-page";
+import { LoadingPage, friendlyLoad, IMPERCEPTIBLE_MS, LoadingOverlayManager } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -226,12 +226,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               <div className="hero-body">
                 <div className="container" ref={this.pageBodyRef}
                      data-jf-is-noninteractive tabIndex={-1}>
-                <Route path="/" render={(props) => {
-                  if (routeMap.exists(props.location.pathname)) {
-                    return this.renderRoutes();
-                  }
-                  return NotFound(props);
-                }} />
+                  <LoadingOverlayManager>
+                    <Route path="/" render={(props) => {
+                      if (routeMap.exists(props.location.pathname)) {
+                        return this.renderRoutes();
+                      }
+                      return NotFound(props);
+                    }} />
+                  </LoadingOverlayManager>
                 </div>
               </div>
             </section>

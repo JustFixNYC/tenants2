@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LoadingPage, LoadingOverlayManager } from '../loading-page';
+import { LoadingPage } from '../loading-page';
 import Page from '../page';
 
 interface State {
@@ -39,7 +39,7 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
 
   render() {
     return (
-      <LoadingOverlayManager>
+      <>
         {this.state.mount ? <LoadingPage
           isLoading={true}
           pastDelay={false}
@@ -53,7 +53,7 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
           {this.renderCheckbox('mount')}
           {this.renderCheckbox('error', !this.state.mount)}
         </div>
-      </LoadingOverlayManager>
+      </>
     );
   }
 }

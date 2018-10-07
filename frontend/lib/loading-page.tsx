@@ -4,8 +4,8 @@ import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-export const IMPERCEPTIBLE_MS = 100;
-export const FRIENDLY_LOAD_MS = 1500;
+export const IMPERCEPTIBLE_MS = 16;
+export const FRIENDLY_LOAD_MS = 1000;
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,

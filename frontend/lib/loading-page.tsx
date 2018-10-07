@@ -3,7 +3,7 @@ import Loadable from 'react-loadable';
 import Page from './page';
 
 export const IMPERCEPTIBLE_MS = 10;
-export const FRIENDLY_LOAD_MS = 5000;
+export const FRIENDLY_LOAD_MS = 2000;
 
 export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element {
   if (props.error) {

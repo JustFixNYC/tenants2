@@ -1,4 +1,5 @@
 import React from 'react';
+import Loadable from 'react-loadable';
 
 import { withAppContext, AppContextType } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
@@ -6,6 +7,18 @@ import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
 import Page from '../page';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
+import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+
+const LoadableConfetti = Loadable({
+  loader: () => import(/* webpackChunkName: "confetti" */ '../confetti'),
+  // We don't want to display anything while the confetti is loading.
+  loading() { return null; },
+  // This ensures that our server doesn't generate <script> tags
+  // to load this component in its static HTML: we don't *want* to block page
+  // load on this optional feature.
+  modules: [],
+  webpack: () => [],
+});
 
 function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest }): JSX.Element {
   const { mailChoice, updatedAt } = props.letterRequest;
@@ -29,6 +42,9 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
   return (
     <Page title="Your letter of complaint has been created!">
       <h1 className="title">Your letter of complaint has been created!</h1>
+      <SimpleProgressiveEnhancement>
+        <LoadableConfetti />
+      </SimpleProgressiveEnhancement>
       <div className="content">
         {letterRequest && <LetterStatus letterRequest={letterRequest} />}
         <p className="has-text-centered">

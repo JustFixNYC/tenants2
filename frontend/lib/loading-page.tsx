@@ -17,18 +17,11 @@ export const JF_LOADING_FADE_MS = 500;
 interface LoadingPageContextType {
   onLoadStart: () => void;
   onLoadStop: () => void;
-  isUnloading: boolean;
 }
 
 const NullLoadingPageContext: LoadingPageContextType = {
   onLoadStart() {},
   onLoadStop() {},
-  isUnloading: false
-};
-
-const UnloadingPageContext: LoadingPageContextType = {
-  ...NullLoadingPageContext,
-  isUnloading: true
 };
 
 export const LoadingPageContext = React.createContext<LoadingPageContextType>(NullLoadingPageContext);
@@ -65,35 +58,49 @@ export class LoadingPageSignaler extends React.Component<LoadingPageContextType>
   }
 }
 
+type LoadingOverlayManagerSnapshot = HTMLDivElement|null;
+
 interface LoadingOverlayManagerState {
   showOverlay: boolean;
-  prevLocationProps: RouteComponentProps<any>|null;
 }
 
 interface LoadingOverlayManagerProps extends RouteComponentProps<any> {
   render: (props: RouteComponentProps<any>) => JSX.Element;
 }
 
-class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState> {
+class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState, LoadingOverlayManagerSnapshot> {
   state: LoadingOverlayManagerState;
   loadingPageContext: LoadingPageContextType;
+  childrenRef: React.RefObject<HTMLDivElement>;
+  latestSnapshotRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: LoadingOverlayManagerProps) {
     super(props);
     this.state = {
       showOverlay: false,
-      prevLocationProps: null
     };
     this.loadingPageContext = {
       onLoadStart: this.handleLoadStart,
       onLoadStop: this.handleLoadStop,
-      isUnloading: false
     };
+    this.childrenRef = React.createRef();
+    this.latestSnapshotRef = React.createRef();
   }
 
-  componentDidUpdate(prevProps: LoadingOverlayManagerProps) {
+  getSnapshotBeforeUpdate(prevProps: LoadingOverlayManagerProps): LoadingOverlayManagerSnapshot {
+    if (prevProps.location !== this.props.location && this.childrenRef.current) {
+      return this.childrenRef.current.cloneNode(true) as HTMLDivElement;
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps: LoadingOverlayManagerProps, prevState: LoadingOverlayManagerState, snapshot: LoadingOverlayManagerSnapshot) {
     if (prevProps.location !== this.props.location) {
-      this.setState({ prevLocationProps: prevProps });
+      const div = this.latestSnapshotRef.current;
+      if (div && snapshot) {
+        div.innerHTML = '';
+        div.appendChild(snapshot);
+      }
     }
   }
 
@@ -108,12 +115,6 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
   }
 
   render() {
-    let prevLoc = null;
-
-    if (this.state.showOverlay && this.state.prevLocationProps) {
-      prevLoc = this.props.render(this.state.prevLocationProps);
-    }
-
     return (
       <>
       <TransitionGroup component={null}>
@@ -122,8 +123,8 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
         </CSSTransition>
       </TransitionGroup>
       <LoadingPageContext.Provider value={this.loadingPageContext}>
-        {this.props.render(this.props)}
-        {prevLoc && <LoadingPageContext.Provider value={UnloadingPageContext} children={prevLoc} />}
+        <div ref={this.childrenRef}>{this.props.render(this.props)}</div>
+        <div ref={this.latestSnapshotRef} hidden={!this.state.showOverlay}></div>
       </LoadingPageContext.Provider>
       </>
     );
@@ -134,16 +135,6 @@ export const LoadingOverlayManager = withRouter(LoadingOverlayManagerWithoutRout
 
 interface LoadingOverlayProps {
   show: boolean;
-}
-
-export function WhenNotUnloading(props: { children: any }): JSX.Element {
-  return <LoadingPageContext.Consumer children={(ctx) => {
-    if (ctx.isUnloading) {
-      return null;
-    } else {
-      return props.children;
-    }
-  }} />;
 }
 
 function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {

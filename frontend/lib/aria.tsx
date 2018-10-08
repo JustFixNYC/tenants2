@@ -37,7 +37,6 @@ export function AriaExpandableButton(props: AriaExpandableButtonProps): JSX.Elem
 }
 
 interface AriaAnnouncerProps {
-  disabled?: boolean;
   children: any;
 }
 
@@ -63,9 +62,9 @@ export class AriaAnnouncer extends React.Component<AriaAnnouncerProps, AriaAnnou
   render() {
     return (
       <AriaContext.Provider value={{ announce: this.handleAnnouncement }}>
-        {!this.props.disabled && <div className="jf-sr-only" role="alert" aria-live="polite">
+        <div className="jf-sr-only" role="alert" aria-live="polite">
           {this.state.announcement}
-        </div>}
+        </div>
         {this.props.children}
       </AriaContext.Provider>
     );

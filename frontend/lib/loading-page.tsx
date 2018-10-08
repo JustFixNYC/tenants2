@@ -4,7 +4,6 @@ import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { AriaAnnouncer } from './aria';
 
 export const IMPERCEPTIBLE_MS = 16;
 export const FRIENDLY_LOAD_MS = 1000;
@@ -18,12 +17,21 @@ export const JF_LOADING_FADE_MS = 500;
 interface LoadingPageContextType {
   onLoadStart: () => void;
   onLoadStop: () => void;
+  isUnloading: boolean;
 }
 
-export const LoadingPageContext = React.createContext<LoadingPageContextType>({
+const NullLoadingPageContext: LoadingPageContextType = {
   onLoadStart() {},
-  onLoadStop() {}
-});
+  onLoadStop() {},
+  isUnloading: false
+};
+
+const UnloadingPageContext: LoadingPageContextType = {
+  ...NullLoadingPageContext,
+  isUnloading: true
+};
+
+export const LoadingPageContext = React.createContext<LoadingPageContextType>(NullLoadingPageContext);
 
 export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element {
   if (props.error) {
@@ -78,7 +86,8 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
     };
     this.loadingPageContext = {
       onLoadStart: this.handleLoadStart,
-      onLoadStop: this.handleLoadStop
+      onLoadStop: this.handleLoadStop,
+      isUnloading: false
     };
   }
 
@@ -114,7 +123,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
       </TransitionGroup>
       <LoadingPageContext.Provider value={this.loadingPageContext}>
         {this.props.render(this.props)}
-        {prevLoc && <AriaAnnouncer disabled children={prevLoc} />}
+        {prevLoc && <LoadingPageContext.Provider value={UnloadingPageContext} children={prevLoc} />}
       </LoadingPageContext.Provider>
       </>
     );
@@ -125,6 +134,16 @@ export const LoadingOverlayManager = withRouter(LoadingOverlayManagerWithoutRout
 
 interface LoadingOverlayProps {
   show: boolean;
+}
+
+export function WhenNotUnloading(props: { children: any }): JSX.Element {
+  return <LoadingPageContext.Consumer children={(ctx) => {
+    if (ctx.isUnloading) {
+      return null;
+    } else {
+      return props.children;
+    }
+  }} />;
 }
 
 function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {

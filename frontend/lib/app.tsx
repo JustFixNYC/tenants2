@@ -17,7 +17,7 @@ import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
-import { Action } from 'history';
+import { Action, Location } from 'history';
 
 
 export interface AppProps {
@@ -185,9 +185,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     return !!this.state.session.phoneNumber;
   }
 
-  renderRoutes(): JSX.Element {
+  renderRoutes(location: Location<any>): JSX.Element {
     return (
-      <Switch>
+      <Switch location={location}>
         <Route path={Routes.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
@@ -218,14 +218,12 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               <div className="hero-body">
                 <div className="container" ref={this.pageBodyRef}
                      data-jf-is-noninteractive tabIndex={-1}>
-                  <LoadingOverlayManager>
-                    <Route path="/" render={(props) => {
-                      if (routeMap.exists(props.location.pathname)) {
-                        return this.renderRoutes();
-                      }
-                      return NotFound(props);
-                    }} />
-                  </LoadingOverlayManager>
+                  <LoadingOverlayManager render={(props) => {
+                    if (routeMap.exists(props.location.pathname)) {
+                      return this.renderRoutes(props.location);
+                    }
+                    return NotFound(props);
+                  }}/>
                 </div>
               </div>
             </section>

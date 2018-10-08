@@ -3,6 +3,8 @@ import Loadable from 'react-loadable';
 import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { AriaAnnouncer } from './aria';
 
 export const IMPERCEPTIBLE_MS = 16;
 export const FRIENDLY_LOAD_MS = 1000;
@@ -57,25 +59,33 @@ export class LoadingPageSignaler extends React.Component<LoadingPageContextType>
 
 interface LoadingOverlayManagerState {
   showOverlay: boolean;
+  prevLocationProps: RouteComponentProps<any>|null;
 }
 
-interface LoadingOverlayManagerProps {
-  children: any;
+interface LoadingOverlayManagerProps extends RouteComponentProps<any> {
+  render: (props: RouteComponentProps<any>) => JSX.Element;
 }
 
-export class LoadingOverlayManager extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState> {
+class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState> {
   state: LoadingOverlayManagerState;
   loadingPageContext: LoadingPageContextType;
 
   constructor(props: LoadingOverlayManagerProps) {
     super(props);
     this.state = {
-      showOverlay: false
+      showOverlay: false,
+      prevLocationProps: null
     };
     this.loadingPageContext = {
       onLoadStart: this.handleLoadStart,
       onLoadStop: this.handleLoadStop
     };
+  }
+
+  componentDidUpdate(prevProps: LoadingOverlayManagerProps) {
+    if (prevProps.location !== this.props.location) {
+      this.setState({ prevLocationProps: prevProps });
+    }
   }
 
   @autobind
@@ -89,6 +99,12 @@ export class LoadingOverlayManager extends React.Component<LoadingOverlayManager
   }
 
   render() {
+    let prevLoc = null;
+
+    if (this.state.showOverlay && this.state.prevLocationProps) {
+      prevLoc = this.props.render(this.state.prevLocationProps);
+    }
+
     return (
       <>
       <TransitionGroup component={null}>
@@ -97,12 +113,15 @@ export class LoadingOverlayManager extends React.Component<LoadingOverlayManager
         </CSSTransition>
       </TransitionGroup>
       <LoadingPageContext.Provider value={this.loadingPageContext}>
-        {this.props.children}
+        {this.props.render(this.props)}
+        {prevLoc && <AriaAnnouncer disabled children={prevLoc} />}
       </LoadingPageContext.Provider>
       </>
     );
   }
 }
+
+export const LoadingOverlayManager = withRouter(LoadingOverlayManagerWithoutRouter);
 
 interface LoadingOverlayProps {
   show: boolean;

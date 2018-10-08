@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage, friendlyLoad, LoadingOverlayManager } from "./loading-page";
+import { LoadingPage, friendlyLoad, LoadingOverlayManager, HTML_LOADING_ATTR } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -149,7 +149,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   handleScrollPositionDuringPathnameChange(prevPathname: string, pathname: string, action: Action) {
     // We don't need to worry about scroll position when transitioning into a modal, and
     // we only need to adjust it when the user is navigating to a new page.
-    if (!isModalRoute(pathname) && action === "PUSH") {
+    if (!isModalRoute(pathname) && action === "PUSH" &&
+        !document.documentElement.hasAttribute(HTML_LOADING_ATTR)) {
       window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     }
   }

@@ -14,6 +14,12 @@ export const FRIENDLY_LOAD_MS = 1000;
  */
 export const JF_LOADING_FADE_MS = 500;
 
+/**
+ * This attribute will be present on the page's <html> element
+ * if a loading page transition is in effect.
+ */
+export const HTML_LOADING_ATTR = 'data-jf-is-loading';
+
 interface LoadingPageContextType {
   onLoadStart: () => void;
   onLoadStop: () => void;
@@ -58,7 +64,7 @@ export class LoadingPageSignaler extends React.Component<LoadingPageContextType>
   }
 }
 
-type LoadingOverlayManagerSnapshot = HTMLDivElement|null;
+type LoadingOverlayManagerSnapshot = { div: HTMLDivElement, scroll: number }|null;
 
 interface LoadingOverlayManagerState {
   showOverlay: boolean;
@@ -89,28 +95,38 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
 
   getSnapshotBeforeUpdate(prevProps: LoadingOverlayManagerProps): LoadingOverlayManagerSnapshot {
     if (prevProps.location !== this.props.location && this.childrenRef.current) {
-      return this.childrenRef.current.cloneNode(true) as HTMLDivElement;
+      return {
+        div: this.childrenRef.current.cloneNode(true) as HTMLDivElement,
+        scroll: window.scrollY
+      }
     }
     return null;
   }
 
   componentDidUpdate(prevProps: LoadingOverlayManagerProps, prevState: LoadingOverlayManagerState, snapshot: LoadingOverlayManagerSnapshot) {
-    if (prevProps.location !== this.props.location) {
+    if (prevProps.location !== this.props.location &&
+        document.documentElement.hasAttribute(HTML_LOADING_ATTR)) {
       const div = this.latestSnapshotRef.current;
       if (div && snapshot) {
         div.innerHTML = '';
-        div.appendChild(snapshot);
+        div.appendChild(snapshot.div);
+        window.requestAnimationFrame(() => {
+          window.scroll({ top: snapshot.scroll, left: 0, behavior: 'instant' });
+        });
       }
     }
   }
 
   @autobind
   handleLoadStart() {
+    document.documentElement.setAttribute(HTML_LOADING_ATTR, '');
     this.setState({ showOverlay: true });
   }
 
   @autobind
   handleLoadStop() {
+    document.documentElement.removeAttribute(HTML_LOADING_ATTR);
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     this.setState({ showOverlay: false });
   }
 

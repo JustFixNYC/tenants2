@@ -12,7 +12,8 @@ module.exports = {
   "coveragePathIgnorePatterns": [
     "/node_modules/",
     "safe-mode-globals.d.ts",
-    "webpack-defined-globals.d.ts"
+    "webpack-defined-globals.d.ts",
+    "/frontend/vendor/",
   ],
   "coverageReporters": [
     "lcov",

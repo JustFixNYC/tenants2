@@ -51,6 +51,9 @@ export interface GoogleAnalyticsAPI {
     hitCallback: () => void
   }): void;
 
+  /** A custom event for when the user shakes their device. */
+  (cmd: 'send', hitType: 'event', eventCategory: 'motion', eventAction: 'shake'): void;
+
   /** A custom event for when the user toggles the hamburger menu. */
   (cmd: 'send', hitType: 'event', eventCategory: 'hamburger', eventAction: 'toggle'): void;
 

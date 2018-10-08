@@ -111,7 +111,11 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
         window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'instant' });
       }
     } else if (prevState.showOverlay === true && this.state.showOverlay === false) {
-      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+      // This works w/o the explicit requestAnimationFrame on Chrome, but not on
+      // Firefox.
+      window.requestAnimationFrame(() => {
+        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+      });
     }
   }
 

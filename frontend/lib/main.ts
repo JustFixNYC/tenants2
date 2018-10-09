@@ -2,13 +2,31 @@
 
 import { startApp, AppProps } from './app';
 import { getElement } from './util';
+import { ga } from './google-analytics';
 
 
 function polyfillSmoothScroll() {
-  if (!('scrollBehavior' in document.documentElement.style)) {
+  if (document.documentElement &&
+      !('scrollBehavior' in document.documentElement.style)) {
     import(/* webpackChunkName: "smoothscroll-polyfill" */ 'smoothscroll-polyfill')
       .then((smoothscroll) => smoothscroll.polyfill());
   }
+}
+
+function showSafeModeUiOnShake() {
+  if (!('ondevicemotion' in window)) return;
+
+  import(/* webpackChunkName: "shake" */ '../vendor/shake')
+    .then((exports) => {
+      const Shake = exports.default;
+
+      new Shake({ threshold: 15, timeout: 1000 }).start();
+
+      window.addEventListener('shake', () => {
+        ga('send', 'event', 'motion', 'shake');
+        window.SafeMode.showUI();
+      }, false);
+    });
 }
 
 window.addEventListener('load', () => {
@@ -30,6 +48,7 @@ window.addEventListener('load', () => {
 
   startApp(div, initialProps);
   polyfillSmoothScroll();
+  showSafeModeUiOnShake();
 });
 
 if (process.env.NODE_ENV !== 'production' && DISABLE_DEV_SOURCE_MAPS) {

@@ -4,6 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { defaultContext } from '../app-context';
 import { FakeAppContext } from './util';
 import chalk from 'chalk';
+import './confetti.setup';
 
 configure({ adapter: new Adapter() });
 

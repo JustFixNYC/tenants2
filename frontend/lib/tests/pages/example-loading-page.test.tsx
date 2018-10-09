@@ -8,4 +8,6 @@ test("example loading page works", () => {
     <ExampleLoadingPage />
   );
   pal.clickRadioOrCheckbox('mount');
+  pal.clickRadioOrCheckbox('error');
+  pal.clickButtonOrLink('Retry');
 });

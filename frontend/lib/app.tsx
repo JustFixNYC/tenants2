@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -55,31 +55,6 @@ const LoadableIndexPage = Loadable({
   loading: LoadingPage
 });
 
-const LoadableExamplePage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
-  loading: LoadingPage
-});
-
-const LoadableExampleFormPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
-  loading: LoadingPage
-});
-
-const LoadableExampleModalPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
-  loading: LoadingPage
-});
-
-const LoadableExampleLoadingPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
-  loading: LoadingPage
-});
-
-const LoadableClientSideErrorPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
-  loading: LoadingPage
-});
-
 const LoadableOnboardingRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
   loading: LoadingPage
@@ -87,6 +62,11 @@ const LoadableOnboardingRoutes = Loadable({
 
 const LoadableLetterOfComplaintRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
+  loading: LoadingPage
+});
+
+const LoadableDevRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "dev" */ './dev')),
   loading: LoadingPage
 });
 
@@ -196,12 +176,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.logout} exact component={LogoutPage} />
         <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
-        <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
-        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />
-        <Route path={Routes.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
-        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />
-        <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
-        <Route path={Routes.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
+        <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />
       </Switch>
     );

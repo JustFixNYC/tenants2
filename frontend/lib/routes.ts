@@ -68,14 +68,21 @@ const Routes = {
     confirmation: '/loc/confirmation'
   },
 
-  /** Example pages used in integration tests. */
-  examples: {
-    redirect: '/__example-redirect',
-    modal: '/__example-modal',
-    loadingPage: '/__example-loading-page',
-    form: '/__example-form',
-    loadable: '/__loadable-example-page',
-    clientSideError: '/__example-client-side-error',
+  /**
+   * Example pages used in integration tests, and other
+   * development-related pages.
+   */
+  dev: {
+    prefix: '/dev',
+    examples: {
+      prefix: '/dev/examples',
+      redirect: '/dev/examples/redirect',
+      modal: '/dev/examples/modal',
+      loadingPage: '/dev/examples/loading-page',
+      form: '/dev/examples/form',
+      loadable: '/dev/examples/loadable-page',
+      clientSideError: '/dev/examples/client-side-error',
+    }
   }
 };
 
@@ -110,7 +117,7 @@ export class RouteMap {
   private populate(routes: any) {
     Object.keys(routes).forEach(name => {
       const value = routes[name];
-      if (typeof(value) === 'string') {
+      if (typeof(value) === 'string' && name !== 'prefix') {
         if (value.indexOf(':') === -1) {
           this.existenceMap.set(value, true);
         } else {

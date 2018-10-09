@@ -29,7 +29,7 @@ test('getBundleFiles() filters out source maps', () => {
 test('lambda redirects', async () => {
   const response = await errorCatchingHandler({
     ...fakeAppProps,
-    initialURL: '/__example-redirect'
+    initialURL: '/dev/examples/redirect'
   });
   expect(response.status).toBe(302);
   expect(response.location).toBe('/');

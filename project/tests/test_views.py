@@ -78,22 +78,23 @@ def test_index_works_when_in_safe_mode(client):
 
 
 def test_pages_with_redirects_work(client):
-    response = client.get('/__example-redirect')
+    response = client.get('/dev/examples/redirect')
     assert response.status_code == 302
     assert response['location'] == '/'
 
 
 def test_pages_with_extra_bundles_work(client):
-    response = client.get('/__loadable-example-page')
+    response = client.get('/dev/examples/loadable-page')
     assert response.status_code == 200
     assert response.context['bundle_urls'] == [
+        '/static/frontend/dev.bundle.js',
         '/static/frontend/example-loadable-page.bundle.js',
         '/static/frontend/main.bundle.js'
     ]
 
 
 def test_pages_with_prerendered_modals_work(client):
-    response = client.get('/__example-modal')
+    response = client.get('/dev/examples/modal')
     assert response.status_code == 200
     assert 'jf-modal-dialog' in response.context['modal_html']
 
@@ -121,7 +122,7 @@ def test_fix_newlines_works():
 
 
 def test_form_submission_redirects_on_success(django_app):
-    form = django_app.get('/__example-form').forms[0]
+    form = django_app.get('/dev/examples/form').forms[0]
 
     # Sometimes browsers will munge the newlines in our own
     # hidden inputs before submitting; let's make sure that
@@ -137,7 +138,7 @@ def test_form_submission_redirects_on_success(django_app):
 
 
 def test_form_submission_shows_errors(django_app):
-    response = django_app.get('/__example-form')
+    response = django_app.get('/dev/examples/form')
     assert response.status == '200 OK'
 
     form = response.forms[0]
@@ -154,7 +155,7 @@ def test_form_submission_shows_errors(django_app):
 
 
 def test_form_submission_preserves_boolean_fields(django_app):
-    form = django_app.get('/__example-form').forms[0]
+    form = django_app.get('/dev/examples/form').forms[0]
 
     assert form['boolField'].value is None
     form['boolField'] = True
@@ -199,7 +200,7 @@ def test_unsuccessful_login_shows_error(django_app):
 
 def test_example_server_error_works(client):
     with pytest.raises(Exception, match="with id 'boop'"):
-        client.post('/__example-server-error/boop')
+        client.post('/dev/examples/server-error/boop')
 
 
 def test_favicon_works(client, staticfiles):

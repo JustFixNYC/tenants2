@@ -106,6 +106,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
         <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">GitHub</a>
         {!session.isSafeModeEnabled &&
           <a className="navbar-item" href="#" onClick={this.handleShowSafeModeUI}>Show safe mode UI</a>}
+        <Link className="navbar-item" to={Routes.dev.home}>More tools&hellip;</Link>
       </NavbarDropdown>
     );
   }

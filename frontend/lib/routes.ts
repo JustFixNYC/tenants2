@@ -1,6 +1,12 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 
 /**
+ * Special route key indicating the prefix of a set of routes,
+ * rather than a route that necessarily leads somewhere.
+ */
+export const ROUTE_PREFIX = 'prefix';
+
+/**
  * This namespace parallels our Routes object, providing useful types
  * related to specific routes.
  */
@@ -29,7 +35,7 @@ const Routes = {
 
   /** The onboarding flow. */
   onboarding: {
-    prefix: '/onboarding',
+    [ROUTE_PREFIX]: '/onboarding',
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
     step1AddressModal: '/onboarding/step/1/address-modal',
@@ -52,10 +58,10 @@ const Routes = {
 
   /** The Letter of Complaint flow. */
   loc: {
-    prefix: '/loc',
+    [ROUTE_PREFIX]: '/loc',
     home: '/loc',
     issues: {
-      prefix: '/loc/issues',
+      [ROUTE_PREFIX]: '/loc/issues',
       home: '/loc/issues',
       area: {
         parameterizedRoute: '/loc/issues/:area',
@@ -73,9 +79,10 @@ const Routes = {
    * development-related pages.
    */
   dev: {
-    prefix: '/dev',
+    [ROUTE_PREFIX]: '/dev',
+    home: '/dev',
     examples: {
-      prefix: '/dev/examples',
+      [ROUTE_PREFIX]: '/dev/examples',
       redirect: '/dev/examples/redirect',
       modal: '/dev/examples/modal',
       loadingPage: '/dev/examples/loading-page',
@@ -117,7 +124,7 @@ export class RouteMap {
   private populate(routes: any) {
     Object.keys(routes).forEach(name => {
       const value = routes[name];
-      if (typeof(value) === 'string' && name !== 'prefix') {
+      if (typeof(value) === 'string' && name !== ROUTE_PREFIX) {
         if (value.indexOf(':') === -1) {
           this.existenceMap.set(value, true);
         } else {

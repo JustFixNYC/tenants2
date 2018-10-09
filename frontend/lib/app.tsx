@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage } from './page';
+import { LoadingPage, friendlyLoad, LoadingOverlayManager } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -17,7 +17,7 @@ import Routes, { isModalRoute, routeMap } from './routes';
 import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
-import { Action } from 'history';
+import { Action, Location } from 'history';
 
 
 export interface AppProps {
@@ -50,37 +50,42 @@ interface AppState {
 }
 
 const LoadableIndexPage = Loadable({
-  loader: () => import(/* webpackChunkName: "index-page" */ './pages/index-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
   loading: LoadingPage
 });
 
 const LoadableExamplePage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
   loading: LoadingPage
 });
 
 const LoadableExampleFormPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
   loading: LoadingPage
 });
 
 const LoadableExampleModalPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
+  loading: LoadingPage
+});
+
+const LoadableExampleLoadingPage = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
   loading: LoadingPage
 });
 
 const LoadableClientSideErrorPage = Loadable({
-  loader: () => import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
   loading: LoadingPage
 });
 
 const LoadableOnboardingRoutes = Loadable({
-  loader: () => import(/* webpackChunkName: "onboarding" */ './onboarding'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
   loading: LoadingPage
 });
 
 const LoadableLetterOfComplaintRoutes = Loadable({
-  loader: () => import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint'),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
   loading: LoadingPage
 });
 
@@ -180,9 +185,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     return !!this.state.session.phoneNumber;
   }
 
-  renderRoutes(): JSX.Element {
+  renderRoutes(location: Location<any>): JSX.Element {
     return (
-      <Switch>
+      <Switch location={location}>
         <Route path={Routes.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
@@ -191,8 +196,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         <Route path={Routes.examples.redirect} exact render={() => <Redirect to="/" />} />
-        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />>
-        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />>
+        <Route path={Routes.examples.modal} exact component={LoadableExampleModalPage} />
+        <Route path={Routes.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
+        <Route path={Routes.examples.form} exact component={LoadableExampleFormPage} />
         <Route path={Routes.examples.loadable} exact component={LoadableExamplePage} />
         <Route path={Routes.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
         <Route render={NotFound} />
@@ -212,12 +218,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               <div className="hero-body">
                 <div className="container" ref={this.pageBodyRef}
                      data-jf-is-noninteractive tabIndex={-1}>
-                <Route path="/" render={(props) => {
-                  if (routeMap.exists(props.location.pathname)) {
-                    return this.renderRoutes();
-                  }
-                  return NotFound(props);
-                }} />
+                  <LoadingOverlayManager>
+                    <Route render={(props) => {
+                      if (routeMap.exists(props.location.pathname)) {
+                        return this.renderRoutes(props.location);
+                      }
+                      return NotFound(props);
+                    }}/>
+                  </LoadingOverlayManager>
                 </div>
               </div>
             </section>

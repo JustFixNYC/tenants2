@@ -218,12 +218,14 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
               <div className="hero-body">
                 <div className="container" ref={this.pageBodyRef}
                      data-jf-is-noninteractive tabIndex={-1}>
-                  <LoadingOverlayManager render={(props) => {
-                    if (routeMap.exists(props.location.pathname)) {
-                      return this.renderRoutes(props.location);
-                    }
-                    return NotFound(props);
-                  }}/>
+                  <LoadingOverlayManager>
+                    <Route render={(props) => {
+                      if (routeMap.exists(props.location.pathname)) {
+                        return this.renderRoutes(props.location);
+                      }
+                      return NotFound(props);
+                    }}/>
+                  </LoadingOverlayManager>
                 </div>
               </div>
             </section>

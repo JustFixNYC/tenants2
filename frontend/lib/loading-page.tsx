@@ -66,7 +66,7 @@ interface LoadingOverlayManagerState {
 }
 
 interface LoadingOverlayManagerProps extends RouteComponentProps<any> {
-  render: (props: RouteComponentProps<any>) => JSX.Element;
+  children: any;
 }
 
 class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState, LoadingOverlayManagerSnapshot> {
@@ -138,7 +138,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
         </CSSTransition>
       </TransitionGroup>
       <LoadingPageContext.Provider value={this.loadingPageContext}>
-        <div ref={this.childrenRef}>{this.props.render(this.props)}</div>
+        <div ref={this.childrenRef}>{this.props.children}</div>
         <div ref={this.latestSnapshotRef} hidden={!this.state.showOverlay}></div>
       </LoadingPageContext.Provider>
       </>
@@ -174,7 +174,7 @@ export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
   const start = Date.now();
 
   return new Promise<T>((resolve) => {
-    promise.finally(() => {
+    const finallyCb = () => {
       const timeElapsed = Date.now() - start;
       if (timeElapsed < IMPERCEPTIBLE_MS || timeElapsed >= FRIENDLY_LOAD_MS) {
         resolve(promise);
@@ -182,6 +182,8 @@ export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
         const ms = FRIENDLY_LOAD_MS - timeElapsed;
         window.setTimeout(() => resolve(promise), ms);
       }
-    });
+    };
+    promise.catch(finallyCb);
+    promise.then(finallyCb);
   });
 }

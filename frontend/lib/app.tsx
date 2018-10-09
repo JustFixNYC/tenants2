@@ -129,8 +129,11 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
 
   handleScrollPositionDuringPathnameChange(prevPathname: string, pathname: string, action: Action) {
     // We don't need to worry about scroll position when transitioning into a modal, and
-    // we only need to adjust it when the user is navigating to a new page.
-    if (!isModalRoute(pathname) && action === "PUSH") {
+    // we only need to adjust it when the user is navigating to a new page. This means
+    // we need to watch for history pushes (regular link clicks and such) as well
+    // as replaces (e.g. when a link goes to '/foo' which immediately redirects to
+    // '/foo/bar').
+    if (!isModalRoute(pathname) && (action === "PUSH" || action === "REPLACE")) {
       smoothlyScrollToTopOfPage();
     }
   }

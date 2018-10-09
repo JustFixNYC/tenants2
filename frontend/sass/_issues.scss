@@ -14,9 +14,26 @@
     }
 }
 
+.jf-issue-area-link:not(.jf-issue-count-zero) {
+    color: $primary;
+}
+
+.jf-issue-area-link:not(.jf-issue-count-zero):hover {
+    color: $primary;
+}
+
 .jf-issue-area-link:hover {
     color: $button-text-hover-color;
     background: $button-text-hover-background-color;
+}
+
+.jf-issue-area-link.jf-issue-count-zero .jf-issue-count {
+    display: none;
+}
+
+.jf-issue-count svg {
+    width: 1em;
+    height: 1em;
 }
 
 @keyframes jf-pulse {

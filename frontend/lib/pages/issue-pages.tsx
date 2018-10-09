@@ -21,6 +21,8 @@ import { ga } from '../google-analytics';
 import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
 
+const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
+
 type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
 
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
@@ -99,10 +101,14 @@ function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boo
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
 
         return (
-          <Link to={url} className={classnames('jf-issue-area-link', props.isHighlighted && 'jf-highlight')} title={title} aria-label={ariaLabel}>
+          <Link to={url} className={classnames(
+            'jf-issue-area-link',
+            props.isHighlighted && 'jf-highlight',
+            count === 0 && "jf-issue-count-zero"
+          )} title={title} aria-label={ariaLabel}>
             {svg}
             <p><strong>{label}</strong></p>
-            <p className="is-size-7">{issueLabel}</p>
+            <p className="is-size-7 jf-issue-count">{checkSvg} {issueLabel}</p>
           </Link>
         );
       }}

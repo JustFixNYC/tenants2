@@ -1,0 +1,22 @@
+.jf-loading-page-devtools {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background: black;
+    color: white;
+    padding: 1em;
+    z-index: 1100;
+    font-family: monospace;
+
+    label {
+        display: block;
+    }
+
+    input {
+        margin-right: 1em;
+    }
+}
+
+.jf-dev-code {
+    font-family: monospace;
+}

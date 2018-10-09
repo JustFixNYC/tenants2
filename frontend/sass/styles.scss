@@ -9,6 +9,7 @@
 @import "./_icon-link.scss";
 @import "./_loading-overlay.scss";
 @import "./_confetti.scss";
+@import "./_dev.scss";
 
 // Bulma's button default focus styling is not easy
 // to distinguish, so we'll make it stand out more here.
@@ -160,23 +161,4 @@ input:focus + .jf-checkbox-symbol {
 // word-wrap to be orphaned from the content it's associated with.
 .jf-word-glue {
     white-space: pre;
-}
-
-.jf-loading-page-devtools {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    background: black;
-    color: white;
-    padding: 1em;
-    z-index: 1100;
-    font-family: monospace;
-
-    label {
-        display: block;
-    }
-
-    input {
-        margin-right: 1em;
-    }
 }

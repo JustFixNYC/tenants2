@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import Routes, { ROUTE_PREFIX } from "./routes";
+import Routes, { routeMap } from "./routes";
 import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from './loading-page';
 import { Link } from 'react-router-dom';
@@ -32,19 +32,18 @@ const LoadableClientSideErrorPage = Loadable({
 });
 
 function DevHome(): JSX.Element {
-  const exampleLinks: JSX.Element[] = [];
+  const routeLinks: JSX.Element[] = [];
 
-  Object.entries(Routes.dev.examples).forEach(([name, path]) => {
-    if (name === ROUTE_PREFIX) return;
-    exampleLinks.push(<li key={path}><Link to={path}>{name}</Link></li>);
-  });
+  for (let path of routeMap.nonParameterizedRoutes()) {
+    routeLinks.push(<li key={path}><Link to={path} className="jf-dev-code">{path}</Link></li>);
+  }
 
   return (
     <Page title="Development tools">
       <div className="content">
         <h1>Development tools</h1>
-        <h2>Examples</h2>
-        <ol children={[exampleLinks]}/>
+        <h2>Routes</h2>
+        <ol children={[routeLinks]}/>
       </div>
     </Page>
   );

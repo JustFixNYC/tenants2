@@ -145,6 +145,13 @@ export class RouteMap {
   }
 
   /**
+   * Return an iterator that yields all routes that don't have parameters.
+   */
+  nonParameterizedRoutes(): IterableIterator<string> {
+    return this.existenceMap.keys();
+  }
+
+  /**
    * Given a concrete pathname, returns whether a route for it will
    * potentially match.
    * 

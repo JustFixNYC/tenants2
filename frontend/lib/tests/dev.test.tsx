@@ -11,6 +11,6 @@ describe("development tools home", () => {
     const pal = new AppTesterPal(<DevRoutes/>, {
       url: '/dev'
     });
-    pal.clickButtonOrLink('loadingPage');
+    pal.clickButtonOrLink(/examples\/loading-page/);
   });
 });

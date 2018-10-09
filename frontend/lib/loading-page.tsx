@@ -4,6 +4,7 @@ import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { smoothlyScrollToTopOfPage } from './scrolling';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -169,12 +170,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
     } else if (prevState.showOverlay === true && this.state.showOverlay === false) {
       // We just stopped showing the overlay, so make sure the top of the page
       // is visible.
-      //
-      // This works w/o the explicit requestAnimationFrame on Chrome, but not on
-      // Firefox.
-      window.requestAnimationFrame(() => {
-        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-      });
+      smoothlyScrollToTopOfPage();
     }
   }
 

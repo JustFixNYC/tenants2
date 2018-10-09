@@ -18,6 +18,7 @@ import Navbar from './navbar';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
+import { smoothlyScrollToTopOfPage } from './scrolling';
 
 
 export interface AppProps {
@@ -150,7 +151,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     // We don't need to worry about scroll position when transitioning into a modal, and
     // we only need to adjust it when the user is navigating to a new page.
     if (!isModalRoute(pathname) && action === "PUSH") {
-      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+      smoothlyScrollToTopOfPage();
     }
   }
 

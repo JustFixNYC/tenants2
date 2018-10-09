@@ -108,6 +108,10 @@ export function isModalRoute(...paths: string[]): boolean {
   return false;
 }
 
+export function isParameterizedRoute(path: string): boolean {
+  return path.indexOf(':') !== -1;
+}
+
 /**
  * A class that keeps track of what routes actually exist,
  * because apparently React Router is unable to do this
@@ -125,10 +129,10 @@ export class RouteMap {
     Object.keys(routes).forEach(name => {
       const value = routes[name];
       if (typeof(value) === 'string' && name !== ROUTE_PREFIX) {
-        if (value.indexOf(':') === -1) {
-          this.existenceMap.set(value, true);
-        } else {
+        if (isParameterizedRoute(value)) {
           this.parameterizedRoutes.push(value);
+        } else {
+          this.existenceMap.set(value, true);
         }
       } else if (value && typeof(value) === 'object') {
         this.populate(value);

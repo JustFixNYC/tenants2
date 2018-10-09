@@ -15,6 +15,12 @@ describe('RouteMap', () => {
     expect(map.exists('/c')).toBe(false);
   });
 
+  it('ignores route prefixes', () => {
+    const map = new RouteMap({ prefix: '/blah' });
+    expect(map.size).toEqual(0);
+    expect(map.exists('/blah')).toBe(false);
+  });
+
   it('does not double-count the same route', () => {
     const map = new RouteMap({ thing: { prefix: '/thing', home: '/thing' } });
     expect(map.size).toEqual(1);

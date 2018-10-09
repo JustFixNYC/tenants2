@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from './loading-page';
 import { Link } from 'react-router-dom';
 import Page from './page';
+import { withAppContext, AppContextType } from './app-context';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -31,23 +32,41 @@ const LoadableClientSideErrorPage = Loadable({
   loading: LoadingPage
 });
 
-function DevHome(): JSX.Element {
-  const routeLinks: JSX.Element[] = [];
+const DevHome = withAppContext((props: AppContextType): JSX.Element => {
+  const frontendRouteLinks: JSX.Element[] = [];
+  const serverRouteLinks: JSX.Element[] = [];
+
+  for (let entry of Object.entries(props.server)) {
+    const [name, path] = entry;
+    if (!/URL$/.test(name)) continue;
+    serverRouteLinks.push(
+      <React.Fragment key={path}>
+        <dt className="jf-dev-code">{name}</dt>
+        <dd><Link to={path} className="jf-dev-code">{path}</Link></dd>
+      </React.Fragment>
+    );
+  }
 
   for (let path of routeMap.nonParameterizedRoutes()) {
-    routeLinks.push(<li key={path}><Link to={path} className="jf-dev-code">{path}</Link></li>);
+    frontendRouteLinks.push(
+      <li key={path}>
+        <Link to={path} className="jf-dev-code">{path}</Link>
+      </li>
+    );
   }
 
   return (
     <Page title="Development tools">
       <div className="content">
         <h1>Development tools</h1>
-        <h2>Routes</h2>
-        <ol children={[routeLinks]}/>
+        <h2>Back-end routes</h2>
+        <dl children={[serverRouteLinks]}/>
+        <h2>Front-end routes</h2>
+        <ol children={[frontendRouteLinks]}/>
       </div>
     </Page>
   );
-}
+});
 
 export default function DevRoutes(): JSX.Element {
   return (

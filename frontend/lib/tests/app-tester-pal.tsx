@@ -2,10 +2,12 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, Route } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { History } from 'history';
+import { assertNotNull } from '../util';
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -47,6 +49,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    */
   readonly appContext: AppTesterAppContext;
 
+  /**
+   * A reference to the router's browsing history.
+   */
+  readonly history: History;
+
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
       url: '/',
@@ -62,14 +69,17 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       fetch: client.fetch,
       updateSession: jest.fn()
     };
+    let history: History|null = null;
     super(
       <MemoryRouter initialEntries={[o.url]} initialIndex={0}>
         <AppContext.Provider value={appContext}>
+          <Route render={(ctx) => { history = ctx.history; return null; }} />
           {el}
         </AppContext.Provider>
       </MemoryRouter>
     );
 
+    this.history = assertNotNull(history as History|null);
     this.appContext = appContext;
     this.client = client;
   }

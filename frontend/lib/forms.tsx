@@ -128,14 +128,6 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 
   @autobind
-  handleBlock(): string|false {
-    if (this.state.isDirty && !this.state.wasSubmittedSuccessfully) {
-      return "Are you sure you want to leave this page? You may lose data.";
-    }
-    return false;
-  }
-
-  @autobind
   handleSubmit(input: FormInput) {
     this.setState({
       isLoading: true,
@@ -170,7 +162,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
 
   render() {
     return <>
-      <HistoryBlocker onBlock={this.handleBlock} />
+      {this.state.isDirty && !this.state.wasSubmittedSuccessfully && <HistoryBlocker />}
       <Form
         isLoading={this.state.isLoading}
         errors={this.state.errors}

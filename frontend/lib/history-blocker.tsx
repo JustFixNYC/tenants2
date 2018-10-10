@@ -6,7 +6,12 @@ import { assertNotNull } from './util';
 import { isModalRoute } from './routes';
 
 
-type HistoryBlockerCb = () => string|false|undefined;
+const DEFAULT_PROMPT = (
+  "Are you sure you want to leave this page? " +
+  "Changes you made may not be saved."
+);
+
+type HistoryBlockerCb = () => boolean;
 
 type HistoryBlockerContextType = {
   block(blockCb: HistoryBlockerCb): void;
@@ -50,30 +55,27 @@ class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, M
     }
   }
 
+  shouldBlock(): boolean {
+    return this.callbacks.some(cb => cb());
+  }
+
   @autobind
   handleBeforeUnload(e: BeforeUnloadEvent): null|string {
-    const blockResult = this.handleBlock();
-    if (typeof(blockResult) === 'string') {
+    if (this.shouldBlock()) {
       e.preventDefault();
-      e.returnValue = blockResult;
-      return blockResult;
+      e.returnValue = '';
+      return '';
     }
     return null;
   }
 
   @autobind
-  handleBlock(location?: Location, action?: Action): string|false|undefined {
-    if (location && action) {
-      const fromLocation = this.props.location;
-      if (isModalRoute(fromLocation.pathname, location.pathname)) {
-        return undefined;
-      }
+  handleBlock(location: Location, action: Action): string|undefined {
+    const fromLocation = this.props.location;
+    if (isModalRoute(fromLocation.pathname, location.pathname)) {
+      return undefined;
     }
-    for (let cb of this.callbacks) {
-      const result = cb();
-      if (result) return result;
-    }
-    return undefined;
+    return this.shouldBlock() ? DEFAULT_PROMPT : undefined;
   }
 
   componentDidMount() {
@@ -98,13 +100,12 @@ class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, M
 export const HistoryBlockerManager = withRouter(HistoryBlockerManagerWithoutRouter);
 
 interface HistoryBlockerProps extends HistoryBlockerContextType {
-  onBlock: HistoryBlockerCb;
 }
 
 class HistoryBlockerWithoutContext extends React.Component<HistoryBlockerProps> {
   @autobind
-  handleBlock(): string|false|undefined {
-    return this.props.onBlock();
+  handleBlock(): boolean {
+    return true;
   }
 
   componentDidMount() {
@@ -120,11 +121,10 @@ class HistoryBlockerWithoutContext extends React.Component<HistoryBlockerProps> 
   }
 }
 
-export function HistoryBlocker(props: { onBlock: HistoryBlockerCb }): JSX.Element {
+export function HistoryBlocker(): JSX.Element {
   return (
-    <HistoryBlockerContext.Consumer children={(ctx) => {
-      const fullProps = {...ctx, ...props};
-      return <HistoryBlockerWithoutContext {...fullProps} />
-    }} />
+    <HistoryBlockerContext.Consumer children={(ctx) => (
+      <HistoryBlockerWithoutContext {...ctx} />
+    )} />
   );
 }

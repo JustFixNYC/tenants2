@@ -162,14 +162,12 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 
   get shouldBlockHistory(): boolean {
-    return !!this.props.confirmNavIfChanged &&
-      this.state.isDirty &&
-      !this.state.wasSubmittedSuccessfully;
+    return this.state.isDirty && !this.state.wasSubmittedSuccessfully;
   }
 
   render() {
     return <>
-      {this.shouldBlockHistory && <HistoryBlocker />}
+      {this.shouldBlockHistory && <HistoryBlocker reportOnly={!this.props.confirmNavIfChanged} />}
       <Form
         isLoading={this.state.isLoading}
         errors={this.state.errors}

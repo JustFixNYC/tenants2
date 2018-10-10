@@ -4,12 +4,19 @@ import autobind from 'autobind-decorator';
 import { UnregisterCallback, Location, Action } from 'history';
 import { assertNotNull } from './util';
 import { isModalRoute } from './routes';
+import { ga } from './google-analytics';
 
 
 const DEFAULT_PROMPT = (
   "Are you sure you want to leave this page? " +
   "Changes you made may not be saved."
 );
+
+export function getNavigationConfirmation(message: string, callback: (result: boolean) => void) {
+  const allowTransition = window.confirm(message);
+  ga('send', 'event', 'before-navigate', 'confirm', allowTransition ? 'ok' : 'cancel');
+  callback(allowTransition);
+}
 
 type HistoryBlockerCb = () => boolean;
 
@@ -62,8 +69,11 @@ class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, M
   @autobind
   handleBeforeUnload(e: BeforeUnloadEvent): null|string {
     if (this.shouldBlock()) {
+      // Cancel the event as defined by the HTML5 standard.
       e.preventDefault();
+      // Apparently Chrome needs this.
       e.returnValue = '';
+      ga('send', 'event', 'before-unload', 'prevent-default');
       return '';
     }
     return null;
@@ -99,12 +109,17 @@ class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, M
 
 export const HistoryBlockerManager = withRouter(HistoryBlockerManagerWithoutRouter);
 
-interface HistoryBlockerProps extends HistoryBlockerContextType {
+interface HistoryBlockerProps {
+  reportOnly?: boolean;
 }
 
-class HistoryBlockerWithoutContext extends React.Component<HistoryBlockerProps> {
+class HistoryBlockerWithoutContext extends React.Component<HistoryBlockerProps & HistoryBlockerContextType> {
   @autobind
   handleBlock(): boolean {
+    if (this.props.reportOnly) {
+      ga('send', 'event', 'before-navigate', 'no-confirm');
+      return false;
+    }
     return true;
   }
 
@@ -121,10 +136,10 @@ class HistoryBlockerWithoutContext extends React.Component<HistoryBlockerProps> 
   }
 }
 
-export function HistoryBlocker(): JSX.Element {
+export function HistoryBlocker(props: HistoryBlockerProps): JSX.Element {
   return (
     <HistoryBlockerContext.Consumer children={(ctx) => (
-      <HistoryBlockerWithoutContext {...ctx} />
+      <HistoryBlockerWithoutContext {...ctx} {...props} />
     )} />
   );
 }

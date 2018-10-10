@@ -19,7 +19,7 @@ import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
-import { HistoryBlockerManager } from './history-blocker';
+import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
 
 
 export interface AppProps {
@@ -222,7 +222,7 @@ export const App = withRouter(AppWithoutRouter);
 
 export function startApp(container: Element, initialProps: AppProps) {
   const el = (
-    <BrowserRouter>
+    <BrowserRouter getUserConfirmation={getNavigationConfirmation}>
       <App {...initialProps}/>
     </BrowserRouter>
   );

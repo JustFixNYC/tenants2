@@ -20,6 +20,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   performRedirect?: (redirect: string, history: History) => void;
+  confirmNavIfChanged?: boolean;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
@@ -160,9 +161,15 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     });
   }
 
+  get shouldBlockHistory(): boolean {
+    return !!this.props.confirmNavIfChanged &&
+      this.state.isDirty &&
+      !this.state.wasSubmittedSuccessfully;
+  }
+
   render() {
     return <>
-      {this.state.isDirty && !this.state.wasSubmittedSuccessfully && <HistoryBlocker />}
+      {this.shouldBlockHistory && <HistoryBlocker />}
       <Form
         isLoading={this.state.isLoading}
         errors={this.state.errors}

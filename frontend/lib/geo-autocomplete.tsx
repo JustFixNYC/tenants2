@@ -238,7 +238,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   handleInputValueChange(value: string) {
     this.resetSearchRequest();
-    if (value.length > 3 && value.indexOf(' ') > 0) {
+    if (value.length > 0) {
       this.setState({ isLoading: true });
       this.keyThrottleTimeout = window.setTimeout(() => {
         this.fetchResults(value).catch(this.handleFetchError);

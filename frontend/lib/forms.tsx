@@ -5,11 +5,12 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
-import { Omit, assertNotNull } from './util';
+import { Omit, assertNotNull, isDeepEqual } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
 import { History } from 'history';
+import { HistoryBlocker } from './history-blocker';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -28,7 +29,10 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
 
 type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
 
-type FormSubmitterState<FormInput> = BaseFormProps<FormInput>;
+interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
+  isDirty: boolean;
+  wasSubmittedSuccessfully: boolean;
+}
 
 /**
  * This component wraps a form and modifies its initial state with any information
@@ -111,15 +115,33 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     super(props);
     this.state = {
       isLoading: false,
-      errors: props.initialErrors
+      errors: props.initialErrors,
+      isDirty: false,
+      wasSubmittedSuccessfully: false
     };
+  }
+
+  @autobind
+  handleChange(input: FormInput) {
+    const isDirty = !isDeepEqual(this.props.initialState, input);
+    console.log(isDirty);
+    this.setState({ isDirty });
+  }
+
+  @autobind
+  handleBlock(): string|false {
+    if (this.state.isDirty && !this.state.wasSubmittedSuccessfully) {
+      return "Are you sure you want to leave this page? You may lose data.";
+    }
+    return false;
   }
 
   @autobind
   handleSubmit(input: FormInput) {
     this.setState({
       isLoading: true,
-      errors: undefined
+      errors: undefined,
+      wasSubmittedSuccessfully: false
     });
     return this.props.onSubmit(input).then(output => {
       if (output.errors.length) {
@@ -130,7 +152,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         });
       } else {
         this.setState({
-          isLoading: false
+          isLoading: false,
+          wasSubmittedSuccessfully: true
         });
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
@@ -147,18 +170,20 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 
   render() {
-    return (
+    return <>
+      <HistoryBlocker onBlock={this.handleBlock} />
       <Form
         isLoading={this.state.isLoading}
         errors={this.state.errors}
         initialState={this.props.initialState}
         onSubmit={this.handleSubmit}
+        onChange={this.handleChange}
         extraFields={this.props.extraFields}
         extraFormAttributes={this.props.extraFormAttributes}
       >
         {this.props.children}
       </Form>
-    );
+    </>
   }
 }
 
@@ -246,6 +271,7 @@ export interface BaseFormProps<FormInput> {
 
 export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
+  onChange?: (input: FormInput) => void;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
   extraFields?: JSX.Element;
@@ -275,6 +301,12 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     this.submit();
+  }
+
+  componentDidUpdate(prevProps: FormProps<FormInput>, prevState: FormInput) {
+    if (prevState !== this.state && this.props.onChange) {
+      this.props.onChange(this.state);
+    }
   }
 
   @autobind

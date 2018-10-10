@@ -19,6 +19,7 @@ import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
+import { HistoryBlockerManager } from './history-blocker';
 
 
 export interface AppProps {
@@ -188,28 +189,30 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   render() {
     return (
       <ErrorBoundary debug={this.props.server.debug}>
-        <AppContext.Provider value={this.getAppContext()}>
-          <AriaAnnouncer>
-            <section className="hero is-fullheight jf-hero">
-              <div className="hero-head">
-                <Navbar/>
-              </div>
-              <div className="hero-body">
-                <div className="container" ref={this.pageBodyRef}
-                     data-jf-is-noninteractive tabIndex={-1}>
-                  <LoadingOverlayManager>
-                    <Route render={(props) => {
-                      if (routeMap.exists(props.location.pathname)) {
-                        return this.renderRoutes(props.location);
-                      }
-                      return NotFound(props);
-                    }}/>
-                  </LoadingOverlayManager>
+        <HistoryBlockerManager>
+          <AppContext.Provider value={this.getAppContext()}>
+            <AriaAnnouncer>
+              <section className="hero is-fullheight jf-hero">
+                <div className="hero-head">
+                  <Navbar/>
                 </div>
-              </div>
-            </section>
-          </AriaAnnouncer>
-        </AppContext.Provider>
+                <div className="hero-body">
+                  <div className="container" ref={this.pageBodyRef}
+                      data-jf-is-noninteractive tabIndex={-1}>
+                    <LoadingOverlayManager>
+                      <Route render={(props) => {
+                        if (routeMap.exists(props.location.pathname)) {
+                          return this.renderRoutes(props.location);
+                        }
+                        return NotFound(props);
+                      }}/>
+                    </LoadingOverlayManager>
+                  </div>
+                </div>
+              </section>
+            </AriaAnnouncer>
+          </AppContext.Provider>
+        </HistoryBlockerManager>
       </ErrorBoundary>
     );
   }

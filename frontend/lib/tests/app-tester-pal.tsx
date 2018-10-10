@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
-import { MemoryRouter, Route, MemoryRouterProps } from "react-router";
+import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
@@ -57,6 +57,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    */
   readonly history: History;
 
+  /**
+   * The final computed options for this instance, including defaults.
+   */
+  readonly options: AppTesterPalOptions;
+
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
       url: '/',
@@ -75,21 +80,37 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     };
     let history: History|null = null;
     super(
-      <MemoryRouter initialEntries={[o.url]} initialIndex={0} {...o.router}>
-        <AppContext.Provider value={appContext}>
-          <Route render={(ctx) => { history = ctx.history; return null; }} />
-          {el}
-        </AppContext.Provider>
-      </MemoryRouter>
+      AppTesterPal.generateJsx(el, o, appContext, (ctx) => history = ctx.history)
     );
 
     this.history = assertNotNull(history as History|null);
     this.appContext = appContext;
     this.client = client;
+    this.options = o;
+  }
+
+  private static generateJsx(
+    el: JSX.Element,
+    options: AppTesterPalOptions,
+    appContext: AppContextType,
+    onRouteComponentProps: (ctx: RouteComponentProps<any>) => void = () => {},
+  ): JSX.Element {
+    return (
+      <MemoryRouter initialEntries={[options.url]} initialIndex={0} {...options.router}>
+        <AppContext.Provider value={appContext}>
+          <Route render={(ctx) => { onRouteComponentProps(ctx); return null; }} />
+          {el}
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
   }
 
   private getFirstRequest(): queuedRequest {
     return this.client.getRequestQueue()[0];
+  }
+
+  rerender(el: JSX.Element) {
+    this.rr.rerender(AppTesterPal.generateJsx(el, this.options, this.appContext));
   }
 
   /**

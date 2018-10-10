@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
-import { MemoryRouter, Route } from "react-router";
+import { MemoryRouter, Route, MemoryRouterProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
@@ -19,6 +19,9 @@ interface AppTesterPalOptions {
 
   /** Any updates to the server info. */
   server: Partial<AppServerInfo>;
+
+  /** Any updates to the memory router. */
+  router: Partial<MemoryRouterProps>;
 };
 
 /**
@@ -59,6 +62,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       url: '/',
       session: {},
       server: {},
+      router: {},
       ...options
     };
     const { client } = createTestGraphQlClient();
@@ -71,7 +75,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     };
     let history: History|null = null;
     super(
-      <MemoryRouter initialEntries={[o.url]} initialIndex={0}>
+      <MemoryRouter initialEntries={[o.url]} initialIndex={0} {...o.router}>
         <AppContext.Provider value={appContext}>
           <Route render={(ctx) => { history = ctx.history; return null; }} />
           {el}

@@ -124,7 +124,6 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   @autobind
   handleChange(input: FormInput) {
     const isDirty = !isDeepEqual(this.props.initialState, input);
-    console.log(isDirty);
     this.setState({ isDirty });
   }
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import autobind from 'autobind-decorator';
-import { UnregisterCallback } from 'history';
+import { UnregisterCallback, Location, Action } from 'history';
 import { assertNotNull } from './util';
+import { isModalRoute } from './routes';
 
 
 type HistoryBlockerCb = () => string|false|undefined;
@@ -50,16 +51,24 @@ class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, M
   }
 
   @autobind
-  handleBeforeUnload(): null|string {
-    for (let cb of this.callbacks) {
-      const result = cb();
-      if (typeof(result) === 'string') return result;
+  handleBeforeUnload(e: BeforeUnloadEvent): null|string {
+    const blockResult = this.handleBlock();
+    if (typeof(blockResult) === 'string') {
+      e.preventDefault();
+      e.returnValue = blockResult;
+      return blockResult;
     }
     return null;
   }
 
   @autobind
-  handleBlock(): string|false|undefined {
+  handleBlock(location?: Location, action?: Action): string|false|undefined {
+    if (location && action) {
+      const fromLocation = this.props.location;
+      if (isModalRoute(fromLocation.pathname, location.pathname)) {
+        return undefined;
+      }
+    }
     for (let cb of this.callbacks) {
       const result = cb();
       if (result) return result;

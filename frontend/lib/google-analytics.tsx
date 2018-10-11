@@ -51,6 +51,40 @@ export interface GoogleAnalyticsAPI {
     hitCallback: () => void
   }): void;
 
+  /**
+   * A custom event for when the user tries to unload a page that has
+   * unsaved content on it, and we ask them to confirm the action
+   * because they may lose data.
+   * 
+   * By "unload" we mean that the user tries to refresh their browser,
+   * navigate to a page that isn't in the single-page app, close their
+   * browser tab/window, and so on.
+   * 
+   * Unfortunately, we don't have the ability to (easily) report
+   * the user's ultimate choice.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'before-unload',
+   eventAction: 'prevent-default'): void;
+
+  /**
+   * A custom event for when the user tries to navigate away from a page that has
+   * unsaved content on it, and is prompted to confirm whether they want to leave or not.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'before-navigate',
+   eventAction: 'confirm', eventLabel: 'ok'|'cancel'): void;
+
+  /**
+   * A custom event for when the user navigates away from a page that has
+   * unsaved content on it, but is *not* prompted to confirm whether they
+   * want to leave or not.
+   * 
+   * This can be used e.g. to instrument how often users leave a form
+   * with unsaved data on it, but without bugging them by bringing up
+   * a modal.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'before-navigate',
+   eventAction: 'no-confirm'): void;
+
   /** A custom event for when the user shakes their device. */
   (cmd: 'send', hitType: 'event', eventCategory: 'motion', eventAction: 'shake'): void;
 

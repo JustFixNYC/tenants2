@@ -1,3 +1,5 @@
+import { deepEqual } from "assert";
+
 /**
  * Find an element.
  * 
@@ -173,4 +175,17 @@ export function exactSubsetOrDefault<Subset, Superset extends Subset>(superset: 
  */
 export function twoTuple<A, B>(a: A, b: B): [A, B] {
   return [a, b];
+}
+
+/**
+ * This just wraps assert.deepEqual() but returns a boolean instead
+ * of throwing.
+ */
+export function isDeepEqual(a: any, b: any): boolean {
+  try {
+    deepEqual(a, b);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }

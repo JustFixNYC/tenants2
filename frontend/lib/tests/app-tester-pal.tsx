@@ -2,10 +2,12 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { History } from 'history';
+import { assertNotNull } from '../util';
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -17,6 +19,9 @@ interface AppTesterPalOptions {
 
   /** Any updates to the server info. */
   server: Partial<AppServerInfo>;
+
+  /** Any updates to the memory router. */
+  router: Partial<MemoryRouterProps>;
 };
 
 /**
@@ -47,11 +52,22 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    */
   readonly appContext: AppTesterAppContext;
 
+  /**
+   * A reference to the router's browsing history.
+   */
+  readonly history: History;
+
+  /**
+   * The final computed options for this instance, including defaults.
+   */
+  readonly options: AppTesterPalOptions;
+
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
       url: '/',
       session: {},
       server: {},
+      router: {},
       ...options
     };
     const { client } = createTestGraphQlClient();
@@ -62,20 +78,47 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       fetch: client.fetch,
       updateSession: jest.fn()
     };
+    let history: History|null = null;
     super(
-      <MemoryRouter initialEntries={[o.url]} initialIndex={0}>
+      AppTesterPal.generateJsx(el, o, appContext, (ctx) => history = ctx.history)
+    );
+
+    this.history = assertNotNull(history as History|null);
+    this.appContext = appContext;
+    this.client = client;
+    this.options = o;
+  }
+
+  private static generateJsx(
+    el: JSX.Element,
+    options: AppTesterPalOptions,
+    appContext: AppContextType,
+    onRouteComponentProps: (ctx: RouteComponentProps<any>) => void = () => {},
+  ): JSX.Element {
+    return (
+      <MemoryRouter initialEntries={[options.url]} initialIndex={0} {...options.router}>
         <AppContext.Provider value={appContext}>
+          <Route render={(ctx) => { onRouteComponentProps(ctx); return null; }} />
           {el}
         </AppContext.Provider>
       </MemoryRouter>
     );
-
-    this.appContext = appContext;
-    this.client = client;
   }
 
   private getFirstRequest(): queuedRequest {
     return this.client.getRequestQueue()[0];
+  }
+
+  /**
+   * Re-render with the given JSX. This will cause
+   * React to do its diffing and unmount any components that aren't
+   * present in the given JSX anymore, and so on.
+   * 
+   * For more details, see:
+   * https://github.com/kentcdodds/react-testing-library#rerender
+   */
+  rerender(el: JSX.Element) {
+    this.rr.rerender(AppTesterPal.generateJsx(el, this.options, this.appContext));
   }
 
   /**

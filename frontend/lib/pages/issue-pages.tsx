@@ -68,6 +68,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
       <Page title={`${label} - Issue checklist`}>
         <h1 className="title jf-issue-area">{svg} {label} issues</h1>
         <SessionUpdatingFormSubmitter
+          confirmNavIfChanged
           mutation={IssueAreaMutation}
           initialState={getInitialState}
           onSuccessRedirect={Routes.loc.issues.home}

@@ -35,7 +35,7 @@ type ManagerProps = RouteComponentProps<any>;
 interface ManagerState {  
 }
 
-class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, ManagerState> {
+export class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerProps, ManagerState> {
   callbacks: HistoryBlockerCb[];
   unblockHistory: UnregisterCallback|null;
 

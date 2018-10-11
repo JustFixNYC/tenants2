@@ -22,6 +22,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   performRedirect?: (redirect: string, history: History) => void;
   confirmNavIfChanged?: boolean;
+  idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
   children: (context: FormContext<FormInput>) => JSX.Element;
@@ -175,6 +176,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         initialState={this.props.initialState}
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
+        idPrefix={this.props.idPrefix}
         extraFields={this.props.extraFields}
         extraFormAttributes={this.props.extraFormAttributes}
       >
@@ -269,6 +271,7 @@ export interface BaseFormProps<FormInput> {
 export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onSubmit: (input: FormInput) => void;
   onChange?: (input: FormInput) => void;
+  idPrefix: string;
   initialState: FormInput;
   children: (context: FormContext<FormInput>) => JSX.Element;
   extraFields?: JSX.Element;
@@ -286,6 +289,10 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     super(props);
     this.state = props.initialState;
   }
+
+  static defaultProps = {
+    idPrefix: ''
+  };
 
   @autobind
   submit() {
@@ -317,6 +324,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
       errors: this.props.errors && this.props.errors.fieldErrors[field],
       value: this.state[field],
       name: field,
+      id: `${this.props.idPrefix}${field}`,
       isDisabled: this.props.isLoading
     };
   }

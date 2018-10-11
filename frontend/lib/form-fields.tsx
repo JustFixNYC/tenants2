@@ -24,6 +24,13 @@ export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
 
   /** Whether the form field is disabled. */
   isDisabled: boolean;
+
+  /**
+   * The id attribute for the field. If the field actually contains multiple
+   * input elements, this will be the prefix of the id attribute of every
+   * element.
+   */
+  id: string;
 }
 
 /** The props for an HTML <label> element. */
@@ -59,16 +66,18 @@ export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
 /** A JSX component that encapsulates a set of radio buttons. */
 export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
       <label className="label" aria-hidden="true">{props.label}</label>
       <div className="control">
         {props.choices.map(([choice, label]) => (
-          <label className="radio jf-radio" key={choice}>
+          <label htmlFor={idFor(choice)} className="radio jf-radio" key={choice}>
             <input
               type="radio"
               name={props.name}
+              id={idFor(choice)}
               value={choice}
               checked={props.value === choice}
               aria-invalid={ariaBool(!!props.errors)}
@@ -87,10 +96,9 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
 export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
 
-  // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      <label className="label">{props.label}</label>
+      <label htmlFor={props.id} className="label">{props.label}</label>
       <div className="control">
         <div className={bulmaClasses('select', {
           'is-danger': !!props.errors
@@ -101,6 +109,7 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
             aria-label={ariaLabel}
             disabled={props.isDisabled}
             name={props.name}
+            id={props.id}
             onChange={(e) => props.onChange(e.target.value)}
           >
             <option value=""></option>
@@ -131,16 +140,18 @@ export function toggleChoice(choice: string, checked: boolean, choices: string[]
 /** A JSX component that encapsulates a set of checkboxes. */
 export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
       <label className="label" aria-hidden="true">{props.label}</label>
       <div className="control">
         {props.choices.map(([choice, label]) => (
-          <label className="checkbox jf-checkbox" key={choice}>
+          <label htmlFor={idFor(choice)} className="checkbox jf-checkbox" key={choice}>
             <input
               type="checkbox"
               name={props.name}
+              id={idFor(choice)}
               value={choice}
               checked={props.value.indexOf(choice) !== -1}
               aria-invalid={ariaBool(!!props.errors)}
@@ -164,10 +175,11 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
 
   return (
     <div className="field">
-      <label className="checkbox jf-single-checkbox">
+      <label htmlFor={props.id} className="checkbox jf-single-checkbox">
         <input
           type="checkbox"
           name={props.name}
+          id={props.id}
           checked={props.value}
           aria-invalid={ariaBool(!!props.errors)}
           disabled={props.isDisabled}
@@ -234,10 +246,9 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || 'text';
   let { ariaLabel, errorHelp } = formatErrors(props);
 
-  // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      {renderLabel(props.label, {}, props.renderLabel)}
+      {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <input
           className={bulmaClasses('input', {
@@ -247,6 +258,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
+          id={props.id}
           min={props.min}
           type={type}
           value={props.value}
@@ -264,10 +276,9 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
 
-  // TODO: Assign an id to the input and make the label point to it.
   return (
     <div className="field">
-      {renderLabel(props.label, {}, props.renderLabel)}
+      {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
           className={bulmaClasses('textarea', { 'is-danger': !!props.errors })}
@@ -275,6 +286,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
+          id={props.id}
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
         />

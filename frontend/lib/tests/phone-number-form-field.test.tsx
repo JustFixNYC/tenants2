@@ -52,6 +52,7 @@ describe("PhoneNumberFormField", () => {
       value: '123',
       onChange,
       name: 'phone',
+      id: 'phone',
       isDisabled: false
     };
     const pal = new ReactTestingLibraryPal(

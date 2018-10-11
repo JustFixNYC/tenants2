@@ -109,6 +109,14 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     return this.client.getRequestQueue()[0];
   }
 
+  /**
+   * Re-render with the given JSX. This will cause
+   * React to do its diffing and unmount any components that aren't
+   * present in the given JSX anymore, and so on.
+   * 
+   * For more details, see:
+   * https://github.com/kentcdodds/react-testing-library#rerender
+   */
   rerender(el: JSX.Element) {
     this.rr.rerender(AppTesterPal.generateJsx(el, this.options, this.appContext));
   }

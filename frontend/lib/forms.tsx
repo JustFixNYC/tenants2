@@ -5,12 +5,13 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
-import { Omit, assertNotNull, isDeepEqual } from './util';
+import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
 import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
+import { areFieldsEqual } from './form-field-equality';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -124,7 +125,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
 
   @autobind
   handleChange(input: FormInput) {
-    const isDirty = !isDeepEqual(this.props.initialState, input);
+    const isDirty = !areFieldsEqual(this.props.initialState, input);
     this.setState({ isDirty });
   }
 

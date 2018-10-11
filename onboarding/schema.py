@@ -149,6 +149,11 @@ class OnboardingStep4(SessionFormMutation):
         oi.full_clean()
         oi.save()
 
+        user.send_sms(
+            f"Welcome to JustFix, {user.first_name}!",
+            fail_silently=True
+        )
+
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
         return cls.mutation_success()

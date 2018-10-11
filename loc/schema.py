@@ -1,6 +1,7 @@
 from graphql import ResolveInfo
 import graphene
 from graphene_django.types import DjangoObjectType
+from django.forms import ModelForm
 
 from project.util.session_mutation import SessionFormMutation
 from . import forms, models
@@ -34,7 +35,7 @@ class OneToOneUserModelFormMutation(SessionFormMutation):
         return {"data": input, "instance": instance}
 
     @classmethod
-    def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
+    def perform_mutate(cls, form: ModelForm, info: ResolveInfo):
         '''
         Save the ModelForm, which will have already been populated with
         an instance of our model.
@@ -90,6 +91,23 @@ class LandlordDetails(OneToOneUserModelFormMutation):
 class LetterRequest(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LetterRequestForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
+        request = info.context
+        lr = form.save()
+        if lr.mail_choice == 'WE_WILL_MAIL':
+            lr.user.send_sms(
+                f"We'll follow up with you about your letter of complaint "
+                f"in about a week, {lr.user.first_name}.",
+                fail_silently=True
+            )
+            lr.user.send_sms(
+                f"You can also check on your letter's status by visiting "
+                f"{request.build_absolute_uri('/')}.",
+                fail_silently=True
+            )
+        return cls.mutation_success()
 
 
 class LocMutations:

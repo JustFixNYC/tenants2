@@ -251,9 +251,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <input
-          className={bulmaClasses('input', {
-            'is-danger': !!props.errors
-          })}
+          className={bulmaClasses('input', { 'is-danger': !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}

@@ -11,7 +11,7 @@ from .models import LegacyUserInfo
 
 def convert_salt_to_bytes(salt: str) -> bytes:
     '''
-    Although the JustFix tenant app's current codebase base64
+    Although the JustFix.nyc tenant app's current codebase base64
     encodes the salt, it appears that some early records
     in the database have raw binary values encoded as
     strings.

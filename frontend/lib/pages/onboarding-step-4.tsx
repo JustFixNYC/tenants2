@@ -20,7 +20,7 @@ const blankInitialState: OnboardingStep4Input = {
 };
 
 export function TermsModal(): JSX.Element {
-  const title = "JustFix Terms and Conditions";
+  const title = "JustFix.nyc Terms and Conditions";
 
   return (
     <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
@@ -51,7 +51,7 @@ export default class OnboardingStep4 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
           I agree to the {" "}
           <ModalLink to={Routes.onboarding.step4TermsModal} component={TermsModal}>
-            JustFix terms and conditions
+            JustFix.nyc terms and conditions
           </ModalLink>, which are currently unspecified.
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">

@@ -21,7 +21,7 @@ export function Welcome(): JSX.Element {
         </p>
         <ol className="has-text-left">
           <li>First, conduct a self-inspection of your apartment to document all the issues that need repair.</li>
-          <li>Review your Letter of Complaint and JustFix will mail it certified for you.</li>
+          <li>Review your Letter of Complaint and JustFix.nyc will mail it certified for you.</li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
           Add issues

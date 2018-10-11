@@ -13,6 +13,7 @@ function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T })
   return {
     onChange: jest.fn(),
     name: 'foo',
+    id: 'foo',
     isDisabled: false,
     ...props
   };

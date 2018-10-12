@@ -56,19 +56,7 @@ def deploy_local(args):
 
 
 def heroku_cli(args: List[str]):
-    call = subprocess.check_call
-
-    # At least on Windows, Heroku seems to return non-zero
-    # exit codes even when it's successful:
-    #
-    #     https://github.com/heroku/cli/issues/1051
-    #
-    # To avoid this problem we'll just ignore the exit code
-    # if we're on windows.
-    if sys.platform == 'win32':
-        call = subprocess.call
-
-    call(
+    subprocess.check_call(
         ['heroku'] + args,
         cwd=BASE_DIR,
         shell=True if sys.platform == 'win32' else False

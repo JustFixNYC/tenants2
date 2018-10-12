@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'graphene_django',
@@ -90,6 +91,8 @@ TEMPLATES = [
         },
     },
 ]
+
+SITE_ID = 1
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -238,6 +241,10 @@ TWILIO_AUTH_TOKEN = env.TWILIO_AUTH_TOKEN
 TWILIO_PHONE_NUMBER = env.TWILIO_PHONE_NUMBER
 
 TWILIO_TIMEOUT = 3
+
+SLACKBOT_WEBHOOK_URL = env.SLACKBOT_WEBHOOK_URL
+
+SLACKBOT_TIMEOUT = 3
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

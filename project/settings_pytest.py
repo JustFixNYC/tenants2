@@ -28,6 +28,7 @@ ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }
+SLACKBOT_WEBHOOK_URL = ""
 
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.

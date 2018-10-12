@@ -91,7 +91,7 @@ export class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerP
   }
 
   @autobind
-  handleBeforeUnload(e: BeforeUnloadEvent): null|string {
+  handleBeforeUnload(e: BeforeUnloadEvent): undefined|string {
     if (this.shouldBlock()) {
       // Cancel the event as defined by the HTML5 standard.
       e.preventDefault();
@@ -100,7 +100,7 @@ export class HistoryBlockerManagerWithoutRouter extends React.Component<ManagerP
       ga('send', 'event', 'before-unload', 'prevent-default');
       return '';
     }
-    return null;
+    return undefined;
   }
 
   @autobind

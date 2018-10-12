@@ -162,3 +162,57 @@ input:focus + .jf-checkbox-symbol {
 .jf-word-glue {
     white-space: pre;
 }
+
+.jf-toggle-button {
+    input {
+        @include sr-only();
+    }
+
+    label {
+        display: block;
+        border: 1px solid $button-text-color;
+        padding: 0.5em 0.5em 0.5em 2.25em;
+        cursor: pointer;
+        color: $button-text-color;
+    }
+
+    label:hover {
+        color: $button-text-hover-color;
+        background-color: $button-text-hover-background-color;
+    }
+
+    input:focus + label {
+        // TODO: Make this a mixin, maybe.
+        outline-width: 1px;
+        outline-style: dashed;
+        outline-offset: -5px;
+    }
+
+    input:checked + label:hover {
+        // Bulma doesn't have a constant defined for this, but it's
+        // how the hover color for its buttons are derived.
+        background-color: darken($primary, 2.5%);
+    }
+
+    &:not(:last-child) label {
+        border-bottom: none;
+    }
+
+    input:checked + label {
+        background: $primary;
+        color: $primary-invert;
+        border-color: $primary-invert;
+
+        // TODO: Make this background image code a mixin.
+
+        // Note that the only color present in the background
+        // image needs to be $primary-invert. If $primary ever
+        // changes drastically, the background image may need
+        // to be changed!
+        background-image: url('./img/correct8.png');
+        background-image: url('./img/correct8.svg');
+
+        background-repeat: no-repeat;
+        background-position: 0.5em 50%;
+    }
+}

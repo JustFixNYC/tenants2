@@ -166,6 +166,38 @@ export function MultiCheckboxFormField(props: MultiChoiceFormFieldProps): JSX.El
   );
 }
 
+/** A JSX component that encapsulates a set of checkboxes that look like toggle buttons. */
+export function MultiToggleButtonFormField(props: MultiChoiceFormFieldProps): JSX.Element {
+  let { ariaLabel, errorHelp } = formatErrors(props);
+  const idFor = (choice: string) => `${props.id}_${choice}`;
+
+  // TODO: Almost all the attributes for the <input> and <label> are the same as for
+  // the MultiCheckboxFormField; see if we can consolidate somehow.
+  return (
+    <div className="field" role="group" aria-label={ariaLabel}>
+      <label className="label" aria-hidden="true">{props.label}</label>
+      <div className="control">
+        {props.choices.map(([choice, label]) => (
+          <div className="jf-toggle-button" key={choice}>
+            <input
+              type="checkbox"
+              name={props.name}
+              id={idFor(choice)}
+              value={choice}
+              checked={props.value.indexOf(choice) !== -1}
+              aria-invalid={ariaBool(!!props.errors)}
+              disabled={props.isDisabled}
+              onChange={(e) => props.onChange(toggleChoice(choice, e.target.checked, props.value))}
+            />
+            <label htmlFor={idFor(choice)}>{label}</label>
+          </div>
+        ))}
+      </div>
+      {errorHelp}
+    </div>
+  );
+}
+
 export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
   children: any;
 }

@@ -11,7 +11,7 @@ import { IssueAreaInput } from '../queries/globalTypes';
 import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
+import { TextareaFormField, HiddenFormField, MultiToggleButtonFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
@@ -31,7 +31,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor('area')} />
-        <MultiCheckboxFormField
+        <MultiToggleButtonFormField
           {...ctx.fieldPropsFor('issues')}
           label="Select your issues"
           choices={issueChoicesForArea(area)}

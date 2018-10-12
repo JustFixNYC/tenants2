@@ -82,6 +82,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # specified, this must also be specified.
     TWILIO_PHONE_NUMBER: str = ''
 
+    # This is the URL of a Slack incoming webhook that will be
+    # sent messages whenever certain kinds of events occur in
+    # the app. If blank (the default), Slack integration is
+    # disabled.
+    SLACK_WEBHOOK_URL: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

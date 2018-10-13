@@ -6,29 +6,60 @@ $jf-progress-transition-ms: 1000ms;
     position: relative;
 }
 
-.jf-progress-step-enter {
-    position: absolute;
-    transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
-    top: 0;
-    left: 100%;
-    opacity: 0;
-    width: 100%;
+.jf-progress-forward {
+    .jf-progress-step-enter {
+        position: absolute;
+        transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
+        top: 0;
+        left: 100%;
+        opacity: 0;
+        width: 100%;
+    }
+
+    .jf-progress-step-enter-active {
+        left: 0;
+        opacity: 1;
+    }
+
+    .jf-progress-step-exit {
+        position: relative;
+        transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+    }
+
+    .jf-progress-step-exit-active {
+        left: -100%;
+        opacity: 0;
+    }
 }
 
-.jf-progress-step-enter-active {
-    left: 0;
-    opacity: 1;
-}
+.jf-progress-backward {
+    .jf-progress-step-enter {
+        position: absolute;
+        transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
+        top: 0;
+        left: -100%;
+        opacity: 0;
+        width: 100%;
+    }
 
-.jf-progress-step-exit {
-    position: relative;
-    transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
-    left: 0;
-    opacity: 1;
-    width: 100%;
-}
+    .jf-progress-step-enter-active {
+        left: 0;
+        opacity: 1;
+    }
 
-.jf-progress-step-exit-active {
-    left: -100%;
-    opacity: 0;
+    .jf-progress-step-exit {
+        position: relative;
+        transition: left $jf-progress-transition-ms, opacity $jf-progress-transition-ms;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+    }
+
+    .jf-progress-step-exit-active {
+        left: 100%;
+        opacity: 0;
+    }
 }

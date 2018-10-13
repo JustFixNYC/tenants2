@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
+import { isModalRoute } from './routes';
 
 
 const ANIMATION_CLASS = "jf-modal-animate";
@@ -129,7 +130,19 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       ctx.modal = this.renderServerModal();
     }
 
-    if (!this.state.isActive) {
+    if (!this.state.isActive ||
+        /**
+         * This test is a bit tricky: essentially, we want to tell if we're
+         * being transitioned out by an animation. We'll rely on the fact
+         * that modals have a special route syntax, and we'll look at
+         * props.history, which will tell us the "real" route we're on,
+         * rather than props.location, which will tell us the route
+         * that an animator wants us to *think* we're on.
+         * 
+         * This is super hacky but I can't figure out a cleaner way to
+         * do this right now.
+         */
+        !isModalRoute(this.props.history.location.pathname)) {
       return null;
     }
 

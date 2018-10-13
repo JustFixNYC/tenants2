@@ -1,6 +1,13 @@
 import React from 'react';
 import autobind from "autobind-decorator";
 import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+/**
+ * This value must be mirrored in our SCSS by a similarly-named constant,
+ * $jf-progress-transition-ms.
+ */
+export const JF_PROGRESS_TRANSITION_MS = 1000;
 
 interface ProgressBarState {
   pct: number;
@@ -77,7 +84,8 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
  * where each step is a route.
  */
 export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.Element => {
-  const { pathname } = props.location;
+  const { location } = props;
+  const { pathname } = location;
   let numSteps = props.steps.length;
   let currStep = 0;
 
@@ -94,9 +102,13 @@ export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.E
       <ProgressBar pct={pct}>
         {props.label} step {currStep} of {numSteps}
       </ProgressBar>
-      <Switch>
-        {props.steps.map(step => <Route key={step.path} {...step} />)}
-      </Switch>
+      <TransitionGroup className="jf-progress-step-wrapper">
+        <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>
+          <Switch location={location}>
+            {props.steps.map(step => <Route key={step.path} {...step} />)}
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
     </React.Fragment>
   );
 });

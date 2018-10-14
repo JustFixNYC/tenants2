@@ -84,6 +84,22 @@ interface RouteProgressBarState {
   prevStep: number;
 }
 
+export function getStepForPathname(pathname: string, steps: ProgressStepRoute[]) {
+  let currStep = 0;
+
+  steps.map((step, i) => {
+    if (pathname.indexOf(step.path) === 0) {
+      currStep = i + 1;
+    }
+  });
+
+  if (currStep === 0 && process.env.NODE_ENV !== 'production') {
+    console.warn(`Path ${pathname} is not a valid step!`);
+  }
+
+  return currStep;
+}
+
 class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {
   constructor(props: RouteProgressBarProps) {
     super(props);
@@ -94,19 +110,7 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
   }
 
   private getStep(pathname: string): number {
-    let currStep = 0;
-
-    this.props.steps.map((step, i) => {
-      if (pathname.indexOf(step.path) === 0) {
-        currStep = i + 1;
-      }
-    });
-
-    if (currStep === 0 && process.env.NODE_ENV !== 'production') {
-      console.warn(`Path ${pathname} is not a valid step!`);
-    }
-
-    return currStep;
+    return getStepForPathname(pathname, this.props.steps);
   }
 
   componentDidUpdate(prevProps: RouteProgressBarProps, prevState: RouteProgressBarState) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import autobind from "autobind-decorator";
 import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
+import { TransitionContextGroup } from './transition-context';
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -139,13 +140,13 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
         <ProgressBar pct={pct}>
           {props.label} step {currStep} of {numSteps}
         </ProgressBar>
-        <TransitionGroup className={`jf-progress-step-wrapper ${directionClass}`}>
+        <TransitionContextGroup className={`jf-progress-step-wrapper ${directionClass}`}>
           <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>
             <Switch location={location}>
               {props.steps.map(step => <Route key={step.path} {...step} />)}
             </Switch>
           </CSSTransition>
-        </TransitionGroup>
+        </TransitionContextGroup>
       </React.Fragment>
     );
   }

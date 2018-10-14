@@ -33,7 +33,7 @@ export function Welcome(): JSX.Element {
   );
 }
 
-const steps: ProgressStepRoute[] = [
+export const letterOfComplaintSteps: ProgressStepRoute[] = [
   { path: Routes.loc.home, exact: true, component: Welcome },
   { path: Routes.loc.issues.prefix, component: IssuesRoutes },
   { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
@@ -44,6 +44,6 @@ const steps: ProgressStepRoute[] = [
 
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
-    <RouteProgressBar label="Letter of Complaint" steps={steps} />
+    <RouteProgressBar label="Letter of Complaint" steps={letterOfComplaintSteps} />
   );
 }

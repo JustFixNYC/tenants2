@@ -51,9 +51,9 @@ export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper
   return { wrapper, routerContext };
 }
 
-export function mountWithRouter(child: JSX.Element, url: string = '/'): { wrapper: ReactWrapper, routerContext: RouteComponentProps<any> } {
+export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper, routerContext: RouteComponentProps<any> } {
   const { routerContext, route } = childWithRouterCtx(child);
-  const wrapper = mount(<MemoryRouter initialEntries={[url]}>{route}</MemoryRouter>);
+  const wrapper = mount(<MemoryRouter>{route}</MemoryRouter>);
   return { wrapper, routerContext };
 }
 

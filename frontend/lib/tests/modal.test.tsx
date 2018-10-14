@@ -29,8 +29,7 @@ describe('Modal', () => {
 
   it('renders body when mounted, renders nothing when closed', () => {
     const { wrapper } = mountWithRouter(
-      <Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>,
-      '/blah-modal'
+      <Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>
     );
     expect(wrapper.html()).toContain("hello");
 

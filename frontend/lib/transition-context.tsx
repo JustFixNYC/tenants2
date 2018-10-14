@@ -4,7 +4,15 @@ import { TransitionProps } from "react-transition-group/Transition";
 import { assertNotNull, Omit } from './util';
 import { TransitionGroup } from 'react-transition-group';
 
+/**
+ * This context communicates information about the current
+ * animated transition a component may be involved in. This
+ * can be used to conditionally render itself differently
+ * based on e.g. if it is being animated in or out of
+ * the viewport.
+ */
 export type TransitionContextType = {
+  /** The transition the component is currently in, if any. */
   transition: 'none'|'enter'|'exit';
 };
 
@@ -27,6 +35,10 @@ function childFactory(child: ReactElement<{ in: boolean }>): ReactElement<any> {
   />;
 }
 
+/**
+ * This is just like a <TransitionGroup>, only it provides a custom
+ * childFactory that provides each child with a TransitionContext.
+ */
 export function TransitionContextGroup(props: TransitionContextGroupProps): JSX.Element {
   return <TransitionGroup childFactory={childFactory} {...props} />;
 }

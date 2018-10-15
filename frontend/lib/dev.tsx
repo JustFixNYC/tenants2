@@ -42,7 +42,7 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
     serverRouteLinks.push(
       <React.Fragment key={path}>
         <dt className="jf-dev-code">{name}</dt>
-        <dd><Link to={path} className="jf-dev-code">{path}</Link></dd>
+        <dd><a href={path} className="jf-dev-code">{path}</a></dd>
       </React.Fragment>
     );
   }

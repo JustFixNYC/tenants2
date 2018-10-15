@@ -40,7 +40,7 @@
 // actually okay to not have any visual focus styling on
 // the element, so we'll do that here. For more details, see:
 // https://css-tricks.com/focus-styles-non-interactive-elements/
-[data-jf-is-noninteractive] {
+[data-jf-is-noninteractive]:focus {
     outline: none;
 }
 

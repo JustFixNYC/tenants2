@@ -123,7 +123,13 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       // focus isn't lost in the page transition.
       const body = this.pageBodyRef.current;
       if (body) {
-        body.focus();
+        // We're using call() here to work around the fact that TypeScript doesn't
+        // currently have the typings for this newer call signature for focus():
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+        //
+        // We want to prevent the browser from scrolling to the focus target
+        // because we're managing scrolling ourselves.
+        body.focus.call(body, { preventScroll: true });
       }
     }
   }

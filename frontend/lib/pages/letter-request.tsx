@@ -37,7 +37,7 @@ function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
 
 const LetterPreview = withAppContext((props) => (
   <div className="box has-text-centered jf-loc-preview">
-    <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
+    <iframe scrolling="no" title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
   </div>
 ));
 

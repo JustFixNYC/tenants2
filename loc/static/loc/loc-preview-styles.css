@@ -1,0 +1,21 @@
+@media screen {
+    /**
+     * The only reason this CSS file exists is to work around the fact that
+     * iOS sets the height of all IFRAME elements to their contents, but
+     * we want our letter previews to have a maximum height and be
+     * scrollable (which is actually the standard behavior for non-iOS
+     * browsers).
+     */
+    html, body {
+        box-sizing: border-box;
+        /* Note that our IFRAME container needs to have this height. */
+        max-height: 300px;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+    }
+
+    body {
+        padding: 16px;
+        margin: 0;
+    }
+}

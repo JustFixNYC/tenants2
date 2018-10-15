@@ -243,6 +243,10 @@ SLACK_WEBHOOK_URL = env.SLACK_WEBHOOK_URL
 
 SLACK_TIMEOUT = 3
 
+AIRTABLE_API_KEY = env.AIRTABLE_API_KEY
+
+AIRTABLE_URL = env.AIRTABLE_URL
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 

@@ -22,6 +22,7 @@ LANDLORD_LOOKUP_URL = "http://127.0.0.1:9999/api/landlord"
 LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
 
 # Disable a bunch of third-party integrations by default.
+AIRTABLE_API_KEY = ''
 SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''

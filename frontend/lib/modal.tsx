@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
+import { TransitionContextType, withTransitionContext } from './transition-context';
 
 
 const ANIMATION_CLASS = "jf-modal-animate";
@@ -31,7 +32,7 @@ interface ModalProps {
   onCloseGoTo: string|BackOrUpOneDirLevel;
 }
 
-type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
+type ModalPropsWithRouter = ModalProps & RouteComponentProps<any> & TransitionContextType;
 
 interface ModalState {
   isActive: boolean;
@@ -129,7 +130,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       ctx.modal = this.renderServerModal();
     }
 
-    if (!this.state.isActive) {
+    if (!this.state.isActive || this.props.transition === 'exit') {
       return null;
     }
 
@@ -154,7 +155,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   }
 }
 
-export const Modal = withRouter(ModalWithoutRouter);
+export const Modal = withRouter(withTransitionContext(ModalWithoutRouter));
 
 interface LinkToModalRouteProps extends LinkProps {
   to: string;

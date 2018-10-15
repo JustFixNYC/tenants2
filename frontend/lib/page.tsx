@@ -8,13 +8,15 @@ interface PageProps {
 }
 
 export default function Page(props: PageProps): JSX.Element {
+  // Note that we want to explicitly wrap this in a container
+  // element to make CSS transitions possible.
   return (
-    <React.Fragment>
+    <div>
       <Helmet>
         <title>JustFix.nyc - {props.title}</title>
       </Helmet>
       <AriaAnnouncement text={props.title} />
       {props.children}
-    </React.Fragment>
+    </div>
   );
 }

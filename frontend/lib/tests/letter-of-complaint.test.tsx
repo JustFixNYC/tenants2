@@ -1,10 +1,15 @@
 import React from 'react';
-import { shallowWithRouter } from "./util";
-import LetterOfComplaintRoutes, { Welcome } from '../letter-of-complaint';
+import LetterOfComplaintRoutes, { letterOfComplaintSteps } from '../letter-of-complaint';
+import { AppTesterPal } from './app-tester-pal';
 
-test("letter of complaint routes render without throwing", () => {
-  [
-    <Welcome />,
-    <LetterOfComplaintRoutes />,
-  ].forEach(child => shallowWithRouter(child).wrapper.html());
+describe("letter of complaint steps", () => {
+  afterEach(AppTesterPal.cleanup);
+
+  letterOfComplaintSteps.forEach(step => {
+    it(`${step.path} renders without throwing`, () => {
+      new AppTesterPal(<LetterOfComplaintRoutes />, {
+        url: step.path
+      });
+    });
+  });
 });

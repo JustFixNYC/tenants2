@@ -1,6 +1,14 @@
 import React from 'react';
 import autobind from "autobind-decorator";
 import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
+import { CSSTransition } from 'react-transition-group';
+import { TransitionContextGroup } from './transition-context';
+
+/**
+ * This value must be mirrored in our SCSS by a similarly-named constant,
+ * $jf-progress-transition-ms.
+ */
+export const JF_PROGRESS_TRANSITION_MS = 1000;
 
 interface ProgressBarState {
   pct: number;
@@ -71,32 +79,86 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
   label: string;
 }
 
-/**
- * This component can be used to show a progress bar that
- * represents a series of steps the user is working through,
- * where each step is a route.
- */
-export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.Element => {
-  const { pathname } = props.location;
-  let numSteps = props.steps.length;
+interface RouteProgressBarState {
+  currStep: number;
+  prevStep: number;
+}
+
+export function getStepForPathname(pathname: string, steps: ProgressStepRoute[]) {
   let currStep = 0;
 
-  props.steps.map((step, i) => {
+  steps.map((step, i) => {
     if (pathname.indexOf(step.path) === 0) {
       currStep = i + 1;
     }
   });
 
-  const pct = Math.floor((currStep / numSteps) * 100);
+  if (currStep === 0 && process.env.NODE_ENV !== 'production') {
+    console.warn(`Path ${pathname} is not a valid step!`);
+  }
 
-  return (
-    <React.Fragment>
-      <ProgressBar pct={pct}>
-        {props.label} step {currStep} of {numSteps}
-      </ProgressBar>
-      <Switch>
-        {props.steps.map(step => <Route key={step.path} {...step} />)}
-      </Switch>
-    </React.Fragment>
-  );
-});
+  return currStep;
+}
+
+class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {
+  constructor(props: RouteProgressBarProps) {
+    super(props);
+    this.state = {
+      currStep: this.getStep(props.location.pathname),
+      prevStep: 0
+    };
+  }
+
+  private getStep(pathname: string): number {
+    return getStepForPathname(pathname, this.props.steps);
+  }
+
+  componentDidUpdate(prevProps: RouteProgressBarProps, prevState: RouteProgressBarState) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      const currStep = this.getStep(this.props.location.pathname);
+      if (this.state.currStep !== currStep) {
+        const prevStep = this.getStep(prevProps.location.pathname);
+        this.setState({ currStep, prevStep });
+      }
+    }
+  }
+
+  render() {
+    const { props } = this;
+    const { location } = props;
+    let numSteps = props.steps.length;
+    let currStep = this.getStep(location.pathname);
+    const pct = Math.floor((currStep / numSteps) * 100);
+    let prevStep = this.state.prevStep;
+
+    if (currStep !== this.state.currStep) {
+      // We're in the phase while we're rendering but before componentDidUpdate() has been called,
+      // or at least before its setState() calls have taken effect.
+      prevStep = this.state.currStep;
+    }
+
+    let directionClass = currStep >= prevStep ? 'jf-progress-forward' : 'jf-progress-backward';
+
+    return (
+      <React.Fragment>
+        <ProgressBar pct={pct}>
+          {props.label} step {currStep} of {numSteps}
+        </ProgressBar>
+        <TransitionContextGroup className={`jf-progress-step-wrapper ${directionClass}`}>
+          <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>
+            <Switch location={location}>
+              {props.steps.map(step => <Route key={step.path} {...step} />)}
+            </Switch>
+          </CSSTransition>
+        </TransitionContextGroup>
+      </React.Fragment>
+    );
+  }
+}
+
+/**
+ * This component can be used to show a progress bar that
+ * represents a series of steps the user is working through,
+ * where each step is a route.
+ */
+export const RouteProgressBar = withRouter(RouteProgressBarWithoutRouter);

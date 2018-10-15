@@ -35,7 +35,8 @@ class JustfixUser(AbstractUser):
         return f"({area_code}) {first_three_digits}-{last_digits}"
 
     def send_sms(self, body: str, fail_silently=True):
-        twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
+        if hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms:
+            twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
 
     def __str__(self):
         if self.full_name:

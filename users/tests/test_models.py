@@ -1,5 +1,8 @@
+import pytest
+
 from ..models import JustfixUser
 from .factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
 
 
 def test_formatted_phone_number_works():
@@ -30,8 +33,23 @@ def test_full_name_only_renders_if_both_first_and_last_are_present():
     assert JustfixUser(last_name='Denver').full_name == ''
 
 
-def test_send_sms_works(smsoutbox):
+def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):
     user = JustfixUser(phone_number='5551234500')
+    user.send_sms('hello there')
+    assert len(smsoutbox) == 0
+
+
+@pytest.mark.django_db
+def test_send_sms_does_nothing_if_user_does_not_allow_it(smsoutbox):
+    user = OnboardingInfoFactory(can_we_sms=False).user
+    user.send_sms('hello there')
+    assert len(smsoutbox) == 0
+
+
+@pytest.mark.django_db
+def test_send_sms_works_if_user_allows_it(smsoutbox):
+    user = OnboardingInfoFactory(
+        can_we_sms=True, user__phone_number='5551234500').user
     user.send_sms('hello there')
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == '+15551234500'

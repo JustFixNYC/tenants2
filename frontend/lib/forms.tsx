@@ -146,13 +146,19 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         });
       } else {
         this.setState({
-          isLoading: false,
           wasSubmittedSuccessfully: true
         });
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
           performRedirect(redirect, this.props.history);
+        } else {
+          // Note that we only set isLoading back to false if we *don't* redirect.
+          // This is so that our user doesn't accidentally see
+          // the page appearing to no longer be in a loading state, while still
+          // having not moved on to the next page. It is especially useful in the
+          // case of e.g. transition animations.
+          this.setState({ isLoading: false });
         }
         if (this.props.onSuccess) {
           this.props.onSuccess(output);

@@ -44,6 +44,6 @@ export const letterOfComplaintSteps: ProgressStepRoute[] = [
 
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
-    <RouteProgressBar label="Letter of Complaint" steps={letterOfComplaintSteps} />
+    <RouteProgressBar label="Letter of Complaint" hideBar steps={letterOfComplaintSteps} />
   );
 }

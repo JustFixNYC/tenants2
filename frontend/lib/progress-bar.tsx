@@ -77,6 +77,9 @@ export interface ProgressStepRoute {
 interface RouteProgressBarProps extends RouteComponentProps<any> {
   steps: ProgressStepRoute[];
   label: string;
+
+  /** If true, hide the actual progress bar but still render the routes. */
+  hideBar?: boolean;
 }
 
 interface RouteProgressBarState {
@@ -141,9 +144,9 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
 
     return (
       <React.Fragment>
-        <ProgressBar pct={pct}>
+        {!this.props.hideBar && <ProgressBar pct={pct}>
           {props.label} step {currStep} of {numSteps}
-        </ProgressBar>
+         </ProgressBar>}
         <TransitionContextGroup className={`jf-progress-step-wrapper ${directionClass}`}>
           <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>
             <Switch location={location}>

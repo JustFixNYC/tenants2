@@ -38,9 +38,6 @@ class Record(pydantic.BaseModel):
     createdTime: str
 
 
-T = TypeVar('T', bound='Airtable')
-
-
 def retry_request(method: str, url: str, max_retries: int, headers: Dict[str, str],
                   **kwargs) -> requests.Response:
     attempts = 0
@@ -60,9 +57,10 @@ class Airtable:
     api_key: str
     max_retries: int
 
-    def __init__(self, url: str, api_key: str, max_retries: int=0) -> None:
-        self.url = url
-        self.api_key = api_key
+    def __init__(self, url: Optional[str]=None, api_key: Optional[str]=None,
+                 max_retries: int=0) -> None:
+        self.url = url or settings.AIRTABLE_URL
+        self.api_key = api_key or settings.AIRTABLE_API_KEY
         self.max_retries = max_retries
 
     def request(self, method: str, pathname: Optional[str]=None, data: Optional[dict]=None,
@@ -131,20 +129,13 @@ class Airtable:
             if not offset:
                 break
 
-    @classmethod
-    def from_settings(cls: Type[T]) -> T:
-        return cls(
-            url=settings.AIRTABLE_URL,
-            api_key=settings.AIRTABLE_API_KEY
-        )
-
 
 class AirtableSynchronizer:
     airtable: Airtable
 
     def __init__(self, airtable: Optional[Airtable] = None) -> None:
         if airtable is None:
-            airtable = Airtable.from_settings()
+            airtable = Airtable()
         self.airtable = airtable
 
     def _get_record_dict(self) -> Dict[int, Record]:

@@ -143,10 +143,10 @@ def test_create_or_update_updates_if_preexisting():
     airtable.get.assert_called_once_with(1)
 
 
-def test_from_settings_works(settings):
+def test_params_are_pulled_from_settings_by_default(settings):
     settings.AIRTABLE_URL = 'https://blarg'
     settings.AIRTABLE_API_KEY = 'zzz'
-    airtable = Airtable.from_settings()
+    airtable = Airtable()
     syncer = AirtableSynchronizer()
     for a in [airtable, syncer.airtable]:
         assert a.url == 'https://blarg'

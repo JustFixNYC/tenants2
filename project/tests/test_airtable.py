@@ -271,8 +271,8 @@ class TestSyncAirtableCommand:
 
         UserFactory.create()
         io = StringIO()
-        with patch('project.management.commands.syncairtable.AirtableSynchronizer') as m:
-            m.return_value = AirtableSynchronizer(FakeAirtable())
+        with patch('project.management.commands.syncairtable.Airtable') as m:
+            m.return_value = FakeAirtable()
             call_command('syncairtable', stdout=io)
         assert io.getvalue().split('\n') == [
             'Retrieving current Airtable...',

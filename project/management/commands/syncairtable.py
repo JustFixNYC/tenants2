@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.management.base import CommandError, BaseCommand
 
-from project.airtable import AirtableSynchronizer
+from project.airtable import AirtableSynchronizer, Airtable
 
 
 class Command(BaseCommand):
@@ -12,7 +12,7 @@ class Command(BaseCommand):
             raise CommandError("AIRTABLE_API_KEY must be configured.")
 
         self.stdout.write("Retrieving current Airtable...\n")
-        airtable = AirtableSynchronizer()
-        airtable.sync_users(stdout=self.stdout)
+        syncer = AirtableSynchronizer(Airtable(max_retries=99))
+        syncer.sync_users(stdout=self.stdout)
 
         self.stdout.write("Finished synchronizing with Airtable!\n")

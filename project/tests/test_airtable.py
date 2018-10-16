@@ -1,3 +1,4 @@
+import pytest
 from project.airtable import Airtable, Record, Fields
 
 
@@ -68,3 +69,22 @@ def test_update_works(requests_mock):
     airtable = Airtable('http://boop', KEY)
     record = airtable.update(Record(**RECORD), Fields(**OUR_FIELDS))
     assert record.id == 'recFLEuThPbUkwmsq'
+
+
+def test_list_works(requests_mock):
+    requests_mock.get('http://boop?pageSize=1', request_headers=BASE_HEADERS,
+                      complete_qs=True,
+                      json={'records': [RECORD], 'offset': 'blarg'})
+    airtable = Airtable('http://boop', KEY)
+    gen = airtable.list(page_size=1)
+    record = next(gen)
+    assert record.id == 'recFLEuThPbUkwmsq'
+
+    requests_mock.get('http://boop?pageSize=1&offset=blarg',
+                      request_headers=BASE_HEADERS,
+                      json={'records': [{**RECORD, 'id': 'blorp'}]})
+    record2 = next(gen)
+    assert record2.id == 'blorp'
+
+    with pytest.raises(StopIteration):
+        next(gen)

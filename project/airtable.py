@@ -8,6 +8,7 @@ import logging
 from django.conf import settings
 
 from users.models import JustfixUser
+from project.util.settings_util import ensure_dependent_settings_are_nonempty
 
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,17 @@ FT = TypeVar('FT', bound='Fields')
 RATE_LIMIT_EXCEEDED = 429
 
 RATE_LIMIT_TIMEOUT_SECS = 30
+
+
+def validate_settings():
+    '''
+    Ensure that the Airtable-related settings are defined properly.
+    '''
+
+    ensure_dependent_settings_are_nonempty(
+        'AIRTABLE_API_KEY',
+        'AIRTABLE_URL'
+    )
 
 
 class Fields(pydantic.BaseModel):

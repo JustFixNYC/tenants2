@@ -1,23 +1,11 @@
 import logging
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
 
+from project.util.settings_util import ensure_dependent_settings_are_nonempty
 
 logger = logging.getLogger(__name__)
-
-
-def _ensure_setting_is_nonempty(setting: str):
-    '''
-    Make sure the Django setting with the given name is truthy.
-    '''
-
-    if not getattr(settings, setting):
-        raise ImproperlyConfigured(
-            f"TWILIO_ACCOUNT_SID is non-empty, but "
-            f"{setting} is empty!"
-        )
 
 
 def validate_settings():
@@ -25,11 +13,10 @@ def validate_settings():
     Ensure that the Twilio-related settings are defined properly.
     '''
 
-    if not settings.TWILIO_ACCOUNT_SID:
-        # Twilio integration is disabled, no need to check anything else.
-        return
-    for setting in ['TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER']:
-        _ensure_setting_is_nonempty(setting)
+    ensure_dependent_settings_are_nonempty(
+        'TWILIO_ACCOUNT_SID',
+        'TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER'
+    )
 
 
 class JustfixHttpClient(TwilioHttpClient):

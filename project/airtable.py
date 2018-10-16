@@ -74,6 +74,8 @@ class Airtable:
         self.url = url or settings.AIRTABLE_URL
         self.api_key = api_key or settings.AIRTABLE_API_KEY
         self.max_retries = max_retries
+        if not (self.url and self.api_key):
+            raise ValueError('Configuration not provided, and Django settings not configured')
 
     def request(self, method: str, pathname: Optional[str]=None, data: Optional[dict]=None,
                 params: Optional[Dict[str, str]]=None) -> requests.Response:

@@ -153,6 +153,14 @@ def test_params_are_pulled_from_settings_by_default(settings):
         assert a.api_key == 'zzz'
 
 
+def test_error_raised_if_settings_not_configured():
+    with pytest.raises(ValueError):
+        Airtable()
+
+    with pytest.raises(ValueError):
+        AirtableSynchronizer()
+
+
 class FakeAirtable:
     def __init__(self):
         self._records = []

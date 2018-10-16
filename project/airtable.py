@@ -1,5 +1,5 @@
 import sys
-from typing import Optional, Iterator, Tuple, List, Dict, TypeVar, Type, TextIO
+from typing import Optional, Iterator, Tuple, List, Dict, TypeVar, Type, TextIO, Any
 import json
 import requests
 import pydantic
@@ -44,10 +44,17 @@ class Airtable:
         self.url = url
         self.api_key = api_key
 
-    def _get_base_headers(self) -> Dict[str, str]:
-        return {
-            'Authorization': f'Bearer {self.api_key}',
-        }
+    def request(self, method: str, pathname: Optional[str]=None, data: Optional[dict]=None,
+                params: Optional[Dict[str, str]]=None) -> requests.Response:
+        url = self.url if pathname is None else f"{self.url}/{pathname}"
+        kwargs: Dict[str, Any] = {'params': params}
+        headers = {'Authorization': f'Bearer {self.api_key}'}
+        if data is not None:
+            kwargs['data'] = json.dumps(data)
+            headers['Content-Type'] = 'application/json'
+        res = requests.request(method, url, headers=headers, **kwargs)
+        res.raise_for_status()
+        return res
 
     def create_or_update(self, fields: Fields) -> Record:
         record = self.get(fields.pk)
@@ -57,31 +64,22 @@ class Airtable:
             return self.update(record, fields)
 
     def update(self, record: Record, fields: Fields) -> Record:
-        res = requests.patch(f"{self.url}/{record.id}", headers={
-            'Content-Type': 'application/json',
-            **self._get_base_headers()
-        }, data=json.dumps({
+        res = self.request('PATCH', record.id, data={
             "fields": fields.dict()
-        }))
-        res.raise_for_status()
+        })
         return Record(**res.json())
 
     def create(self, fields: Fields) -> Record:
-        res = requests.post(self.url, headers={
-            'Content-Type': 'application/json',
-            **self._get_base_headers()
-        }, data=json.dumps({
+        res = self.request('POST', data={
             "fields": fields.dict()
-        }))
-        res.raise_for_status()
+        })
         return Record(**res.json())
 
     def get(self, pk: int) -> Optional[Record]:
-        res = requests.get(self.url, headers=self._get_base_headers(), params={
+        res = self.request('GET', params={
             'filterByFormula': f'pk={pk}',
             'maxRecords': '1',
         })
-        res.raise_for_status()
         records = res.json()['records']
         if records:
             record = records[0]
@@ -94,8 +92,7 @@ class Airtable:
         }
         if offset:
             params['offset'] = offset
-        res = requests.get(self.url, headers=self._get_base_headers(), params=params)
-        res.raise_for_status()
+        res = self.request('GET', params=params)
         result = res.json()
         next_offset = result.get('offset', '')
         records = [

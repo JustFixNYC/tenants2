@@ -1,8 +1,8 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from io import StringIO
 import pytest
 
-from project.airtable import Airtable, Record, Fields, AirtableSynchronizer
+from project.airtable import Airtable, Record, Fields, AirtableSynchronizer, logger
 from users.tests.factories import UserFactory
 
 
@@ -152,6 +152,16 @@ class FakeAirtable:
             **our_record.fields_.dict(),
             **fields.dict()
         })
+
+
+def test_multiple_rows_with_same_pk_are_logged():
+    airtable = FakeAirtable()
+    syncer = AirtableSynchronizer(airtable)
+    for i in range(2):
+        airtable.create(Fields(**OUR_FIELDS))
+    with patch.object(logger, 'warn') as m:
+        syncer._get_record_dict()
+    m.assert_called_once_with('Multiple rows with pk 1 exist in Airtable!')
 
 
 @pytest.mark.django_db

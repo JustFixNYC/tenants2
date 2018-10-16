@@ -1,4 +1,5 @@
 import sys
+import time
 from typing import Optional, Iterator, Tuple, List, Dict, TypeVar, Type, TextIO, Any
 import json
 import requests
@@ -13,6 +14,10 @@ logger = logging.getLogger(__name__)
 
 
 FT = TypeVar('FT', bound='Fields')
+
+RATE_LIMIT_EXCEEDED = 429
+
+RATE_LIMIT_TIMEOUT_SECS = 30
 
 
 class Fields(pydantic.BaseModel):
@@ -36,13 +41,29 @@ class Record(pydantic.BaseModel):
 T = TypeVar('T', bound='Airtable')
 
 
+def retry_request(method: str, url: str, max_retries: int, headers: Dict[str, str],
+                  **kwargs) -> requests.Response:
+    attempts = 0
+
+    while True:
+        res = requests.request(
+            method, url, headers=headers, timeout=settings.AIRTABLE_TIMEOUT, **kwargs)
+        attempts += 1
+        if attempts <= max_retries and res.status_code == RATE_LIMIT_EXCEEDED:
+            time.sleep(RATE_LIMIT_TIMEOUT_SECS)
+        else:
+            return res
+
+
 class Airtable:
     url: str
     api_key: str
+    max_retries: int
 
-    def __init__(self, url: str, api_key: str) -> None:
+    def __init__(self, url: str, api_key: str, max_retries: int=0) -> None:
         self.url = url
         self.api_key = api_key
+        self.max_retries = max_retries
 
     def request(self, method: str, pathname: Optional[str]=None, data: Optional[dict]=None,
                 params: Optional[Dict[str, str]]=None) -> requests.Response:
@@ -52,8 +73,7 @@ class Airtable:
         if data is not None:
             kwargs['data'] = json.dumps(data)
             headers['Content-Type'] = 'application/json'
-        res = requests.request(
-            method, url, headers=headers, timeout=settings.AIRTABLE_TIMEOUT, **kwargs)
+        res = retry_request(method, url, max_retries=self.max_retries, headers=headers, **kwargs)
         res.raise_for_status()
         return res
 

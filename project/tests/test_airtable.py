@@ -1,8 +1,11 @@
 from unittest.mock import MagicMock, patch
 from io import StringIO
 import pytest
+import requests.exceptions
 
-from project.airtable import Airtable, Record, Fields, AirtableSynchronizer, logger
+from project.airtable import (
+    Airtable, Record, Fields, AirtableSynchronizer, logger, retry_request,
+    RATE_LIMIT_TIMEOUT_SECS)
 from users.tests.factories import UserFactory
 
 
@@ -29,6 +32,36 @@ RECORD = {
 BASE_HEADERS = {
     'Authorization': f'Bearer myapikey'
 }
+
+
+class TestRetryRequest:
+    def req(self, max_retries=0):
+        with patch('time.sleep') as sleep:
+            res = retry_request('GET', 'http://foo', max_retries=max_retries, headers={})
+        self.sleep = sleep
+        return res
+
+    def test_returns_errors(self, requests_mock):
+        requests_mock.get('http://foo', status_code=500)
+        assert self.req(0).status_code == 500
+        assert self.req(10).status_code == 500
+        self.sleep.assert_not_called()
+
+    def test_never_sleeps_after_last_attempt(self, requests_mock):
+        requests_mock.get('http://foo', status_code=429)
+        assert self.req(0).status_code == 429
+        self.sleep.assert_not_called()
+
+    def test_sleeps_before_retries(self, requests_mock):
+        requests_mock.get('http://foo', status_code=429)
+        assert self.req(1).status_code == 429
+        self.sleep.called_once_with(RATE_LIMIT_TIMEOUT_SECS)
+
+
+def test_request_raises_errors_on_bad_status(requests_mock):
+    requests_mock.get(URL, status_code=500)
+    with pytest.raises(requests.exceptions.HTTPError):
+        Airtable(URL, KEY).request('GET')
 
 
 def test_get_returns_record_when_records_is_nonempty(requests_mock):

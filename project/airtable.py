@@ -179,3 +179,15 @@ class AirtableSynchronizer:
                 else:
                     stdout.write(f"Updating {user}.\n")
                     self.airtable.update(record, our_fields)
+
+
+def sync_user(user: JustfixUser):
+    if not settings.AIRTABLE_API_KEY:
+        return
+
+    fields = Fields.from_user(user)
+    airtable = Airtable(max_retries=0)
+    try:
+        airtable.create_or_update(fields)
+    except Exception:
+        logger.exception('Error while communicating with Airtable')

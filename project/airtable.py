@@ -52,7 +52,8 @@ class Airtable:
         if data is not None:
             kwargs['data'] = json.dumps(data)
             headers['Content-Type'] = 'application/json'
-        res = requests.request(method, url, headers=headers, **kwargs)
+        res = requests.request(
+            method, url, headers=headers, timeout=settings.AIRTABLE_TIMEOUT, **kwargs)
         res.raise_for_status()
         return res
 

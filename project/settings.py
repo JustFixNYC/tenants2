@@ -247,6 +247,8 @@ AIRTABLE_API_KEY = env.AIRTABLE_API_KEY
 
 AIRTABLE_URL = env.AIRTABLE_URL
 
+AIRTABLE_TIMEOUT = 3
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 

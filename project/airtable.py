@@ -163,22 +163,24 @@ class AirtableSynchronizer:
 
         return records
 
+    def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO):
+        our_fields = Fields.from_user(user)
+        record = records.get(user.pk)
+        if record is None:
+            stdout.write(f"{user} does not exist in Airtable, adding them.\n")
+            self.airtable.create(our_fields)
+        elif record.fields_ == our_fields:
+            stdout.write(f"{user} is already synced.\n")
+        else:
+            stdout.write(f"Updating {user}.\n")
+            self.airtable.update(record, our_fields)
+
     def sync_users(self, queryset=None, stdout: TextIO=sys.stdout):
         if queryset is None:
             queryset = JustfixUser.objects.all()
         records = self._get_record_dict()
         for user in queryset:
-            our_fields = Fields.from_user(user)
-            record = records.get(user.pk)
-            if record is None:
-                stdout.write(f"{user} does not exist in Airtable, adding them.\n")
-                self.airtable.create(our_fields)
-            else:
-                if record.fields_ == our_fields:
-                    stdout.write(f"{user} is already synced.\n")
-                else:
-                    stdout.write(f"Updating {user}.\n")
-                    self.airtable.update(record, our_fields)
+            self._sync_user(user, records, stdout)
 
 
 def sync_user(user: JustfixUser):

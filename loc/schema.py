@@ -5,6 +5,7 @@ from django.forms import ModelForm
 
 from project.util.session_mutation import SessionFormMutation
 from . import forms, models
+from project import airtable
 
 
 class OneToOneUserModelFormMutation(SessionFormMutation):
@@ -97,6 +98,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
         request = info.context
         lr = form.save()
         if lr.mail_choice == 'WE_WILL_MAIL':
+            airtable.sync_user(request.user)
             lr.user.send_sms(
                 f"We'll follow up with you about your letter of complaint "
                 f"in about a week, {lr.user.first_name}.",

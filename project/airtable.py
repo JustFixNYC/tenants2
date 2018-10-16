@@ -1,4 +1,4 @@
-from typing import Optional, Iterator, Tuple, List, Dict
+from typing import Optional, Iterator, Tuple, List, Dict, TypeVar, Type, TextIO
 import json
 import requests
 import pydantic
@@ -11,15 +11,19 @@ from users.models import JustfixUser
 logger = logging.getLogger(__name__)
 
 
-def get_base_headers() -> Dict[str, str]:
-    return {
-        'Authorization': f'Bearer {settings.AIRTABLE_API_KEY}',
-    }
+FT = TypeVar('FT', bound='Fields')
 
 
 class Fields(pydantic.BaseModel):
     pk: int
     Name: str = ''
+
+    @classmethod
+    def from_user(cls: Type[FT], user: JustfixUser) -> FT:
+        return cls(
+            pk=user.pk,
+            Name=user.full_name
+        )
 
 
 class Record(pydantic.BaseModel):
@@ -28,91 +32,115 @@ class Record(pydantic.BaseModel):
     createdTime: str
 
 
-def get_fields_for_user(user: JustfixUser) -> Fields:
-    return Fields(
-        pk=user.pk,
-        Name=user.full_name
-    )
+T = TypeVar('T', bound='Airtable')
 
 
-def create_or_update(fields: Fields) -> Record:
-    record = get(fields.pk)
-    if record is None:
-        return create(fields)
-    else:
-        return update(record, fields)
+class Airtable:
+    url: str
+    api_key: str
 
+    def __init__(self, url: str, api_key: str) -> None:
+        self.url = url
+        self.api_key = api_key
 
-def update(record: Record, fields: Fields) -> Record:
-    res = requests.patch(f"{settings.AIRTABLE_URL}/{record.id}", headers={
-        'Content-Type': 'application/json',
-        **get_base_headers()
-    }, data=json.dumps({
-        "fields": fields.dict()
-    }))
-    res.raise_for_status()
-    print(res.json())
-    return Record(**res.json())
+    def _get_base_headers(self) -> Dict[str, str]:
+        return {
+            'Authorization': f'Bearer {self.api_key}',
+        }
 
+    def create_or_update(self, fields: Fields) -> Record:
+        record = self.get(fields.pk)
+        if record is None:
+            return self.create(fields)
+        else:
+            return self.update(record, fields)
 
-def create(fields: Fields) -> Record:
-    res = requests.post(settings.AIRTABLE_URL, headers={
-        'Content-Type': 'application/json',
-        **get_base_headers()
-    }, data=json.dumps({
-        "fields": fields.dict()
-    }))
-    res.raise_for_status()
-    return Record(**res.json())
+    def update(self, record: Record, fields: Fields) -> Record:
+        res = requests.patch(f"{self.url}/{record.id}", headers={
+            'Content-Type': 'application/json',
+            **self._get_base_headers()
+        }, data=json.dumps({
+            "fields": fields.dict()
+        }))
+        res.raise_for_status()
+        return Record(**res.json())
 
+    def create(self, fields: Fields) -> Record:
+        res = requests.post(self.url, headers={
+            'Content-Type': 'application/json',
+            **self._get_base_headers()
+        }, data=json.dumps({
+            "fields": fields.dict()
+        }))
+        res.raise_for_status()
+        return Record(**res.json())
 
-def get(pk: int) -> Optional[Record]:
-    res = requests.get(settings.AIRTABLE_URL, headers=get_base_headers(), params={
-        'filterByFormula': f'pk={pk}',
-        'maxRecords': '1',
-    })
-    res.raise_for_status()
-    records = res.json()['records']
-    if records:
-        record = records[0]
-        return Record(**record)
-    return None
+    def get(self, pk: int) -> Optional[Record]:
+        res = requests.get(self.url, headers=self._get_base_headers(), params={
+            'filterByFormula': f'pk={pk}',
+            'maxRecords': '1',
+        })
+        res.raise_for_status()
+        records = res.json()['records']
+        if records:
+            record = records[0]
+            return Record(**record)
+        return None
 
+    def _get_list_page(self, page_size: int, offset: str) -> Tuple[List[Record], str]:
+        params = {
+            'pageSize': str(page_size),
+        }
+        if offset:
+            params['offset'] = offset
+        res = requests.get(self.url, headers=self._get_base_headers(), params=params)
+        res.raise_for_status()
+        result = res.json()
+        next_offset = result.get('offset', '')
+        records = [
+            Record(**record) for record in result['records']
+        ]
+        return (records, next_offset)
 
-def _get_list_page(page_size: int, offset: str) -> Tuple[List[Record], str]:
-    params = {
-        'pageSize': str(page_size),
-    }
-    if offset:
-        params['offset'] = offset
-    res = requests.get(settings.AIRTABLE_URL, headers=get_base_headers(), params=params)
-    res.raise_for_status()
-    result = res.json()
-    next_offset = result.get('offset', '')
-    records = [
-        Record(**record) for record in result['records']
-    ]
-    return (records, next_offset)
+    def list_(self, page_size=100) -> Iterator[Record]:
+        offset = ''
 
+        while True:
+            records, offset = self._get_list_page(page_size, offset)
+            for record in records:
+                yield record
+            if not offset:
+                break
 
-def list_(page_size=100) -> Iterator[Record]:
-    offset = ''
+    def get_record_dict(self) -> Dict[int, Record]:
+        records: Dict[int, Record] = {}
 
-    while True:
-        records, offset = _get_list_page(page_size, offset)
-        for record in records:
-            yield record
-        if not offset:
-            break
+        for record in self.list_():
+            pk = record.fields_.pk
+            if pk in records:
+                logger.warn(f"Multiple rows with pk {pk} exist in Airtable!")
+            records[record.fields_.pk] = record
 
+        return records
 
-def get_record_dict() -> Dict[int, Record]:
-    records: Dict[int, Record] = {}
+    def sync_users(self, queryset, stdout: TextIO):
+        records = self.get_record_dict()
+        for user in queryset:
+            our_fields = Fields.from_user(user)
+            record = records.get(user.pk)
+            if record is None:
+                stdout.write(f"{user} does not exist in Airtable, adding them.\n")
+                self.create(our_fields)
+            else:
+                if record.fields_ == our_fields:
+                    stdout.write(f"{user} is already synced.\n")
+                else:
+                    stdout.write(f"Updating {user}.\n")
+                    self.update(record, our_fields)
 
-    for record in list_():
-        pk = record.fields_.pk
-        if pk in records:
-            logger.warn(f"Multiple rows with pk {pk} exist in Airtable!")
-        records[record.fields_.pk] = record
-
-    return records
+    @classmethod
+    def from_settings(cls: Type[T]) -> T:
+        return cls(
+            url=settings.AIRTABLE_URL,
+            api_key=settings.AIRTABLE_API_KEY
+        )

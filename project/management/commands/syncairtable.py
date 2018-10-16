@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.management.base import CommandError, BaseCommand
 
 from users.models import JustfixUser
-from project.airtable import Airtable
+from project.airtable import AirtableSynchronizer
 
 
 class Command(BaseCommand):
@@ -13,7 +13,7 @@ class Command(BaseCommand):
             raise CommandError("AIRTABLE_API_KEY must be configured.")
 
         self.stdout.write("Retrieving current Airtable...")
-        airtable = Airtable.from_settings()
+        airtable = AirtableSynchronizer()
         airtable.sync_users(JustfixUser.objects.all(), self.stdout)
 
         self.stdout.write("Finished synchronizing with Airtable!\n")

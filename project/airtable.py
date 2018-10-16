@@ -1,3 +1,4 @@
+import sys
 from typing import Optional, Iterator, Tuple, List, Dict, TypeVar, Type, TextIO
 import json
 import requests
@@ -139,7 +140,9 @@ class AirtableSynchronizer:
 
         return records
 
-    def sync_users(self, queryset, stdout: TextIO):
+    def sync_users(self, queryset=None, stdout: TextIO=sys.stdout):
+        if queryset is None:
+            queryset = JustfixUser.objects.all()
         records = self._get_record_dict()
         for user in queryset:
             our_fields = Fields.from_user(user)

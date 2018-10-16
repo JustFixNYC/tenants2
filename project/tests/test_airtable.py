@@ -1,5 +1,9 @@
+from unittest.mock import MagicMock
+from io import StringIO
 import pytest
-from project.airtable import Airtable, Record, Fields
+
+from project.airtable import Airtable, Record, Fields, AirtableSynchronizer
+from users.tests.factories import UserFactory
 
 
 URL = 'https://api.airtable.com/v0/appEH2XUPhLwkrS66/Users'
@@ -88,3 +92,86 @@ def test_list_works(requests_mock):
 
     with pytest.raises(StopIteration):
         next(gen)
+
+
+def test_create_or_update_creates_if_nonexistent():
+    airtable = Airtable(URL, KEY)
+    airtable.get = MagicMock(return_value=None)
+    airtable.create = MagicMock(return_value='a new record')
+    assert airtable.create_or_update(Fields(**OUR_FIELDS)) == 'a new record'
+    airtable.get.assert_called_once_with(1)
+
+
+def test_create_or_update_updates_if_preexisting():
+    airtable = Airtable(URL, KEY)
+    airtable.get = MagicMock(return_value=Record(**RECORD))
+    airtable.update = MagicMock(return_value='an updated record')
+    assert airtable.create_or_update(Fields(**OUR_FIELDS)) == 'an updated record'
+    airtable.get.assert_called_once_with(1)
+
+
+def test_from_settings_works(settings):
+    settings.AIRTABLE_URL = 'https://blarg'
+    settings.AIRTABLE_API_KEY = 'zzz'
+    airtable = Airtable.from_settings()
+    syncer = AirtableSynchronizer()
+    for a in [airtable, syncer.airtable]:
+        assert a.url == 'https://blarg'
+        assert a.api_key == 'zzz'
+
+
+class FakeAirtable:
+    def __init__(self):
+        self._records = []
+        self._next_id = 1
+
+    def list(self):
+        for record in self._records:
+            yield record.copy()
+
+    def get(self, pk):
+        records = [r for r in self._records if r.fields_.pk == pk]
+        if records:
+            return records[0].copy()
+        return None
+
+    def create(self, fields):
+        record = Record(**{
+            **RECORD,
+            'id': str(self._next_id),
+            'fields': fields.dict()
+        })
+        self._next_id += 1
+        self._records.append(record.copy())
+        return record
+
+    def update(self, record, fields):
+        our_record = [r for r in self._records
+                      if r.fields_.pk == record.fields_.pk][0]
+        our_record.fields_ = Fields(**{
+            **our_record.fields_.dict(),
+            **fields.dict()
+        })
+
+
+@pytest.mark.django_db
+def test_airtable_synchronizer_works():
+    user = UserFactory.create(
+        full_name='Boop Jones', phone_number='5551234567', username='boop')
+
+    airtable = FakeAirtable()
+    syncer = AirtableSynchronizer(airtable)
+
+    def resync():
+        io = StringIO()
+        syncer.sync_users(stdout=io)
+        return io.getvalue()
+
+    assert resync() == '5551234567 (Boop Jones) does not exist in Airtable, adding them.\n'
+    assert airtable.get(user.pk).fields_.Name == 'Boop Jones'
+    assert resync() == '5551234567 (Boop Jones) is already synced.\n'
+
+    user.last_name = 'Denver'
+    user.save()
+    assert resync() == 'Updating 5551234567 (Boop Denver).\n'
+    assert airtable.get(user.pk).fields_.Name == 'Boop Denver'

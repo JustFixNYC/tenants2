@@ -10,6 +10,11 @@ BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
 LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
+ADDR_META_HELP = (
+    "This field is automatically updated when you change the address or "
+    "borough, so you generally shouldn't have to change it manually."
+)
+
 
 class InstanceChangeTracker:
     '''
@@ -137,7 +142,7 @@ class OnboardingInfo(models.Model):
         # https://stackoverflow.com/q/325041/2422398
         max_length=12,
         blank=True,
-        help_text="The user's ZIP code."
+        help_text=f"The user's ZIP code. {ADDR_META_HELP}"
     )
 
     apt_number = models.CharField(max_length=10)

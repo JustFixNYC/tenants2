@@ -62,6 +62,10 @@ def search(text: str) -> Optional[List[Feature]]:
     exception and return None.
     '''
 
+    if not settings.GEOCODING_SEARCH_URL:
+        # Geocoding is disabled.
+        return None
+
     try:
         response = requests.get(
             settings.GEOCODING_SEARCH_URL,

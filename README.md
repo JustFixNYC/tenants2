@@ -176,7 +176,14 @@ You can alternatively develop the app via [Docker][], which
 means you don't have to install any dependencies. However,
 Docker takes a bit of time to learn how to use.
 
-To set everything up, run:
+As with the non-Docker setup, you'll first want to create an environment
+file and optionally edit it as you see fit:
+
+```
+cp .justfix-env.sample .justfix-env
+```
+
+Then, to set everything up, run:
 
 ```
 bash docker-update.sh

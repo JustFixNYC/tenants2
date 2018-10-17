@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'onboarding.apps.OnboardingConfig',
     'issues.apps.IssuesConfig',
-    'loc.apps.LocConfig'
+    'loc.apps.LocConfig',
+    'airtable.apps.AirtableConfig'
 ]
 
 MIDDLEWARE = [
@@ -242,6 +243,12 @@ TWILIO_TIMEOUT = 3
 SLACK_WEBHOOK_URL = env.SLACK_WEBHOOK_URL
 
 SLACK_TIMEOUT = 3
+
+AIRTABLE_API_KEY = env.AIRTABLE_API_KEY
+
+AIRTABLE_URL = env.AIRTABLE_URL
+
+AIRTABLE_TIMEOUT = 3
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

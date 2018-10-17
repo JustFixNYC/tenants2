@@ -12,6 +12,7 @@ KEY = 'myapikey'
 OUR_FIELDS = {
     'pk': 1,
     'Name': 'Boop Jones',
+    'AdminURL': 'https://example.com/admin/users/justfixuser/1/change/',
 }
 
 ALL_FIELDS = {

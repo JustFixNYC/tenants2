@@ -6,7 +6,7 @@ from onboarding.forms import (
     OnboardingStep4Form,
 )
 from users.models import JustfixUser
-from project.tests.test_geocoding import EXAMPLE_SEARCH
+from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
 
 
 ADDRESS_FORM_DATA = {
@@ -90,6 +90,7 @@ def test_onboarding_step_4_form_validates_passwords():
     }
 
 
+@enable_fake_geocoding
 def test_onboarding_step_1_form_sets_address_to_geocoder_value(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
     form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
@@ -98,6 +99,7 @@ def test_onboarding_step_1_form_sets_address_to_geocoder_value(requests_mock):
     assert form.cleaned_data['address_verified'] is True
 
 
+@enable_fake_geocoding
 def test_onboarding_step_1_form_works_when_geocoder_is_unavailable(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, status_code=500)
     form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
@@ -106,6 +108,7 @@ def test_onboarding_step_1_form_works_when_geocoder_is_unavailable(requests_mock
     assert form.cleaned_data['address_verified'] is False
 
 
+@enable_fake_geocoding
 def test_onboarding_step_1_form_raises_err_on_invalid_address(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json={'features': []})
     form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)

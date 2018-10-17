@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import pytest
+from django.test import override_settings
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -14,6 +15,11 @@ MY_DIR = Path(__file__).parent.resolve()
 
 EXAMPLE_SEARCH = json.loads((MY_DIR / 'test_landlord_lookup_example_search.json').read_text())
 
+enable_fake_landlord_lookup = override_settings(
+    GEOCODING_SEARCH_URL='http://localhost:12345/geo',
+    LANDLORD_LOOKUP_URL='http://localhost:12345/landlord',
+)
+
 
 def mock_lookup_success(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
@@ -25,6 +31,7 @@ def mock_lookup_failure(requests_mock):
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, status_code=500)
 
 
+@enable_fake_landlord_lookup
 def test_lookup_landlord_command_works(requests_mock):
     mock_lookup_success(requests_mock)
     call_command('lookup_landlord', '150 court, brooklyn')
@@ -34,6 +41,7 @@ def test_lookup_landlord_command_works(requests_mock):
         call_command('lookup_landlord', '150 court, brooklyn')
 
 
+@enable_fake_landlord_lookup
 def test_lookup_landlord_works(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, json=EXAMPLE_SEARCH)
@@ -42,23 +50,27 @@ def test_lookup_landlord_works(requests_mock):
     assert results.address == "123 DOOMBRINGER STREET 4 11299"
 
 
+@enable_fake_landlord_lookup
 def test_lookup_landlord_returns_none_on_geocoding_500(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, status_code=500)
     assert lookup_landlord("150 court, brooklyn") is None
 
 
+@enable_fake_landlord_lookup
 def test_lookup_landlord_returns_none_on_landlord_api_500(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, status_code=500)
     assert lookup_landlord("150 court, brooklyn") is None
 
 
+@enable_fake_landlord_lookup
 def test_search_returns_none_on_request_exception(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, exc=requests.exceptions.Timeout)
     assert lookup_landlord("150 court, brooklyn") is None
 
 
+@enable_fake_landlord_lookup
 def test_search_returns_none_on_bad_result(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     requests_mock.get(settings.LANDLORD_LOOKUP_URL, json={'blarg': False})

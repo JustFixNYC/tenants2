@@ -1,4 +1,3 @@
-from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
@@ -36,12 +35,6 @@ VALID_STEP_DATA = {
 }
 
 
-@pytest.fixture
-def fake_geocoding():
-    with patch('project.geocoding.search', new=lambda text: None):
-        yield None
-
-
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
         'query { session { onboardingStep1 { aptNumber } } }'
@@ -61,14 +54,14 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
     )['data'][f'output']
 
 
-def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):
+def test_onboarding_step_1_validates_data(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client, firstName='')
     assert len(ob['errors']) > 0
     assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
-def test_onboarding_step_1_works(graphql_client, fake_geocoding):
+def test_onboarding_step_1_works(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client)
     assert ob['errors'] == []
     assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
@@ -95,7 +88,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client, fake_geocoding, smsoutbox):
+def test_onboarding_works(graphql_client, smsoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
@@ -117,7 +110,7 @@ def test_onboarding_works(graphql_client, fake_geocoding, smsoutbox):
 
 
 @pytest.mark.django_db
-def test_onboarding_works_without_password(graphql_client, fake_geocoding):
+def test_onboarding_works_without_password(graphql_client):
     result = execute_onboarding(graphql_client, {
         **VALID_STEP_DATA,
         4: {

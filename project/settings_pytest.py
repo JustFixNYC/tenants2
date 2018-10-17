@@ -13,15 +13,9 @@ TWILIO_ACCOUNT_SID = ''
 TWILIO_AUTH_TOKEN = ''
 TWILIO_PHONE_NUMBER = ''
 
-# We don't want any actual network requests to go out
-# while we're testing, so just point these at a
-# nonexistent localhost port.
-GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
-GEOCODING_TIMEOUT = 0.001
-LANDLORD_LOOKUP_URL = "http://127.0.0.1:9999/api/landlord"
-LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
-
 # Disable a bunch of third-party integrations by default.
+GEOCODING_SEARCH_URL = ""
+LANDLORD_LOOKUP_URL = ""
 AIRTABLE_API_KEY = ''
 SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''

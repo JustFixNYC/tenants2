@@ -1,7 +1,7 @@
 import pytest
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from .test_landlord_lookup import mock_lookup_success
+from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -156,6 +156,7 @@ def test_landlord_details_is_null_when_user_has_no_onboarding_info(graphql_clien
 
 
 @pytest.mark.django_db
+@enable_fake_landlord_lookup
 def test_landlord_details_are_created_when_user_has_onboarding_info(
     graphql_client,
     requests_mock

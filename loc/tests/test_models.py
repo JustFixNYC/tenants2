@@ -4,7 +4,8 @@ import pytest
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.models import AccessDate, LetterRequest, LandlordDetails
-from .test_landlord_lookup import mock_lookup_success, mock_lookup_failure
+from .test_landlord_lookup import (
+    mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
 
 
 @pytest.mark.django_db
@@ -33,6 +34,7 @@ class TestCreateLookupForUser:
         assert LandlordDetails.create_lookup_for_user(user) is None
 
     @pytest.mark.django_db
+    @enable_fake_landlord_lookup
     def test_returns_empty_instance_if_lookup_fails(self, requests_mock):
         mock_lookup_failure(requests_mock)
         oi = OnboardingInfoFactory()
@@ -43,6 +45,7 @@ class TestCreateLookupForUser:
         assert info.is_looked_up is False
 
     @pytest.mark.django_db
+    @enable_fake_landlord_lookup
     def test_returns_filled_instance_if_lookup_succeeds(self, requests_mock):
         mock_lookup_success(requests_mock)
         oi = OnboardingInfoFactory()

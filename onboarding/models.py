@@ -1,6 +1,7 @@
 from django.db import models
 
 from project.common_data import Choices
+from project import geocoding
 from users.models import JustfixUser
 
 
@@ -13,6 +14,10 @@ class OnboardingInfo(models.Model):
     '''
     The details a user filled out when they joined the site.
     '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__remember_original_addr_values()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -36,6 +41,13 @@ class OnboardingInfo(models.Model):
     borough = models.CharField(
         max_length=20, choices=BOROUGH_CHOICES.choices,
         help_text="The New York City borough the user's address is in."
+    )
+
+    zipcode = models.CharField(
+        # https://stackoverflow.com/q/325041/2422398
+        max_length=12,
+        blank=True,
+        help_text="The user's ZIP code."
     )
 
     apt_number = models.CharField(max_length=10)
@@ -84,3 +96,44 @@ class OnboardingInfo(models.Model):
             f"{self.user.full_name}'s onboarding info from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
+
+    def __remember_original_addr_values(self):
+        self.__original_address = self.address
+        self.__original_borough = self.borough
+        self.__original_zipcode = self.zipcode
+
+    def __should_lookup_new_addr_metadata(self) -> bool:
+        if not self.full_address:
+            # We can't even look up address metadata without a
+            # full address.
+            return False
+
+        if not self.zipcode:
+            # We have full address information but no
+            # address metadata, so let's look it up!
+            return True
+
+        has_addr_changed = (self.__original_address != self.address or
+                            self.__original_borough != self.borough)
+        if has_addr_changed and self.__original_zipcode == self.zipcode:
+            # The address information has changed but our address
+            # metadata has not, so let's look it up again.
+            return True
+
+        return False
+
+    def lookup_addr_metadata(self):
+        features = geocoding.search(self.full_address)
+        if features:
+            self.zipcode = features[0].properties.postalcode
+
+    def maybe_lookup_new_addr_metadata(self) -> bool:
+        if self.__should_lookup_new_addr_metadata():
+            self.lookup_addr_metadata()
+            self.__remember_original_addr_values()
+            return True
+        return False
+
+    def save(self, *args, **kwargs):
+        self.maybe_lookup_new_addr_metadata()
+        return super().save(*args, **kwargs)

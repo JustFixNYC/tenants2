@@ -52,6 +52,12 @@ class TestAddrMetadataLookup:
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
 
+    def test_no_lookup_when_addr_and_metadata_have_changed(self):
+        info = self.mkinfo_with_metadata()
+        info.address = '120 zzz street'
+        info.zipcode = '12345'
+        assert info.maybe_lookup_new_addr_metadata() is False
+
     def test_no_lookup_when_metadata_exists_and_nothing_changed(self):
         info = self.mkinfo_with_metadata()
         assert info.maybe_lookup_new_addr_metadata() is False

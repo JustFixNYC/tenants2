@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.management.base import CommandError, BaseCommand
 
-from project.airtable import AirtableSynchronizer, Airtable
+from airtable.sync import AirtableSynchronizer, Airtable
 
 
 class Command(BaseCommand):

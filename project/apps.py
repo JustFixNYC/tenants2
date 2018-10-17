@@ -11,10 +11,8 @@ class DefaultConfig(AppConfig):
 
     def ready(self):
         from project import twilio
-        from project import airtable
 
         twilio.validate_settings()
-        airtable.validate_settings()
 
         if settings.DEBUG:
             from project.util import schema_json

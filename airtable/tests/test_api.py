@@ -1,14 +1,8 @@
 from unittest.mock import MagicMock, patch
-from io import StringIO
 import pytest
 import requests.exceptions
-from django.core.management import call_command
-from django.core.management.base import CommandError
 
-from project.airtable import (
-    Airtable, Record, Fields, AirtableSynchronizer, logger, retry_request,
-    RATE_LIMIT_TIMEOUT_SECS, sync_user)
-from users.tests.factories import UserFactory
+from ..api import Airtable, Record, Fields, retry_request, RATE_LIMIT_TIMEOUT_SECS
 
 
 URL = 'https://api.airtable.com/v0/appEH2XUPhLwkrS66/Users'
@@ -34,6 +28,11 @@ RECORD = {
 BASE_HEADERS = {
     'Authorization': f'Bearer myapikey'
 }
+
+
+def configure_airtable_settings(settings, url='https://blarg', api_key='zzz'):
+    settings.AIRTABLE_URL = url
+    settings.AIRTABLE_API_KEY = api_key
 
 
 class TestRetryRequest:
@@ -145,138 +144,13 @@ def test_create_or_update_updates_if_preexisting():
     airtable.get.assert_called_once_with(1)
 
 
-def configure_airtable_settings(settings, url='https://blarg', api_key='zzz'):
-    settings.AIRTABLE_URL = url
-    settings.AIRTABLE_API_KEY = api_key
-
-
 def test_params_are_pulled_from_settings_by_default(settings):
     configure_airtable_settings(settings)
     airtable = Airtable()
-    syncer = AirtableSynchronizer()
-    for a in [airtable, syncer.airtable]:
-        assert a.url == 'https://blarg'
-        assert a.api_key == 'zzz'
+    assert airtable.url == 'https://blarg'
+    assert airtable.api_key == 'zzz'
 
 
 def test_error_raised_if_settings_not_configured():
     with pytest.raises(ValueError):
         Airtable()
-
-    with pytest.raises(ValueError):
-        AirtableSynchronizer()
-
-
-class FakeAirtable:
-    def __init__(self):
-        self._records = []
-        self._next_id = 1
-
-    def list(self):
-        for record in self._records:
-            yield record.copy()
-
-    def get(self, pk):
-        records = [r for r in self._records if r.fields_.pk == pk]
-        if records:
-            return records[0].copy()
-        return None
-
-    def create(self, fields):
-        record = Record(**{
-            **RECORD,
-            'id': str(self._next_id),
-            'fields': fields.dict()
-        })
-        self._next_id += 1
-        self._records.append(record.copy())
-        return record
-
-    def update(self, record, fields):
-        our_record = [r for r in self._records
-                      if r.fields_.pk == record.fields_.pk][0]
-        our_record.fields_ = Fields(**{
-            **our_record.fields_.dict(),
-            **fields.dict()
-        })
-
-
-def test_multiple_rows_with_same_pk_are_logged():
-    airtable = FakeAirtable()
-    syncer = AirtableSynchronizer(airtable)
-    for i in range(2):
-        airtable.create(Fields(**OUR_FIELDS))
-    with patch.object(logger, 'warn') as m:
-        syncer._get_record_dict()
-    m.assert_called_once_with('Multiple rows with pk 1 exist in Airtable!')
-
-
-@pytest.mark.django_db
-def test_airtable_synchronizer_works():
-    user = UserFactory.create(
-        full_name='Boop Jones', phone_number='5551234567', username='boop')
-
-    airtable = FakeAirtable()
-    syncer = AirtableSynchronizer(airtable)
-
-    def resync():
-        io = StringIO()
-        syncer.sync_users(stdout=io)
-        return io.getvalue()
-
-    assert resync() == '5551234567 (Boop Jones) does not exist in Airtable, adding them.\n'
-    assert airtable.get(user.pk).fields_.Name == 'Boop Jones'
-    assert resync() == '5551234567 (Boop Jones) is already synced.\n'
-
-    user.last_name = 'Denver'
-    user.save()
-    assert resync() == 'Updating 5551234567 (Boop Denver).\n'
-    assert airtable.get(user.pk).fields_.Name == 'Boop Denver'
-
-
-class TestSyncUser:
-    def test_is_noop_if_airtable_is_disabled(self):
-        sync_user(None)
-
-    @pytest.mark.django_db
-    def test_exceptions_are_caught_and_logged(self, settings):
-        configure_airtable_settings(settings)
-        user = UserFactory()
-        with patch('project.airtable.Airtable') as constructor_mock:
-            airtable_mock = MagicMock()
-            airtable_mock.create_or_update.side_effect = Exception('kabooom')
-            constructor_mock.return_value = airtable_mock
-            with patch.object(logger, 'exception') as m:
-                sync_user(user)
-        m.assert_called_once_with('Error while communicating with Airtable')
-
-    @pytest.mark.django_db
-    def test_it_works(self, settings):
-        configure_airtable_settings(settings)
-        user = UserFactory()
-        with patch('project.airtable.Airtable'):
-            with patch.object(logger, 'exception') as m:
-                sync_user(user)
-        m.assert_not_called()
-
-
-class TestSyncAirtableCommand:
-    def test_it_raises_error_when_settings_are_not_defined(self):
-        with pytest.raises(CommandError, match='AIRTABLE_API_KEY must be configured'):
-            call_command('syncairtable')
-
-    @pytest.mark.django_db
-    def test_it_works(self, settings):
-        configure_airtable_settings(settings)
-
-        UserFactory.create()
-        io = StringIO()
-        with patch('project.management.commands.syncairtable.Airtable') as m:
-            m.return_value = FakeAirtable()
-            call_command('syncairtable', stdout=io)
-        assert io.getvalue().split('\n') == [
-            'Retrieving current Airtable...',
-            '5551234567 (Boop Jones) does not exist in Airtable, adding them.',
-            'Finished synchronizing with Airtable!',
-            ''
-        ]

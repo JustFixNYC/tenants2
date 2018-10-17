@@ -30,11 +30,6 @@ BASE_HEADERS = {
 }
 
 
-def configure_airtable_settings(settings, url='https://blarg', api_key='zzz'):
-    settings.AIRTABLE_URL = url
-    settings.AIRTABLE_API_KEY = api_key
-
-
 class TestRetryRequest:
     def req(self, max_retries=0):
         with patch('time.sleep') as sleep:
@@ -142,15 +137,3 @@ def test_create_or_update_updates_if_preexisting():
     airtable.update = MagicMock(return_value='an updated record')
     assert airtable.create_or_update(Fields(**OUR_FIELDS)) == 'an updated record'
     airtable.get.assert_called_once_with(1)
-
-
-def test_params_are_pulled_from_settings_by_default(settings):
-    configure_airtable_settings(settings)
-    airtable = Airtable()
-    assert airtable.url == 'https://blarg'
-    assert airtable.api_key == 'zzz'
-
-
-def test_error_raised_if_settings_not_configured():
-    with pytest.raises(ValueError):
-        Airtable()

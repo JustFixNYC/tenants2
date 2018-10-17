@@ -4,7 +4,8 @@ from django.core.management.base import CommandError
 from unittest.mock import MagicMock, patch
 import pytest
 
-from .test_api import OUR_FIELDS, configure_airtable_settings
+from .test_api import OUR_FIELDS
+from .test_settings import configure_airtable_settings
 from .fake_airtable import FakeAirtable
 from users.tests.factories import UserFactory
 from ..record import Fields

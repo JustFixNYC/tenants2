@@ -5,7 +5,10 @@ from airtable.sync import AirtableSynchronizer, Airtable
 
 
 class Command(BaseCommand):
-    help = 'Synchronize with Airtable.'
+    help = (
+        'Synchronize all users with Airtable, retrying if the rate '
+        'limit is exceeded.'
+    )
 
     def handle(self, *args, **options):
         if not settings.AIRTABLE_API_KEY:

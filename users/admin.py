@@ -12,6 +12,7 @@ from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
 import loc.admin
+import airtable.sync
 
 
 ISSUE_COUNT = "_issue_count"
@@ -86,6 +87,10 @@ class JustfixUserAdmin(UserAdmin):
             )
         })
         return queryset
+
+    def save_model(self, request, obj: JustfixUser, form, change):
+        super().save_model(request, obj, form, change)
+        airtable.sync.sync_user(obj)
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

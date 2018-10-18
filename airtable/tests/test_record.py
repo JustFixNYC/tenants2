@@ -3,7 +3,7 @@ import datetime
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from loc.tests.factories import LetterRequestFactory
+from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
 from airtable.record import Fields
 
 
@@ -21,6 +21,8 @@ def test_from_user_works_with_minimal_user():
     assert fields.phone_number == '5551234567'
     assert fields.onboarding_info__can_we_sms is False
     assert fields.letter_request__created_at is None
+    assert fields.landlord_details__name == ''
+    assert fields.landlord_details__address == ''
 
 
 @pytest.mark.django_db
@@ -44,3 +46,11 @@ def test_from_user_works_with_letter_request():
     assert fields.letter_request__created_at == datetime.date.today().isoformat()
     assert fields.letter_request__admin_pdf_url == \
         f'https://example.com/loc/admin/{lr.user.pk}/letter.pdf'
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_landlord_details():
+    ld = LandlordDetailsFactory()
+    fields = Fields.from_user(ld.user)
+    assert fields.landlord_details__name == 'Landlordo Calrissian'
+    assert fields.landlord_details__address == '1 Cloud City'

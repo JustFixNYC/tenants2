@@ -20,6 +20,8 @@ EXAMPLE_FIELDS = {
     'letter_request_date': '2018-01-02',
     'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
     'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
+    'landlord_name': 'Landlordo Calrissian',
+    'landlord_address': '1 Cloud City'
 }
 
 
@@ -102,6 +104,12 @@ class Fields(pydantic.BaseModel):
 
     # A link to the letter of complaint PDF.
     letter_request__admin_pdf_url: str = pydantic.Schema(default='', alias='letter_pdf_url')
+
+    # The tenant's landlord's name.
+    landlord_details__name: str = pydantic.Schema(default='', alias='landlord_name')
+
+    # The tenant's landlord's address.
+    landlord_details__address: str = pydantic.Schema(default='', alias='landlord_address')
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:

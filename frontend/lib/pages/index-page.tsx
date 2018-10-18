@@ -16,6 +16,17 @@ export default class IndexPage extends React.Component<IndexPageProps> {
     return (
       <Page title="Technology for Housing Justice">
         <div className="content">
+
+          <section className="hero is-link is-fullheight is-fullheight-with-navbar">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">
+                  Fullheight hero with navbar
+                </h1>
+              </div>
+            </div>
+          </section>
+
         <h1>Need repairs in your apartment? JustFix.nyc will mail a letter to your landlord!</h1>
         <p>
           Sending a letter of complaint to your landlord will help document all the issues that need to be fixed.

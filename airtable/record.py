@@ -9,12 +9,19 @@ T = TypeVar('T', bound='Fields')
 
 
 def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
+    '''
+    Given a field name that may have double underscores in it to indicate
+    that it spans relationships, find the given user field and
+    return it, potentially changing its type for use with Airtable.
+    '''
+
     attrs = field.name.split('__')
     obj = user
 
     final_attr = attrs[-1]
     for attr in attrs[:-1]:
         if not hasattr(obj, attr):
+            # The optional spanned relationship doesn't exist.
             return field.default
         obj = getattr(obj, attr)
 
@@ -33,6 +40,21 @@ class Fields(pydantic.BaseModel):
     only the fields we care about and control: the Airtable will
     likely contain extra fields that matter to users, but that
     we don't care about for the purposes of syncing.
+
+    The names of the fields are either attributes of our
+    user model, or they are attributes of related models, which
+    are named using Django's syntax for lookups that span
+    relationships [1]:
+
+    > To span a relationship, just use the field name of related
+    > fields across models, separated by double underscores,
+    > until you get to the field you want.
+
+    In some cases, we use pydantic's "alias" feature to ensure
+    that the Airtable field name is more readable than the
+    notation we use internally.
+
+    [1] https://docs.djangoproject.com/en/2.1/topics/db/queries/
     '''
 
     # The primary key of the JustfixUser that the row represents.

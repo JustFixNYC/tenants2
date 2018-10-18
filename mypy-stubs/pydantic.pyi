@@ -7,7 +7,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs) -> None:
         ...
 
-    def dict(self) -> Dict[str, Any]:
+    def dict(self, by_alias=False) -> Dict[str, Any]:
         ...
 
 

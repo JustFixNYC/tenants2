@@ -7,8 +7,17 @@ from users.models import JustfixUser
 T = TypeVar('T', bound='Fields')
 
 
-def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field):
-    return getattr(user, field.name)
+def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
+    attrs = field.name.split('__')
+    obj = user
+
+    final_attr = attrs[-1]
+    for attr in attrs[:-1]:
+        if not hasattr(obj, attr):
+            return field.default
+        obj = getattr(obj, attr)
+
+    return getattr(obj, final_attr)
 
 
 class Fields(pydantic.BaseModel):
@@ -20,7 +29,7 @@ class Fields(pydantic.BaseModel):
     '''
 
     # The primary key of the JustfixUser that the row represents.
-    pk: int
+    pk: int = -1
 
     # The user's first name.
     first_name: str = ''
@@ -31,6 +40,12 @@ class Fields(pydantic.BaseModel):
     # The admin URL where the user info can be viewed/changed.
     admin_url: str = ''
 
+    # The user's phone number.
+    phone_number: str = ''
+
+    # Whether we can SMS the user.
+    onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias='can_we_sms')
+
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:
         '''
@@ -39,8 +54,8 @@ class Fields(pydantic.BaseModel):
 
         kwargs: Dict[str, Any] = {}
 
-        for field_name, field in cls.__fields__.items():
-            kwargs[field_name] = get_user_field_for_airtable(user, field)
+        for field in cls.__fields__.values():
+            kwargs[field.alias] = get_user_field_for_airtable(user, field)
 
         return cls(**kwargs)
 

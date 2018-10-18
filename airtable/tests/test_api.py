@@ -14,6 +14,8 @@ OUR_FIELDS = {
     'first_name': 'Boop',
     'last_name': 'Jones',
     'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
+    'phone_number': '5551234560',
+    'can_we_sms': False
 }
 
 ALL_FIELDS = {
@@ -57,7 +59,7 @@ class TestRetryRequest:
 
 
 def test_request_raises_errors_on_bad_status(requests_mock):
-    requests_mock.get(URL, status_code=500)
+    requests_mock.get(URL, status_code=422)
     with pytest.raises(requests.exceptions.HTTPError):
         Airtable(URL, KEY).request('GET')
 

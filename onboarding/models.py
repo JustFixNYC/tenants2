@@ -179,10 +179,39 @@ class OnboardingInfo(models.Model):
         return BOROUGH_CHOICES.get_label(self.borough)
 
     @property
+    def city(self) -> str:
+        '''
+        The city of the user. This will be the same as the borough name,
+        except we use "New York" instead of "Manhattan".
+        '''
+
+        if not self.borough:
+            return ''
+        if self.borough == BOROUGH_CHOICES.MANHATTAN:
+            return 'New York'
+        return self.borough_label
+
+    @property
     def full_address(self) -> str:
+        '''Return the full address for purposes of geolocation, etc.'''
+
         if not (self.borough and self.address):
             return ''
         return f"{self.address}, {self.borough_label}"
+
+    @property
+    def address_lines_for_mailing(self) -> List[str]:
+        '''Return the full mailing address as a list of lines.'''
+
+        result: List[str] = []
+        if self.address:
+            result.append(self.address)
+        if self.apt_number:
+            result.append(f"Apartment {self.apt_number}")
+        if self.borough:
+            result.append(f"{self.city}, NY {self.zipcode}".strip())
+
+        return result
 
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):

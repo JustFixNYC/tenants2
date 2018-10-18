@@ -1,6 +1,7 @@
 import pytest
 
 from users.tests.factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue
 from loc.models import LandlordDetails
 from loc.views import (
@@ -46,13 +47,23 @@ def test_letter_html_works(admin_client):
 
 @pytest.mark.django_db
 def test_letter_html_includes_expected_content(client):
-    user = UserFactory(first_name="Bobby", last_name="Denver")
+    info = OnboardingInfoFactory(
+        user__full_name="Bobby Denver",
+        address="1 Times Square",
+        borough="MANHATTAN",
+        apt_number="301",
+        zipcode="11201"
+    )
+    user = info.user
     Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
     client.force_login(user)
     res = client.get('/loc/letter.html')
     html = res.content.decode('utf-8')
 
     assert 'Bobby Denver' in html
+    assert '1 Times Square' in html
+    assert 'Apartment 301' in html
+    assert 'New York, NY 11201' in html
 
     # Make sure the section symbol is in there, to ensure that
     # we don't have any unicode issues.

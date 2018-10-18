@@ -23,6 +23,20 @@ def test_borough_label_works():
     info.borough = 'STATEN_ISLAND'
     assert info.borough_label == 'Staten Island'
 
+    info.borough = 'MANHATTAN'
+    assert info.borough_label == 'Manhattan'
+
+
+def test_city_works():
+    info = OnboardingInfo()
+    assert info.city == ''
+
+    info.borough = 'STATEN_ISLAND'
+    assert info.city == 'Staten Island'
+
+    info.borough = 'MANHATTAN'
+    assert info.city == 'New York'
+
 
 def test_full_address_works():
     info = OnboardingInfo()
@@ -33,6 +47,23 @@ def test_full_address_works():
 
     info.address = '123 Boop street'
     assert info.full_address == '123 Boop street, Staten Island'
+
+
+def test_address_lines_for_mailing():
+    info = OnboardingInfo()
+    assert info.address_lines_for_mailing == []
+
+    info.address = "150 Boop Way"
+    assert info.address_lines_for_mailing == ["150 Boop Way"]
+
+    info.apt_number = "2"
+    assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2"]
+
+    info.borough = "MANHATTAN"
+    assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "New York, NY"]
+
+    info.zipcode = "11201"
+    assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "New York, NY 11201"]
 
 
 class TestAddrMetadataLookup:

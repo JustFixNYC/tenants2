@@ -18,11 +18,14 @@ class Fields(pydantic.BaseModel):
     # The primary key of the JustfixUser that the row represents.
     pk: int
 
-    # The user's full name.
-    Name: str = ''
+    # The user's first name.
+    first_name: str = ''
+
+    # The user's last name.
+    last_name: str = ''
 
     # The admin URL where the user info can be viewed/changed.
-    AdminURL: str = ''
+    admin_url: str = ''
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:
@@ -32,8 +35,9 @@ class Fields(pydantic.BaseModel):
 
         return cls(
             pk=user.pk,
-            Name=user.full_name,
-            AdminURL=user.admin_url
+            first_name=user.first_name,
+            last_name=user.last_name,
+            admin_url=user.admin_url
         )
 
 

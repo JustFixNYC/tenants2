@@ -11,5 +11,6 @@ def test_from_user_works_with_minimal_user():
     )
     fields = Fields.from_user(user)
     assert fields.pk == user.pk
-    assert fields.Name == 'Bobby Denver'
-    assert fields.AdminURL == f'https://example.com/admin/users/justfixuser/{user.pk}/change/'
+    assert fields.first_name == 'Bobby'
+    assert fields.last_name == 'Denver'
+    assert fields.admin_url == f'https://example.com/admin/users/justfixuser/{user.pk}/change/'

@@ -11,8 +11,9 @@ KEY = 'myapikey'
 
 OUR_FIELDS = {
     'pk': 1,
-    'Name': 'Boop Jones',
-    'AdminURL': 'https://example.com/admin/users/justfixuser/1/change/',
+    'first_name': 'Boop',
+    'last_name': 'Jones',
+    'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
 }
 
 ALL_FIELDS = {
@@ -66,7 +67,7 @@ def test_get_returns_record_when_records_is_nonempty(requests_mock):
                       json={'records': [RECORD]})
     airtable = Airtable(URL, KEY)
     record = airtable.get(1)
-    assert record.fields_.Name == 'Boop Jones'
+    assert record.fields_.first_name == 'Boop'
 
 
 def test_get_returns_none_when_records_is_empty(requests_mock):

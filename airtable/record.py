@@ -10,6 +10,9 @@ T = TypeVar('T', bound='Fields')
 
 # Example values for the Fields class (defined below). Note that the
 # keys are the names of the fields as they should appear in Airtable.
+#
+# To accelerate the creation of an Airtable base with these fields,
+# consider using the "exampleairtablecsv" management command.
 EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Number" field with an "Integer" format.
     'pk': 1,

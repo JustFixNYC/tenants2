@@ -93,7 +93,8 @@ class Airtable:
         if res.status_code == UNPROCESSABLE_ENTITY:
             logger.error(
                 f"It's likely that you need to add or change a field in your Airtable. "
-                f"Hopefully this error message will help: {res.text}"
+                f"Hopefully this error message will help: {res.text}\n\n"
+                f"This error occurred when submitting the following data: {data}"
             )
         res.raise_for_status()
         return res

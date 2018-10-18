@@ -213,6 +213,12 @@ class OnboardingInfo(models.Model):
 
         return result
 
+    @property
+    def address_for_mailing(self) -> str:
+        '''Return the full mailing address as a string.'''
+
+        return '\n'.join(self.address_lines_for_mailing)
+
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):
             return super().__str__()

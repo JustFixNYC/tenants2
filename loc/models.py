@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from project.common_data import Choices
+from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
 
@@ -119,6 +120,20 @@ class LetterRequest(models.Model):
         max_length=30,
         choices=LOC_MAILING_CHOICES.choices,
         help_text="How the letter of complaint will be mailed.")
+
+    @property
+    def admin_pdf_url(self) -> str:
+        '''
+        A link where an administrative/staff user can view the
+        letter of complaint as a PDF.
+
+        If we don't have enough information to generate such a link,
+        this will be an empty string.
+        '''
+
+        if self.pk is None:
+            return ''
+        return absolute_reverse('loc_for_user', kwargs={'user_id': self.user.pk})
 
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):

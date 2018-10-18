@@ -1,4 +1,4 @@
-from typing import TypeVar, Type, Dict, Any
+from typing import TypeVar, Type, Dict, Any, Optional
 import datetime
 import pydantic
 
@@ -6,6 +6,21 @@ from users.models import JustfixUser
 
 
 T = TypeVar('T', bound='Fields')
+
+
+# Example values for the Fields class (defined below). Note that the
+# keys are the names of the fields as they should appear in Airtable.
+EXAMPLE_FIELDS = {
+    'pk': 1,
+    'first_name': 'Boop',
+    'last_name': 'Jones',
+    'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
+    'phone_number': '5551234560',
+    'can_we_sms': False,
+    'letter_request_date': '2018-01-02',
+    'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
+    'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
+}
 
 
 def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
@@ -76,7 +91,17 @@ class Fields(pydantic.BaseModel):
     onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias='can_we_sms')
 
     # When the user's letter of complaint was requested.
-    letter_request__created_at: str = ''
+    letter_request__created_at: Optional[str] = pydantic.Schema(
+        # Note that it's important to set dates to None/null in Airtable if they don't
+        # exist, as Airtable will complain that it can't parse the value if we give it
+        # an empty string.
+        default=None, alias='letter_request_date')
+
+    # The tenant's full mailing address.
+    onboarding_info__address_for_mailing: str = pydantic.Schema(default='', alias='address')
+
+    # A link to the letter of complaint PDF.
+    letter_request__admin_pdf_url: str = pydantic.Schema(default='', alias='letter_pdf_url')
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:

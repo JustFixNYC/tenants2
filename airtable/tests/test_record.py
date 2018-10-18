@@ -20,7 +20,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.admin_url == f'https://example.com/admin/users/justfixuser/{user.pk}/change/'
     assert fields.phone_number == '5551234567'
     assert fields.onboarding_info__can_we_sms is False
-    assert fields.letter_request__created_at == ''
+    assert fields.letter_request__created_at is None
 
 
 @pytest.mark.django_db
@@ -28,6 +28,8 @@ def test_from_user_works_with_onboarded_user():
     info = OnboardingInfoFactory(can_we_sms=True)
     fields = Fields.from_user(info.user)
     assert fields.onboarding_info__can_we_sms is True
+    assert fields.onboarding_info__address_for_mailing == \
+        "150 court street\nApartment 2\nBrooklyn, NY"
 
     info.can_we_sms = False
     info.save()
@@ -40,3 +42,5 @@ def test_from_user_works_with_letter_request():
     lr = LetterRequestFactory()
     fields = Fields.from_user(lr.user)
     assert fields.letter_request__created_at == datetime.date.today().isoformat()
+    assert fields.letter_request__admin_pdf_url == \
+        f'https://example.com/loc/admin/{lr.user.pk}/letter.pdf'

@@ -2,22 +2,13 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests.exceptions
 
+from ..record import EXAMPLE_FIELDS as OUR_FIELDS
 from ..api import Airtable, Record, Fields, retry_request, RATE_LIMIT_TIMEOUT_SECS
 
 
 URL = 'https://api.airtable.com/v0/appEH2XUPhLwkrS66/Users'
 
 KEY = 'myapikey'
-
-OUR_FIELDS = {
-    'pk': 1,
-    'first_name': 'Boop',
-    'last_name': 'Jones',
-    'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
-    'phone_number': '5551234560',
-    'can_we_sms': False,
-    'letter_request__created_at': '2018-01-02'
-}
 
 ALL_FIELDS = {
     **OUR_FIELDS,

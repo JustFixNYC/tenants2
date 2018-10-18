@@ -11,17 +11,40 @@ T = TypeVar('T', bound='Fields')
 # Example values for the Fields class (defined below). Note that the
 # keys are the names of the fields as they should appear in Airtable.
 EXAMPLE_FIELDS = {
+    # In Airtable, this should be a "Number" field with an "Integer" format.
     'pk': 1,
+
+    # In Airtable, this should be a "Single line text" field.
     'first_name': 'Boop',
+
+    # In Airtable, this should be a "Single line text" field.
     'last_name': 'Jones',
+
+    # In Airtable, this should be a "URL" field.
     'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
+
+    # In Airtable, this should be a "Phone number" field.
     'phone_number': '5551234560',
+
+    # In Airtable, this should be a "Checkbox" field.
     'can_we_sms': False,
+
+    # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
+
+    # In Airtable, this should be a "Long text" field.
     'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
+
+    # In Airtable, this should be a "URL" field.
     'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
+
+    # In Airtable, this should be a "Single line text" field.
     'landlord_name': 'Landlordo Calrissian',
+
+    # In Airtable, this should be a "Long text" field.
     'landlord_address': '1 Cloud City',
+
+    # In Airtable, this should be a "Checkbox" field.
     'will_we_mail_letter': True
 }
 

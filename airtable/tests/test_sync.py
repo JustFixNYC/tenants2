@@ -36,13 +36,13 @@ def test_airtable_synchronizer_works():
         return io.getvalue()
 
     assert resync() == '5551234567 (Boop Jones) does not exist in Airtable, adding them.\n'
-    assert airtable.get(user.pk).fields_.Name == 'Boop Jones'
+    assert airtable.get(user.pk).fields_.last_name == 'Jones'
     assert resync() == '5551234567 (Boop Jones) is already synced.\n'
 
     user.last_name = 'Denver'
     user.save()
     assert resync() == 'Updating 5551234567 (Boop Denver).\n'
-    assert airtable.get(user.pk).fields_.Name == 'Boop Denver'
+    assert airtable.get(user.pk).fields_.last_name == 'Denver'
 
 
 class TestSyncUser:

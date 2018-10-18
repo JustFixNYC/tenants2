@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
-from django.urls import reverse
 
 from project.util.admin_util import admin_field
 from . import models
@@ -41,12 +40,13 @@ class LetterRequestInline(admin.StackedInline):
         short_description="Letter of complaint actions",
         allow_tags=True
     )
-    def loc_actions(self, obj):
-        if obj.pk is None:
+    def loc_actions(self, obj: models.LetterRequest):
+        url = obj.admin_pdf_url
+        if not url:
             return 'This user has not yet completed the letter of complaint process.'
         return format_html(
             '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
-            reverse('loc_for_user', kwargs={'user_id': obj.user.pk})
+            url
         )
 
 

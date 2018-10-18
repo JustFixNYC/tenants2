@@ -2,18 +2,13 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests.exceptions
 
+from ..record import EXAMPLE_FIELDS as OUR_FIELDS
 from ..api import Airtable, Record, Fields, retry_request, RATE_LIMIT_TIMEOUT_SECS
 
 
 URL = 'https://api.airtable.com/v0/appEH2XUPhLwkrS66/Users'
 
 KEY = 'myapikey'
-
-OUR_FIELDS = {
-    'pk': 1,
-    'Name': 'Boop Jones',
-    'AdminURL': 'https://example.com/admin/users/justfixuser/1/change/',
-}
 
 ALL_FIELDS = {
     **OUR_FIELDS,
@@ -56,7 +51,7 @@ class TestRetryRequest:
 
 
 def test_request_raises_errors_on_bad_status(requests_mock):
-    requests_mock.get(URL, status_code=500)
+    requests_mock.get(URL, status_code=422)
     with pytest.raises(requests.exceptions.HTTPError):
         Airtable(URL, KEY).request('GET')
 
@@ -66,7 +61,7 @@ def test_get_returns_record_when_records_is_nonempty(requests_mock):
                       json={'records': [RECORD]})
     airtable = Airtable(URL, KEY)
     record = airtable.get(1)
-    assert record.fields_.Name == 'Boop Jones'
+    assert record.fields_.first_name == 'Boop'
 
 
 def test_get_returns_none_when_records_is_empty(requests_mock):

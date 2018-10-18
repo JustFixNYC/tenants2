@@ -12,6 +12,11 @@ from .record import Record, Fields
 logger = logging.getLogger(__name__)
 
 
+# The HTTP status code returned by Airtable when it can't process
+# something we gave it. This is usually caused because we're giving
+# it fields that aren't currently in its schema.
+UNPROCESSABLE_ENTITY = 422
+
 # The HTTP status code returned by Airtable when its rate limit has
 # been exceeded. From Airtable's documentation:
 #
@@ -85,6 +90,12 @@ class Airtable:
             kwargs['data'] = json.dumps(data)
             headers['Content-Type'] = 'application/json'
         res = retry_request(method, url, max_retries=self.max_retries, headers=headers, **kwargs)
+        if res.status_code == UNPROCESSABLE_ENTITY:
+            logger.error(
+                f"It's likely that you need to add or change a field in your Airtable. "
+                f"Hopefully this error message will help: {res.text}\n\n"
+                f"This error occurred when submitting the following data: {data}"
+            )
         res.raise_for_status()
         return res
 
@@ -107,7 +118,7 @@ class Airtable:
         '''
 
         res = self.request('PATCH', record.id, data={
-            "fields": fields.dict()
+            "fields": fields.dict(by_alias=True)
         })
         return Record(**res.json())
 
@@ -117,7 +128,7 @@ class Airtable:
         '''
 
         res = self.request('POST', data={
-            "fields": fields.dict()
+            "fields": fields.dict(by_alias=True)
         })
         return Record(**res.json())
 

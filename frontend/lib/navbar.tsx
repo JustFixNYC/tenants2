@@ -139,7 +139,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
     const { session, server } = this.props;
 
     return (
-      <nav className="navbar" ref={this.navbarRef}>
+      <nav className="navbar is-fixed-top" ref={this.navbarRef}>
         <div className="container">
           {this.renderNavbarBrand()}
           <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>

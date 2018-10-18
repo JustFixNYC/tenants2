@@ -25,7 +25,7 @@ html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
     }
 }
 
-.hero nav.navbar {
+nav.navbar {
     background: $primary;
 
     .navbar-item:focus, .navbar-link:focus, .navbar-burger:focus {

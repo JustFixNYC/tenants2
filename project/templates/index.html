@@ -9,7 +9,7 @@
         {{ GA_SNIPPET }}
         {{ title_tag }}
     </head>
-    <body>
+    <body class="has-navbar-fixed-top">
         <div id="prerendered-modal">{{ modal_html }}</div>
         <div id="main" {% if modal_html %}hidden{% endif %}>{{ initial_render }}</div>
         {% if not is_safe_mode_enabled %}

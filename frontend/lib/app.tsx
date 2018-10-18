@@ -198,11 +198,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <HistoryBlockerManager>
           <AppContext.Provider value={this.getAppContext()}>
             <AriaAnnouncer>
-              <section className="hero is-fullheight jf-hero">
-                <div className="hero-head">
-                  <Navbar/>
-                </div>
-                <div className="hero-body">
+                <Navbar/>
+                <section className="section">
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
@@ -214,8 +211,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                       }}/>
                     </LoadingOverlayManager>
                   </div>
-                </div>
-              </section>
+                </section>
             </AriaAnnouncer>
           </AppContext.Provider>
         </HistoryBlockerManager>

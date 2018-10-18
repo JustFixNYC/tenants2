@@ -1,4 +1,5 @@
 from typing import TypeVar, Type, Dict, Any
+import datetime
 import pydantic
 
 from users.models import JustfixUser
@@ -17,7 +18,13 @@ def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field)
             return field.default
         obj = getattr(obj, attr)
 
-    return getattr(obj, final_attr)
+    value = getattr(obj, final_attr)
+
+    if isinstance(value, datetime.datetime):
+        # Airtable's date fields expect a UTC date string, e.g. "2014-09-05".
+        return value.date().isoformat()
+
+    return value
 
 
 class Fields(pydantic.BaseModel):
@@ -45,6 +52,9 @@ class Fields(pydantic.BaseModel):
 
     # Whether we can SMS the user.
     onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias='can_we_sms')
+
+    # When the user's letter of complaint was requested.
+    letter_request__created_at: str = ''
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:

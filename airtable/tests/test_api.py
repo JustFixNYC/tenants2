@@ -15,7 +15,8 @@ OUR_FIELDS = {
     'last_name': 'Jones',
     'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
     'phone_number': '5551234560',
-    'can_we_sms': False
+    'can_we_sms': False,
+    'letter_request__created_at': '2018-01-02'
 }
 
 ALL_FIELDS = {

@@ -122,6 +122,14 @@ class LetterRequest(models.Model):
         help_text="How the letter of complaint will be mailed.")
 
     @property
+    def will_we_mail(self) -> bool:
+        '''
+        Whether or not the user wants us to mail the letter for them.
+        '''
+
+        return self.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL
+
+    @property
     def admin_pdf_url(self) -> str:
         '''
         A link where an administrative/staff user can view the

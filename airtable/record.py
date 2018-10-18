@@ -21,7 +21,8 @@ EXAMPLE_FIELDS = {
     'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
     'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
     'landlord_name': 'Landlordo Calrissian',
-    'landlord_address': '1 Cloud City'
+    'landlord_address': '1 Cloud City',
+    'will_we_mail_letter': True
 }
 
 
@@ -110,6 +111,10 @@ class Fields(pydantic.BaseModel):
 
     # The tenant's landlord's address.
     landlord_details__address: str = pydantic.Schema(default='', alias='landlord_address')
+
+    # Whether or not the user wants us to mail the letter for them.
+    letter_request__will_we_mail: bool = pydantic.Schema(
+        default=False, alias='will_we_mail_letter')
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:

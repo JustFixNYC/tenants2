@@ -1,10 +1,14 @@
-from typing import TypeVar, Type
+from typing import TypeVar, Type, Dict, Any
 import pydantic
 
 from users.models import JustfixUser
 
 
 T = TypeVar('T', bound='Fields')
+
+
+def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field):
+    return getattr(user, field.name)
 
 
 class Fields(pydantic.BaseModel):
@@ -33,12 +37,12 @@ class Fields(pydantic.BaseModel):
         Given a user, return the Fields that represent their data.
         '''
 
-        return cls(
-            pk=user.pk,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            admin_url=user.admin_url
-        )
+        kwargs: Dict[str, Any] = {}
+
+        for field_name, field in cls.__fields__.items():
+            kwargs[field_name] = get_user_field_for_airtable(user, field)
+
+        return cls(**kwargs)
 
 
 class Record(pydantic.BaseModel):

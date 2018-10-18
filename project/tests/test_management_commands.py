@@ -34,7 +34,8 @@ class SendtestslackTests(TestCase):
         m.return_value = True
         call_command('sendtestslack')
         m.assert_called_with(
-            'Hi, this is a test message sent via `manage.py sendtestslack`!')
+            'Hi, this is a test message sent from <https://example.com/|example.com>!',
+            is_safe=True)
 
     @override_settings(SLACK_WEBHOOK_URL='http://boop')
     @patch.object(sendtestslack, 'sendmsg')

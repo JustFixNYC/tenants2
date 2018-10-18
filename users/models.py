@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from project import twilio
+from project.util.site_util import absolute_reverse
 
 
 PHONE_NUMBER_LEN = 10
@@ -37,6 +38,10 @@ class JustfixUser(AbstractUser):
     def send_sms(self, body: str, fail_silently=True):
         if hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms:
             twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
+
+    @property
+    def admin_url(self):
+        return absolute_reverse('admin:users_justfixuser_change', args=[self.pk])
 
     def __str__(self):
         if self.full_name:

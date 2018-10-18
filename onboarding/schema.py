@@ -8,6 +8,7 @@ from graphene_django.forms.mutation import fields_for_form
 
 from project.util.django_graphql_forms import StrictFormFieldErrorType
 from project.util.session_mutation import SessionFormMutation
+from project import slack
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -152,6 +153,11 @@ class OnboardingStep4(SessionFormMutation):
         user.send_sms(
             f"Welcome to JustFix, {user.first_name}!",
             fail_silently=True
+        )
+        slack.sendmsg(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"from {slack.escape(oi.borough_label)} has signed up!",
+            is_safe=True
         )
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]

@@ -17,6 +17,18 @@ def test_sendmsg_returns_true_on_success(requests_mock):
     assert slack.sendmsg('hi') is True
 
 
+class TestSendMsgPayload:
+    def test_text_is_escaped_by_default(self):
+        with patch.object(slack, 'send_payload') as m:
+            slack.sendmsg('bop < <')
+        m.assert_called_with({'text': 'bop &lt; &lt;'})
+
+    def test_text_is_unescaped_if_specified(self):
+        with patch.object(slack, 'send_payload') as m:
+            slack.sendmsg('bop < <', is_safe=True)
+        m.assert_called_with({'text': 'bop < <'})
+
+
 class SlackTests(TestCase):
     @override_settings(SLACK_WEBHOOK_URL='')
     @patch.object(slack.logger, 'debug')

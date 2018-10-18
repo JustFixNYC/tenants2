@@ -1,7 +1,6 @@
 from typing import TypeVar, Type
 import pydantic
 
-from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 
 
@@ -34,8 +33,7 @@ class Fields(pydantic.BaseModel):
         return cls(
             pk=user.pk,
             Name=user.full_name,
-            AdminURL=absolute_reverse(
-                'admin:users_justfixuser_change', args=[user.pk])
+            AdminURL=user.admin_url
         )
 
 

@@ -15,6 +15,12 @@ def test_formatted_phone_number_works():
     assert user.formatted_phone_number() == '999999999999999999'
 
 
+@pytest.mark.django_db
+def test_admin_url_works():
+    user = UserFactory()
+    assert user.admin_url == f'https://example.com/admin/users/justfixuser/{user.pk}/change/'
+
+
 def test_str_works_when_only_phone_number_is_available():
     user = JustfixUser(phone_number='5551234567')
     assert str(user) == '5551234567'

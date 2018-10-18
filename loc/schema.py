@@ -4,6 +4,7 @@ from graphene_django.types import DjangoObjectType
 from django.forms import ModelForm
 
 from project.util.session_mutation import SessionFormMutation
+from project import slack
 from . import forms, models
 from airtable.sync import sync_user as sync_user_with_airtable
 
@@ -109,6 +110,12 @@ class LetterRequest(OneToOneUserModelFormMutation):
                 f"{request.build_absolute_uri('/')}.",
                 fail_silently=True
             )
+        slack.sendmsg(
+            f"{slack.hyperlink(text=lr.user.first_name, href=lr.user.admin_url)} "
+            f"has completed a letter of complaint with the mail choice "
+            f"*{slack.escape(models.LOC_MAILING_CHOICES.get_label(lr.mail_choice))}*!",
+            is_safe=True
+        )
         return cls.mutation_success()
 
 

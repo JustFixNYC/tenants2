@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../forms';
 
 import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
@@ -9,12 +9,8 @@ import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
-import { Link } from 'react-router-dom';
 import { HiddenFormField } from '../form-fields';
-
-const WE_WILL_MAIL_INPUT: LetterRequestInput = {
-  mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
-};
+import { BulmaClassName } from '../bulma';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
@@ -34,25 +30,39 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
           {landlord.address || 'UNKNOWN ADDRESS'}
         </address>
         <br/>
-        <SessionUpdatingFormSubmitter
-          mutation={LetterRequestMutation}
-          initialState={WE_WILL_MAIL_INPUT}
-          onSuccessRedirect={Routes.loc.confirmation}
-        >
-          {renderForm}
-        </SessionUpdatingFormSubmitter>
+        <FormAsButton
+          mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
+          label="Mail my letter!"
+          buttonClass="is-primary"
+        />
       </div>
     )}/>
   );
 });
 
-function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
-  return <>
-    <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
-    <div className="has-text-centered">
-      <NextButton isLoading={ctx.isLoading} label="Mail my letter!" />
-    </div>
-  </>;
+interface FormAsButtonProps {
+  mailChoice: LetterRequestMailChoice;
+  label: string;
+  buttonClass?: BulmaClassName;
+}
+
+function FormAsButton(props: FormAsButtonProps): JSX.Element {
+  const input: LetterRequestInput = { mailChoice: props.mailChoice };
+
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LetterRequestMutation}
+      initialState={input}
+      onSuccessRedirect={Routes.loc.confirmation}
+    >
+      {(ctx) => <>
+        <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
+        <div className="has-text-centered">
+          <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
+  );
 }
 
 const LetterPreview = withAppContext((props) => (
@@ -75,9 +85,11 @@ export default function LetterRequestPage(): JSX.Element {
           I'm ready to send!
         </ModalLink>
       </div>
-      <div className="has-text-centered">
-        <Link to={Routes.loc.confirmation} className="button is-light">I want to mail this myself.</Link>
-      </div>
+      <FormAsButton
+        mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
+        buttonClass="is-light"
+        label="I want to mail this myself."
+      />
     </Page>
   );
 }

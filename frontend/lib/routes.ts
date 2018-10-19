@@ -72,6 +72,7 @@ const Routes = {
     accessDates: '/loc/access-dates',
     yourLandlord: '/loc/your-landlord',
     preview: '/loc/preview',
+    previewSendConfirmModal: '/loc/preview/send-confirm-modal',
     confirmation: '/loc/confirmation'
   },
 

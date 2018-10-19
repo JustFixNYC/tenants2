@@ -2,36 +2,54 @@ import React from 'react';
 
 import Page from "../page";
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { RadiosFormField } from '../form-fields';
 
-import { withAppContext } from '../app-context';
+import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
-import { DjangoChoices } from '../common-data';
-import { exactSubsetOrDefault } from '../util';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { Link } from 'react-router-dom';
 
-const LOC_MAILING_CHOICES = require('../../../common-data/loc-mailing-choices.json') as DjangoChoices;
-
-const DEFAULT_INPUT: LetterRequestInput = {
+const WE_WILL_MAIL_INPUT: LetterRequestInput = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
 };
 
+const UNKNOWN_LANDLORD = { name: '', address: '' };
+
+export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Element => {
+  const title = "Ready to go!";
+  const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
+
+  return (
+    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
+      <div className="content box">
+        <h1 className="title">{title}</h1>
+        <p>
+          JustFix.nyc will mail this certified letter within 2 business days to your landlord at:
+        </p>
+        <address>
+          {landlord.name || 'UNKNOWN LANDLORD'}<br/>
+          {landlord.address || 'UNKNOWN ADDRESS'}
+        </address>
+        <br/>
+        <SessionUpdatingFormSubmitter
+          mutation={LetterRequestMutation}
+          initialState={WE_WILL_MAIL_INPUT}
+          onSuccessRedirect={Routes.loc.confirmation}
+        >
+          {renderForm}
+        </SessionUpdatingFormSubmitter>
+      </div>
+    )}/>
+  );
+});
 
 function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
   return (
-    <React.Fragment>
-      <RadiosFormField
-        label="JustFix.nyc will mail this letter to your landlord via certified mail and will cover the mailing costs for you."
-        choices={LOC_MAILING_CHOICES}
-        {...ctx.fieldPropsFor('mailChoice') }
-      />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.yourLandlord} label="Back" />
-        <NextButton isLoading={ctx.isLoading} label="Finish" />
-      </div>
-    </React.Fragment>
+    <div className="has-text-centered">
+      <NextButton isLoading={ctx.isLoading} label="Mail my letter!" />
+    </div>
   );
 }
 
@@ -49,13 +67,15 @@ export default function LetterRequestPage(): JSX.Element {
         <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
         <LetterPreview />
       </div>
-      <SessionUpdatingFormSubmitter
-        mutation={LetterRequestMutation}
-        initialState={(session) => exactSubsetOrDefault(session.letterRequest, DEFAULT_INPUT)}
-        onSuccessRedirect={Routes.loc.confirmation}
-      >
-        {renderForm}
-      </SessionUpdatingFormSubmitter>
+      <div className="buttons jf-two-buttons">
+        <BackButton to={Routes.loc.yourLandlord} label="Back" />
+        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary">
+          I'm ready to send!
+        </ModalLink>
+      </div>
+      <div className="has-text-centered">
+        <Link to={Routes.loc.confirmation} className="button is-light">I want to mail this myself.</Link>
+      </div>
     </Page>
   );
 }

@@ -13,7 +13,7 @@ const PRE_EXISTING_LETTER_REQUEST = {
 describe('landlord details page', () => {
   afterEach(AppTesterPal.cleanup);
 
-  it('redirects to next step after successful submission', async () => {
+  it('works when user chooses to mail the letter themselves', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: Routes.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
@@ -33,5 +33,14 @@ describe('landlord details page', () => {
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
+  });
+
+  it('shows confirmation modal when user wants us to mail the letter', async () => {
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
+      url: Routes.loc.preview,
+      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
+    });
+    pal.clickButtonOrLink(/ready to send/i);
+    await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
   });
 });

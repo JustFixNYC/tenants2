@@ -121,9 +121,7 @@ def test_fix_newlines_works():
     assert fix_newlines({'boop': 'hello\r\nthere'}) == {'boop': 'hello\nthere'}
 
 
-def test_form_submission_redirects_on_success(django_app):
-    form = django_app.get('/dev/examples/form').forms[0]
-
+def unmunge_form_graphql(form):
     # Sometimes browsers will munge the newlines in our own
     # hidden inputs before submitting; let's make sure that
     # we account for that.
@@ -131,6 +129,21 @@ def test_form_submission_redirects_on_success(django_app):
     assert '\n' in form['graphql'].value
     form['graphql'] = form['graphql'].value.replace('\n', '\r\n')
 
+
+def test_form_submission_in_modal_redirects_on_success(django_app):
+    form = django_app.get('/dev/examples/form/in-modal').forms[0]
+
+    unmunge_form_graphql(form)
+    form['exampleField'] = 'hi'
+    response = form.submit()
+    assert response.status == '302 Found'
+    assert response['Location'] == '/dev/examples/form'
+
+
+def test_form_submission_redirects_on_success(django_app):
+    form = django_app.get('/dev/examples/form').forms[0]
+
+    unmunge_form_graphql(form)
     form['exampleField'] = 'hi'
     response = form.submit()
     assert response.status == '302 Found'

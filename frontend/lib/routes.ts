@@ -89,6 +89,7 @@ const Routes = {
       modal: '/dev/examples/modal',
       loadingPage: '/dev/examples/loading-page',
       form: '/dev/examples/form',
+      formInModal: '/dev/examples/form/in-modal',
       loadable: '/dev/examples/loadable-page',
       clientSideError: '/dev/examples/client-side-error',
     }

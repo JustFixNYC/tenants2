@@ -13,7 +13,7 @@ import { CenteredPrimaryButtonLink } from './buttons';
 
 export function Welcome(): JSX.Element {
   return (
-    <Page title="Welcome!">
+    <Page title="Let's start your letter!">
       <div className="content">
         <h1 className="title">Let's start your letter!</h1>
         <p>

@@ -52,6 +52,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
   return (
     <SessionUpdatingFormSubmitter
       mutation={LetterRequestMutation}
+      legacyFormId={'button_' + props.mailChoice}
       initialState={input}
       onSuccessRedirect={Routes.loc.confirmation}
     >

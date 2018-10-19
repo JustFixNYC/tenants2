@@ -36,6 +36,12 @@ nav.navbar {
         color: $primary-invert;
     }
 
+    .navbar-item img {
+      max-height: 1.5rem;
+      position: relative;
+      top: 1px;
+    }
+
     .navbar-link::after {
         border-color: $primary-invert;
     }

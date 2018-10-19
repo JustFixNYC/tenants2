@@ -18,12 +18,12 @@ describe('landlord details page', () => {
       url: Routes.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
     });
-    pal.clickButtonOrLink('Finish');
+    pal.clickButtonOrLink(/mail this myself/i);
     pal.expectFormInput<LetterRequestInput>({
-      mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
+      mailChoice: LetterRequestMailChoice.USER_WILL_MAIL
     });
     const updatedAt = "2018-01-01Tblahtime";
-    const mailChoice = LetterRequestMailChoice.WE_WILL_MAIL;
+    const mailChoice = LetterRequestMailChoice.USER_WILL_MAIL;
     pal.respondWithFormOutput<LetterRequestMutation_output>({
       errors: [],
       session: { letterRequest: { updatedAt, mailChoice } }

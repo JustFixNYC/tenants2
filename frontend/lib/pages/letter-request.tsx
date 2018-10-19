@@ -1,37 +1,68 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { RadiosFormField } from '../form-fields';
+import { SessionUpdatingFormSubmitter } from '../forms';
 
-import { withAppContext } from '../app-context';
+import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
-import { DjangoChoices } from '../common-data';
-import { exactSubsetOrDefault } from '../util';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { HiddenFormField } from '../form-fields';
+import { BulmaClassName } from '../bulma';
 
-const LOC_MAILING_CHOICES = require('../../../common-data/loc-mailing-choices.json') as DjangoChoices;
+const UNKNOWN_LANDLORD = { name: '', address: '' };
 
-const DEFAULT_INPUT: LetterRequestInput = {
-  mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
-};
+export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Element => {
+  const title = "Ready to go!";
+  const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
 
-
-function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
   return (
-    <React.Fragment>
-      <RadiosFormField
-        label="JustFix.nyc will mail this letter to your landlord via certified mail and will cover the mailing costs for you."
-        choices={LOC_MAILING_CHOICES}
-        {...ctx.fieldPropsFor('mailChoice') }
-      />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.yourLandlord} label="Back" />
-        <NextButton isLoading={ctx.isLoading} label="Finish" />
+    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
+      <div className="content box">
+        <h1 className="title">{title}</h1>
+        <p>
+          JustFix.nyc will mail this certified letter within 2 business days to your landlord at:
+        </p>
+        <address>
+          {landlord.name || 'UNKNOWN LANDLORD'}<br/>
+          {landlord.address || 'UNKNOWN ADDRESS'}
+        </address>
+        <br/>
+        <FormAsButton
+          mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
+          label="Mail my letter!"
+          buttonClass="is-primary"
+        />
       </div>
-    </React.Fragment>
+    )}/>
+  );
+});
+
+interface FormAsButtonProps {
+  mailChoice: LetterRequestMailChoice;
+  label: string;
+  buttonClass?: BulmaClassName;
+}
+
+function FormAsButton(props: FormAsButtonProps): JSX.Element {
+  const input: LetterRequestInput = { mailChoice: props.mailChoice };
+
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LetterRequestMutation}
+      legacyFormId={'button_' + props.mailChoice}
+      initialState={input}
+      onSuccessRedirect={Routes.loc.confirmation}
+    >
+      {(ctx) => <>
+        <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
+        <div className="has-text-centered">
+          <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
   );
 }
 
@@ -49,13 +80,17 @@ export default function LetterRequestPage(): JSX.Element {
         <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
         <LetterPreview />
       </div>
-      <SessionUpdatingFormSubmitter
-        mutation={LetterRequestMutation}
-        initialState={(session) => exactSubsetOrDefault(session.letterRequest, DEFAULT_INPUT)}
-        onSuccessRedirect={Routes.loc.confirmation}
-      >
-        {renderForm}
-      </SessionUpdatingFormSubmitter>
+      <div className="buttons jf-two-buttons">
+        <BackButton to={Routes.loc.yourLandlord} label="Back" />
+        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary">
+          I'm ready to send!
+        </ModalLink>
+      </div>
+      <FormAsButton
+        mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
+        buttonClass="is-light"
+        label="I want to mail this myself."
+      />
     </Page>
   );
 }

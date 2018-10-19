@@ -4,6 +4,7 @@ import { AppTesterPal } from '../app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
 import { LetterRequestMailChoice, LetterRequestInput } from '../../queries/globalTypes';
+import { pause } from '../util';
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
@@ -13,17 +14,10 @@ const PRE_EXISTING_LETTER_REQUEST = {
 describe('landlord details page', () => {
   afterEach(AppTesterPal.cleanup);
 
-  it('redirects to next step after successful submission', async () => {
-    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.preview,
-      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
-    });
-    pal.clickButtonOrLink('Finish');
-    pal.expectFormInput<LetterRequestInput>({
-      mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
-    });
+  async function clickButtonAndExpectChoice(pal: AppTesterPal, matcher: RegExp, mailChoice: LetterRequestMailChoice) {
+    pal.clickButtonOrLink(matcher);
+    pal.expectFormInput<LetterRequestInput>({ mailChoice });
     const updatedAt = "2018-01-01Tblahtime";
-    const mailChoice = LetterRequestMailChoice.WE_WILL_MAIL;
     pal.respondWithFormOutput<LetterRequestMutation_output>({
       errors: [],
       session: { letterRequest: { updatedAt, mailChoice } }
@@ -33,5 +27,27 @@ describe('landlord details page', () => {
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
+  }
+
+  it('works when user chooses to mail the letter themselves', async () => {
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
+      url: Routes.loc.preview,
+      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
+    });
+    clickButtonAndExpectChoice(pal, /mail this myself/i, LetterRequestMailChoice.USER_WILL_MAIL);
+  });
+
+  it('works when user wants us to mail the letter', async () => {
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
+      url: Routes.loc.preview,
+      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
+    });
+    pal.clickButtonOrLink(/ready to send/i);
+    await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
+
+    // This is a workaround for https://github.com/davidtheclark/focus-trap-react/issues/24.
+    await pause(10);
+
+    clickButtonAndExpectChoice(pal, /mail my letter/i, LetterRequestMailChoice.WE_WILL_MAIL);
   });
 });

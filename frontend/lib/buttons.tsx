@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { bulmaClasses } from './bulma';
+import { bulmaClasses, BulmaClassName } from './bulma';
 import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
@@ -15,11 +15,12 @@ export function BackButton(props: {
 }
 
 export function NextButton(props: {
+  buttonClass?: BulmaClassName;
   isLoading: boolean;
   label?: string;
 }): JSX.Element {
   return (
-    <button type="submit" className={bulmaClasses('button', 'is-primary', {
+    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', {
       'is-loading': props.isLoading
     })}>{props.label || 'Next'}</button>
   );

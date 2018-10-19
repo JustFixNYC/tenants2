@@ -38,6 +38,14 @@ export interface AppProps {
    * results here.
    */
   legacyFormSubmission?: AppLegacyFormSubmission;
+
+  /**
+   * If we're on the server-side and there's a modal on the page, we
+   * will actually be rendered *twice*: once with the modal background,
+   * and again with the modal itself. In the latter case, this prop will
+   * be populated with the content of the modal.
+   */
+  modal?: JSX.Element;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -193,6 +201,10 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   render() {
+    if (this.props.modal) {
+      return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
+    }
+
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <HistoryBlockerManager>

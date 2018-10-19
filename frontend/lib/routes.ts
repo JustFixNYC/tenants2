@@ -72,6 +72,7 @@ const Routes = {
     accessDates: '/loc/access-dates',
     yourLandlord: '/loc/your-landlord',
     preview: '/loc/preview',
+    previewSendConfirmModal: '/loc/preview/send-confirm-modal',
     confirmation: '/loc/confirmation'
   },
 
@@ -88,6 +89,7 @@ const Routes = {
       modal: '/dev/examples/modal',
       loadingPage: '/dev/examples/loading-page',
       form: '/dev/examples/form',
+      formInModal: '/dev/examples/form/in-modal',
       loadable: '/dev/examples/loadable-page',
       clientSideError: '/dev/examples/client-side-error',
     }

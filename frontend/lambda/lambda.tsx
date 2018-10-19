@@ -123,7 +123,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(
         <ServerRouter event={event} context={context}>
-          {context.modal}
+          <App {...event} modal={context.modal} />
         </ServerRouter>
       );
     }

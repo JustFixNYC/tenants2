@@ -40,7 +40,7 @@ export const letterOfComplaintSteps: SessionProgressStepRoute[] = [
   { path: Routes.loc.issues.prefix, component: IssuesRoutes },
   { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
   { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
-  { path: Routes.loc.preview, exact: true, component: LetterRequestPage,
+  { path: Routes.loc.preview, component: LetterRequestPage,
     isComplete: sess => !!sess.letterRequest },
   { path: Routes.loc.confirmation, exact: true, component: LetterConfirmation }
 ];

@@ -225,7 +225,8 @@ export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionU
 }
 
 type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
-  mutation: FetchMutationInfo<FormInput, FormOutput>
+  mutation: FetchMutationInfo<FormInput, FormOutput>,
+  legacyFormId?: string
 };
 
 /** A form submitter that supports submission via legacy browser POST. */
@@ -236,15 +237,17 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
         {(appCtx) => {
           return (
             <Route render={(ctx) => {
-              const { mutation, ...otherProps } = this.props;
+              const { mutation, legacyFormId, ...otherProps } = this.props;
               const isOurs = (sub: AppLegacyFormSubmission) =>
-                sub.POST['graphql'] === mutation.graphQL;
+                sub.POST['graphql'] === mutation.graphQL &&
+                sub.POST['legacyFormId'] === legacyFormId;
               const props: FormSubmitterProps<FormInput, FormOutput> = {
                 ...otherProps,
                 onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
                 extraFields: (
                   <React.Fragment>
                     <input type="hidden" name="graphql" value={mutation.graphQL} />
+                    {legacyFormId && <input type="hidden" name="legacyFormId" value={legacyFormId}/>}
                     {otherProps.extraFields}
                   </React.Fragment>
                 )

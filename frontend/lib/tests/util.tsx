@@ -68,6 +68,10 @@ export function ensureRedirect(child: JSX.Element, pathname: string) {
     /You tried to redirect to the same route you're currently on/i);
 }
 
+export function pause(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const FakeServerInfo: Readonly<AppServerInfo> = {
   originURL: 'https://myserver.com',
   staticURL: '/mystatic/',

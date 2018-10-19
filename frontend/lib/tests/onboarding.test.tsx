@@ -1,10 +1,16 @@
 import React from 'react';
 
 import { FakeSessionInfo, ensureRedirect } from "./util";
-import { getLatestOnboardingStep, RedirectToLatestOnboardingStep } from "../onboarding";
+import { RedirectToLatestOnboardingStep, onboardingSteps } from "../onboarding";
 import Routes from "../routes";
+import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { getLatestStep } from '../progress-redirection';
 
-describe('getLatestOnboardingStep()', () => {
+describe('latest step redirector', () => {
+  function getLatestOnboardingStep(session: AllSessionInfo): string {
+    return getLatestStep(session, onboardingSteps);
+  }
+
   it('returns step 1 by default', () => {
     expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(Routes.onboarding.step1);
   });

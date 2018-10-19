@@ -59,7 +59,8 @@ const Routes = {
   /** The Letter of Complaint flow. */
   loc: {
     [ROUTE_PREFIX]: '/loc',
-    home: '/loc',
+    latestStep: '/loc',
+    home: '/loc/welcome',
     issues: {
       [ROUTE_PREFIX]: '/loc/issues',
       home: '/loc/issues',

@@ -46,7 +46,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
 
   renderLoggedIn() {
     return (
-      <Redirect to={Routes.loc.home} />
+      <Redirect to={Routes.loc.latestStep} />
     );
   }
 

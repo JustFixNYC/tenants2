@@ -1,0 +1,59 @@
+.landing-page {
+  .hero.is-light {
+
+    .secondary-cta {
+
+      margin-top: 1rem;
+
+      a {
+        color: $primary !important;
+      }
+    }
+  }
+
+  .section {
+    border-bottom: 1px solid $grey-lighter;
+    padding: 5rem 1.5rem;
+
+    @include until($desktop) {
+      padding-left: 0;
+      padding-right: 0;
+
+      .notification {
+        padding-right: 1.5rem;
+      }
+    }
+  }
+
+  .how-it-works {
+
+    .notification {
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+
+      .num {
+        flex: 0 0 3rem;
+        border-radius: 100%;
+        background-color: hsl(0, 0%, 29%);
+        text-align: center;
+        margin-right: 1rem;
+
+        h1 {
+          margin-bottom: 0;
+          color: #fff;
+          line-height: 3rem;
+        }
+      }
+
+      h5 {
+        margin-bottom: 0;
+      }
+
+
+    }
+  }
+}

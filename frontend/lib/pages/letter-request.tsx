@@ -10,6 +10,7 @@ import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTy
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { Link } from 'react-router-dom';
+import { HiddenFormField } from '../form-fields';
 
 const WE_WILL_MAIL_INPUT: LetterRequestInput = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
@@ -46,11 +47,12 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
 });
 
 function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
-  return (
+  return <>
+    <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
     <div className="has-text-centered">
       <NextButton isLoading={ctx.isLoading} label="Mail my letter!" />
     </div>
-  );
+  </>;
 }
 
 const LetterPreview = withAppContext((props) => (

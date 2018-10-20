@@ -71,6 +71,14 @@ class LandlordDetails(models.Model):
         )
     )
 
+    @property
+    def address_lines_for_mailing(self) -> List[str]:
+        '''Return the full mailing address as a list of lines.'''
+
+        if not self.address:
+            return []
+        return self.address.split('\n')
+
     @classmethod
     def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
         '''

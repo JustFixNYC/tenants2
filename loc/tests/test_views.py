@@ -5,16 +5,16 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue
 from loc.models import LandlordDetails
 from loc.views import (
-    can_we_render_pdfs, render_document, get_issues, get_landlord_name)
+    can_we_render_pdfs, render_document, get_issues, get_landlord_details)
 
 
 @pytest.mark.django_db
-def test_get_landlord_name_works():
+def test_get_landlord_details_works():
     user = UserFactory()
-    assert get_landlord_name(user) == ''
+    assert get_landlord_details(user).name == ''
 
     user.landlord_details = LandlordDetails(name="Blarg")
-    assert get_landlord_name(user) == 'Blarg'
+    assert get_landlord_details(user).name == 'Blarg'
 
 
 @pytest.mark.django_db
@@ -56,6 +56,13 @@ def test_letter_html_includes_expected_content(client):
     )
     user = info.user
     Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
+    ld = LandlordDetails(
+        user=user,
+        name='Landlordo Calrissian',
+        address='1 Cloud City\nBespin'
+    )
+    ld.save()
+
     client.force_login(user)
     res = client.get('/loc/letter.html')
     html = res.content.decode('utf-8')
@@ -64,6 +71,8 @@ def test_letter_html_includes_expected_content(client):
     assert '1 Times Square' in html
     assert 'Apartment 301' in html
     assert 'New York, NY 11201' in html
+    assert 'Dear Landlordo Calrissian' in html
+    assert '1 Cloud City<br/>' in html
 
     # Make sure the section symbol is in there, to ensure that
     # we don't have any unicode issues.

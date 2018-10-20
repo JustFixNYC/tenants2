@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "tsc --noEmit",
-    "lint:watch": "tsc --noEmit --watch",
+    "lint:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "test": "jest",
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",

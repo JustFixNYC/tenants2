@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
 from users.models import JustfixUser
+from loc.models import LandlordDetails
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 
@@ -41,10 +42,10 @@ def example_doc(request, format):
     }, format)
 
 
-def get_landlord_name(user) -> str:
+def get_landlord_details(user) -> LandlordDetails:
     if hasattr(user, 'landlord_details'):
-        return user.landlord_details.name
-    return ''
+        return user.landlord_details
+    return LandlordDetails()
 
 
 def get_issues(user):
@@ -70,7 +71,7 @@ def get_issues(user):
 def render_letter_of_complaint(request, user: JustfixUser, format: str):
     return render_document(request, 'loc/letter-of-complaint.html', {
         'today': datetime.date.today(),
-        'landlord_name': get_landlord_name(user),
+        'landlord_details': get_landlord_details(user),
         'issues': get_issues(user),
         'access_dates': [date.date for date in user.access_dates.all()],
         'user': user

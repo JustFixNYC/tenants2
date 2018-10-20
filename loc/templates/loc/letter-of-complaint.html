@@ -5,9 +5,18 @@
 {% block body %}
 <p class="has-text-right">{{ today }}</p>
 
+{% if landlord_details.name and landlord_details.address_lines_for_mailing %}
+<p class="has-text-right">
+  {{ landlord_details.name }}<br/>
+  {% for line in landlord_details.address_lines_for_mailing %}
+    {{ line }}<br/>
+  {% endfor %}
+</p>
+{% endif %}
+
 <h2>
-  {% if landlord_name %}
-    Dear {{ landlord_name }},
+  {% if landlord_details.name %}
+    Dear {{ landlord_details.name }},
   {% else %}
     To whom it may concern,
   {% endif %}

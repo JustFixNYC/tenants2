@@ -28,6 +28,14 @@ def test_letter_request_str_works_when_fields_are_set():
     assert str(info) == "Boop Jones's letter of complaint request from Tuesday, January 02 2018"
 
 
+def test_landlord_details_address_lines_for_mailing_works():
+    ld = LandlordDetails()
+    assert ld.address_lines_for_mailing == []
+
+    ld.address = '1 Cloud City\nBespin'
+    assert ld.address_lines_for_mailing == ['1 Cloud City', 'Bespin']
+
+
 class TestCreateLookupForUser:
     def test_returns_none_if_address_info_is_not_available(self):
         user = UserFactory.build()

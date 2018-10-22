@@ -214,6 +214,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   label: string;
   renderLabel?: LabelRenderer;
   required?: boolean;
+  autocomplete?: string;
   min?: string | number | undefined;
 };
 
@@ -222,7 +223,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
  * to work around a bug in React+iOS whereby the built-in "clear" button
  * doesn't work, and (after about an hour of trying) is difficult or
  * impossible to make work properly. For more details, see:
- * 
+ *
  * https://github.com/facebook/react/issues/8938#issuecomment-360573204
  */
 function DateClear(props: TextualFormFieldProps): JSX.Element|null {
@@ -256,6 +257,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
+          autocomplete={props.autocomplete}
           id={props.id}
           min={props.min}
           type={type}

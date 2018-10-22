@@ -13,7 +13,7 @@
 
   .section {
     border-bottom: 1px solid $grey-lighter;
-    padding: 5rem 1.5rem;
+    padding: 5rem 6rem;
 
     @include until($desktop) {
       padding-left: 0;

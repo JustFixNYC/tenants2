@@ -25,7 +25,7 @@ const initialState: LoginInput = {
 
 export interface LoginFormProps {
   next: string;
-  redirectToLegeacyAppURL: string;
+  redirectToLegacyAppURL: string;
 }
 
 /**
@@ -52,7 +52,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         initialState={initialState}
         onSuccessRedirect={(output, input) => {
           if (assertNotNull(output.session).prefersLegacyApp) {
-            return this.props.redirectToLegeacyAppURL;
+            return this.props.redirectToLegacyAppURL;
           }
           return this.props.next;
         }}
@@ -109,7 +109,7 @@ type HttpPostInfo = {
 /**
  * If this is a POST, returns the last value of the given key, or undefined if
  * not present.
- * 
+ *
  * Otherwise, returns the last-defined key in the given querystring.
  */
 export function getPostOrQuerystringVar(info: LocationSearchInfo & HttpPostInfo, name: string): string|undefined {
@@ -142,12 +142,14 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
 
   return (
     <Page title="Sign in">
-      <h1 className="title">Sign in</h1>
-      <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
-      <br/>
-      <p>
-        If you forgot your password, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.
-      </p>
+      <div className="box">
+        <h1 className="title">Sign in</h1>
+        <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
+        <br/>
+        <p>
+          If you forgot your password, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.
+        </p>
+      </div>
     </Page>
   );
 });

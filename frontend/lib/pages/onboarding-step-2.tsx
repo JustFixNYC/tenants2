@@ -50,7 +50,7 @@ export default class OnboardingStep2 extends React.Component {
                            modalPath={Routes.onboarding.step2EvictionModal}
                            {...ctx.fieldPropsFor('isInEviction')}>
           {glueToLastWord(
-            'I received an eviction notice.', 
+            'I received an eviction notice.',
             <IconLink
               type="warning"
               to={Routes.onboarding.step2EvictionModal}
@@ -87,14 +87,16 @@ export default class OnboardingStep2 extends React.Component {
   render() {
     return (
       <Page title="What type of housing issues are you experiencing?">
-        <h1 className="title">What are you experiencing?</h1>
-        <p>Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
-        <br/>
-        <SessionUpdatingFormSubmitter
-          mutation={OnboardingStep2Mutation}
-          initialState={(session) => session.onboardingStep2 || blankInitialState}
-          onSuccessRedirect={Routes.onboarding.step3}
-        >{this.renderForm}</SessionUpdatingFormSubmitter>
+        <div className="box">
+          <h1 className="title">What are you experiencing?</h1>
+          <p>Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
+          <br/>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep2Mutation}
+            initialState={(session) => session.onboardingStep2 || blankInitialState}
+            onSuccessRedirect={Routes.onboarding.step3}
+          >{this.renderForm}</SessionUpdatingFormSubmitter>
+        </div>
       </Page>
     );
   }

@@ -58,9 +58,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
-        <div className="has-text-centered">
-          <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
-        </div>
+        <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
       </>}
     </SessionUpdatingFormSubmitter>
   );
@@ -80,17 +78,21 @@ export default function LetterRequestPage(): JSX.Element {
         <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
         <LetterPreview />
       </div>
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.yourLandlord} label="Back" />
-        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary">
+      <div className="has-text-centered is-grouped">
+        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-large">
           I'm ready to send!
         </ModalLink>
+        <div className="buttons jf-two-buttons jf-two-buttons--vertical">
+          <BackButton to={Routes.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
+          <FormAsButton
+            mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
+            buttonClass="is-text"
+            label="I want to mail this myself."
+          />
+        </div>
       </div>
-      <FormAsButton
-        mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
-        buttonClass="is-light"
-        label="I want to mail this myself."
-      />
+
+
     </Page>
   );
 }

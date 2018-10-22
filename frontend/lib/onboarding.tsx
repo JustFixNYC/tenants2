@@ -21,7 +21,7 @@ export default function OnboardingRoutes(): JSX.Element {
   return (
     <div>
       <Route path={Routes.onboarding.latestStep} exact component={RedirectToLatestOnboardingStep} />
-      <RouteProgressBar label="Onboarding" steps={onboardingSteps} />
+      <RouteProgressBar label="Create an Account" steps={onboardingSteps} />
     </div>
   );
 }

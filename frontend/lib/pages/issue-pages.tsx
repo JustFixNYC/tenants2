@@ -66,15 +66,17 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
       <Page title={`${label} - Issue checklist`}>
-        <h1 className="title jf-issue-area">{svg} {label} issues</h1>
-        <SessionUpdatingFormSubmitter
-          confirmNavIfChanged
-          mutation={IssueAreaMutation}
-          initialState={getInitialState}
-          onSuccessRedirect={Routes.loc.issues.home}
-        >
-          {(formCtx) => this.renderForm(formCtx, area)}
-        </SessionUpdatingFormSubmitter>
+        <div className="box">
+          <h1 className="title jf-issue-area">{svg} {label} issues</h1>
+          <SessionUpdatingFormSubmitter
+            confirmNavIfChanged
+            mutation={IssueAreaMutation}
+            initialState={getInitialState}
+            onSuccessRedirect={Routes.loc.issues.home}
+          >
+            {(formCtx) => this.renderForm(formCtx, area)}
+          </SessionUpdatingFormSubmitter>
+        </div>
       </Page>
     );
   }
@@ -102,13 +104,13 @@ function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boo
 
         return (
           <Link to={url} className={classnames(
-            'jf-issue-area-link',
+            'jf-issue-area-link', 'notification',
             props.isHighlighted && 'jf-highlight',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
             {svg}
-            <p><strong>{label}</strong></p>
-            <p className="is-size-7 jf-issue-count">{checkSvg} {issueLabel}</p>
+            <p className="title is-4 is-spaced">{label}</p>
+            <p className="subtitle is-6 jf-issue-count">{checkSvg} {issueLabel}</p>
           </Link>
         );
       }}
@@ -173,23 +175,26 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
   render() {
     return (
       <Page title="Issue checklist">
-        <h1 className="title">Issue checklist</h1>
-        <SimpleProgressiveEnhancement>
-          {this.renderAutocomplete()}
-        </SimpleProgressiveEnhancement>
-        {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
-          <div className="columns is-mobile" key={i}>
-            {this.renderColumnForArea(...a)}
-            {b && this.renderColumnForArea(...b)}
+        <div className="box">
+          <h1 className="title">Issue checklist</h1>
+          <SimpleProgressiveEnhancement>
+            {this.renderAutocomplete()}
+          </SimpleProgressiveEnhancement>
+          {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
+            <div className="columns is-tablet" key={i}>
+              {this.renderColumnForArea(...a)}
+              {b && this.renderColumnForArea(...b)}
+            </div>
+          ))}
+          <br/>
+          <div className="buttons jf-two-buttons">
+            <Link to={Routes.loc.home} className="button is-light is-medium">Back</Link>
+            <Link to={Routes.loc.accessDates} className="button is-primary is-medium">Next</Link>
           </div>
-        ))}
-        <br/>
-        <div className="buttons jf-two-buttons">
-          <Link to={Routes.loc.home} className="button is-text">Back</Link>
-          <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
         </div>
+
       </Page>
-    );  
+    );
   }
 }
 

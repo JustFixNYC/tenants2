@@ -40,16 +40,16 @@ describe("ProgressBar", () => {
   it("works", () => {
     const fakeRaf = new FakeRequestAnimationFrame();
     const pal = new AppTesterPal(<ProgressBar pct={0}/>);
-    const pct = () => pal.getElement('progress', '').textContent;
-    expect(pct()).toBe('0%');
+    const pct = () => pal.getElement('progress', '').getAttribute('value');
+    expect(pct()).toBe('0');
     pal.rerender(<ProgressBar pct={5}/>);
-    expect(pct()).toBe('0%');
+    expect(pct()).toBe('0');
     [1, 2, 3, 4, 5].forEach((n) => {
       fakeRaf.runCallbacks();
-      expect(pct()).toBe(n + '%');
+      expect(pct()).toBe(`${n}`);
     });
     fakeRaf.runCallbacks();
-    expect(pct()).toBe('5%');
+    expect(pct()).toBe('5');
   });
 
   it('unregisters callback on unmount', () => {
@@ -69,17 +69,17 @@ describe("RouteProgressBar", () => {
     const pal = new AppTesterPal(<RouteProgressBar label="foo" steps={fakeSteps}/>, {
       url: '/foo'
     });
-    pal.rr.getByText('foo step 1 of 3');
+    pal.rr.getByText('foo: Step 1 of 3');
 
     pal.history.push('/foo/2');
-    pal.rr.getByText('foo step 2 of 3');
+    pal.rr.getByText('foo: Step 2 of 3');
     pal.getElement('div', '.jf-progress-forward');
 
     pal.history.push('/foo/2/funky-modal');
-    pal.rr.getByText('foo step 2 of 3');
+    pal.rr.getByText('foo: Step 2 of 3');
 
     pal.history.push('/foo');
-    pal.rr.getByText('foo step 1 of 3');
+    pal.rr.getByText('foo: Step 1 of 3');
     pal.getElement('div', '.jf-progress-backward');
   });
 });

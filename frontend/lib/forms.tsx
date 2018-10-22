@@ -162,7 +162,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
           // case of e.g. transition animations.
           this.setState({ isLoading: false });
         }
-        ga('send', 'event', 'form-success', this.props.formId, redirect || undefined);
+        ga('send', 'event', 'form-success',
+           this.props.formId || 'default', redirect || undefined);
         if (this.props.onSuccess) {
           this.props.onSuccess(output);
         }

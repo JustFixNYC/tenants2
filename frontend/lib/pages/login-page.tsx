@@ -14,6 +14,7 @@ import { History } from 'history';
 import hardRedirect from '../tests/hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
+import { OutboundLink } from '../google-analytics';
 
 const NEXT = 'next';
 
@@ -145,7 +146,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
       <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
       <br/>
       <p>
-        If you forgot your password, please email <a href="mailto:support@justfix.nyc">support@justfix.nyc</a>.
+        If you forgot your password, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.
       </p>
     </Page>
   );

@@ -6,11 +6,13 @@ import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
 export function BackButton(props: {
-  to: LocationDescriptor<any>,
+  buttonClass?: BulmaClassName;
+  to: LocationDescriptor<any>;
   label?: string
 }): JSX.Element {
   return (
-    <Link to={props.to} className="button is-text">{props.label || "Cancel and go back"}</Link>
+    <Link to={props.to} className={bulmaClasses('button', props.buttonClass || 'is-light', 'is-medium')}>
+      {props.label || "Cancel and go back"}</Link>
   );
 }
 
@@ -20,7 +22,7 @@ export function NextButton(props: {
   label?: string;
 }): JSX.Element {
   return (
-    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', {
+    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', 'is-medium', {
       'is-loading': props.isLoading
     })}>{props.label || 'Next'}</button>
   );
@@ -31,7 +33,7 @@ export function CenteredPrimaryButtonLink(props: LinkProps): JSX.Element {
     ...props,
     className: classnames(
       props.className,
-      bulmaClasses('button', 'is-primary'),
+      bulmaClasses('button', 'is-primary', 'is-large'),
       'jf-is-extra-wide'
     )
   };

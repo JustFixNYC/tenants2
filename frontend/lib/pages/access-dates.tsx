@@ -46,18 +46,20 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
 export default function AccessDatesPage(): JSX.Element {
   return (
     <Page title="Access dates">
-      <h1 className="title">Access dates</h1>
-      <div className="content">
-        <p>Access dates are times you know when you will be home for the landlord to schedule repairs.</p>
-        <p>Please provide up to three access dates you will be available (allowing at least a week for the letter to be received).</p>
+      <div className="box">
+        <h1 className="title">Access dates</h1>
+        <div className="content">
+          <p>Access dates are times you know when you will be home for the landlord to schedule repairs.</p>
+          <p>Please provide up to three access dates you will be available (allowing at least a week for the letter to be received).</p>
+        </div>
+        <SessionUpdatingFormSubmitter
+          mutation={AccessDatesMutation}
+          initialState={(session) => getInitialState(session.accessDates)}
+          onSuccessRedirect={Routes.loc.yourLandlord}
+        >
+          {renderForm}
+        </SessionUpdatingFormSubmitter>
       </div>
-      <SessionUpdatingFormSubmitter
-        mutation={AccessDatesMutation}
-        initialState={(session) => getInitialState(session.accessDates)}
-        onSuccessRedirect={Routes.loc.yourLandlord}
-      >
-        {renderForm}
-      </SessionUpdatingFormSubmitter>
     </Page>
   );
 }

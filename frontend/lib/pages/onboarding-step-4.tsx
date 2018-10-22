@@ -51,12 +51,14 @@ export default class OnboardingStep4 extends React.Component {
   render() {
     return (
       <Page title="Contact information">
-        <h1 className="title">Contact information</h1>
-        <SessionUpdatingFormSubmitter
-          mutation={OnboardingStep4Mutation}
-          initialState={blankInitialState}
-          onSuccessRedirect={Routes.loc.home}
-        >{this.renderForm}</SessionUpdatingFormSubmitter>
+        <div className="box">
+          <h1 className="title">Contact information</h1>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep4Mutation}
+            initialState={blankInitialState}
+            onSuccessRedirect={Routes.loc.home}
+          >{this.renderForm}</SessionUpdatingFormSubmitter>
+        </div>
       </Page>
     );
   }

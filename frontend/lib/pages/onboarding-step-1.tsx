@@ -202,7 +202,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           renderEnhanced={() => {
             if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
             return ReactDOM.createPortal(
-              <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', {
+              <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', 'is-medium', {
                 'is-loading': ctx.isLoading
               })}>Cancel signup</button>,
               this.cancelControlRef.current
@@ -215,22 +215,25 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   render() {
     return (
       <Page title="Tell us about yourself!">
-        <h1 className="title">Tell us about yourself!</h1>
-        <SessionUpdatingFormSubmitter
-          mutation={OnboardingStep1Mutation}
-          initialState={(session) => session.onboardingStep1 || blankInitialState}
-          onSuccessRedirect={(output, input) => {
-            const successSession = assertNotNull(output.session);
-            const successInfo = assertNotNull(successSession.onboardingStep1);
-            if (areAddressesTheSame(successInfo.address, input.address) &&
-                successInfo.borough === input.borough) {
-              return Routes.onboarding.step2;
-            }
-            return Routes.onboarding.step1ConfirmAddressModal;
-          }}
-        >
-          {this.renderForm}
-        </SessionUpdatingFormSubmitter>
+        <div className="box">
+          <h1 className="title">Tell us about yourself!</h1>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep1Mutation}
+            initialState={(session) => session.onboardingStep1 || blankInitialState}
+            onSuccessRedirect={(output, input) => {
+              const successSession = assertNotNull(output.session);
+              const successInfo = assertNotNull(successSession.onboardingStep1);
+              if (areAddressesTheSame(successInfo.address, input.address) &&
+                  successInfo.borough === input.borough) {
+                return Routes.onboarding.step2;
+              }
+              return Routes.onboarding.step1ConfirmAddressModal;
+            }}
+          >
+            {this.renderForm}
+          </SessionUpdatingFormSubmitter>
+        </div>
+
         {this.renderHiddenLogoutForm()}
         <Route path={Routes.onboarding.step1ConfirmAddressModal} exact component={ConfirmAddressModal} />
       </Page>

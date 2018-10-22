@@ -51,17 +51,19 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
 
   return (
     <Page title="Your landlord">
-      <h1 className="title">Your landlord</h1>
-      <div className="content">
-        {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
+      <div className="box">
+        <h1 className="title">Your landlord</h1>
+        <div className="content">
+          {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
+        </div>
+        <SessionUpdatingFormSubmitter
+          mutation={LandlordDetailsMutation}
+          initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}
+          onSuccessRedirect={Routes.loc.preview}
+        >
+          {renderForm}
+        </SessionUpdatingFormSubmitter>
       </div>
-      <SessionUpdatingFormSubmitter
-        mutation={LandlordDetailsMutation}
-        initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}
-        onSuccessRedirect={Routes.loc.preview}
-      >
-        {renderForm}
-      </SessionUpdatingFormSubmitter>
     </Page>
   );
 });

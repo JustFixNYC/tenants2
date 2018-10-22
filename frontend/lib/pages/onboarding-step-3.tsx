@@ -169,14 +169,17 @@ export default class OnboardingStep3 extends React.Component {
   render() {
     return (
       <Page title="What type of lease do you have?">
-        <h1 className="title">What type of lease do you have?</h1>
-        <p>Your rights vary depending on what type of lease you have.</p>
-        <br/>
-        <SessionUpdatingFormSubmitter
-          mutation={OnboardingStep3Mutation}
-          initialState={(session) => session.onboardingStep3 || blankInitialState}
-          onSuccessRedirect={(_, input) => OnboardingStep3.getSuccessRedirect(input.leaseType)}
-        >{this.renderForm}</SessionUpdatingFormSubmitter>
+        <div className="box">
+          <h1 className="title">What type of lease do you have?</h1>
+          <p>Your rights vary depending on what type of lease you have.</p>
+          <br/>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep3Mutation}
+            initialState={(session) => session.onboardingStep3 || blankInitialState}
+            onSuccessRedirect={(_, input) => OnboardingStep3.getSuccessRedirect(input.leaseType)}
+          >{this.renderForm}</SessionUpdatingFormSubmitter>
+        </div>
+
         {ALL_LEASE_MODALS.map(info => (
           <Route key={info.route} path={info.route} component={info.component} />
         ))}

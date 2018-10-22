@@ -52,7 +52,7 @@ export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
     <>
       <Route path={Routes.loc.latestStep} exact component={RedirectToLatestLetterOfComplaintStep} />
-      <RouteProgressBar label="Letter of Complaint" hideBar steps={letterOfComplaintSteps} />
+      <RouteProgressBar label="Letter of Complaint" steps={letterOfComplaintSteps} />
     </>
   );
 }

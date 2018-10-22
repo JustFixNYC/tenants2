@@ -3,7 +3,7 @@
     display: block;
     border: 1px solid $button-text-hover-background-color;
     text-align: center;
-    padding: 0.5em;
+    padding: 2em;
     height: 100%;
 
     svg {
@@ -11,20 +11,36 @@
         height: 48px;
         overflow: hidden;
         fill: currentColor;
+
+    }
+
+    // target icon only
+    & > svg {
+      margin-bottom: 0.5em;
+    }
+
+    p.title {
+      margin-bottom: 0;
+    }
+
+    p.subtitle {
+      margin-top: 0.5em;
     }
 }
 
 .jf-issue-area-link:not(.jf-issue-count-zero) {
-    color: $primary;
+    background-color: $primary;
+    color: #fff;
 }
 
 .jf-issue-area-link:not(.jf-issue-count-zero):hover {
     color: $primary;
 }
 
-.jf-issue-area-link:hover {
+.jf-issue-area-link:hover,
+.jf-issue-area-link:not(.jf-issue-count-zero):hover {
     color: $button-text-hover-color;
-    background: $button-text-hover-background-color;
+    background: $grey-lighter;
 }
 
 .jf-issue-area-link.jf-issue-count-zero .jf-issue-count {

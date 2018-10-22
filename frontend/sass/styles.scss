@@ -28,6 +28,10 @@
     outline-color: $text;
 }
 
+.help {
+  font-size: inherit;
+}
+
 // We want the content of our pages to be aligned to
 // the top of the page, rather than vertically centered
 // (Bulma's heroic default).
@@ -42,6 +46,10 @@
 // https://css-tricks.com/focus-styles-non-interactive-elements/
 [data-jf-is-noninteractive]:focus {
     outline: none;
+}
+
+.title.jf-page-steps-title {
+  margin-bottom: 0.5em;
 }
 
 // Anything with this mixin will only be perceivable to
@@ -167,6 +175,16 @@ input:focus + .jf-checkbox-symbol {
 // put them on opposite sides of the screen.
 .jf-two-buttons, .field.is-grouped.jf-two-buttons {
     justify-content: space-between;
+
+    &.jf-two-buttons--vertical {
+      // This centers and aligns the buttons vertically on a phone
+      @include until($tablet) {
+        margin-top: 1rem;
+        flex-direction: column;
+      }
+    }
+
+
 }
 
 // This is used to "glue" content together, so that e.g. an icon doesn't

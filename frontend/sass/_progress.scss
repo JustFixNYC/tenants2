@@ -2,6 +2,10 @@
 // similarly-named constant, JF_PROGRESS_TRANSITION_MS.
 $jf-progress-transition-ms: 1000ms;
 
+.jf-progress-title-wrapper {
+  margin-bottom: 2rem;
+}
+
 .jf-progress-step-wrapper {
     position: relative;
 
@@ -13,7 +17,7 @@ $jf-progress-transition-ms: 1000ms;
         opacity: 0;
         width: 100%;
     }
-    
+
     .jf-progress-step-enter.jf-progress-step-enter-active {
         left: 0;
         opacity: 1;

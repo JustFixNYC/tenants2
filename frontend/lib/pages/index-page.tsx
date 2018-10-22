@@ -16,7 +16,33 @@ export interface IndexPageProps {
 export default class IndexPage extends React.Component<IndexPageProps> {
   renderLoggedOut() {
     return (
+<<<<<<< HEAD
       <Page className="landing-page" title="Technology for Housing Justice">
+=======
+      <Page title="Technology for Housing Justice">
+        <div className="content">
+
+          <section className="hero is-link is-fullheight is-fullheight-with-navbar">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">
+                  Fullheight hero with navbar
+                </h1>
+              </div>
+            </div>
+          </section>
+
+        <h1>Need repairs in your apartment? JustFix.nyc will mail a letter to your landlord!</h1>
+        <p>
+          Sending a letter of complaint to your landlord will help document all the issues that need to be fixed.
+        </p>
+        <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-medium">
+          Get started
+        </CenteredPrimaryButtonLink>
+        <p>Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
+
+        <WhyMailALetterOfComplaint heading="h2" />
+>>>>>>> 52c95ac91c0c107ca4d5fd4739e549017dd2455d
 
         <section className="hero is-light">
           <div className="hero-body">

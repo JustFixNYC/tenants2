@@ -19,13 +19,13 @@ html[data-safe-mode-no-js] {
     }
 }
 
-html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
+html:not([data-safe-mode-no-js]) nav.navbar .is-active {
     &.navbar-menu, .navbar-dropdown {
         animation: jf-slidedown 0.5s;
     }
 }
 
-.hero nav.navbar {
+nav.navbar {
     background: $primary;
 
     .navbar-item:focus, .navbar-link:focus, .navbar-burger:focus {
@@ -34,6 +34,12 @@ html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
 
     .navbar-item, .navbar-link {
         color: $primary-invert;
+    }
+
+    .navbar-item img {
+      max-height: 1.5rem;
+      position: relative;
+      top: 1px;
     }
 
     .navbar-link::after {

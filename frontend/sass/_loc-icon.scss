@@ -1,0 +1,41 @@
+.jf-loc-image {
+
+  max-width: 400px;
+  margin: 0 auto 3rem auto;
+  opacity: 0;
+  animation: 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) 1s forwards fadein;
+  // animation-timing-function: cubic-bezier(0.075, 0.820, 0.165, 1.000);
+
+
+  svg {
+
+    .cls-1,.cls-2,.cls-3{
+      fill:none;stroke:#0a4c5e;stroke-linejoin:round;
+    }
+
+    .cls-1 {
+      fill:#ffffff;
+    }
+
+    .cls-1,.cls-3{stroke-width:12px;}
+
+    .cls-2{stroke-width:10px;}
+
+    .cls-3{stroke-linecap:round;}
+
+    .cls-4{fill:#0a4c5e;}
+  }
+
+
+    @keyframes fadein {
+        from {
+          transform: translateX(-15vw);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+    }
+
+}

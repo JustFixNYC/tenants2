@@ -10,6 +10,6 @@ describe('index page', () => {
 
   it('renders when logged out', () => {
     const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={false} />);
-    expect(wrapper.html()).toContain('Get started');
+    expect(wrapper.html()).toContain('Is your landlord not responding');
   });
 });

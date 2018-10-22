@@ -143,6 +143,10 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
     <Page title="Sign in">
       <h1 className="title">Sign in</h1>
       <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
+      <br/>
+      <p>
+        If you forgot your password, please email <a href="mailto:support@justfix.nyc">support@justfix.nyc</a>.
+      </p>
     </Page>
   );
 });

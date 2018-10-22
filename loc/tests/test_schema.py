@@ -187,9 +187,8 @@ def test_letter_request_works(graphql_client, smsoutbox):
 
     # Ensure we text them if they want us to mail the letter *and* they gave us
     # permission to SMS during onboarding.
-    assert len(smsoutbox) == 2
-    assert 'Boop' in smsoutbox[0].body
-    assert 'http://testserver/' in smsoutbox[1].body
+    assert len(smsoutbox) == 1
+    assert 'received your request' in smsoutbox[0].body
 
     smsoutbox[:] = []
 

@@ -151,7 +151,8 @@ class OnboardingStep4(SessionFormMutation):
         oi.save()
 
         user.send_sms(
-            f"Welcome to JustFix, {user.first_name}!",
+            f"Welcome to JustFix.nyc, {user.first_name}! "
+            f"We'll be sending you notifications from this phone number.",
             fail_silently=True
         )
         slack.sendmsg(

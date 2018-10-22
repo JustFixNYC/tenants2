@@ -106,7 +106,7 @@ def test_onboarding_works(graphql_client, smsoutbox):
     assert oi.lease_type == 'MARKET_RATE'
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
-    assert "Welcome to JustFix, boop" in smsoutbox[0].body
+    assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
 
 
 @pytest.mark.django_db

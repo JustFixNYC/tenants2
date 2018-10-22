@@ -101,13 +101,9 @@ class LetterRequest(OneToOneUserModelFormMutation):
         if lr.mail_choice == 'WE_WILL_MAIL':
             sync_user_with_airtable(request.user)
             lr.user.send_sms(
-                f"We'll follow up with you about your letter of complaint "
-                f"in about a week, {lr.user.first_name}.",
-                fail_silently=True
-            )
-            lr.user.send_sms(
-                f"You can also check on your letter's status by visiting "
-                f"{request.build_absolute_uri('/')}.",
+                f"JustFix.nyc here - we've received your request and will "
+                f"update you once the letter has been sent. "
+                f"Please allow for 1-2 business days to process.",
                 fail_silently=True
             )
         slack.sendmsg(

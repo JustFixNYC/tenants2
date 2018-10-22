@@ -19,7 +19,7 @@ html[data-safe-mode-no-js] {
     }
 }
 
-html:not([data-safe-mode-no-js]) .hero nav.navbar .is-active {
+html:not([data-safe-mode-no-js]) nav.navbar .is-active {
     &.navbar-menu, .navbar-dropdown {
         animation: jf-slidedown 0.5s;
     }

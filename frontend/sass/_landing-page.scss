@@ -30,7 +30,7 @@
     .notification {
 
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding-top: 2.5rem;
       padding-bottom: 2.5rem;
@@ -42,7 +42,7 @@
         text-align: center;
         margin-right: 1rem;
 
-        h1 {
+        span {
           margin-bottom: 0;
           color: #fff;
           line-height: 3rem;

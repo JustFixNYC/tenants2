@@ -17,6 +17,7 @@ import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
+import { OutboundLink } from '../google-analytics';
 
 const blankInitialState: OnboardingStep1Input = {
   firstName: '',
@@ -45,17 +46,27 @@ export function areAddressesTheSame(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
 
-export function Step1AddressModal(): JSX.Element {
+export function PrivacyInfoModal(): JSX.Element {
   return (
     <Modal title="Your privacy is very important to us!" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
-        <h1 className="title">Your privacy is very important to us!</h1>
-        <p>
-          {`We use your address to find information about your
-            building and landlord. We use open data provided from
-            the following New York City and State agencies: 
-            HPD, DHCR, DOF, DOB and DCP.`}
-        </p>
+        <div className="jf-is-scrollable-if-too-tall">
+          <p>Your privacy is very important to us! Here are some important things to know:</p>
+          <ul className="has-text-left">
+            <li>Your personal information is secure.</li>
+            <li>We don’t use your personal information for profit or sell it to third parties.</li>
+            <li>We use your address to find information about your landlord and your building.</li>
+          </ul>
+          <p>
+            Our Privacy Policy enables sharing anonymized data with approved tenant advocacy {" "}
+            organizations exclusively to help further our tenants rights mission. {" "}
+            The Privacy Policy contains information regarding what data we collect, how we use it, {" "}
+            and the choices you have regarding your personal information. If you’d like to read {" "}
+            more, please review our full {" "}
+            <OutboundLink href="https://www.justfix.nyc/privacy-policy" target="_blank">Privacy Policy</OutboundLink> and {" "}
+            <OutboundLink href="https://www.justfix.nyc/terms-of-use" target="_blank">Terms of Use</OutboundLink>.
+          </p>
+        </div>
         <Link className="button is-primary" {...ctx.getLinkCloseProps()}>Got it!</Link>
       </div>
     )} />
@@ -155,7 +166,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
         <TextualFormField label="Apartment number" {...ctx.fieldPropsFor('aptNumber')} />
-        <Route path={Routes.onboarding.step1AddressModal} exact component={Step1AddressModal} />
+        <Route path={Routes.onboarding.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>
           Your privacy is very important to us! {" "}
           <Link to={Routes.onboarding.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.

@@ -174,3 +174,10 @@ input:focus + .jf-checkbox-symbol {
 .jf-word-glue {
     white-space: pre;
 }
+
+.jf-is-scrollable-if-too-tall {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1em;
+}

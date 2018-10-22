@@ -25,7 +25,7 @@ const initialState: LoginInput = {
 
 export interface LoginFormProps {
   next: string;
-  redirectToLegeacyAppURL: string;
+  redirectToLegacyAppURL: string;
 }
 
 /**
@@ -52,7 +52,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         initialState={initialState}
         onSuccessRedirect={(output, input) => {
           if (assertNotNull(output.session).prefersLegacyApp) {
-            return this.props.redirectToLegeacyAppURL;
+            return this.props.redirectToLegacyAppURL;
           }
           return this.props.next;
         }}
@@ -144,7 +144,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
     <Page title="Sign in">
       <div className="box">
         <h1 className="title">Sign in</h1>
-        <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
+        <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
         <br/>
         <p>
           If you forgot your password, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.

@@ -79,7 +79,6 @@ export interface ProgressStepRoute {
 interface RouteProgressBarProps extends RouteComponentProps<any> {
   steps: ProgressStepRoute[];
   label: string;
-  title?: string;
 
   /** If true, hide the actual progress bar but still render the routes. */
   hideBar?: boolean;

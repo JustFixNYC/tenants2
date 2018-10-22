@@ -122,6 +122,16 @@ export interface GoogleAnalyticsAPI {
    * @param message The text of the error.
    */
   (cmd: 'send', hitType: 'event', eventCategory: 'form-error', formField: string, message: string): void;
+
+  /**
+   * A custom event for tracking forms that have been successfully
+   * submitted.
+   * 
+   * @param formId An optional identifier for the form that was submitted.
+   * @param redirectURL An optional URL identifying the URL that the user was
+   *   redirected to after submitting the form.
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'form-success', formId?: string, redirectURL?: string): void;
 };
 
 declare global {

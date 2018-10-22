@@ -12,6 +12,7 @@ import { getAppStaticContext } from './app-static-context';
 import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
+import { ga } from './google-analytics';
 
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -22,6 +23,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   performRedirect?: (redirect: string, history: History) => void;
   confirmNavIfChanged?: boolean;
+  formId?: string;
   idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
@@ -160,6 +162,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
           // case of e.g. transition animations.
           this.setState({ isLoading: false });
         }
+        ga('send', 'event', 'form-success', this.props.formId, redirect || undefined);
         if (this.props.onSuccess) {
           this.props.onSuccess(output);
         }
@@ -237,8 +240,7 @@ export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionU
 }
 
 type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
-  mutation: FetchMutationInfo<FormInput, FormOutput>,
-  legacyFormId?: string
+  mutation: FetchMutationInfo<FormInput, FormOutput>
 };
 
 /** A form submitter that supports submission via legacy browser POST. */
@@ -249,17 +251,17 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
         {(appCtx) => {
           return (
             <Route render={(ctx) => {
-              const { mutation, legacyFormId, ...otherProps } = this.props;
+              const { mutation, formId, ...otherProps } = this.props;
               const isOurs = (sub: AppLegacyFormSubmission) =>
                 sub.POST['graphql'] === mutation.graphQL &&
-                sub.POST['legacyFormId'] === legacyFormId;
+                sub.POST['legacyFormId'] === formId;
               const props: FormSubmitterProps<FormInput, FormOutput> = {
                 ...otherProps,
                 onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
                 extraFields: (
                   <React.Fragment>
                     <input type="hidden" name="graphql" value={mutation.graphQL} />
-                    {legacyFormId && <input type="hidden" name="legacyFormId" value={legacyFormId}/>}
+                    {formId && <input type="hidden" name="legacyFormId" value={formId}/>}
                     {otherProps.extraFields}
                   </React.Fragment>
                 )

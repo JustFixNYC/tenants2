@@ -3,7 +3,6 @@ import React from 'react';
 import Page from '../page';
 import { Link, Redirect } from 'react-router-dom';
 import Routes from '../routes';
-import { WhyMailALetterOfComplaint } from '../letter-of-complaint-common';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
 

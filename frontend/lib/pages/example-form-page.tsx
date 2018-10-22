@@ -33,7 +33,7 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
       mutation={ExampleMutation}
       initialState={INITIAL_STATE}
       onSuccessRedirect={props.onSuccessRedirect}
-      legacyFormId={props.id}
+      formId={props.id}
     >
       {(ctx) => (
         <React.Fragment>

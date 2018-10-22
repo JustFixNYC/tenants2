@@ -257,7 +257,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
-          autocomplete={props.autocomplete}
+          autoComplete={props.autocomplete}
           id={props.id}
           min={props.min}
           type={type}

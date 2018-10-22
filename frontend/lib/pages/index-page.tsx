@@ -39,29 +39,29 @@ export default class IndexPage extends React.Component<IndexPageProps> {
 
         <section className="section">
           <div className="content">
-            <h1 className="has-text-centered">How It Works</h1>
+            <h2 className="has-text-centered">How It Works</h2>
             <div className="how-it-works columns is-multiline">
               <div className="column is-half">
                 <div className="notification">
-                  <div className="num"><h1>1</h1></div>
+                  <div className="num"><span className="title is-3">1</span></div>
                   <h5>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template!</h5>
                 </div>
               </div>
               <div className="column is-half">
                 <div className="notification">
-                  <div className="num"><h1>2</h1></div>
+                  <div className="num"><span className="title is-3">2</span></div>
                   <h5>JustFix.nyc handles the official Certified Mailing process on your behalf.</h5>
                 </div>
               </div>
               <div className="column is-half">
                 <div className="notification">
-                  <div className="num"><h1>3</h1></div>
+                  <div className="num"><span className="title is-3">3</span></div>
                   <h5>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</h5>
                 </div>
               </div>
               <div className="column is-half">
                 <div className="notification">
-                  <div className="num"><h1>4</h1></div>
+                  <div className="num"><span className="title is-3">4</span></div>
                   <h5>If repairs aren't made, learn about additional tactics - including legal actions.</h5>
                 </div>
               </div>
@@ -73,7 +73,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         </section>
 
         <section className="section">
-          <h1 className="title is-spaced has-text-centered">What are the benefits of mailing a Certified Letter of Complaint?</h1>
+          <h2 className="title is-spaced has-text-centered">What are the benefits of mailing a Certified Letter of Complaint?</h2>
           <h5 className="subtitle">
             Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
           </h5>
@@ -83,7 +83,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         </section>
 
         <section className="section">
-          <h1 className="title is-spaced has-text-centered">About JustFix.nyc</h1>
+          <h2 className="title is-spaced has-text-centered">About JustFix.nyc</h2>
           <h5 className="subtitle">
             JustFix.nyc is a nonprofit that builds tools for tenants and organizers fighting displacement. We encourage tenants to take affirmative actions to fight for safe and healthy homes. Want to know more? <OutboundLink href="https://www.justfix.nyc/our-mission">Visit our website.</OutboundLink>
           </h5>

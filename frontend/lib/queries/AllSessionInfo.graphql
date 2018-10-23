@@ -1,4 +1,6 @@
 fragment AllSessionInfo on SessionInfo {
+    firstName
+    lastName
     phoneNumber
     csrfToken
     isStaff

@@ -87,6 +87,14 @@ export interface AllSessionInfo_letterRequest {
 
 export interface AllSessionInfo {
   /**
+   * The first name of the currently logged-in user, or null if not logged-in.
+   */
+  firstName: string | null;
+  /**
+   * The last name of the currently logged-in user, or null if not logged-in.
+   */
+  lastName: string | null;
+  /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
   phoneNumber: string | null;
@@ -117,6 +125,8 @@ export interface AllSessionInfo {
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
+    firstName
+    lastName
     phoneNumber
     csrfToken
     isStaff

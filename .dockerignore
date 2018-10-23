@@ -23,6 +23,7 @@ frontend/lib/queries/__generated__/
 querybuilder.js
 querybuilder.js.map
 react-loadable.json
+.DS_Store
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

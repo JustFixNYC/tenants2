@@ -33,7 +33,8 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
         <FormAsButton
           mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
           label="Mail my letter"
-          buttonClass="is-success is-fullwidth"
+          buttonClass="is-success"
+          isFullWidth
         />
       </div>
     )}/>
@@ -44,6 +45,7 @@ interface FormAsButtonProps {
   mailChoice: LetterRequestMailChoice;
   label: string;
   buttonClass?: BulmaClassName;
+  isFullWidth?: boolean;
 }
 
 function FormAsButton(props: FormAsButtonProps): JSX.Element {
@@ -58,7 +60,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
-        <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
+        <NextButton isLoading={ctx.isLoading} isFullWidth={props.isFullWidth} buttonClass={props.buttonClass} label={props.label} />
       </>}
     </SessionUpdatingFormSubmitter>
   );

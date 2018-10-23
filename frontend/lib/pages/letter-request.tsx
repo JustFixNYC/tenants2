@@ -10,7 +10,7 @@ import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTy
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../form-fields';
-import { BulmaClassNameMap } from '../bulma';
+import { BulmaClassName } from '../bulma';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
@@ -43,7 +43,7 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
 interface FormAsButtonProps {
   mailChoice: LetterRequestMailChoice;
   label: string;
-  buttonClass?: BulmaClassNameMap;
+  buttonClass?: BulmaClassName;
 }
 
 function FormAsButton(props: FormAsButtonProps): JSX.Element {

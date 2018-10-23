@@ -27,7 +27,7 @@ export type BulmaClassName =
   'navbar-menu' |
   'navbar-item';
 
-type BulmaClassNameMap = {
+export type BulmaClassNameMap = {
   [K in BulmaClassName]?: boolean;
 }
 

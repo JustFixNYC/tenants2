@@ -10,7 +10,7 @@ import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTy
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../form-fields';
-import { BulmaClassName, BulmaClassNameMap } from '../bulma';
+import { BulmaClassNameMap } from '../bulma';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 

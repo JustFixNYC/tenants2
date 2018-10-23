@@ -10,6 +10,7 @@ import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
+import { fbq } from '../faceboox-pixel';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -57,6 +58,7 @@ export default class OnboardingStep4 extends React.Component {
             mutation={OnboardingStep4Mutation}
             initialState={blankInitialState}
             onSuccessRedirect={Routes.loc.home}
+            onSuccess={() => fbq('track','CompleteRegistration')}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>
       </Page>

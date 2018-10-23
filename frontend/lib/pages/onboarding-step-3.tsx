@@ -11,7 +11,6 @@ import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { filterDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { OutboundLink } from '../google-analytics';
 import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 

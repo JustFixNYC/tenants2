@@ -59,6 +59,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If empty (the default), Google Analytics is disabled.
     GA_TRACKING_ID: str = ''
 
+    # The Facebook Pixel ID for the app.
+    # If empty (the default), Facebook Pixel is disabled.
+    FACEBOOK_PIXEL_ID: str = ''
+
     # An access token for Rollbar with the 'post_client_item'
     # scope. If empty (the default), Rollbar is disabled on
     # the client-side.

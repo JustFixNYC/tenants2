@@ -165,7 +165,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
-        <TextualFormField label="Apartment number" autocomplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
+        <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>
           Your privacy is very important to us! {" "}

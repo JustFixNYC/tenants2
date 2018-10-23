@@ -214,7 +214,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   label: string;
   renderLabel?: LabelRenderer;
   required?: boolean;
-  autocomplete?: string;
+  autoComplete?: string;
   min?: string | number | undefined;
 };
 
@@ -257,7 +257,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
-          autoComplete={props.autocomplete}
+          autoComplete={props.autoComplete}
           id={props.id}
           min={props.min}
           type={type}

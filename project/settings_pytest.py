@@ -19,6 +19,7 @@ LANDLORD_LOOKUP_URL = ""
 AIRTABLE_API_KEY = ''
 SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
+FACEBOOK_PIXEL_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
 ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa

@@ -89,7 +89,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
 
   return (
     <Page title={letterConfirmationPageTitle}>
-      <SimpleProgressiveEnhancement><LoadableConfetti /></SimpleProgressiveEnhancement>
+      <SimpleProgressiveEnhancement><LoadableConfetti regenerateForSecs={1} /></SimpleProgressiveEnhancement>
       <div className="content">
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}

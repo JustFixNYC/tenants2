@@ -4,11 +4,16 @@ from django.template import RequestContext
 from django.template import Template
 from django.http import HttpResponse
 
-from project.context_processors import ga_snippet, rollbar_snippet
+from project.context_processors import ga_snippet, rollbar_snippet, facebook_pixel_snippet
 
 
 def show_ga_snippet(request):
     template = Template('{{ GA_SNIPPET }}')
+    return HttpResponse(template.render(RequestContext(request)))
+
+
+def show_facebook_pixel_snippet(request):
+    template = Template('{{ FACEBOOK_PIXEL_SNIPPET }}')
     return HttpResponse(template.render(RequestContext(request)))
 
 
@@ -19,6 +24,7 @@ def show_rollbar_snippet(request):
 
 urlpatterns = [
     path('ga', show_ga_snippet),
+    path('facebook-pixel', show_facebook_pixel_snippet),
     path('rollbar', show_rollbar_snippet),
 ]
 
@@ -42,6 +48,21 @@ def test_ga_snippet_works(client, settings):
     html = res.content.decode('utf-8')
     assert 'UA-1234' in html
     ensure_response_sets_csp(res, 'google-analytics.com')
+
+
+def test_facebook_pixel_snippet_is_empty_when_tracking_id_is_not_set(settings):
+    assert facebook_pixel_snippet(None) == {}
+
+
+@pytest.mark.urls(__name__)
+def test_facebook_pixel_snippet_works(client, settings):
+    settings.FACEBOOK_PIXEL_ID = '1234567'
+    res = client.get('/facebook-pixel')
+    assert res.status_code == 200
+    html = res.content.decode('utf-8')
+    assert '1234567' in html
+    ensure_response_sets_csp(res, 'connect.facebook.net')
+    ensure_response_sets_csp(res, 'www.facebook.com')
 
 
 def test_rollbar_snippet_is_empty_when_access_token_is_not_set(settings):

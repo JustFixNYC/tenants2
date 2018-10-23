@@ -58,3 +58,15 @@ def test_is_staff_works(graphql_client):
 
     graphql_client.request.user = UserFactory.build(is_staff=True)
     assert get_is_staff() is True
+
+
+def test_first_and_last_name_works(graphql_client):
+    def get():
+        result = graphql_client.execute('query { session { firstName, lastName } }')
+        sess = result['data']['session']
+        return (sess['firstName'], sess['lastName'])
+
+    assert get() == (None, None), "anonymous user has no first/last name"
+
+    graphql_client.request.user = UserFactory.build(full_name="Boop Jones")
+    assert get() == ("Boop", "Jones")

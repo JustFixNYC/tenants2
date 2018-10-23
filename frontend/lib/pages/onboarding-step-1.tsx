@@ -216,7 +216,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     return (
       <Page title="Tell us about yourself!">
         <div>
-          <h2 className="title is-4">To get started, we need to know a few things:</h2>
+          <h1 className="title is-4">To get started, we need to know a few things:</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(session) => session.onboardingStep1 || blankInitialState}

@@ -49,7 +49,7 @@ export default class OnboardingStep4 extends React.Component {
     return (
       <Page title="Contact information">
         <div>
-          <h2 className="title is-4">Your contact information</h2>
+          <h1 className="title is-4">Your contact information</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Mutation}
             initialState={blankInitialState}

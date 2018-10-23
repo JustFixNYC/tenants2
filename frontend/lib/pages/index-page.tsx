@@ -39,7 +39,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
 
         <section className="section">
           <div className="content">
-            <h2 className="has-text-centered">How It Works</h2>
+            <h2 className="title is-spaced has-text-centered">How It Works</h2>
             <div className="how-it-works columns is-multiline">
               <div className="column is-half">
                 <div className="notification">
@@ -73,12 +73,12 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         </section>
 
         <section className="section">
-          <h2 className="title is-spaced has-text-centered">What are the benefits of mailing a Certified Letter of Complaint?</h2>
+          <h2 className="title is-spaced has-text-centered">Why mail a Letter of Complaint?</h2>
           <h5 className="subtitle">
             Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
           </h5>
           <h5 className="subtitle">
-            If your landlord has been unresponsive to your requests to make repairs, a letter is a great tactic! By mailing a Letter of Complaint via Certified mail, you will have an official record of the requests you’ve made to your landlord. <strong>It is also good to have this letter as evidence for a future legal action.</strong>
+            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord.
           </h5>
         </section>
 
@@ -94,9 +94,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                     </p>
                   </div>
                   <div className="media-content">
-                    <p className="subtitle is-spaced">
+                    <h5 className="subtitle is-spaced">
                       <em>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</em>
-                    </p>
+                    </h5>
                     <h5 className="title is-5">
                       Veronica, 45 years old <br /> Hamilton Heights
                     </h5>

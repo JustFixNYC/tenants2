@@ -27,12 +27,12 @@ function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest, locP
     const dateStr = friendlyDate(new Date(updatedAt));
     return (
       <React.Fragment>
-        <h2 className="title">Your Letter of Complaint is being sent!</h2>
+        <h1 className="title">Your Letter of Complaint is being sent!</h1>
         <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS<sup>&copy;</sup> Certified Mail</b> once we have it!</p>
         <p className="has-text-centered">
           <OutboundLink href={props.locPdfURL} target="_blank" className="button is-light is-medium">Download letter (PDF)</OutboundLink>
         </p>
-        <h3>What happens next?</h3>
+        <h2>What happens next?</h2>
         <ol>
           <li>We’ll mail your letter via <b>USPS<sup>&copy;</sup> Certified Mail</b> and provide a tracking number via text message.</li>
           <li>Once received, your landlord should contact you to schedule time to make repairs for the Access Dates you provided.</li>
@@ -44,12 +44,12 @@ function LetterStatus(props: { letterRequest: AllSessionInfo_letterRequest, locP
   }
   return (
     <React.Fragment>
-      <h2 className="title">Your Letter of Complaint has been created!</h2>
+      <h1 className="title">Your Letter of Complaint has been created!</h1>
       <p>Here is a link to a PDF of your saved letter:</p>
       <p className="has-text-centered">
         <OutboundLink href={props.locPdfURL} target="_blank" className="button is-light is-medium">Download letter (PDF)</OutboundLink>
       </p>
-      <h3>What happens next?</h3>
+      <h2>What happens next?</h2>
       <ol>
         <li>Print out your letter and <strong>mail it via Certified Mail</strong> - this allows you to prove that it was sent to your landlord.</li>
         <li>Once received, your landlord should contact you to schedule time to make repairs for the Access Dates you provided.</li>
@@ -67,19 +67,16 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
 
   return (
     <Page title="Your letter of complaint is being sent!">
+      <SimpleProgressiveEnhancement>
+        <LoadableConfetti />
+      </SimpleProgressiveEnhancement>
       <div className="content">
-        <SimpleProgressiveEnhancement>
-          <LoadableConfetti />
-        </SimpleProgressiveEnhancement>
-        <div className="content">
-          {letterRequest && <LetterStatus letterRequest={letterRequest} locPdfURL={locPdfURL} />}
-          <h3>Want to read more about your rights?</h3>
-          <ul>
-            <li><OutboundLink href={`http://metcouncilonhousing.org/help_and_answers`} target="_blank">MetCouncil on Housing</OutboundLink></li>
-            <li><OutboundLink href={`http://housingcourtanswers.org/glossary/`} target="_blank">Housing Court Answers</OutboundLink></li>
-          </ul>
-        </div>
-
+        {letterRequest && <LetterStatus letterRequest={letterRequest} locPdfURL={locPdfURL} />}
+        <h2>Want to read more about your rights?</h2>
+        <ul>
+          <li><OutboundLink href={`http://metcouncilonhousing.org/help_and_answers`} target="_blank">MetCouncil on Housing</OutboundLink></li>
+          <li><OutboundLink href={`http://housingcourtanswers.org/glossary/`} target="_blank">Housing Court Answers</OutboundLink></li>
+        </ul>
       </div>
     </Page>
   );

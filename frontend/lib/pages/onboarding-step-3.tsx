@@ -31,7 +31,7 @@ export function LeaseInfoModal(props: { children: any, title: string }): JSX.Ele
         <h1 className="title is-4">{props.title}</h1>
         {props.children}
         <div className="has-text-centered">
-          <Link to={NEXT_STEP} className="button is-primary is-medium">Got it!</Link>
+          <Link to={NEXT_STEP} className="button is-primary is-medium">Continue</Link>
         </div>
       </div>
     </Modal>
@@ -173,7 +173,7 @@ export default class OnboardingStep3 extends React.Component {
     return (
       <Page title="What type of lease do you have?">
         <div>
-          <h2 className="title is-4 is-spaced">What type of lease do you have?</h2>
+          <h1 className="title is-4 is-spaced">What type of lease do you have?</h1>
           <p className="subtitle is-6">Your rights vary depending on what type of lease you have.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}

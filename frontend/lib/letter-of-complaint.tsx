@@ -16,7 +16,7 @@ export function Welcome(): JSX.Element {
   return (
     <Page title="Let's start your letter!">
       <div className="content">
-        <h2 className="title">Let's start your letter!</h2>
+        <h1 className="title">Let's start your letter!</h1>
         <p>
           We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. <strong>This will take about 5 minutes.</strong>
         </p>
@@ -28,7 +28,7 @@ export function Welcome(): JSX.Element {
           Add issues
         </CenteredPrimaryButtonLink>
         <br/>
-        <h2 className="title">What are the benefits of mailing a Certified Letter of Complaint?</h2>
+        <h2>What are the benefits of mailing a Certified Letter of Complaint?</h2>
         <p>
           Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
         </p>

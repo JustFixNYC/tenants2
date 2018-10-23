@@ -47,7 +47,7 @@ export default function AccessDatesPage(): JSX.Element {
   return (
     <Page title="Access dates">
       <div>
-        <h2 className="title is-4 is-spaced">Access dates</h2>
+        <h1 className="title is-4 is-spaced">Access dates</h1>
         <p className="subtitle is-6">Access dates are times you know when you will be home for the landlord to schedule repairs.</p>
         <p className="subtitle is-6">Please provide up to three access dates you will be available (allowing at least a week for the letter to be received).</p>
         <SessionUpdatingFormSubmitter

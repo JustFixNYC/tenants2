@@ -51,7 +51,7 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
   return (
     <Page title="Landlord information">
       <div>
-        <h2 className="title is-4 is-spaced">Landlord information</h2>
+        <h1 className="title is-4 is-spaced">Landlord information</h1>
         {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
         <SessionUpdatingFormSubmitter
           mutation={LandlordDetailsMutation}

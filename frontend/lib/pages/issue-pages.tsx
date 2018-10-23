@@ -66,7 +66,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     return (
       <Page title={`${label} - Issue checklist`}>
         <div>
-          <h2 className="title is-4 jf-issue-area">{svg} {label} issues</h2>
+          <h1 className="title is-4 jf-issue-area">{svg} {label} issues</h1>
           <SessionUpdatingFormSubmitter
             confirmNavIfChanged
             mutation={IssueAreaMutation}
@@ -175,7 +175,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
     return (
       <Page title="Issue checklist">
         <div>
-          <h2 className="title is-4">Issue checklist</h2>
+          <h1 className="title is-4">Issue checklist</h1>
           <SimpleProgressiveEnhancement>
             {this.renderAutocomplete()}
           </SimpleProgressiveEnhancement>

@@ -75,7 +75,7 @@ const LetterPreview = withAppContext((props) => (
 export default function LetterRequestPage(): JSX.Element {
   return (
     <Page title="Review the Letter of Complaint">
-      <h2 className="title is-4 is-spaced">Review the Letter of Complaint</h2>
+      <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
       <p className="subtitle is-6">Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
       <LetterPreview />
       <div className="has-text-centered is-grouped">

@@ -39,7 +39,7 @@ describe('issues checklist', () => {
       errors: [],
       session: { issues: ['HOME__MICE'], customIssues: [] }
     });
-    await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
+    await pal.rt.waitForElement(() => pal.rr.getByText('Apartment self-inspection'));
   });
 
   it('has a functional issue search autocomplete', async () => {

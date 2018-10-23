@@ -5,6 +5,29 @@
 // https://codepen.io/iprodev/pen/azpWBr
 
 if (typeof(window) !== 'undefined') {
+  const MIN_RESPONSIVE_WIDTH = 320;
+  const MAX_RESPONSIVE_WIDTH = 1400;
+  const RESPONSIVE_RANGE = MAX_RESPONSIVE_WIDTH - MIN_RESPONSIVE_WIDTH;
+
+  /**
+   * Return an integer whose value changes between the given minimum and maximum
+   * values, depending on the size of the user's browser window.
+   * 
+   * @param {number} minValue The minimum value of the number. Mobile devices will
+   *   usually return this.
+   * @param {number} maxValue The maximum value of the number. Desktop devices with large
+   *   browser windows will usually return this.
+   */
+  const responsiveInt = (minValue, maxValue, viewportWidth = window.innerWidth) => {
+    const valueRange = maxValue - minValue;
+    const clampedWidth = Math.max(MIN_RESPONSIVE_WIDTH,
+                                  Math.min(MAX_RESPONSIVE_WIDTH, viewportWidth));
+    const percent = (clampedWidth - MIN_RESPONSIVE_WIDTH) / RESPONSIVE_RANGE;
+    return Math.floor(valueRange * percent) + minValue;
+  };
+
+  exports.responsiveInt = responsiveInt;
+
   var retina = window.devicePixelRatio,
 
       // Math shorthands
@@ -52,11 +75,11 @@ if (typeof(window) !== 'undefined') {
 
   var speed = 50,
       duration = (1.0 / speed),
-      confettiRibbonCount = 2, // Changed from 11. -AV
+      confettiRibbonCount = responsiveInt(3, 7), // Changed from 11. -AV
       ribbonPaperCount = 30,
       ribbonPaperDist = 8.0,
       ribbonPaperThick = 8.0,
-      confettiPaperCount = 20, // Changed from 95. -AV
+      confettiPaperCount = responsiveInt(20, 60), // Changed from 95. -AV
       DEG_TO_RAD = PI / 180,
       RAD_TO_DEG = 180 / PI,
       colors = [

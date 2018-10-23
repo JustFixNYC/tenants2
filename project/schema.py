@@ -69,7 +69,7 @@ class SessionInfo(
         request = info.context
         if not request.user.is_authenticated:
             return None
-        return request.user.last_name    
+        return request.user.last_name
 
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

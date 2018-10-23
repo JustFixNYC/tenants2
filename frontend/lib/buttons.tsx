@@ -18,12 +18,14 @@ export function BackButton(props: {
 
 export function NextButton(props: {
   buttonClass?: BulmaClassName;
+  isFullWidth?: boolean;
   isLoading: boolean;
   label?: string;
 }): JSX.Element {
   return (
     <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', 'is-medium', {
-      'is-loading': props.isLoading
+      'is-loading': props.isLoading,
+      'is-fullwidth': props.isFullWidth
     })}>{props.label || 'Next'}</button>
   );
 }

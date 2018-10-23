@@ -1,10 +1,11 @@
 import React from 'react';
-import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter } from '../forms';
-import { createTestGraphQlClient } from './util';
+import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter, SessionUpdatingFormSubmitter } from '../forms';
+import { createTestGraphQlClient, pause } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
 import { ServerFormFieldError, FormErrors } from '../form-errors';
 import { TextualFormField } from '../form-fields';
+import { AppTesterPal } from './app-tester-pal';
 
 type MyFormOutput = {
   errors: ServerFormFieldError[],
@@ -17,6 +18,35 @@ type MyFormInput = {
 };
 
 const myInitialState: MyFormInput = { phoneNumber: '', password: '' };
+
+describe('SessionUpdatingFormSubmitter', () => {
+  const SomeFormMutation = {
+    graphQL: 'blah',
+    fetch(fetchImpl: any, input: any) { return fetchImpl('blah', input); }
+  };
+
+  afterEach(AppTesterPal.cleanup);
+
+  it('updates session and calls onSuccess if provided', async () => {
+    const onSuccess = jest.fn();
+    const pal = new AppTesterPal(
+      <SessionUpdatingFormSubmitter
+        mutation={SomeFormMutation}
+        initialState={{ blarg: 1 } as any}
+        onSuccess={onSuccess}
+        children={() => <button type="submit">submit</button>} />
+    );
+    pal.clickButtonOrLink('submit');
+    pal.expectFormInput({ blarg: 1 });
+    pal.respondWithFormOutput({
+      errors: [],
+      session: { csrfToken: 'boop' }
+    });
+    await pause(0);
+    expect(pal.appContext.updateSession).toHaveBeenCalledWith({ csrfToken: 'boop' });
+    expect(onSuccess).toHaveBeenCalled();
+  });
+});
 
 describe('FormSubmitter', () => {
   const payload: MyFormInput = { phoneNumber: '1', password: '2' };

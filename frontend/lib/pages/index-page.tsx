@@ -27,7 +27,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 Is your landlord not responding? Take action today!
               </h1>
               <h2 className="subtitle">
-                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&copy;</sup> Certified Mail</b>. Everything is kept confidential and secure.
+                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&copy;</sup> Certified Mail</b>. Everything is documented, confidential, and secure.
               </h2>
               <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
                 Start my letter
@@ -94,9 +94,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                     </p>
                   </div>
                   <div className="media-content">
-                    <h5 className="subtitle is-spaced">
-                      <em>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</em>
-                    </h5>
+                    <p className="subtitle is-spaced">
+                      They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.
+                    </p>
                     <h5 className="title is-5">
                       Veronica, 45 years old <br /> Hamilton Heights
                     </h5>
@@ -114,7 +114,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                   </div>
                   <div className="media-content">
                     <p className="subtitle is-spaced">
-                      <em>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</em>
+                      I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.
                     </p>
                     <h5 className="title is-5">
                       Steven, 36 years old <br /> East New York

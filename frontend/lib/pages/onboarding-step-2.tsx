@@ -88,7 +88,7 @@ export default class OnboardingStep2 extends React.Component {
     return (
       <Page title="What type of housing issues are you experiencing?">
         <div>
-          <h1 className="title is-4 is-spaced">What are you experiencing?</h1>
+          <h1 className="title is-4 is-spaced">What issues are you experiencing?</h1>
           <p className="subtitle is-6">Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep2Mutation}

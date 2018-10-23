@@ -168,7 +168,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
         <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>
-          Your privacy is very important to us! {" "}
+          Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
           <Link to={Routes.onboarding.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
         </p>
         <br/>
@@ -214,9 +214,9 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
 
   render() {
     return (
-      <Page title="Tell us about yourself!">
+      <Page title="Create an account to get started with JustFix.nyc!">
         <div>
-          <h1 className="title is-4">To get started, we need to know a few things:</h1>
+          <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(session) => session.onboardingStep1 || blankInitialState}

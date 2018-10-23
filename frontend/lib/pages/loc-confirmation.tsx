@@ -43,7 +43,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
     <Page title="Your letter of complaint has been created!">
       <h1 className="title">Your letter of complaint has been created!</h1>
       <SimpleProgressiveEnhancement>
-        <LoadableConfetti />
+        <LoadableConfetti regenerateForSecs={1} />
       </SimpleProgressiveEnhancement>
       <div className="content">
         {letterRequest && <LetterStatus letterRequest={letterRequest} />}

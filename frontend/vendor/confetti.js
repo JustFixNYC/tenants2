@@ -184,6 +184,8 @@ if (typeof(window) !== 'undefined') {
       var dy = sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
       this.corners[i] = new Vector2(dx, dy);
     }
+    this.shouldRegenerate = true;
+    this.isFinished = false;
     this.Update = function(_dt) {
       this.time += _dt;
       this.rotation += this.rotationSpeed * _dt;
@@ -191,8 +193,12 @@ if (typeof(window) !== 'undefined') {
       this.pos.x += cos(this.time * this.oscillationSpeed) * this.xSpeed * _dt
       this.pos.y += this.ySpeed * _dt;
       if (this.pos.y > ConfettiPaper.bounds.y) {
-        this.pos.x = random() * ConfettiPaper.bounds.x;
-        this.pos.y = 0;
+        if (this.shouldRegenerate) {
+          this.pos.x = random() * ConfettiPaper.bounds.x;
+          this.pos.y = 0;
+        } else {
+          this.isFinished = true;
+        }
       }
     }
     this.Draw = function(_g) {
@@ -233,6 +239,8 @@ if (typeof(window) !== 'undefined') {
     for (var i = 0; i < this.particleCount; i++) {
       this.particles[i] = new EulerMass(_x, _y - i * this.particleDist, this.particleMass, this.particleDrag);
     }
+    this.shouldRegenerate = true;
+    this.isFinished = false;
     this.Update = function(_dt) {
       var i = 0;
       this.time += _dt * this.oscillationSpeed;
@@ -261,7 +269,11 @@ if (typeof(window) !== 'undefined') {
         this.particles[i].position = rp2;
       }
       if (this.position.y > ConfettiRibbon.bounds.y + this.particleDist * this.particleCount) {
-        this.Reset();
+        if (this.shouldRegenerate) {
+          this.Reset();
+        } else {
+          this.isFinished = true;
+        }
       }
     }
     this.Reset = function() {
@@ -340,7 +352,7 @@ if (typeof(window) !== 'undefined') {
   }
   ConfettiRibbon.bounds = new Vector2(0, 0);
   confetti = {};
-  confetti.Context = function(canvas) {
+  confetti.Context = function(canvas, regenerateForSecs = 0, onFinished = () => {}) {
     var i = 0;
     var canvasParent = canvas.parentNode;
     var canvasWidth = canvasParent.offsetWidth;
@@ -350,6 +362,7 @@ if (typeof(window) !== 'undefined') {
     var context = canvas.getContext('2d');
     var interval = null;
     var confettiRibbons = new Array();
+    var framesToRegenerate = Math.floor(regenerateForSecs * 60);
     ConfettiRibbon.bounds = new Vector2(canvasWidth, canvasHeight);
     for (i = 0; i < confettiRibbonCount; i++) {
       confettiRibbons[i] = new ConfettiRibbon(random() * canvasWidth, -random() * canvasHeight * 2, ribbonPaperCount, ribbonPaperDist, ribbonPaperThick, 45, 1, 0.05);
@@ -371,11 +384,33 @@ if (typeof(window) !== 'undefined') {
     }
     this.start = function() {
       this.stop()
-      var context = this;
       this.update();
     }
     this.stop = function() {
-      cAF(this.interval);
+      if (this.interval !== null) {
+        cAF(this.interval);
+        this.interval = null;
+      }
+    }
+    this.shouldRegenerate = true;
+    this.stopRegenerating = function() {
+      this.shouldRegenerate = false;
+      for (i = 0; i < confettiPaperCount; i++) {
+        confettiPapers[i].shouldRegenerate = false;
+      }
+      for (i = 0; i < confettiRibbonCount; i++) {
+        confettiRibbons[i].shouldRegenerate = false;
+      }
+    }
+    this.isFinished = function() {
+      var i = 0;
+      for (i = 0; i < confettiPaperCount; i++) {
+        if (!confettiPapers[i].isFinished) return false;
+      }
+      for (i = 0; i < confettiRibbonCount; i++) {
+        if (!confettiRibbons[i].isFinished) return false;
+      }
+      return true;
     }
     this.update = function() {
       var i = 0;
@@ -388,7 +423,16 @@ if (typeof(window) !== 'undefined') {
         confettiRibbons[i].Update(duration);
         confettiRibbons[i].Draw(context);
       }
-      this.interval = rAF(this.update.bind(this));
+      framesToRegenerate--;
+      if (framesToRegenerate == 0) {
+        this.stopRegenerating();
+      }
+      if (this.shouldRegenerate || !this.isFinished()) {
+        this.interval = rAF(this.update.bind(this));
+      } else {
+        this.interval = null;
+        onFinished();
+      }
     }
   }
 

@@ -9,7 +9,7 @@ import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { CenteredPrimaryButtonLink } from './buttons';
 import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 
 
 export function Welcome(): JSX.Element {
@@ -40,14 +40,26 @@ export function Welcome(): JSX.Element {
   );
 }
 
-export const letterOfComplaintSteps: SessionProgressStepRoute[] = [
-  { path: Routes.loc.home, exact: true, component: Welcome },
+const welcomeStep: SessionProgressStepRoute = {
+  path: Routes.loc.home, exact: true, component: Welcome
+};
+
+const confirmationStep: SessionProgressStepRoute = {
+  path: Routes.loc.confirmation, exact: true, component: LetterConfirmation
+};
+
+const stepsToFillOut: SessionProgressStepRoute[] = [
   { path: Routes.loc.issues.prefix, component: IssuesRoutes },
   { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
   { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
   { path: Routes.loc.preview, component: LetterRequestPage,
     isComplete: sess => !!sess.letterRequest },
-  { path: Routes.loc.confirmation, exact: true, component: LetterConfirmation }
+];
+
+export const letterOfComplaintSteps: SessionProgressStepRoute[] = [
+  welcomeStep,
+  ...stepsToFillOut,
+  confirmationStep
 ];
 
 export const RedirectToLatestLetterOfComplaintStep = () =>
@@ -55,9 +67,13 @@ export const RedirectToLatestLetterOfComplaintStep = () =>
 
 export default function LetterOfComplaintRoutes(): JSX.Element {
   return (
-    <>
+    <Switch>
       <Route path={Routes.loc.latestStep} exact component={RedirectToLatestLetterOfComplaintStep} />
-      <RouteProgressBar label="Letter of Complaint" steps={letterOfComplaintSteps} />
-    </>
+      <Route {...welcomeStep} />
+      <Route {...confirmationStep} />
+      <Route render={() => (
+        <RouteProgressBar label="Letter of Complaint" steps={stepsToFillOut} />
+      )} />
+    </Switch>
   );
 }

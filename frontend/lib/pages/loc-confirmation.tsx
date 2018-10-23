@@ -32,7 +32,7 @@ function LetterStatus(props: {
     return (
       <React.Fragment>
         <h1 className="title">{props.title}</h1>
-        <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS<sup>&copy;</sup> Certified Mail</b> once we have it!</p>
+        <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS<sup>&copy;</sup> Certified Mail</b> tracking number once we have it!</p>
         <p className="has-text-centered">
           <OutboundLink href={props.locPdfURL} target="_blank" className="button is-light is-medium">Download letter (PDF)</OutboundLink>
         </p>

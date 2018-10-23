@@ -147,7 +147,7 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
     return (
       <React.Fragment>
         {!this.props.hideBar && <ProgressBar pct={pct}>
-          <h6 className="jf-page-steps-title title is-6 has-text-centered">{props.label}: Step {currStep} of {numSteps}</h6>
+          <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">{props.label}: Step {currStep} of {numSteps}</h6>
          </ProgressBar>}
         <TransitionContextGroup className={`jf-progress-step-wrapper ${directionClass}`}>
           <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>

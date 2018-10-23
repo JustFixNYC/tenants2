@@ -87,10 +87,9 @@ export default class OnboardingStep2 extends React.Component {
   render() {
     return (
       <Page title="What type of housing issues are you experiencing?">
-        <div className="box">
-          <h1 className="title">What are you experiencing?</h1>
-          <p>Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
-          <br/>
+        <div>
+          <h2 className="title is-4 is-spaced">What are you experiencing?</h2>
+          <p className="subtitle is-6">Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep2Mutation}
             initialState={(session) => session.onboardingStep2 || blankInitialState}

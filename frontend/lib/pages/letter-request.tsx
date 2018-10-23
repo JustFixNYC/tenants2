@@ -15,25 +15,25 @@ import { BulmaClassName } from '../bulma';
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
 export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Element => {
-  const title = "Ready to go!";
+  const title = "Ready to go";
   const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
 
   return (
     <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
-        <h1 className="title">{title}</h1>
+        <h1 className="title is-4">{title}</h1>
         <p>
-          JustFix.nyc will mail this certified letter within 2 business days to your landlord at:
+          JustFix.nyc will send this letter via certified mail <strong>within 1-2 business days</strong> to your landlord:
         </p>
-        <address>
+        <address className="has-text-centered">
           {landlord.name || 'UNKNOWN LANDLORD'}<br/>
           {landlord.address || 'UNKNOWN ADDRESS'}
         </address>
         <br/>
         <FormAsButton
           mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-          label="Mail my letter!"
-          buttonClass="is-primary"
+          label="Mail my letter"
+          buttonClass="is-success is-fullwidth"
         />
       </div>
     )}/>
@@ -73,14 +73,12 @@ const LetterPreview = withAppContext((props) => (
 export default function LetterRequestPage(): JSX.Element {
   return (
     <Page title="Review the Letter of Complaint">
-      <h1 className="title">Review the Letter of Complaint</h1>
-      <div className="content">
-        <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
-        <LetterPreview />
-      </div>
+      <h2 className="title is-4 is-spaced">Review the Letter of Complaint</h2>
+      <p className="subtitle is-6">Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
+      <LetterPreview />
       <div className="has-text-centered is-grouped">
-        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-large">
-          I'm ready to send!
+        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-medium">
+          Looks good to me!
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
           <BackButton to={Routes.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />

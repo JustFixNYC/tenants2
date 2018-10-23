@@ -36,7 +36,6 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <br/>
         <TextareaFormField {...ctx.fieldPropsFor('other')} label="Don't see your issues listed? You can add additional issues below." />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
@@ -66,8 +65,8 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
       <Page title={`${label} - Issue checklist`}>
-        <div className="box">
-          <h1 className="title jf-issue-area">{svg} {label} issues</h1>
+        <div>
+          <h2 className="title is-4 jf-issue-area">{svg} {label} issues</h2>
           <SessionUpdatingFormSubmitter
             confirmNavIfChanged
             mutation={IssueAreaMutation}
@@ -109,7 +108,7 @@ function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boo
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
             {svg}
-            <p className="title is-4 is-spaced">{label}</p>
+            <p className="title is-5 is-spaced">{label}</p>
             <p className="subtitle is-6 jf-issue-count">{checkSvg} {issueLabel}</p>
           </Link>
         );
@@ -175,8 +174,8 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
   render() {
     return (
       <Page title="Issue checklist">
-        <div className="box">
-          <h1 className="title">Issue checklist</h1>
+        <div>
+          <h2 className="title is-4">Issue checklist</h2>
           <SimpleProgressiveEnhancement>
             {this.renderAutocomplete()}
           </SimpleProgressiveEnhancement>

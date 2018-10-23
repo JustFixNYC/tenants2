@@ -83,7 +83,7 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(choice) }
-            /> <span className="jf-radio-symbol" /> <span className="jf-label-text">{label}</span>
+            /> <span className="jf-radio-symbol" /> <span className="jf-label-text"><h5 className="subtitle is-5">{label}</h5></span>
           </label>
         ))}
       </div>
@@ -184,7 +184,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           disabled={props.isDisabled}
           onChange={(e) => props.onChange(e.target.checked)}
-        /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text">{props.children}</span>
+        /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text"><h5 className="subtitle is-5">{props.children}</h5></span>
       </label>
       {errorHelp}
     </div>
@@ -286,6 +286,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           aria-invalid={ariaBool(!!props.errors)}
           aria-label={ariaLabel}
           name={props.name}
+          rows={2}
           id={props.id}
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}

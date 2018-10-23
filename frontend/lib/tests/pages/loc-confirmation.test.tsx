@@ -22,12 +22,12 @@ describe('letter of complaint confirmation', () => {
   it('mentions date of reception when we will mail', async () => {
     const pal = createPal(LetterRequestMailChoice.WE_WILL_MAIL);
 
-    pal.rr.getByText(/We've received your request .* Thursday, September 13, 2018/i);
+    pal.rr.getByText(/Thursday, September 13, 2018/i);
   });
 
   it('tells user to print it out and mail it', async () => {
     const pal = createPal(LetterRequestMailChoice.USER_WILL_MAIL);
 
-    pal.rr.getByText(/print it out and mail it/i);
+    pal.rr.getByText(/print out/i);
   });
 });

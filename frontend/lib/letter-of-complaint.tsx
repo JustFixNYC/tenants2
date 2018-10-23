@@ -1,6 +1,5 @@
 import React from 'react';
 import Page from './page';
-import { WhyMailALetterOfComplaint } from './letter-of-complaint-common';
 import Routes from './routes';
 import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';
@@ -17,19 +16,25 @@ export function Welcome(): JSX.Element {
   return (
     <Page title="Let's start your letter!">
       <div className="content">
-        <h1 className="title">Let's start your letter!</h1>
+        <h2 className="title">Let's start your letter!</h2>
         <p>
-          We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. This will take about 5 minutes.
+          We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. <strong>This will take about 5 minutes.</strong>
         </p>
         <ol className="has-text-left">
           <li>First, conduct a self-inspection of your apartment to document all the issues that need repair.</li>
-          <li>Review your Letter of Complaint and JustFix.nyc will mail it certified for you.</li>
+          <li>Review your Letter of Complaint and JustFix.nyc will mail it via Certified Mail.</li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
           Add issues
         </CenteredPrimaryButtonLink>
         <br/>
-        <WhyMailALetterOfComplaint heading="h3" />
+        <h2 className="title">What are the benefits of mailing a Certified Letter of Complaint?</h2>
+        <p>
+          Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
+        </p>
+        <p>
+          If your landlord has been unresponsive to your requests to make repairs, a letter is a great tactic! By mailing a Letter of Complaint via Certified mail, you will have an official record of the requests you’ve made to your landlord. <strong>It is also good to have this letter as evidence for a future legal action.</strong>
+        </p>
       </div>
     </Page>
   );

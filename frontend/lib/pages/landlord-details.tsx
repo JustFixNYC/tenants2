@@ -20,8 +20,8 @@ const BLANK_INPUT: LandlordDetailsInput = {
 function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   return (
     <React.Fragment>
-      <TextualFormField label="Landlord's name (optional)" type="text" {...ctx.fieldPropsFor('name')} />
-      <TextareaFormField label="Landlord's address (optional)" {...ctx.fieldPropsFor('address')} />
+      <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
+      <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
       <div className="buttons jf-two-buttons">
         <BackButton to={Routes.loc.accessDates} label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
@@ -34,14 +34,13 @@ function getIntroText(isLookedUp: boolean|null): JSX.Element {
   return isLookedUp
     ? (
       <React.Fragment>
-        <p>Below is your landlord’s information as registered with the NYC Department of Housing Preservation and Development.</p>
-        <p>This may be different from where you send your rent checks.</p>
+        <p className="subtitle is-6">This is your landlord’s information as registered with the <b>NYC Department of Housing and Preservation (HPD)</b>. This may be different than where you send your rent checks.</p>
+        <p className="subtitle is-6">We recommend using this address to ensure your landlord receives it.</p>
       </React.Fragment>
     )
     : (
       <React.Fragment>
-        <p>If you have your landlord's name and contact information, please enter it below.</p>
-        <p>If you don't know, we'll look it up for you.</p>
+        <p className="subtitle is-6">If you have your landlord's name and contact information, please enter it below. You can find this information on your lease and/or rent receipts.</p>
       </React.Fragment>
     );
 }
@@ -50,12 +49,10 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
   const { landlordDetails } = props.session;
 
   return (
-    <Page title="Your landlord">
-      <div className="box">
-        <h1 className="title">Your landlord</h1>
-        <div className="content">
-          {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
-        </div>
+    <Page title="Landlord information">
+      <div>
+        <h2 className="title is-4 is-spaced">Landlord information</h2>
+        {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
         <SessionUpdatingFormSubmitter
           mutation={LandlordDetailsMutation}
           initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}

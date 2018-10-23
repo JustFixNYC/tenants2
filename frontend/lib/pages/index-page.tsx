@@ -27,7 +27,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 Is your landlord not responding? Take action today!
               </h1>
               <h2 className="subtitle">
-                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&copy;</sup> Certified Mail</b>. Everything is kept confidential and secure.
+                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&copy;</sup> Certified Mail</b>. Everything is documented, confidential, and secure.
               </h2>
               <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
                 Start my letter
@@ -39,7 +39,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
 
         <section className="section">
           <div className="content">
-            <h2 className="has-text-centered">How It Works</h2>
+            <h2 className="title is-spaced has-text-centered">How It Works</h2>
             <div className="how-it-works columns is-multiline">
               <div className="column is-half">
                 <div className="notification">
@@ -73,21 +73,71 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         </section>
 
         <section className="section">
-          <h2 className="title is-spaced has-text-centered">What are the benefits of mailing a Certified Letter of Complaint?</h2>
+          <h2 className="title is-spaced has-text-centered">Why mail a Letter of Complaint?</h2>
           <h5 className="subtitle">
             Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
           </h5>
           <h5 className="subtitle">
-            If your landlord has been unresponsive to your requests to make repairs, a letter is a great tactic! By mailing a Letter of Complaint via Certified mail, you will have an official record of the requests you’ve made to your landlord. <strong>It is also good to have this letter as evidence for a future legal action.</strong>
+            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord.
           </h5>
         </section>
 
+        <section className="section section--fullwidth">
+          <h2 className="title is-spaced has-text-centered">Hear from tenants who have used JustFix.nyc</h2>
+          <div className="tile is-ancestor">
+            <div className="tile is-parent is-6">
+              <div className="tile is-child box">
+                <div className="media">
+                  <div className="media-left">
+                    <p className="image is-96x96 is-square">
+                      <img className="is-rounded" src={`/static/frontend/img/veronica.jpg`} alt="Veronica photo" />
+                    </p>
+                  </div>
+                  <div className="media-content">
+                    <p className="subtitle is-spaced">
+                      They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.
+                    </p>
+                    <h5 className="title is-5">
+                      Veronica, 45 years old <br /> Hamilton Heights
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="tile is-parent is-6">
+              <div className="tile is-child box">
+                <div className="media">
+                  <div className="media-left">
+                    <p className="image is-96x96 is-square">
+                      <img className="is-rounded" src={`/static/frontend/img/steven.png`} alt="Veronica photo" />
+                    </p>
+                  </div>
+                  <div className="media-content">
+                    <p className="subtitle is-spaced">
+                      I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.
+                    </p>
+                    <h5 className="title is-5">
+                      Steven, 36 years old <br /> East New York
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
         <section className="section">
-          <h2 className="title is-spaced has-text-centered">About JustFix.nyc</h2>
+          <h2 className="title is-spaced has-text-centered">About our nonprofit organization</h2>
           <h5 className="subtitle">
-            JustFix.nyc is a nonprofit that builds tools for tenants and organizers fighting displacement. We encourage tenants to take affirmative actions to fight for safe and healthy homes. Want to know more? <OutboundLink href="https://www.justfix.nyc/our-mission">Visit our website.</OutboundLink>
+            JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <OutboundLink href="https://www.justfix.nyc/our-mission">Visit our website.</OutboundLink>
           </h5>
-          <h5 className="subtitle"><strong>Disclaimer:</strong> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary.</h5>
+          <div className="notification is-warning">
+            <h5 className="subtitle">
+              <strong>Disclaimer:</strong> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary.
+            </h5>
+          </div>
+
         </section>
 
       </Page>

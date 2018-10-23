@@ -177,11 +177,11 @@ input:focus + .jf-checkbox-symbol {
 // put them on opposite sides of the screen.
 .jf-two-buttons, .field.is-grouped.jf-two-buttons {
     justify-content: space-between;
+    margin-top: 2rem;
 
     &.jf-two-buttons--vertical {
       // This centers and aligns the buttons vertically on a phone
       @include until($tablet) {
-        margin-top: 1rem;
         flex-direction: column;
       }
     }

@@ -9,12 +9,14 @@ import classnames from 'classnames';
 export type BulmaClassName =
   'is-active' |
   'is-primary' |
+  'is-success' |
   'is-loading' |
   'is-danger' |
   'is-text' |
   'is-light' |
   'is-medium' |
   'is-large' |
+  'is-fullwidth' |
   'has-dropdown' |
   'control' |
   'select' |

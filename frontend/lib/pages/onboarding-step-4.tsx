@@ -29,10 +29,7 @@ export default class OnboardingStep4 extends React.Component {
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>
-        <p>
-          You can optionally create a password-protected account now, which will allow you to securely log in and check your progress.
-        </p>
-        <br/>
+        <br />
         <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
         <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
@@ -43,7 +40,7 @@ export default class OnboardingStep4 extends React.Component {
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.onboarding.step3} label="Back" />
-          <NextButton isLoading={ctx.isLoading} label="Finish" />
+          <NextButton isLoading={ctx.isLoading} label="Create my account" />
         </div>
       </React.Fragment>
     );
@@ -52,8 +49,8 @@ export default class OnboardingStep4 extends React.Component {
   render() {
     return (
       <Page title="Contact information">
-        <div className="box">
-          <h1 className="title">Contact information</h1>
+        <div>
+          <h1 className="title is-4">Your contact information</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Mutation}
             initialState={blankInitialState}

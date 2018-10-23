@@ -1,10 +1,15 @@
 .jf-loc-image {
 
+  width: 70vw;
   max-width: 400px;
   margin: 0 auto 3rem auto;
   opacity: 0;
   animation: 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) 1s forwards fadein;
   // animation-timing-function: cubic-bezier(0.075, 0.820, 0.165, 1.000);
+
+  @include until($tablet) {
+    margin-bottom: 1.5rem;
+  }
 
 
   svg {

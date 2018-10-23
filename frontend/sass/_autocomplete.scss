@@ -12,13 +12,13 @@
 }
 
 .jf-autocomplete-field ul {
-    position: absolute;
     top: 2em;
     left: 0;
     width: 100%;
     background: $primary-invert;
-    border: 1px solid $border;
+    border: 1px solid $grey-light;
     z-index: 100;
+    border-radius: 4px;
     display: none;
 }
 

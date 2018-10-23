@@ -75,7 +75,7 @@ const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
 
 /**
  * For documentation about this endpoint, see:
- * 
+ *
  * https://geosearch.planninglabs.nyc/docs/#autocomplete
  */
 const GEO_AUTOCOMPLETE_URL = 'https://geosearch.planninglabs.nyc/v1/autocomplete';
@@ -127,7 +127,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   /**
    * Set the current selected item to an address consisting of the user's current
    * input and no borough.
-   * 
+   *
    * This is basically a fallback to ensure that the user's input isn't lost if
    * they are typing and happen to (intentionally or accidentally) do something
    * that causes the autocomplete to lose focus.
@@ -144,7 +144,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   /**
    * If the result list is non-empty and visible, and the user hasn't selected
    * anything, select the first item in the list and return true.
-   * 
+   *
    * Otherwise, return false.
    */
   selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
@@ -168,6 +168,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
+      autoComplete: 'address-line1 street-address',
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)

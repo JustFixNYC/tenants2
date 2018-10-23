@@ -11,7 +11,6 @@ import { CheckboxFormField, RadiosFormField } from '../form-fields';
 import { filterDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { OutboundLink } from '../google-analytics';
 import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 
@@ -29,9 +28,11 @@ export function LeaseInfoModal(props: { children: any, title: string }): JSX.Ele
   return (
     <Modal title={props.title} onCloseGoTo={NEXT_STEP}>
       <div className="content box">
-        <h1 className="title">{props.title}</h1>
+        <h1 className="title is-4">{props.title}</h1>
         {props.children}
-        <Link to={NEXT_STEP} className="button is-primary is-fullwidth">Got it!</Link>
+        <div className="has-text-centered">
+          <Link to={NEXT_STEP} className="button is-primary is-medium">Continue</Link>
+        </div>
       </div>
     </Modal>
   );
@@ -41,9 +42,11 @@ export function LeaseLearnMoreModal(props: { children: any, title: string }): JS
   return (
     <Modal title={props.title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
-        <h1 className="title">{props.title}</h1>
+        <h1 className="title is-4">{props.title}</h1>
         {props.children}
-        <Link {...ctx.getLinkCloseProps()} className="button is-primary is-fullwidth">Got it!</Link>
+        <div className="has-text-centered">
+          <Link {...ctx.getLinkCloseProps()} className="button is-primary is-medium">Got it!</Link>
+        </div>
       </div>
     )}/>
   );
@@ -69,7 +72,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3MarketRateModal,
     leaseType: 'MARKET_RATE',
     component: () => (
-      <LeaseInfoModal title="Market rate lease">
+      <LeaseInfoModal title="Market Rate lease">
         <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
       </LeaseInfoModal>
     )
@@ -78,8 +81,8 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3NychaModal,
     leaseType: 'NYCHA',
     component: () => (
-      <LeaseInfoModal title="NYCHA">
-        <p>We’ll make sure your letter gets to the head of the Housing Authority. You should also download the <OutboundLink href="https://www1.nyc.gov/site/nycha/residents/mynycha.page" target="_blank">MyNYCHA app</OutboundLink> to make service requests.</p>
+      <LeaseInfoModal title="NYCHA Housing Development">
+        <p>We’ll make sure your letter gets to the head of the Housing Authority. You should also download the MyNYCHA app to make service requests.</p>
       </LeaseInfoModal>
     )
   },
@@ -87,8 +90,8 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3OtherModal,
     leaseType: 'OTHER',
     component: () => (
-      <LeaseInfoModal title="Other">
-        <p>This is a formal way to request repairs from your landlord and is a good tactic before calling 311.</p>
+      <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)">
+        <p>This is a formal way to request repairs from your landlord and is a good tactic if calling 311 isn't working.</p>
       </LeaseInfoModal>
     )
   }
@@ -100,7 +103,7 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
     leaseType: 'RENT_STABILIZED',
     component: () => (
       <LeaseLearnMoreModal title="About rent stabilization">
-        <p>If your building has more than 6 units and was built before 1971, your apartment is likely rent stabilized.</p>
+        <p>If your building has more than 6 units and was built before 1974, your apartment is likely rent stabilized.</p>
         <p>Check your lease to make sure.</p>
       </LeaseLearnMoreModal>
     )
@@ -118,8 +121,8 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3LearnMoreModals.noLease,
     leaseType: 'NO_LEASE',
     component: () => (
-      <LeaseLearnMoreModal title="Alas.">
-        <p>It's important that you have a lease. If you are a month to month tenant, you don't have as many rights.</p>
+      <LeaseLearnMoreModal title="Month-to-month tenants">
+        <p>It's important that you have a lease. If you are a month-to-month tenant, you don't have as many rights.</p>
       </LeaseLearnMoreModal>
     )
   }
@@ -169,10 +172,9 @@ export default class OnboardingStep3 extends React.Component {
   render() {
     return (
       <Page title="What type of lease do you have?">
-        <div className="box">
-          <h1 className="title">What type of lease do you have?</h1>
-          <p>Your rights vary depending on what type of lease you have.</p>
-          <br/>
+        <div>
+          <h1 className="title is-4 is-spaced">What type of lease do you have?</h1>
+          <p className="subtitle is-6">Your rights vary depending on what type of lease you have.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}
             initialState={(session) => session.onboardingStep3 || blankInitialState}

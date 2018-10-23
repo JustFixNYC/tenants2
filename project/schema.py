@@ -20,6 +20,20 @@ class SessionInfo(
     IssueSessionInfo,
     graphene.ObjectType
 ):
+    first_name = graphene.String(
+        description=(
+            "The first name of the currently logged-in user, or "
+            "null if not logged-in."
+        )
+    )
+
+    last_name = graphene.String(
+        description=(
+            "The last name of the currently logged-in user, or "
+            "null if not logged-in."
+        )
+    )
+
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or "
@@ -44,6 +58,18 @@ class SessionInfo(
         ),
         required=True
     )
+
+    def resolve_first_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.first_name
+
+    def resolve_last_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.last_name
 
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

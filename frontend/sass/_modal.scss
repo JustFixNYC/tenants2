@@ -8,9 +8,12 @@
     height: 100%;
     z-index: 1050;
     overflow: hidden auto;
-    text-align: center;
     background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 // This is quite similar to Bulma's .modal styling.
@@ -21,8 +24,8 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    height: 100%;
     cursor: default;
+
 }
 
 .jf-modal-animate {

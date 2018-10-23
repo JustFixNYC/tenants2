@@ -13,7 +13,7 @@ interface TestClient {
 /**
  * Creates a GraphQL client useful for testing. It will never hit the network
  * because the fetch implementation it uses is a Jest mock.
- * 
+ *
  * @param enableTimeout Whether to enable the client's timeout-based fetch logic.
  *   If disabled (the default), your tests will need to manually tell the client
  *   to fetch queued requests.
@@ -76,7 +76,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   originURL: 'https://myserver.com',
   staticURL: '/mystatic/',
   webpackPublicPathURL: '/mystatic/myfrontend/',
-  adminIndexURL: '/myadmin/',  
+  adminIndexURL: '/myadmin/',
   debug: false,
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
@@ -85,6 +85,8 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
+  firstName: null,
+  lastName: null,
   phoneNumber: null,
   csrfToken: 'mycsrf',
   prefersLegacyApp: false,

@@ -9,7 +9,7 @@ import { TransitionContextType, withTransitionContext } from './transition-conte
 
 const ANIMATION_CLASS = "jf-modal-animate";
 
-const DIALOG_CLASS = "jf-modal-dialog"
+const DIALOG_CLASS = "jf-modal-dialog modal-content"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 

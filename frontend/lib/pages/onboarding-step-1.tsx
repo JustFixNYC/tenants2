@@ -51,8 +51,8 @@ export function PrivacyInfoModal(): JSX.Element {
     <Modal title="Your privacy is very important to us!" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
       <div className="content box">
         <div className="jf-is-scrollable-if-too-tall">
-          <p>Your privacy is very important to us! Here are some important things to know:</p>
-          <ul className="has-text-left">
+          <h5>Your privacy is very important to us! Here are some important things to know:</h5>
+          <ul>
             <li>Your personal information is secure.</li>
             <li>We don’t use your personal information for profit or sell it to third parties.</li>
             <li>We use your address to find information about your landlord and your building.</li>
@@ -67,7 +67,7 @@ export function PrivacyInfoModal(): JSX.Element {
             <OutboundLink href="https://www.justfix.nyc/terms-of-use" target="_blank">Terms of Use</OutboundLink>.
           </p>
         </div>
-        <Link className="button is-primary" {...ctx.getLinkCloseProps()}>Got it!</Link>
+        <div className="has-text-centered"><Link className="button is-primary is-medium" {...ctx.getLinkCloseProps()}>Got it!</Link></div>
       </div>
     )} />
   );
@@ -165,10 +165,10 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
-        <TextualFormField label="Apartment number" {...ctx.fieldPropsFor('aptNumber')} />
+        <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>
-          Your privacy is very important to us! {" "}
+          Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
           <Link to={Routes.onboarding.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
         </p>
         <br/>
@@ -214,9 +214,9 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
 
   render() {
     return (
-      <Page title="Tell us about yourself!">
-        <div className="box">
-          <h1 className="title">Tell us about yourself!</h1>
+      <Page title="Create an account to get started with JustFix.nyc!">
+        <div>
+          <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(session) => session.onboardingStep1 || blankInitialState}

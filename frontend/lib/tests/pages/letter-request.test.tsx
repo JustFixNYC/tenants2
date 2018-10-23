@@ -23,7 +23,7 @@ describe('landlord details page', () => {
       session: { letterRequest: { updatedAt, mailChoice } }
     });
 
-    await pal.rt.waitForElement(() => pal.rr.getByText(/Your letter of complaint has been created/i));
+    await pal.rt.waitForElement(() => pal.rr.getByText(/your letter of complaint .*/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
@@ -42,7 +42,7 @@ describe('landlord details page', () => {
       url: Routes.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
     });
-    pal.clickButtonOrLink(/ready to send/i);
+    pal.clickButtonOrLink(/looks good to me/i);
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
 
     // This is a workaround for https://github.com/davidtheclark/focus-trap-react/issues/24.

@@ -47,9 +47,8 @@ export default function AccessDatesPage(): JSX.Element {
   return (
     <Page title="Access dates">
       <div>
-        <h1 className="title is-4 is-spaced">Access dates</h1>
-        <p className="subtitle is-6">Access dates are times you know when you will be home for the landlord to schedule repairs.</p>
-        <p className="subtitle is-6">Please provide up to three access dates you will be available (allowing at least a week for the letter to be received).</p>
+        <h1 className="title is-4 is-spaced">Landlord/super access dates</h1>
+        <p className="subtitle is-6">Access dates are times you know when you will be home for the landlord to schedule repairs. Please provide <strong>1 - 3</strong> access dates when you can be available (allowing at least a week for the letter to be received).</p>
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}
           initialState={(session) => getInitialState(session.accessDates)}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Page from './page';
 import Routes from './routes';
+import { withAppContext, AppContextType } from './app-context';
 import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
@@ -11,34 +12,37 @@ import { CenteredPrimaryButtonLink } from './buttons';
 import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
 import { Route, Switch } from 'react-router';
 
+export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
+  const { firstName } = props.session;
 
-export function Welcome(): JSX.Element {
   return (
     <Page title="Let's start your letter!">
       <div className="content">
-        <h1 className="title">Let's start your letter!</h1>
+        <h1 className="title">Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of Complaint.</h1>
         <p>
           We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. <strong>This will take about 5 minutes.</strong>
         </p>
         <ol className="has-text-left">
-          <li>First, conduct a self-inspection of your apartment to document all the issues that need repair.</li>
-          <li>Review your Letter of Complaint and JustFix.nyc will mail it via Certified Mail.</li>
+          <li>First, conduct a <strong>self-inspection of your apartment</strong> to document all the issues that need repair.</li>
+          <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS<sup>&copy;</sup> Certified Mail.</li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
-          Add issues
+          Start my letter
         </CenteredPrimaryButtonLink>
         <br/>
-        <h2>What are the benefits of mailing a Certified Letter of Complaint?</h2>
+        <h2>Why mail a Letter of Complaint?</h2>
         <p>
           Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
         </p>
         <p>
-          If your landlord has been unresponsive to your requests to make repairs, a letter is a great tactic! By mailing a Letter of Complaint via Certified mail, you will have an official record of the requests you’ve made to your landlord. <strong>It is also good to have this letter as evidence for a future legal action.</strong>
+          <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord.
         </p>
       </div>
     </Page>
   );
-}
+});
+
+
 
 const welcomeStep: SessionProgressStepRoute = {
   path: Routes.loc.home, exact: true, component: Welcome

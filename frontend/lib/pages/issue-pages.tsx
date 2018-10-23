@@ -173,9 +173,10 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
 
   render() {
     return (
-      <Page title="Issue checklist">
+      <Page title="Apartment self-inspection">
         <div>
-          <h1 className="title is-4">Issue checklist</h1>
+          <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
+          <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. This <strong>issue checklist</strong> will be sent to your landlord. <strong>Don't hold back!</strong></p>
           <SimpleProgressiveEnhancement>
             {this.renderAutocomplete()}
           </SimpleProgressiveEnhancement>

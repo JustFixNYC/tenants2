@@ -27,7 +27,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 Is your landlord not responding? Take action today!
               </h1>
               <h2 className="subtitle">
-                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&reg;</sup> Certified Mail</b>. Everything is documented, confidential, and secure.
+                JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.
               </h2>
               <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
                 Start my free letter
@@ -50,7 +50,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <div className="column is-half">
                 <div className="notification">
                   <div className="num"><span className="title is-3">2</span></div>
-                  <h5>JustFix.nyc mails your letter via USPS<sup>&reg;</sup> Certified Mailing - for free!</h5>
+                  <h5>JustFix.nyc mails your letter via USPS Certified Mail<sup>&reg;</sup> - for free!</h5>
                 </div>
               </div>
               <div className="column is-half">
@@ -78,7 +78,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
             Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
           </h5>
           <h5 className="subtitle">
-            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&reg;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <strong>covers the cost</strong> of mailing this letter for you!
+            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS Certified Mail<sup>&reg;</sup>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <strong>covers the cost</strong> of mailing this letter for you!
           </h5>
         </section>
 

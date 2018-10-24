@@ -1,3 +1,4 @@
+import logging
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -8,6 +9,9 @@ from project.util.site_util import absolute_reverse
 PHONE_NUMBER_LEN = 10
 
 FULL_NAME_MAXLEN = 150
+
+
+logger = logging.getLogger(__name__)
 
 
 class JustfixUser(AbstractUser):

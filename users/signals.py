@@ -1,6 +1,9 @@
 from django.dispatch import receiver
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_save
 from django.contrib.auth.models import Group
+from django.contrib.admin.models import (
+    LogEntry, ADDITION, CHANGE, DELETION
+)
 
 from .models import JustfixUser, logger
 
@@ -9,8 +12,10 @@ from .models import JustfixUser, logger
 @receiver(m2m_changed, sender=JustfixUser.user_permissions.through)
 @receiver(m2m_changed, sender=Group.permissions.through)
 def log_m2m_change(sender, instance, action, reverse, model, pk_set, **kwargs):
-    """Log changes for many-to-many fields, notably around permissions and
-    groups"""
+    """
+    Log changes for many-to-many fields, notably around permissions and
+    groups.
+    """
 
     model_name = model._meta.verbose_name_plural
     instance_model = instance._meta.verbose_name
@@ -23,3 +28,23 @@ def log_m2m_change(sender, instance, action, reverse, model, pk_set, **kwargs):
             f"{model_name} removed from {instance_model} '{instance}': {objects_added}")
     elif action == 'post_clear':
         logger.info(f"All {model_name} removed from {instance_model} '{instance}'")
+
+
+@receiver(post_save, sender=LogEntry)
+def adminlog_post_save(sender, instance, **kwargs):
+    """
+    Django's admin already logs when edits are made. Pass that along to our
+    logging system.
+    """
+
+    if instance.action_flag == ADDITION:
+        logger.info(
+            f"{instance.user.username} created {instance.content_type} '{instance.object_repr}'")
+    elif instance.action_flag == DELETION:
+        logger.info(
+            f"{instance.user.username} deleted {instance.content_type} '{instance.object_repr}'")
+    elif instance.action_flag == CHANGE:
+        logger.info(
+            f"{instance.user.username} changed {instance.content_type} '{instance.object_repr}': "
+            f"{instance.change_message}"
+        )

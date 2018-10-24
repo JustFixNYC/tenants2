@@ -1,6 +1,9 @@
 import pytest
 from unittest.mock import patch
 from django.contrib.auth.models import Permission
+from django.contrib.admin.models import (
+    ContentType, LogEntry, ADDITION, CHANGE, DELETION
+)
 
 from .factories import UserFactory
 
@@ -41,3 +44,30 @@ def test_permission_clear_is_logged():
         mock.info.assert_called_once_with(
             "All permissions removed from user '5551234567 (Boop Jones)'"
         )
+
+
+def create_log_entry(**kwargs):
+    user = UserFactory()
+    ctype = ContentType.objects.get(app_label='users', model='justfixuser')
+    LogEntry(user=user, object_repr='blargy', content_type=ctype, **kwargs).save()
+
+
+@pytest.mark.django_db
+def test_logentry_addition_is_logged():
+    with patch('users.signals.logger') as mock:
+        create_log_entry(action_flag=ADDITION)
+        mock.info.assert_called_once_with("boop created user 'blargy'")
+
+
+@pytest.mark.django_db
+def test_logentry_deletion_is_logged():
+    with patch('users.signals.logger') as mock:
+        create_log_entry(action_flag=DELETION)
+        mock.info.assert_called_once_with("boop deleted user 'blargy'")
+
+
+@pytest.mark.django_db
+def test_logentry_change_is_logged():
+    with patch('users.signals.logger') as mock:
+        create_log_entry(action_flag=CHANGE, change_message='oof')
+        mock.info.assert_called_once_with("boop changed user 'blargy': oof")

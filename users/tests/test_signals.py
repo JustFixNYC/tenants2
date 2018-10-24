@@ -1,57 +1,43 @@
-from functools import wraps
+import pytest
 from unittest.mock import patch
 from django.contrib.auth.models import Permission
-from django.test import TestCase
 
 from .factories import UserFactory
 
 
-class MockLogger():
-    def __init__(self):
-        self.logs = []
-
-    def info(self, fmt, *args):
-        self.logs.append(fmt % args)
-
-
-def mock_logged(fn):
-    @wraps(fn)
-    @patch('users.signals.logger', MockLogger())
-    def wrapper(self):
-        import users.signals
-        return fn(self, users.signals.logger)
-
-    return wrapper
+def create_user_with_perm():
+    perm = Permission.objects.get(codename='change_justfixuser')
+    user = UserFactory()
+    user.user_permissions.add(perm)
+    return user, perm
 
 
-class M2MTests(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
-
-    @mock_logged
-    def test_change_is_logged(self, logger):
-        perm = Permission.objects.get(codename='change_justfixuser')
-        self.user.user_permissions.add(perm)
-        self.assertEqual(logger.logs, [
+@pytest.mark.django_db
+def test_permission_change_is_logged():
+    with patch('users.signals.logger') as mock:
+        create_user_with_perm()
+        mock.info.assert_called_once_with(
             "permissions given to user '5551234567 (Boop Jones)': "
             "[<Permission: users | user | Can change user>]"
-        ])
+        )
 
-    @mock_logged
-    def test_remove_is_logged(self, logger):
-        perm = Permission.objects.get(codename='change_justfixuser')
-        self.user.user_permissions.add(perm)
-        self.user.user_permissions.remove(perm)
-        self.assertIn((
+
+@pytest.mark.django_db
+def test_permission_remove_is_logged():
+    user, perm = create_user_with_perm()
+    with patch('users.signals.logger') as mock:
+        user.user_permissions.remove(perm)
+        mock.info.assert_called_once_with(
             "permissions removed from user '5551234567 (Boop Jones)': "
             "[<Permission: users | user | Can change user>]"
-        ), logger.logs)
+        )
 
-    @mock_logged
-    def test_clear_is_logged(self, logger):
-        perm = Permission.objects.get(codename='change_justfixuser')
-        self.user.user_permissions.add(perm)
-        self.user.user_permissions.clear()
-        self.assertIn((
+
+@pytest.mark.django_db
+def test_permission_clear_is_logged():
+    user, _ = create_user_with_perm()
+    with patch('users.signals.logger') as mock:
+        user.user_permissions.clear()
+        mock.info.assert_called_once_with(
             "All permissions removed from user '5551234567 (Boop Jones)'"
-        ), logger.logs)
+        )

@@ -16,12 +16,10 @@ def log_m2m_change(sender, instance, action, reverse, model, pk_set, **kwargs):
     instance_model = instance._meta.verbose_name
     if action == 'post_add':
         objects_added = list(model.objects.filter(pk__in=pk_set))
-        logger.info("%s given to %s '%s': %s", model_name, instance_model,
-                    instance, objects_added)
+        logger.info(f"{model_name} given to {instance_model} '{instance}': {objects_added}")
     elif action == 'post_remove':
         objects_added = list(model.objects.filter(pk__in=pk_set))
-        logger.info("%s removed from %s '%s': %s", model_name, instance_model,
-                    instance, objects_added)
+        logger.info(
+            f"{model_name} removed from {instance_model} '{instance}': {objects_added}")
     elif action == 'post_clear':
-        logger.info("All %s removed from %s '%s'", model_name, instance_model,
-                    instance)
+        logger.info(f"All {model_name} removed from {instance_model} '{instance}'")

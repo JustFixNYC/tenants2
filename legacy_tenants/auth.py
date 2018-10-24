@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import logging
 from typing import Optional
 from django.utils.crypto import pbkdf2
 from django.conf import settings
@@ -7,6 +8,9 @@ from django.conf import settings
 from . import mongo
 from users.models import JustfixUser
 from .models import LegacyUserInfo
+
+
+logger = logging.getLogger(__name__)
 
 
 def convert_salt_to_bytes(salt: str) -> bytes:

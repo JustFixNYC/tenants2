@@ -3,7 +3,7 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Mapping, Dict, Any
+from typing import Optional, Type, Mapping, Dict, Any, TypeVar
 from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
@@ -15,6 +15,10 @@ import graphene
 import graphene_django.forms.mutation
 from graphene_django.forms.converter import convert_form_field
 from graphene.utils.str_converters import to_camel_case, to_snake_case
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
@@ -111,6 +115,9 @@ class StrictFormFieldErrorType(graphene.ObjectType):
     )
 
 
+T = TypeVar('T', bound='DjangoFormMutation')
+
+
 class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
     class Meta:
         abstract = True
@@ -149,18 +156,26 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
         return cls._input_type_to_form_mapping.get(input_type)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info: ResolveInfo, **input):
+    def log(cls, info: ResolveInfo, msg: str) -> None:
+        logger.info(f"[{info.field_name} mutation] {msg}")
+
+    @classmethod
+    def make_error(cls: Type[T], message: str) -> T:
+        err = StrictFormFieldErrorType(field='__all__', messages=[message])
+        return cls(errors=[err])
+
+    @classmethod
+    def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:
         request = info.context
 
         if cls.login_required and not request.user.is_authenticated:
-            return cls(errors=[StrictFormFieldErrorType(
-                field='__all__',
-                messages=['You do not have permission to use this form!']
-            )])
+            cls.log(info, "User must be logged in to access mutation.")
+            return cls.make_error('You do not have permission to use this form!')
 
         form = cls.get_form(root, info, **input)
 
         if form.is_valid():
+            cls.log(info, "Form is valid, performing mutation.")
             return cls.perform_mutate(form, info)
         else:
             errors = []
@@ -172,6 +187,8 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
                     # errors should use them too.
                     key = to_camel_case(key)
                 errors.append(StrictFormFieldErrorType(field=key, messages=value))
+
+            cls.log(info, f"Form is invalid with {len(errors)} error(s).")
             return cls(errors=errors)
 
 

@@ -82,7 +82,7 @@ class LambdaPool:
             stderr=subprocess.PIPE,
             cwd=self.cwd
         )
-        logger.info(f"Created {self.name} lambda process with pid {child.pid}.")
+        logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
     def __get_process(self) -> subprocess.Popen:
@@ -95,7 +95,7 @@ class LambdaPool:
                 mtime = self.script_path.stat().st_mtime
                 if mtime != self.__script_path_mtime:
                     self.__script_path_mtime = mtime
-                    logger.info(
+                    logger.debug(
                         f"Change detected in {self.script_path.name}, "
                         f"restarting {self.name} lambda processs."
                     )
@@ -122,7 +122,7 @@ class LambdaPool:
             while self.__processes:
                 child = self.__processes.pop()
                 child.kill()
-                logger.info(f"Destroyed {self.name} lambda process with pid {child.pid}.")
+                logger.debug(f"Destroyed {self.name} lambda process with pid {child.pid}.")
 
             # We know we're empty at this point, so we don't need to clean up
             # anything later.

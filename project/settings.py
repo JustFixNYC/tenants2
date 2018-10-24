@@ -177,7 +177,7 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console', 'rollbar'],
-            'level': 'INFO',
+            'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'django': {
             'handlers': ['console'],

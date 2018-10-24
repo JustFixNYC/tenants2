@@ -1,11 +1,28 @@
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, post_save
+from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from django.contrib.auth.models import Group
 from django.contrib.admin.models import (
     LogEntry, ADDITION, CHANGE, DELETION
 )
 
 from .models import JustfixUser, logger
+
+
+@receiver(user_logged_in)
+def log_user_logged_in(sender, request, user, **kwargs):
+    logger.info(f"{user} logged in")
+
+
+@receiver(user_logged_out)
+def log_user_logged_out(sender, request, user, **kwargs):
+    logger.info(f"{user} logged out")
+
+
+@receiver(user_login_failed)
+def user_login_failed_callback(sender, credentials, **kwargs):
+    # Fortunately, Django fills any sensitive credentials (like password) with *'s.
+    logger.info(f"user login failed with credentials {credentials}")
 
 
 @receiver(m2m_changed, sender=JustfixUser.groups.through)

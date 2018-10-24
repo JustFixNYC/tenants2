@@ -71,3 +71,28 @@ def test_logentry_change_is_logged():
     with patch('users.signals.logger') as mock:
         create_log_entry(action_flag=CHANGE, change_message='oof')
         mock.info.assert_called_once_with("boop changed user 'blargy': oof")
+
+
+@pytest.mark.django_db
+def test_login_is_logged(client):
+    with patch('users.signals.logger') as mock:
+        client.force_login(UserFactory())
+        mock.info.assert_called_once_with("5551234567 (Boop Jones) logged in")
+
+
+@pytest.mark.django_db
+def test_failed_login_is_logged(client):
+    with patch('users.signals.logger') as mock:
+        client.login(username='blah', password='blahh')
+        mock.info.assert_called_once_with(
+            "user login failed with credentials "
+            "{'username': 'blah', 'password': '********************'}"
+        )
+
+
+@pytest.mark.django_db
+def test_logout_is_logged(client):
+    client.force_login(UserFactory())
+    with patch('users.signals.logger') as mock:
+        client.logout()
+        mock.info.assert_called_once_with("5551234567 (Boop Jones) logged out")

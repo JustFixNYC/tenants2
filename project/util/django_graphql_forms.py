@@ -157,7 +157,12 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
 
     @classmethod
     def log(cls, info: ResolveInfo, msg: str) -> None:
-        logger.info(f"[{info.field_name} mutation] {msg}")
+        parts = [f'{info.field_name} mutation']
+        user = info.context.user
+        if user.is_authenticated:
+            parts.append(f'uid={user.pk}')
+        preamble = ' '.join(parts)
+        logger.info(f"[{preamble}] {msg}")
 
     @classmethod
     def make_error(cls: Type[T], message: str) -> T:

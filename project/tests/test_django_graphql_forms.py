@@ -1,5 +1,9 @@
 import json
 import graphene
+from unittest.mock import patch
+from dataclasses import dataclass
+from typing import Any
+import pytest
 from graphene.test import Client
 from django import forms
 from django.test import RequestFactory
@@ -9,9 +13,16 @@ from users.tests.factories import UserFactory
 from ..util.django_graphql_forms import (
     DjangoFormMutation,
     get_input_type_from_query,
-    convert_post_data_to_input
+    convert_post_data_to_input,
+    logger
 )
 from .util import qdict
+
+
+@dataclass
+class FakeResolveInfo:
+    field_name: Any
+    context: Any
 
 
 class FooForm(forms.Form):
@@ -84,15 +95,18 @@ def execute_query(bar_field='blah', multi_field=None):
             }
         }
     }
-    ''', variables={'input': input_var}))
+    ''', variables={'input': input_var}, context_value=create_fake_request()))
 
 
-def execute_form_with_auth_query(some_field='HI', user=None):
+def create_fake_request(user=None):
     if user is None:
         user = AnonymousUser()
     req = RequestFactory().get('/')
     req.user = user
+    return req
 
+
+def execute_form_with_auth_query(some_field='HI', user=None):
     client = Client(schema)
     input_var = {'someField': some_field}
 
@@ -105,7 +119,21 @@ def execute_form_with_auth_query(some_field='HI', user=None):
             }
         }
     }
-    ''', variables={'input': input_var}, context_value=req))
+    ''', variables={'input': input_var}, context_value=create_fake_request(user)))
+
+
+def test_log_works_with_anonymous_users():
+    with patch.object(logger, 'info') as mock:
+        DjangoFormMutation.log(FakeResolveInfo('blorf', create_fake_request()), 'boop')
+        mock.assert_called_once_with('[blorf mutation] boop')
+
+
+@pytest.mark.django_db
+def test_log_works_with_logged_in_users():
+    user = UserFactory()
+    with patch.object(logger, 'info') as mock:
+        DjangoFormMutation.log(FakeResolveInfo('blorf', create_fake_request(user)), 'boop')
+        mock.assert_called_once_with(f'[blorf mutation uid={user.pk}] boop')
 
 
 def test_get_form_class_for_input_type_works():

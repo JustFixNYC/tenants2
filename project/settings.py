@@ -15,7 +15,8 @@ import dj_database_url
 
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
-from .util.settings_util import parse_secure_proxy_ssl_header
+from .util.settings_util import (
+    parse_secure_proxy_ssl_header, LazilyImportedFunction)
 from .util import git
 
 
@@ -147,6 +148,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # This is based off the default Django logging configuration:
 # https://github.com/django/django/blob/master/django/utils/log.py
 LOGGING = {
@@ -164,8 +166,16 @@ LOGGING = {
         'django.server': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'filters': ['skip_static_requests'],
             'formatter': 'django.server',
         },
+    },
+    'filters': {
+        'skip_static_requests': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': LazilyImportedFunction(
+                'project.logging.skip_static_requests')
+        }
     },
     'formatters': {
         'django.server': {
@@ -177,7 +187,7 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console', 'rollbar'],
-            'level': 'INFO',
+            'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'django': {
             'handlers': ['console'],

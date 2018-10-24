@@ -30,7 +30,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS<sup>&copy;</sup> Certified Mail</b>. Everything is documented, confidential, and secure.
               </h2>
               <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
-                Start my letter
+                Start my free letter
               </CenteredPrimaryButtonLink>
               <p className="secondary-cta">Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
             </div>
@@ -44,13 +44,13 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <div className="column is-half">
                 <div className="notification">
                   <div className="num"><span className="title is-3">1</span></div>
-                  <h5>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template!</h5>
+                  <h5>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</h5>
                 </div>
               </div>
               <div className="column is-half">
                 <div className="notification">
                   <div className="num"><span className="title is-3">2</span></div>
-                  <h5>JustFix.nyc handles the official Certified Mailing process on your behalf.</h5>
+                  <h5>JustFix.nyc mails your letter via USPS<sup>&copy;</sup> Certified Mailing - for free!</h5>
                 </div>
               </div>
               <div className="column is-half">
@@ -62,12 +62,12 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <div className="column is-half">
                 <div className="notification">
                   <div className="num"><span className="title is-3">4</span></div>
-                  <h5>If repairs aren't made, learn about additional tactics - including legal actions.</h5>
+                  <h5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</h5>
                 </div>
               </div>
             </div>
             <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
-              Start my letter
+              Start my free letter
             </CenteredPrimaryButtonLink>
           </div>
         </section>
@@ -78,7 +78,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
             Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
           </h5>
           <h5 className="subtitle">
-            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord.
+            <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <strong>covers the cost</strong> of mailing this letter for you!
           </h5>
         </section>
 

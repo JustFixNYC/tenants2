@@ -27,7 +27,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
           <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS<sup>&copy;</sup> Certified Mail.</li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
-          Start my letter
+          Start my free letter
         </CenteredPrimaryButtonLink>
         <br/>
         <h2>Why mail a Letter of Complaint?</h2>

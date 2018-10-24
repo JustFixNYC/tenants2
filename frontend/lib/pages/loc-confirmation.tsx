@@ -38,11 +38,11 @@ function WeWillMailLetterStatus(props: {
 
   return (
     <>
-      <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS<sup>&copy;</sup> Certified Mail</b> tracking number once we have it!</p>
+      <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS<sup>&reg;</sup> Certified Mail</b> tracking number once we have it!</p>
       <PdfLink {...props} />
       <h2>What happens next?</h2>
       <ol>
-        <li>We’ll mail your letter via <b>USPS<sup>&copy;</sup> Certified Mail</b> and provide a tracking number via text message.</li>
+        <li>We’ll mail your letter via <b>USPS<sup>&reg;</sup> Certified Mail</b> and provide a tracking number via text message.</li>
         <li>Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided.</li>
         <li>While you wait, you should <strong>document your issues with photos</strong> and <strong>call 311 to request an HPD inspection.</strong></li>
         <li>We will continue to follow up with you via text message. If your landlord does not follow through, you now have better legal standing to sue your landlord. <strong>This is called an HP Action proceeding.</strong></li>

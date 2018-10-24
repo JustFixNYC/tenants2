@@ -23,7 +23,7 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
       <div className="content box">
         <h1 className="title is-4">{title}</h1>
         <p>
-          JustFix.nyc will send this letter via USPS<sup>&copy;</sup> Certified Mail <strong>within 1-2 business days</strong> to your landlord:
+          JustFix.nyc will send this letter via USPS<sup>&reg;</sup> Certified Mail <strong>within 1-2 business days</strong> to your landlord:
         </p>
         <address className="has-text-centered">
           {landlord.name || 'UNKNOWN LANDLORD'}<br/>

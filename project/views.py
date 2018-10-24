@@ -178,7 +178,7 @@ def react_rendered_view(request, url: str):
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
-    logger.info(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
+    logger.debug(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,

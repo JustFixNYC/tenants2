@@ -1,7 +1,10 @@
 import pytest
 from django.core.exceptions import ImproperlyConfigured
 
-from project.util.settings_util import ensure_dependent_settings_are_nonempty
+from project.util.settings_util import (
+    ensure_dependent_settings_are_nonempty,
+    LazilyImportedFunction
+)
 
 
 class TestEnsureDependentSettingsAreNonempty:
@@ -24,3 +27,13 @@ class TestEnsureDependentSettingsAreNonempty:
             match="FOO is non-empty, but"
         ):
             ensure_dependent_settings_are_nonempty('FOO', 'BAR')
+
+
+def example_lazy_func(a, b):
+    return f'blorp a={a} b={b}'
+
+
+def test_lazily_imported_function_works():
+    lif = LazilyImportedFunction(f'{__name__}.example_lazy_func')
+    assert lif(1, b=2) == 'blorp a=1 b=2'
+    assert lif(2, b=3) == 'blorp a=2 b=3'

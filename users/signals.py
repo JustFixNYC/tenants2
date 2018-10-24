@@ -11,18 +11,18 @@ from .models import JustfixUser, logger
 
 @receiver(user_logged_in)
 def log_user_logged_in(sender, request, user, **kwargs):
-    logger.info(f"{user} logged in")
+    logger.info(f"{user} logged in.")
 
 
 @receiver(user_logged_out)
 def log_user_logged_out(sender, request, user, **kwargs):
-    logger.info(f"{user} logged out")
+    logger.info(f"{user} logged out.")
 
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, **kwargs):
     # Fortunately, Django fills any sensitive credentials (like password) with *'s.
-    logger.info(f"user login failed with credentials {credentials}")
+    logger.info(f"User login failed with credentials {credentials}.")
 
 
 @receiver(m2m_changed, sender=JustfixUser.groups.through)
@@ -38,13 +38,13 @@ def log_m2m_change(sender, instance, action, reverse, model, pk_set, **kwargs):
     instance_model = instance._meta.verbose_name
     if action == 'post_add':
         objects_added = list(model.objects.filter(pk__in=pk_set))
-        logger.info(f"{model_name} given to {instance_model} '{instance}': {objects_added}")
+        logger.info(f"{model_name} given to {instance_model} '{instance}': {objects_added}.")
     elif action == 'post_remove':
         objects_added = list(model.objects.filter(pk__in=pk_set))
         logger.info(
-            f"{model_name} removed from {instance_model} '{instance}': {objects_added}")
+            f"{model_name} removed from {instance_model} '{instance}': {objects_added}.")
     elif action == 'post_clear':
-        logger.info(f"All {model_name} removed from {instance_model} '{instance}'")
+        logger.info(f"All {model_name} removed from {instance_model} '{instance}'.")
 
 
 @receiver(post_save, sender=LogEntry)
@@ -56,12 +56,12 @@ def adminlog_post_save(sender, instance, **kwargs):
 
     if instance.action_flag == ADDITION:
         logger.info(
-            f"{instance.user.username} created {instance.content_type} '{instance.object_repr}'")
+            f"{instance.user.username} created {instance.content_type} '{instance.object_repr}'.")
     elif instance.action_flag == DELETION:
         logger.info(
-            f"{instance.user.username} deleted {instance.content_type} '{instance.object_repr}'")
+            f"{instance.user.username} deleted {instance.content_type} '{instance.object_repr}'.")
     elif instance.action_flag == CHANGE:
         logger.info(
             f"{instance.user.username} changed {instance.content_type} '{instance.object_repr}': "
-            f"{instance.change_message}"
+            f"{instance.change_message}."
         )

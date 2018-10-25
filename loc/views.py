@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
-from users.models import JustfixUser
+from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
 from loc.models import LandlordDetails
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
@@ -83,7 +83,7 @@ def letter_of_complaint_doc(request, format):
     return render_letter_of_complaint(request, request.user, format)
 
 
-@permission_required('loc.view_letter_request')
+@permission_required(VIEW_LETTER_REQUEST_PERMISSION)
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
     return render_letter_of_complaint(request, user, 'pdf')

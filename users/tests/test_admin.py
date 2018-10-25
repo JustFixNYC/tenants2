@@ -1,6 +1,7 @@
 import pytest
 from django.test.client import Client
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group
+from django.core.management import call_command
 
 from .factories import UserFactory
 
@@ -10,35 +11,26 @@ from .factories import UserFactory
 SUPERUSER_SENTINEL = 'superuser'
 
 
-def get_permissions_from_ns_codenames(ns_codenames):
-    '''
-    Returns a list of Permission objects for the specified namespaced codenames
-    '''
-
-    splitnames = [ns_codename.split('.') for ns_codename in ns_codenames]
-    return [
-        Permission.objects.get(codename=codename,
-                               content_type__app_label=app_label)
-        for app_label, codename in splitnames
-    ]
+@pytest.fixture
+def initgroups(db):
+    call_command('initgroups')
 
 
 @pytest.fixture
-def staff_user(db):
+def outreach_user(initgroups):
     user = UserFactory(
-        username='staff',
+        username='outreacher',
         phone_number='1234567000',
         is_staff=True)
-    user.user_permissions.set(get_permissions_from_ns_codenames([
-        'users.change_justfixuser'
-    ]))
+    group = Group.objects.get(name='Outreach Coordinators')
+    user.groups.add(group)
     return user
 
 
 @pytest.fixture
-def staff_client(staff_user):
+def outreach_client(outreach_user):
     client = Client()
-    client.force_login(staff_user)
+    client.force_login(outreach_user)
     return client
 
 
@@ -62,6 +54,6 @@ def test_change_view_works_for_superusers(admin_client):
     assert SUPERUSER_SENTINEL in html
 
 
-def test_change_view_works_for_staff(staff_client):
-    html = get_user_change_view_html(staff_client)
+def test_change_view_works_for_outreach(outreach_client):
+    html = get_user_change_view_html(outreach_client)
     assert SUPERUSER_SENTINEL not in html

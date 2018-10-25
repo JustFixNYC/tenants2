@@ -24,10 +24,10 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
         </p>
         <ol className="has-text-left">
           <li>First, conduct a <strong>self-inspection of your apartment</strong> to document all the issues that need repair.</li>
-          <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS<sup>&copy;</sup> Certified Mail.</li>
+          <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS Certified Mail<sup>&reg;</sup>.</li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
-          Start my letter
+          Start my free letter
         </CenteredPrimaryButtonLink>
         <br/>
         <h2>Why mail a Letter of Complaint?</h2>
@@ -35,7 +35,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
           Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.
         </p>
         <p>
-          <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS<sup>&copy;</sup> Certified Mail, you will have an official record of the requests you’ve made to your landlord.
+          <strong>Having a record of notifying your landlord makes for a stronger legal case.</strong> If your landlord has been unresponsive to your requests to make repairs, a letter is a <strong>great tactic to start</strong>. Through USPS Certified Mail<sup>&reg;</sup>, you will have an official record of the requests you’ve made to your landlord.
         </p>
       </div>
     </Page>

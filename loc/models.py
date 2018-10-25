@@ -60,6 +60,7 @@ class LandlordDetails(models.Model):
 
     lookup_date = models.DateField(
         null=True,
+        blank=True,
         help_text="When we last tried to look up the landlord's details."
     )
 

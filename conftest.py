@@ -4,11 +4,14 @@ from typing import List, Iterator
 from unittest.mock import patch
 from graphene.test import Client
 from django.test import RequestFactory
-from django.contrib.auth.models import AnonymousUser
+from django.test.client import Client as DjangoClient
+from django.core.management import call_command
+from django.contrib.auth.models import AnonymousUser, Group
 from django.contrib.sessions.middleware import SessionMiddleware
 import subprocess
 import pytest
 
+from users.tests.factories import UserFactory
 from project.schema import schema
 
 
@@ -110,3 +113,40 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
 
     with patch('project.twilio.Client', FakeTwilioClient):
         yield outbox
+
+
+@pytest.fixture
+def initgroups(db):
+    '''
+    Ensures the test runs with the "manage.py initgroups"
+    command having run.
+    '''
+
+    call_command('initgroups')
+
+
+@pytest.fixture
+def outreach_user(initgroups):
+    '''
+    Returns a user that is in the Outreach Coordinators group.
+    '''
+
+    user = UserFactory(
+        username='outreacher',
+        phone_number='1234567000',
+        is_staff=True)
+    group = Group.objects.get(name='Outreach Coordinators')
+    user.groups.add(group)
+    return user
+
+
+@pytest.fixture
+def outreach_client(outreach_user):
+    '''
+    Returns a Django test client with a logged-in Outreach
+    Coordinator.
+    '''
+
+    client = DjangoClient()
+    client.force_login(outreach_user)
+    return client

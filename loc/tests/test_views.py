@@ -103,9 +103,9 @@ def test_example_pdf_works(client):
 
 @pytest.mark.skipif(not can_we_render_pdfs(),
                     reason='PDF generation is unsupported')
-def test_admin_letter_pdf_works(admin_client):
+def test_admin_letter_pdf_works(outreach_client):
     user = UserFactory()
-    res = admin_client.get(f'/loc/admin/{user.pk}/letter.pdf')
+    res = outreach_client.get(f'/loc/admin/{user.pk}/letter.pdf')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 

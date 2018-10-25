@@ -1,6 +1,6 @@
 import logging
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager, Permission
 from django.utils.crypto import get_random_string
 
 from project import twilio
@@ -11,8 +11,42 @@ PHONE_NUMBER_LEN = 10
 
 FULL_NAME_MAXLEN = 150
 
+VIEW_LETTER_REQUEST_PERMISSION = 'loc.view_letterrequest'
+
+ROLES = {}
+
+ROLES['Outreach Coordinators'] = set([
+    'users.add_justfixuser',
+    'users.change_justfixuser',
+    'legacy_tenants.change_legacyuserinfo',
+    'loc.add_accessdate',
+    'loc.change_accessdate',
+    'loc.delete_accessdate',
+    'loc.add_landlorddetails',
+    'loc.change_landlorddetails',
+    'loc.add_letterrequest',
+    'loc.change_letterrequest',
+    'loc.delete_letterrequest',
+    VIEW_LETTER_REQUEST_PERMISSION,
+    'onboarding.add_onboardinginfo',
+    'onboarding.change_onboardinginfo',
+])
+
 
 logger = logging.getLogger(__name__)
+
+
+def get_permissions_from_ns_codenames(ns_codenames):
+    '''
+    Returns a list of Permission objects for the specified namespaced codenames
+    '''
+
+    splitnames = [ns_codename.split('.') for ns_codename in ns_codenames]
+    return [
+        Permission.objects.get(codename=codename,
+                               content_type__app_label=app_label)
+        for app_label, codename in splitnames
+    ]
 
 
 class JustfixUserManager(UserManager):

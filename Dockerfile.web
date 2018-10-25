@@ -78,5 +78,6 @@ RUN npm run build \
   # comes with the container.
   #
   && USE_DEVELOPMENT_DEFAULTS=yup python manage.py migrate
+  && USE_DEVELOPMENT_DEFAULTS=yup python manage.py initgroups
 
 CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

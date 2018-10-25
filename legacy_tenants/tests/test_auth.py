@@ -51,7 +51,7 @@ def test_backend_creates_tenant_user_if_they_do_not_exist(settings):
         user = backend.authenticate(None, '1234567890', 'password')
         get_user.assert_called_with('1234567890')
         assert isinstance(user, JustfixUser)
-        assert user.username == 'legacy_1234567890'
+        assert user.username.startswith('legacy_')
         assert user.legacy_info.role == 'TENANT'
         assert user.first_name == 'Testy'
         assert user.last_name == 'Test'

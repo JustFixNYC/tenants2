@@ -1,6 +1,7 @@
 import logging
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
+from django.utils.crypto import get_random_string
 
 from project import twilio
 from project.util.site_util import absolute_reverse
@@ -14,6 +15,17 @@ FULL_NAME_MAXLEN = 150
 logger = logging.getLogger(__name__)
 
 
+class JustfixUserManager(UserManager):
+    def generate_random_username(self, prefix='') -> str:
+        while True:
+            username = prefix + get_random_string(
+                length=12,
+                allowed_chars='abcdefghijklmnopqrstuvwxyz'
+            )
+            if not self.filter(username=username).exists():
+                return username
+
+
 class JustfixUser(AbstractUser):
     phone_number = models.CharField(
         'Phone number',
@@ -21,6 +33,8 @@ class JustfixUser(AbstractUser):
         unique=True,
         help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
     )
+
+    objects = JustfixUserManager()
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username', 'email']
@@ -48,6 +62,6 @@ class JustfixUser(AbstractUser):
         return absolute_reverse('admin:users_justfixuser_change', args=[self.pk])
 
     def __str__(self):
-        if self.full_name:
-            return f"{self.phone_number} ({self.full_name})"
-        return self.phone_number
+        if self.username:
+            return self.username
+        return '<unnamed user>'

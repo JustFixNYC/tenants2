@@ -133,7 +133,7 @@ class OnboardingStep4(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         user = JustfixUser.objects.create_user(
-            username=phone_number,
+            username=JustfixUser.objects.generate_random_username(),
             first_name=prev_steps['first_name'],
             last_name=prev_steps['last_name'],
             phone_number=phone_number,

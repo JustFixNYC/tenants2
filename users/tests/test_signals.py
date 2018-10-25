@@ -20,7 +20,7 @@ def test_permission_change_is_logged():
     with patch('users.signals.logger') as mock:
         create_user_with_perm()
         mock.info.assert_called_once_with(
-            "permissions given to user '5551234567 (Boop Jones)': "
+            "permissions given to user 'boop': "
             "[<Permission: users | user | Can change user>]."
         )
 
@@ -31,7 +31,7 @@ def test_permission_remove_is_logged():
     with patch('users.signals.logger') as mock:
         user.user_permissions.remove(perm)
         mock.info.assert_called_once_with(
-            "permissions removed from user '5551234567 (Boop Jones)': "
+            "permissions removed from user 'boop': "
             "[<Permission: users | user | Can change user>]."
         )
 
@@ -42,7 +42,7 @@ def test_permission_clear_is_logged():
     with patch('users.signals.logger') as mock:
         user.user_permissions.clear()
         mock.info.assert_called_once_with(
-            "All permissions removed from user '5551234567 (Boop Jones)'."
+            "All permissions removed from user 'boop'."
         )
 
 
@@ -77,7 +77,7 @@ def test_logentry_change_is_logged():
 def test_login_is_logged(client):
     with patch('users.signals.logger') as mock:
         client.force_login(UserFactory())
-        mock.info.assert_called_once_with("5551234567 (Boop Jones) logged in.")
+        mock.info.assert_called_once_with("boop logged in.")
 
 
 @pytest.mark.django_db
@@ -95,4 +95,4 @@ def test_logout_is_logged(client):
     client.force_login(UserFactory())
     with patch('users.signals.logger') as mock:
         client.logout()
-        mock.info.assert_called_once_with("5551234567 (Boop Jones) logged out.")
+        mock.info.assert_called_once_with("boop logged out.")

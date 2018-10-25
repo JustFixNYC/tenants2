@@ -35,13 +35,13 @@ def test_airtable_synchronizer_works():
         syncer.sync_users(stdout=io)
         return io.getvalue()
 
-    assert resync() == '5551234567 (Boop Jones) does not exist in Airtable, adding them.\n'
+    assert resync() == 'boop does not exist in Airtable, adding them.\n'
     assert airtable.get(user.pk).fields_.last_name == 'Jones'
-    assert resync() == '5551234567 (Boop Jones) is already synced.\n'
+    assert resync() == 'boop is already synced.\n'
 
     user.last_name = 'Denver'
     user.save()
-    assert resync() == 'Updating 5551234567 (Boop Denver).\n'
+    assert resync() == 'Updating boop.\n'
     assert airtable.get(user.pk).fields_.last_name == 'Denver'
 
 
@@ -87,7 +87,7 @@ class TestSyncAirtableCommand:
             call_command('syncairtable', stdout=io)
         assert io.getvalue().split('\n') == [
             'Retrieving current Airtable...',
-            '5551234567 (Boop Jones) does not exist in Airtable, adding them.',
+            'boop does not exist in Airtable, adding them.',
             'Finished synchronizing with Airtable!',
             ''
         ]

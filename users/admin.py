@@ -23,15 +23,18 @@ class JustfixUserAdmin(UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
-    list_display = ['phone_number', 'first_name', 'last_name', 'issue_count', 'mailing_needed']
+    list_display = [
+        'username', 'phone_number', 'first_name', 'last_name', 'issue_count', 'mailing_needed']
     fieldsets = (
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number')}),
         ('Username and password', {
             'fields': ('username', 'password'),
             'description': (
-                "Note that the username is largely useless, and is an artifact of Django. "
-                "We don't really use it anywhere, but nonetheless, it must exist, and it "
-                "must be unique."
+                "Note that the username is never visible to users, but it is used to "
+                "identify users in server logs. Therefore, it doesn't need to be "
+                "very human-friendly, and ideally it should be devoid of any "
+                "personally identifiable information such as a user's real name "
+                "or phone number."
             )
         }),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',

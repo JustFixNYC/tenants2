@@ -15,3 +15,4 @@ npm install --no-save
 
 echo "----- Migrating Database -----"
 python manage.py migrate --noinput
+python manage.py initgroups

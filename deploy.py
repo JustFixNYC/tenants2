@@ -82,9 +82,8 @@ def deploy_heroku(args):
         heroku_cli([
             'run',
             '--exit-code',
-            'python',
-            'manage.py',
-            'migrate'
+            'python manage.py migrate && '
+            'python manage.py initgroups'
         ])
     heroku_cli(['maintenance:off'])
 

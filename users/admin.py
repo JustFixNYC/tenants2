@@ -17,6 +17,8 @@ import airtable.sync
 
 ISSUE_COUNT = "_issue_count"
 MAILING_NEEDED = "_mailing_needed"
+PERMISSIONS_LABEL = _('Permissions')
+NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
 class JustfixUserAdmin(UserAdmin):
@@ -34,9 +36,13 @@ class JustfixUserAdmin(UserAdmin):
                 "must be unique."
             )
         }),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+        (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    non_superuser_fieldsets = tuple(
+        (label, details) for label, details in fieldsets
+        if label not in NON_SUPERUSER_FIELDSET_LABELS
     )
     add_fieldsets = (
         (None, {
@@ -50,6 +56,11 @@ class JustfixUserAdmin(UserAdmin):
         IssueInline,
         CustomIssueInline
     ) + loc.admin.user_inlines
+
+    def get_fieldsets(self, request, obj=None):
+        if obj is not None and not request.user.is_superuser:
+            return self.non_superuser_fieldsets
+        return super().get_fieldsets(request, obj)
 
     def get_formsets_with_inlines(self, request, obj=None):
         for inline in self.get_inline_instances(request, obj):

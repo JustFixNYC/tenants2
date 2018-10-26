@@ -14,6 +14,8 @@ REBUILD_CMDLINE = ' '.join(['python', 'manage.py', REBUILD_CMD])
 
 def is_up_to_date() -> bool:
     repo_schema = BASE_DIR / FILENAME
+    if not repo_schema.exists():
+        return False
     current_schema_json = json.loads(json.dumps({
         'data': graphene_settings.SCHEMA.introspect()
     }))

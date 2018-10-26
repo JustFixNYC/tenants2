@@ -81,7 +81,7 @@ class LegacyTenantsAppBackend:
                     user = JustfixUser.objects.get(phone_number=phone_number)
                 except JustfixUser.DoesNotExist:
                     user = JustfixUser(
-                        username=f"legacy_{phone_number}",
+                        username=JustfixUser.objects.generate_random_username('legacy_'),
                         phone_number=phone_number
                     )
                     user.save()

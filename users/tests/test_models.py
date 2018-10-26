@@ -1,8 +1,30 @@
+from unittest.mock import patch
 import pytest
 
 from ..models import JustfixUser
 from .factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+
+
+@pytest.mark.django_db
+class TestGenerateRandomUsername:
+    def generate(self, prefix='', **kwargs):
+        user = JustfixUser.objects.create_user(
+            username=JustfixUser.objects.generate_random_username(prefix=prefix),
+            **kwargs
+        )
+        return user
+
+    def test_it_applies_a_prefix_if_provided(self):
+        with patch('users.models.get_random_string', side_effect=['boop']):
+            assert self.generate(prefix='bleh_').username == 'bleh_boop'
+
+    def test_it_retries_until_a_unique_one_is_found(self):
+        with patch('users.models.get_random_string', side_effect=['boop', 'boop', 'blap']):
+            user = self.generate(phone_number='1234567890')
+            assert user.username == 'boop'
+            user2 = self.generate(phone_number='1234567891')
+            assert user2.username == 'blap'
 
 
 def test_formatted_phone_number_works():
@@ -21,14 +43,14 @@ def test_admin_url_works():
     assert user.admin_url == f'https://example.com/admin/users/justfixuser/{user.pk}/change/'
 
 
-def test_str_works_when_only_phone_number_is_available():
-    user = JustfixUser(phone_number='5551234567')
-    assert str(user) == '5551234567'
+def test_str_works_when_username_is_available():
+    user = JustfixUser(username='boop')
+    assert str(user) == 'boop'
 
 
-def test_str_works_when_full_name_is_available():
-    user = UserFactory.build(phone_number='5551234567', full_name='boop jones')
-    assert str(user) == '5551234567 (boop jones)'
+def test_str_works_when_username_is_unavailable():
+    user = JustfixUser()
+    assert str(user) == '<unnamed user>'
 
 
 def test_full_name_only_renders_if_both_first_and_last_are_present():

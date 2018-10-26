@@ -14,13 +14,13 @@
 </p>
 {% endif %}
 
-<h2>
+<p>
   {% if landlord_details.name %}
     Dear {{ landlord_details.name }},
   {% else %}
     To whom it may concern,
   {% endif %}
-</h2>
+</p>
 
 {% if issues %}
   <p>
@@ -28,10 +28,8 @@
     of the building:
   </p>
 
-  <h3>Issues</h3>
-
   {% for area, area_issues in issues %}
-    <h4>{{ area }}</h4>
+    <p>{{ area }}</p>
     <ul>
       {% for issue in area_issues %}
         <li>{{ issue }}</li>

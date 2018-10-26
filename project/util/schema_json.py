@@ -9,9 +9,7 @@ FILENAME = 'schema.json'
 
 REBUILD_CMD = 'graphql_schema'
 
-REBUILD_CMD_ARGS = ['--indent', '2']
-
-REBUILD_CMDLINE = ' '.join(['python', 'manage.py', REBUILD_CMD] + REBUILD_CMD_ARGS)
+REBUILD_CMDLINE = ' '.join(['python', 'manage.py', REBUILD_CMD])
 
 
 def is_up_to_date() -> bool:
@@ -24,4 +22,4 @@ def is_up_to_date() -> bool:
 
 
 def rebuild():
-    call_command(REBUILD_CMD, *REBUILD_CMD_ARGS)
+    call_command(REBUILD_CMD)

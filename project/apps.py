@@ -1,4 +1,5 @@
 import logging
+import sys
 from django.apps import AppConfig
 from django.conf import settings
 
@@ -6,17 +7,32 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+def is_running_dev_server(argv=sys.argv):
+    '''
+    Returns whether or not we are running the development
+    server, e.g.:
+
+        >>> is_running_dev_server(['manage.py', '--help'])
+        False
+
+        >>> is_running_dev_server(['manage.py', 'runserver'])
+        True
+    '''
+
+    return 'manage.py' in argv and 'runserver' in argv
+
+
 class DefaultConfig(AppConfig):
     name = 'project'
 
     def ready(self):
         from project import twilio
+        from project.util import schema_json
 
         twilio.validate_settings()
+        schema_json.monkeypatch_graphql_schema_command()
 
-        if settings.DEBUG:
-            from project.util import schema_json
-
+        if settings.DEBUG and is_running_dev_server():
             if not schema_json.is_up_to_date():
                 print(f"Rebuilding {schema_json.FILENAME}...")
                 schema_json.rebuild()

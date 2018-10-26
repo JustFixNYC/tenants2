@@ -221,6 +221,7 @@ STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
+    'SCHEMA_INDENT': 2,
     # Setting this to None is very important for error logging, as
     # its default value of
     # graphene_django.debug.middleware.DjangoDebugMiddleware somehow

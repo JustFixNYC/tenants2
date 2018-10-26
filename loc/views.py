@@ -20,6 +20,10 @@ PDF_STYLES_PATH_PARTS = ['loc', 'pdf-styles.css']
 
 PDF_STYLES_CSS = MY_STATIC_DIR.joinpath(*PDF_STYLES_PATH_PARTS)
 
+LOC_FONTS_PATH_PARTS = ['loc', 'loc-fonts.css']
+
+LOC_FONTS_CSS = MY_STATIC_DIR.joinpath(*LOC_FONTS_PATH_PARTS)
+
 
 def can_we_render_pdfs():
     try:
@@ -31,8 +35,15 @@ def can_we_render_pdfs():
 
 def pdf_response(html: str, filename: str):
     import weasyprint
+    from weasyprint.fonts import FontConfiguration
 
-    pdf_bytes = weasyprint.HTML(string=html).write_pdf()
+    font_config = FontConfiguration()
+    font_css_str = LOC_FONTS_CSS.read_text().replace(
+        'url(./', f'url({LOC_FONTS_CSS.parent.as_uri()}/')
+    font_css = weasyprint.CSS(string=font_css_str, font_config=font_config)
+    pdf_bytes = weasyprint.HTML(string=html).write_pdf(
+        stylesheets=[font_css],
+        font_config=font_config)
     return FileResponse(BytesIO(pdf_bytes), filename=filename)
 
 
@@ -110,7 +121,8 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
         html = render_to_string(template_name, context={
             **context,
             'is_pdf': False,
-            'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS)
+            'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS),
+            'fonts_stylesheet_path': '/'.join(LOC_FONTS_PATH_PARTS),
         }, request=request)
         return HttpResponse(html)
 

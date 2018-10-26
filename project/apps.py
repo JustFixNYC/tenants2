@@ -27,12 +27,12 @@ class DefaultConfig(AppConfig):
 
     def ready(self):
         from project import twilio
+        from project.util import schema_json
 
         twilio.validate_settings()
+        schema_json.monkeypatch_graphql_schema_command()
 
         if settings.DEBUG and is_running_dev_server():
-            from project.util import schema_json
-
             if not schema_json.is_up_to_date():
                 print(f"Rebuilding {schema_json.FILENAME}...")
                 schema_json.rebuild()

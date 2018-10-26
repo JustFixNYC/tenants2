@@ -7,12 +7,19 @@ from ..justfix_environment import BASE_DIR
 
 FILENAME = 'schema.json'
 
+# This command is provided by graphene-django.
 REBUILD_CMD = 'graphql_schema'
 
 REBUILD_CMDLINE = ' '.join(['python', 'manage.py', REBUILD_CMD])
 
 
 def is_up_to_date() -> bool:
+    '''
+    Returns whether or not our schema.json file reflects
+    the latest state of our server's actual GraphQL
+    schema.
+    '''
+
     repo_schema = BASE_DIR / FILENAME
     if not repo_schema.exists():
         return False
@@ -24,4 +31,27 @@ def is_up_to_date() -> bool:
 
 
 def rebuild():
+    '''
+    Rebuild our schema.json file.
+    '''
+
     call_command(REBUILD_CMD)
+
+
+def monkeypatch_graphql_schema_command():
+    '''
+    The default graphql_schema command writes a JSON file
+    using the platform's current line endings. However, we
+    store this file in version control using UNIX line endings,
+    so we don't want commits from Windows systems accidentally
+    changing them.
+
+    This function monkeypatches the command to ensure that
+    it always writes the JSON file using UNIX line endings.
+    '''
+
+    from functools import partial
+    from graphene_django.management.commands import graphql_schema
+
+    if not hasattr(graphql_schema, 'open'):
+        graphql_schema.open = partial(open, newline='\n')

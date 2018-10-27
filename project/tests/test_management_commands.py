@@ -20,6 +20,15 @@ def test_sendtestsms_works(smsoutbox):
     assert smsoutbox[0].body == 'blarg'
 
 
+def test_fixnewlines_works():
+    out = StringIO()
+    err = StringIO()
+    call_command('fixnewlines', '--dry-run', stdout=out, stderr=err)
+
+    # Ensure no warnings are logged to stderr.
+    assert err.getvalue() == ''
+
+
 class SendtestslackTests(TestCase):
     @override_settings(SLACK_WEBHOOK_URL='')
     def test_it_raises_error_when_settings_are_not_defined(self):

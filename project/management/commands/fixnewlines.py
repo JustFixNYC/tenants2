@@ -31,22 +31,29 @@ class Command(BaseCommand):
         parser.add_argument('--dry-run', help="don't actually change any files",
                             action='store_true')
 
-    def convert_file(self, p: Path, dry_run: bool=False) -> None:
+    def convert_file(self, p: Path, dry_run: bool=False) -> bool:
         byte_contents = p.read_bytes()
         try:
             contents = byte_contents.decode('utf-8')
         except UnicodeDecodeError:
             self.stderr.write(f"WARNING: Unable to decode {p} as UTF-8.\n")
-            return
+            return False
         crlfs = contents.count('\r\n')
         if crlfs == 0:
-            return
+            return False
         self.stdout.write(f"Converting {crlfs} CRLFs to LFs in {p}.\n")
         contents = contents.replace('\r\n', '\n')
         if not dry_run:
             p.write_bytes(contents.encode('utf-8'))
+        return True
 
     def handle(self, *args, **options):
+        total = 0
+
         for path in iter_get_repo_files():
             if path.suffix not in self.IGNORE_EXTENSIONS:
-                self.convert_file(path, dry_run=options['dry_run'])
+                if self.convert_file(path, dry_run=options['dry_run']):
+                    total += 1
+
+        if total == 0:
+            self.stdout.write('Yay, all files have Unix-style line endings!')

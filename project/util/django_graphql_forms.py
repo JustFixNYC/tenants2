@@ -160,7 +160,7 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
         parts = [f'{info.field_name} mutation']
         user = info.context.user
         if user.is_authenticated:
-            parts.append(f'uid={user.pk}')
+            parts.append(f'user={user.username}')
         preamble = ' '.join(parts)
         logger.info(f"[{preamble}] {msg}")
 

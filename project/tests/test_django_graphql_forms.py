@@ -130,10 +130,10 @@ def test_log_works_with_anonymous_users():
 
 @pytest.mark.django_db
 def test_log_works_with_logged_in_users():
-    user = UserFactory()
+    user = UserFactory(username='blarg')
     with patch.object(logger, 'info') as mock:
         DjangoFormMutation.log(FakeResolveInfo('blorf', create_fake_request(user)), 'boop')
-        mock.assert_called_once_with(f'[blorf mutation uid={user.pk}] boop')
+        mock.assert_called_once_with(f'[blorf mutation user=blarg] boop')
 
 
 def test_get_form_class_for_input_type_works():

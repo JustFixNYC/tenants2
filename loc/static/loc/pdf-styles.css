@@ -13,3 +13,7 @@ html {
 .jf-signature {
     float: right;
 }
+
+.jf-avoid-page-breaks-within {
+    page-break-inside: avoid;
+}

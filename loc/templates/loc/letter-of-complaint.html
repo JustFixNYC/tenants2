@@ -53,11 +53,12 @@
     </div>
   {% endif %}
 
+  {% if onboarding_info.has_called_311 %}
   <p>
-    I have already contacted the person responsible for making repairs on several occasions,
-    but the issue has not been resolved. In the meantime, I have recorded evidence of the
-    violations should legal action be necessary.
+    I have already contacted 311 on several occasions, but the issue has not been resolved.
+    In the meantime, I have recorded evidence of the violations should legal action be necessary.
   </p>
+  {% endif %}
   <p>
     If these repairs are not made immediately I will have no choice but to use my legal
     remedies to get the repairs done.

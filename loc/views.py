@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
 from loc.models import LandlordDetails
+from onboarding.models import OnboardingInfo
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 
@@ -53,6 +54,12 @@ def example_doc(request, format):
     }, format)
 
 
+def get_onboarding_info(user) -> OnboardingInfo:
+    if hasattr(user, 'onboarding_info'):
+        return user.onboarding_info
+    return OnboardingInfo()
+
+
 def get_landlord_details(user) -> LandlordDetails:
     if hasattr(user, 'landlord_details'):
         return user.landlord_details
@@ -83,6 +90,7 @@ def render_letter_of_complaint(request, user: JustfixUser, format: str):
     return render_document(request, 'loc/letter-of-complaint.html', {
         'today': datetime.date.today(),
         'landlord_details': get_landlord_details(user),
+        'onboarding_info': get_onboarding_info(user),
         'issues': get_issues(user),
         'access_dates': [date.date for date in user.access_dates.all()],
         'user': user

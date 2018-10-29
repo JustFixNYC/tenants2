@@ -7,6 +7,10 @@ from loc.models import LandlordDetails
 from loc.views import (
     can_we_render_pdfs, render_document, get_issues, get_landlord_details)
 
+# Text that shows up in the letter of complaint if the user
+# has reported their issues to 311.
+CALLED_311_SENTINEL = "already contacted 311"
+
 
 @pytest.mark.django_db
 def test_get_landlord_details_works():
@@ -39,10 +43,15 @@ def test_letter_requires_login(client):
     assert res.status_code == 302
 
 
-def test_letter_html_works(admin_client):
-    res = admin_client.get('/loc/letter.html')
+def get_letter_html(client):
+    res = client.get('/loc/letter.html')
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
+    return res.content.decode('utf-8')
+
+
+def test_letter_html_works_for_users_with_minimal_info(admin_client):
+    get_letter_html(admin_client)
 
 
 @pytest.mark.django_db
@@ -52,7 +61,8 @@ def test_letter_html_includes_expected_content(client):
         address="1 Times Square",
         borough="MANHATTAN",
         apt_number="301",
-        zipcode="11201"
+        zipcode="11201",
+        has_called_311=False
     )
     user = info.user
     Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
@@ -64,8 +74,7 @@ def test_letter_html_includes_expected_content(client):
     ld.save()
 
     client.force_login(user)
-    res = client.get('/loc/letter.html')
-    html = res.content.decode('utf-8')
+    html = get_letter_html(client)
 
     assert 'Bobby Denver' in html
     assert '1 Times Square' in html
@@ -73,10 +82,16 @@ def test_letter_html_includes_expected_content(client):
     assert 'New York, NY 11201' in html
     assert 'Dear Landlordo Calrissian' in html
     assert '1 Cloud City<br/>' in html
+    assert CALLED_311_SENTINEL not in html
 
     # Make sure the section symbol is in there, to ensure that
     # we don't have any unicode issues.
     assert u"\u00A7" in html
+
+    info.has_called_311 = True
+    info.save()
+    html = get_letter_html(client)
+    assert CALLED_311_SENTINEL in html
 
 
 def test_example_html_works(client):

@@ -172,6 +172,15 @@ class OnboardingInfo(models.Model):
     can_we_sms = models.BooleanField(
         help_text="Whether we can contact the user via SMS to follow up.")
 
+    finish_cta_reminder_sent_at = models.DateField(
+        null=True,
+        blank=True,
+        help_text=(
+            "When, if ever, did we send the user a text message reminding "
+            "them to finish the call-to-action they signed up for?"
+        )
+    )
+
     @property
     def borough_label(self) -> str:
         if not self.borough:

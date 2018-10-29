@@ -189,6 +189,13 @@ LOGGING = {
             'handlers': ['console', 'rollbar'],
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
+        'twilio': {
+            # At the INFO level, Twilio logs the recipient and
+            # body of SMS messages, which we'd like to keep out
+            # of production logs, as it's PII, so we'll only
+            # log warnings.
+            'level': 'WARNING'
+        },
         'django': {
             'handlers': ['console'],
             'level': 'INFO',

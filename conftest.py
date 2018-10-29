@@ -83,6 +83,11 @@ class FakeSmsMessage:
     body: str
 
 
+@dataclass
+class FakeSmsCreateResult:
+    sid: str
+
+
 @pytest.fixture
 def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
     '''
@@ -110,6 +115,7 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
                 from_=from_,
                 body=body
             ))
+            return FakeSmsCreateResult(sid='blarg')
 
     with patch('project.twilio.Client', FakeTwilioClient):
         yield outbox

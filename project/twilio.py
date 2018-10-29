@@ -45,11 +45,12 @@ def send_sms(phone_number: str, body: str, fail_silently=False):
                         settings.TWILIO_AUTH_TOKEN,
                         http_client=JustfixHttpClient())
         try:
-            client.messages.create(
+            msg = client.messages.create(
                 to=f"+1{phone_number}",
                 from_=f"+1{settings.TWILIO_PHONE_NUMBER}",
                 body=body
             )
+            logger.info(f'Sent Twilio message with sid {msg.sid}.')
         except Exception:
             if fail_silently:
                 logger.exception(f'Error while communicating with Twilio')

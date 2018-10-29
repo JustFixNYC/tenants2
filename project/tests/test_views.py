@@ -1,5 +1,6 @@
 from unittest.mock import patch
 import pytest
+from django.urls import reverse
 
 from project.views import (
     get_initial_session,
@@ -103,6 +104,17 @@ def test_pages_with_prerendered_modals_work(client):
     # Perhaps someday when the "inert" attribute is widely supported,
     # we could use that instead.
     assert b'<div id="main" hidden' in response.content
+
+
+def test_admin_login_is_ours(client):
+    url = reverse('admin:login')
+    assert url == '/admin/login/'
+
+    response = client.get(url)
+    assert response.status_code == 200
+    html = response.content.decode('utf-8')
+    assert 'Phone number' in html
+    assert SAFE_MODE_DISABLED_SENTINEL in html
 
 
 def test_404_works(client):

@@ -27,6 +27,13 @@ const Routes = {
   /** The login page. */
   login: '/login',
 
+  /**
+   * The *admin* login page. We override Django's default admin login
+   * here, so we need to make sure this URL matches the URL that Django
+   * redirects users to.
+   */
+  adminLogin: '/admin/login/',
+
   /** The logout page. */
   logout: '/logout',
 

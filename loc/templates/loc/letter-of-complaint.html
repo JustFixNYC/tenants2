@@ -38,17 +38,19 @@
   {% endfor %}
 
   {% if access_dates %}
-    <p>
+    <div class="jf-avoid-page-breaks-within">
+      <p>
       Below are some access dates provided for when repairs can be made.
       Please contact (using the information provided below) in order
       to make arrangements. <strong>Anyone coming to perform repairs
       should arrive no later than 12pm during the provided dates.</strong>
-    </p>
-    <ul>
+      </p>
+      <ul>
       {% for date in access_dates %}
-        <li>{{ date }}</li>
+          <li>{{ date }}</li>
       {% endfor %}
-    </ul>
+      </ul>
+    </div>
   {% endif %}
 
   <p>
@@ -60,47 +62,50 @@
     If these repairs are not made immediately I will have no choice but to use my legal
     remedies to get the repairs done.
   </p>
-  <p>
-    Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations
-    for which the time to correct has expired is as follows:
-  </p>
-  <dl>
-    <dt>“C” Violation</dt>
-    <dd>
+  <div class="jf-avoid-page-breaks-within">
+    <p>
+      Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations
+      for which the time to correct has expired is as follows:
+    </p>
+    <dl>
+      <dt>“C” Violation</dt>
+      <dd>
       $50 per day per violation (if 1-5 units)<br/>
       $50-$150 one-time penalty per violation plus $125 per day (5 or more units)
-    </dd>
-    <dt>“B” Violation:</dt>
-    <dd>
+      </dd>
+      <dt>“B” Violation:</dt>
+      <dd>
       $25-$100 one-time penalty per violation plus $10 per day
-    </dd>
-    <dt>“A” Violation”</dt>
-    <dd>
+      </dd>
+      <dt>“A” Violation”</dt>
+      <dd>
       $10-$50 one-time penalty per violation
-    </dd>
-  </dl>
-  <p>
-    Please be advised that NYC Admin Code § 27-2115 provides a civil penalty where a person
-    willfully makes a false certification of correction of a violation per violation
-    falsely certified.
-  </p>
-  <p>
-    Please contact me as soon as possible to arrange a time to have these repairs made at
-    the number provided below. 
-  </p>
-
-  {% else %}
-    <p>I have no issues with my apartment. It's awesome.</p>
+      </dd>
+    </dl>
+  </div class="jf-avoid-page-breaks-within">
+  <div class="jf-avoid-page-breaks-within">
+    <p>
+      Please be advised that NYC Admin Code § 27-2115 provides a civil penalty where a person
+      willfully makes a false certification of correction of a violation per violation
+      falsely certified.
+    </p>
+    <p>
+      Please contact me as soon as possible to arrange a time to have these repairs made at
+      the number provided below. 
+    </p>
+{% else %}
+  <p>I have no issues with my apartment. It's awesome.</p>
+  <div class="jf-avoid-page-breaks-within">
 {% endif %}
-
-<p class="jf-signature">
-  Regards,<br/>
-  {{ user.full_name|default:"Anonymous" }}<br/>
-  {% if user.onboarding_info %}
-    {% for line in user.onboarding_info.address_lines_for_mailing %}
-      {{ line }}<br/>
-    {% endfor %}
-  {% endif %}
-  {{ user.formatted_phone_number }}
-</p>
+    <p class="jf-signature">
+      Regards,<br/>
+      {{ user.full_name|default:"Anonymous" }}<br/>
+      {% if user.onboarding_info %}
+        {% for line in user.onboarding_info.address_lines_for_mailing %}
+          {{ line }}<br/>
+        {% endfor %}
+      {% endif %}
+      {{ user.formatted_phone_number }}
+    </p>
+  </div> <!-- Close of .jf-avoid-page-breaks-within -->
 {% endblock %}

@@ -26,7 +26,9 @@ class JustfixUserAdmin(UserAdmin):
     form = JustfixUserChangeForm
     model = JustfixUser
     list_display = [
-        'username', 'phone_number', 'first_name', 'last_name', 'issue_count', 'mailing_needed']
+        'phone_number', 'username', 'first_name', 'last_name', 'last_login',
+        'issue_count', 'mailing_needed'
+    ]
     fieldsets = (
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number')}),
         ('Username and password', {

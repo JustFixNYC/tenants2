@@ -81,12 +81,21 @@ def test_login_is_logged(client):
 
 
 @pytest.mark.django_db
-def test_failed_login_is_logged(client):
+def test_failed_login_is_logged_for_unknown_users(client):
     with patch('users.signals.logger') as mock:
-        client.login(username='blah', password='blahh')
+        client.login(phone_number='1234567890', password='blahh')
         mock.info.assert_called_once_with(
-            "User login failed with credentials "
-            "{'username': 'blah', 'password': '********************'}."
+            "User login failed for unknown user."
+        )
+
+
+@pytest.mark.django_db
+def test_failed_login_is_logged_for_known_users(client):
+    UserFactory.create(phone_number='1234567890', username='blah')
+    with patch('users.signals.logger') as mock:
+        client.login(phone_number='1234567890', password='blahh')
+        mock.info.assert_called_once_with(
+            "User login failed for blah."
         )
 
 

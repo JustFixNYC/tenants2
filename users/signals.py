@@ -21,8 +21,13 @@ def log_user_logged_out(sender, request, user, **kwargs):
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, **kwargs):
-    # Fortunately, Django fills any sensitive credentials (like password) with *'s.
-    logger.info(f"User login failed with credentials {credentials}.")
+    phone_number = credentials.get('phone_number')
+    if phone_number:
+        user = JustfixUser.objects.filter(phone_number=phone_number).first()
+        if user:
+            logger.info(f"User login failed for {user.username}.")
+            return
+    logger.info(f"User login failed for unknown user.")
 
 
 @receiver(m2m_changed, sender=JustfixUser.groups.through)

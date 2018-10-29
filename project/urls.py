@@ -23,6 +23,7 @@ from .views import react_rendered_view, example_server_error, redirect_favicon
 
 
 urlpatterns = [
+    path('admin/login/', react_rendered_view, kwargs={'url': 'admin/login/'}),
     path('admin/', admin.site.urls),
     path('loc/', include('loc.urls')),
     path('safe-mode/', include('frontend.safe_mode')),

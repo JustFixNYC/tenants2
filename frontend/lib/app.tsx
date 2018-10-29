@@ -191,6 +191,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
         <Route path={Routes.login} exact component={LoginPage} />
+        <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.logout} exact component={LogoutPage} />
         <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />

@@ -5,8 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Routes from '../routes';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
-
-const locSvg = require('../svg/letter-of-complaint.svg') as JSX.Element;
+import { StaticImage } from '../static-image';
 
 export interface IndexPageProps {
   isLoggedIn: boolean;
@@ -21,7 +20,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
           <div className="hero-body">
             <div className="has-text-centered">
               <div className="jf-loc-image">
-                {locSvg}
+                <StaticImage src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
                 Is your landlord not responding? Take action today!
@@ -90,7 +89,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <div className="media">
                   <div className="media-left">
                     <p className="image is-96x96 is-square">
-                      <img className="is-rounded" src={`/static/frontend/img/veronica.jpg`} alt="Veronica photo" />
+                      <StaticImage className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
                     </p>
                   </div>
                   <div className="media-content">
@@ -109,7 +108,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <div className="media">
                   <div className="media-left">
                     <p className="image is-96x96 is-square">
-                      <img className="is-rounded" src={`/static/frontend/img/steven.png`} alt="Veronica photo" />
+                      <StaticImage className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
                     </p>
                   </div>
                   <div className="media-content">

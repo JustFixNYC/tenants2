@@ -34,13 +34,6 @@
   font-size: inherit;
 }
 
-// We want the content of our pages to be aligned to
-// the top of the page, rather than vertically centered
-// (Bulma's heroic default).
-.jf-hero.hero.is-fullheight .hero-body {
-    align-items: flex-start;
-}
-
 // Sometimes we want non-interactive elements to be
 // programmatically focusable; when this is the case, it's
 // actually okay to not have any visual focus styling on
@@ -168,9 +161,16 @@ input:focus + .jf-checkbox-symbol {
     height: 300px;
 }
 
-.jf-is-extra-wide {
+.button.jf-is-extra-wide {
     padding-left: 2em;
     padding-right: 2em;
+
+    // It's entirely possible that the button's text
+    // may make it too wide for some mobile screens, so
+    // this overrides Bulma's default button styling
+    // to allow the text to wrap.
+    white-space: normal;
+    height: auto;
 }
 
 // A class used around groups of two buttons to

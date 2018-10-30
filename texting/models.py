@@ -4,7 +4,10 @@ from django.utils import timezone
 
 from users.models import JustfixUser
 from project.common_data import Choices
+from project.util.site_util import absolutify_url
 
+# https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
+TWILIO_SID_LENGTH = 34
 
 REMINDERS = Choices([
     ('LOC', 'Letter of complaint reminder'),
@@ -16,12 +19,24 @@ class Reminder(models.Model):
     This model represents a reminder sent to users.
     '''
 
-    kind = models.TextField(max_length=30, choices=REMINDERS.choices)
+    kind = models.TextField(
+        max_length=30, choices=REMINDERS.choices,
+        help_text="The type of reminder sent."
+    )
 
-    sent_at = models.DateField()
+    sent_at = models.DateField(
+        help_text="When the reminder was sent."
+    )
 
     user = models.ForeignKey(
-        JustfixUser, on_delete=models.CASCADE, related_name='reminders')
+        JustfixUser, on_delete=models.CASCADE, related_name='reminders',
+        help_text="The user the reminder was sent to."
+    )
+
+    sid = models.CharField(
+        max_length=TWILIO_SID_LENGTH,
+        help_text="The Twilio Message SID for the reminder."
+    )
 
 
 # After these many days have passed since the user
@@ -42,9 +57,17 @@ def get_users_to_remind_about_loc():
 
 
 def remind_user_about_loc(user):
-    # TODO: Send SMS.
-    Reminder(
-        kind=REMINDERS.LOC,
-        sent_at=timezone.now(),
-        user=user
-    ).save()
+    url = absolutify_url('/')
+    sid = user.send_sms(
+        f'Hey {user.first_name}! '
+        f'Don\'t forget that you can use JustFix.nyc to address '
+        f'repair issues in your apartment. '
+        f'Follow this link to continue: {url}'
+    )
+    if sid:
+        Reminder(
+            kind=REMINDERS.LOC,
+            sent_at=timezone.now(),
+            user=user,
+            sid=sid
+        ).save()

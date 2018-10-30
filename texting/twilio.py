@@ -32,9 +32,12 @@ class JustfixHttpClient(TwilioHttpClient):
         return super().request(*args, **kwargs)
 
 
-def send_sms(phone_number: str, body: str, fail_silently=False):
+def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
     '''
     Send an SMS message to the given phone number, with the given body.
+
+    On success, the sid of the SMS message is returned. On failure
+    (or if Twilio integration is disabled), an empty string is returned.
 
     If `fail_silently` is True, any exceptions raised will be logged,
     but not propagated.
@@ -51,9 +54,11 @@ def send_sms(phone_number: str, body: str, fail_silently=False):
                 body=body
             )
             logger.info(f'Sent Twilio message with sid {msg.sid}.')
+            return msg.sid
         except Exception:
             if fail_silently:
                 logger.exception(f'Error while communicating with Twilio')
+                return ''
             else:
                 raise
     else:
@@ -62,3 +67,4 @@ def send_sms(phone_number: str, body: str, fail_silently=False):
             f'{phone_number} would receive a text message '
             f'with the body {repr(body)}.'
         )
+        return ''

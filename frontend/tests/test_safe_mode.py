@@ -36,11 +36,14 @@ def test_ctx_processor_works_when_not_in_safe_mode():
 def test_ctx_processor_works_when_in_safe_mode():
     d = ctx_processor(FakeRequest(enable_safe_mode=True))
     assert d['is_safe_mode_enabled'] is True
-    assert 'SAFE_MODE_SNIPPET' not in d
+    assert 'SAFE_MODE_SNIPPET' in d
 
 
 # A string we know will be in the minified JS snippet.
 JS_SENTINEL = "var SHOW_UI_DELAY_MS="
+
+# A string we know will be in the history fix JS snippet.
+HISTORY_FIX_JS_SENTINEL = "location.reload()"
 
 
 def get_snippet_html(client):
@@ -51,11 +54,13 @@ def get_snippet_html(client):
 
 def assert_html_is_not_in_safe_mode(html):
     assert JS_SENTINEL in html
+    assert HISTORY_FIX_JS_SENTINEL not in html
     assert 'Activate compatibility mode' in html
 
 
 def assert_html_is_in_safe_mode(html):
     assert JS_SENTINEL not in html
+    assert HISTORY_FIX_JS_SENTINEL in html
     assert 'Deactivate compatibility mode' in html
 
 

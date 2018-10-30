@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import autobind from 'autobind-decorator';
@@ -84,7 +84,8 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   @autobind
-  handleShowSafeModeUI() {
+  handleShowSafeModeUI(e: SyntheticEvent) {
+    e.preventDefault();
     window.SafeMode.showUI();
   }
 

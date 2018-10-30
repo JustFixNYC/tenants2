@@ -117,7 +117,7 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
             ))
             return FakeSmsCreateResult(sid='blarg')
 
-    with patch('project.twilio.Client', FakeTwilioClient):
+    with patch('texting.twilio.Client', FakeTwilioClient):
         yield outbox
 
 

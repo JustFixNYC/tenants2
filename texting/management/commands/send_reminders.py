@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from reminders import models
+from texting import models
 
 
 class Command(BaseCommand):

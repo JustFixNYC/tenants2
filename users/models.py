@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager, Permission
 from django.utils.crypto import get_random_string
 
-from project import twilio
+from texting import twilio
 from project.util.site_util import absolute_reverse
 
 

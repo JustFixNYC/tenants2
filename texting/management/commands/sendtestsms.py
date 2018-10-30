@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from project import twilio
+from texting import twilio
 
 
 class Command(BaseCommand):

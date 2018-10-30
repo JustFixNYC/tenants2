@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Routes from '../routes';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
+import { StaticImage } from '../static-image';
 
 const locSvg = require('../svg/letter-of-complaint.svg') as JSX.Element;
 
@@ -90,7 +91,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <div className="media">
                   <div className="media-left">
                     <p className="image is-96x96 is-square">
-                      <img className="is-rounded" src={`/static/frontend/img/veronica.jpg`} alt="Veronica photo" />
+                      <StaticImage className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
                     </p>
                   </div>
                   <div className="media-content">
@@ -109,7 +110,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <div className="media">
                   <div className="media-left">
                     <p className="image is-96x96 is-square">
-                      <img className="is-rounded" src={`/static/frontend/img/steven.png`} alt="Veronica photo" />
+                      <StaticImage className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
                     </p>
                   </div>
                   <div className="media-content">

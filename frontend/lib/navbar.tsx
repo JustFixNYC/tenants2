@@ -7,6 +7,7 @@ import { bulmaClasses } from './bulma';
 import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
 import { ga } from './google-analytics';
+import { StaticImage } from './static-image';
 
 type Dropdown = 'developer'|'all';
 
@@ -112,13 +113,12 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   renderNavbarBrand(): JSX.Element {
-    const { server } = this.props;
     const { state } = this;
 
     return (
       <div className="navbar-brand">
         <Link className="navbar-item" to={Routes.home}>
-          <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
+          <StaticImage src="frontend/img/logo.png" alt="Home" />
         </Link>
         <AriaExpandableButton
           className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}

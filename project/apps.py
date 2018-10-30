@@ -26,10 +26,8 @@ class DefaultConfig(AppConfig):
     name = 'project'
 
     def ready(self):
-        from project import twilio
         from project.util import schema_json
 
-        twilio.validate_settings()
         schema_json.monkeypatch_graphql_schema_command()
 
         if settings.DEBUG and is_running_dev_server():

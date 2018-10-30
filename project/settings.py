@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'onboarding.apps.OnboardingConfig',
     'issues.apps.IssuesConfig',
     'loc.apps.LocConfig',
-    'airtable.apps.AirtableConfig'
+    'airtable.apps.AirtableConfig',
+    'texting.apps.TextingConfig'
 ]
 
 MIDDLEWARE = [

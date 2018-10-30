@@ -81,6 +81,7 @@ class FakeSmsMessage:
     to: str
     from_: str
     body: str
+    sid: str
 
 
 @dataclass
@@ -110,14 +111,16 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
             return self
 
         def create(self, to: str, from_: str, body: str):
+            sid = 'blarg'
             outbox.append(FakeSmsMessage(
                 to=to,
                 from_=from_,
-                body=body
+                body=body,
+                sid=sid
             ))
-            return FakeSmsCreateResult(sid='blarg')
+            return FakeSmsCreateResult(sid=sid)
 
-    with patch('project.twilio.Client', FakeTwilioClient):
+    with patch('texting.twilio.Client', FakeTwilioClient):
         yield outbox
 
 

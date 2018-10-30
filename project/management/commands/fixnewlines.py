@@ -7,6 +7,14 @@ from project.justfix_environment import BASE_DIR
 
 
 def iter_get_repo_files(repo_root: Path=BASE_DIR) -> Iterator[Path]:
+    '''
+    Iterate through all existing files in the git repository.
+    '''
+
+    # One big downside of this is that it only looks at files in
+    # the git repository, *not* files in the current working
+    # directory, which means that new files added but not yet
+    # committed aren't actually iterated over.
     pathnames = subprocess.check_output([
         'git',
         'ls-tree',
@@ -19,7 +27,12 @@ def iter_get_repo_files(repo_root: Path=BASE_DIR) -> Iterator[Path]:
     for pathname in pathnames:
         # git ls-tree always outputs posix-style pathnames, even on Windows.
         parts = pathname.split('/')
-        yield repo_root.joinpath(*parts)
+        path = repo_root.joinpath(*parts)
+        # It's possible the path has been removed in the current branch
+        # but hasn't been committed yet, so test to see if it exists
+        # first.
+        if path.exists():
+            yield path
 
 
 class Command(BaseCommand):

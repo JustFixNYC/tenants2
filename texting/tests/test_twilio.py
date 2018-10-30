@@ -2,7 +2,7 @@ from unittest.mock import patch
 import pytest
 from django.core.exceptions import ImproperlyConfigured
 
-from project.twilio import send_sms, validate_settings, logger
+from texting.twilio import send_sms, validate_settings, logger
 
 
 def test_send_sms_works(settings, smsoutbox):

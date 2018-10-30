@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager, Permission
 from django.utils.crypto import get_random_string
 
-from project import twilio
+from texting import twilio
 from project.util.site_util import absolute_reverse
 
 
@@ -87,9 +87,10 @@ class JustfixUser(AbstractUser):
         last_digits = self.phone_number[6:]
         return f"({area_code}) {first_three_digits}-{last_digits}"
 
-    def send_sms(self, body: str, fail_silently=True):
+    def send_sms(self, body: str, fail_silently=True) -> str:
         if hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms:
-            twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
+            return twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
+        return ''
 
     @property
     def admin_url(self):

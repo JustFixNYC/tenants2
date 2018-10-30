@@ -7,8 +7,6 @@ import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
 import { StaticImage } from '../static-image';
 
-const locSvg = require('../svg/letter-of-complaint.svg') as JSX.Element;
-
 export interface IndexPageProps {
   isLoggedIn: boolean;
 }
@@ -22,7 +20,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
           <div className="hero-body">
             <div className="has-text-centered">
               <div className="jf-loc-image">
-                {locSvg}
+                <StaticImage src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
                 Is your landlord not responding? Take action today!

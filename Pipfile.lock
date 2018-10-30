@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f7ced9414dd04e3df3385eebf4a339327498706d93c4f1a329623c5b9178441b"
+            "sha256": "b01661304e8da889bcc6d4aea3b681656eec7cc32598957ea899bf91f4fdd897"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -388,6 +388,14 @@
             ],
             "index": "pypi",
             "version": "==3.5.0"
+        },
+        "freezegun": {
+            "hashes": [
+                "sha256:6cb82b276f83f2acce67f121dc2656f4df26c71e32238334eb071170b892a278",
+                "sha256:e839b43bfbe8158b4d62bb97e6313d39f3586daf48e1314fb1083d2ef17700da"
+            ],
+            "index": "pypi",
+            "version": "==0.3.11"
         },
         "idna": {
             "hashes": [

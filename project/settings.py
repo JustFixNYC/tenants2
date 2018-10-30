@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'issues.apps.IssuesConfig',
     'loc.apps.LocConfig',
     'airtable.apps.AirtableConfig',
-    'reminders.apps.RemindersConfig'
+    'texting.apps.TextingConfig'
 ]
 
 MIDDLEWARE = [

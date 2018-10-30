@@ -34,13 +34,6 @@
   font-size: inherit;
 }
 
-// We want the content of our pages to be aligned to
-// the top of the page, rather than vertically centered
-// (Bulma's heroic default).
-.jf-hero.hero.is-fullheight .hero-body {
-    align-items: flex-start;
-}
-
 // Sometimes we want non-interactive elements to be
 // programmatically focusable; when this is the case, it's
 // actually okay to not have any visual focus styling on

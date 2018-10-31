@@ -1,5 +1,5 @@
 from typing import List
-from django.db import models
+from django.db import models, transaction
 from django.core.exceptions import ValidationError
 
 from users.models import JustfixUser
@@ -32,6 +32,7 @@ def get_issue_area(value: str) -> str:
 
 
 class IssueManager(models.Manager):
+    @transaction.atomic
     def set_area_issues_for_user(self, user: JustfixUser, area: str, issues: List[str]):
         issues = list(set(issues))  # Remove duplicates.
         self.filter(user=user, area=area).delete()
@@ -73,6 +74,7 @@ class Issue(models.Model):
 
 
 class CustomIssueManager(models.Manager):
+    @transaction.atomic
     def set_for_user(self, user: JustfixUser, area: str, description: str):
         self.filter(user=user, area=area).delete()
         description = description.strip()

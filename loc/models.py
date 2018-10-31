@@ -1,6 +1,6 @@
 from typing import List, Optional
 import datetime
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 
 from project.common_data import Choices
@@ -13,6 +13,7 @@ LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
 
 class AccessDateManager(models.Manager):
+    @transaction.atomic
     def set_for_user(self, user: JustfixUser, dates: List[datetime.date]):
         self.filter(user=user).delete()
         self.bulk_create([

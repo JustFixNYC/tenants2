@@ -5,6 +5,7 @@ from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
+from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
 from project import slack
@@ -132,18 +133,19 @@ class OnboardingStep4(SessionFormMutation):
         if prev_steps is None:
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
-        user = JustfixUser.objects.create_user(
-            username=JustfixUser.objects.generate_random_username(),
-            first_name=prev_steps['first_name'],
-            last_name=prev_steps['last_name'],
-            phone_number=phone_number,
-            password=password,
-        )
+        with transaction.atomic():
+            user = JustfixUser.objects.create_user(
+                username=JustfixUser.objects.generate_random_username(),
+                first_name=prev_steps['first_name'],
+                last_name=prev_steps['last_name'],
+                phone_number=phone_number,
+                password=password,
+            )
 
-        oi = OnboardingInfo(user=user, **pick_model_fields(
-            OnboardingInfo, **prev_steps, **form.cleaned_data))
-        oi.full_clean()
-        oi.save()
+            oi = OnboardingInfo(user=user, **pick_model_fields(
+                OnboardingInfo, **prev_steps, **form.cleaned_data))
+            oi.full_clean()
+            oi.save()
 
         user.send_sms(
             f"Welcome to JustFix.nyc, {user.first_name}! "

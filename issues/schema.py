@@ -1,6 +1,7 @@
 from typing import List
 from graphql import ResolveInfo
 import graphene
+from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
 from . import forms, models
@@ -16,10 +17,11 @@ class IssueArea(SessionFormMutation):
     def perform_mutate(cls, form: forms.IssueAreaForm, info: ResolveInfo):
         user = info.context.user
         area = form.cleaned_data['area']
-        models.Issue.objects.set_area_issues_for_user(
-            user, area, form.cleaned_data['issues'])
-        models.CustomIssue.objects.set_for_user(
-            user, area, form.cleaned_data['other'])
+        with transaction.atomic():
+            models.Issue.objects.set_area_issues_for_user(
+                user, area, form.cleaned_data['issues'])
+            models.CustomIssue.objects.set_for_user(
+                user, area, form.cleaned_data['other'])
         return cls.mutation_success()
 
 

@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'issues.apps.IssuesConfig',
     'loc.apps.LocConfig',
     'airtable.apps.AirtableConfig',
-    'texting.apps.TextingConfig'
+    'texting.apps.TextingConfig',
+    'nycha.apps.NychaConfig',
 ]
 
 MIDDLEWARE = [

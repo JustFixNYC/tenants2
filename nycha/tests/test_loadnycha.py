@@ -3,6 +3,7 @@ from io import StringIO
 from django.core.management import call_command
 
 from nycha.management.commands.loadnycha import Row
+from nycha.models import NychaProperty
 
 
 CSV_FILE = Path(__file__).parent.resolve() / 'test_loadnycha.csv'
@@ -20,7 +21,7 @@ ROW_DICT = {
 }
 
 
-def test_it_works():
+def test_command_works(db):
     out = StringIO()
     err = StringIO()
     call_command('loadnycha', str(CSV_FILE), stdout=out, stderr=err)
@@ -31,7 +32,12 @@ def test_it_works():
     assert out.getvalue() == (
         '3 management offices found.\n'
         'Note that the following management orgs have no management offices: VACANT LAND.\n'
+        'Populating database.\n'
+        'Done.\n'
     )
+    prop = NychaProperty.objects.get(pad_bbl='2022150116')
+    assert prop.office.name == 'MARBLE HILL'
+    assert prop.office.address == '5220 BROADWAY\nBRONX, NY 10463'
 
 
 class TestRow:

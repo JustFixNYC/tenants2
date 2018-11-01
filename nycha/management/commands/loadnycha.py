@@ -2,7 +2,10 @@ import csv
 from dataclasses import dataclass
 from typing import Dict, Set, TextIO
 from django.core.management.base import BaseCommand
+from django.db import transaction
 import pydantic
+
+from nycha.models import NychaOffice, NychaProperty
 
 
 MANHATTAN = 'MANHATTAN'
@@ -88,6 +91,22 @@ class NychaCsvLoader:
         if mgmt_org in self.offices:
             self.offices[mgmt_org].pad_bbls.add(row.pad_bbl)
 
+    @transaction.atomic
+    def populate_db(self) -> None:
+        self.stdout.write(f'Populating database.')
+        NychaOffice.objects.all().delete()
+        for office in self.offices.values():
+            office_model = NychaOffice(
+                name=office.row.MANAGED_BY,
+                address=office.row.full_address
+            )
+            office_model.save()
+            NychaProperty.objects.bulk_create([
+                NychaProperty(pad_bbl=bbl, office=office_model)
+                for bbl in office.pad_bbls
+            ])
+        self.stdout.write(f'Done.')
+
     def report_stats(self) -> None:
         self.stdout.write(f'{len(self.offices)} management offices found.')
         orgs_without_offices = self.mgmt_orgs.difference(set(self.offices.keys()))
@@ -114,3 +133,4 @@ class Command(BaseCommand):
         with open(options['csvfile'], 'r') as csvfile:
             loader.load_csv(csvfile)
         loader.report_stats()
+        loader.populate_db()

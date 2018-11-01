@@ -37,7 +37,7 @@ class Row(pydantic.BaseModel):
             f'{self.LOT.zfill(LOT_DIGITS)}'
         )
 
-    def is_management_office(self) -> bool:
+    def is_main_management_office(self) -> bool:
         return ('DEVELOPMENT MANAGEMENT OFFICE' in self.FACILITY and
                 'SATELLITE' not in self.FACILITY)
 
@@ -68,7 +68,7 @@ class NychaCsvLoader:
 
     def load_row(self, row: Row) -> None:
         mgmt_org = row.MANAGED_BY
-        if row.is_management_office():
+        if row.is_main_management_office():
             if mgmt_org in self.offices:
                 self.stderr.write(
                     f"Multiple management offices found for {mgmt_org}! "

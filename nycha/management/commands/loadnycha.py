@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Set, TextIO, Iterator
+from typing import Dict, Set, TextIO, Iterator, Tuple
 from django.core.management.base import BaseCommand
 from django.db import transaction
 import pydantic
@@ -58,19 +58,21 @@ class Row(pydantic.BaseModel):
 @dataclass
 class ManagementOffice:
     row: Row
-    pad_bbls: Set[str]
+    pad_bbl_and_addresses: Set[Tuple[str, str]]
 
 
 class NychaCsvLoader:
     offices: Dict[str, ManagementOffice]
     mgmt_orgs: Set[str]
     pad_bbls: Dict[str, ManagementOffice]
+    bbls_with_many_offices: Set[str]
     stdout: TextIO
     stderr: TextIO
 
     def __init__(self, stdout: TextIO, stderr: TextIO) -> None:
         self.offices = {}
         self.mgmt_orgs = set()
+        self.bbls_with_many_offices = set()
         self.pad_bbls = {}
         self.stderr = stderr
         self.stdout = stdout
@@ -101,7 +103,7 @@ class NychaCsvLoader:
                 f"Multiple management offices found for {mgmt_org}! "
                 f"{row.FACILITY} vs. {self.offices[mgmt_org].row.FACILITY}"
             )
-        self.offices[mgmt_org] = ManagementOffice(row=row, pad_bbls=set())
+        self.offices[mgmt_org] = ManagementOffice(row=row, pad_bbl_and_addresses=set())
 
     def load_row(self, row: Row) -> None:
         mgmt_org = row.MANAGED_BY
@@ -109,14 +111,16 @@ class NychaCsvLoader:
         if mgmt_org in self.offices:
             office = self.offices[mgmt_org]
             pad_bbl = row.pad_bbl
-            office.pad_bbls.add(pad_bbl)
+            office.pad_bbl_and_addresses.add((pad_bbl, row.ADDRESS))
             if pad_bbl not in self.pad_bbls:
                 self.pad_bbls[pad_bbl] = office
-            elif self.pad_bbls[pad_bbl] is not office:
+            elif (self.pad_bbls[pad_bbl] is not office and
+                  pad_bbl not in self.bbls_with_many_offices):
+                self.bbls_with_many_offices.add(pad_bbl)
                 other_office = self.pad_bbls[pad_bbl]
-                self.stderr.write(
-                    f"{row.ADDRESS} with BBL {pad_bbl} is managed by "
-                    f"both {mgmt_org} and {other_office.row.MANAGED_BY}!"
+                self.stdout.write(
+                    f"BBL {pad_bbl} is managed by "
+                    f"both {mgmt_org} and {other_office.row.MANAGED_BY}."
                 )
 
     @transaction.atomic
@@ -130,8 +134,8 @@ class NychaCsvLoader:
             )
             office_model.save()
             NychaProperty.objects.bulk_create([
-                NychaProperty(pad_bbl=bbl, office=office_model)
-                for bbl in office.pad_bbls
+                NychaProperty(pad_bbl=bbl, address=address, office=office_model)
+                for bbl, address in office.pad_bbl_and_addresses
             ])
         self.stdout.write(f'Done.')
 

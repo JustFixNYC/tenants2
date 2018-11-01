@@ -1,12 +1,6 @@
-from pathlib import Path
-from io import StringIO
-from django.core.management import call_command
-
 from nycha.management.commands.loadnycha import Row
 from nycha.models import NychaProperty
 
-
-CSV_FILE = Path(__file__).parent.resolve() / 'test_loadnycha.csv'
 
 ROW_DICT = {
     'BOROUGH': 'BRONX',
@@ -21,21 +15,19 @@ ROW_DICT = {
 }
 
 
-def test_command_works(db):
-    out = StringIO()
-    err = StringIO()
-    call_command('loadnycha', str(CSV_FILE), stdout=out, stderr=err)
-    assert err.getvalue() == (
+def test_command_works(loaded_nycha_csv_data):
+    assert loaded_nycha_csv_data.stderr == (
         'Multiple management offices found for RICHMOND TERRACE! '
         'ANOTHER DEVELOPMENT MANAGEMENT OFFICE vs. DEVELOPMENT MANAGEMENT OFFICE\n'
     )
-    assert out.getvalue() == (
-        '3 management offices found.\n'
+    assert loaded_nycha_csv_data.stdout == (
+        'BBL 3005380001 is managed by both RED HOOK EAST and RED HOOK WEST.\n'
+        '5 management offices found.\n'
         'Note that the following management orgs have no management offices: VACANT LAND.\n'
         'Populating database.\n'
         'Done.\n'
     )
-    prop = NychaProperty.objects.get(pad_bbl='2022150116')
+    prop = NychaProperty.objects.get(pad_bbl='2022150116', address='5210 BROADWAY')
     assert prop.office.name == 'MARBLE HILL'
     assert prop.office.address == '5220 BROADWAY\nBRONX, NY 10463'
 

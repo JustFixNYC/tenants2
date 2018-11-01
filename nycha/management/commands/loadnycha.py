@@ -64,12 +64,14 @@ class ManagementOffice:
 class NychaCsvLoader:
     offices: Dict[str, ManagementOffice]
     mgmt_orgs: Set[str]
+    pad_bbls: Dict[str, ManagementOffice]
     stdout: TextIO
     stderr: TextIO
 
     def __init__(self, stdout: TextIO, stderr: TextIO) -> None:
         self.offices = {}
         self.mgmt_orgs = set()
+        self.pad_bbls = {}
         self.stderr = stderr
         self.stdout = stdout
 
@@ -105,7 +107,17 @@ class NychaCsvLoader:
         mgmt_org = row.MANAGED_BY
         self.mgmt_orgs.add(mgmt_org)
         if mgmt_org in self.offices:
-            self.offices[mgmt_org].pad_bbls.add(row.pad_bbl)
+            office = self.offices[mgmt_org]
+            pad_bbl = row.pad_bbl
+            office.pad_bbls.add(pad_bbl)
+            if pad_bbl not in self.pad_bbls:
+                self.pad_bbls[pad_bbl] = office
+            elif self.pad_bbls[pad_bbl] is not office:
+                other_office = self.pad_bbls[pad_bbl]
+                self.stderr.write(
+                    f"{row.ADDRESS} with BBL {pad_bbl} is managed by "
+                    f"both {mgmt_org} and {other_office.row.MANAGED_BY}!"
+                )
 
     @transaction.atomic
     def populate_db(self) -> None:

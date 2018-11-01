@@ -5,9 +5,11 @@ from django.core.management.base import BaseCommand
 import pydantic
 
 
+MANHATTAN = 'MANHATTAN'
+
 # https://en.wikipedia.org/wiki/Borough,_Block_and_Lot
 BOROUGH_NUMBERS = {
-    'MANHATTAN': 1,
+    MANHATTAN: 1,
     'BRONX': 2,
     'BROOKLYN': 3,
     'QUEENS': 4,
@@ -36,6 +38,13 @@ class Row(pydantic.BaseModel):
             f'{self.BLOCK.zfill(BLOCK_DIGITS)}'
             f'{self.LOT.zfill(LOT_DIGITS)}'
         )
+
+    @property
+    def full_address(self) -> str:
+        city = self.BOROUGH
+        if city == MANHATTAN:
+            city = 'NEW YORK'
+        return f'{self.ADDRESS}\n{city}, NY {self.ZIP_CODE}'
 
     def is_main_management_office(self) -> bool:
         return ('DEVELOPMENT MANAGEMENT OFFICE' in self.FACILITY and

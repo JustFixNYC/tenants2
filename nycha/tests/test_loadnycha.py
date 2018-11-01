@@ -48,3 +48,10 @@ class TestRow:
 
         row.FACILITY = 'SATELLITE MANAGEMENT OFFICE'
         assert row.is_main_management_office() is False
+
+    def test_full_address_works(self):
+        row = Row(**ROW_DICT)
+        assert row.full_address == '5210 BROADWAY\nBRONX, NY 10463'
+
+        row.BOROUGH = 'MANHATTAN'
+        assert row.full_address == '5210 BROADWAY\nNEW YORK, NY 10463'

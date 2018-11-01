@@ -1,6 +1,7 @@
 import csv
+from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Set, TextIO
+from typing import Dict, Set, TextIO, Iterator
 from django.core.management.base import BaseCommand
 from django.db import transaction
 import pydantic
@@ -72,21 +73,36 @@ class NychaCsvLoader:
         self.stderr = stderr
         self.stdout = stdout
 
-    def load_csv(self, csvfile: TextIO) -> None:
-        reader = csv.DictReader(csvfile)
-        for dictrow in reader:
-            row = Row(**dictrow)
+    def iter_rows(self, csvpath: Path) -> Iterator[Row]:
+        with csvpath.open('r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for dictrow in reader:
+                row = Row(**dictrow)
+                yield row
+
+    def load_csv(self, csvpath: Path) -> None:
+        mgmt_rows = (row for row in self.iter_rows(csvpath)
+                     if row.is_main_management_office())
+        # Iterate through the rows once to load all the management
+        # offices.
+        for row in mgmt_rows:
+            self.load_management_office_row(row)
+        # Iterate through the rows again to associate every property
+        # with a management office.
+        for row in self.iter_rows(csvpath):
             self.load_row(row)
+
+    def load_management_office_row(self, row: Row) -> None:
+        mgmt_org = row.MANAGED_BY
+        if mgmt_org in self.offices:
+            self.stderr.write(
+                f"Multiple management offices found for {mgmt_org}! "
+                f"{row.FACILITY} vs. {self.offices[mgmt_org].row.FACILITY}"
+            )
+        self.offices[mgmt_org] = ManagementOffice(row=row, pad_bbls=set())
 
     def load_row(self, row: Row) -> None:
         mgmt_org = row.MANAGED_BY
-        if row.is_main_management_office():
-            if mgmt_org in self.offices:
-                self.stderr.write(
-                    f"Multiple management offices found for {mgmt_org}! "
-                    f"{row.FACILITY} vs. {self.offices[mgmt_org].row.FACILITY}"
-                )
-            self.offices[mgmt_org] = ManagementOffice(row=row, pad_bbls=set())
         self.mgmt_orgs.add(mgmt_org)
         if mgmt_org in self.offices:
             self.offices[mgmt_org].pad_bbls.add(row.pad_bbl)
@@ -130,7 +146,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         loader = NychaCsvLoader(self.stdout, self.stderr)
-        with open(options['csvfile'], 'r') as csvfile:
-            loader.load_csv(csvfile)
+        loader.load_csv(Path(options['csvfile']))
         loader.report_stats()
         loader.populate_db()

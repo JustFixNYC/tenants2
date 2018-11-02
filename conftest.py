@@ -13,11 +13,22 @@ import pytest
 
 from users.tests.factories import UserFactory
 from project.schema import schema
+from nycha.tests.fixtures import load_nycha_csv_data
 
 
 BASE_DIR = Path(__file__).parent.resolve()
 
 STATICFILES_DIR = BASE_DIR / 'staticfiles'
+
+
+@pytest.fixture(scope="session")
+def loaded_nycha_csv_data(django_db_setup, django_db_blocker):
+    '''
+    Load example NYCHA office/property data into the database.
+    '''
+
+    with django_db_blocker.unblock():
+        yield load_nycha_csv_data()
 
 
 @pytest.fixture(scope="session")

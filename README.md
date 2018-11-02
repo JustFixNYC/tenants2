@@ -319,6 +319,25 @@ You can visit the server at http://localhost:8000/ and even create accounts
 and such, as it uses an ephemeral SQLite database built-in to the
 container, but the data will go away once the container is removed.
 
+## Optional integrations
+
+The codebase has a number of optional integations with third-party services
+and data sources. Run `python manage.py envhelp` for a listing of all
+environment variables related to them.
+
+### NYCHA offices
+
+You can load all the NYCHA offices into the database by downloading the CSV
+and importing it via a management command:
+
+```
+wget https://raw.githubusercontent.com/JustFixNYC/nycha-scraper/master/Block-and-Lot-Guide-08272018.csv
+python manage.py loadnycha Block-and-Lot-Guide-08272018.csv
+```
+
+Once imported, any users from NYCHA who file a letter of complaint will
+automatically have their landlord address populated.
+
 [pipenv]: https://docs.pipenv.org/
 [twelve-factor methodology]: https://12factor.net/
 [multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app

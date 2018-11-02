@@ -15,4 +15,5 @@ class Command(BaseCommand):
             raise CommandError('Geocoding failed!')
         self.stdout.write("Geocoding results:\n\n")
         for feature in features:
-            self.stdout.write(f"{feature.properties.label}\n")
+            self.stdout.write(f"{feature.properties.label} "
+                              f"pad_bbl={feature.properties.pad_bbl}\n")

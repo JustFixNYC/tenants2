@@ -1,5 +1,9 @@
 from typing import Optional
+import logging
 from django.db import models
+
+
+logger = logging.getLogger(__name__)
 
 
 class NychaOfficeManager(models.Manager):
@@ -16,6 +20,10 @@ class NychaOfficeManager(models.Manager):
                 properties__address=addr_beginning_upper)
             if offices_for_address.exists():
                 return offices_for_address.first()
+            logger.info(
+                f"Multiple offices found for NYCHA BBL {pad_bbl} and "
+                f"unable to narrow by address {address}. Using the first one."
+            )
             return offices_for_bbl.first()
 
 

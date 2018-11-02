@@ -245,7 +245,6 @@ export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
         window.setTimeout(() => resolve(promise), ms);
       }
     };
-    promise.catch(finallyCb);
-    promise.then(finallyCb);
+    promise.then(finallyCb).catch(finallyCb);
   });
 }

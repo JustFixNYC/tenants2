@@ -11,8 +11,8 @@ describe('AppWithoutRouter', () => {
       initialURL: '/',
       initialSession: FakeSessionInfo,
       server: FakeServerInfo,
-      history: null as any,
-      location: null as any,
+      history: {} as any,
+      location: {} as any,
       match: null as any
     };
 

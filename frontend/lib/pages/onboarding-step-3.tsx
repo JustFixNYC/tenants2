@@ -24,14 +24,17 @@ const blankInitialState: OnboardingStep3Input = {
   receivesPublicAssistance: false
 };
 
-export function LeaseInfoModal(props: { children: any, title: string }): JSX.Element {
+export function LeaseInfoModal(props: { children: any, title: string, isWarning?: boolean }): JSX.Element {
   return (
     <Modal title={props.title} onCloseGoTo={NEXT_STEP}>
       <div className="content box">
         <h1 className="title is-4">{props.title}</h1>
         {props.children}
         <div className="has-text-centered">
-          <Link to={NEXT_STEP} className="button is-primary is-medium">Continue</Link>
+          <Link to={NEXT_STEP}
+            className={`button is-primary is-medium ${props.isWarning ? 'is-danger' : ''}`}>
+            {props.isWarning ? 'I understand the risk' : 'Continue'}
+          </Link>
         </div>
       </div>
     </Modal>
@@ -72,8 +75,8 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3MarketRateModal,
     leaseType: 'MARKET_RATE',
     component: () => (
-      <LeaseInfoModal title="Market Rate lease">
-        <p>Sending a Letter of Complaint is a formal way to request repairs from your landlord and is a good tactic to try before calling 311.</p>
+      <LeaseInfoModal title="Market Rate lease" isWarning>
+        <p><strong className="has-text-danger">Warning:</strong> Sending a letter to  your landlord could provoke retaliation and/or a eviction notice. Take caution and make sure that this service is right for you.</p>
       </LeaseInfoModal>
     )
   },
@@ -90,8 +93,8 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     route: Routes.onboarding.step3OtherModal,
     leaseType: 'OTHER',
     component: () => (
-      <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)">
-        <p>This is a formal way to request repairs from your landlord and is a good tactic if calling 311 isn't working.</p>
+      <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)" isWarning>
+        <p><strong className="has-text-danger">Warning:</strong> If you do not have a lease, sending a letter to  your landlord could provoke retaliation and/or a eviction notice. Take caution and make sure that this service is right for you.</p>
       </LeaseInfoModal>
     )
   }

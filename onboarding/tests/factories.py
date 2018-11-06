@@ -1,6 +1,6 @@
 import factory
 
-from onboarding.models import OnboardingInfo
+from onboarding.models import OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES
 from users.tests.factories import UserFactory
 
 
@@ -14,7 +14,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     address_verified = True
 
-    borough = 'BROOKLYN'
+    borough = BOROUGH_CHOICES.BROOKLYN
 
     apt_number = '2'
 
@@ -28,7 +28,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     has_called_311 = False
 
-    lease_type = False
+    lease_type = LEASE_CHOICES.RENT_STABILIZED
 
     receives_public_assistance = False
 

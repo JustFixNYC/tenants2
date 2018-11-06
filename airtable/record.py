@@ -32,6 +32,9 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Checkbox" field.
     'can_we_sms': False,
 
+    # In Airtable, this should be a "Single line text" field.
+    'lease_type': 'RENT_STABILIZED',
+
     # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
 
@@ -118,6 +121,9 @@ class Fields(pydantic.BaseModel):
 
     # Whether we can SMS the user.
     onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias='can_we_sms')
+
+    # The user's lease type.
+    onboarding_info__lease_type: str = pydantic.Schema(default='', alias='lease_type')
 
     # When the user's letter of complaint was requested.
     letter_request__created_at: Optional[str] = pydantic.Schema(

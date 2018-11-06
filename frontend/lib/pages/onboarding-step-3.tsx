@@ -76,7 +76,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     leaseType: 'MARKET_RATE',
     component: () => (
       <LeaseInfoModal title="Market Rate lease" isWarning>
-        <p><strong className="has-text-danger">Warning:</strong> Sending a letter to  your landlord could provoke retaliation and/or a eviction notice. Take caution and make sure that this service is right for you.</p>
+        <p><strong className="has-text-danger">Warning:</strong> Sending a letter to  your landlord could provoke retaliation and/or a eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
       </LeaseInfoModal>
     )
   },
@@ -94,7 +94,7 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     leaseType: 'OTHER',
     component: () => (
       <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)" isWarning>
-        <p><strong className="has-text-danger">Warning:</strong> If you do not have a lease, sending a letter to  your landlord could provoke retaliation and/or a eviction notice. Take caution and make sure that this service is right for you.</p>
+        <p><strong className="has-text-danger">Warning:</strong> If you do not have a lease, sending a letter to  your landlord could provoke retaliation and/or a eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
       </LeaseInfoModal>
     )
   }

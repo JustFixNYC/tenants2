@@ -39,7 +39,7 @@ class TestUploadToken:
 
 
 class TestHPActionDocuments:
-    def test_purging_works(self, db, django_file_storage):
+    def create_docs(self, django_file_storage):
         user = UserFactory()
         docs = HPActionDocuments(
             xml_file=SimpleUploadedFile('blarg.xml', content=b'i am some xml'),
@@ -47,18 +47,34 @@ class TestHPActionDocuments:
             user=user
         )
         docs.save()
+        xml_filepath = django_file_storage.get_abs_path(docs.xml_file)
+        pdf_filepath = django_file_storage.get_abs_path(docs.pdf_file)
+        return (docs, xml_filepath, pdf_filepath)
 
+    def test_purging_works(self, db, django_file_storage):
+        docs, xml_filepath, pdf_filepath = self.create_docs(django_file_storage)
         HPActionDocuments.objects.purge()
         assert HPActionDocuments.objects.count() == 1
-
-        xml_filepath = django_file_storage.get_abs_path(docs.xml_file)
         assert xml_filepath.exists()
-
-        pdf_filepath = django_file_storage.get_abs_path(docs.pdf_file)
         assert pdf_filepath.exists()
 
         docs.schedule_for_deletion()
         HPActionDocuments.objects.purge()
         assert HPActionDocuments.objects.count() == 0
+        assert not xml_filepath.exists()
+        assert not pdf_filepath.exists()
+
+    def test_purging_works_on_partially_deleted_docs(self, db, django_file_storage):
+        docs, xml_filepath, pdf_filepath = self.create_docs(django_file_storage)
+
+        # Suppose we tried purging the docs before and deleting the XML file
+        # worked, but deleting the PDF failed...
+        docs.schedule_for_deletion()
+        docs.xml_file.delete()
+        assert not xml_filepath.exists()
+        assert pdf_filepath.exists()
+
+        # We should be able to purge again and complete the process.
+        HPActionDocuments.objects.purge()
         assert not xml_filepath.exists()
         assert not pdf_filepath.exists()

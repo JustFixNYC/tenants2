@@ -27,6 +27,13 @@ class HPActionDocumentsManager(models.Manager):
 
         docs = list(self.filter(user=None).all())
         for doc in docs:
+            # We intentionally don't want to wrap this in a transaction
+            # because each delete() call will be making changes to
+            # the world outside our database.
+            #
+            # However, this does mean that if one of the following
+            # calls fails, we should be able to re-run this method
+            # to retry the whole operation.
             doc.xml_file.delete()
             doc.pdf_file.delete()
             doc.delete()
@@ -132,6 +139,11 @@ class UploadToken(models.Model):
 
         user = self.user
         basename = f'hp-action-{user.username}'
+
+        # We don't really want to wrap the following in a transaction because
+        # of how storing the files changes the world outside our database. e.g., if
+        # deleting the token fails, we still want to keep a record of the files
+        # we created in our storage service so we can delete them later.
         docs = HPActionDocuments(
             user=user,
             xml_file=SimpleUploadedFile(f'{basename}.xml', content=xml_data),
@@ -139,6 +151,7 @@ class UploadToken(models.Model):
         )
         docs.save()
         self.delete()
+
         return docs
 
     def get_upload_url(self) -> str:

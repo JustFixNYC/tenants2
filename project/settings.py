@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'airtable.apps.AirtableConfig',
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
+    'hpaction.apps.HPActionConfig'
 ]
 
 MIDDLEWARE = [

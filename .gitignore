@@ -18,6 +18,7 @@ frontend/static/frontend/*.map
 frontend/static/frontend/report.html
 frontend/safe_mode/safe-mode.min.js
 staticfiles/
+mediafiles/
 frontend/lib/queries/__generated__/
 querybuilder.js
 querybuilder.js.map

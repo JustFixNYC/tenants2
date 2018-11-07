@@ -1,6 +1,5 @@
 import tempfile
 from pathlib import Path
-import pytest
 
 
 class TempDjangoFileStorage:
@@ -42,7 +41,6 @@ class TempDjangoFileStorage:
         return data
 
 
-@pytest.fixture
 def django_file_storage(settings):
     '''
     A test fixture that can be used to store any
@@ -53,5 +51,6 @@ def django_file_storage(settings):
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         settings.MEDIA_ROOT = tmpdirname
+        settings.DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
         storage = TempDjangoFileStorage(tmpdirname)
         yield storage

@@ -26,8 +26,18 @@ LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }
 
+DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
+
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
+
+
+class NotActuallyFileStorage:
+    def __init__(self):
+        raise Exception(
+            'Please use the django_file_storage pytest fixture if '
+            'you need to use Django file storage'
+        )

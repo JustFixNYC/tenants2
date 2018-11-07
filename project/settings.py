@@ -222,12 +222,19 @@ _STATIC_ROOT_PATH = BASE_DIR / 'staticfiles'
 
 STATIC_ROOT = str(_STATIC_ROOT_PATH)
 
-if not _STATIC_ROOT_PATH.exists():
-    # This avoids a spurious warning from whitenoise that
-    # shows up even in development mode.
-    _STATIC_ROOT_PATH.mkdir()
+# This avoids a spurious warning from whitenoise that
+# shows up even in development mode.
+_STATIC_ROOT_PATH.mkdir(exist_ok=True)
 
 STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+
+_MEDIA_ROOT_PATH = BASE_DIR / 'mediafiles'
+
+_MEDIA_ROOT_PATH.mkdir(exist_ok=True)
+
+MEDIA_ROOT = str(_MEDIA_ROOT_PATH)
+
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',

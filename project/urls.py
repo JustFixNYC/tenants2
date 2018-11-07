@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/login/', react_rendered_view, kwargs={'url': 'admin/login/'}),
     path('admin/', admin.site.urls),
     path('loc/', include('loc.urls')),
+    path('hp-action/', include('hpaction.urls')),
     path('safe-mode/', include('frontend.safe_mode')),
     path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),

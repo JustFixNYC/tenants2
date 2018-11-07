@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 
 
@@ -139,3 +140,12 @@ class UploadToken(models.Model):
         docs.save()
         self.delete()
         return docs
+
+    def get_upload_url(self) -> str:
+        '''
+        Returns an absolute path to the upload URL for this token.
+        '''
+
+        return absolute_reverse('hpaction:upload', kwargs={
+            'token_str': self.token
+        })

@@ -33,6 +33,10 @@ class TestUploadToken:
         assert docs.user == user
         assert docs.pk is not None
 
+    def test_get_upload_url_works(self, db):
+        token = UploadToken(token='boop')
+        assert token.get_upload_url() == 'https://example.com/hp-action/upload/boop'
+
 
 class TestHPActionDocuments:
     def test_purging_works(self, db, django_file_storage):

@@ -7,18 +7,31 @@ from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME)
 
 
-def test_upload_tokens_are_time_limited_and_expired_ones_can_be_removed(db):
-    with freeze_time('2018-01-01') as time:
+class TestUploadToken:
+    def test_they_are_time_limited_and_expired_ones_can_be_removed(self, db):
+        with freeze_time('2018-01-01') as time:
+            user = UserFactory()
+            token = UploadToken.objects.create_for_user(user)
+            UploadToken.objects.remove_expired()
+            assert UploadToken.objects.find_unexpired(token.token) == token
+
+            time.tick(delta=datetime.timedelta(seconds=1) + UPLOAD_TOKEN_LIFETIME)
+            assert UploadToken.objects.find_unexpired(token.token) is None
+
+            UploadToken.objects.remove_expired()
+            assert UploadToken.objects.count() == 0
+
+    def test_create_documents_from_works(self, db, django_file_storage):
         user = UserFactory()
         token = UploadToken.objects.create_for_user(user)
-        UploadToken.objects.remove_expired()
-        assert UploadToken.objects.find_unexpired(token.token) == token
-
-        time.tick(delta=datetime.timedelta(seconds=1) + UPLOAD_TOKEN_LIFETIME)
-        assert UploadToken.objects.find_unexpired(token.token) is None
-
-        UploadToken.objects.remove_expired()
-        assert UploadToken.objects.count() == 0
+        docs = token.create_documents_from(
+            xml_data=b'i am xml',
+            pdf_data=b'i am pdf'
+        )
+        assert django_file_storage.read(docs.xml_file) == b'i am xml'
+        assert django_file_storage.read(docs.pdf_file) == b'i am pdf'
+        assert docs.user == user
+        assert docs.pk is not None
 
 
 class TestHPActionDocuments:

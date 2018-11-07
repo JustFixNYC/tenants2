@@ -3,6 +3,7 @@ from typing import Optional
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from users.models import JustfixUser
 
@@ -121,3 +122,20 @@ class UploadToken(models.Model):
     token = models.CharField(max_length=UPLOAD_TOKEN_LENGTH, unique=True)
 
     objects = UploadTokenManager()
+
+    def create_documents_from(self, xml_data: bytes, pdf_data: bytes) -> HPActionDocuments:
+        '''
+        Consume the token and create HP Action documents associated with
+        the user it's bound to, and the given data.
+        '''
+
+        user = self.user
+        basename = f'hp-action-{user.username}'
+        docs = HPActionDocuments(
+            user=user,
+            xml_file=SimpleUploadedFile(f'{basename}.xml', content=xml_data),
+            pdf_file=SimpleUploadedFile(f'{basename}.pdf', content=pdf_data)
+        )
+        docs.save()
+        self.delete()
+        return docs

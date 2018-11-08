@@ -8,6 +8,8 @@ from .models import UploadToken
 
 LHI_B64_ALTCHARS = b' /'
 
+SUCCESSFUL_UPLOAD_TEXT = "HP Action documents created."
+
 
 def decode_lhi_b64_data(data: str) -> bytes:
     '''
@@ -39,4 +41,4 @@ def upload(request, token_str: str):
 
     token.create_documents_from(xml_data=xml_data, pdf_data=pdf_data)
 
-    return HttpResponse("HP Action documents created.")
+    return HttpResponse(SUCCESSFUL_UPLOAD_TEXT)

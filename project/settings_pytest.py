@@ -25,6 +25,7 @@ ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }
+HP_ACTION_CUSTOMER_KEY = ''
 
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 

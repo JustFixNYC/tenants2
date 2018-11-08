@@ -45,6 +45,9 @@ class HPActionDocuments(models.Model):
     a user, provided to us by an external service.
     '''
 
+    class Meta:
+        verbose_name_plural = 'HP Action Documents'
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -146,8 +149,16 @@ class UploadToken(models.Model):
         # we created in our storage service so we can delete them later.
         docs = HPActionDocuments(
             user=user,
-            xml_file=SimpleUploadedFile(f'{basename}.xml', content=xml_data),
-            pdf_file=SimpleUploadedFile(f'{basename}.pdf', content=pdf_data)
+            xml_file=SimpleUploadedFile(
+                f'{basename}.xml',
+                content=xml_data,
+                content_type='text/xml'
+            ),
+            pdf_file=SimpleUploadedFile(
+                f'{basename}.pdf',
+                content=pdf_data,
+                content_type='application/pdf'
+            )
         )
         docs.save()
         self.delete()

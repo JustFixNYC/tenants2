@@ -13,10 +13,10 @@ class TestUploadToken:
             user = UserFactory()
             token = UploadToken.objects.create_for_user(user)
             UploadToken.objects.remove_expired()
-            assert UploadToken.objects.find_unexpired(token.token) == token
+            assert UploadToken.objects.find_unexpired(token.id) == token
 
             time.tick(delta=datetime.timedelta(seconds=1) + UPLOAD_TOKEN_LIFETIME)
-            assert UploadToken.objects.find_unexpired(token.token) is None
+            assert UploadToken.objects.find_unexpired(token.id) is None
 
             UploadToken.objects.remove_expired()
             assert UploadToken.objects.count() == 0
@@ -24,6 +24,7 @@ class TestUploadToken:
     def test_create_documents_from_works(self, db, django_file_storage):
         user = UserFactory()
         token = UploadToken.objects.create_for_user(user)
+        token_id = token.id
         docs = token.create_documents_from(
             xml_data=b'i am xml',
             pdf_data=b'i am pdf'
@@ -31,10 +32,10 @@ class TestUploadToken:
         assert django_file_storage.read(docs.xml_file) == b'i am xml'
         assert django_file_storage.read(docs.pdf_file) == b'i am pdf'
         assert docs.user == user
-        assert docs.pk is not None
+        assert docs.id == token_id
 
     def test_get_upload_url_works(self, db):
-        token = UploadToken(token='boop')
+        token = UploadToken(id='boop')
         assert token.get_upload_url() == 'https://example.com/hp-action/upload/boop'
 
 

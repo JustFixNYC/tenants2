@@ -33,7 +33,7 @@ class TestUpload:
         user = UserFactory()
         token = UploadToken.objects.create_for_user(user)
 
-        url = reverse('hpaction:upload', kwargs={'token_str': token.token})
+        url = reverse('hpaction:upload', kwargs={'token_str': token.id})
         res = client.post(url, data={
             'binary_file': encode_lhi_b64_data(b'i am uploaded pdf data'),
             'answer_file': encode_lhi_b64_data(b'i am uploaded xml data'),

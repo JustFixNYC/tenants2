@@ -48,6 +48,10 @@ class HPActionDocuments(models.Model):
     class Meta:
         verbose_name_plural = 'HP Action Documents'
 
+    # The id will be the same as the id of the upload token that
+    # the external service used to submit the documents.
+    id = models.CharField(max_length=UPLOAD_TOKEN_LENGTH, primary_key=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -94,8 +98,8 @@ class UploadTokenManager(models.Manager):
         # It's so unlikely that this token will collide with another
         # that we're not even going to bother with retry logic.
         token = UploadToken(
-            user=user,
-            token=get_random_string(length=UPLOAD_TOKEN_LENGTH)
+            id=get_random_string(length=UPLOAD_TOKEN_LENGTH),
+            user=user
         )
         token.save()
         return token
@@ -107,7 +111,7 @@ class UploadTokenManager(models.Manager):
         '''
 
         return self.filter(
-            token=token,
+            id=token,
             created_at__gt=timezone.now() - UPLOAD_TOKEN_LIFETIME
         ).first()
 
@@ -126,11 +130,11 @@ class UploadToken(models.Model):
     to prevent abuse.
     '''
 
+    id = models.CharField(max_length=UPLOAD_TOKEN_LENGTH, primary_key=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
-
-    token = models.CharField(max_length=UPLOAD_TOKEN_LENGTH, unique=True)
 
     objects = UploadTokenManager()
 
@@ -148,6 +152,7 @@ class UploadToken(models.Model):
         # deleting the token fails, we still want to keep a record of the files
         # we created in our storage service so we can delete them later.
         docs = HPActionDocuments(
+            id=self.id,
             user=user,
             xml_file=SimpleUploadedFile(
                 f'{basename}.xml',
@@ -171,5 +176,5 @@ class UploadToken(models.Model):
         '''
 
         return absolute_reverse('hpaction:upload', kwargs={
-            'token_str': self.token
+            'token_str': self.id
         })

@@ -46,7 +46,7 @@ class Command(BaseCommand):
             CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
             TemplateId=TEMPLATE_ID,
             HDInfo=hotdocs_xml,
-            DocID=token.token,
+            DocID=token.id,
             PostBackUrl=token.get_upload_url()
         )
 

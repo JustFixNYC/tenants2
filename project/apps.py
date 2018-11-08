@@ -3,6 +3,8 @@ import sys
 from django.apps import AppConfig
 from django.conf import settings
 
+from project.util.settings_util import ensure_dependent_settings_are_nonempty
+
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +31,12 @@ class DefaultConfig(AppConfig):
         from project.util import schema_json
 
         schema_json.monkeypatch_graphql_schema_command()
+
+        ensure_dependent_settings_are_nonempty(
+            'AWS_ACCESS_KEY_ID',
+            'AWS_SECRET_ACCESS_KEY',
+            'AWS_STORAGE_BUCKET_NAME'
+        )
 
         if settings.DEBUG and is_running_dev_server():
             if not schema_json.is_up_to_date():

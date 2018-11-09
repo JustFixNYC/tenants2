@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<vc:variableCollection xmlns:vc="http://www.hotdocs.com/schemas/variable_collection/2009">
+	<vc:variable name="DE Horizontal Divider Housing Part Action System" encodedName="" answerType="none" />
+	<vc:variable name="DE Version" encodedName="" answerType="none" />
+	<vc:variable name="DE Welcome intro" encodedName="" answerType="none" />
+	<vc:variable name="DE Vertical space 100" encodedName="" answerType="none" />
+	<vc:variable name="DE Placeholder" encodedName="" answerType="none" />
+	<vc:variable name="Action type MS" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Alert about NYCHA properties DE" encodedName="" answerType="none" />
+	<vc:variable name="Welcome" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Tenant name first TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant name middle TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant name last TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant address street TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant address apt no TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant address floor NU" encodedName="" answerType="number" />
+	<vc:variable name="Tenant address city TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant address state MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Tenant address zip TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant borough MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Tenant phone home TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant phone work TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant children under 6 NU" encodedName="" answerType="number" />
+	<vc:variable name="DE Children" encodedName="" answerType="none" />
+	<vc:variable name="Tenant child name TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant child DOB" encodedName="" answerType="date" />
+	<vc:variable name="Tenant Child" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Tenant Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Landlord information intro" encodedName="" answerType="none" />
+	<vc:variable name="Landlord entity or individual MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Management company to be sued TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Landlord entity name TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord name first TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord name last TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord contact person name first TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord contact person name last TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord address street TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord address city TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord address state MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Landlord address zip TE" encodedName="" answerType="text" />
+	<vc:variable name="Management company name TE" encodedName="" answerType="text" />
+	<vc:variable name="Management company address street TE" encodedName="" answerType="text" />
+	<vc:variable name="Management company address city TE" encodedName="" answerType="text" />
+	<vc:variable name="Management company address state MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Management company address zip TE" encodedName="" answerType="text" />
+	<vc:variable name="Landlord Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Introduction to Court dialog" encodedName="" answerType="none" />
+	<vc:variable name="Court location MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Court Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Problem is urgent TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to Repairs Information" encodedName="" answerType="none" />
+	<vc:variable name="Access person MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="DE Access person" encodedName="" answerType="none" />
+	<vc:variable name="Access person TE" encodedName="" answerType="text" />
+	<vc:variable name="Access person phone TE" encodedName="" answerType="text" />
+	<vc:variable name="Prior relief sought TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Tenant repairs allegations MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Repairs Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to conditions list" encodedName="" answerType="none" />
+	<vc:variable name="Area complained of MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Which room MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Conditions complained of TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant Complaints" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Specific Complaints" encodedName="" answerType="trueFalse" />
+	<vc:variable name="More than 2 apartments in building TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="More than one family per apartment TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Harassment allegations MS" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Fine landlord harassment TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Harassment details TE" encodedName="" answerType="text" />
+	<vc:variable name="Prior harassment case MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Prior repairs case MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Prior relief sought case numbers and dates TE" encodedName="" answerType="text" />
+	<vc:variable name="Harassment Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to fee waiver info" encodedName="" answerType="none" />
+	<vc:variable name="Cause of action description TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant income NU" encodedName="" answerType="number" />
+	<vc:variable name="Pay period MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Other pay period TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant receives public assistance TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Tenant income source TE" encodedName="" answerType="text" />
+	<vc:variable name="Tenant property owned TE" encodedName="" answerType="text" />
+	<vc:variable name="Previous application TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Reason for further application TE" encodedName="" answerType="text" />
+	<vc:variable name="Fee Waiver Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to Service Information" encodedName="" answerType="none" />
+	<vc:variable name="Server name full TE" encodedName="" answerType="text" />
+	<vc:variable name="Server address full TE" encodedName="" answerType="text" />
+	<vc:variable name="Service method MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Served person TE" encodedName="" answerType="text" />
+	<vc:variable name="Service address full TE" encodedName="" answerType="text" />
+	<vc:variable name="Service Information" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to Service Information for Mgt Co" encodedName="" answerType="none" />
+	<vc:variable name="Server name full management company TE" encodedName="" answerType="text" />
+	<vc:variable name="Server address full management company TE" encodedName="" answerType="text" />
+	<vc:variable name="Service method management company MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Served person management company TE" encodedName="" answerType="text" />
+	<vc:variable name="Service address full management company TE" encodedName="" answerType="text" />
+	<vc:variable name="Service Information for Management Company" encodedName="" answerType="trueFalse" />
+	<vc:variable name="DE Intro to Service Information HPD" encodedName="" answerType="none" />
+	<vc:variable name="Server name full HPD TE" encodedName="" answerType="text" />
+	<vc:variable name="Server address full HPD TE" encodedName="" answerType="text" />
+	<vc:variable name="Service Information for HPD" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Flag TF" encodedName="" answerType="trueFalse" />
+	<vc:variable name="Court county MC" encodedName="" answerType="multipleChoice" />
+	<vc:variable name="Conditions counter NU" encodedName="" answerType="number" />
+	<vc:variable name="Service date DA" encodedName="" answerType="date" />
+	<vc:variable name="Service date management company DA" encodedName="" answerType="date" />
+	<vc:variable name="Service date HPD DA" encodedName="" answerType="date" />
+</vc:variableCollection>

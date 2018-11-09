@@ -1,0 +1,1595 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hd:componentLibrary xmlns:hd="http://www.hotdocs.com/schemas/component_library/2009" version="11">
+	<hd:preferences>
+		<hd:preference name="ADDITIONAL_TEMPLATES"></hd:preference>
+		<hd:preference name="COMBINE_DEF_DLGS">False</hd:preference>
+		<hd:preference name="CUSTOM_INTERVIEW">INTERVIEW</hd:preference>
+		<hd:preference name="DISABLE_IRRELEVANT_ANSWERS">False</hd:preference>
+		<hd:preference name="ENABLE_EDIT_ANSWER">True</hd:preference>
+		<hd:preference name="GENERATE_DEFAULT_INTERVIEW">False</hd:preference>
+		<hd:preference name="HELP BUTTON TEXT"></hd:preference>
+		<hd:preference name="HIDE_END_OF_INTERVIEW">False</hd:preference>
+		<hd:preference name="HIDE_INTERVIEW_OUTLINE">False</hd:preference>
+		<hd:preference name="IRREL_VAR_DEFAULT">GRAY</hd:preference>
+		<hd:preference name="LIST_USED_IN_COMPONENTS">True</hd:preference>
+		<hd:preference name="MARK_ANSWER_FIELDS">True</hd:preference>
+		<hd:preference name="MAX_REPEAT_COUNT">100</hd:preference>
+		<hd:preference name="MAX_STACK_DEPTH">100</hd:preference>
+		<hd:preference name="ONLINE COMPATIBILITY MODE">True</hd:preference>
+		<hd:preference name="OTHER_ADDITIONAL_FILES"></hd:preference>
+		<hd:preference name="POINTED TO CMP"></hd:preference>
+		<hd:preference name="REGISTER"></hd:preference>
+		<hd:preference name="SERVER_CAN_CHANGE_INSTANT_UPDATE">True</hd:preference>
+		<hd:preference name="SERVER_CAN_CHANGE_INTERVIEW_OUTLINE">True</hd:preference>
+		<hd:preference name="SERVER_CAN_CHANGE_RESOURCE_PANE">True</hd:preference>
+		<hd:preference name="SERVER_CAN_CHANGE_SINGLE_PAGE_INTERVIEW">False</hd:preference>
+		<hd:preference name="SERVER_INITIAL_INSTANT_UPDATE">True</hd:preference>
+		<hd:preference name="SERVER_INITIAL_INTERVIEW_OUTLINE">True</hd:preference>
+		<hd:preference name="SERVER_INITIAL_RESOURCE_PANE">False</hd:preference>
+		<hd:preference name="SERVER_SINGLE_PAGE_INTERVIEW">False</hd:preference>
+		<hd:preference name="TEMPLATE DESCRIPTION"></hd:preference>
+		<hd:preference name="TEMPLATE TITLE">Main</hd:preference>
+		<hd:preference name="TEMPLATE_ID">0e27ecae-3082-466f-b00b-fd775e204b20</hd:preference>
+		<hd:preference name="UPDATE_TOC">False</hd:preference>
+		<hd:preference name="UPDATE_TOC_DESKTOP">False</hd:preference>
+		<hd:preference name="UPDATE_TOC_SERVER">False</hd:preference>
+		<hd:preference name="USE DEFAULT DLG TITLE ALWAYS">False</hd:preference>
+		<hd:preference name="USE_INTERVIEW_COMPUTATION">True</hd:preference>
+		<hd:preference name="USE_SHARED_ANSWERUPLOAD_PROPS">True</hd:preference>
+		<hd:preference name="USE_SHARED_ASSEMBLY_PROPS">True</hd:preference>
+		<hd:preference name="USE_SHARED_HIDDENDATA_PROPS">True</hd:preference>
+		<hd:preference name="USE_SHARED_INTERVIEW_PROPS">True</hd:preference>
+		<hd:preference name="USE_SHARED_SERVER_PROPS">True</hd:preference>
+	</hd:preferences>
+	<hd:components>
+		<hd:text name="Access person TE">
+			<hd:prompt>Full name</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Access person phone TE">
+			<hd:prompt>Phone</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+			<hd:singleLine pattern="(999) 999-9999"/>
+		</hd:text>
+		<hd:text name="Cause of action description TE">
+			<hd:prompt>
+First, you have to complete this sentence: «.b»“My case is good and worthwhile because_______”.«.be» «.i» You should fill in something like “my landlord has broken the law by not making repairs to my apartment and I have evidence to show this”  or “my landlord has broken the law by repeatedly harassing me.”  A simple sentence is all you need here.«.ie»</hd:prompt>
+			<hd:multiLine height="3"/>
+		</hd:text>
+		<hd:text name="Conditions complained of TE">
+			<hd:prompt>Condition(s) -- Be specific</hd:prompt>
+			<hd:columnWidth widthType="minimum" minWidth="80"/>
+		</hd:text>
+		<hd:text name="Harassment details TE">
+			<hd:prompt>Explain how the landlord or someone on the landlord&apos;s behalf has harassed you. Be as specific as you can and be sure to give the date these things happened. (If you cannot remember the exact date, give the month and year.)</hd:prompt>
+			<hd:multiLine height="3"/>
+		</hd:text>
+		<hd:text name="Landlord address city TE">
+			<hd:prompt>City</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord address street TE">
+			<hd:prompt>Landlord&apos;s street address</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord address zip TE">
+			<hd:prompt>Zip</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Landlord contact person name first TE">
+			<hd:prompt>Contact person first name</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord contact person name last TE">
+			<hd:prompt>Last name</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord entity name TE">
+			<hd:prompt>Name of landlord (you may wish to look this up on the HPD website to make sure you get the name correct)</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord name first TE">
+			<hd:prompt>First name</hd:prompt>
+		</hd:text>
+		<hd:text name="Landlord name last TE">
+			<hd:prompt>Last name</hd:prompt>
+		</hd:text>
+		<hd:text name="Management company address city TE">
+			<hd:prompt>City</hd:prompt>
+		</hd:text>
+		<hd:text name="Management company address street TE">
+			<hd:prompt>Management company&apos;s street address</hd:prompt>
+		</hd:text>
+		<hd:text name="Management company address zip TE">
+			<hd:prompt>Zip</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Management company name TE">
+			<hd:prompt>Management company name</hd:prompt>
+		</hd:text>
+		<hd:text name="Other pay period TE">
+			<hd:prompt>Other pay period</hd:prompt>
+		</hd:text>
+		<hd:text name="Prior relief sought case numbers and dates TE">
+			<hd:prompt>Please provide the court case number (the “index number”) and/or the date(s) of the earlier case(s).</hd:prompt>
+		</hd:text>
+		<hd:text name="Reason for further application TE">
+			<hd:prompt>Please complete this sentence: «.b» I have applied for a fee waiver before, but I am making this application because _____________.«.be»  «.i»If your earlier application was denied, you can write something like &quot;my circumstances have changed and I cannot afford the filing fee.&quot;  If your earlier application was granted, you can write &quot;my prior application was granted and I cannot afford the filing fee.&quot;«.ie»</hd:prompt>
+		</hd:text>
+		<hd:text name="Served person TE" warnIfUnanswered="false">
+			<hd:prompt>Name of person you handed the documents to
+«.i»(If you  or someone else delivers the documents by hand, you’ll need to write down the name of the person you gave them to and the address where you did that.  If you do not know yet who will receive them, you can leave this blank.)«.ie»</hd:prompt>
+		</hd:text>
+		<hd:text name="Served person management company TE" warnIfUnanswered="false">
+			<hd:prompt>Name of person you handed the documents to
+«.i»(If you  or someone else delivers the documents by hand, you’ll need to write down the name of the person you gave them to and the address where you did that.  If you do not know yet who will receive them, you can leave this blank.)«.ie»</hd:prompt>
+		</hd:text>
+		<hd:text name="Server address full HPD TE">
+			<hd:prompt>Full address of person mailing the documents to HPD (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Server address full TE" warnIfUnanswered="false">
+			<hd:prompt>Full address of person mailing or delivering the documents (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Server address full management company TE" warnIfUnanswered="false">
+			<hd:prompt>Full address of person mailing or delivering the documents (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Server name full HPD TE">
+			<hd:prompt>Full name of person mailing the documents to HPD</hd:prompt>
+		</hd:text>
+		<hd:text name="Server name full TE" warnIfUnanswered="false">
+			<hd:prompt>Full name of person mailing or delivering the documents. (If it was not you, put the right name and address below.)</hd:prompt>
+		</hd:text>
+		<hd:text name="Server name full management company TE" warnIfUnanswered="false">
+			<hd:prompt>Full name of person mailing or delivering the documents. (If it was not you, put the right name and address below.)</hd:prompt>
+		</hd:text>
+		<hd:text name="Service address full TE" warnIfUnanswered="false">
+			<hd:prompt>Full address where you delivered the documents (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Service address full management company TE" warnIfUnanswered="false">
+			<hd:prompt>Full address where you delivered the documents (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant address apt no TE" warnIfUnanswered="false">
+			<hd:prompt>Apt. No.</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant address city TE">
+			<hd:prompt>City</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant address street TE">
+			<hd:prompt>Your street address</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant address zip TE">
+			<hd:prompt>Zip</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Tenant child name TE">
+			<hd:prompt>Child&apos;s full name</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant income source TE">
+			<hd:prompt>What is the source of your income?«.i» (For example, employment, social security, pension, child support, etc.  You can list more than one source.)«.ie»</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant name first TE">
+			<hd:prompt>Your first name</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant name last TE">
+			<hd:prompt>Your last name</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant name middle TE" warnIfUnanswered="false">
+			<hd:prompt>Your middle name (optional)</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant phone home TE">
+			<hd:prompt>Home/cell phone</hd:prompt>
+			<hd:singleLine pattern="(999) 999-9999"/>
+		</hd:text>
+		<hd:text name="Tenant phone work TE">
+			<hd:prompt>Business or work phone</hd:prompt>
+			<hd:singleLine pattern="(999) 999-9999"/>
+		</hd:text>
+		<hd:text name="Tenant property owned TE">
+			<hd:prompt>List any major property that you own, like a car or a valuable item, and the value of that property.</hd:prompt>
+		</hd:text>
+		<hd:number name="Conditions counter NU"/>
+		<hd:number name="Tenant address floor NU">
+			<hd:prompt>What floor do you live on?</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant children under 6 NU">
+			<hd:prompt>How many children under 6 live in the apartment where the problem is? If none, please enter 0.</hd:prompt>
+			<hd:fieldWidth widthType="exact" exactWidth="4"/>
+		</hd:number>
+		<hd:number name="Tenant income NU" decimalPlaces="2" currencySymbol="$">
+			<hd:prompt>What is your household income?  You can list the amount by week, 2 weeks, month, etc.  Just be sure to check the box for the period you listed.</hd:prompt>
+		</hd:number>
+		<hd:date name="Service date DA">
+			<hd:prompt>Date served</hd:prompt>
+		</hd:date>
+		<hd:date name="Service date HPD DA"/>
+		<hd:date name="Service date management company DA" warnIfUnanswered="false">
+			<hd:prompt>Date served</hd:prompt>
+		</hd:date>
+		<hd:date name="Tenant child DOB">
+			<hd:title>Birth date (month/date/year)</hd:title>
+			<hd:prompt>Birth date (month/date/year)</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:date>
+		<hd:trueFalse name="Fine landlord harassment TF" yesNoOnSameLine="true">
+			<hd:prompt>«.i»The judge could fine your landlord, though they do not always do that.«.ie»«.b» Do you want the judge to fine your landlord?«.be»</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Flag TF" askAutomatically="false" saveAnswer="false" warnIfUnanswered="false"/>
+		<hd:trueFalse name="Management company to be sued TF" yesNoOnSameLine="true">
+			<hd:prompt>Is there a management company or managing agent for the landlord that you also want to sue?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="More than 2 apartments in building TF" yesNoOnSameLine="true">
+			<hd:prompt>Are there more than two apartments in your building?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="More than one family per apartment TF" yesNoOnSameLine="true">
+			<hd:prompt>Is there more than one family living in each apartment?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Previous application TF" yesNoOnSameLine="true">
+			<hd:prompt>Have you asked the court to waive the court fee before in another case?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Prior relief sought TF" yesNoOnSameLine="true">
+			<hd:prompt>Have you brought a case in housing court to get repairs to this apartment or building before this case?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Problem is urgent TF" yesNoOnSameLine="true">
+			<hd:prompt>«.b»Are the conditions urgent and dangerous?«.be»«.i» If the problems in your apartment are urgent and dangerous to you or your family’s health or safety, you can ask the court to go forward without a city inspection.  This means that the City will not send someone to inspect the apartment. The City inspection report could be useful evidence in your case. Is the problem urgent, and do you want to skip the inspection?«.ie»</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Tenant receives public assistance TF" yesNoOnSameLine="true">
+			<hd:prompt>Do you receive public assistance benefits, such as cash benefits, rent assistance, food stamps or Medicaid?</hd:prompt>
+		</hd:trueFalse>
+		<hd:multipleChoice name="Access person MC">
+			<hd:prompt>Who will be home to let the City housing inspector in?</hd:prompt>
+			<hd:options>
+				<hd:option name="Me"/>
+				<hd:option name="Someone else"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Action type MS">
+			<hd:prompt>«.b»What would you like to do?«.be»  (Choose all that apply.)
+</hd:prompt>
+			<hd:options>
+				<hd:option name="Repairs">
+					<hd:prompt>Sue my landlord for repairs</hd:prompt>
+				</hd:option>
+				<hd:option name="Harassment">
+					<hd:prompt>Sue my landlord for harassment</hd:prompt>
+				</hd:option>
+				<hd:option name="Fee waiver">
+					<hd:prompt>Ask the court to waive the court fee ($45)</hd:prompt>
+				</hd:option>
+			</hd:options>
+			<hd:multipleSelection/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Area complained of MC">
+			<hd:prompt>Location of the problem</hd:prompt>
+			<hd:options>
+				<hd:option name="My apartment"/>
+				<hd:option name="Public area"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Court county MC">
+			<hd:prompt>In what jurisdiction/county will you be filing?</hd:prompt>
+			<hd:options>
+				<hd:option name="Bronx"/>
+				<hd:option name="Kings"/>
+				<hd:option name="New York"/>
+				<hd:option name="Queens"/>
+				<hd:option name="Richmond"/>
+			</hd:options>
+			<hd:singleSelection style="dropDownList"/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Court location MC">
+			<hd:prompt>Which Court will you be filing in?</hd:prompt>
+			<hd:options>
+				<hd:option name="Bronx">
+					<hd:prompt>Bronx County</hd:prompt>
+				</hd:option>
+				<hd:option name="Harlem">
+					<hd:prompt>Harlem Community Justice Center</hd:prompt>
+				</hd:option>
+				<hd:option name="Kings">
+					<hd:prompt>Kings County</hd:prompt>
+				</hd:option>
+				<hd:option name="NY">
+					<hd:prompt>New York County</hd:prompt>
+				</hd:option>
+				<hd:option name="Queens">
+					<hd:prompt>Queens County</hd:prompt>
+				</hd:option>
+				<hd:option name="Richmond">
+					<hd:prompt>Richmond County</hd:prompt>
+				</hd:option>
+				<hd:option name="Redhook">
+					<hd:prompt>Red Hook Community Justice Center</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Harassment allegations MS">
+			<hd:prompt>«.i»Choose any of the following that have happened.«.ie»
+The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
+			<hd:options>
+				<hd:option name="force">
+					<hd:prompt>used force or threatened to use force</hd:prompt>
+				</hd:option>
+				<hd:option name="stopped service">
+					<hd:prompt>repeatedly interrupted or stopped essential services like heat, hot water or electricity</hd:prompt>
+				</hd:option>
+				<hd:option name="failed to comply">
+					<hd:prompt>had a violation issued against them by the City and an order that we must leave the apartment (“vacate”) because the landlord failed to correct conditions that made the apartment or rooms unfit for living in</hd:prompt>
+				</hd:option>
+				<hd:option name="sued">
+					<hd:prompt>repeatedly brought court cases for no good reasons</hd:prompt>
+				</hd:option>
+				<hd:option name="removed possessions">
+					<hd:prompt>removed my possessions from the apartment</hd:prompt>
+				</hd:option>
+				<hd:option name="disturbed">
+					<hd:prompt>repeatedly did things or allowed others to do things that prevented me from being able to live in the apartment in peace and comfort</hd:prompt>
+				</hd:option>
+				<hd:option name="changed lock">
+					<hd:prompt>removed the door to the apartment or made the lock to the apartment not work, or changed the lock on the apartment door without giving me a key to the new lock</hd:prompt>
+				</hd:option>
+			</hd:options>
+			<hd:multipleSelection/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Landlord address state MC">
+			<hd:prompt>State</hd:prompt>
+			<hd:options>
+				<hd:option name="Alabama"/>
+				<hd:option name="Alaska"/>
+				<hd:option name="Arizona"/>
+				<hd:option name="Arkansas"/>
+				<hd:option name="California"/>
+				<hd:option name="Colorado"/>
+				<hd:option name="Connecticut"/>
+				<hd:option name="Delaware"/>
+				<hd:option name="District of Columbia"/>
+				<hd:option name="Florida"/>
+				<hd:option name="Georgia"/>
+				<hd:option name="Hawaii"/>
+				<hd:option name="Idaho"/>
+				<hd:option name="Illinois"/>
+				<hd:option name="Indiana"/>
+				<hd:option name="Iowa"/>
+				<hd:option name="Kansas"/>
+				<hd:option name="Kentucky"/>
+				<hd:option name="Louisiana"/>
+				<hd:option name="Maine"/>
+				<hd:option name="Maryland"/>
+				<hd:option name="Massachusetts"/>
+				<hd:option name="Michigan"/>
+				<hd:option name="Minnesota"/>
+				<hd:option name="Mississippi"/>
+				<hd:option name="Missouri"/>
+				<hd:option name="Montana"/>
+				<hd:option name="Nebraska"/>
+				<hd:option name="Nevada"/>
+				<hd:option name="New Hampshire"/>
+				<hd:option name="New Jersey"/>
+				<hd:option name="New Mexico"/>
+				<hd:option name="New York"/>
+				<hd:option name="North Carolina"/>
+				<hd:option name="North Dakota"/>
+				<hd:option name="Ohio"/>
+				<hd:option name="Oklahoma"/>
+				<hd:option name="Oregon"/>
+				<hd:option name="Pennsylvania"/>
+				<hd:option name="Rhode Island"/>
+				<hd:option name="South Carolina"/>
+				<hd:option name="South Dakota"/>
+				<hd:option name="Tennessee"/>
+				<hd:option name="Texas"/>
+				<hd:option name="Utah"/>
+				<hd:option name="Vermont"/>
+				<hd:option name="Virginia"/>
+				<hd:option name="Washington"/>
+				<hd:option name="West Virginia"/>
+				<hd:option name="Wisconsin"/>
+				<hd:option name="Wyoming"/>
+			</hd:options>
+			<hd:singleSelection style="dropDownList"/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Landlord entity or individual MC">
+			<hd:prompt>Is your landlord an individual or a company?</hd:prompt>
+			<hd:options>
+				<hd:option name="Individual"/>
+				<hd:option name="Company"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Management company address state MC">
+			<hd:prompt>State</hd:prompt>
+			<hd:options>
+				<hd:option name="Alabama"/>
+				<hd:option name="Alaska"/>
+				<hd:option name="Arizona"/>
+				<hd:option name="Arkansas"/>
+				<hd:option name="California"/>
+				<hd:option name="Colorado"/>
+				<hd:option name="Connecticut"/>
+				<hd:option name="Delaware"/>
+				<hd:option name="District of Columbia"/>
+				<hd:option name="Florida"/>
+				<hd:option name="Georgia"/>
+				<hd:option name="Hawaii"/>
+				<hd:option name="Idaho"/>
+				<hd:option name="Illinois"/>
+				<hd:option name="Indiana"/>
+				<hd:option name="Iowa"/>
+				<hd:option name="Kansas"/>
+				<hd:option name="Kentucky"/>
+				<hd:option name="Louisiana"/>
+				<hd:option name="Maine"/>
+				<hd:option name="Maryland"/>
+				<hd:option name="Massachusetts"/>
+				<hd:option name="Michigan"/>
+				<hd:option name="Minnesota"/>
+				<hd:option name="Mississippi"/>
+				<hd:option name="Missouri"/>
+				<hd:option name="Montana"/>
+				<hd:option name="Nebraska"/>
+				<hd:option name="Nevada"/>
+				<hd:option name="New Hampshire"/>
+				<hd:option name="New Jersey"/>
+				<hd:option name="New Mexico"/>
+				<hd:option name="New York"/>
+				<hd:option name="North Carolina"/>
+				<hd:option name="North Dakota"/>
+				<hd:option name="Ohio"/>
+				<hd:option name="Oklahoma"/>
+				<hd:option name="Oregon"/>
+				<hd:option name="Pennsylvania"/>
+				<hd:option name="Rhode Island"/>
+				<hd:option name="South Carolina"/>
+				<hd:option name="South Dakota"/>
+				<hd:option name="Tennessee"/>
+				<hd:option name="Texas"/>
+				<hd:option name="Utah"/>
+				<hd:option name="Vermont"/>
+				<hd:option name="Virginia"/>
+				<hd:option name="Washington"/>
+				<hd:option name="West Virginia"/>
+				<hd:option name="Wisconsin"/>
+				<hd:option name="Wyoming"/>
+			</hd:options>
+			<hd:singleSelection style="dropDownList"/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Pay period MC">
+			<hd:prompt>In what period?</hd:prompt>
+			<hd:options>
+				<hd:option name="week"/>
+				<hd:option name="2 weeks"/>
+				<hd:option name="half-month"/>
+				<hd:option name="month"/>
+				<hd:option name="other"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Prior harassment case MC">
+			<hd:prompt>Have you brought a case in housing court against this landlord for harassment before this case? </hd:prompt>
+			<hd:options>
+				<hd:option name="Yes"/>
+				<hd:option name="No"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Prior repairs case MC">
+			<hd:prompt>Have you brought a case in housing court to get repairs to this apartment or building before this case?</hd:prompt>
+			<hd:options>
+				<hd:option name="Yes"/>
+				<hd:option name="No"/>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Service method MC" warnIfUnanswered="false">
+			<hd:prompt>How do you plan to serve the documents?</hd:prompt>
+			<hd:options>
+				<hd:option name="Personal">
+					<hd:prompt>By hand delivery</hd:prompt>
+				</hd:option>
+				<hd:option name="Mail">
+					<hd:prompt>By certified mail return receipt</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Service method management company MC" warnIfUnanswered="false">
+			<hd:prompt>How do you plan to serve the documents?</hd:prompt>
+			<hd:options>
+				<hd:option name="Personal">
+					<hd:prompt>Hand delivery</hd:prompt>
+				</hd:option>
+				<hd:option name="Mail">
+					<hd:prompt>Certified mail return receipt</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Tenant address state MC">
+			<hd:prompt>State</hd:prompt>
+			<hd:options>
+				<hd:option name="Alabama"/>
+				<hd:option name="Alaska"/>
+				<hd:option name="Arizona"/>
+				<hd:option name="Arkansas"/>
+				<hd:option name="California"/>
+				<hd:option name="Colorado"/>
+				<hd:option name="Connecticut"/>
+				<hd:option name="Delaware"/>
+				<hd:option name="District of Columbia"/>
+				<hd:option name="Florida"/>
+				<hd:option name="Georgia"/>
+				<hd:option name="Hawaii"/>
+				<hd:option name="Idaho"/>
+				<hd:option name="Illinois"/>
+				<hd:option name="Indiana"/>
+				<hd:option name="Iowa"/>
+				<hd:option name="Kansas"/>
+				<hd:option name="Kentucky"/>
+				<hd:option name="Louisiana"/>
+				<hd:option name="Maine"/>
+				<hd:option name="Maryland"/>
+				<hd:option name="Massachusetts"/>
+				<hd:option name="Michigan"/>
+				<hd:option name="Minnesota"/>
+				<hd:option name="Mississippi"/>
+				<hd:option name="Missouri"/>
+				<hd:option name="Montana"/>
+				<hd:option name="Nebraska"/>
+				<hd:option name="Nevada"/>
+				<hd:option name="New Hampshire"/>
+				<hd:option name="New Jersey"/>
+				<hd:option name="New Mexico"/>
+				<hd:option name="New York"/>
+				<hd:option name="North Carolina"/>
+				<hd:option name="North Dakota"/>
+				<hd:option name="Ohio"/>
+				<hd:option name="Oklahoma"/>
+				<hd:option name="Oregon"/>
+				<hd:option name="Pennsylvania"/>
+				<hd:option name="Rhode Island"/>
+				<hd:option name="South Carolina"/>
+				<hd:option name="South Dakota"/>
+				<hd:option name="Tennessee"/>
+				<hd:option name="Texas"/>
+				<hd:option name="Utah"/>
+				<hd:option name="Vermont"/>
+				<hd:option name="Virginia"/>
+				<hd:option name="Washington"/>
+				<hd:option name="West Virginia"/>
+				<hd:option name="Wisconsin"/>
+				<hd:option name="Wyoming"/>
+			</hd:options>
+			<hd:singleSelection style="dropDownList"/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Tenant borough MC">
+			<hd:prompt>Borough</hd:prompt>
+			<hd:options>
+				<hd:option name="Bronx"/>
+				<hd:option name="Brooklyn"/>
+				<hd:option name="Manhattan"/>
+				<hd:option name="Queens"/>
+				<hd:option name="Staten Island"/>
+			</hd:options>
+			<hd:singleSelection style="dropDownList"/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Tenant repairs allegations MC" warnIfUnanswered="false">
+			<hd:annotation>In accordance with the Directive of the Department of Housing Preservation and Development of February 11, 1977, and because the above listed conditions constitute an emergency or a danger to the life, health and safety of the tenant(s), I request that prior notification to the Department of Housing Preservation and Development be waived.
+
+(deleted option)</hd:annotation>
+			<hd:prompt>Have you made a complaint to the City’s Department of Housing Preservation and Development (HPD)? «.i» It is not required, but check the box if you have. (You can check one or both or none.)«.ie»  To find out whether HPD issued a Notice of Violation, go to HPD&apos;s website: «.w &quot;http://www1.nyc.gov/site/hpd/about/hpdonline.page&quot;»HPDONLINE«.we».  If you do not know how to answer this question, you can skip it.</hd:prompt>
+			<hd:options>
+				<hd:option name="Notice issued">
+					<hd:prompt>I filed a complaint with HPD. HPD issued a Notice of Violation. More than 30 days have passed since then. The landlord has not fixed the problem</hd:prompt>
+				</hd:option>
+				<hd:option name="No notice issued">
+					<hd:prompt>I filed a complaint with HPD. More than 30 days have passed since then. HPD has not issued a Notice of Violation.</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Which room MC">
+			<hd:prompt>Which room?</hd:prompt>
+			<hd:options>
+				<hd:option name="Kitchen"/>
+				<hd:option name="Bathroom"/>
+				<hd:option name="Hallway"/>
+				<hd:option name="Living Room"/>
+				<hd:option name="Dining Room"/>
+				<hd:option name="Bedroom 1"/>
+				<hd:option name="Bedroom 2"/>
+				<hd:option name="Bedroom 3"/>
+				<hd:option name="Bedroom 4"/>
+				<hd:option name="Stairway"/>
+				<hd:option name="Porch/Balcony"/>
+				<hd:option name="Front Entrance"/>
+				<hd:option name="Lobby"/>
+				<hd:option name="Mailbox Area"/>
+				<hd:option name="Laundry Room"/>
+				<hd:option name="Yard"/>
+				<hd:option name="Parking Area"/>
+				<hd:option name="Storage Room"/>
+				<hd:option name="All Rooms"/>
+			</hd:options>
+			<hd:singleSelection other="true"/>
+		</hd:multipleChoice>
+		<hd:computation name="Access person CO" resultType="text">
+			<hd:script>Access person TE + &quot;, &quot; + Access person phone TE</hd:script>
+		</hd:computation>
+		<hd:computation name="Action type CO" resultType="text">
+			<hd:script>&quot;&quot;
+IF Action type MS = &quot;Repairs&quot;
+	&quot;Correction of Violations&quot;
+	IF Action type MS = &quot;Harassment&quot;
+		RESULT + &quot; and a Finding of Harassment&quot;
+	END IF
+ELSE IF Action type MS = &quot;Harassment&quot;
+	&quot;a Finding of Harassment&quot;
+END IF
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 1 or addendum note CO" resultType="text">
+			<hd:script>IF COUNT(Tenant Complaints) &lt; 10
+	Which room MC[1] + &quot;, &quot; + Conditions complained of TE[1]
+ELSE
+	&quot;See Addendum, incorporated herein&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 2 CO" resultType="text">
+			<hd:script>Which room MC[2] + &quot;, &quot; + Conditions complained of TE[2]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 3 CO" resultType="text">
+			<hd:script>Which room MC[3] + &quot;, &quot; + Conditions complained of TE[3]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 4 CO" resultType="text">
+			<hd:script>Which room MC[4] + &quot;, &quot; + Conditions complained of TE[2]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 5 CO" resultType="text">
+			<hd:script>Which room MC[5] + &quot;, &quot; + Conditions complained of TE[5]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 6 CO" resultType="text">
+			<hd:script>Which room MC[6] + &quot;, &quot; + Conditions complained of TE[6]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 7 CO" resultType="text">
+			<hd:script>Which room MC[7] + &quot;, &quot; + Conditions complained of TE[7]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 8 CO" resultType="text">
+			<hd:script>Which room MC[8] + &quot;, &quot; + Conditions complained of TE[8]</hd:script>
+		</hd:computation>
+		<hd:computation name="Condition 9 CO" resultType="text">
+			<hd:script>Which room MC[9] + &quot;, &quot; + Conditions complained of TE[9]</hd:script>
+		</hd:computation>
+		<hd:computation name="Conditions addendum block CO" resultType="text">
+			<hd:localVariables>
+				<hd:localVariable name="counter" type="number"/>
+			</hd:localVariables>
+			<hd:script>&quot;&quot;
+REPEAT Tenant Complaints
+	RESULT + &quot;«COUNTER». &quot; + Which room MC + &quot;, &quot; +Conditions complained of TE + &quot;«.pm»&quot;
+END REPEAT</hd:script>
+		</hd:computation>
+		<hd:computation name="Court address CO" resultType="text">
+			<hd:script>IF Court location MC = &quot;Bronx&quot;
+	&quot;1118 Grand Concourse (at 166th Street), Bronx, Lobby, Window 7&quot;
+ELSE IF Court location MC = &quot;Harlem&quot;
+	&quot;170 East 121st Street, Room 302&quot;
+ELSE IF Court location MC = &quot;Kings&quot;
+	&quot;141 Livingston Street, Brooklyn, Room 202, Window 10&quot;
+ELSE IF Court location MC = &quot;New York&quot;
+	&quot;111 Centre Street (75 Lafayette Street) (between White and Franklin Streets), Room 225, Window 5&quot;
+ELSE IF Court location MC = &quot;Queens&quot;
+	&quot;89-17 Sutphin Boulevard (at 89th Avenue), Jamaica, Room 209&quot;
+ELSE IF Court location MC = &quot;Richmond&quot;
+	&quot;927 Castleton Avenue (Corner of Benent Avenue), Staten Island, Basement, L&amp;T Window&quot;
+ELSE IF Court location MC = &quot;Redhook&quot;
+	&quot;88 Visitation Place, Brooklyn, Room 103&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="HPD CO" resultType="text">
+			<hd:script>&quot;Department of Housing Preservation and Development, Housing Litigation Bureau&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="HPD address full CO" resultType="text">
+			<hd:script>&quot;100 Gold Street, New York, NY 10038&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Housing TE" resultType="text">
+			<hd:script>&quot;Housing&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="INTERVIEW" resultType="text">
+			<hd:script>ASK Welcome
+ASK Tenant Information 
+ASK Landlord Information
+ASK Court Information
+IF Action type MS = &quot;Repairs&quot;
+	ASK Repairs Information 
+	ASK Specific Complaints
+END IF
+IF Action type MS = &quot;Harassment&quot;
+	ASK Harassment Information
+END IF
+IF Action type MS = &quot;Fee waiver&quot;
+	ASK Fee Waiver Information
+END IF
+ASK Service Information
+IF Management company to be sued TF
+	ASK Service Information for Management Company
+END IF
+ASK Service Information for HPD
+
+
+
+//IF Action type MS = &quot;Repairs&quot;
+//	ASSEMBLE &quot;OSC - Repairs.hpt /nw /stw&quot;
+//END IF
+//IF Action type MS = &quot;Harassment&quot;
+//	ASSEMBLE &quot;OSC - Harassment.hpt /nw /stw&quot;
+//END IF
+//IF Action type MS = &quot;Fee waiver&quot;
+//	ASSEMBLE &quot;Fee Waiver Request.hpt /nw /stw&quot;
+//END IF
+//IF Action type MS = &quot;AOS&quot;
+//	ASSEMBLE &quot;Affidavit of Service.hpt /nw /stw&quot;
+//END IF
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 10 CO" resultType="text">
+			<hd:script>&quot;By Hand Delivery:&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 11 CO" resultType="text">
+			<hd:script>&quot;•	If your landlord is a person (not a company), you or someone else can hand the documents directly to the landlord at any location: at the landlord’s office, when you see the landlord at the building, etcetera.
+•	Make a note of the date, time and place you or the other person handed the documents to the landlord:  you will need to write this in the Affidavit of Service.
+•	If you are suing the managing agent, do the same for the managing agent.
+&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 12 CO" resultType="text">
+			<hd:script>&quot;STEP 2:  Serving HPD&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 13 CO" resultType="text">
+			<hd:script>&quot;•	Mail a copy of the documents by Certified Mail Return Receipt to:
+
+					Department of Housing Preservation and Development
+					Housing Litigation Bureau
+					100 Gold Street
+					New York, NY 10038
+&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 14 CO" resultType="text">
+			<hd:script>&quot;STEP 3:  Filling Out the Affidavits of Service&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 15 CO" resultType="text">
+			<hd:script>&quot;You should have two Affidavits (one regarding the landlord and one regarding HPD).  If you are also suing the management company, you need an Affidavit for them also.
+
+1.	After you have mailed or delivered the documents, write the name of the person who mailed or hand delivered the papers (you or whoever did it) on the line above &quot;&quot;name of person serving papers.&quot;&quot;
+2.	On the next line, write the address of the person that mailed or delivered the documents.
+3.	After the words &quot;&quot;That on&quot;&quot; write the date and time that you or the other person mailed them or the date and time they were hand delivered).
+4.   After the word &quot;&quot;upon&quot;&quot; write the name of the person or company you mailed the documents to.  You need to fill out a separate Affidavit for each party you served:  the landlord, the management company (if you&apos;re suing them), and HPD.
+5.	After the words &quot;&quot;located at&quot;&quot; write the address that you mailed the documents to or where you hand delivered them.
+6.	Check the box for how you served the papers. (“Personal Service” means hand delivery.)
+7.	Do not sign the Affidavits until you or the person who served the papers is in front of a notary public.  The signatures must be notarized.
+8.	Attach the certified mail receipts to the Affidavits (if you served by mail) and take the signed Affidavits of Service to court on your first court date.&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 1A CO" resultType="text">
+			<hd:script>&quot;Alert: These instructions apply only to a suit in New York City Housing Court against your landlord to get repairs or to stop harassment.  The court rules are different for other types of cases.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 1B CO" resultType="text">
+			<hd:script>&quot;&quot;&quot;Serving&quot;&quot; the court papers means delivering them to the other parties in the case in a way that the court rules permit. You do this AFTER you have filed the court papers to start your case.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 2 CO" resultType="text">
+			<hd:script>&quot;Serving the papers is mandatory and your case cannot proceed until you have completed the service.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 3 CO" resultType="text">
+			<hd:script>&quot;You must serve the court papers on: 1) the landlord 2) the management company (if you are suing them) and 3) the City Department of Housing Preservation and Development (HPD).
+
+You can serve the court documents on the landlord and the management company by Certified Mail Return Receipt, or by hand delivering them. If your landlord or managing agent is a company, we recommend you use Certified Mail Return Receipt, since it can be tricky to hand deliver to the right person. You must serve HPD by Certified Mail Return Receipt.
+
+The court will write your deadline to &quot;&quot;serve&quot;&quot; the court papers in the Order to Show Cause when you first file your case.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 4 CO" resultType="text">
+			<hd:script>&quot;Be sure you get the documents delivered to the other parties by the date written in the Order.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 5 CO" resultType="text">
+			<hd:script>&quot;The documents you need to serve: «Served docs CO»
+
+(You do not serve the Affidavits of Service. If you filed papers to ask the court to waive the $45 filing fee, you do not need to serve that fee waiver petition and order.)&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 6 CO" resultType="text">
+			<hd:script>&quot;STEP 1:  Serving the Landlord and Management Company&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 7 CO" resultType="text">
+			<hd:script>&quot;By Mail:&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 8 CO" resultType="text">
+			<hd:script>&quot;•	Mail a copy of all the court documents by Certified Mail Return Receipt to the landlord.  If the landlord is a company, be sure to use the company address.
+•	If you are suing the management company also, separately send a copy of all the documents to the management company, also by Certified Mail Return Receipt.
+&quot;
+
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions AOS reformatted 9 CO" resultType="text">
+			<hd:script>&quot;	or	&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions OSC CO" resultType="text">
+			<hd:script>&quot;These are the documents you will take to court to start your case:&quot;
+
+IF VALUE(Action type MS) = &quot;Repairs&quot;
+	RESULT + &quot;
+	
+·         ORDER TO SHOW CAUSE DIRECTING THE CORRECTION OF VIOLATIONS
+
+·         VERIFIED PETITION IN SUPPORT OF AN ORDER TO SHOW CAUSE&quot;
+	IF NOT VALUE(Problem is urgent TF)
+		RESULT + &quot;
+
+·         TENANT&apos;S REQUEST FOR INSPECTION&quot;
+
+IF COUNT(Tenant Complaints) &gt;= 10
+		RESULT + &quot;  (Since you had more than 10 conditions that need repair, you will have more than one Request for Inspection to file and serve.)&quot;
+END IF
+
+	END IF
+END IF
+IF VALUE(Action type MS) = &quot;Harassment&quot;
+	RESULT + &quot;
+	
+·         ORDER TO SHOW CAUSE FOR A FINDING OF HARASSMENT AND FOR A RESTRAINING ORDER
+
+·         VERIFIED PETITION IN SUPPORT OF AN ORDER TO SHOW CAUSE&quot;
+END IF
+
+RESULT + &quot;
+
+«PN1».      DO NOT SIGN ANY OF THE DOCUMENTS NOW.  The clerk at the courthouse will tell you when to sign them.
+
+«PN1».      Take all the documents listed above to the clerk at the courthouse:  «Court address CO»
+
+«PN1».      The court&apos;s clerk will:
+·         give you a case number (&apos;Index Number&apos;) for the upper right corner of the documents;
+·         fill in the blanks for Housing Part (court room), hearing date;
+·         fill in the deadline by which you must &apos;serve&apos; the court papers on your landlord; and
+·         fill in the inspection time and date.
+
+«PN1».      The court&apos;s clerk will instruct you to sign the Verified Petition«s if both repairs and harassment CO» in front of a person there who is qualified to verify your signature. (You will need to have photo ID with you!) Or, if your documents are complete, you could go to a notary public and sign the document«s if both repairs and harassment CO» in front of the notary before you take «them if both repairs and harassment CO» to court.
+
+«PN1».      The Judge will sign the Order«s if both repairs and harassment CO» to Show Cause.  You may have to wait a bit at the courthouse for this to happen.
+
+«PN1».      After all the papers are filled out and signed, the court clerk will either make copies for you or give you an opportunity to make copies to &apos;serve.&apos; (You may have to pay for these copies.)
+
+«PN1».     Make a copy of all the documents for yourself too.  (You can do this after you leave the courthouse.)&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions fee waiver CO" resultType="text">
+			<hd:script>&quot;You should have these documents:
+
+·         AFFIDAVIT IN SUPPORT OF AN APPLICATION TO PROCEED AS A POOR PERSON AND TO WAIVE COURT FEES
+
+·         EX PARTE ORDER GRANTING LEAVE TO PROCEED AS A POOR PERSON AND TO WAIVE COURT FEES
+
+1.   DO NOT SIGN THE AFFIDAVIT NOW.  The court clerk will have you sign it in front of a person that is qualified to verify your signature. (You will need to have photo ID with you!) Or you can go to a notary public and sign the document in front of the notary, before you take the documents to court.
+
+2. 	You will also need to bring to court proof of your income, such as a W-2 form or paystub for employment income, or an award letter for public assistance.
+
+3.   Take these two documents and your proof of income to the court along with your other court papers when you file your case.  You will have to get this Order signed by the judge before you can file your case.  The clerk will tell you the steps.
+     
+4.	After the judge signs the Ex Parte Order, you can file the rest of your court papers.  If the judge denies your petition, you will have to pay the $45 fee in cash or by money order or certified check, not a personal check.
+
+5.	You do not need to serve a copy of these two papers--your Affidavit in Support and the Ex Parte order--on the landlord, the managing agent or HPD.  These documents are just for the court.  Once you have filed them with the court, you are done with them.&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions for fee waiver CO" resultType="text">
+			<hd:script>&quot;Instructions for Your Request to Not Pay the $45 Court Filing Fee&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions for filing your docs in court CO" resultType="text">
+			<hd:script>&quot;Instructions for Filing Your Documents in Court&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions for service CO" resultType="text">
+			<hd:script>&quot;Instructions for Serving the Court Papers in a Lawsuit for Repairs or Harassment&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions general 2 CO" resultType="text">
+			<hd:script>&quot;(If you asked us to prepare documents to have the court filing fee waived, you will find those documents and instructions at the end of this packet.)&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions general 3 CO" resultType="text">
+			<hd:script>&quot;If you win your case but the landlord does not make the repairs or does not stop the harassment, you can go back to court to enforce the court’s decision.  You do not have to start a new case for that. If this happens, the court clerk can tell you the next steps.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions general CO" resultType="text">
+			<hd:script>&quot;These documents are all you need to start your case.
+
+Look them over to make sure everything is correct.  If you see mistakes, you can go back to the questions, correct your answers, and print a new set of documents.
+
+The instructions explain how to &quot;&quot;file&quot;&quot; the documents in court (this starts your case) and how to &quot;&quot;serve&quot;&quot; them on the landlord.  When you file them at the court house, the court clerk will tell you when the first court date in your case will be, probably a few weeks after you file your case.&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions general bold sentence 1 CO" resultType="text">
+			<hd:script>&quot;If the court does not waive the filing fee, you will have to pay this fee ($45) in cash or by money order when you go to court to start your case.&quot;
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Instructions general bold sentence 2 CO" resultType="text">
+			<hd:script>&quot;Remember, before your court date you need to put together your evidence to prove your case. Look at the other materials on http://www.lawhelpny.org/nyc-housing-repairs for tips on how to do that.&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Landlord address city state zip CO" resultType="text">
+			<hd:script>&quot;«Landlord address city TE», «Landlord address state MC:State abbreviations» «Landlord address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Landlord address one line CO" resultType="text">
+			<hd:script>&quot;«Landlord address street TE», «Landlord address city TE», «Landlord address state MC:State abbreviations» «Landlord address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Landlord name CO" resultType="text">
+			<hd:script>IF VALUE(Landlord entity or individual MC) = &quot;Individual&quot;
+	SPACE(Landlord name first TE) + Landlord name last TE
+ELSE
+	Landlord entity name TE
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Management co name and address CO" resultType="text">
+			<hd:script>&quot;and &quot; + Management company name TE + &quot;«.lb»      &quot; + Management company address one line CO</hd:script>
+		</hd:computation>
+		<hd:computation name="Management company address one line CO" resultType="text">
+			<hd:script>&quot;«Management company address street TE», «Management company address city TE», «Management company address state MC:State abbreviations» «Management company address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Petitioner CO" resultType="text">
+			<hd:script>&quot;Tenant/Petitioner&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Respondents CO" resultType="text">
+			<hd:script>Landlord name CO
+IF Management company to be sued TF
+	RESULT + &quot; and &quot; + Management company name TE
+END IF 
+
+// note that DHPD is hardcoded into the forms as a respondent</hd:script>
+		</hd:computation>
+		<hd:computation name="Served docs CO" resultType="text">
+			<hd:script>&quot;&quot;
+IF Action type MS = &quot;Repairs&quot;
+	&quot;Order to Show Cause Directing the Correction of Violations and Verified Petition in Support&quot;
+	IF Problem is urgent TF = FALSE
+		RESULT + &quot;, Tenant&apos;s Request for Inspection&quot;
+	END IF
+END IF
+IF Action type MS = &quot;Harassment&quot;
+	RESULT + &quot;, Order to Show Cause for a Finding of Harassment and for a Restraining Order and Verified Petition in Support&quot;
+END IF
+//IF Action type MS = &quot;Fee waiver&quot;
+//	RESULT + &quot;, Affidavit in Support of an Application to Proceed as a Poor Person and to Waive Court Fees&quot; 
+//END IF
+STRIP(RESULT, &quot;, &quot;, TRUE, FALSE)
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant address CO" resultType="text">
+			<hd:script>Tenant address street TE
+IF ANSWERED(Tenant address apt no TE)
+	RESULT + &quot;, Apt. &quot; + Tenant address apt no TE
+END IF
+RESULT + &quot;, «Tenant address city TE», NY  «Tenant address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant address apt no CO" resultType="text">
+			<hd:script>IF ANSWERED( Tenant address apt no TE)
+Tenant address apt no TE
+ELSE
+&quot;Tenant apt.&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant address block CO" resultType="text">
+			<hd:script>Tenant address street TE
+IF ANSWERED(Tenant address apt no TE)
+	RESULT + &quot;, Apt. &quot; + Tenant address apt no TE
+END IF
+RESULT + &quot;«.lb»«Tenant address city TE», NY  «Tenant address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant address city state zip CO" resultType="text">
+			<hd:script>&quot;«Tenant address city TE», NY  «Tenant address zip TE»&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant address street w apt no CO" resultType="text">
+			<hd:script>Tenant address street TE
+IF ANSWERED(Tenant address apt no TE)
+	RESULT + &quot;, Apt. &quot; + Tenant address apt no TE
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant borough and zip CO" resultType="text">
+			<hd:script>Tenant borough MC + &quot; &quot; +Tenant address zip TE
+//IF VALUE(Tenant different address TF)
+//	Tenant involved borough MC  + &quot; &quot; +Tenant involved address zip TE
+//END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant initials CO" resultType="text">
+			<hd:script>&quot;X&quot;
+IF ANSWERED(Tenant name first TE) AND ANSWERED(Tenant name last TE)
+	FIRST(Tenant name first TE, 1)
+	IF ANSWERED(Tenant name middle TE)
+		RESULT + FIRST(Tenant name middle TE, 1)
+	END IF
+	RESULT +  FIRST(Tenant name last TE, 1)
+END IF
+</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant name CO" resultType="text">
+			<hd:script>SPACE(Tenant name first TE) + SPACE(Tenant name middle TE) + Tenant name last TE</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant phone home area code CO" resultType="text">
+			<hd:script>STRIP(FIRST(Tenant phone home TE, 4), &quot;(&quot;)</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant phone home no area CO" resultType="text">
+			<hd:script>STRIP(LAST(Tenant phone home TE, 9), &quot;)&quot;)</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant phone work area code CO" resultType="text">
+			<hd:script>STRIP(FIRST(Tenant phone work TE, 4), &quot;(&quot;)</hd:script>
+		</hd:computation>
+		<hd:computation name="Tenant phone work no area CO" resultType="text">
+			<hd:script>STRIP(LAST(Tenant phone work TE, 9), &quot;)&quot;)</hd:script>
+		</hd:computation>
+		<hd:computation name="s if both repairs and harassment CO" resultType="text">
+			<hd:script>&quot;&quot;
+IF VALUE(Action type MS) = &quot;Harassment&quot; AND VALUE(Action type MS) = &quot;Repairs&quot;
+	&quot;s&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="them if both repairs and harassment CO" resultType="text">
+			<hd:script>&quot;it&quot;
+IF VALUE(Action type MS) = &quot;Harassment&quot; AND VALUE(Action type MS) = &quot;Repairs&quot;
+	&quot;them&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:dialogElement name="Alert about NYCHA properties DE">
+			<hd:caption>
+«.z +30»«.b»Important«.be»: «.i» If the apartment you are complaining about is in a NYCHA building (NYC public housing), this system will not be helpful.  The process for NYCHA apartments is a little different than for private apartments.  If you are in a NYCHA building, call 718-707-7771.«.ie»«.ze»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Access person">
+			<hd:caption>Enter the «.b»name and phone number«.be» of the person who the inspector should contact to gain access.</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Children">
+			<hd:caption>
+«.b»Please list up to 4 children under the age of 6 who live in the apartment«.be»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Horizontal Divider Housing Part Action System">
+			<hd:annotation>Was Housing Part Action System</hd:annotation>
+			<hd:horizontalDivider caption="«.b»Create Court Papers to Sue Your Landlord for Repairs or to Stop Harassment«.be»" fontSize="150" justification="center"/>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to Repairs Information">
+			<hd:caption>«.i»The City housing department will send an inspector to examine the problems in your apartment.  Someone will need to be at home for that inspection and to let the inspector into the building and apartment.«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to Service Information">
+			<hd:caption>«.i»You will have to “serve” (deliver) your court papers on the landlord.  You or someone else can do this by sending the documents to the landlord by certified mail return receipt requested or by hand delivering them.  Whoever does this mailing or delivery will have to fill out an “affidavit of service,” which you take to court on your first court date.  The questions below are for that affidavit.
+
+If you do not know yet how you will serve the documents or who will serve them, you can leave these questions blank and fill them in on the papers by hand later.
+«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to Service Information HPD">
+			<hd:caption>«.i»You will have to “serve” (deliver) your court papers on the City Department of Housing Preservation and Development (HPD).  You must do this by certified mail return receipt.  We assume that you are the person who will be mailing the papers to HPD.  If someone other than you will do it, please put that person&apos;s name and address below in place of yours.  This is for the Affidavit of Service that you will complete after you file your papers at court to start your case.
+«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to Service Information for Mgt Co">
+			<hd:caption>«.i»You will have to “serve” (deliver) your court papers on the landlord&apos;s management company.  You or someone else can do this by sending the documents to the management company by certifed mail return receipt requested or by hand delivering them.  Whoever does this mailing or delivery will have to fill out an “affidavit of service,” which you take to court on your first court date.  The questions below are for that affidavit.
+
+If you do not know yet how you will serve the documents or who will serve them, you can leave these questions blank and fill them in on the papers by hand later.
+«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to conditions list">
+			<hd:caption>«.b»Now list all the conditions that need repair.«.be» «.i» Be specific, list everything that needs repair, and write each condition on a separate line.  Use as many lines as you need.  (A new blank line will appear each time you finish a line).«.ie» </hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Intro to fee waiver info">
+			<hd:caption>«.i»Since you would like the court to let you file your case without paying the $45 fee, we will create a petition for you to take to court to ask for this.«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Introduction to Court dialog">
+			<hd:caption>
+«.i»The selection of court below is based on your address.  Make sure you entered your borough and zip code on the Tenant Information page.
+«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Landlord information intro">
+			<hd:caption>«.b»Your landlord is probably a company, not an individual.«.be» «.i» The person you deal with about your apartment may just be a property manager.  You need to make sure you know the legal owner of your apartment.  If you live in a building with 3 or more apartments, you can find the legal owner name and address at «.w &quot;https://hpdonline.hpdnyc.org/HPDonline/provide_address.aspx&quot;»this link«.we».  You can also find out there if the apartment has a management company.  You don’t have to sue the management company, in addition to the landlord, but you can.
+«.ie»</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Placeholder">
+			<hd:caption></hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Version">
+			<hd:horizontalDivider caption="03/06/17 Version" justification="center"/>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Vertical space 100">
+			<hd:verticalSpacing/>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Welcome intro">
+			<hd:caption>
+1.      We will ask for information about you, your landlord, and the facts of your case.
+
+2.      When you finish answering the questions, we will produce the documents.
+
+3.      Look over all the documents to make sure the information is correct.  If you see mistakes, you can go back and re-answer questions to correct them.
+
+4.      When you are done, some spaces in the court papers will still be blank.  These blanks are for things the court will fill in or that you will have to fill in by hand after you have brought the papers to court.
+
+5.      You can save and print the documents.
+
+6.      We will give you instructions about how to &quot;file&quot; them in court and how to &quot;serve&quot; them.</hd:caption>
+		</hd:dialogElement>
+		<hd:dialog name="Court Information">
+			<hd:contents>
+				<hd:item name="DE Introduction to Court dialog"/>
+				<hd:item name="Court location MC"/>
+			</hd:contents>
+			<hd:script>IF Tenant borough MC = &quot;Bronx&quot;
+	DEFAULT Court location MC TO &quot;Bronx&quot;
+END IF
+IF Tenant borough MC = &quot;Brooklyn&quot;
+	DEFAULT Court location MC TO &quot;Kings&quot;
+END IF
+IF Tenant borough MC = &quot;Manhattan&quot;
+	IF Tenant address zip TE = &quot;01035&quot; OR Tenant address zip TE = &quot;01037&quot; 
+		DEFAULT Court location MC TO &quot;Harlem&quot;
+	ELSE
+		DEFAULT Court location MC TO &quot;NY&quot;
+	END IF
+END IF
+IF Tenant borough MC = &quot;Queens&quot;
+	DEFAULT Court location MC TO &quot;Queens&quot;
+END IF
+IF Tenant borough MC = &quot;Staten Island&quot;
+	DEFAULT Court location MC TO &quot;Richmond&quot;
+END IF
+
+
+IF Court location MC = &quot;Bronx&quot;
+	SET Court county MC TO &quot;Bronx&quot;
+ELSE IF Court location MC = &quot;Harlem&quot; OR Court location MC = &quot;NY&quot;
+	SET Court county MC TO &quot;New York&quot;
+ELSE IF Court location MC = &quot;Kings&quot; OR Court location MC = &quot;Redhook&quot;
+	SET Court county MC TO &quot;Kings&quot;
+ELSE IF Court location MC = &quot;Queens&quot;
+	SET Court county MC TO &quot;Queens&quot;
+ELSE IF Court location MC = &quot;Richmond&quot;
+	SET Court county MC TO &quot;Richmond&quot;
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Fee Waiver Information">
+			<hd:contents>
+				<hd:item name="DE Intro to fee waiver info"/>
+				<hd:item name="Cause of action description TE"/>
+				<hd:item name="Tenant income NU"/>
+				<hd:item name="Pay period MC"/>
+				<hd:item name="Other pay period TE"/>
+				<hd:item name="Tenant receives public assistance TF"/>
+				<hd:item name="Tenant income source TE"/>
+				<hd:item name="Tenant property owned TE"/>
+				<hd:item name="Previous application TF"/>
+				<hd:item name="Reason for further application TE"/>
+			</hd:contents>
+			<hd:script>HIDE Other pay period TE
+IF VALUE(Pay period MC) = &quot;other&quot;
+	SHOW Other pay period TE
+END IF
+HIDE Reason for further application TE
+IF VALUE(Previous application TF)
+	SHOW Reason for further application TE
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Harassment Information" linkVariables="false">
+			<hd:title>Information About the Harassment</hd:title>
+			<hd:contents>
+				<hd:item name="More than 2 apartments in building TF"/>
+				<hd:item name="More than one family per apartment TF"/>
+				<hd:item name="Harassment allegations MS"/>
+				<hd:item name="Fine landlord harassment TF"/>
+				<hd:item name="Harassment details TE"/>
+				<hd:item name="Prior harassment case MC"/>
+				<hd:item name="Prior repairs case MC"/>
+				<hd:item name="Prior relief sought case numbers and dates TE"/>
+			</hd:contents>
+			<hd:script>HIDE More than one family per apartment TF
+
+IF More than 2 apartments in building TF = FALSE
+	SHOW More than one family per apartment TF
+END IF
+DEFAULT Fine landlord harassment TF TO TRUE
+
+HIDE Prior relief sought case numbers and dates TE
+IF Action type MS = &quot;Repairs&quot;
+	IF VALUE(Prior relief sought TF)
+		SET Prior repairs case MC TO &quot;Yes&quot;
+	ELSE
+		SET Prior repairs case MC TO &quot;No&quot;
+	END IF
+END IF
+IF VALUE(Prior repairs case MC) = &quot;Yes&quot; OR VALUE(Prior harassment case MC) = &quot;Yes&quot;
+	SHOW Prior relief sought case numbers and dates TE
+END IF
+</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Landlord Information">
+			<hd:contents>
+				<hd:item name="DE Landlord information intro"/>
+				<hd:item name="Landlord entity or individual MC"/>
+				<hd:item name="Management company to be sued TF" onPreviousLine="true"/>
+				<hd:item name="Landlord entity name TE"/>
+				<hd:item name="Landlord name first TE"/>
+				<hd:item name="Landlord name last TE" onPreviousLine="true"/>
+				<hd:item name="Landlord contact person name first TE"/>
+				<hd:item name="Landlord contact person name last TE" onPreviousLine="true"/>
+				<hd:item name="Landlord address street TE"/>
+				<hd:item name="Landlord address city TE"/>
+				<hd:item name="Landlord address state MC" onPreviousLine="true"/>
+				<hd:item name="Landlord address zip TE" onPreviousLine="true"/>
+				<hd:item name="Management company name TE"/>
+				<hd:item name="Management company address street TE"/>
+				<hd:item name="Management company address city TE"/>
+				<hd:item name="Management company address state MC" onPreviousLine="true"/>
+				<hd:item name="Management company address zip TE" onPreviousLine="true"/>
+			</hd:contents>
+			<hd:script>DEFAULT Landlord address state MC TO &quot;New York&quot;
+HIDE Landlord entity name TE
+HIDE Landlord name first TE
+HIDE Landlord name last TE
+HIDE Landlord contact person name first TE
+HIDE Landlord contact person name last TE
+HIDE Management company name TE
+HIDE Management company address street TE
+HIDE Management company address city TE
+HIDE Management company address state MC
+HIDE Management company address zip TE
+IF Landlord entity or individual MC = &quot;Individual&quot;
+	SHOW Landlord name first TE
+	SHOW Landlord name last TE
+ELSE
+	SHOW Landlord entity name TE
+	//	SHOW Landlord contact person name first TE
+	//	SHOW Landlord contact person name last TE
+END IF
+IF Management company to be sued TF
+	SHOW Management company name TE
+	SHOW Management company address street TE
+	SHOW Management company address city TE
+	SHOW Management company address state MC
+	SHOW Management company address zip TE
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Repairs Information">
+			<hd:title>The Repairs You Need</hd:title>
+			<hd:contents>
+				<hd:item name="Problem is urgent TF"/>
+				<hd:item name="DE Intro to Repairs Information"/>
+				<hd:item name="Access person MC"/>
+				<hd:item name="DE Access person"/>
+				<hd:item name="Access person TE"/>
+				<hd:item name="Access person phone TE" onPreviousLine="true"/>
+				<hd:item name="Prior relief sought TF"/>
+				<hd:item name="Tenant repairs allegations MC"/>
+			</hd:contents>
+			<hd:script>HIDE DE Intro to Repairs Information
+HIDE DE Access person
+HIDE Access person MC
+HIDE Access person TE
+HIDE Access person phone TE
+REQUIRE Problem is urgent TF
+
+
+IF NOT Problem is urgent TF
+	SHOW DE Intro to Repairs Information
+	SHOW Access person MC
+	IF Access person MC = &quot;Me&quot;
+		SET Access person TE TO Tenant name CO
+	ELSE
+		SHOW  DE Access person
+		SHOW Access person TE
+		SHOW Access person phone TE
+	END IF
+END IF
+</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Service Information">
+			<hd:title>Service Information (for Landlord)</hd:title>
+			<hd:contents>
+				<hd:item name="DE Intro to Service Information"/>
+				<hd:item name="Server name full TE"/>
+				<hd:item name="Server address full TE"/>
+				<hd:item name="Service method MC"/>
+				<hd:item name="Served person TE"/>
+				<hd:item name="Service address full TE"/>
+			</hd:contents>
+			<hd:script>HIDE Served person TE
+HIDE Service address full TE
+DEFAULT Server name full TE TO Tenant name CO
+
+IF ANSWERED(Tenant address city TE) AND ANSWERED(Tenant address zip TE)
+	DEFAULT Server address full TE TO Tenant address CO
+END IF
+
+IF Service method MC = &quot;Personal&quot;
+	SHOW Served person TE
+	SHOW Service address full TE
+ELSE IF VALUE(Service method MC) = &quot;Personal&quot;
+	SET  Served person TE TO Landlord name CO
+	SET Service address full TE TO Landlord address one line CO
+END IF
+</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Service Information for HPD">
+			<hd:title>Service Information (for HPD)</hd:title>
+			<hd:contents>
+				<hd:item name="DE Intro to Service Information HPD"/>
+				<hd:item name="Server name full HPD TE"/>
+				<hd:item name="Server address full HPD TE"/>
+			</hd:contents>
+			<hd:script>DEFAULT Server name full HPD TE TO Tenant name CO
+IF ANSWERED(Tenant address city TE) AND ANSWERED(Tenant address zip TE)
+	DEFAULT Server address full HPD TE TO Tenant address CO
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Service Information for Management Company" linkVariables="false">
+			<hd:title>Service Information (for Management Company)</hd:title>
+			<hd:contents>
+				<hd:item name="DE Intro to Service Information for Mgt Co"/>
+				<hd:item name="Server name full management company TE"/>
+				<hd:item name="Server address full management company TE"/>
+				<hd:item name="Service method management company MC"/>
+				<hd:item name="Served person management company TE"/>
+				<hd:item name="Service address full management company TE"/>
+			</hd:contents>
+			<hd:script>HIDE Served person management company TE
+HIDE Service address full management company TE
+DEFAULT Server name full management company TE TO Server name full TE
+
+IF ANSWERED( Server address full TE)
+	DEFAULT Server address full management company TE TO Server address full TE
+END IF
+
+
+IF Service method management company MC = &quot;Personal&quot;
+	SHOW Served person management company TE
+	SHOW Service address full management company TE
+ELSE
+	SET Served person management company TE TO Management company name TE
+	SET Service address full management company TE TO Management company address one line CO
+END IF
+
+</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Specific Complaints">
+			<hd:contents>
+				<hd:item name="DE Intro to conditions list"/>
+				<hd:item name="Tenant Complaints"/>
+			</hd:contents>
+		</hd:dialog>
+		<hd:dialog name="Tenant Child">
+			<hd:style>
+				<hd:spreadsheetOnParent rowsToDisplay="5" hideButtons="true"/>
+			</hd:style>
+			<hd:contents>
+				<hd:item name="Tenant child name TE"/>
+				<hd:item name="Tenant child DOB"/>
+			</hd:contents>
+			<hd:script>LIMIT MIN(Tenant children under 6 NU, 4)</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Tenant Complaints">
+			<hd:style>
+				<hd:spreadsheetOnParent rowsToDisplay="15"/>
+			</hd:style>
+			<hd:contents>
+				<hd:item name="Area complained of MC"/>
+				<hd:item name="Which room MC"/>
+				<hd:item name="Conditions complained of TE"/>
+			</hd:contents>
+			<hd:script>LIMIT 45
+//Following logic didn&apos;t work
+//CLEAR Which room MC
+//IF Area complained of MC = &quot;My apartment&quot;
+//	ADD &quot;Master bedroom&quot; TO Which room MC
+//	ADD &quot;Bedroom 2&quot; TO Which room MC
+//	ADD &quot;Bedroom 3&quot; TO Which room MC
+//	ADD &quot;Bedroom 4&quot; TO Which room MC
+//	ADD &quot;Kitchen&quot; TO Which room MC
+//	ADD &quot;Master bathroom&quot; TO Which room MC
+//	ADD &quot;Bathroom 2&quot; TO Which room MC
+//	ADD &quot;Living room&quot; TO Which room MC
+//	ADD &quot;Family room&quot; TO Which room MC
+//	ADD &quot;Dining room&quot; TO Which room MC
+//	ADD &quot;Laundry room&quot; TO Which room MC
+//ELSE
+//	ADD &quot;Lobby&quot; TO Which room MC
+//	ADD &quot;Front stairwell&quot; TO Which room MC
+//	ADD &quot;Back stairwell&quot; TO Which room MC
+//	ADD &quot;Laundry room&quot; TO Which room MC
+//END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Tenant Information">
+			<hd:contents>
+				<hd:item name="Tenant name first TE"/>
+				<hd:item name="Tenant name middle TE" onPreviousLine="true"/>
+				<hd:item name="Tenant name last TE" onPreviousLine="true"/>
+				<hd:item name="Tenant address street TE"/>
+				<hd:item name="Tenant address apt no TE" onPreviousLine="true"/>
+				<hd:item name="Tenant address floor NU" onPreviousLine="true"/>
+				<hd:item name="Tenant address city TE"/>
+				<hd:item name="Tenant address state MC" onPreviousLine="true"/>
+				<hd:item name="Tenant address zip TE" onPreviousLine="true"/>
+				<hd:item name="Tenant borough MC"/>
+				<hd:item name="Tenant phone home TE" onPreviousLine="true"/>
+				<hd:item name="Tenant phone work TE" onPreviousLine="true"/>
+				<hd:item name="Tenant children under 6 NU"/>
+				<hd:item name="DE Children"/>
+				<hd:item name="Tenant Child"/>
+			</hd:contents>
+			<hd:script>//HIDE Tenant involved address street TE 
+//HIDE Tenant involved address apt no TE
+//HIDE Tenant involved address city TE
+//HIDE Tenant involved address state MC
+//HIDE Tenant involved address zip TE
+//HIDE Tenant involved borough MC
+GRAY DE Children
+GRAY Tenant Child
+DEFAULT Tenant address state MC TO &quot;New York&quot;
+//DEFAULT Tenant involved address state MC TO &quot;New York&quot;
+
+//IF VALUE(Tenant different address TF)
+//	SHOW Tenant involved address street TE 
+//	SHOW Tenant involved address apt no TE
+//	SHOW Tenant involved address city TE
+//	SHOW Tenant involved address state MC
+//	SHOW Tenant involved address zip TE
+//	SHOW Tenant involved borough MC
+//END IF
+
+IF VALUE( Tenant children under 6 NU) &gt; 0
+	UNGRAY DE Children
+	UNGRAY Tenant Child
+ELSE IF  NOT ANSWERED(Tenant children under 6 NU) AND NOT VALUE(Flag TF)
+	UNGRAY Tenant Child
+	SET Flag TF TO TRUE
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Welcome">
+			<hd:annotation>Old intro:
+
+You can use this system to create the court documents you will need to sue your landlord to make repairs to your apartment or to stop harassing you.  We’ll ask information about you, your landlord, and the facts of your lawsuit, like what needs to be fixed, what your landlord has said or done, etcetera.
+
+Once you have finished answering the questions, you can tell us to create the documents.  Look them over to make sure the information is correct.  If you see mistakes, go back and look at your answers to the questions.  You can erase and re-type any answers you need to correct.
+
+After you have corrected any mistakes in your answers, you can print out the documents.  Some of the documents will still have blank places in them that the court will fill out or that you will have to fill out by hand after you have taken some of the documents to “file” in court.  (“Filing” means submitting documents to the court clerk to have them officially entered into the court file of your case.)  You’ll need to copy some of the documents after you have signed them and “filed” them.
+
+When you print the court documents, we’ll give you written instructions about how to “file” them in court, and how to “serve” them on your landlord.
+</hd:annotation>
+			<hd:contents>
+				<hd:item name="DE Horizontal Divider Housing Part Action System"/>
+				<hd:item name="DE Version"/>
+				<hd:item name="DE Welcome intro"/>
+				<hd:item name="DE Vertical space 100"/>
+				<hd:item name="DE Placeholder"/>
+				<hd:item name="Action type MS" onPreviousLine="true"/>
+				<hd:item name="DE Placeholder" onPreviousLine="true"/>
+				<hd:item name="Alert about NYCHA properties DE"/>
+			</hd:contents>
+			<hd:script>DEFAULT Action type MS TO &quot;Repairs&quot;</hd:script>
+		</hd:dialog>
+		<hd:textFormat name="LIKE THIS" value="LIKE THIS"/>
+		<hd:textFormat name="Like This" value="Like This"/>
+		<hd:textFormat name="Like a This" value="Like a This"/>
+		<hd:textFormat name="Like this" value="Like this"/>
+		<hd:textFormat name="like this" value="like this"/>
+		<hd:numberFormat name="09" value="09"/>
+		<hd:numberFormat name="9 1/8" value="9 1/8"/>
+		<hd:numberFormat name="9,999.00" value="9,999.00"/>
+		<hd:numberFormat name="9.9" value="9.9"/>
+		<hd:numberFormat name="9.9.a" value="9.9.a"/>
+		<hd:numberFormat name="9999" value="9999"/>
+		<hd:numberFormat name="9th" value="9th"/>
+		<hd:numberFormat name="IX" value="IX"/>
+		<hd:numberFormat name="NINE" value="NINE"/>
+		<hd:numberFormat name="NONE" value="NONE"/>
+		<hd:numberFormat name="Nine Dollars and Twelve Cents" value="Nine Dollars and Twelve Cents"/>
+		<hd:numberFormat name="ZERO" value="ZERO"/>
+		<hd:numberFormat name="abc" value="abc"/>
+		<hd:numberFormat name="ninth" value="ninth"/>
+		<hd:dateFormat name="03 JUN 90" value="03 JUN 90"/>
+		<hd:dateFormat name="06/03/90" value="06/03/90"/>
+		<hd:dateFormat name="3 June 1990" value="3 June 1990"/>
+		<hd:dateFormat name="3rd day of June, 1990" value="3rd day of June, 1990"/>
+		<hd:dateFormat name="6/3/90" value="6/3/90"/>
+		<hd:dateFormat name="June 3, 1990" value="June 3, 1990"/>
+		<hd:dateFormat name="June 3rd" value="June 3rd"/>
+		<hd:dateFormat name="June Third, One Thousand Nine Hundred Ninety" value="June Third, One Thousand Nine Hundred Ninety"/>
+		<hd:dateFormat name="Sunday" value="Sunday"/>
+		<hd:dateFormat name="Sunday, June 3, 1990" value="Sunday, June 3, 1990"/>
+		<hd:dateFormat name="Third day of June, 1990" value="Third day of June, 1990"/>
+		<hd:trueFalseFormat name="/x" value="/x"/>
+		<hd:trueFalseFormat name="true/false" value="true/false"/>
+		<hd:trueFalseFormat name="x/" value="x/"/>
+		<hd:trueFalseFormat name="yes/no" value="yes/no"/>
+		<hd:multipleChoiceFormat name="1118 Grand Concourse, Bronx, NY 10456/170 East 121">
+			<hd:choice>1118 Grand Concourse, Bronx, NY 10456</hd:choice>
+			<hd:choice>170 East 121st Street, New York, NY 10035</hd:choice>
+			<hd:choice>141 Livingston Street, Brooklyn, NY 11201</hd:choice>
+			<hd:choice>111 Centre Street, New York, NY 10013</hd:choice>
+			<hd:choice>89-17 Sutphin Boulevard, Jamaica, NY 11435</hd:choice>
+			<hd:choice>88 Visitation Place, Brooklyn, NY 11231</hd:choice>
+			<hd:choice>927 Castleton Avenue, Staten Island, NY 10310</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="&lt;Tenant address apt no CO&gt;/Public area">
+			<hd:choice>«Tenant address apt no CO»</hd:choice>
+			<hd:choice>Public area</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="State abbreviations">
+			<hd:choice>AL</hd:choice>
+			<hd:choice>AK</hd:choice>
+			<hd:choice>AZ</hd:choice>
+			<hd:choice>AR</hd:choice>
+			<hd:choice>CA</hd:choice>
+			<hd:choice>CO</hd:choice>
+			<hd:choice>CT</hd:choice>
+			<hd:choice>DE</hd:choice>
+			<hd:choice>DC</hd:choice>
+			<hd:choice>FL</hd:choice>
+			<hd:choice>GA</hd:choice>
+			<hd:choice>HI</hd:choice>
+			<hd:choice>ID</hd:choice>
+			<hd:choice>IL</hd:choice>
+			<hd:choice>IN</hd:choice>
+			<hd:choice>IA</hd:choice>
+			<hd:choice>KS</hd:choice>
+			<hd:choice>KY</hd:choice>
+			<hd:choice>LA</hd:choice>
+			<hd:choice>ME</hd:choice>
+			<hd:choice>MD</hd:choice>
+			<hd:choice>MA</hd:choice>
+			<hd:choice>MI</hd:choice>
+			<hd:choice>MN</hd:choice>
+			<hd:choice>MS</hd:choice>
+			<hd:choice>MO</hd:choice>
+			<hd:choice>MT</hd:choice>
+			<hd:choice>NE</hd:choice>
+			<hd:choice>NV</hd:choice>
+			<hd:choice>NH</hd:choice>
+			<hd:choice>NJ</hd:choice>
+			<hd:choice>NM</hd:choice>
+			<hd:choice>NY</hd:choice>
+			<hd:choice>NC</hd:choice>
+			<hd:choice>ND</hd:choice>
+			<hd:choice>OH</hd:choice>
+			<hd:choice>OK</hd:choice>
+			<hd:choice>OR</hd:choice>
+			<hd:choice>PA</hd:choice>
+			<hd:choice>RI</hd:choice>
+			<hd:choice>SC</hd:choice>
+			<hd:choice>SD</hd:choice>
+			<hd:choice>TN</hd:choice>
+			<hd:choice>TX</hd:choice>
+			<hd:choice>UT</hd:choice>
+			<hd:choice>VT</hd:choice>
+			<hd:choice>VA</hd:choice>
+			<hd:choice>WA</hd:choice>
+			<hd:choice>WV</hd:choice>
+			<hd:choice>WI</hd:choice>
+			<hd:choice>WY</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="he/she">
+			<hd:choice>he</hd:choice>
+			<hd:choice>she</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="he/she/they">
+			<hd:choice>he</hd:choice>
+			<hd:choice>she</hd:choice>
+			<hd:choice>they</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="him/her">
+			<hd:choice>him</hd:choice>
+			<hd:choice>her</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="him/her/them">
+			<hd:choice>him</hd:choice>
+			<hd:choice>her</hd:choice>
+			<hd:choice>them</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="his/her">
+			<hd:choice>his</hd:choice>
+			<hd:choice>her</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="his/her/their">
+			<hd:choice>his</hd:choice>
+			<hd:choice>her</hd:choice>
+			<hd:choice>their</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="his/hers">
+			<hd:choice>his</hd:choice>
+			<hd:choice>hers</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="his/hers/theirs">
+			<hd:choice>his</hd:choice>
+			<hd:choice>hers</hd:choice>
+			<hd:choice>theirs</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:listFormat name="A, B AND C" value="A, B AND C"/>
+		<hd:listFormat name="A, B and C" value="A, B and C"/>
+		<hd:listFormat name="A, b and c" value="A, b and c"/>
+		<hd:listFormat name="a, and b" value="a, and b"/>
+		<hd:listFormat name="a, b" value="a, b"/>
+		<hd:listFormat name="a, b and c" value="a, b and c"/>
+		<hd:listFormat name="a, b or c" value="a, b or c"/>
+		<hd:listFormat name="a, b, and c" value="a, b, and c"/>
+		<hd:listFormat name="a; b; and c" value="a; b; and c"/>
+		<hd:textPattern name="(999) 999-9999"/>
+		<hd:textPattern name="999-99-9999"/>
+		<hd:textPattern name="99:99"/>
+		<hd:textPattern name="99:99 a.m."/>
+		<hd:textPattern name="99:99 am"/>
+	</hd:components>
+</hd:componentLibrary>

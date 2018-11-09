@@ -1,9 +1,8 @@
 from typing import Union
-from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
 
-AnswerValue = Union[str, int, bool, date]
+AnswerValue = Union[str, int, float, bool]
 
 
 class AnswerSet:
@@ -25,7 +24,16 @@ class AnswerSet:
             node = self.doc.createElement('TextValue')
             node.appendChild(self.doc.createTextNode(value))
             return node
-        raise NotImplementedError(f'{type(value)} answer types are not yet supported')
+        elif isinstance(value, bool):
+            node = self.doc.createElement('TFValue')
+            text = 'true' if value else 'false'
+            node.appendChild(self.doc.createTextNode(text))
+            return node
+        elif isinstance(value, (int, float)):
+            node = self.doc.createElement('NumValue')
+            node.appendChild(self.doc.createTextNode(str(value)))
+            return node
+        raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
 
     def add(self, name: str, value: AnswerValue) -> None:
         answer = self.doc.createElement('Answer')

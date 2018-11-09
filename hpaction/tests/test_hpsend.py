@@ -6,12 +6,12 @@ from django.core.management import call_command, CommandError
 
 from users.tests.factories import UserFactory
 from .factories import HPActionDocumentsFactory
-from ..management.commands import hpsend
 from ..views import SUCCESSFUL_UPLOAD_TEXT
 
-
-extract_xml_path = Path(hpsend.EXTRACT_XML)
-extract_pdf_path = Path(hpsend.EXTRACT_PDF)
+TEST_EXTRACT_BASENAME = 'test-hp-action'
+EXTRACT_BASENAME_ARGS = ['--extract-basename', TEST_EXTRACT_BASENAME]
+extract_xml_path = Path(f'{TEST_EXTRACT_BASENAME}.xml')
+extract_pdf_path = Path(f'{TEST_EXTRACT_BASENAME}.pdf')
 extract_paths = [extract_xml_path, extract_pdf_path]
 
 
@@ -47,7 +47,7 @@ def test_it_works(db, settings, soap_call, django_file_storage):
     out = StringIO()
     user = UserFactory()
     simulate_soap_call_success(soap_call, user)
-    call_command('hpsend', user.username, stdout=out)
+    call_command('hpsend', user.username, *EXTRACT_BASENAME_ARGS, stdout=out)
     assert 'Successfully received HP Action documents' in out.getvalue()
     assert not extract_xml_path.exists()
     assert not extract_pdf_path.exists()
@@ -58,9 +58,10 @@ def test_it_extracts_files(db, settings, soap_call, django_file_storage):
     out = StringIO()
     user = UserFactory()
     simulate_soap_call_success(soap_call, user)
-    call_command('hpsend', user.username, '--extract-files', stdout=out)
+    call_command('hpsend', user.username, '--extract-files',
+                 *EXTRACT_BASENAME_ARGS, stdout=out)
     assert 'Successfully received HP Action documents' in out.getvalue()
-    assert 'Writing hp-action.xml.' in out.getvalue()
+    assert 'Writing test-hp-action.xml.' in out.getvalue()
     assert extract_xml_path.read_text() == 'i am xml'
     assert extract_pdf_path.read_text() == 'i am pdf'
 

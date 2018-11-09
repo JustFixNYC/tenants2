@@ -13,9 +13,7 @@ API_ENDPOINT = "https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LH
 
 TEMPLATE_ID = "5395"
 
-EXTRACT_XML = 'hp-action.xml'
-
-EXTRACT_PDF = 'hp-action.pdf'
+DEFAULT_EXTRACT_BASENAME = 'hp-action'
 
 
 class Command(BaseCommand):
@@ -32,19 +30,29 @@ class Command(BaseCommand):
             '--extract-files',
             action='store_true',
             help=(
-                f'Also extract the assembled documents to {EXTRACT_XML} '
-                f'and {EXTRACT_PDF} in the current working directory.'
+                'Also extract the assembled documents to the current '
+                'working directory.'
+            )
+        )
+        parser.add_argument(
+            '--extract-basename',
+            default=DEFAULT_EXTRACT_BASENAME,
+            help=(
+                f'Basename of the extracted files, for use with --extract-files. '
+                f'Defaults to "{DEFAULT_EXTRACT_BASENAME}".'
             )
         )
 
-    def extract_files(self, token_id):
+    def extract_files(self, token_id, basename):
         docs = HPActionDocuments.objects.get(id=token_id)
         with docs.xml_file.open() as f:
-            self.stdout.write(f'Writing {EXTRACT_XML}.\n')
-            Path(EXTRACT_XML).write_bytes(f.read())
+            extract_xml = f'{basename}.xml'
+            self.stdout.write(f'Writing {extract_xml}.\n')
+            Path(extract_xml).write_bytes(f.read())
         with docs.pdf_file.open() as f:
-            self.stdout.write(f'Writing {EXTRACT_PDF}.\n')
-            Path(EXTRACT_PDF).write_bytes(f.read())
+            extract_pdf = f'{basename}.pdf'
+            self.stdout.write(f'Writing {extract_pdf}.\n')
+            Path(extract_pdf).write_bytes(f.read())
 
     def handle(self, *args, **options):
         if not settings.HP_ACTION_CUSTOMER_KEY:
@@ -75,4 +83,4 @@ class Command(BaseCommand):
         self.stdout.write("Successfully received HP Action documents.\n")
 
         if options['extract_files']:
-            self.extract_files(token_id)
+            self.extract_files(token_id, basename=options['extract_basename'])

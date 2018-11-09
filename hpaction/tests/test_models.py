@@ -1,8 +1,7 @@
 import datetime
 from freezegun import freeze_time
-from django.core.files.uploadedfile import SimpleUploadedFile
 
-from users.tests.factories import UserFactory
+from .factories import HPActionDocumentsFactory, UploadTokenFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME)
 
@@ -10,8 +9,7 @@ from ..models import (
 class TestUploadToken:
     def test_they_are_time_limited_and_expired_ones_can_be_removed(self, db):
         with freeze_time('2018-01-01') as time:
-            user = UserFactory()
-            token = UploadToken.objects.create_for_user(user)
+            token = UploadTokenFactory()
             UploadToken.objects.remove_expired()
             assert UploadToken.objects.find_unexpired(token.id) == token
 
@@ -22,8 +20,8 @@ class TestUploadToken:
             assert UploadToken.objects.count() == 0
 
     def test_create_documents_from_works(self, db, django_file_storage):
-        user = UserFactory()
-        token = UploadToken.objects.create_for_user(user)
+        token = UploadTokenFactory()
+        user = token.user
         token_id = token.id
         docs = token.create_documents_from(
             xml_data=b'i am xml',
@@ -34,6 +32,9 @@ class TestUploadToken:
         assert docs.user == user
         assert docs.id == token_id
 
+        # Make sure the token was deleted.
+        assert token.id is None
+
     def test_get_upload_url_works(self, db):
         token = UploadToken(id='boop')
         assert token.get_upload_url() == 'https://example.com/hp-action/upload/boop'
@@ -41,13 +42,7 @@ class TestUploadToken:
 
 class TestHPActionDocuments:
     def create_docs(self, django_file_storage):
-        user = UserFactory()
-        docs = HPActionDocuments(
-            xml_file=SimpleUploadedFile('blarg.xml', content=b'i am some xml'),
-            pdf_file=SimpleUploadedFile('blarg.pdf', content=b'i am some pdf'),
-            user=user
-        )
-        docs.save()
+        docs = HPActionDocumentsFactory()
         xml_filepath = django_file_storage.get_abs_path(docs.xml_file)
         pdf_filepath = django_file_storage.get_abs_path(docs.pdf_file)
         return (docs, xml_filepath, pdf_filepath)

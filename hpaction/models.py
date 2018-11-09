@@ -38,6 +38,34 @@ class HPActionDocumentsManager(models.Manager):
             doc.pdf_file.delete()
             doc.delete()
 
+    def create_from_file_data(
+        self,
+        xml_data: bytes,
+        pdf_data: bytes,
+        id: str,
+        **kwargs
+    ) -> 'HPActionDocuments':
+        '''
+        Create HP Action documents from the given file data.
+        '''
+
+        docs = HPActionDocuments(
+            xml_file=SimpleUploadedFile(
+                f'{id}.xml',
+                content=xml_data,
+                content_type='text/xml'
+            ),
+            pdf_file=SimpleUploadedFile(
+                f'{id}.pdf',
+                content=pdf_data,
+                content_type='application/pdf'
+            ),
+            id=id,
+            **kwargs
+        )
+        docs.save()
+        return docs
+
 
 class HPActionDocuments(models.Model):
     '''
@@ -75,12 +103,12 @@ class HPActionDocuments(models.Model):
     )
 
     xml_file = models.FileField(
-        upload_to='hp-action/xml/',
+        upload_to='hp-action-docs/',
         help_text="The XML file for the HP action."
     )
 
     pdf_file = models.FileField(
-        upload_to='hp-action/pdf/',
+        upload_to='hp-action-docs/',
         help_text="The PDF file for the HP action paperwork."
     )
 
@@ -144,28 +172,17 @@ class UploadToken(models.Model):
         the user it's bound to, and the given data.
         '''
 
-        user = self.user
-        basename = f'hp-action-{user.username}'
-
         # We don't really want to wrap the following in a transaction because
         # of how storing the files changes the world outside our database. e.g., if
         # deleting the token fails, we still want to keep a record of the files
         # we created in our storage service so we can delete them later.
-        docs = HPActionDocuments(
-            id=self.id,
-            user=user,
-            xml_file=SimpleUploadedFile(
-                f'{basename}.xml',
-                content=xml_data,
-                content_type='text/xml'
-            ),
-            pdf_file=SimpleUploadedFile(
-                f'{basename}.pdf',
-                content=pdf_data,
-                content_type='application/pdf'
-            )
+
+        docs = HPActionDocuments.objects.create_from_file_data(
+            xml_data=xml_data,
+            pdf_data=pdf_data,
+            user=self.user,
+            id=self.id
         )
-        docs.save()
         self.delete()
 
         return docs

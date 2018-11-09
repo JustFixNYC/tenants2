@@ -1,8 +1,8 @@
 import base64
 from django.urls import reverse
 
-from users.tests.factories import UserFactory
-from ..models import UploadToken, HPActionDocuments
+from .factories import UploadTokenFactory
+from ..models import HPActionDocuments
 from ..views import decode_lhi_b64_data, LHI_B64_ALTCHARS
 
 
@@ -30,8 +30,8 @@ class TestUpload:
         assert res.status_code == 404
 
     def test_it_works(self, db, client, django_file_storage):
-        user = UserFactory()
-        token = UploadToken.objects.create_for_user(user)
+        token = UploadTokenFactory()
+        token_id = token.id
 
         url = reverse('hpaction:upload', kwargs={'token_str': token.id})
         res = client.post(url, data={
@@ -40,6 +40,6 @@ class TestUpload:
         })
         assert res.content == b'HP Action documents created.'
 
-        docs = HPActionDocuments.objects.get(user=user)
+        docs = HPActionDocuments.objects.get(id=token_id)
         assert django_file_storage.read(docs.xml_file) == b'i am uploaded xml data'
         assert django_file_storage.read(docs.pdf_file) == b'i am uploaded pdf data'

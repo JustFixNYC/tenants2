@@ -6,18 +6,12 @@ import zeep
 from users.models import JustfixUser
 from hpaction.views import SUCCESSFUL_UPLOAD_TEXT
 from hpaction.models import UploadToken, HPActionDocuments
+from hpaction.hotdocs import AnswerSet
 
 
 API_ENDPOINT = "https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc"
 
 TEMPLATE_ID = "5395"
-
-# TODO: We need to replace this with an actual answer file
-# that has actual answers in it.
-EMPTY_ANSWER_FILE = """\
-<?xml version="1.0" encoding="utf-16" standalone="yes"?>
-<AnswerSet title="New Answer File" version="1.1"></AnswerSet>
-"""
 
 EXTRACT_XML = 'hp-action.xml'
 
@@ -63,12 +57,13 @@ class Command(BaseCommand):
         self.stdout.write('Created upload token. Sending SOAP request...\n')
         client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl")
 
-        hotdocs_xml = EMPTY_ANSWER_FILE
+        answers = AnswerSet()
+        answers.add('Server name full TE', user.full_name)
 
         result = client.service.GetAnswersAndDocuments(
             CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
             TemplateId=TEMPLATE_ID,
-            HDInfo=hotdocs_xml,
+            HDInfo=str(answers),
             DocID=token_id,
             PostBackUrl=token.get_upload_url()
         )

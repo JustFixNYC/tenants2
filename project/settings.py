@@ -293,6 +293,15 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 
+CSP_STYLE_SRC = [
+    "'self'",
+    # We originally disallowed unsafe-inline, but it just became too much of
+    # a hassle, as third-party libraries injected inline styles and
+    # even SVGs used in <img> tags were unable to contain <style> elements
+    # too.
+    "'unsafe-inline'"
+]
+
 CSP_CONNECT_SRC = [
     "'self'",
     "https://geosearch.planninglabs.nyc"

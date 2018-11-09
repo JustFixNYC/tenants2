@@ -34,13 +34,23 @@ urlpatterns = [
 ]
 
 
+def parse_csp_header(csp):
+    parts = csp.split('; ')
+    result = {}
+    for part in parts:
+        first_word, rest = part.split(' ', 1)
+        result[first_word] = rest
+    assert "'self'" in result['default-src']
+    return result
+
+
 @pytest.mark.urls(__name__)
 def test_csp_works_on_dynamic_pages(client):
     response = client.get('/basic')
     assert 200 == response.status_code
     assert response.content == b'hello'
     csp = response['Content-Security-Policy']
-    assert 'unsafe-inline' not in csp
+    assert 'script-src' not in parse_csp_header(csp)
     assert EXPECTED_CSP in csp
 
 
@@ -73,7 +83,7 @@ def test_csp_works_on_static_assets(client, staticfiles):
     assert 200 == response.status_code
 
     csp = response['Content-Security-Policy']
-    assert 'unsafe-inline' not in csp
+    assert 'script-src' not in parse_csp_header(csp)
     assert EXPECTED_CSP in csp
 
 

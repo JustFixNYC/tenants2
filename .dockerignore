@@ -26,6 +26,8 @@ querybuilder.js.map
 react-loadable.json
 Block-and-Lot-Guide-*.csv
 .DS_Store
+hp-action.pdf
+hp-action.xml
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

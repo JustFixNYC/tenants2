@@ -41,6 +41,13 @@ class Command(BaseCommand):
     IGNORE_EXTENSIONS = ['.png', '.jpg', '.ttf', '.ico']
 
     def add_arguments(self, parser):
+        parser.add_argument(
+            'filename', nargs='*',
+            help=(
+                'File to process. If unspecified, all files in the '
+                'git repository are processed, excluding files ignored by git.'
+            )
+        )
         parser.add_argument('--dry-run', help="don't actually change any files",
                             action='store_true')
 
@@ -62,8 +69,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         total = 0
+        filenames = [Path(filename) for filename in options['filename']]
+        paths = filenames or iter_get_repo_files()
 
-        for path in iter_get_repo_files():
+        for path in paths:
             if path.suffix not in self.IGNORE_EXTENSIONS:
                 if self.convert_file(path, dry_run=options['dry_run']):
                     total += 1

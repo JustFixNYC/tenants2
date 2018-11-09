@@ -1,3 +1,4 @@
+from pathlib import Path
 from io import StringIO
 from unittest.mock import patch
 from django.test import TestCase, override_settings
@@ -11,6 +12,18 @@ def test_envhelp_works():
     out = StringIO()
     call_command('envhelp', stdout=out)
     assert 'DEBUG' in out.getvalue()
+
+
+def test_fixnewlines_works():
+    testfile = Path('test-file-with-crlfs.txt').resolve()
+    testfile.write_bytes(b'hello there.\r\nhow are you.')
+    try:
+        out = StringIO()
+        call_command('fixnewlines', str(testfile), stdout=out)
+        assert 'Converting 1 CRLFs to LFs' in out.getvalue()
+        assert testfile.read_bytes() == b'hello there.\nhow are you.'
+    finally:
+        testfile.unlink()
 
 
 class SendtestslackTests(TestCase):

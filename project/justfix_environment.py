@@ -102,6 +102,35 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # be specified.
     AIRTABLE_URL: str = ''
 
+    # An Amazon Web Services access key. If provided, S3 will
+    # be used as the default Django file storage backend.
+    AWS_ACCESS_KEY_ID: str = ''
+
+    # An Amazon Web Services secret access key.
+    # If AWS_ACCESS_KEY_ID is specified, this must be specified too.
+    AWS_SECRET_ACCESS_KEY: str = ''
+
+    # The Amazon Web Services bucket name to store files in.
+    # If AWS_ACCESS_KEY_ID is specified, this must be specified too.
+    AWS_STORAGE_BUCKET_NAME: str = ''
+
+    # The default log level. Can be one of DEBUG, INFO, WARNING,
+    # ERROR, or CRITICAL.
+    LOG_LEVEL: str = 'INFO'
+
+    # The API endpoint for the HP Action SOAP endpoint.
+    HP_ACTION_API_ENDPOINT: str = (
+        'https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc'
+    )
+
+    # The HotDocs template ID to pass to the HP Action SOAP endpoint,
+    # e.g. "5395".
+    HP_ACTION_TEMPLATE_ID: str = '5395'
+
+    # The customer key to pass to the HP Action SOAP endpoint. If
+    # not provided, HP Action submission will fail.
+    HP_ACTION_CUSTOMER_KEY: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

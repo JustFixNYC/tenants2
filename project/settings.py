@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'airtable.apps.AirtableConfig',
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
+    'hpaction.apps.HPActionConfig'
 ]
 
 MIDDLEWARE = [
@@ -164,6 +165,7 @@ LOGGING = {
         },
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'debug' if env.LOG_LEVEL == 'DEBUG' else None,
         },
         'django.server': {
             'level': 'INFO',
@@ -180,6 +182,10 @@ LOGGING = {
         }
     },
     'formatters': {
+        'debug': {
+            'format': '{levelname}:{name} {message}',
+            'style': '{',
+        },
         'django.server': {
             '()': 'django.utils.log.ServerFormatter',
             'format': '[{server_time}] {message}',
@@ -189,7 +195,7 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console', 'rollbar'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'level': env.LOG_LEVEL,
         },
         'twilio': {
             # At the INFO level, Twilio logs the recipient and
@@ -221,12 +227,34 @@ _STATIC_ROOT_PATH = BASE_DIR / 'staticfiles'
 
 STATIC_ROOT = str(_STATIC_ROOT_PATH)
 
-if not _STATIC_ROOT_PATH.exists():
-    # This avoids a spurious warning from whitenoise that
-    # shows up even in development mode.
-    _STATIC_ROOT_PATH.mkdir()
+# This avoids a spurious warning from whitenoise that
+# shows up even in development mode.
+_STATIC_ROOT_PATH.mkdir(exist_ok=True)
 
 STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+
+_MEDIA_ROOT_PATH = BASE_DIR / 'mediafiles'
+
+_MEDIA_ROOT_PATH.mkdir(exist_ok=True)
+
+MEDIA_ROOT = str(_MEDIA_ROOT_PATH)
+
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+if env.AWS_ACCESS_KEY_ID:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+
+AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+
+AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
+
+AWS_DEFAULT_ACL = 'private'
+
+AWS_BUCKET_ACL = 'private'
+
+AWS_AUTO_CREATE_BUCKET = True
 
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
@@ -275,6 +303,12 @@ AIRTABLE_API_KEY = env.AIRTABLE_API_KEY
 AIRTABLE_URL = env.AIRTABLE_URL
 
 AIRTABLE_TIMEOUT = 3
+
+HP_ACTION_API_ENDPOINT = env.HP_ACTION_API_ENDPOINT
+
+HP_ACTION_TEMPLATE_ID = env.HP_ACTION_TEMPLATE_ID
+
+HP_ACTION_CUSTOMER_KEY = env.HP_ACTION_CUSTOMER_KEY
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

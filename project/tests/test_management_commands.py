@@ -38,3 +38,15 @@ class SendtestslackTests(TestCase):
             call_command('sendtestslack')
         self.assertIn('Sending test Slack message failed.',
                       cm.exception.args[0])
+
+
+class TestStoreTestFile:
+    def test_it_deletes_file_by_default(self, django_file_storage):
+        out = StringIO()
+        call_command('storetestfile', stdout=out)
+        assert 'Deleting test file' in out.getvalue()
+
+    def test_it_does_not_delete_file_if_told_not_to(self, django_file_storage):
+        out = StringIO()
+        call_command('storetestfile', '--no-delete', stdout=out)
+        assert 'Please delete "storetestfile_test_file.txt" manually' in out.getvalue()

@@ -21,6 +21,20 @@ BASE_DIR = Path(__file__).parent.resolve()
 STATICFILES_DIR = BASE_DIR / 'staticfiles'
 
 
+@pytest.fixture
+def django_file_storage(settings):
+    '''
+    A test fixture that can be used to store any
+    files stored via Django's file storage backend
+    into a temporary directory. The directory
+    is cleaned up at the end of the test.
+    '''
+
+    from project.tests.storage_fixture import django_file_storage
+
+    yield from django_file_storage(settings)
+
+
 @pytest.fixture(scope="session")
 def loaded_nycha_csv_data(django_db_setup, django_db_blocker):
     '''

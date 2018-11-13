@@ -84,7 +84,7 @@ def _lookup_landlord_via_nycha(pad_bbl: str, address: str) -> Optional[LandlordI
     office = NychaOffice.objects.find_for_property(pad_bbl, address)
     if not office:
         return None
-    return LandlordInfo(name=office.name, address=office.address)
+    return LandlordInfo(name=f"{office.name} MANAGEMENT", address=office.address)
 
 
 def lookup_landlord(address: str) -> Optional[LandlordInfo]:

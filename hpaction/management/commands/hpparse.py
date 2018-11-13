@@ -33,7 +33,7 @@ class HDText(HDVariable):
     pass
 
 
-class HDBoolean(HDVariable):
+class HDTrueFalse(HDVariable):
     pass
 
 
@@ -131,7 +131,7 @@ class HDComponentLibrary:
                 help_text=self.get_help_text(el)
             ))
         for el in components.findall('hd:trueFalse', NS):
-            self.add_var(HDBoolean(
+            self.add_var(HDTrueFalse(
                 name=el.attrib['name'],
                 help_text=self.get_help_text(el)
             ))

@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Dict
 from django.core.management.base import BaseCommand
 
 from project.justfix_environment import BASE_DIR
@@ -8,7 +8,11 @@ from project.justfix_environment import BASE_DIR
 
 MASTER_CMP_PATH = BASE_DIR / 'hpaction' / 'hotdocs-data' / 'Master.cmp'
 
-NS = {'hd': 'http://www.hotdocs.com/schemas/component_library/2009'}
+HD_URL = 'http://www.hotdocs.com/schemas/component_library/2009'
+
+HD = '{' + HD_URL + '}'
+
+NS = {'hd': HD_URL}
 
 
 @dataclass
@@ -44,6 +48,21 @@ class HDMultipleChoice(HDVariable):
     select_multiple: bool
 
 
+class HDVars:
+    d: Dict[str, HDVariable]
+
+    def __init__(self):
+        self.d = {}
+
+    def append(self, var: HDVariable):
+        self.d[var.name] = var
+
+
+class HDRepeat(NamedTuple):
+    name: str
+    variables: List[HDVariable]
+
+
 def get_help_text(el: ET.Element) -> str:
     # Absolutely no idea why el.find() doesn't work here.
     for prompt in el.findall('hd:prompt', NS):
@@ -62,8 +81,27 @@ def get_mc_options(el: ET.Element) -> List[HDOption]:
     return results
 
 
-def get_hd_vars(components: ET.Element) -> List[HDVariable]:
-    hd_vars: List[HDVariable] = []
+def get_hd_repeats(components: ET.Element, hd_vars: HDVars) -> List[HDRepeat]:
+    result: List[HDRepeat] = []
+    for dialog in components.iter(f'{HD}dialog'):
+        is_sheet = len(dialog.findall('hd:style/hd:spreadsheetOnParent', NS)) > 0
+        if not is_sheet:
+            continue
+        repeat_vars: List[HDVariable] = []
+        for item in dialog.findall('hd:contents/hd:item', NS):
+            name = item.attrib['name']
+            value = hd_vars.d[name]
+            del hd_vars.d[name]
+            repeat_vars.append(value)
+        result.append(HDRepeat(
+            name=dialog.attrib['name'],
+            variables=repeat_vars
+        ))
+    return result
+
+
+def get_hd_vars(components: ET.Element) -> HDVars:
+    hd_vars = HDVars()
     for el in components.findall('hd:text', NS):
         hd_vars.append(HDText(
             name=el.attrib['name'],
@@ -105,5 +143,17 @@ class Command(BaseCommand):
         if not components:
             raise Exception('could not find components')
         hd_vars = get_hd_vars(components)
-        for var in hd_vars:
-            print(var)
+        hd_repeats = get_hd_repeats(components, hd_vars)
+
+        print("## Variables\n")
+
+        for var in hd_vars.d.values():
+            print(var.name, "-", var.__class__.__name__)
+
+        print("\n## Repeats")
+
+        for repeat in hd_repeats:
+            print()
+            print(repeat.name)
+            for var in repeat.variables:
+                print("  ", var.name, "-", var.__class__.__name__)

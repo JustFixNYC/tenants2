@@ -41,14 +41,14 @@ class HDNumber(HDVariable):
     pass
 
 
-class HDOption(NamedTuple):
+class HDMultipleChoiceOption(NamedTuple):
     name: str
     label: str
 
 
 @dataclass
 class HDMultipleChoice(HDVariable):
-    options: List[HDOption]
+    options: List[HDMultipleChoiceOption]
     select_multiple: bool
 
     def describe(self):
@@ -58,18 +58,18 @@ class HDMultipleChoice(HDVariable):
         return base_desc
 
 
-class HDRepeat(NamedTuple):
+class HDRepeatedVariables(NamedTuple):
     label: str
     variables: List[HDVariable]
 
 
 class HDComponentLibrary:
     vars: Dict[str, HDVariable]
-    repeats: List[HDRepeat]
+    repeated_vars: List[HDRepeatedVariables]
 
     def __init__(self, path: Path):
         self.vars = {}
-        self.repeats = []
+        self.repeated_vars = []
 
         tree = ET.parse(str(path))
         root = tree.getroot()
@@ -86,10 +86,10 @@ class HDComponentLibrary:
                 return prompt.text
         return ''
 
-    def get_mc_options(self, el: ET.Element) -> List[HDOption]:
-        results: List[HDOption] = []
+    def get_mc_options(self, el: ET.Element) -> List[HDMultipleChoiceOption]:
+        results: List[HDMultipleChoiceOption] = []
         for option in el.findall('hd:options/hd:option', NS):
-            results.append(HDOption(
+            results.append(HDMultipleChoiceOption(
                 name=option.attrib['name'],
                 label=self.get_help_text(option)
             ))
@@ -106,7 +106,7 @@ class HDComponentLibrary:
                 value = self.vars[name]
                 del self.vars[name]
                 repeat_vars.append(value)
-            self.repeats.append(HDRepeat(
+            self.repeated_vars.append(HDRepeatedVariables(
                 label=dialog.attrib['name'],
                 variables=repeat_vars
             ))
@@ -156,9 +156,9 @@ class Command(BaseCommand):
         for var in lib.vars.values():
             print(var.describe())
 
-        print("\n## Repeats")
+        print("\n## Repeated variables")
 
-        for repeat in lib.repeats:
+        for repeat in lib.repeated_vars:
             print()
             print(repeat.label)
             for var in repeat.variables:

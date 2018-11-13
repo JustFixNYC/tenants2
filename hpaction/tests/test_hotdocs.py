@@ -41,6 +41,15 @@ def test_date_answer_values_work():
     assert value_xml(date(2017, 1, 2)) == '<DateValue>1/2/2017</DateValue>'
 
 
+def test_list_values_work():
+    assert value_xml([1, 2]) == (
+        '<RptValue>'
+        '<NumValue>1</NumValue>'
+        '<NumValue>2</NumValue>'
+        '</RptValue>'
+    )
+
+
 def test_invalid_answer_types_raise_errors():
     with pytest.raises(ValueError, match="cannot convert function to a valid answer type"):
         value_xml(lambda: None)

@@ -1,9 +1,10 @@
-from typing import Union
+from typing import Union, List, Any
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
-
-AnswerValue = Union[str, int, float, bool, date]
+# Note that for the list, we would ideally write List['AnswerValue']
+# but mypy doesn't currently support recursive types.
+AnswerValue = Union[str, int, float, bool, date, List[Any]]
 
 
 class AnswerSet:
@@ -38,6 +39,11 @@ class AnswerSet:
             node = self.doc.createElement('DateValue')
             date_str = f'{value.month}/{value.day}/{value.year}'
             node.appendChild(self.doc.createTextNode(date_str))
+            return node
+        elif isinstance(value, list):
+            node = self.doc.createElement('RptValue')
+            for item in value:
+                node.appendChild(self.create_answer_value(item))
             return node
         raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
 

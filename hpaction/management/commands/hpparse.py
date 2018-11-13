@@ -59,7 +59,7 @@ class HDMultipleChoice(HDVariable):
 
 
 class HDRepeat(NamedTuple):
-    name: str
+    label: str
     variables: List[HDVariable]
 
 
@@ -107,7 +107,7 @@ class HDComponentLibrary:
                 del self.vars[name]
                 repeat_vars.append(value)
             self.repeats.append(HDRepeat(
-                name=dialog.attrib['name'],
+                label=dialog.attrib['name'],
                 variables=repeat_vars
             ))
 
@@ -160,6 +160,6 @@ class Command(BaseCommand):
 
         for repeat in lib.repeats:
             print()
-            print(repeat.name)
+            print(repeat.label)
             for var in repeat.variables:
                 print("  ", var.describe())

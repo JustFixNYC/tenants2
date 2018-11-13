@@ -1,4 +1,5 @@
 from textwrap import dedent
+from datetime import date
 import pytest
 
 from ..hotdocs import AnswerSet
@@ -34,6 +35,10 @@ def test_bool_answer_values_work():
 def test_numeric_answer_values_work():
     assert value_xml(5) == '<NumValue>5</NumValue>'
     assert value_xml(5.5) == '<NumValue>5.5</NumValue>'
+
+
+def test_date_answer_values_work():
+    assert value_xml(date(2017, 1, 2)) == '<DateValue>1/2/2017</DateValue>'
 
 
 def test_invalid_answer_types_raise_errors():

@@ -20,6 +20,9 @@ class HDVariable:
     name: str
     help_text: str
 
+    def describe(self):
+        return f"{self.__class__.__name__} {repr(self.name)}"
+
 
 class HDDate(HDVariable):
     pass
@@ -46,6 +49,12 @@ class HDOption(NamedTuple):
 class HDMultipleChoice(HDVariable):
     options: List[HDOption]
     select_multiple: bool
+
+    def describe(self):
+        base_desc = super().describe()
+        if self.select_multiple:
+            return f"{base_desc} select_multiple"
+        return base_desc
 
 
 class HDVars:
@@ -148,7 +157,7 @@ class Command(BaseCommand):
         print("## Variables\n")
 
         for var in hd_vars.d.values():
-            print(var.name, "-", var.__class__.__name__)
+            print(var.describe())
 
         print("\n## Repeats")
 
@@ -156,4 +165,4 @@ class Command(BaseCommand):
             print()
             print(repeat.name)
             for var in repeat.variables:
-                print("  ", var.name, "-", var.__class__.__name__)
+                print("  ", var.describe())

@@ -1,4 +1,5 @@
 from typing import Union, List, Any, Optional
+from enum import Enum
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
@@ -15,6 +16,12 @@ class MCValue:
 # Note that for the list, we would ideally write List['AnswerValue']
 # but mypy doesn't currently support recursive types.
 AnswerValue = Union[str, int, float, bool, date, MCValue, List[Any]]
+
+
+def unwrap_enum(enum: Enum) -> str:
+    assert isinstance(enum, Enum)
+    assert isinstance(enum.value, str)
+    return enum.value
 
 
 class AnswerSet:
@@ -64,7 +71,19 @@ class AnswerSet:
             return node
         raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
 
-    def add_optional(self, name: str, value: Optional[AnswerValue]) -> None:
+    def add_optional_mc(self, name: str, value: Optional[Enum]) -> None:
+        # TODO: Implement this.
+        pass
+
+    # For some bizarre reason mypy doesn't like this being an Optional[List[Enum]],
+    # as it claims there's a type error when the passed-in enum is a sublcass of Enum,
+    # so we'll just have to set it to Any.
+    def add_optional_mcl(self, name: str, value: Optional[List[Any]]) -> None:
+        # TODO: Implement this.
+        pass
+
+    def add_optional(self, name: str, value: Optional[AnswerValue],
+                     is_mcvalue=False) -> None:
         if value is not None:
             self.add(name, value)
 

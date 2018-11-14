@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from typing import NamedTuple, List, Dict
+from typing import NamedTuple, List, Dict, Tuple
 from pathlib import Path
+import textwrap
 from django.utils.text import slugify
 
 
@@ -10,6 +11,19 @@ HD_URL = 'http://www.hotdocs.com/schemas/component_library/2009'
 HD = '{' + HD_URL + '}'
 
 NS = {'hd': HD_URL}
+
+
+def wrap_comment(string: str, indent: int) -> List[str]:
+    indent_str = ' ' * indent
+    lines = textwrap.wrap(string, width=100 - indent - 2)
+    return [f'{indent_str}# {line}' for line in lines]
+
+
+def to_snake_case(string: str) -> str:
+    name = slugify(string.lower()).replace('-', '_')
+    if name[0].isdigit():
+        return '_' + name
+    return name
 
 
 @dataclass
@@ -26,7 +40,11 @@ class HDVariable:
 
     @property
     def snake_case_name(self) -> str:
-        return slugify(self.name.lower()).replace('-', '_')
+        return to_snake_case(self.name)
+
+    @property
+    def camel_case_name(self) -> str:
+        return self.name.replace(' ', '')
 
     @property
     def comments(self) -> List[str]:
@@ -92,7 +110,7 @@ class HDMultipleChoice(HDVariable):
 
     @property
     def py_annotation(self) -> str:
-        anno = 'str'
+        anno = self.camel_case_name
         return f'List[{anno}]' if self.select_multiple else anno
 
 
@@ -219,28 +237,108 @@ class HDComponentLibrary:
                 select_multiple=sm
             ))
 
-    def make_python_definitions(self, primary_class_name: str) -> List[str]:
-        # TODO: Also make definitions for classes that represent the repeated variables.
-        lines = [
-            'from typing import Optional, Union',
-            'import datetime',
-            'from dataclasses import dataclass',
-            'from hpaction import hotdocs',
-            '\n',
+
+class PythonEnumOption(NamedTuple):
+    symbol: str
+    value: str
+    comment: str
+
+
+class PythonEnum(NamedTuple):
+    name: str
+    options: Tuple[PythonEnumOption, ...]
+
+    def generate_code(self) -> List[str]:
+        lines: List[str] = [
+            f'class {self.name}(Enum):'
         ]
-        lines.extend(
-            self.make_dataclass_definition(primary_class_name, list(self.vars.values())))
+
+        for option in self.options:
+            if option.comment:
+                lines.extend(wrap_comment(option.comment, indent=4))
+            lines.extend([
+                f'    {option.symbol} = {repr(option.value)}'
+                f''
+            ])
+
+        lines.append(f'\n')
+
         return lines
 
-    def make_dataclass_definition(self, class_name: str, hd_vars: List[HDVariable]) -> List[str]:
+
+class PythonAlias(NamedTuple):
+    name: str
+    alias_for: str
+
+    def generate_code(self) -> str:
+        return f'{self.name} = {self.alias_for}\n'
+
+
+class PythonCodeGenerator:
+    lib: HDComponentLibrary
+    primary_class_name: str
+    imports: List[str]
+    enums: List[PythonEnum]
+    aliases: List[PythonAlias]
+    dataclasses: List[str]
+
+    def __init__(self, lib: HDComponentLibrary, primary_class_name: str) -> None:
+        self.lib = lib
+        self.imports = [
+            'from typing import Optional, Union, List',
+            'import datetime',
+            'from enum import Enum',
+            'from dataclasses import dataclass',
+            'from hpaction import hotdocs',
+            ''
+        ]
+
+        self.enums = []
+        self.aliases = []
+        self.dataclasses = []
+
+        lib_vars = list(lib.vars.values())
+        self.process_enum_definitions(lib_vars)
+        self.coalesce_duplicate_enums()
+        self.make_dataclass_definition(primary_class_name, lib_vars)
+        # TODO: Also make definitions for classes that represent the repeated variables.
+
+    def process_enum_definitions(self, hd_vars: List[HDVariable]):
+        mcs = [var for var in hd_vars if isinstance(var, HDMultipleChoice)]
+        for mc in mcs:
+            self.enums.append(PythonEnum(
+                name=mc.camel_case_name,
+                options=tuple([
+                    PythonEnumOption(
+                        symbol=to_snake_case(option.name),
+                        value=option.name,
+                        comment=option.label
+                    )
+                    for option in mc.options
+                ])
+            ))
+
+    def coalesce_duplicate_enums(self):
+        from typing import Set
+        choices: Set[List[PythonEnumOption]] = set()
+        enums = tuple(self.enums)
+        for enum in enums:
+            if enum.options in choices:
+                self.enums.remove(enum)
+                alias_for = [
+                    e for e in enums if e.options == enum.options
+                ][0].name
+                self.aliases.append(PythonAlias(enum.name, alias_for))
+            else:
+                choices.add(enum.options)
+
+    def make_dataclass_definition(self, class_name: str, hd_vars: List[HDVariable]) -> None:
         lines = [
             f'@dataclass',
             f'class {class_name}:',
         ]
 
         for var in hd_vars:
-            # TODO: If the variable represents multiple choices, consider making separate
-            # boolean properties for each.
             for line in var.comments:
                 lines.append(f'    # {line}')
             lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
@@ -249,9 +347,26 @@ class HDComponentLibrary:
         lines.append(f'        result = hotdocs.AnswerSet()')
 
         for var in hd_vars:
-            lines.append(f'        result.add_optional({repr(var.name)},')
-            lines.append(f'                            self.{var.snake_case_name})')
+            indent = ''
+            mc = ''
+            if isinstance(var, HDMultipleChoice):
+                if var.select_multiple:
+                    mc = '_mcl'
+                else:
+                    mc = '_mc'
+                indent = ' ' * len(mc)
+            lines.append(f'        result.add_optional{mc}({repr(var.name)},')
+            lines.append(f'                            {indent}self.{var.snake_case_name})')
 
         lines.append(f'        return result\n')
 
-        return lines
+        self.dataclasses.extend(lines)
+
+    def getvalue(self) -> str:
+        enums: List[str] = []
+        for enum in self.enums:
+            enums.extend(enum.generate_code())
+
+        aliases = [alias.generate_code() for alias in self.aliases]
+
+        return '\n'.join([*self.imports, '', *enums, *aliases, '', *self.dataclasses])

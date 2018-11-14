@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from project.justfix_environment import BASE_DIR
-from hpaction.hotdocs_cmp import HDComponentLibrary
+from hpaction.hotdocs_cmp import HDComponentLibrary, PythonCodeGenerator
 
 
 MASTER_CMP_PATH = BASE_DIR / 'hpaction' / 'hotdocs-data' / 'Master.cmp'
@@ -30,4 +30,5 @@ class Command(BaseCommand):
 
         print(f"Outputting Python code to {OUTPUT_PATH}.")
 
-        OUTPUT_PATH.write_text('\n'.join(lib.make_python_definitions("HPActionVariables")))
+        code = PythonCodeGenerator(lib, "HPActionVariables")
+        OUTPUT_PATH.write_text(code.getvalue())

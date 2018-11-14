@@ -2,9 +2,19 @@ from typing import Union, List, Any, Optional
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
+
+class MCValue:
+    '''Represents a multiple-choice answer in a HotDocs Answer Set.'''
+
+    items: List[str]
+
+    def __init__(self, *items: str) -> None:
+        self.items = list(items)
+
+
 # Note that for the list, we would ideally write List['AnswerValue']
 # but mypy doesn't currently support recursive types.
-AnswerValue = Union[str, int, float, bool, date, List[Any]]
+AnswerValue = Union[str, int, float, bool, date, MCValue, List[Any]]
 
 
 class AnswerSet:
@@ -39,6 +49,13 @@ class AnswerSet:
             node = self.doc.createElement('DateValue')
             date_str = f'{value.month}/{value.day}/{value.year}'
             node.appendChild(self.doc.createTextNode(date_str))
+            return node
+        elif isinstance(value, MCValue):
+            node = self.doc.createElement('MCValue')
+            for item in value.items:
+                child_node = self.doc.createElement('SelValue')
+                child_node.appendChild(self.doc.createTextNode(item))
+                node.appendChild(child_node)
             return node
         elif isinstance(value, list):
             node = self.doc.createElement('RptValue')

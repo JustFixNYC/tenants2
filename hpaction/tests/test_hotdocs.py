@@ -2,7 +2,7 @@ from textwrap import dedent
 from datetime import date
 import pytest
 
-from ..hotdocs import AnswerSet
+from ..hotdocs import AnswerSet, MCValue
 
 
 def test_full_documents_are_rendered():
@@ -41,7 +41,16 @@ def test_date_answer_values_work():
     assert value_xml(date(2017, 1, 2)) == '<DateValue>1/2/2017</DateValue>'
 
 
-def test_list_values_work():
+def test_multiple_choice_values_work():
+    assert value_xml(MCValue('foo', 'bar')) == (
+        '<MCValue>'
+        '<SelValue>foo</SelValue>'
+        '<SelValue>bar</SelValue>'
+        '</MCValue>'
+    )
+
+
+def test_list_values_are_converted_to_rptvalue():
     assert value_xml([1, 2]) == (
         '<RptValue>'
         '<NumValue>1</NumValue>'

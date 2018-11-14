@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import NamedTuple, List, Dict, Tuple
 from pathlib import Path
 import textwrap
+from django.contrib.humanize.templatetags.humanize import apnumber
 from django.utils.text import slugify
 
 
@@ -22,7 +23,7 @@ def wrap_comment(string: str, indent: int) -> List[str]:
 def to_snake_case(string: str) -> str:
     name = slugify(string.lower()).replace('-', '_')
     if name[0].isdigit():
-        return '_' + name
+        return apnumber(name[0]) + name[1:]
     return name
 
 

@@ -136,7 +136,7 @@ class HDComponentLibrary:
     # component library.
     repeated_vars: List[HDRepeatedVariables]
 
-    def __init__(self, path: Path):
+    def __init__(self, path: Path) -> None:
         '''
         Parse the given HotDocs Component File (it seems to have a .cmp
         extension).

@@ -314,7 +314,7 @@ class PythonCodeGenerator:
                 name=mc.camel_case_name,
                 options=tuple([
                     PythonEnumOption(
-                        symbol=to_snake_case(option.name),
+                        symbol=to_snake_case(option.name).upper(),
                         value=option.name,
                         comment=option.label
                     )

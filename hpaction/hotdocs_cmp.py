@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from typing import NamedTuple, List, Dict
 from pathlib import Path
+from django.utils.text import slugify
 
 
 HD_URL = 'http://www.hotdocs.com/schemas/component_library/2009'
@@ -23,21 +24,54 @@ class HDVariable:
     def describe(self):
         return f"{self.__class__.__name__} {repr(self.name)}"
 
+    @property
+    def snake_case_name(self) -> str:
+        return slugify(self.name.lower()).replace('-', '_')
+
+    @property
+    def comments(self) -> List[str]:
+        lines: List[str] = [
+            f'The "{self.name}" HotDocs variable.'
+        ]
+        if self.help_text:
+            lines.append(f'The help text from HotDocs is:')
+            help_text = repr(self.help_text)
+
+            MAX_TEXT = 60
+
+            if len(help_text) > MAX_TEXT:
+                help_text = help_text[:MAX_TEXT] + '...\''
+
+            lines.append(f'  {help_text}')
+        return lines
+
+    @property
+    def py_annotation(self) -> str:
+        raise NotImplementedError()
+
 
 class HDDate(HDVariable):
-    pass
+    @property
+    def py_annotation(self) -> str:
+        return 'datetime.date'
 
 
 class HDText(HDVariable):
-    pass
+    @property
+    def py_annotation(self) -> str:
+        return 'str'
 
 
 class HDTrueFalse(HDVariable):
-    pass
+    @property
+    def py_annotation(self) -> str:
+        return 'bool'
 
 
 class HDNumber(HDVariable):
-    pass
+    @property
+    def py_annotation(self) -> str:
+        return 'Union[str, float]'
 
 
 class HDMultipleChoiceOption(NamedTuple):
@@ -55,6 +89,10 @@ class HDMultipleChoice(HDVariable):
         if self.select_multiple:
             return f"{base_desc} select_multiple"
         return base_desc
+
+    @property
+    def py_annotation(self) -> str:
+        return 'str'
 
 
 class HDRepeatedVariables(NamedTuple):
@@ -179,3 +217,22 @@ class HDComponentLibrary:
                 options=self.get_mc_options(el),
                 select_multiple=sm
             ))
+
+    def make_python_definitions(self, primary_class_name: str) -> List[str]:
+        # TODO: Also make definitions for classes that represent the repeated variables.
+        return self.make_dataclass_definition(primary_class_name, list(self.vars.values()))
+
+    def make_dataclass_definition(self, class_name: str, hd_vars: List[HDVariable]) -> List[str]:
+        lines = [
+            f'@dataclass',
+            f'class {class_name}:',
+        ]
+
+        for var in hd_vars:
+            # TODO: If the variable represents multiple choices, consider making separate
+            # boolean properties for each.
+            for line in var.comments:
+                lines.append(f'    # {line}')
+            lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
+
+        return lines

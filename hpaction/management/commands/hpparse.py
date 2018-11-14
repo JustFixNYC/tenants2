@@ -25,3 +25,7 @@ class Command(BaseCommand):
             print(repeat.label)
             for var in repeat.variables:
                 print("  ", var.describe())
+
+        print("\n## Python code")
+
+        print('\n'.join(lib.make_python_definitions("HPActionVariables")))

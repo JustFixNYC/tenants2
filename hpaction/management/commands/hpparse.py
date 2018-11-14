@@ -26,6 +26,8 @@ class Command(BaseCommand):
             for var in repeat.variables:
                 print("  ", var.describe())
 
-        print("\n## Python code")
+        OUTPUT_PATH = BASE_DIR / "hpactionvars.py"
 
-        print('\n'.join(lib.make_python_definitions("HPActionVariables")))
+        print(f"Outputting Python code to {OUTPUT_PATH}.")
+
+        OUTPUT_PATH.write_text('\n'.join(lib.make_python_definitions("HPActionVariables")))

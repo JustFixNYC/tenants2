@@ -220,7 +220,15 @@ class HDComponentLibrary:
 
     def make_python_definitions(self, primary_class_name: str) -> List[str]:
         # TODO: Also make definitions for classes that represent the repeated variables.
-        return self.make_dataclass_definition(primary_class_name, list(self.vars.values()))
+        lines = [
+            'from typing import *',
+            'import datetime',
+            'from dataclasses import dataclass'
+            '\n',
+        ]
+        lines.extend(
+            self.make_dataclass_definition(primary_class_name, list(self.vars.values())))
+        return lines
 
     def make_dataclass_definition(self, class_name: str, hd_vars: List[HDVariable]) -> List[str]:
         lines = [

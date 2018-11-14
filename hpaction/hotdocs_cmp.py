@@ -51,23 +51,6 @@ class HDVariable:
         ])
 
     @property
-    def comments(self) -> List[str]:
-        lines: List[str] = [
-            f'The "{self.name}" HotDocs variable.'
-        ]
-        if self.help_text:
-            lines.append(f'The help text from HotDocs is:')
-            help_text = repr(self.help_text)
-
-            MAX_TEXT = 60
-
-            if len(help_text) > MAX_TEXT:
-                help_text = help_text[:MAX_TEXT] + '...\''
-
-            lines.append(f'  {help_text}')
-        return lines
-
-    @property
     def py_annotation(self) -> str:
         raise NotImplementedError()
 
@@ -343,8 +326,8 @@ class PythonCodeGenerator:
         ]
 
         for var in hd_vars:
-            for line in var.comments:
-                lines.append(f'    # {line}')
+            if var.help_text:
+                lines.extend(wrap_comment(var.help_text, indent=4))
             lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
 
         lines.append(f'    def to_answer_set(self) -> hotdocs.AnswerSet:')

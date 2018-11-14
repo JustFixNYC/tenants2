@@ -71,27 +71,28 @@ class AnswerSet:
             return node
         raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
 
-    def add_optional_mc(self, name: str, value: Optional[Enum]) -> None:
-        # TODO: Implement this.
-        pass
-
-    # For some bizarre reason mypy doesn't like this being an Optional[List[Enum]],
-    # as it claims there's a type error when the passed-in enum is a sublcass of Enum,
-    # so we'll just have to set it to Any.
-    def add_optional_mcl(self, name: str, value: Optional[List[Any]]) -> None:
-        # TODO: Implement this.
-        pass
-
-    def add_optional(self, name: str, value: Optional[AnswerValue],
-                     is_mcvalue=False) -> None:
-        if value is not None:
-            self.add(name, value)
-
     def add(self, name: str, value: AnswerValue) -> None:
         answer = self.doc.createElement('Answer')
         answer.setAttribute('name', name)
         answer.appendChild(self.create_answer_value(value))
         self.answer_set.appendChild(answer)
+
+    def add_opt(self, name: str, value: Optional[AnswerValue]) -> None:
+        if value is not None:
+            self.add(name, value)
+
+    def add_opt_enum(self, name: str, value: Optional[Enum]) -> None:
+        if value is not None:
+            self.add(name, MCValue(value.value))
+
+    # For some bizarre reason mypy doesn't like this being an Optional[List[Enum]],
+    # as it claims there's a type error when the passed-in enum is a sublcass of Enum,
+    # so we'll just have to set it to Any.
+    def add_opt_enum_list(self, name: str, value: Optional[List[Any]]) -> None:
+        if value is not None:
+            self.add(name, MCValue(*[
+                item.value for item in value
+            ]))
 
     def __str__(self) -> str:
         return self.doc.toprettyxml(indent='    ', newl='\n')

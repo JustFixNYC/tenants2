@@ -351,12 +351,12 @@ class PythonCodeGenerator:
             mc = ''
             if isinstance(var, HDMultipleChoice):
                 if var.select_multiple:
-                    mc = '_mcl'
+                    mc = '_enum_list'
                 else:
-                    mc = '_mc'
+                    mc = '_enum'
                 indent = ' ' * len(mc)
-            lines.append(f'        result.add_optional{mc}({repr(var.name)},')
-            lines.append(f'                            {indent}self.{var.snake_case_name})')
+            lines.append(f'        result.add_opt{mc}({repr(var.name)},')
+            lines.append(f'                       {indent}self.{var.snake_case_name})')
 
         lines.append(f'        return result\n')
 

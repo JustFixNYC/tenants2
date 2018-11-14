@@ -223,8 +223,9 @@ class HDComponentLibrary:
         lines = [
             'from typing import Optional, Union',
             'import datetime',
-            'from dataclasses import dataclass'
-            '\n\n',
+            'from dataclasses import dataclass',
+            'from hpaction import hotdocs',
+            '\n',
         ]
         lines.extend(
             self.make_dataclass_definition(primary_class_name, list(self.vars.values())))
@@ -242,5 +243,14 @@ class HDComponentLibrary:
             for line in var.comments:
                 lines.append(f'    # {line}')
             lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
+
+        lines.append(f'    def to_answer_set(self) -> hotdocs.AnswerSet:')
+        lines.append(f'        result = hotdocs.AnswerSet()')
+
+        for var in hd_vars:
+            lines.append(f'        result.add_optional({repr(var.name)},')
+            lines.append(f'                            self.{var.snake_case_name})')
+
+        lines.append(f'        return result\n')
 
         return lines

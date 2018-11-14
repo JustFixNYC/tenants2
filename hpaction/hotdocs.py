@@ -1,4 +1,4 @@
-from typing import Union, List, Any
+from typing import Union, List, Any, Optional
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
@@ -46,6 +46,10 @@ class AnswerSet:
                 node.appendChild(self.create_answer_value(item))
             return node
         raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
+
+    def add_optional(self, name: str, value: Optional[AnswerValue]) -> None:
+        if value is not None:
+            self.add(name, value)
 
     def add(self, name: str, value: AnswerValue) -> None:
         answer = self.doc.createElement('Answer')

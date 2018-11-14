@@ -45,7 +45,10 @@ class HDVariable:
 
     @property
     def camel_case_name(self) -> str:
-        return self.name.replace(' ', '')
+        return ''.join([
+            word[0].upper() + word[1:]
+            for word in self.name.split(' ')
+        ])
 
     @property
     def comments(self) -> List[str]:

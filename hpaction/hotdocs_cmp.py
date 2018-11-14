@@ -92,7 +92,8 @@ class HDMultipleChoice(HDVariable):
 
     @property
     def py_annotation(self) -> str:
-        return 'str'
+        anno = 'str'
+        return f'List[{anno}]' if self.select_multiple else anno
 
 
 class HDRepeatedVariables(NamedTuple):

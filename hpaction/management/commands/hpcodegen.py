@@ -50,7 +50,7 @@ class GeneratedFile(abc.ABC):
 
 
 class HPActionVarsFile(GeneratedFile):
-    path = BASE_DIR / "hpactionvars.py"
+    path = BASE_DIR / "hpaction" / "hpactionvars.py"
 
     cmd_file = __file__
 

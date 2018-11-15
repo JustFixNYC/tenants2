@@ -9,10 +9,6 @@ from hpaction.models import UploadToken, HPActionDocuments
 import hpaction.hpactionvars as hp
 
 
-API_ENDPOINT = "https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc"
-
-TEMPLATE_ID = "5395"
-
 DEFAULT_EXTRACT_BASENAME = 'hp-action'
 
 
@@ -54,7 +50,7 @@ class Command(BaseCommand):
             self.stdout.write(f'Writing {extract_pdf}.\n')
             Path(extract_pdf).write_bytes(f.read())
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         if not settings.HP_ACTION_CUSTOMER_KEY:
             raise CommandError('HP_ACTION_CUSTOMER_KEY is not defined!')
 
@@ -67,12 +63,15 @@ class Command(BaseCommand):
 
         v = hp.HPActionVariables()
         v.server_name_full_te = user.full_name
+        v.server_name_full_hpd_te = user.full_name
+        v.tenant_name_first_te = user.first_name
+        v.tenant_name_last_te = user.last_name
 
         answers = v.to_answer_set()
 
         result = client.service.GetAnswersAndDocuments(
             CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
-            TemplateId=TEMPLATE_ID,
+            TemplateId=settings.HP_ACTION_TEMPLATE_ID,
             HDInfo=str(answers),
             DocID=token_id,
             PostBackUrl=token.get_upload_url()

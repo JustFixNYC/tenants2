@@ -21,6 +21,14 @@ def test_full_documents_are_rendered():
         ''')
 
 
+def test_error_raised_if_type_is_invalid():
+    class Foo:
+        pass
+
+    with pytest.raises(ValueError, match='cannot convert Foo to a valid answer type'):
+        AnswerSet().create_answer_value(Foo())  # type: ignore
+
+
 def test_enum2mc_works():
     class Funky(Enum):
         BOOP = 'boop'

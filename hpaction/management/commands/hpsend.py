@@ -6,7 +6,7 @@ import zeep
 from users.models import JustfixUser
 from hpaction.views import SUCCESSFUL_UPLOAD_TEXT
 from hpaction.models import UploadToken, HPActionDocuments
-from hpaction.hotdocs import AnswerSet
+import hpaction.hpactionvars as hp
 
 
 API_ENDPOINT = "https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc"
@@ -65,8 +65,10 @@ class Command(BaseCommand):
         self.stdout.write('Created upload token. Sending SOAP request...\n')
         client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl")
 
-        answers = AnswerSet()
-        answers.add('Server name full TE', user.full_name)
+        v = hp.HPActionVariables()
+        v.server_name_full_te = user.full_name
+
+        answers = v.to_answer_set()
 
         result = client.service.GetAnswersAndDocuments(
             CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,

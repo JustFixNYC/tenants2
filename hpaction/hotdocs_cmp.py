@@ -334,12 +334,14 @@ class PythonCodeGenerator:
         lines.append(f'        result = AnswerSet()')
 
         for var in hd_vars:
-            arg = f'self.{var.snake_case_name}'
+            prop = f'self.{var.snake_case_name}'
+            add_arg = f'self.{var.snake_case_name}'
             if isinstance(var, HDMultipleChoice):
-                arg = f'enum2mc({arg})'
+                add_arg = f'enum2mc({add_arg})'
             lines.extend([
-                f'        result.add_opt({repr(var.name)},',
-                f'                       {arg})',
+                f'        if {prop} is not None:',
+                f'            result.add({repr(var.name)},',
+                f'                       {add_arg})',
             ])
 
         lines.append(f'        return result\n')

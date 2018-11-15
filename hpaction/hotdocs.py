@@ -1,4 +1,4 @@
-from typing import Union, List, Any, Optional
+from typing import Union, List, Any
 from enum import Enum
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
@@ -20,14 +20,11 @@ AnswerValue = Union[str, int, float, bool, date, MCValue, List[Any]]
 
 # For some bizarre reason mypy doesn't like us using List[Enum] here,
 # so we'll just have to set it to List[Any].
-def enum2mc(enum: Union[Enum, List[Any], None]) -> Optional[MCValue]:
+def enum2mc(enum: Union[Enum, List[Any]]) -> MCValue:
     """
-    Convert an Enum or list of Enums into a MCValue, but also just
-    return None if that's what was passed in.
+    Convert an Enum or list of Enums into a MCValue.
     """
 
-    if enum is None:
-        return None
     enums: List[Enum] = enum if isinstance(enum, list) else [enum]
     return MCValue(*[enum.value for enum in enums])
 
@@ -84,10 +81,6 @@ class AnswerSet:
         answer.setAttribute('name', name)
         answer.appendChild(self.create_answer_value(value))
         self.answer_set.appendChild(answer)
-
-    def add_opt(self, name: str, value: Optional[AnswerValue]) -> None:
-        if value is not None:
-            self.add(name, value)
 
     def __str__(self) -> str:
         return self.doc.toprettyxml(indent='    ', newl='\n')

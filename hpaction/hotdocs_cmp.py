@@ -38,9 +38,6 @@ class HDVariable:
     name: str
     help_text: str
 
-    def describe(self):
-        return f"{self.__class__.__name__} {repr(self.name)}"
-
     @property
     def snake_case_name(self) -> str:
         return to_snake_case(self.name)
@@ -107,12 +104,6 @@ class HDMultipleChoiceOption(NamedTuple):
 class HDMultipleChoice(HDVariable):
     options: List[HDMultipleChoiceOption]
     select_multiple: bool
-
-    def describe(self):
-        base_desc = super().describe()
-        if self.select_multiple:
-            return f"{base_desc} select_multiple"
-        return base_desc
 
     @property
     def py_annotation(self) -> str:

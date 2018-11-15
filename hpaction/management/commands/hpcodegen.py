@@ -15,19 +15,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
         lib = HDComponentLibrary(MASTER_CMP_PATH)
 
-        print("## Variables\n")
-
-        for var in lib.vars.values():
-            print(var.describe())
-
-        print("\n## Repeated variables")
-
-        for repeat in lib.repeated_vars:
-            print()
-            print(repeat.label)
-            for var in repeat.variables:
-                print("  ", var.describe())
-
         OUTPUT_PATH = BASE_DIR / "hpactionvars.py"
 
         print(f"Outputting Python code to {OUTPUT_PATH}.")

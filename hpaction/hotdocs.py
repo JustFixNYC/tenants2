@@ -1,4 +1,4 @@
-from typing import Union, List, Any
+from typing import Union, List, Sequence
 from enum import Enum
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
@@ -19,9 +19,7 @@ BaseAnswerValue = Union[str, int, float, bool, date, MCValue]
 AnswerValue = Union[BaseAnswerValue, List[BaseAnswerValue]]
 
 
-# For some bizarre reason mypy doesn't like us using List[Enum] here,
-# so we'll just have to set it to List[Any].
-def enum2mc(enum: Union[Enum, List[Any]]) -> MCValue:
+def enum2mc(enum: Union[Enum, Sequence[Enum]]) -> MCValue:
     """
     Convert an Enum or list of Enums into a MCValue.
     """

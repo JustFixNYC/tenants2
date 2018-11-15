@@ -50,7 +50,10 @@ def enum2mc(enum: Union[Enum, Sequence[Enum], Unanswered]) -> Union[MCValue, Una
     an Unanswered, just return it as-is.
     """
 
-    enums = enum if isinstance(enum, list) else [enum]
+    if isinstance(enum, Unanswered):
+        return enum
+
+    enums = [enum] if isinstance(enum, Enum) else enum
     return MCValue(*[enum.value for enum in enums])
 
 

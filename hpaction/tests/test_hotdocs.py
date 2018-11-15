@@ -3,7 +3,8 @@ from datetime import date
 from enum import Enum
 import pytest
 
-from ..hotdocs import AnswerSet, MCValue, Unanswered, AnswerType, enum2mc
+from ..hotdocs import (
+    AnswerSet, MCValue, Unanswered, AnswerType, enum2mc, none2unans)
 
 
 def test_full_documents_are_rendered():
@@ -27,6 +28,14 @@ def test_enum2mc_works():
 
     assert enum2mc(Funky.BOOP).items == ['boop']
     assert enum2mc([Funky.BOOP, Funky.BLAP]).items == ['boop', 'blap']
+
+    unans = Unanswered(AnswerType.TF)
+    assert enum2mc(unans) is unans
+
+
+def test_none2unans_works():
+    assert none2unans('blarg', AnswerType.TEXT) == 'blarg'
+    assert none2unans(None, AnswerType.TEXT) == Unanswered(AnswerType.TEXT)
 
 
 def value_xml(value):

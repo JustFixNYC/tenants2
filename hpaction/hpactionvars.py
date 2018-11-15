@@ -404,17 +404,17 @@ class HPActionVariables:
     # Date served
     service_date_management_company_da: Optional[datetime.date] = None
 
-    conditions_counter_nu: Optional[Union[str, float]] = None
+    conditions_counter_nu: Optional[Union[int, float]] = None
 
     # What floor do you live on?
-    tenant_address_floor_nu: Optional[Union[str, float]] = None
+    tenant_address_floor_nu: Optional[Union[int, float]] = None
 
     # How many children under 6 live in the apartment where the problem is? If none, please enter 0.
-    tenant_children_under_6_nu: Optional[Union[str, float]] = None
+    tenant_children_under_6_nu: Optional[Union[int, float]] = None
 
     # What is your household income?  You can list the amount by week, 2 weeks, month, etc.  Just be
     # sure to check the box for the period you listed.
-    tenant_income_nu: Optional[Union[str, float]] = None
+    tenant_income_nu: Optional[Union[int, float]] = None
 
     # «.i»The judge could fine your landlord, though they do not always do that.«.ie»«.b» Do you
     # want the judge to fine your landlord?«.be»

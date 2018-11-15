@@ -42,9 +42,10 @@ def test_it_works_with_complaints():
     """)
 
 
-def test_it_works_with_children():
+def test_it_works_with_children_and_other_stuff():
     v = hp.HPActionVariables()
     v.access_person_te = "Boop Jones"
+    v.action_type_ms = [hp.ActionTypeMS.REPAIRS]
     child = hp.TenantChild(tenant_child_name_te='Bap Jones')
     v.tenant_child_list.append(child)
 
@@ -53,6 +54,11 @@ def test_it_works_with_children():
     <AnswerSet title="New Answer File" version="1.1">
         <Answer name="Access person TE">
             <TextValue>Boop Jones</TextValue>
+        </Answer>
+        <Answer name="Action type MS">
+            <MCValue>
+                <SelValue>Repairs</SelValue>
+            </MCValue>
         </Answer>
         <Answer name="Tenant child name TE">
             <RptValue>

@@ -45,7 +45,8 @@ class GeneratedFile(abc.ABC):
 
     def generate_and_write(self) -> None:
         print(f"Outputting Python code to {self.path.name}.")
-        self.path.write_text(self.generate())
+        with self.path.open('w', newline='\n') as f:
+            f.write(self.generate())
 
 
 class HPActionVarsFile(GeneratedFile):

@@ -1,8 +1,9 @@
 from textwrap import dedent
 from datetime import date
+from enum import Enum
 import pytest
 
-from ..hotdocs import AnswerSet, MCValue
+from ..hotdocs import AnswerSet, MCValue, Unanswered, AnswerType, enum2mc
 
 
 def test_full_documents_are_rendered():
@@ -19,8 +20,21 @@ def test_full_documents_are_rendered():
         ''')
 
 
+def test_enum2mc_works():
+    class Funky(Enum):
+        BOOP = 'boop'
+        BLAP = 'blap'
+
+    assert enum2mc(Funky.BOOP).items == ['boop']
+    assert enum2mc([Funky.BOOP, Funky.BLAP]).items == ['boop', 'blap']
+
+
 def value_xml(value):
     return AnswerSet().create_answer_value(value).toxml()
+
+
+def test_unanswered_answer_values_work():
+    assert value_xml(Unanswered(AnswerType.TF)) == '<TFValue unans="true"/>'
 
 
 def test_text_answer_values_are_escaped():

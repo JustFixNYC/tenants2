@@ -20,6 +20,13 @@ def wrap_comment(string: str, indent: int) -> List[str]:
     return [f'{indent_str}# {line}' for line in lines]
 
 
+def to_camel_case(string: str) -> str:
+    return ''.join([
+        word[0].upper() + word[1:]
+        for word in string.split(' ')
+    ])
+
+
 def to_snake_case(string: str) -> str:
     name = slugify(string.lower()).replace('-', '_')
     if name[0].isdigit():
@@ -45,10 +52,7 @@ class HDVariable:
 
     @property
     def camel_case_name(self) -> str:
-        return ''.join([
-            word[0].upper() + word[1:]
-            for word in self.name.split(' ')
-        ])
+        return to_camel_case(self.name)
 
     @property
     def py_annotation(self) -> str:
@@ -114,6 +118,14 @@ class HDRepeatedVariables(NamedTuple):
 
     label: str
     variables: List[HDVariable]
+
+    @property
+    def py_class_name(self) -> str:
+        return to_camel_case(self.label)
+
+    @property
+    def py_prop_name(self) -> str:
+        return f"{to_snake_case(self.label)}_list"
 
 
 class HDComponentLibrary:
@@ -271,11 +283,12 @@ class PythonCodeGenerator:
 
     def __init__(self, lib: HDComponentLibrary, primary_class_name: str) -> None:
         self.lib = lib
+        self.primary_class_name = primary_class_name
         self.imports = [
             'from typing import Optional, Union, List',
             'import datetime',
             'from enum import Enum',
-            'from dataclasses import dataclass',
+            'from dataclasses import dataclass, field',
             'from hpaction.hotdocs import AnswerSet, enum2mc',
             ''
         ]
@@ -284,11 +297,14 @@ class PythonCodeGenerator:
         self.aliases = []
         self.dataclasses = []
 
-        lib_vars = list(lib.vars.values())
-        self.process_enum_definitions(lib_vars)
+        self.process_enum_definitions(list(lib.vars.values()))
+        for repeat in self.lib.repeated_vars:
+            self.process_enum_definitions(repeat.variables)
+
         self.coalesce_duplicate_enums()
-        self.make_dataclass_definition(primary_class_name, lib_vars)
-        # TODO: Also make definitions for classes that represent the repeated variables.
+        for repeat in self.lib.repeated_vars:
+            self.make_repeat_dataclass_definition(repeat)
+        self.make_primary_dataclass_definition()
 
     def process_enum_definitions(self, hd_vars: List[HDVariable]):
         mcs = [var for var in hd_vars if isinstance(var, HDMultipleChoice)]
@@ -318,7 +334,7 @@ class PythonCodeGenerator:
             else:
                 choices.add(enum.options)
 
-    def make_dataclass_definition(self, class_name: str, hd_vars: List[HDVariable]) -> None:
+    def define_base_dataclass(self, class_name: str, hd_vars: List[HDVariable]) -> List[str]:
         lines = [
             f'@dataclass',
             f'class {class_name}:',
@@ -327,10 +343,20 @@ class PythonCodeGenerator:
         for var in hd_vars:
             if var.help_text:
                 lines.extend(wrap_comment(var.help_text, indent=4))
-            lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
+            lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}] = None\n')
 
-        lines.append(f'    def to_answer_set(self) -> AnswerSet:')
-        lines.append(f'        result = AnswerSet()')
+        return lines
+
+    def make_repeat_dataclass_definition(self, repeat: HDRepeatedVariables) -> None:
+        hd_vars = repeat.variables
+        lines = self.define_base_dataclass(repeat.py_class_name, hd_vars)
+        self.add_dataclass(lines)
+
+    def define_to_answer_set_method(self, hd_vars: List[HDVariable]) -> List[str]:
+        lines = [
+            f'    def to_answer_set(self) -> AnswerSet:',
+            f'        result = AnswerSet()'
+        ]
 
         for var in hd_vars:
             prop = f'self.{var.snake_case_name}'
@@ -343,8 +369,30 @@ class PythonCodeGenerator:
                 f'                       {add_arg})',
             ])
 
-        lines.append(f'        return result\n')
+        for repeat in self.lib.repeated_vars:
+            lines.extend([
+                f'        # TODO: Add values for self.{repeat.py_prop_name}.'
+            ])
 
+        lines.append(f'        return result\n')
+        return lines
+
+    def make_primary_dataclass_definition(self) -> None:
+        class_name = self.primary_class_name
+        hd_vars = list(self.lib.vars.values())
+        lines = self.define_base_dataclass(class_name, hd_vars)
+        for repeat in self.lib.repeated_vars:
+            lines.extend([
+                f'    {repeat.py_prop_name}: List[{repeat.py_class_name}] = ' +
+                'field(default_factory=list)',
+                f''
+            ])
+        lines.extend(self.define_to_answer_set_method(hd_vars))
+        self.add_dataclass(lines)
+
+    def add_dataclass(self, lines: List[str]) -> None:
+        if self.dataclasses:
+            self.dataclasses.append('')
         self.dataclasses.extend(lines)
 
     def getvalue(self) -> str:

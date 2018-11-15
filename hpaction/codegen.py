@@ -64,7 +64,7 @@ class PythonCodeGenerator:
             'import datetime',
             'from enum import Enum',
             'from dataclasses import dataclass, field',
-            'from hpaction.hotdocs import AnswerSet, enum2mc, none2unans, AnswerType',
+            'from hpaction.hotdocs import AnswerSet, enum2mc, enum2mc_opt, none2unans, AnswerType',
             ''
         ]
 
@@ -148,7 +148,7 @@ class PythonCodeGenerator:
     def get_var_add_arg(self, obj_name: str, var: HDVariable) -> str:
         add_arg = f'{obj_name}.{var.snake_case_name}'
         if isinstance(var, HDMultipleChoice):
-            add_arg = f'enum2mc({add_arg})'
+            add_arg = f'enum2mc_opt({add_arg})'
         return add_arg
 
     def define_to_answer_set_method(self, hd_vars: List[HDVariable]) -> List[str]:
@@ -160,8 +160,7 @@ class PythonCodeGenerator:
         for var in hd_vars:
             prop = f'self.{var.snake_case_name}'
             lines.extend([
-                f'        if {prop} is not None:',
-                f'            result.add({repr(var.name)},',
+                f'        result.add_opt({repr(var.name)},',
                 f'                       {self.get_var_add_arg("self", var)})',
             ])
 

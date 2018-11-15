@@ -4,7 +4,7 @@ from typing import Optional, Union, List
 import datetime
 from enum import Enum
 from dataclasses import dataclass, field
-from hpaction.hotdocs import AnswerSet, enum2mc, none2unans, AnswerType
+from hpaction.hotdocs import AnswerSet, enum2mc, enum2mc_opt, none2unans, AnswerType
 
 
 class AccessPersonMC(Enum):
@@ -510,222 +510,150 @@ class HPActionVariables:
 
     def to_answer_set(self) -> AnswerSet:
         result = AnswerSet()
-        if self.access_person_te is not None:
-            result.add('Access person TE',
+        result.add_opt('Access person TE',
                        self.access_person_te)
-        if self.access_person_phone_te is not None:
-            result.add('Access person phone TE',
+        result.add_opt('Access person phone TE',
                        self.access_person_phone_te)
-        if self.cause_of_action_description_te is not None:
-            result.add('Cause of action description TE',
+        result.add_opt('Cause of action description TE',
                        self.cause_of_action_description_te)
-        if self.harassment_details_te is not None:
-            result.add('Harassment details TE',
+        result.add_opt('Harassment details TE',
                        self.harassment_details_te)
-        if self.landlord_address_city_te is not None:
-            result.add('Landlord address city TE',
+        result.add_opt('Landlord address city TE',
                        self.landlord_address_city_te)
-        if self.landlord_address_street_te is not None:
-            result.add('Landlord address street TE',
+        result.add_opt('Landlord address street TE',
                        self.landlord_address_street_te)
-        if self.landlord_address_zip_te is not None:
-            result.add('Landlord address zip TE',
+        result.add_opt('Landlord address zip TE',
                        self.landlord_address_zip_te)
-        if self.landlord_contact_person_name_first_te is not None:
-            result.add('Landlord contact person name first TE',
+        result.add_opt('Landlord contact person name first TE',
                        self.landlord_contact_person_name_first_te)
-        if self.landlord_contact_person_name_last_te is not None:
-            result.add('Landlord contact person name last TE',
+        result.add_opt('Landlord contact person name last TE',
                        self.landlord_contact_person_name_last_te)
-        if self.landlord_entity_name_te is not None:
-            result.add('Landlord entity name TE',
+        result.add_opt('Landlord entity name TE',
                        self.landlord_entity_name_te)
-        if self.landlord_name_first_te is not None:
-            result.add('Landlord name first TE',
+        result.add_opt('Landlord name first TE',
                        self.landlord_name_first_te)
-        if self.landlord_name_last_te is not None:
-            result.add('Landlord name last TE',
+        result.add_opt('Landlord name last TE',
                        self.landlord_name_last_te)
-        if self.management_company_address_city_te is not None:
-            result.add('Management company address city TE',
+        result.add_opt('Management company address city TE',
                        self.management_company_address_city_te)
-        if self.management_company_address_street_te is not None:
-            result.add('Management company address street TE',
+        result.add_opt('Management company address street TE',
                        self.management_company_address_street_te)
-        if self.management_company_address_zip_te is not None:
-            result.add('Management company address zip TE',
+        result.add_opt('Management company address zip TE',
                        self.management_company_address_zip_te)
-        if self.management_company_name_te is not None:
-            result.add('Management company name TE',
+        result.add_opt('Management company name TE',
                        self.management_company_name_te)
-        if self.other_pay_period_te is not None:
-            result.add('Other pay period TE',
+        result.add_opt('Other pay period TE',
                        self.other_pay_period_te)
-        if self.prior_relief_sought_case_numbers_and_dates_te is not None:
-            result.add('Prior relief sought case numbers and dates TE',
+        result.add_opt('Prior relief sought case numbers and dates TE',
                        self.prior_relief_sought_case_numbers_and_dates_te)
-        if self.reason_for_further_application_te is not None:
-            result.add('Reason for further application TE',
+        result.add_opt('Reason for further application TE',
                        self.reason_for_further_application_te)
-        if self.served_person_te is not None:
-            result.add('Served person TE',
+        result.add_opt('Served person TE',
                        self.served_person_te)
-        if self.served_person_management_company_te is not None:
-            result.add('Served person management company TE',
+        result.add_opt('Served person management company TE',
                        self.served_person_management_company_te)
-        if self.server_address_full_hpd_te is not None:
-            result.add('Server address full HPD TE',
+        result.add_opt('Server address full HPD TE',
                        self.server_address_full_hpd_te)
-        if self.server_address_full_te is not None:
-            result.add('Server address full TE',
+        result.add_opt('Server address full TE',
                        self.server_address_full_te)
-        if self.server_address_full_management_company_te is not None:
-            result.add('Server address full management company TE',
+        result.add_opt('Server address full management company TE',
                        self.server_address_full_management_company_te)
-        if self.server_name_full_hpd_te is not None:
-            result.add('Server name full HPD TE',
+        result.add_opt('Server name full HPD TE',
                        self.server_name_full_hpd_te)
-        if self.server_name_full_te is not None:
-            result.add('Server name full TE',
+        result.add_opt('Server name full TE',
                        self.server_name_full_te)
-        if self.server_name_full_management_company_te is not None:
-            result.add('Server name full management company TE',
+        result.add_opt('Server name full management company TE',
                        self.server_name_full_management_company_te)
-        if self.service_address_full_te is not None:
-            result.add('Service address full TE',
+        result.add_opt('Service address full TE',
                        self.service_address_full_te)
-        if self.service_address_full_management_company_te is not None:
-            result.add('Service address full management company TE',
+        result.add_opt('Service address full management company TE',
                        self.service_address_full_management_company_te)
-        if self.tenant_address_apt_no_te is not None:
-            result.add('Tenant address apt no TE',
+        result.add_opt('Tenant address apt no TE',
                        self.tenant_address_apt_no_te)
-        if self.tenant_address_city_te is not None:
-            result.add('Tenant address city TE',
+        result.add_opt('Tenant address city TE',
                        self.tenant_address_city_te)
-        if self.tenant_address_street_te is not None:
-            result.add('Tenant address street TE',
+        result.add_opt('Tenant address street TE',
                        self.tenant_address_street_te)
-        if self.tenant_address_zip_te is not None:
-            result.add('Tenant address zip TE',
+        result.add_opt('Tenant address zip TE',
                        self.tenant_address_zip_te)
-        if self.tenant_income_source_te is not None:
-            result.add('Tenant income source TE',
+        result.add_opt('Tenant income source TE',
                        self.tenant_income_source_te)
-        if self.tenant_name_first_te is not None:
-            result.add('Tenant name first TE',
+        result.add_opt('Tenant name first TE',
                        self.tenant_name_first_te)
-        if self.tenant_name_last_te is not None:
-            result.add('Tenant name last TE',
+        result.add_opt('Tenant name last TE',
                        self.tenant_name_last_te)
-        if self.tenant_name_middle_te is not None:
-            result.add('Tenant name middle TE',
+        result.add_opt('Tenant name middle TE',
                        self.tenant_name_middle_te)
-        if self.tenant_phone_home_te is not None:
-            result.add('Tenant phone home TE',
+        result.add_opt('Tenant phone home TE',
                        self.tenant_phone_home_te)
-        if self.tenant_phone_work_te is not None:
-            result.add('Tenant phone work TE',
+        result.add_opt('Tenant phone work TE',
                        self.tenant_phone_work_te)
-        if self.tenant_property_owned_te is not None:
-            result.add('Tenant property owned TE',
+        result.add_opt('Tenant property owned TE',
                        self.tenant_property_owned_te)
-        if self.service_date_da is not None:
-            result.add('Service date DA',
+        result.add_opt('Service date DA',
                        self.service_date_da)
-        if self.service_date_hpd_da is not None:
-            result.add('Service date HPD DA',
+        result.add_opt('Service date HPD DA',
                        self.service_date_hpd_da)
-        if self.service_date_management_company_da is not None:
-            result.add('Service date management company DA',
+        result.add_opt('Service date management company DA',
                        self.service_date_management_company_da)
-        if self.conditions_counter_nu is not None:
-            result.add('Conditions counter NU',
+        result.add_opt('Conditions counter NU',
                        self.conditions_counter_nu)
-        if self.tenant_address_floor_nu is not None:
-            result.add('Tenant address floor NU',
+        result.add_opt('Tenant address floor NU',
                        self.tenant_address_floor_nu)
-        if self.tenant_children_under_6_nu is not None:
-            result.add('Tenant children under 6 NU',
+        result.add_opt('Tenant children under 6 NU',
                        self.tenant_children_under_6_nu)
-        if self.tenant_income_nu is not None:
-            result.add('Tenant income NU',
+        result.add_opt('Tenant income NU',
                        self.tenant_income_nu)
-        if self.fine_landlord_harassment_tf is not None:
-            result.add('Fine landlord harassment TF',
+        result.add_opt('Fine landlord harassment TF',
                        self.fine_landlord_harassment_tf)
-        if self.flag_tf is not None:
-            result.add('Flag TF',
+        result.add_opt('Flag TF',
                        self.flag_tf)
-        if self.management_company_to_be_sued_tf is not None:
-            result.add('Management company to be sued TF',
+        result.add_opt('Management company to be sued TF',
                        self.management_company_to_be_sued_tf)
-        if self.more_than_2_apartments_in_building_tf is not None:
-            result.add('More than 2 apartments in building TF',
+        result.add_opt('More than 2 apartments in building TF',
                        self.more_than_2_apartments_in_building_tf)
-        if self.more_than_one_family_per_apartment_tf is not None:
-            result.add('More than one family per apartment TF',
+        result.add_opt('More than one family per apartment TF',
                        self.more_than_one_family_per_apartment_tf)
-        if self.previous_application_tf is not None:
-            result.add('Previous application TF',
+        result.add_opt('Previous application TF',
                        self.previous_application_tf)
-        if self.prior_relief_sought_tf is not None:
-            result.add('Prior relief sought TF',
+        result.add_opt('Prior relief sought TF',
                        self.prior_relief_sought_tf)
-        if self.problem_is_urgent_tf is not None:
-            result.add('Problem is urgent TF',
+        result.add_opt('Problem is urgent TF',
                        self.problem_is_urgent_tf)
-        if self.tenant_receives_public_assistance_tf is not None:
-            result.add('Tenant receives public assistance TF',
+        result.add_opt('Tenant receives public assistance TF',
                        self.tenant_receives_public_assistance_tf)
-        if self.access_person_mc is not None:
-            result.add('Access person MC',
-                       enum2mc(self.access_person_mc))
-        if self.action_type_ms is not None:
-            result.add('Action type MS',
-                       enum2mc(self.action_type_ms))
-        if self.court_county_mc is not None:
-            result.add('Court county MC',
-                       enum2mc(self.court_county_mc))
-        if self.court_location_mc is not None:
-            result.add('Court location MC',
-                       enum2mc(self.court_location_mc))
-        if self.harassment_allegations_ms is not None:
-            result.add('Harassment allegations MS',
-                       enum2mc(self.harassment_allegations_ms))
-        if self.landlord_address_state_mc is not None:
-            result.add('Landlord address state MC',
-                       enum2mc(self.landlord_address_state_mc))
-        if self.landlord_entity_or_individual_mc is not None:
-            result.add('Landlord entity or individual MC',
-                       enum2mc(self.landlord_entity_or_individual_mc))
-        if self.management_company_address_state_mc is not None:
-            result.add('Management company address state MC',
-                       enum2mc(self.management_company_address_state_mc))
-        if self.pay_period_mc is not None:
-            result.add('Pay period MC',
-                       enum2mc(self.pay_period_mc))
-        if self.prior_harassment_case_mc is not None:
-            result.add('Prior harassment case MC',
-                       enum2mc(self.prior_harassment_case_mc))
-        if self.prior_repairs_case_mc is not None:
-            result.add('Prior repairs case MC',
-                       enum2mc(self.prior_repairs_case_mc))
-        if self.service_method_mc is not None:
-            result.add('Service method MC',
-                       enum2mc(self.service_method_mc))
-        if self.service_method_management_company_mc is not None:
-            result.add('Service method management company MC',
-                       enum2mc(self.service_method_management_company_mc))
-        if self.tenant_address_state_mc is not None:
-            result.add('Tenant address state MC',
-                       enum2mc(self.tenant_address_state_mc))
-        if self.tenant_borough_mc is not None:
-            result.add('Tenant borough MC',
-                       enum2mc(self.tenant_borough_mc))
-        if self.tenant_repairs_allegations_mc is not None:
-            result.add('Tenant repairs allegations MC',
-                       enum2mc(self.tenant_repairs_allegations_mc))
+        result.add_opt('Access person MC',
+                       enum2mc_opt(self.access_person_mc))
+        result.add_opt('Action type MS',
+                       enum2mc_opt(self.action_type_ms))
+        result.add_opt('Court county MC',
+                       enum2mc_opt(self.court_county_mc))
+        result.add_opt('Court location MC',
+                       enum2mc_opt(self.court_location_mc))
+        result.add_opt('Harassment allegations MS',
+                       enum2mc_opt(self.harassment_allegations_ms))
+        result.add_opt('Landlord address state MC',
+                       enum2mc_opt(self.landlord_address_state_mc))
+        result.add_opt('Landlord entity or individual MC',
+                       enum2mc_opt(self.landlord_entity_or_individual_mc))
+        result.add_opt('Management company address state MC',
+                       enum2mc_opt(self.management_company_address_state_mc))
+        result.add_opt('Pay period MC',
+                       enum2mc_opt(self.pay_period_mc))
+        result.add_opt('Prior harassment case MC',
+                       enum2mc_opt(self.prior_harassment_case_mc))
+        result.add_opt('Prior repairs case MC',
+                       enum2mc_opt(self.prior_repairs_case_mc))
+        result.add_opt('Service method MC',
+                       enum2mc_opt(self.service_method_mc))
+        result.add_opt('Service method management company MC',
+                       enum2mc_opt(self.service_method_management_company_mc))
+        result.add_opt('Tenant address state MC',
+                       enum2mc_opt(self.tenant_address_state_mc))
+        result.add_opt('Tenant borough MC',
+                       enum2mc_opt(self.tenant_borough_mc))
+        result.add_opt('Tenant repairs allegations MC',
+                       enum2mc_opt(self.tenant_repairs_allegations_mc))
         if self.tenant_child_list:
             TenantChild.add_to_answer_set(self.tenant_child_list, result)
         if self.tenant_complaints_list:

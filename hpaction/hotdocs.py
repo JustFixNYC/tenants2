@@ -57,6 +57,18 @@ def enum2mc(enum: Union[Enum, Sequence[Enum], Unanswered]) -> Union[MCValue, Una
     return MCValue(*[enum.value for enum in enums])
 
 
+def enum2mc_opt(
+    enum: Union[Enum, Sequence[Enum], Unanswered, None]
+) -> Union[MCValue, Unanswered, None]:
+    """
+    Like enum2mc(), but also takes None, and passes it through if provided.
+    """
+
+    if enum is None:
+        return None
+    return enum2mc(enum)
+
+
 def none2unans(value: Optional[T], answer_type: AnswerType) -> Union[Unanswered, T]:
     '''
     If the given value is None, return an Unanswered of the given type.
@@ -145,6 +157,11 @@ class AnswerSet:
         answer.setAttribute('name', name)
         answer.appendChild(self.create_answer_value(value))
         self.answer_set.appendChild(answer)
+
+    def add_opt(self, name: str, value: Optional[AnswerValue]) -> None:
+        if value is None:
+            return
+        self.add(name, value)
 
     def __str__(self) -> str:
         return self.doc.toprettyxml(indent='    ', newl='\n')

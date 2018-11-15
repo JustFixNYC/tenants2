@@ -4,12 +4,13 @@ from enum import Enum
 import pytest
 
 from ..hotdocs import (
-    AnswerSet, MCValue, Unanswered, AnswerType, enum2mc, none2unans)
+    AnswerSet, MCValue, Unanswered, AnswerType, enum2mc, enum2mc_opt, none2unans)
 
 
 def test_full_documents_are_rendered():
     a = AnswerSet()
     a.add('Full Name', 'Boop Jones')
+    a.add_opt('Other Thing', None)
     assert str(a) == dedent(
         '''\
         <?xml version="1.0" ?>
@@ -29,16 +30,22 @@ def test_error_raised_if_type_is_invalid():
         AnswerSet().create_answer_value(Foo())  # type: ignore
 
 
-def test_enum2mc_works():
-    class Funky(Enum):
-        BOOP = 'boop'
-        BLAP = 'blap'
+class Funky(Enum):
+    BOOP = 'boop'
+    BLAP = 'blap'
 
+
+def test_enum2mc_works():
     assert enum2mc(Funky.BOOP).items == ['boop']  # type: ignore
     assert enum2mc([Funky.BOOP, Funky.BLAP]).items == ['boop', 'blap']  # type: ignore
 
     unans = Unanswered(AnswerType.TF)
     assert enum2mc(unans) is unans
+
+
+def test_enum2mc_opt_works():
+    assert enum2mc_opt(None) is None
+    assert enum2mc_opt(Funky.BOOP).items == ['boop']  # type: ignore
 
 
 def test_none2unans_works():

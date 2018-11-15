@@ -2,7 +2,8 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 
 from project.justfix_environment import BASE_DIR
-from hpaction.hotdocs_cmp import HDComponentLibrary, PythonCodeGenerator
+from hpaction.hotdocs_cmp import HDComponentLibrary
+from hpaction.codegen import PythonCodeGenerator
 
 
 MASTER_CMP_PATH = BASE_DIR / 'hpaction' / 'hotdocs-data' / 'Master.cmp'

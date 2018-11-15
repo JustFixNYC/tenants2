@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 import zeep
@@ -21,6 +22,14 @@ class Command(BaseCommand):
         parser.add_argument(
             'username',
             help='The username to send an HP Action document assembly request for.'
+        )
+        parser.add_argument(
+            '--xml-input-file',
+            help=(
+                'Send the given HotDocs Answer Set XML file as the input '
+                'for document assembly, rather than auto-generating it '
+                'from the database.'
+            )
         )
         parser.add_argument(
             '--extract-files',
@@ -50,6 +59,20 @@ class Command(BaseCommand):
             self.stdout.write(f'Writing {extract_pdf}.\n')
             Path(extract_pdf).write_bytes(f.read())
 
+    def create_answer_set_xml(self, user: JustfixUser) -> str:
+        v = hp.HPActionVariables()
+        v.server_name_full_te = user.full_name
+        v.server_name_full_hpd_te = user.full_name
+        v.tenant_name_first_te = user.first_name
+        v.tenant_name_last_te = user.last_name
+
+        return str(v.to_answer_set())
+
+    def load_xml_input_file(self, filename: str) -> str:
+        path = Path(filename)
+        self.stdout.write(f"Using {path.name} as input for document assembly.")
+        return path.read_text()
+
     def handle(self, *args, **options) -> None:
         if not settings.HP_ACTION_CUSTOMER_KEY:
             raise CommandError('HP_ACTION_CUSTOMER_KEY is not defined!')
@@ -61,18 +84,16 @@ class Command(BaseCommand):
         self.stdout.write('Created upload token. Sending SOAP request...\n')
         client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl")
 
-        v = hp.HPActionVariables()
-        v.server_name_full_te = user.full_name
-        v.server_name_full_hpd_te = user.full_name
-        v.tenant_name_first_te = user.first_name
-        v.tenant_name_last_te = user.last_name
-
-        answers = v.to_answer_set()
+        xml_input_file: Optional[str] = options['xml_input_file']
+        if xml_input_file:
+            hdinfo = self.load_xml_input_file(xml_input_file)
+        else:
+            hdinfo = self.create_answer_set_xml(user)
 
         result = client.service.GetAnswersAndDocuments(
             CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
             TemplateId=settings.HP_ACTION_TEMPLATE_ID,
-            HDInfo=str(answers),
+            HDInfo=hdinfo,
             DocID=token_id,
             PostBackUrl=token.get_upload_url()
         )

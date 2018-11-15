@@ -66,6 +66,16 @@ def test_it_extracts_files(db, settings, soap_call, django_file_storage):
     assert extract_pdf_path.read_text() == 'i am pdf'
 
 
+def test_it_can_send_an_explicit_file_as_input(db, settings, soap_call, django_file_storage):
+    settings.HP_ACTION_CUSTOMER_KEY = 'blarg'
+    out = StringIO()
+    user = UserFactory()
+    simulate_soap_call_success(soap_call, user)
+    call_command('hpsend', user.username,
+                 '--xml-input-file', __file__, *EXTRACT_BASENAME_ARGS, stdout=out)
+    assert '.py as input for document assembly' in out.getvalue()
+
+
 def test_it_raises_error_on_unexpected_soap_result(db, settings, soap_call):
     settings.HP_ACTION_CUSTOMER_KEY = 'blarg'
     soap_call.return_value = "oops uhoh"

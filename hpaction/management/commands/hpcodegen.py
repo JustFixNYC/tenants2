@@ -14,16 +14,16 @@ class GeneratedFile(abc.ABC):
     @property
     @abc.abstractmethod
     def path(self) -> Path:
-        ...
+        ...  # pragma: no cover
 
     @property
     @abc.abstractmethod
     def cmd_file(self) -> str:
-        ...
+        ...  # pragma: no cover
 
     @abc.abstractmethod
     def generate(self) -> str:
-        ...
+        ...  # pragma: no cover
 
     @property
     def cmd_name(self) -> str:
@@ -38,14 +38,14 @@ class GeneratedFile(abc.ABC):
 
     def ensure_is_up_to_date(self) -> None:
         if not self.is_up_to_date():
-            raise AssertionError(
+            raise AssertionError(  # pragma: no cover
                 f"{self.path} is out of date, please re-run the "
                 f"'{self.cmd_name}' management command"
             )
 
     def generate_and_write(self) -> None:
         print(f"Outputting Python code to {self.path.name}.")
-        with self.path.open('w', newline='\n') as f:
+        with self.path.open('w', newline='\n', encoding='utf-8') as f:
             f.write(self.generate())
 
 

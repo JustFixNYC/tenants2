@@ -1,7 +1,10 @@
-from typing import Union, List, Sequence, NamedTuple
+from typing import Union, List, Sequence, NamedTuple, Optional, TypeVar
 from enum import Enum
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
+
+
+T = TypeVar('T')
 
 
 class MCValue:
@@ -38,16 +41,28 @@ class Unanswered(NamedTuple):
 # The split between "BaseAnswerValue" and "AnswerValue" is due to
 # the fact that mypy doesn't currently support recursive types.
 BaseAnswerValue = Union[str, int, float, bool, date, MCValue, Unanswered]
-AnswerValue = Union[BaseAnswerValue, List[BaseAnswerValue]]
+AnswerValue = Union[BaseAnswerValue, Sequence[BaseAnswerValue]]
 
 
-def enum2mc(enum: Union[Enum, Sequence[Enum]]) -> MCValue:
+def enum2mc(enum: Union[Enum, Sequence[Enum], Unanswered]) -> Union[MCValue, Unanswered]:
     """
-    Convert an Enum or list of Enums into a MCValue.
+    Convert an Enum or list of Enums into a MCValue. However, if the value is
+    an Unanswered, just return it as-is.
     """
 
-    enums: List[Enum] = enum if isinstance(enum, list) else [enum]
+    enums = enum if isinstance(enum, list) else [enum]
     return MCValue(*[enum.value for enum in enums])
+
+
+def none2unans(value: Optional[T], answer_type: AnswerType) -> Union[Unanswered, T]:
+    '''
+    If the given value is None, return an Unanswered of the given type.
+    Otherwise, return the value.
+    '''
+
+    if value is None:
+        return Unanswered(answer_type)
+    return value
 
 
 class AnswerSet:

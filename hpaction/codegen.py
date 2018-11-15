@@ -64,7 +64,7 @@ class PythonCodeGenerator:
             'import datetime',
             'from enum import Enum',
             'from dataclasses import dataclass, field',
-            'from hpaction.hotdocs import AnswerSet, enum2mc',
+            'from hpaction.hotdocs import AnswerSet, enum2mc, none2unans, AnswerType',
             ''
         ]
 
@@ -125,7 +125,31 @@ class PythonCodeGenerator:
     def make_repeat_dataclass_definition(self, repeat: HDRepeatedVariables) -> None:
         hd_vars = repeat.variables
         lines = self.define_base_dataclass(repeat.py_class_name, hd_vars)
+        lines.extend([
+            f'    @staticmethod',
+            f'    def add_to_answer_set(values: List[{repr(repeat.py_class_name)}], ' +
+            f'result: AnswerSet) -> None:',
+        ])
+
+        for var in hd_vars:
+            conv_arg = f'none2unans(v.{var.snake_case_name}, {var.answer_type})'
+            if isinstance(var, HDMultipleChoice):
+                conv_arg = f'enum2mc({conv_arg})'
+            lines.extend([
+                f'        result.add({repr(var.name)}, [',
+                f'            {conv_arg}',
+                f'            for v in values',
+                f'        ])'
+            ])
+
+        lines.append('')
         self.add_dataclass(lines)
+
+    def get_var_add_arg(self, obj_name: str, var: HDVariable) -> str:
+        add_arg = f'{obj_name}.{var.snake_case_name}'
+        if isinstance(var, HDMultipleChoice):
+            add_arg = f'enum2mc({add_arg})'
+        return add_arg
 
     def define_to_answer_set_method(self, hd_vars: List[HDVariable]) -> List[str]:
         lines = [
@@ -135,18 +159,16 @@ class PythonCodeGenerator:
 
         for var in hd_vars:
             prop = f'self.{var.snake_case_name}'
-            add_arg = f'self.{var.snake_case_name}'
-            if isinstance(var, HDMultipleChoice):
-                add_arg = f'enum2mc({add_arg})'
             lines.extend([
                 f'        if {prop} is not None:',
                 f'            result.add({repr(var.name)},',
-                f'                       {add_arg})',
+                f'                       {self.get_var_add_arg("self", var)})',
             ])
 
         for repeat in self.lib.repeated_vars:
             lines.extend([
-                f'        # TODO: Add values for self.{repeat.py_prop_name}.'
+                f'        ' +
+                f'{repeat.py_class_name}.add_to_answer_set(self.{repeat.py_prop_name}, result)'
             ])
 
         lines.append(f'        return result\n')

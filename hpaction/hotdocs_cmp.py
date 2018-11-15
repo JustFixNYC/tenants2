@@ -5,6 +5,8 @@ from pathlib import Path
 from django.contrib.humanize.templatetags.humanize import apnumber
 from django.utils.text import slugify
 
+from .hotdocs import AnswerType
+
 
 HD_URL = 'http://www.hotdocs.com/schemas/component_library/2009'
 
@@ -51,11 +53,19 @@ class HDVariable:
     def py_annotation(self) -> str:
         raise NotImplementedError()
 
+    @property
+    def answer_type(self) -> AnswerType:
+        raise NotImplementedError()
+
 
 class HDDate(HDVariable):
     @property
     def py_annotation(self) -> str:
         return 'datetime.date'
+
+    @property
+    def answer_type(self) -> AnswerType:
+        return AnswerType.DATE
 
 
 class HDText(HDVariable):
@@ -63,17 +73,29 @@ class HDText(HDVariable):
     def py_annotation(self) -> str:
         return 'str'
 
+    @property
+    def answer_type(self) -> AnswerType:
+        return AnswerType.TEXT
+
 
 class HDTrueFalse(HDVariable):
     @property
     def py_annotation(self) -> str:
         return 'bool'
 
+    @property
+    def answer_type(self) -> AnswerType:
+        return AnswerType.TF
+
 
 class HDNumber(HDVariable):
     @property
     def py_annotation(self) -> str:
         return 'Union[str, float]'
+
+    @property
+    def answer_type(self) -> AnswerType:
+        return AnswerType.NUM
 
 
 class HDMultipleChoiceOption(NamedTuple):
@@ -96,6 +118,10 @@ class HDMultipleChoice(HDVariable):
     def py_annotation(self) -> str:
         anno = self.camel_case_name
         return f'List[{anno}]' if self.select_multiple else anno
+
+    @property
+    def answer_type(self) -> AnswerType:
+        return AnswerType.MC
 
 
 class HDRepeatedVariables(NamedTuple):

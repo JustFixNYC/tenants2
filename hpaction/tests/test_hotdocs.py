@@ -26,8 +26,8 @@ def test_enum2mc_works():
         BOOP = 'boop'
         BLAP = 'blap'
 
-    assert enum2mc(Funky.BOOP).items == ['boop']
-    assert enum2mc([Funky.BOOP, Funky.BLAP]).items == ['boop', 'blap']
+    assert enum2mc(Funky.BOOP).items == ['boop']  # type: ignore
+    assert enum2mc([Funky.BOOP, Funky.BLAP]).items == ['boop', 'blap']  # type: ignore
 
     unans = Unanswered(AnswerType.TF)
     assert enum2mc(unans) is unans

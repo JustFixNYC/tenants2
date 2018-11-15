@@ -166,9 +166,10 @@ class PythonCodeGenerator:
             ])
 
         for repeat in self.lib.repeated_vars:
+            prop = f'self.{repeat.py_prop_name}'
             lines.extend([
-                f'        ' +
-                f'{repeat.py_class_name}.add_to_answer_set(self.{repeat.py_prop_name}, result)'
+                f'        if {prop}:',
+                f'            {repeat.py_class_name}.add_to_answer_set({prop}, result)'
             ])
 
         lines.append(f'        return result\n')

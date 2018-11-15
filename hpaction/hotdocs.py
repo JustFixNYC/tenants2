@@ -13,9 +13,10 @@ class MCValue:
         self.items = list(items)
 
 
-# Note that for the list, we would ideally write List['AnswerValue']
-# but mypy doesn't currently support recursive types.
-AnswerValue = Union[str, int, float, bool, date, MCValue, List[Any]]
+# The split between "BaseAnswerValue" and "AnswerValue" is due to
+# the fact that mypy doesn't currently support recursive types.
+BaseAnswerValue = Union[str, int, float, bool, date, MCValue]
+AnswerValue = Union[BaseAnswerValue, List[BaseAnswerValue]]
 
 
 # For some bizarre reason mypy doesn't like us using List[Enum] here,
@@ -71,8 +72,8 @@ class AnswerSet:
             return node
         elif isinstance(value, list):
             node = self.doc.createElement('RptValue')
-            for item in value:
-                node.appendChild(self.create_answer_value(item))
+            for child in value:
+                node.appendChild(self.create_answer_value(child))
             return node
         raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
 

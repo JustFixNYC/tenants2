@@ -276,7 +276,7 @@ class PythonCodeGenerator:
             'import datetime',
             'from enum import Enum',
             'from dataclasses import dataclass',
-            'from hpaction import hotdocs',
+            'from hpaction.hotdocs import AnswerSet, enum2mc',
             ''
         ]
 
@@ -330,20 +330,17 @@ class PythonCodeGenerator:
                 lines.extend(wrap_comment(var.help_text, indent=4))
             lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}]\n')
 
-        lines.append(f'    def to_answer_set(self) -> hotdocs.AnswerSet:')
-        lines.append(f'        result = hotdocs.AnswerSet()')
+        lines.append(f'    def to_answer_set(self) -> AnswerSet:')
+        lines.append(f'        result = AnswerSet()')
 
         for var in hd_vars:
-            indent = ''
-            mc = ''
+            arg = f'self.{var.snake_case_name}'
             if isinstance(var, HDMultipleChoice):
-                if var.select_multiple:
-                    mc = '_enum_list'
-                else:
-                    mc = '_enum'
-                indent = ' ' * len(mc)
-            lines.append(f'        result.add_opt{mc}({repr(var.name)},')
-            lines.append(f'                       {indent}self.{var.snake_case_name})')
+                arg = f'enum2mc({arg})'
+            lines.extend([
+                f'        result.add_opt({repr(var.name)},',
+                f'                       {arg})',
+            ])
 
         lines.append(f'        return result\n')
 

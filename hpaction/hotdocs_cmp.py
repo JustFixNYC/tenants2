@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from typing import NamedTuple, List, Dict, Tuple
+from typing import NamedTuple, List, Dict, Tuple, Set
 from pathlib import Path
 import textwrap
 from django.contrib.humanize.templatetags.humanize import apnumber
@@ -306,7 +306,6 @@ class PythonCodeGenerator:
             ))
 
     def coalesce_duplicate_enums(self):
-        from typing import Set
         choices: Set[List[PythonEnumOption]] = set()
         enums = tuple(self.enums)
         for enum in enums:

@@ -1,5 +1,6 @@
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+from loc.tests.factories import LandlordDetailsFactory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.build_hpactionvars import user_to_hpactionvars
 import hpaction.hpactionvars as hp
@@ -43,3 +44,9 @@ def test_user_to_hpactionvars_populates_issues(db):
     assert second.area_complained_of_mc == hp.AreaComplainedOfMC.PUBLIC_AREA
     assert second.which_room_mc.value == "Public areas"  # type: ignore
     assert second.conditions_complained_of_te == "Lobby is consumed by darkness"
+
+
+def test_user_to_hpactionvars_populates_landlord_info(db):
+    ld = LandlordDetailsFactory(name="Landlordo Calrissian")
+    v = user_to_hpactionvars(ld.user)
+    assert v.landlord_entity_name_te == "Landlordo Calrissian"

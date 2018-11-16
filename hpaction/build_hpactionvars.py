@@ -74,6 +74,10 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
+    if hasattr(user, 'landlord_details'):
+        if user.landlord_details.name:
+            v.landlord_entity_name_te = user.landlord_details.name
+
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info
         v.tenant_address_apt_no_te = oinfo.apt_number

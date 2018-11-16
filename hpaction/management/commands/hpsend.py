@@ -7,7 +7,7 @@ import zeep
 from users.models import JustfixUser
 from hpaction.views import SUCCESSFUL_UPLOAD_TEXT
 from hpaction.models import UploadToken, HPActionDocuments
-import hpaction.hpactionvars as hp
+from hpaction.build_hpactionvars import user_to_hpactionvars
 
 
 DEFAULT_EXTRACT_BASENAME = 'hp-action'
@@ -60,12 +60,7 @@ class Command(BaseCommand):
             Path(extract_pdf).write_bytes(f.read())
 
     def create_answer_set_xml(self, user: JustfixUser) -> str:
-        v = hp.HPActionVariables()
-        v.server_name_full_te = user.full_name
-        v.server_name_full_hpd_te = user.full_name
-        v.tenant_name_first_te = user.first_name
-        v.tenant_name_last_te = user.last_name
-
+        v = user_to_hpactionvars(user)
         return str(v.to_answer_set())
 
     def load_xml_input_file(self, filename: str) -> str:

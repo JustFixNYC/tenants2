@@ -120,12 +120,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # The API endpoint for the HP Action SOAP endpoint.
     HP_ACTION_API_ENDPOINT: str = (
-        'https://lhiutilitystage.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc'
+        'https://lhiutility.lawhelpinteractive.org/LHIIntegration/LHIIntegration.svc'
     )
 
     # The HotDocs template ID to pass to the HP Action SOAP endpoint,
     # e.g. "5395".
-    HP_ACTION_TEMPLATE_ID: str = '5395'
+    HP_ACTION_TEMPLATE_ID: str = '5646'
 
     # The customer key to pass to the HP Action SOAP endpoint. If
     # not provided, HP Action submission will fail.

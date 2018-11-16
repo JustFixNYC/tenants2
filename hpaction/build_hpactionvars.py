@@ -75,8 +75,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
     if hasattr(user, 'landlord_details'):
-        if user.landlord_details.name:
-            v.landlord_entity_name_te = user.landlord_details.name
+        v.landlord_entity_name_te = user.landlord_details.name
 
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info

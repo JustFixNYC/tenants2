@@ -87,6 +87,9 @@ class Choices:
     def get_label(self, value: str) -> str:
         return self.choices_dict[value]
 
+    def get_enum_member(self, value: str) -> Enum:
+        return getattr(self.enum, value)
+
     @classmethod
     def from_file(cls, *path):
         obj = json.loads(COMMON_DATA_DIR.joinpath(*path).read_text())

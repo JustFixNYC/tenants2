@@ -1,4 +1,5 @@
 import json
+from enum import Enum
 from typing import List, Tuple, Dict
 from pathlib import Path
 import pydantic
@@ -52,15 +53,30 @@ class Choices:
         Traceback (most recent call last):
         ...
         AttributeError: BOOP is not a property, method, or valid choice
+
+    If you want an Enum interface for the choices, you can also have
+    that, e.g.:
+
+        >>> MyChoices = c.enum
+        >>> MyChoices.BROOKLYN.name
+        'BROOKLYN'
+        >>> MyChoices.BROOKLYN.value
+        'Brooklyn'
     '''
 
     choices: DjangoChoices
 
     choices_dict: Dict[str, str]
 
-    def __init__(self, choices: DjangoChoices) -> None:
+    enum: Enum
+
+    def __init__(self, choices: DjangoChoices, name: str='DjangoChoices') -> None:
         self.choices = choices
         self.choices_dict = dict(self.choices)
+        self.enum = Enum(
+            name,
+            [(choice, label) for choice, label in self.choices]
+        )
 
     def __getattr__(self, value: str) -> str:
         if value in self.choices_dict:

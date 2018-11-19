@@ -61,6 +61,14 @@ type LeaseModalInfo = {
   component: () => JSX.Element;
 };
 
+const GENERIC_NO_LEASE_WARNING = (
+  <p>
+    <strong className="has-text-danger">Warning:</strong> If you do not have a lease,
+    {' '}sending a letter to  your landlord could provoke retaliation and/or an eviction
+    {' '}notice. <strong>Take caution and make sure that this service is right for you.</strong>
+  </p>
+);
+
 export const LEASE_MODALS: LeaseModalInfo[] = [
   {
     route: Routes.onboarding.step3RentStabilizedModal,
@@ -94,7 +102,16 @@ export const LEASE_MODALS: LeaseModalInfo[] = [
     leaseType: 'OTHER',
     component: () => (
       <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)" isWarning>
-        <p><strong className="has-text-danger">Warning:</strong> If you do not have a lease, sending a letter to  your landlord could provoke retaliation and/or an eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
+        {GENERIC_NO_LEASE_WARNING}
+      </LeaseInfoModal>
+    )
+  },
+  {
+    route: Routes.onboarding.step3NoLeaseModal,
+    leaseType: 'NO_LEASE',
+    component: () => (
+      <LeaseInfoModal title="No lease" isWarning>
+        {GENERIC_NO_LEASE_WARNING}
       </LeaseInfoModal>
     )
   }

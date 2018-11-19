@@ -51,6 +51,10 @@
 			<hd:fieldWidth widthType="calculated"/>
 			<hd:singleLine pattern="(999) 999-9999"/>
 		</hd:text>
+		<hd:text name="Case number TE" warnIfUnanswered="false">
+			<hd:prompt>Case/Index number, if known</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
 		<hd:text name="Cause of action description TE">
 			<hd:prompt>
 First, you have to complete this sentence: «.b»“My case is good and worthwhile because_______”.«.be» «.i» You should fill in something like “my landlord has broken the law by not making repairs to my apartment and I have evidence to show this”  or “my landlord has broken the law by repeatedly harassing me.”  A simple sentence is all you need here.«.ie»</hd:prompt>
@@ -63,6 +67,9 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		<hd:text name="Harassment details TE">
 			<hd:prompt>Explain how the landlord or someone on the landlord&apos;s behalf has harassed you. Be as specific as you can and be sure to give the date these things happened. (If you cannot remember the exact date, give the month and year.)</hd:prompt>
 			<hd:multiLine height="3"/>
+		</hd:text>
+		<hd:text name="IFP other order TE">
+			<hd:prompt>Specify what else you want ordered regarding your application to proceed without paying court fees</hd:prompt>
 		</hd:text>
 		<hd:text name="Landlord address city TE">
 			<hd:prompt>City</hd:prompt>
@@ -86,11 +93,17 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		<hd:text name="Landlord name first TE">
 			<hd:prompt>First name</hd:prompt>
 		</hd:text>
+		<hd:text name="Landlord name full TE">
+			<hd:prompt>not asked</hd:prompt>
+		</hd:text>
 		<hd:text name="Landlord name last TE">
 			<hd:prompt>Last name</hd:prompt>
 		</hd:text>
 		<hd:text name="Management company address city TE">
 			<hd:prompt>City</hd:prompt>
+		</hd:text>
+		<hd:text name="Management company address full TE">
+			<hd:prompt>not asked</hd:prompt>
 		</hd:text>
 		<hd:text name="Management company address street TE">
 			<hd:prompt>Management company&apos;s street address</hd:prompt>
@@ -106,18 +119,112 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:prompt>Other pay period</hd:prompt>
 		</hd:text>
 		<hd:text name="Prior relief sought case numbers and dates TE">
-			<hd:prompt>Please provide the court case number (the “index number”) and/or the date(s) of the earlier case(s).</hd:prompt>
+			<hd:prompt>Please provide the court case number (the “index number”) and/or the date(s) of the earlier case(s).«IF Action type MS = &quot;Repairs&quot; AND Prior repairs case MC = &quot;Yes&quot;»  (Please also include the case number and date(s) of any case(s) you have brought in the housing court for repairs.)«END IF»</hd:prompt>
 		</hd:text>
 		<hd:text name="Reason for further application TE">
 			<hd:prompt>Please complete this sentence: «.b» I have applied for a fee waiver before, but I am making this application because _____________.«.be»  «.i»If your earlier application was denied, you can write something like &quot;my circumstances have changed and I cannot afford the filing fee.&quot;  If your earlier application was granted, you can write &quot;my prior application was granted and I cannot afford the filing fee.&quot;«.ie»</hd:prompt>
 		</hd:text>
+		<hd:text name="Served person DHPD age TE">
+			<hd:prompt>Approximate age</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person DHPD hair color TE">
+			<hd:prompt>Hair color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person DHPD height TE">
+			<hd:prompt>Approximate height</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person DHPD sex TE" maxChars="25">
+			<hd:prompt>Sex</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person DHPD skin color TE">
+			<hd:prompt>Skin color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person DHPD weight TE">
+			<hd:prompt>Approximate weight</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
 		<hd:text name="Served person TE" warnIfUnanswered="false">
-			<hd:prompt>Name of person you handed the documents to
-«.i»(If you  or someone else delivers the documents by hand, you’ll need to write down the name of the person you gave them to and the address where you did that.  If you do not know yet who will receive them, you can leave this blank.)«.ie»</hd:prompt>
+			<hd:prompt>Name of person you handed the documents to</hd:prompt>
+		</hd:text>
+		<hd:text name="Served person landlord age TE">
+			<hd:prompt>Approximate age</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person landlord hair color TE">
+			<hd:prompt>Hair color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person landlord height TE">
+			<hd:prompt>Approximate height</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person landlord sex TE" maxChars="25">
+			<hd:prompt>Sex</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person landlord skin color TE">
+			<hd:prompt>Skin color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person landlord weight TE">
+			<hd:prompt>Approximate weight</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 		</hd:text>
 		<hd:text name="Served person management company TE" warnIfUnanswered="false">
-			<hd:prompt>Name of person you handed the documents to
-«.i»(If you  or someone else delivers the documents by hand, you’ll need to write down the name of the person you gave them to and the address where you did that.  If you do not know yet who will receive them, you can leave this blank.)«.ie»</hd:prompt>
+			<hd:prompt>Name of person you handed the documents to</hd:prompt>
+		</hd:text>
+		<hd:text name="Served person mgmt co age TE">
+			<hd:prompt>Approximate age</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mgmt co hair color TE">
+			<hd:prompt>Hair color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mgmt co height TE">
+			<hd:prompt>Approximate height</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mgmt co sex TE" maxChars="25">
+			<hd:prompt>Sex</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mgmt co skin color TE">
+			<hd:prompt>Skin color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mgmt co weight TE">
+			<hd:prompt>Approximate weight</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD age TE">
+			<hd:prompt>Approximate age</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD hair color TE">
+			<hd:prompt>Hair color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD height TE">
+			<hd:prompt>Approximate height</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD sex TE" maxChars="25">
+			<hd:prompt>Sex</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD skin color TE">
+			<hd:prompt>Skin color</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
+		<hd:text name="Served person mmco DHPD weight TE">
+			<hd:prompt>Approximate weight</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 		</hd:text>
 		<hd:text name="Server address full HPD TE">
 			<hd:prompt>Full address of person mailing the documents to HPD (number and street, city, state, zip)</hd:prompt>
@@ -138,10 +245,20 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:prompt>Full name of person mailing or delivering the documents. (If it was not you, put the right name and address below.)</hd:prompt>
 		</hd:text>
 		<hd:text name="Service address full TE" warnIfUnanswered="false">
-			<hd:prompt>Full address where you delivered the documents (number and street, city, state, zip)</hd:prompt>
+			<hd:prompt>Full address where you «IF VALUE(Service already completed landlord TF)»delivered «ELSE»plan to deliver«END IF» the documents (number and street, city, state, zip)</hd:prompt>
 		</hd:text>
 		<hd:text name="Service address full management company TE" warnIfUnanswered="false">
 			<hd:prompt>Full address where you delivered the documents (number and street, city, state, zip)</hd:prompt>
+		</hd:text>
+		<hd:text name="Service time TE">
+			<hd:prompt>What time were the papers served?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+			<hd:singleLine pattern="99:99 a.m."/>
+		</hd:text>
+		<hd:text name="Service time mgmt coTE">
+			<hd:prompt>What time were the papers served?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+			<hd:singleLine pattern="99:99 a.m."/>
 		</hd:text>
 		<hd:text name="Tenant address apt no TE" warnIfUnanswered="false">
 			<hd:prompt>Apt. No.</hd:prompt>
@@ -180,7 +297,7 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:singleLine pattern="(999) 999-9999"/>
 		</hd:text>
 		<hd:text name="Tenant property owned TE">
-			<hd:prompt>List any major property that you own, like a car or a valuable item, and the value of that property.</hd:prompt>
+			<hd:prompt>List any major property that you own, like a car or a valuable item, and the value of that property. (You can list several items in the same answer.)</hd:prompt>
 		</hd:text>
 		<hd:number name="Conditions counter NU"/>
 		<hd:number name="Tenant address floor NU">
@@ -192,6 +309,53 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		</hd:number>
 		<hd:number name="Tenant income NU" decimalPlaces="2" currencySymbol="$">
 			<hd:prompt>What is your household income?  You can list the amount by week, 2 weeks, month, etc.  Just be sure to check the box for the period you listed.</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp deductions NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Amounts withheld from your paycheck</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp employment NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>School and child care required for employment</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp food etc NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Food and household supplies</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp housing NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Rent/house payment and maintenance</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp insurance NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Insurance (life, health, accident)</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp laundry NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Laundry and cleaning</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp medical NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Medical and dental payments</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp other NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Total of other monthly expenses (clothing, housing supplies, hygiene, etc.)</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp support NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Court-ordered child or spousal support</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp transportation NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Transportation and auto expenses (insurance, gas, repairs, etc.)</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly exp utilities NU" decimalPlaces="2" currencySymbol="$">
+			<hd:defMergeProps unansweredText=" "/>
+			<hd:prompt>Utilities and telephone</hd:prompt>
+		</hd:number>
+		<hd:number name="Tenant monthly rent NU" decimalPlaces="2" currencySymbol="$">
+			<hd:prompt>Rent</hd:prompt>
 		</hd:number>
 		<hd:date name="Service date DA">
 			<hd:prompt>Date served</hd:prompt>
@@ -209,8 +373,27 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:prompt>«.i»The judge could fine your landlord, though they do not always do that.«.ie»«.b» Do you want the judge to fine your landlord?«.be»</hd:prompt>
 		</hd:trueFalse>
 		<hd:trueFalse name="Flag TF" askAutomatically="false" saveAnswer="false" warnIfUnanswered="false"/>
+		<hd:trueFalse name="Harassment conduct in violation TF"/>
+		<hd:trueFalse name="Harassment contact TF"/>
+		<hd:trueFalse name="Harassment disturbed TF"/>
+		<hd:trueFalse name="Harassment failed to comply TF"/>
+		<hd:trueFalse name="Harassment false cert repairs TF"/>
+		<hd:trueFalse name="Harassment force TF"/>
+		<hd:trueFalse name="Harassment induced leaving TF"/>
+		<hd:trueFalse name="Harassment misleading info TF"/>
+		<hd:trueFalse name="Harassment removed possessions TF"/>
+		<hd:trueFalse name="Harassment requested id TF"/>
+		<hd:trueFalse name="Harassment stopped service TF"/>
+		<hd:trueFalse name="Harassment sued TF"/>
+		<hd:trueFalse name="Harassment threats re status TF"/>
+		<hd:trueFalse name="Landlord is party TF" yesNoOnSameLine="true">
+			<hd:prompt>Is the landlord a party to the action?</hd:prompt>
+		</hd:trueFalse>
 		<hd:trueFalse name="Management company to be sued TF" yesNoOnSameLine="true">
 			<hd:prompt>Is there a management company or managing agent for the landlord that you also want to sue?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Mgmt co is party TF" yesNoOnSameLine="true">
+			<hd:prompt>Is the management company a party to the action?</hd:prompt>
 		</hd:trueFalse>
 		<hd:trueFalse name="More than 2 apartments in building TF" yesNoOnSameLine="true">
 			<hd:prompt>Are there more than two apartments in your building?</hd:prompt>
@@ -221,20 +404,40 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		<hd:trueFalse name="Previous application TF" yesNoOnSameLine="true">
 			<hd:prompt>Have you asked the court to waive the court fee before in another case?</hd:prompt>
 		</hd:trueFalse>
-		<hd:trueFalse name="Prior relief sought TF" yesNoOnSameLine="true">
-			<hd:prompt>Have you brought a case in housing court to get repairs to this apartment or building before this case?</hd:prompt>
-		</hd:trueFalse>
 		<hd:trueFalse name="Problem is urgent TF" yesNoOnSameLine="true">
 			<hd:prompt>«.b»Are the conditions urgent and dangerous?«.be»«.i» If the problems in your apartment are urgent and dangerous to you or your family’s health or safety, you can ask the court to go forward without a city inspection.  This means that the City will not send someone to inspect the apartment. The City inspection report could be useful evidence in your case. Is the problem urgent, and do you want to skip the inspection?«.ie»</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Request fee waiver TF">
+			<hd:prompt>Ask the court to waive the court fee ($45)</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Service already completed landlord TF" yesNoOnSameLine="true">
+			<hd:prompt>Has service already been completed?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Service already completed mgmt co TF" yesNoOnSameLine="true">
+			<hd:prompt>Has service already been completed?</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Sue for harassment TF">
+			<hd:title>Sue for harassment TF</hd:title>
+			<hd:prompt>Sue my landlord for harassment</hd:prompt>
+		</hd:trueFalse>
+		<hd:trueFalse name="Sue for repairs TF">
+			<hd:prompt>Sue my landlord for repairs</hd:prompt>
 		</hd:trueFalse>
 		<hd:trueFalse name="Tenant receives public assistance TF" yesNoOnSameLine="true">
 			<hd:prompt>Do you receive public assistance benefits, such as cash benefits, rent assistance, food stamps or Medicaid?</hd:prompt>
 		</hd:trueFalse>
+		<hd:trueFalse name="Tenant wants to serve TF" yesNoOnSameLine="true">
+			<hd:prompt>Do you want to serve the papers yourself?</hd:prompt>
+		</hd:trueFalse>
 		<hd:multipleChoice name="Access person MC">
 			<hd:prompt>Who will be home to let the City housing inspector in?</hd:prompt>
 			<hd:options>
-				<hd:option name="Me"/>
-				<hd:option name="Someone else"/>
+				<hd:option name="Me">
+					<hd:prompt>Me</hd:prompt>
+				</hd:option>
+				<hd:option name="Someone else">
+					<hd:prompt>Someone else</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Action type MS">
@@ -256,8 +459,12 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		<hd:multipleChoice name="Area complained of MC">
 			<hd:prompt>Location of the problem</hd:prompt>
 			<hd:options>
-				<hd:option name="My apartment"/>
-				<hd:option name="Public area"/>
+				<hd:option name="My apartment">
+					<hd:prompt>My apartment</hd:prompt>
+				</hd:option>
+				<hd:option name="Public area">
+					<hd:prompt>Public area</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Court county MC">
@@ -297,30 +504,103 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
+		<hd:multipleChoice name="HPD service landlord MC">
+			<hd:prompt>How will you be providing the City Department of Housing Preservation and Development (HPD) with a copy of the court papers you&apos;re serving on the landlord? (choose one)</hd:prompt>
+			<hd:options>
+				<hd:option name="deliver">
+					<hd:prompt>I or someone else will hand deliver the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="delivered">
+					<hd:prompt>I or someone else has/have already hand delivered the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="left">
+					<hd:prompt>The papers were/will be left with the NYS Unified Court HP Clerk at 111 Centre St., Rm. 225, for same-day pick-up by a DHPD Representative</hd:prompt>
+				</hd:option>
+				<hd:option name="mail">
+					<hd:prompt>I or someone else will mail the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="mailed">
+					<hd:prompt>I or someone else has/have already mailed the papers</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="HPD service mgmt co MC">
+			<hd:prompt>How will you be providing the City Department of Housing Preservation and Development (HPD) with a copy of the court papers you&apos;re serving on the management company? (choose one)</hd:prompt>
+			<hd:options>
+				<hd:option name="deliver">
+					<hd:prompt>I or someone else will hand deliver the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="delivered">
+					<hd:prompt>I or someone else has/have already hand delivered the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="left">
+					<hd:prompt>The papers were/will be left with the NYS Unified Court HP Clerk at 111 Centre St., Rm. 225, for same-day pick-up by a DHPD Representative</hd:prompt>
+				</hd:option>
+				<hd:option name="mail">
+					<hd:prompt>I or someone else will mail the papers</hd:prompt>
+				</hd:option>
+				<hd:option name="mailed">
+					<hd:prompt>I or someone else has/have already mailed the papers</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
 		<hd:multipleChoice name="Harassment allegations MS">
 			<hd:prompt>«.i»Choose any of the following that have happened.«.ie»
 The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 			<hd:options>
 				<hd:option name="force">
-					<hd:prompt>used force or threatened to use force</hd:prompt>
+					<hd:prompt>used force or said they would use force or implied the use of force</hd:prompt>
+				</hd:option>
+				<hd:option name="misleading info">
+					<hd:prompt>knowingly provided false or misleading information on the current occupancy, or rent stabilization status of a unit on any application or construction document for a permit for work to be performed in said building </hd:prompt>
 				</hd:option>
 				<hd:option name="stopped service">
-					<hd:prompt>repeatedly interrupted or stopped essential services like heat, hot water or electricity</hd:prompt>
+					<hd:prompt>interrupted or stopped essential services repeatedly, or only once where a previous violation in the building occurred</hd:prompt>
 				</hd:option>
 				<hd:option name="failed to comply">
-					<hd:prompt>had a violation issued against them by the City and an order that we must leave the apartment (“vacate”) because the landlord failed to correct conditions that made the apartment or rooms unfit for living in</hd:prompt>
+					<hd:prompt>failed to timely comply with NYC Admin. Code §27–2140[c] by failing to correct the conditions which made the unit unlivable or unfit for habitation, which are described in the Vacate Order issued by DHPD pursuant to NYC Admin. Code §27–2139[b], and a violation of record was issued for at least one of those conditions</hd:prompt>
+				</hd:option>
+				<hd:option name="false cert repairs">
+					<hd:prompt>repeatedly made false certifications that a violation relating to the unit or unit building has been corrected</hd:prompt>
+				</hd:option>
+				<hd:option name="conduct in violation">
+					<hd:prompt>repeatedly engaged in conduct in the building in violation of NYC Admin. Code §28–105.1</hd:prompt>
 				</hd:option>
 				<hd:option name="sued">
 					<hd:prompt>repeatedly brought court cases for no good reasons</hd:prompt>
 				</hd:option>
 				<hd:option name="removed possessions">
-					<hd:prompt>removed my possessions from the apartment</hd:prompt>
+					<hd:prompt>removed tenant possessions from the unit, or removed the unit front door or made the lock to the unit not work, or changed the lock on the unit door without giving a key to the new lock to the tenant/petitioner</hd:prompt>
+				</hd:option>
+				<hd:option name="induced leaving">
+					<hd:prompt>offered money or valuables to tenant, or their relatives, to induce tenant to leave, or to surrender or waive their rights, without written disclosure of the tenant’s rights and without written permission to make an offer from court or the tenant; or, while: threatening, intimidating or using obscene language; frequently harassing or communicating abusively; communicating at tenant’s place of employment without prior written consent; or  knowingly falsifying or misrepresenting information to ten</hd:prompt>
+				</hd:option>
+				<hd:option name="contact">
+					<hd:prompt>repeatedly contacted or visited tenant without written consent on: weekends, legal holidays, outside of 9am-5pm, or in such a manner that would abuse or harass tenant</hd:prompt>
+				</hd:option>
+				<hd:option name="threats re status">
+					<hd:prompt>threatened tenant based on their age; race; creed; color; national origin; gender; disability; marital or partnership status; caregiver status; uniformed service; sexual orientation; citizenship status; status as a victim of domestic violence, sex offenses, or stalking; lawful source of income; or because they have children as terms are defined in NYC Admin. Codes §8–102 and §8–107.1</hd:prompt>
+				</hd:option>
+				<hd:option name="requested id">
+					<hd:prompt>requested identifying documentation that would disclose tenant’s citizenship status, when they have already provided government-issued personal identification as such term is defined in NYC Admin. Code §21–908, and when the documentation was neither required by law, nor requested for any unrelated, specific, and limited purpose</hd:prompt>
 				</hd:option>
 				<hd:option name="disturbed">
-					<hd:prompt>repeatedly did things or allowed others to do things that prevented me from being able to live in the apartment in peace and comfort</hd:prompt>
+					<hd:prompt>repeatedly caused or permitted acts or omissions that substantially interfered with or disturbed the comfort, peace, or quiet of the tenant, including requiring them to seek, receive, or refrain from medical treatment in violation of NYC Admin. Code §26–1202[b].  If the acts or omissions involve physical conditions in the unit or the building, a violation of record was issued.</hd:prompt>
 				</hd:option>
-				<hd:option name="changed lock">
-					<hd:prompt>removed the door to the apartment or made the lock to the apartment not work, or changed the lock on the apartment door without giving me a key to the new lock</hd:prompt>
+			</hd:options>
+			<hd:multipleSelection/>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="IFP what orders MS">
+			<hd:prompt>What do you want the Court to order?</hd:prompt>
+			<hd:options>
+				<hd:option name="fees">
+					<hd:prompt>waive any and all statutory fees for the defense or prosecution of the action</hd:prompt>
+				</hd:option>
+				<hd:option name="appeal fees">
+					<hd:prompt>waive the fee for filing a Notice of Appeal</hd:prompt>
+				</hd:option>
+				<hd:option name="Other">
+					<hd:prompt>Other</hd:prompt>
 				</hd:option>
 			</hd:options>
 			<hd:multipleSelection/>
@@ -385,8 +665,12 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 		<hd:multipleChoice name="Landlord entity or individual MC">
 			<hd:prompt>Is your landlord an individual or a company?</hd:prompt>
 			<hd:options>
-				<hd:option name="Individual"/>
-				<hd:option name="Company"/>
+				<hd:option name="Individual">
+					<hd:prompt>Individual</hd:prompt>
+				</hd:option>
+				<hd:option name="Company">
+					<hd:prompt>Company</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Management company address state MC">
@@ -448,30 +732,76 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Pay period MC">
 			<hd:prompt>In what period?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 			<hd:options>
-				<hd:option name="week"/>
-				<hd:option name="2 weeks"/>
-				<hd:option name="half-month"/>
-				<hd:option name="month"/>
-				<hd:option name="other"/>
+				<hd:option name="week">
+					<hd:prompt>week</hd:prompt>
+				</hd:option>
+				<hd:option name="2 weeks">
+					<hd:prompt>2 weeks</hd:prompt>
+				</hd:option>
+				<hd:option name="half-month">
+					<hd:prompt>half-month</hd:prompt>
+				</hd:option>
+				<hd:option name="month">
+					<hd:prompt>month</hd:prompt>
+				</hd:option>
+				<hd:option name="other">
+					<hd:prompt>other</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Prior harassment case MC">
 			<hd:prompt>Have you brought a case in housing court against this landlord for harassment before this case? </hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 			<hd:options>
-				<hd:option name="Yes"/>
-				<hd:option name="No"/>
+				<hd:option name="Yes">
+					<hd:prompt>Yes</hd:prompt>
+				</hd:option>
+				<hd:option name="No">
+					<hd:prompt>No</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Prior repairs case MC">
 			<hd:prompt>Have you brought a case in housing court to get repairs to this apartment or building before this case?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 			<hd:options>
-				<hd:option name="Yes"/>
-				<hd:option name="No"/>
+				<hd:option name="Yes">
+					<hd:prompt>Yes</hd:prompt>
+				</hd:option>
+				<hd:option name="No">
+					<hd:prompt>No</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Served landlord or agent MC">
+			<hd:prompt>«IF Service already completed landlord TF»Did«ELSE»Will«END IF» you deliver the papers to the landlord or to an attorney or agent of the landlord?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+			<hd:options>
+				<hd:option name="Landlord">
+					<hd:prompt>Landlord</hd:prompt>
+				</hd:option>
+				<hd:option name="Attorney or Agent">
+					<hd:prompt>Attorney or Agent</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
+		<hd:multipleChoice name="Served mgmt co or agent MC">
+			<hd:prompt>«IF Service already completed mgmt co TF»Did«ELSE»Will«END IF» you deliver the papers to the management company or to an attorney or agent of the management company?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+			<hd:options>
+				<hd:option name="Management Company">
+					<hd:prompt>Management Company</hd:prompt>
+				</hd:option>
+				<hd:option name="Attorney or Agent">
+					<hd:prompt>Attorney or Agent</hd:prompt>
+				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
 		<hd:multipleChoice name="Service method MC" warnIfUnanswered="false">
-			<hd:prompt>How do you plan to serve the documents?</hd:prompt>
+			<hd:prompt>How «IF VALUE(Service already completed landlord TF)»did you «ELSE»do you plan to «END IF»serve the documents?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 			<hd:options>
 				<hd:option name="Personal">
 					<hd:prompt>By hand delivery</hd:prompt>
@@ -481,8 +811,8 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
-		<hd:multipleChoice name="Service method management company MC" warnIfUnanswered="false">
-			<hd:prompt>How do you plan to serve the documents?</hd:prompt>
+		<hd:multipleChoice name="Service method mgmt co MC" warnIfUnanswered="false">
+			<hd:prompt>How «IF VALUE(Service already completed mgmt co TF)»did you «ELSE»do you plan to «END IF»serve the documents?</hd:prompt>
 			<hd:options>
 				<hd:option name="Personal">
 					<hd:prompt>Hand delivery</hd:prompt>
@@ -564,7 +894,7 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 			<hd:annotation>In accordance with the Directive of the Department of Housing Preservation and Development of February 11, 1977, and because the above listed conditions constitute an emergency or a danger to the life, health and safety of the tenant(s), I request that prior notification to the Department of Housing Preservation and Development be waived.
 
 (deleted option)</hd:annotation>
-			<hd:prompt>Have you made a complaint to the City’s Department of Housing Preservation and Development (HPD)? «.i» It is not required, but check the box if you have. (You can check one or both or none.)«.ie»  To find out whether HPD issued a Notice of Violation, go to HPD&apos;s website: «.w &quot;http://www1.nyc.gov/site/hpd/about/hpdonline.page&quot;»HPDONLINE«.we».  If you do not know how to answer this question, you can skip it.</hd:prompt>
+			<hd:prompt>Have you made a complaint to the City’s Department of Housing Preservation and Development (HPD)? «.i» It is not required, but check the box if you have.)«.ie»  To find out whether HPD issued a Notice of Violation, go to HPD&apos;s website: «.w &quot;http://www1.nyc.gov/site/hpd/about/hpdonline.page&quot;»HPDONLINE«.we».  If you do not know how to answer this question, you can skip it.</hd:prompt>
 			<hd:options>
 				<hd:option name="Notice issued">
 					<hd:prompt>I filed a complaint with HPD. HPD issued a Notice of Violation. More than 30 days have passed since then. The landlord has not fixed the problem</hd:prompt>
@@ -577,25 +907,63 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 		<hd:multipleChoice name="Which room MC">
 			<hd:prompt>Which room?</hd:prompt>
 			<hd:options>
-				<hd:option name="Kitchen"/>
-				<hd:option name="Bathroom"/>
-				<hd:option name="Hallway"/>
-				<hd:option name="Living Room"/>
-				<hd:option name="Dining Room"/>
-				<hd:option name="Bedroom 1"/>
-				<hd:option name="Bedroom 2"/>
-				<hd:option name="Bedroom 3"/>
-				<hd:option name="Bedroom 4"/>
-				<hd:option name="Stairway"/>
-				<hd:option name="Porch/Balcony"/>
-				<hd:option name="Front Entrance"/>
-				<hd:option name="Lobby"/>
-				<hd:option name="Mailbox Area"/>
-				<hd:option name="Laundry Room"/>
-				<hd:option name="Yard"/>
-				<hd:option name="Parking Area"/>
-				<hd:option name="Storage Room"/>
-				<hd:option name="All Rooms"/>
+				<hd:option name="Kitchen">
+					<hd:prompt>Kitchen</hd:prompt>
+				</hd:option>
+				<hd:option name="Bathroom">
+					<hd:prompt>Bathroom</hd:prompt>
+				</hd:option>
+				<hd:option name="Hallway">
+					<hd:prompt>Hallway</hd:prompt>
+				</hd:option>
+				<hd:option name="Living Room">
+					<hd:prompt>Living Room</hd:prompt>
+				</hd:option>
+				<hd:option name="Dining Room">
+					<hd:prompt>Dining Room</hd:prompt>
+				</hd:option>
+				<hd:option name="Bedroom 1">
+					<hd:prompt>Bedroom 1</hd:prompt>
+				</hd:option>
+				<hd:option name="Bedroom 2">
+					<hd:prompt>Bedroom 2</hd:prompt>
+				</hd:option>
+				<hd:option name="Bedroom 3">
+					<hd:prompt>Bedroom 3</hd:prompt>
+				</hd:option>
+				<hd:option name="Bedroom 4">
+					<hd:prompt>Bedroom 4</hd:prompt>
+				</hd:option>
+				<hd:option name="Stairway">
+					<hd:prompt>Stairway</hd:prompt>
+				</hd:option>
+				<hd:option name="Porch/Balcony">
+					<hd:prompt>Porch/Balcony</hd:prompt>
+				</hd:option>
+				<hd:option name="Front Entrance">
+					<hd:prompt>Front Entrance</hd:prompt>
+				</hd:option>
+				<hd:option name="Lobby">
+					<hd:prompt>Lobby</hd:prompt>
+				</hd:option>
+				<hd:option name="Mailbox Area">
+					<hd:prompt>Mailbox Area</hd:prompt>
+				</hd:option>
+				<hd:option name="Laundry Room">
+					<hd:prompt>Laundry Room</hd:prompt>
+				</hd:option>
+				<hd:option name="Yard">
+					<hd:prompt>Yard</hd:prompt>
+				</hd:option>
+				<hd:option name="Parking Area">
+					<hd:prompt>Parking Area</hd:prompt>
+				</hd:option>
+				<hd:option name="Storage Room">
+					<hd:prompt>Storage Room</hd:prompt>
+				</hd:option>
+				<hd:option name="All Rooms">
+					<hd:prompt>All Rooms</hd:prompt>
+				</hd:option>
 			</hd:options>
 			<hd:singleSelection other="true"/>
 		</hd:multipleChoice>
@@ -628,7 +996,7 @@ END IF</hd:script>
 			<hd:script>Which room MC[3] + &quot;, &quot; + Conditions complained of TE[3]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 4 CO" resultType="text">
-			<hd:script>Which room MC[4] + &quot;, &quot; + Conditions complained of TE[2]</hd:script>
+			<hd:script>Which room MC[4] + &quot;, &quot; + Conditions complained of TE[4]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 5 CO" resultType="text">
 			<hd:script>Which room MC[5] + &quot;, &quot; + Conditions complained of TE[5]</hd:script>
@@ -655,19 +1023,19 @@ REPEAT Tenant Complaints
 END REPEAT</hd:script>
 		</hd:computation>
 		<hd:computation name="Court address CO" resultType="text">
-			<hd:script>IF Court location MC = &quot;Bronx&quot;
+			<hd:script>IF Court location MC = &quot;Bronx&quot; OR Court location MC = &quot;Bronx County&quot;
 	&quot;1118 Grand Concourse (at 166th Street), Bronx, Lobby, Window 7&quot;
-ELSE IF Court location MC = &quot;Harlem&quot;
+ELSE IF Court location MC = &quot;Harlem&quot; OR Court location MC = &quot;Harlem Community Justice Center&quot;
 	&quot;170 East 121st Street, Room 302&quot;
-ELSE IF Court location MC = &quot;Kings&quot;
+ELSE IF Court location MC = &quot;Kings&quot; OR Court location MC = &quot;Kings County&quot;
 	&quot;141 Livingston Street, Brooklyn, Room 202, Window 10&quot;
-ELSE IF Court location MC = &quot;New York&quot;
+ELSE IF Court location MC = &quot;New York&quot; OR Court location MC = &quot;New York County&quot;
 	&quot;111 Centre Street (75 Lafayette Street) (between White and Franklin Streets), Room 225, Window 5&quot;
-ELSE IF Court location MC = &quot;Queens&quot;
+ELSE IF Court location MC = &quot;Queens&quot; OR Court location MC = &quot;Queens County&quot;
 	&quot;89-17 Sutphin Boulevard (at 89th Avenue), Jamaica, Room 209&quot;
-ELSE IF Court location MC = &quot;Richmond&quot;
+ELSE IF Court location MC = &quot;Richmond&quot; OR Court location MC = &quot;Richmond County&quot;
 	&quot;927 Castleton Avenue (Corner of Benent Avenue), Staten Island, Basement, L&amp;T Window&quot;
-ELSE IF Court location MC = &quot;Redhook&quot;
+ELSE IF Court location MC = &quot;Redhook&quot; OR Court location MC = &quot;Redhook Community Justice Center&quot;
 	&quot;88 Visitation Place, Brooklyn, Room 103&quot;
 END IF</hd:script>
 		</hd:computation>
@@ -675,7 +1043,23 @@ END IF</hd:script>
 			<hd:script>&quot;Department of Housing Preservation and Development, Housing Litigation Bureau&quot;</hd:script>
 		</hd:computation>
 		<hd:computation name="HPD address full CO" resultType="text">
-			<hd:script>&quot;100 Gold Street, New York, NY 10038&quot;</hd:script>
+			<hd:script>&quot;100 Gold Street, 3rd Floor, New York, NY 10038&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="HPD service method CO" resultType="text">
+			<hd:script>&quot;&quot;
+IF HPD service landlord MC = &quot;left&quot;
+	&quot;Same-day pick-up by DHPD Representative from NYS Unified Court HP Clerk at 111 Centre St., Rm. 225&quot;
+ELSE IF HPD service landlord MC = &quot;deliver&quot; OR HPD service landlord MC = &quot;delivered&quot;
+	&quot;Hand-delivered to the DHPD at 100 Gold Street, 3rd Floor&quot;
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="HPD service method mmco CO" resultType="text">
+			<hd:script>&quot;&quot;
+IF HPD service mgmt co MC = &quot;left&quot;
+	&quot;Same-day pick-up by DHPD Representative from NYS Unified Court HP Clerk at 111 Centre St., Rm. 225&quot;
+ELSE IF HPD service mgmt co MC = &quot;deliver&quot; OR HPD service mgmt co MC = &quot;delivered&quot;
+	&quot;Hand-delivered to the DHPD at 100 Gold Street, 3rd Floor&quot;
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Housing TE" resultType="text">
 			<hd:script>&quot;Housing&quot;</hd:script>
@@ -685,15 +1069,16 @@ END IF</hd:script>
 ASK Tenant Information 
 ASK Landlord Information
 ASK Court Information
-IF Action type MS = &quot;Repairs&quot;
+IF Sue for repairs TF
 	ASK Repairs Information 
 	ASK Specific Complaints
 END IF
-IF Action type MS = &quot;Harassment&quot;
+IF Sue for harassment TF
 	ASK Harassment Information
 END IF
-IF Action type MS = &quot;Fee waiver&quot;
+IF Request fee waiver TF
 	ASK Fee Waiver Information
+	ASK Income and Expenses
 END IF
 ASK Service Information
 IF Management company to be sued TF
@@ -799,7 +1184,8 @@ The court will write your deadline to &quot;&quot;serve&quot;&quot; the court pa
 		<hd:computation name="Instructions OSC CO" resultType="text">
 			<hd:script>&quot;These are the documents you will take to court to start your case:&quot;
 
-IF VALUE(Action type MS) = &quot;Repairs&quot;
+//IF VALUE(Action type MS) = &quot;Repairs&quot;
+IF Sue for repairs TF
 	RESULT + &quot;
 	
 ·         ORDER TO SHOW CAUSE DIRECTING THE CORRECTION OF VIOLATIONS
@@ -816,7 +1202,8 @@ END IF
 
 	END IF
 END IF
-IF VALUE(Action type MS) = &quot;Harassment&quot;
+//IF VALUE(Action type MS) = &quot;Harassment&quot;
+IF Sue for harassment TF
 	RESULT + &quot;
 	
 ·         ORDER TO SHOW CAUSE FOR A FINDING OF HARASSMENT AND FOR A RESTRAINING ORDER
@@ -898,6 +1285,14 @@ The instructions explain how to &quot;&quot;file&quot;&quot; the documents in co
 		<hd:computation name="Landlord address one line CO" resultType="text">
 			<hd:script>&quot;«Landlord address street TE», «Landlord address city TE», «Landlord address state MC:State abbreviations» «Landlord address zip TE»&quot;</hd:script>
 		</hd:computation>
+		<hd:computation name="Landlord is/not a party CO" resultType="text">
+			<hd:script>&quot;the Respondent is &quot;
+IF VALUE(Landlord is party TF) = FALSE
+	RESULT + &quot;not &quot;
+END IF
+RESULT + &quot;a party to&quot;
+</hd:script>
+		</hd:computation>
 		<hd:computation name="Landlord name CO" resultType="text">
 			<hd:script>IF VALUE(Landlord entity or individual MC) = &quot;Individual&quot;
 	SPACE(Landlord name first TE) + Landlord name last TE
@@ -911,8 +1306,13 @@ END IF</hd:script>
 		<hd:computation name="Management company address one line CO" resultType="text">
 			<hd:script>&quot;«Management company address street TE», «Management company address city TE», «Management company address state MC:State abbreviations» «Management company address zip TE»&quot;</hd:script>
 		</hd:computation>
-		<hd:computation name="Petitioner CO" resultType="text">
-			<hd:script>&quot;Tenant/Petitioner&quot;</hd:script>
+		<hd:computation name="Mgmt co is/not a party CO" resultType="text">
+			<hd:script>&quot;the Respondent is &quot;
+IF VALUE(Mgmt co is party TF) = FALSE
+	RESULT + &quot;not &quot;
+END IF
+RESULT + &quot;a party to&quot;
+</hd:script>
 		</hd:computation>
 		<hd:computation name="Respondents CO" resultType="text">
 			<hd:script>Landlord name CO
@@ -986,20 +1386,40 @@ IF ANSWERED(Tenant name first TE) AND ANSWERED(Tenant name last TE)
 END IF
 </hd:script>
 		</hd:computation>
+		<hd:computation name="Tenant monthly expenses total CO" resultType="number">
+			<hd:script>0
+VALUE(Tenant monthly exp housing NU) + VALUE(Tenant monthly exp food etc NU) + VALUE(Tenant monthly exp laundry NU) + VALUE(Tenant monthly exp medical NU) + VALUE(Tenant monthly exp insurance NU) + VALUE(Tenant monthly exp employment NU) + VALUE(Tenant monthly exp support NU) + VALUE(Tenant monthly exp transportation NU) + VALUE(Tenant monthly exp deductions NU) + VALUE(Tenant monthly exp other NU)
+//REPEAT Financial Statement Installment Payments
+//	RESULT + VALUE(Tenant monthly exp installment pmt NU)
+//END REPEAT
+//REPEAT Financial Statement Other Expenses
+//	RESULT + VALUE(Tenant monthly exp other NU)
+//END REPEAT</hd:script>
+		</hd:computation>
 		<hd:computation name="Tenant name CO" resultType="text">
 			<hd:script>SPACE(Tenant name first TE) + SPACE(Tenant name middle TE) + Tenant name last TE</hd:script>
 		</hd:computation>
 		<hd:computation name="Tenant phone home area code CO" resultType="text">
-			<hd:script>STRIP(FIRST(Tenant phone home TE, 4), &quot;(&quot;)</hd:script>
+			<hd:script>//STRIP(FIRST(Tenant phone home TE, 4), &quot;(&quot;)
+
+FIRST(REPLACE(REPLACE(Tenant phone home TE, &quot;(&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), 3)</hd:script>
 		</hd:computation>
 		<hd:computation name="Tenant phone home no area CO" resultType="text">
-			<hd:script>STRIP(LAST(Tenant phone home TE, 9), &quot;)&quot;)</hd:script>
+			<hd:script>//STRIP(LAST(Tenant phone home TE, 9), &quot;)&quot;)
+
+LAST(REPLACE(REPLACE(REPLACE(Tenant phone home TE, &quot;(&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;), 7)
+FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 		</hd:computation>
 		<hd:computation name="Tenant phone work area code CO" resultType="text">
-			<hd:script>STRIP(FIRST(Tenant phone work TE, 4), &quot;(&quot;)</hd:script>
+			<hd:script>//STRIP(FIRST(Tenant phone work TE, 4), &quot;(&quot;)
+
+FIRST(REPLACE(REPLACE(Tenant phone work TE, &quot;(&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), 3)</hd:script>
 		</hd:computation>
 		<hd:computation name="Tenant phone work no area CO" resultType="text">
-			<hd:script>STRIP(LAST(Tenant phone work TE, 9), &quot;)&quot;)</hd:script>
+			<hd:script>//STRIP(LAST(Tenant phone work TE, 9), &quot;)&quot;)
+
+LAST(REPLACE(REPLACE(REPLACE(Tenant phone work TE, &quot;(&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;), 7)
+FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 		</hd:computation>
 		<hd:computation name="s if both repairs and harassment CO" resultType="text">
 			<hd:script>&quot;&quot;
@@ -1019,6 +1439,9 @@ END IF</hd:script>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Access person">
 			<hd:caption>Enter the «.b»name and phone number«.be» of the person who the inspector should contact to gain access.</hd:caption>
+		</hd:dialogElement>
+		<hd:dialogElement name="DE Action type">
+			<hd:caption>«.b»What would you like to do?«.be»  (Choose all that apply.)</hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Children">
 			<hd:caption>
@@ -1054,19 +1477,22 @@ If you do not know yet how you will serve the documents or who will serve them, 
 			<hd:caption>«.i»Since you would like the court to let you file your case without paying the $45 fee, we will create a petition for you to take to court to ask for this.«.ie»</hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Introduction to Court dialog">
-			<hd:caption>
-«.i»The selection of court below is based on your address.  Make sure you entered your borough and zip code on the Tenant Information page.
+			<hd:caption>«.i»The selection of court below is based on your address.  Make sure you entered your borough and zip code on the Tenant Information page.
 «.ie»</hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Landlord information intro">
 			<hd:caption>«.b»Your landlord is probably a company, not an individual.«.be» «.i» The person you deal with about your apartment may just be a property manager.  You need to make sure you know the legal owner of your apartment.  If you live in a building with 3 or more apartments, you can find the legal owner name and address at «.w &quot;https://hpdonline.hpdnyc.org/HPDonline/provide_address.aspx&quot;»this link«.we».  You can also find out there if the apartment has a management company.  You don’t have to sue the management company, in addition to the landlord, but you can.
 «.ie»</hd:caption>
 		</hd:dialogElement>
+		<hd:dialogElement name="DE Monthly expenses">
+			<hd:caption>
+«.u»Please list your monthly expenses in the following categories:«.ue»</hd:caption>
+		</hd:dialogElement>
 		<hd:dialogElement name="DE Placeholder">
 			<hd:caption></hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Version">
-			<hd:horizontalDivider caption="03/06/17 Version" justification="center"/>
+			<hd:horizontalDivider caption="08/22/18 Version" justification="center"/>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Vertical space 100">
 			<hd:verticalSpacing/>
@@ -1085,10 +1511,16 @@ If you do not know yet how you will serve the documents or who will serve them, 
 
 6.      We will give you instructions about how to &quot;file&quot; them in court and how to &quot;serve&quot; them.</hd:caption>
 		</hd:dialogElement>
+		<hd:dialogElement name="Served person DHPD info">
+			<hd:caption>Information about the person you delivered the papers to</hd:caption>
+		</hd:dialogElement>
 		<hd:dialog name="Court Information">
+			<hd:title>Court Information</hd:title>
 			<hd:contents>
 				<hd:item name="DE Introduction to Court dialog"/>
 				<hd:item name="Court location MC"/>
+				<hd:item name="DE Vertical space 100"/>
+				<hd:item name="Case number TE"/>
 			</hd:contents>
 			<hd:script>IF Tenant borough MC = &quot;Bronx&quot;
 	DEFAULT Court location MC TO &quot;Bronx&quot;
@@ -1124,25 +1556,22 @@ ELSE IF Court location MC = &quot;Richmond&quot;
 END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Fee Waiver Information">
+			<hd:title>Fee Waiver Information</hd:title>
 			<hd:contents>
 				<hd:item name="DE Intro to fee waiver info"/>
 				<hd:item name="Cause of action description TE"/>
-				<hd:item name="Tenant income NU"/>
-				<hd:item name="Pay period MC"/>
-				<hd:item name="Other pay period TE"/>
-				<hd:item name="Tenant receives public assistance TF"/>
-				<hd:item name="Tenant income source TE"/>
-				<hd:item name="Tenant property owned TE"/>
 				<hd:item name="Previous application TF"/>
 				<hd:item name="Reason for further application TE"/>
+				<hd:item name="IFP what orders MS"/>
+				<hd:item name="IFP other order TE"/>
 			</hd:contents>
-			<hd:script>HIDE Other pay period TE
-IF VALUE(Pay period MC) = &quot;other&quot;
-	SHOW Other pay period TE
-END IF
+			<hd:script>HIDE IFP other order TE
 HIDE Reason for further application TE
 IF VALUE(Previous application TF)
 	SHOW Reason for further application TE
+END IF
+IF IFP what orders MS = &quot;Other&quot;
+	SHOW IFP other order TE
 END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Harassment Information" linkVariables="false">
@@ -1154,30 +1583,92 @@ END IF</hd:script>
 				<hd:item name="Fine landlord harassment TF"/>
 				<hd:item name="Harassment details TE"/>
 				<hd:item name="Prior harassment case MC"/>
-				<hd:item name="Prior repairs case MC"/>
 				<hd:item name="Prior relief sought case numbers and dates TE"/>
+				<hd:item name="Tenant wants to serve TF"/>
 			</hd:contents>
 			<hd:script>HIDE More than one family per apartment TF
+HIDE Fine landlord harassment TF // I don&apos;t think the box for this question still exists on the new forms
+HIDE Prior relief sought case numbers and dates TE
 
 IF More than 2 apartments in building TF = FALSE
 	SHOW More than one family per apartment TF
 END IF
 DEFAULT Fine landlord harassment TF TO TRUE
 
-HIDE Prior relief sought case numbers and dates TE
-IF Action type MS = &quot;Repairs&quot;
-	IF VALUE(Prior relief sought TF)
-		SET Prior repairs case MC TO &quot;Yes&quot;
-	ELSE
-		SET Prior repairs case MC TO &quot;No&quot;
-	END IF
-END IF
-IF VALUE(Prior repairs case MC) = &quot;Yes&quot; OR VALUE(Prior harassment case MC) = &quot;Yes&quot;
+IF VALUE(Prior harassment case MC) = &quot;Yes&quot;
 	SHOW Prior relief sought case numbers and dates TE
+END IF
+
+IF Harassment allegations MS = &quot;conduct in violation&quot;
+SET Harassment conduct in violation TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;contact&quot;
+SET Harassment contact TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;disturbed&quot;
+SET Harassment disturbed TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;failed to comply&quot;
+SET Harassment failed to comply TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;false cert repairs&quot;
+SET Harassment false cert repairs TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;force&quot;
+SET Harassment force TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;induced leaving&quot;
+SET Harassment induced leaving TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;misleading info&quot;
+SET Harassment misleading info TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;removed possessions&quot;
+SET Harassment removed possessions TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;requested id&quot;
+SET Harassment requested id TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;stopped service&quot;
+SET Harassment stopped service TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;sued&quot;
+SET Harassment sued TF TO TRUE
+END IF
+IF Harassment allegations MS = &quot;threats re status&quot;
+SET Harassment threats re status TF TO TRUE
+END IF</hd:script>
+		</hd:dialog>
+		<hd:dialog name="Income and Expenses">
+			<hd:title>Income and Expenses</hd:title>
+			<hd:contents>
+				<hd:item name="Tenant income NU"/>
+				<hd:item name="Tenant income source TE"/>
+				<hd:item name="Pay period MC" onPreviousLine="true"/>
+				<hd:item name="Other pay period TE"/>
+				<hd:item name="Tenant receives public assistance TF"/>
+				<hd:item name="Tenant property owned TE"/>
+				<hd:item name="DE Monthly expenses"/>
+				<hd:item name="Tenant monthly rent NU"/>
+				<hd:item name="Tenant monthly exp utilities NU" onPreviousLine="true"/>
+				<hd:item name="Tenant monthly exp food etc NU"/>
+				<hd:item name="Tenant monthly exp transportation NU" onPreviousLine="true"/>
+				<hd:item name="Tenant monthly exp employment NU"/>
+				<hd:item name="Tenant monthly exp deductions NU" onPreviousLine="true"/>
+				<hd:item name="Tenant monthly exp insurance NU"/>
+				<hd:item name="Tenant monthly exp medical NU" onPreviousLine="true"/>
+				<hd:item name="Tenant monthly exp laundry NU"/>
+				<hd:item name="Tenant monthly exp support NU" onPreviousLine="true"/>
+				<hd:item name="Tenant monthly exp other NU"/>
+			</hd:contents>
+			<hd:script>HIDE Other pay period TE
+IF VALUE(Pay period MC) = &quot;other&quot;
+	SHOW Other pay period TE
 END IF
 </hd:script>
 		</hd:dialog>
 		<hd:dialog name="Landlord Information">
+			<hd:title>Landlord Information</hd:title>
 			<hd:contents>
 				<hd:item name="DE Landlord information intro"/>
 				<hd:item name="Landlord entity or individual MC"/>
@@ -1233,7 +1724,7 @@ END IF</hd:script>
 				<hd:item name="DE Access person"/>
 				<hd:item name="Access person TE"/>
 				<hd:item name="Access person phone TE" onPreviousLine="true"/>
-				<hd:item name="Prior relief sought TF"/>
+				<hd:item name="Prior repairs case MC"/>
 				<hd:item name="Tenant repairs allegations MC"/>
 			</hd:contents>
 			<hd:script>HIDE DE Intro to Repairs Information
@@ -1263,26 +1754,82 @@ END IF
 				<hd:item name="DE Intro to Service Information"/>
 				<hd:item name="Server name full TE"/>
 				<hd:item name="Server address full TE"/>
+				<hd:item name="Landlord is party TF"/>
+				<hd:item name="Service already completed landlord TF"/>
+				<hd:item name="Service time TE" onPreviousLine="true"/>
 				<hd:item name="Service method MC"/>
+				<hd:item name="Served landlord or agent MC" onPreviousLine="true"/>
 				<hd:item name="Served person TE"/>
 				<hd:item name="Service address full TE"/>
+				<hd:item name="Served person landlord sex TE"/>
+				<hd:item name="Served person landlord age TE" onPreviousLine="true"/>
+				<hd:item name="Served person landlord hair color TE"/>
+				<hd:item name="Served person landlord skin color TE" onPreviousLine="true"/>
+				<hd:item name="Served person landlord height TE"/>
+				<hd:item name="Served person landlord weight TE" onPreviousLine="true"/>
+				<hd:item name="HPD service landlord MC"/>
+				<hd:item name="Served person DHPD info"/>
+				<hd:item name="Served person DHPD sex TE"/>
+				<hd:item name="Served person DHPD age TE" onPreviousLine="true"/>
+				<hd:item name="Served person DHPD hair color TE"/>
+				<hd:item name="Served person DHPD skin color TE" onPreviousLine="true"/>
+				<hd:item name="Served person DHPD height TE"/>
+				<hd:item name="Served person DHPD weight TE" onPreviousLine="true"/>
 			</hd:contents>
 			<hd:script>HIDE Served person TE
 HIDE Service address full TE
+HIDE Served person landlord sex TE
+HIDE Served person landlord age TE
+HIDE Served person landlord hair color TE
+HIDE Served person landlord skin color TE
+HIDE Served person landlord height TE
+HIDE Served person landlord weight TE
+HIDE Served landlord or agent MC
+HIDE Service time TE
+HIDE Served person DHPD info
+HIDE Served person DHPD sex TE
+HIDE Served person DHPD age TE
+HIDE Served person DHPD hair color TE
+HIDE Served person DHPD skin color TE
+HIDE Served person DHPD height TE
+HIDE Served person DHPD weight TE
+
 DEFAULT Server name full TE TO Tenant name CO
 
 IF ANSWERED(Tenant address city TE) AND ANSWERED(Tenant address zip TE)
 	DEFAULT Server address full TE TO Tenant address CO
 END IF
 
+IF Service already completed landlord TF
+	SHOW Service time TE
+END IF
+
 IF Service method MC = &quot;Personal&quot;
-	SHOW Served person TE
+	IF Service already completed landlord TF
+		SHOW Served person TE
+		SHOW Served person landlord sex TE
+		SHOW Served person landlord age TE
+		SHOW Served person landlord hair color TE
+		SHOW Served person landlord skin color TE
+		SHOW Served person landlord height TE
+		SHOW Served person landlord weight TE
+	END IF
+	SHOW Served landlord or agent MC
 	SHOW Service address full TE
-ELSE IF VALUE(Service method MC) = &quot;Personal&quot;
-	SET  Served person TE TO Landlord name CO
+ELSE IF VALUE(Service method MC) != &quot;Personal&quot;
+	SET Served person TE TO Landlord name CO
 	SET Service address full TE TO Landlord address one line CO
 END IF
-</hd:script>
+
+IF HPD service landlord MC = &quot;delivered&quot;
+	SHOW Served person DHPD info
+	SHOW Served person DHPD sex TE
+	SHOW Served person DHPD age TE
+	SHOW Served person DHPD hair color TE
+	SHOW Served person DHPD skin color TE
+	SHOW Served person DHPD height TE
+	SHOW Served person DHPD weight TE
+END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Service Information for HPD">
 			<hd:title>Service Information (for HPD)</hd:title>
@@ -1302,36 +1849,93 @@ END IF</hd:script>
 				<hd:item name="DE Intro to Service Information for Mgt Co"/>
 				<hd:item name="Server name full management company TE"/>
 				<hd:item name="Server address full management company TE"/>
-				<hd:item name="Service method management company MC"/>
+				<hd:item name="Mgmt co is party TF"/>
+				<hd:item name="Service already completed mgmt co TF"/>
+				<hd:item name="Service time mgmt coTE" onPreviousLine="true"/>
+				<hd:item name="Service method mgmt co MC"/>
+				<hd:item name="Served mgmt co or agent MC" onPreviousLine="true"/>
 				<hd:item name="Served person management company TE"/>
 				<hd:item name="Service address full management company TE"/>
+				<hd:item name="Served person mgmt co sex TE"/>
+				<hd:item name="Served person mgmt co age TE" onPreviousLine="true"/>
+				<hd:item name="Served person mgmt co hair color TE"/>
+				<hd:item name="Served person mgmt co skin color TE" onPreviousLine="true"/>
+				<hd:item name="Served person mgmt co height TE"/>
+				<hd:item name="Served person mgmt co weight TE" onPreviousLine="true"/>
+				<hd:item name="HPD service mgmt co MC"/>
+				<hd:item name="Served person DHPD info"/>
+				<hd:item name="Served person mmco DHPD sex TE"/>
+				<hd:item name="Served person mmco DHPD age TE" onPreviousLine="true"/>
+				<hd:item name="Served person mmco DHPD hair color TE"/>
+				<hd:item name="Served person mmco DHPD skin color TE" onPreviousLine="true"/>
+				<hd:item name="Served person mmco DHPD height TE"/>
+				<hd:item name="Served person mmco DHPD weight TE" onPreviousLine="true"/>
 			</hd:contents>
 			<hd:script>HIDE Served person management company TE
 HIDE Service address full management company TE
+HIDE Served person mgmt co sex TE
+HIDE Served person mgmt co age TE
+HIDE Served person mgmt co hair color TE
+HIDE Served person mgmt co skin color TE
+HIDE Served person mgmt co height TE
+HIDE Served person mgmt co weight TE
+HIDE Served mgmt co or agent MC
+HIDE Service time mgmt coTE
+HIDE Served person DHPD info
+HIDE Served person mmco DHPD sex TE
+HIDE Served person mmco DHPD age TE
+HIDE Served person mmco DHPD hair color TE
+HIDE Served person mmco DHPD skin color TE
+HIDE Served person mmco DHPD height TE
+HIDE Served person mmco DHPD weight TE
+
+
 DEFAULT Server name full management company TE TO Server name full TE
 
 IF ANSWERED( Server address full TE)
 	DEFAULT Server address full management company TE TO Server address full TE
 END IF
 
+IF Service already completed mgmt co TF
+	SHOW Service time mgmt coTE
+END IF
 
-IF Service method management company MC = &quot;Personal&quot;
-	SHOW Served person management company TE
+IF Service method mgmt co MC = &quot;Personal&quot;
+	IF Service already completed mgmt co TF
+		SHOW Served person management company TE
+		SHOW Served person mgmt co sex TE
+		SHOW Served person mgmt co age TE
+		SHOW Served person mgmt co hair color TE
+		SHOW Served person mgmt co skin color TE
+		SHOW Served person mgmt co height TE
+		SHOW Served person mgmt co weight TE
+	END IF
+	SHOW Served mgmt co or agent MC
 	SHOW Service address full management company TE
-ELSE
+ELSE IF VALUE(Service method MC) != &quot;Personal&quot;
 	SET Served person management company TE TO Management company name TE
 	SET Service address full management company TE TO Management company address one line CO
 END IF
-
+IF HPD service mgmt co MC = &quot;delivered&quot;
+	SHOW Served person DHPD info
+	SHOW Served person mmco DHPD sex TE
+	SHOW Served person mmco DHPD age TE
+	SHOW Served person mmco DHPD hair color TE
+	SHOW Served person mmco DHPD skin color TE
+	SHOW Served person mmco DHPD height TE
+	SHOW Served person mmco DHPD weight TE
+END IF
 </hd:script>
 		</hd:dialog>
 		<hd:dialog name="Specific Complaints">
+			<hd:title>Specific Complaints</hd:title>
 			<hd:contents>
 				<hd:item name="DE Intro to conditions list"/>
 				<hd:item name="Tenant Complaints"/>
 			</hd:contents>
 		</hd:dialog>
 		<hd:dialog name="Tenant Child">
+			<hd:title>Tenant Child</hd:title>
 			<hd:style>
 				<hd:spreadsheetOnParent rowsToDisplay="5" hideButtons="true"/>
 			</hd:style>
@@ -1342,6 +1946,7 @@ END IF
 			<hd:script>LIMIT MIN(Tenant children under 6 NU, 4)</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Tenant Complaints">
+			<hd:title>Tenant Complaints</hd:title>
 			<hd:style>
 				<hd:spreadsheetOnParent rowsToDisplay="15"/>
 			</hd:style>
@@ -1373,6 +1978,7 @@ END IF
 //END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Tenant Information">
+			<hd:title>Tenant Information</hd:title>
 			<hd:contents>
 				<hd:item name="Tenant name first TE"/>
 				<hd:item name="Tenant name middle TE" onPreviousLine="true"/>
@@ -1419,6 +2025,7 @@ ELSE IF  NOT ANSWERED(Tenant children under 6 NU) AND NOT VALUE(Flag TF)
 END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Welcome">
+			<hd:title>Welcome</hd:title>
 			<hd:annotation>Old intro:
 
 You can use this system to create the court documents you will need to sue your landlord to make repairs to your apartment or to stop harassing you.  We’ll ask information about you, your landlord, and the facts of your lawsuit, like what needs to be fixed, what your landlord has said or done, etcetera.
@@ -1435,11 +2042,17 @@ When you print the court documents, we’ll give you written instructions about 
 				<hd:item name="DE Welcome intro"/>
 				<hd:item name="DE Vertical space 100"/>
 				<hd:item name="DE Placeholder"/>
+				<hd:item name="DE Action type"/>
+				<hd:item name="Sue for repairs TF"/>
+				<hd:item name="Sue for harassment TF"/>
+				<hd:item name="Request fee waiver TF"/>
 				<hd:item name="Action type MS" onPreviousLine="true"/>
 				<hd:item name="DE Placeholder" onPreviousLine="true"/>
 				<hd:item name="Alert about NYCHA properties DE"/>
 			</hd:contents>
-			<hd:script>DEFAULT Action type MS TO &quot;Repairs&quot;</hd:script>
+			<hd:selectionGrouping type="all"/>
+			<hd:script>//DEFAULT Action type MS TO &quot;Repairs&quot;
+HIDE Action type MS // switched to TF vars for use with A2J</hd:script>
 		</hd:dialog>
 		<hd:textFormat name="LIKE THIS" value="LIKE THIS"/>
 		<hd:textFormat name="Like This" value="Like This"/>
@@ -1540,42 +2153,6 @@ When you print the court documents, we’ll give you written instructions about 
 			<hd:choice>WV</hd:choice>
 			<hd:choice>WI</hd:choice>
 			<hd:choice>WY</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="he/she">
-			<hd:choice>he</hd:choice>
-			<hd:choice>she</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="he/she/they">
-			<hd:choice>he</hd:choice>
-			<hd:choice>she</hd:choice>
-			<hd:choice>they</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="him/her">
-			<hd:choice>him</hd:choice>
-			<hd:choice>her</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="him/her/them">
-			<hd:choice>him</hd:choice>
-			<hd:choice>her</hd:choice>
-			<hd:choice>them</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="his/her">
-			<hd:choice>his</hd:choice>
-			<hd:choice>her</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="his/her/their">
-			<hd:choice>his</hd:choice>
-			<hd:choice>her</hd:choice>
-			<hd:choice>their</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="his/hers">
-			<hd:choice>his</hd:choice>
-			<hd:choice>hers</hd:choice>
-		</hd:multipleChoiceFormat>
-		<hd:multipleChoiceFormat name="his/hers/theirs">
-			<hd:choice>his</hd:choice>
-			<hd:choice>hers</hd:choice>
-			<hd:choice>theirs</hd:choice>
 		</hd:multipleChoiceFormat>
 		<hd:listFormat name="A, B AND C" value="A, B AND C"/>
 		<hd:listFormat name="A, B and C" value="A, B and C"/>

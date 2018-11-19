@@ -118,7 +118,18 @@ class PythonCodeGenerator:
         for var in hd_vars:
             if var.help_text:
                 lines.extend(wrap_comment(var.help_text, indent=4))
-            lines.append(f'    {var.snake_case_name}: Optional[{var.py_annotation}] = None\n')
+            varname = var.snake_case_name
+            line = f'    {varname}: Optional[{var.py_annotation}] = None'
+            if varname.startswith('if'):
+                # TODO: This is a very strange bug with pycodestyle/flake8 that
+                # appears to trigger E701 if the property name starts with "if".
+                #
+                # It might be fixed by the following PR, but I don't think we
+                # are using the version that integrates it:
+                #
+                # https://github.com/PyCQA/pycodestyle/pull/640
+                line += '  # noqa: E701'
+            lines.append(f'{line}\n')
 
         return lines
 

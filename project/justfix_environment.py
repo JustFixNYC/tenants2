@@ -125,7 +125,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # The HotDocs template ID to pass to the HP Action SOAP endpoint,
     # e.g. "5395".
-    HP_ACTION_TEMPLATE_ID: str = '5646'
+    HP_ACTION_TEMPLATE_ID: str = '6590'
 
     # The customer key to pass to the HP Action SOAP endpoint. If
     # not provided, HP Action submission will fail.

@@ -86,9 +86,9 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
-    # For now we're going to say the problem is urgent, as this
-    # means we don't have to deal with fields related to HPD inspections.
-    v.problem_is_urgent_tf = True
+    # For now we're going to say the problem is not urgent, as this
+    # will generate the HPD inspection forms.
+    v.problem_is_urgent_tf = False
 
     if hasattr(user, 'landlord_details'):
         ld = user.landlord_details

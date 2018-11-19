@@ -31,6 +31,15 @@ COURT_COUNTIES: Dict[str, hp.CourtCountyMC] = {
 }
 
 
+BOROUGHS: Dict[str, hp.TenantBoroughMC] = {
+    BOROUGH_CHOICES.MANHATTAN: hp.TenantBoroughMC.MANHATTAN,
+    BOROUGH_CHOICES.BRONX: hp.TenantBoroughMC.BRONX,
+    BOROUGH_CHOICES.BROOKLYN: hp.TenantBoroughMC.BROOKLYN,
+    BOROUGH_CHOICES.QUEENS: hp.TenantBoroughMC.QUEENS,
+    BOROUGH_CHOICES.STATEN_ISLAND: hp.TenantBoroughMC.STATEN_ISLAND
+}
+
+
 def justfix_issue_area_to_hp_area(area: str) -> hp.AreaComplainedOfMC:
     if area == ISSUE_AREA_CHOICES.PUBLIC_AREAS:
         return hp.AreaComplainedOfMC.PUBLIC_AREA
@@ -70,12 +79,22 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # We'll be adding support for harassment and fee waiver later, but
     # for now we'll just support repairs.
     v.action_type_ms = [hp.ActionTypeMS.REPAIRS]
+    v.sue_for_repairs_tf = True
+    v.request_fee_waiver_tf = False
+    v.sue_for_harassment_tf = False
 
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
+    # For now we're going to say the problem is urgent, as this
+    # means we don't have to deal with fields related to HPD inspections.
+    v.problem_is_urgent_tf = True
+
     if hasattr(user, 'landlord_details'):
-        v.landlord_entity_name_te = user.landlord_details.name
+        ld = user.landlord_details
+        v.landlord_entity_name_te = ld.name
+        v.served_person_te = ld.name
+        v.service_address_full_te = ld.address
 
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info
@@ -83,8 +102,13 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.tenant_address_city_te = oinfo.city
         v.tenant_address_zip_te = oinfo.zipcode
         v.tenant_address_street_te = oinfo.address
+        v.tenant_borough_mc = BOROUGHS[oinfo.borough]
         v.court_location_mc = COURT_LOCATIONS[oinfo.borough]
         v.court_county_mc = COURT_COUNTIES[oinfo.borough]
+
+        full_addr = ', '.join(oinfo.address_lines_for_mailing)
+        v.server_address_full_hpd_te = full_addr
+        v.server_address_full_te = full_addr
 
     for issue in user.issues.all():
         desc = ISSUE_CHOICES.get_label(issue.value)

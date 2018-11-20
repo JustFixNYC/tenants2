@@ -35,6 +35,11 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
 
+# Access to the nycdb is read-only anyways, so we won't be able to create a
+# test database on it.
+if 'nycdb' in DATABASES:  # noqa
+    del DATABASES['nycdb']  # noqa
+
 
 class NotActuallyFileStorage:
     def __init__(self):

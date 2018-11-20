@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'airtable.apps.AirtableConfig',
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
-    'hpaction.apps.HPActionConfig'
+    'hpaction.apps.HPActionConfig',
+    'nycdb'
 ]
 
 MIDDLEWARE = [
@@ -112,6 +113,12 @@ DATABASES = {
 
 if env.NYCDB_DATABASE_URL:
     DATABASES['nycdb'] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
+
+MIGRATION_MODULES = {
+    # The NYCDB is an external database that we read from, so we don't
+    # want to modify its schema in any way.
+    'nycdb': None
+}
 
 
 # Password validation

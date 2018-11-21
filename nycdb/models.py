@@ -1,4 +1,4 @@
-from typing import Optional, NamedTuple, List
+from typing import Optional, NamedTuple, List, Union
 from dataclasses import dataclass
 
 from django.db import models
@@ -27,7 +27,7 @@ class Address(NamedTuple):
 
 
 @dataclass
-class Landlord:
+class BaseLandlord:
     address: Address
 
     def get_address_lines_for_mailing(self) -> List[str]:
@@ -35,7 +35,7 @@ class Landlord:
 
 
 @dataclass
-class IndividualLandlord(Landlord):
+class IndividualLandlord(BaseLandlord):
     first_name: str
     last_name: str
 
@@ -47,7 +47,7 @@ class IndividualLandlord(Landlord):
 
 
 @dataclass
-class CompanyLandlord(Landlord):
+class CompanyLandlord(BaseLandlord):
     name: str
 
     def get_address_lines_for_mailing(self) -> List[str]:
@@ -55,6 +55,9 @@ class CompanyLandlord(Landlord):
             self.name,
             *super().get_address_lines_for_mailing()
         ]
+
+
+Landlord = Union[CompanyLandlord, IndividualLandlord]
 
 
 class NYCDBManager(models.Manager):
@@ -78,24 +81,26 @@ class HPDRegistration(models.Model):
         if corp_owners:
             corp_owner = corp_owners[0]
             head_officers = [c for c in contacts if c.type == HPDContact.HEAD_OFFICER]
-            head_officer = None
-            if head_officers:
-                head_officer = head_officers[0]
-                return CompanyLandlord(
-                    name=corp_owner.corporationname or '',
-                    address=head_officer.get_address()
-                )
+            name = corp_owner.corporationname
+            if name and head_officers:
+                address = head_officers[0].get_address()
+                if address:
+                    return CompanyLandlord(name=name, address=address)
         return None
 
     def _get_indiv_landlord(self, contacts: List['HPDContact']) -> Optional[IndividualLandlord]:
         ind_owners = [c for c in contacts if c.type == HPDContact.INDIVIDUAL_OWNER]
         if ind_owners:
             ind_owner = ind_owners[0]
-            return IndividualLandlord(
-                first_name=ind_owner.firstname or '',
-                last_name=ind_owner.lastname or '',
-                address=ind_owner.get_address()
-            )
+            first_name = ind_owner.firstname
+            last_name = ind_owner.lastname
+            address = ind_owner.get_address()
+            if first_name and last_name and address:
+                return IndividualLandlord(
+                    first_name=first_name,
+                    last_name=last_name,
+                    address=address
+                )
         return None
 
     def get_landlord(self) -> Optional[Landlord]:
@@ -134,12 +139,18 @@ class HPDContact(models.Model):
     businessstate = models.TextField()
     businesszip = models.TextField()
 
-    def get_address(self) -> Address:
+    def get_address(self) -> Optional[Address]:
+        if not (self.businesshousenumber and
+                self.businessstreetname and
+                self.businesscity and
+                self.businessstate and
+                self.businesszip):
+            return None
         return Address(
-            house_number=self.businesshousenumber or '',
-            street_name=self.businessstreetname or '',
+            house_number=self.businesshousenumber,
+            street_name=self.businessstreetname,
             apartment=self.businessapartment or '',
-            city=self.businesscity or '',
-            state=self.businessstate or '',
-            zipcode=self.businesszip or ''
+            city=self.businesscity,
+            state=self.businessstate,
+            zipcode=self.businesszip
         )

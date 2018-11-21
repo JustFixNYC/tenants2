@@ -51,6 +51,7 @@ class Command(BaseCommand):
         if regs_count == 0:
             return
 
+        reg: HPDRegistration
         for reg in regs:
             print(f"Registration #{reg.registrationid}:")
             for contact in reg.contacts.all():
@@ -63,6 +64,13 @@ class Command(BaseCommand):
                 print(f"  {fields}")
             landlord = reg.get_landlord()
             if landlord:
-                print(f"\n  {landlord.__class__.__name__}:")
-                for line in landlord.get_address_lines_for_mailing():
+                print(f"\n  Landlord ({landlord.__class__.__name__}):")
+                print(f"    {landlord.name}")
+                for line in landlord.address.lines_for_mailing:
+                    print(f"    {line}")
+            mgmt_co = reg.get_management_company()
+            if mgmt_co:
+                print(f"\n  Management company:")
+                print(f"    {mgmt_co.name}")
+                for line in mgmt_co.address.lines_for_mailing:
                     print(f"    {line}")

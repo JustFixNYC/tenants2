@@ -16,7 +16,8 @@ class Address(NamedTuple):
     state: str
     zipcode: str
 
-    def get_lines_for_mailing(self) -> List[str]:
+    @property
+    def lines_for_mailing(self) -> List[str]:
         first_line = f"{self.house_number} {self.street_name}"
         if self.apartment:
             first_line += f" #{self.apartment}"
@@ -27,37 +28,26 @@ class Address(NamedTuple):
 
 
 @dataclass
-class BaseLandlord:
+class BaseContact:
     address: Address
-
-    def get_address_lines_for_mailing(self) -> List[str]:
-        return self.address.get_lines_for_mailing()
 
 
 @dataclass
-class IndividualLandlord(BaseLandlord):
+class Individual(BaseContact):
     first_name: str
     last_name: str
 
-    def get_address_lines_for_mailing(self) -> List[str]:
-        return [
-            f"{self.first_name} {self.last_name}",
-            *super().get_address_lines_for_mailing()
-        ]
+    @property
+    def name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
 
 
 @dataclass
-class CompanyLandlord(BaseLandlord):
+class Company(BaseContact):
     name: str
 
-    def get_address_lines_for_mailing(self) -> List[str]:
-        return [
-            self.name,
-            *super().get_address_lines_for_mailing()
-        ]
 
-
-Landlord = Union[CompanyLandlord, IndividualLandlord]
+Landlord = Union[Individual, Company]
 
 
 class NYCDBManager(models.Manager):
@@ -76,7 +66,7 @@ class HPDRegistration(models.Model):
     block = models.SmallIntegerField()
     lot = models.SmallIntegerField()
 
-    def _get_company_landlord(self, contacts: List['HPDContact']) -> Optional[CompanyLandlord]:
+    def _get_company_landlord(self, contacts: List['HPDContact']) -> Optional[Company]:
         corp_owners = [c for c in contacts if c.type == HPDContact.CORPORATE_OWNER]
         if corp_owners:
             corp_owner = corp_owners[0]
@@ -85,10 +75,10 @@ class HPDRegistration(models.Model):
             if name and head_officers:
                 address = head_officers[0].get_address()
                 if address:
-                    return CompanyLandlord(name=name, address=address)
+                    return Company(name=name, address=address)
         return None
 
-    def _get_indiv_landlord(self, contacts: List['HPDContact']) -> Optional[IndividualLandlord]:
+    def _get_indiv_landlord(self, contacts: List['HPDContact']) -> Optional[Individual]:
         ind_owners = [c for c in contacts if c.type == HPDContact.INDIVIDUAL_OWNER]
         if ind_owners:
             ind_owner = ind_owners[0]
@@ -96,7 +86,7 @@ class HPDRegistration(models.Model):
             last_name = ind_owner.lastname
             address = ind_owner.get_address()
             if first_name and last_name and address:
-                return IndividualLandlord(
+                return Individual(
                     first_name=first_name,
                     last_name=last_name,
                     address=address
@@ -107,6 +97,17 @@ class HPDRegistration(models.Model):
         contacts = list(self.contacts.all())
         return self._get_company_landlord(contacts) or self._get_indiv_landlord(contacts)
 
+    def get_management_company(self) -> Optional[Company]:
+        contacts: List[HPDContact] = list(self.contacts.all())
+        agents = [c for c in contacts if c.type == HPDContact.AGENT]
+        if agents:
+            agent = agents[0]
+            address = agent.get_address()
+            name = agent.corporationname
+            if name and address:
+                return Company(name=name, address=address)
+        return None
+
 
 class HPDContact(models.Model):
     class Meta:
@@ -115,6 +116,7 @@ class HPDContact(models.Model):
     CORPORATE_OWNER = 'CorporateOwner'
     INDIVIDUAL_OWNER = 'IndividualOwner'
     HEAD_OFFICER = 'HeadOfficer'
+    AGENT = 'Agent'
 
     objects = NYCDBManager()
 

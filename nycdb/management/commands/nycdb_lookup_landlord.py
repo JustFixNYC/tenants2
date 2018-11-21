@@ -5,30 +5,6 @@ from project import geocoding
 from nycdb.models import HPDRegistration, HPDContact, Contact
 
 
-class BBL(NamedTuple):
-    '''
-    Encapsulates the Boro, Block, and Lot number for a unit of real estate in NYC:
-
-        https://en.wikipedia.org/wiki/Borough,_Block_and_Lot
-
-    BBLs can be parsed from their padded string representations:
-
-        >>> BBL.parse('2022150116')
-        BBL(boro=2, block=2215, lot=116)
-    '''
-
-    boro: int
-    block: int
-    lot: int
-
-    @staticmethod
-    def parse(pad_bbl: str) -> 'BBL':
-        boro = int(pad_bbl[0:1])
-        block = int(pad_bbl[1:6])
-        lot = int(pad_bbl[6:])
-        return BBL(boro, block, lot)
-
-
 class Command(BaseCommand):
     help = 'Obtain landlord information for the given address from NYCDB'
 
@@ -66,8 +42,7 @@ class Command(BaseCommand):
             self.show_mailing_addr(mgmt_co)
 
     def show_registrations(self, pad_bbl: str) -> None:
-        bbl = BBL.parse(pad_bbl)
-        regs = HPDRegistration.objects.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
+        regs = HPDRegistration.objects.from_pad_bbl(pad_bbl)
         for reg in regs:
             self.show_registration(reg)
 

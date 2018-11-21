@@ -8,6 +8,30 @@ from django.db import models
 #     https://github.com/aepyornis/nyc-db/blob/master/src/nycdb/datasets.yml
 
 
+class BBL(NamedTuple):
+    '''
+    Encapsulates the Boro, Block, and Lot number for a unit of real estate in NYC:
+
+        https://en.wikipedia.org/wiki/Borough,_Block_and_Lot
+
+    BBLs can be parsed from their padded string representations:
+
+        >>> BBL.parse('2022150116')
+        BBL(boro=2, block=2215, lot=116)
+    '''
+
+    boro: int
+    block: int
+    lot: int
+
+    @staticmethod
+    def parse(pad_bbl: str) -> 'BBL':
+        boro = int(pad_bbl[0:1])
+        block = int(pad_bbl[1:6])
+        lot = int(pad_bbl[6:])
+        return BBL(boro, block, lot)
+
+
 class Address(NamedTuple):
     house_number: str
     street_name: str
@@ -55,11 +79,17 @@ class NYCDBManager(models.Manager):
         return super().get_queryset().using('nycdb')
 
 
+class HPDRegistrationManager(NYCDBManager):
+    def from_pad_bbl(self, pad_bbl: str):
+        bbl = BBL.parse(pad_bbl)
+        return self.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
+
+
 class HPDRegistration(models.Model):
     class Meta:
         db_table = 'hpd_registrations'
 
-    objects = NYCDBManager()
+    objects = HPDRegistrationManager()
 
     registrationid = models.IntegerField(primary_key=True)
     boroid = models.SmallIntegerField()

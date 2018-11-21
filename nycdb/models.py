@@ -6,11 +6,6 @@ from django.db import models
 from project.util.nyc import BBL, to_pad_bbl
 
 
-# These models map onto the existing schema roughly defined here:
-#
-#     https://github.com/aepyornis/nyc-db/blob/master/src/nycdb/datasets.yml
-
-
 class Address(NamedTuple):
     house_number: str
     street_name: str
@@ -65,6 +60,11 @@ class HPDRegistrationManager(NYCDBManager):
     def from_pad_bbl(self, pad_bbl: str):
         bbl = BBL.parse(pad_bbl)
         return self.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
+
+
+# These models map onto the existing schema roughly defined here:
+#
+#     https://github.com/aepyornis/nyc-db/blob/master/src/nycdb/datasets.yml
 
 
 class HPDRegistration(models.Model):

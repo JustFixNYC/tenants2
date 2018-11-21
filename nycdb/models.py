@@ -1,36 +1,14 @@
 from typing import Optional, NamedTuple, List, Union
 from dataclasses import dataclass
-
 from django.conf import settings
 from django.db import models
+
+from project.util.nyc import BBL, to_pad_bbl
+
 
 # These models map onto the existing schema roughly defined here:
 #
 #     https://github.com/aepyornis/nyc-db/blob/master/src/nycdb/datasets.yml
-
-
-class BBL(NamedTuple):
-    '''
-    Encapsulates the Boro, Block, and Lot number for a unit of real estate in NYC:
-
-        https://en.wikipedia.org/wiki/Borough,_Block_and_Lot
-
-    BBLs can be parsed from their padded string representations:
-
-        >>> BBL.parse('2022150116')
-        BBL(boro=2, block=2215, lot=116)
-    '''
-
-    boro: int
-    block: int
-    lot: int
-
-    @staticmethod
-    def parse(pad_bbl: str) -> 'BBL':
-        boro = int(pad_bbl[0:1])
-        block = int(pad_bbl[1:6])
-        lot = int(pad_bbl[6:])
-        return BBL(boro, block, lot)
 
 
 class Address(NamedTuple):
@@ -103,6 +81,10 @@ class HPDRegistration(models.Model):
     @property
     def contact_list(self) -> List['HPDContact']:
         return list(self.contacts.all())
+
+    @property
+    def pad_bbl(self) -> str:
+        return to_pad_bbl(self.boroid, self.block, self.lot)
 
     def _get_company_landlord(self) -> Optional[Company]:
         owners = [

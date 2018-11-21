@@ -1,0 +1,68 @@
+[
+  {
+    "model": "nycdb.hpdregistration",
+    "pk": 2,
+    "fields": {
+      "boroid": 3,
+      "block": 201,
+      "lot": 1
+    }
+  },
+  {
+    "model": "nycdb.hpdcontact",
+    "fields": {
+      "registration": 2,
+      "type": "CorporateOwner",
+      "contactdescription": "GEN.PART",
+      "corporationname": "ULTRA DEVELOPERS, LLC",
+      "title": null,
+      "firstname": null,
+      "middleinitial": null,
+      "lastname": null,
+      "businesshousenumber": "3",
+      "businessstreetname": "ULTRA STREET",
+      "businessapartment": null,
+      "businesscity": "BROOKLYN",
+      "businessstate": "NY",
+      "businesszip": "11999"
+    }
+  },
+  {
+    "model": "nycdb.hpdcontact",
+    "fields": {
+      "registration": 2,
+      "type": "Agent",
+      "contactdescription": "GEN.PART",
+      "corporationname": "FUNKY APARTMENT MANAGEMENT",
+      "title": null,
+      "firstname": "MISTER",
+      "middleinitial": null,
+      "lastname": "MANAGER",
+      "businesshousenumber": "900",
+      "businessstreetname": "EAST 25TH STREET",
+      "businessapartment": "2",
+      "businesscity": "NEW YORK",
+      "businessstate": "NY",
+      "businesszip": "10099"
+    }
+  },
+  {
+    "model": "nycdb.hpdcontact",
+    "fields": {
+      "registration": 2,
+      "type": "HeadOfficer",
+      "contactdescription": "GEN.PART",
+      "corporationname": null,
+      "title": null,
+      "firstname": "LANDLORDO",
+      "middleinitial": null,
+      "lastname": "CALRISSIAN",
+      "businesshousenumber": "9",
+      "businessstreetname": "BEAN CENTER DRIVE",
+      "businessapartment": "40",
+      "businesscity": "FUNKYPLACE",
+      "businessstate": "NJ",
+      "businesszip": "07099"
+    }
+  }
+]

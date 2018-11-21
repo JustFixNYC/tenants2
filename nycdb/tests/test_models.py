@@ -1,6 +1,6 @@
 import pytest
 
-from nycdb.models import HPDRegistration, HPDContact
+from nycdb.models import HPDRegistration, HPDContact, Company, Individual
 from . import fixtures
 
 
@@ -8,11 +8,31 @@ def test_tiny_landlord_works(nycdb):
     tiny = fixtures.load_hpd_registration("tiny-landlord.json")
     assert tiny.get_management_company() is None
     boop = tiny.get_landlord()
-    assert boop is not None
+    assert isinstance(boop, Individual)
     assert boop.name == "BOOP JONES"
     assert boop.address.lines_for_mailing == [
         "124 99TH STREET",
         "Brooklyn, NY 11999"
+    ]
+
+
+def test_medium_landlord_works(nycdb):
+    reg = fixtures.load_hpd_registration("medium-landlord.json")
+
+    mgmtco = reg.get_management_company()
+    assert isinstance(mgmtco, Company)
+    assert mgmtco.name == "FUNKY APARTMENT MANAGEMENT"
+    assert mgmtco.address.lines_for_mailing == [
+        '900 EAST 25TH STREET #2',
+        'NEW YORK, NY 10099'
+    ]
+
+    ll = reg.get_landlord()
+    assert isinstance(ll, Company)
+    assert ll.name == "ULTRA DEVELOPERS, LLC"
+    assert ll.address.lines_for_mailing == [
+        '9 BEAN CENTER DRIVE #40',
+        'FUNKYPLACE, NJ 07099'
     ]
 
 

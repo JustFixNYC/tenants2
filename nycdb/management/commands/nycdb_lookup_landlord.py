@@ -55,9 +55,10 @@ class Command(BaseCommand):
 
     def dump_models(self, pad_bbl: str) -> None:
         regs = HPDRegistration.objects.from_pad_bbl(pad_bbl)
-        data: List[Any] = json.loads(serializers.serialize('json', regs))
+        models: List[Any] = list(regs)
         for reg in regs:
-            data.extend(json.loads(serializers.serialize('json', reg.contact_list)))
+            models.extend(reg.contact_list)
+        data = json.loads(serializers.serialize('json', models))
         self.stdout.write(json.dumps(data, indent=2))
 
     def handle(self, *args, **options) -> None:

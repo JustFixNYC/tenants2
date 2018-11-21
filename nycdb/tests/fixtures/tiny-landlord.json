@@ -1,0 +1,49 @@
+[
+  {
+    "model": "nycdb.hpdregistration",
+    "pk": 1,
+    "fields": {
+      "boroid": 3,
+      "block": 9,
+      "lot": 4
+    }
+  },
+  {
+    "model": "nycdb.hpdcontact",
+    "fields": {
+      "registration": 1,
+      "type": "IndividualOwner",
+      "contactdescription": "INDIV",
+      "corporationname": null,
+      "title": null,
+      "firstname": "BOOP",
+      "middleinitial": "K",
+      "lastname": "JONES",
+      "businesshousenumber": "124",
+      "businessstreetname": "99TH STREET",
+      "businessapartment": null,
+      "businesscity": "Brooklyn",
+      "businessstate": "NY",
+      "businesszip": "11999"
+    }
+  },
+  {
+    "model": "nycdb.hpdcontact",
+    "fields": {
+      "registration": 1,
+      "type": "SiteManager",
+      "contactdescription": "INDIV",
+      "corporationname": null,
+      "title": null,
+      "firstname": "BOOP",
+      "middleinitial": "K",
+      "lastname": "JONES",
+      "businesshousenumber": null,
+      "businessstreetname": null,
+      "businessapartment": null,
+      "businesscity": null,
+      "businessstate": null,
+      "businesszip": null
+    }
+  }
+]

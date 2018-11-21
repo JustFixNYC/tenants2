@@ -4,6 +4,12 @@ from nycdb.models import HPDRegistration, HPDContact, Company, Individual
 from . import fixtures
 
 
+class TestHPDRegistration:
+    def test_get_landlord_returns_none_if_not_found(self, nycdb):
+        reg = HPDRegistration()
+        assert reg.get_landlord() is None
+
+
 def test_tiny_landlord_works(nycdb):
     tiny = fixtures.load_hpd_registration("tiny-landlord.json")
     assert tiny.get_management_company() is None
@@ -58,3 +64,8 @@ class TestHPDContact:
             businesshousenumber='23',
             businessstreetname="blarg st"
         ).street_address == '23 blarg st'
+
+    def test_address_is_none_if_all_fields_are_not_present(self):
+        assert HPDContact().address is None
+        assert HPDContact(businessstreetname="blarg st").address is None
+        assert HPDContact(businesscity="new york").address is None

@@ -57,9 +57,16 @@ class CompanyLandlord(Landlord):
         ]
 
 
+class NYCDBManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().using('nycdb')
+
+
 class HPDRegistration(models.Model):
     class Meta:
         db_table = 'hpd_registrations'
+
+    objects = NYCDBManager()
 
     registrationid = models.IntegerField(primary_key=True)
     boroid = models.SmallIntegerField()
@@ -103,6 +110,8 @@ class HPDContact(models.Model):
     CORPORATE_OWNER = 'CorporateOwner'
     INDIVIDUAL_OWNER = 'IndividualOwner'
     HEAD_OFFICER = 'HeadOfficer'
+
+    objects = NYCDBManager()
 
     registrationcontactid = models.IntegerField(primary_key=True)
     registrationid = models.ForeignKey(

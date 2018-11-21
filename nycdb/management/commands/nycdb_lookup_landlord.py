@@ -45,8 +45,7 @@ class Command(BaseCommand):
         pad_bbl = features[0].properties.pad_bbl
         bbl = BBL.parse(pad_bbl)
 
-        queryset = HPDRegistration.objects.using('nycdb')
-        regs = queryset.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
+        regs = HPDRegistration.objects.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
         regs_count: int = regs.count()
         print(f"HPD registrations: {regs_count}")
         if regs_count == 0:

@@ -102,7 +102,7 @@ class HPDRegistration(models.Model):
 
     def _get_company_landlord(self) -> Optional[Company]:
         owners = [
-            c for c in self.contact_list
+            c.corporationname for c in self.contact_list
             if c.type == HPDContact.CORPORATE_OWNER and c.corporationname
         ]
         if owners:
@@ -112,21 +112,21 @@ class HPDRegistration(models.Model):
             ]
             if head_officer_addresses:
                 return Company(
-                    name=owners[0].corporationname,
+                    name=owners[0],
                     address=head_officer_addresses[0]
                 )
         return None
 
     def _get_indiv_landlord(self) -> Optional[Individual]:
         owners = [
-            (c, c.address) for c in self.contact_list
+            (c.firstname, c.lastname, c.address) for c in self.contact_list
             if c.type == HPDContact.INDIVIDUAL_OWNER and c.firstname and c.lastname and c.address
         ]
         if owners:
-            owner, address = owners[0]
+            first_name, last_name, address = owners[0]
             return Individual(
-                first_name=owner.firstname,
-                last_name=owner.lastname,
+                first_name=first_name,
+                last_name=last_name,
                 address=address
             )
         return None
@@ -136,12 +136,12 @@ class HPDRegistration(models.Model):
 
     def get_management_company(self) -> Optional[Company]:
         agents = [
-            (c, c.address) for c in self.contact_list
+            (c.corporationname, c.address) for c in self.contact_list
             if c.type == HPDContact.AGENT and c.address and c.corporationname
         ]
         if agents:
-            agent, address = agents[0]
-            return Company(name=agent.corporationname, address=address)
+            name, address = agents[0]
+            return Company(name=name, address=address)
         return None
 
 
@@ -156,26 +156,26 @@ class HPDContact(models.Model):
 
     objects = NYCDBManager()
 
-    registrationcontactid = models.IntegerField(primary_key=True)
-    registrationid = models.ForeignKey(
+    registrationcontactid: int = models.IntegerField(primary_key=True)
+    registration: HPDRegistration = models.ForeignKey(
         HPDRegistration,
         db_column='registrationid',
         related_name='contacts',
         on_delete=models.CASCADE
     )
     type = models.TextField()
-    contactdescription = models.TextField()
-    corporationname = models.TextField()
-    title = models.TextField()
-    firstname = models.TextField()
-    middleinitial = models.TextField()
-    lastname = models.TextField()
-    businesshousenumber = models.TextField()
-    businessstreetname = models.TextField()
-    businessapartment = models.TextField()
-    businesscity = models.TextField()
-    businessstate = models.TextField()
-    businesszip = models.TextField()
+    contactdescription: Optional[str] = models.TextField()
+    corporationname: Optional[str] = models.TextField()
+    title: Optional[str] = models.TextField()
+    firstname: Optional[str] = models.TextField()
+    middleinitial: Optional[str] = models.TextField()
+    lastname: Optional[str] = models.TextField()
+    businesshousenumber: Optional[str] = models.TextField()
+    businessstreetname: Optional[str] = models.TextField()
+    businessapartment: Optional[str] = models.TextField()
+    businesscity: Optional[str] = models.TextField()
+    businessstate: Optional[str] = models.TextField()
+    businesszip: Optional[str] = models.TextField()
 
     @property
     def street_address(self) -> str:

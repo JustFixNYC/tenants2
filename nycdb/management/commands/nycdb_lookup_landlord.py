@@ -2,7 +2,7 @@ from typing import NamedTuple
 from django.core.management.base import BaseCommand
 
 from project import geocoding
-from nycdb.models import HPDRegistration
+from nycdb.models import HPDRegistration, HPDContact, Contact
 
 
 class BBL(NamedTuple):
@@ -35,42 +35,49 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('address')
 
+    def show_mailing_addr(self, contact: Contact, indent: str="    ") -> None:
+        self.stdout.write(f"{indent}{contact.name}\n")
+        for line in contact.address.lines_for_mailing:
+            self.stdout.write(f"{indent}{line}\n")
+
+    def show_raw_contact_info(self, contact: HPDContact) -> None:
+        fields = ' / '.join(filter(None, [
+            contact.type,
+            contact.corporationname,
+            contact.full_name,
+            contact.street_address
+        ]))
+        self.stdout.write(f"  {fields}\n")
+
+    def show_registration(self, reg: HPDRegistration) -> None:
+        self.stdout.write(f"HPD Registration #{reg.registrationid}:\n")
+
+        for contact in reg.contacts.all():
+            self.show_raw_contact_info(contact)
+
+        landlord = reg.get_landlord()
+        if landlord:
+            self.stdout.write(f"\n  Landlord ({landlord.__class__.__name__}):\n")
+            self.show_mailing_addr(landlord)
+
+        mgmt_co = reg.get_management_company()
+        if mgmt_co:
+            print(f"\n  Management company:")
+            self.show_mailing_addr(mgmt_co)
+
+    def show_registrations(self, pad_bbl: str) -> None:
+        bbl = BBL.parse(pad_bbl)
+        regs = HPDRegistration.objects.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
+        for reg in regs:
+            self.show_registration(reg)
+
     def handle(self, *args, **options) -> None:
         address: str = options['address']
 
         features = geocoding.search(address)
-        if not features:
-            print("Address not found!")
-            return
-        pad_bbl = features[0].properties.pad_bbl
-        bbl = BBL.parse(pad_bbl)
-
-        regs = HPDRegistration.objects.filter(boroid=bbl.boro, block=bbl.block, lot=bbl.lot)
-        regs_count: int = regs.count()
-        print(f"HPD registrations: {regs_count}")
-        if regs_count == 0:
-            return
-
-        reg: HPDRegistration
-        for reg in regs:
-            print(f"Registration #{reg.registrationid}:")
-            for contact in reg.contacts.all():
-                fields = ' '.join(filter(None, [
-                    contact.type, contact.contactdescription, contact.corporationname,
-                    contact.title, contact.firstname, contact.lastname,
-                    contact.businesshousenumber, contact.businessstreetname,
-                    contact.businessapartment, contact.businesscity
-                ]))
-                print(f"  {fields}")
-            landlord = reg.get_landlord()
-            if landlord:
-                print(f"\n  Landlord ({landlord.__class__.__name__}):")
-                print(f"    {landlord.name}")
-                for line in landlord.address.lines_for_mailing:
-                    print(f"    {line}")
-            mgmt_co = reg.get_management_company()
-            if mgmt_co:
-                print(f"\n  Management company:")
-                print(f"    {mgmt_co.name}")
-                for line in mgmt_co.address.lines_for_mailing:
-                    print(f"    {line}")
+        if features:
+            props = features[0].properties
+            self.stdout.write(props.label)
+            self.show_registrations(props.pad_bbl)
+        else:
+            self.stdout.write("Address not found!\n")

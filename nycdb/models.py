@@ -47,7 +47,7 @@ class Company(BaseContact):
     name: str
 
 
-Landlord = Union[Individual, Company]
+Contact = Union[Individual, Company]
 
 
 class NYCDBManager(models.Manager):
@@ -101,7 +101,7 @@ class HPDRegistration(models.Model):
             )
         return None
 
-    def get_landlord(self) -> Optional[Landlord]:
+    def get_landlord(self) -> Optional[Contact]:
         return self._get_company_landlord() or self._get_indiv_landlord()
 
     def get_management_company(self) -> Optional[Company]:
@@ -146,6 +146,14 @@ class HPDContact(models.Model):
     businesscity = models.TextField()
     businessstate = models.TextField()
     businesszip = models.TextField()
+
+    @property
+    def street_address(self) -> str:
+        return f"{self.businesshousenumber or ''} {self.businessstreetname or ''}".strip()
+
+    @property
+    def full_name(self) -> str:
+        return f"{self.firstname or ''} {self.lastname or ''}".strip()
 
     @property
     def address(self) -> Optional[Address]:

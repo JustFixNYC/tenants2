@@ -1,4 +1,7 @@
+import json
+from typing import List, Any
 from django.core.management.base import BaseCommand
+from django.core import serializers
 
 from project import geocoding
 from nycdb.models import HPDRegistration, HPDContact, Contact
@@ -9,6 +12,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('address')
+        parser.add_argument(
+            '--dump-models',
+            action='store_true',
+            help='Dump related models to stdout as JSON.'
+        )
 
     def show_mailing_addr(self, contact: Contact, indent: str="    ") -> None:
         self.stdout.write(f"{indent}{contact.name}\n")
@@ -45,13 +53,24 @@ class Command(BaseCommand):
         for reg in regs:
             self.show_registration(reg)
 
+    def dump_models(self, pad_bbl: str) -> None:
+        regs = HPDRegistration.objects.from_pad_bbl(pad_bbl)
+        data: List[Any] = json.loads(serializers.serialize('json', regs))
+        for reg in regs:
+            data.extend(json.loads(serializers.serialize('json', reg.contact_list)))
+        self.stdout.write(json.dumps(data, indent=2))
+
     def handle(self, *args, **options) -> None:
         address: str = options['address']
+        dump_models: bool = options['dump_models']
 
         features = geocoding.search(address)
         if features:
             props = features[0].properties
-            self.stdout.write(props.label)
-            self.show_registrations(props.pad_bbl)
+            if dump_models:
+                self.dump_models(props.pad_bbl)
+            else:
+                self.stdout.write(props.label)
+                self.show_registrations(props.pad_bbl)
         else:
-            self.stdout.write("Address not found!\n")
+            self.stderr.write("Address not found!\n")

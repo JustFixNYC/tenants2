@@ -62,3 +62,8 @@ class Command(BaseCommand):
                     contact.businessapartment, contact.businesscity
                 ]))
                 print(f"  {fields}")
+            landlord = reg.get_landlord()
+            if landlord:
+                print(f"\n  {landlord.__class__.__name__}:")
+                for line in landlord.get_address_lines_for_mailing():
+                    print(f"    {line}")

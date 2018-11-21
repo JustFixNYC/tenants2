@@ -1,6 +1,7 @@
 from typing import Optional, NamedTuple, List, Union
 from dataclasses import dataclass
 
+from django.conf import settings
 from django.db import models
 
 # These models map onto the existing schema roughly defined here:
@@ -76,7 +77,10 @@ Contact = Union[Individual, Company]
 
 class NYCDBManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().using('nycdb')
+        db_alias = settings.NYCDB_DATABASE
+        if not db_alias:
+            raise Exception('NYCDB integration is disabled')
+        return super().get_queryset().using(db_alias)
 
 
 class HPDRegistrationManager(NYCDBManager):

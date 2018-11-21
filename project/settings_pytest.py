@@ -21,6 +21,7 @@ SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
 FACEBOOK_PIXEL_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
+NYCDB_DATABASE = None
 ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'

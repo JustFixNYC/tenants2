@@ -66,46 +66,52 @@ class HPDRegistration(models.Model):
     block = models.SmallIntegerField()
     lot = models.SmallIntegerField()
 
-    def _get_company_landlord(self, contacts: List['HPDContact']) -> Optional[Company]:
-        corp_owners = [c for c in contacts if c.type == HPDContact.CORPORATE_OWNER]
-        if corp_owners:
-            corp_owner = corp_owners[0]
-            head_officers = [c for c in contacts if c.type == HPDContact.HEAD_OFFICER]
-            name = corp_owner.corporationname
-            if name and head_officers:
-                address = head_officers[0].get_address()
-                if address:
-                    return Company(name=name, address=address)
-        return None
+    @property
+    def contact_list(self) -> List['HPDContact']:
+        return list(self.contacts.all())
 
-    def _get_indiv_landlord(self, contacts: List['HPDContact']) -> Optional[Individual]:
-        ind_owners = [c for c in contacts if c.type == HPDContact.INDIVIDUAL_OWNER]
-        if ind_owners:
-            ind_owner = ind_owners[0]
-            first_name = ind_owner.firstname
-            last_name = ind_owner.lastname
-            address = ind_owner.get_address()
-            if first_name and last_name and address:
-                return Individual(
-                    first_name=first_name,
-                    last_name=last_name,
-                    address=address
+    def _get_company_landlord(self) -> Optional[Company]:
+        owners = [
+            c for c in self.contact_list
+            if c.type == HPDContact.CORPORATE_OWNER and c.corporationname
+        ]
+        if owners:
+            head_officer_addresses = [
+                c.address for c in self.contact_list
+                if c.type == HPDContact.HEAD_OFFICER and c.address
+            ]
+            if head_officer_addresses:
+                return Company(
+                    name=owners[0].corporationname,
+                    address=head_officer_addresses[0]
                 )
         return None
 
+    def _get_indiv_landlord(self) -> Optional[Individual]:
+        owners = [
+            (c, c.address) for c in self.contact_list
+            if c.type == HPDContact.INDIVIDUAL_OWNER and c.firstname and c.lastname and c.address
+        ]
+        if owners:
+            owner, address = owners[0]
+            return Individual(
+                first_name=owner.firstname,
+                last_name=owner.lastname,
+                address=address
+            )
+        return None
+
     def get_landlord(self) -> Optional[Landlord]:
-        contacts = list(self.contacts.all())
-        return self._get_company_landlord(contacts) or self._get_indiv_landlord(contacts)
+        return self._get_company_landlord() or self._get_indiv_landlord()
 
     def get_management_company(self) -> Optional[Company]:
-        contacts: List[HPDContact] = list(self.contacts.all())
-        agents = [c for c in contacts if c.type == HPDContact.AGENT]
+        agents = [
+            (c, c.address) for c in self.contact_list
+            if c.type == HPDContact.AGENT and c.address and c.corporationname
+        ]
         if agents:
-            agent = agents[0]
-            address = agent.get_address()
-            name = agent.corporationname
-            if name and address:
-                return Company(name=name, address=address)
+            agent, address = agents[0]
+            return Company(name=agent.corporationname, address=address)
         return None
 
 
@@ -141,7 +147,8 @@ class HPDContact(models.Model):
     businessstate = models.TextField()
     businesszip = models.TextField()
 
-    def get_address(self) -> Optional[Address]:
+    @property
+    def address(self) -> Optional[Address]:
         if not (self.businesshousenumber and
                 self.businessstreetname and
                 self.businesscity and

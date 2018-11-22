@@ -1,9 +1,13 @@
+import logging
 from typing import Optional, NamedTuple, List, Union
+from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings
 from django.db import models
 
 from project.util.nyc import BBL, to_pad_bbl
+
+logger = logging.getLogger(__name__)
 
 
 class Address(NamedTuple):
@@ -187,3 +191,22 @@ class HPDContact(models.Model):
             state=self.businessstate,
             zipcode=self.businesszip
         )
+
+
+def get_landlord(pad_bbl: str) -> Optional[Contact]:
+    """
+    Fault-tolerant retriever of landlord information that assumes
+    the NYCDB connection is unreliable, or disabled entirely.
+    """
+
+    if not settings.NYCDB_DATABASE:
+        return None
+    try:
+        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
+        return reg.get_landlord() if reg else None
+    except (DatabaseError, Exception):
+        # TODO: Once we have more confidence in the underlying code,
+        # we should remove the above 'Exception' and only catch
+        # 'DatabaseError'.
+        logger.exception(f'Error while retrieving data from NYCDB')
+        return None

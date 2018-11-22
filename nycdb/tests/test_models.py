@@ -1,6 +1,9 @@
+from unittest.mock import patch
+from django.db.utils import DatabaseError
 import pytest
 
-from nycdb.models import HPDRegistration, HPDContact, Company, Individual
+from nycdb.models import (
+    HPDRegistration, HPDContact, Company, Individual, get_landlord)
 from . import fixtures
 
 
@@ -69,3 +72,26 @@ class TestHPDContact:
         assert HPDContact().address is None
         assert HPDContact(businessstreetname="blarg st").address is None
         assert HPDContact(businesscity="new york").address is None
+
+
+class TestGetLandlord:
+    def test_it_returns_none_if_nycdb_is_disabled(self):
+        assert get_landlord('') is None
+        assert get_landlord('blarg') is None
+
+    def test_it_returns_none_if_pad_bbl_does_not_exist(self, nycdb):
+        assert get_landlord('1234567890') is None
+
+    def test_it_returns_none_on_db_error(self, nycdb):
+        with patch.object(HPDRegistration.objects, 'from_pad_bbl') as fpbblmock:
+            fpbblmock.side_effect = DatabaseError()
+            with patch('nycdb.models.logger.exception') as loggermock:
+                assert get_landlord('1234567890') is None
+                loggermock.assert_called_once_with(
+                    f'Error while retrieving data from NYCDB')
+
+    def test_it_returns_contact_on_success(self, nycdb):
+        tiny = fixtures.load_hpd_registration("tiny-landlord.json")
+        boop = get_landlord(tiny.pad_bbl)
+        assert isinstance(boop, Individual)
+        assert boop.name == "BOOP JONES"

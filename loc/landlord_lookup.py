@@ -7,6 +7,7 @@ from django.conf import settings
 
 from project import geocoding
 from nycha.models import NychaOffice
+import nycdb.models
 
 
 logger = logging.getLogger(__name__)
@@ -60,6 +61,16 @@ def _lookup_bbl_and_full_address(address: str) -> Tuple[str, str]:
     return (props.pad_bbl, props.label)
 
 
+def _lookup_landlord_via_nycdb(pad_bbl: str) -> Optional[LandlordInfo]:
+    contact = nycdb.models.get_landlord(pad_bbl)
+    if contact:
+        return LandlordInfo(
+            name=contact.name,
+            address='\n'.join(contact.address.lines_for_mailing)
+        )
+    return None
+
+
 def _lookup_landlord_via_network(pad_bbl: str) -> Optional[LandlordInfo]:
     url = settings.LANDLORD_LOOKUP_URL
     if not url:
@@ -98,4 +109,5 @@ def lookup_landlord(address: str) -> Optional[LandlordInfo]:
         return None
 
     return (_lookup_landlord_via_nycha(pad_bbl, full_addr) or
+            _lookup_landlord_via_nycdb(pad_bbl) or
             _lookup_landlord_via_network(pad_bbl))

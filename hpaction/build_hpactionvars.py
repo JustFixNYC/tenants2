@@ -76,12 +76,27 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # checkbox.
     v.flag_tf = True
 
-    # We'll be adding support for harassment and fee waiver later, but
-    # for now we'll just support repairs.
-    v.action_type_ms = [hp.ActionTypeMS.REPAIRS]
+    # The fact that there is a multiple-select option and
+    # a set of booleans for the same thing is, I think, an
+    # artifact of the history of the form; the original
+    # version only had the multi-select, and a newer 2018
+    # version introduced the booleans. I think only the
+    # booleans are used, but I'm setting the multiple-select
+    # too, just in case it's used anywhere.
+    #
+    # Note also that we're implying fee waiver
+    # now even though we don't collect information from the
+    # user about it; this is because,
+    # until we explicitly add support for it, we want users
+    # to have the forms for it at least available in
+    # the generated PDF just in case they end up wanting
+    # to pursue it.
+    v.action_type_ms = [
+        hp.ActionTypeMS.REPAIRS,
+        hp.ActionTypeMS.FEE_WAIVER,
+    ]
     v.sue_for_repairs_tf = True
-    v.request_fee_waiver_tf = False
-    v.sue_for_harassment_tf = False
+    v.request_fee_waiver_tf = True
 
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK

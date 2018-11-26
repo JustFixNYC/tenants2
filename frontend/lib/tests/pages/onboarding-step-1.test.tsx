@@ -1,3 +1,4 @@
+import { parse as parseUrl } from 'url';
 import React from 'react';
 
 import OnboardingStep1, { areAddressesTheSame, applyIntentFromQuerystring } from '../../pages/onboarding-step-1';
@@ -5,6 +6,9 @@ import { AppTesterPal } from '../app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
 import { createMockFetch } from '../mock-fetch';
 import { FakeGeoResults } from '../util';
+import Routes from '../../routes';
+import { SignupIntentChoice } from '../../signup-intent';
+import { assertNotUndefined } from '../../util';
 
 
 describe('onboarding step 1 page', () => {
@@ -110,6 +114,12 @@ describe('applyIntentFromQuerystring()', () => {
   function getIntent(session: any, search: string) {
     return applyIntentFromQuerystring(session, search).signupIntent;
   }
+
+  it("Works with routes we generate", () => {
+    const route = Routes.onboarding.createWithIntent(SignupIntentChoice.HP);
+    const url = assertNotUndefined(parseUrl(route).search);
+    expect(getIntent({}, url)).toEqual('HP');
+  });
 
   it("Falls back if nothing valid is specified in session or querystring", () => {
     expect(getIntent({}, '')).toEqual('LOC');

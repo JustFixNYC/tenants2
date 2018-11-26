@@ -44,7 +44,7 @@ const Routes = {
   /** The onboarding flow. */
   onboarding: {
     [ROUTE_PREFIX]: '/onboarding',
-    createWithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent}`,
+    createWithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
     step1AddressModal: '/onboarding/step/1/address-modal',

@@ -29,10 +29,7 @@
 }
 
 .jf-issue-area-link:focus {
-    outline-width: 1px;
-    outline-style: dashed;
-    outline-offset: -5px;
-    outline-color: currentColor;
+    @include outline-focus();
 }
 
 .jf-issue-area-link:not(.jf-issue-count-zero) {

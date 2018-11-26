@@ -21,6 +21,7 @@ SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
 FACEBOOK_PIXEL_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
+NYCDB_DATABASE = None
 ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
@@ -34,6 +35,11 @@ DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
+
+# Access to the nycdb is read-only anyways, so we won't be able to create a
+# test database on it.
+if 'nycdb' in DATABASES:  # noqa
+    del DATABASES['nycdb']  # noqa
 
 
 class NotActuallyFileStorage:

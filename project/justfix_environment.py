@@ -19,6 +19,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/kennethreitz/dj-database-url#url-schema
     DATABASE_URL: str
 
+    # The NYC-DB database URL. If empty, NYCDB integration will be
+    # disabled. For more details on NYCDB, see:
+    #
+    #   https://github.com/aepyornis/nyc-db
+    NYCDB_DATABASE_URL: str = ''
+
     # This is a large random value corresponding to Django's
     # SECRET_KEY setting.
     SECRET_KEY: str

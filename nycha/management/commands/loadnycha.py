@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 import pydantic
 
+from project.util.nyc import to_pad_bbl
 from nycha.models import NychaOffice, NychaProperty
 
 
@@ -20,10 +21,6 @@ BOROUGH_NUMBERS = {
     'STATEN ISLAND': 5
 }
 
-BLOCK_DIGITS = 5
-
-LOT_DIGITS = 4
-
 
 class Row(pydantic.BaseModel):
     BOROUGH: str
@@ -36,12 +33,8 @@ class Row(pydantic.BaseModel):
 
     @property
     def pad_bbl(self) -> str:
-        borough_num = BOROUGH_NUMBERS[self.BOROUGH]
-        return (
-            f'{borough_num}'
-            f'{self.BLOCK.zfill(BLOCK_DIGITS)}'
-            f'{self.LOT.zfill(LOT_DIGITS)}'
-        )
+        boro = BOROUGH_NUMBERS[self.BOROUGH]
+        return to_pad_bbl(boro, int(self.BLOCK), int(self.LOT))
 
     @property
     def full_address(self) -> str:

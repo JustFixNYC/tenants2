@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'airtable.apps.AirtableConfig',
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
-    'hpaction.apps.HPActionConfig'
+    'hpaction.apps.HPActionConfig',
+    'nycdb'
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,18 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(env.DATABASE_URL),
+}
+
+NYCDB_DATABASE = None
+
+if env.NYCDB_DATABASE_URL:
+    DATABASES['nycdb'] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
+    NYCDB_DATABASE = 'nycdb'
+
+MIGRATION_MODULES = {
+    # The NYCDB is an external database that we read from, so we don't
+    # want to modify its schema in any way.
+    'nycdb': None
 }
 
 

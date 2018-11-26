@@ -184,3 +184,13 @@ def outreach_client(outreach_user):
     client = DjangoClient()
     client.force_login(outreach_user)
     return client
+
+
+@pytest.fixture
+def nycdb(db, settings):
+    '''
+    Enable NYCDB integration, setting the NYCDB database to
+    the default database.
+    '''
+
+    settings.NYCDB_DATABASE = 'default'

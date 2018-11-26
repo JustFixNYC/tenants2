@@ -8,6 +8,9 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && apt-get update \
   && apt-get install -y \
     nodejs \
+    # Install the CLIs for databases so we can use 'manage.py dbshell'.
+    postgresql-client \
+    sqlite3 \
     # This is for CircleCI.
     ca-certificates \
     # These are for WeasyPrint.

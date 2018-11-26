@@ -77,10 +77,10 @@ class HPDRegistration(models.Model):
 
     objects = HPDRegistrationManager()
 
-    registrationid = models.IntegerField(primary_key=True)
-    boroid = models.SmallIntegerField()
-    block = models.SmallIntegerField()
-    lot = models.SmallIntegerField()
+    registrationid: int = models.IntegerField(primary_key=True)
+    boroid: int = models.SmallIntegerField()
+    block: int = models.SmallIntegerField()
+    lot: int = models.SmallIntegerField()
 
     @property
     def contact_list(self) -> List['HPDContact']:

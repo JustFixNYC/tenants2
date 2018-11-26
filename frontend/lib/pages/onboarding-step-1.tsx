@@ -18,7 +18,8 @@ import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
-import { DEFAULT_SIGNUP_INTENT_CHOICE } from '../signup-intent';
+import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent } from '../signup-intent';
+import { getQuerystringVar, LocationSearchInfo } from '../querystring';
 
 const blankInitialState: OnboardingStep1Input = {
   firstName: '',
@@ -43,6 +44,14 @@ const renderAddressLabel: LabelRenderer = (label, labelProps) => (
     </div>
   </div>
 );
+
+function applyIntentFromQuerystring(input: OnboardingStep1Input, routeInfo: LocationSearchInfo): OnboardingStep1Input {
+  const defaultIntent = validateSignupIntent(input.signupIntent);
+  return {
+    ...input,
+    signupIntent: validateSignupIntent(getQuerystringVar(routeInfo, 'intent'), defaultIntent)
+  };
+}
 
 export function areAddressesTheSame(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
@@ -220,21 +229,25 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
       <Page title="Create an account to get started with JustFix.nyc!">
         <div>
           <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
-          <SessionUpdatingFormSubmitter
-            mutation={OnboardingStep1Mutation}
-            initialState={(session) => session.onboardingStep1 || blankInitialState}
-            onSuccessRedirect={(output, input) => {
-              const successSession = assertNotNull(output.session);
-              const successInfo = assertNotNull(successSession.onboardingStep1);
-              if (areAddressesTheSame(successInfo.address, input.address) &&
-                  successInfo.borough === input.borough) {
-                return Routes.onboarding.step2;
-              }
-              return Routes.onboarding.step1ConfirmAddressModal;
-            }}
-          >
-            {this.renderForm}
-          </SessionUpdatingFormSubmitter>
+          <Route render={(routerCtx) => (
+            <SessionUpdatingFormSubmitter
+              mutation={OnboardingStep1Mutation}
+              initialState={(session) => applyIntentFromQuerystring(
+                session.onboardingStep1 || blankInitialState, routerCtx
+              )}
+              onSuccessRedirect={(output, input) => {
+                const successSession = assertNotNull(output.session);
+                const successInfo = assertNotNull(successSession.onboardingStep1);
+                if (areAddressesTheSame(successInfo.address, input.address) &&
+                    successInfo.borough === input.borough) {
+                  return Routes.onboarding.step2;
+                }
+                return Routes.onboarding.step1ConfirmAddressModal;
+              }}
+            >
+              {this.renderForm}
+            </SessionUpdatingFormSubmitter>
+          )} />
         </div>
 
         {this.renderHiddenLogoutForm()}

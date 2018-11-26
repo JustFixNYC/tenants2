@@ -28,17 +28,24 @@
     }
 }
 
+.jf-issue-area-link:focus {
+    @include outline-focus();
+}
+
 .jf-issue-area-link:not(.jf-issue-count-zero) {
     background-color: $primary;
-    color: #fff;
+    color: $primary-invert;
+
+    &:hover {
+        // This appears to be the amount that Bulma darkens a color by
+        // for its button hover styles, though it also doesn't seem to
+        // be defined as a mixin or constant or anything, so we have
+        // to manually apply the same effect here.
+        background: darken($primary, 2.5%);
+    }
 }
 
-.jf-issue-area-link:not(.jf-issue-count-zero):hover {
-    color: $primary;
-}
-
-.jf-issue-area-link:hover,
-.jf-issue-area-link:not(.jf-issue-count-zero):hover {
+.jf-issue-area-link.jf-issue-count-zero:hover {
     color: $button-text-hover-color;
     background: $grey-lighter;
 }
@@ -66,6 +73,10 @@
     animation: jf-pulse 1s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+.jf-issue-area-link:not(.jf-issue-count-zero).jf-highlight {
+    color: $primary;
 }
 
 .title.jf-issue-area svg {

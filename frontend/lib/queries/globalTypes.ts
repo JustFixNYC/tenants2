@@ -55,6 +55,7 @@ export interface LogoutInput {
 }
 
 export interface OnboardingStep1Input {
+  signupIntent: string;
   address: string;
   borough: string;
   aptNumber: string;

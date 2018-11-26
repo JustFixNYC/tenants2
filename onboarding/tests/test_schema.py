@@ -10,6 +10,7 @@ VALID_STEP_DATA = {
     1: {
         'firstName': 'boop',
         'lastName': 'jones',
+        'signupIntent': 'LOC',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
         'aptNumber': '3B'

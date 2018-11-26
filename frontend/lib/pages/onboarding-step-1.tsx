@@ -9,7 +9,7 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
+import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, HiddenFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
@@ -18,10 +18,12 @@ import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
+import { DEFAULT_SIGNUP_INTENT_CHOICE } from '../signup-intent';
 
 const blankInitialState: OnboardingStep1Input = {
   firstName: '',
   lastName: '',
+  signupIntent: DEFAULT_SIGNUP_INTENT_CHOICE,
   address: '',
   aptNumber: '',
   borough: '',
@@ -165,6 +167,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
           disabled={this.props.disableProgressiveEnhancement}
           renderBaseline={() => this.renderBaselineAddressFields(ctx)}
           renderEnhanced={(pe) => this.renderEnhancedAddressField(ctx, pe)} />
+        <HiddenFormField {...ctx.fieldPropsFor('signupIntent')} />
         <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={Routes.onboarding.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>

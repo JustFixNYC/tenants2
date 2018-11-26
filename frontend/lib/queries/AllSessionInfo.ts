@@ -13,6 +13,10 @@ export interface AllSessionInfo_onboardingStep1 {
   firstName: string;
   lastName: string;
   /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: string;
+  /**
    * The user's address. Only street name and number are required.
    */
   address: string;
@@ -135,6 +139,7 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     onboardingStep1 {
         firstName
         lastName
+        signupIntent
         address
         aptNumber,
         borough

@@ -10,6 +10,8 @@ BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
 LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
+SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
+
 ADDR_META_HELP = (
     "This field is automatically updated when you change the address or "
     "borough, so you generally shouldn't have to change it manually."
@@ -120,6 +122,12 @@ class OnboardingInfo(models.Model):
 
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name='onboarding_info')
+
+    signup_intent = models.CharField(
+        max_length=30,
+        choices=SIGNUP_INTENT_CHOICES.choices,
+        help_text="The reason the user originally signed up with us."
+    )
 
     address = models.CharField(
         max_length=200,

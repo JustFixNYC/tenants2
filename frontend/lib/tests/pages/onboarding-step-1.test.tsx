@@ -38,6 +38,7 @@ describe('onboarding step 1 page', () => {
         onboardingStep1: {
           firstName: 'boop',
           lastName: 'jones',
+          signupIntent: 'LOC',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
           borough: "MANHATTAN"
@@ -65,6 +66,7 @@ describe('onboarding step 1 page', () => {
     pal.expectFormInput({
       firstName: "boop",
       lastName: "jones",
+      signupIntent: 'LOC',
       aptNumber: "2",
       address: "150 COURT STREET",
       borough: "MANHATTAN"
@@ -88,6 +90,7 @@ describe('onboarding step 1 page', () => {
         onboardingStep1: {
           firstName: 'boop',
           lastName: 'jones',
+          signupIntent: 'LOC',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
           aptNumber: '2'

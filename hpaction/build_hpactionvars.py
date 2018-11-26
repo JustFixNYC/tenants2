@@ -84,21 +84,19 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # booleans are used, but I'm setting the multiple-select
     # too, just in case it's used anywhere.
     #
-    # Note also that we're implying fee waiver and harassment
+    # Note also that we're implying fee waiver
     # now even though we don't collect information from the
-    # user about these particular actions; this is because,
-    # until we explicitly add support for them, we want users
-    # to have the forms for the actions at least available in
+    # user about it; this is because,
+    # until we explicitly add support for it, we want users
+    # to have the forms for it at least available in
     # the generated PDF just in case they end up wanting
-    # to pursue them.
+    # to pursue it.
     v.action_type_ms = [
         hp.ActionTypeMS.REPAIRS,
         hp.ActionTypeMS.FEE_WAIVER,
-        hp.ActionTypeMS.HARASSMENT
     ]
     v.sue_for_repairs_tf = True
     v.request_fee_waiver_tf = True
-    v.sue_for_harassment_tf = True
 
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK

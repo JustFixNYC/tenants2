@@ -37,7 +37,11 @@
     color: $primary-invert;
 
     &:hover {
-        background: darken($primary, 5%);
+        // This appears to be the amount that Bulma darkens a color by
+        // for its button hover styles, though it also doesn't seem to
+        // be defined as a mixin or constant or anything, so we have
+        // to manually apply the same effect here.
+        background: darken($primary, 2.5%);
     }
 }
 

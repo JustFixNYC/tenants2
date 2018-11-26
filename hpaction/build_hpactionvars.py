@@ -83,7 +83,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # version introduced the booleans. I think only the
     # booleans are used, but I'm setting the multiple-select
     # too, just in case it's used anywhere.
-    # 
+    #
     # Note also that we're implying fee waiver and harassment
     # now even though we don't collect information from the
     # user about these particular actions; this is because,

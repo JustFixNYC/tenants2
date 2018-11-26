@@ -19,7 +19,7 @@ import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent } from '../signup-intent';
-import { getQuerystringVar, LocationSearchInfo } from '../querystring';
+import { getQuerystringVar } from '../querystring';
 
 const blankInitialState: OnboardingStep1Input = {
   firstName: '',
@@ -45,11 +45,11 @@ const renderAddressLabel: LabelRenderer = (label, labelProps) => (
   </div>
 );
 
-function applyIntentFromQuerystring(input: OnboardingStep1Input, routeInfo: LocationSearchInfo): OnboardingStep1Input {
+export function applyIntentFromQuerystring(input: OnboardingStep1Input, search: string): OnboardingStep1Input {
   const defaultIntent = validateSignupIntent(input.signupIntent);
   return {
     ...input,
-    signupIntent: validateSignupIntent(getQuerystringVar(routeInfo, 'intent'), defaultIntent)
+    signupIntent: validateSignupIntent(getQuerystringVar(search, 'intent'), defaultIntent)
   };
 }
 
@@ -233,7 +233,7 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             <SessionUpdatingFormSubmitter
               mutation={OnboardingStep1Mutation}
               initialState={(session) => applyIntentFromQuerystring(
-                session.onboardingStep1 || blankInitialState, routerCtx
+                session.onboardingStep1 || blankInitialState, routerCtx.location.search
               )}
               onSuccessRedirect={(output, input) => {
                 const successSession = assertNotNull(output.session);

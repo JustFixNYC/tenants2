@@ -11,10 +11,18 @@ export type LocationSearchInfo = {
 };
 
 /**
+ * If given a string, return it directly, otherwise return the
+ * given react-router context's search string.
+ */
+function getSearch(value: LocationSearchInfo|string): string {
+  return typeof(value) === 'string' ? value : value.location.search;
+}
+
+/**
  * Return the value of the last-defined key in the given querystring.
  */
-export function getQuerystringVar(routeInfo: LocationSearchInfo, name: string): string|undefined {
-  let val = querystring.parse(routeInfo.location.search.slice(1))[name];
+export function getQuerystringVar(routeInfo: LocationSearchInfo|string, name: string): string|undefined {
+  let val = querystring.parse(getSearch(routeInfo).slice(1))[name];
 
   if (Array.isArray(val)) {
     val = val[val.length - 1];

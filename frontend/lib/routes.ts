@@ -1,4 +1,5 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { SignupIntentChoice } from './signup-intent';
 
 /**
  * Special route key indicating the prefix of a set of routes,
@@ -43,6 +44,7 @@ const Routes = {
   /** The onboarding flow. */
   onboarding: {
     [ROUTE_PREFIX]: '/onboarding',
+    createWithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent}`,
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
     step1AddressModal: '/onboarding/step/1/address-modal',

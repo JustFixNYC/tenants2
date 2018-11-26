@@ -6,6 +6,7 @@ import Routes from '../routes';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
 import { StaticImage } from '../static-image';
+import { SignupIntentChoice } from '../signup-intent';
 
 export interface IndexPageProps {
   isLoggedIn: boolean;
@@ -28,7 +29,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <h2 className="subtitle">
                 JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.
               </h2>
-              <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
+              <CenteredPrimaryButtonLink to={Routes.onboarding.createWithIntent(SignupIntentChoice.LOC)} className="is-large">
                 Start my free letter
               </CenteredPrimaryButtonLink>
               <p className="secondary-cta">Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
@@ -65,7 +66,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 </div>
               </div>
             </div>
-            <CenteredPrimaryButtonLink to={Routes.onboarding.latestStep} className="is-large">
+            <CenteredPrimaryButtonLink to={Routes.onboarding.createWithIntent(SignupIntentChoice.LOC)} className="is-large">
               Start my free letter
             </CenteredPrimaryButtonLink>
           </div>

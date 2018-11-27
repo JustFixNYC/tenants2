@@ -49,12 +49,20 @@ test('RedirectToLatestOnboardingStep returns a redirect', () => {
 describe('Onboarding for intent route', () => {
   afterEach(AppTesterPal.cleanup);
 
-  it('works', () => {
+  it('works when user has no existing session', () => {
     const pal = new AppTesterPal(<OnboardingRoutes/>, {
       url: Routes.onboarding.forIntent.create(SignupIntentChoice.HP)
     });
     expect(pal.history.location.pathname).toEqual('/onboarding/step/1');
     expect(pal.history.location.search).toEqual('?intent=hp');
     pal.rr.getByLabelText('First name');
+  });
+
+  it('works when user is already onboarding for the given intent', () => {
+    const pal = new AppTesterPal(<OnboardingRoutes/>, {
+      url: Routes.onboarding.forIntent.create(SignupIntentChoice.HP),
+      session: { onboardingStep1: { signupIntent: 'HP' } as any }
+    });
+    expect(pal.history.location.pathname).toEqual('/onboarding/step/2');
   });
 });

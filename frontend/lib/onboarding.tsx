@@ -8,6 +8,7 @@ import OnboardingStep4 from './pages/onboarding-step-4';
 import { RouteProgressBar } from './progress-bar';
 import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
 import { validateSignupIntent } from './signup-intent';
+import { withAppContext, AppContextType } from './app-context';
 
 export const onboardingSteps: SessionProgressStepRoute[] = [
   { path: Routes.onboarding.step1, component: OnboardingStep1, isComplete: (s) => !!s.onboardingStep1 },
@@ -18,16 +19,22 @@ export const onboardingSteps: SessionProgressStepRoute[] = [
 
 export const RedirectToLatestOnboardingStep = () => <RedirectToLatestStep steps={onboardingSteps}/>;
 
-function OnboardingForIntent(props: RouteTypes.onboarding.forIntent.RouteProps) {
+type OnboardingForIntentProps = RouteTypes.onboarding.forIntent.RouteProps & AppContextType;
+
+const OnboardingForIntent = withAppContext((props: OnboardingForIntentProps) => {
   const intent = validateSignupIntent(props.match.params.intent);
+  const { onboardingStep1 } = props.session;
+  if (onboardingStep1 && onboardingStep1.signupIntent === intent) {
+    return <Redirect to={Routes.onboarding.latestStep} />;
+  }
   return <Redirect to={Routes.onboarding.createStep1WithIntent(intent)} />
-}
+});
 
 export default function OnboardingRoutes(): JSX.Element {
   return (
     <div>
-      <Route path={Routes.onboarding.latestStep} exact component={RedirectToLatestOnboardingStep} />
       <Switch>
+        <Route path={Routes.onboarding.latestStep} exact component={RedirectToLatestOnboardingStep} />
         <Route path={Routes.onboarding.forIntent.parameterizedRoute} exact render={(ctx) => (
           <OnboardingForIntent {...ctx} />
         )} />

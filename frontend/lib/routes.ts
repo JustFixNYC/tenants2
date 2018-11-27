@@ -1,4 +1,32 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+
+/**
+ * Metadata about signup intents.
+ */
+type SignupIntentRouteInfo = {
+  /** The page users visit before onboarding begins. */
+  preOnboarding: string;
+
+  /** The page users are sent to after onboarding. */
+  postOnboarding: string;
+};
+
+/**
+ * Ideally this would be a map, but TypeScript doesn't let us
+ * use a union type as an index signature, so I guess we'll have
+ * to make it a function.
+ */
+export function getSignupIntentRouteInfo(intent: OnboardingInfoSignupIntent): SignupIntentRouteInfo {
+  switch (intent) {
+    case OnboardingInfoSignupIntent.LOC: return {
+      preOnboarding: Routes.home,
+      postOnboarding: Routes.loc.latestStep
+    };
+
+    case OnboardingInfoSignupIntent.HP: return Routes.hp;
+  }
+}
 
 /**
  * Special route key indicating the prefix of a set of routes,
@@ -11,6 +39,11 @@ export const ROUTE_PREFIX = 'prefix';
  * related to specific routes.
  */
 export namespace RouteTypes {
+  export namespace onboarding {
+    export namespace forIntent {
+      export type RouteProps = RouteComponentProps<{ intent: string }>;
+    }
+  }
   export namespace loc {
     export namespace issues {
       export namespace area {
@@ -43,8 +76,13 @@ const Routes = {
   /** The onboarding flow. */
   onboarding: {
     [ROUTE_PREFIX]: '/onboarding',
+    forIntent: {
+      parameterizedRoute: '/onboarding/for/:intent',
+      create: (intent: OnboardingInfoSignupIntent) => `/onboarding/for/${intent.toLowerCase()}`,
+    },
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
+    createStep1WithIntent: (intent: OnboardingInfoSignupIntent) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
     step1AddressModal: '/onboarding/step/1/address-modal',
     step1ConfirmAddressModal: '/onboarding/step/1/confirm-address-modal',
     step2: '/onboarding/step/2',
@@ -82,6 +120,12 @@ const Routes = {
     preview: '/loc/preview',
     previewSendConfirmModal: '/loc/preview/send-confirm-modal',
     confirmation: '/loc/confirmation'
+  },
+
+  hp: {
+    [ROUTE_PREFIX]: '/hp',
+    preOnboarding: '/hp',
+    postOnboarding: '/hp/welcome',
   },
 
   /**

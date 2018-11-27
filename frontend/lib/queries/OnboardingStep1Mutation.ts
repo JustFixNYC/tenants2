@@ -24,6 +24,10 @@ export interface OnboardingStep1Mutation_output_session_onboardingStep1 {
   firstName: string;
   lastName: string;
   /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: string;
+  /**
    * The user's address. Only street name and number are required.
    */
   address: string;
@@ -66,6 +70,7 @@ export const OnboardingStep1Mutation = {
             onboardingStep1 {
                 firstName,
                 lastName,
+                signupIntent,
                 address,
                 aptNumber,
                 borough

@@ -94,6 +94,7 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   onboardingStep1: null,
   onboardingStep2: null,
   onboardingStep3: null,
+  onboardingInfo: null,
   issues: [],
   customIssues: [],
   accessDates: [],

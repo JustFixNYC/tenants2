@@ -1,10 +1,12 @@
 import React from 'react';
 
 import { FakeSessionInfo, ensureRedirect } from "./util";
-import { RedirectToLatestOnboardingStep, onboardingSteps } from "../onboarding";
+import OnboardingRoutes, { RedirectToLatestOnboardingStep, onboardingSteps } from "../onboarding";
 import Routes from "../routes";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { getLatestStep } from '../progress-redirection';
+import { AppTesterPal } from './app-tester-pal';
+import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
 
 describe('latest step redirector', () => {
   function getLatestOnboardingStep(session: AllSessionInfo): string {
@@ -42,4 +44,25 @@ describe('latest step redirector', () => {
 
 test('RedirectToLatestOnboardingStep returns a redirect', () => {
   ensureRedirect(<RedirectToLatestOnboardingStep />, '/onboarding/step/1');
+});
+
+describe('Onboarding for intent route', () => {
+  afterEach(AppTesterPal.cleanup);
+
+  it('works when user has no existing session', () => {
+    const pal = new AppTesterPal(<OnboardingRoutes/>, {
+      url: Routes.onboarding.forIntent.create(OnboardingInfoSignupIntent.HP)
+    });
+    expect(pal.history.location.pathname).toEqual('/onboarding/step/1');
+    expect(pal.history.location.search).toEqual('?intent=hp');
+    pal.rr.getByLabelText('First name');
+  });
+
+  it('works when user is already onboarding for the given intent', () => {
+    const pal = new AppTesterPal(<OnboardingRoutes/>, {
+      url: Routes.onboarding.forIntent.create(OnboardingInfoSignupIntent.HP),
+      session: { onboardingStep1: { signupIntent: 'HP' } as any }
+    });
+    expect(pal.history.location.pathname).toEqual('/onboarding/step/2');
+  });
 });

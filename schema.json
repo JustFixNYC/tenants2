@@ -126,6 +126,18 @@
               "deprecationReason": null
             },
             {
+              "name": "onboardingInfo",
+              "description": "The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user.",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OnboardingInfoType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "accessDates",
               "description": null,
               "args": [],
@@ -333,6 +345,22 @@
           "name": "OnboardingStep1Info",
           "description": null,
           "fields": [
+            {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",
@@ -577,6 +605,56 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OnboardingInfoType",
+          "description": null,
+          "fields": [
+            {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OnboardingInfoSignupIntent",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OnboardingInfoSignupIntent",
+          "description": "An enumeration.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "LOC",
+              "description": "Letter of complaint",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "HP",
+              "description": "HP action",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -1309,6 +1387,22 @@
           "description": null,
           "fields": [
             {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",
               "args": [],
@@ -1448,6 +1542,20 @@
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
             {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",

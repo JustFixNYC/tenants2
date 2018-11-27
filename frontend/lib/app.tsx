@@ -74,6 +74,11 @@ const LoadableLetterOfComplaintRoutes = Loadable({
   loading: LoadingPage
 });
 
+const LoadableHPActionRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "hp-action" */ './hp-action')),
+  loading: LoadingPage
+});
+
 const LoadableDevRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "dev" */ './dev')),
   loading: LoadingPage
@@ -195,6 +200,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.logout} exact component={LogoutPage} />
         <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />
       </Switch>

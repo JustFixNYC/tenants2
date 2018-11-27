@@ -4,13 +4,15 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { OnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation';
-import Routes from '../routes';
+import Routes, { getSignupIntentRouteInfo } from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../faceboox-pixel';
+import { assertNotNull } from '../util';
+import { signupIntentFromOnboardingInfo } from '../signup-intent';
 
 const blankInitialState: OnboardingStep4Input = {
   phoneNumber: '',
@@ -54,7 +56,11 @@ export default class OnboardingStep4 extends React.Component {
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Mutation}
             initialState={blankInitialState}
-            onSuccessRedirect={Routes.loc.home}
+            onSuccessRedirect={(output) => (
+              getSignupIntentRouteInfo(
+                signupIntentFromOnboardingInfo(assertNotNull(output.session).onboardingInfo)
+              ).postOnboarding
+            )}
             onSuccess={() => fbq('track','CompleteRegistration')}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>

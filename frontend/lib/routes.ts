@@ -12,6 +12,11 @@ export const ROUTE_PREFIX = 'prefix';
  * related to specific routes.
  */
 export namespace RouteTypes {
+  export namespace onboarding {
+    export namespace forIntent {
+      export type RouteProps = RouteComponentProps<{ intent: string }>;
+    }
+  }
   export namespace loc {
     export namespace issues {
       export namespace area {
@@ -44,9 +49,13 @@ const Routes = {
   /** The onboarding flow. */
   onboarding: {
     [ROUTE_PREFIX]: '/onboarding',
-    createWithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
+    forIntent: {
+      parameterizedRoute: '/onboarding/for/:intent',
+      create: (intent: SignupIntentChoice) => `/onboarding/for/${intent.toLowerCase()}`,
+    },
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
+    createStep1WithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
     step1AddressModal: '/onboarding/step/1/address-modal',
     step1ConfirmAddressModal: '/onboarding/step/1/confirm-address-modal',
     step2: '/onboarding/step/2',

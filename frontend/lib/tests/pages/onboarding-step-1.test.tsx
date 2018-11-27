@@ -116,7 +116,7 @@ describe('applyIntentFromQuerystring()', () => {
   }
 
   it("Works with routes we generate", () => {
-    const route = Routes.onboarding.createWithIntent(SignupIntentChoice.HP);
+    const route = Routes.onboarding.createStep1WithIntent(SignupIntentChoice.HP);
     const url = assertNotUndefined(parseUrl(route).search);
     expect(getIntent({}, url)).toEqual('HP');
   });

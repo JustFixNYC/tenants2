@@ -123,6 +123,7 @@ const Routes = {
   },
 
   hp: {
+    [ROUTE_PREFIX]: '/hp',
     preOnboarding: '/hp',
     postOnboarding: '/hp/welcome',
   },

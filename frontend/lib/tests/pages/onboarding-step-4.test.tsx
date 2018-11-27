@@ -13,13 +13,16 @@ describe('onboarding step 4 page', () => {
     const pal = new AppTesterPal(
       <Switch>
         <Route path="/" exact component={OnboardingStep4} />
-        <Route path={Routes.loc.home} render={() => <h1>LETTER OF COMPLAINT</h1>} />
+        <Route path={Routes.hp.postOnboarding} render={() => <h1>HP ACTION</h1>} />
+        <Route render={() => <p>NOT FOUND</p>} />
       </Switch>
     );
 
     pal.clickButtonOrLink(/create my account/i);
-    pal.respondWithFormOutput({ errors: [], session: {} });
-    await pal.rt.waitForElement(() => pal.rr.getByText('LETTER OF COMPLAINT'));
+    pal.respondWithFormOutput({ errors: [], session: {
+      onboardingInfo: { signupIntent: 'HP' }
+    } });
+    await pal.rt.waitForElement(() => pal.rr.getByText('HP ACTION'));
   });
 
   it('opens terms and conditions modal when link is clicked', async () => {

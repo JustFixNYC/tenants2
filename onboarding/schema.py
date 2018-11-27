@@ -12,7 +12,7 @@ from project.util.session_mutation import SessionFormMutation
 from project import slack
 from users.models import JustfixUser
 from onboarding import forms
-from onboarding.models import OnboardingInfo
+from onboarding.models import OnboardingInfo, SIGNUP_INTENT_CHOICES
 
 
 # The onboarding steps we store in the request session.
@@ -199,6 +199,7 @@ class OnboardingSessionInfo(object):
             "a full-fledged user."
         )
     )
+    signup_intent = graphene.Field(SIGNUP_INTENT_CHOICES.graphene_enum)
 
     def __get(self, info: ResolveInfo, key: str, field_class):
         request = info.context
@@ -218,4 +219,10 @@ class OnboardingSessionInfo(object):
         user = info.context.user
         if hasattr(user, 'onboarding_info'):
             return user.onboarding_info
+        return None
+
+    def resolve_signup_intent(self, info: ResolveInfo) -> Optional[str]:
+        user = info.context.user
+        if hasattr(user, 'onboarding_info'):
+            return user.onboarding_info.signup_intent
         return None

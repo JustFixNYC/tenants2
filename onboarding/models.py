@@ -10,7 +10,11 @@ BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
 LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
-SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
+SIGNUP_INTENT_CHOICES = Choices.from_file(
+    'signup-intent-choices.json',
+    name='SignupIntent',
+    description="The reason the user originally signed up with us."
+)
 
 ADDR_META_HELP = (
     "This field is automatically updated when you change the address or "
@@ -126,7 +130,7 @@ class OnboardingInfo(models.Model):
     signup_intent = models.CharField(
         max_length=30,
         choices=SIGNUP_INTENT_CHOICES.choices,
-        help_text="The reason the user originally signed up with us."
+        help_text=SIGNUP_INTENT_CHOICES.description
     )
 
     address = models.CharField(

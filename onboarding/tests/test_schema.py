@@ -35,6 +35,16 @@ VALID_STEP_DATA = {
     }
 }
 
+ONBOARDING_INFO_QUERY = '''
+query {
+    session {
+        onboardingInfo {
+            signupIntent
+        }
+    }
+}
+'''
+
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
@@ -108,6 +118,19 @@ def test_onboarding_works(graphql_client, smsoutbox):
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
+
+
+@pytest.mark.django_db
+def test_onboarding_info_is_none_when_it_does_not_exist(graphql_client):
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
+    assert result['onboardingInfo'] is None
+
+
+@pytest.mark.django_db
+def test_onboarding_info_is_present_when_it_exists(graphql_client):
+    execute_onboarding(graphql_client)
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
+    assert result['onboardingInfo']['signupIntent'] == 'LOC'
 
 
 @pytest.mark.django_db

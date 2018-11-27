@@ -4,7 +4,7 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { OnboardingStep4Input, LetterRequestMailChoice } from "./globalTypes";
+import { OnboardingStep4Input, OnboardingInfoSignupIntent, LetterRequestMailChoice } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: OnboardingStep4Mutation
@@ -19,6 +19,13 @@ export interface OnboardingStep4Mutation_output_errors {
    * A list of human-readable validation errors.
    */
   messages: string[];
+}
+
+export interface OnboardingStep4Mutation_output_session_onboardingInfo {
+  /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: OnboardingInfoSignupIntent;
 }
 
 export interface OnboardingStep4Mutation_output_session_onboardingStep1 {
@@ -130,6 +137,10 @@ export interface OnboardingStep4Mutation_output_session {
    * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
    */
   prefersLegacyApp: boolean | null;
+  /**
+   * The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user.
+   */
+  onboardingInfo: OnboardingStep4Mutation_output_session_onboardingInfo | null;
   onboardingStep1: OnboardingStep4Mutation_output_session_onboardingStep1 | null;
   onboardingStep2: OnboardingStep4Mutation_output_session_onboardingStep2 | null;
   onboardingStep3: OnboardingStep4Mutation_output_session_onboardingStep3 | null;

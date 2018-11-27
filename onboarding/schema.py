@@ -5,6 +5,7 @@ from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
+from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
@@ -174,6 +175,12 @@ class OnboardingMutations:
     onboarding_step_4 = OnboardingStep4.Field(required=True)
 
 
+class OnboardingInfoType(DjangoObjectType):
+    class Meta:
+        model = OnboardingInfo
+        only_fields = ('signup_intent',)
+
+
 class OnboardingSessionInfo(object):
     '''
     A mixin class defining all onboarding-related queries.
@@ -182,6 +189,16 @@ class OnboardingSessionInfo(object):
     onboarding_step_1 = graphene.Field(OnboardingStep1Info)
     onboarding_step_2 = graphene.Field(OnboardingStep2Info)
     onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+    onboarding_info = graphene.Field(
+        OnboardingInfoType,
+        description=(
+            "The user's onboarding details, which they filled out "
+            "during the onboarding process. This is not to be confused with "
+            "the individual onboarding steps, which capture information "
+            "someone filled out *during* onboarding, before they became "
+            "a full-fledged user."
+        )
+    )
 
     def __get(self, info: ResolveInfo, key: str, field_class):
         request = info.context
@@ -196,3 +213,9 @@ class OnboardingSessionInfo(object):
 
     def resolve_onboarding_step_3(self, info: ResolveInfo) -> Optional[OnboardingStep3Info]:
         return self.__get(info, session_key_for_step(3), OnboardingStep3Info)
+
+    def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
+        user = info.context.user
+        if hasattr(user, 'onboarding_info'):
+            return user.onboarding_info
+        return None

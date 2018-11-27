@@ -6,6 +6,9 @@ fragment AllSessionInfo on SessionInfo {
     isStaff
     isSafeModeEnabled
     prefersLegacyApp
+    onboardingInfo {
+        signupIntent
+    }
     onboardingStep1 {
         firstName
         lastName

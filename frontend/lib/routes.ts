@@ -1,5 +1,5 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
-import { SignupIntentChoice } from './signup-intent';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
 /**
  * Metadata about signup intents.
@@ -17,14 +17,14 @@ type SignupIntentRouteInfo = {
  * use a union type as an index signature, so I guess we'll have
  * to make it a function.
  */
-export function getSignupIntentRouteInfo(intent: SignupIntentChoice): SignupIntentRouteInfo {
+export function getSignupIntentRouteInfo(intent: OnboardingInfoSignupIntent): SignupIntentRouteInfo {
   switch (intent) {
-    case SignupIntentChoice.LOC: return {
+    case OnboardingInfoSignupIntent.LOC: return {
       preOnboarding: Routes.home,
-      postOnboarding: Routes.loc.home
+      postOnboarding: Routes.loc.latestStep
     };
 
-    case SignupIntentChoice.HP: return Routes.hp;
+    case OnboardingInfoSignupIntent.HP: return Routes.hp;
   }
 }
 
@@ -78,11 +78,11 @@ const Routes = {
     [ROUTE_PREFIX]: '/onboarding',
     forIntent: {
       parameterizedRoute: '/onboarding/for/:intent',
-      create: (intent: SignupIntentChoice) => `/onboarding/for/${intent.toLowerCase()}`,
+      create: (intent: OnboardingInfoSignupIntent) => `/onboarding/for/${intent.toLowerCase()}`,
     },
     latestStep: '/onboarding',
     step1: '/onboarding/step/1',
-    createStep1WithIntent: (intent: SignupIntentChoice) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
+    createStep1WithIntent: (intent: OnboardingInfoSignupIntent) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
     step1AddressModal: '/onboarding/step/1/address-modal',
     step1ConfirmAddressModal: '/onboarding/step/1/confirm-address-modal',
     step2: '/onboarding/step/2',

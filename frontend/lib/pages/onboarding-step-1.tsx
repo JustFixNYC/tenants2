@@ -4,7 +4,7 @@ import Page from '../page';
 import Routes, { getSignupIntentRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { OnboardingStep1Input } from '../queries/globalTypes';
+import { OnboardingStep1Input, OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull } from '../util';
@@ -18,7 +18,7 @@ import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
-import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent, SignupIntentChoice } from '../signup-intent';
+import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent } from '../signup-intent';
 import { getQuerystringVar } from '../querystring';
 
 const blankInitialState: OnboardingStep1Input = {
@@ -45,7 +45,7 @@ const renderAddressLabel: LabelRenderer = (label, labelProps) => (
   </div>
 );
 
-export function getIntent(signupIntent: string|undefined , search: string): SignupIntentChoice {
+export function getIntent(signupIntent: string|undefined , search: string): OnboardingInfoSignupIntent {
   const defaultIntent = validateSignupIntent(signupIntent);
   return validateSignupIntent(getQuerystringVar(search, 'intent'), defaultIntent);
 }

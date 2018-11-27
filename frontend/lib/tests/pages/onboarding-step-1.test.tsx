@@ -7,8 +7,8 @@ import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mut
 import { createMockFetch } from '../mock-fetch';
 import { FakeGeoResults } from '../util';
 import Routes from '../../routes';
-import { SignupIntentChoice } from '../../signup-intent';
 import { assertNotUndefined } from '../../util';
+import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
 
 
 describe('onboarding step 1 page', () => {
@@ -112,7 +112,7 @@ test('areAddressesTheSame() works', () => {
 
 describe('getIntent()', () => {
   it("Works with routes we generate", () => {
-    const route = Routes.onboarding.createStep1WithIntent(SignupIntentChoice.HP);
+    const route = Routes.onboarding.createStep1WithIntent(OnboardingInfoSignupIntent.HP);
     const url = assertNotUndefined(parseUrl(route).search);
     expect(getIntent(undefined, url)).toEqual('HP');
   });

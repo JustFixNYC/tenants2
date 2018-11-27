@@ -1,5 +1,5 @@
 import { isModalRoute, RouteMap, getSignupIntentRouteInfo } from "../routes";
-import { SignupIntentChoice } from "../signup-intent";
+import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);
@@ -8,8 +8,8 @@ test('isModalRoute() works', () => {
 
 describe('getSignupIntentRouteInfo', () => {
   it('returns an object for all choices', () => {
-    for (let choice in SignupIntentChoice) {
-      expect(getSignupIntentRouteInfo(choice as SignupIntentChoice))
+    for (let choice in OnboardingInfoSignupIntent) {
+      expect(getSignupIntentRouteInfo(choice as OnboardingInfoSignupIntent))
         .not.toBeUndefined();
     }
   });

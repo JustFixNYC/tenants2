@@ -13,6 +13,14 @@ export enum LetterRequestMailChoice {
   WE_WILL_MAIL = "WE_WILL_MAIL",
 }
 
+/**
+ * An enumeration.
+ */
+export enum OnboardingInfoSignupIntent {
+  HP = "HP",
+  LOC = "LOC",
+}
+
 export interface AccessDatesInput {
   date1: string;
   date2: string;

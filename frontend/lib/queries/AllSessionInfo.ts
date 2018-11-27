@@ -3,11 +3,18 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { LetterRequestMailChoice } from "./globalTypes";
+import { OnboardingInfoSignupIntent, LetterRequestMailChoice } from "./globalTypes";
 
 // ====================================================
 // GraphQL fragment: AllSessionInfo
 // ====================================================
+
+export interface AllSessionInfo_onboardingInfo {
+  /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: OnboardingInfoSignupIntent;
+}
 
 export interface AllSessionInfo_onboardingStep1 {
   firstName: string;
@@ -118,6 +125,10 @@ export interface AllSessionInfo {
    * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
    */
   prefersLegacyApp: boolean | null;
+  /**
+   * The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user.
+   */
+  onboardingInfo: AllSessionInfo_onboardingInfo | null;
   onboardingStep1: AllSessionInfo_onboardingStep1 | null;
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
@@ -136,6 +147,9 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     isStaff
     isSafeModeEnabled
     prefersLegacyApp
+    onboardingInfo {
+        signupIntent
+    }
     onboardingStep1 {
         firstName
         lastName

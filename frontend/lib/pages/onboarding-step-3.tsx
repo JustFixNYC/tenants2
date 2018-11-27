@@ -4,34 +4,39 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
-import Routes from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
-import { filterDjangoChoices } from '../common-data';
+import { filterDjangoChoices, ReactDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
+import { OnboardingRouteInfo } from '../routes';
 
 export const LEASE_CHOICES = filterDjangoChoices(
   require('../../../common-data/lease-choices.json'), ['NOT_SURE']);
-
-const NEXT_STEP = Routes.onboarding.step4;
 
 const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
   receivesPublicAssistance: false
 };
 
-export function LeaseInfoModal(props: { children: any, title: string, isWarning?: boolean }): JSX.Element {
+type LeaseInfoModalProps = {
+  children: any;
+  title: string;
+  isWarning?: boolean;
+  toNextStep: string;
+};
+
+export function LeaseInfoModal(props: LeaseInfoModalProps): JSX.Element {
   return (
-    <Modal title={props.title} onCloseGoTo={NEXT_STEP}>
+    <Modal title={props.title} onCloseGoTo={props.toNextStep}>
       <div className="content box">
         <h1 className="title is-4">{props.title}</h1>
         {props.children}
         <div className="has-text-centered">
-          <Link to={NEXT_STEP}
+          <Link to={props.toNextStep}
             className={`button is-primary is-medium ${props.isWarning ? 'is-danger' : ''}`}>
             {props.isWarning ? 'I understand the risk' : 'Continue'}
           </Link>
@@ -69,57 +74,57 @@ const GENERIC_NO_LEASE_WARNING = (
   </p>
 );
 
-export const LEASE_MODALS: LeaseModalInfo[] = [
+export const createLeaseModals = (routes: OnboardingRouteInfo): LeaseModalInfo[] => ([
   {
-    route: Routes.onboarding.step3RentStabilizedModal,
+    route: routes.step3RentStabilizedModal,
     leaseType: 'RENT_STABILIZED',
     component: () => (
-      <LeaseInfoModal title="Great news!">
+      <LeaseInfoModal title="Great news!" toNextStep={routes.step4}>
         <p>As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years.</p>
       </LeaseInfoModal>
     )
   },
   {
-    route: Routes.onboarding.step3MarketRateModal,
+    route: routes.step3MarketRateModal,
     leaseType: 'MARKET_RATE',
     component: () => (
-      <LeaseInfoModal title="Market Rate lease" isWarning>
+      <LeaseInfoModal title="Market Rate lease" isWarning toNextStep={routes.step4}>
         <p><strong className="has-text-danger">Warning:</strong> Sending a letter to  your landlord could provoke retaliation and/or an eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
       </LeaseInfoModal>
     )
   },
   {
-    route: Routes.onboarding.step3NychaModal,
+    route: routes.step3NychaModal,
     leaseType: 'NYCHA',
     component: () => (
-      <LeaseInfoModal title="NYCHA Housing Development">
+      <LeaseInfoModal title="NYCHA Housing Development" toNextStep={routes.step4}>
         <p>We’ll make sure your letter gets to the head of the Housing Authority. You should also download the MyNYCHA app to make service requests.</p>
       </LeaseInfoModal>
     )
   },
   {
-    route: Routes.onboarding.step3OtherModal,
+    route: routes.step3OtherModal,
     leaseType: 'OTHER',
     component: () => (
-      <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)" isWarning>
+      <LeaseInfoModal title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)" isWarning toNextStep={routes.step4}>
         {GENERIC_NO_LEASE_WARNING}
       </LeaseInfoModal>
     )
   },
   {
-    route: Routes.onboarding.step3NoLeaseModal,
+    route: routes.step3NoLeaseModal,
     leaseType: 'NO_LEASE',
     component: () => (
-      <LeaseInfoModal title="No lease" isWarning>
+      <LeaseInfoModal title="No lease" isWarning toNextStep={routes.step4}>
         {GENERIC_NO_LEASE_WARNING}
       </LeaseInfoModal>
     )
   }
-];
+]);
 
-export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
+export const createLeaseLearnMoreModals = (routes: OnboardingRouteInfo): LeaseModalInfo[] => ([
   {
-    route: Routes.onboarding.step3LearnMoreModals.rentStabilized,
+    route: routes.step3LearnMoreModals.rentStabilized,
     leaseType: 'RENT_STABILIZED',
     component: () => (
       <LeaseLearnMoreModal title="About rent stabilization">
@@ -129,7 +134,7 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
     )
   },
   {
-    route: Routes.onboarding.step3LearnMoreModals.marketRate,
+    route: routes.step3LearnMoreModals.marketRate,
     leaseType: 'MARKET_RATE',
     component: () => (
       <LeaseLearnMoreModal title="Is your lease Market Rate?">
@@ -138,7 +143,7 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
     )
   },
   {
-    route: Routes.onboarding.step3LearnMoreModals.noLease,
+    route: routes.step3LearnMoreModals.noLease,
     leaseType: 'NO_LEASE',
     component: () => (
       <LeaseLearnMoreModal title="Month-to-month tenants">
@@ -146,47 +151,61 @@ export const LEASE_LEARN_MORE_MODALS: LeaseModalInfo[] = [
       </LeaseLearnMoreModal>
     )
   }
-];
+]);
 
-export const ALL_LEASE_MODALS = [...LEASE_MODALS, ...LEASE_LEARN_MORE_MODALS];
+type OnboardingStep3Props = {
+  routes: OnboardingRouteInfo;
+};
 
-const LEASE_LEARN_MORE_MODAL_MAP = new Map(
-  LEASE_LEARN_MORE_MODALS.map(info => twoTuple(info.leaseType, info)));
+export default class OnboardingStep3 extends React.Component<OnboardingStep3Props> {
+  readonly leaseModals: LeaseModalInfo[];
+  readonly leaseLearnMoreModals: LeaseModalInfo[];
+  readonly allLeaseModals: LeaseModalInfo[];
+  readonly leaseChoicesWithInfo: ReactDjangoChoices;
 
-const leaseChoicesWithInfo = LEASE_CHOICES.map(([value, label]) => {
-  const info = LEASE_LEARN_MORE_MODAL_MAP.get(value);
-  const title = `Learn more about ${label} leases`;
+  constructor(props: OnboardingStep3Props) {
+    super(props);
+    this.leaseModals = createLeaseModals(this.props.routes);
+    this.leaseLearnMoreModals = createLeaseLearnMoreModals(this.props.routes);
+    this.allLeaseModals = [...this.leaseModals, ...this.leaseLearnMoreModals];
 
-  return twoTuple(value, info ? (
-    glueToLastWord(label, <IconLink type="info" title={title} to={info.route} />)
-  ) : label);
-});
+    const leaseLearnMoreModalMap = new Map(
+      this.leaseLearnMoreModals.map(info => twoTuple(info.leaseType, info)));
 
-export default class OnboardingStep3 extends React.Component {
+    this.leaseChoicesWithInfo = LEASE_CHOICES.map(([value, label]) => {
+      const info = leaseLearnMoreModalMap.get(value);
+      const title = `Learn more about ${label} leases`;
+
+      return twoTuple(value, info ? (
+        glueToLastWord(label, <IconLink type="info" title={title} to={info.route} />)
+      ) : label);
+    });
+  }
+
   @autobind
   renderForm(ctx: FormContext<OnboardingStep3Input>): JSX.Element {
     return (
       <React.Fragment>
-        <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={leaseChoicesWithInfo} label="Lease type" />
+        <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={this.leaseChoicesWithInfo} label="Lease type" />
         <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
           I also receive a housing voucher (Section 8, FEPS, Link, HASA, other)
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
-          <BackButton to={Routes.onboarding.step2} label="Back" />
+          <BackButton to={this.props.routes.step2} label="Back" />
           <NextButton isLoading={ctx.isLoading} />
         </div>
       </React.Fragment>
     );
   }
 
-  static getSuccessRedirect(leaseType: string): string {
-    for (let info of LEASE_MODALS) {
+  getSuccessRedirect(leaseType: string): string {
+    for (let info of this.leaseModals) {
       if (info.leaseType === leaseType) {
         return info.route;
       }
     }
 
-    return NEXT_STEP;
+    return this.props.routes.step4;
   }
 
   render() {
@@ -198,11 +217,11 @@ export default class OnboardingStep3 extends React.Component {
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}
             initialState={(session) => session.onboardingStep3 || blankInitialState}
-            onSuccessRedirect={(_, input) => OnboardingStep3.getSuccessRedirect(input.leaseType)}
+            onSuccessRedirect={(_, input) => this.getSuccessRedirect(input.leaseType)}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>
 
-        {ALL_LEASE_MODALS.map(info => (
+        {this.allLeaseModals.map(info => (
           <Route key={info.route} path={info.route} component={info.component} />
         ))}
       </Page>

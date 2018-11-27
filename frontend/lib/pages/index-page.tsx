@@ -6,7 +6,6 @@ import Routes, { getSignupIntentRouteInfo } from '../routes';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
 import { StaticImage } from '../static-image';
-import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import { AppContext } from '../app-context';
 import { signupIntentFromOnboardingInfo } from '../signup-intent';
 
@@ -14,7 +13,7 @@ export interface IndexPageProps {
   isLoggedIn: boolean;
 }
 
-const onboardingForLOCRoute = Routes.onboarding.forIntent.create(OnboardingInfoSignupIntent.LOC);
+const onboardingForLOCRoute = Routes.onboarding.latestStep;
 
 export default class IndexPage extends React.Component<IndexPageProps> {
   renderLoggedOut() {

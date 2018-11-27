@@ -12,7 +12,6 @@ fragment AllSessionInfo on SessionInfo {
     onboardingStep1 {
         firstName
         lastName
-        signupIntent
         address
         aptNumber,
         borough

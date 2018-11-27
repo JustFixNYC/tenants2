@@ -31,7 +31,7 @@ BOROUGH_GID_TO_CHOICE = {
 class OnboardingStep1Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('signup_intent', 'address', 'borough', 'apt_number')
+        fields = ('address', 'borough', 'apt_number')
 
     first_name = forms.CharField(max_length=30)
 
@@ -93,7 +93,7 @@ class OnboardingStep3Form(forms.ModelForm):
 class OnboardingStep4Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('can_we_sms',)
+        fields = ('can_we_sms', 'signup_intent')
 
     phone_number = USPhoneNumberField()
 

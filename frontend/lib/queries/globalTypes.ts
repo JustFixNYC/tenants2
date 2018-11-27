@@ -63,7 +63,6 @@ export interface LogoutInput {
 }
 
 export interface OnboardingStep1Input {
-  signupIntent: string;
   address: string;
   borough: string;
   aptNumber: string;
@@ -89,6 +88,7 @@ export interface OnboardingStep3Input {
 
 export interface OnboardingStep4Input {
   canWeSms: boolean;
+  signupIntent: string;
   phoneNumber: string;
   password: string;
   confirmPassword: string;

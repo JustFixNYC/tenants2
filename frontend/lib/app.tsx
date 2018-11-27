@@ -20,6 +20,7 @@ import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
 
 export interface AppProps {
@@ -198,8 +199,23 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.logout} exact component={LogoutPage} />
-        <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
+        <Route path={Routes.onboarding.prefix} render={() => (
+          <LoadableOnboardingRoutes
+            routes={Routes.onboarding}
+            toCancel={Routes.home}
+            toSuccess={Routes.loc.latestStep}
+            signupIntent={OnboardingInfoSignupIntent.LOC}
+          />
+        )} />
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        <Route path={Routes.hp.onboarding.prefix} render={() => (
+          <LoadableOnboardingRoutes
+            routes={Routes.hp.onboarding}
+            toCancel={Routes.hp.preOnboarding}
+            toSuccess={Routes.hp.postOnboarding}
+            signupIntent={OnboardingInfoSignupIntent.HP}
+          />
+        )} />
         <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />

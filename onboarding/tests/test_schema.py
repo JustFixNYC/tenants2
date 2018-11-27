@@ -10,7 +10,6 @@ VALID_STEP_DATA = {
     1: {
         'firstName': 'boop',
         'lastName': 'jones',
-        'signupIntent': 'LOC',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
         'aptNumber': '3B'
@@ -29,6 +28,7 @@ VALID_STEP_DATA = {
     4: {
         'phoneNumber': '5551234567',
         'canWeSms': True,
+        'signupIntent': 'LOC',
         'password': 'blarg1234',
         'confirmPassword': 'blarg1234',
         'agreeToTerms': True

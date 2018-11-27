@@ -1,6 +1,6 @@
 import { validateDjangoChoices } from "../common-data";
-import { validateSignupIntent, DEFAULT_SIGNUP_INTENT_CHOICE } from "../signup-intent";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { signupIntentFromOnboardingInfo, DEFAULT_SIGNUP_INTENT_CHOICE } from "../signup-intent";
 
 type SignupIntentDjangoChoice = [OnboardingInfoSignupIntent, string];
 
@@ -12,9 +12,7 @@ test('SignupIntentChoice has valid choices', () => {
   }
 });
 
-test('validateSignupIntent() works', () => {
-  expect(validateSignupIntent(undefined)).toStrictEqual(DEFAULT_SIGNUP_INTENT_CHOICE);
-  expect(validateSignupIntent('blargh')).toStrictEqual(DEFAULT_SIGNUP_INTENT_CHOICE);
-  expect(validateSignupIntent('hp')).toStrictEqual(OnboardingInfoSignupIntent.HP);
-  expect(validateSignupIntent('HP')).toStrictEqual(OnboardingInfoSignupIntent.HP);
+test('signupIntentFromOnboardingInfo() works', () => {
+  expect(signupIntentFromOnboardingInfo(null)).toStrictEqual(DEFAULT_SIGNUP_INTENT_CHOICE);
+  expect(signupIntentFromOnboardingInfo({ signupIntent: 'boop' } as any)).toBe('boop');
 });

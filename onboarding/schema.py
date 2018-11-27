@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Dict, Any
 from django.contrib.auth import login
 from django.conf import settings
@@ -17,6 +18,9 @@ from onboarding.models import OnboardingInfo
 
 # The onboarding steps we store in the request session.
 SESSION_STEPS = [1, 2, 3]
+
+
+logger = logging.getLogger(__name__)
 
 
 def session_key_for_step(step: int) -> str:
@@ -203,7 +207,16 @@ class OnboardingSessionInfo(object):
     def __get(self, info: ResolveInfo, key: str, field_class):
         request = info.context
         obinfo = request.session.get(key)
-        return field_class(**obinfo) if obinfo else None
+        if obinfo:
+            try:
+                return field_class(**obinfo)
+            except TypeError:
+                # This can happen when we change the "schema" of an onboarding
+                # step while a user's session contains data in the old schema.
+                # This should be very unusual.
+                logger.exception(f'Error deserializing {key} from session')
+                request.session.pop(key)
+        return None
 
     def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
         return self.__get(info, session_key_for_step(1), OnboardingStep1Info)

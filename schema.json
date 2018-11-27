@@ -346,22 +346,6 @@
           "description": null,
           "fields": [
             {
-              "name": "signupIntent",
-              "description": "The reason the user originally signed up with us.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",
               "args": [],
@@ -1387,22 +1371,6 @@
           "description": null,
           "fields": [
             {
-              "name": "signupIntent",
-              "description": "The reason the user originally signed up with us.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",
               "args": [],
@@ -1542,20 +1510,6 @@
           "description": null,
           "fields": null,
           "inputFields": [
-            {
-              "name": "signupIntent",
-              "description": "The reason the user originally signed up with us.",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
             {
               "name": "address",
               "description": "The user's address. Only street name and number are required.",
@@ -2033,6 +1987,22 @@
               "deprecationReason": null
             },
             {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "phoneNumber",
               "description": "",
               "args": [],
@@ -2165,6 +2135,20 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },

@@ -231,21 +231,21 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
       <Page title="Create an account to get started with JustFix.nyc!">
         <div>
           <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
-            <SessionUpdatingFormSubmitter
-              mutation={OnboardingStep1Mutation}
-              initialState={initialState}
-              onSuccessRedirect={(output, input) => {
-                const successSession = assertNotNull(output.session);
-                const successInfo = assertNotNull(successSession.onboardingStep1);
-                if (areAddressesTheSame(successInfo.address, input.address) &&
-                    successInfo.borough === input.borough) {
-                  return Routes.onboarding.step2;
-                }
-                return Routes.onboarding.step1ConfirmAddressModal;
-              }}
-            >
-              {this.renderForm}
-            </SessionUpdatingFormSubmitter>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep1Mutation}
+            initialState={initialState}
+            onSuccessRedirect={(output, input) => {
+              const successSession = assertNotNull(output.session);
+              const successInfo = assertNotNull(successSession.onboardingStep1);
+              if (areAddressesTheSame(successInfo.address, input.address) &&
+                  successInfo.borough === input.borough) {
+                return Routes.onboarding.step2;
+              }
+              return Routes.onboarding.step1ConfirmAddressModal;
+            }}
+          >
+            {this.renderForm}
+          </SessionUpdatingFormSubmitter>
         </div>
 
         {this.renderHiddenLogoutForm(cancelRoute)}

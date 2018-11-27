@@ -17,6 +17,13 @@ describe('HP Action flow', () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
       url: '/hp/welcome'
     });
-    pal.rr.getByText('HP action');
+    pal.rr.getByText('Start my case');
+  });
+
+  it('should show issues checklist', () => {
+    const pal = new AppTesterPal(<HPActionRoutes />, {
+      url: '/hp/issues'
+    });
+    pal.rr.getByText('Bathrooms');
   });
 });

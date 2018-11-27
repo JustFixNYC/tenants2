@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
 import Page from '../page';
-import { RouteTypes, ROUTE_PREFIX } from '../routes';
+import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
@@ -23,7 +23,7 @@ import { assertNotUndefined } from '../util';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
-type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps & {
+type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string
 };
 
@@ -207,15 +207,6 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
 
       </Page>
     );
-  }
-}
-
-type IssuesRouteInfo = {
-  [ROUTE_PREFIX]: string,
-  home: string,
-  area: {
-    parameterizedRoute: string,
-    create: (area: string) => string,
   }
 }
 

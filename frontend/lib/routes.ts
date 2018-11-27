@@ -34,6 +34,28 @@ export function getSignupIntentRouteInfo(intent: OnboardingInfoSignupIntent): Si
  */
 export const ROUTE_PREFIX = 'prefix';
 
+export type IssuesRouteInfo = {
+  [ROUTE_PREFIX]: string,
+  home: string,
+  area: {
+    parameterizedRoute: string,
+    create: (area: string) => string,
+  }
+}
+
+export type IssuesRouteAreaProps = RouteComponentProps<{ area: string }>;
+
+function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    home: prefix,
+    area: {
+      parameterizedRoute: `${prefix}/:area`,
+      create: (area: string) => `${prefix}/${area}`,
+    }
+  };
+}
+
 /**
  * This namespace parallels our Routes object, providing useful types
  * related to specific routes.
@@ -42,13 +64,6 @@ export namespace RouteTypes {
   export namespace onboarding {
     export namespace forIntent {
       export type RouteProps = RouteComponentProps<{ intent: string }>;
-    }
-  }
-  export namespace loc {
-    export namespace issues {
-      export namespace area {
-        export type RouteProps = RouteComponentProps<{ area: string }>;
-      }
     }
   }
 }
@@ -107,14 +122,7 @@ const Routes = {
     [ROUTE_PREFIX]: '/loc',
     latestStep: '/loc',
     home: '/loc/welcome',
-    issues: {
-      [ROUTE_PREFIX]: '/loc/issues',
-      home: '/loc/issues',
-      area: {
-        parameterizedRoute: '/loc/issues/:area',
-        create: (area: string) => `/loc/issues/${area}`,
-      }
-    },
+    issues: createIssuesRouteInfo('/loc/issues'),
     accessDates: '/loc/access-dates',
     yourLandlord: '/loc/your-landlord',
     preview: '/loc/preview',
@@ -126,6 +134,8 @@ const Routes = {
     [ROUTE_PREFIX]: '/hp',
     preOnboarding: '/hp',
     postOnboarding: '/hp/welcome',
+    issues: createIssuesRouteInfo('/hp/issues'),
+    yourLandlord: '/hp/your-landlord'
   },
 
   /**

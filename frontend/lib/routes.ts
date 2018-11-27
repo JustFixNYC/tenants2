@@ -2,6 +2,33 @@ import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { SignupIntentChoice } from './signup-intent';
 
 /**
+ * Metadata about signup intents.
+ */
+type SignupIntentRouteInfo = {
+  /** The page users visit before onboarding begins. */
+  preOnboarding: string;
+
+  /** The page users are sent to after onboarding. */
+  postOnboarding: string;
+};
+
+/**
+ * Ideally this would be a map, but TypeScript doesn't let us
+ * use a union type as an index signature, so I guess we'll have
+ * to make it a function.
+ */
+export function getSignupIntentRouteInfo(intent: SignupIntentChoice): SignupIntentRouteInfo {
+  switch (intent) {
+    case SignupIntentChoice.LOC: return {
+      preOnboarding: Routes.home,
+      postOnboarding: Routes.loc.home
+    };
+
+    case SignupIntentChoice.HP: return Routes.hp;
+  }
+}
+
+/**
  * Special route key indicating the prefix of a set of routes,
  * rather than a route that necessarily leads somewhere.
  */
@@ -93,6 +120,11 @@ const Routes = {
     preview: '/loc/preview',
     previewSendConfirmModal: '/loc/preview/send-confirm-modal',
     confirmation: '/loc/confirmation'
+  },
+
+  hp: {
+    preOnboarding: '/hp',
+    postOnboarding: '/hp/welcome',
   },
 
   /**

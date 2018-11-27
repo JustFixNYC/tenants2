@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Page from '../page';
-import Routes from '../routes';
-import { Link, Route } from 'react-router-dom';
+import Routes, { getSignupIntentRouteInfo } from '../routes';
+import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
@@ -18,7 +18,7 @@ import { GeoAutocomplete } from '../geo-autocomplete';
 import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
-import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent } from '../signup-intent';
+import { DEFAULT_SIGNUP_INTENT_CHOICE, validateSignupIntent, SignupIntentChoice } from '../signup-intent';
 import { getQuerystringVar } from '../querystring';
 
 const blankInitialState: OnboardingStep1Input = {
@@ -45,12 +45,9 @@ const renderAddressLabel: LabelRenderer = (label, labelProps) => (
   </div>
 );
 
-export function applyIntentFromQuerystring(input: OnboardingStep1Input, search: string): OnboardingStep1Input {
-  const defaultIntent = validateSignupIntent(input.signupIntent);
-  return {
-    ...input,
-    signupIntent: validateSignupIntent(getQuerystringVar(search, 'intent'), defaultIntent)
-  };
+export function getIntent(signupIntent: string|undefined , search: string): SignupIntentChoice {
+  const defaultIntent = validateSignupIntent(signupIntent);
+  return validateSignupIntent(getQuerystringVar(search, 'intent'), defaultIntent);
 }
 
 export function areAddressesTheSame(a: string, b: string): boolean {
@@ -100,11 +97,11 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType): JSX.E
   );
 });
 
-interface OnboardingStep1Props {
+type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
-}
+} & RouteComponentProps<any> & AppContextType;
 
-export default class OnboardingStep1 extends React.Component<OnboardingStep1Props> {
+class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Props> {
   readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   renderFormButtons(isLoading: boolean): JSX.Element {
@@ -189,12 +186,12 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
     );
   }
 
-  renderHiddenLogoutForm() {
+  renderHiddenLogoutForm(onSuccessRedirect: string) {
     return (
       <SessionUpdatingFormSubmitter
         mutation={LogoutMutation}
         initialState={{}}
-        onSuccessRedirect={Routes.home}
+        onSuccessRedirect={onSuccessRedirect}
       >{(ctx) => (
         // If onboarding is explicitly cancelled, we want to flush the
         // user's session to preserve their privacy, so that any
@@ -225,16 +222,18 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
   }
 
   render() {
+    const input = this.props.session.onboardingStep1 || blankInitialState;
+    const signupIntent = getIntent(input.signupIntent, this.props.location.search);
+    const initialState: OnboardingStep1Input = { ...input, signupIntent };
+    const cancelRoute = getSignupIntentRouteInfo(signupIntent).preOnboarding;
+
     return (
       <Page title="Create an account to get started with JustFix.nyc!">
         <div>
           <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
-          <Route render={(routerCtx) => (
             <SessionUpdatingFormSubmitter
               mutation={OnboardingStep1Mutation}
-              initialState={(session) => applyIntentFromQuerystring(
-                session.onboardingStep1 || blankInitialState, routerCtx.location.search
-              )}
+              initialState={initialState}
               onSuccessRedirect={(output, input) => {
                 const successSession = assertNotNull(output.session);
                 const successInfo = assertNotNull(successSession.onboardingStep1);
@@ -247,12 +246,15 @@ export default class OnboardingStep1 extends React.Component<OnboardingStep1Prop
             >
               {this.renderForm}
             </SessionUpdatingFormSubmitter>
-          )} />
         </div>
 
-        {this.renderHiddenLogoutForm()}
+        {this.renderHiddenLogoutForm(cancelRoute)}
         <Route path={Routes.onboarding.step1ConfirmAddressModal} exact component={ConfirmAddressModal} />
       </Page>
     );
   }
 }
+
+const OnboardingStep1 = withAppContext(withRouter(OnboardingStep1WithoutContexts));
+
+export default OnboardingStep1;

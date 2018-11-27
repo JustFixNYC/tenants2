@@ -1,7 +1,7 @@
 import { parse as parseUrl } from 'url';
 import React from 'react';
 
-import OnboardingStep1, { areAddressesTheSame, applyIntentFromQuerystring } from '../../pages/onboarding-step-1';
+import OnboardingStep1, { areAddressesTheSame, getIntent } from '../../pages/onboarding-step-1';
 import { AppTesterPal } from '../app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
 import { createMockFetch } from '../mock-fetch';
@@ -110,29 +110,25 @@ test('areAddressesTheSame() works', () => {
   expect(areAddressesTheSame('150 court st   ', '150 COURT STREET')).toBe(false);
 });
 
-describe('applyIntentFromQuerystring()', () => {
-  function getIntent(session: any, search: string) {
-    return applyIntentFromQuerystring(session, search).signupIntent;
-  }
-
+describe('getIntent()', () => {
   it("Works with routes we generate", () => {
     const route = Routes.onboarding.createStep1WithIntent(SignupIntentChoice.HP);
     const url = assertNotUndefined(parseUrl(route).search);
-    expect(getIntent({}, url)).toEqual('HP');
+    expect(getIntent(undefined, url)).toEqual('HP');
   });
 
   it("Falls back if nothing valid is specified in session or querystring", () => {
-    expect(getIntent({}, '')).toEqual('LOC');
-    expect(getIntent({}, '?intent=booooop')).toEqual('LOC');
+    expect(getIntent(undefined, '')).toEqual('LOC');
+    expect(getIntent(undefined, '?intent=booooop')).toEqual('LOC');
   });
 
   it("Falls back to the session value if querystring value is invalid/nonexistent", () => {
-    expect(getIntent({ signupIntent: 'HP' }, '?intent=booooop')).toEqual('HP');
-    expect(getIntent({ signupIntent: 'HP' }, '')).toEqual('HP');
+    expect(getIntent('HP', '?intent=booooop')).toEqual('HP');
+    expect(getIntent('HP', '')).toEqual('HP');
   });
 
   it("Prefers valid querystring value over anything else", () => {
-    expect(getIntent({}, '?intent=hp')).toEqual('HP');
-    expect(getIntent({ signupIntent: 'HP' }, '?intent=loc')).toEqual('LOC');
+    expect(getIntent(undefined, '?intent=hp')).toEqual('HP');
+    expect(getIntent('HP', '?intent=loc')).toEqual('LOC');
   });
 });

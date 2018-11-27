@@ -1,8 +1,18 @@
-import { isModalRoute, RouteMap } from "../routes";
+import { isModalRoute, RouteMap, getSignupIntentRouteInfo } from "../routes";
+import { SignupIntentChoice } from "../signup-intent";
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);
   expect(isModalRoute('/blah', '/oof/flarg-modal')).toBe(true);
+});
+
+describe('getSignupIntentRouteInfo', () => {
+  it('returns an object for all choices', () => {
+    for (let choice in SignupIntentChoice) {
+      expect(getSignupIntentRouteInfo(choice as SignupIntentChoice))
+        .not.toBeUndefined();
+    }
+  });
 });
 
 describe('RouteMap', () => {

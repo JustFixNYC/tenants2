@@ -46,11 +46,15 @@ test('RedirectToLatestOnboardingStep returns a redirect', () => {
   ensureRedirect(<RedirectToLatestOnboardingStep />, '/onboarding/step/1');
 });
 
-test('Onboarding for intent route works', () => {
-  const pal = new AppTesterPal(<OnboardingRoutes/>, {
-    url: Routes.onboarding.forIntent.create(SignupIntentChoice.HP)
+describe('Onboarding for intent route', () => {
+  afterEach(AppTesterPal.cleanup);
+
+  it('works', () => {
+    const pal = new AppTesterPal(<OnboardingRoutes/>, {
+      url: Routes.onboarding.forIntent.create(SignupIntentChoice.HP)
+    });
+    expect(pal.history.location.pathname).toEqual('/onboarding/step/1');
+    expect(pal.history.location.search).toEqual('?intent=hp');
+    pal.rr.getByLabelText('First name');
   });
-  expect(pal.history.location.pathname).toEqual('/onboarding/step/1');
-  expect(pal.history.location.search).toEqual('?intent=hp');
-  pal.rr.getByLabelText('First name');
 });

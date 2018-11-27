@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
 import Page from '../page';
-import Routes, { RouteTypes } from '../routes';
+import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
@@ -23,7 +23,9 @@ import { assertNotUndefined } from '../util';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
-type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
+type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
+  toHome: string
+};
 
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
@@ -45,7 +47,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.issues.home} />
+        <BackButton to={this.props.toHome} />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
     );
@@ -71,7 +73,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
             confirmNavIfChanged
             mutation={IssueAreaMutation}
             initialState={getInitialState}
-            onSuccessRedirect={Routes.loc.issues.home}
+            onSuccessRedirect={this.props.toHome}
           >
             {(formCtx) => this.renderForm(formCtx, area)}
           </SessionUpdatingFormSubmitter>
@@ -87,14 +89,21 @@ export function getIssueLabel(count: number): string {
       : `${count} issues reported`;
 }
 
-function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boolean }): JSX.Element {
+type IssueAreaLinkProps = {
+  area: string;
+  label: string;
+  isHighlighted?: boolean;
+  routes: IssuesRouteInfo;
+};
+
+function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
 
   return (
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
-        const url = Routes.loc.issues.area.create(allCapsToSlug(area));
+        const url = props.routes.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
@@ -145,8 +154,10 @@ interface IssuesHomeState {
   searchText: string;
 }
 
-class IssuesHome extends React.Component<{}, IssuesHomeState> {
-  constructor(props: {}) {
+type IssuesHomeProps = IssuesRoutesProps;
+
+class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
+  constructor(props: IssuesHomeProps) {
     super(props);
     this.state = { searchText: '' };
   }
@@ -154,6 +165,7 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
   renderColumnForArea(area: string, label: string): JSX.Element {
     return <div className="column">
       <IssueAreaLink
+        routes={this.props.routes}
         area={area}
         label={label}
         isHighlighted={doesAreaMatchSearch(area, this.state.searchText)}
@@ -188,8 +200,8 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
           ))}
           <br/>
           <div className="buttons jf-two-buttons">
-            <Link to={Routes.loc.home} className="button is-light is-medium">Back</Link>
-            <Link to={Routes.loc.accessDates} className="button is-primary is-medium">Next</Link>
+            <Link to={this.props.toBack} className="button is-light is-medium">Back</Link>
+            <Link to={this.props.toNext} className="button is-primary is-medium">Next</Link>
           </div>
         </div>
 
@@ -198,12 +210,21 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
   }
 }
 
-export function IssuesRoutes(): JSX.Element {
+type IssuesRoutesProps = {
+  routes: IssuesRouteInfo,
+  toBack: string,
+  toNext: string
+};
+
+export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
+  const { routes } = props;
   return (
     <Switch>
-      <Route path={Routes.loc.issues.home} exact component={IssuesHome} />
-      <Route path={Routes.loc.issues.area.parameterizedRoute} render={(ctx) => (
-        <IssuesArea {...ctx} />
+      <Route path={routes.home} exact render={() => (
+        <IssuesHome {...props} />
+      )} />
+      <Route path={routes.area.parameterizedRoute} render={(ctx) => (
+        <IssuesArea {...ctx} toHome={routes.home} />
       )} />
     </Switch>
   );

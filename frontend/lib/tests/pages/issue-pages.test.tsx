@@ -11,19 +11,21 @@ import ISSUE_AREA_SVGS from '../../svg/issues';
 
 const routes = Routes.loc.issues;
 
+const TestIssuesRoutes = () => 
+  <IssuesRoutes routes={Routes.loc.issues} toBack="back" toNext="next"/>;
 
 describe('issues checklist', () => {
   afterEach(AppTesterPal.cleanup);
 
   it('returns 404 for invalid area routes', () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create('LOL')
     });
     pal.rr.getByText('Alas.');
   });
 
   it('works on valid area routes', async () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create('HOME'),
       session: {
         issues: ['BEDROOMS__PAINT']
@@ -43,7 +45,7 @@ describe('issues checklist', () => {
   });
 
   it('has a functional issue search autocomplete', async () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.home
     });
     pal.fillFormFields([[/search/i, "mice"]]);

@@ -42,8 +42,6 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   );
 });
 
-
-
 const welcomeStep: SessionProgressStepRoute = {
   path: Routes.loc.home, exact: true, component: Welcome
 };
@@ -52,8 +50,16 @@ const confirmationStep: SessionProgressStepRoute = {
   path: Routes.loc.confirmation, exact: true, component: LetterConfirmation
 };
 
+const LetterOfComplaintIssuesRoutes = () => (
+  <IssuesRoutes
+    routes={Routes.loc.issues}
+    toBack={Routes.loc.home}
+    toNext={Routes.loc.accessDates}
+  />
+);
+
 const stepsToFillOut: SessionProgressStepRoute[] = [
-  { path: Routes.loc.issues.prefix, component: IssuesRoutes },
+  { path: Routes.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
   { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
   { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
   { path: Routes.loc.preview, component: LetterRequestPage,

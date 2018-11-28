@@ -17,6 +17,7 @@ ADDRESS_FORM_DATA = {
 STEP_4_FORM_DATA = {
     'phone_number': '555-123-4567',
     'can_we_sms': True,
+    'signup_intent': 'LOC',
     'password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
     'confirm_password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
     'agree_to_terms': True,

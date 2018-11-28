@@ -20,6 +20,8 @@ import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { getOnboardingRouteForIntent } from './signup-intent';
 
 
 export interface AppProps {
@@ -61,11 +63,6 @@ interface AppState {
 
 const LoadableIndexPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
-  loading: LoadingPage
-});
-
-const LoadableOnboardingRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
   loading: LoadingPage
 });
 
@@ -198,8 +195,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.logout} exact component={LogoutPage} />
-        <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
+        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
         <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />

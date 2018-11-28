@@ -2,12 +2,11 @@ import React from 'react';
 
 import Routes from "./routes";
 import Page from "./page";
-import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { Route, Switch } from 'react-router-dom';
 import { CenteredPrimaryButtonLink } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 
-const onboardingForHPActionRoute = Routes.onboarding.forIntent.create(OnboardingInfoSignupIntent.HP);
+const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
 function HPActionPreOnboarding(): JSX.Element {
   return (

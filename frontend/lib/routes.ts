@@ -4,12 +4,15 @@ import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 /**
  * Metadata about signup intents.
  */
-type SignupIntentRouteInfo = {
-  /** The page users visit before onboarding begins. */
+type SignupIntentOnboardingInfo = {
+  /** The page users land on before starting onboarding. */
   preOnboarding: string;
 
   /** The page users are sent to after onboarding. */
   postOnboarding: string;
+
+  /** The actual onboarding routes. */
+  onboarding: OnboardingRouteInfo;
 };
 
 /**
@@ -17,11 +20,12 @@ type SignupIntentRouteInfo = {
  * use a union type as an index signature, so I guess we'll have
  * to make it a function.
  */
-export function getSignupIntentRouteInfo(intent: OnboardingInfoSignupIntent): SignupIntentRouteInfo {
+export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.LOC: return {
       preOnboarding: Routes.home,
-      postOnboarding: Routes.loc.latestStep
+      postOnboarding: Routes.loc.latestStep,
+      onboarding: Routes.onboarding
     };
 
     case OnboardingInfoSignupIntent.HP: return Routes.hp;
@@ -53,6 +57,33 @@ function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
       parameterizedRoute: `${prefix}/:area`,
       create: (area: string) => `${prefix}/${area}`,
     }
+  };
+}
+
+export type OnboardingRouteInfo = ReturnType<typeof createOnboardingRouteInfo>;
+
+function createOnboardingRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    step1: `${prefix}/step/1`,
+    step1AddressModal: `${prefix}/step/1/address-modal`,
+    step1ConfirmAddressModal: `${prefix}/step/1/confirm-address-modal`,
+    step2: `${prefix}/step/2`,
+    step2EvictionModal: `${prefix}/step/2/eviction-modal`,
+    step3: `${prefix}/step/3`,
+    step3RentStabilizedModal: `${prefix}/step/3/rent-stabilized-modal`,
+    step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,
+    step3NychaModal: `${prefix}/step/3/nycha-modal`,
+    step3OtherModal: `${prefix}/step/3/other-modal`,
+    step3NoLeaseModal: `${prefix}/step/3/no-lease-modal`,
+    step3LearnMoreModals: {
+      rentStabilized: `${prefix}/step/3/learn-more-rent-stabilized-modal`,
+      marketRate: `${prefix}/step/3/learn-more-market-rate-modal`,
+      noLease: `${prefix}/step/3/learn-more-no-lease-modal`,
+    },
+    step4: `${prefix}/step/4`,
+    step4TermsModal: `${prefix}/step/4/terms-modal`,
   };
 }
 
@@ -89,33 +120,7 @@ const Routes = {
   home: '/',
 
   /** The onboarding flow. */
-  onboarding: {
-    [ROUTE_PREFIX]: '/onboarding',
-    forIntent: {
-      parameterizedRoute: '/onboarding/for/:intent',
-      create: (intent: OnboardingInfoSignupIntent) => `/onboarding/for/${intent.toLowerCase()}`,
-    },
-    latestStep: '/onboarding',
-    step1: '/onboarding/step/1',
-    createStep1WithIntent: (intent: OnboardingInfoSignupIntent) => `/onboarding/step/1?intent=${intent.toLowerCase()}`,
-    step1AddressModal: '/onboarding/step/1/address-modal',
-    step1ConfirmAddressModal: '/onboarding/step/1/confirm-address-modal',
-    step2: '/onboarding/step/2',
-    step2EvictionModal: '/onboarding/step/2/eviction-modal',
-    step3: '/onboarding/step/3',
-    step3RentStabilizedModal: '/onboarding/step/3/rent-stabilized-modal',
-    step3MarketRateModal: '/onboarding/step/3/market-rate-modal',
-    step3NychaModal: '/onboarding/step/3/nycha-modal',
-    step3OtherModal: '/onboarding/step/3/other-modal',
-    step3NoLeaseModal: '/onboarding/step/3/no-lease-modal',
-    step3LearnMoreModals: {
-      rentStabilized: '/onboarding/step/3/learn-more-rent-stabilized-modal',
-      marketRate: '/onboarding/step/3/learn-more-market-rate-modal',
-      noLease: '/onboarding/step/3/learn-more-no-lease-modal',
-    },
-    step4: '/onboarding/step/4',
-    step4TermsModal: '/onboarding/step/4/terms-modal',
-  },
+  onboarding: createOnboardingRouteInfo('/onboarding'),
 
   /** The Letter of Complaint flow. */
   loc: {
@@ -133,6 +138,7 @@ const Routes = {
   hp: {
     [ROUTE_PREFIX]: '/hp',
     preOnboarding: '/hp',
+    onboarding: createOnboardingRouteInfo('/hp/onboarding'),
     postOnboarding: '/hp/welcome',
     issues: createIssuesRouteInfo('/hp/issues'),
     yourLandlord: '/hp/your-landlord'

@@ -15,7 +15,7 @@ from .models import OnboardingInfo, BOROUGH_CHOICES
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 2
+FIELD_SCHEMA_VERSION = 3
 
 # The keys here were obtained experimentally, I'm not actually sure
 # if/where they are formally specified.
@@ -31,7 +31,7 @@ BOROUGH_GID_TO_CHOICE = {
 class OnboardingStep1Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('signup_intent', 'address', 'borough', 'apt_number')
+        fields = ('address', 'borough', 'apt_number')
 
     first_name = forms.CharField(max_length=30)
 
@@ -93,7 +93,7 @@ class OnboardingStep3Form(forms.ModelForm):
 class OnboardingStep4Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('can_we_sms',)
+        fields = ('can_we_sms', 'signup_intent')
 
     phone_number = USPhoneNumberField()
 

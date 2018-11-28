@@ -70,11 +70,20 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
   }
 }
 
-export interface ProgressStepRoute {
-  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+type BaseProgressStepRoute = {
   exact?: boolean;
   path: string;
-}
+};
+
+type ComponentProgressStepRoute = BaseProgressStepRoute & {
+  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+};
+
+type RenderProgressStepRoute = BaseProgressStepRoute & {
+  render: () => JSX.Element;
+};
+
+export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
 
 interface RouteProgressBarProps extends RouteComponentProps<any> {
   steps: ProgressStepRoute[];

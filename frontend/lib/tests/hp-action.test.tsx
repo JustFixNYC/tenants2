@@ -26,4 +26,18 @@ describe('HP Action flow', () => {
     });
     pal.rr.getByText('Bathrooms');
   });
+
+  it('should show landlord page', () => {
+    const pal = new AppTesterPal(<HPActionRoutes />, {
+      url: '/hp/your-landlord'
+    });
+    pal.rr.getByText('Your landlord');
+  });
+
+  it('should show preview page', () => {
+    const pal = new AppTesterPal(<HPActionRoutes />, {
+      url: '/hp/preview'
+    });
+    pal.rr.getByText('TODO: Implement this!');
+  });
 });

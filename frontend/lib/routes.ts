@@ -141,7 +141,8 @@ const Routes = {
     onboarding: createOnboardingRouteInfo('/hp/onboarding'),
     postOnboarding: '/hp/welcome',
     issues: createIssuesRouteInfo('/hp/issues'),
-    yourLandlord: '/hp/your-landlord'
+    yourLandlord: '/hp/your-landlord',
+    preview: '/hp/preview',
   },
 
   /**

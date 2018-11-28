@@ -100,7 +100,8 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   accessDates: [],
   landlordDetails: null,
   letterRequest: null,
-  isSafeModeEnabled: false
+  isSafeModeEnabled: false,
+  latestHpActionPdfUrl: null
 };
 
 export const FakeAppContext: AppContextType = {

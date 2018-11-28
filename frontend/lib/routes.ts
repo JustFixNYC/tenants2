@@ -142,7 +142,7 @@ const Routes = {
     postOnboarding: '/hp/welcome',
     issues: createIssuesRouteInfo('/hp/issues'),
     yourLandlord: '/hp/your-landlord',
-    preview: '/hp/preview',
+    confirmation: '/hp/confirmation',
   },
 
   /**

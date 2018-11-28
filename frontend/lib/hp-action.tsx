@@ -2,13 +2,16 @@ import React from 'react';
 
 import Routes from "./routes";
 import Page from "./page";
-import { Route, Switch, Link } from 'react-router-dom';
-import { CenteredPrimaryButtonLink, BackButton } from './buttons';
+import { Route, Switch } from 'react-router-dom';
+import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { SessionProgressStepRoute } from './progress-redirection';
 import { RouteProgressBar } from './progress-bar';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
+import { SessionUpdatingFormSubmitter } from './forms';
+import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
+import { OutboundLink } from './google-analytics';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -81,22 +84,49 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       {details && details.isLookedUp && details.name && details.address
         ? <LandlordDetails details={details} />
         : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.hp.issues.home} label="Back" />
-        <Link to={Routes.hp.preview} className="button is-primary is-medium">Next</Link>
-      </div>
+      <SessionUpdatingFormSubmitter
+        mutation={GenerateHPActionPDF}
+        initialState={{}}
+        onSuccessRedirect={Routes.hp.confirmation}
+      >
+        {(ctx) =>
+          <div className="buttons jf-two-buttons">
+            <BackButton to={Routes.hp.issues.home} label="Back" />
+            <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
+          </div>
+        }
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 });
 
-const HPActionPreview = () => {
-  return <p>TODO: Implement this!</p>;
-};
+// TODO: There's a function with the same name in loc-confirmation.tsx, we
+// should probably move it somewhere that we can reuse it.
+function PdfLink(props: { pdfURL: string }): JSX.Element {
+  return (
+    <p className="has-text-centered">
+      <OutboundLink href={props.pdfURL} target="_blank" className="button is-light is-medium">
+        Download HP Action packet (PDF)
+      </OutboundLink>
+    </p>
+  );
+}
+
+const HPActionConfirmation = withAppContext((props: AppContextType) => {
+  const pdfURL = props.session.latestHpActionPdfUrl;
+
+  return (
+    <Page title="Your HP Action packet has been created!!">
+      <h1 className="title is-4">Your HP Action packet has been created!</h1>
+      {pdfURL && <PdfLink pdfURL={pdfURL} />}
+    </Page>
+  );
+});
 
 const stepsToFillOut: SessionProgressStepRoute[] = [
   { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
   { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord},
-  { path: Routes.hp.preview, exact: true, component: HPActionPreview}
+  { path: Routes.hp.confirmation, exact: true, component: HPActionConfirmation}
 ];
 
 export default function HPActionRoutes(): JSX.Element {

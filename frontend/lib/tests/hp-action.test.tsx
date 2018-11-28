@@ -34,10 +34,13 @@ describe('HP Action flow', () => {
     pal.rr.getByText('Your landlord');
   });
 
-  it('should show preview page', () => {
+  it('should show confirmation page', () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
-      url: '/hp/preview'
+      url: '/hp/confirmation',
+      session: {
+        latestHpActionPdfUrl: '/boop.pdf'
+      }
     });
-    pal.rr.getByText('TODO: Implement this!');
+    pal.rr.getByText(/download/i);
   });
 });

@@ -8,6 +8,7 @@ from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
 from issues.schema import IssueMutations, IssueSessionInfo
 from loc.schema import LocMutations, LocSessionInfo
+from hpaction.schema import HPActionMutations, HPActionSessionInfo
 from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
 from . import forms
@@ -15,6 +16,7 @@ from . import forms
 
 class SessionInfo(
     LegacyUserSessionInfo,
+    HPActionSessionInfo,
     LocSessionInfo,
     OnboardingSessionInfo,
     IssueSessionInfo,
@@ -139,7 +141,13 @@ class Logout(DjangoFormMutation):
         return Logout(session=SessionInfo())
 
 
-class Mutations(LocMutations, OnboardingMutations, IssueMutations, graphene.ObjectType):
+class Mutations(
+    HPActionMutations,
+    LocMutations,
+    OnboardingMutations,
+    IssueMutations,
+    graphene.ObjectType
+):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     example = Example.Field(required=True)

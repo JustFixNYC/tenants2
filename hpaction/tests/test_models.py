@@ -37,7 +37,7 @@ class TestUploadToken:
 
     def test_get_upload_url_works(self, db):
         token = UploadToken(id='boop')
-        assert token.get_upload_url() == 'https://example.com/hp-action/upload/boop'
+        assert token.get_upload_url() == 'https://example.com/hp/upload/boop'
 
 
 class TestHPActionDocuments:

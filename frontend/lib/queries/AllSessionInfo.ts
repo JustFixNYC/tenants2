@@ -133,6 +133,10 @@ export interface AllSessionInfo {
   accessDates: string[];
   landlordDetails: AllSessionInfo_landlordDetails | null;
   letterRequest: AllSessionInfo_letterRequest | null;
+  /**
+   * The URL of the most recently-generated HP Action PDF for the current user.
+   */
+  latestHpActionPdfUrl: string | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -179,5 +183,6 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
+    latestHpActionPdfUrl
 }
 `;

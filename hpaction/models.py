@@ -66,6 +66,9 @@ class HPActionDocumentsManager(models.Manager):
         docs.save()
         return docs
 
+    def get_latest_for_user(self, user: JustfixUser) -> Optional['HPActionDocuments']:
+        return self.filter(user=user).order_by('-created_at').first()
+
 
 class HPActionDocuments(models.Model):
     '''

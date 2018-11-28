@@ -145,6 +145,10 @@ export interface OnboardingStep4Mutation_output_session {
   accessDates: string[];
   landlordDetails: OnboardingStep4Mutation_output_session_landlordDetails | null;
   letterRequest: OnboardingStep4Mutation_output_session_letterRequest | null;
+  /**
+   * The URL of the most recently-generated HP Action PDF for the current user.
+   */
+  latestHpActionPdfUrl: string | null;
 }
 
 export interface OnboardingStep4Mutation_output {

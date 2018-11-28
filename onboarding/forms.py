@@ -15,7 +15,7 @@ from .models import OnboardingInfo, BOROUGH_CHOICES
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 2
+FIELD_SCHEMA_VERSION = 3
 
 # The keys here were obtained experimentally, I'm not actually sure
 # if/where they are formally specified.

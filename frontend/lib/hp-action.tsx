@@ -5,6 +5,8 @@ import Page from "./page";
 import { Route, Switch } from 'react-router-dom';
 import { CenteredPrimaryButtonLink } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
+import { SessionProgressStepRoute } from './progress-redirection';
+import { RouteProgressBar } from './progress-bar';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -55,14 +57,19 @@ const HPActionIssuesRoutes = () => (
   />
 );
 
+const stepsToFillOut: SessionProgressStepRoute[] = [
+  { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
+  { path: Routes.hp.yourLandlord, exact: true, render: () => <Page title="TODO">TODO: Implement this!</Page>},
+];
+
 export default function HPActionRoutes(): JSX.Element {
   return (
     <Switch>
       <Route path={Routes.hp.preOnboarding} exact component={HPActionPreOnboarding} />
       <Route path={Routes.hp.postOnboarding} exact component={HPActionPostOnboarding} />
-      <Route path={Routes.hp.issues.prefix} component={HPActionIssuesRoutes} />
-      <Route path={Routes.hp.yourLandlord} exact
-             render={() => <Page title="TODO">TODO: Implement this!</Page>} />
+      <Route render={() => (
+        <RouteProgressBar label="HP Action" steps={stepsToFillOut} />
+      )} />
     </Switch>
   );
 }

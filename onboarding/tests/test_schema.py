@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
@@ -152,3 +153,13 @@ def test_onboarding_works_without_password(graphql_client):
     assert user.pk == request.user.pk
     assert is_password_usable(user.password) is False
     assert oi.address == '123 boop way'
+
+
+def test_onboarding_session_info_is_fault_tolerant(graphql_client):
+    key = session_key_for_step(1)
+    graphql_client.request.session[key] = {'lol': 1}
+
+    with patch('onboarding.schema.logger') as m:
+        assert _get_step_1_info(graphql_client) is None
+        m.exception.assert_called_once_with(f'Error deserializing {key} from session')
+        assert key not in graphql_client.request.session

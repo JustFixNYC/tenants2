@@ -213,7 +213,10 @@ class OnboardingSessionInfo(object):
             except TypeError:
                 # This can happen when we change the "schema" of an onboarding
                 # step while a user's session contains data in the old schema.
-                # This should be very unusual.
+                #
+                # This should technically never happen if we remember to keep
+                # forms.FIELD_SCHEMA_VERSION updated, but it's possible we
+                # might forget to do that.
                 logger.exception(f'Error deserializing {key} from session')
                 request.session.pop(key)
         return None

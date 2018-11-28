@@ -4,9 +4,15 @@ import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 /**
  * Metadata about signup intents.
  */
-type SignupIntentRouteInfo = {
+type SignupIntentOnboardingInfo = {
+  /** The page users land on before starting onboarding. */
+  preOnboarding: string;
+
   /** The page users are sent to after onboarding. */
   postOnboarding: string;
+
+  /** The actual onboarding routes. */
+  onboarding: OnboardingRouteInfo;
 };
 
 /**
@@ -14,10 +20,12 @@ type SignupIntentRouteInfo = {
  * use a union type as an index signature, so I guess we'll have
  * to make it a function.
  */
-export function getSignupIntentRouteInfo(intent: OnboardingInfoSignupIntent): SignupIntentRouteInfo {
+export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.LOC: return {
-      postOnboarding: Routes.loc.latestStep
+      preOnboarding: Routes.home,
+      postOnboarding: Routes.loc.latestStep,
+      onboarding: Routes.onboarding
     };
 
     case OnboardingInfoSignupIntent.HP: return Routes.hp;

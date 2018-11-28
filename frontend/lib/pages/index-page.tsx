@@ -2,7 +2,7 @@ import React from 'react';
 
 import Page from '../page';
 import { Link, Redirect } from 'react-router-dom';
-import Routes, { getSignupIntentRouteInfo } from '../routes';
+import Routes, { getSignupIntentOnboardingInfo } from '../routes';
 import { OutboundLink } from '../google-analytics';
 import { CenteredPrimaryButtonLink } from '../buttons';
 import { StaticImage } from '../static-image';
@@ -151,7 +151,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
     return (
       <AppContext.Consumer>
         {(ctx) => (
-          <Redirect to={getSignupIntentRouteInfo(
+          <Redirect to={getSignupIntentOnboardingInfo(
             signupIntentFromOnboardingInfo(ctx.session.onboardingInfo)
           ).postOnboarding} />
         )}

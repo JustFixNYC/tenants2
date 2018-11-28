@@ -11,7 +11,7 @@ import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
 import { SessionUpdatingFormSubmitter } from './forms';
 import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
-import { OutboundLink } from './google-analytics';
+import { PdfLink } from './pdf-link';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -100,25 +100,13 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
   );
 });
 
-// TODO: There's a function with the same name in loc-confirmation.tsx, we
-// should probably move it somewhere that we can reuse it.
-function PdfLink(props: { pdfURL: string }): JSX.Element {
-  return (
-    <p className="has-text-centered">
-      <OutboundLink href={props.pdfURL} target="_blank" className="button is-light is-medium">
-        Download HP Action packet (PDF)
-      </OutboundLink>
-    </p>
-  );
-}
-
 const HPActionConfirmation = withAppContext((props: AppContextType) => {
-  const pdfURL = props.session.latestHpActionPdfUrl;
+  const href = props.session.latestHpActionPdfUrl;
 
   return (
     <Page title="Your HP Action packet has been created!!">
       <h1 className="title is-4">Your HP Action packet has been created!</h1>
-      {pdfURL && <PdfLink pdfURL={pdfURL} />}
+      {href && <PdfLink href={href} label="Download HP Action packet" />}
     </Page>
   );
 });

@@ -1,15 +1,13 @@
 from typing import Optional
 import graphene
 from graphql import ResolveInfo
-from django.conf import settings
 from django.urls import reverse
-import zeep
 
 from project.util.session_mutation import SessionFormMutation
 from .models import UploadToken, HPActionDocuments
 from .forms import GeneratePDFForm
 from .build_hpactionvars import user_to_hpactionvars
-from .views import SUCCESSFUL_UPLOAD_TEXT
+from . import lhiapi
 
 
 class GeneratePDF(SessionFormMutation):
@@ -21,20 +19,14 @@ class GeneratePDF(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
-        v = user_to_hpactionvars(user)
-        hdinfo = str(v.to_answer_set())
-        client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl")
+        hdinfo = user_to_hpactionvars(user)
         token = UploadToken.objects.create_for_user(user)
-        result = client.service.GetAnswersAndDocuments(
-            CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
-            TemplateId=settings.HP_ACTION_TEMPLATE_ID,
-            HDInfo=hdinfo,
-            DocID=token.id,
-            PostBackUrl=token.get_upload_url()
-        )
-        if result != SUCCESSFUL_UPLOAD_TEXT:
-            raise Exception(
-                f"Received unexpected response from server: {result}")
+        docs = lhiapi.get_answers_and_documents(token, hdinfo)
+        if docs is None:
+            return cls.make_error(
+                "An error occurred when generating your HP Action documents. "
+                "Please try again later."
+            )
         return cls.mutation_success()
 
 

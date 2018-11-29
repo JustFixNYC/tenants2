@@ -79,5 +79,5 @@ def test_it_can_send_an_explicit_file_as_input(db, settings, soap_call, django_f
 def test_it_raises_error_on_unexpected_soap_result(db, settings, soap_call):
     settings.HP_ACTION_CUSTOMER_KEY = 'blarg'
     soap_call.return_value = "oops uhoh"
-    with pytest.raises(CommandError, match='oops uhoh'):
+    with pytest.raises(CommandError, match='An error occurred when generating'):
         call_command('hpsend', UserFactory().username)

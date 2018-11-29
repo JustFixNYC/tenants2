@@ -2,12 +2,11 @@ from pathlib import Path
 from typing import Optional
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-import zeep
 
 from users.models import JustfixUser
-from hpaction.views import SUCCESSFUL_UPLOAD_TEXT
 from hpaction.models import UploadToken, HPActionDocuments
 from hpaction.build_hpactionvars import user_to_hpactionvars
+from hpaction import lhiapi
 
 
 DEFAULT_EXTRACT_BASENAME = 'hp-action'
@@ -48,8 +47,7 @@ class Command(BaseCommand):
             )
         )
 
-    def extract_files(self, token_id, basename):
-        docs = HPActionDocuments.objects.get(id=token_id)
+    def extract_files(self, docs: HPActionDocuments, basename):
         with docs.xml_file.open() as f:
             extract_xml = f'{basename}.xml'
             self.stdout.write(f'Writing {extract_xml}.\n')
@@ -58,10 +56,6 @@ class Command(BaseCommand):
             extract_pdf = f'{basename}.pdf'
             self.stdout.write(f'Writing {extract_pdf}.\n')
             Path(extract_pdf).write_bytes(f.read())
-
-    def create_answer_set_xml(self, user: JustfixUser) -> str:
-        v = user_to_hpactionvars(user)
-        return str(v.to_answer_set())
 
     def load_xml_input_file(self, filename: str) -> str:
         path = Path(filename)
@@ -74,30 +68,21 @@ class Command(BaseCommand):
 
         user = JustfixUser.objects.get(username=options['username'])
         token = UploadToken.objects.create_for_user(user)
-        token_id = token.id
 
         self.stdout.write('Created upload token. Sending SOAP request...\n')
-        client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl")
 
         xml_input_file: Optional[str] = options['xml_input_file']
         if xml_input_file:
-            hdinfo = self.load_xml_input_file(xml_input_file)
+            hdinfo: lhiapi.HDInfo = self.load_xml_input_file(xml_input_file)
         else:
-            hdinfo = self.create_answer_set_xml(user)
+            hdinfo = user_to_hpactionvars(user)
 
-        result = client.service.GetAnswersAndDocuments(
-            CustomerKey=settings.HP_ACTION_CUSTOMER_KEY,
-            TemplateId=settings.HP_ACTION_TEMPLATE_ID,
-            HDInfo=hdinfo,
-            DocID=token_id,
-            PostBackUrl=token.get_upload_url()
-        )
+        docs = lhiapi.get_answers_and_documents(token, hdinfo)
 
-        if result != SUCCESSFUL_UPLOAD_TEXT:
-            raise CommandError(
-                f"Received unexpected response from server: {result}")
+        if docs is None:
+            raise CommandError(f"An error occurred when generating the documents.")
 
         self.stdout.write("Successfully received HP Action documents.\n")
 
         if options['extract_files']:
-            self.extract_files(token_id, basename=options['extract_basename'])
+            self.extract_files(docs, basename=options['extract_basename'])

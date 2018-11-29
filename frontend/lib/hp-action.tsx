@@ -10,6 +10,7 @@ import { SessionUpdatingFormSubmitter } from './forms';
 import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
+import { OutboundLink } from './google-analytics';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -102,9 +103,23 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
 
   return (
-    <Page title="Your HP Action packet has been created!!">
+    <Page title="Your HP Action packet has been created!!" className="content">
       <h1 className="title is-4">Your HP Action packet has been created!</h1>
+      <p>Here is all of your HP Action paperwork, including instructions:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
+      <h2>What happens next?</h2>
+      <ol>
+        <li><strong>Print out this packet and bring it to Housing Court.</strong> Do not sign any of the documents until you bring them to court.</li>
+        <li>Once you arrive at court, <strong>go to the clerk’s office to file these papers</strong>. They will assign you an Index Number and various dates.</li>
+        <li>After you file your papers, you will need to <strong>serve your landlord and/or management company</strong>. This paperwork is also included in your packet.</li>
+      </ol>
+      <h2>Want to read more about your rights?</h2>
+      <ul>
+        <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>
+        <li><OutboundLink href="https://www.lawhelpny.org/nyc-housing-repairs" target="_blank">LawHelpNY</OutboundLink></li>
+        <li><OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs" target="_blank">Met Council on Housing</OutboundLink>
+          {' '}(<OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs_spanish" target="_blank">en español</OutboundLink>)</li>
+      </ul>
     </Page>
   );
 });

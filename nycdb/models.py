@@ -20,13 +20,17 @@ class Address(NamedTuple):
 
     @property
     def lines_for_mailing(self) -> List[str]:
+        return [
+            self.first_line,
+            f"{self.city}, {self.state} {self.zipcode}"
+        ]
+
+    @property
+    def first_line(self) -> str:
         first_line = f"{self.house_number} {self.street_name}"
         if self.apartment:
             first_line += f" #{self.apartment}"
-        return [
-            first_line,
-            f"{self.city}, {self.state} {self.zipcode}"
-        ]
+        return first_line
 
 
 @dataclass

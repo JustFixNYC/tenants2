@@ -62,9 +62,11 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
     v = user_to_hpactionvars(oinfo.user)
     assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
+    assert v.landlord_address_street_te == "9 BEAN CENTER DRIVE #40"
     llstate = v.landlord_address_state_mc
     assert llstate and llstate.value == "NJ"
     assert v.management_company_name_te == "FUNKY APARTMENT MANAGEMENT"
+    assert v.management_company_address_street_te == "900 EAST 25TH STREET #2"
     v.to_answer_set()
 
 

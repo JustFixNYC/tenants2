@@ -82,7 +82,7 @@ def fill_landlord_info_from_contact(
     contact: nycdb.models.Contact
 ) -> None:
     v.landlord_address_city_te = contact.address.city
-    v.landlord_address_street_te = contact.address.street_name
+    v.landlord_address_street_te = contact.address.first_line
     v.landlord_address_zip_te = contact.address.zipcode
     v.landlord_address_state_mc = nycdb_addr_to_hp_state(contact.address)
     v.service_address_full_te = ", ".join(contact.address.lines_for_mailing)
@@ -103,7 +103,7 @@ def fill_landlord_management_info_from_company(
     mgmtco: nycdb.models.Company
 ) -> None:
     v.management_company_address_city_te = mgmtco.address.city
-    v.management_company_address_street_te = mgmtco.address.street_name
+    v.management_company_address_street_te = mgmtco.address.first_line
     v.management_company_address_zip_te = mgmtco.address.zipcode
     v.management_company_address_state_mc = nycdb_addr_to_hp_state(mgmtco.address)
     v.service_address_full_management_company_te = ", ".join(
@@ -192,6 +192,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     ]
     v.sue_for_repairs_tf = True
     v.request_fee_waiver_tf = True
+    v.sue_for_harassment_tf = False
 
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK

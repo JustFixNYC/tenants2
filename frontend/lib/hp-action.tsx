@@ -2,23 +2,21 @@ import React from 'react';
 
 import Routes from "./routes";
 import Page from "./page";
-import { Route, Switch } from 'react-router-dom';
 import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
-import { SessionProgressStepRoute } from './progress-redirection';
-import { RouteProgressBar } from './progress-bar';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
 import { SessionUpdatingFormSubmitter } from './forms';
 import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
 import { PdfLink } from './pdf-link';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
-function HPActionPreOnboarding(): JSX.Element {
+function HPActionSplash(): JSX.Element {
   return (
-    <Page title="HP action landing page" className="content">
-      <h1>HP action landing page</h1>
+    <Page title="HP action splash page" className="content">
+      <h1>HP action splash page</h1>
       <p>This page will eventually include information on why you should sign up with JustFix to start an HP action.</p>
       <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute}>
         Start my free HP action
@@ -27,7 +25,7 @@ function HPActionPreOnboarding(): JSX.Element {
   );
 }
 
-const HPActionPostOnboarding = () => {
+const HPActionWelcome = () => {
   return (
     <Page title="Sue your landlord for repairs through an HP Action proceeding">
       <div className="content">
@@ -111,20 +109,29 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-const stepsToFillOut: SessionProgressStepRoute[] = [
-  { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
-  { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord},
-  { path: Routes.hp.confirmation, exact: true, component: HPActionConfirmation}
-];
+export const HPActionProgressRoutesProps: ProgressRoutesProps = {
+  toLatestStep: Routes.hp.latestStep,
+  label: "HP Action",
+  welcomeSteps: [{
+    path: Routes.hp.splash,
+    exact: true,
+    component: HPActionSplash,
+    isComplete: (s) => !!s.phoneNumber
+  }, {
+    path: Routes.hp.welcome,
+    exact: true,
+    component: HPActionWelcome
+  }],
+  stepsToFillOut: [
+    { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
+    { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
+      isComplete: (s) => !!s.latestHpActionPdfUrl },
+  ],
+  confirmationSteps: [
+    { path: Routes.hp.confirmation, exact: true, component: HPActionConfirmation}
+  ]
+};
 
-export default function HPActionRoutes(): JSX.Element {
-  return (
-    <Switch>
-      <Route path={Routes.hp.preOnboarding} exact component={HPActionPreOnboarding} />
-      <Route path={Routes.hp.postOnboarding} exact component={HPActionPostOnboarding} />
-      <Route render={() => (
-        <RouteProgressBar label="HP Action" steps={stepsToFillOut} />
-      )} />
-    </Switch>
-  );
-}
+const HPActionRoutes = buildProgressRoutesComponent(HPActionProgressRoutesProps);
+
+export default HPActionRoutes;

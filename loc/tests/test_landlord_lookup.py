@@ -12,7 +12,6 @@ from project.tests.test_geocoding import EXAMPLE_SEARCH as EXAMPLE_GEO_SEARCH
 from project.tests.util import simplepatch
 from loc.landlord_lookup import (
     lookup_landlord, _extract_landlord_info, LandlordInfo, _lookup_landlord_via_nycdb)
-from nycdb.tests.test_models import fixtures as nycdb_fixtures
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -68,7 +67,7 @@ def test_lookup_landlord_works(requests_mock):
 
 
 def test_lookup_landlord_via_nycdb_works(nycdb):
-    reg = nycdb_fixtures.load_hpd_registration('tiny-landlord.json')
+    reg = nycdb.load_hpd_registration('tiny-landlord.json')
     ll = _lookup_landlord_via_nycdb(reg.pad_bbl)
     assert isinstance(ll, LandlordInfo)
     assert ll.name == "BOOP JONES"

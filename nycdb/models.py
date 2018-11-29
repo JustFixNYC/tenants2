@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, NamedTuple, List, Union, Callable, TypeVar
+from typing import Optional, NamedTuple, List, Union
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings
@@ -30,12 +30,8 @@ class Address(NamedTuple):
 
 
 @dataclass
-class BaseContact:
+class Individual:
     address: Address
-
-
-@dataclass
-class Individual(BaseContact):
     first_name: str
     last_name: str
 
@@ -45,7 +41,8 @@ class Individual(BaseContact):
 
 
 @dataclass
-class Company(BaseContact):
+class Company:
+    address: Address
     name: str
 
 
@@ -97,13 +94,14 @@ class HPDRegistration(models.Model):
         ]
         if owners:
             head_officer_addresses = [
-                c.address for c in self.contact_list
+                (c.firstname, c.lastname, c.address) for c in self.contact_list
                 if c.type == HPDContact.HEAD_OFFICER and c.address
             ]
             if head_officer_addresses:
+                first_name, last_name, address = head_officer_addresses[0]
                 return Company(
-                    name=owners[0],
-                    address=head_officer_addresses[0]
+                    name=f"{first_name} {last_name}",
+                    address=address
                 )
         return None
 
@@ -193,48 +191,43 @@ class HPDContact(models.Model):
         )
 
 
-T = TypeVar('T')
-
-
-def fault_tolerant(f: Callable[[str], Optional[T]]) -> Callable[[str], Optional[T]]:
-    """
-    Decorator that facilitates the creation of functions that are fault-tolerant
-    with respect to NYCDB, returning None if the NYCDB connection fails or
-    is disabled entirely.
-    """
-
-    def wrapped(pad_bbl: str) -> Optional[T]:
-        if not settings.NYCDB_DATABASE:
-            return None
-        try:
-            return f(pad_bbl)
-        except (DatabaseError, Exception):
-            # TODO: Once we have more confidence in the underlying code,
-            # we should remove the above 'Exception' and only catch
-            # 'DatabaseError'.
-            logger.exception(f'Error while retrieving data from NYCDB')
-            return None
-    wrapped.__name__ = f.__name__
-    return wrapped
-
-
-@fault_tolerant
 def get_landlord(pad_bbl: str) -> Optional[Contact]:
     """
     Fault-tolerant retriever of landlord information that assumes
     the NYCDB connection is unreliable, or disabled entirely.
     """
 
-    reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
-    return reg.get_landlord() if reg else None
+    if not settings.NYCDB_DATABASE:
+        return None
+    try:
+        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
+        return reg.get_landlord() if reg else None
+    except (DatabaseError, Exception):
+        # TODO: Once we have more confidence in the underlying code,
+        # we should remove the above 'Exception' and only catch
+        # 'DatabaseError'.
+        logger.exception(f'Error while retrieving data from NYCDB')
+        return None
 
 
-@fault_tolerant
 def get_management_company(pad_bbl: str) -> Optional[Company]:
     """
     Fault-tolerant retriever of management company information that assumes
     the NYCDB connection is unreliable, or disabled entirely.
     """
 
-    reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
-    return reg.get_management_company() if reg else None
+    # Yes, this contains a ton of duplicate logic from get_landlord().
+    # Ideally we'd use a decorator but apparently mypy has major
+    # problems with it.
+
+    if not settings.NYCDB_DATABASE:
+        return None
+    try:
+        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
+        return reg.get_management_company() if reg else None
+    except (DatabaseError, Exception):
+        # TODO: Once we have more confidence in the underlying code,
+        # we should remove the above 'Exception' and only catch
+        # 'DatabaseError'.
+        logger.exception(f'Error while retrieving data from NYCDB')
+        return None

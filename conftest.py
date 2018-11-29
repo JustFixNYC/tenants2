@@ -194,3 +194,6 @@ def nycdb(db, settings):
     '''
 
     settings.NYCDB_DATABASE = 'default'
+
+    from nycdb.tests.test_models import fixtures
+    yield fixtures

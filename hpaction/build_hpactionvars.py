@@ -1,8 +1,10 @@
 from typing import Dict
+from enum import Enum
 
 from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
+import nycdb.models
 from . import hpactionvars as hp
 
 
@@ -64,8 +66,87 @@ def create_complaint(area: str, description: str) -> hp.TenantComplaints:
     )
 
 
-def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser):
-    if hasattr(user, 'landlord_details'):
+def nycdb_addr_to_hp_state(address: nycdb.models.Address) -> hp.LandlordAddressStateMC:
+    # This is kind of yucky, because NYCDB/HPD provides state information as
+    # all-caps two-letter strings (e.g. "NY") while the HotDocs endpoint wants
+    # them fully spelled out (e.g. "New York"). However, in practice it doesn't seem
+    # to mind if we give it the two-letter strings, so we'll just do that.
+    class OneOffEnum(Enum):
+        VALUE = address.state
+
+    return OneOffEnum.VALUE  # type: ignore
+
+
+def fill_landlord_info_from_contact(
+    v: hp.HPActionVariables,
+    contact: nycdb.models.Contact
+) -> None:
+    v.landlord_address_city_te = contact.address.city
+    v.landlord_address_street_te = contact.address.street_name
+    v.landlord_address_zip_te = contact.address.zipcode
+    v.landlord_address_state_mc = nycdb_addr_to_hp_state(contact.address)
+    v.service_address_full_te = ", ".join(contact.address.lines_for_mailing)
+    if isinstance(contact, nycdb.models.Company):
+        v.landlord_entity_or_individual_mc = hp.LandlordEntityOrIndividualMC.COMPANY
+    else:
+        v.landlord_entity_or_individual_mc = hp.LandlordEntityOrIndividualMC.INDIVIDUAL
+
+        # I don't think these are actually used in rendering the form, but just in case...
+        v.landlord_name_first_te = contact.first_name
+        v.landlord_name_last_te = contact.last_name
+    v.landlord_entity_name_te = contact.name
+    v.served_person_te = contact.name
+
+
+def fill_landlord_management_info_from_company(
+    v: hp.HPActionVariables,
+    mgmtco: nycdb.models.Company
+) -> None:
+    v.management_company_address_city_te = mgmtco.address.city
+    v.management_company_address_street_te = mgmtco.address.street_name
+    v.management_company_address_zip_te = mgmtco.address.zipcode
+    v.management_company_address_state_mc = nycdb_addr_to_hp_state(mgmtco.address)
+    v.service_address_full_management_company_te = ", ".join(
+        mgmtco.address.lines_for_mailing)
+    v.served_person_management_company_te = mgmtco.name
+    v.management_company_name_te = mgmtco.name
+
+    # TODO: We might actually want to fill this out even if we don't find
+    # a management company, as this could at least generate the required
+    # forms. Need to find this out.
+    v.management_company_to_be_sued_tf = True
+    v.mgmt_co_is_party_tf = True
+    v.service_already_completed_mgmt_co_tf = False
+    v.hpd_service_mgmt_co_mc = hp.HPDServiceMgmtCoMC.MAIL
+    v.service_method_mgmt_co_mc = hp.ServiceMethodMgmtCoMC.MAIL
+
+
+def fill_landlord_info_from_bbl(v: hp.HPActionVariables, pad_bbl: str) -> bool:
+    landlord_found = False
+    contact = nycdb.models.get_landlord(pad_bbl)
+    if contact:
+        landlord_found = True
+        fill_landlord_info_from_contact(v, contact)
+    mgmtco = nycdb.models.get_management_company(pad_bbl)
+    if mgmtco:
+        fill_landlord_management_info_from_company(v, mgmtco)
+    return landlord_found
+
+
+def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
+    landlord_found = False
+
+    v.service_already_completed_landlord_tf = False
+    v.hpd_service_landlord_mc = hp.HPDServiceLandlordMC.MAIL
+    v.service_method_mc = hp.ServiceMethodMC.MAIL
+    v.landlord_is_party_tf = True
+
+    if hasattr(user, 'onboarding_info'):
+        pad_bbl: str = user.onboarding_info.pad_bbl
+        if pad_bbl:
+            landlord_found = fill_landlord_info_from_bbl(v, pad_bbl)
+
+    if not landlord_found and hasattr(user, 'landlord_details'):
         ld = user.landlord_details
         v.landlord_entity_name_te = ld.name
         v.served_person_te = ld.name
@@ -75,7 +156,13 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser):
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
+    # TODO: The HP Action form actually has a field for home phone
+    # and a separate one for work; it's unclear which one the
+    # user may have provided, but we'll assume it's home for now.
+    v.tenant_phone_home_te = user.formatted_phone_number()
+
     v.server_name_full_te = user.full_name
+    v.server_name_full_management_company_te = user.full_name
     v.server_name_full_hpd_te = user.full_name
     v.tenant_name_first_te = user.first_name
     v.tenant_name_last_te = user.last_name
@@ -128,6 +215,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         full_addr = ', '.join(oinfo.address_lines_for_mailing)
         v.server_address_full_hpd_te = full_addr
         v.server_address_full_te = full_addr
+        v.server_address_full_management_company_te = full_addr
 
     for issue in user.issues.all():
         desc = ISSUE_CHOICES.get_label(issue.value)

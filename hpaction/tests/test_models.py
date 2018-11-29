@@ -1,6 +1,7 @@
 import datetime
 from freezegun import freeze_time
 
+from users.tests.factories import UserFactory
 from .factories import HPActionDocumentsFactory, UploadTokenFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME)
@@ -74,3 +75,21 @@ class TestHPActionDocuments:
         HPActionDocuments.objects.purge()
         assert not xml_filepath.exists()
         assert not pdf_filepath.exists()
+
+    def test_get_latest_for_user_works(self, db, django_file_storage):
+        user = UserFactory()
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        assert docs is None
+
+        with freeze_time('2018-01-01'):
+            HPActionDocumentsFactory(user=user, id='older')
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        assert docs and docs.id == 'older'
+
+        with freeze_time('2019-01-01'):
+            HPActionDocumentsFactory(user=user, id='newer')
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        assert docs and docs.id == 'newer'

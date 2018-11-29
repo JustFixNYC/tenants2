@@ -4,6 +4,8 @@ from graphql import ResolveInfo
 from django.urls import reverse
 
 from project.util.session_mutation import SessionFormMutation
+from project.util.site_util import absolute_reverse
+from project import slack
 from .models import UploadToken, HPActionDocuments
 from .forms import GeneratePDFForm
 from .build_hpactionvars import user_to_hpactionvars
@@ -27,6 +29,20 @@ class GeneratePDF(SessionFormMutation):
                 "An error occurred when generating your HP Action documents. "
                 "Please try again later."
             )
+        else:
+            user.send_sms(
+                f"JustFix.nyc here! Follow this link to your completed "
+                f"HP Action legal forms. You will need to print these "
+                f"papers before bringing them to court! "
+                f"{absolute_reverse('hpaction:latest_pdf')}",
+                fail_silently=True
+            )
+            slack.sendmsg(
+                f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+                f"has generated HP Action legal forms!",
+                is_safe=True
+            )
+
         return cls.mutation_success()
 
 

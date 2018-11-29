@@ -11,6 +11,7 @@ import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
+import { ProgressiveLoadableConfetti } from './confetti-loadable';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -105,6 +106,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   return (
     <Page title="Your HP Action packet has been created!!" className="content">
       <h1 className="title is-4">Your HP Action packet has been created!</h1>
+      <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <p>Here is all of your HP Action paperwork, including instructions:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>

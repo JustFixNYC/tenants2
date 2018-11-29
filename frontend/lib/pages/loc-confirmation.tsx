@@ -1,5 +1,4 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 
 import { withAppContext, AppContextType } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
@@ -7,19 +6,8 @@ import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
 import Page from '../page';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 import { PdfLink } from '../pdf-link';
-
-const LoadableConfetti = Loadable({
-  loader: () => import(/* webpackChunkName: "confetti" */ '../confetti'),
-  // We don't want to display anything while the confetti is loading.
-  loading() { return null; },
-  // This ensures that our server doesn't generate <script> tags
-  // to load this component in its static HTML: we don't *want* to block page
-  // load on this optional feature.
-  modules: [],
-  webpack: () => [],
-});
+import { ProgressiveLoadableConfetti } from '../confetti-loadable';
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
@@ -84,7 +72,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
 
   return (
     <Page title={letterConfirmationPageTitle}>
-      <SimpleProgressiveEnhancement><LoadableConfetti regenerateForSecs={1} /></SimpleProgressiveEnhancement>
+      <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <div className="content">
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}

@@ -24,7 +24,7 @@ export function ensurePointerEventsIsNone(el: Element) {
   }
 }
 
-interface ConfettiProps extends ConfettiCanvasProps {
+export interface ConfettiProps extends ConfettiCanvasProps {
 }
 
 interface ConfettiState {

@@ -64,6 +64,14 @@ def create_complaint(area: str, description: str) -> hp.TenantComplaints:
     )
 
 
+def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser):
+    if hasattr(user, 'landlord_details'):
+        ld = user.landlord_details
+        v.landlord_entity_name_te = ld.name
+        v.served_person_te = ld.name
+        v.service_address_full_te = ld.address
+
+
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
@@ -105,11 +113,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # will generate the HPD inspection forms.
     v.problem_is_urgent_tf = False
 
-    if hasattr(user, 'landlord_details'):
-        ld = user.landlord_details
-        v.landlord_entity_name_te = ld.name
-        v.served_person_te = ld.name
-        v.service_address_full_te = ld.address
+    fill_landlord_info(v, user)
 
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info

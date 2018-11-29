@@ -28,6 +28,6 @@ describe('getOnboardingRouteForIntent()', () => {
     const input = await pal.rt.waitForElement(() =>
       pal.getElement('input', '[name="signupIntent"]')
     );
-    expect(input.value).toBe('LOC');
+    expect(input && input.value).toBe('LOC');
   });
 });

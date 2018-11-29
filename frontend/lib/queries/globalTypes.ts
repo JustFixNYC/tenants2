@@ -34,6 +34,10 @@ export interface ExampleInput {
   clientMutationId?: string | null;
 }
 
+export interface GeneratePDFInput {
+  clientMutationId?: string | null;
+}
+
 export interface IssueAreaInput {
   area: string;
   issues: string[];

@@ -8,6 +8,7 @@ import Page from '../page';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+import { PdfLink } from '../pdf-link';
 
 const LoadableConfetti = Loadable({
   loader: () => import(/* webpackChunkName: "confetti" */ '../confetti'),
@@ -20,15 +21,9 @@ const LoadableConfetti = Loadable({
   webpack: () => [],
 });
 
-function PdfLink(props: { locPdfURL: string }): JSX.Element {
-  return (
-    <p className="has-text-centered">
-      <OutboundLink href={props.locPdfURL} target="_blank" className="button is-light is-medium">
-        Download letter (PDF)
-      </OutboundLink>
-    </p>
-  );
-}
+const DownloadLetterLink = (props: { locPdfURL: string }) => (
+  <PdfLink href={props.locPdfURL} label="Download letter" />
+);
 
 function WeWillMailLetterStatus(props: {
   letterRequest: AllSessionInfo_letterRequest,
@@ -39,7 +34,7 @@ function WeWillMailLetterStatus(props: {
   return (
     <>
       <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS Certified Mail<sup>&reg;</sup></b> tracking number once we have it!</p>
-      <PdfLink {...props} />
+      <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
       <ol>
         <li>We’ll mail your letter via <b>USPS Certified Mail<sup>&reg;</sup></b> and provide a tracking number via text message.</li>
@@ -55,7 +50,7 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
   return (
     <>
       <p>Here is a link to a PDF of your saved letter:</p>
-      <PdfLink {...props} />
+      <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
       <ol>
         <li>Print out your letter and <strong>mail it via Certified Mail</strong> - this allows you to prove that it was sent to your landlord.</li>

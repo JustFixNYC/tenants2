@@ -1,9 +1,11 @@
 import base64
+from django.http import FileResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponse
+from django.contrib.auth.decorators import login_required
 
-from .models import UploadToken
+from .models import UploadToken, HPActionDocuments
 
 
 LHI_B64_ALTCHARS = b' /'
@@ -42,3 +44,11 @@ def upload(request, token_str: str):
     token.create_documents_from(xml_data=xml_data, pdf_data=pdf_data)
 
     return HttpResponse(SUCCESSFUL_UPLOAD_TEXT)
+
+
+@login_required
+def latest_pdf(request):
+    latest = HPActionDocuments.objects.get_latest_for_user(request.user)
+    if latest is None:
+        raise Http404("User has no generated HP Action documents")
+    return FileResponse(latest.pdf_file.open(), filename='hp-action-forms.pdf')

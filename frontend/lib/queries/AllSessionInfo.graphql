@@ -42,4 +42,5 @@ fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
+    latestHpActionPdfUrl
 }

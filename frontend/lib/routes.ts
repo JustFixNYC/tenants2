@@ -135,14 +135,18 @@ const Routes = {
     confirmation: '/loc/confirmation'
   },
 
+  /** The HP Action flow. */
   hp: {
     [ROUTE_PREFIX]: '/hp',
-    preOnboarding: '/hp',
+    latestStep: '/hp',
+    preOnboarding: '/hp/splash',
+    splash: '/hp/splash',
     onboarding: createOnboardingRouteInfo('/hp/onboarding'),
-    postOnboarding: '/hp/welcome',
+    postOnboarding: '/hp',
+    welcome: '/hp/welcome',
     issues: createIssuesRouteInfo('/hp/issues'),
     yourLandlord: '/hp/your-landlord',
-    preview: '/hp/preview',
+    confirmation: '/hp/confirmation',
   },
 
   /**

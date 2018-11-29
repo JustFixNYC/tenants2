@@ -5,12 +5,10 @@ import { withAppContext, AppContextType } from './app-context';
 import { IssuesRoutes } from './pages/issue-pages';
 import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
-import { RouteProgressBar } from './progress-bar';
 import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { CenteredPrimaryButtonLink } from './buttons';
-import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
-import { Route, Switch } from 'react-router';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -42,14 +40,6 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   );
 });
 
-const welcomeStep: SessionProgressStepRoute = {
-  path: Routes.loc.home, exact: true, component: Welcome
-};
-
-const confirmationStep: SessionProgressStepRoute = {
-  path: Routes.loc.confirmation, exact: true, component: LetterConfirmation
-};
-
 const LetterOfComplaintIssuesRoutes = () => (
   <IssuesRoutes
     routes={Routes.loc.issues}
@@ -58,32 +48,24 @@ const LetterOfComplaintIssuesRoutes = () => (
   />
 );
 
-const stepsToFillOut: SessionProgressStepRoute[] = [
-  { path: Routes.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
-  { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
-  { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
-  { path: Routes.loc.preview, component: LetterRequestPage,
-    isComplete: sess => !!sess.letterRequest },
-];
+export const LOCProgressRoutesProps: ProgressRoutesProps = {
+  toLatestStep: Routes.loc.latestStep,
+  label: "Letter of Complaint",
+  welcomeSteps: [{
+    path: Routes.loc.home, exact: true, component: Welcome
+  }],
+  stepsToFillOut: [
+    { path: Routes.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
+    { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
+    { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
+    { path: Routes.loc.preview, component: LetterRequestPage,
+      isComplete: sess => !!sess.letterRequest },
+  ],
+  confirmationSteps: [{
+    path: Routes.loc.confirmation, exact: true, component: LetterConfirmation
+  }]
+};
 
-export const letterOfComplaintSteps: SessionProgressStepRoute[] = [
-  welcomeStep,
-  ...stepsToFillOut,
-  confirmationStep
-];
+const LetterOfComplaintRoutes = buildProgressRoutesComponent(LOCProgressRoutesProps);
 
-export const RedirectToLatestLetterOfComplaintStep = () =>
-  <RedirectToLatestStep steps={letterOfComplaintSteps} />;
-
-export default function LetterOfComplaintRoutes(): JSX.Element {
-  return (
-    <Switch>
-      <Route path={Routes.loc.latestStep} exact component={RedirectToLatestLetterOfComplaintStep} />
-      <Route {...welcomeStep} />
-      <Route {...confirmationStep} />
-      <Route render={() => (
-        <RouteProgressBar label="Letter of Complaint" steps={stepsToFillOut} />
-      )} />
-    </Switch>
-  );
-}
+export default LetterOfComplaintRoutes;

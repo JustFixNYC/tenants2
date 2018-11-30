@@ -1,5 +1,6 @@
 from datetime import timedelta
 from typing import Optional
+from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
@@ -159,6 +160,9 @@ class UploadTokenManager(models.Manager):
 
         self.filter(created_at__lte=timezone.now() - UPLOAD_TOKEN_LIFETIME).delete()
 
+    def get_latest_for_user(self, user: JustfixUser) -> Optional['UploadToken']:
+        return self.filter(user=user).order_by('-created_at').first()
+
 
 class UploadToken(models.Model):
     '''
@@ -181,6 +185,9 @@ class UploadToken(models.Model):
     errored = models.BooleanField(default=False)
 
     objects = UploadTokenManager()
+
+    def is_expired(self) -> bool:
+        return self.created_at <= timezone.now() - UPLOAD_TOKEN_LIFETIME
 
     def create_documents_from(self, xml_data: bytes, pdf_data: bytes) -> HPActionDocuments:
         '''
@@ -211,3 +218,32 @@ class UploadToken(models.Model):
         return absolute_reverse('hpaction:upload', kwargs={
             'token_str': self.id
         })
+
+
+class HPUploadStatus(Enum):
+    'The status of the HP Action upload (document assembly) process for a user.'
+
+    # The user has not yet initiated document assembly.
+    NOT_STARTED = 0
+
+    # The user has initiated document assembly, and we're waiting for a
+    # remote service to upload the result to us.
+    STARTED = 1
+
+    # Something went wrong during the document assembly process.
+    ERRORED = 2
+
+    # The document assembly process was successful.
+    SUCCEEDED = 3
+
+
+def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
+    tok = UploadToken.objects.get_latest_for_user(user)
+    if tok:
+        if tok.is_expired() or tok.errored:
+            return HPUploadStatus.ERRORED
+        return HPUploadStatus.STARTED
+    docs = HPActionDocuments.objects.get_latest_for_user(user)
+    if docs:
+        return HPUploadStatus.SUCCEEDED
+    return HPUploadStatus.NOT_STARTED

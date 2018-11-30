@@ -64,7 +64,10 @@ def heroku_cli(args: List[str]):
 
 
 def deploy_heroku(args):
-    heroku_cli(['maintenance:on'])
+    extra_args: List[str] = []
+    if args.remote:
+        extra_args.extend(['-r', args.remote])
+    heroku_cli(['maintenance:on'] + extra_args)
     heroku_cli([
         'container:push',
         '--arg',
@@ -73,19 +76,19 @@ def deploy_heroku(args):
             for name, value in get_git_info_env_items()
         ]),
         '--recursive',
-    ])
+    ] + extra_args)
     heroku_cli([
         'container:release',
         'web'
-    ])
+    ] + extra_args)
     if not args.no_migrate:
         heroku_cli([
             'run',
             '--exit-code',
             'python manage.py migrate && '
             'python manage.py initgroups'
-        ])
-    heroku_cli(['maintenance:off'])
+        ] + extra_args)
+    heroku_cli(['maintenance:off'] + extra_args)
 
 
 def main():
@@ -103,6 +106,11 @@ def main():
     parser_heroku = subparsers.add_parser(
         'heroku',
         help="Build container(s) and deploy to Heroku.",
+    )
+    parser_heroku.add_argument(
+        '-r',
+        '--remote',
+        help="The git remote of the app to use."
     )
     parser_heroku.add_argument(
         '--no-migrate',

@@ -123,6 +123,14 @@ class HPActionDocuments(models.Model):
 
 
 class UploadTokenManager(models.Manager):
+    def set_errored(self, token_id: str) -> None:
+        'Set the errored flag for the given token ID, if it exists.'
+
+        token = self.filter(id=token_id).first()
+        if token:
+            token.errored = True
+            token.save()
+
     def create_for_user(self, user: JustfixUser) -> 'UploadToken':
         'Create an upload token bound to the given user.'
 
@@ -166,6 +174,11 @@ class UploadToken(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
+
+    # This tracks whether an error occurred at some point during
+    # document assembly or the upload process, which can be useful
+    # if we need to generate the documents asynchronously.
+    errored = models.BooleanField(default=False)
 
     objects = UploadTokenManager()
 

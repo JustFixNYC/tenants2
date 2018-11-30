@@ -30,11 +30,13 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
     we log an error and return None instead.
     '''
 
+    token_id = token.id
+
     if not settings.HP_ACTION_CUSTOMER_KEY:
         logger.error(f"HP_ACTION_CUSTOMER_KEY is not set.")
+        UploadToken.objects.set_errored(token_id)
         return None
 
-    token_id = token.id
     hdinfo_str = hdinfo_to_str(hdinfo)
     postback_url = token.get_upload_url()
     transport = zeep.transports.Transport(
@@ -53,10 +55,12 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
         )
     except Exception:
         logger.exception("Error occurred while calling GetAnswersAndDocuments().")
+        UploadToken.objects.set_errored(token_id)
         return None
 
     if result != SUCCESSFUL_UPLOAD_TEXT:
         logger.error(f"Received unexpected response from GetAnswersAndDocuments(): {result}")
+        UploadToken.objects.set_errored(token_id)
         return None
 
     return HPActionDocuments.objects.get(id=token_id)

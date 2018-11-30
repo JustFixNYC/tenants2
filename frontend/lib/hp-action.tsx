@@ -168,7 +168,6 @@ const ShowHPUploadStatus = withAppContext((props: AppContextType) => {
     return <HPActionUploadError />;
 
     case HPUploadStatus.NOT_STARTED:
-    case null:
     return <Redirect to={Routes.hp.latestStep} />;
   }
 });
@@ -215,8 +214,7 @@ export const HPActionProgressRoutesProps: ProgressRoutesProps = {
   stepsToFillOut: [
     { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
-      isComplete: (s) => s.hpActionUploadStatus !== null &&
-                         s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
+      isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
     { path: Routes.hp.waitForUpload, exact: true, component: ShowHPUploadStatus,

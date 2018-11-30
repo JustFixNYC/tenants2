@@ -4,6 +4,7 @@ import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
 import { MemoryRouter, Route, RouteComponentProps } from "react-router";
+import { HPUploadStatus } from '../queries/globalTypes';
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -102,7 +103,7 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   letterRequest: null,
   isSafeModeEnabled: false,
   latestHpActionPdfUrl: null,
-  hpActionUploadStatus: null
+  hpActionUploadStatus: HPUploadStatus.NOT_STARTED
 };
 
 export const FakeAppContext: AppContextType = {

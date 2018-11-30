@@ -2,6 +2,7 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
+from .factories import UploadTokenFactory
 from hpaction.models import get_upload_status_for_user, HPUploadStatus
 import hpaction.schema
 
@@ -53,16 +54,31 @@ class TestGenerateHPActionPDF:
         assert get_upload_status_for_user(user) == HPUploadStatus.SUCCEEDED
 
 
-class TestLatestHpActionPdfURL:
+class TestSessionInfo:
     def execute(self, graphql_client):
         return graphql_client.execute(
-            'query { session { latestHpActionPdfUrl } }'
-        )['data']['session']['latestHpActionPdfUrl']
+            'query { session { latestHpActionPdfUrl, hpActionUploadStatus } }'
+        )['data']['session']
 
-    def test_it_returns_none_if_unauthenticated(self, graphql_client):
-        assert self.execute(graphql_client) is None
+    def test_it_works_if_unauthenticated(self, graphql_client):
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'NOT_STARTED'
+        }
 
     @pytest.mark.django_db
-    def test_it_returns_none_if_no_documents_exist(self, graphql_client):
+    def test_it_works_if_logged_in_but_not_started(self, graphql_client):
         graphql_client.request.user = UserFactory.create()
-        assert self.execute(graphql_client) is None
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'NOT_STARTED'
+        }
+
+    @pytest.mark.django_db
+    def test_it_works_if_started(self, graphql_client):
+        tok = UploadTokenFactory()
+        graphql_client.request.user = tok.user
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'STARTED'
+        }

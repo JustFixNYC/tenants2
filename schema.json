@@ -199,12 +199,16 @@
             },
             {
               "name": "hpActionUploadStatus",
-              "description": null,
+              "description": "The status of the HP Action upload (document assembly) process for a user.",
               "args": [],
               "type": {
-                "kind": "ENUM",
-                "name": "HPUploadStatus",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "HPUploadStatus",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -810,25 +814,25 @@
           "enumValues": [
             {
               "name": "NOT_STARTED",
-              "description": null,
+              "description": "The user has not yet initiated document assembly.",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "STARTED",
-              "description": null,
+              "description": "The user has initiated document assembly, and we're waiting for a remote service to upload the result to us.",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "ERRORED",
-              "description": null,
+              "description": "Something went wrong during the document assembly process.",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "SUCCEEDED",
-              "description": null,
+              "description": "The document assembly process was successful.",
               "isDeprecated": false,
               "deprecationReason": null
             }

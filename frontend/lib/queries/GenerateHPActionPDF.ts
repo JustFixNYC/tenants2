@@ -25,7 +25,10 @@ export interface GenerateHPActionPDF_output_session {
    * The URL of the most recently-generated HP Action PDF for the current user.
    */
   latestHpActionPdfUrl: string | null;
-  hpActionUploadStatus: HPUploadStatus | null;
+  /**
+   * The status of the HP Action upload (document assembly) process for a user.
+   */
+  hpActionUploadStatus: HPUploadStatus;
 }
 
 export interface GenerateHPActionPDF_output {

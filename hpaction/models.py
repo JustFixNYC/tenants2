@@ -223,18 +223,23 @@ class UploadToken(models.Model):
 class HPUploadStatus(Enum):
     'The status of the HP Action upload (document assembly) process for a user.'
 
-    # The user has not yet initiated document assembly.
     NOT_STARTED = 0
-
-    # The user has initiated document assembly, and we're waiting for a
-    # remote service to upload the result to us.
     STARTED = 1
-
-    # Something went wrong during the document assembly process.
     ERRORED = 2
-
-    # The document assembly process was successful.
     SUCCEEDED = 3
+
+    @property
+    def description(self) -> str:
+        if self == HPUploadStatus.NOT_STARTED:
+            return 'The user has not yet initiated document assembly.'
+        if self == HPUploadStatus.STARTED:
+            return ("The user has initiated document assembly, and we're waiting for a "
+                    "remote service to upload the result to us.")
+        if self == HPUploadStatus.ERRORED:
+            return "Something went wrong during the document assembly process."
+        if self == HPUploadStatus.SUCCEEDED:
+            return "The document assembly process was successful."
+        raise AssertionError()  # pragma: nocover
 
 
 def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:

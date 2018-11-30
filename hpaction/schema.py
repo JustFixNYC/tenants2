@@ -83,7 +83,9 @@ class HPActionSessionInfo:
         )
     )
 
-    hp_action_upload_status = graphene.Field(graphene.Enum.from_enum(HPUploadStatus))
+    hp_action_upload_status = graphene.Field(graphene.Enum.from_enum(HPUploadStatus),
+                                             required=True,
+                                             description=HPUploadStatus.__doc__)
 
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
@@ -93,8 +95,8 @@ class HPActionSessionInfo:
             return reverse('hpaction:latest_pdf')
         return None
 
-    def resolve_hp_action_upload_status(self, info: ResolveInfo) -> Optional[HPUploadStatus]:
+    def resolve_hp_action_upload_status(self, info: ResolveInfo) -> HPUploadStatus:
         request = info.context
         if not request.user.is_authenticated:
-            return None
+            return HPUploadStatus.NOT_STARTED
         return get_upload_status_for_user(request.user)

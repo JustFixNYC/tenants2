@@ -78,7 +78,7 @@ class TestAddrMetadataLookup:
         return self.mkinfo()
 
     def mkinfo_with_metadata(self):
-        return self.mkinfo(zipcode='11231')
+        return self.mkinfo(zipcode='11231', pad_bbl='2002920026')
 
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
@@ -87,6 +87,7 @@ class TestAddrMetadataLookup:
         info = self.mkinfo_with_metadata()
         info.address = '120 zzz street'
         info.zipcode = '12345'
+        info.pad_bbl = '4002920026'
         assert info.maybe_lookup_new_addr_metadata() is False
 
     def test_no_lookup_when_metadata_exists_and_nothing_changed(self):
@@ -117,3 +118,4 @@ class TestAddrMetadataLookup:
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
         assert info.zipcode == '11201'
+        assert info.pad_bbl == '3002920026'

@@ -20,22 +20,22 @@ class Address(NamedTuple):
 
     @property
     def lines_for_mailing(self) -> List[str]:
-        first_line = f"{self.house_number} {self.street_name}"
-        if self.apartment:
-            first_line += f" #{self.apartment}"
         return [
-            first_line,
+            self.first_line,
             f"{self.city}, {self.state} {self.zipcode}"
         ]
 
+    @property
+    def first_line(self) -> str:
+        first_line = f"{self.house_number} {self.street_name}"
+        if self.apartment:
+            first_line += f" #{self.apartment}"
+        return first_line
+
 
 @dataclass
-class BaseContact:
+class Individual:
     address: Address
-
-
-@dataclass
-class Individual(BaseContact):
     first_name: str
     last_name: str
 
@@ -45,7 +45,8 @@ class Individual(BaseContact):
 
 
 @dataclass
-class Company(BaseContact):
+class Company:
+    address: Address
     name: str
 
 
@@ -97,13 +98,14 @@ class HPDRegistration(models.Model):
         ]
         if owners:
             head_officer_addresses = [
-                c.address for c in self.contact_list
+                (c.firstname, c.lastname, c.address) for c in self.contact_list
                 if c.type == HPDContact.HEAD_OFFICER and c.address
             ]
             if head_officer_addresses:
+                first_name, last_name, address = head_officer_addresses[0]
                 return Company(
-                    name=owners[0],
-                    address=head_officer_addresses[0]
+                    name=f"{first_name} {last_name}",
+                    address=address
                 )
         return None
 
@@ -204,6 +206,29 @@ def get_landlord(pad_bbl: str) -> Optional[Contact]:
     try:
         reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
         return reg.get_landlord() if reg else None
+    except (DatabaseError, Exception):
+        # TODO: Once we have more confidence in the underlying code,
+        # we should remove the above 'Exception' and only catch
+        # 'DatabaseError'.
+        logger.exception(f'Error while retrieving data from NYCDB')
+        return None
+
+
+def get_management_company(pad_bbl: str) -> Optional[Company]:
+    """
+    Fault-tolerant retriever of management company information that assumes
+    the NYCDB connection is unreliable, or disabled entirely.
+    """
+
+    # Yes, this contains a ton of duplicate logic from get_landlord().
+    # Ideally we'd use a decorator but apparently mypy has major
+    # problems with it.
+
+    if not settings.NYCDB_DATABASE:
+        return None
+    try:
+        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
+        return reg.get_management_company() if reg else None
     except (DatabaseError, Exception):
         # TODO: Once we have more confidence in the underlying code,
         # we should remove the above 'Exception' and only catch

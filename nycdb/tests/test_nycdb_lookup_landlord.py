@@ -20,7 +20,7 @@ def test_it_works_with_tiny_landlord(nycdb):
 
 def test_it_works_with_medium_landlord(nycdb):
     output = get_output("medium-landlord.json")
-    assert '    ULTRA DEVELOPERS, LLC' in output
+    assert '    LANDLORDO CALRISSIAN' in output
     assert '    FUNKY APARTMENT MANAGEMENT' in output
 
 

@@ -3,7 +3,8 @@ from django.db.utils import DatabaseError
 import pytest
 
 from nycdb.models import (
-    HPDRegistration, HPDContact, Company, Individual, get_landlord)
+    HPDRegistration, HPDContact, Company, Individual, get_landlord,
+    get_management_company)
 from . import fixtures
 
 
@@ -38,7 +39,7 @@ def test_medium_landlord_works(nycdb):
 
     ll = reg.get_landlord()
     assert isinstance(ll, Company)
-    assert ll.name == "ULTRA DEVELOPERS, LLC"
+    assert ll.name == "LANDLORDO CALRISSIAN"
     assert ll.address.lines_for_mailing == [
         '9 BEAN CENTER DRIVE #40',
         'FUNKYPLACE, NJ 07099'
@@ -95,3 +96,25 @@ class TestGetLandlord:
         boop = get_landlord(tiny.pad_bbl)
         assert isinstance(boop, Individual)
         assert boop.name == "BOOP JONES"
+
+
+class TestGetManagementCompany:
+    def test_it_returns_none_if_nycdb_is_disabled(self):
+        assert get_management_company('') is None
+
+    def test_it_returns_none_if_pad_bbl_does_not_exist(self, nycdb):
+        assert get_management_company('1234567890') is None
+
+    def test_it_returns_none_on_db_error(self, nycdb):
+        with patch.object(HPDRegistration.objects, 'from_pad_bbl') as fpbblmock:
+            fpbblmock.side_effect = DatabaseError()
+            with patch('nycdb.models.logger.exception') as loggermock:
+                assert get_management_company('1234567890') is None
+                loggermock.assert_called_once_with(
+                    f'Error while retrieving data from NYCDB')
+
+    def test_it_returns_company_on_success(self, nycdb):
+        medium = fixtures.load_hpd_registration("medium-landlord.json")
+        mgmtco = get_management_company(medium.pad_bbl)
+        assert isinstance(mgmtco, Company)
+        assert mgmtco.name == "FUNKY APARTMENT MANAGEMENT"

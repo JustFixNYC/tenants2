@@ -3,6 +3,7 @@ from django.db import models
 
 from project.common_data import Choices
 from project import geocoding
+from project.util.nyc import PAD_BBL_DIGITS
 from users.models import JustfixUser
 
 
@@ -114,7 +115,7 @@ class OnboardingInfo(models.Model):
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
-        self.__addr_meta = InstanceChangeTracker(self, ['zipcode'])
+        self.__addr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl'])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -151,6 +152,12 @@ class OnboardingInfo(models.Model):
         max_length=12,
         blank=True,
         help_text=f"The user's ZIP code. {ADDR_META_HELP}"
+    )
+
+    pad_bbl: str = models.CharField(
+        max_length=PAD_BBL_DIGITS,
+        blank=True,
+        help_text=f"The user's Boro, Block, and Lot number. {ADDR_META_HELP}"
     )
 
     apt_number = models.CharField(max_length=10)
@@ -256,7 +263,9 @@ class OnboardingInfo(models.Model):
     def lookup_addr_metadata(self):
         features = geocoding.search(self.full_address)
         if features:
-            self.zipcode = features[0].properties.postalcode
+            props = features[0].properties
+            self.zipcode = props.postalcode
+            self.pad_bbl = props.pad_bbl
         self.__addr.set_to_unchanged()
         self.__addr_meta.set_to_unchanged()
 

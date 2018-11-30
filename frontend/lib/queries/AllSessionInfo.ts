@@ -3,7 +3,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { OnboardingInfoSignupIntent, LetterRequestMailChoice } from "./globalTypes";
+import { OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL fragment: AllSessionInfo
@@ -137,6 +137,7 @@ export interface AllSessionInfo {
    * The URL of the most recently-generated HP Action PDF for the current user.
    */
   latestHpActionPdfUrl: string | null;
+  hpActionUploadStatus: HPUploadStatus | null;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
@@ -183,6 +184,7 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
-    latestHpActionPdfUrl
+    latestHpActionPdfUrl,
+    hpActionUploadStatus
 }
 `;

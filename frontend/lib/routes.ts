@@ -146,6 +146,7 @@ const Routes = {
     welcome: '/hp/welcome',
     issues: createIssuesRouteInfo('/hp/issues'),
     yourLandlord: '/hp/your-landlord',
+    waitForUpload: '/hp/wait',
     confirmation: '/hp/confirmation',
   },
 

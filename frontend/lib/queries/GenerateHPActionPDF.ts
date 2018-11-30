@@ -3,7 +3,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { GeneratePDFInput } from "./globalTypes";
+import { GeneratePDFInput, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: GenerateHPActionPDF
@@ -25,6 +25,7 @@ export interface GenerateHPActionPDF_output_session {
    * The URL of the most recently-generated HP Action PDF for the current user.
    */
   latestHpActionPdfUrl: string | null;
+  hpActionUploadStatus: HPUploadStatus | null;
 }
 
 export interface GenerateHPActionPDF_output {
@@ -52,7 +53,8 @@ export const GenerateHPActionPDF = {
             messages
         }
         session {
-            latestHpActionPdfUrl
+            latestHpActionPdfUrl,
+            hpActionUploadStatus
         }
     }
 }

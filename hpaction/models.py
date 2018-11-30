@@ -238,12 +238,17 @@ class HPUploadStatus(Enum):
 
 
 def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
+    docs = HPActionDocuments.objects.get_latest_for_user(user)
     tok = UploadToken.objects.get_latest_for_user(user)
+    if docs and tok:
+        if docs.created_at >= tok.created_at:
+            tok = None
+        else:
+            docs = None
     if tok:
         if tok.is_expired() or tok.errored:
             return HPUploadStatus.ERRORED
         return HPUploadStatus.STARTED
-    docs = HPActionDocuments.objects.get_latest_for_user(user)
     if docs:
         return HPUploadStatus.SUCCEEDED
     return HPUploadStatus.NOT_STARTED

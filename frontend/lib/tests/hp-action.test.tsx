@@ -4,6 +4,7 @@ import { AppTesterPal } from "./app-tester-pal";
 import HPActionRoutes, { HPActionProgressRoutesProps } from '../hp-action';
 import { ProgressRoutesTester } from './progress-routes-tester';
 import Routes from '../routes';
+import { HPUploadStatus } from '../queries/globalTypes';
 
 const tester = new ProgressRoutesTester(HPActionProgressRoutesProps, 'HP Action');
 
@@ -33,7 +34,16 @@ describe('latest step redirector', () => {
     expect(tester.getLatestStep({ phoneNumber: '123' })).toBe(Routes.hp.welcome);
   });
 
+  it('returns wait page when user has started document assembly', () => {
+    expect(tester.getLatestStep({
+      hpActionUploadStatus: HPUploadStatus.STARTED
+    })).toBe(Routes.hp.waitForUpload);
+  });
+
   it('returns confirmation page when user has generated a PDF', () => {
-    expect(tester.getLatestStep({ latestHpActionPdfUrl: '/boop.pdf' })).toBe(Routes.hp.confirmation);
+    expect(tester.getLatestStep({
+      latestHpActionPdfUrl: '/boop.pdf',
+      hpActionUploadStatus: HPUploadStatus.SUCCEEDED
+    })).toBe(Routes.hp.confirmation);
   });
 });

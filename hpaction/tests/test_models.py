@@ -121,3 +121,17 @@ class TestGetUploadStatusForUser:
     def test_it_returns_succeeded(self, db, django_file_storage):
         docs = HPActionDocumentsFactory()
         assert get_upload_status_for_user(docs.user) == HPUploadStatus.SUCCEEDED
+
+    def test_it_ignores_old_docs(self, db, django_file_storage):
+        with freeze_time('2018-01-01') as time:
+            docs = HPActionDocumentsFactory()
+            time.tick(delta=datetime.timedelta(days=1))
+            token = UploadTokenFactory(user=docs.user)
+            assert get_upload_status_for_user(token.user) == HPUploadStatus.STARTED
+
+    def test_it_ignores_old_tokens(self, db, django_file_storage):
+        with freeze_time('2018-01-01') as time:
+            token = UploadTokenFactory()
+            time.tick(delta=datetime.timedelta(days=1))
+            HPActionDocumentsFactory(user=token.user)
+            assert get_upload_status_for_user(token.user) == HPUploadStatus.SUCCEEDED

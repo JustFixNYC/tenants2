@@ -150,6 +150,9 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         this.setState({
           wasSubmittedSuccessfully: true
         });
+        if (this.props.onSuccess) {
+          this.props.onSuccess(output);
+        }
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
@@ -164,9 +167,6 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         }
         ga('send', 'event', 'form-success',
            this.props.formId || 'default', redirect || undefined);
-        if (this.props.onSuccess) {
-          this.props.onSuccess(output);
-        }
       }
     }).catch(e => {
       this.setState({ isLoading: false });

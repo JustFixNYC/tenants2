@@ -4,7 +4,7 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { LoginInput, OnboardingInfoSignupIntent, LetterRequestMailChoice } from "./globalTypes";
+import { LoginInput, OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: LoginMutation
@@ -149,6 +149,7 @@ export interface LoginMutation_output_session {
    * The URL of the most recently-generated HP Action PDF for the current user.
    */
   latestHpActionPdfUrl: string | null;
+  hpActionUploadStatus: HPUploadStatus | null;
 }
 
 export interface LoginMutation_output {

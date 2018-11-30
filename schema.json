@@ -198,6 +198,18 @@
               "deprecationReason": null
             },
             {
+              "name": "hpActionUploadStatus",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "ENUM",
+                "name": "HPUploadStatus",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "prefersLegacyApp",
               "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
               "args": [],
@@ -782,6 +794,41 @@
             {
               "name": "USER_WILL_MAIL",
               "description": "No thanks, I'll mail it myself. (You'll get a link to a PDF on the next page.)",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "HPUploadStatus",
+          "description": "The status of the HP Action upload (document assembly) process for a user.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "NOT_STARTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "STARTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ERRORED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUCCEEDED",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }

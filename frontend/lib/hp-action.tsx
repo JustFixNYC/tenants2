@@ -6,7 +6,7 @@ import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter } from './forms';
+import { SessionUpdatingFormSubmitter, FormSubmitterChildren } from './forms';
 import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -15,6 +15,7 @@ import { ProgressiveLoadableConfetti } from './confetti-loadable';
 import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
+import { SessionPoller } from './session-poller';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -78,6 +79,13 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
   </>
 );
 
+const GeneratePDFForm = (props: { children: FormSubmitterChildren<{}> }) => (
+  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDF} initialState={{}}
+   onSuccessRedirect={Routes.hp.waitForUpload}>
+    {props.children}
+  </SessionUpdatingFormSubmitter>
+);
+
 const HPActionYourLandlord = withAppContext((props: AppContextType) => {
   const details = props.session.landlordDetails;
 
@@ -87,18 +95,14 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       {details && details.isLookedUp && details.name && details.address
         ? <LandlordDetails details={details} />
         : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
-      <SessionUpdatingFormSubmitter
-        mutation={GenerateHPActionPDF}
-        initialState={{}}
-        onSuccessRedirect={Routes.hp.waitForUpload}
-      >
+      <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
             <BackButton to={Routes.hp.issues.home} label="Back" />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }
-      </SessionUpdatingFormSubmitter>
+      </GeneratePDFForm>
     </Page>
   );
 });
@@ -107,59 +111,36 @@ const HPActionUploadError = () => (
   <Page title="Alas." className="content">
     <h1>Alas.</h1>
     <p>Unfortunately, an error occurred when generating your HP Action packet.</p>
-    <SessionUpdatingFormSubmitter
-      mutation={GenerateHPActionPDF}
-      initialState={{}}
-      onSuccessRedirect={Routes.hp.waitForUpload}
-    >
+    <GeneratePDFForm>
       {(ctx) => <NextButton isLoading={ctx.isLoading} label="Try again"/>}
-    </SessionUpdatingFormSubmitter>
+    </GeneratePDFForm>
   </Page>
 );
 
-const POLL_INTERVAL_MS = 5000;
-
-class HPActionWaitForUpload extends React.Component<AppContextType> {
-  interval: number|null = null;
-
-  componentDidMount() {
-    this.interval = window.setInterval(() => {
-      GetHPActionUploadStatus.fetch(this.props.fetch).then((info) => {
-        this.props.updateSession(info.session);
-      });
-    }, POLL_INTERVAL_MS);
-  }
-
-  componentWillUnmount() {
-    if (this.interval !== null) {
-      window.clearInterval(this.interval);
-    }
-  }
-
-  render() {
-    // TODO: If the user is in compatibility mode, we should use Helmet to
-    // add a meta refresh tag to the page.
-    return (
-      <Page title="Please wait">
-        <p className="has-text-centered">
-          Please wait while your HP action documents are generated&hellip;
-        </p>
-        <section className="section" aria-hidden="true">
-          <div className="jf-loading-overlay">
-            <div className="jf-loader"/>
-          </div>
-        </section>
-      </Page>
-    );
-  }
-}
+const HPActionWaitForUpload = () => (
+  <Page title="Please wait">
+    {/**
+      * TODO: If the user is in compatibility mode, we should use Helmet to
+      * add a meta refresh tag to the page.
+      */}
+    <p className="has-text-centered">
+      Please wait while your HP action documents are generated&hellip;
+    </p>
+    <SessionPoller query={GetHPActionUploadStatus} />
+    <section className="section" aria-hidden="true">
+      <div className="jf-loading-overlay">
+        <div className="jf-loader"/>
+      </div>
+    </section>
+  </Page>
+);
 
 const ShowHPUploadStatus = withAppContext((props: AppContextType) => {
   let status = props.session.hpActionUploadStatus;
 
   switch (status) {
     case HPUploadStatus.STARTED:
-    return <HPActionWaitForUpload {...props} />;
+    return <HPActionWaitForUpload />;
 
     case HPUploadStatus.SUCCEEDED:
     return <Redirect to={Routes.hp.confirmation} />;
@@ -202,14 +183,10 @@ export const HPActionProgressRoutesProps: ProgressRoutesProps = {
   toLatestStep: Routes.hp.latestStep,
   label: "HP Action",
   welcomeSteps: [{
-    path: Routes.hp.splash,
-    exact: true,
-    component: HPActionSplash,
+    path: Routes.hp.splash, exact: true, component: HPActionSplash,
     isComplete: (s) => !!s.phoneNumber
   }, {
-    path: Routes.hp.welcome,
-    exact: true,
-    component: HPActionWelcome
+    path: Routes.hp.welcome, exact: true, component: HPActionWelcome
   }],
   stepsToFillOut: [
     { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },

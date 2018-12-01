@@ -221,21 +221,25 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
 
     input.on('end', () => {
       const buffer = Buffer.concat(buffers);
-      let obj: any;
-      try {
-        obj = JSON.parse(buffer.toString('utf-8'));
-        /* istanbul ignore next: we are covering this but istanbul is weird. */
-        if (!isPlainJsObject(obj)) {
-          throw new Error("Expected input to be a JS object!");
-        }
-      } catch (e) {
-        /* istanbul ignore next: we are covering this but istanbul is weird. */
-        return reject(e);
-      }
-      errorCatchingHandler(obj as EventProps).then(response => {
-        resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
-      }).catch(reject);
+      resolve(handleFromBuffer(buffer));
     });
+  });
+}
+
+function handleFromBuffer(buffer: Buffer): Promise<Buffer> {
+  let obj: any;
+  try {
+    obj = JSON.parse(buffer.toString('utf-8'));
+    /* istanbul ignore next: we are covering this but istanbul is weird. */
+    if (!isPlainJsObject(obj)) {
+      throw new Error("Expected input to be a JS object!");
+    }
+  } catch (e) {
+    /* istanbul ignore next: we are covering this but istanbul is weird. */
+    return Promise.reject(e);
+  }
+  return errorCatchingHandler(obj as EventProps).then(response => {
+    return Buffer.from(JSON.stringify(response), 'utf-8');
   });
 }
 

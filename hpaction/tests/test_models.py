@@ -4,7 +4,8 @@ from freezegun import freeze_time
 from users.tests.factories import UserFactory
 from .factories import HPActionDocumentsFactory, UploadTokenFactory
 from ..models import (
-    HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME)
+    HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
+    get_upload_status_for_user, HPUploadStatus)
 
 
 class TestUploadToken:
@@ -13,9 +14,11 @@ class TestUploadToken:
             token = UploadTokenFactory()
             UploadToken.objects.remove_expired()
             assert UploadToken.objects.find_unexpired(token.id) == token
+            assert token.is_expired() is False
 
             time.tick(delta=datetime.timedelta(seconds=1) + UPLOAD_TOKEN_LIFETIME)
             assert UploadToken.objects.find_unexpired(token.id) is None
+            assert token.is_expired() is True
 
             UploadToken.objects.remove_expired()
             assert UploadToken.objects.count() == 0
@@ -93,3 +96,42 @@ class TestHPActionDocuments:
 
         docs = HPActionDocuments.objects.get_latest_for_user(user)
         assert docs and docs.id == 'newer'
+
+
+class TestGetUploadStatusForUser:
+    def test_it_returns_not_started(self, db):
+        assert get_upload_status_for_user(UserFactory()) == HPUploadStatus.NOT_STARTED
+
+    def test_it_returns_started(self, db):
+        token = UploadTokenFactory()
+        assert get_upload_status_for_user(token.user) == HPUploadStatus.STARTED
+
+    def test_it_returns_errored_when_token_has_errored_set(self, db):
+        token = UploadTokenFactory()
+        token.errored = True
+        token.save()
+        assert get_upload_status_for_user(token.user) == HPUploadStatus.ERRORED
+
+    def test_it_returns_errored_when_token_is_expired(self, db):
+        with freeze_time('2018-01-01') as time:
+            token = UploadTokenFactory()
+            time.tick(delta=datetime.timedelta(days=1))
+            assert get_upload_status_for_user(token.user) == HPUploadStatus.ERRORED
+
+    def test_it_returns_succeeded(self, db, django_file_storage):
+        docs = HPActionDocumentsFactory()
+        assert get_upload_status_for_user(docs.user) == HPUploadStatus.SUCCEEDED
+
+    def test_it_ignores_old_docs(self, db, django_file_storage):
+        with freeze_time('2018-01-01') as time:
+            docs = HPActionDocumentsFactory()
+            time.tick(delta=datetime.timedelta(days=1))
+            token = UploadTokenFactory(user=docs.user)
+            assert get_upload_status_for_user(token.user) == HPUploadStatus.STARTED
+
+    def test_it_ignores_old_tokens(self, db, django_file_storage):
+        with freeze_time('2018-01-01') as time:
+            token = UploadTokenFactory()
+            time.tick(delta=datetime.timedelta(days=1))
+            HPActionDocumentsFactory(user=token.user)
+            assert get_upload_status_for_user(token.user) == HPUploadStatus.SUCCEEDED

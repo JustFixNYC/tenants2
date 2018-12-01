@@ -17,6 +17,8 @@ import { ga } from './google-analytics';
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
+export type FormSubmitterChildren<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
+
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
@@ -27,7 +29,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: FormSubmitterChildren<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
@@ -150,6 +152,9 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         this.setState({
           wasSubmittedSuccessfully: true
         });
+        if (this.props.onSuccess) {
+          this.props.onSuccess(output);
+        }
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
@@ -164,9 +169,6 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         }
         ga('send', 'event', 'form-success',
            this.props.formId || 'default', redirect || undefined);
-        if (this.props.onSuccess) {
-          this.props.onSuccess(output);
-        }
       }
     }).catch(e => {
       this.setState({ isLoading: false });

@@ -6,6 +6,16 @@
 //==============================================================
 
 /**
+ * The status of the HP Action upload (document assembly) process for a user.
+ */
+export enum HPUploadStatus {
+  ERRORED = "ERRORED",
+  NOT_STARTED = "NOT_STARTED",
+  STARTED = "STARTED",
+  SUCCEEDED = "SUCCEEDED",
+}
+
+/**
  * An enumeration.
  */
 export enum LetterRequestMailChoice {

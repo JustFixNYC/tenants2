@@ -198,6 +198,22 @@
               "deprecationReason": null
             },
             {
+              "name": "hpActionUploadStatus",
+              "description": "The status of the HP Action upload (document assembly) process for a user.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "HPUploadStatus",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "prefersLegacyApp",
               "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
               "args": [],
@@ -782,6 +798,41 @@
             {
               "name": "USER_WILL_MAIL",
               "description": "No thanks, I'll mail it myself. (You'll get a link to a PDF on the next page.)",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "HPUploadStatus",
+          "description": "The status of the HP Action upload (document assembly) process for a user.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "NOT_STARTED",
+              "description": "The user has not yet initiated document assembly.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "STARTED",
+              "description": "The user has initiated document assembly, and we're waiting for a remote service to upload the result to us.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ERRORED",
+              "description": "Something went wrong during the document assembly process.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUCCEEDED",
+              "description": "The document assembly process was successful.",
               "isDeprecated": false,
               "deprecationReason": null
             }

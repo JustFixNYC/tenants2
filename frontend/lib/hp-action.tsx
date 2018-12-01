@@ -6,12 +6,16 @@ import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter } from './forms';
+import { SessionUpdatingFormSubmitter, FormSubmitterChildren } from './forms';
 import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
 import { ProgressiveLoadableConfetti } from './confetti-loadable';
+import { HPUploadStatus } from './queries/globalTypes';
+import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
+import { Redirect } from 'react-router';
+import { SessionPoller } from './session-poller';
 
 const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
@@ -75,6 +79,11 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
   </>
 );
 
+const GeneratePDFForm = (props: { children: FormSubmitterChildren<{}> }) => (
+  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDF} initialState={{}}
+   onSuccessRedirect={Routes.hp.waitForUpload} {...props} />
+);
+
 const HPActionYourLandlord = withAppContext((props: AppContextType) => {
   const details = props.session.landlordDetails;
 
@@ -84,20 +93,62 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       {details && details.isLookedUp && details.name && details.address
         ? <LandlordDetails details={details} />
         : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
-      <SessionUpdatingFormSubmitter
-        mutation={GenerateHPActionPDF}
-        initialState={{}}
-        onSuccessRedirect={Routes.hp.confirmation}
-      >
+      <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
             <BackButton to={Routes.hp.issues.home} label="Back" />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }
-      </SessionUpdatingFormSubmitter>
+      </GeneratePDFForm>
     </Page>
   );
+});
+
+const HPActionUploadError = () => (
+  <Page title="Alas." className="content">
+    <h1>Alas.</h1>
+    <p>Unfortunately, an error occurred when generating your HP Action packet.</p>
+    <GeneratePDFForm>
+      {(ctx) => <NextButton isLoading={ctx.isLoading} label="Try again"/>}
+    </GeneratePDFForm>
+  </Page>
+);
+
+const HPActionWaitForUpload = () => (
+  <Page title="Please wait">
+    {/**
+      * TODO: If the user is in compatibility mode, we should use Helmet to
+      * add a meta refresh tag to the page.
+      */}
+    <p className="has-text-centered">
+      Please wait while your HP action documents are generated&hellip;
+    </p>
+    <SessionPoller query={GetHPActionUploadStatus} />
+    <section className="section" aria-hidden="true">
+      <div className="jf-loading-overlay">
+        <div className="jf-loader"/>
+      </div>
+    </section>
+  </Page>
+);
+
+const ShowHPUploadStatus = withAppContext((props: AppContextType) => {
+  let status = props.session.hpActionUploadStatus;
+
+  switch (status) {
+    case HPUploadStatus.STARTED:
+    return <HPActionWaitForUpload />;
+
+    case HPUploadStatus.SUCCEEDED:
+    return <Redirect to={Routes.hp.confirmation} />;
+
+    case HPUploadStatus.ERRORED:
+    return <HPActionUploadError />;
+
+    case HPUploadStatus.NOT_STARTED:
+    return <Redirect to={Routes.hp.latestStep} />;
+  }
 });
 
 const HPActionConfirmation = withAppContext((props: AppContextType) => {
@@ -130,21 +181,19 @@ export const HPActionProgressRoutesProps: ProgressRoutesProps = {
   toLatestStep: Routes.hp.latestStep,
   label: "HP Action",
   welcomeSteps: [{
-    path: Routes.hp.splash,
-    exact: true,
-    component: HPActionSplash,
+    path: Routes.hp.splash, exact: true, component: HPActionSplash,
     isComplete: (s) => !!s.phoneNumber
   }, {
-    path: Routes.hp.welcome,
-    exact: true,
-    component: HPActionWelcome
+    path: Routes.hp.welcome, exact: true, component: HPActionWelcome
   }],
   stepsToFillOut: [
     { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
-      isComplete: (s) => !!s.latestHpActionPdfUrl },
+      isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
+    { path: Routes.hp.waitForUpload, exact: true, component: ShowHPUploadStatus,
+      isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.hp.confirmation, exact: true, component: HPActionConfirmation}
   ]
 };

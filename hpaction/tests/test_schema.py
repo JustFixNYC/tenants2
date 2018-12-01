@@ -2,6 +2,9 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
+from .factories import UploadTokenFactory
+from hpaction.models import get_upload_status_for_user, HPUploadStatus
+import hpaction.schema
 
 
 def execute_genpdf_mutation(graphql_client, **input):
@@ -19,6 +22,13 @@ def execute_genpdf_mutation(graphql_client, **input):
 
 
 class TestGenerateHPActionPDF:
+    def setup(self):
+        self._orig_async = hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC
+        hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC = False
+
+    def teardown(self):
+        hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC = self._orig_async
+
     def test_it_requires_auth(self, graphql_client):
         result = execute_genpdf_mutation(graphql_client)
         assert result['errors'] == [{'field': '__all__', 'messages': [
@@ -26,11 +36,12 @@ class TestGenerateHPActionPDF:
         ]}]
 
     @pytest.mark.django_db
-    def test_it_returns_err_if_hpaction_is_disabled(self, graphql_client):
+    def test_it_errors_if_hpaction_is_disabled(self, graphql_client):
         user = UserFactory.create()
         graphql_client.request.user = user
         result = execute_genpdf_mutation(graphql_client)
-        assert 'Please try again later' in result['errors'][0]['messages'][0]
+        assert result['errors'] == []
+        assert get_upload_status_for_user(user) == HPUploadStatus.ERRORED
 
     @pytest.mark.django_db
     @override_settings(HP_ACTION_CUSTOMER_KEY="boop")
@@ -39,22 +50,35 @@ class TestGenerateHPActionPDF:
         graphql_client.request.user = user
         fake_soap_call.simulate_success(user)
         result = execute_genpdf_mutation(graphql_client)
-        assert result == {
-            'errors': [],
-            'session': {'latestHpActionPdfUrl': '/hp/latest.pdf'}
-        }
+        assert result['errors'] == []
+        assert get_upload_status_for_user(user) == HPUploadStatus.SUCCEEDED
 
 
-class TestLatestHpActionPdfURL:
+class TestSessionInfo:
     def execute(self, graphql_client):
         return graphql_client.execute(
-            'query { session { latestHpActionPdfUrl } }'
-        )['data']['session']['latestHpActionPdfUrl']
+            'query { session { latestHpActionPdfUrl, hpActionUploadStatus } }'
+        )['data']['session']
 
-    def test_it_returns_none_if_unauthenticated(self, graphql_client):
-        assert self.execute(graphql_client) is None
+    def test_it_works_if_unauthenticated(self, graphql_client):
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'NOT_STARTED'
+        }
 
     @pytest.mark.django_db
-    def test_it_returns_none_if_no_documents_exist(self, graphql_client):
+    def test_it_works_if_logged_in_but_not_started(self, graphql_client):
         graphql_client.request.user = UserFactory.create()
-        assert self.execute(graphql_client) is None
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'NOT_STARTED'
+        }
+
+    @pytest.mark.django_db
+    def test_it_works_if_started(self, graphql_client):
+        tok = UploadTokenFactory()
+        graphql_client.request.user = tok.user
+        assert self.execute(graphql_client) == {
+            'latestHpActionPdfUrl': None,
+            'hpActionUploadStatus': 'STARTED'
+        }

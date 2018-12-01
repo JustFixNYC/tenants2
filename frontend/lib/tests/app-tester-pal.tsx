@@ -29,7 +29,7 @@ interface AppTesterPalOptions {
  * some properties to be mocked.
  */
 interface AppTesterAppContext extends AppContextType {
-  updateSession: AppContextType["updateSession"] & jest.MockInstance<void>;
+  updateSession: AppContextType["updateSession"] & jest.MockInstance<any>;
 };
 
 /**
@@ -146,5 +146,13 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   expectFormInput<FormInput>(expected: FormInput) {
     const actual = this.getFirstRequest().variables['input'];
     expect(actual).toEqual(expected);
+  }
+
+  /**
+   * Spin the event loop so any promises that have been
+   * resolved will be processed, etc.
+   */
+  nextTick(): Promise<any> {
+    return new Promise(resolve => process.nextTick(resolve));
   }
 }

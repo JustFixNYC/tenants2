@@ -1,5 +1,6 @@
 from datetime import timedelta
-from typing import Optional
+from typing import Optional, Union
+from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
@@ -123,6 +124,14 @@ class HPActionDocuments(models.Model):
 
 
 class UploadTokenManager(models.Manager):
+    def set_errored(self, token_id: str) -> None:
+        'Set the errored flag for the given token ID, if it exists.'
+
+        token = self.filter(id=token_id).first()
+        if token:
+            token.errored = True
+            token.save()
+
     def create_for_user(self, user: JustfixUser) -> 'UploadToken':
         'Create an upload token bound to the given user.'
 
@@ -151,6 +160,9 @@ class UploadTokenManager(models.Manager):
 
         self.filter(created_at__lte=timezone.now() - UPLOAD_TOKEN_LIFETIME).delete()
 
+    def get_latest_for_user(self, user: JustfixUser) -> Optional['UploadToken']:
+        return self.filter(user=user).order_by('-created_at').first()
+
 
 class UploadToken(models.Model):
     '''
@@ -167,7 +179,15 @@ class UploadToken(models.Model):
 
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
 
+    # This tracks whether an error occurred at some point during
+    # document assembly or the upload process, which can be useful
+    # if we need to generate the documents asynchronously.
+    errored = models.BooleanField(default=False)
+
     objects = UploadTokenManager()
+
+    def is_expired(self) -> bool:
+        return self.created_at <= timezone.now() - UPLOAD_TOKEN_LIFETIME
 
     def create_documents_from(self, xml_data: bytes, pdf_data: bytes) -> HPActionDocuments:
         '''
@@ -198,3 +218,46 @@ class UploadToken(models.Model):
         return absolute_reverse('hpaction:upload', kwargs={
             'token_str': self.id
         })
+
+
+class HPUploadStatus(Enum):
+    'The status of the HP Action upload (document assembly) process for a user.'
+
+    NOT_STARTED = 0
+    STARTED = 1
+    ERRORED = 2
+    SUCCEEDED = 3
+
+    @property
+    def description(self) -> str:
+        if self == HPUploadStatus.NOT_STARTED:
+            return 'The user has not yet initiated document assembly.'
+        if self == HPUploadStatus.STARTED:
+            return ("The user has initiated document assembly, and we're waiting for a "
+                    "remote service to upload the result to us.")
+        if self == HPUploadStatus.ERRORED:
+            return "Something went wrong during the document assembly process."
+        if self == HPUploadStatus.SUCCEEDED:
+            return "The document assembly process was successful."
+        raise AssertionError()  # pragma: nocover
+
+
+def _get_latest_docs_or_tok(user: JustfixUser) -> Union[HPActionDocuments, HPUploadStatus, None]:
+    docs = HPActionDocuments.objects.get_latest_for_user(user)
+    tok = UploadToken.objects.get_latest_for_user(user)
+    if docs and tok:
+        if docs.created_at >= tok.created_at:
+            return docs
+        return tok
+    return docs or tok
+
+
+def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
+    thing = _get_latest_docs_or_tok(user)
+    if isinstance(thing, HPActionDocuments):
+        return HPUploadStatus.SUCCEEDED
+    elif isinstance(thing, UploadToken):
+        if thing.is_expired() or thing.errored:
+            return HPUploadStatus.ERRORED
+        return HPUploadStatus.STARTED
+    return HPUploadStatus.NOT_STARTED

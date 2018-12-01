@@ -1,4 +1,4 @@
-mutation GenerateHPActionPDF($input: GeneratePDFInput!) {
+mutation GenerateHPActionPDFMutation($input: GeneratePDFInput!) {
     output: generateHpActionPdf(input: $input) {
         errors {
             field,

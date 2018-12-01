@@ -7,7 +7,7 @@ import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
 import { SessionUpdatingFormSubmitter, FormSubmitterChildren } from './forms';
-import { GenerateHPActionPDF } from './queries/GenerateHPActionPDF';
+import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
@@ -80,7 +80,7 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
 );
 
 const GeneratePDFForm = (props: { children: FormSubmitterChildren<{}> }) => (
-  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDF} initialState={{}}
+  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
    onSuccessRedirect={Routes.hp.waitForUpload} {...props} />
 );
 

@@ -81,9 +81,7 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
 
 const GeneratePDFForm = (props: { children: FormSubmitterChildren<{}> }) => (
   <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDF} initialState={{}}
-   onSuccessRedirect={Routes.hp.waitForUpload}>
-    {props.children}
-  </SessionUpdatingFormSubmitter>
+   onSuccessRedirect={Routes.hp.waitForUpload} {...props} />
 );
 
 const HPActionYourLandlord = withAppContext((props: AppContextType) => {

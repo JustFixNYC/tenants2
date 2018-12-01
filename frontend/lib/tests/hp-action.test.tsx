@@ -25,6 +25,36 @@ describe('HP Action flow', () => {
   });
 });
 
+describe('upload status page', () => {
+  afterEach(AppTesterPal.cleanup);
+
+  const makePal = (hpActionUploadStatus: HPUploadStatus) =>
+    new AppTesterPal(<HPActionRoutes />, {
+      url: '/hp/wait',
+      session: { hpActionUploadStatus }
+    });
+
+  it('should show "please wait" when docs are being assembled', () => {
+    const pal = makePal(HPUploadStatus.STARTED);
+    pal.rr.getByText(/please wait/i);
+  });
+
+  it('should redirect to confirmation when docs are ready', () => {
+    const pal = makePal(HPUploadStatus.SUCCEEDED);
+    expect(pal.history.location.pathname).toBe('/hp/confirmation');
+  });
+
+  it('should show error page if errors occurred', () => {
+    const pal = makePal(HPUploadStatus.ERRORED);
+    pal.rr.getByText(/try again/i);
+  });
+
+  it('should redirect to beginning if docs are not started', () => {
+    const pal = makePal(HPUploadStatus.NOT_STARTED);
+    expect(pal.history.location.pathname).toBe('/hp/splash');
+  });
+});
+
 describe('latest step redirector', () => {
   it('returns splash page when user is not logged-in', () => {
     expect(tester.getLatestStep()).toBe(Routes.hp.splash);

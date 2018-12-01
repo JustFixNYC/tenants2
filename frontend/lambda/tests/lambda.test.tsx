@@ -70,13 +70,13 @@ describe('handleFromJSONStream', () => {
     expect(response.status).toBe(200);
   });
 
-  it('raises error on malformed input', () => {
+  it('raises error on malformed input', async () => {
     const response = handle('i am not valid json');
-    expect(response).rejects.toBeInstanceOf(SyntaxError);
+    return expect(response).rejects.toBeInstanceOf(SyntaxError);
   });
 
-  it('raises error on bad JSON input', () => {
+  it('raises error on bad JSON input', async () => {
     const response = handle(null);
-    expect(response).rejects.toEqual(new Error("Expected input to be a JS object!"));
+    return expect(response).rejects.toEqual(new Error("Expected input to be a JS object!"));
   });
 });

@@ -27,6 +27,8 @@ import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/
 
 const readFile = promisify(fs.readFile);
 
+const loadablePreloaded = Loadable.preloadAll();
+
 /**
  * This is the structure that our lambda returns to clients.
  */
@@ -157,7 +159,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
  * @param event The initial properties for our app.
  */
 async function baseHandler(event: EventProps): Promise<LambdaResponse> {
-  await Loadable.preloadAll();
+  await loadablePreloaded;
 
   const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
 

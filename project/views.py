@@ -43,6 +43,7 @@ class LambdaResponse(NamedTuple):
 
     html: SafeString
     title_tag: SafeString
+    meta_tags: SafeString
     status: int
     bundle_files: List[str]
     modal_html: SafeString
@@ -62,6 +63,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         html=SafeString(response['html']),
         modal_html=SafeString(response['modalHtml']),
         title_tag=SafeString(response['titleTag']),
+        meta_tags=SafeString(response['metaTags']),
         status=response['status'],
         bundle_files=response['bundleFiles'],
         location=response['location'],
@@ -184,6 +186,7 @@ def react_rendered_view(request, url: str):
         'initial_render': lambda_response.html,
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
+        'meta_tags': lambda_response.meta_tags,
         'bundle_urls': bundle_urls,
         'initial_props': initial_props,
     }, status=lambda_response.status)

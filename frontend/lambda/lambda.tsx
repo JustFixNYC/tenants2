@@ -37,6 +37,9 @@ export interface LambdaResponse {
   /** The <title> tag for the initial render of the page. */
   titleTag: string;
 
+  /** Additional <meta> tags for the initial render of the page. */
+  metaTags: string;
+
   /** The HTTP status code of the page. */
   status: number;
 
@@ -135,6 +138,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     resolve({
       html,
       titleTag: helmet.title.toString(),
+      metaTags: helmet.meta.toString(),
       status: context.statusCode,
       bundleFiles,
       modalHtml,
@@ -177,10 +181,11 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
         isServerSide={true}
       />
     );
-    const titleTag = Helmet.renderStatic().title.toString();
+    const helmet = Helmet.renderStatic();
     return {
       html,
-      titleTag,
+      titleTag: helmet.title.toString(),
+      metaTags: helmet.meta.toString(),
       status: 500,
       bundleFiles: [],
       modalHtml: '',

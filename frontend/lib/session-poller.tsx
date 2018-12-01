@@ -4,6 +4,8 @@ import { AllSessionInfo } from "./queries/AllSessionInfo";
 import { GraphQLFetch } from "./graphql-client";
 import { AppContextType, withAppContext } from './app-context';
 import autobind from 'autobind-decorator';
+import Helmet from 'react-helmet';
+import { NoScriptFallback } from './progressive-enhancement';
 
 const DEFAULT_INTERVAL_MS = 5000;
 
@@ -21,9 +23,16 @@ type Props = SessionPollerProps & AppContextType;
 class SessionPollerWithoutContext extends React.Component<Props> {
   interval: number|null = null;
 
+  get intervalMS(): number {
+    return this.props.intervalMS || DEFAULT_INTERVAL_MS;
+  }
+
+  get intervalSeconds(): number {
+    return Math.floor(this.intervalMS / 1000);
+  }
+
   componentDidMount() {
-    const ms = this.props.intervalMS || DEFAULT_INTERVAL_MS;
-    this.interval = window.setInterval(this.handleInterval, ms);
+    this.interval = window.setInterval(this.handleInterval, this.intervalMS);
   }
 
   componentWillUnmount() {
@@ -41,7 +50,13 @@ class SessionPollerWithoutContext extends React.Component<Props> {
   }
 
   render() {
-    return null;
+    return (
+      <NoScriptFallback>
+        <Helmet>
+          <meta http-equiv="refresh" content={this.intervalSeconds.toString()} />
+        </Helmet>
+      </NoScriptFallback>
+    );
   }
 }
 

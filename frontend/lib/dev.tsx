@@ -6,6 +6,7 @@ import { friendlyLoad, LoadingPage } from './loading-page';
 import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
+import Helmet from 'react-helmet';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -68,6 +69,8 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
   );
 });
 
+const ExampleMetaTagPage = () => <Helmet><meta property="boop" content="hi" /></Helmet>;
+
 export default function DevRoutes(): JSX.Element {
   return (
     <Switch>
@@ -78,6 +81,7 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.form} component={LoadableExampleFormPage} />
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
+       <Route path={Routes.dev.examples.metaTag} exact component={ExampleMetaTagPage} />
     </Switch>
   );
 }

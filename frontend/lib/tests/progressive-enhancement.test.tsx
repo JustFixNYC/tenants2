@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement } from "../progressive-enhancement";
+import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement, NoScriptFallback } from "../progressive-enhancement";
 import ReactTestingLibraryPal from './rtl-pal';
 
 
@@ -96,6 +96,8 @@ describe("ProgressiveEnhancement", () => {
 });
 
 describe("SimpleProgressiveEnhancement", () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it("renders children when enabled", () => {
     const pal = new ReactTestingLibraryPal(
       <SimpleProgressiveEnhancement>
@@ -105,12 +107,32 @@ describe("SimpleProgressiveEnhancement", () => {
     pal.rr.getByText(/i am enhanced/);
   });
 
-  it("renders children when enabled", () => {
+  it("does not render children when disabled", () => {
     const pal = new ReactTestingLibraryPal(
       <SimpleProgressiveEnhancement disabled>
         <span>i am enhanced</span>
       </SimpleProgressiveEnhancement>
     );
     expect(pal.rr.container.childElementCount).toBe(0);
+  });
+});
+
+describe("NoScriptFallback", () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  const Component = () => (
+    <NoScriptFallback>
+      <span>i am fallback content</span>
+    </NoScriptFallback>
+  );
+
+  it("renders nothing when mounted", () => {
+    const pal = new ReactTestingLibraryPal(<Component/>);
+    expect(pal.rr.container.childElementCount).toBe(0);
+  });
+
+  it("renders fallback content on the server", () => {
+    const html = ReactDOMServer.renderToString(<Component />);
+    expect(html).toMatch(/i am fallback content/);
   });
 });

@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Optional
+from typing import Optional, Union
 from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -242,18 +242,22 @@ class HPUploadStatus(Enum):
         raise AssertionError()  # pragma: nocover
 
 
-def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
+def _get_latest_docs_or_tok(user: JustfixUser) -> Union[HPActionDocuments, HPUploadStatus, None]:
     docs = HPActionDocuments.objects.get_latest_for_user(user)
     tok = UploadToken.objects.get_latest_for_user(user)
     if docs and tok:
         if docs.created_at >= tok.created_at:
-            tok = None
-        else:
-            docs = None
-    if tok:
-        if tok.is_expired() or tok.errored:
+            return docs
+        return tok
+    return docs or tok
+
+
+def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
+    thing = _get_latest_docs_or_tok(user)
+    if isinstance(thing, HPActionDocuments):
+        return HPUploadStatus.SUCCEEDED
+    elif isinstance(thing, UploadToken):
+        if thing.is_expired() or thing.errored:
             return HPUploadStatus.ERRORED
         return HPUploadStatus.STARTED
-    if docs:
-        return HPUploadStatus.SUCCEEDED
     return HPUploadStatus.NOT_STARTED

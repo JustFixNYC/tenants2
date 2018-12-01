@@ -94,6 +94,13 @@ def test_pages_with_extra_bundles_work(client):
     ]
 
 
+def test_pages_with_meta_tags_work(client):
+    response = client.get('/dev/examples/meta-tag')
+    assert response.status_code == 200
+    assert 'property="boop"' in response.context['meta_tags']
+    assert b'property="boop"' in response.content
+
+
 def test_pages_with_prerendered_modals_work(client):
     response = client.get('/dev/examples/modal')
     assert response.status_code == 200

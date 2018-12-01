@@ -38,7 +38,7 @@ class LambdaResponse(NamedTuple):
     Encapsulates the result of the server-side renderer.
 
     This is more or less the same as the LambdaResponse
-    interface defined in frontend/lambda/lambda.ts.
+    interface defined in frontend/lambda/lambda.tsx.
     '''
 
     html: SafeString

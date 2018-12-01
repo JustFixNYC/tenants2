@@ -95,16 +95,18 @@ describe('FormSubmitter', () => {
     expect(performRedirect.mock.calls[0][0]).toBe('/blah');
   });
 
-  it('optionally redirects when successful', async () => {
+  it('optionally calls onSuccess(), then redirects when successful', async () => {
     const promise = Promise.resolve({ errors: [] });
+    const glob = { word: "foo" };
+    const BlahPage = () => <p>This is {glob.word}.</p>;
     const wrapper = mount(
       <MemoryRouter>
         <Switch>
-          <Route path="/blah" exact><p>This is blah.</p></Route>
+          <Route path="/blah" exact component={BlahPage}/>
           <Route>
             <FormSubmitter
               onSubmit={() => promise}
-              onSuccess={() => {}}
+              onSuccess={() => { glob.word = "blah"; }}
               onSuccessRedirect="/blah"
               initialState={myInitialState}
               children={(ctx) => <p>This is the form.</p>} />

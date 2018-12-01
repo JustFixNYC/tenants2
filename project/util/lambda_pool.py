@@ -1,3 +1,4 @@
+import os
 import sys
 import atexit
 import logging
@@ -8,6 +9,7 @@ from typing import List, Any, BinaryIO, Optional
 from threading import RLock
 from pathlib import Path
 
+from . import lambda_keepalive
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +48,7 @@ class LambdaPool:
     cwd: Path
 
     # How many "warmed up" lambda processes to have running.
-    size: int = 5
+    size: int = 3
 
     # The number of seconds we'll give a lambda process to handle its
     # event and return a response before we consider it a runaway and
@@ -65,8 +67,11 @@ class LambdaPool:
     # lambda processes to.
     stderr: Optional[BinaryIO] = sys.stderr.buffer if hasattr(sys.stderr, 'buffer') else None
 
+    use_keepalive: bool = False
+
     def __post_init__(self) -> None:
         self.__processes: List[subprocess.Popen] = []
+        self.__processes_checked_out = 0
         self.__lock = RLock()
         self.__script_path_mtime = 0.0
 
@@ -75,15 +80,25 @@ class LambdaPool:
         Create a lambda process and return it if needed.
         '''
 
+        env = os.environ.copy()
+        if self.use_keepalive:
+            env['CHILD_USE_LAMBDA_KEEPALIVE'] = 'CHILD_USE_LAMBDA_KEEPALIVE'
         child = subprocess.Popen(
             [str(self.interpreter_path), str(self.script_path)],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            cwd=self.cwd
+            cwd=self.cwd,
+            env=env
         )
         logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
+
+    def __done_with_process(self, process: subprocess.Popen) -> None:
+        with self.__lock:
+            self.__processes_checked_out -= 1
+            if process.returncode is None:
+                self.__processes.append(process)
 
     def __get_process(self) -> subprocess.Popen:
         '''
@@ -102,11 +117,13 @@ class LambdaPool:
                     self.empty()
 
             # Refill our pool if needed.
-            while len(self.__processes) < self.size:
+            while len(self.__processes) + self.__processes_checked_out < self.size:
                 self.__processes.append(self.__create_process())
 
             # Make sure we clean up when the process exits.
             atexit.register(self.empty)
+
+            self.__processes_checked_out += 1
 
             # It's important that we pop from the *beginning* of our
             # list, as the earlier processes in our list are the
@@ -148,14 +165,25 @@ class LambdaPool:
         if timeout_secs is None:
             timeout_secs = self.timeout_secs
 
-        stderr_file = self.stderr if enable_stderr else None
-
         child = self.__get_process()
         try:
-            (stdout, stderr) = child.communicate(
-                json.dumps(event).encode('utf-8'),
-                timeout_secs
-            )
+            return self._run_handler_in_child(child, event, timeout_secs, enable_stderr)
+        finally:
+            self.__done_with_process(child)
+
+    def _run_handler_in_child(self,
+                              child: subprocess.Popen,
+                              event: Any,
+                              timeout_secs: int,
+                              enable_stderr: bool) -> Any:
+        stderr_file = self.stderr if enable_stderr else None
+
+        try:
+            event_bytes = json.dumps(event).encode('utf-8')
+            if self.use_keepalive:
+                stdout, stderr = lambda_keepalive.communicate(child, event_bytes, timeout_secs)
+            else:
+                stdout, stderr = child.communicate(event_bytes, timeout_secs)
         except subprocess.TimeoutExpired as e:
             child.kill()
             logger.warn(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
@@ -165,7 +193,7 @@ class LambdaPool:
             stderr_file.write(stderr)
             stderr_file.flush()
 
-        if child.returncode != 0:
+        if child.returncode is not None and child.returncode != 0:
             logger.warn(f'{self.name} lambda process crashed.')
             raise subprocess.CalledProcessError(
                 child.returncode,

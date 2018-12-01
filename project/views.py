@@ -29,7 +29,8 @@ lambda_pool = LambdaPool(
     'React',
     BASE_DIR / 'lambda.js',
     cwd=BASE_DIR,
-    restart_on_script_change=settings.DEBUG
+    restart_on_script_change=settings.DEBUG,
+    use_keepalive=settings.USE_LAMBDA_KEEPALIVE
 )
 
 

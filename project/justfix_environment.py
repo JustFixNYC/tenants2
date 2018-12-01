@@ -137,6 +137,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # not provided, HP Action submission will fail.
     HP_ACTION_CUSTOMER_KEY: str = ''
 
+    # Whether to use the experimental keepalive functionality for
+    # React lambda subprocesses.
+    USE_LAMBDA_KEEPALIVE: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

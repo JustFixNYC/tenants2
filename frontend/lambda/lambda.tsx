@@ -24,6 +24,7 @@ import Helmet from 'react-helmet';
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+import { createKeepalive } from './lambda-keepalive';
 
 const readFile = promisify(fs.readFile);
 
@@ -245,11 +246,20 @@ function handleFromBuffer(buffer: Buffer): Promise<Buffer> {
 
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
-  handleFromJSONStream(process.stdin).then(buf => {
-    process.stdout.write(buf);
-    process.exit(0);
-  }).catch(e => {
+  const onErr = (e: Error) => {
     console.error(e);
     process.exit(1);
-  });
+  };
+  if (process.env.CHILD_USE_LAMBDA_KEEPALIVE === 'CHILD_USE_LAMBDA_KEEPALIVE') {
+    createKeepalive((data, respond) => {
+      handleFromBuffer(data).then(response => {
+        respond(response);
+      }).catch(onErr);
+    }, process.stdin, process.stdout);
+  } else {
+    handleFromJSONStream(process.stdin).then(buf => {
+      process.stdout.write(buf);
+      process.exit(0);
+    }).catch(onErr);
+  }
 }

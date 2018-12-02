@@ -41,7 +41,11 @@ export function createKeepalive(onData: onDataCb, stdin = process.stdin, stdout 
           break;
         }
       } else {
-        readState = { ...readState, chunks: [...readState.chunks, chunk] };
+        readState = {
+          ...readState,
+          chunks: [...readState.chunks, chunk],
+          bytesLeft: readState.bytesLeft - chunk.length
+        };
         break;
       }
     }

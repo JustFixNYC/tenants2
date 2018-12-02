@@ -11,6 +11,7 @@ from issues.admin import IssueInline, CustomIssueInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
+from hpaction.admin import HPActionDocumentsInline
 import loc.admin
 import airtable.sync
 
@@ -59,7 +60,8 @@ class JustfixUserAdmin(UserAdmin):
         LegacyUserInline,
         OnboardingInline,
         IssueInline,
-        CustomIssueInline
+        CustomIssueInline,
+        HPActionDocumentsInline
     ) + loc.admin.user_inlines
 
     def get_fieldsets(self, request, obj=None):

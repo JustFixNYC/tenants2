@@ -44,6 +44,8 @@ export function getOneDirLevelUp(path: string) {
 }
 
 export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
+  raf: number|null = null;
+
   constructor(props: ModalPropsWithRouter) {
     super(props);
     this.state = {
@@ -76,7 +78,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   @autobind
   handleClose() {
-    this.setState({ isActive: false });
+    // Note that we don't need to set isActive to false here;
+    // because this modal class is route-based, we'll simply trust
+    // that the modal doesn't exist in the route the user is sent to.
     if (this.props.onCloseGoTo === BackOrUpOneDirLevel && this.props.history.action === "PUSH") {
       this.props.history.goBack();
     } else if (this.closeDestination) {
@@ -99,6 +103,25 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
         this.setState({ animate: false });
       }
       prerenderedModalEl.parentNode.removeChild(prerenderedModalEl);
+    }
+  }
+
+  componentDidUpdate(prevProps: ModalPropsWithRouter) {
+    if (this.props.transition === 'exit' && prevProps.transition !== 'exit') {
+      // For some reason we need to delay for one frame after the
+      // exit transition starts, or else the browser will get confused
+      // and not transition everything properly.
+      this.raf = window.requestAnimationFrame(() => {
+        this.raf = null;
+        this.setState({ isActive: false });
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.raf !== null) {
+      window.cancelAnimationFrame(this.raf);
+      this.raf = null;
     }
   }
 
@@ -130,7 +153,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       ctx.modal = this.renderServerModal();
     }
 
-    if (!this.state.isActive || this.props.transition === 'exit') {
+    if (!this.state.isActive) {
       return null;
     }
 

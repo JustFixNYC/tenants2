@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ModalWithoutRouter, Modal, getOneDirLevelUp } from "../modal";
 import { mountWithRouter } from "./util";
+import { Route, Switch } from 'react-router';
 
 describe('ModalWithoutRouter', () => {
   it('pre-renders modal when on server-side', () => {
@@ -29,12 +30,17 @@ describe('Modal', () => {
 
   it('renders body when mounted, renders nothing when closed', () => {
     const { wrapper } = mountWithRouter(
-      <Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>
+      <Switch>
+        <Route path="/goodbye" render={() => <p>goodbye</p>} />
+        <Route render={() => (
+          <Modal title="blah" onCloseGoTo="/goodbye"><p>hello</p></Modal>
+        )} />
+      </Switch>
     );
     expect(wrapper.html()).toContain("hello");
 
     wrapper.find('a[aria-label="close"]').simulate('click');
-    expect(wrapper.html()).toBeNull();
+    expect(wrapper.html()).toContain("goodbye");
   });
 });
 

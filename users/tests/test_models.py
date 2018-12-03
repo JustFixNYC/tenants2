@@ -1,7 +1,8 @@
 from unittest.mock import patch
+from django.core.exceptions import ValidationError
 import pytest
 
-from ..models import JustfixUser
+from ..models import JustfixUser, validate_phone_number
 from .factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 
@@ -82,3 +83,18 @@ def test_send_sms_works_if_user_allows_it(smsoutbox):
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == '+15551234500'
     assert smsoutbox[0].body == 'hello there'
+
+
+@pytest.mark.parametrize('value, excmsg', [
+    ('5', 'U.S. phone numbers must be 10 digits'),
+    ('b125551234', 'Phone numbers can only contain digits'),
+    ('1917451234', '191 is an invalid area code'),
+])
+def test_validate_phone_number_raises_validation_errors(value, excmsg):
+    with pytest.raises(ValidationError) as excinfo:
+        validate_phone_number(value)
+    assert excinfo.value.args[0] == excmsg
+
+
+def test_validate_phone_number_works_with_valid_phone_numbers():
+    validate_phone_number('4151234567')

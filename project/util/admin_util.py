@@ -49,3 +49,15 @@ def admin_field(
             fn.boolean = True
         return fn
     return decorator
+
+
+def admin_action(short_description: str):
+    '''
+    Simple helper to add metadata to custom admin actions.
+    '''
+
+    def decorator(fn):
+        fn.short_description = short_description
+        return fn
+
+    return decorator

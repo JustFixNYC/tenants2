@@ -3,6 +3,7 @@ import autobind from "autobind-decorator";
 import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { TransitionContextGroup } from './transition-context';
+import classnames from 'classnames';
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -17,6 +18,10 @@ interface ProgressBarState {
 export interface ProgressBarProps {
   pct: number;
   children?: any;
+}
+
+function isInternetExplorer(): boolean {
+  return /trident/i.test(navigator.userAgent);
 }
 
 /** An animated progress bar component. */
@@ -96,6 +101,7 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
 interface RouteProgressBarState {
   currStep: number;
   prevStep: number;
+  isTransitionEnabled: boolean;
 }
 
 export function getStepForPathname(pathname: string, steps: ProgressStepRoute[]) {
@@ -119,12 +125,22 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
     super(props);
     this.state = {
       currStep: this.getStep(props.location.pathname),
-      prevStep: 0
+      prevStep: 0,
+      isTransitionEnabled: true
     };
   }
 
   private getStep(pathname: string): number {
     return getStepForPathname(pathname, this.props.steps);
+  }
+
+  componentDidMount() {
+    // For some bizarre reason our CSS transition doesn't work on IE11 (the exit transition
+    // triggers, but the enter transition doesn't) so we'll just disable it entirely if we're
+    // on that browser.
+    if (isInternetExplorer()) {
+      this.setState({ isTransitionEnabled: false });
+    }
   }
 
   componentDidUpdate(prevProps: RouteProgressBarProps, prevState: RouteProgressBarState) {
@@ -140,6 +156,7 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
   render() {
     const { props } = this;
     const { location } = props;
+    const { isTransitionEnabled } = this.state;
     let numSteps = props.steps.length;
     let currStep = this.getStep(location.pathname);
     const pct = Math.floor((currStep / numSteps) * 100);
@@ -158,8 +175,11 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
         {!this.props.hideBar && <ProgressBar pct={pct}>
           <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">{props.label}: Step {currStep} of {numSteps}</h6>
          </ProgressBar>}
-        <TransitionContextGroup className={`jf-progress-step-wrapper ${directionClass}`}>
-          <CSSTransition key={currStep} classNames="jf-progress-step" timeout={JF_PROGRESS_TRANSITION_MS}>
+        <TransitionContextGroup className={classnames('jf-progress-step-wrapper', directionClass, {
+          'jf-progress-animation-is-disabled': !isTransitionEnabled
+        })}>
+          <CSSTransition key={currStep} classNames="jf-progress-step"
+           timeout={JF_PROGRESS_TRANSITION_MS} enter={isTransitionEnabled} exit={isTransitionEnabled}>
             <Switch location={location}>
               {props.steps.map(step => <Route key={step.path} {...step} />)}
             </Switch>

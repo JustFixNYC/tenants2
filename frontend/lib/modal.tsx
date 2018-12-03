@@ -44,6 +44,8 @@ export function getOneDirLevelUp(path: string) {
 }
 
 export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
+  raf: number|null = null;
+
   constructor(props: ModalPropsWithRouter) {
     super(props);
     this.state = {
@@ -109,9 +111,17 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       // For some reason we need to delay for one frame after the
       // exit transition starts, or else the browser will get confused
       // and not transition everything properly.
-      window.requestAnimationFrame(() => {
+      this.raf = window.requestAnimationFrame(() => {
+        this.raf = null;
         this.setState({ isActive: false });
       });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.raf !== null) {
+      window.cancelAnimationFrame(this.raf);
+      this.raf = null;
     }
   }
 

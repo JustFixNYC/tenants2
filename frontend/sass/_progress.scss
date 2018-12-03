@@ -6,6 +6,13 @@ $jf-progress-transition-ms: 1000ms;
   margin-bottom: 2.5rem;
 }
 
+.jf-progress-step-wrapper.jf-progress-animation-is-disabled > div:not(:first-child) {
+    // Ugh, for some reason even if we disable enter and exit animations, there's
+    // still a brief flash where both the entering and exiting step are visible
+    // at once. This ensures only one of them is showing.
+    display: none;
+}
+
 .jf-progress-step-wrapper {
     position: relative;
 

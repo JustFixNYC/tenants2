@@ -76,7 +76,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   @autobind
   handleClose() {
-    this.setState({ isActive: false });
+    // Note that we don't need to set isActive to false here;
+    // because this modal class is route-based, we'll simply trust
+    // that the modal doesn't exist in the route the user is sent to.
     if (this.props.onCloseGoTo === BackOrUpOneDirLevel && this.props.history.action === "PUSH") {
       this.props.history.goBack();
     } else if (this.closeDestination) {
@@ -104,6 +106,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   componentDidUpdate(prevProps: ModalPropsWithRouter) {
     if (this.props.transition === 'exit' && prevProps.transition !== 'exit') {
+      // For some reason we need to delay for one frame after the
+      // exit transition starts, or else the browser will get confused
+      // and not transition everything properly.
       window.requestAnimationFrame(() => {
         this.setState({ isActive: false });
       });

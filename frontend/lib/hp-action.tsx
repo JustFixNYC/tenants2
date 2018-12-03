@@ -11,7 +11,6 @@ import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutati
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { ProgressiveLoadableConfetti } from './confetti-loadable';
 import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
@@ -21,33 +20,36 @@ const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
-    <Page title="HP action splash page" className="content">
-      <h1>HP action splash page</h1>
-      <p>This page will eventually include information on why you should sign up with JustFix to start an HP action.</p>
+    <Page title="Sue your landlord for repairs through an HP Action proceeding" className="content">
+      <h1>Sue your landlord for repairs through an HP Action proceeding</h1>
+      <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
+      <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
+      <p><em>This service is free, secure, and confidential.</em></p>
       <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute}>
-        Start my free HP action
+        Start my case
       </CenteredPrimaryButtonLink>
     </Page>
   );
 }
 
-const HPActionWelcome = () => {
+const HPActionWelcome = withAppContext((props: AppContextType) => {
+  const title = `Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`;
+
   return (
-    <Page title="Sue your landlord for repairs through an HP Action proceeding">
+    <Page title={title}>
       <div className="content">
-        <h1>Sue your landlord for repairs through an HP Action proceeding</h1>
+        <h1>{title}</h1>
         <p>
           An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
         </p>
         <ol className="has-text-left">
           <li>Answer a few questions about your housing situation.</li>
-          <li>We provide you with a pre-filled packet of all the paperwork you’ll need. 
-.</li>
+          <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
           <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
         </ol>
         <CenteredPrimaryButtonLink to={Routes.hp.issues.home}>
-          Start my case
+          Select repair issues
         </CenteredPrimaryButtonLink>
         <br/>
         <p>
@@ -56,7 +58,7 @@ const HPActionWelcome = () => {
       </div>
     </Page>
   );
-};
+});
 
 const HPActionIssuesRoutes = () => (
   <IssuesRoutes
@@ -153,7 +155,6 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   return (
     <Page title="Your HP Action packet has been created!!" className="content">
       <h1 className="title is-4">Your HP Action packet has been created!</h1>
-      <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <p>Here is all of your HP Action paperwork, including instructions:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>

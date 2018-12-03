@@ -102,6 +102,14 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     }
   }
 
+  componentDidUpdate(prevProps: ModalPropsWithRouter) {
+    if (this.props.transition === 'exit' && prevProps.transition !== 'exit') {
+      window.requestAnimationFrame(() => {
+        this.setState({ isActive: false });
+      });
+    }
+  }
+
   renderServerModal(): JSX.Element {
     return (
       <div className={UNDERLAY_CLASS}>
@@ -130,7 +138,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       ctx.modal = this.renderServerModal();
     }
 
-    if (!this.state.isActive || this.props.transition === 'exit') {
+    if (!this.state.isActive) {
       return null;
     }
 

@@ -117,10 +117,6 @@ const HPActionUploadError = () => (
 
 const HPActionWaitForUpload = () => (
   <Page title="Please wait">
-    {/**
-      * TODO: If the user is in compatibility mode, we should use Helmet to
-      * add a meta refresh tag to the page.
-      */}
     <p className="has-text-centered">
       Please wait while your HP action documents are generated&hellip;
     </p>

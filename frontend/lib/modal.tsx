@@ -9,7 +9,7 @@ import { TransitionContextType, withTransitionContext } from './transition-conte
 
 const ANIMATION_CLASS = "jf-modal-animate";
 
-const DIALOG_CLASS = "jf-modal-dialog modal-content"
+const DIALOG_CLASS = "jf-modal-dialog"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
@@ -138,10 +138,12 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   renderBody(): JSX.Element {
     return (
       <React.Fragment>
-        {this.props.render && this.props.render({
-          getLinkCloseProps: this.getLinkCloseProps
-        })}
-        {this.props.children}
+        <div className="modal-content">
+          {this.props.render && this.props.render({
+            getLinkCloseProps: this.getLinkCloseProps
+          })}
+          {this.props.children}
+        </div>
         <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
       </React.Fragment>
     );

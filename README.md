@@ -248,7 +248,7 @@ if it detects that Django isn't installed.
 
 ## Changing the Dockerfile
 
-Our continuous integration pipeline, [CircleCI][[], uses
+Our continuous integration pipeline, [CircleCI][], uses
 a built image from the `Dockerfile` on Docker Hub as its
 base to ensure that the testing/CI environment has parity
 with development and production.

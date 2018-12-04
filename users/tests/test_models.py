@@ -86,9 +86,9 @@ def test_send_sms_works_if_user_allows_it(smsoutbox):
 
 
 @pytest.mark.parametrize('value, excmsg', [
-    ('5', 'U.S. phone numbers must be 10 digits'),
-    ('b125551234', 'Phone numbers can only contain digits'),
-    ('1917451234', '191 is an invalid area code'),
+    ('5', 'U.S. phone numbers must be 10 digits.'),
+    ('b125551234', 'Phone numbers can only contain digits.'),
+    ('1917451234', '191 is an invalid area code.'),
 ])
 def test_validate_phone_number_raises_validation_errors(value, excmsg):
     with pytest.raises(ValidationError) as excinfo:

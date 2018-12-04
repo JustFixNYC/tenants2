@@ -55,13 +55,13 @@ def get_permissions_from_ns_codenames(ns_codenames):
 
 def validate_phone_number(value: str) -> None:
     if len(value) != PHONE_NUMBER_LEN:
-        raise ValidationError(f'U.S. phone numbers must be {PHONE_NUMBER_LEN} digits')
+        raise ValidationError(f'U.S. phone numbers must be {PHONE_NUMBER_LEN} digits.')
     if not ALL_DIGITS_RE.fullmatch(value):
-        raise ValidationError(f'Phone numbers can only contain digits')
+        raise ValidationError(f'Phone numbers can only contain digits.')
     if value[0] in ('0', '1'):
         # 0 and 1 are invalid leading digits of area codes:
         # https://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
-        raise ValidationError(f'{value[0:3]} is an invalid area code')
+        raise ValidationError(f'{value[0:3]} is an invalid area code.')
 
 
 class JustfixUserManager(UserManager):

@@ -57,3 +57,8 @@ def test_phone_number_field_raises_errors(bad_phone_number):
     with pytest.raises(ValidationError) as exc_info:
         USPhoneNumberField().clean(bad_phone_number)
     assert 'This does not look like a U.S. phone number.' in str(exc_info.value)
+
+
+def test_phone_number_field_raises_error_on_bad_area_code():
+    with pytest.raises(ValidationError, match="area code"):
+        USPhoneNumberField().clean("1912311234")

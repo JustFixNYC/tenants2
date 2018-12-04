@@ -47,7 +47,7 @@ export interface LambdaResponse {
 
   /**
    * Names of all JS bundles to include in the HTML output
-   * (excluding the main bundle).
+   * (including the main bundle).
    */
   bundleFiles: string[];
 
@@ -123,7 +123,10 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
 
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules));
+    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules)).concat([
+      // This is the filename of the main bundle.
+      bundleStats['undefined'][0].file
+    ]);
     let modalHtml = '';
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(

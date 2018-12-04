@@ -198,8 +198,8 @@ const webConfig = {
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].bundle.js',
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {

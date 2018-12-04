@@ -5,9 +5,9 @@
 // https://codepen.io/iprodev/pen/azpWBr
 
 if (typeof(window) !== 'undefined') {
-  const MIN_RESPONSIVE_WIDTH = 320;
-  const MAX_RESPONSIVE_WIDTH = 1400;
-  const RESPONSIVE_RANGE = MAX_RESPONSIVE_WIDTH - MIN_RESPONSIVE_WIDTH;
+  var MIN_RESPONSIVE_WIDTH = 320;
+  var MAX_RESPONSIVE_WIDTH = 1400;
+  var RESPONSIVE_RANGE = MAX_RESPONSIVE_WIDTH - MIN_RESPONSIVE_WIDTH;
 
   /**
    * Return an integer whose value changes between the given minimum and maximum
@@ -18,11 +18,14 @@ if (typeof(window) !== 'undefined') {
    * @param {number} maxValue The maximum value of the number. Desktop devices with large
    *   browser windows will usually return this.
    */
-  const responsiveInt = (minValue, maxValue, viewportWidth = window.innerWidth) => {
-    const valueRange = maxValue - minValue;
-    const clampedWidth = Math.max(MIN_RESPONSIVE_WIDTH,
-                                  Math.min(MAX_RESPONSIVE_WIDTH, viewportWidth));
-    const percent = (clampedWidth - MIN_RESPONSIVE_WIDTH) / RESPONSIVE_RANGE;
+  function responsiveInt(minValue, maxValue, viewportWidth) {
+    if (!viewportWidth) {
+      viewportWidth = window.innerWidth;
+    }
+    var valueRange = maxValue - minValue;
+    var clampedWidth = Math.max(MIN_RESPONSIVE_WIDTH,
+                                Math.min(MAX_RESPONSIVE_WIDTH, viewportWidth));
+    var percent = (clampedWidth - MIN_RESPONSIVE_WIDTH) / RESPONSIVE_RANGE;
     return Math.floor(valueRange * percent) + minValue;
   };
 
@@ -375,7 +378,13 @@ if (typeof(window) !== 'undefined') {
   }
   ConfettiRibbon.bounds = new Vector2(0, 0);
   confetti = {};
-  confetti.Context = function(canvas, regenerateForSecs = 0, onFinished = () => {}) {
+  confetti.Context = function(canvas, regenerateForSecs, onFinished) {
+    if (!regenerateForSecs) {
+      regenerateForSecs = 0;
+    }
+    if (!onFinished) {
+      onFinished = function() {};
+    }
     var i = 0;
     var canvasParent = canvas.parentNode;
     var canvasWidth = canvasParent.offsetWidth;

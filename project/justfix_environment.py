@@ -116,9 +116,16 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If AWS_ACCESS_KEY_ID is specified, this must be specified too.
     AWS_SECRET_ACCESS_KEY: str = ''
 
-    # The Amazon Web Services bucket name to store files in.
+    # The Amazon Web Services bucket name to store non-public files in.
     # If AWS_ACCESS_KEY_ID is specified, this must be specified too.
     AWS_STORAGE_BUCKET_NAME: str = ''
+
+    # The Amazon Web Services bucket name to store public static files in
+    # (e.g. JavaScript, CSS, and images). If this is empty, then the app
+    # will host static files itself. However, if this isn't empty,
+    # AWS_ACCESS_KEY_ID (and all its dependencies) will also need to
+    # be specified.
+    AWS_STORAGE_STATICFILES_BUCKET_NAME: str = ''
 
     # The default log level. Can be one of DEBUG, INFO, WARNING,
     # ERROR, or CRITICAL.

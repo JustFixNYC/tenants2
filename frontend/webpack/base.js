@@ -40,6 +40,12 @@ const DISABLE_WEBPACK_ANALYZER = getEnvBoolean('DISABLE_WEBPACK_ANALYZER', false
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 
+const ENABLE_WEBPACK_CONTENT_HASH = getEnvBoolean('ENABLE_WEBPACK_CONTENT_HASH', false);
+
+const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
+                                 ? '[name].[contenthash].bundle.js'
+                                 : '[name].bundle.js';
+
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'inline-source-map';
 
@@ -110,7 +116,8 @@ function getCommonPlugins() {
   const plugins = [
     new webpack.DefinePlugin({
       DISABLE_WEBPACK_ANALYZER,
-      DISABLE_DEV_SOURCE_MAPS
+      DISABLE_DEV_SOURCE_MAPS,
+      ENABLE_WEBPACK_CONTENT_HASH
     })
   ];
 
@@ -198,8 +205,8 @@ const webConfig = {
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
   output: {
-    filename: '[name].[contenthash].bundle.js',
-    chunkFilename: '[name].[contenthash].bundle.js',
+    filename: BUNDLE_FILENAME_TEMPLATE,
+    chunkFilename: BUNDLE_FILENAME_TEMPLATE,
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {

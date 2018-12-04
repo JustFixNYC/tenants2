@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
 
-from users.models import PHONE_NUMBER_LEN, JustfixUser
+from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
 
 
 class USPhoneNumberField(forms.CharField):
@@ -29,6 +29,7 @@ class USPhoneNumberField(forms.CharField):
                 'This does not look like a U.S. phone number. '
                 'Please include the area code, e.g. (555) 123-4567.'
             )
+        validate_phone_number(cleaned)
         return cleaned
 
 

@@ -153,6 +153,9 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
   });
 }
 
+const loadableStats = readFile('react-loadable.json', { encoding: 'utf-8' })
+  .then(data => JSON.parse(data));
+
 /**
  * This is a handler for serverless environments that,
  * given initial app properties, returns the initial
@@ -164,7 +167,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
 async function baseHandler(event: EventProps): Promise<LambdaResponse> {
   await loadablePreloaded;
 
-  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
+  const stats = await loadableStats;
 
   if (event.testInternalServerError) {
     throw new Error('Testing internal server error');

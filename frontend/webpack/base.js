@@ -40,12 +40,6 @@ const DISABLE_WEBPACK_ANALYZER = getEnvBoolean('DISABLE_WEBPACK_ANALYZER', false
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 
-const ENABLE_WEBPACK_CONTENT_HASH = getEnvBoolean('ENABLE_WEBPACK_CONTENT_HASH', false);
-
-const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
-                                 ? '[name].[contenthash].bundle.js'
-                                 : '[name].bundle.js';
-
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'inline-source-map';
 
@@ -53,6 +47,12 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
  /** @type WebpackConfig["mode"] */
 const MODE = IS_PRODUCTION ? 'production' : 'development';
+
+const ENABLE_WEBPACK_CONTENT_HASH = getEnvBoolean('ENABLE_WEBPACK_CONTENT_HASH', IS_PRODUCTION);
+
+const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
+                                 ? '[name].[contenthash].bundle.js'
+                                 : '[name].bundle.js';
 
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {

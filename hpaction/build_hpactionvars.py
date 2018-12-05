@@ -55,6 +55,13 @@ def justfix_issue_area_to_hp_room(area: str) -> hp.WhichRoomMC:
     # any actual validation or logic pertaining to these, and
     # the values we pass in show up on the final PDF, so this
     # should be fine.
+    if area == ISSUE_AREA_CHOICES.HOME:
+        # The current label for this issue area,
+        # "Entire home and hallways", is too long to fit
+        # in the HPD inspection form, and gets put in an
+        # addendum, which is really confusing to HPD
+        # inspectors, so we'll use the built-in category for this.
+        return hp.WhichRoomMC.ALL_ROOMS
     return ISSUE_AREA_CHOICES.get_enum_member(area)
 
 

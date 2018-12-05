@@ -2,8 +2,14 @@ from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.tests.factories import LandlordDetailsFactory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
-from hpaction.build_hpactionvars import user_to_hpactionvars
+from hpaction.build_hpactionvars import (
+    user_to_hpactionvars, justfix_issue_area_to_hp_room)
 import hpaction.hpactionvars as hp
+
+
+def test_justfix_issue_to_hp_room_works():
+    assert justfix_issue_area_to_hp_room('HOME') is hp.WhichRoomMC.ALL_ROOMS
+    assert justfix_issue_area_to_hp_room('BEDROOMS').value == "Bedrooms"
 
 
 def test_user_to_hpactionvars_populates_basic_info(db):

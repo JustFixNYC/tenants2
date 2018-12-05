@@ -269,6 +269,11 @@ AWS_BUCKET_ACL = 'private'
 
 AWS_AUTO_CREATE_BUCKET = True
 
+AWS_STORAGE_STATICFILES_BUCKET_NAME = env.AWS_STORAGE_STATICFILES_BUCKET_NAME
+
+AWS_STORAGE_STATICFILES_ORIGIN = (
+    f'https://{AWS_STORAGE_STATICFILES_BUCKET_NAME}.s3.amazonaws.com')
+
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
     'SCHEMA_INDENT': 2,
@@ -351,10 +356,25 @@ CSP_STYLE_SRC = [
     "'unsafe-inline'"
 ]
 
+CSP_IMG_SRC = [
+    "'self'",
+]
+
+CSP_SCRIPT_SRC = [
+    "'self'",
+]
+
 CSP_CONNECT_SRC = [
     "'self'",
     "https://geosearch.planninglabs.nyc"
 ]
+
+if AWS_STORAGE_STATICFILES_BUCKET_NAME:
+    STATICFILES_STORAGE = 'project.storage.S3StaticFilesStorage'
+    STATIC_URL = f'{AWS_STORAGE_STATICFILES_ORIGIN}/'
+    CSP_STYLE_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
+    CSP_SCRIPT_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
+    CSP_IMG_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

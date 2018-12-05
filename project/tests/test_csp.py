@@ -50,7 +50,7 @@ def test_csp_works_on_dynamic_pages(client):
     assert 200 == response.status_code
     assert response.content == b'hello'
     csp = response['Content-Security-Policy']
-    assert 'script-src' not in parse_csp_header(csp)
+    assert "'unsafe-inline'" not in parse_csp_header(csp)['script-src']
     assert EXPECTED_CSP in csp
 
 
@@ -83,7 +83,7 @@ def test_csp_works_on_static_assets(client, staticfiles):
     assert 200 == response.status_code
 
     csp = response['Content-Security-Policy']
-    assert 'script-src' not in parse_csp_header(csp)
+    assert "'unsafe-inline'" not in parse_csp_header(csp)['script-src']
     assert EXPECTED_CSP in csp
 
 

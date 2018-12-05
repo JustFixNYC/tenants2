@@ -168,7 +168,7 @@ def react_rendered_view(request, url: str):
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)
-    bundle_files = lambda_response.bundle_files + ['main.bundle.js']
+    bundle_files = lambda_response.bundle_files
     bundle_urls = [
         f'{webpack_public_path_url}{bundle_file}'
         for bundle_file in bundle_files

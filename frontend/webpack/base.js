@@ -48,6 +48,12 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
  /** @type WebpackConfig["mode"] */
 const MODE = IS_PRODUCTION ? 'production' : 'development';
 
+const ENABLE_WEBPACK_CONTENT_HASH = getEnvBoolean('ENABLE_WEBPACK_CONTENT_HASH', IS_PRODUCTION);
+
+const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
+                                 ? '[name].[contenthash].bundle.js'
+                                 : '[name].bundle.js';
+
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {
   /**
@@ -110,7 +116,8 @@ function getCommonPlugins() {
   const plugins = [
     new webpack.DefinePlugin({
       DISABLE_WEBPACK_ANALYZER,
-      DISABLE_DEV_SOURCE_MAPS
+      DISABLE_DEV_SOURCE_MAPS,
+      ENABLE_WEBPACK_CONTENT_HASH
     })
   ];
 
@@ -198,8 +205,8 @@ const webConfig = {
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: BUNDLE_FILENAME_TEMPLATE,
+    chunkFilename: BUNDLE_FILENAME_TEMPLATE,
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {

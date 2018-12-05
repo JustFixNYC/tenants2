@@ -30,6 +30,10 @@ HP_ACTION_CUSTOMER_KEY = ''
 
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 
+# Use defaults for static file storage.
+STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+STATIC_URL = '/static/'
+
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.
 PASSWORD_HASHERS = (

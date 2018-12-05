@@ -1,7 +1,9 @@
 import argparse
 import sys
 import subprocess
-from typing import ItemsView, List
+from dataclasses import dataclass
+from typing import ItemsView, List, Optional
+from pathlib import Path
 
 from project.justfix_environment import BASE_DIR
 from project.util.git import GitInfo
@@ -55,20 +57,41 @@ def deploy_local(args):
     run_local_container(container_name, port)
 
 
-def heroku_cli(args: List[str]):
-    subprocess.check_call(
-        ['heroku'] + args,
-        cwd=BASE_DIR,
-        shell=True if sys.platform == 'win32' else False
-    )
+@dataclass
+class HerokuCLI:
+    remote: Optional[str]
+    shell: bool = True if sys.platform == 'win32' else False
+    cwd: Path = BASE_DIR
+
+    def _get_cmdline(self, *args: str) -> List[str]:
+        final_args = ['heroku'] + list(args)
+        if self.remote:
+            final_args += ['-r', self.remote]
+        return final_args
+
+    def run(self, *args: str):
+        cmdline = self._get_cmdline(*args)
+        subprocess.check_call(cmdline, cwd=self.cwd, shell=self.shell)
+
+    def get_config(self, var: str) -> str:
+        cmdline = self._get_cmdline('config:get', var)
+        stdout = subprocess.check_output(cmdline, cwd=self.cwd, shell=self.shell)
+        return stdout.strip()
 
 
 def deploy_heroku(args):
-    extra_args: List[str] = []
-    if args.remote:
-        extra_args.extend(['-r', args.remote])
-    heroku_cli(['maintenance:on'] + extra_args)
-    heroku_cli([
+    heroku = HerokuCLI(args.remote)
+
+    run_cmds: List[str] = []
+
+    is_using_cdn = len(heroku.get_config('AWS_STORAGE_STATICFILES_BUCKET_NAME')) > 0
+    if is_using_cdn:
+        run_cmds.append('python manage.py collectstatic --noinput')
+    if not args.no_migrate:
+        run_cmds.extend(['python manage.py migrate', 'python manage.py initgroups'])
+
+    heroku.run('maintenance:on')
+    heroku.run(
         'container:push',
         '--arg',
         ','.join([
@@ -76,19 +99,11 @@ def deploy_heroku(args):
             for name, value in get_git_info_env_items()
         ]),
         '--recursive',
-    ] + extra_args)
-    heroku_cli([
-        'container:release',
-        'web'
-    ] + extra_args)
-    if not args.no_migrate:
-        heroku_cli([
-            'run',
-            '--exit-code',
-            'python manage.py migrate && '
-            'python manage.py initgroups'
-        ] + extra_args)
-    heroku_cli(['maintenance:off'] + extra_args)
+    )
+    heroku.run('container:release', 'web')
+    if run_cmds:
+        heroku.run('run', '--exit-code', ' && '.join(run_cmds))
+    heroku.run('maintenance:off')
 
 
 def main():

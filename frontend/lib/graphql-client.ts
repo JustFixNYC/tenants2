@@ -94,6 +94,9 @@ export default class GraphQlClient {
     try {
       const bodies = this.createBodies(requests);
       const response = await this.fetchBodies(bodies);
+      if (response.status !== 200) {
+        throw new Error(`Expected HTTP 200, got ${response.status}`);
+      }
       const results = await response.json();
 
       if (Array.isArray(results) && results.length === requests.length) {

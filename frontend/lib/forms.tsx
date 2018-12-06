@@ -309,8 +309,9 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> extends FormProps<FormInput> {
+export interface FormContext<FormInput> {
   submit: () => void,
+  isLoading: boolean,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
 }
 
@@ -368,7 +369,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
         {this.props.children({
-          ...this.props,
+          isLoading: this.props.isLoading,
           submit: this.submit,
           fieldPropsFor: this.fieldPropsFor
         })}

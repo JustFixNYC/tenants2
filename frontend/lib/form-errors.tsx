@@ -12,18 +12,28 @@ export interface ServerFormFieldError {
   messages: string[];
 }
 
+export interface ServerFormsetErrors {
+  nonFormErrors: string[];
+  formErrors: ServerFormFieldError[][];
+}
+
 /**
  * Any form validation done by the server will return an object that
  * looks like this.
  */
 export type WithServerFormFieldErrors = {
-  errors: ServerFormFieldError[];
+  errors: ServerFormFieldError[]|ServerFormsetErrors;
 };
 
 // This type is parameterized by the form input, so that each
 // key corresponds to the name of a form input field.
 export type FormFieldErrorMap<T> = {
   [K in keyof T]?: string[];
+}
+
+export interface FormsetErrors<T> {
+  nonFormErrors: string[];
+  formErrors: FormErrors<T>[];
 }
 
 export interface FormErrors<T> {
@@ -38,6 +48,8 @@ export interface FormErrors<T> {
   fieldErrors: FormFieldErrorMap<T>;
 }
 
+export type FormlikeErrors<T> = FormsetErrors<any>|FormErrors<T>;
+
 /**
  * Log errors from the server to Google Analytics.
  */
@@ -47,6 +59,37 @@ export function trackFormErrors(errors: ServerFormFieldError[]): void {
       ga('send', 'event', 'form-error', error.field, message);
     }
   }
+}
+
+export function areServerFormErrorsEmpty(target: WithServerFormFieldErrors): boolean {
+  const { errors } = target;
+
+  if (Array.isArray(errors)) {
+    return errors.length === 0;
+  }
+
+  if (errors.nonFormErrors.length > 0) return false;
+
+  for (let item of errors.formErrors) {
+    if (item.length > 0) return false;
+  }
+
+  return true;
+}
+
+export function getFormlikeErrors<T>(target: WithServerFormFieldErrors): FormlikeErrors<T> {
+  const { errors } = target;
+
+  if (Array.isArray(errors)) {
+    return getFormErrors(errors);
+  }
+
+  const result: FormsetErrors<T> = {
+    nonFormErrors: errors.nonFormErrors,
+    formErrors: errors.formErrors.map(item => getFormErrors<T>(item))
+  }
+
+  return result;
 }
 
 /**
@@ -83,19 +126,23 @@ export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> 
   return result;
 }
 
+function errorsToDivs(errors?: string[]): JSX.Element|null {
+  if (!errors) return null;
+  return <>{errors.map(error => <div className="notification is-danger" key={error}>{error}</div>)}</>;
+}
+
+export function isFormsetErrors<T>(errors?: FormlikeErrors<T>): errors is FormsetErrors<any> {
+  if (!errors) return false;
+  return 'nonFormErrors' in errors;
+}
+
+export function NonFormErrors(props: { errors?: FormsetErrors<any> }): JSX.Element|null {
+  return errorsToDivs(props.errors && props.errors.nonFormErrors);
+}
+
 /** A JSX component that displays non-field errors. */
 export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element|null {
-  const errors = props.errors && props.errors.nonFieldErrors;
-
-  if (!errors) {
-    return null;
-  }
-
-  return (
-    <React.Fragment>
-      {errors.map(error => <div className="notification is-danger" key={error}>{error}</div>)}
-    </React.Fragment>
-  );
+  return errorsToDivs(props.errors && props.errors.nonFieldErrors);
 }
 
 /** An object that potentially has form field errors associated with it. */

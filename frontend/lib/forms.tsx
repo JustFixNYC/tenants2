@@ -2,7 +2,7 @@ import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
-import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors, FormFieldErrorMap } from './form-errors';
+import { WithServerFormFieldErrors, FormErrors, NonFieldErrors, trackFormErrors, FormlikeErrors, areServerFormErrorsEmpty, getFormlikeErrors, isFormsetErrors, FormsetErrors, NonFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
@@ -14,10 +14,11 @@ import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 
-
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+type ContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
+type Unarrayed<T> = T extends (infer U)[] ? U : never;
 
-export type FormSubmitterChildren<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
+export type FormSubmitterChildren<FormInput> = ContextRenderer<FormInput>;
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
@@ -28,7 +29,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   formId?: string;
   idPrefix?: string;
   initialState: FormInput;
-  initialErrors?: FormErrors<FormInput>;
+  initialErrors?: FormlikeErrors<FormInput>;
   children: FormSubmitterChildren<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
@@ -72,13 +73,14 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
           const initialState: FormInput = appCtx.legacyFormSubmission.input;
           const output: FormOutput = appCtx.legacyFormSubmission.result;
-          const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
+          const isErrorFree = areServerFormErrorsEmpty(output);
+          const initialErrors = isErrorFree ? undefined : getFormlikeErrors<FormInput>(output);
           newProps = {
             ...newProps,
             initialState,
             initialErrors
           };
-          if (output.errors.length === 0) {
+          if (isErrorFree) {
             const redirect = getSuccessRedirect(newProps, initialState, output);
             if (redirect) {
               const appStaticCtx = assertNotNull(getAppStaticContext(props));
@@ -142,11 +144,14 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       wasSubmittedSuccessfully: false
     });
     return this.props.onSubmit(input).then(output => {
-      if (output.errors.length) {
-        trackFormErrors(output.errors);
+      if (!areServerFormErrorsEmpty(output)) {
+        if (Array.isArray(output.errors)) {
+          trackFormErrors(output.errors);
+          // TODO: Also track errors for formset errors.
+        }
         this.setState({
           isLoading: false,
-          errors: getFormErrors<FormInput>(output.errors)
+          errors: getFormlikeErrors<FormInput>(output)
         });
       } else {
         this.setState({
@@ -296,7 +301,7 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
 
 export interface BaseFormProps<FormInput> {
   isLoading: boolean;
-  errors?: FormErrors<FormInput>;
+  errors?: FormlikeErrors<FormInput>;
 }
 
 export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
@@ -313,6 +318,7 @@ export interface FormContext<FormInput> {
   submit: () => void,
   isLoading: boolean;
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
+  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: ContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element;
 }
 
 /** This class encapsulates view logic for forms. */
@@ -351,12 +357,22 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   }
 
   render() {
+    const { errors } = this.props;
+    let formsetErrors: FormsetErrors<FormInput>|undefined;
+    let formErrors: FormErrors<FormInput>|undefined;
+
+    if (isFormsetErrors(errors)) {
+      formsetErrors = errors;
+    } else {
+      formErrors = errors;
+    }
+
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
         {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
-        <NonFieldErrors errors={this.props.errors} />
+        {formsetErrors ? <NonFormErrors errors={formsetErrors} /> : <NonFieldErrors errors={formErrors} />}
         <FormFields
           onChange={this.handleChange}
           submit={this.submit}
@@ -365,7 +381,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
           input={this.state}
           children={this.props.children}
           isLoading={this.props.isLoading}
-          errors={this.props.errors && this.props.errors.fieldErrors}
+          errors={formErrors}
+          formsetErrors={formsetErrors}
         />
       </form>
     );
@@ -374,13 +391,14 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
 export interface FormFieldsProps<FormInput> {
   isLoading: boolean;
-  errors?: FormFieldErrorMap<FormInput>;
+  errors?: FormErrors<FormInput>;
+  formsetErrors?: FormsetErrors<any>;
   onChange: (field: string, value: any) => void;
   submit: () => void;
   idPrefix: string;
   namePrefix: string;
   input: FormInput;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: ContextRenderer<FormInput>;
 }
 
 export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormInput>> {
@@ -390,7 +408,7 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
       onChange: (value) => {
         this.props.onChange(field, value);
       },
-      errors: this.props.errors && this.props.errors[field],
+      errors: this.props.errors && this.props.errors.fieldErrors[field],
       value: this.props.input[field],
       name: (this.props.namePrefix || '') + field,
       id: `${this.props.idPrefix}${field}`,
@@ -398,11 +416,57 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
     };
   }
 
+  @autobind
+  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: ContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element {
+    const val = this.props.input[field];
+    if (!Array.isArray(val)) {
+      throw new Error('field value must be an array');
+    }
+    const handleChange = (itemField: string, itemValue: any, index: number) => {
+      const newVal = val.slice();
+      newVal[index] = {
+        ...val[index],
+        [itemField]: itemValue
+      };
+      this.props.onChange(field, newVal);
+    };
+    return <>
+      <input type="hidden" name={`${field}-TOTAL_FORMS`} value={val.length} />
+
+      {/* TODO: We should probably come up with a better value here. */}
+      <input type="hidden" name={`${field}-INITIAL_FORMS`} value="0" />
+
+      {/* TODO: We should probably come up with a better value here. */}
+      <input type="hidden" name={`${field}-MAX_NUM_FORMS`} value="" />
+
+      {val.map((item: Unarrayed<FormInput[K]>, i) => {
+        let errors: FormErrors<typeof item>|undefined;
+
+        if (this.props.formsetErrors) {
+          errors = this.props.formsetErrors.formErrors[i];
+        }
+
+        return <FormFields
+          key={i}
+          isLoading={this.props.isLoading}
+          onChange={(field, value) => handleChange(field, value, i) }
+          submit={() => { throw new Error('submit should never be called by formset items'); }}
+          errors={errors}
+          idPrefix={`${this.props.idPrefix}${field}-${i}-`}
+          namePrefix={`${field}-${i}-`}
+          input={item}
+          children={cb}
+        />
+      })}
+    </>;
+  }
+
   render() {
     return this.props.children({
       isLoading: this.props.isLoading,
       submit: this.props.submit,
-      fieldPropsFor: this.fieldPropsFor
+      fieldPropsFor: this.fieldPropsFor,
+      mapFormsetItems: this.mapFormsetItems
     });
   }
 }

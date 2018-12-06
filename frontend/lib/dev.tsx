@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
 import Helmet from 'react-helmet';
+import ExampleFormsetPage from './pages/example-formset-page';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -79,6 +80,7 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.modal} exact component={LoadableExampleModalPage} />
        <Route path={Routes.dev.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
        <Route path={Routes.dev.examples.form} component={LoadableExampleFormPage} />
+       <Route path={Routes.dev.examples.formset} component={ExampleFormsetPage} />
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
        <Route path={Routes.dev.examples.metaTag} exact component={ExampleMetaTagPage} />

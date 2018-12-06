@@ -114,6 +114,19 @@ class StrictFormFieldErrorType(graphene.ObjectType):
         description="A list of human-readable validation errors."
     )
 
+    @classmethod
+    def list_from_form_errors(cls, form_errors):
+        errors = []
+        for key, value in form_errors.items():
+            if key != '__all__':
+                # Graphene-Django's default implementation for form field validation
+                # errors doesn't convert field names to camel case, but we want to,
+                # because the input was provided using camel case field names, so the
+                # errors should use them too.
+                key = to_camel_case(key)
+            errors.append(cls(field=key, messages=value))
+        return errors
+
 
 T = TypeVar('T', bound='DjangoFormMutation')
 
@@ -183,16 +196,7 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
             cls.log(info, "Form is valid, performing mutation.")
             return cls.perform_mutate(form, info)
         else:
-            errors = []
-            for key, value in form.errors.items():
-                if key != '__all__':
-                    # Graphene-Django's default implementation for form field validation
-                    # errors doesn't convert field names to camel case, but we want to,
-                    # because the input was provided using camel case field names, so the
-                    # errors should use them too.
-                    key = to_camel_case(key)
-                errors.append(StrictFormFieldErrorType(field=key, messages=value))
-
+            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
             cls.log(info, f"Form is invalid with {len(errors)} error(s).")
             return cls(errors=errors)
 

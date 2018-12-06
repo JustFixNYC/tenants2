@@ -17,7 +17,7 @@ import { ga } from './google-analytics';
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
-export type FormSubmitterChildren<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
+export type FormContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
@@ -29,7 +29,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
-  children: FormSubmitterChildren<FormInput>;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
@@ -304,13 +304,14 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onChange?: (input: FormInput) => void;
   idPrefix: string;
   initialState: FormInput;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> extends FormProps<FormInput> {
+export interface FormContext<FormInput> {
   submit: () => void,
+  isLoading: boolean,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
 }
 
@@ -368,7 +369,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
         {this.props.children({
-          ...this.props,
+          isLoading: this.props.isLoading,
           submit: this.submit,
           fieldPropsFor: this.fieldPropsFor
         })}

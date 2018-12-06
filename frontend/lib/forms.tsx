@@ -15,10 +15,9 @@ import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
-type ContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
 type Unarrayed<T> = T extends (infer U)[] ? U : never;
 
-export type FormSubmitterChildren<FormInput> = ContextRenderer<FormInput>;
+export type FormContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
@@ -30,7 +29,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormlikeErrors<FormInput>;
-  children: FormSubmitterChildren<FormInput>;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
@@ -318,7 +317,7 @@ export interface FormContext<FormInput> {
   submit: () => void,
   isLoading: boolean;
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
-  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: ContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element;
+  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: FormContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element;
 }
 
 /** This class encapsulates view logic for forms. */
@@ -398,7 +397,7 @@ export interface FormFieldsProps<FormInput> {
   idPrefix: string;
   namePrefix: string;
   input: FormInput;
-  children: ContextRenderer<FormInput>;
+  children: FormContextRenderer<FormInput>;
 }
 
 export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormInput>> {
@@ -417,7 +416,7 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
   }
 
   @autobind
-  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: ContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element {
+  mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: FormContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element {
     const val = this.props.input[field];
     if (!Array.isArray(val)) {
       throw new Error('field value must be an array');

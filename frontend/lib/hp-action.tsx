@@ -6,7 +6,7 @@ import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormSubmitterChildren } from './forms';
+import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -81,7 +81,7 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
   </>
 );
 
-const GeneratePDFForm = (props: { children: FormSubmitterChildren<{}> }) => (
+const GeneratePDFForm = (props: { children: FormContextRenderer<{}> }) => (
   <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
    onSuccessRedirect={Routes.hp.waitForUpload} {...props} />
 );

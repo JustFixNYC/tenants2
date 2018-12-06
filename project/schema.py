@@ -5,6 +5,7 @@ from django.contrib.auth import logout, login
 from django.middleware import csrf
 
 from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.django_graphql_formsets import DjangoFormsetMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
 from issues.schema import IssueMutations, IssueSessionInfo
 from loc.schema import LocMutations, LocSessionInfo
@@ -101,6 +102,17 @@ class Example(DjangoFormMutation):
         return cls(response=f"hello there {form.cleaned_data['example_field']}")
 
 
+class Examples(DjangoFormsetMutation):
+    class Meta:
+        form_class = forms.ExampleForm
+
+    response = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, formset, info: ResolveInfo):
+        return cls(response=f"hello there!!")
+
+
 class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -151,6 +163,7 @@ class Mutations(
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     example = Example.Field(required=True)
+    examples = Examples.Field(required=True)
 
 
 class Query(graphene.ObjectType):

@@ -44,6 +44,16 @@ export interface ExampleInput {
   clientMutationId?: string | null;
 }
 
+export interface ExamplesInput {
+  items: ExamplesItemInput[];
+  clientMutationId?: string | null;
+}
+
+export interface ExamplesItemInput {
+  exampleField: string;
+  boolField: boolean;
+}
+
 export interface GeneratePDFInput {
   clientMutationId?: string | null;
 }

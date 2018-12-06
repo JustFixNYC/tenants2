@@ -1,0 +1,12 @@
+mutation ExamplesMutation($input: ExamplesInput!) {
+    output: examples(input: $input) {
+        errors {
+            nonFormErrors
+            formErrors {
+                field
+                messages
+            }
+        },
+        response
+    }
+}

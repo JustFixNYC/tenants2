@@ -308,14 +308,14 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onChange?: (input: FormInput) => void;
   idPrefix: string;
   initialState: FormInput;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
 
 export interface FormContext<FormInput> {
   submit: () => void,
-  isLoading: boolean;
+  isLoading: boolean,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
   mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: FormContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element;
 }

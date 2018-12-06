@@ -3305,15 +3305,19 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "LIST",
+                    "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "NON_NULL",
+                      "kind": "LIST",
                       "name": null,
                       "ofType": {
-                        "kind": "OBJECT",
-                        "name": "StrictFormFieldErrorType",
-                        "ofType": null
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                          "kind": "OBJECT",
+                          "name": "StrictFormFieldErrorType",
+                          "ofType": null
+                        }
                       }
                     }
                   }
@@ -3344,9 +3348,13 @@
                   "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "ExamplesItemInput",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ExamplesItemInput",
+                      "ofType": null
+                    }
                   }
                 }
               },

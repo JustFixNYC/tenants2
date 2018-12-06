@@ -2,7 +2,7 @@ import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
-import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
+import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors, FormFieldErrorMap } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
@@ -309,8 +309,9 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> extends FormProps<FormInput> {
+export interface FormContext<FormInput> {
   submit: () => void,
+  isLoading: boolean;
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
 }
 
@@ -324,6 +325,11 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   static defaultProps = {
     idPrefix: ''
   };
+
+  @autobind
+  handleChange(field: string, value: any) {
+    this.setState({ [field]: value } as any);
+  }
 
   @autobind
   submit() {
@@ -344,22 +350,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     }
   }
 
-  @autobind
-  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>  {
-    return {
-      onChange: (value) => {
-        // I'm not sure why Typescript dislikes this, but it seems
-        // like the only way to get around it is to cast to "any". :(
-        this.setState({ [field]: value } as any);
-      },
-      errors: this.props.errors && this.props.errors.fieldErrors[field],
-      value: this.state[field],
-      name: field,
-      id: `${this.props.idPrefix}${field}`,
-      isDisabled: this.props.isLoading
-    };
-  }
-
   render() {
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
@@ -367,12 +357,52 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children({
-          ...this.props,
-          submit: this.submit,
-          fieldPropsFor: this.fieldPropsFor
-        })}
+        <FormFields
+          onChange={this.handleChange}
+          submit={this.submit}
+          idPrefix={this.props.idPrefix}
+          namePrefix=""
+          input={this.state}
+          children={this.props.children}
+          isLoading={this.props.isLoading}
+          errors={this.props.errors && this.props.errors.fieldErrors}
+        />
       </form>
     );
+  }
+}
+
+export interface FormFieldsProps<FormInput> {
+  isLoading: boolean;
+  errors?: FormFieldErrorMap<FormInput>;
+  onChange: (field: string, value: any) => void;
+  submit: () => void;
+  idPrefix: string;
+  namePrefix: string;
+  input: FormInput;
+  children: (context: FormContext<FormInput>) => JSX.Element;
+}
+
+export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormInput>> {
+  @autobind
+  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>  {
+    return {
+      onChange: (value) => {
+        this.props.onChange(field, value);
+      },
+      errors: this.props.errors && this.props.errors[field],
+      value: this.props.input[field],
+      name: (this.props.namePrefix || '') + field,
+      id: `${this.props.idPrefix}${field}`,
+      isDisabled: this.props.isLoading
+    };
+  }
+
+  render() {
+    return this.props.children({
+      isLoading: this.props.isLoading,
+      submit: this.props.submit,
+      fieldPropsFor: this.fieldPropsFor
+    });
   }
 }

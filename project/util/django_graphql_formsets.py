@@ -20,10 +20,10 @@ class FormsetErrorType(graphene.ObjectType):
     )
 
     form_errors = graphene.List(
-        graphene.List(
+        graphene.NonNull(graphene.List(
             graphene.NonNull(StrictFormFieldErrorType),
             required=True,
-        ),
+        )),
         default_value=[],
         required=True
     )
@@ -93,7 +93,7 @@ class DjangoFormsetMutation(ClientIDMutation):
         )
 
         input_fields = yank_fields_from_attrs({
-            ITEMS: graphene.List(form_type, required=True)
+            ITEMS: graphene.List(graphene.NonNull(form_type), required=True)
         }, _as=graphene.InputField)
 
         super().__init_subclass_with_meta__(

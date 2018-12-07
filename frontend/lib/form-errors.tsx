@@ -17,12 +17,26 @@ export interface ServerFormsetErrors {
   formErrors: ServerFormFieldError[][];
 }
 
+export type ServerFormFieldErrorCollection = {
+  fieldErrors: ServerFormFieldError[];
+};
+
+export type NamespacedServerFormError = {
+  name: string;
+  errors: ServerFormFieldErrorCollection|ServerFormsetErrors
+};
+
+export type NamespacedServerFormErrorCollection = {
+  errorCount: number;
+  namespaces: NamespacedServerFormError[];
+};
+
 /**
  * Any form validation done by the server will return an object that
  * looks like this.
  */
 export type WithServerFormFieldErrors = {
-  errors: ServerFormFieldError[]|ServerFormsetErrors;
+  errors: ServerFormFieldError[]|NamespacedServerFormErrorCollection;
 };
 
 // This type is parameterized by the form input, so that each
@@ -48,7 +62,15 @@ export interface FormErrors<T> {
   fieldErrors: FormFieldErrorMap<T>;
 }
 
-export type FormlikeErrors<T> = FormsetErrors<any>|FormErrors<T>;
+export type NamespacedFormErrorMap<FormInput> = {
+  [K in keyof FormInput]: FormInput[K] extends (infer U)[]
+                          ? FormsetErrors<U>
+                          : FormErrors<FormInput[K]>;
+} & {
+  errorCount: number
+};
+
+export type FormlikeErrors<T> = NamespacedFormErrorMap<T>|FormErrors<T>;
 
 /**
  * Log errors from the server to Google Analytics.
@@ -64,30 +86,33 @@ export function trackFormErrors(errors: ServerFormFieldError[]): void {
 export function areServerFormErrorsEmpty(target: WithServerFormFieldErrors): boolean {
   const { errors } = target;
 
-  if (Array.isArray(errors)) {
-    return errors.length === 0;
-  }
-
-  if (errors.nonFormErrors.length > 0) return false;
-
-  for (let item of errors.formErrors) {
-    if (item.length > 0) return false;
-  }
-
-  return true;
+  return Array.isArray(errors) ? errors.length === 0 : errors.errorCount === 0;
 }
 
 export function getFormlikeErrors<T>(target: WithServerFormFieldErrors): FormlikeErrors<T> {
   const { errors } = target;
 
   if (Array.isArray(errors)) {
-    return getFormErrors(errors);
+    return getFormFieldErrors(errors);
   }
 
-  const result: FormsetErrors<T> = {
-    nonFormErrors: errors.nonFormErrors,
-    formErrors: errors.formErrors.map(item => getFormErrors<T>(item))
-  }
+  const result = {
+    errorCount: errors.errorCount
+  } as NamespacedFormErrorMap<T>;
+
+  errors.namespaces.forEach(ns => {
+    let value;
+    if ('fieldErrors' in ns.errors) {
+      value = getFormFieldErrors(ns.errors.fieldErrors);
+    } else {
+      const errors: FormsetErrors<any> = {
+        nonFormErrors: ns.errors.nonFormErrors,
+        formErrors: ns.errors.formErrors.map(item => getFormFieldErrors(item))
+      };
+      value = errors;
+    }
+    (result as NamespacedFormErrorMap<any>)[ns.name] = value;
+  });
 
   return result;
 }
@@ -98,7 +123,7 @@ export function getFormlikeErrors<T>(target: WithServerFormFieldErrors): Formlik
  * 
  * @param errors A list of errors from the server.
  */
-export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> {
+export function getFormFieldErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> {
   const result: FormErrors<T> = {
     nonFieldErrors: [],
     fieldErrors: {}
@@ -129,11 +154,6 @@ export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> 
 function errorsToDivs(errors?: string[]): JSX.Element|null {
   if (!errors) return null;
   return <>{errors.map(error => <div className="notification is-danger" key={error}>{error}</div>)}</>;
-}
-
-export function isFormsetErrors<T>(errors?: FormlikeErrors<T>): errors is FormsetErrors<any> {
-  if (!errors) return false;
-  return 'nonFormErrors' in errors;
 }
 
 export function NonFormErrors(props: { errors?: FormsetErrors<any> }): JSX.Element|null {

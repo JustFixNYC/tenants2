@@ -9,7 +9,7 @@ import { ExamplesInput } from "./globalTypes";
 // GraphQL mutation operation: ExamplesMutation
 // ====================================================
 
-export interface ExamplesMutation_output_errors_formErrors {
+export interface ExamplesMutation_output_errors_namespaces_errors_FormsetErrorType_formErrors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
@@ -20,9 +20,36 @@ export interface ExamplesMutation_output_errors_formErrors {
   messages: string[];
 }
 
-export interface ExamplesMutation_output_errors {
+export interface ExamplesMutation_output_errors_namespaces_errors_FormsetErrorType {
   nonFormErrors: string[];
-  formErrors: ExamplesMutation_output_errors_formErrors[][];
+  formErrors: ExamplesMutation_output_errors_namespaces_errors_FormsetErrorType_formErrors[][];
+}
+
+export interface ExamplesMutation_output_errors_namespaces_errors_FormFieldErrorCollection_fieldErrors {
+  /**
+   * The camel-cased name of the input field, or '__all__' for non-field errors.
+   */
+  field: string;
+  /**
+   * A list of human-readable validation errors.
+   */
+  messages: string[];
+}
+
+export interface ExamplesMutation_output_errors_namespaces_errors_FormFieldErrorCollection {
+  fieldErrors: ExamplesMutation_output_errors_namespaces_errors_FormFieldErrorCollection_fieldErrors[];
+}
+
+export type ExamplesMutation_output_errors_namespaces_errors = ExamplesMutation_output_errors_namespaces_errors_FormsetErrorType | ExamplesMutation_output_errors_namespaces_errors_FormFieldErrorCollection;
+
+export interface ExamplesMutation_output_errors_namespaces {
+  name: string;
+  errors: ExamplesMutation_output_errors_namespaces_errors;
+}
+
+export interface ExamplesMutation_output_errors {
+  errorCount: number;
+  namespaces: ExamplesMutation_output_errors_namespaces[];
 }
 
 export interface ExamplesMutation_output {
@@ -43,10 +70,24 @@ export const ExamplesMutation = {
   graphQL: `mutation ExamplesMutation($input: ExamplesInput!) {
     output: examples(input: $input) {
         errors {
-            nonFormErrors
-            formErrors {
-                field
-                messages
+            errorCount
+            namespaces {
+                name
+                errors {
+                    ... on FormsetErrorType {
+                        nonFormErrors
+                        formErrors {
+                            field
+                            messages
+                        }
+                    }
+                    ... on FormFieldErrorCollection {
+                        fieldErrors {
+                            field
+                            messages
+                        }
+                    }
+                }
             }
         },
         response

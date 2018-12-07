@@ -1,4 +1,4 @@
-import { formatErrors, getFormErrors } from "../form-errors";
+import { formatErrors, getFormFieldErrors } from "../form-errors";
 import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
 
@@ -23,16 +23,16 @@ describe('formatErrors()', () => {
   });
 });
 
-describe('getFormErrors()', () => {
+describe('getFormFieldErrors()', () => {
   it('works with an empty array', () => {
-    expect(getFormErrors([])).toEqual({
+    expect(getFormFieldErrors([])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {}
     });
   });
 
   it('sets nonFieldErrors', () => {
-    expect(getFormErrors([{
+    expect(getFormFieldErrors([{
       field: '__all__',
       messages: ['foo', 'bar']  
     }])).toEqual({
@@ -42,7 +42,7 @@ describe('getFormErrors()', () => {
   });
 
   it('sets fieldErrors', () => {
-    expect(getFormErrors([{
+    expect(getFormFieldErrors([{
       field: 'boop',
       messages: ['foo', 'bar']  
     }])).toEqual({
@@ -54,7 +54,7 @@ describe('getFormErrors()', () => {
   });
 
   it('combines multiple field error messages', () => {
-    expect(getFormErrors([{
+    expect(getFormFieldErrors([{
       field: 'boop',
       messages: ['foo']
     }, {

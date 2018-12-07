@@ -2,7 +2,7 @@ import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
-import { WithServerFormFieldErrors, FormErrors, NonFieldErrors, trackFormErrors, FormlikeErrors, areServerFormErrorsEmpty, getFormlikeErrors, isFormsetErrors, FormsetErrors, NonFormErrors } from './form-errors';
+import { WithServerFormFieldErrors, FormErrors, NonFieldErrors, trackFormErrors, FormlikeErrors, areServerFormErrorsEmpty, getFormlikeErrors, FormsetErrors, NonFormErrors, NamespacedFormErrorMap } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
@@ -357,11 +357,11 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
   render() {
     const { errors } = this.props;
-    let formsetErrors: FormsetErrors<FormInput>|undefined;
+    let namespacedErrors: NamespacedFormErrorMap<FormInput>|undefined;
     let formErrors: FormErrors<FormInput>|undefined;
 
-    if (isFormsetErrors(errors)) {
-      formsetErrors = errors;
+    if (errors && 'errorCount' in errors) {
+      namespacedErrors = errors;
     } else {
       formErrors = errors;
     }
@@ -371,7 +371,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
-        {formsetErrors ? <NonFormErrors errors={formsetErrors} /> : <NonFieldErrors errors={formErrors} />}
+        <NonFieldErrors errors={formErrors} />
         <FormFields
           onChange={this.handleChange}
           submit={this.submit}
@@ -381,7 +381,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
           children={this.props.children}
           isLoading={this.props.isLoading}
           errors={formErrors}
-          formsetErrors={formsetErrors}
+          namespacedErrors={namespacedErrors}
         />
       </form>
     );
@@ -391,7 +391,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 export interface FormFieldsProps<FormInput> {
   isLoading: boolean;
   errors?: FormErrors<FormInput>;
-  formsetErrors?: FormsetErrors<any>;
+  namespacedErrors?: NamespacedFormErrorMap<FormInput>;
   onChange: (field: string, value: any) => void;
   submit: () => void;
   idPrefix: string;
@@ -417,10 +417,20 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
 
   @autobind
   mapFormsetItems<K extends (keyof FormInput) & string>(field: K, cb: FormContextRenderer<Unarrayed<FormInput[K]>>): JSX.Element {
+    type Item = Unarrayed<FormInput[K]>;
     const val = this.props.input[field];
     if (!Array.isArray(val)) {
-      throw new Error('field value must be an array');
+      throw new Error(`field "${field}" must be a fieldset`);
     }
+    let errors: FormsetErrors<Item>|undefined;
+
+    if (this.props.namespacedErrors) {
+      errors = this.props.namespacedErrors[field] as FormsetErrors<Item>;
+      if (!(errors && errors.formErrors)) {
+        throw new Error(`field "${field}" errors are not formset errors`);
+      }
+    }
+
     const handleChange = (itemField: string, itemValue: any, index: number) => {
       const newVal = val.slice();
       newVal[index] = {
@@ -429,7 +439,10 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
       };
       this.props.onChange(field, newVal);
     };
+    
     return <>
+      <NonFormErrors errors={errors} />
+
       <input type="hidden" name={`${field}-TOTAL_FORMS`} value={val.length} />
 
       {/* TODO: We should probably come up with a better value here. */}
@@ -438,19 +451,13 @@ export class FormFields<FormInput> extends React.Component<FormFieldsProps<FormI
       {/* TODO: We should probably come up with a better value here. */}
       <input type="hidden" name={`${field}-MAX_NUM_FORMS`} value="" />
 
-      {val.map((item: Unarrayed<FormInput[K]>, i) => {
-        let errors: FormErrors<typeof item>|undefined;
-
-        if (this.props.formsetErrors) {
-          errors = this.props.formsetErrors.formErrors[i];
-        }
-
+      {val.map((item: Item, i) => {
         return <FormFields
           key={i}
           isLoading={this.props.isLoading}
           onChange={(field, value) => handleChange(field, value, i) }
           submit={() => { throw new Error('submit should never be called by formset items'); }}
-          errors={errors}
+          errors={errors && errors.formErrors[i]}
           idPrefix={`${this.props.idPrefix}${field}-${i}-`}
           namePrefix={`${field}-${i}-`}
           input={item}

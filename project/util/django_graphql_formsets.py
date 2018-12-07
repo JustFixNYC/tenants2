@@ -39,6 +39,32 @@ class FormsetErrorType(graphene.ObjectType):
         )
 
 
+class FormFieldErrorCollection(graphene.ObjectType):
+    field_errors = graphene.List(
+        graphene.NonNull(StrictFormFieldErrorType),
+        required=True
+    )
+
+
+class NamespacedFormErrorUnionType(graphene.Union):
+    class Meta:
+        types = (FormsetErrorType, FormFieldErrorCollection)
+
+
+class NamespacedFormErrorType(graphene.ObjectType):
+    name = graphene.String(required=True)
+    errors = graphene.NonNull(NamespacedFormErrorUnionType)
+
+
+class NamespacedFormErrorCollectionType(graphene.ObjectType):
+    error_count = graphene.Int(required=True, default_value=0)
+    namespaces = graphene.List(
+        graphene.NonNull(NamespacedFormErrorType),
+        required=True,
+        default_value=[]
+    )
+
+
 class DjangoFormsetMutationOptions(MutationOptions):
     form_class = None
 
@@ -48,8 +74,8 @@ class DjangoFormsetMutation(ClientIDMutation):
         abstract = True
 
     errors = graphene.NonNull(
-        FormsetErrorType,
-        default_value=FormsetErrorType()
+        NamespacedFormErrorCollectionType,
+        default_value=NamespacedFormErrorCollectionType()
     )
 
     @classmethod
@@ -72,7 +98,17 @@ class DjangoFormsetMutation(ClientIDMutation):
         if formset.is_valid():
             return cls.perform_mutate(formset, info)
         else:
-            return cls(errors=FormsetErrorType.from_formset(formset))
+            return cls(
+                errors=NamespacedFormErrorCollectionType(
+                    error_count=1,  # TODO: Find actual error count.
+                    namespaces=[
+                        NamespacedFormErrorType(
+                            name=ITEMS,
+                            errors=FormsetErrorType.from_formset(formset)
+                        )
+                    ]
+                )
+            )
 
     @classmethod
     def __init_subclass_with_meta__(

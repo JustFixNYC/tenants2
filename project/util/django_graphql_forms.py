@@ -152,6 +152,11 @@ class DjangoFormMutation(ClientIDMutation):
     _input_type_to_form_mapping: Mapping[str, Type[forms.Form]] = WeakValueDictionary()
 
     # Subclasses can change this if they can only be used by authenticated users.
+    #
+    # Note that we'd ideally like this to be a Meta property, but we also want
+    # to be able to define abstract base classes that set this property to True,
+    # but doing so raises the error "Abstract types can only contain the abstract
+    # attribute". So we'll just make it a class attribute.
     login_required = False
 
     # This is just like Graphene-Django's DjangoFormMutation "errors"

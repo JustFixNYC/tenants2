@@ -1,5 +1,5 @@
 '''
-    This builds upon Graphene-Django's default form integration
+    This builds upon/replaces Graphene-Django's default form integration
     to resolve some of its limitations.
 '''
 
@@ -12,8 +12,11 @@ from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
 from graphql.error import GraphQLSyntaxError
 import graphene
-import graphene_django.forms.mutation
+from graphene.relay.mutation import ClientIDMutation
+from graphene.types.utils import yank_fields_from_attrs
+from graphene.types.mutation import MutationOptions
 from graphene_django.forms.converter import convert_form_field
+from graphene_django.forms.mutation import fields_for_form
 from graphene.utils.str_converters import to_camel_case, to_snake_case
 import logging
 
@@ -131,17 +134,33 @@ class StrictFormFieldErrorType(graphene.ObjectType):
 T = TypeVar('T', bound='DjangoFormMutation')
 
 
-class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
+class DjangoFormMutationOptions(MutationOptions):
+    form_class = None
+
+
+class DjangoFormMutation(ClientIDMutation):
+    '''
+    This is similar to Graphene-Django's eponymous class, but makes enough
+    changes to its behavior that it's easier to just derive the class
+    from Graphene's ClientIDMutation rather than subclass Graphene-Django's
+    class and make pervasive modifications.
+    '''
+
     class Meta:
         abstract = True
 
     _input_type_to_form_mapping: Mapping[str, Type[forms.Form]] = WeakValueDictionary()
 
     # Subclasses can change this if they can only be used by authenticated users.
+    #
+    # Note that we'd ideally like this to be a Meta property, but we also want
+    # to be able to define abstract base classes that set this property to True,
+    # but doing so raises the error "Abstract types can only contain the abstract
+    # attribute". So we'll just make it a class attribute.
     login_required = False
 
-    # This is just like our superclass' "errors" attribute, only
-    # it's required, to simplify the type system.
+    # This is just like Graphene-Django's DjangoFormMutation "errors"
+    # attribute, only it's required, to simplify the type system.
     errors = graphene.List(
         graphene.NonNull(StrictFormFieldErrorType),
         default_value=[],
@@ -154,9 +173,24 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
 
     @classmethod
     def __init_subclass_with_meta__(
-        cls, form_class=None, **options
+        cls, form_class=None, only_fields=(), exclude_fields=(), **options
     ):
-        super().__init_subclass_with_meta__(form_class=form_class, **options)
+        form = form_class()
+        input_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        # The original Graphene-Django implementation set the output fields
+        # to the same value as the input fields. We don't need this, and it
+        # bloats our schema, so we'll ignore it.
+        output_fields = {}  # type: ignore
+
+        _meta = DjangoFormMutationOptions(cls)
+        _meta.form_class = form_class
+        _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
+
+        input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
+        super().__init_subclass_with_meta__(
+            _meta=_meta, input_fields=input_fields, **options
+        )
         cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
 
     @classmethod
@@ -199,6 +233,27 @@ class DjangoFormMutation(graphene_django.forms.mutation.DjangoFormMutation):
             errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
             cls.log(info, f"Form is invalid with {len(errors)} error(s).")
             return cls(errors=errors)
+
+    @classmethod
+    def get_form(cls, root, info, **input):
+        form_kwargs = cls.get_form_kwargs(root, info, **input)
+        return cls._meta.form_class(**form_kwargs)
+
+    @classmethod
+    def get_form_kwargs(cls, root, info, **input):
+        kwargs = {"data": input}
+
+        # Graphene-Django's implementation of this method contained
+        # some logic to retrieve the input's "id" parameter and
+        # convert it into an "instance" kwarg for the form, but
+        # we don't need it right now.
+
+        return kwargs
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        form.save()
+        return cls(errors=[])
 
 
 get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type

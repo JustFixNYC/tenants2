@@ -172,7 +172,11 @@ class DjangoFormMutation(ClientIDMutation):
     ):
         form = form_class()
         input_fields = fields_for_form(form, only_fields, exclude_fields)
-        output_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        # The original Graphene-Django implementation set the output fields
+        # to the same value as the input fields. We don't need this, and it
+        # bloats our schema, so we'll ignore it.
+        output_fields = {}  # type: ignore
 
         _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class

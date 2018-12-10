@@ -133,9 +133,13 @@ class StrictFormFieldErrorType(graphene.ObjectType):
 
 T = TypeVar('T', bound='DjangoFormMutation')
 
+FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
+
 
 class DjangoFormMutationOptions(MutationOptions):
-    form_class = None
+    form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
+
+    formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
 
 
 class DjangoFormMutation(ClientIDMutation):
@@ -173,10 +177,35 @@ class DjangoFormMutation(ClientIDMutation):
 
     @classmethod
     def __init_subclass_with_meta__(
-        cls, form_class=None, only_fields=(), exclude_fields=(), **options
+        cls,
+        form_class: Type[forms.Form]=forms.Form,
+        formset_classes: Optional[FormsetClasses]=None,
+        only_fields=(), exclude_fields=(), **options
     ):
         form = form_class()
         input_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        formset_classes = formset_classes or {}
+
+        for (formset_name, formset_class) in formset_classes.items():
+            formset_form = formset_class.form()
+            formset_input_fields = fields_for_form(formset_form, (), ())
+            # TODO: We should convert formset_name to camelcase when including it
+            # in a class name.
+            formset_form_type = type(
+                f"{formset_name}{formset_class.__name__}Input",
+                (graphene.InputObjectType,),
+                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
+            )
+            if formset_name in input_fields:
+                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
+            input_field_for_form = yank_fields_from_attrs({
+                formset_name: graphene.List(
+                    graphene.NonNull(formset_form_type),
+                    required=True
+                )
+            })
+            input_fields.update(input_field_for_form)
 
         # The original Graphene-Django implementation set the output fields
         # to the same value as the input fields. We don't need this, and it
@@ -191,7 +220,10 @@ class DjangoFormMutation(ClientIDMutation):
         super().__init_subclass_with_meta__(
             _meta=_meta, input_fields=input_fields, **options
         )
-        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
+
+        # TODO: Absolutely no idea why mypy is complaining with
+        # "unsupported target for indexed assignment" here.
+        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class  # type: ignore
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
@@ -252,7 +284,6 @@ class DjangoFormMutation(ClientIDMutation):
 
     @classmethod
     def perform_mutate(cls, form, info):
-        form.save()
         return cls(errors=[])
 
 

@@ -10,6 +10,7 @@
       <link rel="stylesheet" href="{% static stylesheet_path %}">
       <link rel="stylesheet" href="{% static 'loc/loc-preview-styles.css' %}">
     {% endif %}
+    {% block head %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>

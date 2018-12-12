@@ -1,9 +1,18 @@
 from django.contrib import admin
 from django import forms
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.html import format_html
 
-from project.util.admin_util import admin_field
+from project.util.admin_util import admin_field, admin_action
 from . import models
+
+
+@admin_action("Print letter of complaint envelopes")
+def print_loc_envelopes(modeladmin, request, queryset):
+    user_ids = [str(user.pk) for user in queryset]
+    qs = '?user_ids=' + ','.join(user_ids)
+    return HttpResponseRedirect(reverse('loc_envelopes') + qs)
 
 
 class AccessDateInline(admin.TabularInline):

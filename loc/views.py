@@ -86,6 +86,33 @@ def get_issues(user):
     ]
 
 
+def parse_comma_separated_ints(val: str) -> List[int]:
+    result: List[int] = []
+    for item in val.split(','):
+        try:
+            result.append(int(item))
+        except ValueError:
+            pass
+    return result
+
+
+@permission_required(VIEW_LETTER_REQUEST_PERMISSION)
+def envelopes(request):
+    user_ids = parse_comma_separated_ints(request.GET.get('user_ids', ''))
+    users = [
+        user
+        for user in JustfixUser.objects.filter(pk__in=user_ids)
+        if (user.full_name and
+            hasattr(user, 'onboarding_info') and
+            hasattr(user, 'landlord_details') and
+            user.landlord_details.name and
+            user.landlord_details.address_lines_for_mailing)
+    ]
+    return render_document(request, 'loc/envelopes.html', {
+        'users': users
+    }, 'pdf')
+
+
 def render_letter_of_complaint(request, user: JustfixUser, format: str):
     return render_document(request, 'loc/letter-of-complaint.html', {
         'today': datetime.date.today(),

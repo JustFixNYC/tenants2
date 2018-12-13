@@ -5,7 +5,8 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue
 from loc.models import LandlordDetails
 from loc.views import (
-    can_we_render_pdfs, render_document, get_issues, get_landlord_details)
+    can_we_render_pdfs, render_document, get_issues, get_landlord_details,
+    parse_comma_separated_ints)
 
 # Text that shows up in the letter of complaint if the user
 # has reported their issues to 311.
@@ -54,8 +55,7 @@ def test_letter_html_works_for_users_with_minimal_info(admin_client):
     get_letter_html(admin_client)
 
 
-@pytest.mark.django_db
-def test_letter_html_includes_expected_content(client):
+def create_user_with_all_info():
     info = OnboardingInfoFactory(
         user__full_name="Bobby Denver",
         address="1 Times Square",
@@ -72,7 +72,12 @@ def test_letter_html_includes_expected_content(client):
         address='1 Cloud City\nBespin'
     )
     ld.save()
+    return user
 
+
+@pytest.mark.django_db
+def test_letter_html_includes_expected_content(client):
+    user = create_user_with_all_info()
     client.force_login(user)
     html = get_letter_html(client)
 
@@ -88,6 +93,7 @@ def test_letter_html_includes_expected_content(client):
     # we don't have any unicode issues.
     assert u"\u00A7" in html
 
+    info = user.onboarding_info
     info.has_called_311 = True
     info.save()
     html = get_letter_html(client)
@@ -140,3 +146,33 @@ def test_admin_letter_pdf_is_inaccessible_to_non_staff_users(client):
 
     assert res.status_code == 302
     assert res.url == f"/login?next=/loc/admin/{user.pk}/letter.pdf"
+
+
+@pytest.mark.django_db
+def test_admin_envelopes_pdf_is_inaccessible_to_non_staff_users(client):
+    user = UserFactory()
+    client.force_login(user)
+
+    res = client.get(f'/loc/admin/envelopes.pdf')
+
+    assert res.status_code == 302
+    assert res.url == f"/login?next=/loc/admin/envelopes.pdf"
+
+
+@pytest.mark.skipif(not can_we_render_pdfs(),
+                    reason='PDF generation is unsupported')
+def test_admin_envelopes_pdf_works(outreach_client):
+    user = create_user_with_all_info()
+    bare_user = UserFactory(phone_number='6141234567', username='blah')
+    res = outreach_client.get(f'/loc/admin/envelopes.pdf?user_ids={user.pk},{bare_user.pk},zz')
+    assert res.status_code == 200
+    assert res['Content-Type'] == 'application/pdf'
+    assert res.context['users'] == [user]
+
+
+def test_parse_comma_separated_ints_works():
+    assert parse_comma_separated_ints('1') == [1]
+    assert parse_comma_separated_ints('1,15') == [1, 15]
+    assert parse_comma_separated_ints('1,lol') == [1]
+    assert parse_comma_separated_ints('') == []
+    assert parse_comma_separated_ints('haha') == []

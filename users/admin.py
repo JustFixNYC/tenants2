@@ -64,6 +64,8 @@ class JustfixUserAdmin(UserAdmin):
         HPActionDocumentsInline
     ) + loc.admin.user_inlines
 
+    actions = [loc.admin.print_loc_envelopes]
+
     def get_fieldsets(self, request, obj=None):
         if obj is not None and not request.user.is_superuser:
             return self.non_superuser_fieldsets

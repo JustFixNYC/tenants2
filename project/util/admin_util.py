@@ -2,9 +2,9 @@ from typing import Optional, get_type_hints
 
 
 def admin_field(
-    short_description: Optional[str]=None,
-    allow_tags: Optional[bool]=None,
-    admin_order_field: Optional[str]=None,
+    short_description: Optional[str] = None,
+    allow_tags: Optional[bool] = None,
+    admin_order_field: Optional[str] = None,
 ):
     '''
     This decorator can be used to easily assign Django

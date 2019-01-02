@@ -70,7 +70,7 @@ class Choices:
 
     enum: Enum
 
-    def __init__(self, choices: DjangoChoices, name: str='DjangoChoices') -> None:
+    def __init__(self, choices: DjangoChoices, name: str = 'DjangoChoices') -> None:
         self.choices = choices
         self.choices_dict = dict(self.choices)
         self.enum = Enum(

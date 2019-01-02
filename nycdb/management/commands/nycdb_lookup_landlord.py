@@ -23,7 +23,7 @@ class Command(BaseCommand):
             help='Dump related models to stdout as JSON.'
         )
 
-    def show_mailing_addr(self, contact: Contact, indent: str="    ") -> None:
+    def show_mailing_addr(self, contact: Contact, indent: str = "    ") -> None:
         self.stdout.write(f"{indent}{contact.name}\n")
         for line in contact.address.lines_for_mailing:
             self.stdout.write(f"{indent}{line}\n")

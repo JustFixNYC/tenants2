@@ -65,16 +65,16 @@ class Airtable:
     # rate limiting. If this is 0, then no retries will be attempted.
     max_retries: int
 
-    def __init__(self, url: Optional[str]=None, api_key: Optional[str]=None,
-                 max_retries: int=0) -> None:
+    def __init__(self, url: Optional[str] = None, api_key: Optional[str] = None,
+                 max_retries: int = 0) -> None:
         self.url = url or settings.AIRTABLE_URL
         self.api_key = api_key or settings.AIRTABLE_API_KEY
         self.max_retries = max_retries
         if not (self.url and self.api_key):
             raise ValueError('Configuration not provided, and Django settings not configured')
 
-    def request(self, method: str, pathname: Optional[str]=None, data: Optional[dict]=None,
-                params: Optional[Dict[str, str]]=None) -> requests.Response:
+    def request(self, method: str, pathname: Optional[str] = None, data: Optional[dict] = None,
+                params: Optional[Dict[str, str]] = None) -> requests.Response:
         '''
         This wraps requests.request(), appending the given optional pathname to the
         base Airtable URL and sending the given optional data as JSON.

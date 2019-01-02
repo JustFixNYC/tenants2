@@ -62,7 +62,7 @@ class AirtableSynchronizer:
             stdout.write(f"Updating {user}.\n")
             self.airtable.update(record, our_fields)
 
-    def sync_users(self, queryset=None, stdout: TextIO=sys.stdout):
+    def sync_users(self, queryset=None, stdout: TextIO = sys.stdout):
         '''
         Synchronize the users in the given queryset with Airtable. If no
         queryset is provided, all users are synchronized.

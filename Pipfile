@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-mypy = "==0.641"
+mypy = "==0.650"
 pytest = "==3.7.3"
 
 # DO NOT UPGRADE, latest version breaks paths on Windows:

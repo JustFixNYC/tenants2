@@ -255,9 +255,10 @@ export function runApolloCodegen(force: boolean = false): number {
   const child = child_process.spawnSync('node', [
     'node_modules/apollo/bin/run',
     'codegen:generate',
-    '--queries', `${LIB_PATH}/*.graphql`,
-    '--schema', SCHEMA_PATH,
+    '--includes', `${LIB_PATH}/*.graphql`,
+    '--localSchemaFile', SCHEMA_PATH,
     '--target', 'typescript',
+    '--no-addTypename',
     '--outputFlat',
     GEN_PATH,
   ], {

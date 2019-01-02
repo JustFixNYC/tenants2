@@ -130,11 +130,15 @@ export interface OnboardingStep4Mutation_output_session {
    */
   isSafeModeEnabled: boolean;
   /**
-   * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
+   * Whether we should redirect this user to the legacy tenant app after they log
+   * in. If null, the user is either not a legacy user, or legacy app integration is disabled.
    */
   prefersLegacyApp: boolean | null;
   /**
-   * The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user.
+   * The user's onboarding details, which they filled out during the onboarding
+   * process. This is not to be confused with the individual onboarding steps,
+   * which capture information someone filled out *during* onboarding, before they
+   * became a full-fledged user.
    */
   onboardingInfo: OnboardingStep4Mutation_output_session_onboardingInfo | null;
   onboardingStep1: OnboardingStep4Mutation_output_session_onboardingStep1 | null;

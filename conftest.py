@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import List, Iterator
 from unittest.mock import patch
 from graphene.test import Client
-from django.test import RequestFactory
+from django.http import HttpRequest
 from django.test.client import Client as DjangoClient
 from django.core.management import call_command
 from django.contrib.auth.models import AnonymousUser, Group
@@ -78,7 +78,20 @@ class TestGraphQLClient(Client):
 
 
 @pytest.fixture
-def graphql_client() -> TestGraphQLClient:
+def http_request(rf) -> HttpRequest:
+    '''
+    Return a Django HttpRequest suitable for testing.
+    '''
+
+    req = rf.get('/')
+    req.user = AnonymousUser()
+    SessionMiddleware().process_request(req)
+
+    return req
+
+
+@pytest.fixture
+def graphql_client(http_request) -> TestGraphQLClient:
     '''
     This test fixture returns a Graphene test client that can be
     used for GraphQL-related tests. For more information on the
@@ -90,13 +103,10 @@ def graphql_client() -> TestGraphQLClient:
     # The following was helpful in writing this:
     # https://github.com/graphql-python/graphene-django/issues/337
 
-    req = RequestFactory().get('/')
-    req.user = AnonymousUser()
-    SessionMiddleware().process_request(req)
-    client = TestGraphQLClient(schema, context_value=req)
+    client = TestGraphQLClient(schema, context_value=http_request)
 
     # Attach the request to the client for easy retrieval/alteration.
-    client.request = req
+    client.request = http_request
 
     return client
 

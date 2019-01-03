@@ -55,6 +55,8 @@ def verify(request):
         otp: str = request.POST.get('otp', '').replace(' ', '')
         if twofactor.totp.verify(otp):
             util.verify_request_user(request)
+            twofactor.has_user_seen_secret_yet = True
+            twofactor.save()
             return HttpResponseRedirect(success_url)
         else:
             error = "Alas, your one-time password is invalid."

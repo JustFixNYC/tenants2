@@ -144,6 +144,14 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # not provided, HP Action submission will fail.
     HP_ACTION_CUSTOMER_KEY: str = ''
 
+    # How long two-factor authentication (2FA) verification lasts,
+    # in seconds. Once this amount of time has passed, the user
+    # will need to re-verify via their 2FA device (they will
+    # not necessarily need to re-authenticate with their
+    # password, though). If this is zero or a negative number,
+    # 2FA will be disabled.
+    TWOFACTOR_VERIFY_DURATION: int = 60 * 60 * 24
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

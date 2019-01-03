@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
     'hpaction.apps.HPActionConfig',
+    'twofactor.apps.TwofactorConfig',
     'nycdb'
 ]
 
@@ -329,6 +330,11 @@ HP_ACTION_TEMPLATE_ID = env.HP_ACTION_TEMPLATE_ID
 HP_ACTION_CUSTOMER_KEY = env.HP_ACTION_CUSTOMER_KEY
 
 HP_ACTION_TIMEOUT = 90
+
+# How long 2FA verification lasts, in seconds. Once this
+# amount of time has passed, the user will need to re-verify
+# via their 2FA device.
+TWOFACTOR_VERIFY_DURATION = 60 * 60 * 24  # One day
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

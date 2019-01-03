@@ -20,9 +20,11 @@ from graphene_django.views import GraphQLView
 
 from legacy_tenants.views import redirect_to_legacy_app
 from .views import react_rendered_view, example_server_error, redirect_favicon
+import twofactor.views
 
 
 urlpatterns = [
+    path('verify', twofactor.views.verify, name='verify'),
     path('admin/login/', react_rendered_view, kwargs={'url': 'admin/login/'}),
     path('admin/', admin.site.urls),
     path('loc/', include('loc.urls')),

@@ -3,25 +3,19 @@ from django.urls import path
 import pytest
 
 from twofactor.decorators import twofactor_required
-from twofactor import util
-import project.urls
+from twofactor.util import is_request_user_verified
+from . import urls
 
 
 @twofactor_required
 def my_2fa_view(request):
-    assert util.is_request_user_verified(request)
+    assert is_request_user_verified(request)
     return HttpResponse('hello verified user')
 
 
-def autoverify(request):
-    util.verify_request_user(request)
-    return HttpResponse('you are now verified')
-
-
 urlpatterns = [
-    path('autoverify', autoverify),
     path('myview', my_2fa_view),
-] + project.urls.urlpatterns
+] + urls.urlpatterns
 
 
 @pytest.mark.urls(__name__)

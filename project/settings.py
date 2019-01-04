@@ -76,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'twofactor.middleware.admin_requires_2fa_middleware',
 ]
 
 ROOT_URLCONF = 'project.urls'

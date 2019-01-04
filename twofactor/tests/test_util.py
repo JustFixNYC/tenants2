@@ -13,10 +13,6 @@ def authreq(db, http_request):
 
 
 class TestIsRequestUserVerified:
-    @pytest.fixture(autouse=True)
-    def enable_twofactor(self, settings):
-        settings.TWOFACTOR_VERIFY_DURATION = 60
-
     def test_it_returns_false_if_user_is_not_authenticated(self, http_request):
         assert util.is_request_user_verified(http_request) is False
 
@@ -31,9 +27,9 @@ class TestIsRequestUserVerified:
         util.verify_request_user(authreq)
         assert util.is_request_user_verified(authreq) is True
 
-    def test_it_returns_false_if_verification_expired(self, authreq):
+    def test_it_returns_false_if_verification_expired(self, authreq, settings):
         with freeze_time('2018-01-01') as time:
             util.verify_request_user(authreq)
             assert util.is_request_user_verified(authreq) is True
-            time.tick(delta=datetime.timedelta(seconds=100))
+            time.tick(delta=datetime.timedelta(seconds=settings.TWOFACTOR_VERIFY_DURATION + 1))
             assert util.is_request_user_verified(authreq) is False

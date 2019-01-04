@@ -4,6 +4,9 @@ justfix_environment.IS_RUNNING_TESTS = True
 
 from .settings import *  # noqa
 
+# Disable 2FA by default.
+TWOFACTOR_VERIFY_DURATION = 0
+
 # Disable legacy auth by default, tests will need
 # to override settings if they want to enable it.
 LEGACY_MONGODB_URL = ''

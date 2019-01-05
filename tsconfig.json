@@ -1,7 +1,8 @@
 {
   "include": [
     "webpack.config.js",
-    "frontend"
+    "frontend",
+    "twofactor/static"
   ],
   "exclude": [
     "frontend/static",

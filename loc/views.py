@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
+from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
 from loc.models import LandlordDetails
 from onboarding.models import OnboardingInfo
@@ -97,6 +98,7 @@ def parse_comma_separated_ints(val: str) -> List[int]:
 
 
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
+@twofactor_required
 def envelopes(request):
     user_ids = parse_comma_separated_ints(request.GET.get('user_ids', ''))
     users = [
@@ -130,6 +132,7 @@ def letter_of_complaint_doc(request, format):
 
 
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
+@twofactor_required
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
     return render_letter_of_complaint(request, user, 'pdf')

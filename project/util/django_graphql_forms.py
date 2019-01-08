@@ -158,7 +158,7 @@ class FormWithFormsets:
     def __init__(self, base_form: forms.Form, formsets: Formsets) -> None:
         self.base_form = base_form
         self.formsets = formsets
-        self._errors = None
+        self._errors: Optional[Dict[str, Any]] = None
 
     @property
     def errors(self):
@@ -170,11 +170,16 @@ class FormWithFormsets:
         self._errors = forms.utils.ErrorDict()
         self.base_form.full_clean()
         self._errors.update(self.base_form.errors)
-        for name, formset in self.formsets.items():
-            formset.full_clean()
-            for i in range(len(formset.errors)):
-                for key, value in formset.errors[i].items():
-                    self._errors[f'{name}.{i}.{key}'] = value
+        for name in self.formsets:
+            self._full_clean_formset(name)
+
+    def _full_clean_formset(self, name: str):
+        assert self._errors is not None
+        formset = self.formsets[name]
+        formset.full_clean()
+        for i in range(len(formset.errors)):
+            for key, value in formset.errors[i].items():
+                self._errors[f'{name}.{i}.{key}'] = value
 
     def is_valid(self) -> bool:
         return not self.errors

@@ -178,8 +178,8 @@ class DjangoFormMutation(ClientIDMutation):
     @classmethod
     def __init_subclass_with_meta__(
         cls,
-        form_class: Type[forms.Form]=forms.Form,
-        formset_classes: Optional[FormsetClasses]=None,
+        form_class: Type[forms.Form] = forms.Form,
+        formset_classes: Optional[FormsetClasses] = None,
         only_fields=(), exclude_fields=(), **options
     ):
         form = form_class()

@@ -319,21 +319,25 @@ class DjangoFormMutation(ClientIDMutation):
         form = cls._meta.form_class(**form_kwargs)
         if not cls._meta.formset_classes:
             return form
-        return FormWithFormsets(form, cls.get_formsets(root, info, **input))
+        return FormWithFormsets(form, cls._get_formsets(root, info, **input))
 
     @classmethod
-    def get_formsets(cls, root, info, **input) -> Formsets:
+    def _get_formsets(cls, root, info, **input) -> Formsets:
         formsets: Formsets = {}
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
             fsinput = input[formset_name]
-            data: Dict[str, Any] = {}
-            data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
-            for i in range(len(fsinput)):
-                for key, value in fsinput[i].items():
-                    data[f'form-{i}-{key}'] = value
-            formset = formset_class(data=data)
+            formset = formset_class(data=cls._get_data_for_formset(fsinput))
             formsets[formset_name] = formset
         return formsets
+
+    @classmethod
+    def _get_data_for_formset(cls, fsinput) -> Dict[str, Any]:
+        data: Dict[str, Any] = {}
+        data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
+        for i in range(len(fsinput)):
+            for key, value in fsinput[i].items():
+                data[f'form-{i}-{key}'] = value
+        return data
 
     @classmethod
     def get_form_kwargs(cls, root, info, **input):

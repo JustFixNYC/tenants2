@@ -62,6 +62,16 @@ class MutationWithFormsets(DjangoFormMutation):
             'simples': forms.formset_factory(SimpleForm)
         }
 
+    output = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        output = ' '.join(
+            f.cleaned_data['some_field']
+            for f in form.formsets['simples']
+        )
+        return cls(errors=[], output=output)
+
 
 class FormWithAuth(DjangoFormMutation):
     class Meta:
@@ -137,6 +147,7 @@ def execute_formsets_query(simples):
     return jsonify(client.execute('''
     mutation MyFormsetMutation($input: MutationWithFormsetsInput!) {
         mutationWithFormsets(input: $input) {
+            output,
             errors {
                 field,
                 messages
@@ -152,7 +163,26 @@ def test_formsets_query_works():
         {'someField': 'there'},
     ])
     assert result == {
-        'data': {'mutationWithFormsets': {'errors': []}}
+        'data': {'mutationWithFormsets': {
+            'output': 'hello there',
+            'errors': []
+        }}
+    }
+
+
+def test_formsets_query_reports_errors():
+    result = execute_formsets_query([
+        {'someField': 'hello'},
+        {'someField': ''},
+    ])
+    assert result == {
+        'data': {'mutationWithFormsets': {
+            'output': None,
+            'errors': [{
+                'field': 'simples.1.someField',
+                'messages': ['This field is required.']
+            }]
+        }}
     }
 
 

@@ -147,6 +147,38 @@ T = TypeVar('T', bound='DjangoFormMutation')
 
 FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
 
+Formsets = Dict[str, forms.BaseFormSet]
+
+
+class FormWithFormsets:
+    '''
+    Represents a base form with additional formsets, all of which are bound.
+    '''
+
+    def __init__(self, base_form: forms.Form, formsets: Formsets) -> None:
+        self.base_form = base_form
+        self.formsets = formsets
+        self._errors = None
+
+    @property
+    def errors(self):
+        if self._errors is None:
+            self.full_clean()
+        return self._errors
+
+    def full_clean(self):
+        self._errors = forms.utils.ErrorDict()
+        self.base_form.full_clean()
+        self._errors.update(self.base_form.errors)
+        for name, formset in self.formsets.items():
+            formset.full_clean()
+            for i in range(len(formset.errors)):
+                for key, value in formset.errors[i].items():
+                    self._errors[f'{name}.{i}.{key}'] = value
+
+    def is_valid(self) -> bool:
+        return not self.errors
+
 
 class DjangoFormMutationOptions(MutationOptions):
     form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
@@ -225,6 +257,7 @@ class DjangoFormMutation(ClientIDMutation):
 
         _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class
+        _meta.formset_classes = formset_classes
         _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
@@ -278,7 +311,24 @@ class DjangoFormMutation(ClientIDMutation):
     @classmethod
     def get_form(cls, root, info, **input):
         form_kwargs = cls.get_form_kwargs(root, info, **input)
-        return cls._meta.form_class(**form_kwargs)
+        form = cls._meta.form_class(**form_kwargs)
+        if not cls._meta.formset_classes:
+            return form
+        return FormWithFormsets(form, cls.get_formsets(root, info, **input))
+
+    @classmethod
+    def get_formsets(cls, root, info, **input) -> Formsets:
+        formsets: Formsets = {}
+        for (formset_name, formset_class) in cls._meta.formset_classes.items():
+            fsinput = input[formset_name]
+            data: Dict[str, Any] = {}
+            data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
+            for i in range(len(fsinput)):
+                for key, value in fsinput[i].items():
+                    data[f'form-{i}-{key}'] = value
+            formset = formset_class(data=data)
+            formsets[formset_name] = formset
+        return formsets
 
     @classmethod
     def get_form_kwargs(cls, root, info, **input):

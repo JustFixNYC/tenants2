@@ -5,7 +5,7 @@ from django.core.management import call_command
 from . import fixtures
 
 
-def get_output(fixture_filename: str, extra_args: List[str]=None) -> str:
+def get_output(fixture_filename: str, extra_args: List[str] = None) -> str:
     if extra_args is None:
         extra_args = []
     reg = fixtures.load_hpd_registration(fixture_filename)

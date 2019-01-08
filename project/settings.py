@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'texting.apps.TextingConfig',
     'nycha.apps.NychaConfig',
     'hpaction.apps.HPActionConfig',
+    'twofactor.apps.TwofactorConfig',
     'nycdb'
 ]
 
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'twofactor.middleware.admin_requires_2fa_middleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -329,6 +331,8 @@ HP_ACTION_TEMPLATE_ID = env.HP_ACTION_TEMPLATE_ID
 HP_ACTION_CUSTOMER_KEY = env.HP_ACTION_CUSTOMER_KEY
 
 HP_ACTION_TIMEOUT = 90
+
+TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

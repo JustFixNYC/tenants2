@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from project.justfix_environment import BASE_DIR
 
 
-def iter_get_repo_files(repo_root: Path=BASE_DIR) -> Iterator[Path]:
+def iter_get_repo_files(repo_root: Path = BASE_DIR) -> Iterator[Path]:
     '''
     Iterate through all existing files in the git repository.
     '''
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         parser.add_argument('--dry-run', help="don't actually change any files",
                             action='store_true')
 
-    def convert_file(self, p: Path, dry_run: bool=False) -> bool:
+    def convert_file(self, p: Path, dry_run: bool = False) -> bool:
         byte_contents = p.read_bytes()
         try:
             contents = byte_contents.decode('utf-8')

@@ -3,7 +3,7 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Mapping, Dict, Any, TypeVar
+from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping
 from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
@@ -165,7 +165,8 @@ class DjangoFormMutation(ClientIDMutation):
     class Meta:
         abstract = True
 
-    _input_type_to_form_mapping: Mapping[str, Type[forms.Form]] = WeakValueDictionary()
+    _input_type_to_form_mapping: MutableMapping[str, Type[forms.Form]] = \
+        WeakValueDictionary()
 
     # Subclasses can change this if they can only be used by authenticated users.
     #
@@ -231,9 +232,7 @@ class DjangoFormMutation(ClientIDMutation):
             _meta=_meta, input_fields=input_fields, **options
         )
 
-        # TODO: Absolutely no idea why mypy is complaining with
-        # "unsupported target for indexed assignment" here.
-        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class  # type: ignore
+        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:

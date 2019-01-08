@@ -79,6 +79,18 @@ def get_input_type_from_query(query: str) -> Optional[str]:
     return visitor.input_type
 
 
+def to_capitalized_camel_case(s: str) -> str:
+    '''
+    Like `to_camel_case()`, but also capitalizes the first letter:
+
+        >>> to_capitalized_camel_case('hello_there')
+        'HelloThere'
+    '''
+
+    camel = to_camel_case(s)
+    return camel[:1].upper() + camel[1:]
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict
@@ -190,10 +202,8 @@ class DjangoFormMutation(ClientIDMutation):
         for (formset_name, formset_class) in formset_classes.items():
             formset_form = formset_class.form()
             formset_input_fields = fields_for_form(formset_form, (), ())
-            # TODO: We should convert formset_name to camelcase when including it
-            # in a class name.
             formset_form_type = type(
-                f"{formset_name}{formset_class.__name__}Input",
+                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
                 (graphene.InputObjectType,),
                 yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
             )

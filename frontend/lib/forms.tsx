@@ -369,24 +369,27 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     };
   }
 
-  @autobind
-  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>): JSX.Element {
-    type FormsetItem = UnwrappedArray<FormInput[K]>;
+  private getFormsetItems<K extends keyof FormInput>(formset: K): UnwrappedArray<FormInput[K]>[] {
     const items = this.state[formset];
-    const { props } = this;
-
     if (!Array.isArray(items)) {
       throw new Error(`invalid formset '${formset}'`);
     }
+    return items;
+  }
+
+  @autobind
+  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>): JSX.Element {
+    const items = this.getFormsetItems(formset);
+    const { props } = this;
 
     const fsErrors = props.errors && props.errors.formsetErrors && props.errors.formsetErrors[formset];
     return (
       <>
         <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
         <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={items.length} />
-        {items.map((item: FormsetItem, i) => {
-          const errors = fsErrors && fsErrors[i] as FormErrors<FormsetItem>;
-          const ctx: FormsetContext<FormsetItem> = {
+        {items.map((item, i) => {
+          const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
+          const ctx: FormsetContext<typeof item> = {
             fieldPropsFor: (field) => {
               return {
                 onChange: (value) => {

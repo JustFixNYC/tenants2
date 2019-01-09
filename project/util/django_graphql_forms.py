@@ -354,7 +354,7 @@ class DjangoFormMutation(ClientIDMutation):
 
     @classmethod
     def _get_formsets(cls, root, info, **input) -> Formsets:
-        formsets: Formsets = {}
+        formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
             fsinput = input[formset_name]
             formset = formset_class(data=cls._get_data_for_formset(fsinput))

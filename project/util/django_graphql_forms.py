@@ -179,7 +179,7 @@ class FormWithFormsets:
     def __init__(self, base_form: forms.Form, formsets: Formsets) -> None:
         self.base_form = base_form
         self.formsets = formsets
-        self._errors: Optional[Dict[str, Any]] = None
+        self._errors: Optional[Dict[str, List[str]]] = None
 
     @property
     def errors(self):
@@ -198,6 +198,21 @@ class FormWithFormsets:
         assert self._errors is not None
         formset = self.formsets[name]
         formset.full_clean()
+
+        # We'll have non-form errors "masquerade" as
+        # non-field errors for our base form.
+        #
+        # This isn't an ideal way to report non-form errors in
+        # formsets, especially since the error text confusingly
+        # refers to the word "forms", but it's better than
+        # not reporting them at all, and we can improve
+        # on it later.
+        non_form_errors = formset.non_form_errors()
+        if non_form_errors:
+            all_errors = self._errors.get('__all__', [])
+            all_errors.extend(non_form_errors)
+            self.errors['__all__'] = all_errors
+
         for i in range(len(formset.errors)):
             for key, value in formset.errors[i].items():
                 self._errors[f'{name}.{i}.{key}'] = value

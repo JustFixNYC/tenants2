@@ -154,7 +154,7 @@ class StrictFormFieldErrorType(graphene.ObjectType):
     def list_from_form_errors(cls, form_errors):
         errors = []
         for key, value in form_errors.items():
-            if key != '__all__':
+            if not key.endswith('__all__'):
                 # Graphene-Django's default implementation for form field validation
                 # errors doesn't convert field names to camel case, but we want to,
                 # because the input was provided using camel case field names, so the

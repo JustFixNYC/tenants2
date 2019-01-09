@@ -71,3 +71,9 @@ class ExampleForm(forms.Form):
 
 class ExampleSubform(forms.Form):
     example_field = forms.CharField(max_length=5)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get('example_field') == 'blah':
+            raise ValidationError('Do not set a field to "blah"!')

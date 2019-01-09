@@ -431,7 +431,12 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
             }
           };
 
-          return <React.Fragment key={i}>{cb(ctx)}</React.Fragment>;
+          return (
+            <React.Fragment key={i}>
+              <NonFieldErrors errors={errors} />
+              {cb(ctx)}
+            </React.Fragment>
+          );
         })}
       </>
     );

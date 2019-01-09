@@ -1,3 +1,5 @@
+import { deepStrictEqual } from 'assert';
+
 /**
  * Find an element.
  * 
@@ -173,4 +175,20 @@ export function exactSubsetOrDefault<Subset, Superset extends Subset>(superset: 
  */
 export function twoTuple<A, B>(a: A, b: B): [A, B] {
   return [a, b];
+}
+
+/**
+ * Returns whether the given arguments have deep equality.
+ * 
+ * For more details, see:
+ * 
+ * https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
+ */
+export function isDeepEqual<T>(a: T, b: T): boolean {
+  try {
+    deepStrictEqual(a, b);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }

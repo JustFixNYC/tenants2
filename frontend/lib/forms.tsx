@@ -5,7 +5,7 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
-import { Omit, assertNotNull } from './util';
+import { Omit, assertNotNull, isDeepEqual } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
@@ -13,7 +13,6 @@ import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
-import { deepStrictEqual } from 'assert';
 
 type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
@@ -329,15 +328,6 @@ type FormsetOptions<FormInput, K extends keyof FormInput> = {
   emptyForm?: UnwrappedArray<FormInput[K]>
 };
 
-function isDeepStrictEqual<T>(a: T, b: T): boolean {
-  try {
-    deepStrictEqual(a, b);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 /** This class encapsulates view logic for forms. */
 export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
   constructor(props: FormProps<FormInput>) {
@@ -398,7 +388,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     let initialForms = items.length;
     const { props } = this;
     const filterEmpty = (i: typeof items) =>
-      options && options.emptyForm ? i.filter(item => !isDeepStrictEqual(item, options.emptyForm)) : i;
+      options && options.emptyForm ? i.filter(item => !isDeepEqual(item, options.emptyForm)) : i;
 
     if (options && options.emptyForm) {
       items = filterEmpty(items);

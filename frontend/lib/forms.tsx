@@ -311,16 +311,17 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> {
-  submit: () => void,
-  isLoading: boolean,
-  fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
-  renderFormsetFor: <K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>) => JSX.Element;
+export interface BaseFormContext<FormInput> {
+  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>;
 }
 
-export interface FormsetContext<FormsetInput> {
-  fieldPropsFor: <K extends (keyof FormsetInput) & string>(field: K) => BaseFormFieldProps<FormsetInput[K]>;
+export interface FormContext<FormInput> extends BaseFormContext<FormInput> {
+  submit: () => void,
+  isLoading: boolean,
+  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element;
 }
+
+export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
 
 type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
 

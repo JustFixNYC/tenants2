@@ -6,15 +6,17 @@ import { ExampleMutation } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
-import { ExampleInput } from '../queries/globalTypes';
+import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',
   boolField: false,
-  subforms: [
-//    { exampleField: '' }
-  ]
+  subforms: []
+};
+
+const EMPTY_SUBFORM: SubformsExampleSubformFormSetInput = {
+  exampleField: ''
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -46,7 +48,9 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           </CheckboxFormField>
           {ctx.renderFormsetFor('subforms', (subforms) => (
             <TextualFormField label="example subform field" {...subforms.fieldPropsFor('exampleField')} />
-          ))}
+          ), {
+            emptyForm: EMPTY_SUBFORM
+          })}
           <div className="field">
             <NextButton isLoading={ctx.isLoading} label="Submit" />
           </div>

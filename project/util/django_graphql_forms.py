@@ -117,9 +117,15 @@ def convert_post_data_to_input(
         result[to_camel_case(formset_name)] = items
         formset = formset_class(data=snake_cased_data, prefix=formset_name)
         for form in formset.forms:
-            items.append({
+            item = {
                 to_camel_case(field): form[field].data for field in form.fields
-            })
+            }
+            # TODO: It's weird that we need to test to see if the form
+            # is empty, as the formset should be able to ultimately
+            # infer this from the INITIAL_FORMS setting.
+            is_form_empty = len(list(filter(None, item.values()))) == 0
+            if not is_form_empty:
+                items.append(item)
     return result
 
 

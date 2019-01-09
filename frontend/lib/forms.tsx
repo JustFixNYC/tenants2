@@ -13,6 +13,7 @@ import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
+import { deepStrictEqual } from 'assert';
 
 type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
@@ -314,7 +315,7 @@ export interface FormContext<FormInput> {
   submit: () => void,
   isLoading: boolean,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
-  renderFormsetFor: <K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>) => JSX.Element;
+  renderFormsetFor: <K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>) => JSX.Element;
 }
 
 export interface FormsetContext<FormsetInput> {
@@ -322,6 +323,19 @@ export interface FormsetContext<FormsetInput> {
 }
 
 type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
+
+type FormsetOptions<FormInput, K extends keyof FormInput> = {
+  emptyForm?: UnwrappedArray<FormInput[K]>
+};
+
+function isDeepStrictEqual<T>(a: T, b: T): boolean {
+  try {
+    deepStrictEqual(a, b);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 /** This class encapsulates view logic for forms. */
 export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
@@ -378,23 +392,34 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   }
 
   @autobind
-  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>): JSX.Element {
-    const items = this.getFormsetItems(formset);
+  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element {
+    let items = this.getFormsetItems(formset);
+    let initialForms = items.length;
     const { props } = this;
+    const filterEmpty = (i: typeof items) =>
+      options && options.emptyForm ? i.filter(item => !isDeepStrictEqual(item, options.emptyForm)) : i;
+
+    if (options && options.emptyForm) {
+      items = filterEmpty(items);
+      initialForms = items.length;
+      items = [...items, options.emptyForm];
+    }
 
     const fsErrors = props.errors && props.errors.formsetErrors && props.errors.formsetErrors[formset];
     return (
       <>
         <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
-        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={items.length} />
+        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={initialForms} />
         {items.map((item, i) => {
           const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
           const ctx: FormsetContext<typeof item> = {
             fieldPropsFor: (field) => {
               return {
                 onChange: (value) => {
-                  const newItems = items.slice();
-                  newItems[i] = { ...newItems[i], [field]: value };
+                  let newItems = items.slice();
+                  newItems[i] = Object.assign({}, newItems[i]);
+                  newItems[i][field] = value;
+                  newItems = filterEmpty(newItems);
                   this.setState({ [formset]: newItems } as any);
                 },
                 errors: errors && errors.fieldErrors[field],

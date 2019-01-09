@@ -328,6 +328,13 @@ type FormsetOptions<FormInput, K extends keyof FormInput> = {
   emptyForm?: UnwrappedArray<FormInput[K]>
 };
 
+function withItemChanged<T, K extends keyof T>(items: T[], index: number, field: K, value: T[K]): T[] {
+  const newItems = items.slice();
+  newItems[index] = Object.assign({}, newItems[index]);
+  newItems[index][field] = value;
+  return newItems;
+}
+
 /** This class encapsulates view logic for forms. */
 export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
   constructor(props: FormProps<FormInput>) {
@@ -407,10 +414,9 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
             fieldPropsFor: (field) => {
               return {
                 onChange: (value) => {
-                  let newItems = items.slice();
-                  newItems[i] = Object.assign({}, newItems[i]);
-                  newItems[i][field] = value;
-                  newItems = filterEmpty(newItems);
+                  const newItems = filterEmpty(withItemChanged(items, i, field, value));
+                  // I'm not sure why Typescript dislikes this, but it seems
+                  // like the only way to get around it is to cast to "any". :(
                   this.setState({ [formset]: newItems } as any);
                 },
                 errors: errors && errors.fieldErrors[field],

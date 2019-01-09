@@ -13,7 +13,7 @@ const INITIAL_STATE: ExampleInput = {
   exampleField: '',
   boolField: false,
   subforms: [
-    { exampleField: '' }
+//    { exampleField: '' }
   ]
 };
 

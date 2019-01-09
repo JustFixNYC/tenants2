@@ -382,6 +382,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     const fsErrors = props.errors && props.errors.formsetErrors && props.errors.formsetErrors[formset];
     return (
       <>
+        <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
+        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={items.length} />
         {items.map((item: FormsetItem, i) => {
           const errors = fsErrors && fsErrors[i] as FormErrors<FormsetItem>;
           const ctx: FormsetContext<FormsetItem> = {

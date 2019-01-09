@@ -3,7 +3,7 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping
+from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List
 from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
@@ -93,19 +93,34 @@ def to_capitalized_camel_case(s: str) -> str:
 
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
-    data: QueryDict
+    data: QueryDict,
+    formset_classes: Optional['FormsetClasses'] = None
 ) -> Dict[str, Any]:
     '''
     Given a QueryDict that represents POST data, return a dictionary
     suitable for passing to a GraphQL mutation that is derived from
-    the given form.
+    the given form and formset classes.
     '''
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_cased_data.setlist(to_snake_case(key), data.getlist(key))
+        snake_key = to_snake_case(key)\
+            .replace('-total_forms', '-TOTAL_FORMS')\
+            .replace('-initial_forms', '-INITIAL_FORMS')
+        snake_cased_data.setlist(snake_key, data.getlist(key))
     form = form_class(data=snake_cased_data)
-    return {to_camel_case(field): form[field].data for field in form.fields}
+    result = {
+        to_camel_case(field): form[field].data for field in form.fields
+    }
+    for (formset_name, formset_class) in (formset_classes or {}).items():
+        items: List[Any] = []
+        result[to_camel_case(formset_name)] = items
+        formset = formset_class(data=snake_cased_data, prefix=formset_name)
+        for form in formset.forms:
+            items.append({
+                to_camel_case(field): form[field].data for field in form.fields
+            })
+    return result
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):
@@ -202,7 +217,7 @@ class DjangoFormMutation(ClientIDMutation):
     class Meta:
         abstract = True
 
-    _input_type_to_form_mapping: MutableMapping[str, Type[forms.Form]] = \
+    _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
         WeakValueDictionary()
 
     # Subclasses can change this if they can only be used by authenticated users.
@@ -270,7 +285,7 @@ class DjangoFormMutation(ClientIDMutation):
             _meta=_meta, input_fields=input_fields, **options
         )
 
-        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
+        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
@@ -279,7 +294,17 @@ class DjangoFormMutation(ClientIDMutation):
         return the form class it corresponds to.
         '''
 
-        return cls._input_type_to_form_mapping.get(input_type)
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.form_class
+
+    @classmethod
+    def get_formset_classes_for_input_type(cls, input_type: str) -> Optional[FormsetClasses]:
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.formset_classes
 
     @classmethod
     def log(cls, info: ResolveInfo, msg: str) -> None:
@@ -356,3 +381,4 @@ class DjangoFormMutation(ClientIDMutation):
 
 
 get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type
+get_formset_classes_for_input_type = DjangoFormMutation.get_formset_classes_for_input_type

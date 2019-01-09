@@ -14,6 +14,7 @@ import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 
+type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
@@ -313,7 +314,14 @@ export interface FormContext<FormInput> {
   submit: () => void,
   isLoading: boolean,
   fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
+  renderFormsetFor: <K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>) => JSX.Element;
 }
+
+export interface FormsetContext<FormsetInput> {
+  fieldPropsFor: <K extends (keyof FormsetInput) & string>(field: K) => BaseFormFieldProps<FormsetInput[K]>;
+}
+
+type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
 
 /** This class encapsulates view logic for forms. */
 export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
@@ -361,6 +369,44 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     };
   }
 
+  @autobind
+  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>): JSX.Element {
+    type FormsetItem = UnwrappedArray<FormInput[K]>;
+    const items = this.state[formset];
+    const { props } = this;
+
+    if (!Array.isArray(items)) {
+      throw new Error(`invalid formset '${formset}'`);
+    }
+
+    const fsErrors = props.errors && props.errors.formsetErrors && props.errors.formsetErrors[formset];
+    return (
+      <>
+        {items.map((item: FormsetItem, i) => {
+          const errors = fsErrors && fsErrors[i] as FormErrors<FormsetItem>;
+          const ctx: FormsetContext<FormsetItem> = {
+            fieldPropsFor: (field) => {
+              return {
+                onChange: (value) => {
+                  const newItems = items.slice();
+                  newItems[i] = { ...newItems[i], [field]: value };
+                  this.setState({ [formset]: newItems } as any);
+                },
+                errors: errors && errors.fieldErrors[field],
+                value: item[field],
+                name: `${formset}-${i}-${field}`,
+                isDisabled: props.isLoading,
+                id: `${props.idPrefix}${formset}-${i}-${field}`
+              };
+            }
+          };
+
+          return <React.Fragment key={i}>{cb(ctx)}</React.Fragment>;
+        })}
+      </>
+    );
+  }
+
   render() {
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
@@ -371,7 +417,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.children({
           isLoading: this.props.isLoading,
           submit: this.submit,
-          fieldPropsFor: this.fieldPropsFor
+          fieldPropsFor: this.fieldPropsFor,
+          renderFormsetFor: this.renderFormsetFor
         })}
       </form>
     );

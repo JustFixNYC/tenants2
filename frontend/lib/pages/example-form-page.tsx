@@ -11,7 +11,10 @@ import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',
-  boolField: false
+  boolField: false,
+  subforms: [
+    { exampleField: '' }
+  ]
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -41,6 +44,9 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field
           </CheckboxFormField>
+          {ctx.renderFormsetFor('subforms', (subforms) => (
+            <TextualFormField label="example subform field" {...subforms.fieldPropsFor('exampleField')} />
+          ))}
           <div className="field">
             <NextButton isLoading={ctx.isLoading} label="Submit" />
           </div>

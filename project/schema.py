@@ -3,6 +3,7 @@ import graphene
 from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
+from django.forms import formset_factory
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
@@ -93,12 +94,16 @@ class SessionInfo(
 class Example(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleForm
+        formset_classes = {
+            'subforms': formset_factory(forms.ExampleSubform)
+        }
 
     response = graphene.String()
 
     @classmethod
-    def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
-        return cls(response=f"hello there {form.cleaned_data['example_field']}")
+    def perform_mutate(cls, form, info: ResolveInfo):
+        base_form: forms.LoginForm = form.base_form
+        return cls(response=f"hello there {base_form.cleaned_data['example_field']}")
 
 
 class Login(DjangoFormMutation):

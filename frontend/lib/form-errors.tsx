@@ -26,6 +26,10 @@ export type FormFieldErrorMap<T> = {
   [K in keyof T]?: string[];
 }
 
+export type FormsetErrorMap<T> = {
+  [K in keyof T]?: T[K] extends Array<infer U> ? FormErrors<U>[] : never;
+}
+
 export interface FormErrors<T> {
   /**
    * Non-field errors that don't correspond to any particular field.
@@ -36,6 +40,8 @@ export interface FormErrors<T> {
    * Field-specific errors.
    */
   fieldErrors: FormFieldErrorMap<T>;
+
+  formsetErrors?: FormsetErrorMap<T>;
 }
 
 /**
@@ -49,22 +55,68 @@ export function trackFormErrors(errors: ServerFormFieldError[]): void {
   }
 }
 
+const FORMSET_FIELD_RE = /^(\w+)\.(\d+)\.(\w+)$/;
+
+type FormsetField = {
+  formset: string;
+  index: number;
+  field: string;
+};
+
+function parseFormsetField(field: string): FormsetField|null {
+  const match = field.match(FORMSET_FIELD_RE);
+
+  if (!match) return null;
+
+  return {
+    formset: match[1],
+    index: parseInt(match[2]),
+    field: match[3]
+  };
+}
+
+function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[]|undefined }, error: ServerFormFieldError): boolean {
+  const ff = parseFormsetField(error.field);
+
+  if (!ff) return false;
+
+  let formsetErrors = errors[ff.formset];
+
+  if (!formsetErrors) {
+    formsetErrors = [];
+    errors[ff.formset] = formsetErrors;
+  }
+
+  const result = getFormErrors([
+    { field: ff.field, messages: error.messages }
+  ], formsetErrors[ff.index]);
+
+  formsetErrors[ff.index] = result;
+
+  return true;
+}
+
 /**
  * Re-structure a list of errors from the server into a more convenient
  * format for us to process.
  * 
  * @param errors A list of errors from the server.
  */
-export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> {
-  const result: FormErrors<T> = {
-    nonFieldErrors: [],
-    fieldErrors: {}
-  };
+export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErrors<T> = {
+  nonFieldErrors: [],
+  fieldErrors: {}
+}): FormErrors<T> {
+  const formsetErrors: { [formset: string]: FormErrors<any>[]|undefined } = {};
 
   errors.forEach(error => {
     if (error.field === SERVER_NON_FIELD_ERROR) {
       result.nonFieldErrors.push(...error.messages);
     } else {
+      if (addToFormsetErrors(formsetErrors, error)) {
+        result.formsetErrors = formsetErrors as any;
+        return;
+      }
+
       // Note that we're forcing a typecast here. It's not ideal, but
       // it seems better than the alternative of not parameterizing
       // this type at all.

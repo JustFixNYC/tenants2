@@ -379,7 +379,6 @@ export class FormContext<FormInput> extends BaseFormContext<FormInput> {
     return items;
   }
 
-  @autobind
   renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element {
     let items = this.getFormsetItems(formset);
     let initialForms = items.length;

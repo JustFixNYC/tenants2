@@ -318,10 +318,6 @@ export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
 
 type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
 
-type FormsetRendererCaller<FormInput> = {
-  <K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element;
-};
-
 type FormsetOptions<FormInput, K extends keyof FormInput> = {
   emptyForm?: UnwrappedArray<FormInput[K]>
 };
@@ -345,7 +341,7 @@ interface BaseFormContextOptions<FormInput> {
 class BaseFormContext<FormInput> {
   readonly isLoading: boolean;
 
-  constructor(private readonly options: BaseFormContextOptions<FormInput>) {
+  constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
   }
 
@@ -370,10 +366,62 @@ class BaseFormContext<FormInput> {
 export class FormContext<FormInput> extends BaseFormContext<FormInput> {
   constructor(
     options: BaseFormContextOptions<FormInput>,
-    readonly submit: () => void,
-    readonly renderFormsetFor: FormsetRendererCaller<FormInput>
+    readonly submit: () => void
   ) {
     super(options);
+  }
+
+  private getFormsetItems<K extends keyof FormInput>(formset: K): UnwrappedArray<FormInput[K]>[] {
+    const items = this.options.currentState[formset];
+    if (!Array.isArray(items)) {
+      throw new Error(`invalid formset '${formset}'`);
+    }
+    return items;
+  }
+
+  @autobind
+  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element {
+    let items = this.getFormsetItems(formset);
+    let initialForms = items.length;
+    const filterEmpty = (i: typeof items) =>
+      options && options.emptyForm ? i.filter(item => !isDeepEqual(item, options.emptyForm)) : i;
+
+    if (options && options.emptyForm) {
+      items = filterEmpty(items);
+      initialForms = items.length;
+      items = [...items, options.emptyForm];
+    }
+
+    const o = this.options;
+    const fsErrors = o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
+    return (
+      <>
+        <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
+        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={initialForms} />
+        {items.map((item, i) => {
+          const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
+          const ctx = new BaseFormContext({
+            idPrefix: o.idPrefix,
+            isLoading: o.isLoading,
+            errors,
+            namePrefix: `${formset}-${i}-`,
+            currentState: item,
+            setField: (field, value) => {
+              const newItems = filterEmpty(withItemChanged(items, i, field, value));
+              // Urg, due to weirdnesses with our UnwrappedArray type, we need
+              // to typecast here.
+              o.setField(formset, newItems as unknown as FormInput[K]);
+            }
+          });
+          return (
+            <React.Fragment key={i}>
+              <NonFieldErrors errors={errors} />
+              {cb(ctx)}
+            </React.Fragment>
+          );
+        })}
+      </>
+    );
   }
 }
 
@@ -407,59 +455,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     }
   }
 
-  private getFormsetItems<K extends keyof FormInput>(formset: K): UnwrappedArray<FormInput[K]>[] {
-    const items = this.state[formset];
-    if (!Array.isArray(items)) {
-      throw new Error(`invalid formset '${formset}'`);
-    }
-    return items;
-  }
-
-  @autobind
-  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element {
-    let items = this.getFormsetItems(formset);
-    let initialForms = items.length;
-    const { props } = this;
-    const filterEmpty = (i: typeof items) =>
-      options && options.emptyForm ? i.filter(item => !isDeepEqual(item, options.emptyForm)) : i;
-
-    if (options && options.emptyForm) {
-      items = filterEmpty(items);
-      initialForms = items.length;
-      items = [...items, options.emptyForm];
-    }
-
-    const fsErrors = props.errors && props.errors.formsetErrors && props.errors.formsetErrors[formset];
-    return (
-      <>
-        <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
-        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={initialForms} />
-        {items.map((item, i) => {
-          const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
-          const ctx = new BaseFormContext({
-            idPrefix: this.props.idPrefix,
-            isLoading: this.props.isLoading,
-            errors,
-            namePrefix: `${formset}-${i}-`,
-            currentState: item,
-            setField: (field, value) => {
-              const newItems = filterEmpty(withItemChanged(items, i, field, value));
-              // I'm not sure why Typescript dislikes this, but it seems
-              // like the only way to get around it is to cast to "any". :(
-              this.setState({ [formset]: newItems } as any);
-            }
-          });
-          return (
-            <React.Fragment key={i}>
-              <NonFieldErrors errors={errors} />
-              {cb(ctx)}
-            </React.Fragment>
-          );
-        })}
-      </>
-    );
-  }
-
   render() {
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
@@ -478,7 +473,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
             // like the only way to get around it is to cast to "any". :(
             this.setState({ [field]: value } as any);
           }
-        }, this.submit, this.renderFormsetFor))}
+        }, this.submit))}
       </form>
     );
   }

@@ -131,20 +131,24 @@ def _convert_formset_post_data_to_input(
 ) -> Dict[str, Any]:
     result: Dict[str, Any] = {}
     for (formset_name, formset_class) in (formset_classes or {}).items():
-        items: List[Any] = []
-        result[to_camel_case(formset_name)] = items
         formset = formset_class(data=snake_cased_data, prefix=formset_name)
-        for form in formset.forms:
-            item = {
-                to_camel_case(field): form[field].data for field in form.fields
-            }
-            # TODO: It's weird that we need to test to see if the form
-            # is empty, as the formset should be able to ultimately
-            # infer this from the INITIAL_FORMS setting.
-            is_form_empty = len(list(filter(None, item.values()))) == 0
-            if not is_form_empty:
-                items.append(item)
+        result[to_camel_case(formset_name)] = _get_formset_items(formset)
     return result
+
+
+def _get_formset_items(formset) -> List[Any]:
+    items: List[Any] = []
+    for form in formset.forms:
+        item = {
+            to_camel_case(field): form[field].data for field in form.fields
+        }
+        # TODO: It's weird that we need to test to see if the form
+        # is empty, as the formset should be able to ultimately
+        # infer this from the INITIAL_FORMS setting.
+        is_form_empty = len(list(filter(None, item.values()))) == 0
+        if not is_form_empty:
+            items.append(item)
+    return items
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):

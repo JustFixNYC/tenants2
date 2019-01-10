@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter } from '../forms';
+import { LegacyFormSubmitter, Formset } from '../forms';
 import { ExampleMutation } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
@@ -46,11 +46,11 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field
           </CheckboxFormField>
-          {ctx.renderFormsetFor('subforms', (subforms) => (
-            <TextualFormField label="example subform field" {...subforms.fieldPropsFor('exampleField')} />
-          ), {
-            emptyForm: EMPTY_SUBFORM
-          })}
+          <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
+            {(subforms) => (
+              <TextualFormField label="example subform field" {...subforms.fieldPropsFor('exampleField')} />
+            )}
+          </Formset>
           <div className="field">
             <NextButton isLoading={ctx.isLoading} label="Submit" />
           </div>

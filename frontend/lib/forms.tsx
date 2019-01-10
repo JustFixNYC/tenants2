@@ -310,17 +310,27 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
+export interface BaseFormsetProps<FormsetInput> {
+  items: FormsetInput[],
+  errors?: FormErrors<FormsetInput>[],
+  onChange(items: FormsetInput[]): void;
+  idPrefix: string;
+  isLoading: boolean;
+  name: string;
+}
+
+export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInput> {
+  children: FormsetRenderer<FormsetInput>
+  emptyForm?: FormsetInput;
+}
+
 type FieldSetter<FormInput> = {
   <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
 };
 
 export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
 
-type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
-
-type FormsetOptions<FormInput, K extends keyof FormInput> = {
-  emptyForm?: UnwrappedArray<FormInput[K]>
-};
+type FormsetRenderer<FormsetInput> = (ctx: FormsetContext<FormsetInput>) => JSX.Element;
 
 function withItemChanged<T, K extends keyof T>(items: T[], index: number, field: K, value: T[K]): T[] {
   const newItems = items.slice();
@@ -379,43 +389,62 @@ export class FormContext<FormInput> extends BaseFormContext<FormInput> {
     return items;
   }
 
-  renderFormsetFor<K extends (keyof FormInput)>(formset: K, cb: FormsetRenderer<FormInput, K>, options?: FormsetOptions<FormInput, K>): JSX.Element {
-    let items = this.getFormsetItems(formset);
-    let initialForms = items.length;
-    const filterEmpty = (i: typeof items) =>
-      options && options.emptyForm ? i.filter(item => !isDeepEqual(item, options.emptyForm)) : i;
-
-    if (options && options.emptyForm) {
-      items = filterEmpty(items);
-      initialForms = items.length;
-      items = [...items, options.emptyForm];
-    }
+  formsetPropsFor<K extends (keyof FormInput) & string>(formset: K): BaseFormsetProps<UnwrappedArray<FormInput[K]>> {
+    // Urg, due to weirdnesses with our UnwrappedArray type, we need
+    // to typecast here.
 
     const o = this.options;
-    const fsErrors = o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
+    const errors: FormErrors<any>[]|undefined =
+      o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
+
+    return {
+      items: this.getFormsetItems(formset),
+      errors,
+      onChange(value) {
+        o.setField(formset, value as unknown as FormInput[K]);
+      },
+      idPrefix: o.idPrefix,
+      isLoading: o.isLoading,
+      name: formset
+    };
+  }
+}
+
+export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>> {
+  render() {
+    const { props } = this;
+    let { items, errors, name } = props;
+    let initialForms = items.length;
+    const filterEmpty = (i: typeof items) =>
+      props.emptyForm ? i.filter(item => !isDeepEqual(item, props.emptyForm)) : i;
+
+    if (props.emptyForm) {
+      items = filterEmpty(items);
+      initialForms = items.length;
+      items = [...items, props.emptyForm];
+    }
+
     return (
       <>
-        <input type="hidden" name={`${formset}-TOTAL_FORMS`} value={items.length} />
-        <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={initialForms} />
+        <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
+        <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
         {items.map((item, i) => {
-          const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
+          const itemErrors = errors && errors[i];
           const ctx = new BaseFormContext({
-            idPrefix: o.idPrefix,
-            isLoading: o.isLoading,
-            errors,
-            namePrefix: `${formset}-${i}-`,
+            idPrefix: props.idPrefix,
+            isLoading: props.isLoading,
+            errors: itemErrors,
+            namePrefix: `${name}-${i}-`,
             currentState: item,
             setField: (field, value) => {
               const newItems = filterEmpty(withItemChanged(items, i, field, value));
-              // Urg, due to weirdnesses with our UnwrappedArray type, we need
-              // to typecast here.
-              o.setField(formset, newItems as unknown as FormInput[K]);
+              props.onChange(newItems);
             }
           });
           return (
             <React.Fragment key={i}>
-              <NonFieldErrors errors={errors} />
-              {cb(ctx)}
+              <NonFieldErrors errors={itemErrors} />
+              {props.children(ctx)}
             </React.Fragment>
           );
         })}

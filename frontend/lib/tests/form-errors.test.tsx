@@ -1,6 +1,23 @@
-import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors } from "../form-errors";
+import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap } from "../form-errors";
 import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
+
+test("FormsetErrorMap type makes sense", () => {
+  // The value of this test is in whether it passes through
+  // TypeScript without errors, not in the code it executes.
+
+  type MyFormset = { baz: string };
+  type MyFormInput = { foo: string, bar: MyFormset[] };
+  const myErrors: FormsetErrorMap<MyFormInput> = {
+    bar: [{
+      nonFieldErrors: [],
+      fieldErrors: {
+        baz: ['hi']
+      }
+    }]
+  };
+  myErrors;
+});
 
 describe('formatErrors()', () => {
   it('concatenates errors', () => {

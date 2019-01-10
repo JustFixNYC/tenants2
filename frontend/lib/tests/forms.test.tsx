@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter, SessionUpdatingFormSubmitter } from '../forms';
+import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter, SessionUpdatingFormSubmitter, FormContext, BaseFormContextOptions } from '../forms';
 import { createTestGraphQlClient, pause } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
@@ -166,6 +166,39 @@ describe('FormSubmitter', () => {
     await login;
     expect(form.state.isLoading).toBe(false);
     expect(onSuccess.mock.calls).toHaveLength(0);
+  });
+});
+
+describe('FormContext', () => {
+  const currentState = {
+    foo: 'hello',
+    bar: 1,
+    baz: [{thing: 1}]
+  };
+  const baseOptions: BaseFormContextOptions<typeof currentState> = {
+    idPrefix: 'blarg',
+    isLoading: false,
+    errors: undefined,
+    currentState,
+    setField(field, value) {},
+    namePrefix: 'hi'
+  };
+
+  describe('formsetPropsFor()', () => {
+    const ctx = new FormContext(baseOptions, () => {});
+
+    it('throws an error when not passed a formset', () => {
+      expect(() => ctx.formsetPropsFor('foo')).toThrowError("invalid formset 'foo'");
+    });
+
+    it('works', () => {
+      const props = ctx.formsetPropsFor('baz');
+      expect(props.items).toEqual([{ thing: 1 }]);
+      expect(props.errors).toBeUndefined();
+      expect(props.idPrefix).toEqual('blarg');
+      expect(props.isLoading).toEqual(false);
+      expect(props.name).toEqual('baz');
+    });
   });
 });
 

@@ -315,7 +315,7 @@ type FieldSetter<FormInput> = {
   <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
 };
 
-interface BaseFormContextOptions<FormInput> {
+export interface BaseFormContextOptions<FormInput> {
   idPrefix: string;
   isLoading: boolean;
   errors: FormErrors<FormInput>|undefined;

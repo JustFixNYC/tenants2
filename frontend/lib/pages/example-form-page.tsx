@@ -6,12 +6,18 @@ import { ExampleMutation } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
-import { ExampleInput } from '../queries/globalTypes';
+import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { Formset } from '../formset';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',
-  boolField: false
+  boolField: false,
+  subforms: []
+};
+
+const EMPTY_SUBFORM: SubformsExampleSubformFormSetInput = {
+  exampleField: ''
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -41,6 +47,11 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field
           </CheckboxFormField>
+          <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
+            {(subforms, i) => (
+              <TextualFormField label={`example subform field #${i + 1}`} {...subforms.fieldPropsFor('exampleField')} />
+            )}
+          </Formset>
           <div className="field">
             <NextButton isLoading={ctx.isLoading} label="Submit" />
           </div>

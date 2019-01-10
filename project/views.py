@@ -122,7 +122,10 @@ def get_legacy_form_submission(request):
     if not form_class:
         raise LegacyFormSubmissionError('Invalid GraphQL input type')
 
-    input = django_graphql_forms.convert_post_data_to_input(form_class, request.POST)
+    formset_classes = django_graphql_forms.get_formset_classes_for_input_type(input_type)
+
+    input = django_graphql_forms.convert_post_data_to_input(
+        form_class, request.POST, formset_classes)
 
     result = execute_query(request, graphql, variables={'input': input})
 

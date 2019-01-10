@@ -56,6 +56,23 @@ class SimpleForm(forms.Form):
     some_field = forms.CharField()
 
 
+class MutationWithFormsets(DjangoFormMutation):
+    class Meta:
+        formset_classes = {
+            'simples': forms.formset_factory(SimpleForm)
+        }
+
+    output = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        output = ' '.join(
+            f.cleaned_data['some_field']
+            for f in form.formsets['simples']
+        )
+        return cls(errors=[], output=output)
+
+
 class FormWithAuth(DjangoFormMutation):
     class Meta:
         form_class = SimpleForm
@@ -70,6 +87,7 @@ class FormWithAuth(DjangoFormMutation):
 class Mutations(graphene.ObjectType):
     foo = Foo.Field()
     form_with_auth = FormWithAuth.Field()
+    mutation_with_formsets = MutationWithFormsets.Field()
 
 
 schema = graphene.Schema(mutation=Mutations)
@@ -120,6 +138,62 @@ def execute_form_with_auth_query(some_field='HI', user=None):
         }
     }
     ''', variables={'input': input_var}, context_value=create_fake_request(user)))
+
+
+def execute_formsets_query(simples):
+    client = Client(schema)
+    input_var = {'simples': simples}
+
+    return jsonify(client.execute('''
+    mutation MyFormsetMutation($input: MutationWithFormsetsInput!) {
+        mutationWithFormsets(input: $input) {
+            output,
+            errors {
+                field,
+                messages
+            }
+        }
+    }
+    ''', variables={'input': input_var}, context_value=create_fake_request()))
+
+
+def test_formsets_query_works():
+    result = execute_formsets_query([
+        {'someField': 'hello'},
+        {'someField': 'there'},
+    ])
+    assert result == {
+        'data': {'mutationWithFormsets': {
+            'output': 'hello there',
+            'errors': []
+        }}
+    }
+
+
+def test_formsets_query_reports_errors():
+    result = execute_formsets_query([
+        {'someField': 'hello'},
+        {'someField': ''},
+    ])
+    assert result == {
+        'data': {'mutationWithFormsets': {
+            'output': None,
+            'errors': [{
+                'field': 'simples.1.someField',
+                'messages': ['This field is required.']
+            }]
+        }}
+    }
+
+
+def test_error_is_raised_when_fields_conflict():
+    with pytest.raises(AssertionError, match='multiple definitions for "some_field" exist'):
+        class ConflictingMutation(DjangoFormMutation):
+            class Meta:
+                form_class = SimpleForm
+                formset_classes = {
+                    'some_field': forms.formset_factory(SimpleForm)
+                }
 
 
 def test_log_works_with_anonymous_users():

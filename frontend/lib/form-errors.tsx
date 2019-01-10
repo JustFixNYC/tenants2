@@ -26,6 +26,10 @@ export type FormFieldErrorMap<T> = {
   [K in keyof T]?: string[];
 }
 
+export type FormsetErrorMap<T> = {
+  [K in keyof T]?: T[K] extends Array<infer U> ? FormErrors<U>[] : never;
+}
+
 export interface FormErrors<T> {
   /**
    * Non-field errors that don't correspond to any particular field.
@@ -36,6 +40,11 @@ export interface FormErrors<T> {
    * Field-specific errors.
    */
   fieldErrors: FormFieldErrorMap<T>;
+
+  /**
+   * Errors pertaining to nested formsets.
+   */
+  formsetErrors?: FormsetErrorMap<T>;
 }
 
 /**
@@ -49,26 +58,85 @@ export function trackFormErrors(errors: ServerFormFieldError[]): void {
   }
 }
 
+const FORMSET_FIELD_RE = /^(\w+)\.(\d+)\.(\w+)$/;
+
+type FormsetField = {
+  formset: string;
+  index: number;
+  field: string;
+};
+
+/**
+ * Parse a field name of the form "<formset>.<index>.<field>", e.g.
+ * "people.0.firstName", and return the structured data.
+ */
+export function parseFormsetField(field: string): FormsetField|null {
+  const match = field.match(FORMSET_FIELD_RE);
+
+  if (!match) return null;
+
+  return {
+    formset: match[1],
+    index: parseInt(match[2]),
+    field: match[3]
+  };
+}
+
+/**
+ * Given a hash of formset errors, parse the given server-side
+ * error and, if it's a formset error, add it to the hash and
+ * return true. Otherwise, return false.
+ */
+export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[]|undefined }, error: ServerFormFieldError): boolean {
+  const ff = parseFormsetField(error.field);
+
+  if (!ff) return false;
+
+  let formsetErrors = errors[ff.formset];
+
+  if (!formsetErrors) {
+    formsetErrors = [];
+    errors[ff.formset] = formsetErrors;
+  }
+
+  const result = getFormErrors([
+    { field: ff.field, messages: error.messages }
+  ], formsetErrors[ff.index]);
+
+  formsetErrors[ff.index] = result;
+
+  return true;
+}
+
 /**
  * Re-structure a list of errors from the server into a more convenient
  * format for us to process.
  * 
  * @param errors A list of errors from the server.
  */
-export function getFormErrors<T>(errors: ServerFormFieldError[]): FormErrors<T> {
-  const result: FormErrors<T> = {
-    nonFieldErrors: [],
-    fieldErrors: {}
-  };
+export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErrors<T> = {
+  nonFieldErrors: [],
+  fieldErrors: {}
+}): FormErrors<T> {
+  const formsetErrors: { [formset: string]: FormErrors<any>[]|undefined } = {};
 
   errors.forEach(error => {
     if (error.field === SERVER_NON_FIELD_ERROR) {
       result.nonFieldErrors.push(...error.messages);
     } else {
-      // Note that we're forcing a typecast here. It's not ideal, but
+      // Note that we're forcing a few typecasts here. It's not ideal, but
       // it seems better than the alternative of not parameterizing
-      // this type at all.
-      const field: keyof T = error.field as any;
+      // our types at all.
+
+      if (addToFormsetErrors(formsetErrors, error)) {
+        // TODO: Once we upgrade to TypeScript 3.2, we should be
+        // able to typecast this to 'FormsetErrorMap<any>', which
+        // is a little better than 'any'.
+        result.formsetErrors = formsetErrors as any;
+        return;
+      }
+
+      const field = error.field as keyof T;
 
       // This code looks weird because TypeScript is being fidgety.
       const arr = result.fieldErrors[field];

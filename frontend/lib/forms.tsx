@@ -13,7 +13,9 @@ import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
+import { BaseFormsetProps } from './formset';
 
+type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
@@ -309,10 +311,79 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> {
-  submit: () => void,
-  isLoading: boolean,
-  fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
+type FieldSetter<FormInput> = {
+  <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
+};
+
+export interface BaseFormContextOptions<FormInput> {
+  idPrefix: string;
+  isLoading: boolean;
+  errors: FormErrors<FormInput>|undefined;
+  currentState: FormInput;
+  setField: FieldSetter<FormInput>;
+  namePrefix: string;
+}
+
+export class BaseFormContext<FormInput> {
+  readonly isLoading: boolean;
+
+  constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
+    this.isLoading = options.isLoading;
+  }
+
+  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]> {
+    const o = this.options;
+    const name = `${o.namePrefix}${field}`;
+    const ctx: BaseFormFieldProps<FormInput[K]> = {
+      onChange(value) {
+        o.setField(field, value)
+      },
+      errors: o.errors && o.errors.fieldErrors[field],
+      value: o.currentState[field],
+      name,
+      id: `${o.idPrefix}${name}`,
+      isDisabled: o.isLoading
+    };
+
+    return ctx;
+  }
+}
+
+export class FormContext<FormInput> extends BaseFormContext<FormInput> {
+  constructor(
+    options: BaseFormContextOptions<FormInput>,
+    readonly submit: () => void
+  ) {
+    super(options);
+  }
+
+  private getFormsetItems<K extends keyof FormInput>(formset: K): UnwrappedArray<FormInput[K]>[] {
+    const items = this.options.currentState[formset];
+    if (!Array.isArray(items)) {
+      throw new Error(`invalid formset '${formset}'`);
+    }
+    return items;
+  }
+
+  formsetPropsFor<K extends (keyof FormInput) & string>(formset: K): BaseFormsetProps<UnwrappedArray<FormInput[K]>> {
+    // Urg, due to weirdnesses with our UnwrappedArray type, we need
+    // to typecast here.
+
+    const o = this.options;
+    const errors: FormErrors<any>[]|undefined =
+      o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
+
+    return {
+      items: this.getFormsetItems(formset),
+      errors,
+      onChange(value) {
+        o.setField(formset, value as unknown as FormInput[K]);
+      },
+      idPrefix: o.idPrefix,
+      isLoading: o.isLoading,
+      name: formset
+    };
+  }
 }
 
 /** This class encapsulates view logic for forms. */
@@ -345,22 +416,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     }
   }
 
-  @autobind
-  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>  {
-    return {
-      onChange: (value) => {
-        // I'm not sure why Typescript dislikes this, but it seems
-        // like the only way to get around it is to cast to "any". :(
-        this.setState({ [field]: value } as any);
-      },
-      errors: this.props.errors && this.props.errors.fieldErrors[field],
-      value: this.state[field],
-      name: field,
-      id: `${this.props.idPrefix}${field}`,
-      isDisabled: this.props.isLoading
-    };
-  }
-
   render() {
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
@@ -368,11 +423,18 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children({
+        {this.props.children(new FormContext({
+          idPrefix: this.props.idPrefix,
           isLoading: this.props.isLoading,
-          submit: this.submit,
-          fieldPropsFor: this.fieldPropsFor
-        })}
+          errors: this.props.errors,
+          namePrefix: '',
+          currentState: this.state,
+          setField: (field, value) => {
+            // I'm not sure why Typescript dislikes this, but it seems
+            // like the only way to get around it is to cast to "any". :(
+            this.setState({ [field]: value } as any);
+          }
+        }, this.submit))}
       </form>
     );
   }

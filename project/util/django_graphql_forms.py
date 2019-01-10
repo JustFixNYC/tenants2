@@ -3,7 +3,7 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Mapping, Dict, Any, TypeVar
+from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List
 from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
@@ -22,6 +22,10 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+
+FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
+
+Formsets = Dict[str, forms.BaseFormSet]
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
@@ -79,21 +83,76 @@ def get_input_type_from_query(query: str) -> Optional[str]:
     return visitor.input_type
 
 
+def to_capitalized_camel_case(s: str) -> str:
+    '''
+    Like `to_camel_case()`, but also capitalizes the first letter:
+
+        >>> to_capitalized_camel_case('hello_there')
+        'HelloThere'
+    '''
+
+    camel = to_camel_case(s)
+    return camel[:1].upper() + camel[1:]
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
-    data: QueryDict
+    data: QueryDict,
+    formset_classes: Optional[FormsetClasses] = None
 ) -> Dict[str, Any]:
     '''
     Given a QueryDict that represents POST data, return a dictionary
     suitable for passing to a GraphQL mutation that is derived from
-    the given form.
+    the given form and formset classes.
     '''
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_cased_data.setlist(to_snake_case(key), data.getlist(key))
+        snake_key = to_snake_case(key)
+        # Urg, to_snake_case() mangles formset management names,
+        # so we need to un-mangle them.
+        snake_key = snake_key\
+            .replace('-total_forms', '-TOTAL_FORMS')\
+            .replace('-initial_forms', '-INITIAL_FORMS')
+        snake_cased_data.setlist(snake_key, data.getlist(key))
     form = form_class(data=snake_cased_data)
-    return {to_camel_case(field): form[field].data for field in form.fields}
+    result = {
+        to_camel_case(field): form[field].data for field in form.fields
+    }
+    if formset_classes:
+        result.update(_convert_formset_post_data_to_input(
+            snake_cased_data, formset_classes))
+    return result
+
+
+def _convert_formset_post_data_to_input(
+    snake_cased_data: QueryDict,
+    formset_classes: FormsetClasses
+) -> Dict[str, Any]:
+    result: Dict[str, Any] = {}
+    for (formset_name, formset_class) in (formset_classes or {}).items():
+        formset = formset_class(data=snake_cased_data, prefix=formset_name)
+        result[to_camel_case(formset_name)] = _get_formset_items(formset)
+    return result
+
+
+def _get_formset_items(formset) -> List[Any]:
+    items: List[Any] = []
+    for form in formset.forms:
+        item = {
+            to_camel_case(field): form[field].data for field in form.fields
+        }
+
+        # Note that form.empty_permitted has been set based on
+        # the formset management data, so we're essentially testing
+        # to see if the form is empty *and* if it's okay for the form
+        # to be empty here. This check is basically taken from
+        # Form.full_clean().
+        is_form_empty = form.empty_permitted and not form.has_changed()
+
+        if not is_form_empty:
+            items.append(item)
+    return items
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):
@@ -121,7 +180,7 @@ class StrictFormFieldErrorType(graphene.ObjectType):
     def list_from_form_errors(cls, form_errors):
         errors = []
         for key, value in form_errors.items():
-            if key != '__all__':
+            if not key.endswith('__all__'):
                 # Graphene-Django's default implementation for form field validation
                 # errors doesn't convert field names to camel case, but we want to,
                 # because the input was provided using camel case field names, so the
@@ -134,8 +193,60 @@ class StrictFormFieldErrorType(graphene.ObjectType):
 T = TypeVar('T', bound='DjangoFormMutation')
 
 
+class FormWithFormsets:
+    '''
+    Represents a base form with additional formsets, all of which are bound.
+    '''
+
+    def __init__(self, base_form: forms.Form, formsets: Formsets) -> None:
+        self.base_form = base_form
+        self.formsets = formsets
+        self._errors: Optional[Dict[str, List[str]]] = None
+
+    @property
+    def errors(self):
+        if self._errors is None:
+            self.full_clean()
+        return self._errors
+
+    def full_clean(self):
+        self._errors = forms.utils.ErrorDict()
+        self.base_form.full_clean()
+        self._errors.update(self.base_form.errors)
+        for name in self.formsets:
+            self._full_clean_formset(name)
+
+    def _full_clean_formset(self, name: str):
+        assert self._errors is not None
+        formset = self.formsets[name]
+        formset.full_clean()
+
+        # We'll have non-form errors "masquerade" as
+        # non-field errors for our base form.
+        #
+        # This isn't an ideal way to report non-form errors in
+        # formsets, especially since the error text confusingly
+        # refers to the word "forms", but it's better than
+        # not reporting them at all, and we can improve
+        # on it later.
+        non_form_errors = formset.non_form_errors()
+        if non_form_errors:
+            all_errors = self._errors.get('__all__', [])
+            all_errors.extend(non_form_errors)
+            self.errors['__all__'] = all_errors
+
+        for i in range(len(formset.errors)):
+            for key, value in formset.errors[i].items():
+                self._errors[f'{name}.{i}.{key}'] = value
+
+    def is_valid(self) -> bool:
+        return not self.errors
+
+
 class DjangoFormMutationOptions(MutationOptions):
-    form_class = None
+    form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
+
+    formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
 
 
 class DjangoFormMutation(ClientIDMutation):
@@ -149,7 +260,8 @@ class DjangoFormMutation(ClientIDMutation):
     class Meta:
         abstract = True
 
-    _input_type_to_form_mapping: Mapping[str, Type[forms.Form]] = WeakValueDictionary()
+    _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
+        WeakValueDictionary()
 
     # Subclasses can change this if they can only be used by authenticated users.
     #
@@ -173,10 +285,33 @@ class DjangoFormMutation(ClientIDMutation):
 
     @classmethod
     def __init_subclass_with_meta__(
-        cls, form_class=None, only_fields=(), exclude_fields=(), **options
+        cls,
+        form_class: Type[forms.Form] = forms.Form,
+        formset_classes: Optional[FormsetClasses] = None,
+        only_fields=(), exclude_fields=(), **options
     ):
         form = form_class()
         input_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        formset_classes = formset_classes or {}
+
+        for (formset_name, formset_class) in formset_classes.items():
+            formset_form = formset_class.form()
+            formset_input_fields = fields_for_form(formset_form, (), ())
+            formset_form_type = type(
+                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
+                (graphene.InputObjectType,),
+                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
+            )
+            if formset_name in input_fields:
+                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
+            input_field_for_form = yank_fields_from_attrs({
+                formset_name: graphene.List(
+                    graphene.NonNull(formset_form_type),
+                    required=True
+                )
+            })
+            input_fields.update(input_field_for_form)
 
         # The original Graphene-Django implementation set the output fields
         # to the same value as the input fields. We don't need this, and it
@@ -185,13 +320,15 @@ class DjangoFormMutation(ClientIDMutation):
 
         _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class
+        _meta.formset_classes = formset_classes
         _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
         super().__init_subclass_with_meta__(
             _meta=_meta, input_fields=input_fields, **options
         )
-        cls._input_type_to_form_mapping[cls.Input.__name__] = form_class
+
+        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
@@ -200,7 +337,17 @@ class DjangoFormMutation(ClientIDMutation):
         return the form class it corresponds to.
         '''
 
-        return cls._input_type_to_form_mapping.get(input_type)
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.form_class
+
+    @classmethod
+    def get_formset_classes_for_input_type(cls, input_type: str) -> Optional[FormsetClasses]:
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.formset_classes
 
     @classmethod
     def log(cls, info: ResolveInfo, msg: str) -> None:
@@ -237,7 +384,28 @@ class DjangoFormMutation(ClientIDMutation):
     @classmethod
     def get_form(cls, root, info, **input):
         form_kwargs = cls.get_form_kwargs(root, info, **input)
-        return cls._meta.form_class(**form_kwargs)
+        form = cls._meta.form_class(**form_kwargs)
+        if not cls._meta.formset_classes:
+            return form
+        return FormWithFormsets(form, cls._get_formsets(root, info, **input))
+
+    @classmethod
+    def _get_formsets(cls, root, info, **input) -> Formsets:
+        formsets: Formsets = {}  # noqa (flake8 bug)
+        for (formset_name, formset_class) in cls._meta.formset_classes.items():
+            fsinput = input[formset_name]
+            formset = formset_class(data=cls._get_data_for_formset(fsinput))
+            formsets[formset_name] = formset
+        return formsets
+
+    @classmethod
+    def _get_data_for_formset(cls, fsinput) -> Dict[str, Any]:
+        data: Dict[str, Any] = {}
+        data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
+        for i in range(len(fsinput)):
+            for key, value in fsinput[i].items():
+                data[f'form-{i}-{key}'] = value
+        return data
 
     @classmethod
     def get_form_kwargs(cls, root, info, **input):
@@ -252,8 +420,8 @@ class DjangoFormMutation(ClientIDMutation):
 
     @classmethod
     def perform_mutate(cls, form, info):
-        form.save()
         return cls(errors=[])
 
 
 get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type
+get_formset_classes_for_input_type = DjangoFormMutation.get_formset_classes_for_input_type

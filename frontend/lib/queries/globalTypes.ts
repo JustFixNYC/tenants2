@@ -41,6 +41,7 @@ export interface AccessDatesInput {
 export interface ExampleInput {
   exampleField: string;
   boolField: boolean;
+  subforms: SubformsExampleSubformFormSetInput[];
   clientMutationId?: string | null;
 }
 
@@ -108,6 +109,10 @@ export interface OnboardingStep4Input {
   confirmPassword: string;
   agreeToTerms: boolean;
   clientMutationId?: string | null;
+}
+
+export interface SubformsExampleSubformFormSetInput {
+  exampleField: string;
 }
 
 //==============================================================

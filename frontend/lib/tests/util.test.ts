@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple, isDeepEqual } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -130,4 +130,9 @@ test('exactSubsetOrDefault() returns default if first arg is null', () => {
 
 test('twoTuple() works', () => {
   expect(twoTuple('blah', 2)).toEqual(['blah', 2]);
+});
+
+test('isDeepEqual() works', () => {
+  expect(isDeepEqual({a: 1}, {a: 1})).toBe(true);
+  expect(isDeepEqual({a: 1}, {a: 2})).toBe(false);
 });

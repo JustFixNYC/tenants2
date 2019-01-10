@@ -23,6 +23,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
+
+Formsets = Dict[str, forms.BaseFormSet]
+
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
 # add support for it.
@@ -94,7 +98,7 @@ def to_capitalized_camel_case(s: str) -> str:
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
-    formset_classes: Optional['FormsetClasses'] = None
+    formset_classes: Optional[FormsetClasses] = None
 ) -> Dict[str, Any]:
     '''
     Given a QueryDict that represents POST data, return a dictionary
@@ -104,7 +108,10 @@ def convert_post_data_to_input(
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_key = to_snake_case(key)\
+        snake_key = to_snake_case(key)
+        # Urg, to_snake_case() mangles formset management names,
+        # so we need to un-mangle them.
+        snake_key = snake_key\
             .replace('-total_forms', '-TOTAL_FORMS')\
             .replace('-initial_forms', '-INITIAL_FORMS')
         snake_cased_data.setlist(snake_key, data.getlist(key))
@@ -112,6 +119,17 @@ def convert_post_data_to_input(
     result = {
         to_camel_case(field): form[field].data for field in form.fields
     }
+    if formset_classes:
+        result.update(_convert_formset_post_data_to_input(
+            snake_cased_data, formset_classes))
+    return result
+
+
+def _convert_formset_post_data_to_input(
+    snake_cased_data: QueryDict,
+    formset_classes: FormsetClasses
+) -> Dict[str, Any]:
+    result: Dict[str, Any] = {}
     for (formset_name, formset_class) in (formset_classes or {}).items():
         items: List[Any] = []
         result[to_camel_case(formset_name)] = items
@@ -165,10 +183,6 @@ class StrictFormFieldErrorType(graphene.ObjectType):
 
 
 T = TypeVar('T', bound='DjangoFormMutation')
-
-FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
-
-Formsets = Dict[str, forms.BaseFormSet]
 
 
 class FormWithFormsets:

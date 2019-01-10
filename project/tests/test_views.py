@@ -191,6 +191,38 @@ def test_form_submission_shows_errors(django_app):
     assert 'Ensure this value has at most 5 characters (it has 17)' in response
 
 
+class TestFormsets:
+    @pytest.fixture(autouse=True)
+    def set_django_app(self, django_app):
+        self.django_app = django_app
+        self.form = self.django_app.get('/dev/examples/form').forms[0]
+        # Make the non-formset fields valid. (Yes, this is a code smell.)
+        self.form['exampleField'] = 'hi'
+
+    def test_it_works(self):
+        self.form['subforms-0-exampleField'] = 'boop'
+        response = self.form.submit()
+        assert response.status == '302 Found'
+
+    def test_it_shows_non_field_errors(self):
+        self.form['subforms-0-exampleField'] = 'NFIER'
+        response = self.form.submit()
+        assert response.status == '200 OK'
+        assert 'This is an example non-field error' in response
+
+    def test_it_shows_non_form_errors(self):
+        self.form['subforms-0-exampleField'] = 'NFOER'
+        response = self.form.submit()
+        assert response.status == '200 OK'
+        assert 'This is an example non-form error' in response
+
+    def test_it_shows_field_errors(self):
+        self.form['subforms-0-exampleField'] = 'hello there buddy'
+        response = self.form.submit()
+        assert response.status == '200 OK'
+        assert 'Ensure this value has at most 5 characters (it has 17)' in response
+
+
 def test_form_submission_preserves_boolean_fields(django_app):
     form = django_app.get('/dev/examples/form').forms[0]
 

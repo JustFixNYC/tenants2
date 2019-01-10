@@ -69,11 +69,27 @@ class ExampleForm(forms.Form):
     bool_field = forms.BooleanField(required=False)
 
 
+class ExampleSubformFormset(forms.BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            # Don't bother validating the formset unless
+            # each form is valid on its own.
+            return
+        for form in self.forms:
+            if form.cleaned_data['example_field'] == 'NFOER':
+                # This is used during manual and automated
+                # tests to ensure that non-form errors work
+                # in formsets.
+                raise forms.ValidationError('This is an example non-form error!')
+
+
 class ExampleSubform(forms.Form):
     example_field = forms.CharField(max_length=5)
 
     def clean(self):
         cleaned_data = super().clean()
 
-        if cleaned_data.get('example_field') == 'blah':
-            raise ValidationError('Do not set a field to "blah"!')
+        if cleaned_data.get('example_field') == 'NFIER':
+            # This is used during manual and automated tests to
+            # ensure that non-field errors work in formsets.
+            raise ValidationError('This is an example non-field error!')

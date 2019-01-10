@@ -95,7 +95,12 @@ class Example(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleForm
         formset_classes = {
-            'subforms': formset_factory(forms.ExampleSubform, max_num=5, validate_max=True)
+            'subforms': formset_factory(
+                forms.ExampleSubform,
+                max_num=5,
+                validate_max=True,
+                formset=forms.ExampleSubformFormset
+            )
         }
 
     response = graphene.String()

@@ -19,7 +19,7 @@ export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInpu
 
 export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
 
-export type FormsetRenderer<FormsetInput> = (ctx: FormsetContext<FormsetInput>) => JSX.Element;
+export type FormsetRenderer<FormsetInput> = (ctx: FormsetContext<FormsetInput>, index: number) => JSX.Element;
 
 function withItemChanged<T, K extends keyof T>(items: T[], index: number, field: K, value: T[K]): T[] {
   const newItems = items.slice();
@@ -62,7 +62,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
           return (
             <React.Fragment key={i}>
               <NonFieldErrors errors={itemErrors} />
-              {props.children(ctx)}
+              {props.children(ctx, i)}
             </React.Fragment>
           );
         })}

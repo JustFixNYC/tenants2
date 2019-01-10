@@ -48,8 +48,8 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
             Example boolean field
           </CheckboxFormField>
           <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
-            {(subforms) => (
-              <TextualFormField label="example subform field" {...subforms.fieldPropsFor('exampleField')} />
+            {(subforms, i) => (
+              <TextualFormField label={`example subform field #${i + 1}`} {...subforms.fieldPropsFor('exampleField')} />
             )}
           </Formset>
           <div className="field">

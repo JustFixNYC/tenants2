@@ -1,4 +1,4 @@
-import { formatErrors, getFormErrors } from "../form-errors";
+import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors } from "../form-errors";
 import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
 
@@ -65,6 +65,89 @@ describe('getFormErrors()', () => {
       fieldErrors: {
         boop: ['foo', 'bar']
       }
+    });
+  });
+
+  it('sets formsetErrors', () => {
+    expect(getFormErrors([{
+      field: 'blarg.0.boop',
+      messages: ['foo', 'bar']
+    }])).toEqual({
+      nonFieldErrors: [],
+      fieldErrors: {},
+      formsetErrors: {
+        blarg: [{
+          nonFieldErrors: [],
+          fieldErrors: {
+            boop: ['foo', 'bar']
+          }
+        }]
+      }
+    });
+  });
+});
+
+describe("parseFormsetField()", () => {
+  it("returns information about a match", () => {
+    expect(parseFormsetField("blarg.1.narg")).toEqual({
+      formset: 'blarg',
+      index: 1,
+      field: 'narg'
+    });
+  });
+
+  it("returns null when nothing matches", () => {
+    expect(parseFormsetField("blarg")).toBeNull();
+  });
+});
+
+describe("addToFormsetErrors()", () => {
+  it("returns false when nothing is added", () => {
+    const errors = {};
+    expect(addToFormsetErrors(errors, { field: 'blah', messages: ['hi'] })).toBe(false);
+    expect(errors).toEqual({});
+  });
+
+  it("populates errors", () => {
+    const errors = {};
+    expect(addToFormsetErrors(errors, { field: 'blah.0.bop', messages: ['hi'] })).toBe(true);
+    expect(errors).toEqual({
+      blah: [{
+        nonFieldErrors: [],
+        fieldErrors: {
+          bop: ['hi']
+        }
+      }]
+    });
+  });
+
+  it("can create arrays with holes", () => {
+    const errors = {};
+    addToFormsetErrors(errors, { field: 'blah.0.bop', messages: ['hi'] });
+    expect(addToFormsetErrors(errors, { field: 'blah.2.bop', messages: ['hmm'] })).toBe(true);
+    expect(errors).toEqual({
+      blah: [{
+        nonFieldErrors: [],
+        fieldErrors: {
+          bop: ['hi']
+        }
+      }, undefined, {
+        nonFieldErrors: [],
+        fieldErrors: {
+          bop: ['hmm']
+        }
+      }]
+    });
+  });
+
+  it("populates non-field errors", () => {
+    const errors = {};
+    expect(addToFormsetErrors(errors, { field: 'blah.0.__all__', messages: ['hi'] })).toBe(true);
+    expect(errors).toEqual({
+      blah: [{
+        nonFieldErrors: ['hi'],
+        fieldErrors: {}
+      }]
     });
   });
 });

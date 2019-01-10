@@ -41,6 +41,9 @@ export interface FormErrors<T> {
    */
   fieldErrors: FormFieldErrorMap<T>;
 
+  /**
+   * Errors pertaining to nested formsets.
+   */
   formsetErrors?: FormsetErrorMap<T>;
 }
 
@@ -63,7 +66,11 @@ type FormsetField = {
   field: string;
 };
 
-function parseFormsetField(field: string): FormsetField|null {
+/**
+ * Parse a field name of the form "<formset>.<index>.<field>", e.g.
+ * "people.0.firstName", and return the structured data.
+ */
+export function parseFormsetField(field: string): FormsetField|null {
   const match = field.match(FORMSET_FIELD_RE);
 
   if (!match) return null;
@@ -75,7 +82,12 @@ function parseFormsetField(field: string): FormsetField|null {
   };
 }
 
-function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[]|undefined }, error: ServerFormFieldError): boolean {
+/**
+ * Given a hash of formset errors, parse the given server-side
+ * error and, if it's a formset error, add it to the hash and
+ * return true. Otherwise, return false.
+ */
+export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[]|undefined }, error: ServerFormFieldError): boolean {
   const ff = parseFormsetField(error.field);
 
   if (!ff) return false;
@@ -112,15 +124,16 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
     if (error.field === SERVER_NON_FIELD_ERROR) {
       result.nonFieldErrors.push(...error.messages);
     } else {
+      // Note that we're forcing a few typecasts here. It's not ideal, but
+      // it seems better than the alternative of not parameterizing
+      // our types at all.
+
       if (addToFormsetErrors(formsetErrors, error)) {
         result.formsetErrors = formsetErrors as any;
         return;
       }
 
-      // Note that we're forcing a typecast here. It's not ideal, but
-      // it seems better than the alternative of not parameterizing
-      // this type at all.
-      const field: keyof T = error.field as any;
+      const field = error.field as keyof T;
 
       // This code looks weird because TypeScript is being fidgety.
       const arr = result.fieldErrors[field];

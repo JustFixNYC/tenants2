@@ -314,16 +314,6 @@ type FieldSetter<FormInput> = {
   <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
 };
 
-export interface BaseFormContext<FormInput> {
-  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>;
-}
-
-export interface FormContext<FormInput> extends BaseFormContext<FormInput> {
-  submit: () => void,
-  isLoading: boolean,
-  renderFormsetFor: FormsetRendererCaller<FormInput>;
-}
-
 export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
 
 type FormsetRenderer<FormInput, K extends keyof FormInput> = (ctx: FormsetContext<UnwrappedArray<FormInput[K]>>) => JSX.Element;
@@ -343,7 +333,7 @@ function withItemChanged<T, K extends keyof T>(items: T[], index: number, field:
   return newItems;
 }
 
-interface _BaseFormContextOptions<FormInput> {
+interface BaseFormContextOptions<FormInput> {
   idPrefix: string;
   isLoading: boolean;
   errors: FormErrors<FormInput>|undefined;
@@ -352,10 +342,10 @@ interface _BaseFormContextOptions<FormInput> {
   namePrefix: string;
 }
 
-class _BaseFormContext<FormInput> implements BaseFormContext<FormInput> {
+class BaseFormContext<FormInput> {
   readonly isLoading: boolean;
 
-  constructor(private readonly options: _BaseFormContextOptions<FormInput>) {
+  constructor(private readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
   }
 
@@ -377,9 +367,9 @@ class _BaseFormContext<FormInput> implements BaseFormContext<FormInput> {
   }
 }
 
-class _FormContext<FormInput> extends _BaseFormContext<FormInput> implements FormContext<FormInput> {
+export class FormContext<FormInput> extends BaseFormContext<FormInput> {
   constructor(
-    options: _BaseFormContextOptions<FormInput>,
+    options: BaseFormContextOptions<FormInput>,
     readonly submit: () => void,
     readonly renderFormsetFor: FormsetRendererCaller<FormInput>
   ) {
@@ -446,7 +436,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         <input type="hidden" name={`${formset}-INITIAL_FORMS`} value={initialForms} />
         {items.map((item, i) => {
           const errors = fsErrors && fsErrors[i] as FormErrors<typeof item>;
-          const ctx = new _BaseFormContext({
+          const ctx = new BaseFormContext({
             idPrefix: this.props.idPrefix,
             isLoading: this.props.isLoading,
             errors,
@@ -477,7 +467,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children(new _FormContext({
+        {this.props.children(new FormContext({
           idPrefix: this.props.idPrefix,
           isLoading: this.props.isLoading,
           errors: this.props.errors,

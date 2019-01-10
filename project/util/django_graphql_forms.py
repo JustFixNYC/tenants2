@@ -142,10 +142,14 @@ def _get_formset_items(formset) -> List[Any]:
         item = {
             to_camel_case(field): form[field].data for field in form.fields
         }
-        # TODO: It's weird that we need to test to see if the form
-        # is empty, as the formset should be able to ultimately
-        # infer this from the INITIAL_FORMS setting.
-        is_form_empty = len(list(filter(None, item.values()))) == 0
+
+        # Note that form.empty_permitted has been set based on
+        # the formset management data, so we're essentially testing
+        # to see if the form is empty *and* if it's okay for the form
+        # to be empty here. This check is basically taken from
+        # Form.full_clean().
+        is_form_empty = form.empty_permitted and not form.has_changed()
+
         if not is_form_empty:
             items.append(item)
     return items

@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter, Formset } from '../forms';
+import { LegacyFormSubmitter } from '../forms';
 import { ExampleMutation } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
 import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { Formset } from '../formset';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',

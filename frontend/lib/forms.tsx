@@ -5,7 +5,7 @@ import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
-import { Omit, assertNotNull, isDeepEqual } from './util';
+import { Omit, assertNotNull } from './util';
 import { FetchMutationInfo, createMutationSubmitHandler } from './forms-graphql';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { getAppStaticContext } from './app-static-context';
@@ -13,6 +13,7 @@ import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
+import { BaseFormsetProps } from './formset';
 
 type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
@@ -310,34 +311,9 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface BaseFormsetProps<FormsetInput> {
-  items: FormsetInput[],
-  errors?: FormErrors<FormsetInput>[],
-  onChange(items: FormsetInput[]): void;
-  idPrefix: string;
-  isLoading: boolean;
-  name: string;
-}
-
-export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInput> {
-  children: FormsetRenderer<FormsetInput>
-  emptyForm?: FormsetInput;
-}
-
 type FieldSetter<FormInput> = {
   <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
 };
-
-export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
-
-type FormsetRenderer<FormsetInput> = (ctx: FormsetContext<FormsetInput>) => JSX.Element;
-
-function withItemChanged<T, K extends keyof T>(items: T[], index: number, field: K, value: T[K]): T[] {
-  const newItems = items.slice();
-  newItems[index] = Object.assign({}, newItems[index]);
-  newItems[index][field] = value;
-  return newItems;
-}
 
 interface BaseFormContextOptions<FormInput> {
   idPrefix: string;
@@ -348,7 +324,7 @@ interface BaseFormContextOptions<FormInput> {
   namePrefix: string;
 }
 
-class BaseFormContext<FormInput> {
+export class BaseFormContext<FormInput> {
   readonly isLoading: boolean;
 
   constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
@@ -407,49 +383,6 @@ export class FormContext<FormInput> extends BaseFormContext<FormInput> {
       isLoading: o.isLoading,
       name: formset
     };
-  }
-}
-
-export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>> {
-  render() {
-    const { props } = this;
-    let { items, errors, name } = props;
-    let initialForms = items.length;
-    const filterEmpty = (i: typeof items) =>
-      props.emptyForm ? i.filter(item => !isDeepEqual(item, props.emptyForm)) : i;
-
-    if (props.emptyForm) {
-      items = filterEmpty(items);
-      initialForms = items.length;
-      items = [...items, props.emptyForm];
-    }
-
-    return (
-      <>
-        <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
-        <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
-        {items.map((item, i) => {
-          const itemErrors = errors && errors[i];
-          const ctx = new BaseFormContext({
-            idPrefix: props.idPrefix,
-            isLoading: props.isLoading,
-            errors: itemErrors,
-            namePrefix: `${name}-${i}-`,
-            currentState: item,
-            setField: (field, value) => {
-              const newItems = filterEmpty(withItemChanged(items, i, field, value));
-              props.onChange(newItems);
-            }
-          });
-          return (
-            <React.Fragment key={i}>
-              <NonFieldErrors errors={itemErrors} />
-              {props.children(ctx)}
-            </React.Fragment>
-          );
-        })}
-      </>
-    );
   }
 }
 

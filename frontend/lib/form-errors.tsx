@@ -129,6 +129,9 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
       // our types at all.
 
       if (addToFormsetErrors(formsetErrors, error)) {
+        // TODO: Once we upgrade to TypeScript 3.2, we should be
+        // able to typecast this to 'FormsetErrorMap<any>', which
+        // is a little better than 'any'.
         result.formsetErrors = formsetErrors as any;
         return;
       }

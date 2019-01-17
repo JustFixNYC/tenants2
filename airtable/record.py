@@ -41,6 +41,9 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Long text" field.
     'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
 
+    # In Airtable, this should be a "Single line text" field.
+    'pad_bbl': '3002920026',
+
     # In Airtable, this should be a "URL" field.
     'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
 
@@ -134,6 +137,9 @@ class Fields(pydantic.BaseModel):
 
     # The tenant's full mailing address.
     onboarding_info__address_for_mailing: str = pydantic.Schema(default='', alias='address')
+
+    # The tenant's boro-block-lot (BBL) number.
+    onboarding_info__pad_bbl: str = pydantic.Schema(default='', alias='pad_bbl')
 
     # A link to the letter of complaint PDF.
     letter_request__admin_pdf_url: str = pydantic.Schema(default='', alias='letter_pdf_url')

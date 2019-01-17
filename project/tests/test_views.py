@@ -278,12 +278,12 @@ def test_favicon_works(client, staticfiles):
     assert res['Content-Type'] == 'image/x-icon'
 
 
-def test_health_returns_200(db, client):
+def test_health_works(db, client):
     res = client.get('/health')
     assert res.status_code == 200
     assert res.json() == {
         'status': 200,
-        'checks': {
+        'check_results': {
             'CheckDatabase': True
         }
     }

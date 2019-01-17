@@ -221,4 +221,4 @@ def redirect_favicon(request):
 
 
 def health(request):
-    return project.health.check()
+    return project.health.check().to_json_response()

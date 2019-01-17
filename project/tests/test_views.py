@@ -276,3 +276,14 @@ def test_favicon_works(client, staticfiles):
     res = client.get('/favicon.ico', follow=True)
     assert res.status_code == 200
     assert res['Content-Type'] == 'image/x-icon'
+
+
+def test_health_works(db, client):
+    res = client.get('/health')
+    assert res.status_code == 200
+    assert res.json() == {
+        'status': 200,
+        'check_results': {
+            'CheckDatabase': True
+        }
+    }

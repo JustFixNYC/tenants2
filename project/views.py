@@ -13,6 +13,7 @@ from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
+import project.health
 
 # This is changed by test suites to ensure that
 # everything works okay when the server-side renderer fails
@@ -217,3 +218,7 @@ def example_server_error(request, id: str):
 
 def redirect_favicon(request):
     return redirect(f'{settings.STATIC_URL}favicon.ico')
+
+
+def health(request):
+    return project.health.check().to_json_response()

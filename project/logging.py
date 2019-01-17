@@ -4,6 +4,7 @@ from django.conf import settings
 
 IGNORE_PATHS = [
     '/favicon.ico',
+    '/health'
 ]
 
 IGNORE_PATHS_PATTERN = '|'.join([

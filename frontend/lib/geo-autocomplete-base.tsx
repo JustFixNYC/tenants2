@@ -62,9 +62,7 @@ export class GeoSearchRequester {
   }
 
   private async fetchResults(value: string): Promise<GeoSearchResults|null> {
-    const originalRequestId = this.requestId;
     const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
-    let results: GeoSearchResults;
 
     // It's important that we pull fetch out as its own variable,
     // as this will bind its "this" context to the global scope
@@ -76,7 +74,7 @@ export class GeoSearchRequester {
       const res = await fetch(url, {
         signal: this.abortController && this.abortController.signal
       });
-      results = await res.json();
+      return await res.json();
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') {
         // Don't worry about it, the user just aborted the request.
@@ -85,6 +83,11 @@ export class GeoSearchRequester {
         throw e;
       }
     }
+  }
+
+  private async fetchResultsForLatestRequest(value: string): Promise<GeoSearchResults|null> {
+    const originalRequestId = this.requestId;
+    let results = await this.fetchResults(value);
     if (this.requestId === originalRequestId) {
       return results;
     }
@@ -96,18 +99,18 @@ export class GeoSearchRequester {
       window.clearTimeout(this.throttleTimeout);
       this.throttleTimeout = null;
     }
+    this.requestId++;
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = this.options.createAbortController();
     }
-    this.requestId++;
   }
 
   changeSearchRequest(value: string): boolean {
     this.resetSearchRequest();
     if (value.length > 0) {
       this.throttleTimeout = window.setTimeout(() => {
-        this.fetchResults(value).catch(this.options.onError).then(results => {
+        this.fetchResultsForLatestRequest(value).catch(this.options.onError).then(results => {
           if (results) {
             this.options.onResults(results);
           }

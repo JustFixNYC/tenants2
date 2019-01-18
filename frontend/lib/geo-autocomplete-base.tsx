@@ -17,6 +17,29 @@ export enum GeoSearchBoroughGid {
   StatenIsland = 'whosonfirst:borough:5',
 }
 
+/**
+ * This is what the NYC Geosearch API returns from its
+ * autocomplete endpoint.
+ * 
+ * Note that some of the fields are "unknown", which
+ * just implies that they exist but we're not really
+ * sure what type they are (nor do we particularly
+ * care, at the moment, for our purposes).
+ */
+export interface GeoSearchResults {
+  bbox: unknown;
+  features: GeoSearchFeature[];
+}
+
+export interface GeoSearchFeature {
+  geometry: unknown;
+  properties: GeoSearchProperties
+}
+
+/**
+ * Note that these are by no means all the
+ * properties, they're just the ones we care about.
+ */
 export interface GeoSearchProperties {
   /** e.g. "Brooklyn" */
   borough: string;
@@ -34,22 +57,55 @@ export interface GeoSearchProperties {
   label: string;
 }
 
-export interface GeoSearchResults {
-  bbox: unknown;
-  features: {
-    geometry: unknown;
-    properties: GeoSearchProperties
-  }[];
-}
-
+/**
+ * Options for the requester constructor.
+ */
 export interface GeoSearchRequesterOptions {
+  /**
+   * A factory that returns an AbortController [1] instance,
+   * or undefined if the platform doesn't support aborting
+   * fetch requests.
+   * 
+   * [1] https://developer.mozilla.org/en-US/docs/Web/API/AbortController
+   */
   createAbortController: () => AbortController|undefined;
+
+  /**
+   * A reference to the platform's Fetch API [1]. Note that
+   * this will always be called with "this" bound to the
+   * global scope.
+   * 
+   * [1] https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+   */
   fetch: typeof window.fetch,
+
+  /**
+   * The number of milliseconds to wait before we actually issue
+   * a search request. This is primarily intended to allow
+   * keyboard-based autocomplete UIs to not spam the server
+   * when the user is typing quickly.
+   */
   throttleMs: number,
+
+  /**
+   * A callback that's called whenever an error occurs fetching
+   * autocomplete results.
+   */
   onError: (e: Error) => void;
+
+  /**
+   * A callback that's called whenever results are fetched for
+   * the most recently issued query. This will never be
+   * called for stale queries.
+   */
   onResults: (results: GeoSearchResults) => void;
 }
 
+/**
+ * This class can be used to issue search requests
+ * based on a query whose value may change over time
+ * due to e.g. keyboard input.
+ */
 export class GeoSearchRequester {
   private requestId: number;
   private abortController?: AbortController;
@@ -61,6 +117,10 @@ export class GeoSearchRequester {
     this.throttleTimeout = null;
   }
 
+  /**
+   * Fetch results for the given query, returning null if the
+   * network request was aborted.
+   */
   private fetchResults(value: string): Promise<GeoSearchResults|null> {
     const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
 
@@ -82,6 +142,10 @@ export class GeoSearchRequester {
     });
   }
 
+  /**
+   * Fetch results for the given query, returning null if the
+   * query was superseded by a newer one.
+   */
   private async fetchResultsForLatestRequest(value: string): Promise<GeoSearchResults|null> {
     const originalRequestId = this.requestId;
     let results = await this.fetchResults(value);
@@ -90,7 +154,10 @@ export class GeoSearchRequester {
     }
     return null;
   }
-
+  
+  /**
+   * Abort any currently in-flight requests.
+   */
   private resetSearchRequest() {
     if (this.throttleTimeout !== null) {
       window.clearTimeout(this.throttleTimeout);
@@ -103,6 +170,10 @@ export class GeoSearchRequester {
     }
   }
 
+  /**
+   * Change the current search request to a new query. Return
+   * whether the new query is non-empty.
+   */
   changeSearchRequest(value: string): boolean {
     this.resetSearchRequest();
     if (value.length > 0) {
@@ -118,6 +189,9 @@ export class GeoSearchRequester {
     return false;
   }
 
+  /**
+   * Clean up all resources used by the requester.
+   */
   shutdown() {
     this.resetSearchRequest();
   }

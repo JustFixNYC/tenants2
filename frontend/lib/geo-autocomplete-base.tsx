@@ -61,7 +61,7 @@ export class GeoSearchRequester {
     this.throttleTimeout = null;
   }
 
-  private async fetchResults(value: string): Promise<GeoSearchResults|null> {
+  private fetchResults(value: string): Promise<GeoSearchResults|null> {
     const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
 
     // It's important that we pull fetch out as its own variable,
@@ -70,19 +70,16 @@ export class GeoSearchRequester {
     // implementations.
     const { fetch } = this.options;
 
-    try {
-      const res = await fetch(url, {
-        signal: this.abortController && this.abortController.signal
-      });
-      return await res.json();
-    } catch (e) {
+    return fetch(url, {
+      signal: this.abortController && this.abortController.signal
+    }).then(res => res.json()).catch((e) => {
       if (e instanceof DOMException && e.name === 'AbortError') {
         // Don't worry about it, the user just aborted the request.
         return null;
       } else {
         throw e;
       }
-    }
+    });
   }
 
   private async fetchResultsForLatestRequest(value: string): Promise<GeoSearchResults|null> {

@@ -8,18 +8,19 @@ import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
+import { GeoSearchBoroughGid, GeoSearchResults } from './geo-autocomplete-base';
 
-/**
- * The keys here were obtained experimentally, I'm not actually sure
- * if/where they are formally specified.
- */
-const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
-  'whosonfirst:borough:1': BoroughChoice.MANHATTAN,
-  'whosonfirst:borough:2': BoroughChoice.BRONX,
-  'whosonfirst:borough:3': BoroughChoice.BROOKLYN,
-  'whosonfirst:borough:4': BoroughChoice.QUEENS,
-  'whosonfirst:borough:5': BoroughChoice.STATEN_ISLAND,
-};
+function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
+  switch (gid) {
+    case GeoSearchBoroughGid.Manhattan: return BoroughChoice.MANHATTAN;
+    case GeoSearchBoroughGid.Bronx: return BoroughChoice.BRONX;
+    case GeoSearchBoroughGid.Brooklyn: return BoroughChoice.BROOKLYN;
+    case GeoSearchBoroughGid.Queens: return BoroughChoice.QUEENS;
+    case GeoSearchBoroughGid.StatenIsland: return BoroughChoice.STATEN_ISLAND;
+  }
+
+  throw new Error(`No borough found for ${gid}!`);
+}
 
 export interface GeoAutocompleteItem {
   address: string;
@@ -33,31 +34,6 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
 };
-
-interface GeoSearchProperties {
-  /** e.g. "Brooklyn" */
-  borough: string;
-
-  /** e.g. "whosonfirst:borough:2" */
-  borough_gid: string;
-
-  /** e.g. "150" */
-  housenumber: string;
-
-  /** e.g. "150 COURT STREET" */
-  name: string;
-
-  /** e.g. "150 COURT STREET, Brooklyn, New York, NY, USA" */
-  label: string;
-}
-
-interface GeoSearchResults {
-  bbox: unknown;
-  features: {
-    geometry: unknown;
-    properties: GeoSearchProperties
-  }[];
-}
 
 interface GeoAutocompleteState {
   isLoading: boolean;
@@ -275,11 +251,7 @@ export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): str
 export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
   return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
     const { borough_gid } = feature.properties;
-    const borough = BOROUGH_GID_TO_CHOICE[borough_gid];
-
-    if (!borough) {
-      throw new Error(`No borough found for ${borough_gid}!`);
-    }
+    const borough = boroughGidToChoice(borough_gid);
 
     return {
       address: feature.properties.name,

@@ -8,18 +8,19 @@ import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
+import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
 
-/**
- * The keys here were obtained experimentally, I'm not actually sure
- * if/where they are formally specified.
- */
-const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
-  'whosonfirst:borough:1': BoroughChoice.MANHATTAN,
-  'whosonfirst:borough:2': BoroughChoice.BRONX,
-  'whosonfirst:borough:3': BoroughChoice.BROOKLYN,
-  'whosonfirst:borough:4': BoroughChoice.QUEENS,
-  'whosonfirst:borough:5': BoroughChoice.STATEN_ISLAND,
-};
+function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
+  switch (gid) {
+    case GeoSearchBoroughGid.Manhattan: return BoroughChoice.MANHATTAN;
+    case GeoSearchBoroughGid.Bronx: return BoroughChoice.BRONX;
+    case GeoSearchBoroughGid.Brooklyn: return BoroughChoice.BROOKLYN;
+    case GeoSearchBoroughGid.Queens: return BoroughChoice.QUEENS;
+    case GeoSearchBoroughGid.StatenIsland: return BoroughChoice.STATEN_ISLAND;
+  }
+
+  throw new Error(`No borough found for ${gid}!`);
+}
 
 export interface GeoAutocompleteItem {
   address: string;
@@ -33,31 +34,6 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
 };
-
-interface GeoSearchProperties {
-  /** e.g. "Brooklyn" */
-  borough: string;
-
-  /** e.g. "whosonfirst:borough:2" */
-  borough_gid: string;
-
-  /** e.g. "150" */
-  housenumber: string;
-
-  /** e.g. "150 COURT STREET" */
-  name: string;
-
-  /** e.g. "150 COURT STREET, Brooklyn, New York, NY, USA" */
-  label: string;
-}
-
-interface GeoSearchResults {
-  bbox: unknown;
-  features: {
-    geometry: unknown;
-    properties: GeoSearchProperties
-  }[];
-}
 
 interface GeoAutocompleteState {
   isLoading: boolean;
@@ -73,13 +49,6 @@ const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
  */
 const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
 
-/**
- * For documentation about this endpoint, see:
- *
- * https://geosearch.planninglabs.nyc/docs/#autocomplete
- */
-const GEO_AUTOCOMPLETE_URL = 'https://geosearch.planninglabs.nyc/v1/autocomplete';
-
 /** The maximum number of autocomplete suggestions to show. */
 const MAX_SUGGESTIONS = 5;
 
@@ -89,9 +58,7 @@ const MAX_SUGGESTIONS = 5;
  * a third-party API that might become unavailable.
  */
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
-  keyThrottleTimeout: number|null;
-  abortController?: AbortController;
-  requestId: number;
+  requester: GeoSearchRequester;
 
   constructor(props: GeoAutocompleteProps) {
     super(props);
@@ -99,9 +66,13 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       isLoading: false,
       results: []
     };
-    this.requestId = 0;
-    this.keyThrottleTimeout = null;
-    this.abortController = createAbortController();
+    this.requester = new GeoSearchRequester({
+      createAbortController,
+      fetch: awesomeFetch,
+      throttleMs: AUTOCOMPLETE_KEY_THROTTLE_MS,
+      onError: this.handleRequesterError,
+      onResults: this.handleRequesterResults
+    });
   }
 
   renderListItem(ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
@@ -197,60 +168,33 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
-  resetSearchRequest() {
-    if (this.keyThrottleTimeout !== null) {
-      window.clearTimeout(this.keyThrottleTimeout);
-      this.keyThrottleTimeout = null;
-    }
-    if (this.abortController) {
-      this.abortController.abort();
-      this.abortController = createAbortController();
-    }
-    this.requestId++;
+  @autobind
+  handleRequesterError(e: Error) {
+    // TODO: It would be nice if we could further differentiate
+    // between a "you aren't connected to the internet"
+    // error versus a "you issued a bad request" error, so that
+    // we could report the error if it's the latter.
+    this.props.onNetworkError(e);
   }
 
   @autobind
-  handleFetchError(e: Error) {
-    if (e instanceof DOMException && e.name === 'AbortError') {
-      // Don't worry about it, the user just aborted the request.
-    } else {
-      // TODO: It would be nice if we could further differentiate
-      // between a "you aren't connected to the internet"
-      // error versus a "you issued a bad request" error, so that
-      // we could report the error if it's the latter.
-      this.props.onNetworkError(e);
-    }
-  }
-
-  async fetchResults(value: string): Promise<void> {
-    const originalRequestId = this.requestId;
-    const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
-    const res = await awesomeFetch(url, {
-      signal: this.abortController && this.abortController.signal
+  handleRequesterResults(results: GeoSearchResults) {
+    this.setState({
+      isLoading: false,
+      results: geoSearchResultsToAutocompleteItems(results)
     });
-    const results = await res.json();
-    if (this.requestId === originalRequestId) {
-      this.setState({
-        isLoading: false,
-        results: geoSearchResultsToAutocompleteItems(results)
-      });
-    }
   }
 
   handleInputValueChange(value: string) {
-    this.resetSearchRequest();
-    if (value.length > 0) {
+    if (this.requester.changeSearchRequest(value)) {
       this.setState({ isLoading: true });
-      this.keyThrottleTimeout = window.setTimeout(() => {
-        this.fetchResults(value).catch(this.handleFetchError);
-      }, AUTOCOMPLETE_KEY_THROTTLE_MS);
     } else {
       this.setState({ results: [], isLoading: false });
     }
   }
 
   componentWillUnmount() {
-    this.resetSearchRequest();
+    this.requester.shutdown();
   }
 
   render() {
@@ -275,11 +219,7 @@ export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): str
 export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
   return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
     const { borough_gid } = feature.properties;
-    const borough = BOROUGH_GID_TO_CHOICE[borough_gid];
-
-    if (!borough) {
-      throw new Error(`No borough found for ${borough_gid}!`);
-    }
+    const borough = boroughGidToChoice(borough_gid);
 
     return {
       address: feature.properties.name,

@@ -65,8 +65,15 @@ export class GeoSearchRequester {
     const originalRequestId = this.requestId;
     const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
     let results: GeoSearchResults;
+
+    // It's important that we pull fetch out as its own variable,
+    // as this will bind its "this" context to the global scope
+    // when it's called, which is important for most/all window.fetch()
+    // implementations.
+    const { fetch } = this.options;
+
     try {
-      const res = await this.options.fetch(url, {
+      const res = await fetch(url, {
         signal: this.abortController && this.abortController.signal
       });
       results = await res.json();

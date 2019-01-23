@@ -18,6 +18,8 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     # Install the CLIs for databases so we can use 'manage.py dbshell'.
     postgresql-client \
     sqlite3 \
+    # Add optional support for GeoDjango with sqlite.
+    libsqlite3-mod-spatialite \
     # This is for CircleCI.
     ca-certificates \
     # These are for WeasyPrint.

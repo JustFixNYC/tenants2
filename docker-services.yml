@@ -21,6 +21,7 @@ services:
       - DDM_HOST_USER=justfix
       - DDM_IS_RUNNING_IN_DOCKER=yup
       - CHOKIDAR_USEPOLLING=1
+      - SPATIALITE_LIBRARY_PATH=mod_spatialite
     entrypoint: ["python", "/tenants2/docker_django_management.py"]
     working_dir: /tenants2
     mem_limit: 1G

@@ -113,6 +113,9 @@ DATABASES = {
     'default': dj_database_url.parse(env.DATABASE_URL),
 }
 
+if env.SPATIALITE_LIBRARY_PATH:
+    SPATIALITE_LIBRARY_PATH = env.SPATIALITE_LIBRARY_PATH
+
 NYCDB_DATABASE = None
 
 if env.NYCDB_DATABASE_URL:

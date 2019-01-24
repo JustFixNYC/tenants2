@@ -130,6 +130,12 @@ class TenantResource(models.Model):
             self.geocoded_longitude = longitude
             self.geocoded_point = Point(longitude, latitude)
 
+    def _set_catchment_area(self, total_area):
+        if isinstance(total_area, Point):
+            self.catchment_area = None
+        else:
+            self.catchment_area = to_multipolygon(total_area)
+
     def update_catchment_area(self):
         total_area = GEOSGeometry('POINT EMPTY', srid=4326)
         for zipcode in self.zipcodes.all():
@@ -140,10 +146,7 @@ class TenantResource(models.Model):
             total_area = total_area.union(hood.geom)
         for cd in self.community_districts.all():
             total_area = total_area.union(cd.geom)
-        if isinstance(total_area, Point):
-            self.catchment_area = None
-        else:
-            self.catchment_area = to_multipolygon(total_area)
+        self._set_catchment_area(total_area)
 
     def save(self, *args, **kwargs):
         if self.address != self.geocoded_address or not self.geocoded_point:

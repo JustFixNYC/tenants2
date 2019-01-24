@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.1
+      - image: justfixnyc/tenants2_base:0.2
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup

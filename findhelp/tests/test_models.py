@@ -1,4 +1,8 @@
-from findhelp.models import Zipcode, to_multipolygon
+from findhelp.models import (
+    to_multipolygon,
+    Zipcode,
+    TenantResource
+)
 from django.contrib.gis.geos import Polygon, MultiPolygon
 
 
@@ -23,3 +27,20 @@ def test_zipcode_works(db):
     zc = Zipcode(zipcode='11201', geom=mp)
     zc.save()
     assert str(zc) == '11201'
+
+
+class TestTenantResource:
+    def test_it_updates_catchment_area_to_none(self, db):
+        tr = TenantResource(name='Funky Help', address='123 Funky Way')
+        tr.save()
+        tr.update_catchment_area()
+        assert tr.catchment_area is None
+
+    def test_it_updates_catchment_area_to_multipolygon(self, db):
+        zc1 = Zipcode(zipcode='11201', geom=to_multipolygon(Polygon(TUPLE_1)))
+        zc1.save()
+        tr = TenantResource(name='Funky Help', address='123 Funky Way')
+        tr.save()
+        tr.zipcodes.set([zc1])
+        tr.update_catchment_area()
+        assert isinstance(tr.catchment_area, MultiPolygon)

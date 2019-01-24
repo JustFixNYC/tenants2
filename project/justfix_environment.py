@@ -156,6 +156,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # 2FA will be disabled.
     TWOFACTOR_VERIFY_DURATION: int = 60 * 60 * 24
 
+    # Whether or not to enable the findhelp app, also known as
+    # the Tenant Assistance Directory. This requires that the
+    # default database be a spatial one supported by GeoDjango,
+    # and that any requisite geospatial libraries are installed.
+    ENABLE_FINDHELP: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

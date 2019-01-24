@@ -18,6 +18,10 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     # Install the CLIs for databases so we can use 'manage.py dbshell'.
     postgresql-client \
     sqlite3 \
+    # Add support for GeoDjango.
+    binutils \
+    libproj-dev \
+    gdal-bin \
     # Add optional support for GeoDjango with sqlite.
     libsqlite3-mod-spatialite \
     # This is for CircleCI.

@@ -9,8 +9,25 @@ from django.contrib.gis.geos import Polygon, MultiPolygon, Point
 POLY_1 = Polygon.from_bbox((0, 0, 1, 1))
 POLY_2 = Polygon.from_bbox((1, 1, 2, 2))
 
-MPOLY_1 = to_multipolygon(POLY_1)
-MPOLY_2 = to_multipolygon(POLY_2)
+
+def create_zipcode(zipcode='11201', geom=POLY_1):
+    zc = Zipcode(zipcode=zipcode, geom=to_multipolygon(geom))
+    zc.save()
+    return zc
+
+
+def create_tenant_resource(name='Funky Help', address='123 Funky Way', **kwargs):
+    zipcodes = kwargs.pop('zipcodes', [])
+    tr = TenantResource(name=name, address=address, **kwargs)
+    tr.save()
+    update = False
+    if zipcodes:
+        tr.zipcodes.set(zipcodes)
+        update = True
+    if update:
+        tr.update_catchment_area()
+        tr.save()
+    return tr
 
 
 def test_to_multipolygon_converts_polygons():
@@ -25,57 +42,40 @@ def test_to_multipolygon_passes_through_multipolygons():
     assert to_multipolygon(mp) is mp
 
 
-def test_zipcode_works(db):
-    mp = MultiPolygon(POLY_1, POLY_2)
-    zc = Zipcode(zipcode='11201', geom=mp)
-    zc.save()
+def test_zipcode_str_works():
+    zc = Zipcode(zipcode='11201')
     assert str(zc) == '11201'
 
 
 class TestTenantResourceManager:
     def test_it_finds_best_resources(self, db):
-        zc1 = Zipcode(zipcode='11201', geom=MPOLY_1)
-        zc1.save()
-        zc2 = Zipcode(zipcode='11231', geom=MPOLY_2)
-        zc2.save()
+        zc1 = create_zipcode(zipcode='11201', geom=POLY_1)
+        zc2 = create_zipcode(zipcode='11231', geom=POLY_2)
 
-        tr1 = TenantResource(
-            name='Funky Help', address='123 Funky Way', geocoded_point=Point(0.1, 0.1))
-        tr1.save()
-        tr1.zipcodes.set([zc1])
-        tr1.update_catchment_area()
-        tr1.save()
+        create_tenant_resource(
+            name='Funky Help', address='123 Funky Way', geocoded_point=Point(0.1, 0.1),
+            zipcodes=[zc1])
 
-        tr2 = TenantResource(
-            name='Awesome Help', address='123 Awesome Way', geocoded_point=Point(1.5, 1.5))
-        tr2.save()
-        tr2.zipcodes.set([zc2])
-        tr2.update_catchment_area()
-        tr2.save()
+        create_tenant_resource(
+            name='Awesome Help', address='123 Awesome Way', geocoded_point=Point(1.5, 1.5),
+            zipcodes=[zc2])
 
-        tr3 = TenantResource(
-            name='Ultra Help', address='123 Ultra Way', geocoded_point=Point(0.6, 0.6))
-        tr3.save()
-        tr3.zipcodes.set([zc1])
-        tr3.update_catchment_area()
-        tr3.save()
+        create_tenant_resource(
+            name='Ultra Help', address='123 Ultra Way', geocoded_point=Point(0.6, 0.6),
+            zipcodes=[zc1])
 
-        resources = list(TenantResource.objects.find_best_for(0.5, 0.5))
-        assert resources == [tr3, tr1]
+        resources = list(tr.name for tr in TenantResource.objects.find_best_for(0.5, 0.5))
+        assert resources == ['Ultra Help', 'Funky Help']
 
 
 class TestTenantResource:
     def test_it_updates_catchment_area_to_none(self, db):
-        tr = TenantResource(name='Funky Help', address='123 Funky Way')
-        tr.save()
+        tr = create_tenant_resource()
         tr.update_catchment_area()
         assert tr.catchment_area is None
 
     def test_it_updates_catchment_area_to_multipolygon(self, db):
-        zc1 = Zipcode(zipcode='11201', geom=MPOLY_1)
-        zc1.save()
-        tr = TenantResource(name='Funky Help', address='123 Funky Way')
-        tr.save()
-        tr.zipcodes.set([zc1])
+        zc = create_zipcode()
+        tr = create_tenant_resource(zipcodes=[zc])
         tr.update_catchment_area()
         assert isinstance(tr.catchment_area, MultiPolygon)

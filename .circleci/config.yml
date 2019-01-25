@@ -3,11 +3,13 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.1
+      - image: justfixnyc/tenants2_base:0.2
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
+          ENABLE_FINDHELP: yup
+          SPATIALITE_LIBRARY_PATH: mod_spatialite
           CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
     steps:
       - checkout

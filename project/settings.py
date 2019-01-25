@@ -41,7 +41,7 @@ SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
 # Application definition
 
-INSTALLED_APPS = [
+BASE_INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +65,11 @@ INSTALLED_APPS = [
     'twofactor.apps.TwofactorConfig',
     'nycdb'
 ]
+
+INSTALLED_APPS = BASE_INSTALLED_APPS
+
+if env.ENABLE_FINDHELP:
+    INSTALLED_APPS.append('findhelp.apps.FindhelpConfig')
 
 MIDDLEWARE = [
     'project.middleware.CSPHashingMiddleware',
@@ -112,6 +117,22 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(env.DATABASE_URL),
 }
+
+if env.SPATIALITE_LIBRARY_PATH:
+    SPATIALITE_LIBRARY_PATH = env.SPATIALITE_LIBRARY_PATH
+
+if env.ENABLE_FINDHELP and DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
+    # The default DATABASE_URL schema is sqlite://, but if the findhelp app is
+    # enabled, we need it to be a spatial database, so just change the backend
+    # here. This is kind of hacky but it requires the least configuration for
+    # new developers.
+    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.spatialite'
+
+if DATABASES['default']['ENGINE'] == 'django.contrib.gis.db.backends.spatialite':
+    # This is a very odd workaround we need to do, otherwise we'll get a
+    # "django.db.utils.OperationalError: unable to open database file"
+    # when running the test suite.
+    DATABASES['default']['TEST'] = {'NAME': 'db.testing.sqlite3'}
 
 NYCDB_DATABASE = None
 

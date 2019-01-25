@@ -13,12 +13,18 @@ import pytest
 
 from users.tests.factories import UserFactory
 from project.schema import schema
+from project.settings import env
 from nycha.tests.fixtures import load_nycha_csv_data
 
 
 BASE_DIR = Path(__file__).parent.resolve()
 
 STATICFILES_DIR = BASE_DIR / 'staticfiles'
+
+collect_ignore: List[str] = []
+
+if not env.ENABLE_FINDHELP:
+    collect_ignore.append('findhelp')
 
 
 @pytest.fixture

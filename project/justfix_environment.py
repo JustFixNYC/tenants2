@@ -25,6 +25,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/aepyornis/nyc-db
     NYCDB_DATABASE_URL: str = ''
 
+    # If using sqlite with SpatiaLite for GeoDjango, you may need to
+    # set this to 'mod_spatialite' to support SpatiaLite 4.2+.
+    SPATIALITE_LIBRARY_PATH: str = ''
+
     # This is a large random value corresponding to Django's
     # SECRET_KEY setting.
     SECRET_KEY: str
@@ -151,6 +155,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # password, though). If this is zero or a negative number,
     # 2FA will be disabled.
     TWOFACTOR_VERIFY_DURATION: int = 60 * 60 * 24
+
+    # Whether or not to enable the findhelp app, also known as
+    # the Tenant Assistance Directory. This requires that the
+    # default database be a spatial one supported by GeoDjango,
+    # and that any requisite geospatial libraries are installed.
+    ENABLE_FINDHELP: bool = False
 
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):

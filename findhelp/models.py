@@ -1,3 +1,5 @@
+import itertools
+from typing import Union, Iterator, Optional
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Point, Polygon, MultiPolygon
 from django.contrib.gis.db.models.functions import Distance
@@ -5,11 +7,20 @@ from django.contrib.gis.db.models.functions import Distance
 from project import geocoding
 
 
-def to_multipolygon(geos_geom):
+def to_multipolygon(geos_geom: Union[Polygon, MultiPolygon]) -> MultiPolygon:
     if isinstance(geos_geom, Polygon):
         return MultiPolygon(geos_geom)
     assert isinstance(geos_geom, MultiPolygon)
     return geos_geom
+
+
+def union_geometries(geometries: Iterator[MultiPolygon]) -> Optional[MultiPolygon]:
+    total_area = GEOSGeometry('POINT EMPTY', srid=4326)
+    for geom in geometries:
+        total_area = total_area.union(geom)
+    if isinstance(total_area, Point):
+        return None
+    return to_multipolygon(total_area)
 
 
 class Zipcode(models.Model):
@@ -129,23 +140,18 @@ class TenantResource(models.Model):
             self.geocoded_address = ''
             self.geocoded_point = None
 
-    def _set_catchment_area(self, total_area):
-        if isinstance(total_area, Point):
-            self.catchment_area = None
-        else:
-            self.catchment_area = to_multipolygon(total_area)
+    def iter_geometries(self) -> Iterator[MultiPolygon]:
+        regions = itertools.chain(
+            self.zipcodes.all(),
+            self.boroughs.all(),
+            self.neighborhoods.all(),
+            self.community_districts.all(),
+        )
+        for region in regions:
+            yield region.geom
 
     def update_catchment_area(self):
-        total_area = GEOSGeometry('POINT EMPTY', srid=4326)
-        for zipcode in self.zipcodes.all():
-            total_area = total_area.union(zipcode.geom)
-        for borough in self.boroughs.all():
-            total_area = total_area.union(borough.geom)
-        for hood in self.neighborhoods.all():
-            total_area = total_area.union(hood.geom)
-        for cd in self.community_districts.all():
-            total_area = total_area.union(cd.geom)
-        self._set_catchment_area(total_area)
+        self.catchment_area = union_geometries(self.iter_geometries())
 
     def save(self, *args, **kwargs):
         if self.address != self.geocoded_address or not self.geocoded_point:

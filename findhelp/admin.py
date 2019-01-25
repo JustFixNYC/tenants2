@@ -28,8 +28,7 @@ class CommunityDistrictAdmin(admin.GeoModelAdmin):
 @admin.register(TenantResource)
 class TenantResourceAdmin(admin.GeoModelAdmin):
     autocomplete_fields = ['zipcodes', 'neighborhoods', 'community_districts']
-    readonly_fields = [
-        'geocoded_address', 'geocoded_latitude', 'geocoded_longitude', 'geocoded_point']
+    readonly_fields = ['geocoded_address', 'geocoded_point']
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

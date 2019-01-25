@@ -110,8 +110,6 @@ class TenantResource(models.Model):
     community_districts = models.ManyToManyField(CommunityDistrict, blank=True)
 
     geocoded_address = models.TextField(blank=True)
-    geocoded_latitude = models.FloatField(default=0.0)
-    geocoded_longitude = models.FloatField(default=0.0)
     geocoded_point = models.PointField(null=True, blank=True, srid=4326)
     catchment_area = models.MultiPolygonField(null=True, blank=True, srid=4326)
 
@@ -126,8 +124,6 @@ class TenantResource(models.Model):
             result = results[0]
             self.geocoded_address = result.properties.label
             longitude, latitude = result.geometry.coordinates
-            self.geocoded_latitude = latitude
-            self.geocoded_longitude = longitude
             self.geocoded_point = Point(longitude, latitude)
 
     def _set_catchment_area(self, total_area):

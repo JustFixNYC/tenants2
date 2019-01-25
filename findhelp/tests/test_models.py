@@ -105,3 +105,16 @@ class TestTenantResource:
         tr = create_tenant_resource(zipcodes=[zc])
         tr.update_catchment_area()
         assert isinstance(tr.catchment_area, MultiPolygon)
+
+    def test_it_updates_geocoded_info_on_save(self, db, fake_geocoder):
+        fake_geocoder.register('123 Funky Way', latitude=1, longitude=2)
+        tr = create_tenant_resource(address='123 Blarg Way')
+
+        assert tr.geocoded_address == ''
+        assert tr.geocoded_point is None
+
+        tr.address = '123 Funky Way'
+        tr.save()
+
+        assert tr.geocoded_address == '123 Funky Way'
+        assert str(tr.geocoded_point) == 'SRID=4326;POINT (2 1)'

@@ -1,6 +1,8 @@
 from findhelp.models import (
     to_multipolygon,
+    union_geometries,
     Zipcode,
+    Borough,
     TenantResource
 )
 from django.contrib.gis.geos import Polygon, MultiPolygon
@@ -16,13 +18,23 @@ def create_zipcode(zipcode='11201', geom=POLY_1):
     return zc
 
 
+def create_borough(code=1, name='Manhattan', geom=POLY_1):
+    borough = Borough(code=code, name=name, geom=to_multipolygon(geom))
+    borough.save()
+    return borough
+
+
 def create_tenant_resource(name='Funky Help', address='123 Funky Way', **kwargs):
     zipcodes = kwargs.pop('zipcodes', [])
+    boroughs = kwargs.pop('boroughs', [])
     tr = TenantResource(name=name, address=address, **kwargs)
     tr.save()
     update = False
     if zipcodes:
         tr.zipcodes.set(zipcodes)
+        update = True
+    if boroughs:
+        tr.boroughs.set(boroughs)
         update = True
     if update:
         tr.update_catchment_area()
@@ -45,6 +57,11 @@ def test_to_multipolygon_passes_through_multipolygons():
 def test_zipcode_str_works():
     zc = Zipcode(zipcode='11201')
     assert str(zc) == '11201'
+
+
+def test_borough_str_works():
+    b = Borough(name='Staten Island')
+    assert str(b) == 'Staten Island'
 
 
 class TestTenantResourceManager:
@@ -94,3 +111,15 @@ class TestTenantResource:
 
         assert tr.geocoded_address == ''
         assert tr.geocoded_point is None
+
+    def test_iter_geometries_works(self, db):
+        tr = create_tenant_resource()
+        assert union_geometries(tr.iter_geometries()) is None
+
+        zc = create_zipcode()
+        tr = create_tenant_resource(zipcodes=[zc])
+        assert union_geometries(tr.iter_geometries()) is not None
+
+        borough = create_borough()
+        tr = create_tenant_resource(boroughs=[borough])
+        assert union_geometries(tr.iter_geometries()) is not None

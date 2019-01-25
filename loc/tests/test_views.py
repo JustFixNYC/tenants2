@@ -62,6 +62,7 @@ def create_user_with_all_info():
         borough="MANHATTAN",
         apt_number="301",
         zipcode="11201",
+        pad_bbl="1234567890",
         has_called_311=False
     )
     user = info.user

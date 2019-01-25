@@ -266,6 +266,9 @@ class OnboardingInfo(models.Model):
             props = features[0].properties
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
+        else:
+            self.zipcode = ''
+            self.pad_bbl = ''
         self.__addr.set_to_unchanged()
         self.__addr_meta.set_to_unchanged()
 

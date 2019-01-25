@@ -98,9 +98,22 @@ class TestAddrMetadataLookup:
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
 
-    def test_lookup_when_addr_changes(self):
+    def test_lookup_when_addr_changes_and_geocoding_fails(self):
         info = self.mkinfo_with_metadata()
         info.address = 'times square'
+        assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.zipcode == ''
+        assert info.pad_bbl == ''
+
+        # Because geocoding failed, we should always try looking up
+        # new metadata, in case geocoding works next time.
+        assert info.maybe_lookup_new_addr_metadata() is True
+
+    @enable_fake_geocoding
+    def test_lookup_when_addr_changes_and_geocoding_works(self, requests_mock, settings):
+        info = self.mkinfo_with_metadata()
+        info.address = 'times square'
+        requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         assert info.maybe_lookup_new_addr_metadata() is True
 
         # Make sure we "remember" that our metadata is associated with

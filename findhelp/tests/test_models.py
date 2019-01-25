@@ -1,13 +1,43 @@
+from typing import Tuple, Dict, Any, List
+from types import SimpleNamespace
+import pytest
+
 from findhelp.models import (
+    geocoding,
     to_multipolygon,
     Zipcode,
     TenantResource
 )
-from django.contrib.gis.geos import Polygon, MultiPolygon, Point
+from django.contrib.gis.geos import Polygon, MultiPolygon
 
 
 POLY_1 = Polygon.from_bbox((0, 0, 1, 1))
 POLY_2 = Polygon.from_bbox((1, 1, 2, 2))
+
+
+class FakeGeocoder:
+    def __init__(self):
+        self._registry: Dict[str, Tuple[float, float]] = {}
+
+    def register(self, address, latitude, longitude) -> None:
+        self._registry[address] = (longitude, latitude)
+
+    def search(self, address: str) -> List[Any]:
+        coords = self._registry.get(address)
+        if coords is None:
+            return []
+        result = SimpleNamespace(
+            properties=SimpleNamespace(label=address),
+            geometry=SimpleNamespace(coordinates=coords)
+        )
+        return [result]
+
+
+@pytest.fixture
+def fake_geocoder(monkeypatch):
+    fg = FakeGeocoder()
+    monkeypatch.setattr(geocoding, 'search', fg.search)
+    return fg
 
 
 def create_zipcode(zipcode='11201', geom=POLY_1):
@@ -48,21 +78,17 @@ def test_zipcode_str_works():
 
 
 class TestTenantResourceManager:
-    def test_it_finds_best_resources(self, db):
+    def test_it_finds_best_resources(self, db, fake_geocoder):
         zc1 = create_zipcode(zipcode='11201', geom=POLY_1)
         zc2 = create_zipcode(zipcode='11231', geom=POLY_2)
 
-        create_tenant_resource(
-            name='Funky Help', address='123 Funky Way', geocoded_point=Point(0.1, 0.1),
-            zipcodes=[zc1])
+        fake_geocoder.register('123 Funky Way', 0.1, 0.1)
+        fake_geocoder.register('123 Awesome Way', 1.5, 1.5)
+        fake_geocoder.register('123 Ultra Way', 0.6, 0.6)
 
-        create_tenant_resource(
-            name='Awesome Help', address='123 Awesome Way', geocoded_point=Point(1.5, 1.5),
-            zipcodes=[zc2])
-
-        create_tenant_resource(
-            name='Ultra Help', address='123 Ultra Way', geocoded_point=Point(0.6, 0.6),
-            zipcodes=[zc1])
+        create_tenant_resource('Funky Help', '123 Funky Way', zipcodes=[zc1])
+        create_tenant_resource('Awesome Help', '123 Awesome Way', zipcodes=[zc2])
+        create_tenant_resource('Ultra Help', '123 Ultra Way', zipcodes=[zc1])
 
         resources = list(tr.name for tr in TenantResource.objects.find_best_for(0.5, 0.5))
         assert resources == ['Ultra Help', 'Funky Help']

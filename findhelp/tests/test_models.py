@@ -78,7 +78,7 @@ class TestTenantResource:
 
     def test_it_updates_geocoded_info_on_save(self, db, fake_geocoder):
         fake_geocoder.register('123 Funky Way', latitude=1, longitude=2)
-        tr = create_tenant_resource(address='123 Blarg Way')
+        tr = create_tenant_resource(address='123 Nonexistent address')
 
         assert tr.geocoded_address == ''
         assert tr.geocoded_point is None
@@ -88,3 +88,9 @@ class TestTenantResource:
 
         assert tr.geocoded_address == '123 Funky Way'
         assert str(tr.geocoded_point) == 'SRID=4326;POINT (2 1)'
+
+        tr.address = '123 Nonexistent address'
+        tr.save()
+
+        assert tr.geocoded_address == ''
+        assert tr.geocoded_point is None

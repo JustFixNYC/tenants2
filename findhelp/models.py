@@ -125,6 +125,9 @@ class TenantResource(models.Model):
             self.geocoded_address = result.properties.label
             longitude, latitude = result.geometry.coordinates
             self.geocoded_point = Point(longitude, latitude)
+        else:
+            self.geocoded_address = ''
+            self.geocoded_point = None
 
     def _set_catchment_area(self, total_area):
         if isinstance(total_area, Point):

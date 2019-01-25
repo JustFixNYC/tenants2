@@ -3,6 +3,8 @@ from findhelp.models import (
     union_geometries,
     Zipcode,
     Borough,
+    Neighborhood,
+    CommunityDistrict,
     TenantResource
 )
 from django.contrib.gis.geos import Polygon, MultiPolygon
@@ -24,9 +26,23 @@ def create_borough(code=1, name='Manhattan', geom=POLY_1):
     return borough
 
 
+def create_neighborhood(name='Dumbo', county='Kings', geom=POLY_1):
+    neighborhood = Neighborhood(name=name, county=county, geom=to_multipolygon(geom))
+    neighborhood.save()
+    return neighborhood
+
+
+def create_cd(boro_cd='164', name='Central Park', geom=POLY_1):
+    cd = CommunityDistrict(boro_cd=boro_cd, name=name, geom=to_multipolygon(geom))
+    cd.save()
+    return cd
+
+
 def create_tenant_resource(name='Funky Help', address='123 Funky Way', **kwargs):
     zipcodes = kwargs.pop('zipcodes', [])
     boroughs = kwargs.pop('boroughs', [])
+    neighborhoods = kwargs.pop('neighborhoods', [])
+    cds = kwargs.pop('community_districts', [])
     tr = TenantResource(name=name, address=address, **kwargs)
     tr.save()
     update = False
@@ -35,6 +51,12 @@ def create_tenant_resource(name='Funky Help', address='123 Funky Way', **kwargs)
         update = True
     if boroughs:
         tr.boroughs.set(boroughs)
+        update = True
+    if neighborhoods:
+        tr.neighborhoods.set(neighborhoods)
+        update = True
+    if cds:
+        tr.community_districts.set(cds)
         update = True
     if update:
         tr.update_catchment_area()
@@ -62,6 +84,23 @@ def test_zipcode_str_works():
 def test_borough_str_works():
     b = Borough(name='Staten Island')
     assert str(b) == 'Staten Island'
+
+
+def test_neighborhood_str_works():
+    n = Neighborhood(name='Dumbo', county='Kings')
+    assert str(n) == 'Dumbo (Kings)'
+
+
+class TestCommunityDistrict:
+    def test_boro_cd_to_name_shows_joint_interest_areas(self):
+        assert CommunityDistrict.boro_cd_to_name('164') == 'Manhattan JIA 64 (Central Park)'
+
+    def test_boro_cd_to_name_shows_community_districts(self):
+        assert CommunityDistrict.boro_cd_to_name('36') == 'Brooklyn CD 6'
+
+    def test_str_works(self):
+        cd = CommunityDistrict(name='Boop')
+        assert str(cd) == 'Boop'
 
 
 class TestTenantResourceManager:
@@ -122,4 +161,12 @@ class TestTenantResource:
 
         borough = create_borough()
         tr = create_tenant_resource(boroughs=[borough])
+        assert union_geometries(tr.iter_geometries()) is not None
+
+        neighborhood = create_neighborhood()
+        tr = create_tenant_resource(neighborhoods=[neighborhood])
+        assert union_geometries(tr.iter_geometries()) is not None
+
+        cd = create_cd()
+        tr = create_tenant_resource(community_districts=[cd])
         assert union_geometries(tr.iter_geometries()) is not None

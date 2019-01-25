@@ -64,7 +64,7 @@ def test_user_to_hpactionvars_populates_basic_landlord_info(db):
 
 def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
     med = nycdb.load_hpd_registration('medium-landlord.json')
-    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl, zipcode='12345')
+    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl)
     v = user_to_hpactionvars(oinfo.user)
     assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
@@ -78,7 +78,7 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
 
 def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb):
     med = nycdb.load_hpd_registration('tiny-landlord.json')
-    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl, zipcode='12345')
+    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl)
     v = user_to_hpactionvars(oinfo.user)
     assert v.landlord_entity_name_te == "BOOP JONES"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.INDIVIDUAL

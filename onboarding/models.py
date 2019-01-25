@@ -266,7 +266,10 @@ class OnboardingInfo(models.Model):
             props = features[0].properties
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
-        else:
+        elif self.__addr.has_changed():
+            # If the address has changed, we really don't want the existing
+            # metadata to be there, because it will represent information
+            # about their old address.
             self.zipcode = ''
             self.pad_bbl = ''
         self.__addr.set_to_unchanged()

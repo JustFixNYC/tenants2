@@ -132,7 +132,7 @@ if DATABASES['default']['ENGINE'] == 'django.contrib.gis.db.backends.spatialite'
     # This is a very odd workaround we need to do, otherwise we'll get a
     # "django.db.utils.OperationalError: unable to open database file"
     # when running the test suite.
-    DATABASES['default']['TEST'] = {'NAME': 'test_db.sqlite3'}
+    DATABASES['default']['TEST'] = {'NAME': 'db.testing.sqlite3'}
 
 NYCDB_DATABASE = None
 

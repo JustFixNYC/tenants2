@@ -2,6 +2,12 @@ from typing import Tuple, Dict, Any, List
 from types import SimpleNamespace
 import pytest
 
+from project import settings
+
+
+assert settings.env.ENABLE_FINDHELP, \
+       "findhelp tests should only run if ENABLE_FINDHELP is set!"
+
 
 class FakeGeocoder:
     def __init__(self):

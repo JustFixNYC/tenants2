@@ -6,7 +6,11 @@ This is an attempt at creating a new Tenants app for JustFix.
 
 ## Quick start
 
-You'll need Python 3.7.0 and [pipenv][], as well as Node 8.
+You'll need Python 3.7.0 and [pipenv][], as well as Node 8 and
+[Git Large File Storage (LFS)][git-lfs].
+
+If you didn't have Git LFS installed before cloning the repository,
+you can obtain the repository's large files by running `git lfs pull`.
 
 First create an environment file and optionally edit it as you
 see fit:
@@ -338,7 +342,27 @@ python manage.py loadnycha Block-and-Lot-Guide-08272018.csv
 Once imported, any users from NYCHA who file a letter of complaint will
 automatically have their landlord address populated.
 
+### NYC geographic regions
+
+The tenant assistance directory, known within the project as `findhelp`, needs
+shapefiles of New York City geographic regions to allow staff to define
+the catchment areas of tenant resources. These shapefiles can be loaded via
+the following command:
+
+```
+python manage.py loadfindhelpdata
+```
+
+The shapefile data is stored within the repository using Git LFS
+and has the following provenance:
+
+* `findhelp/data/ZIP_CODE_040114` - https://data.cityofnewyork.us/Business/Zip-Code-Boundaries/i8iw-xf4u
+* `findhelp/data/Borough-Boundaries.geojson` - https://data.cityofnewyork.us/City-Government/Borough-Boundaries/tqmj-j8zm
+* `findhelp/data/Community-Districts.geojson` - https://data.cityofnewyork.us/City-Government/Community-Districts/yfnk-k7r4
+* `findhelp/data/ZillowNeighborhoods-NY` - https://www.zillow.com/howto/api/neighborhood-boundaries.htm
+
 [pipenv]: https://docs.pipenv.org/
+[git-lfs]: https://git-lfs.github.com/
 [twelve-factor methodology]: https://12factor.net/
 [multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
 [Heroku Postgres]: https://www.heroku.com/postgres

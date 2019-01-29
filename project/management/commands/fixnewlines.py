@@ -38,7 +38,17 @@ def iter_get_repo_files(repo_root: Path = BASE_DIR) -> Iterator[Path]:
 class Command(BaseCommand):
     help = 'Ensure the project\'s text files all use Unix-style line endings.'
 
-    IGNORE_EXTENSIONS = ['.png', '.jpg', '.ttf', '.ico']
+    IGNORE_EXTENSIONS = [
+        '.png',
+        '.jpg',
+        '.ttf',
+        '.ico',
+        '.dbf',
+        '.sbn',
+        '.sbx',
+        '.shp',
+        '.shx',
+    ]
 
     def add_arguments(self, parser):
         parser.add_argument(

@@ -5,6 +5,11 @@ from django.contrib.gis.geos import GEOSGeometry, Point, Polygon, MultiPolygon
 from django.contrib.gis.db.models.functions import Distance
 
 from project import geocoding
+from project.common_data import Choices
+from users.models import PHONE_NUMBER_LEN, validate_phone_number
+
+
+ORG_TYPE_CHOICES = Choices.from_file('findhelp-org-type-choices.json')
 
 
 def to_multipolygon(geos_geom: Union[Polygon, MultiPolygon]) -> MultiPolygon:
@@ -114,6 +119,21 @@ class TenantResourceManager(models.Manager):
 
 class TenantResource(models.Model):
     name = models.CharField(max_length=100)
+    website = models.URLField(blank=True)
+    phone_number = models.CharField(
+        'Phone number',
+        max_length=PHONE_NUMBER_LEN,
+        blank=True,
+        validators=[validate_phone_number],
+        help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
+    )
+    description = models.TextField(blank=True)
+    org_type = models.CharField(
+        max_length=40,
+        blank=True,
+        choices=ORG_TYPE_CHOICES.choices,
+        help_text="The organization type."
+    )
     address = models.TextField()
     zipcodes = models.ManyToManyField(Zipcode, blank=True)
     boroughs = models.ManyToManyField(Borough, blank=True)

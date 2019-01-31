@@ -3,6 +3,9 @@ from typing import Optional, Tuple, Any, Dict
 from django.conf import settings
 from django.contrib.gis.geos import Point, MultiPolygon
 from django.template.loader import render_to_string
+from django.contrib.admin import ModelAdmin
+
+from project.util.admin_util import admin_field
 
 
 # This must be the same as ADMIN_MAP_PREFIX in admin_map.js.
@@ -50,3 +53,22 @@ def render_admin_map(
         'json_params': json_params,
         'json_params_id': ADMIN_MAP_PREFIX + id
     })
+
+
+def admin_map_field(area_attr: str, short_description: str):
+    @admin_field(allow_tags=True, short_description=short_description)
+    def field(self, obj) -> str:
+        return render_admin_map(
+            id=area_attr,
+            area=getattr(obj, area_attr)
+        )
+
+    return field
+
+
+class MapModelAdmin(ModelAdmin):
+    class Media:
+        css = {
+            'all': ("findhelp/vendor/leaflet-1.4.0/leaflet.css", "findhelp/admin_map.css")
+        }
+        js = ("findhelp/vendor/leaflet-1.4.0/leaflet.js", "findhelp/admin_map.js",)

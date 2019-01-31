@@ -2,11 +2,13 @@
   "include": [
     "webpack.config.js",
     "frontend",
-    "twofactor/static"
+    "twofactor/static",
+    "findhelp/static",
   ],
   "exclude": [
     "frontend/static",
     "frontend/lib/queries/__generated__",
+    "findhelp/static/findhelp/vendor",
   ],
   "compilerOptions": {
     /* Basic Options */

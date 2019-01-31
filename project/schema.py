@@ -12,6 +12,7 @@ from loc.schema import LocMutations, LocSessionInfo
 from hpaction.schema import HPActionMutations, HPActionSessionInfo
 from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
+from findhelp.schema import FindhelpInfo
 from . import forms
 
 
@@ -163,7 +164,7 @@ class Mutations(
     example = Example.Field(required=True)
 
 
-class Query(graphene.ObjectType):
+class Query(FindhelpInfo, graphene.ObjectType):
     '''
     Here is some help text that gets passed back to
     GraphQL clients as part of our schema.

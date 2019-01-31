@@ -1,11 +1,9 @@
-import json
-from django.conf import settings
 from django.contrib.gis import admin
 from django.contrib.admin import ModelAdmin
-from django.template.loader import render_to_string
 
 from project.util.admin_util import admin_field
 from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantResource
+from .admin_map import render_admin_map
 
 
 @admin.register(Zipcode)
@@ -54,40 +52,9 @@ class TenantResourceAdmin(ModelAdmin):
         allow_tags=True
     )
     def location_and_catchment_area(self, obj) -> str:
-        if not settings.MAPBOX_ACCESS_TOKEN:
-            return "Unable to show map because Mapbox integration is disabled."
-
-        center = None
-        area = None
-        point = None
-        if obj.catchment_area is not None:
-            area = json.loads(obj.catchment_area.geojson)
-            center = obj.catchment_area.centroid.coords
-        if obj.geocoded_point is not None:
-            point = json.loads(obj.geocoded_point.geojson)
-            center = obj.geocoded_point.coords
-
-        if not ((area or point) and center):
-            return ""
-
-        # Note that this should correspond to the AdminMapJsonParams interface
-        # in admin_map_typings.d.ts.
-        json_params = {
-            'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
-            'mapboxTilesOrigin': settings.MAPBOX_TILES_ORIGIN,
-            'center': [center[1], center[0]],
-            'zoomLevel': 13,
-            'area': area,
-            'point': point,
-            'pointLabel': obj.geocoded_address
-        }
-
-        # This must start with ADMIN_MAP_PREFIX as it's defined in
-        # admin_map.js.
-        json_params_id = 'admin-map-1'
-
-        html = render_to_string('findhelp/admin_map.html', {
-            'json_params': json_params,
-            'json_params_id': json_params_id
-        })
-        return html
+        return render_admin_map(
+            id='location_and_catchment_area',
+            area=obj.catchment_area,
+            point=obj.geocoded_point,
+            point_label=obj.geocoded_address
+        )

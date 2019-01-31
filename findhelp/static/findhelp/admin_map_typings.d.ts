@@ -5,7 +5,7 @@ export interface AdminMapJsonParams {
   mapboxTilesOrigin: String;
   center: [number, number],
   zoomLevel: number,
-  pointLabel: string;
+  pointLabel: string|null;
   point: GeoJsonObject|null;
   area: GeoJsonObject|null;
 }

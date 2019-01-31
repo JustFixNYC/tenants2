@@ -28,6 +28,20 @@ def union_geometries(geometries: Iterator[MultiPolygon]) -> Optional[MultiPolygo
     return to_multipolygon(total_area)
 
 
+class IgnoreFindhelpMigrationsRouter:
+    '''
+    This is a database router that disables migrations related
+    to models in this app.  It can be used if a Django project
+    needs to optionally disable this app without necessarily
+    making its models un-introspectable.
+    '''
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        if app_label == 'findhelp':
+            return False
+        return True
+
+
 class Zipcode(models.Model):
     class Meta:
         ordering = ['zipcode']

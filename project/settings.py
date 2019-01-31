@@ -41,7 +41,7 @@ SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
 # Application definition
 
-BASE_INSTALLED_APPS = [
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,13 +63,9 @@ BASE_INSTALLED_APPS = [
     'nycha.apps.NychaConfig',
     'hpaction.apps.HPActionConfig',
     'twofactor.apps.TwofactorConfig',
-    'nycdb'
+    'nycdb',
+    'findhelp.apps.FindhelpConfig'
 ]
-
-INSTALLED_APPS = BASE_INSTALLED_APPS
-
-if env.ENABLE_FINDHELP:
-    INSTALLED_APPS.append('findhelp.apps.FindhelpConfig')
 
 MIDDLEWARE = [
     'project.middleware.CSPHashingMiddleware',
@@ -114,6 +110,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+DATABASE_ROUTERS: List[str] = []
+
+if not env.ENABLE_FINDHELP:
+    DATABASE_ROUTERS.append('findhelp.models.IgnoreFindhelpMigrationsRouter')
+
 DATABASES = {
     'default': dj_database_url.parse(env.DATABASE_URL),
 }
@@ -145,7 +146,6 @@ MIGRATION_MODULES = {
     # want to modify its schema in any way.
     'nycdb': None
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

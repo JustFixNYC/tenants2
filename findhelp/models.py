@@ -118,7 +118,7 @@ class TenantResourceManager(models.Manager):
 
 
 class TenantResource(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=150)
     website = models.URLField(blank=True)
     phone_number = models.CharField(
         'Phone number',

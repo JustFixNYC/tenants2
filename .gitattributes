@@ -7,3 +7,4 @@
 *.shp.xml filter=lfs diff=lfs merge=lfs -text
 *.shx filter=lfs diff=lfs merge=lfs -text
 nycha/data/*.csv filter=lfs diff=lfs merge=lfs -text
+findhelp/static/findhelp/vendor/**/*.* filter=lfs diff=lfs merge=lfs -text

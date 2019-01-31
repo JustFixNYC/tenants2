@@ -42,9 +42,9 @@ class TestRenderAdminMapWithMapboxEnabled(MapboxEnabled):
 
     def test_it_returns_json_params(self, settings):
         html = render_admin_map(
-            'blah', area=MPOLY_1, point=Point(5, 10), point_label='Funky place')
+            'blah', area=MPOLY_1, point=Point(5, 10), point_label='<Funky place')
         assert 'id="admin-map-blah"' in html
-        assert 'Funky place' in html
+        assert r'lt;Funky place' in html
         assert settings.MAPBOX_TILES_ORIGIN in html
 
         # The GeoJSON for the point.

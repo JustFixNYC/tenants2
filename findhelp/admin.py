@@ -34,7 +34,10 @@ class CommunityDistrictAdmin(admin.GeoModelAdmin):
 @admin.register(TenantResource)
 class TenantResourceAdmin(ModelAdmin):
     class Media:
-        js = ("findhelp/admin_map.js",)
+        css = {
+            'all': ("findhelp/vendor/leaflet-1.4.0/leaflet.css", "findhelp/admin_map.css")
+        }
+        js = ("findhelp/vendor/leaflet-1.4.0/leaflet.js", "findhelp/admin_map.js",)
 
     exclude = ['geocoded_point', 'catchment_area']
     autocomplete_fields = ['zipcodes', 'neighborhoods', 'community_districts']
@@ -50,24 +53,39 @@ class TenantResourceAdmin(ModelAdmin):
         short_description="Location and catchment area",
         allow_tags=True
     )
-    def location_and_catchment_area(self, obj):
+    def location_and_catchment_area(self, obj) -> str:
         if not settings.MAPBOX_ACCESS_TOKEN:
             return "Unable to show map because Mapbox integration is disabled."
-        if obj.id is None:
-            return ""
+
+        center = None
         area = None
+        point = None
         if obj.catchment_area is not None:
             area = json.loads(obj.catchment_area.geojson)
-        point = None
+            center = obj.catchment_area.centroid.coords
         if obj.geocoded_point is not None:
             point = json.loads(obj.geocoded_point.geojson)
+            center = obj.geocoded_point.coords
+
+        if not ((area or point) and center):
+            return ""
+
+        # Note that this should correspond to the AdminMapJsonParams interface
+        # in admin_map_typings.d.ts.
         json_params = {
             'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
+            'mapboxTilesOrigin': settings.MAPBOX_TILES_ORIGIN,
+            'center': [center[1], center[0]],
+            'zoomLevel': 13,
             'area': area,
             'point': point,
             'pointLabel': obj.geocoded_address
         }
+
+        # This must start with ADMIN_MAP_PREFIX as it's defined in
+        # admin_map.js.
         json_params_id = 'admin-map-1'
+
         html = render_to_string('findhelp/admin_map.html', {
             'json_params': json_params,
             'json_params_id': json_params_id

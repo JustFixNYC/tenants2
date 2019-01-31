@@ -44,8 +44,8 @@ function showAdminMap(el) {
   }
   if (params.point) {
     let marker = L.geoJSON(params.point).addTo(map);
-    if (params.pointLabel) {
-      marker.bindPopup(params.pointLabel);
+    if (params.pointLabelHTML) {
+      marker.bindPopup(params.pointLabelHTML);
     }
   }
 }

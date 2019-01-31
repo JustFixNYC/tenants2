@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.gis.geos import Point, MultiPolygon
 from django.template.loader import render_to_string
 from django.contrib.admin import ModelAdmin
+from django.utils import html
 
 from project.util.admin_util import admin_field
 
@@ -56,7 +57,7 @@ def render_admin_map(
         'zoomLevel': 13,
         'area': area and json.loads(area.geojson),
         'point': point and json.loads(point.geojson),
-        'pointLabel': point_label
+        'pointLabelHTML': html.escape(point_label)
     }
 
     return render_to_string('findhelp/admin_map.html', {

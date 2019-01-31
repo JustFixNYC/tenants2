@@ -15,6 +15,11 @@ LatLng = Tuple[float, float]
 
 
 def find_center(area: Optional[MultiPolygon], point: Optional[Point]) -> Optional[LatLng]:
+    '''
+    Given an area and/or a point, return either the area's centroid or the point,
+    preferring the point. Return None if neither is provided.
+    '''
+
     center = None
     if area:
         center = area.centroid.coords
@@ -30,6 +35,11 @@ def render_admin_map(
     point: Optional[Point] = None,
     point_label: Optional[str] = None,
 ) -> str:
+    '''
+    Return HTML for a map containing the given area and/or the given point with
+    the given label.
+    '''
+
     if not settings.MAPBOX_ACCESS_TOKEN:
         return "Unable to show map because Mapbox integration is disabled."
 
@@ -56,6 +66,12 @@ def render_admin_map(
 
 
 def admin_map_field(area_attr: str, short_description: str):
+    '''
+    Return a function that can be used as a custom read-only
+    Django admin field which displays a map based on the
+    geometry from the given model attribute.
+    '''
+
     @admin_field(allow_tags=True, short_description=short_description)
     def field(self, obj) -> str:
         return render_admin_map(
@@ -67,6 +83,15 @@ def admin_map_field(area_attr: str, short_description: str):
 
 
 class MapModelAdmin(ModelAdmin):
+    '''
+    A very simple subclass of ModelAdmin that can be used for displaying our
+    maps. We're using this instead of GeoDjango's built-in GeoModelAdmin
+    because it's not compatible with our Content Security Policy and we
+    need more robust functionality anyways:
+
+        https://github.com/JustFixNYC/tenants2/issues/459
+    '''
+
     class Media:
         css = {
             'all': ("findhelp/vendor/leaflet-1.4.0/leaflet.css", "findhelp/admin_map.css")

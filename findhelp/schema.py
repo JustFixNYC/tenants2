@@ -5,28 +5,28 @@ from graphene_django.types import DjangoObjectType
 from .models import TenantResource
 
 
+MAX_RESULTS = 10
+
+
 class TenantResourceType(DjangoObjectType):
     class Meta:
         model = TenantResource
         only_fields = ('name', 'address', 'website', 'phone_number', 'description')
 
-    latitude = graphene.Float()
-    longitude = graphene.Float()
-    miles_away = graphene.Float()
+    latitude = graphene.Float(required=True)
+    longitude = graphene.Float(required=True)
+    miles_away = graphene.Float(required=True)
 
     def resolve_latitude(self, info: ResolveInfo):
-        if self.geocoded_point is None:
-            return None
+        assert self.geocoded_point is not None
         return self.geocoded_point[1]
 
     def resolve_longitude(self, info: ResolveInfo):
-        if self.geocoded_point is None:
-            return None
+        assert self.geocoded_point is not None
         return self.geocoded_point[0]
 
     def resolve_miles_away(self, info: ResolveInfo):
-        if not hasattr(self, 'distance'):
-            return None
+        assert hasattr(self, 'distance')
         return self.distance.mi
 
 
@@ -46,4 +46,4 @@ class FindhelpInfo:
         return TenantResource.objects.find_best_for(
             latitude=latitude,
             longitude=longitude,
-        )[:10]
+        )[:MAX_RESULTS]

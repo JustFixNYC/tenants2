@@ -64,6 +64,19 @@ def create_tenant_resource(name='Funky Help', address='123 Funky Way', **kwargs)
     return tr
 
 
+def create_sample_tenant_resources(db, fake_geocoder):
+    zc1 = create_zipcode(zipcode='11201', geom=POLY_1)
+    zc2 = create_zipcode(zipcode='11231', geom=POLY_2)
+
+    fake_geocoder.register('123 Funky Way', 0.1, 0.2)
+    fake_geocoder.register('123 Awesome Way', 1.5, 1.5)
+    fake_geocoder.register('123 Ultra Way', 0.6, 0.5)
+
+    create_tenant_resource('Funky Help', '123 Funky Way', zipcodes=[zc1])
+    create_tenant_resource('Awesome Help', '123 Awesome Way', zipcodes=[zc2])
+    create_tenant_resource('Ultra Help', '123 Ultra Way', zipcodes=[zc1])
+
+
 def test_to_multipolygon_converts_polygons():
     p = POLY_1
     mp = to_multipolygon(p)
@@ -105,17 +118,7 @@ class TestCommunityDistrict:
 
 class TestTenantResourceManager:
     def test_it_finds_best_resources(self, db, fake_geocoder):
-        zc1 = create_zipcode(zipcode='11201', geom=POLY_1)
-        zc2 = create_zipcode(zipcode='11231', geom=POLY_2)
-
-        fake_geocoder.register('123 Funky Way', 0.1, 0.1)
-        fake_geocoder.register('123 Awesome Way', 1.5, 1.5)
-        fake_geocoder.register('123 Ultra Way', 0.6, 0.6)
-
-        create_tenant_resource('Funky Help', '123 Funky Way', zipcodes=[zc1])
-        create_tenant_resource('Awesome Help', '123 Awesome Way', zipcodes=[zc2])
-        create_tenant_resource('Ultra Help', '123 Ultra Way', zipcodes=[zc1])
-
+        create_sample_tenant_resources(db, fake_geocoder)
         resources = list(tr.name for tr in TenantResource.objects.find_best_for(0.5, 0.5))
         assert resources == ['Ultra Help', 'Funky Help']
 

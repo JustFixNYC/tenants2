@@ -28,6 +28,26 @@ def union_geometries(geometries: Iterator[MultiPolygon]) -> Optional[MultiPolygo
     return to_multipolygon(total_area)
 
 
+class IgnoreFindhelpMigrationsRouter:
+    '''
+    This is a database router that disables migrations related
+    to models in this app.  It can be used if a Django project
+    needs to optionally disable this app without necessarily
+    making its models un-introspectable.
+
+    We ultimately need this in order to define a consistent GraphQL
+    schema for the project without having to worry about whether
+    this particular app is disabled or not.
+    '''
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        if app_label == 'findhelp':
+            return False
+        # Note that we are supposed to return None if we have
+        # no opinion on the matter, which is the case here.
+        return None
+
+
 class Zipcode(models.Model):
     class Meta:
         ordering = ['zipcode']
@@ -118,8 +138,14 @@ class TenantResourceManager(models.Manager):
 
 
 class TenantResource(models.Model):
-    name = models.CharField(max_length=150)
-    website = models.URLField(blank=True)
+    name = models.CharField(
+        max_length=150,
+        help_text="The name of the tenant resource."
+    )
+    website = models.URLField(
+        blank=True,
+        help_text="The primary website of the tenant resource."
+    )
     phone_number = models.CharField(
         'Phone number',
         max_length=PHONE_NUMBER_LEN,
@@ -127,20 +153,34 @@ class TenantResource(models.Model):
         validators=[validate_phone_number],
         help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
     )
-    description = models.TextField(blank=True)
+    description = models.TextField(
+        blank=True,
+        help_text="The description of the tenant resource, including the services it provides."
+    )
     org_type = models.CharField(
         max_length=40,
         blank=True,
         choices=ORG_TYPE_CHOICES.choices,
-        help_text="The organization type."
+        help_text="The organization type of the tenant resource."
     )
-    address = models.TextField()
+    address = models.TextField(
+        help_text="The street address of the resource's office, including borough."
+    )
     zipcodes = models.ManyToManyField(Zipcode, blank=True)
     boroughs = models.ManyToManyField(Borough, blank=True)
     neighborhoods = models.ManyToManyField(Neighborhood, blank=True)
     community_districts = models.ManyToManyField(CommunityDistrict, blank=True)
 
-    geocoded_address = models.TextField(blank=True)
+    geocoded_address = models.TextField(
+        blank=True,
+        help_text=(
+            "This is the definitive street address returned by the geocoder, and "
+            "what the geocoded point (latitude and longitude) is based from. This "
+            "should not be very different from the address field (if it is, you "
+            "may need to change the address so the geocoder matches to the "
+            "proper location)."
+        )
+    )
     geocoded_point = models.PointField(null=True, blank=True, srid=4326)
     catchment_area = models.MultiPolygonField(null=True, blank=True, srid=4326)
 

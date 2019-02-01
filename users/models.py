@@ -36,6 +36,16 @@ ROLES['Outreach Coordinators'] = set([
     'onboarding.change_onboardinginfo',
 ])
 
+ROLES['Tenant Resource Editors'] = set([
+    'findhelp.add_tenantresource',
+    'findhelp.change_tenantresource',
+    'findhelp.delete_tenantresource',
+    'findhelp.view_communitydistrict',
+    'findhelp.view_neighborhood',
+    'findhelp.view_borough',
+    'findhelp.view_zipcode',
+])
+
 
 logger = logging.getLogger(__name__)
 

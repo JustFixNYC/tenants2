@@ -3,7 +3,6 @@ from django.contrib.gis.geos import Point, MultiPolygon, Polygon
 import pytest
 
 from findhelp.admin_map import (
-    find_center,
     render_admin_map,
     admin_map_field
 )
@@ -16,20 +15,6 @@ class MapboxEnabled:
     @pytest.fixture(autouse=True)
     def enable_mapbox(self, settings):
         settings.MAPBOX_ACCESS_TOKEN = 'boop'
-
-
-class TestFindCenter:
-    def test_it_returns_none(self):
-        assert find_center(None, None) is None
-
-    def test_it_returns_point(self):
-        assert find_center(None, Point(5, 10)) == (10, 5)
-
-    def test_it_returns_centroid_of_area(self):
-        assert find_center(MPOLY_1, None) == (1, 0.5)
-
-    def test_it_prefers_point_over_area_centroid(self):
-        assert find_center(MPOLY_1, Point(5, 10)) == (10, 5)
 
 
 def test_render_admin_map_works_when_mapbox_is_disabled():
@@ -49,9 +34,6 @@ class TestRenderAdminMapWithMapboxEnabled(MapboxEnabled):
 
         # The GeoJSON for the point.
         assert '[5.0, 10.0]' in html
-
-        # The center of the viewport.
-        assert '[10.0, 5.0]' in html
 
         # Part of the GeoJSON for the area.
         assert '2.0' in html

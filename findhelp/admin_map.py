@@ -1,5 +1,5 @@
 import json
-from typing import Optional, Tuple, Any, Dict
+from typing import Optional, Any, Dict
 from django.conf import settings
 from django.contrib.gis.geos import Point, MultiPolygon
 from django.template.loader import render_to_string
@@ -11,23 +11,6 @@ from project.util.admin_util import admin_field
 
 # This must be the same as ADMIN_MAP_PREFIX in admin_map.js.
 ADMIN_MAP_PREFIX = "admin-map-"
-
-LatLng = Tuple[float, float]
-
-
-def find_center(area: Optional[MultiPolygon], point: Optional[Point]) -> Optional[LatLng]:
-    '''
-    Given an area and/or a point, return either the area's centroid or the point,
-    preferring the point. Return None if neither is provided.
-    '''
-
-    center = None
-    if area:
-        center = area.centroid.coords
-    if point:
-        center = point.coords
-    # Points are stored as (Longitude, Latitude) so we need to reverse them.
-    return (center[1], center[0]) if center else None
 
 
 def render_admin_map(
@@ -44,8 +27,7 @@ def render_admin_map(
     if not settings.MAPBOX_ACCESS_TOKEN:
         return "Unable to show map because Mapbox integration is disabled."
 
-    center = find_center(area, point)
-    if not center:
+    if not (area or point):
         return "No map data to display."
 
     # Note that this should correspond to the AdminMapJsonParams interface
@@ -53,7 +35,6 @@ def render_admin_map(
     json_params: Dict[str, Any] = {
         'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
         'mapboxTilesOrigin': settings.MAPBOX_TILES_ORIGIN,
-        'center': center,
         'zoomLevel': 13,
         'area': area and json.loads(area.geojson),
         'point': point and json.loads(point.geojson),

@@ -31,23 +31,28 @@ function showAdminMap(el) {
   }
   el.parentNode.insertBefore(div, el);
 
-  const map = L.map(div).setView(params.center, params.zoomLevel);
+  const map = L.map(div);
   const urlTemplate = params.mapboxTilesOrigin + '/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
   const tileLayerOptions = {
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: params.mapboxAccessToken
   };
+  const features = new L.FeatureGroup();
   L.tileLayer(urlTemplate, tileLayerOptions).addTo(map);
   if (params.area) {
-    L.geoJSON(params.area).addTo(map);
+    features.addLayer(L.geoJSON(params.area).addTo(map));
   }
   if (params.point) {
     let marker = L.geoJSON(params.point).addTo(map);
     if (params.pointLabelHTML) {
       marker.bindPopup(params.pointLabelHTML);
     }
+    features.addLayer(marker);
   }
+  map.fitBounds(features.getBounds(), {
+    maxZoom: params.zoomLevel
+  });
 }
 
 /**

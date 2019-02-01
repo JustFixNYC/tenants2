@@ -8,7 +8,7 @@ from .models import TenantResource
 class TenantResourceType(DjangoObjectType):
     class Meta:
         model = TenantResource
-        only_fields = ('name', 'address', 'website', 'phone_number')
+        only_fields = ('name', 'address', 'website', 'phone_number', 'description')
 
     latitude = graphene.Float()
     longitude = graphene.Float()

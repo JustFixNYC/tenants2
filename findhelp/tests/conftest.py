@@ -34,3 +34,10 @@ def fake_geocoder(monkeypatch):
     fg = FakeGeocoder()
     monkeypatch.setattr(geocoding, 'search', fg.search)
     return fg
+
+
+@pytest.fixture
+def simulate_findhelp_disabled(monkeypatch):
+    from project.settings import env
+
+    monkeypatch.setattr(env, 'ENABLE_FINDHELP', False)

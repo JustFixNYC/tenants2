@@ -1,6 +1,7 @@
 from findhelp.models import (
     to_multipolygon,
     union_geometries,
+    IgnoreFindhelpMigrationsRouter,
     Zipcode,
     Borough,
     Neighborhood,
@@ -173,3 +174,13 @@ class TestTenantResource:
         cd = create_cd()
         tr = create_tenant_resource(community_districts=[cd])
         assert union_geometries(tr.iter_geometries()) is not None
+
+
+class TestIgnoreFindhelpMigrationsRouter:
+    def test_it_returns_false_for_findhelp_models(self):
+        router = IgnoreFindhelpMigrationsRouter()
+        assert router.allow_migrate(None, app_label='findhelp') is False
+
+    def test_it_returns_none_for_non_findhelp_models(self):
+        router = IgnoreFindhelpMigrationsRouter()
+        assert router.allow_migrate(None, app_label='blarg') is None

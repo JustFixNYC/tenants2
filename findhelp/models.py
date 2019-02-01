@@ -34,12 +34,18 @@ class IgnoreFindhelpMigrationsRouter:
     to models in this app.  It can be used if a Django project
     needs to optionally disable this app without necessarily
     making its models un-introspectable.
+
+    We ultimately need this in order to define a consistent GraphQL
+    schema for the project without having to worry about whether
+    this particular app is disabled or not.
     '''
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
         if app_label == 'findhelp':
             return False
-        return True
+        # Note that we are supposed to return None if we have
+        # no opinion on the matter, which is the case here.
+        return None
 
 
 class Zipcode(models.Model):

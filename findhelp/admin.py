@@ -55,9 +55,19 @@ class CommunityDistrictAdmin(MapModelAdmin):
 
 @register(TenantResource)
 class TenantResourceAdmin(MapModelAdmin):
+    list_display = ['name', 'org_type']
     exclude = ['geocoded_point', 'catchment_area']
     autocomplete_fields = ['zipcodes', 'neighborhoods', 'community_districts']
     readonly_fields = ['geocoded_address', 'location_and_catchment_area']
+    ordering = ('name',)
+    search_fields = [
+        'name',
+        'org_type',
+        'description',
+        'zipcodes__zipcode',
+        'boroughs__name',
+        'neighborhoods__name',
+    ]
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

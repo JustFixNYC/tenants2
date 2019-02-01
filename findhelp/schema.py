@@ -13,9 +13,23 @@ class TenantResourceType(DjangoObjectType):
         model = TenantResource
         only_fields = ('name', 'address', 'website', 'phone_number', 'description')
 
-    latitude = graphene.Float(required=True)
-    longitude = graphene.Float(required=True)
-    miles_away = graphene.Float(required=True)
+    latitude = graphene.Float(
+        required=True,
+        description="The latitude of the tenant resource's address."
+    )
+    longitude = graphene.Float(
+        required=True,
+        description="The longitude of the tenant resource's address."
+    )
+    miles_away = graphene.Float(
+        required=True,
+        description=(
+            "The distance, in miles, that the resource's address is located "
+            "from the location provided in the query. The distance represents "
+            "the 'straight line' distance and does not take into account roads "
+            "or other geographic features."
+        )
+    )
 
     def resolve_latitude(self, info: ResolveInfo):
         assert self.geocoded_point is not None
@@ -35,6 +49,11 @@ class FindhelpInfo:
         graphene.NonNull(TenantResourceType),
         latitude=graphene.Float(required=True),
         longitude=graphene.Float(required=True),
+        description=(
+            "Find tenant resources that service the given location, ordered by their "
+            "proximity to the location. Note that if the tenant resource directory is "
+            "disabled on this endpoint, this will resolve to null."
+        )
     )
 
     def resolve_tenant_resources(self, info: ResolveInfo, latitude: float, longitude: float):

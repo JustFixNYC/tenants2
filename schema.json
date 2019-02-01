@@ -16,7 +16,7 @@
           "fields": [
             {
               "name": "tenantResources",
-              "description": null,
+              "description": "Find tenant resources that service the given location, ordered by their proximity to the location. Note that if the tenant resource directory is disabled on this endpoint, this will resolve to null.",
               "args": [
                 {
                   "name": "latitude",
@@ -92,7 +92,7 @@
           "fields": [
             {
               "name": "name",
-              "description": "",
+              "description": "The name of the tenant resource.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -108,7 +108,7 @@
             },
             {
               "name": "website",
-              "description": "",
+              "description": "The primary website of the tenant resource.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -140,7 +140,7 @@
             },
             {
               "name": "description",
-              "description": "",
+              "description": "The description of the tenant resource, including the services it provides.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -156,7 +156,7 @@
             },
             {
               "name": "address",
-              "description": "",
+              "description": "The street address of the resource's office, including borough.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -172,7 +172,7 @@
             },
             {
               "name": "latitude",
-              "description": null,
+              "description": "The latitude of the tenant resource's address.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -188,7 +188,7 @@
             },
             {
               "name": "longitude",
-              "description": null,
+              "description": "The longitude of the tenant resource's address.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -204,7 +204,7 @@
             },
             {
               "name": "milesAway",
-              "description": null,
+              "description": "The distance, in miles, that the resource's address is located from the location provided in the query. The distance represents the 'straight line' distance and does not take into account roads or other geographic features.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",

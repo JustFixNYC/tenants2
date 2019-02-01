@@ -66,6 +66,8 @@ class JustfixUserAdmin(UserAdmin):
 
     actions = [loc.admin.print_loc_envelopes]
 
+    search_fields = ['phone_number', *UserAdmin.search_fields]
+
     def get_fieldsets(self, request, obj=None):
         if obj is not None and not request.user.is_superuser:
             return self.non_superuser_fieldsets

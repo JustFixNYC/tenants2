@@ -1,0 +1,10 @@
+query GetTenantResources($latitude: Float!, $longitude: Float!) {
+    tenantResources(latitude: $latitude, longitude: $longitude) {
+        name,
+        website,
+        address,
+        latitude,
+        longitude,
+        milesAway
+    }
+}

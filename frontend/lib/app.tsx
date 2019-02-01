@@ -81,6 +81,11 @@ const LoadableDevRoutes = Loadable({
   loading: LoadingPage
 });
 
+const LoadableFindhelpRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "findhelp" */ './pages/findhelp-page')),
+  loading: LoadingPage
+});
+
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
@@ -200,6 +205,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+        <Route path={Routes.findhelp} exact component={LoadableFindhelpRoutes} />
         <Route render={NotFound} />
       </Switch>
     );

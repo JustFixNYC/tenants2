@@ -122,6 +122,9 @@ const Routes = {
   /** The onboarding flow. */
   onboarding: createOnboardingRouteInfo('/onboarding'),
 
+  /** The tenant assistance directory ("find help") page. */
+  findhelp: '/findhelp',
+
   /** The Letter of Complaint flow. */
   loc: {
     [ROUTE_PREFIX]: '/loc',

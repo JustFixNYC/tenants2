@@ -32,7 +32,10 @@ export interface GeoSearchResults {
 }
 
 export interface GeoSearchFeature {
-  geometry: unknown;
+  geometry: {
+    type: "Point",
+    coordinates: [number, number]
+  };
   properties: GeoSearchProperties
 }
 

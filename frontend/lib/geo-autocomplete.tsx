@@ -25,12 +25,15 @@ function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
 export interface GeoAutocompleteItem {
   address: string;
   borough: BoroughChoice | null;
+  latitude?: number;
+  longitude?: number;
 };
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
   label: string;
   renderLabel?: LabelRenderer;
   initialValue?: GeoAutocompleteItem;
+  htmlAutocomplete?: string;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
 };
@@ -139,7 +142,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
-      autoComplete: 'address-line1 street-address',
+      autoComplete: this.props.htmlAutocomplete || 'address-line1 street-address',
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
@@ -220,10 +223,13 @@ export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): 
   return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
     const { borough_gid } = feature.properties;
     const borough = boroughGidToChoice(borough_gid);
+    const [longitude, latitude] = feature.geometry.coordinates;
 
     return {
       address: feature.properties.name,
-      borough
+      borough,
+      latitude,
+      longitude
     }
   });
 }

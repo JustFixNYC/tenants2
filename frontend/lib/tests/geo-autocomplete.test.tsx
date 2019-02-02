@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactTestingLibraryPal from './rtl-pal';
-import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
+import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString, GeoAutocompleteItem } from '../geo-autocomplete';
 import { BoroughChoice } from '../boroughs';
 import { createMockFetch } from './mock-fetch';
 import { FakeGeoResults } from './util';
 import { KEY_TAB } from '../key-codes';
 
+
+const acItem: GeoAutocompleteItem = {
+  address: '150 COURT STREET',
+  borough: BoroughChoice.MANHATTAN,
+  latitude: 40.0,
+  longitude: -73.0
+};
 
 describe("GeoAutocomplete", () => {
   const onChange = jest.fn();
@@ -36,12 +43,7 @@ describe("GeoAutocomplete", () => {
     expect(onChange.mock.calls).toHaveLength(0);
     pal.clickListItem(/150 COURT STREET/);
     expect(onChange.mock.calls).toHaveLength(1);
-    expect(onChange.mock.calls[0][0]).toEqual({
-      address: '150 COURT STREET',
-      borough: 'MANHATTAN',
-      latitude: 40.0,
-      longitude: -73.0
-    });
+    expect(onChange.mock.calls[0][0]).toEqual(acItem);
   });
 
   it('auto-completes to first suggestion when tab is pressed', async () => {
@@ -51,12 +53,7 @@ describe("GeoAutocomplete", () => {
     await fetch.resolvePromisesAndTimers();
     pal.keyDownOnFormField(/address/i, KEY_TAB);
     expect(onChange.mock.calls).toHaveLength(1);
-    expect(onChange.mock.calls[0][0]).toEqual({
-      address: '150 COURT STREET',
-      borough: 'MANHATTAN',
-      latitude: 40.0,
-      longitude: -73.0
-    });
+    expect(onChange.mock.calls[0][0]).toEqual(acItem);
   });
 
   it('selects incomplete address when tab is pressed and no suggestions exist', async () => {
@@ -107,12 +104,7 @@ describe("GeoAutocomplete", () => {
   });
 
   it('converts API results to autocomplete items', () => {
-    expect(geoSearchResultsToAutocompleteItems(FakeGeoResults)).toEqual([{
-      borough: 'MANHATTAN',
-      address: '150 COURT STREET',
-      latitude: 40.0,
-      longitude: -73.0
-    }]);
+    expect(geoSearchResultsToAutocompleteItems(FakeGeoResults)).toEqual([acItem]);
   });
 
   it('converts autocomplete items to strings', () => {

@@ -123,6 +123,10 @@ export const FakeDebugAppContext: AppContextType = {
 
 export const FakeGeoResults: any = {
   features: [{
+    geometry: {
+      type: "Point",
+      coordinates: [-73.0, 40.0]
+    },
     properties: {
       borough_gid: 'whosonfirst:borough:1',
       name: '150 COURT STREET'

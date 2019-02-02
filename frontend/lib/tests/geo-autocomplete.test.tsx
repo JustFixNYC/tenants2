@@ -38,7 +38,9 @@ describe("GeoAutocomplete", () => {
     expect(onChange.mock.calls).toHaveLength(1);
     expect(onChange.mock.calls[0][0]).toEqual({
       address: '150 COURT STREET',
-      borough: 'MANHATTAN'
+      borough: 'MANHATTAN',
+      latitude: 40.0,
+      longitude: -73.0
     });
   });
 
@@ -51,7 +53,9 @@ describe("GeoAutocomplete", () => {
     expect(onChange.mock.calls).toHaveLength(1);
     expect(onChange.mock.calls[0][0]).toEqual({
       address: '150 COURT STREET',
-      borough: 'MANHATTAN'
+      borough: 'MANHATTAN',
+      latitude: 40.0,
+      longitude: -73.0
     });
   });
 
@@ -105,7 +109,9 @@ describe("GeoAutocomplete", () => {
   it('converts API results to autocomplete items', () => {
     expect(geoSearchResultsToAutocompleteItems(FakeGeoResults)).toEqual([{
       borough: 'MANHATTAN',
-      address: '150 COURT STREET'
+      address: '150 COURT STREET',
+      latitude: 40.0,
+      longitude: -73.0
     }]);
   });
 

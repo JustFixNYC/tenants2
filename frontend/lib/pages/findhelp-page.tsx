@@ -136,6 +136,17 @@ class TenantResources extends React.Component<TenantResourcesProps> {
     return `${this.props.staticURL}findhelp/vendor/leaflet-1.4.0/`;
   }
 
+  createColorMarker(L: typeof import('leaflet'), color: 'black'|'blue'|'green'|'grey'|'orange'|'red'|'violet'|'yellow'): import('leaflet').Icon {
+    return new L.Icon({
+      iconUrl: `${this.props.staticURL}findhelp/vendor/leaflet-color-markers/img/marker-icon-2x-${color}.png`,
+      shadowUrl: `${this.leafletBaseURL}images/marker-shadow.png`,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+  }
+
   renderResource(res: GetTenantResources_tenantResources): JSX.Element {
     const name = res.website
       ? <OutboundLink href={res.website} target="_blank">{res.name}</OutboundLink>
@@ -159,6 +170,7 @@ class TenantResources extends React.Component<TenantResourcesProps> {
       const tileLayerURL = `${props.mapboxTilesOrigin}/v4/${id}/{z}/{x}/{y}.png?access_token=${props.mapboxAccessToken}`;  
       const position = twoTuple(props.latitude, props.longitude);
       const features = new L.FeatureGroup();
+      const greenIcon = this.createColorMarker(L, 'green');
       features.addLayer(L.marker(position));
       props.resources.forEach(res => {
         features.addLayer(L.marker([res.latitude, res.longitude]));
@@ -173,7 +185,7 @@ class TenantResources extends React.Component<TenantResourcesProps> {
             height: '500px'
           }}>
             <TileLayer url={tileLayerURL}/>
-            <Marker position={position}>
+            <Marker position={position} icon={greenIcon}>
               <Popup>
                 <strong>Your address</strong><br/>
                 {this.props.address}

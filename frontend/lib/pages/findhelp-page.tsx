@@ -74,6 +74,9 @@ class FindhelpPageWithoutContext extends React.Component<FindhelpProps, Findhelp
       case "foundResults":
       const resources = qs.results && qs.results.tenantResources;
       if (resources) {
+        if (resources.length === 0) {
+          return <p>Alas, no tenant resources are located near {qs.address}.</p>;
+        }
         return <TenantResources
           resources={resources}
           address={qs.address}

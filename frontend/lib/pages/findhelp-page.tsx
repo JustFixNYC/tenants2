@@ -178,9 +178,6 @@ class TenantResources extends React.Component<TenantResourcesProps> {
       return (
         <>
           <br/>
-          <Helmet>
-            <link rel="stylesheet" href={`${this.leafletBaseURL}leaflet.css`} />
-          </Helmet>
           <Map bounds={features.getBounds()} style={{
             height: '500px'
           }}>
@@ -211,6 +208,9 @@ class TenantResources extends React.Component<TenantResourcesProps> {
     return (
       <>
         <p>Found {props.resources.length} tenant resources near {props.address}.</p>
+        <Helmet>
+          <link rel="stylesheet" href={`${this.leafletBaseURL}leaflet.css`} />
+        </Helmet>
         {this.renderMap()}
         <br/>
         <ol>

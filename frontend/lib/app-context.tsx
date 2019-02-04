@@ -55,6 +55,17 @@ export interface AppServerInfo {
   redirectToLegacyAppURL: string;
 
   /**
+   * The Mapbox access token. This will be an empty string if Mapbox
+   * integration is disabled.
+   */
+  mapboxAccessToken: string;
+
+  /**
+   * The origin URL for Mapbox tiles.
+   */
+  mapboxTilesOrigin: string;
+
+  /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in
    * the Django app).
    */

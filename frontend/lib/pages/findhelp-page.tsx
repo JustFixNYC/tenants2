@@ -6,6 +6,8 @@ import autobind from 'autobind-decorator';
 import { GetTenantResources, GetTenantResources_tenantResources } from '../queries/GetTenantResources';
 import { AppContextType, withAppContext } from '../app-context';
 import { OutboundLink } from '../google-analytics';
+import Helmet from 'react-helmet';
+import { twoTuple } from '../util';
 
 
 type QueryState = {
@@ -16,6 +18,8 @@ type QueryState = {
 } | {
   mode: 'foundResults',
   address: string,
+  latitude: number,
+  longitude: number,
   results: GetTenantResources
 };
 
@@ -42,7 +46,13 @@ class FindhelpPageWithoutContext extends React.Component<FindhelpProps, Findhelp
       this.setState({ queryState });
       GetTenantResources.fetch(this.props.fetch, { latitude, longitude }).then(results => {
         if (this.state.queryState !== queryState) return;
-        this.setState({ queryState: { mode: 'foundResults', address, results } });
+        this.setState({ queryState: {
+          mode: 'foundResults',
+          address,
+          results,
+          latitude,
+          longitude
+        } });
       });
     } else {
       this.setState({ queryState: { mode: 'idle' } });
@@ -64,7 +74,15 @@ class FindhelpPageWithoutContext extends React.Component<FindhelpProps, Findhelp
       case "foundResults":
       const resources = qs.results && qs.results.tenantResources;
       if (resources) {
-        return <TenantResources resources={resources} address={qs.address} />;
+        return <TenantResources
+          resources={resources}
+          address={qs.address}
+          latitude={qs.latitude}
+          longitude={qs.longitude}
+          mapboxAccessToken={this.props.server.mapboxAccessToken}
+          mapboxTilesOrigin={this.props.server.mapboxTilesOrigin}
+          staticURL={this.props.server.staticURL}
+        />;
       } else {
         return <p>The server does not support finding tenant resources.</p>;
       }
@@ -91,29 +109,104 @@ export default FindhelpPage;
 
 interface TenantResourcesProps {
   resources: GetTenantResources_tenantResources[],
-  address: string
+  address: string,
+  latitude: number,
+  longitude: number,
+  mapboxAccessToken: string,
+  mapboxTilesOrigin: string,
+  staticURL: string
 }
 
-function TenantResources({ resources, address }: TenantResourcesProps) {
-  return (
-    <>
-      <p>Found {resources.length} tenant resources near {address}.</p>
-      <br/>
-      <ol>
-        {resources.map(res => {
-          const name = res.website
-            ? <OutboundLink href={res.website} target="_blank">{res.name}</OutboundLink>
-            : res.name;
-          return (
-            <li key={res.name}>
-              <p>{name}</p>
-              <p>{res.address}</p>
-              <p className="is-size-7">{res.milesAway.toFixed(2)} miles away</p>
-              <br/>
-            </li>
-          );
-        })}
-      </ol>
-    </>
-  );
+class TenantResources extends React.Component<TenantResourcesProps> {
+  rl: typeof import('react-leaflet')|null = null;
+  L: typeof import('leaflet')|null = null;
+
+  componentDidMount() {
+    import('leaflet').then(leaflet => {
+      this.L = leaflet;
+      this.L.Icon.Default.imagePath = `${this.leafletBaseURL}images/`;
+      import('react-leaflet').then(reactLeaflet => {
+        this.rl = reactLeaflet;
+        this.forceUpdate();
+      })
+    });
+  }
+
+  get leafletBaseURL(): string {
+    return `${this.props.staticURL}findhelp/vendor/leaflet-1.4.0/`;
+  }
+
+  renderResource(res: GetTenantResources_tenantResources): JSX.Element {
+    const name = res.website
+      ? <OutboundLink href={res.website} target="_blank">{res.name}</OutboundLink>
+      : res.name;
+    return (
+      <>
+        <p>{name}</p>
+        <p>{res.address}</p>
+        <p className="is-size-7">{res.milesAway.toFixed(2)} miles away</p>
+      </>
+    );
+  }
+
+  renderMap(): JSX.Element|null {
+    const { props } = this;
+
+    if (this.rl && this.L && props.mapboxAccessToken) {
+      const { Map, TileLayer, Marker, Popup } = this.rl;
+      const { L } = this;
+      const id = 'mapbox.streets';
+      const tileLayerURL = `${props.mapboxTilesOrigin}/v4/${id}/{z}/{x}/{y}.png?access_token=${props.mapboxAccessToken}`;  
+      const position = twoTuple(props.latitude, props.longitude);
+      const features = new L.FeatureGroup();
+      features.addLayer(L.marker(position));
+      props.resources.forEach(res => {
+        features.addLayer(L.marker([res.latitude, res.longitude]));
+      });
+      return (
+        <>
+          <br/>
+          <Helmet>
+            <link rel="stylesheet" href={`${this.leafletBaseURL}leaflet.css`} />
+          </Helmet>
+          <Map bounds={features.getBounds()} style={{
+            height: '500px'
+          }}>
+            <TileLayer url={tileLayerURL}/>
+            <Marker position={position}>
+              <Popup>
+                <strong>Your address</strong><br/>
+                {this.props.address}
+              </Popup>
+            </Marker>
+            {props.resources.map(res => (
+              <Marker position={[res.latitude, res.longitude]} key={res.name}>
+                <Popup>
+                  {this.renderResource(res)}
+                </Popup>
+              </Marker>
+            ))}
+          </Map>
+        </>
+      );
+    }
+    return null;
+  }
+
+  render() {
+    const { props } = this;
+
+    return (
+      <>
+        <p>Found {props.resources.length} tenant resources near {props.address}.</p>
+        {this.renderMap()}
+        <br/>
+        <ol>
+          {props.resources.map(res => (
+            <li key={res.name}>{this.renderResource(res)}<br/></li>
+          ))}
+        </ol>
+      </>
+    );
+  }
 }

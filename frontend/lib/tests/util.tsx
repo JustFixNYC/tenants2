@@ -82,7 +82,9 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
   locPdfURL: '/myletter.pdf',
-  redirectToLegacyAppURL: '/myredirect-to-legacy-app'
+  redirectToLegacyAppURL: '/myredirect-to-legacy-app',
+  mapboxAccessToken: '',
+  mapboxTilesOrigin: ''
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {

@@ -159,6 +159,8 @@ def react_rendered_view(request, url: str):
             'locHtmlURL': reverse('loc', args=('html',)),
             'locPdfURL': reverse('loc', args=('pdf',)),
             'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
+            'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
+            'mapboxTilesOrigin': settings.MAPBOX_TILES_ORIGIN,
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

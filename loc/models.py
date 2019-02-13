@@ -52,11 +52,10 @@ class LandlordDetails(models.Model):
         help_text="The user whose landlord details this is for.")
 
     name = models.CharField(
-        max_length=100, blank=True, help_text="The landlord's name.")
+        max_length=100, help_text="The landlord's name.")
 
     address = models.CharField(
         max_length=1000,
-        blank=True,
         help_text="The full mailing address for the landlord.")
 
     lookup_date = models.DateField(

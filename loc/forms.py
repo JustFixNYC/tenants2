@@ -31,10 +31,25 @@ class AccessDatesForm(forms.Form):
         return result
 
 
+_ldmeta = models.LandlordDetails._meta
+_ldname = _ldmeta.get_field('name')
+_ldaddress = _ldmeta.get_field('address')
+
+
 class LandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails
         fields = ('name', 'address')
+
+    name = forms.CharField(
+        required=True,
+        max_length=_ldname.max_length,
+        help_text=_ldname.help_text)
+
+    address = forms.CharField(
+        required=True,
+        max_length=_ldaddress.max_length,
+        help_text=_ldaddress.help_text)
 
 
 class LetterRequestForm(forms.ModelForm):

@@ -15,7 +15,7 @@ const BLANK_LANDLORD_DETAILS = {
 
 const LOOKED_UP_LANDLORD_DETAILS = {
   name: 'BOBBY DENVER',
-  address: '123 DOOMBRINGER STREET 4 11299',
+  address: '123 DOOMBRINGER STREET 4\nNEW YORK 11299',
   isLookedUp: true
 };
 
@@ -27,7 +27,9 @@ describe('landlord details page', () => {
       url: Routes.loc.yourLandlord,
       session: { landlordDetails: BLANK_LANDLORD_DETAILS }
     });
-    pal.rr.getByText(/If you have your landlord's name/i);
+    pal.rr.getByText(/Please enter your landlord's name/i);
+    pal.rr.getByText(/Back/);
+    pal.rr.getByText(/Preview letter/);
   });
 
   it('works when details are looked up', () => {
@@ -36,6 +38,8 @@ describe('landlord details page', () => {
       session: { landlordDetails: LOOKED_UP_LANDLORD_DETAILS }
     });
     pal.rr.getByText(/This may be different .+ rent checks/i);
+    pal.rr.getByText(/Back/);
+    pal.rr.getByText(/Preview letter/);
   });
 
   it('redirects to next step after successful submission', async () => {

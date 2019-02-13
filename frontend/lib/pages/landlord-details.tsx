@@ -11,6 +11,7 @@ import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
 import { AppContextType, withAppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
 import { Link } from 'react-router-dom';
+import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 
 
 const BLANK_INPUT: LandlordDetailsInput = {
@@ -54,6 +55,26 @@ function splitLines(text: string): JSX.Element[] {
   return text.split('\n').map((line, i) => <div key={i}>{line}</div>);
 }
 
+function ReadOnlyLandlordDetails(props: {details: AllSessionInfo_landlordDetails}): JSX.Element {
+  const { details } = props;
+
+  return (
+    <div className="content">
+      <dl>
+        <dt><strong>Landlord name</strong></dt>
+        <dd>{details.name}</dd>
+        <br/>
+        <dt><strong>Landlord address</strong></dt>
+        <dd>{splitLines(details.address)}</dd>
+      </dl>
+      <div className="buttons jf-two-buttons">
+        <BackButton to={PREV_STEP} label="Back" />
+        <Link to={NEXT_STEP} className="button is-primary is-medium">Preview letter</Link>
+      </div>
+    </div>
+  );
+}
+
 export default withAppContext(function LandlordDetailsPage(props: AppContextType): JSX.Element {
   const { landlordDetails } = props.session;
 
@@ -63,19 +84,7 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
         <h1 className="title is-4 is-spaced">Landlord information</h1>
         {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
         {landlordDetails && landlordDetails.isLookedUp
-          ? <div className="content">
-              <dl>
-                <dt><strong>Landlord name</strong></dt>
-                <dd>{landlordDetails.name}</dd>
-                <br/>
-                <dt><strong>Landlord address</strong></dt>
-                <dd>{splitLines(landlordDetails.address)}</dd>
-              </dl>
-              <div className="buttons jf-two-buttons">
-                <BackButton to={PREV_STEP} label="Back" />
-                <Link to={NEXT_STEP} className="button is-primary is-medium">Preview letter</Link>
-              </div>
-            </div>
+          ? <ReadOnlyLandlordDetails details={landlordDetails} />
           : <SessionUpdatingFormSubmitter
               mutation={LandlordDetailsMutation}
               initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}

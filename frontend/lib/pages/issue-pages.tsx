@@ -126,6 +126,20 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   );
 }
 
+function LinkToNextStep(props: {toNext: string}): JSX.Element {
+  return (
+    <AppContext.Consumer>
+      {(ctx) => {
+        if (ctx.session.issues.length || ctx.session.customIssues.length) {
+          return <Link to={props.toNext} className="button is-primary is-medium">Next</Link>
+        } else {
+          return null;
+        }
+      }}
+    </AppContext.Consumer>
+  );
+}
+
 /**
  * "Chunk" an array into groups of two so that they can
  * be added into a two-column Bulma layout.
@@ -201,7 +215,7 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
           <br/>
           <div className="buttons jf-two-buttons">
             <Link to={this.props.toBack} className="button is-light is-medium">Back</Link>
-            <Link to={this.props.toNext} className="button is-primary is-medium">Next</Link>
+            <LinkToNextStep toNext={this.props.toNext} />
           </div>
         </div>
 

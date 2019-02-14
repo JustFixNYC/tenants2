@@ -1,4 +1,6 @@
 from datetime import date, datetime
+from django.core.exceptions import ValidationError
+
 import pytest
 
 from users.tests.factories import UserFactory
@@ -6,6 +8,7 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from loc.models import AccessDate, LetterRequest, LandlordDetails
 from .test_landlord_lookup import (
     mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
+from .factories import create_user_with_all_info
 
 
 @pytest.mark.django_db
@@ -62,3 +65,27 @@ class TestCreateLookupForUser:
         assert info.address == "123 DOOMBRINGER STREET 4 11299"
         assert info.lookup_date is not None
         assert info.is_looked_up is True
+
+
+class TestLetterRequestClean:
+    @pytest.fixture(autouse=True)
+    def setup(self, db):
+        pass
+
+    def make(self, user, mail_choice='WE_WILL_MAIL'):
+        return LetterRequest(user=user, mail_choice=mail_choice)
+
+    def test_it_works_when_user_has_all_info(self):
+        self.make(create_user_with_all_info()).clean()
+
+    def test_it_raises_error_when_no_landlord_info_exists(self):
+        with pytest.raises(ValidationError, match='contact information for your landlord'):
+            self.make(create_user_with_all_info(landlord=False)).clean()
+
+    def test_it_raises_error_when_no_issues_exist(self):
+        with pytest.raises(ValidationError, match='at least one issue'):
+            self.make(create_user_with_all_info(issues=False)).clean()
+
+    def test_it_raises_error_when_no_access_dates_exist(self):
+        with pytest.raises(ValidationError, match='at least one access date'):
+            self.make(create_user_with_all_info(access_dates=False)).clean()

@@ -1,12 +1,12 @@
 import pytest
 
 from users.tests.factories import UserFactory
-from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue
 from loc.models import LandlordDetails
 from loc.views import (
     can_we_render_pdfs, render_document, get_issues, get_landlord_details,
     parse_comma_separated_ints)
+from .factories import create_user_with_all_info
 
 # Text that shows up in the letter of complaint if the user
 # has reported their issues to 311.
@@ -53,26 +53,6 @@ def get_letter_html(client):
 
 def test_letter_html_works_for_users_with_minimal_info(admin_client):
     get_letter_html(admin_client)
-
-
-def create_user_with_all_info():
-    info = OnboardingInfoFactory(
-        user__full_name="Bobby Denver",
-        address="1 Times Square",
-        borough="MANHATTAN",
-        apt_number="301",
-        zipcode="11201",
-        has_called_311=False
-    )
-    user = info.user
-    Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
-    ld = LandlordDetails(
-        user=user,
-        name='Landlordo Calrissian',
-        address='1 Cloud City\nBespin'
-    )
-    ld.save()
-    return user
 
 
 @pytest.mark.django_db

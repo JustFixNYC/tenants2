@@ -1,7 +1,9 @@
 import pytest
+
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
+from .factories import create_user_with_all_info
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -177,8 +179,7 @@ def test_landlord_details_are_created_when_user_has_onboarding_info(
 
 @pytest.mark.django_db
 def test_letter_request_works(graphql_client, smsoutbox):
-    graphql_client.request.user = OnboardingInfoFactory.create(
-        user__full_name='Boop Jones', can_we_sms=True).user
+    graphql_client.request.user = create_user_with_all_info()
 
     result = execute_lr_mutation(graphql_client)
     assert result['errors'] == []

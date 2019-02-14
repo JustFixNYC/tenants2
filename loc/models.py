@@ -2,6 +2,7 @@ from typing import List, Optional
 import datetime
 from django.db import models, transaction
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 from project.common_data import Choices
 from project.util.site_util import absolute_reverse
@@ -52,11 +53,10 @@ class LandlordDetails(models.Model):
         help_text="The user whose landlord details this is for.")
 
     name = models.CharField(
-        max_length=100, blank=True, help_text="The landlord's name.")
+        max_length=100, help_text="The landlord's name.")
 
     address = models.CharField(
         max_length=1000,
-        blank=True,
         help_text="The full mailing address for the landlord.")
 
     lookup_date = models.DateField(
@@ -160,3 +160,17 @@ class LetterRequest(models.Model):
             f"{self.user.full_name}'s letter of complaint request from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
+
+    def clean(self):
+        super().clean()
+        user = self.user
+        if user and self.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL:
+            if user.issues.count() == 0 and user.custom_issues.count() == 0:
+                raise ValidationError(
+                    'Please select at least one issue from the issue checklist.')
+            if user.access_dates.count() == 0:
+                raise ValidationError(
+                    'Please provide at least one access date.')
+            if not hasattr(user, 'landlord_details'):
+                raise ValidationError(
+                    'Please provide contact information for your landlord.')

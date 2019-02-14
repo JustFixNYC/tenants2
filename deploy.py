@@ -1,8 +1,10 @@
+import os
 import argparse
 import sys
 import subprocess
+import json
 from dataclasses import dataclass
-from typing import ItemsView, List, Optional
+from typing import ItemsView, List, Optional, Dict
 from pathlib import Path
 
 from project.justfix_environment import BASE_DIR
@@ -33,20 +35,33 @@ def build_local_container(container_name: str):
     )
 
 
-def run_local_container(container_name: str, port: int):
-    subprocess.check_call([
+def run_local_container(
+    container_name: str,
+    args: Optional[List[str]] = None,
+    port: Optional[int] = None,
+    env: Optional[Dict[str, str]] = None
+) -> int:
+    if env is None:
+        env = {}
+    if args is None:
+        args = []
+    final_args = [
         'docker',
         'run',
         '--rm',
         '-it',
-        '-e',
-        f'PORT={port}',
-        '-p',
-        f'{port}:{port}',
-        '-e',
-        'USE_DEVELOPMENT_DEFAULTS=yup',
-        container_name
-    ], cwd=BASE_DIR)
+    ]
+    env = env.copy()
+    if port is not None:
+        env['PORT'] = str(port)
+        final_args.extend(['-p', f'{port}:{port}'])
+    final_env = os.environ.copy()
+    for name, val in env.items():
+        final_env[name] = val
+        final_args.extend(['-e', name])
+    final_args.append(container_name)
+    final_args.extend(args)
+    return subprocess.call(final_args, cwd=BASE_DIR, env=final_env)
 
 
 def deploy_local(args):
@@ -54,7 +69,9 @@ def deploy_local(args):
     port = 8000
 
     build_local_container(container_name)
-    run_local_container(container_name, port)
+    sys.exit(run_local_container(container_name, port=port, env={
+        'USE_DEVELOPMENT_DEFAULTS': 'yup'
+    }))
 
 
 @dataclass
@@ -72,6 +89,14 @@ class HerokuCLI:
     def run(self, *args: str):
         cmdline = self._get_cmdline(*args)
         subprocess.check_call(cmdline, cwd=self.cwd, shell=self.shell)
+
+    def get_full_config(self) -> Dict[str, str]:
+        result = subprocess.check_output(
+            self._get_cmdline('config', '-j'),
+            cwd=self.cwd,
+            shell=self.shell
+        )
+        return json.loads(result)
 
     def get_config(self, var: str) -> str:
         cmdline = self._get_cmdline('config:get', var)
@@ -106,6 +131,18 @@ def deploy_heroku(args):
     heroku.run('maintenance:off')
 
 
+def heroku_run(args):
+    container_name = 'tenants2'
+
+    build_local_container(container_name)
+    heroku_config = HerokuCLI(args.remote).get_full_config()
+    sys.exit(run_local_container(
+        container_name,
+        args=args.args,
+        env=heroku_config
+    ))
+
+
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(
@@ -133,6 +170,21 @@ def main():
         help="Don't run database migrations."
     )
     parser_heroku.set_defaults(func=deploy_heroku)
+
+    parser_heroku_run = subparsers.add_parser(
+        'heroku-run',
+        help='Run local container using Heroku environment variables.',
+    )
+    parser_heroku_run.add_argument(
+        '-r',
+        '--remote',
+        help="The git remote of the app to use."
+    )
+    parser_heroku_run.add_argument(
+        'args',
+        nargs=argparse.REMAINDER
+    )
+    parser_heroku_run.set_defaults(func=heroku_run)
 
     args = parser.parse_args()
     if not hasattr(args, 'func'):

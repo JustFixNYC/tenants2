@@ -35,20 +35,33 @@ def build_local_container(container_name: str):
     )
 
 
-def run_local_container(container_name: str, port: int):
-    subprocess.check_call([
+def run_local_container(
+    container_name: str,
+    args: Optional[List[str]] = None,
+    port: Optional[int] = None,
+    env: Optional[Dict[str, str]] = None
+) -> int:
+    if env is None:
+        env = {}
+    if args is None:
+        args = []
+    final_args = [
         'docker',
         'run',
         '--rm',
         '-it',
-        '-e',
-        f'PORT={port}',
-        '-p',
-        f'{port}:{port}',
-        '-e',
-        'USE_DEVELOPMENT_DEFAULTS=yup',
-        container_name
-    ], cwd=BASE_DIR)
+    ]
+    env = env.copy()
+    if port is not None:
+        env['PORT'] = str(port)
+        final_args.extend(['-p', f'{port}:{port}'])
+    final_env = os.environ.copy()
+    for name, val in env.items():
+        final_env[name] = val
+        final_args.extend(['-e', name])
+    final_args.append(container_name)
+    final_args.extend(args)
+    return subprocess.call(final_args, cwd=BASE_DIR, env=final_env)
 
 
 def deploy_local(args):
@@ -56,7 +69,9 @@ def deploy_local(args):
     port = 8000
 
     build_local_container(container_name)
-    run_local_container(container_name, port)
+    sys.exit(run_local_container(container_name, port=port, env={
+        'USE_DEVELOPMENT_DEFAULTS': 'yup'
+    }))
 
 
 @dataclass
@@ -120,24 +135,12 @@ def heroku_run(args):
     container_name = 'tenants2'
 
     build_local_container(container_name)
-
-    env = os.environ.copy()
-    heroku = HerokuCLI(args.remote)
-    config = heroku.get_full_config()
-    env_args: List[str] = []
-    for name, val in config.items():
-        env[name] = val
-        env_args.extend(['-e', name])
-    returncode = subprocess.call([
-        'docker',
-        'run',
-        '--rm',
-        '-it',
-        *env_args,
+    heroku_config = HerokuCLI(args.remote).get_full_config()
+    sys.exit(run_local_container(
         container_name,
-        *args.args
-    ], cwd=BASE_DIR, env=env)
-    sys.exit(returncode)
+        args=args.args,
+        env=heroku_config
+    ))
 
 
 def main():

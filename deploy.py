@@ -3,6 +3,7 @@ import argparse
 import sys
 import subprocess
 import json
+import re
 from dataclasses import dataclass
 from typing import ItemsView, List, Optional, Dict
 from pathlib import Path
@@ -98,36 +99,55 @@ class HerokuCLI:
         )
         return json.loads(result)
 
-    def get_config(self, var: str) -> str:
-        cmdline = self._get_cmdline('config:get', var)
-        stdout = subprocess.check_output(cmdline, cwd=self.cwd, shell=self.shell)
-        return stdout.strip()
+    def get_auth_token(self) -> str:
+        stdout = subprocess.check_output(
+            ['heroku', 'auth:token'], cwd=self.cwd, shell=self.shell)
+        return stdout.decode('utf-8').strip()
+
+
+def get_heroku_app_name_from_git_remote(remote: Optional[str]) -> str:
+    if not remote:
+        raise ValueError("Please specify a git remote corresponding to a Heroku app.")
+    url = subprocess.check_output([
+        'git', 'remote', 'get-url', remote
+    ]).decode('utf-8').strip()
+    match = re.match(r'^https:\/\/git\.heroku\.com\/(.+)\.git$', url)
+    if match is None:
+        raise ValueError(f"Invalid Heroku remote: {remote}")
+    return match[1]
 
 
 def deploy_heroku(args):
+    heroku_app = get_heroku_app_name_from_git_remote(args.remote)
+    heroku_process_type = 'web'
+    tag_name = f'registry.heroku.com/{heroku_app}/{heroku_process_type}'
+
+    build_local_container(tag_name)
+
     heroku = HerokuCLI(args.remote)
+    auth_token = heroku.get_auth_token()
 
-    run_cmds: List[str] = []
+    subprocess.check_call(['docker', 'login', '--username=_',
+                           f'--password={auth_token}', 'registry.heroku.com'])
+    subprocess.check_call(['docker', 'push', tag_name])
 
-    is_using_cdn = len(heroku.get_config('AWS_STORAGE_STATICFILES_BUCKET_NAME')) > 0
+    config = heroku.get_full_config()
+
+    def run_in_container(args: List[str]):
+        cmdline = ' '.join(args)
+        returncode = run_local_container(tag_name, args, env=config)
+        if returncode:
+            raise Exception(f'Command failed: {cmdline}')
+
+    is_using_cdn = len(config.get('AWS_STORAGE_STATICFILES_BUCKET_NAME', '')) > 0
     if is_using_cdn:
-        run_cmds.append('python manage.py collectstatic --noinput')
-    if not args.no_migrate:
-        run_cmds.extend(['python manage.py migrate', 'python manage.py initgroups'])
+        run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
 
     heroku.run('maintenance:on')
-    heroku.run(
-        'container:push',
-        '--arg',
-        ','.join([
-            f'{name}={value}'
-            for name, value in get_git_info_env_items()
-        ]),
-        '--recursive',
-    )
+    if not args.no_migrate:
+        run_in_container(['python', 'manage.py', 'migrate'])
+        run_in_container(['python', 'manage.py', 'initgroups'])
     heroku.run('container:release', 'web')
-    if run_cmds:
-        heroku.run('run', '--exit-code', ' && '.join(run_cmds))
     heroku.run('maintenance:off')
 
 

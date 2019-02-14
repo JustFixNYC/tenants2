@@ -1,8 +1,10 @@
+import os
 import argparse
 import sys
 import subprocess
+import json
 from dataclasses import dataclass
-from typing import ItemsView, List, Optional
+from typing import ItemsView, List, Optional, Dict
 from pathlib import Path
 
 from project.justfix_environment import BASE_DIR
@@ -73,6 +75,14 @@ class HerokuCLI:
         cmdline = self._get_cmdline(*args)
         subprocess.check_call(cmdline, cwd=self.cwd, shell=self.shell)
 
+    def get_full_config(self) -> Dict[str, str]:
+        result = subprocess.check_output(
+            self._get_cmdline('config', '-j'),
+            cwd=self.cwd,
+            shell=self.shell
+        )
+        return json.loads(result)
+
     def get_config(self, var: str) -> str:
         cmdline = self._get_cmdline('config:get', var)
         stdout = subprocess.check_output(cmdline, cwd=self.cwd, shell=self.shell)
@@ -106,6 +116,30 @@ def deploy_heroku(args):
     heroku.run('maintenance:off')
 
 
+def heroku_run(args):
+    container_name = 'tenants2'
+
+    build_local_container(container_name)
+
+    env = os.environ.copy()
+    heroku = HerokuCLI(args.remote)
+    config = heroku.get_full_config()
+    env_args: List[str] = []
+    for name, val in config.items():
+        env[name] = val
+        env_args.extend(['-e', name])
+    returncode = subprocess.call([
+        'docker',
+        'run',
+        '--rm',
+        '-it',
+        *env_args,
+        container_name,
+        *args.args
+    ], cwd=BASE_DIR, env=env)
+    sys.exit(returncode)
+
+
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(
@@ -133,6 +167,21 @@ def main():
         help="Don't run database migrations."
     )
     parser_heroku.set_defaults(func=deploy_heroku)
+
+    parser_heroku_run = subparsers.add_parser(
+        'heroku-run',
+        help='Run local container using Heroku environment variables.',
+    )
+    parser_heroku_run.add_argument(
+        '-r',
+        '--remote',
+        help="The git remote of the app to use."
+    )
+    parser_heroku_run.add_argument(
+        'args',
+        nargs=argparse.REMAINDER
+    )
+    parser_heroku_run.set_defaults(func=heroku_run)
 
     args = parser.parse_args()
     if not hasattr(args, 'func'):

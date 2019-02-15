@@ -11,7 +11,7 @@ def test_login_works(graphql_client):
     result = graphql_client.execute(
         get_frontend_queries(
             'LoginMutation.graphql', 'AllSessionInfo.graphql'),
-        variable_values={
+        variables={
             'input': {
                 'phoneNumber': '5551234567',
                 'password': 'blarg'

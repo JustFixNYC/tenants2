@@ -60,7 +60,7 @@ def verify(request):
             return HttpResponseRedirect(success_url)
         else:
             error = "Alas, your one-time password is invalid."
-            logger.warn(f'The user {request.user} submitted an invalid 2FA OTP.')
+            logger.warning(f'The user {request.user} submitted an invalid 2FA OTP.')
 
     return render(request, 'twofactor/verify.html', {
         'error': error,

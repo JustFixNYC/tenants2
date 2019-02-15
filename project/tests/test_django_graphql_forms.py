@@ -113,7 +113,7 @@ def execute_query(bar_field='blah', multi_field=None):
             }
         }
     }
-    ''', variables={'input': input_var}, context_value=create_fake_request()))
+    ''', variables={'input': input_var}, context=create_fake_request()))
 
 
 def create_fake_request(user=None):
@@ -137,7 +137,7 @@ def execute_form_with_auth_query(some_field='HI', user=None):
             }
         }
     }
-    ''', variables={'input': input_var}, context_value=create_fake_request(user)))
+    ''', variables={'input': input_var}, context=create_fake_request(user)))
 
 
 def execute_formsets_query(simples):
@@ -154,7 +154,7 @@ def execute_formsets_query(simples):
             }
         }
     }
-    ''', variables={'input': input_var}, context_value=create_fake_request()))
+    ''', variables={'input': input_var}, context=create_fake_request()))
 
 
 def test_formsets_query_works():

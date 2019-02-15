@@ -1,3 +1,4 @@
+from functools import wraps
 import pytest
 
 from users.tests.factories import UserFactory
@@ -11,6 +12,24 @@ from .factories import create_user_with_all_info
 # Text that shows up in the letter of complaint if the user
 # has reported their issues to 311.
 CALLED_311_SENTINEL = "already contacted 311"
+
+
+# This is a warning raised from within defusedxml, which
+# is used by one of our dependencies. At the time of this
+# writing, we can't prevent it because a PR in defusedxml
+# has yet to be merged: https://github.com/tiran/defusedxml/pull/24
+ignore_defusedxml_warning = pytest.mark.filterwarnings(
+    "ignore:The html argument of XMLParser")
+
+
+def requires_pdf_rendering(fn):
+    @pytest.mark.skipif(not can_we_render_pdfs(),
+                        reason='PDF generation is unsupported')
+    @ignore_defusedxml_warning
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        return fn(*args, **kwargs)
+    return wrapper
 
 
 @pytest.mark.django_db
@@ -86,24 +105,21 @@ def test_example_html_works(client):
     assert res['Content-Type'] == 'text/html; charset=utf-8'
 
 
-@pytest.mark.skipif(not can_we_render_pdfs(),
-                    reason='PDF generation is unsupported')
+@requires_pdf_rendering
 def test_letter_pdf_works(admin_client):
     res = admin_client.get('/loc/letter.pdf')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 
 
-@pytest.mark.skipif(not can_we_render_pdfs(),
-                    reason='PDF generation is unsupported')
+@requires_pdf_rendering
 def test_example_pdf_works(client):
     res = client.get('/loc/example.pdf')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 
 
-@pytest.mark.skipif(not can_we_render_pdfs(),
-                    reason='PDF generation is unsupported')
+@requires_pdf_rendering
 def test_admin_letter_pdf_works(outreach_client):
     user = UserFactory()
     res = outreach_client.get(f'/loc/admin/{user.pk}/letter.pdf')
@@ -139,8 +155,7 @@ def test_admin_envelopes_pdf_is_inaccessible_to_non_staff_users(client):
     assert res.url == f"/login?next=/loc/admin/envelopes.pdf"
 
 
-@pytest.mark.skipif(not can_we_render_pdfs(),
-                    reason='PDF generation is unsupported')
+@requires_pdf_rendering
 def test_admin_envelopes_pdf_works(outreach_client):
     user = create_user_with_all_info()
     bare_user = UserFactory(phone_number='6141234567', username='blah')

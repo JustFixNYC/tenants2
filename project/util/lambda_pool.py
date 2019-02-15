@@ -159,7 +159,7 @@ class LambdaPool:
             )
         except subprocess.TimeoutExpired as e:
             child.kill()
-            logger.warn(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
+            logger.warning(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
             raise e
 
         if stderr_file:
@@ -167,7 +167,7 @@ class LambdaPool:
             stderr_file.flush()
 
         if child.returncode != 0:
-            logger.warn(f'{self.name} lambda process crashed.')
+            logger.warning(f'{self.name} lambda process crashed.')
             raise subprocess.CalledProcessError(
                 child.returncode,
                 child.args,
@@ -178,7 +178,7 @@ class LambdaPool:
         try:
             return json.loads(stdout.decode('utf-8'))
         except Exception as e:
-            logger.warn(f'{self.name} lambda process returned a malformed response.')
+            logger.warning(f'{self.name} lambda process returned a malformed response.')
             raise MalformedResponseError(
                 e,
                 self.name,

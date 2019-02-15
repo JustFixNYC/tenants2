@@ -60,12 +60,6 @@ class TestSessionInfo:
             'query { session { latestHpActionPdfUrl, hpActionUploadStatus } }'
         )['data']['session']
 
-    # It seems this ultimately calls some code from graphql.type.definition
-    # that refers to an ABC called collections.Hashable, which has been
-    # moved to the collections.abc module. Until the following issue is
-    # resolved we'll need to squelch the warning:
-    # https://github.com/graphql-python/graphql-core/pull/226
-    @pytest.mark.filterwarnings("ignore:Using or importing the ABCs")
     def test_it_works_if_unauthenticated(self, graphql_client):
         assert self.execute(graphql_client) == {
             'latestHpActionPdfUrl': None,

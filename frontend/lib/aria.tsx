@@ -81,9 +81,11 @@ export const AriaContext = React.createContext<AriaContextType>({
 
 function withAriaContext<P extends AriaContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AriaContextType>> {
   return function(props: Omit<P, keyof AriaContextType>) {
+    // https://github.com/Microsoft/TypeScript/issues/28748
+    const tsIssue28748Workaround = props as any;
     return (
       <AriaContext.Consumer>
-        {(context) => <Component {...props} announce={context.announce} />}
+        {(context) => <Component {...tsIssue28748Workaround} announce={context.announce} />}
       </AriaContext.Consumer>
     );
   }

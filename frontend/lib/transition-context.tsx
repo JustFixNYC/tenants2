@@ -49,9 +49,11 @@ export function TransitionContextGroup(props: TransitionContextGroupProps): JSX.
  */
 export function withTransitionContext<P extends TransitionContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof TransitionContextType>> {
   return function(props: Omit<P, keyof TransitionContextType>) {
+    // https://github.com/Microsoft/TypeScript/issues/28748
+    const tsIssue28748Workaround = props as any;
     return (
       <TransitionContext.Consumer>
-        {(context) => <Component {...props} {...context} />}
+        {(context) => <Component {...tsIssue28748Workaround} {...context} />}
       </TransitionContext.Consumer>
     );
   }

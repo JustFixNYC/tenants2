@@ -169,7 +169,12 @@ function callAnyHitCallbacks(args: unknown[]) {
  */
 export const ga: GoogleAnalyticsAPI = function ga() {
   if (typeof(window) !== 'undefined' && typeof(window.ga) === 'function') {
-    window.ga.apply(window, arguments);
+    // We're typecasting arguments as "any" here because as of TS 3.2,
+    // apply() can't fully model functions that have overloads, which is what
+    // ga() is.  However, the fact that we're returning an object that's
+    // strongly typed means that type safety is still ensured where it matters
+    // most.
+    window.ga.apply(window, arguments as any);
   } else {
     callAnyHitCallbacks(Array.from(arguments));
   }

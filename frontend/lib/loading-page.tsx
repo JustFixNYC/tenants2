@@ -165,7 +165,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
       if (div && this.state.latestSnapshot) {
         div.innerHTML = '';
         div.appendChild(this.state.latestSnapshot.div);
-        window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'instant' });
+        window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'auto' });
       }
     } else if (prevState.showOverlay === true && this.state.showOverlay === false) {
       // We just stopped showing the overlay, so make sure the top of the page

@@ -32,6 +32,6 @@ declare global {
  */
 export const fbq: FacebookPixelAPI = function fbq() {
   if (typeof(window) !== 'undefined' && typeof(window.fbq) === 'function') {
-    window.fbq.apply(window, arguments);
+    window.fbq.apply(window, arguments as any);
   }
 };

@@ -5,14 +5,10 @@ name = "pypi"
 
 [dev-packages]
 mypy = "==0.650"
-pytest = "==3.7.3"
-
-# DO NOT UPGRADE, latest version breaks paths on Windows:
-# https://github.com/pytest-dev/pytest-django/issues/641
-pytest-django = "==3.3.3"
-
+pytest = "==4.2.1"
+pytest-django = "==3.4.5"
 "flake8" = "==3.6.0"
-pytest-cov = "==2.5.1"
+pytest-cov = "==2.6.1"
 python-dotenv = "==0.9.1"
 factory-boy = "==2.11.1"
 requests-mock = "==1.5.2"

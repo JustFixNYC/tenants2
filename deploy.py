@@ -151,6 +151,9 @@ class HerokuDeployer:
     def build_and_deploy(self) -> None:
         build_local_container(self.container_tag)
 
+        print("Pushing container to Docker registry...")
+        self.push_to_docker_registry()
+
         # We can upload static assets to the CDN without enabling
         # maintenance mode because static assets are hashed, so
         # they won't prevent existing users from using the site.

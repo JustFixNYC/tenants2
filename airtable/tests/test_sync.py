@@ -17,7 +17,7 @@ def test_multiple_rows_with_same_pk_are_logged():
     syncer = AirtableSynchronizer(airtable)
     for i in range(2):
         airtable.create(Fields(**OUR_FIELDS))
-    with patch.object(logger, 'warn') as m:
+    with patch.object(logger, 'warning') as m:
         syncer._get_record_dict()
     m.assert_called_once_with('Multiple rows with pk 1 exist in Airtable!')
 

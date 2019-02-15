@@ -59,7 +59,7 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
         queries.append('AllSessionInfo.graphql')
     return graphql_client.execute(
         get_frontend_queries(*queries),
-        variable_values={'input': {
+        variables={'input': {
             **VALID_STEP_DATA[n],
             **input_kwargs
         }}

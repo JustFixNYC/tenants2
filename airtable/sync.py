@@ -40,7 +40,7 @@ class AirtableSynchronizer:
         for record in self.airtable.list():
             pk = record.fields_.pk
             if pk in records:
-                logger.warn(f"Multiple rows with pk {pk} exist in Airtable!")
+                logger.warning(f"Multiple rows with pk {pk} exist in Airtable!")
             records[record.fields_.pk] = record
 
         return records

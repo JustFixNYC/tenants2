@@ -74,7 +74,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
-    result = schema.execute(query, context_value=request, variables=variables)
+    result = schema.execute(query, context=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)
     return result.data

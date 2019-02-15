@@ -109,7 +109,7 @@ def graphql_client(http_request) -> TestGraphQLClient:
     # The following was helpful in writing this:
     # https://github.com/graphql-python/graphene-django/issues/337
 
-    client = TestGraphQLClient(schema, context_value=http_request)
+    client = TestGraphQLClient(schema, context=http_request)
 
     # Attach the request to the client for easy retrieval/alteration.
     client.request = http_request

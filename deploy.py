@@ -105,50 +105,77 @@ class HerokuCLI:
         return stdout.decode('utf-8').strip()
 
 
-def get_heroku_app_name_from_git_remote(remote: Optional[str]) -> str:
-    if not remote:
-        raise ValueError("Please specify a git remote corresponding to a Heroku app.")
-    url = subprocess.check_output([
-        'git', 'remote', 'get-url', remote
-    ]).decode('utf-8').strip()
-    match = re.match(r'^https:\/\/git\.heroku\.com\/(.+)\.git$', url)
-    if match is None:
-        raise ValueError(f"Invalid Heroku remote: {remote}")
-    return match[1]
+class HerokuDeployer:
+    def __init__(self, remote: str) -> None:
+        if not remote:
+            raise ValueError("Please specify a git remote corresponding to a Heroku app.")
+        self.remote = remote
+        self.app_name = self.get_heroku_app_name_from_git_remote(self.remote)
+        self.process_type = 'web'
+        self.heroku = HerokuCLI(self.remote)
+        self.config = self.heroku.get_full_config()
 
+    @staticmethod
+    def get_heroku_app_name_from_git_remote(remote: str) -> str:
+        url = subprocess.check_output([
+            'git', 'remote', 'get-url', remote
+        ]).decode('utf-8').strip()
+        match = re.match(r'^https:\/\/git\.heroku\.com\/(.+)\.git$', url)
+        if match is None:
+            raise ValueError(f"Invalid Heroku remote: {remote}")
+        return match[1]
 
-def deploy_heroku(args):
-    heroku_app = get_heroku_app_name_from_git_remote(args.remote)
-    heroku_process_type = 'web'
-    tag_name = f'registry.heroku.com/{heroku_app}/{heroku_process_type}'
+    @property
+    def container_tag(self) -> str:
+        return f'registry.heroku.com/{self.app_name}/{self.process_type}'
 
-    build_local_container(tag_name)
+    @property
+    def is_using_cdn(self) -> bool:
+        return len(self.config.get('AWS_STORAGE_STATICFILES_BUCKET_NAME', '')) > 0
 
-    heroku = HerokuCLI(args.remote)
-    auth_token = heroku.get_auth_token()
-
-    subprocess.check_call(['docker', 'login', '--username=_',
-                           f'--password={auth_token}', 'registry.heroku.com'])
-    subprocess.check_call(['docker', 'push', tag_name])
-
-    config = heroku.get_full_config()
-
-    def run_in_container(args: List[str]):
+    def run_in_container(self, args: List[str]) -> None:
         cmdline = ' '.join(args)
-        returncode = run_local_container(tag_name, args, env=config)
+        returncode = run_local_container(self.container_tag, args, env=self.config)
         if returncode:
             raise Exception(f'Command failed: {cmdline}')
 
-    is_using_cdn = len(config.get('AWS_STORAGE_STATICFILES_BUCKET_NAME', '')) > 0
-    if is_using_cdn:
-        run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
+    def push_to_docker_registry(self) -> None:
+        auth_token = self.heroku.get_auth_token()
+        subprocess.check_call([
+            'docker', 'login',
+            '--username=_', f'--password={auth_token}',
+            'registry.heroku.com'
+        ])
+        subprocess.check_call(['docker', 'push', self.container_tag])
 
-    heroku.run('maintenance:on')
-    if not args.no_migrate:
-        run_in_container(['python', 'manage.py', 'migrate'])
-        run_in_container(['python', 'manage.py', 'initgroups'])
-    heroku.run('container:release', 'web')
-    heroku.run('maintenance:off')
+    def build_and_deploy(self) -> None:
+        build_local_container(self.container_tag)
+
+        # We can upload static assets to the CDN without enabling
+        # maintenance mode because static assets are hashed, so
+        # they won't prevent existing users from using the site.
+        if self.is_using_cdn:
+            print("Uploading static assets to CDN...")
+            self.run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
+
+        self.heroku.run('maintenance:on')
+
+        # We want migrations to run while we're in maintenance mode because
+        # our codebase doesn't make any guarantees about being able to run
+        # on database schemas from previous or future versions.
+        print("Running migrations...")
+        self.run_in_container(['python', 'manage.py', 'migrate'])
+        self.run_in_container(['python', 'manage.py', 'initgroups'])
+
+        print("Initiating Heroku release phase...")
+        self.heroku.run('container:release', self.process_type)
+
+        self.heroku.run('maintenance:off')
+
+
+def deploy_heroku(args):
+    deployer = HerokuDeployer(args.remote)
+    deployer.build_and_deploy()
 
 
 def heroku_run(args):
@@ -171,23 +198,19 @@ def main():
     )
     parser_local = subparsers.add_parser(
         'local',
-        help='Build container(s) and run everything locally.'
+        help='Build container and run everything locally.'
     )
     parser_local.set_defaults(func=deploy_local)
 
     parser_heroku = subparsers.add_parser(
         'heroku',
-        help="Build container(s) and deploy to Heroku.",
+        help="Build container and deploy to Heroku.",
     )
     parser_heroku.add_argument(
         '-r',
         '--remote',
+        default='',
         help="The git remote of the app to use."
-    )
-    parser_heroku.add_argument(
-        '--no-migrate',
-        action='store_true',
-        help="Don't run database migrations."
     )
     parser_heroku.set_defaults(func=deploy_heroku)
 
@@ -198,6 +221,7 @@ def main():
     parser_heroku_run.add_argument(
         '-r',
         '--remote',
+        default='',
         help="The git remote of the app to use."
     )
     parser_heroku_run.add_argument(

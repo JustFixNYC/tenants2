@@ -1,6 +1,6 @@
 import React from 'react';
 import autobind from "autobind-decorator";
-import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
+import { RouteComponentProps, withRouter, Route, RouteProps, Switch } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { TransitionContextGroup } from './transition-context';
 import classnames from 'classnames';
@@ -181,7 +181,7 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
           <CSSTransition key={currStep} classNames="jf-progress-step"
            timeout={JF_PROGRESS_TRANSITION_MS} enter={isTransitionEnabled} exit={isTransitionEnabled}>
             <Switch location={location}>
-              {props.steps.map(step => <Route key={step.path} {...step} />)}
+              {props.steps.map(step => <Route<RouteProps> key={step.path} {...step} />)}
             </Switch>
           </CSSTransition>
         </TransitionContextGroup>

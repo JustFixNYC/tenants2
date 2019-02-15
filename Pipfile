@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-mypy = "==0.650"
+mypy-mypyc = "==0.670"
 pytest = "==4.2.1"
 pytest-django = "==3.4.5"
 "flake8" = "==3.6.0"

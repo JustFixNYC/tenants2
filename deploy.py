@@ -40,18 +40,20 @@ def run_local_container(
     container_name: str,
     args: Optional[List[str]] = None,
     port: Optional[int] = None,
-    env: Optional[Dict[str, str]] = None
+    env: Optional[Dict[str, str]] = None,
+    use_docker_compose: bool = False
 ) -> int:
     if env is None:
         env = {}
     if args is None:
         args = []
     final_args = [
-        'docker',
+        'docker-compose' if use_docker_compose else 'docker',
         'run',
         '--rm',
-        '-it',
     ]
+    if not use_docker_compose:
+        final_args.append('-it')
     env = env.copy()
     if port is not None:
         env['PORT'] = str(port)
@@ -182,14 +184,19 @@ def deploy_heroku(args):
 
 
 def heroku_run(args):
-    container_name = 'tenants2'
-
-    build_local_container(container_name)
+    use_docker_compose: bool = args.use_docker_compose
     heroku_config = HerokuCLI(args.remote).get_full_config()
+    if use_docker_compose:
+        container_name = 'app'
+    else:
+        container_name = 'tenants2'
+        build_local_container(container_name)
+
     sys.exit(run_local_container(
         container_name,
         args=args.args,
-        env=heroku_config
+        env=heroku_config,
+        use_docker_compose=use_docker_compose
     ))
 
 
@@ -220,6 +227,12 @@ def main():
     parser_heroku_run = subparsers.add_parser(
         'heroku-run',
         help='Run local container using Heroku environment variables.',
+    )
+    parser_heroku_run.add_argument(
+        '-c',
+        '--use-docker-compose',
+        action='store_true',
+        help='Use Docker Compose container instead of production container'
     )
     parser_heroku_run.add_argument(
         '-r',

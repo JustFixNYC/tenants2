@@ -22,6 +22,9 @@ from legacy_tenants.views import redirect_to_legacy_app
 from .views import react_rendered_view, example_server_error, redirect_favicon, health
 import twofactor.views
 
+admin.site.site_header = "JustFix.nyc Tenant App"
+admin.site.site_title = "Tenant App admin"
+admin.site.index_title = "Justfix.nyc Tenant App administration"
 
 urlpatterns = [
     path('verify', twofactor.views.verify, name='verify'),

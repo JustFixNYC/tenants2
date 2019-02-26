@@ -309,10 +309,7 @@ GRAPHENE = {
     'MIDDLEWARE': None
 }
 
-# Note that we used to use the /search endpoint, but it started
-# returning HTTP 500, so we're using /autocomplete instead. For
-# more details, see: https://github.com/JustFixNYC/tenants2/issues/483
-GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/autocomplete"
+GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
 GEOCODING_TIMEOUT = 3
 

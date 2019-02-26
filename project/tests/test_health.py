@@ -1,7 +1,8 @@
 from django.conf import settings
 
 from project import health
-from project.health import CheckGeocoding
+from project.health import CheckGeocoding, CheckNycdb
+from nycdb.tests import fixtures as nycdb_fixtures
 from . import test_geocoding
 
 
@@ -66,3 +67,14 @@ class TestCheckGeocoding:
         check = CheckGeocoding()
         assert check.is_enabled is True
         assert check.run_check() is True
+
+
+class TestCheckNycdb:
+    def test_it_is_disabled_when_nycdb_is_disabled(self):
+        assert CheckNycdb().is_enabled is False
+
+    def test_it_works(self, nycdb):
+        nycdb_fixtures.load_hpd_registration('tiny-landlord.json')
+        check = CheckNycdb()
+        assert check.is_enabled is True
+        assert check.is_healthy() is True

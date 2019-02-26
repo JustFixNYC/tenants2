@@ -81,8 +81,8 @@ const tsLoaderOptions = {
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
-    "babel-plugin-transform-object-rest-spread",
-    "babel-plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
     "react-loadable/babel"
   ]
 };
@@ -100,7 +100,7 @@ const convertSVGsToReactComponents = {
     // babel to convert it into regular JS.
     { loader: 'babel-loader', options: {
       babelrc: false,
-      plugins: ['babel-plugin-transform-react-jsx']
+      plugins: ['@babel/plugin-transform-react-jsx']
     } },
     { loader: path.resolve(__dirname, 'svg-loader.js') }
   ]
@@ -200,7 +200,7 @@ const webConfig = {
   target: 'web',
   stats: IN_WATCH_MODE ? 'minimal' : 'normal',
   entry: {
-    main: ['babel-polyfill', './frontend/lib/main.ts'],
+    main: ['@babel/polyfill', './frontend/lib/main.ts'],
   },
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
@@ -220,7 +220,7 @@ const webConfig = {
             loader: 'babel-loader',
             options: {
               ...baseBabelOptions,
-              presets: ["env"],
+              presets: ["@babel/preset-env"],
             }
           },
           { loader: 'ts-loader', options: tsLoaderOptions }

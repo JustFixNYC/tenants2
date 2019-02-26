@@ -29,7 +29,7 @@ interface AppTesterPalOptions {
  * some properties to be mocked.
  */
 interface AppTesterAppContext extends AppContextType {
-  updateSession: AppContextType["updateSession"] & jest.MockInstance<any>;
+  updateSession: AppContextType["updateSession"] & jest.MockInstance<any, any>;
 };
 
 /**

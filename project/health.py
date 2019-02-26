@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.contrib.contenttypes.models import ContentType
 
 from project import geocoding
+from nycdb.models import HPDRegistration
 
 
 logger = logging.getLogger(__name__)
@@ -50,6 +51,16 @@ class CheckGeocoding(HealthCheck):
         return features[0].properties.pad_bbl == '3002920026'
 
 
+class CheckNycdb(HealthCheck):
+    @property
+    def is_enabled(self) -> bool:
+        return bool(settings.NYCDB_DATABASE)
+
+    def run_check(self) -> bool:
+        obj = HPDRegistration.objects.first()
+        return obj is not None
+
+
 class HealthInfo:
     def __init__(self, healthchecks: List[HealthCheck]) -> None:
         self.check_results = {
@@ -77,7 +88,8 @@ class HealthInfo:
 def get_healthchecks() -> List[HealthCheck]:
     return [
         CheckDatabase(),
-        CheckGeocoding()
+        CheckGeocoding(),
+        CheckNycdb()
     ]
 
 

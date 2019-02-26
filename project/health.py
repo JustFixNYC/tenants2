@@ -1,8 +1,11 @@
 import abc
-from typing import List
+from typing import List, Dict, Any
 import logging
+from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.contenttypes.models import ContentType
+
+from project import geocoding
 
 
 logger = logging.getLogger(__name__)
@@ -35,6 +38,18 @@ class CheckDatabase(HealthCheck):
         return obj is not None
 
 
+class CheckGeocoding(HealthCheck):
+    @property
+    def is_enabled(self) -> bool:
+        return bool(settings.GEOCODING_SEARCH_URL)
+
+    def run_check(self) -> bool:
+        features = geocoding.search('150 court street, brooklyn')
+        if features is None:
+            return False
+        return features[0].properties.pad_bbl == '3002920026'
+
+
 class HealthInfo:
     def __init__(self, healthchecks: List[HealthCheck]) -> None:
         self.check_results = {
@@ -49,16 +64,20 @@ class HealthInfo:
         ]
         self.status = 503 if unhealthy else 200
 
-    def to_json_response(self) -> JsonResponse:
-        return JsonResponse({
+    def to_json(self) -> Dict[str, Any]:
+        return {
             'status': self.status,
             'check_results': self.check_results
-        }, status=self.status)
+        }
+
+    def to_json_response(self) -> JsonResponse:
+        return JsonResponse(self.to_json(), status=self.status)
 
 
 def get_healthchecks() -> List[HealthCheck]:
     return [
-        CheckDatabase()
+        CheckDatabase(),
+        CheckGeocoding()
     ]
 
 

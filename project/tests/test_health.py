@@ -1,4 +1,8 @@
+from django.conf import settings
+
 from project import health
+from project.health import CheckGeocoding
+from . import test_geocoding
 
 
 class TrivialCheck(health.HealthCheck):
@@ -47,3 +51,18 @@ def test_is_healthy_returns_false_on_exception():
 def test_is_healthy_returns_run_check_value():
     assert TrivialCheck(result=True).is_healthy() is True
     assert TrivialCheck(result=False).is_healthy() is False
+
+
+class TestCheckGeocoding:
+    def test_it_is_disabled_when_geocoding_is_disabled(self):
+        assert CheckGeocoding().is_enabled is False
+
+    def test_it_returns_false_when_geocoding_search_fails(self):
+        assert CheckGeocoding().run_check() is False
+
+    @test_geocoding.enable_fake_geocoding
+    def test_it_works(self, requests_mock):
+        requests_mock.get(settings.GEOCODING_SEARCH_URL, json=test_geocoding.EXAMPLE_SEARCH)
+        check = CheckGeocoding()
+        assert check.is_enabled is True
+        assert check.run_check() is True

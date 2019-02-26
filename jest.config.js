@@ -33,5 +33,7 @@ module.exports = {
     "\\.svg$": path.join(__dirname, "frontend", "mocks", "svg-mock.js")
   },
   "restoreMocks": true,
-  "setupTestFrameworkScriptFile": "./frontend/lib/tests/setup.ts"
+  "setupFilesAfterEnv": [
+    "./frontend/lib/tests/setup.ts"
+  ]
 };

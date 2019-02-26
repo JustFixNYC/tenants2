@@ -1,10 +1,8 @@
-type FetchAPI = typeof window.fetch;
-
 /**
  * This is an API for a mock window.fetch, which provides
  * some convenience methods for network communications.
  */
-interface MockFetch extends jest.MockInstance<FetchAPI> {
+interface MockFetch extends jest.MockInstance<any, any> {
   /** Mock the return of a JSON response. */
   mockReturnJson(result: any): void;
 
@@ -25,7 +23,7 @@ interface MockFetch extends jest.MockInstance<FetchAPI> {
 
 /** Create and return a mock window.fetch API. */
 export function createMockFetch(): MockFetch {
-  const mock = jest.fn<FetchAPI>();
+  const mock = jest.fn();
   window.fetch = mock;
   return Object.assign(mock, {
     mockReturnJson(this: jest.Mock, result: any) {

@@ -2,6 +2,7 @@
 
 import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { LogoutInput, OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";

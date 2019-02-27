@@ -17,8 +17,9 @@ test('autobind decorator works', () => {
   }
 
   const blarg = new Blarg(6);
+  const boop = blarg.boop;
 
-  expect(blarg.boop(1)).toEqual(7);
+  expect(boop(1)).toEqual(7);
 });
 
 test('super() works', () => {

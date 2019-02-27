@@ -91,6 +91,7 @@ function createOnboardingRouteInfo(prefix: string) {
  * This namespace parallels our Routes object, providing useful types
  * related to specific routes.
  */
+/*
 export namespace RouteTypes {
   export namespace onboarding {
     export namespace forIntent {
@@ -98,6 +99,7 @@ export namespace RouteTypes {
     }
   }
 }
+*/
 
 /**
  * This is an ad-hoc structure that defines URL routes for our app.

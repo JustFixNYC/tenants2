@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   "testURL": "http://localhost",
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "./jest.transform.js"
   },
   "roots": [
     "frontend"

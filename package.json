@@ -7,7 +7,7 @@
     "lint": "tsc --noEmit",
     "lint:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --no-cache",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "npm run sass -- --watch",
     "querybuilder:watch": "node querybuilder.js --watch",
@@ -33,6 +33,9 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@types/chokidar": "1.7.5",
     "@types/dotenv": "4.0.3",
     "@types/enzyme": "3.1.14",
@@ -42,6 +45,8 @@
     "@types/webpack-bundle-analyzer": "2.13.0",
     "@types/webpack-node-externals": "1.6.3",
     "apollo": "2.5.1",
+    "babel-jest": "^24.1.0",
+    "babel-plugin-dynamic-import-node-babel-7": "^2.0.7",
     "chalk": "2.4.1",
     "chokidar": "2.0.4",
     "concurrently": "3.6.1",
@@ -50,7 +55,6 @@
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "24.1.0",
     "react-testing-library": "5.2.3",
-    "ts-jest": "24.0.0",
     "webpack-bundle-analyzer": "2.13.1"
   },
   "dependencies": {

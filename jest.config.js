@@ -8,7 +8,9 @@ module.exports = {
   "roots": [
     "frontend"
   ],
-  "collectCoverage": true,
+  // We need to disable coverage to avoid the following issue:
+  // https://github.com/istanbuljs/istanbuljs/issues/237
+  "collectCoverage": false,
   "coveragePathIgnorePatterns": [
     "/node_modules/",
     "safe-mode-globals.d.ts",

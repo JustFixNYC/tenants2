@@ -81,6 +81,7 @@ const tsLoaderOptions = {
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
+    "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
     "react-loadable/babel"

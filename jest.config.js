@@ -1,6 +1,15 @@
 const path = require('path');
 
 module.exports = {
+  "globals": {
+    "ts-jest": {
+      "babelConfig": {
+        "plugins": [
+          "@babel/plugin-transform-react-jsx"
+        ]
+      }
+    }
+  },
   "testURL": "http://localhost",
   "transform": {
     "^.+\\.tsx?$": "ts-jest"

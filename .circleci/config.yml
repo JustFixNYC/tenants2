@@ -18,8 +18,13 @@ jobs:
       - run:
           command: |
              pipenv sync --dev
-             npm install --no-save
              pipenv run pip install -r requirements.production.txt
+
+             # This will ensure that 'npm prepare' scripts on dependencies are run.
+             # For more details, see: https://stackoverflow.com/a/52767310
+             npm config set unsafe-perm true
+
+             npm install --no-save
       - save_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
           paths:

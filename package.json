@@ -50,6 +50,7 @@
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "24.1.0",
     "react-testing-library": "5.2.3",
+    "ts-jest": "https://github.com/kulshekhar/ts-jest#670503f65a79ec62712e5e4488b734c092b20a0f",
     "webpack-bundle-analyzer": "2.13.1"
   },
   "dependencies": {
@@ -91,7 +92,6 @@
     "react-transition-group": "2.5.0",
     "smoothscroll-polyfill": "0.4.3",
     "source-map-support": "0.5.9",
-    "ts-jest": "https://github.com/kulshekhar/ts-jest#670503f65a79ec62712e5e4488b734c092b20a0f",
     "ts-loader": "4.5.0",
     "typescript": "3.3.1",
     "uglify-js": "3.4.9",

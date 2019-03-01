@@ -90,7 +90,7 @@
     "react-transition-group": "2.5.0",
     "smoothscroll-polyfill": "0.4.3",
     "source-map-support": "0.5.9",
-    "ts-jest": "github:toolness/ts-jest#b2d140f",
+    "ts-jest": "github:kulshekhar/ts-jest#670503f65a79ec62712e5e4488b734c092b20a0f",
     "ts-loader": "4.5.0",
     "typescript": "3.3.1",
     "uglify-js": "3.4.9",

@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /**
+     * Allow unused locals, because it's useful for tinkering. Our linter,
+     * which uses the base tsconfig.json, will error on them to ensure that
+     * CI fails if code is committed with them.
+     */
+    "noUnusedLocals": false,
+
+    /**
+     * We set jsx to "react" in our base tsconfig.json to ensure that our
+     * linter will error if we don't import react in code that uses
+     * JSX. However, in our actual build pipeline, we want to preserve
+     * JSX so we can potentially use Babel plugins that operate on it.
+     */
+    "jsx": "preserve"
+  }
+}

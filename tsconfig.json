@@ -10,6 +10,12 @@
     "frontend/lib/queries/__generated__",
     "findhelp/static/findhelp/vendor",
   ],
+  /**
+   * The following options are the base options that are used for linting.
+   *
+   * See "tsconfig.build.json" for overrides that occur during the build
+   * process.
+   */
   "compilerOptions": {
     /* Basic Options */
 
@@ -20,7 +26,16 @@
     // "lib": [],                             /* Specify library files to be included in the compilation. */
     "allowJs": true,                       /* Allow javascript files to be compiled. */
     "checkJs": true,                       /* Report errors in .js files. */
+
+    /**
+     * We want linting to complain when we don't import React in files that use
+     * JSX syntax, so we'll set "jsx" to "react" here to do that. However,
+     * at build time we want to process JSX natively so we can potentially
+     * apply Babel plugins to it, so we'll change this to "preserve" in
+     * "tsconfig.build.json".
+     */
     "jsx": "react",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+
     // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "sourceMap": true,                     /* Generates corresponding '.map' file. */

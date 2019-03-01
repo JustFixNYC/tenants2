@@ -56,6 +56,7 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
 
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {
+  configFile: "tsconfig.build.json",
   /**
    * Without this setting, TypeScript compiles *everything* including
    * files not relevant to the bundle we're building, which often
@@ -68,23 +69,38 @@ const tsLoaderOptions = {
    * only transpile for now. This significantly improves compile speed.
    */
   transpileOnly: true,
-  compilerOptions: {
-    /**
-     * Allow unused locals during development, because it's useful for
-     * tinkering. Our linter will error on them to ensure that CI fails
-     * if code is committed with them.
-     */
-    noUnusedLocals: false
-  }
 };
 
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
+    "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
     "react-loadable/babel"
   ]
+};
+
+const nodeBabelOptions = {
+  ...baseBabelOptions,
+  presets: [
+    ["@babel/env", {
+      "targets": {
+        "node": "current"
+      }
+    }],
+  ],
+  plugins: [
+    ...baseBabelOptions.plugins,
+    "babel-plugin-dynamic-import-node"
+  ]
+};
+
+exports.nodeBabelOptions = nodeBabelOptions;
+
+const webBabelOptions = {
+  ...baseBabelOptions,
+  presets: ["@babel/preset-env"]
 };
 
 /**
@@ -152,7 +168,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader', options: baseBabelOptions },
+            { loader: 'babel-loader', options: nodeBabelOptions },
             { loader: 'ts-loader', options: tsLoaderOptions },
           ]
         },
@@ -216,13 +232,7 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              ...baseBabelOptions,
-              presets: ["@babel/preset-env"],
-            }
-          },
+          { loader: 'babel-loader', options: webBabelOptions },
           { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },

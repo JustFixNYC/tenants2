@@ -88,6 +88,28 @@ const baseBabelOptions = {
   ]
 };
 
+const nodeBabelOptions = {
+  ...baseBabelOptions,
+  presets: [
+    ["@babel/env", {
+      "targets": {
+        "node": "current"
+      }
+    }],
+  ],
+  plugins: [
+    ...baseBabelOptions.plugins,
+    "babel-plugin-dynamic-import-node"
+  ]
+};
+
+exports.nodeBabelOptions = nodeBabelOptions;
+
+const webBabelOptions = {
+  ...baseBabelOptions,
+  presets: ["@babel/preset-env"]
+};
+
 /**
  * Our webpack rule for loading SVGs as React components.
  * 
@@ -153,7 +175,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader', options: baseBabelOptions },
+            { loader: 'babel-loader', options: nodeBabelOptions },
             { loader: 'ts-loader', options: tsLoaderOptions },
           ]
         },
@@ -217,13 +239,7 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              ...baseBabelOptions,
-              presets: ["@babel/preset-env"],
-            }
-          },
+          { loader: 'babel-loader', options: webBabelOptions },
           { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },

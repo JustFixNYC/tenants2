@@ -240,7 +240,6 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
 export const App = withRouter(AppWithoutRouter);
 
 export function startApp(container: Element, initialProps: AppProps) {
-  (global as any).React = React;
   const el = (
     <BrowserRouter getUserConfirmation={getNavigationConfirmation}>
       <App {...initialProps}/>

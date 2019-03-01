@@ -1,13 +1,11 @@
 const path = require('path');
 
+const { nodeBabelOptions } = require('./frontend/webpack/base');
+
 module.exports = {
   "globals": {
     "ts-jest": {
-      "babelConfig": {
-        "plugins": [
-          "@babel/plugin-transform-react-jsx"
-        ]
-      }
+      "babelConfig": nodeBabelOptions,
     }
   },
   "testURL": "http://localhost",

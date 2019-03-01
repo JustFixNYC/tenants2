@@ -247,7 +247,6 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
 
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
-  (global as any).React = React;
   handleFromJSONStream(process.stdin).then(buf => {
     process.stdout.write(buf);
     process.exit(0);

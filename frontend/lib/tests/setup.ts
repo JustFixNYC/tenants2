@@ -1,4 +1,3 @@
-import React from 'react';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -6,8 +5,6 @@ import { defaultContext } from '../app-context';
 import { FakeAppContext } from './util';
 import chalk from 'chalk';
 import './confetti.setup';
-
-(global as any).React = React;
 
 configure({ adapter: new Adapter() });
 

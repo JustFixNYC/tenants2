@@ -56,6 +56,7 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
 
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {
+  configFile: "tsconfig.build.json",
   /**
    * Without this setting, TypeScript compiles *everything* including
    * files not relevant to the bundle we're building, which often
@@ -68,14 +69,6 @@ const tsLoaderOptions = {
    * only transpile for now. This significantly improves compile speed.
    */
   transpileOnly: true,
-  compilerOptions: {
-    /**
-     * Allow unused locals during development, because it's useful for
-     * tinkering. Our linter will error on them to ensure that CI fails
-     * if code is committed with them.
-     */
-    noUnusedLocals: false
-  }
 };
 
 const baseBabelOptions = {

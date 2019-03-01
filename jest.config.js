@@ -1,11 +1,15 @@
 const path = require('path');
+const assert = require('assert');
 
 const { nodeBabelOptions } = require('./frontend/webpack/base');
+
+assert(nodeBabelOptions);
 
 module.exports = {
   "globals": {
     "ts-jest": {
       "babelConfig": nodeBabelOptions,
+      "tsConfig": "tsconfig.build.json"
     }
   },
   "testURL": "http://localhost",

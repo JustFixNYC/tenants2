@@ -17,6 +17,8 @@ frontend/static/frontend/*.css
 frontend/static/frontend/*.map
 frontend/static/frontend/report.html
 frontend/safe_mode/safe-mode.min.js
+frontend/locales/_build
+frontend/locales/**/messages.js
 staticfiles/
 mediafiles/
 frontend/lib/queries/__generated__/

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
 import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
+import { I18nProvider } from '@lingui/react';
 
 import GraphQlClient from './graphql-client';
 
@@ -22,6 +23,7 @@ import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
+import msgCatalogs from '../locales/en/messages';
 
 
 export interface AppProps {
@@ -212,26 +214,28 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
 
     return (
       <ErrorBoundary debug={this.props.server.debug}>
-        <HistoryBlockerManager>
-          <AppContext.Provider value={this.getAppContext()}>
-            <AriaAnnouncer>
-                <Navbar/>
-                <section className="section">
-                  <div className="container" ref={this.pageBodyRef}
-                      data-jf-is-noninteractive tabIndex={-1}>
-                    <LoadingOverlayManager>
-                      <Route render={(props) => {
-                        if (routeMap.exists(props.location.pathname)) {
-                          return this.renderRoutes(props.location);
-                        }
-                        return NotFound(props);
-                      }}/>
-                    </LoadingOverlayManager>
-                  </div>
-                </section>
-            </AriaAnnouncer>
-          </AppContext.Provider>
-        </HistoryBlockerManager>
+        <I18nProvider language="en" catalogs={{ en: msgCatalogs }}>
+          <HistoryBlockerManager>
+            <AppContext.Provider value={this.getAppContext()}>
+              <AriaAnnouncer>
+                  <Navbar/>
+                  <section className="section">
+                    <div className="container" ref={this.pageBodyRef}
+                        data-jf-is-noninteractive tabIndex={-1}>
+                      <LoadingOverlayManager>
+                        <Route render={(props) => {
+                          if (routeMap.exists(props.location.pathname)) {
+                            return this.renderRoutes(props.location);
+                          }
+                          return NotFound(props);
+                        }}/>
+                      </LoadingOverlayManager>
+                    </div>
+                  </section>
+              </AriaAnnouncer>
+            </AppContext.Provider>
+          </HistoryBlockerManager>
+        </I18nProvider>
       </ErrorBoundary>
     );
   }

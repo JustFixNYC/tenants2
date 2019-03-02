@@ -8,6 +8,7 @@ import { CenteredPrimaryButtonLink } from '../buttons';
 import { StaticImage } from '../static-image';
 import { AppContext } from '../app-context';
 import { signupIntentFromOnboardingInfo } from '../signup-intent';
+import { Trans } from '@lingui/react';
 
 export interface IndexPageProps {
   isLoggedIn: boolean;
@@ -27,7 +28,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <StaticImage src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
-                Is your landlord not responding? Take action today!
+                <Trans>Is your landlord not responding? Take action today!</Trans>
               </h1>
               <h2 className="subtitle">
                 JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.

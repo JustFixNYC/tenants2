@@ -12,7 +12,6 @@ plugins = plugins.filter(p => !/^@lingui\/babel-plugin-transform/.test(p));
 
 module.exports = {
   "extractBabelOptions": { presets, plugins },
-  "compileNamespace": "es",
   "localeDir": "frontend/locales/",
   "srcPathDirs": [
     "frontend/lib"

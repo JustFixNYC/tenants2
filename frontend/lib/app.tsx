@@ -23,7 +23,8 @@ import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
-import msgCatalogs from '../locales/en/messages';
+
+const msgCatalogs = require('../locales/en/messages');
 
 
 export interface AppProps {

@@ -25,6 +25,7 @@ react-loadable.json
 .DS_Store
 hp-action.pdf
 hp-action.xml
+.babel-cache.json
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

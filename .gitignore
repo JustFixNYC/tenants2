@@ -24,3 +24,4 @@ react-loadable.json
 .DS_Store
 hp-action.pdf
 hp-action.xml
+.babel-cache.json

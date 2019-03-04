@@ -5,4 +5,9 @@ export type I18nTransformOptions = {
 
 export type I18nTransformState = {
   opts: I18nTransformOptions
+  file: {
+    opts: {
+      filename: string
+    }
+  }
 };

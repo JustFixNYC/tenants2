@@ -6,6 +6,14 @@
  * @typedef {import("./i18n-transform-types").I18nTransformState} State
  */
 
+const fsPath = require('path');
+const assert = require('assert');
+const fs = require('fs');
+
+const I18N_PATH = fsPath.normalize(fsPath.join(__dirname, '..', 'lib', 'i18n.tsx'));
+
+assert(fs.existsSync(I18N_PATH));
+
  /**
   * @param {Babel} babel 
   * @returns {StatePlugin}
@@ -32,7 +40,7 @@ module.exports = function(babel) {
               /** @type any TODO: What is going on with these types?? */
               const init = t.memberExpression(
                 t.callExpression(t.identifier('require'), [
-                  t.stringLiteral(`${__dirname}/../lib/i18n.tsx`)
+                  t.stringLiteral(I18N_PATH)
                 ]),
                 t.identifier('i18n')
               );

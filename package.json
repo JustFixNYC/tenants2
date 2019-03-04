@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
+    "@types/babel__core": "^7.1.0",
     "@types/chokidar": "1.7.5",
     "@types/dotenv": "4.0.3",
     "@types/enzyme": "3.1.14",

@@ -4,6 +4,7 @@
  * @typedef {import("webpack").Plugin} WebpackPlugin
  * @typedef {import("webpack").RuleSetRule} WebpackRule
  * @typedef {import("ts-loader").Options} TsLoaderOptions
+ * @typedef {import("./i18-transform-types").I18nTransformOptions} I18nTransformOptions
  */
 
 const path = require('path');
@@ -71,13 +72,19 @@ const tsLoaderOptions = {
   transpileOnly: true,
 };
 
+/** @type I18nTransformOptions */
+const i18nTransformOptions = {
+  uppercase: process.env.FAKE_I18N_TRANSFORM === 'uppercase'
+};
+
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
+    [`${__dirname}/i18n-transform.js`, i18nTransformOptions],
     "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
-    "react-loadable/babel"
+    "react-loadable/babel",
   ]
 };
 

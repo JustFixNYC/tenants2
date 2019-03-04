@@ -20,9 +20,8 @@ frontend/safe_mode/safe-mode.min.js
 staticfiles/
 mediafiles/
 frontend/lib/queries/__generated__/
-querybuilder.js
-querybuilder.js.map
 react-loadable.json
 .DS_Store
 hp-action.pdf
 hp-action.xml
+.babel-cache.json

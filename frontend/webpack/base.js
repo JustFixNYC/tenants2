@@ -253,9 +253,4 @@ const webpackConfigs = [
   webConfig,
 ];
 
-if (DEV_DEPS_AVAIL) {
-  exports.querybuilderConfig = createNodeScriptConfig('./frontend/querybuilder/cli.ts', 'querybuilder.js');
-  webpackConfigs.push(exports.querybuilderConfig);
-}
-
 exports.allConfigs = webpackConfigs;

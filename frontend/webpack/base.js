@@ -74,7 +74,8 @@ const tsLoaderOptions = {
 
 /** @type I18nTransformOptions */
 const i18nTransformOptions = {
-  uppercase: process.env.FAKE_I18N_TRANSFORM === 'uppercase'
+  uppercase: process.env.FAKE_I18N_TRANSFORM === 'uppercase',
+  func: process.env.FAKE_I18N_TRANSFORM === 'func'
 };
 
 const baseBabelOptions = {

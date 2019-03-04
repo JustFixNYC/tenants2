@@ -1,5 +1,6 @@
 export type I18nTransformOptions = {
-  uppercase?: boolean
+  uppercase?: boolean,
+  func?: boolean
 };
 
 export type I18nTransformState = {

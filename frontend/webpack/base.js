@@ -4,7 +4,7 @@
  * @typedef {import("webpack").Plugin} WebpackPlugin
  * @typedef {import("webpack").RuleSetRule} WebpackRule
  * @typedef {import("ts-loader").Options} TsLoaderOptions
- * @typedef {import("./i18-transform-types").I18nTransformOptions} I18nTransformOptions
+ * @typedef {import("./i18n-transform-types").I18nTransformOptions} I18nTransformOptions
  */
 
 const path = require('path');

@@ -1,5 +1,5 @@
 import * as babel from "@babel/core";
-import { I18nTransformOptions } from "../i18-transform-types";
+import { I18nTransformOptions } from "../i18n-transform-types";
 
 function transform(code: string, options: I18nTransformOptions = {}): string {
   const result = babel.transform(code, {

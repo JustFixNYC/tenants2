@@ -3,7 +3,7 @@
  * @typedef {import("@babel/core").Visitor<State>} StateVisitor
  * @typedef {import("@babel/core").PluginObj<State>} StatePlugin
  * @typedef {import("@babel/core")} Babel
- * @typedef {import("./i18-transform-types").I18nTransformState} State
+ * @typedef {import("./i18n-transform-types").I18nTransformState} State
  */
 
  /**

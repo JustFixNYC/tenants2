@@ -5,7 +5,6 @@ import chokidar from 'chokidar';
 import chalk from 'chalk';
 import { main, ToolError, MainOptions, SCHEMA_PATH, LIB_PATH_PARTS, DOT_GRAPHQL } from './querybuilder';
 import { debouncer } from './util';
-import autobind from 'autobind-decorator';
 
 
 /**
@@ -20,9 +19,9 @@ class MyFileWatcher {
       ignoreInitial: true,
       awaitWriteFinish: true
     }).on('all', this.checkAndWarnIfChanged);
+    this.checkAndWarnIfChanged = this.checkAndWarnIfChanged.bind(this);
   }
 
-  @autobind
   checkAndWarnIfChanged() {
     if (!this.contents.equals(fs.readFileSync(this.myFile))) {
       console.log(chalk.yellowBright(

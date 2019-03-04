@@ -39,6 +39,7 @@ jobs:
       - run:
           command: |
             node --version
+            node querybuilder.js --version
             npm run build
             npm test -- --runInBand
             npm run lint

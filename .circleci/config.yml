@@ -39,7 +39,10 @@ jobs:
       - run:
           command: |
             node --version
+
+            # This is intended as a smoke test.
             node querybuilder.js --version
+
             npm run build
             npm test -- --runInBand
             npm run lint

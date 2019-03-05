@@ -7,15 +7,13 @@ import { Link, Route } from 'react-router-dom';
 import { NextButton, BackButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField, RadiosFormField } from '../form-fields';
-import { filterDjangoChoices, ReactDjangoChoices } from '../common-data';
+import { ReactDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
-
-export const LEASE_CHOICES = filterDjangoChoices(
-  require('../../../common-data/lease-choices.json'), ['NOT_SURE']);
+import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';
 
 const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
@@ -62,7 +60,7 @@ export function LeaseLearnMoreModal(props: { children: any, title: string }): JS
 
 type LeaseModalInfo = {
   route: string;
-  leaseType: string;
+  leaseType: LeaseChoice;
   component: () => JSX.Element;
 };
 
@@ -172,7 +170,10 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
     const leaseLearnMoreModalMap = new Map(
       this.leaseLearnMoreModals.map(info => twoTuple(info.leaseType, info)));
 
-    this.leaseChoicesWithInfo = LEASE_CHOICES.map(([value, label]) => {
+    const leaseLabels = getLeaseChoiceLabels();
+
+    this.leaseChoicesWithInfo = LeaseChoices.map(value => {
+      const label = leaseLabels[value];
       const info = leaseLearnMoreModalMap.get(value);
       const title = `Learn more about ${label} leases`;
 

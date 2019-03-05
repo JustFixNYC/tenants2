@@ -1,5 +1,6 @@
-import { createDjangoChoicesTypescript, createDjangoChoicesTypescriptFiles, getDjangoChoiceLabel, validateDjangoChoices, filterDjangoChoices } from "../commondatabuilder";
+import * as fs from 'fs';
 
+import { createDjangoChoicesTypescript, createDjangoChoicesTypescriptFiles, getDjangoChoiceLabel, validateDjangoChoices, filterDjangoChoices } from "../commondatabuilder";
 import ourConfig from "../../../common-data/config";
 import { DjangoChoices } from "../../lib/common-data";
 
@@ -15,9 +16,15 @@ describe('commondatabuilder', () => {
       exportLabels: false
     })).not.toMatch(/getFooLabels/);
   });
+});
 
-  it('works with our common data configuration', () => {
-    createDjangoChoicesTypescriptFiles(ourConfig, true);
+it('current common data JSON files are synced with TS files', () => {
+  const files = createDjangoChoicesTypescriptFiles(ourConfig, true);
+  files.forEach(({ ts, tsPath }) => {
+    const currentTs = fs.readFileSync(tsPath, { encoding: 'utf-8' });
+    if (currentTs !== ts) {
+      throw new Error('Common data has changed, please re-run "node commondatabuilder.js".');
+    }
   });
 });
 

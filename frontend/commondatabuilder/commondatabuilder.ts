@@ -83,11 +83,16 @@ function replaceExt(filename: string, ext: string) {
   return filename.substr(0, filename.lastIndexOf(".")) + ext;
 }
 
+type DjangoChoiceTypescriptFile = {
+  tsPath: string,
+  ts: string
+};
+
 export function createDjangoChoicesTypescriptFiles(
   config: DjangoChoicesTypescriptConfig,
   dryRun: boolean = false
-) {
-  config.files.forEach(fileConfig => {
+): DjangoChoiceTypescriptFile[] {
+  return config.files.map(fileConfig => {
     const infile = path.join(config.rootDir, fileConfig.jsonFilename);
     let choices = JSON.parse(fs.readFileSync(infile, {
       encoding: 'utf-8'
@@ -98,12 +103,13 @@ export function createDjangoChoicesTypescriptFiles(
     const ts = createDjangoChoicesTypescript(choices, fileConfig.typeName, {
       exportLabels: fileConfig.exportLabels
     });
-    const outfilename = replaceExt(fileConfig.jsonFilename, '.ts');
-    const outfile = path.join(config.rootDir, outfilename);
+    const tsFilename = replaceExt(fileConfig.jsonFilename, '.ts');
+    const tsPath = path.join(config.rootDir, tsFilename);
     if (!dryRun) {
-      console.log(`Writing ${outfilename}.`);
-      fs.writeFileSync(outfile, ts, { encoding: 'utf-8' });
+      console.log(`Writing ${tsFilename}.`);
+      fs.writeFileSync(tsPath, ts, { encoding: 'utf-8' });
     }
+    return { tsPath, ts };
   });
 }
 

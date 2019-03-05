@@ -16,7 +16,7 @@ export type DjangoChoicesTypescriptConfig = {
 
 export type DjangoChoicesTypescriptFileConfig = {
   jsonFilename: string,
-  enumName: string,
+  typeName: string,
   exportLabels: boolean,
   filterOut?: RegExp|string[],
 };
@@ -88,7 +88,7 @@ export function createDjangoChoicesTypescriptFiles(
     if (fileConfig.filterOut) {
       choices = filterDjangoChoices(choices, fileConfig.filterOut);
     }
-    const ts = createDjangoChoicesTypescript(choices, fileConfig.enumName, {
+    const ts = createDjangoChoicesTypescript(choices, fileConfig.typeName, {
       exportLabels: fileConfig.exportLabels
     });
     const outfilename = replaceExt(fileConfig.jsonFilename, '.ts');

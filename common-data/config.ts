@@ -5,24 +5,24 @@ const config: DjangoChoicesTypescriptConfig = {
   files: [
     {
       jsonFilename: 'issue-choices.json',
-      enumName: 'IssueChoice',
+      typeName: 'IssueChoice',
       exportLabels: true,
       filterOut: /^LANDLORD__/
     },
     {
       jsonFilename: 'issue-area-choices.json',
-      enumName: 'IssueAreaChoice',
+      typeName: 'IssueAreaChoice',
       exportLabels: true,
       filterOut: ['LANDLORD']
     },
     {
       jsonFilename: 'borough-choices.json',
-      enumName: 'BoroughChoice',
+      typeName: 'BoroughChoice',
       exportLabels: true,
     },
     {
       jsonFilename: 'lease-choices.json',
-      enumName: 'LeaseChoice',
+      typeName: 'LeaseChoice',
       exportLabels: true,
       filterOut: ['NOT_SURE']
     }

@@ -42,7 +42,7 @@
     "@types/webpack": "4.4.17",
     "@types/webpack-bundle-analyzer": "2.13.0",
     "@types/webpack-node-externals": "1.6.3",
-    "apollo": "2.5.1",
+    "apollo": "2.5.3",
     "chalk": "2.4.1",
     "chokidar": "2.0.4",
     "concurrently": "3.6.1",

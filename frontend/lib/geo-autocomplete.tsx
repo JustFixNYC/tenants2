@@ -2,7 +2,7 @@ import React from 'react';
 import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import { BoroughChoice, getBoroughLabel } from './boroughs';
+import { BoroughChoice, getBoroughChoiceLabels } from '../../common-data/borough-choices';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
@@ -12,11 +12,11 @@ import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
   switch (gid) {
-    case GeoSearchBoroughGid.Manhattan: return BoroughChoice.MANHATTAN;
-    case GeoSearchBoroughGid.Bronx: return BoroughChoice.BRONX;
-    case GeoSearchBoroughGid.Brooklyn: return BoroughChoice.BROOKLYN;
-    case GeoSearchBoroughGid.Queens: return BoroughChoice.QUEENS;
-    case GeoSearchBoroughGid.StatenIsland: return BoroughChoice.STATEN_ISLAND;
+    case GeoSearchBoroughGid.Manhattan: return 'MANHATTAN';
+    case GeoSearchBoroughGid.Bronx: return 'BRONX';
+    case GeoSearchBoroughGid.Brooklyn: return 'BROOKLYN';
+    case GeoSearchBoroughGid.Queens: return 'QUEENS';
+    case GeoSearchBoroughGid.StatenIsland: return 'STATEN_ISLAND';
   }
 
   throw new Error(`No borough found for ${gid}!`);
@@ -213,7 +213,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
   if (!item.borough) return item.address;
-  return `${item.address}, ${getBoroughLabel(item.borough)}`;
+  return `${item.address}, ${getBoroughChoiceLabels()[item.borough]}`;
 }
 
 export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {

@@ -1,6 +1,7 @@
 {
   "include": [
     "webpack.config.js",
+    "common-data",
     "frontend",
     "twofactor/static",
     "findhelp/static",

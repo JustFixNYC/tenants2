@@ -1,8 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
-import { issueArea, ISSUE_CHOICES, ISSUE_AREA_CHOICES } from './issues';
-import { getDjangoChoiceLabel } from './common-data';
+import { issueArea } from './issues';
 import Downshift, { DownshiftInterface, ControllerStateAndHelpers } from 'downshift';
+import { getIssueChoiceLabels, IssueChoices } from '../../common-data/issue-choices';
+import { getIssueAreaChoiceLabels } from '../../common-data/issue-area-choices';
 
 interface IssueAutocompleteItem {
   value: string;
@@ -14,21 +15,26 @@ interface IssueAutocompleteItem {
 
 const IssueDownshift = Downshift as DownshiftInterface<IssueAutocompleteItem|string>;
 
-const ALL_AUTOCOMPLETE_ITEMS: IssueAutocompleteItem[] = ISSUE_CHOICES.map(([value, label]) => {
-  const areaValue = issueArea(value);
-  const areaLabel = getDjangoChoiceLabel(ISSUE_AREA_CHOICES, areaValue);
-  return {
-    value,
-    label,
-    areaValue,
-    areaLabel,
-    searchableText: [areaLabel.toLowerCase(), '-', label.toLowerCase()].join(' ')
-  }
-});
+function getAllAutocompleteitems(): IssueAutocompleteItem[] {
+  const issueLabels = getIssueChoiceLabels();
+  const issueAreaLabels = getIssueAreaChoiceLabels();
+  return IssueChoices.map(value => {
+    const areaValue = issueArea(value);
+    const areaLabel = issueAreaLabels[areaValue];
+    const label = issueLabels[value];
+    return {
+      value,
+      label,
+      areaValue,
+      areaLabel,
+      searchableText: [areaLabel.toLowerCase(), '-', label.toLowerCase()].join(' ')
+    }
+  });
+}
 
 function filterAutocompleteItems(searchString: string): IssueAutocompleteItem[] {
   searchString = searchString.toLowerCase();
-  return ALL_AUTOCOMPLETE_ITEMS.filter(item =>
+  return getAllAutocompleteitems().filter(item =>
     item.searchableText.indexOf(searchString) !== -1);
 }
 

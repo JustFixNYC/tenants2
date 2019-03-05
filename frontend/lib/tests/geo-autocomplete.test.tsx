@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestingLibraryPal from './rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
-import { BoroughChoice } from '../boroughs';
 import { createMockFetch } from './mock-fetch';
 import { FakeGeoResults } from './util';
 import { KEY_TAB } from '../key-codes';
@@ -111,7 +110,7 @@ describe("GeoAutocomplete", () => {
 
   it('converts autocomplete items to strings', () => {
     expect(geoAutocompleteItemToString({
-      borough: BoroughChoice.MANHATTAN,
+      borough: 'MANHATTAN',
       address: '150 COURT STREET'
     })).toEqual('150 COURT STREET, Manhattan');
     expect(geoAutocompleteItemToString(null)).toEqual('');

@@ -10,6 +10,12 @@ const config: DjangoChoicesTypescriptConfig = {
       filterOut: /^LANDLORD__/
     },
     {
+      jsonFilename: 'issue-area-choices.json',
+      enumName: 'IssueAreaChoice',
+      exportLabels: true,
+      filterOut: ['LANDLORD']
+    },
+    {
       jsonFilename: 'borough-choices.json',
       enumName: 'BoroughChoice',
       exportLabels: true,

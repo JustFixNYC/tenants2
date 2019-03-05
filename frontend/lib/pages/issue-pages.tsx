@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
+import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';
 import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
@@ -15,11 +15,13 @@ import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../f
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
-import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
+import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
 import { ga } from '../google-analytics';
 import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
+import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
+import { IssueChoice } from '../../../common-data/issue-choices';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -29,7 +31,7 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
 
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
-  renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
+  renderForm(ctx: FormContext<IssueAreaInput>, area: IssueAreaChoice): JSX.Element {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor('area')} />
@@ -55,15 +57,15 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
   render() {
     const area = slugToAllCaps(this.props.match.params.area);
-    const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
-    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
-      area,
-      issues: issuesForArea(area, session.issues),
-      other: customIssueForArea(area, session.customIssues)
-    });
-    if (label === null) {
+    if (!isIssueAreaChoice(area)) {
       return <NotFound {...this.props} />;
     }
+    const label = getIssueAreaChoiceLabels()[area];
+    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
+      area,
+      issues: issuesForArea(area, session.issues as IssueChoice[]),
+      other: customIssueForArea(area, session.customIssues)
+    });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
       <Page title={`${label} - Issue checklist`}>
@@ -90,7 +92,7 @@ export function getIssueLabel(count: number): string {
 }
 
 type IssueAreaLinkProps = {
-  area: string;
+  area: IssueAreaChoice;
   label: string;
   isHighlighted?: boolean;
   routes: IssuesRouteInfo;
@@ -102,7 +104,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   return (
     <AppContext.Consumer>
       {(ctx) => {
-        const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
+        const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssues);
         const url = props.routes.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
@@ -176,7 +178,7 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
     this.state = { searchText: '' };
   }
 
-  renderColumnForArea(area: string, label: string): JSX.Element {
+  renderColumnForArea(area: IssueAreaChoice, label: string): JSX.Element {
     return <div className="column">
       <IssueAreaLink
         routes={this.props.routes}
@@ -198,6 +200,7 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
   }
 
   render() {
+    const labels = getIssueAreaChoiceLabels();
     return (
       <Page title="Apartment self-inspection">
         <div>
@@ -206,7 +209,7 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
           <SimpleProgressiveEnhancement>
             {this.renderAutocomplete()}
           </SimpleProgressiveEnhancement>
-          {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
+          {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
               {this.renderColumnForArea(...a)}
               {b && this.renderColumnForArea(...b)}

@@ -5,8 +5,8 @@ import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
-import { ISSUE_AREA_CHOICES } from '../../issues';
 import ISSUE_AREA_SVGS from '../../svg/issues';
+import { IssueAreaChoices } from '../../../../common-data/issue-area-choices';
 
 
 const routes = Routes.loc.issues;
@@ -63,7 +63,7 @@ test('getIssueLabel() works', () => {
 });
 
 test('issue area images exist', () => {
-  ISSUE_AREA_CHOICES.forEach(([area, _]) => {
+  IssueAreaChoices.forEach(area => {
     const svg = ISSUE_AREA_SVGS[area];
     if (!svg) {
       throw new Error(`Expected ISSUE_AREA_SVGS.${area} to exist`);

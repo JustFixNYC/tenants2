@@ -100,6 +100,6 @@ type StringMapping<T extends string> = {
   [k in T]: string
 };
 
-export function toDjangoChoices<T extends string>(choices: T[], labels: StringMapping<T>): [string, string][] {
-  return choices.map(choice => [choice, labels[choice]] as [string, string]);
+export function toDjangoChoices<T extends string>(choices: T[], labels: StringMapping<T>): [T, string][] {
+  return choices.map(choice => [choice, labels[choice]] as [T, string]);
 }

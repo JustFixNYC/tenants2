@@ -100,6 +100,39 @@ export function createDjangoChoicesTypescriptFiles(
   });
 }
 
+/**
+ * Return a list of TypeScript lines that create a function
+ * which returns a mapping from choice values to their labels.
+ * 
+ * Note that this is a function rather than a constant because
+ * we want to be able to add code that localizes the
+ * labels at runtime if needed.
+ */
+function createLabelExporter(choices: DjangoChoices, name: string): string[] {
+  const lines = [];
+  lines.push(
+    `export type ${name}Labels = {`,
+    `  [k in ${name}]: string;`,
+    `};\n`
+  );
+  lines.push(
+    `export function get${name}Labels(): ${name}Labels {`,
+    `  return {`
+  );
+  for (let [name, label] of choices) {
+    lines.push(`    ${name}: ${JSON.stringify(label)},`);
+  }
+  lines.push(
+    '  };',
+    '}\n'
+  );
+  return lines;
+}
+
+/**
+ * Return a list of TypeScript lines that define a type
+ * and some helper functions for the given Django choices. 
+ */
 export function createDjangoChoicesTypescript(
   choices: DjangoChoices,
   name: string,
@@ -121,22 +154,7 @@ export function createDjangoChoicesTypescript(
     `}\n`
   );
   if (exportLabels) {
-    lines.push(
-      `export type ${name}Labels = {`,
-      `  [k in ${name}]: string;`,
-      `};\n`
-    );
-    lines.push(
-      `export function get${name}Labels(): ${name}Labels {`,
-      `  return {`
-    );
-    for (let [name, label] of choices) {
-      lines.push(`    ${name}: ${JSON.stringify(label)},`);
-    }
-    lines.push(
-      '  };',
-      '}\n'
-    );
+    lines.push(...createLabelExporter(choices, name));
   }
   return lines.join('\n');
 }

@@ -114,6 +114,24 @@ For the Node front-end:
   other value for development.
 * See [frontend/webpack/webpack-defined-globals.d.ts](frontend/webpack/webpack-defined-globals.d.ts) for more values.
 
+## Common data
+
+Some data that is shared between the front-end and back-end is
+in the [`common-data/`](common-data/) directory.  The
+back-end generally reads this data in JSON format, while the
+front-end reads a TypeScript file that is generated from
+the JSON.
+
+A utility called `commondatabuilder` is used to generate the
+TypeScript file. To execute it, run:
+
+```
+node commondatabuilder.js
+```
+
+You will need to run this whenever you make any changes to
+the underlying JSON files.
+
 ## GraphQL
 
 The communication between server and client occurs via [GraphQL][]

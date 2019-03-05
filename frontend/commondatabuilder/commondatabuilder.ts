@@ -3,21 +3,28 @@ import * as path from 'path';
 
 import { DjangoChoices } from "../lib/common-data";
 
-type CreateOptions = {
-  exportLabels: boolean
-};
-
-const defaultOptions: CreateOptions = { exportLabels: true };
-
 export type DjangoChoicesTypescriptConfig = {
+  /** The root directory from which to read JSON files and write TS files. */
   rootDir: string,
+
+  /** The files to convert from JSON to TS. */
   files: DjangoChoicesTypescriptFileConfig[]
 };
 
 export type DjangoChoicesTypescriptFileConfig = {
+  /** The JSON file to convert to TS. */
   jsonFilename: string,
+
+  /** The name of the TS type to generate. */
   typeName: string,
+
+  /** Whether to export the labels in the JSON file to TS. */
   exportLabels: boolean,
+
+  /** 
+   * Filter out the given values from either the given list of choices, or anything
+   * that matches the given regular expression.
+   */
   filterOut?: RegExp|string[],
 };
 
@@ -128,6 +135,12 @@ function createLabelExporter(choices: DjangoChoices, name: string): string[] {
   );
   return lines;
 }
+
+type CreateOptions = {
+  exportLabels: boolean
+};
+
+const defaultOptions: CreateOptions = { exportLabels: true };
 
 /**
  * Return a list of TypeScript lines that define a type

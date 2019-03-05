@@ -100,17 +100,6 @@ type StringMapping<T extends string> = {
   [k in T]: string
 };
 
-export function toDjangoChoices<T extends string>(enumObj: StringMapping<T>, labels: StringMapping<T>): [string, string][] {
-  const result = [];
-  for (let k in enumObj) {
-    result.push([k, labels[k]] as [string, string]);
-  }
-  return result;
-}
-
-export function toEnumKey<T>(enumObj: T, key: string): (keyof typeof enumObj)|undefined {
-  if (key in enumObj) {
-    return key as keyof typeof enumObj;
-  }
-  return undefined;
+export function toDjangoChoices<T extends string>(choices: T[], labels: StringMapping<T>): [string, string][] {
+  return choices.map(choice => [choice, labels[choice]] as [string, string]);
 }

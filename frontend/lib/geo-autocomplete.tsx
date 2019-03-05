@@ -12,11 +12,11 @@ import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
   switch (gid) {
-    case GeoSearchBoroughGid.Manhattan: return BoroughChoice.MANHATTAN;
-    case GeoSearchBoroughGid.Bronx: return BoroughChoice.BRONX;
-    case GeoSearchBoroughGid.Brooklyn: return BoroughChoice.BROOKLYN;
-    case GeoSearchBoroughGid.Queens: return BoroughChoice.QUEENS;
-    case GeoSearchBoroughGid.StatenIsland: return BoroughChoice.STATEN_ISLAND;
+    case GeoSearchBoroughGid.Manhattan: return 'MANHATTAN';
+    case GeoSearchBoroughGid.Bronx: return 'BRONX';
+    case GeoSearchBoroughGid.Brooklyn: return 'BROOKLYN';
+    case GeoSearchBoroughGid.Queens: return 'QUEENS';
+    case GeoSearchBoroughGid.StatenIsland: return 'STATEN_ISLAND';
   }
 
   throw new Error(`No borough found for ${gid}!`);

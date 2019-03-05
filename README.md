@@ -132,6 +132,10 @@ node commondatabuilder.js
 You will need to run this whenever you make any changes to
 the underlying JSON files.
 
+If you need to add a new common data file, see
+[`common-data/config.ts`](common-data/config.ts), which
+defines how the conversion from JSON to TypeScript occurs.
+
 ## GraphQL
 
 The communication between server and client occurs via [GraphQL][]

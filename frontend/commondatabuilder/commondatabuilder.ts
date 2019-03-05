@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { DjangoChoices, filterDjangoChoices } from "../lib/common-data";
+import { DjangoChoices } from "../lib/common-data";
 
 type CreateOptions = {
   exportLabels: boolean
@@ -20,6 +20,56 @@ export type DjangoChoicesTypescriptFileConfig = {
   exportLabels: boolean,
   filterOut?: RegExp|string[],
 };
+
+/**
+ * Retrieve the human-readable label for a choice, given its machine-readable value.
+ * 
+ * Return null if the choice is invalid.
+ */
+export function safeGetDjangoChoiceLabel(choices: DjangoChoices, value: string): string|null {
+  for (let [v, label] of choices) {
+    if (v === value) return label;
+  }
+  return null;
+}
+
+/**
+ * Validate that the given values are valid choices.
+ * 
+ * This is intended to be used in tests. It should be removed from
+ * production bundles via tree-shaking.
+ */
+export function validateDjangoChoices(choices: DjangoChoices, values: string[]) {
+  values.forEach(value => {
+    getDjangoChoiceLabel(choices, value);
+  });
+}
+
+/**
+ * Filter out the given values from either the given list of choices, or anything
+ * that matches the given regular expression.
+ */
+export function filterDjangoChoices(choices: DjangoChoices, values: string[]|RegExp): DjangoChoices {
+  if (Array.isArray(values)) {
+    validateDjangoChoices(choices, values);
+    return choices.filter(([value, _]) => !values.includes(value));
+  } else {
+    return choices.filter(([value, _]) => !values.test(value));
+  }
+}
+
+/**
+ * Retrieve the human-readable label for a choice, given its machine-readable value.
+ * 
+ * Throw an exception if the choice is invalid.
+ */
+export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): string {
+  const result = safeGetDjangoChoiceLabel(choices, value);
+  if (result === null) {
+    throw new Error(`Unable to find label for value ${value}`);
+  }
+  return result;
+}
 
 function replaceExt(filename: string, ext: string) {
   // https://stackoverflow.com/a/5953384

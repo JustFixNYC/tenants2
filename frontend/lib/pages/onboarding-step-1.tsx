@@ -15,9 +15,10 @@ import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
-import { getBoroughLabel, BOROUGH_CHOICES, BoroughChoice } from '../boroughs';
+import { getBoroughChoiceLabels, BoroughChoice } from '../../../common-data/borough-choices';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
+import { toEnumKey, toDjangoChoices } from '../common-data';
 
 const blankInitialState: OnboardingStep1Input = {
   firstName: '',
@@ -77,7 +78,8 @@ export function PrivacyInfoModal(): JSX.Element {
 
 export const ConfirmAddressModal = withAppContext((props: AppContextType & { toStep2: string }): JSX.Element => {
   const onboardingStep1 = props.session.onboardingStep1 || blankInitialState;
-  const borough = getBoroughLabel(onboardingStep1.borough) || '';
+  const boroughKey = toEnumKey(BoroughChoice, onboardingStep1.borough);
+  const borough = boroughKey ? getBoroughChoiceLabels()[boroughKey] : '';
 
   return (
     <Modal title="Is this your address?" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
@@ -123,7 +125,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
         <RadiosFormField
           label="What is your borough?"
           {...ctx.fieldPropsFor('borough')}
-          choices={BOROUGH_CHOICES}
+          choices={toDjangoChoices(BoroughChoice, getBoroughChoiceLabels())}
         />
       </React.Fragment>
     );

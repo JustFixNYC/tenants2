@@ -2,7 +2,7 @@ import React from 'react';
 import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import { BoroughChoice, getBoroughLabel } from './boroughs';
+import { BoroughChoice, getBoroughChoiceLabels } from '../../common-data/borough-choices';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
@@ -213,7 +213,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
   if (!item.borough) return item.address;
-  return `${item.address}, ${getBoroughLabel(item.borough)}`;
+  return `${item.address}, ${getBoroughChoiceLabels()[item.borough]}`;
 }
 
 export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {

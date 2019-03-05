@@ -95,3 +95,22 @@ export function allCapsToSlug(value: string): string {
 export function slugToAllCaps(value: string): string {
   return value.toUpperCase().replace(/-/g, '_');
 }
+
+type StringMapping<T extends string> = {
+  [k in T]: string
+};
+
+export function toDjangoChoices<T extends string>(enumObj: StringMapping<T>, labels: StringMapping<T>): [string, string][] {
+  const result = [];
+  for (let k in enumObj) {
+    result.push([k, labels[k]] as [string, string]);
+  }
+  return result;
+}
+
+export function toEnumKey<T>(enumObj: T, key: string): (keyof typeof enumObj)|undefined {
+  if (key in enumObj) {
+    return key as keyof typeof enumObj;
+  }
+  return undefined;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestingLibraryPal from './rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
-import { BoroughChoice } from '../boroughs';
+import { BoroughChoice } from '../../../common-data/borough-choices';
 import { createMockFetch } from './mock-fetch';
 import { FakeGeoResults } from './util';
 import { KEY_TAB } from '../key-codes';

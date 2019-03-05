@@ -40,8 +40,9 @@ jobs:
           command: |
             node --version
 
-            # This is intended as a smoke test.
+            # These are intended as smoke tests.
             node querybuilder.js --version
+            node commondatabuilder.js --version
 
             npm run build
             npm test -- --runInBand

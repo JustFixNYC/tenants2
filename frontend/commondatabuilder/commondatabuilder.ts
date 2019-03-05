@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { DjangoChoices } from "../lib/common-data";
+import { DjangoChoices, filterDjangoChoices } from "../lib/common-data";
 
 type CreateOptions = {
   exportLabels: boolean
@@ -17,7 +17,8 @@ export type DjangoChoicesTypescriptConfig = {
 export type DjangoChoicesTypescriptFileConfig = {
   jsonFilename: string,
   enumName: string,
-  exportLabels: boolean
+  exportLabels: boolean,
+  filterOut?: RegExp|string[],
 };
 
 function replaceExt(filename: string, ext: string) {
@@ -31,9 +32,12 @@ export function createDjangoChoicesTypescriptFiles(
 ) {
   config.files.forEach(fileConfig => {
     const infile = path.join(config.rootDir, fileConfig.jsonFilename);
-    const choices = JSON.parse(fs.readFileSync(infile, {
+    let choices = JSON.parse(fs.readFileSync(infile, {
       encoding: 'utf-8'
     })) as DjangoChoices;
+    if (fileConfig.filterOut) {
+      choices = filterDjangoChoices(choices, fileConfig.filterOut);
+    }
     const ts = createDjangoChoicesTypescript(choices, fileConfig.enumName, {
       exportLabels: fileConfig.exportLabels
     });

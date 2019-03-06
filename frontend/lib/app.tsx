@@ -28,7 +28,11 @@ export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
 
-  /** The locale the user is on. */
+  /**
+   * The locale the user is on. This can be an empty string to
+   * indicate that localization is disabled, or an ISO 639-1
+   * code such as 'en' or 'es'.
+   */
   locale: string;
 
   /** The initial session state the App was started with. */

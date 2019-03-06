@@ -111,7 +111,7 @@ export function getBundleFiles(files: { file: string }[]): string[] {
  *   lazy loading purposes.
  */
 function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
-  i18n.initialize('');
+  i18n.initialize(event.locale);
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,

@@ -28,6 +28,9 @@ export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
 
+  /** The locale the user is on. */
+  locale: string;
+
   /** The initial session state the App was started with. */
   initialSession: AllSessionInfo;
 

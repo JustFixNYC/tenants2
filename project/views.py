@@ -150,6 +150,7 @@ def react_rendered_view(request, url: str):
     initial_props = {
         'initialURL': url,
         'initialSession': get_initial_session(request),
+        'locale': '',
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
             'staticURL': settings.STATIC_URL,

@@ -9,6 +9,7 @@ import i18n from '../../lib/i18n';
 
 const fakeAppProps: AppProps = {
   initialURL: '/',
+  locale: '',
   server: FakeServerInfo,
   initialSession: FakeSessionInfo
 };

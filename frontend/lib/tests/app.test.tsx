@@ -9,6 +9,7 @@ describe('AppWithoutRouter', () => {
     const { client } = createTestGraphQlClient();
     const props: AppPropsWithRouter = {
       initialURL: '/',
+      locale: '',
       initialSession: FakeSessionInfo,
       server: FakeServerInfo,
       history: {} as any,

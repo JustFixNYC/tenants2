@@ -8,6 +8,18 @@
 export class I18n {
   private _locale: null|string = null;
 
+  /**
+   * Create an instance, optionally auto-initializing it.
+   * 
+   * @param locale An empty string to indicate that localization is
+   *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
+   */
+  constructor(locale?: string) {
+    if (typeof(locale) === 'string') {
+      this.initialize(locale);
+    }
+  }
+
   private raiseInitError(): never {
     throw new Error('i18n is not initialized!');
   }
@@ -37,9 +49,10 @@ export class I18n {
   }
 
   /**
-   * Initialize the instance to the given locale. Pass
-   * an empty string to indicate that localization is
-   * disabled, or an ISO 639-1 code such as 'en' or 'es'.
+   * Initialize the instance to the given locale.
+   * 
+   * @param locale An empty string to indicate that localization is
+   *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
    */
   initialize(locale: string) {
     if (this._locale !== null) {

@@ -1,5 +1,6 @@
 import { isModalRoute, RouteMap, getSignupIntentOnboardingInfo } from "../routes";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { I18n } from "../i18n";
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);
@@ -46,5 +47,17 @@ describe('RouteMap', () => {
     expect(map.size).toEqual(1);
     expect(map.exists('/blah/7')).toBe(true);
     expect(map.exists('/blah/9/zorp')).toBe(false);
+  });
+
+  describe('getNearestRedirect()', () => {
+    it('returns null if no redirect is found', () => {
+      const map = new RouteMap({ blah: '/blah' });
+      expect(map.getNearestRedirect('/zzz')).toBeNull();
+    });
+
+    it('returns localized redirects', () => {
+      const map = new RouteMap({ blah: '/en/blah' }, new I18n('en'));
+      expect(map.getNearestRedirect('/blah')).toBe('/en/blah');
+    });
   });
 });

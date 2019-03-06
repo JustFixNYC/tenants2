@@ -1,4 +1,4 @@
-class I18n {
+export class I18n {
   private _locale: null|string = null;
 
   private raiseInitError(): never {
@@ -10,11 +10,20 @@ class I18n {
     return this._locale;
   }
 
+  get localePathPrefix(): string {
+    const { locale } = this;
+    return locale === '' ? '' : `/${locale}`;
+  }
+
   initialize(locale: string) {
     if (this._locale !== null) {
       throw new Error('i18n is already initialized!');
     }
     this._locale = locale;
+  }
+
+  get isInitialized(): boolean {
+    return this._locale !== null;
   }
 
   resetForTesting(): void {

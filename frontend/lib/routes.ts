@@ -1,6 +1,6 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import i18n from './i18n';
+import i18n, { I18n } from './i18n';
 
 /**
  * Metadata about signup intents.
@@ -155,8 +155,7 @@ const Routes = {
   /** Localized routes for the user's currently-selected locale. */
   get locale(): LocalizedRouteInfo {
     if (currentLocaleRoutes === null) {
-      const localePrefix = i18n.locale === '' ? '' : `/${i18n.locale}`;
-      currentLocaleRoutes = createLocalizedRouteInfo(localePrefix);
+      currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
     }
     return currentLocaleRoutes;
   },
@@ -218,7 +217,7 @@ export class RouteMap {
   private parameterizedRoutes: string[] = [];
   private isInitialized = false;
 
-  constructor(private readonly routes: any) {
+  constructor(private readonly routes: any, private readonly i18n: I18n = new I18n()) {
   }
 
   private ensureIsInitialized() {
@@ -279,6 +278,21 @@ export class RouteMap {
     }
     return false;
   }
+
+  /**
+   * If the given concrete pathname doesn't exist, see if there's
+   * a nearby pathname that *does* match, which we can reasonably
+   * redirect the user to.
+   */
+  getNearestRedirect(pathname: string): string|null {
+    if (this.i18n.isInitialized && this.i18n.localePathPrefix) {
+      const prefixWithPath = this.i18n.localePathPrefix + pathname;
+      if (this.exists(prefixWithPath)) {
+        return prefixWithPath;
+      }
+    }
+    return null;
+  }
 }
 
-export const routeMap = new RouteMap(Routes);
+export const routeMap = new RouteMap(Routes, i18n);

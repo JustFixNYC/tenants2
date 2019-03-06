@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -224,10 +224,12 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
                       <Route render={(props) => {
-                        if (routeMap.exists(props.location.pathname)) {
+                        const { pathname } = props.location;
+                        if (routeMap.exists(pathname)) {
                           return this.renderRoutes(props.location);
                         }
-                        return NotFound(props);
+                        const redirect = routeMap.getNearestRedirect(pathname);
+                        return redirect ? <Redirect to={redirect} /> : NotFound(props);
                       }}/>
                     </LoadingOverlayManager>
                   </div>

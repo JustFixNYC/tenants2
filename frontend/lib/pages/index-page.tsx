@@ -13,7 +13,7 @@ export interface IndexPageProps {
   isLoggedIn: boolean;
 }
 
-const onboardingForLOCRoute = Routes.locale.onboarding.latestStep;
+const onboardingForLOCRoute = () => Routes.locale.onboarding.latestStep;
 
 export default class IndexPage extends React.Component<IndexPageProps> {
   renderLoggedOut() {
@@ -32,7 +32,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <h2 className="subtitle">
                 JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.
               </h2>
-              <CenteredPrimaryButtonLink to={onboardingForLOCRoute} className="is-large">
+              <CenteredPrimaryButtonLink to={onboardingForLOCRoute()} className="is-large">
                 Start my free letter
               </CenteredPrimaryButtonLink>
               <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
@@ -69,7 +69,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 </div>
               </div>
             </div>
-            <CenteredPrimaryButtonLink to={onboardingForLOCRoute} className="is-large">
+            <CenteredPrimaryButtonLink to={onboardingForLOCRoute()} className="is-large">
               Start my free letter
             </CenteredPrimaryButtonLink>
           </div>

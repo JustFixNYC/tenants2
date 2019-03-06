@@ -48,7 +48,7 @@ const LetterOfComplaintIssuesRoutes = () => (
   />
 );
 
-export const LOCProgressRoutesProps: ProgressRoutesProps = {
+export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.loc.latestStep,
   label: "Letter of Complaint",
   welcomeSteps: [{
@@ -64,8 +64,8 @@ export const LOCProgressRoutesProps: ProgressRoutesProps = {
   confirmationSteps: [{
     path: Routes.locale.loc.confirmation, exact: true, component: LetterConfirmation
   }]
-};
+});
 
-const LetterOfComplaintRoutes = buildProgressRoutesComponent(LOCProgressRoutesProps);
+const LetterOfComplaintRoutes = buildProgressRoutesComponent(getLOCProgressRoutesProps);
 
 export default LetterOfComplaintRoutes;

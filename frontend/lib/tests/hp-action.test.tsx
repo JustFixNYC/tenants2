@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { AppTesterPal } from "./app-tester-pal";
-import HPActionRoutes, { HPActionProgressRoutesProps } from '../hp-action';
+import HPActionRoutes, { getHPActionProgressRoutesProps } from '../hp-action';
 import { ProgressRoutesTester } from './progress-routes-tester';
 import Routes from '../routes';
 import { HPUploadStatus } from '../queries/globalTypes';
 
-const tester = new ProgressRoutesTester(HPActionProgressRoutesProps, 'HP Action');
+const tester = new ProgressRoutesTester(getHPActionProgressRoutesProps(), 'HP Action');
 
 tester.defineSmokeTests();
 

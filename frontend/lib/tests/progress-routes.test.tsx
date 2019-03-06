@@ -13,7 +13,7 @@ const myRoutesProps: ProgressRoutesProps = {
   confirmationSteps: []
 };
 
-const MyRoutes = buildProgressRoutesComponent(myRoutesProps);
+const MyRoutes = buildProgressRoutesComponent(() => myRoutesProps);
 
 describe("ProgressRoutes", () => {
   afterEach(AppTesterPal.cleanup);

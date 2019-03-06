@@ -1,5 +1,6 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import i18n from './i18n';
 
 /**
  * Metadata about signup intents.
@@ -145,12 +146,20 @@ function createLocalizedRouteInfo(prefix: string) {
   }
 }
 
+let currentLocaleRoutes: LocalizedRouteInfo|null = null;
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const Routes = {
   /** Localized routes for the user's currently-selected locale. */
-  locale: createLocalizedRouteInfo(''),
+  get locale(): LocalizedRouteInfo {
+    if (currentLocaleRoutes === null) {
+      const localePrefix = i18n.locale === '' ? '' : `/${i18n.locale}`;
+      currentLocaleRoutes = createLocalizedRouteInfo(localePrefix);
+    }
+    return currentLocaleRoutes;
+  },
 
   /**
    * The *admin* login page. We override Django's default admin login
@@ -207,9 +216,16 @@ export function isParameterizedRoute(path: string): boolean {
 export class RouteMap {
   private existenceMap: Map<string, boolean> = new Map();
   private parameterizedRoutes: string[] = [];
+  private isInitialized = false;
 
-  constructor(routes: any) {
-    this.populate(routes);
+  constructor(private readonly routes: any) {
+  }
+
+  private ensureIsInitialized() {
+    if (!this.isInitialized) {
+      this.populate(this.routes);
+      this.isInitialized = true;
+    }
   }
 
   private populate(routes: any) {
@@ -228,6 +244,7 @@ export class RouteMap {
   }
 
   get size(): number {
+    this.ensureIsInitialized();
     return this.existenceMap.size + this.parameterizedRoutes.length;
   }
 
@@ -235,6 +252,7 @@ export class RouteMap {
    * Return an iterator that yields all routes that don't have parameters.
    */
   nonParameterizedRoutes(): IterableIterator<string> {
+    this.ensureIsInitialized();
     return this.existenceMap.keys();
   }
 
@@ -249,6 +267,7 @@ export class RouteMap {
    * further down the view heirarchy to resolve.
    */
   exists(pathname: string): boolean {
+    this.ensureIsInitialized();
     if (this.existenceMap.has(pathname)) {
       return true;
     }

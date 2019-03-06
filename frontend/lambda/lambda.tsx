@@ -24,6 +24,7 @@ import Helmet from 'react-helmet';
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+import i18n from '../lib/i18n';
 
 const readFile = promisify(fs.readFile);
 
@@ -110,6 +111,7 @@ export function getBundleFiles(files: { file: string }[]): string[] {
  *   lazy loading purposes.
  */
 function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
+  i18n.initialize('');
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,

@@ -16,7 +16,7 @@ import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
 
-const onboardingForHPActionRoute = Routes.locale.hp.onboarding.latestStep;
+const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
@@ -25,7 +25,7 @@ function HPActionSplash(): JSX.Element {
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
-      <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute}>
+      <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute()}>
         Start my case
       </CenteredPrimaryButtonLink>
     </Page>
@@ -174,7 +174,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-export const HPActionProgressRoutesProps: ProgressRoutesProps = {
+export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
   welcomeSteps: [{
@@ -193,8 +193,8 @@ export const HPActionProgressRoutesProps: ProgressRoutesProps = {
       isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.hp.confirmation, exact: true, component: HPActionConfirmation}
   ]
-};
+});
 
-const HPActionRoutes = buildProgressRoutesComponent(HPActionProgressRoutesProps);
+const HPActionRoutes = buildProgressRoutesComponent(getHPActionProgressRoutesProps);
 
 export default HPActionRoutes;

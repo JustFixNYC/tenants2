@@ -71,7 +71,7 @@ export default function ExampleFormPage(): JSX.Element {
           Use the form in a modal
         </ModalLink>
       </div>
-      <ExampleForm onSuccessRedirect={Routes.home} id="not_in_modal" />
+      <ExampleForm onSuccessRedirect={Routes.locale.home} id="not_in_modal" />
     </Page>
   );
 }

@@ -189,16 +189,16 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   renderRoutes(location: Location<any>): JSX.Element {
     return (
       <Switch location={location}>
-        <Route path={Routes.home} exact>
+        <Route path={Routes.locale.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
-        <Route path={Routes.login} exact component={LoginPage} />
+        <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
-        <Route path={Routes.logout} exact component={LogoutPage} />
+        <Route path={Routes.locale.logout} exact component={LogoutPage} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
-        <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
-        <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
+        <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />
       </Switch>

@@ -19,7 +19,7 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
             mutation={LogoutMutation}
             initialState={{}}
             // This looks odd but it's required for legacy POST to work.
-            onSuccessRedirect={Routes.logout}
+            onSuccessRedirect={Routes.locale.logout}
           >{(ctx) => (
               <NextButton isLoading={ctx.isLoading} label="Yes, sign out" />
           )}</SessionUpdatingFormSubmitter>
@@ -30,7 +30,7 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
     return (
       <Page title="Signed out">
         <h1 className="title">You are now signed out.</h1>
-        <p><Link to={Routes.login}>Sign back in</Link></p>
+        <p><Link to={Routes.locale.login}>Sign back in</Link></p>
       </Page>
     );
   }

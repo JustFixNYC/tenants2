@@ -13,7 +13,7 @@ export interface IndexPageProps {
   isLoggedIn: boolean;
 }
 
-const onboardingForLOCRoute = Routes.onboarding.latestStep;
+const onboardingForLOCRoute = Routes.locale.onboarding.latestStep;
 
 export default class IndexPage extends React.Component<IndexPageProps> {
   renderLoggedOut() {
@@ -35,7 +35,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <CenteredPrimaryButtonLink to={onboardingForLOCRoute} className="is-large">
                 Start my free letter
               </CenteredPrimaryButtonLink>
-              <p className="secondary-cta">Already have an account? <Link to={Routes.login}>Sign in!</Link></p>
+              <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
             </div>
           </div>
         </section>

@@ -19,9 +19,9 @@ const BLANK_INPUT: LandlordDetailsInput = {
   address: ''
 };
 
-const PREV_STEP = Routes.loc.accessDates;
+const PREV_STEP = Routes.locale.loc.accessDates;
 
-const NEXT_STEP = Routes.loc.preview;
+const NEXT_STEP = Routes.locale.loc.preview;
 
 function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   return (

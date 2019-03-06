@@ -7,7 +7,7 @@ import Routes from '../../routes';
 import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
 
 const PROPS = {
-  routes: Routes.onboarding,
+  routes: Routes.locale.onboarding,
   toSuccess: '/success',
   signupIntent: OnboardingInfoSignupIntent.HP
 };

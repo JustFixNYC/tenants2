@@ -5,7 +5,7 @@ import Routes from '../../routes';
 
 describe('index page', () => {
   it('renders when logged in', () => {
-    ensureRedirect(<IndexPage isLoggedIn={true} />, Routes.loc.latestStep);
+    ensureRedirect(<IndexPage isLoggedIn={true} />, Routes.locale.loc.latestStep);
   });
 
   it('renders when logged out', () => {

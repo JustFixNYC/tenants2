@@ -11,7 +11,7 @@ import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
 const PROPS: OnboardingRoutesProps = {
   toCancel: '/cancel',
   toSuccess: '/success',
-  routes: Routes.onboarding,
+  routes: Routes.locale.onboarding,
   signupIntent: OnboardingInfoSignupIntent.LOC
 };
 
@@ -22,14 +22,14 @@ describe('latest step redirector', () => {
   }
 
   it('returns step 1 by default', () => {
-    expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(Routes.onboarding.step1);
+    expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(Routes.locale.onboarding.step1);
   });
 
   it('returns step 2 when step 1 is complete', () => {
     expect(getLatestOnboardingStep({
       ...FakeSessionInfo,
       onboardingStep1: {} as any
-    })).toBe(Routes.onboarding.step2);
+    })).toBe(Routes.locale.onboarding.step2);
   });
 
   it('returns step 3 when step 2 is complete', () => {
@@ -37,7 +37,7 @@ describe('latest step redirector', () => {
       ...FakeSessionInfo,
       onboardingStep1: {} as any,
       onboardingStep2: {} as any
-    })).toBe(Routes.onboarding.step3);
+    })).toBe(Routes.locale.onboarding.step3);
   });
 
   it('returns step 4 when step 3 is complete', () => {
@@ -46,7 +46,7 @@ describe('latest step redirector', () => {
       onboardingStep1: {} as any,
       onboardingStep2: {} as any,
       onboardingStep3: {} as any
-    })).toBe(Routes.onboarding.step4);
+    })).toBe(Routes.locale.onboarding.step4);
   });
 });
 
@@ -55,7 +55,7 @@ describe('Onboarding', () => {
 
   it('redirects to latest step', () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {
-      url: Routes.onboarding.latestStep
+      url: Routes.locale.onboarding.latestStep
     });
     expect(pal.history.location.pathname).toEqual('/onboarding/step/1');
     pal.rr.getByLabelText('First name');

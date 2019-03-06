@@ -9,7 +9,7 @@ describe('onboarding step 2 page', () => {
   afterEach(AppTesterPal.cleanup);
 
   it('opens eviction modal', () => {
-    const pal = new AppTesterPal(<OnboardingStep2 routes={Routes.onboarding} />);
+    const pal = new AppTesterPal(<OnboardingStep2 routes={Routes.locale.onboarding} />);
     const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
 
     // When we enable the checkbox, the dialog should show.

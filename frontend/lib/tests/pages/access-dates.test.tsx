@@ -12,7 +12,7 @@ describe('access dates page', () => {
 
   it('redirects to next step after successful submission', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes/>, {
-      url: Routes.loc.accessDates
+      url: Routes.locale.loc.accessDates
     });
 
     pal.fillFormFields([

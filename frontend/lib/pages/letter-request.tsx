@@ -56,7 +56,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
       mutation={LetterRequestMutation}
       formId={'button_' + props.mailChoice}
       initialState={input}
-      onSuccessRedirect={Routes.loc.confirmation}
+      onSuccessRedirect={Routes.locale.loc.confirmation}
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
@@ -79,11 +79,11 @@ export default function LetterRequestPage(): JSX.Element {
       <p className="subtitle is-6">Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
       <LetterPreview />
       <div className="has-text-centered is-grouped">
-        <ModalLink to={Routes.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-medium">
+        <ModalLink to={Routes.locale.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-medium">
           Looks good to me!
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-          <BackButton to={Routes.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
+          <BackButton to={Routes.locale.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
           <FormAsButton
             mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
             buttonClass="is-text"

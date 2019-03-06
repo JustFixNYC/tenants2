@@ -36,7 +36,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label="Second access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date3')} />
       <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.issues.home} label="Back" />
+        <BackButton to={Routes.locale.loc.issues.home} label="Back" />
         <NextButton isLoading={ctx.isLoading} />
       </div>
     </React.Fragment>
@@ -52,7 +52,7 @@ export default function AccessDatesPage(): JSX.Element {
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}
           initialState={(session) => getInitialState(session.accessDates)}
-          onSuccessRedirect={Routes.loc.yourLandlord}
+          onSuccessRedirect={Routes.locale.loc.yourLandlord}
         >
           {renderForm}
         </SessionUpdatingFormSubmitter>

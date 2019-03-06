@@ -118,7 +118,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
 
     return (
       <div className="navbar-brand">
-        <Link className="navbar-item" to={Routes.home}>
+        <Link className="navbar-item" to={Routes.locale.home}>
           <StaticImage src="frontend/img/logo.png" alt="Home" />
         </Link>
         <AriaExpandableButton
@@ -147,8 +147,8 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
             <div className="navbar-end">
               {session.isStaff && <a className="navbar-item" href={server.adminIndexURL}>Admin</a>}
               {session.phoneNumber
-                ? <Link className="navbar-item" to={Routes.logout}>Sign out</Link>
-                : <Link className="navbar-item" to={Routes.login}>Sign in</Link> }
+                ? <Link className="navbar-item" to={Routes.locale.logout}>Sign out</Link>
+                : <Link className="navbar-item" to={Routes.locale.login}>Sign in</Link> }
               {this.renderDevMenu()}
             </div>
           </div>

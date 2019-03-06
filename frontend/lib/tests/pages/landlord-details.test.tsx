@@ -24,7 +24,7 @@ describe('landlord details page', () => {
 
   it('works when details are not looked up', () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.yourLandlord,
+      url: Routes.locale.loc.yourLandlord,
       session: { landlordDetails: BLANK_LANDLORD_DETAILS }
     });
     pal.rr.getByText(/Please enter your landlord's name/i);
@@ -34,7 +34,7 @@ describe('landlord details page', () => {
 
   it('works when details are looked up', () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.yourLandlord,
+      url: Routes.locale.loc.yourLandlord,
       session: { landlordDetails: LOOKED_UP_LANDLORD_DETAILS }
     });
     pal.rr.getByText(/This may be different .+ rent checks/i);
@@ -44,7 +44,7 @@ describe('landlord details page', () => {
 
   it('redirects to next step after successful submission', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.yourLandlord,
+      url: Routes.locale.loc.yourLandlord,
       session: { landlordDetails: BLANK_LANDLORD_DETAILS }
     });
     const name = "Boop Jones";

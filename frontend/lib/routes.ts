@@ -23,12 +23,12 @@ type SignupIntentOnboardingInfo = {
 export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.LOC: return {
-      preOnboarding: Routes.home,
-      postOnboarding: Routes.loc.latestStep,
-      onboarding: Routes.onboarding
+      preOnboarding: Routes.locale.home,
+      postOnboarding: Routes.locale.loc.latestStep,
+      onboarding: Routes.locale.onboarding
     };
 
-    case OnboardingInfoSignupIntent.HP: return Routes.hp;
+    case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
   }
 }
 
@@ -149,7 +149,8 @@ function createLocalizedRouteInfo(prefix: string) {
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const Routes = {
-  ...createLocalizedRouteInfo(''),
+  /** Localized routes for the user's currently-selected locale. */
+  locale: createLocalizedRouteInfo(''),
 
   /**
    * The *admin* login page. We override Django's default admin login

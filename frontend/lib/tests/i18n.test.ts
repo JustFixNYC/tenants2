@@ -1,4 +1,4 @@
-import i18n, { I18n } from "../i18n";
+import { I18n } from "../i18n";
 
 const UNINIT_RE = /i18n is not initialized/i;
 

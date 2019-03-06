@@ -103,6 +103,24 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
   };
 }
 
+export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;
+
+function createHPActionRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    preOnboarding: `${prefix}/splash`,
+    splash: `${prefix}/splash`,
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+    postOnboarding: prefix,
+    welcome: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    yourLandlord: `${prefix}/your-landlord`,
+    waitForUpload: `${prefix}/wait`,
+    confirmation: `${prefix}/confirmation`,
+  }
+}
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
@@ -130,19 +148,7 @@ const Routes = {
   loc: createLetterOfComplaintRouteInfo('/loc'),
 
   /** The HP Action flow. */
-  hp: {
-    [ROUTE_PREFIX]: '/hp',
-    latestStep: '/hp',
-    preOnboarding: '/hp/splash',
-    splash: '/hp/splash',
-    onboarding: createOnboardingRouteInfo('/hp/onboarding'),
-    postOnboarding: '/hp',
-    welcome: '/hp/welcome',
-    issues: createIssuesRouteInfo('/hp/issues'),
-    yourLandlord: '/hp/your-landlord',
-    waitForUpload: '/hp/wait',
-    confirmation: '/hp/confirmation',
-  },
+  hp: createHPActionRouteInfo('/hp'),
 
   /**
    * Example pages used in integration tests, and other

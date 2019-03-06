@@ -121,12 +121,35 @@ function createHPActionRouteInfo(prefix: string) {
   }
 }
 
+export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
+
+function createLocalizedRouteInfo(prefix: string) {
+  return {
+    /** The login page. */
+    login: `${prefix}/login`,
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
+
+    /** The home page. */
+    home: `${prefix}/`,
+
+    /** The onboarding flow. */
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+
+    /** The Letter of Complaint flow. */
+    loc: createLetterOfComplaintRouteInfo(`${prefix}/loc`),
+
+    /** The HP Action flow. */
+    hp: createHPActionRouteInfo(`${prefix}/hp`),
+  }
+}
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const Routes = {
-  /** The login page. */
-  login: '/login',
+  ...createLocalizedRouteInfo(''),
 
   /**
    * The *admin* login page. We override Django's default admin login
@@ -134,21 +157,6 @@ const Routes = {
    * redirects users to.
    */
   adminLogin: '/admin/login/',
-
-  /** The logout page. */
-  logout: '/logout',
-
-  /** The home page. */
-  home: '/',
-
-  /** The onboarding flow. */
-  onboarding: createOnboardingRouteInfo('/onboarding'),
-
-  /** The Letter of Complaint flow. */
-  loc: createLetterOfComplaintRouteInfo('/loc'),
-
-  /** The HP Action flow. */
-  hp: createHPActionRouteInfo('/hp'),
 
   /**
    * Example pages used in integration tests, and other

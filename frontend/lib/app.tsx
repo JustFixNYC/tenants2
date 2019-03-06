@@ -208,6 +208,15 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     );
   }
 
+  renderRoute(props: RouteComponentProps<any>): JSX.Element {
+    const { pathname } = props.location;
+    if (routeMap.exists(pathname)) {
+      return this.renderRoutes(props.location);
+    }
+    const redirect = routeMap.getNearestRedirect(pathname);
+    return redirect ? <Redirect to={redirect} /> : NotFound(props);
+  }
+
   render() {
     if (this.props.modal) {
       return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
@@ -223,14 +232,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
-                      <Route render={(props) => {
-                        const { pathname } = props.location;
-                        if (routeMap.exists(pathname)) {
-                          return this.renderRoutes(props.location);
-                        }
-                        const redirect = routeMap.getNearestRedirect(pathname);
-                        return redirect ? <Redirect to={redirect} /> : NotFound(props);
-                      }}/>
+                      <Route render={(props) => this.renderRoute(props)}/>
                     </LoadingOverlayManager>
                   </div>
                 </section>

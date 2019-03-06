@@ -87,6 +87,22 @@ function createOnboardingRouteInfo(prefix: string) {
   };
 }
 
+export type LetterOfComplaintInfo = ReturnType<typeof createLetterOfComplaintRouteInfo>;
+
+function createLetterOfComplaintRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    home: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    accessDates: `${prefix}/access-dates`,
+    yourLandlord: `${prefix}/your-landlord`,
+    preview: `${prefix}/preview`,
+    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
+    confirmation: `${prefix}/confirmation`
+  };
+}
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
@@ -111,17 +127,7 @@ const Routes = {
   onboarding: createOnboardingRouteInfo('/onboarding'),
 
   /** The Letter of Complaint flow. */
-  loc: {
-    [ROUTE_PREFIX]: '/loc',
-    latestStep: '/loc',
-    home: '/loc/welcome',
-    issues: createIssuesRouteInfo('/loc/issues'),
-    accessDates: '/loc/access-dates',
-    yourLandlord: '/loc/your-landlord',
-    preview: '/loc/preview',
-    previewSendConfirmModal: '/loc/preview/send-confirm-modal',
-    confirmation: '/loc/confirmation'
-  },
+  loc: createLetterOfComplaintRouteInfo('/loc'),
 
   /** The HP Action flow. */
   hp: {

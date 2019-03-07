@@ -2,6 +2,7 @@ import pytest
 
 from users.models import JustfixUser
 from users.tests.factories import UserFactory
+from project.tests.util import strip_locale
 from loc.admin import LetterRequestInline, print_loc_envelopes
 from loc.models import LetterRequest
 
@@ -25,4 +26,5 @@ def test_loc_actions_shows_pdf_link_when_user_has_letter_request():
 def test_print_loc_envelopes_works():
     user = UserFactory()
     redirect = print_loc_envelopes(None, None, JustfixUser.objects.all())
-    assert redirect.url.endswith(f'/loc/admin/envelopes.pdf?user_ids={user.pk}')
+    url = strip_locale(redirect.url)
+    assert url == f'/loc/admin/envelopes.pdf?user_ids={user.pk}'

@@ -1,6 +1,7 @@
 from unittest.mock import patch
 from functools import wraps
 from django.http import QueryDict
+from django.conf import settings
 
 from project.views import FRONTEND_QUERY_DIR
 
@@ -42,3 +43,24 @@ def simplepatch(*args, **kwargs):
         return wrapper
 
     return decorator
+
+
+def strip_locale(url: str) -> str:
+    '''
+    If the given URL has a locale prefix in its
+    pathname, remove it. For example:
+
+        >>> strip_locale('https://blah/blarg')
+        'https://blah/blarg'
+
+        >>> strip_locale('https://blah/en/blarg')
+        'https://blah/blarg'
+    '''
+
+    # This isn't particularly precise, but it gets
+    # the job done for testing, which is all we're
+    # using it for.
+    for lang, _ in settings.LANGUAGES:
+        url = url.replace(f"/{lang}/", "/")
+
+    return url

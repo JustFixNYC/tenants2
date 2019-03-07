@@ -1,4 +1,5 @@
 from functools import wraps
+from django.urls import reverse
 import pytest
 
 from users.tests.factories import UserFactory
@@ -20,6 +21,18 @@ CALLED_311_SENTINEL = "already contacted 311"
 # has yet to be merged: https://github.com/tiran/defusedxml/pull/24
 ignore_defusedxml_warning = pytest.mark.filterwarnings(
     "ignore:The html argument of XMLParser")
+
+
+def example_url(format: str) -> str:
+    return reverse('loc_example', args=(format,))
+
+
+def letter_url(format: str) -> str:
+    return reverse('loc', args=(format,))
+
+
+def admin_letter_url(user_id: int) -> str:
+    return reverse('loc_for_user', kwargs={'user_id': user_id})
 
 
 def requires_pdf_rendering(fn):
@@ -59,12 +72,12 @@ def test_render_document_raises_err_on_invalid_format():
 
 
 def test_letter_requires_login(client):
-    res = client.get('/loc/letter.html')
+    res = client.get(letter_url('html'))
     assert res.status_code == 302
 
 
 def get_letter_html(client):
-    res = client.get('/loc/letter.html')
+    res = client.get(letter_url('html'))
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
     return res.content.decode('utf-8')
@@ -100,21 +113,21 @@ def test_letter_html_includes_expected_content(client):
 
 
 def test_example_html_works(client):
-    res = client.get('/loc/example.html')
+    res = client.get(example_url('html'))
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
 
 
 @requires_pdf_rendering
 def test_letter_pdf_works(admin_client):
-    res = admin_client.get('/loc/letter.pdf')
+    res = admin_client.get(letter_url('pdf'))
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 
 
 @requires_pdf_rendering
 def test_example_pdf_works(client):
-    res = client.get('/loc/example.pdf')
+    res = client.get(example_url('pdf'))
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 
@@ -122,21 +135,14 @@ def test_example_pdf_works(client):
 @requires_pdf_rendering
 def test_admin_letter_pdf_works(outreach_client):
     user = UserFactory()
-    res = outreach_client.get(f'/loc/admin/{user.pk}/letter.pdf')
+    res = outreach_client.get(admin_letter_url(user.pk))
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
 
 
-def test_admin_letter_pdf_fails_for_nonexistent_users(admin_client):
-    res = admin_client.get(f'/loc/admin/1024/letter.pdf')
-
-    # Unfortunately, right now 404's returned by non-i18n routes appear to
-    # be converted to redirects to locale-prefixed routes. This is annoying
-    # but it's ultimately okay since it will result in a 404 on the
-    # locale-prefixed route. We won't test that part because it will make
-    # the test take longer, though.
-    assert res.status_code == 302
-    assert res.url == "/en/loc/admin/1024/letter.pdf"
+def test_admin_letter_pdf_returns_404_for_nonexistent_users(admin_client):
+    res = admin_client.get(admin_letter_url(1024))
+    assert res.status_code == 404
 
 
 @pytest.mark.django_db
@@ -145,10 +151,11 @@ def test_admin_letter_pdf_is_inaccessible_to_non_staff_users(client):
     client.force_login(user)
 
     # Yes, even the user's own LoC should be forbidden to them.
-    res = client.get(f'/loc/admin/{user.pk}/letter.pdf')
+    url = admin_letter_url(user.pk)
+    res = client.get(url)
 
     assert res.status_code == 302
-    assert res.url == f"/login?next=/loc/admin/{user.pk}/letter.pdf"
+    assert res.url == f"/login?next={url}"
 
 
 @pytest.mark.django_db
@@ -156,17 +163,17 @@ def test_admin_envelopes_pdf_is_inaccessible_to_non_staff_users(client):
     user = UserFactory()
     client.force_login(user)
 
-    res = client.get(f'/loc/admin/envelopes.pdf')
+    res = client.get(reverse('loc_envelopes'))
 
     assert res.status_code == 302
-    assert res.url == f"/login?next=/loc/admin/envelopes.pdf"
+    assert res.url == f"/login?next={reverse('loc_envelopes')}"
 
 
 @requires_pdf_rendering
 def test_admin_envelopes_pdf_works(outreach_client):
     user = create_user_with_all_info()
     bare_user = UserFactory(phone_number='6141234567', username='blah')
-    res = outreach_client.get(f'/loc/admin/envelopes.pdf?user_ids={user.pk},{bare_user.pk},zz')
+    res = outreach_client.get(f'{reverse("loc_envelopes")}?user_ids={user.pk},{bare_user.pk},zz')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/pdf'
     assert res.context['users'] == [user]

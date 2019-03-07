@@ -140,7 +140,9 @@ def get_legacy_form_submission(request):
 
 def react_rendered_view(request):
     url = request.path
-    cur_language = translation.get_language_from_request(request, check_path=True)
+    cur_language = ''
+    if settings.USE_I18N:
+        cur_language = translation.get_language_from_request(request, check_path=True)
     querystring = request.GET.urlencode()
     if querystring:
         url += f'?{querystring}'

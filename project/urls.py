@@ -37,8 +37,6 @@ urlpatterns = [
     path('health', health),
     path('admin/login/', react_rendered_view),
     path('admin/', admin.site.urls),
-    path('loc/', include('loc.urls')),
-    path('hp/', include('hpaction.urls')),
     path('safe-mode/', include('frontend.safe_mode')),
     path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
@@ -54,5 +52,7 @@ if settings.DEBUG:
         path('graphiql', GraphQLView.as_view(graphiql=True)))
 
 urlpatterns += i18n_patterns(
-    re_path(r'.*$', react_rendered_view),
+    path('loc/', include('loc.urls')),
+    path('hp/', include('hpaction.urls')),
+    re_path(r'.*$', react_rendered_view, name='react'),
 )

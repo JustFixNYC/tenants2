@@ -48,8 +48,9 @@ def test_from_user_works_with_letter_request():
     fields = Fields.from_user(lr.user)
     assert fields.letter_request__will_we_mail is True
     assert fields.letter_request__created_at == datetime.datetime.utcnow().date().isoformat()
-    assert fields.letter_request__admin_pdf_url == \
-        f'https://example.com/loc/admin/{lr.user.pk}/letter.pdf'
+    url = fields.letter_request__admin_pdf_url
+    assert url.startswith('https://example.com/')
+    assert url.endswith(f'/loc/admin/{lr.user.pk}/letter.pdf')
 
 
 @pytest.mark.django_db

@@ -25,4 +25,4 @@ def test_loc_actions_shows_pdf_link_when_user_has_letter_request():
 def test_print_loc_envelopes_works():
     user = UserFactory()
     redirect = print_loc_envelopes(None, None, JustfixUser.objects.all())
-    assert redirect.url == f'/loc/admin/envelopes.pdf?user_ids={user.pk}'
+    assert redirect.url.endswith(f'/loc/admin/envelopes.pdf?user_ids={user.pk}')

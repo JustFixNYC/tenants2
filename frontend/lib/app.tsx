@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import GraphQlClient from './graphql-client';
@@ -217,8 +217,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     if (routeMap.exists(pathname)) {
       return this.renderRoutes(props.location);
     }
-    const redirect = routeMap.getNearestRedirect(pathname);
-    return redirect ? <Redirect to={redirect} /> : NotFound(props);
+    return NotFound(props);
   }
 
   render() {

@@ -9,10 +9,10 @@ import ISSUE_AREA_SVGS from '../../svg/issues';
 import { IssueAreaChoices } from '../../../../common-data/issue-area-choices';
 
 
-const routes = Routes.loc.issues;
+const routes = Routes.locale.loc.issues;
 
 const TestIssuesRoutes = () => 
-  <IssuesRoutes routes={Routes.loc.issues} toBack="back" toNext="next"/>;
+  <IssuesRoutes routes={Routes.locale.loc.issues} toBack="back" toNext="next"/>;
 
 describe('issues checklist', () => {
   afterEach(AppTesterPal.cleanup);

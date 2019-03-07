@@ -2,6 +2,7 @@ import datetime
 from freezegun import freeze_time
 
 from users.tests.factories import UserFactory
+from project.tests.util import strip_locale
 from .factories import HPActionDocumentsFactory, UploadTokenFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
@@ -41,7 +42,8 @@ class TestUploadToken:
 
     def test_get_upload_url_works(self, db):
         token = UploadToken(id='boop')
-        assert token.get_upload_url() == 'https://example.com/hp/upload/boop'
+        url = strip_locale(token.get_upload_url())
+        assert url == 'https://example.com/hp/upload/boop'
 
 
 class TestHPActionDocuments:

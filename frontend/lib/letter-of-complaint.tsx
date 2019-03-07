@@ -24,7 +24,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
           <li>First, conduct a <strong>self-inspection of your apartment</strong> to document all the issues that need repair.</li>
           <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS Certified Mail<sup>&reg;</sup>.</li>
         </ol>
-        <CenteredPrimaryButtonLink to={Routes.loc.issues.home}>
+        <CenteredPrimaryButtonLink to={Routes.locale.loc.issues.home}>
           Start my free letter
         </CenteredPrimaryButtonLink>
         <br/>
@@ -42,30 +42,30 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
 
 const LetterOfComplaintIssuesRoutes = () => (
   <IssuesRoutes
-    routes={Routes.loc.issues}
-    toBack={Routes.loc.home}
-    toNext={Routes.loc.accessDates}
+    routes={Routes.locale.loc.issues}
+    toBack={Routes.locale.loc.home}
+    toNext={Routes.locale.loc.accessDates}
   />
 );
 
-export const LOCProgressRoutesProps: ProgressRoutesProps = {
-  toLatestStep: Routes.loc.latestStep,
+export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
+  toLatestStep: Routes.locale.loc.latestStep,
   label: "Letter of Complaint",
   welcomeSteps: [{
-    path: Routes.loc.home, exact: true, component: Welcome
+    path: Routes.locale.loc.home, exact: true, component: Welcome
   }],
   stepsToFillOut: [
-    { path: Routes.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
-    { path: Routes.loc.accessDates, exact: true, component: AccessDatesPage },
-    { path: Routes.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
-    { path: Routes.loc.preview, component: LetterRequestPage,
+    { path: Routes.locale.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
+    { path: Routes.locale.loc.accessDates, exact: true, component: AccessDatesPage },
+    { path: Routes.locale.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
+    { path: Routes.locale.loc.preview, component: LetterRequestPage,
       isComplete: sess => !!sess.letterRequest },
   ],
   confirmationSteps: [{
-    path: Routes.loc.confirmation, exact: true, component: LetterConfirmation
+    path: Routes.locale.loc.confirmation, exact: true, component: LetterConfirmation
   }]
-};
+});
 
-const LetterOfComplaintRoutes = buildProgressRoutesComponent(LOCProgressRoutesProps);
+const LetterOfComplaintRoutes = buildProgressRoutesComponent(getLOCProgressRoutesProps);
 
 export default LetterOfComplaintRoutes;

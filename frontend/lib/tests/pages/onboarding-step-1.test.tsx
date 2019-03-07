@@ -8,7 +8,7 @@ import { FakeGeoResults } from '../util';
 import Routes from '../../routes';
 
 const PROPS = {
-  routes: Routes.onboarding,
+  routes: Routes.locale.onboarding,
   toCancel: '/cancel'
 };
 

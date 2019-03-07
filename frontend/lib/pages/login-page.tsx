@@ -90,7 +90,7 @@ export function absolutifyURLToOurOrigin(url: string, origin: string): string {
 
 const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
   let next = absolutifyURLToOurOrigin(
-    getPostOrQuerystringVar(props, NEXT) || Routes.home,
+    getPostOrQuerystringVar(props, NEXT) || Routes.locale.home,
     props.server.originURL
   );
 

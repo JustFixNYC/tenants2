@@ -19,9 +19,9 @@ const BLANK_INPUT: LandlordDetailsInput = {
   address: ''
 };
 
-const PREV_STEP = Routes.loc.accessDates;
+const PREV_STEP = () => Routes.locale.loc.accessDates;
 
-const NEXT_STEP = Routes.loc.preview;
+const NEXT_STEP = () => Routes.locale.loc.preview;
 
 function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   return (
@@ -29,7 +29,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
       <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP} label="Back" />
+        <BackButton to={PREV_STEP()} label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
       </div>
     </React.Fragment>
@@ -68,8 +68,8 @@ function ReadOnlyLandlordDetails(props: {details: AllSessionInfo_landlordDetails
         <dd>{splitLines(details.address)}</dd>
       </dl>
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP} label="Back" />
-        <Link to={NEXT_STEP} className="button is-primary is-medium">Preview letter</Link>
+        <BackButton to={PREV_STEP()} label="Back" />
+        <Link to={NEXT_STEP()} className="button is-primary is-medium">Preview letter</Link>
       </div>
     </div>
   );

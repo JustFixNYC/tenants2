@@ -16,7 +16,7 @@ import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
 
-const onboardingForHPActionRoute = Routes.hp.onboarding.latestStep;
+const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
@@ -25,7 +25,7 @@ function HPActionSplash(): JSX.Element {
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
-      <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute}>
+      <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute()}>
         Start my case
       </CenteredPrimaryButtonLink>
     </Page>
@@ -48,7 +48,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
           <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
         </ol>
-        <CenteredPrimaryButtonLink to={Routes.hp.issues.home}>
+        <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
           Select repair issues
         </CenteredPrimaryButtonLink>
         <br/>
@@ -62,9 +62,9 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
 
 const HPActionIssuesRoutes = () => (
   <IssuesRoutes
-    routes={Routes.hp.issues}
-    toBack={Routes.hp.postOnboarding}
-    toNext={Routes.hp.yourLandlord}
+    routes={Routes.locale.hp.issues}
+    toBack={Routes.locale.hp.postOnboarding}
+    toNext={Routes.locale.hp.yourLandlord}
   />
 );
 
@@ -83,7 +83,7 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
 
 const GeneratePDFForm = (props: { children: FormContextRenderer<{}> }) => (
   <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
-   onSuccessRedirect={Routes.hp.waitForUpload} {...props} />
+   onSuccessRedirect={Routes.locale.hp.waitForUpload} {...props} />
 );
 
 const HPActionYourLandlord = withAppContext((props: AppContextType) => {
@@ -98,7 +98,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.hp.issues.home} label="Back" />
+            <BackButton to={Routes.locale.hp.issues.home} label="Back" />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }
@@ -139,13 +139,13 @@ const ShowHPUploadStatus = withAppContext((props: AppContextType) => {
     return <HPActionWaitForUpload />;
 
     case HPUploadStatus.SUCCEEDED:
-    return <Redirect to={Routes.hp.confirmation} />;
+    return <Redirect to={Routes.locale.hp.confirmation} />;
 
     case HPUploadStatus.ERRORED:
     return <HPActionUploadError />;
 
     case HPUploadStatus.NOT_STARTED:
-    return <Redirect to={Routes.hp.latestStep} />;
+    return <Redirect to={Routes.locale.hp.latestStep} />;
   }
 });
 
@@ -174,27 +174,27 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-export const HPActionProgressRoutesProps: ProgressRoutesProps = {
-  toLatestStep: Routes.hp.latestStep,
+export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
+  toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
   welcomeSteps: [{
-    path: Routes.hp.splash, exact: true, component: HPActionSplash,
+    path: Routes.locale.hp.splash, exact: true, component: HPActionSplash,
     isComplete: (s) => !!s.phoneNumber
   }, {
-    path: Routes.hp.welcome, exact: true, component: HPActionWelcome
+    path: Routes.locale.hp.welcome, exact: true, component: HPActionWelcome
   }],
   stepsToFillOut: [
-    { path: Routes.hp.issues.prefix, component: HPActionIssuesRoutes },
-    { path: Routes.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
+    { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
+    { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
-    { path: Routes.hp.waitForUpload, exact: true, component: ShowHPUploadStatus,
+    { path: Routes.locale.hp.waitForUpload, exact: true, component: ShowHPUploadStatus,
       isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED },
-    { path: Routes.hp.confirmation, exact: true, component: HPActionConfirmation}
+    { path: Routes.locale.hp.confirmation, exact: true, component: HPActionConfirmation}
   ]
-};
+});
 
-const HPActionRoutes = buildProgressRoutesComponent(HPActionProgressRoutesProps);
+const HPActionRoutes = buildProgressRoutesComponent(getHPActionProgressRoutesProps);
 
 export default HPActionRoutes;

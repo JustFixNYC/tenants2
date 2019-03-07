@@ -15,6 +15,13 @@ from .util import qdict
 from frontend.tests import test_safe_mode
 
 
+def react_url(path: str) -> str:
+    base_url = reverse('react')
+    if base_url.endswith('/'):
+        base_url = base_url[:-1]
+    return f"{base_url}{path}"
+
+
 def test_get_legacy_form_submission_raises_errors(graphql_client):
     request = graphql_client.request
     with pytest.raises(LegacyFormSubmissionError, match='No GraphQL query found'):
@@ -45,7 +52,7 @@ def test_get_initial_session_works(graphql_client):
 
 
 def test_invalid_post_returns_400(client):
-    response = client.post('/')
+    response = client.post(react_url('/'))
     assert response.status_code == 400
     assert response.content == b'No GraphQL query found'
 
@@ -56,7 +63,7 @@ SAFE_MODE_DISABLED_SENTINEL = '<script src="/static/frontend/main'
 
 
 def test_index_works_when_not_in_safe_mode(client):
-    response = client.get('/')
+    response = client.get(react_url('/'))
     assert response.status_code == 200
     assert 'JustFix.nyc' in response.context['title_tag']
     assert '<nav' in response.context['initial_render']
@@ -70,7 +77,7 @@ def test_index_works_when_not_in_safe_mode(client):
 @pytest.mark.django_db
 def test_index_works_when_in_safe_mode(client):
     test_safe_mode.enable_safe_mode(client)
-    response = client.get('/')
+    response = client.get(react_url('/'))
     assert response.status_code == 200
 
     html = response.content.decode('utf-8')
@@ -79,10 +86,18 @@ def test_index_works_when_in_safe_mode(client):
     test_safe_mode.assert_html_is_in_safe_mode(html)
 
 
+def test_redirects_to_locale_work(client, settings):
+    if not settings.USE_I18N:
+        pytest.skip('Internationalization is disabled')
+    response = client.get('/')
+    assert response.status_code == 302
+    assert response['location'] == '/en/'
+
+
 def test_pages_with_redirects_work(client):
     response = client.get('/dev/examples/redirect')
     assert response.status_code == 302
-    assert response['location'] == '/'
+    assert response['location'] == react_url('/')
 
 
 def test_pages_with_extra_bundles_work(client):
@@ -130,13 +145,13 @@ def test_admin_login_is_ours(client):
 
 
 def test_404_works(client):
-    response = client.get('/nonexistent')
+    response = client.get(react_url('/nonexistent'))
     assert response.status_code == 404
 
 
 @patch('project.views.TEST_INTERNAL_SERVER_ERROR', True)
 def test_500_works(client):
-    response = client.get('/')
+    response = client.get(react_url('/'))
     assert response.status_code == 500
     assert response.context['bundle_urls'] == []
 
@@ -171,7 +186,7 @@ def test_form_submission_redirects_on_success(django_app):
     form['exampleField'] = 'hi'
     response = form.submit()
     assert response.status == '302 Found'
-    assert response['Location'] == '/'
+    assert response['Location'] == react_url('/')
 
 
 def test_form_submission_shows_errors(django_app):
@@ -245,7 +260,7 @@ def test_form_submission_preserves_boolean_fields(django_app):
 @pytest.mark.django_db
 def test_successful_login_redirects_to_next(django_app):
     UserFactory(phone_number='5551234567', password='test123')
-    form = django_app.get('/login?next=/boop').forms[0]
+    form = django_app.get(react_url('/login') + '?next=/boop').forms[0]
 
     form['phoneNumber'] = '5551234567'
     form['password'] = 'test123'
@@ -257,7 +272,7 @@ def test_successful_login_redirects_to_next(django_app):
 
 @pytest.mark.django_db
 def test_unsuccessful_login_shows_error(django_app):
-    form = django_app.get('/login?next=/boop').forms[0]
+    form = django_app.get(react_url('/login') + '?next=/boop').forms[0]
 
     form['phoneNumber'] = '5551234567'
     form['password'] = 'test123'

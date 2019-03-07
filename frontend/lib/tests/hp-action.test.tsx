@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { AppTesterPal } from "./app-tester-pal";
-import HPActionRoutes, { HPActionProgressRoutesProps } from '../hp-action';
+import HPActionRoutes, { getHPActionProgressRoutesProps } from '../hp-action';
 import { ProgressRoutesTester } from './progress-routes-tester';
 import Routes from '../routes';
 import { HPUploadStatus } from '../queries/globalTypes';
 
-const tester = new ProgressRoutesTester(HPActionProgressRoutesProps, 'HP Action');
+const tester = new ProgressRoutesTester(getHPActionProgressRoutesProps(), 'HP Action');
 
 tester.defineSmokeTests();
 
@@ -57,23 +57,23 @@ describe('upload status page', () => {
 
 describe('latest step redirector', () => {
   it('returns splash page when user is not logged-in', () => {
-    expect(tester.getLatestStep()).toBe(Routes.hp.splash);
+    expect(tester.getLatestStep()).toBe(Routes.locale.hp.splash);
   });
 
   it('returns welcome page when user is logged-in', () => {
-    expect(tester.getLatestStep({ phoneNumber: '123' })).toBe(Routes.hp.welcome);
+    expect(tester.getLatestStep({ phoneNumber: '123' })).toBe(Routes.locale.hp.welcome);
   });
 
   it('returns wait page when user has started document assembly', () => {
     expect(tester.getLatestStep({
       hpActionUploadStatus: HPUploadStatus.STARTED
-    })).toBe(Routes.hp.waitForUpload);
+    })).toBe(Routes.locale.hp.waitForUpload);
   });
 
   it('returns confirmation page when user has generated a PDF', () => {
     expect(tester.getLatestStep({
       latestHpActionPdfUrl: '/boop.pdf',
       hpActionUploadStatus: HPUploadStatus.SUCCEEDED
-    })).toBe(Routes.hp.confirmation);
+    })).toBe(Routes.locale.hp.confirmation);
   });
 });

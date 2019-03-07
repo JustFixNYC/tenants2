@@ -8,6 +8,7 @@ import { FakeServerInfo, FakeSessionInfo } from '../../lib/tests/util';
 
 const fakeAppProps: AppProps = {
   initialURL: '/',
+  locale: '',
   server: FakeServerInfo,
   initialSession: FakeSessionInfo
 };

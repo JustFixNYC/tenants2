@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
 from legacy_tenants.views import redirect_to_legacy_app
@@ -26,18 +27,20 @@ admin.site.site_header = "JustFix.nyc Tenant App"
 admin.site.site_title = "Tenant App admin"
 admin.site.index_title = "Justfix.nyc Tenant App administration"
 
+dev_patterns = ([
+    path('examples/server-error/<slug:id>', example_server_error),
+    re_path(r'^.*$', react_rendered_view),
+], 'dev')
+
 urlpatterns = [
     path('verify', twofactor.views.verify, name='verify'),
     path('health', health),
-    path('admin/login/', react_rendered_view, kwargs={'url': 'admin/login/'}),
+    path('admin/login/', react_rendered_view),
     path('admin/', admin.site.urls),
-    path('loc/', include('loc.urls')),
-    path('hp/', include('hpaction.urls')),
     path('safe-mode/', include('frontend.safe_mode')),
     path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
-    path('dev/examples/server-error/<slug:id>', example_server_error),
-    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
+    path('dev/', include(dev_patterns, namespace='dev')),
 ]
 
 if settings.DEBUG:
@@ -47,4 +50,9 @@ if settings.DEBUG:
     urlpatterns.append(
         path('graphiql', GraphQLView.as_view(graphiql=True)))
 
-urlpatterns.append(re_path(r'^(?P<url>.*)$', react_rendered_view))
+urlpatterns += i18n_patterns(
+    path('loc/', include('loc.urls')),
+    path('hp/', include('hpaction.urls')),
+    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
+    re_path(r'.*$', react_rendered_view, name='react'),
+)

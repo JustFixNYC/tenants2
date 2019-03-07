@@ -3,6 +3,7 @@ import datetime
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
 from airtable.record import Fields
 
@@ -48,7 +49,7 @@ def test_from_user_works_with_letter_request():
     fields = Fields.from_user(lr.user)
     assert fields.letter_request__will_we_mail is True
     assert fields.letter_request__created_at == datetime.datetime.utcnow().date().isoformat()
-    assert fields.letter_request__admin_pdf_url == \
+    assert strip_locale(fields.letter_request__admin_pdf_url) == \
         f'https://example.com/loc/admin/{lr.user.pk}/letter.pdf'
 
 

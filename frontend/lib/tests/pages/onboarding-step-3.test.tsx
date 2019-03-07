@@ -9,7 +9,7 @@ import { getLeaseChoiceLabels } from '../../../../common-data/lease-choices';
 
 
 const PROPS = {
-  routes: Routes.onboarding
+  routes: Routes.locale.onboarding
 };
 
 const STEP_3 = new OnboardingStep3(PROPS);

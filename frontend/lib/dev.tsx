@@ -75,7 +75,7 @@ export default function DevRoutes(): JSX.Element {
   return (
     <Switch>
        <Route path={Routes.dev.home} exact component={DevHome} />
-       <Route path={Routes.dev.examples.redirect} exact render={() => <Redirect to="/" />} />
+       <Route path={Routes.dev.examples.redirect} exact render={() => <Redirect to={Routes.locale.home} />} />
        <Route path={Routes.dev.examples.modal} exact component={LoadableExampleModalPage} />
        <Route path={Routes.dev.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
        <Route path={Routes.dev.examples.form} component={LoadableExampleFormPage} />

@@ -31,7 +31,7 @@ describe('landlord details page', () => {
 
   it('works when user chooses to mail the letter themselves', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.preview,
+      url: Routes.locale.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
     });
     clickButtonAndExpectChoice(pal, /mail this myself/i, LetterRequestMailChoice.USER_WILL_MAIL);
@@ -39,7 +39,7 @@ describe('landlord details page', () => {
 
   it('works when user wants us to mail the letter', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.loc.preview,
+      url: Routes.locale.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST }
     });
     pal.clickButtonOrLink(/looks good to me/i);

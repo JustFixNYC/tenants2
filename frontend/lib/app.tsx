@@ -28,6 +28,13 @@ export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
 
+  /**
+   * The locale the user is on. This can be an empty string to
+   * indicate that localization is disabled, or an ISO 639-1
+   * code such as 'en' or 'es'.
+   */
+  locale: string;
+
   /** The initial session state the App was started with. */
   initialSession: AllSessionInfo;
 
@@ -189,20 +196,28 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   renderRoutes(location: Location<any>): JSX.Element {
     return (
       <Switch location={location}>
-        <Route path={Routes.home} exact>
+        <Route path={Routes.locale.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
-        <Route path={Routes.login} exact component={LoginPage} />
+        <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
-        <Route path={Routes.logout} exact component={LogoutPage} />
+        <Route path={Routes.locale.logout} exact component={LogoutPage} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
-        <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
-        <Route path={Routes.hp.prefix} component={LoadableHPActionRoutes} />
+        <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route render={NotFound} />
       </Switch>
     );
+  }
+
+  renderRoute(props: RouteComponentProps<any>): JSX.Element {
+    const { pathname } = props.location;
+    if (routeMap.exists(pathname)) {
+      return this.renderRoutes(props.location);
+    }
+    return NotFound(props);
   }
 
   render() {
@@ -220,12 +235,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
-                      <Route render={(props) => {
-                        if (routeMap.exists(props.location.pathname)) {
-                          return this.renderRoutes(props.location);
-                        }
-                        return NotFound(props);
-                      }}/>
+                      <Route render={(props) => this.renderRoute(props)}/>
                     </LoadingOverlayManager>
                   </div>
                 </section>

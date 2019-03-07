@@ -78,6 +78,6 @@ export function ProgressRoutes(props: ProgressRoutesProps): JSX.Element {
   );
 }
 
-export function buildProgressRoutesComponent(props: ProgressRoutesProps): () => JSX.Element {
-  return () => <ProgressRoutes {...props}/>;
+export function buildProgressRoutesComponent(getProps: () => ProgressRoutesProps): () => JSX.Element {
+  return () => <ProgressRoutes {...getProps()}/>;
 }

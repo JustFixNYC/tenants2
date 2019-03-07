@@ -6,6 +6,7 @@ from django.http import FileResponse, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
+from django.utils import translation
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
@@ -154,6 +155,14 @@ def template_name_to_pdf_filename(template_name: str) -> str:
 def render_document(request, template_name: str, context: Dict[str, Any], format: str):
     if format not in ['html', 'pdf']:
         raise ValueError(f'unknown format "{format}"')
+
+    # For now, we always want to localize the letter of complaint in English.
+    # Even if we don't translate the letter itself to other languages, some
+    # templating functionality provided by Django (such as date formatting) will
+    # take the current locale into account, and we don't want e.g. a letter to
+    # have English paragraphs but Spanish dates. So we'll explicitly set
+    # the locale here.
+    translation.activate('en')
 
     if format == 'html':
         html = render_to_string(template_name, context={

@@ -166,6 +166,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # not provided, mapbox integration will be disabled.
     MAPBOX_ACCESS_TOKEN: str = ''
 
+    # Whether or not to enable internationalization/localization.
+    ENABLE_I18N: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -1,4 +1,5 @@
 from django.test import override_settings, TestCase
+from django.conf import settings
 
 from ..util.site_util import absolute_reverse, absolutify_url
 
@@ -6,9 +7,13 @@ from ..util.site_util import absolute_reverse, absolutify_url
 class SiteUtilsTests(TestCase):
     @override_settings(DEBUG=False)
     def test_absolute_reverse_works(self):
+        if settings.USE_I18N:
+            url = 'https://example.com/en/graphql'
+        else:
+            url = 'https://example.com/graphql'
         self.assertEqual(
             absolute_reverse('batch-graphql'),
-            'https://example.com/graphql'
+            url
         )
 
     def test_absolutify_url_raises_error_on_non_absolute_paths(self):

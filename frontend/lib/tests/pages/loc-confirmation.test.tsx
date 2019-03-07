@@ -10,7 +10,7 @@ describe('letter of complaint confirmation', () => {
 
   const createPal = (mailChoice: LetterRequestMailChoice) =>
     new AppTesterPal(<LetterOfComplaintRoutes/>, {
-      url: Routes.loc.confirmation,
+      url: Routes.locale.loc.confirmation,
       session: {
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",

@@ -3,6 +3,7 @@
 import { startApp, AppProps } from './app';
 import { getElement } from './util';
 import { ga } from './google-analytics';
+import i18n from './i18n';
 
 
 function polyfillSmoothScroll() {
@@ -46,6 +47,7 @@ window.addEventListener('load', () => {
   // Since JS is now loaded, let's remove that restriction.
   div.removeAttribute('hidden');
 
+  i18n.initialize(initialProps.locale);
   startApp(div, initialProps);
   polyfillSmoothScroll();
   showSafeModeUiOnShake();

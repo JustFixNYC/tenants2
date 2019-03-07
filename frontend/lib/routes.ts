@@ -1,5 +1,6 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import i18n from './i18n';
 
 /**
  * Metadata about signup intents.
@@ -23,12 +24,12 @@ type SignupIntentOnboardingInfo = {
 export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.LOC: return {
-      preOnboarding: Routes.home,
-      postOnboarding: Routes.loc.latestStep,
-      onboarding: Routes.onboarding
+      preOnboarding: Routes.locale.home,
+      postOnboarding: Routes.locale.loc.latestStep,
+      onboarding: Routes.locale.onboarding
     };
 
-    case OnboardingInfoSignupIntent.HP: return Routes.hp;
+    case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
   }
 }
 
@@ -87,12 +88,79 @@ function createOnboardingRouteInfo(prefix: string) {
   };
 }
 
+export type LetterOfComplaintInfo = ReturnType<typeof createLetterOfComplaintRouteInfo>;
+
+function createLetterOfComplaintRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    home: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    accessDates: `${prefix}/access-dates`,
+    yourLandlord: `${prefix}/your-landlord`,
+    preview: `${prefix}/preview`,
+    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
+    confirmation: `${prefix}/confirmation`
+  };
+}
+
+export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;
+
+function createHPActionRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    preOnboarding: `${prefix}/splash`,
+    splash: `${prefix}/splash`,
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+    postOnboarding: prefix,
+    welcome: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    yourLandlord: `${prefix}/your-landlord`,
+    waitForUpload: `${prefix}/wait`,
+    confirmation: `${prefix}/confirmation`,
+  }
+}
+
+export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
+
+function createLocalizedRouteInfo(prefix: string) {
+  return {
+    /** The login page. */
+    login: `${prefix}/login`,
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
+
+    /** The home page. */
+    home: `${prefix}/`,
+
+    /** The onboarding flow. */
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+
+    /** The Letter of Complaint flow. */
+    loc: createLetterOfComplaintRouteInfo(`${prefix}/loc`),
+
+    /** The HP Action flow. */
+    hp: createHPActionRouteInfo(`${prefix}/hp`),
+  }
+}
+
+let currentLocaleRoutes: LocalizedRouteInfo|null = null;
+
+i18n.addChangeListener(() => { currentLocaleRoutes = null; });
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const Routes = {
-  /** The login page. */
-  login: '/login',
+  /** Localized routes for the user's currently-selected locale. */
+  get locale(): LocalizedRouteInfo {
+    if (currentLocaleRoutes === null) {
+      currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
+    }
+    return currentLocaleRoutes;
+  },
 
   /**
    * The *admin* login page. We override Django's default admin login
@@ -101,50 +169,13 @@ const Routes = {
    */
   adminLogin: '/admin/login/',
 
-  /** The logout page. */
-  logout: '/logout',
-
-  /** The home page. */
-  home: '/',
-
-  /** The onboarding flow. */
-  onboarding: createOnboardingRouteInfo('/onboarding'),
-
-  /** The Letter of Complaint flow. */
-  loc: {
-    [ROUTE_PREFIX]: '/loc',
-    latestStep: '/loc',
-    home: '/loc/welcome',
-    issues: createIssuesRouteInfo('/loc/issues'),
-    accessDates: '/loc/access-dates',
-    yourLandlord: '/loc/your-landlord',
-    preview: '/loc/preview',
-    previewSendConfirmModal: '/loc/preview/send-confirm-modal',
-    confirmation: '/loc/confirmation'
-  },
-
-  /** The HP Action flow. */
-  hp: {
-    [ROUTE_PREFIX]: '/hp',
-    latestStep: '/hp',
-    preOnboarding: '/hp/splash',
-    splash: '/hp/splash',
-    onboarding: createOnboardingRouteInfo('/hp/onboarding'),
-    postOnboarding: '/hp',
-    welcome: '/hp/welcome',
-    issues: createIssuesRouteInfo('/hp/issues'),
-    yourLandlord: '/hp/your-landlord',
-    waitForUpload: '/hp/wait',
-    confirmation: '/hp/confirmation',
-  },
-
   /**
    * Example pages used in integration tests, and other
    * development-related pages.
    */
   dev: {
     [ROUTE_PREFIX]: '/dev',
-    home: '/dev',
+    home: '/dev/',
     examples: {
       [ROUTE_PREFIX]: '/dev/examples',
       redirect: '/dev/examples/redirect',
@@ -186,9 +217,16 @@ export function isParameterizedRoute(path: string): boolean {
 export class RouteMap {
   private existenceMap: Map<string, boolean> = new Map();
   private parameterizedRoutes: string[] = [];
+  private isInitialized = false;
 
-  constructor(routes: any) {
-    this.populate(routes);
+  constructor(private readonly routes: any) {
+  }
+
+  private ensureIsInitialized() {
+    if (!this.isInitialized) {
+      this.populate(this.routes);
+      this.isInitialized = true;
+    }
   }
 
   private populate(routes: any) {
@@ -207,6 +245,7 @@ export class RouteMap {
   }
 
   get size(): number {
+    this.ensureIsInitialized();
     return this.existenceMap.size + this.parameterizedRoutes.length;
   }
 
@@ -214,6 +253,7 @@ export class RouteMap {
    * Return an iterator that yields all routes that don't have parameters.
    */
   nonParameterizedRoutes(): IterableIterator<string> {
+    this.ensureIsInitialized();
     return this.existenceMap.keys();
   }
 
@@ -228,6 +268,7 @@ export class RouteMap {
    * further down the view heirarchy to resolve.
    */
   exists(pathname: string): boolean {
+    this.ensureIsInitialized();
     if (this.existenceMap.has(pathname)) {
       return true;
     }

@@ -40,7 +40,6 @@ urlpatterns = [
     path('safe-mode/', include('frontend.safe_mode')),
     path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
-    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
     path('dev/', include(dev_patterns, namespace='dev')),
 ]
 
@@ -54,5 +53,6 @@ if settings.DEBUG:
 urlpatterns += i18n_patterns(
     path('loc/', include('loc.urls')),
     path('hp/', include('hpaction.urls')),
+    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
     re_path(r'.*$', react_rendered_view, name='react'),
 )

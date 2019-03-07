@@ -173,7 +173,7 @@ const Routes = {
    */
   dev: {
     [ROUTE_PREFIX]: '/dev',
-    home: '/dev',
+    home: '/dev/',
     examples: {
       [ROUTE_PREFIX]: '/dev/examples',
       redirect: '/dev/examples/redirect',

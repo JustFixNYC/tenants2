@@ -24,10 +24,17 @@ def test_decode_lhi_b64_data_works_with_alt_chars():
 
 
 class TestUpload:
-    def test_it_returns_404_when_token_is_invalid(self, db, client):
+    def test_it_fails_when_token_is_invalid(self, db, client):
         url = reverse('hpaction:upload', kwargs={'token_str': 'blarg'})
         res = client.post(url)
-        assert res.status_code == 404
+
+        # Unfortunately, right now 404's returned by non-i18n routes appear to
+        # be converted to redirects to locale-prefixed routes. This is annoying
+        # but it's ultimately okay since it will result in a 404 on the
+        # locale-prefixed route. We won't test that part because it will make
+        # the test take longer, though.
+        assert res.status_code == 302
+        assert res.url == "/en/hp/upload/blarg"
 
     def test_it_works(self, db, client, django_file_storage):
         token = UploadTokenFactory()
@@ -49,9 +56,16 @@ class TestLatestPDF:
     def setup(self):
         self.url = reverse('hpaction:latest_pdf')
 
-    def test_it_returns_404_when_no_pdfs_exist(self, admin_client):
+    def test_it_fails_when_no_pdfs_exist(self, admin_client):
         res = admin_client.get(self.url)
-        assert res.status_code == 404
+
+        # Unfortunately, right now 404's returned by non-i18n routes appear to
+        # be converted to redirects to locale-prefixed routes. This is annoying
+        # but it's ultimately okay since it will result in a 404 on the
+        # locale-prefixed route. We won't test that part because it will make
+        # the test take longer, though.
+        assert res.status_code == 302
+        assert res.url == "/en/hp/latest.pdf"
 
     def test_it_returns_pdf(self, client, db, django_file_storage):
         docs = HPActionDocumentsFactory()

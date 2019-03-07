@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import SafeString
+from django.utils import translation
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
@@ -137,8 +138,9 @@ def get_legacy_form_submission(request):
     }
 
 
-def react_rendered_view(request, url: str):
-    url = f'/{url}'
+def react_rendered_view(request):
+    url = request.path
+    cur_language = translation.get_language_from_request(request, check_path=True)
     querystring = request.GET.urlencode()
     if querystring:
         url += f'?{querystring}'
@@ -150,7 +152,7 @@ def react_rendered_view(request, url: str):
     initial_props = {
         'initialURL': url,
         'initialSession': get_initial_session(request),
-        'locale': '',  # Disable localization for now.
+        'locale': cur_language,
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
             'staticURL': settings.STATIC_URL,

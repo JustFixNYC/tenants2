@@ -127,9 +127,16 @@ def test_admin_letter_pdf_works(outreach_client):
     assert res['Content-Type'] == 'application/pdf'
 
 
-def test_admin_letter_pdf_returns_404_for_nonexistent_users(admin_client):
+def test_admin_letter_pdf_fails_for_nonexistent_users(admin_client):
     res = admin_client.get(f'/loc/admin/1024/letter.pdf')
-    assert res.status_code == 404
+
+    # Unfortunately, right now 404's returned by non-i18n routes appear to
+    # be converted to redirects to locale-prefixed routes. This is annoying
+    # but it's ultimately okay since it will result in a 404 on the
+    # locale-prefixed route. We won't test that part because it will make
+    # the test take longer, though.
+    assert res.status_code == 302
+    assert res.url == "/en/loc/admin/1024/letter.pdf"
 
 
 @pytest.mark.django_db

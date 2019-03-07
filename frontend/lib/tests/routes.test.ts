@@ -1,5 +1,14 @@
-import { isModalRoute, RouteMap, getSignupIntentOnboardingInfo } from "../routes";
+import Routes, { isModalRoute, RouteMap, getSignupIntentOnboardingInfo } from "../routes";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import i18n from "../i18n";
+
+test('Routes object responds to locale changes', () => {
+  expect(Routes.locale.home).toBe('/');
+  i18n.initialize('en');
+  expect(Routes.locale.home).toBe('/en/');
+  i18n.initialize('');
+  expect(Routes.locale.home).toBe('/');
+});
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);

@@ -4,9 +4,13 @@
  * Instances start out uninitialized, and must be explicitly
  * initialized before any other methods or properties can be
  * accessed.
+ * 
+ * Once initialized, an instance can actually be re-initialized;
+ * clients can register to be notified if and when this happens.
  */
 export class I18n {
   private _locale: null|string = null;
+  private _changeListeners: Function[] = [];
 
   /**
    * Create an instance, optionally auto-initializing it.
@@ -55,10 +59,8 @@ export class I18n {
    *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
    */
   initialize(locale: string) {
-    if (this._locale !== null) {
-      throw new Error('i18n is already initialized!');
-    }
     this._locale = locale;
+    this._changeListeners.forEach(cb => cb());
   }
 
   /** Return whether the instance is initialized. */
@@ -67,13 +69,20 @@ export class I18n {
   }
 
   /**
-   * Reset the instance, reverting it to an uninitialized
-   * state.
-   * 
-   * As the name implies, this should ONLY be used for testing.
+   * Register a listener to be notified when the instance
+   * is initialized or re-initialized.
    */
-  resetForTesting(): void {
-    this._locale = null;
+  addChangeListener(cb: Function) {
+    this._changeListeners.push(cb);
+  }
+
+  /** Unregister a previously-registered listener. */
+  removeChangeListener(cb: Function) {
+    const index = this._changeListeners.indexOf(cb);
+    if (index === -1) {
+      throw new Error('change listener does not exist!');
+    }
+    this._changeListeners.splice(index, 1);
   }
 }
 
@@ -87,7 +96,7 @@ export class I18n {
  * such that an I18n object is passed into it, rather than
  * grabbing this singleton directly. This will make it easier
  * to unit test, as well as to eventually get rid of the global
- * singleton.
+ * singleton altogether.
  */
 const i18n = new I18n();
 

@@ -5,7 +5,6 @@ import { Readable } from 'stream';
 import { errorCatchingHandler, handleFromJSONStream, LambdaResponse, isPlainJsObject, getBundleFiles } from '../lambda';
 import { AppProps } from '../../lib/app';
 import { FakeServerInfo, FakeSessionInfo } from '../../lib/tests/util';
-import i18n from '../../lib/i18n';
 
 const fakeAppProps: AppProps = {
   initialURL: '/',
@@ -13,8 +12,6 @@ const fakeAppProps: AppProps = {
   server: FakeServerInfo,
   initialSession: FakeSessionInfo
 };
-
-beforeEach(() => i18n.resetForTesting());
 
 test('lambda works', async () => {
   jest.setTimeout(10000);

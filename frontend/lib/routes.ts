@@ -148,6 +148,8 @@ function createLocalizedRouteInfo(prefix: string) {
 
 let currentLocaleRoutes: LocalizedRouteInfo|null = null;
 
+i18n.addChangeListener(() => { currentLocaleRoutes = null; });
+
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */

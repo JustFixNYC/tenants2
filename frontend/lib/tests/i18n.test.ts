@@ -18,8 +18,24 @@ describe('I18n', () => {
     expect(i18n.isInitialized).toBe(true);
   });
 
-  it('raises an error if initialized twice', () => {
-    expect(() => new I18n('en').initialize('es')).toThrow(/already initialized/i);
+  it('raises error if nonexistent listener is removed', () => {
+    expect(() => new I18n().removeChangeListener(() => {}))
+      .toThrow(/change listener does not exist/i);
+  });
+
+  it('notifies listeners on initialization', () => {
+    let calls = 0;
+    const i18n = new I18n();
+    const cb = () => calls++;
+    i18n.addChangeListener(cb);
+    expect(calls).toBe(0);
+    i18n.initialize('en');
+    expect(calls).toBe(1);
+    i18n.initialize('es');
+    expect(calls).toBe(2);
+    i18n.removeChangeListener(cb);
+    i18n.initialize('de');
+    expect(calls).toBe(2);
   });
 
   it('returns locale path prefixes', () => {

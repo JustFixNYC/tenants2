@@ -35,6 +35,17 @@ lambda_pool = LambdaPool(
 )
 
 
+class GraphQLQueryPrefetchInfo(NamedTuple):
+    '''
+    Encapsulates details from the server-side renderer
+    about a GraphQL query that should (ideally) be
+    pre-fetched for the current request.
+    '''
+
+    graphql: str
+    input: Any
+
+
 class LambdaResponse(NamedTuple):
     '''
     Encapsulates the result of the server-side renderer.
@@ -51,6 +62,7 @@ class LambdaResponse(NamedTuple):
     modal_html: SafeString
     location: Optional[str]
     traceback: Optional[str]
+    graphql_query_to_prefetch: Optional[GraphQLQueryPrefetchInfo]
 
     # The amount of time rendering took, in milliseconds.
     render_time: int
@@ -61,6 +73,13 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     response = lambda_pool.run_handler(initial_props)
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 
+    pf = response['graphQLQueryToPrefetch']
+    if pf is not None:
+        pf = GraphQLQueryPrefetchInfo(
+            graphql=pf['graphQL'],
+            input=pf['input']
+        )
+
     return LambdaResponse(
         html=SafeString(response['html']),
         modal_html=SafeString(response['modalHtml']),
@@ -70,6 +89,7 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         bundle_files=response['bundleFiles'],
         location=response['location'],
         traceback=response['traceback'],
+        graphql_query_to_prefetch=pf,
         render_time=render_time
     )
 
@@ -177,6 +197,23 @@ def react_rendered_view(request):
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)
+    render_time = lambda_response.render_time
+
+    if lambda_response.status == 200 and lambda_response.graphql_query_to_prefetch:
+        # The page rendered, but it has a "loading..." message somewhere on it
+        # that's waiting for a GraphQL request to complete. Let's pre-fetch that
+        # request and re-render the page, so that the user receives it without
+        # any such messages (and so the user can see all the content if their
+        # JS isn't working).
+        pfquery = lambda_response.graphql_query_to_prefetch
+        initial_props['server']['prefetchedGraphQLQueryResponse'] = {
+            'graphQL': pfquery.graphql,
+            'input': pfquery.input,
+            'output': execute_query(request, pfquery.graphql, pfquery.input)
+        }
+        lambda_response = run_react_lambda(initial_props)
+        render_time += lambda_response.render_time
+
     bundle_files = lambda_response.bundle_files
     bundle_urls = [
         f'{webpack_public_path_url}{bundle_file}'
@@ -189,7 +226,7 @@ def react_rendered_view(request):
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
-    logger.debug(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
+    logger.debug(f"Rendering {url} in Node.js took {render_time} ms.")
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,

@@ -75,7 +75,9 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
 
   componentDidMount() {
     this._isMounted = true;
-    this.fetchQuery();
+    if (typeof(this.state.output) === 'undefined') {
+      this.fetchQuery();
+    }
   }
 
   componentWillUnmount() {

@@ -81,6 +81,12 @@ function ExampleQueryPage(): JSX.Element {
       render={(output) => (
         <p>Output of example query is <code>{output.exampleQuery.hello}</code>!</p>
       )}
+      loading={(props) => {
+        if (props.error) {
+          return <p>Alas, an error occurred. <button onClick={props.retry}>Retry</button></p>;
+        }
+        return <p>Loading&hellip;</p>;
+      }}
     />
   );
 }

@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { smoothlyScrollToTopOfPage } from './scrolling';
+import { MinimalLoadingComponentProps } from './loading-component-props';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -56,28 +57,13 @@ const NullLoadingPageContext: LoadingPageContextType = {
 export const LoadingPageContext = React.createContext<LoadingPageContextType>(NullLoadingPageContext);
 
 /**
- * These props are a subset of the ones react-loadable takes.
- * As such, the LoadingPage component can be passed as a 'loading'
- * option to react-loadable's Loadable HOC factory function, but
- * it can also be used with other code that obeys the same API
- * specified by these props.
- */
-export type LoadingPageProps = {
-  /** The exception that occurred while loading, if any. */
-  error: any;
-
-  /** A callback to retry the loading process. */
-  retry: () => void;
-};
-
-/**
  * A loading page interstitial, which also presents a retry UI in the case
  * of network errors.
  * 
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage(props: LoadingPageProps): JSX.Element {
+export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
   if (props.error) {
     return (<Page title="Network error">
       <p>Unfortunately, a network error occurred.</p>

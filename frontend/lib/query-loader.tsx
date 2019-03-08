@@ -4,6 +4,8 @@ import { RouteComponentProps, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { AppContextType, AppContext } from './app-context';
 import { isDeepEqual } from './util';
+import autobind from 'autobind-decorator';
+import { MinimalLoadingComponentProps } from './loading-component-props';
 
 export interface QueryLoaderFetch<Input, Output> {
   (fetch: GraphQLFetch, args: Input): Promise<Output>;
@@ -17,14 +19,15 @@ export interface QueryLoaderQuery<Input, Output> {
 export interface QueryLoaderProps<Input, Output> {
   query: QueryLoaderQuery<Input, Output>,
   input: Input,
-  render: (output: Output) => JSX.Element
+  render: (output: Output) => JSX.Element,
+  loading: React.ComponentType<MinimalLoadingComponentProps>
 }
 
 type Props<Input, Output> = QueryLoaderProps<Input, Output> & RouteComponentProps & AppContextType;
 
 type State<Output> = {
   output?: Output,
-  error: boolean
+  error?: any
 };
 
 class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, Output>, State<Output>> {
@@ -35,7 +38,7 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
 
   constructor(props: Props<Input, Output>) {
     super(props);
-    const state: State<Output> = { error: false };
+    const state: State<Output> = {};
     const appStaticCtx = getAppStaticContext(props);
     const qr = props.server.prefetchedGraphQLQueryResponse;
     if (qr) {
@@ -56,13 +59,23 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
     this.state = state;
   }
 
-  componentDidMount() {
-    this._isMounted = true;
+  @autobind
+  retry() {
+    this.fetchQuery();
+  }
+
+  fetchQuery() {
+    this.setState({ error: undefined, output: undefined });
     this.props.query.fetch(this.props.fetch, this.props.input).then((output) => {
       if (this._isMounted) this.setState({ output });
-    }).catch(e => {
-      if (this._isMounted) this.setState({ error: true });
+    }).catch(error => {
+      if (this._isMounted) this.setState({ error });
     });
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    this.fetchQuery();
   }
 
   componentWillUnmount() {
@@ -73,10 +86,10 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
     const { output, error } = this.state;
     if (typeof(output) !== 'undefined') {
       return this.props.render(output);
-    } else if (error) {
-      return <p>Alas, a network error occurred.</p>;
+    } else {
+      const Loading = this.props.loading;
+      return <Loading error={error} retry={this.retry} />;
     }
-    return <p>Loading&hellip;</p>;
   }
 }
 

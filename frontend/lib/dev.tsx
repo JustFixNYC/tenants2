@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
 import Helmet from 'react-helmet';
+import { InitialPropsGetter } from './initial-props-getter';
+import { ExampleQuery } from './queries/ExampleQuery';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -71,6 +73,18 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
 
 const ExampleMetaTagPage = () => <Helmet><meta property="boop" content="hi" /></Helmet>;
 
+function ExampleQueryPage(): JSX.Element {
+  return (
+    <InitialPropsGetter
+      query={ExampleQuery}
+      input={{input: "blah"}}
+      render={(output) => (
+        <p>Output of example query is <code>{output.exampleQuery.hello}</code>!</p>
+      )}
+    />
+  );
+}
+
 export default function DevRoutes(): JSX.Element {
   return (
     <Switch>
@@ -82,6 +96,7 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
        <Route path={Routes.dev.examples.metaTag} exact component={ExampleMetaTagPage} />
+       <Route path={Routes.dev.examples.query} exact component={ExampleQueryPage} />
     </Switch>
   );
 }

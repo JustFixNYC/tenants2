@@ -59,6 +59,16 @@ export interface AppServerInfo {
    * the Django app).
    */
   debug: boolean;
+
+  /**
+   * If the page contains a GraphQL query whose result has been pre-fetched
+   * by the server, this will contain its value.
+   */
+  prefetchedGraphQLQueryResponse?: {
+    graphQL: string,
+    input: any,
+    output: any
+  };
 }
 
 /**

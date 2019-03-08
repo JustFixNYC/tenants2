@@ -1,0 +1,97 @@
+import React from 'react';
+import { GraphQLFetch } from './graphql-client';
+import { RouteComponentProps, Route } from 'react-router';
+import { getAppStaticContext } from './app-static-context';
+import { AppContextType, AppContext } from './app-context';
+import { isDeepEqual } from './util';
+
+export interface InitialPropsFetch<Input, Output> {
+  (fetch: GraphQLFetch, args: Input): Promise<Output>;
+}
+
+export interface InitialPropsQueryInfo<Input, Output> {
+  graphQL: string;
+  fetch: InitialPropsFetch<Input, Output>;
+}
+
+export interface InitialPropsGetterProps<Input, Output> {
+  query: InitialPropsQueryInfo<Input, Output>,
+  input: Input,
+  render: (output: Output) => JSX.Element
+}
+
+type Props<Input, Output> = InitialPropsGetterProps<Input, Output> & RouteComponentProps & AppContextType;
+
+type State<Output> = {
+  output?: Output,
+  error: boolean
+};
+
+class InitialPropsGetterWithoutCtx<Input, Output> extends React.Component<Props<Input, Output>, State<Output>> {
+  // TODO: Ideally we should be aborting in-flight requests on componentWillUnmount(),
+  // but right now our network interface doesn't support that, so we'll just use the
+  // workaround suggested in https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html.
+  private _isMounted: boolean = false;
+
+  constructor(props: Props<Input, Output>) {
+    super(props);
+    const state: State<Output> = { error: false };
+    const appStaticCtx = getAppStaticContext(props);
+    const qr = props.server.prefetchedGraphQLQueryResponse;
+    if (qr) {
+      if (qr.graphQL === props.query.graphQL && isDeepEqual(qr.input, props.input)) {
+        // Our response has been pre-fetched, so we can render the real component.
+        state.output = qr.output;
+      }
+    } else if (appStaticCtx) {
+      // We're being rendered on the server-side.
+      if (appStaticCtx.graphQLQueryToPrefetch) {
+        throw new Error("Assertion failure");
+      }
+      appStaticCtx.graphQLQueryToPrefetch = {
+        graphQL: props.query.graphQL,
+        input: props.input
+      };
+    }
+    this.state = state;
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    this.props.query.fetch(this.props.fetch, this.props.input).then((output) => {
+      if (this._isMounted) this.setState({ output });
+    }).catch(e => {
+      if (this._isMounted) this.setState({ error: true });
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  render() {
+    const { output, error } = this.state;
+    if (typeof(output) !== 'undefined') {
+      return this.props.render(output);
+    } else if (error) {
+      return <p>Alas, a network error occurred.</p>;
+    }
+    return <p>Loading&hellip;</p>;
+  }
+}
+
+// Ideally we'd just use react-router's withRouter() HOC factory for this, but
+// it appears to un-genericize our type, so we will do this manually.
+export class InitialPropsGetter<Input, Output> extends React.Component<InitialPropsGetterProps<Input, Output>> {
+  render() {
+    return (
+      <AppContext.Consumer>
+        {(appCtx) => (
+          <Route render={(routeProps) => {
+            return <InitialPropsGetterWithoutCtx {...routeProps} {...this.props} {...appCtx} />;
+          }} />
+        )}
+      </AppContext.Consumer>
+    );
+  }
+}

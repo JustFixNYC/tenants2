@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
 import Helmet from 'react-helmet';
-import { InitialPropsGetter } from './initial-props-getter';
+import { QueryLoader } from './query-loader';
 import { ExampleQuery } from './queries/ExampleQuery';
 
 const LoadableExamplePage = Loadable({
@@ -75,7 +75,7 @@ const ExampleMetaTagPage = () => <Helmet><meta property="boop" content="hi" /></
 
 function ExampleQueryPage(): JSX.Element {
   return (
-    <InitialPropsGetter
+    <QueryLoader
       query={ExampleQuery}
       input={{input: "blah"}}
       render={(output) => (

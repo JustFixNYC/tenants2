@@ -5,29 +5,29 @@ import { getAppStaticContext } from './app-static-context';
 import { AppContextType, AppContext } from './app-context';
 import { isDeepEqual } from './util';
 
-export interface InitialPropsFetch<Input, Output> {
+export interface QueryLoaderFetch<Input, Output> {
   (fetch: GraphQLFetch, args: Input): Promise<Output>;
 }
 
-export interface InitialPropsQueryInfo<Input, Output> {
+export interface QueryLoaderQuery<Input, Output> {
   graphQL: string;
-  fetch: InitialPropsFetch<Input, Output>;
+  fetch: QueryLoaderFetch<Input, Output>;
 }
 
-export interface InitialPropsGetterProps<Input, Output> {
-  query: InitialPropsQueryInfo<Input, Output>,
+export interface QueryLoaderProps<Input, Output> {
+  query: QueryLoaderQuery<Input, Output>,
   input: Input,
   render: (output: Output) => JSX.Element
 }
 
-type Props<Input, Output> = InitialPropsGetterProps<Input, Output> & RouteComponentProps & AppContextType;
+type Props<Input, Output> = QueryLoaderProps<Input, Output> & RouteComponentProps & AppContextType;
 
 type State<Output> = {
   output?: Output,
   error: boolean
 };
 
-class InitialPropsGetterWithoutCtx<Input, Output> extends React.Component<Props<Input, Output>, State<Output>> {
+class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, Output>, State<Output>> {
   // TODO: Ideally we should be aborting in-flight requests on componentWillUnmount(),
   // but right now our network interface doesn't support that, so we'll just use the
   // workaround suggested in https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html.
@@ -82,13 +82,13 @@ class InitialPropsGetterWithoutCtx<Input, Output> extends React.Component<Props<
 
 // Ideally we'd just use react-router's withRouter() HOC factory for this, but
 // it appears to un-genericize our type, so we will do this manually.
-export class InitialPropsGetter<Input, Output> extends React.Component<InitialPropsGetterProps<Input, Output>> {
+export class QueryLoader<Input, Output> extends React.Component<QueryLoaderProps<Input, Output>> {
   render() {
     return (
       <AppContext.Consumer>
         {(appCtx) => (
           <Route render={(routeProps) => {
-            return <InitialPropsGetterWithoutCtx {...routeProps} {...this.props} {...appCtx} />;
+            return <QueryLoaderWithoutCtx {...routeProps} {...this.props} {...appCtx} />;
           }} />
         )}
       </AppContext.Consumer>

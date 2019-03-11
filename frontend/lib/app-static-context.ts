@@ -18,6 +18,15 @@ export interface AppStaticContext {
 
   /** The modal to render server-side, if any. */
   modal?: JSX.Element;
+
+  /**
+   * If the page contains a GraphQL query whose results should be
+   * pre-fetched, this will contain its value.
+   */
+  graphQLQueryToPrefetch?: {
+    graphQL: string,
+    input: any
+  }
 }
 
 /**

@@ -112,6 +112,13 @@ class Example(DjangoFormMutation):
         return cls(response=f"hello there {base_form.cleaned_data['example_field']}")
 
 
+class ExampleQuery(graphene.ObjectType):
+    hello = graphene.String(argument=graphene.String(default_value="stranger"))
+
+    def resolve_hello(self, info: ResolveInfo, argument: str) -> str:
+        return f"Hello {argument}"
+
+
 class Login(DjangoFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -172,8 +179,13 @@ class Query(FindhelpInfo, graphene.ObjectType):
 
     session = graphene.NonNull(SessionInfo)
 
+    example_query = graphene.NonNull(ExampleQuery)
+
     def resolve_session(self, info: ResolveInfo) -> SessionInfo:
         return SessionInfo()
+
+    def resolve_example_query(self, info: ResolveInfo) -> ExampleQuery:
+        return ExampleQuery()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

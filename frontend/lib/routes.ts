@@ -185,7 +185,8 @@ const Routes = {
       formInModal: '/dev/examples/form/in-modal',
       loadable: '/dev/examples/loadable-page',
       clientSideError: '/dev/examples/client-side-error',
-      metaTag: '/dev/examples/meta-tag'
+      metaTag: '/dev/examples/meta-tag',
+      query: '/dev/examples/query'
     }
   }
 };

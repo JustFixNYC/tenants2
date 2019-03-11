@@ -60,6 +60,15 @@ export interface LambdaResponse {
 
   /** The error traceback, if the status is 500. */
   traceback: string|null;
+
+  /**
+   * If the page contains a GraphQL query whose results should be
+   * pre-fetched, this will contain its value.
+   */
+  graphQLQueryToPrefetch: {
+    graphQL: string,
+    input: any
+  }|null;
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -150,7 +159,8 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
       bundleFiles,
       modalHtml,
       location,
-      traceback: null
+      traceback: null,
+      graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null
     });
   });
 }
@@ -200,7 +210,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       bundleFiles: [],
       modalHtml: '',
       location: null,
-      traceback: error.stack
+      traceback: error.stack,
+      graphQLQueryToPrefetch: null
     };
   });
 }

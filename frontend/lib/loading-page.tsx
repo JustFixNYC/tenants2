@@ -1,10 +1,10 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { smoothlyScrollToTopOfPage } from './scrolling';
+import { MinimalLoadingComponentProps } from './loading-component-props';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -63,7 +63,7 @@ export const LoadingPageContext = React.createContext<LoadingPageContextType>(Nu
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element {
+export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
   if (props.error) {
     return (<Page title="Network error">
       <p>Unfortunately, a network error occurred.</p>

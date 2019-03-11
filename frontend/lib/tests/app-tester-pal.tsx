@@ -105,8 +105,14 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     );
   }
 
-  private getFirstRequest(): queuedRequest {
-    return this.client.getRequestQueue()[0];
+  /**
+   * Get the first network request made by any component in the
+   * heirarchy, throwing an error if no request has been made.
+   */
+  getFirstRequest(): queuedRequest {
+    const queue = this.client.getRequestQueue();
+    expect(queue.length).toBeGreaterThan(0);
+    return queue[0];
   }
 
   /**

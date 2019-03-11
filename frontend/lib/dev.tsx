@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
 import Helmet from 'react-helmet';
+import { QueryLoader } from './query-loader';
+import { ExampleQuery } from './queries/ExampleQuery';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -69,7 +71,27 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
   );
 });
 
+/* istanbul ignore next: this is tested by integration tests. */
 const ExampleMetaTagPage = () => <Helmet><meta property="boop" content="hi" /></Helmet>;
+
+/* istanbul ignore next: this is tested by integration tests. */
+function ExampleQueryPage(): JSX.Element {
+  return (
+    <QueryLoader
+      query={ExampleQuery}
+      input={{input: "blah"}}
+      render={(output) => (
+        <p>Output of example query is <code>{output.exampleQuery.hello}</code>!</p>
+      )}
+      loading={(props) => {
+        if (props.error) {
+          return <p>Alas, an error occurred. <button onClick={props.retry}>Retry</button></p>;
+        }
+        return <p>Loading&hellip;</p>;
+      }}
+    />
+  );
+}
 
 export default function DevRoutes(): JSX.Element {
   return (
@@ -82,6 +104,7 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
        <Route path={Routes.dev.examples.metaTag} exact component={ExampleMetaTagPage} />
+       <Route path={Routes.dev.examples.query} exact component={ExampleQueryPage} />
     </Switch>
   );
 }

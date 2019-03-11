@@ -117,8 +117,11 @@ def envelopes(request):
 
 
 def render_letter_of_complaint(request, user: JustfixUser, format: str):
+    today = datetime.date.today()
+    if hasattr(user, 'letter_request'):
+        today = user.letter_request.created_at.date()
     return render_document(request, 'loc/letter-of-complaint.html', {
-        'today': datetime.date.today(),
+        'today': today,
         'landlord_details': get_landlord_details(user),
         'onboarding_info': get_onboarding_info(user),
         'issues': get_issues(user),

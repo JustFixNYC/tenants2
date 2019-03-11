@@ -133,6 +133,13 @@ def test_pages_with_prerendered_modals_work(client):
     assert b'<div id="main" hidden' in response.content
 
 
+def test_pages_with_prefetched_graphql_queries_work(client):
+    response = client.get('/dev/examples/query')
+    assert response.status_code == 200
+    s = "Output of example query is <code>Hello blah</code>!"
+    assert s in response.context['initial_render']
+
+
 def test_admin_login_is_ours(client):
     url = reverse('admin:login')
     assert url == '/admin/login/'

@@ -15,9 +15,15 @@ import { dateAsISO, addDays } from '../util';
  */
 const MIN_DAYS = 7;
 
+/**
+ * The default number of days from today that we'll set the
+ * first access date to when the user first sees the form.
+ */
+const DEFAULT_FIRST_DATE_DAYS = 14;
+
 export function getInitialState(accessDates: string[], now: Date = new Date()): AccessDatesInput {
   const result: AccessDatesInput = {
-    date1: dateAsISO(addDays(now, MIN_DAYS)),
+    date1: dateAsISO(addDays(now, DEFAULT_FIRST_DATE_DAYS)),
     date2: '',
     date3: ''
   };

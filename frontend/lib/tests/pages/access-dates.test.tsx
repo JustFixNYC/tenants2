@@ -38,7 +38,7 @@ test('getInitialState() works', () => {
 
   expect(getInitialState([], new Date(2018, 0, 1))).toEqual({
     ...BLANK,
-    date1: '2018-01-08'
+    date1: '2018-01-15'
   });
   expect(getInitialState([date1])).toEqual({ ...BLANK, date1 });
   expect(getInitialState([date1, date2])).toEqual({ ...BLANK, date1, date2 });

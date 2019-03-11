@@ -17,9 +17,22 @@ export interface QueryLoaderQuery<Input, Output> {
 }
 
 export interface QueryLoaderProps<Input, Output> {
+  /** The GraphQL query to load. */
   query: QueryLoaderQuery<Input, Output>,
+
+  /** The input for the GraphQL query. */
   input: Input,
+
+  /**
+   * The render prop that will be called with the query output, once
+   * the query has been completed.
+   */
   render: (output: Output) => JSX.Element,
+
+  /**
+   * The component that will be shown while the query is loading,
+   * or if an error occurs.
+   */
   loading: React.ComponentType<MinimalLoadingComponentProps>
 }
 
@@ -91,9 +104,16 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
   }
 }
 
-// Ideally we'd just use react-router's withRouter() HOC factory for this, but
-// it appears to un-genericize our type, so we will do this manually.
+
+/**
+ * This component fetches a GraphQL query and displays a loading component
+ * while doing so.  When running on the server side, it provides a hint
+ * to the server to pre-fetch the query; it also renders the loaded
+ * query on the server-side if the server has already pre-fetched it.
+ */
 export class QueryLoader<Input, Output> extends React.Component<QueryLoaderProps<Input, Output>> {
+  // Ideally we'd just use react-router's withRouter() HOC factory for this,
+  // but it appears to un-genericize our type, so we will do this manually.
   render() {
     return (
       <AppContext.Consumer>

@@ -46,11 +46,7 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
         // Our response has been pre-fetched, so we can render the real component.
         state.output = qr.output;
       }
-    } else if (appStaticCtx) {
-      // We're being rendered on the server-side.
-      if (appStaticCtx.graphQLQueryToPrefetch) {
-        throw new Error("Assertion failure");
-      }
+    } else if (appStaticCtx && !appStaticCtx.graphQLQueryToPrefetch) {
       appStaticCtx.graphQLQueryToPrefetch = {
         graphQL: props.query.graphQL,
         input: props.input

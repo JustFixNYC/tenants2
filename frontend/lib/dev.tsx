@@ -71,8 +71,10 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
   );
 });
 
+/* istanbul ignore next: this is tested by integration tests. */
 const ExampleMetaTagPage = () => <Helmet><meta property="boop" content="hi" /></Helmet>;
 
+/* istanbul ignore next: this is tested by integration tests. */
 function ExampleQueryPage(): JSX.Element {
   return (
     <QueryLoader

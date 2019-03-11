@@ -53,19 +53,26 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
     super(props);
     const state: State<Output> = {};
     const appStaticCtx = getAppStaticContext(props);
-    const qr = props.server.prefetchedGraphQLQueryResponse;
-    if (qr) {
-      if (qr.graphQL === props.query.graphQL && isDeepEqual(qr.input, props.input)) {
-        // Our response has been pre-fetched, so we can render the real component.
-        state.output = qr.output;
-      }
-    } else if (appStaticCtx && !appStaticCtx.graphQLQueryToPrefetch) {
+    state.output = this.getPrefetchedResponse();
+    if (appStaticCtx && !appStaticCtx.graphQLQueryToPrefetch) {
+      // We're on the server-side, tell the server to pre-fetch our query.
       appStaticCtx.graphQLQueryToPrefetch = {
         graphQL: props.query.graphQL,
         input: props.input
       };
     }
     this.state = state;
+  }
+
+  /* istanbul ignore next: this is tested by integration tests. */
+  private getPrefetchedResponse(): Output|undefined {
+    const { props } = this;
+    const qr = props.server.prefetchedGraphQLQueryResponse;
+    if (qr && qr.graphQL === props.query.graphQL && isDeepEqual(qr.input, props.input)) {
+      // Our response has been pre-fetched, so we can render the real component.
+      return qr.output;
+    }
+    return undefined;
   }
 
   @autobind
@@ -103,7 +110,6 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
     }
   }
 }
-
 
 /**
  * This component fetches a GraphQL query and displays a loading component

@@ -28,6 +28,33 @@ BOROUGH_GID_TO_CHOICE = {
 }
 
 
+def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
+    '''
+    Attempt to verify the given address, returning the address, and whether it
+    was actually verified. If the address was verified, the returned address
+    may have changed.
+    '''
+
+    borough_label = BOROUGH_CHOICES.get_label(borough)
+    features = geocoding.search(', '.join([address, borough_label]))
+    if features is None:
+        # Hmm, the geocoding service is unavailable. This
+        # is unfortunate, but we don't want it to block
+        # onboarding, so keep a note of it and let the
+        # user continue.
+        address_verified = False
+    elif len(features) == 0:
+        # The geocoding service is available, but the
+        # address produces no results.
+        raise forms.ValidationError('The address provided is invalid.')
+    else:
+        address_verified = True
+        props = features[0].properties
+        address = props.name
+        borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
+    return address, borough, address_verified
+
+
 class OnboardingStep1Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
@@ -37,38 +64,12 @@ class OnboardingStep1Form(forms.ModelForm):
 
     last_name = forms.CharField(max_length=150)
 
-    def __verify_address(self, address: str, borough: str) -> Tuple[str, str, bool]:
-        '''
-        Attempt to verify the given address, returning the address, and whether it
-        was actually verified. If the address was verified, the returned address
-        may have changed.
-        '''
-
-        borough_label = BOROUGH_CHOICES.get_label(borough)
-        features = geocoding.search(', '.join([address, borough_label]))
-        if features is None:
-            # Hmm, the geocoding service is unavailable. This
-            # is unfortunate, but we don't want it to block
-            # onboarding, so keep a note of it and let the
-            # user continue.
-            address_verified = False
-        elif len(features) == 0:
-            # The geocoding service is available, but the
-            # address produces no results.
-            raise forms.ValidationError('The address provided is invalid.')
-        else:
-            address_verified = True
-            props = features[0].properties
-            address = props.name
-            borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
-        return address, borough, address_verified
-
     def clean(self):
         cleaned_data = super().clean()
         address = cleaned_data.get('address')
         borough = cleaned_data.get('borough')
         if address and borough:
-            address, borough, address_verified = self.__verify_address(address, borough)
+            address, borough, address_verified = verify_address(address, borough)
             cleaned_data['address'] = address
             cleaned_data['borough'] = borough
             cleaned_data['address_verified'] = address_verified

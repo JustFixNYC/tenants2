@@ -34,7 +34,7 @@ dev_patterns = ([
 
 urlpatterns = [
     path('verify', twofactor.views.verify, name='verify'),
-    path('health', health),
+    path('health', health, name='health'),
     path('admin/login/', react_rendered_view),
     path('admin/', admin.site.urls),
     path('safe-mode/', include('frontend.safe_mode')),

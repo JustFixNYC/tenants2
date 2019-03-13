@@ -6,7 +6,7 @@ jobs:
       - image: justfixnyc/tenants2_base:0.3
         environment:
           PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: DATABASE_URL=postgis://justfix@localhost/justfix
+          DATABASE_URL: postgis://justfix@localhost/justfix
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
           ENABLE_FINDHELP: yup

@@ -10,6 +10,33 @@ import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
 import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
 
+/**
+ * Return the browser-specific "autocomplete" attribute value to disable
+ * autocomplete on a form field.
+ * 
+ * This is mostly needed because Chrome is extremely aggressive with
+ * respect to autocompleting form fields, and the behavior seems to
+ * change from one release to the next.
+ * 
+ * For more details on why Chrome ignores the standard autocomplete="off",
+ * see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
+ */
+function getBrowserAutoCompleteOffValue(): string {
+  // Components using this should only be progressively-enhanced ones, meaning
+  // that the initial render on the server-side is for the baseline component.
+  // Otherwise we'd run into issues where the client-side initial render
+  // would be different from the SSR, which is bad.
+  if (typeof(navigator) === 'undefined') {
+    throw new Error('Assertion failure, this function should only be called in the browser!');
+  }
+
+  // https://stackoverflow.com/a/4565120
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+  // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
+  return isChrome ? 'disabled' : 'off';
+}
+
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
   switch (gid) {
     case GeoSearchBoroughGid.Manhattan: return 'MANHATTAN';
@@ -139,7 +166,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
-      autoComplete: 'address-line1 street-address',
+      autoComplete: getBrowserAutoCompleteOffValue(),
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)

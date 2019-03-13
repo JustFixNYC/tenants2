@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.utils import translation
+from django.utils.safestring import SafeString
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
@@ -116,23 +117,51 @@ def envelopes(request):
     }, 'pdf')
 
 
-def render_letter_of_complaint(request, user: JustfixUser, format: str):
+def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
     today = datetime.date.today()
     if hasattr(user, 'letter_request'):
         today = user.letter_request.created_at.date()
-    return render_document(request, 'loc/letter-of-complaint.html', {
+    return {
         'today': today,
         'landlord_details': get_landlord_details(user),
         'onboarding_info': get_onboarding_info(user),
         'issues': get_issues(user),
         'access_dates': [date.date for date in user.access_dates.all()],
         'user': user
-    }, format)
+    }
+
+
+def render_letter_body(request, user: JustfixUser) -> str:
+    ctx = get_letter_context(user)
+    html = render_english_to_string(request, 'loc/letter-content.html', ctx)
+    return html
+
+
+def render_letter_of_complaint(
+    request,
+    user: JustfixUser,
+    format: str,
+    force_live_preview: bool = False
+):
+    if (not force_live_preview and
+            hasattr(user, 'letter_request') and
+            user.letter_request.html_content):
+        html = SafeString(user.letter_request.html_content)
+        ctx: Dict[str, Any] = {'prerendered_letter_content': html}
+    else:
+        ctx = get_letter_context(user)
+    return render_document(request, 'loc/letter-of-complaint.html', ctx, format)
 
 
 @login_required
 def letter_of_complaint_doc(request, format):
-    return render_letter_of_complaint(request, request.user, format)
+    live_preview = request.GET.get('live_preview', '')
+    return render_letter_of_complaint(
+        request,
+        request.user,
+        format,
+        force_live_preview=live_preview == 'on'
+    )
 
 
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
@@ -155,10 +184,7 @@ def template_name_to_pdf_filename(template_name: str) -> str:
     return f'{filename.stem}.pdf'
 
 
-def render_document(request, template_name: str, context: Dict[str, Any], format: str):
-    if format not in ['html', 'pdf']:
-        raise ValueError(f'unknown format "{format}"')
-
+def render_english_to_string(request, template_name: str, context: Dict[str, Any]):
     # For now, we always want to localize the letter of complaint in English.
     # Even if we don't translate the letter itself to other languages, some
     # templating functionality provided by Django (such as date formatting) will
@@ -167,19 +193,26 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
     # the locale here.
     translation.activate('en')
 
+    return render_to_string(template_name, context=context, request=request)
+
+
+def render_document(request, template_name: str, context: Dict[str, Any], format: str):
+    if format not in ['html', 'pdf']:
+        raise ValueError(f'unknown format "{format}"')
+
     if format == 'html':
-        html = render_to_string(template_name, context={
+        html = render_english_to_string(request, template_name, {
             **context,
             'is_pdf': False,
             'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS),
             'fonts_stylesheet_path': '/'.join(LOC_FONTS_PATH_PARTS),
-        }, request=request)
+        })
         return HttpResponse(html)
 
-    html = render_to_string(template_name, context={
+    html = render_english_to_string(request, template_name, {
         **context,
         'is_pdf': True,
         'pdf_styles_css': PDF_STYLES_CSS.read_text()
-    }, request=request)
+    })
 
     return pdf_response(html, template_name_to_pdf_filename(template_name))

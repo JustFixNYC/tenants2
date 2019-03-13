@@ -131,6 +131,11 @@ class LetterRequest(models.Model):
         choices=LOC_MAILING_CHOICES.choices,
         help_text="How the letter of complaint will be mailed.")
 
+    html_content = models.TextField(
+        blank=True,
+        help_text="The HTML content of the letter at the time it was requested."
+    )
+
     @property
     def will_we_mail(self) -> bool:
         '''

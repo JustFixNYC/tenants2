@@ -182,6 +182,11 @@ def wait_for_db(max_attempts=15, seconds_between_attempts=1):
 
     from django.db import DEFAULT_DB_ALIAS, connections
     from django.db.utils import OperationalError
+    import django
+
+    # PostGIS, in particular, needs this in order for the connection
+    # to be established.
+    django.setup()
 
     connection = connections[DEFAULT_DB_ALIAS]
     attempts = 0

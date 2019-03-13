@@ -10,6 +10,7 @@
   },
   {
     "model": "nycdb.hpdcontact",
+    "pk": 3,
     "fields": {
       "registration": 2,
       "type": "CorporateOwner",
@@ -29,6 +30,7 @@
   },
   {
     "model": "nycdb.hpdcontact",
+    "pk": 4,
     "fields": {
       "registration": 2,
       "type": "Agent",
@@ -48,6 +50,7 @@
   },
   {
     "model": "nycdb.hpdcontact",
+    "pk": 5,
     "fields": {
       "registration": 2,
       "type": "HeadOfficer",

@@ -333,18 +333,6 @@ python3 deploy.py heroku
 You'll likely want to use [Heroku Postgres][] as your
 database backend.
 
-#### Locally testing the production Docker container
-
-You can build and run the production Docker container locally with:
-
-```
-python3 deploy.py local
-```
-
-You can visit the server at http://localhost:8000/ and even create accounts
-and such, as it uses an ephemeral SQLite database built-in to the
-container, but the data will go away once the container is removed.
-
 ## Optional integrations
 
 The codebase has a number of optional integations with third-party services

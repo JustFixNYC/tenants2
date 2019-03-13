@@ -4,10 +4,16 @@
 
 This is an attempt at creating a new Tenants app for JustFix.
 
-## Quick start
+## Getting started
+
+**Note**: It's highly recommended you follow the
+[Developing with Docker](#developing-with-docker) instructions, as it
+makes development much easier. But if you'd really rather set
+everything up without Docker, read on!
 
 You'll need Python 3.7.0 and [pipenv][], as well as Node 8 and
-[Git Large File Storage (LFS)][git-lfs].
+[Git Large File Storage (LFS)][git-lfs]. You will also need to
+set up Postgres version 10 or later.
 
 If you didn't have Git LFS installed before cloning the repository,
 you can obtain the repository's large files by running `git lfs pull`.
@@ -18,6 +24,9 @@ see fit:
 ```
 cp .justfix-env.sample .justfix-env
 ```
+
+Since you're not using Docker, you will want to set `DATABASE_URL`
+to your Postgres instance, using the [Database URL schema][].
 
 Then set up the front-end and configure it to
 continuously re-build itself as you change the source code:
@@ -48,6 +57,8 @@ python manage.py runserver
 ```
 
 Then visit http://localhost:8000/ in your browser.
+
+[Database URL schema]: https://github.com/kennethreitz/dj-database-url#url-schema
 
 ### Production dependencies
 
@@ -332,18 +343,6 @@ python3 deploy.py heroku
 
 You'll likely want to use [Heroku Postgres][] as your
 database backend.
-
-#### Locally testing the production Docker container
-
-You can build and run the production Docker container locally with:
-
-```
-python3 deploy.py local
-```
-
-You can visit the server at http://localhost:8000/ and even create accounts
-and such, as it uses an ephemeral SQLite database built-in to the
-container, but the data will go away once the container is removed.
 
 ## Optional integrations
 

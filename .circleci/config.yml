@@ -3,15 +3,19 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.3
+      - image: justfixnyc/tenants2_base:0.4
         environment:
           PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgis://justfix@localhost/justfix
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
           ENABLE_FINDHELP: yup
           ENABLE_I18N: yup
-          SPATIALITE_LIBRARY_PATH: mod_spatialite
           CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
+      - image: mdillon/postgis:10-alpine
+        environment:
+          POSTGRES_DB: justfix
+          POSTGRES_USER: justfix
     steps:
       - checkout
       - restore_cache:

@@ -39,7 +39,6 @@ def build_local_container(container_name: str):
 def run_local_container(
     container_name: str,
     args: Optional[List[str]] = None,
-    port: Optional[int] = None,
     env: Optional[Dict[str, str]] = None,
     use_docker_compose: bool = False
 ) -> int:
@@ -55,9 +54,6 @@ def run_local_container(
     if not use_docker_compose:
         final_args.append('-it')
     env = env.copy()
-    if port is not None:
-        env['PORT'] = str(port)
-        final_args.extend(['-p', f'{port}:{port}'])
     final_env = os.environ.copy()
     for name, val in env.items():
         final_env[name] = val
@@ -65,16 +61,6 @@ def run_local_container(
     final_args.append(container_name)
     final_args.extend(args)
     return subprocess.call(final_args, cwd=BASE_DIR, env=final_env)
-
-
-def deploy_local(args):
-    container_name = 'tenants2'
-    port = 8000
-
-    build_local_container(container_name)
-    sys.exit(run_local_container(container_name, port=port, env={
-        'USE_DEVELOPMENT_DEFAULTS': 'yup'
-    }))
 
 
 @dataclass
@@ -206,11 +192,6 @@ def main():
         title='subcommands',
         description='valid subcommands',
     )
-    parser_local = subparsers.add_parser(
-        'local',
-        help='Build container and run everything locally.'
-    )
-    parser_local.set_defaults(func=deploy_local)
 
     parser_heroku = subparsers.add_parser(
         'heroku',

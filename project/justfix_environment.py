@@ -25,10 +25,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/aepyornis/nyc-db
     NYCDB_DATABASE_URL: str = ''
 
-    # If using sqlite with SpatiaLite for GeoDjango, you may need to
-    # set this to 'mod_spatialite' to support SpatiaLite 4.2+.
-    SPATIALITE_LIBRARY_PATH: str = ''
-
     # This is a large random value corresponding to Django's
     # SECRET_KEY setting.
     SECRET_KEY: str
@@ -177,8 +173,6 @@ class JustfixDevelopmentDefaults(JustfixEnvironment):
 
     SECRET_KEY = 'for development only!'
 
-    DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-
     SECURE_SSL_REDIRECT = False
 
 
@@ -198,8 +192,6 @@ class JustfixTestingEnvironment(JustfixEnvironment):
     DEBUG = False
 
     SECRET_KEY = 'for testing only!'
-
-    DATABASE_URL = f"sqlite:///{BASE_DIR / 'db.testing.sqlite3'}"
 
     SECURE_SSL_REDIRECT = False
 

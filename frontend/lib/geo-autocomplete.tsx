@@ -22,14 +22,19 @@ import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo
  * see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
  */
 function getBrowserAutoCompleteOffValue(): string {
-  if (typeof(navigator) !== 'undefined') {
-    // https://stackoverflow.com/a/4565120
-    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-
-    // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
-    if (isChrome) return 'disabled';
+  // Components using this should only be progressively-enhanced ones, meaning
+  // that the initial render on the server-side is for the baseline component.
+  // Otherwise we'd run into issues where the client-side initial render
+  // would be different from the SSR, which is bad.
+  if (typeof(navigator) === 'undefined') {
+    throw new Error('Assertion failure, this function should only be called in the browser!');
   }
-  return 'off';
+
+  // https://stackoverflow.com/a/4565120
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+  // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
+  return isChrome ? 'disabled' : 'off';
 }
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {

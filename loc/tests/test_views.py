@@ -4,7 +4,7 @@ import pytest
 
 from users.tests.factories import UserFactory
 from issues.models import Issue, CustomIssue
-from loc.models import LandlordDetails
+from loc.models import LandlordDetails, LetterRequest, LOC_MAILING_CHOICES
 from loc.views import (
     can_we_render_pdfs, render_document, get_issues, get_landlord_details,
     parse_comma_separated_ints)
@@ -76,8 +76,8 @@ def test_letter_requires_login(client):
     assert res.status_code == 302
 
 
-def get_letter_html(client):
-    res = client.get(letter_url('html'))
+def get_letter_html(client, querystring=''):
+    res = client.get(letter_url('html') + querystring)
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
     return res.content.decode('utf-8')
@@ -85,6 +85,18 @@ def get_letter_html(client):
 
 def test_letter_html_works_for_users_with_minimal_info(admin_client):
     get_letter_html(admin_client)
+
+
+@pytest.mark.django_db
+def test_letter_html_prefers_prerendered_content(client):
+    user = UserFactory()
+    lr = LetterRequest(
+        user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL,
+        html_content='<p>BOOP</p>')
+    lr.save()
+    client.force_login(user)
+    assert 'BOOP' in get_letter_html(client)
+    assert 'BOOP' not in get_letter_html(client, '?live_preview=on')
 
 
 @pytest.mark.django_db

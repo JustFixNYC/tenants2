@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 import pytest
@@ -67,6 +68,26 @@ class TestCreateLookupForUser:
         assert info.is_looked_up is True
 
 
+class TestCanChangeContent:
+    def test_it_is_true_for_instances_without_created_at(self):
+        assert LetterRequest(html_content='boop').can_change_content() is True
+
+    def test_it_is_true_for_instances_without_html_content(self):
+        assert LetterRequest(created_at=timezone.now()).can_change_content() is True
+
+    def test_it_is_true_when_within_leeway_window(self):
+        assert LetterRequest(
+            created_at=timezone.now(),
+            html_content='boop'
+        ).can_change_content() is True
+
+    def test_it_is_false_when_outside_leeway_window(self):
+        assert LetterRequest(
+            created_at=timezone.make_aware(datetime(2001, 1, 1)),
+            html_content='boop'
+        ).can_change_content() is False
+
+
 class TestLetterRequestClean:
     @pytest.fixture(autouse=True)
     def setup(self, db):
@@ -89,3 +110,10 @@ class TestLetterRequestClean:
     def test_it_raises_error_when_no_access_dates_exist(self):
         with pytest.raises(ValidationError, match='at least one access date'):
             self.make(create_user_with_all_info(access_dates=False)).clean()
+
+    def test_is_raises_error_when_content_cannot_be_changed(self):
+        lr = self.make(create_user_with_all_info())
+        lr.created_at = timezone.make_aware(datetime(2001, 1, 1))
+        lr.html_content = 'blorp'
+        with pytest.raises(ValidationError, match='already being mailed'):
+            lr.clean()

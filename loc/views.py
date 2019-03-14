@@ -128,9 +128,9 @@ def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
     }
 
 
-def render_letter_body(request, user: JustfixUser) -> str:
+def render_letter_body(user: JustfixUser) -> str:
     ctx = get_letter_context(user)
-    html = render_english_to_string(request, 'loc/letter-content.html', ctx)
+    html = render_english_to_string(None, 'loc/letter-content.html', ctx)
     return html
 
 

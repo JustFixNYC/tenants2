@@ -6,7 +6,6 @@ from django.forms import ModelForm
 from project.util.session_mutation import SessionFormMutation
 from project import slack
 from . import forms, models
-from .views import render_letter_body
 from airtable.sync import sync_user as sync_user_with_airtable
 
 
@@ -98,12 +97,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
         request = info.context
-
-        lr = form.save(commit=False)
-        lr.html_content = render_letter_body(request, lr.user)
-        lr.clean()
-        lr.save()
-
+        lr = form.save()
         if lr.mail_choice == 'WE_WILL_MAIL':
             sync_user_with_airtable(request.user)
             lr.user.send_sms(

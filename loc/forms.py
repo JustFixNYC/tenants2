@@ -4,6 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from . import models
+from .views import render_letter_body
 
 
 class AccessDatesForm(forms.Form):
@@ -41,3 +42,7 @@ class LetterRequestForm(forms.ModelForm):
     class Meta:
         model = models.LetterRequest
         fields = ('mail_choice',)
+
+    def clean(self):
+        super().clean()
+        self.instance.html_content = render_letter_body(self.instance.user)

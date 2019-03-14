@@ -42,6 +42,7 @@ class LetterRequestInline(admin.StackedInline):
     model = models.LetterRequest
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
+    exclude = ['html_content']
 
     readonly_fields = ['loc_actions']
 

@@ -1,7 +1,5 @@
-import datetime
 from functools import wraps
 from django.urls import reverse
-from django.utils.timezone import make_aware
 import pytest
 
 from users.tests.factories import UserFactory
@@ -78,8 +76,8 @@ def test_letter_requires_login(client):
     assert res.status_code == 302
 
 
-def get_letter_html(client):
-    res = client.get(letter_url('html'))
+def get_letter_html(client, querystring=''):
+    res = client.get(letter_url('html') + querystring)
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
     return res.content.decode('utf-8')
@@ -90,22 +88,24 @@ def test_letter_html_works_for_users_with_minimal_info(admin_client):
 
 
 @pytest.mark.django_db
+def test_letter_html_prefers_prerendered_content(client):
+    user = UserFactory()
+    lr = LetterRequest(
+        user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL,
+        html_content='<p>BOOP</p>')
+    lr.save()
+    client.force_login(user)
+    assert 'BOOP' in get_letter_html(client)
+    assert 'BOOP' not in get_letter_html(client, '?live_preview=on')
+
+
+@pytest.mark.django_db
 def test_letter_html_includes_expected_content(client):
     user = create_user_with_all_info()
-
-    lr = LetterRequest(user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL)
-    lr.save()
-
-    # This is a bit annoying, because created_at will always be
-    # the current date/time on creation and we want to override it,
-    # so we'll have to re-save it here.
-    lr.created_at = make_aware(datetime.datetime(2008, 1, 2))
-    lr.save()
 
     client.force_login(user)
     html = get_letter_html(client)
 
-    assert 'Jan. 2, 2008' in html
     assert 'Bobby Denver' in html
     assert '1 Times Square' in html
     assert 'Apartment 301' in html

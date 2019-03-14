@@ -118,11 +118,8 @@ def envelopes(request):
 
 
 def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
-    today = datetime.date.today()
-    if hasattr(user, 'letter_request'):
-        today = user.letter_request.created_at.date()
     return {
-        'today': today,
+        'today': datetime.date.today(),
         'landlord_details': get_landlord_details(user),
         'onboarding_info': get_onboarding_info(user),
         'issues': get_issues(user),

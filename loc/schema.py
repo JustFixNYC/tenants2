@@ -98,9 +98,12 @@ class LetterRequest(OneToOneUserModelFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
         request = info.context
-        lr = form.save()
+
+        lr = form.save(commit=False)
         lr.html_content = render_letter_body(request, lr.user)
+        lr.clean()
         lr.save()
+
         if lr.mail_choice == 'WE_WILL_MAIL':
             sync_user_with_airtable(request.user)
             lr.user.send_sms(

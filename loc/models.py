@@ -12,6 +12,10 @@ from .landlord_lookup import lookup_landlord
 
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
+# The amount of time a user has to change their letter of request
+# content after originally submitting it.
+LOC_CHANGE_LEEWAY = datetime.timedelta(hours=1)
+
 
 class AccessDateManager(models.Manager):
     @transaction.atomic
@@ -166,6 +170,13 @@ class LetterRequest(models.Model):
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
 
+    def can_change_content(self) -> bool:
+        if self.created_at is None:
+            return True
+        if not self.html_content:
+            return True
+        return timezone.now() - self.created_at < LOC_CHANGE_LEEWAY
+
     def clean(self):
         super().clean()
         user = self.user
@@ -179,3 +190,5 @@ class LetterRequest(models.Model):
             if not hasattr(user, 'landlord_details'):
                 raise ValidationError(
                     'Please provide contact information for your landlord.')
+            if not self.can_change_content():
+                raise ValidationError('Your letter is already being mailed!')

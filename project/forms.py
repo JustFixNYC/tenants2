@@ -33,6 +33,13 @@ class USPhoneNumberField(forms.CharField):
         return cleaned
 
 
+def get_username_for_phone_number(phone_number: str) -> Optional[str]:
+    user = JustfixUser.objects.filter(phone_number=phone_number).first()
+    if user is None:
+        return user
+    return user.username
+
+
 class LoginForm(forms.Form):
     phone_number = USPhoneNumberField()
 
@@ -47,7 +54,11 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if phone_number and password:
-            user = authenticate(phone_number=phone_number, password=password)
+            user = None
+            username = get_username_for_phone_number(phone_number)
+            if username is not None:
+                user = authenticate(
+                    username=username, phone_number=phone_number, password=password)
             if user is None:
                 raise ValidationError('Invalid phone number or password.',
                                       code='authenticate_failed')

@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch
 from django.forms import ValidationError
 
+import project.forms
 from project.forms import (
     LoginForm,
     USPhoneNumberField
@@ -14,18 +15,23 @@ def test_login_form_is_invalid_if_fields_are_invalid():
     assert LoginForm(data={'phone_number': '5551234567', 'password': ''}).is_valid() is False
 
 
-def test_login_form_is_invalid_if_auth_failed():
+def test_login_form_is_invalid_if_auth_failed(monkeypatch):
+    monkeypatch.setattr(
+        project.forms, 'get_username_for_phone_number', lambda x: 'foo')
     with patch('project.forms.authenticate', return_value=None) as auth:
         form = LoginForm(data={'phone_number': '5551234567', 'password': 'boop'})
         assert form.is_valid() is False
-        auth.assert_called_once_with(phone_number='5551234567', password='boop')
+        auth.assert_called_once_with(
+            username='foo', phone_number='5551234567', password='boop')
         assert form.errors == {
             '__all__': ['Invalid phone number or password.']
         }
         assert form.authenticated_user is None
 
 
-def test_login_form_is_valid_if_auth_succeeded():
+def test_login_form_is_valid_if_auth_succeeded(monkeypatch):
+    monkeypatch.setattr(
+        project.forms, 'get_username_for_phone_number', lambda x: 'foo')
     fake_user = {'fake': 'user'}
     with patch('project.forms.authenticate', return_value=fake_user):
         form = LoginForm(data={'phone_number': '5551234567', 'password': 'boop'})

@@ -96,7 +96,7 @@ class JustfixUser(AbstractUser):
 
     objects = JustfixUserManager()
 
-    USERNAME_FIELD = 'phone_number'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['username', 'email']
 
     @property

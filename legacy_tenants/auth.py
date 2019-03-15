@@ -73,7 +73,7 @@ class LegacyTenantsAppBackend:
     '''
 
     def authenticate(self, request, phone_number: Optional[str] = None,
-                     password: Optional[str] = None):
+                     password: Optional[str] = None, **extra):
         if settings.LEGACY_MONGODB_URL and phone_number and password:
             mongo_user = mongo.get_user_by_phone_number(phone_number)
             if mongo_user and try_password(mongo_user.identity, password):

@@ -38,6 +38,7 @@ def test_letter_request_works(db):
         form.save()
 
         assert 'NYC Admin Code' in lr.html_content
+        assert 'using git revision' in lr.html_content
 
         time.tick(delta=timedelta(seconds=1) + LOC_CHANGE_LEEWAY)
 

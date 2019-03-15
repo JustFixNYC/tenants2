@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 
 from project.common_data import Choices
 from project.util.site_util import absolute_reverse
+from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
 
@@ -140,6 +141,10 @@ class LetterRequest(models.Model):
         help_text="The HTML content of the letter at the time it was requested."
     )
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])
+
     @property
     def will_we_mail(self) -> bool:
         '''
@@ -171,9 +176,9 @@ class LetterRequest(models.Model):
         )
 
     def can_change_content(self) -> bool:
-        if self.created_at is None:
+        if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:
             return True
-        if not self.html_content:
+        if self.created_at is None:
             return True
         return timezone.now() - self.created_at < LOC_CHANGE_LEEWAY
 
@@ -190,5 +195,10 @@ class LetterRequest(models.Model):
             if not hasattr(user, 'landlord_details'):
                 raise ValidationError(
                     'Please provide contact information for your landlord.')
-            if not self.can_change_content():
-                raise ValidationError('Your letter is already being mailed!')
+
+        if self.__tracker.has_changed() and not self.can_change_content():
+            raise ValidationError('Your letter is already being mailed!')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.__tracker.set_to_unchanged()

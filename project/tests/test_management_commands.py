@@ -63,3 +63,13 @@ class TestStoreTestFile:
         out = StringIO()
         call_command('storetestfile', '--no-delete', stdout=out)
         assert 'Please delete "storetestfile_test_file.txt" manually' in out.getvalue()
+
+
+class TestStats:
+    def test_it_works(self, db):
+        from onboarding.tests.factories import OnboardingInfoFactory
+
+        OnboardingInfoFactory(pad_bbl='1234567890')
+        out = StringIO()
+        call_command('stats', stdout=out)
+        assert '1234567890' in out.getvalue()

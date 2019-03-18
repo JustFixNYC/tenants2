@@ -14,5 +14,6 @@ class Command(BaseCommand):
         writer = csv.writer(self.stdout)
         with connection.cursor() as cursor:
             cursor.execute(STATS_SQLFILE.read_text())
+            writer.writerow(column.name for column in cursor.description)
             row = cursor.fetchone()
             writer.writerow(row)

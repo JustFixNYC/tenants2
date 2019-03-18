@@ -69,13 +69,16 @@ class TestUserStats:
     def test_it_works(self, db):
         from onboarding.tests.factories import OnboardingInfoFactory
 
+        redacted = 'REDACTED'
         pad_bbl = '1234567890'
         OnboardingInfoFactory(pad_bbl=pad_bbl)
 
         out = StringIO()
         call_command('userstats', stdout=out)
         assert pad_bbl not in out.getvalue()
+        assert redacted in out.getvalue()
 
         out = StringIO()
         call_command('userstats', '--include-pad-bbl', stdout=out)
         assert pad_bbl in out.getvalue()
+        assert redacted not in out.getvalue()

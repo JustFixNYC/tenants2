@@ -1,6 +1,11 @@
 SELECT
     onb.user_id AS user_id,
-    CASE WHEN %(include_pad_bbl)s THEN onb.pad_bbl ELSE NULL END AS pad_bbl,
+    CASE WHEN %(include_pad_bbl)s THEN onb.pad_bbl ELSE 'REDACTED' END AS pad_bbl,
+    EXISTS (
+        SELECT pad_bbl
+        FROM nycha_nychaproperty
+        WHERE pad_bbl = onb.pad_bbl
+    ) AS is_nycha_bbl,
     onb.borough AS borough,
     onb.created_at AS onboarding_date,
     onb.is_in_eviction AS is_in_eviction,

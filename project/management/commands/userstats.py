@@ -5,12 +5,12 @@ from django.core.management.base import BaseCommand
 from django.db import connection
 
 MY_DIR = Path(__file__).parent.resolve()
-STATS_SQLFILE = MY_DIR / 'stats.sql'
+USER_STATS_SQLFILE = MY_DIR / 'userstats.sql'
 
 
 def get_user_stats_rows(include_pad_bbl: bool = False) -> Iterator[List[Any]]:
     with connection.cursor() as cursor:
-        cursor.execute(STATS_SQLFILE.read_text(), {
+        cursor.execute(USER_STATS_SQLFILE.read_text(), {
             'include_pad_bbl': include_pad_bbl
         })
         yield [column.name for column in cursor.description]
@@ -28,7 +28,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--include-pad-bbl', action='store_true',
-            help='Include "pad_bbl" (padded borough-block-lot) column')
+            help='Include potentially personally-identifiable "pad_bbl" column'
+        )
 
     def handle(self, *args, **options):
         include_pad_bbl: bool = options['include_pad_bbl']

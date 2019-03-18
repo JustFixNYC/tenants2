@@ -65,7 +65,7 @@ class TestStoreTestFile:
         assert 'Please delete "storetestfile_test_file.txt" manually' in out.getvalue()
 
 
-class TestStats:
+class TestUserStats:
     def test_it_works(self, db):
         from onboarding.tests.factories import OnboardingInfoFactory
 
@@ -73,9 +73,9 @@ class TestStats:
         OnboardingInfoFactory(pad_bbl=pad_bbl)
 
         out = StringIO()
-        call_command('stats', stdout=out)
+        call_command('userstats', stdout=out)
         assert pad_bbl not in out.getvalue()
 
         out = StringIO()
-        call_command('stats', '--include-pad-bbl', stdout=out)
+        call_command('userstats', '--include-pad-bbl', stdout=out)
         assert pad_bbl in out.getvalue()

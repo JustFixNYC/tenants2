@@ -140,17 +140,6 @@ def test_pages_with_prefetched_graphql_queries_work(client):
     assert s in response.context['initial_render']
 
 
-def test_admin_login_is_ours(client):
-    url = reverse('admin:login')
-    assert url == '/admin/login/'
-
-    response = client.get(url)
-    assert response.status_code == 200
-    html = response.content.decode('utf-8')
-    assert 'Phone number' in html
-    assert SAFE_MODE_DISABLED_SENTINEL in html
-
-
 def test_404_works(client):
     response = client.get(react_url('/nonexistent'))
     assert response.status_code == 404

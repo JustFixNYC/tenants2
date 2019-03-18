@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{#
+ # This file is derived from the original Django admin template of the same name:
+ # https://github.com/django/django/blob/master/django/contrib/admin/templates/admin/base_site.html
+ #}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block userlinks %}
+<a href="{% url 'admin:download-data' %}">Download data</a> /
+{{ block.super }}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

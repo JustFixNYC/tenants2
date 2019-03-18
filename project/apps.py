@@ -2,6 +2,7 @@ import logging
 import sys
 from django.apps import AppConfig
 from django.conf import settings
+from django.contrib.admin.apps import AdminConfig
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
 
@@ -44,3 +45,7 @@ class DefaultConfig(AppConfig):
                 schema_json.rebuild()
         else:
             logger.info(f"This is version {settings.GIT_INFO.get_version_str()}.")
+
+
+class JustfixAdminConfig(AdminConfig):
+    default_site = 'project.admin.JustfixAdminSite'

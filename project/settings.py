@@ -42,7 +42,6 @@ SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -52,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'graphene_django',
     'project.apps.DefaultConfig',
+    'project.apps.JustfixAdminConfig',
     'frontend',
     'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',

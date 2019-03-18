@@ -69,7 +69,13 @@ class TestStats:
     def test_it_works(self, db):
         from onboarding.tests.factories import OnboardingInfoFactory
 
-        OnboardingInfoFactory(pad_bbl='1234567890')
+        pad_bbl = '1234567890'
+        OnboardingInfoFactory(pad_bbl=pad_bbl)
+
         out = StringIO()
         call_command('stats', stdout=out)
-        assert '1234567890' in out.getvalue()
+        assert pad_bbl not in out.getvalue()
+
+        out = StringIO()
+        call_command('stats', '--include-pad-bbl', stdout=out)
+        assert pad_bbl in out.getvalue()

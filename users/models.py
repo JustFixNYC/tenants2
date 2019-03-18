@@ -17,11 +17,13 @@ FULL_NAME_MAXLEN = 150
 
 VIEW_LETTER_REQUEST_PERMISSION = 'loc.view_letterrequest'
 
+CHANGE_USER_PERMISSION = 'users.change_justfixuser'
+
 ROLES = {}
 
 ROLES['Outreach Coordinators'] = set([
     'users.add_justfixuser',
-    'users.change_justfixuser',
+    CHANGE_USER_PERMISSION,
     'legacy_tenants.change_legacyuserinfo',
     'loc.add_accessdate',
     'loc.change_accessdate',

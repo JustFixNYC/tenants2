@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<ul>
+    <li><a href="{% url 'admin:download-userstats' %}">User statistics (CSV)</a> - Anonymized statistics about each user,
+        including when they completed onboarding, sent a letter of complaint,
+        and so on.
+    </li>
+    <li><a href="{% url 'admin:download-userstats' %}?include_pad_bbl=on">User statistics with BBLs (CSV)</a> -
+        This is like the user statistics CSV but also includes the BBL of each user,
+        <strong>which could potentially be used to personally identify them</strong>.
+    </li>
+</ul>
+<p>
+    Please be careful when downloading data that contains personally-identifiable
+    information (PII).  We don't want that information falling into the wrong hands!
+</p>
+{% endblock %}

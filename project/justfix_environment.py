@@ -168,6 +168,13 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Whether or not to enable internationalization/localization.
     ENABLE_I18N: bool = False
 
+    # The RapidPro API token to use. If not provided, RapidPro
+    # integration is disabled.
+    RAPIDPRO_API_TOKEN: str = ''
+
+    # The hostname of the RapidPro server to access.
+    RAPIDPRO_HOSTNAME: str = 'api.textit.in'
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

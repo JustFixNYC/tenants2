@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'hpaction.apps.HPActionConfig',
     'twofactor.apps.TwofactorConfig',
     'nycdb',
+    'rapidpro.apps.RapidproConfig',
     'findhelp.apps.FindhelpConfig'
 ]
 
@@ -347,6 +348,10 @@ TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
 MAPBOX_ACCESS_TOKEN = env.MAPBOX_ACCESS_TOKEN
 
 MAPBOX_TILES_ORIGIN = 'https://api.tiles.mapbox.com'
+
+RAPIDPRO_API_TOKEN = env.RAPIDPRO_API_TOKEN
+
+RAPIDPRO_HOSTNAME = env.RAPIDPRO_HOSTNAME
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

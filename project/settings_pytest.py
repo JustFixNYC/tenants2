@@ -31,6 +31,7 @@ LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }
 HP_ACTION_CUSTOMER_KEY = ''
+RAPIDPRO_API_TOKEN = ''
 
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 

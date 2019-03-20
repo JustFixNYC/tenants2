@@ -14,9 +14,9 @@ from rapidpro.models import Metadata, ContactGroup, UserContactGroup
 SYNCING_USER_SENTINEL = 'Syncing user'
 
 
-def call():
+def call(*args):
     out = StringIO()
-    call_command('syncrapidpro', stdout=out)
+    call_command('syncrapidpro', *args, stdout=out)
     return out.getvalue()
 
 
@@ -58,6 +58,12 @@ class TestSyncrapidpro:
 
         assert Metadata.objects.count() == 1
         assert str(Metadata.objects.first().last_sync) == '2012-01-15 02:55:00+00:00'
+
+    def test_full_resync_works(self):
+        call()
+        self.get_contact_batches.assert_called_with(after=None)
+        call('--full-resync')
+        self.get_contact_batches.assert_called_with(after=None)
 
     def test_it_does_nothing_with_contacts_that_do_not_map_to_existing_users(self):
         self.get_contact_batches.return_value = [[make_contact()]]

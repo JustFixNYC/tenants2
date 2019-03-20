@@ -47,6 +47,12 @@ def get_contact_batches(after: Optional[datetime]):
 class Command(BaseCommand):
     help = 'Sync with RapidPro.'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--full-resync', action='store_true',
+            help='Completely re-sync all users.'
+        )
+
     def sync_contact(self, contact):
         user = find_user_from_urns(contact.urns)
         if user is None:
@@ -54,7 +60,7 @@ class Command(BaseCommand):
             # new app users who have been RapidPro contacts for a long time won't
             # necessarily be perfectly in-sync (any RapidPro contact information
             # will only show up on the Django side when the RapidPro contact is
-            # next modified, or when a full re-sync occurs).
+            # next modified, or when a full resync occurs).
             return
         self.stdout.write(f"Syncing user {user} ({len(contact.groups)} groups).\n")
         for group in contact.groups:
@@ -81,12 +87,13 @@ class Command(BaseCommand):
         ]).delete()
 
     @transaction.atomic
-    def sync(self):
+    def sync(self, full_resync: bool):
         hostname = settings.RAPIDPRO_HOSTNAME
         self.stdout.write(f"Syncing with {hostname}...")
         sync_time = timezone.now() - CLOCK_SKEW
         metadata, _ = Metadata.objects.get_or_create()
-        batches = get_contact_batches(after=metadata.last_sync)
+        after = None if full_resync else metadata.last_sync
+        batches = get_contact_batches(after=after)
         for contact_batch in batches:
             self.stdout.write(f"Processing a batch of {len(contact_batch)} contacts.\n")
             for contact in contact_batch:
@@ -98,4 +105,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not settings.RAPIDPRO_API_TOKEN:
             raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
-        self.sync()
+        self.sync(full_resync=options['full_resync'])

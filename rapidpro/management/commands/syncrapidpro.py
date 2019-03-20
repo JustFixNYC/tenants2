@@ -47,6 +47,31 @@ def get_contact_batches(after: Optional[datetime]):
 class Command(BaseCommand):
     help = 'Sync with RapidPro.'
 
+    def sync_contact(self, contact):
+        user = find_user_from_urns(contact.urns)
+        if user is None:
+            return
+        self.stdout.write(f"Syncing user {user} ({len(contact.groups)} groups).\n")
+        for group in contact.groups:
+            # Get the contact group from the database, creating it if needed.
+            cg, _ = ContactGroup.objects.get_or_create(
+                uuid=group.uuid,
+                defaults={'name': group.name}
+            )
+            # Associate the user with any groups they're in that we don't
+            # already know of.
+            UserContactGroup.objects.get_or_create(
+                user=user,
+                group=cg,
+                defaults={'earliest_known_date': contact.modified_on}
+            )
+
+        # Now find any existing groups the user is no longer in, and
+        # delete the user's association with them.
+        UserContactGroup.objects.filter(user=user).exclude(group__uuid__in=[
+            group.uuid for group in contact.groups
+        ]).delete()
+
     @transaction.atomic
     def sync(self):
         hostname = settings.RAPIDPRO_HOSTNAME
@@ -57,30 +82,7 @@ class Command(BaseCommand):
         for contact_batch in batches:
             self.stdout.write(f"Processing a batch of {len(contact_batch)} contacts.\n")
             for contact in contact_batch:
-                user = find_user_from_urns(contact.urns)
-                if user is None:
-                    continue
-                self.stdout.write(f"Syncing user {user} ({len(contact.groups)} groups).\n")
-                for group in contact.groups:
-                    # Get the contact group from the database, creating it if needed.
-                    cg, _ = ContactGroup.objects.get_or_create(
-                        uuid=group.uuid,
-                        defaults={'name': group.name}
-                    )
-                    # Associate the user with any groups they're in that we don't
-                    # already know of.
-                    UserContactGroup.objects.get_or_create(
-                        user=user,
-                        group=cg,
-                        defaults={'earliest_known_date': contact.modified_on}
-                    )
-
-                # Now find any existing groups the user is no longer in, and
-                # delete the user's association with them.
-                UserContactGroup.objects.filter(user=user).exclude(group__uuid__in=[
-                    group.uuid for group in contact.groups
-                ]).delete()
-
+                self.sync_contact(contact)
         metadata.last_sync = sync_time
         metadata.save()
         self.stdout.write(f"Done syncing with {hostname}.\n")

@@ -50,12 +50,20 @@ class Command(BaseCommand):
     def sync_contact(self, contact):
         user = find_user_from_urns(contact.urns)
         if user is None:
+            # NOTE: Because we ignore contacts that don't map to existing users,
+            # new app users who have been RapidPro contacts for a long time won't
+            # necessarily be perfectly in-sync (any RapidPro contact information
+            # will only show up on the Django side when the RapidPro contact is
+            # next modified, or when a full re-sync occurs).
             return
         self.stdout.write(f"Syncing user {user} ({len(contact.groups)} groups).\n")
         for group in contact.groups:
             # Get the contact group from the database, creating it if needed.
             cg, _ = ContactGroup.objects.get_or_create(
                 uuid=group.uuid,
+                # NOTE: Because we're only setting the group name on creation,
+                # and never checking to see if it's changed, we won't necessarily
+                # have group names perfectly in-sync.
                 defaults={'name': group.name}
             )
             # Associate the user with any groups they're in that we don't

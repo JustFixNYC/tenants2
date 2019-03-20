@@ -40,12 +40,28 @@ SELECT
         SELECT MAX(hp.created_at)
         FROM hpaction_hpactiondocuments AS hp
         WHERE hp.user_id = onb.user_id
-    ) AS latest_hp_action_pdf_creation_date
+    ) AS latest_hp_action_pdf_creation_date,
+    rapidpro.contact_groups AS rapidpro_contact_groups
 FROM
     onboarding_onboardinginfo AS onb
 LEFT OUTER JOIN
     loc_letterrequest AS letter ON letter.user_id = onb.user_id
 LEFT OUTER JOIN
     loc_landlorddetails AS landlord ON landlord.user_id = onb.user_id
+LEFT OUTER JOIN
+    (
+        SELECT
+            rucg.user_id AS user_id,
+            -- We're going to concatenate all the user's RapidPro
+            -- Contact Group names into a single comma-separated field.
+            -- This isn't ideal, but it's how Google Forms handles
+            -- checkboxes, so CSV users should hopefully be somewhat
+            -- familiar with it.
+            string_agg(rcg.name, ', ' ORDER BY rcg.name) AS contact_groups
+        FROM rapidpro_contactgroup AS rcg
+        INNER JOIN
+            rapidpro_usercontactgroup AS rucg ON rcg.uuid = rucg.group_id
+        GROUP BY rucg.user_id
+    ) AS rapidpro ON rapidpro.user_id = onb.user_id
 ORDER BY
     onb.user_id

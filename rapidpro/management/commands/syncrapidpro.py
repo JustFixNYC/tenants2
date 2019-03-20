@@ -53,6 +53,16 @@ class Command(BaseCommand):
             help='Completely re-sync all users.'
         )
 
+    def sync_contact_group(self, group) -> ContactGroup:
+        cg, _ = ContactGroup.objects.get_or_create(
+            uuid=group.uuid,
+            defaults={'name': group.name}
+        )
+        if cg.name != group.name:
+            cg.name = group.name
+            cg.save()
+        return cg
+
     def sync_contact(self, contact):
         user = find_user_from_urns(contact.urns)
         if user is None:
@@ -65,13 +75,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Syncing user {user} ({len(contact.groups)} groups).\n")
         for group in contact.groups:
             # Get the contact group from the database, creating it if needed.
-            cg, _ = ContactGroup.objects.get_or_create(
-                uuid=group.uuid,
-                # NOTE: Because we're only setting the group name on creation,
-                # and never checking to see if it's changed, we won't necessarily
-                # have group names perfectly in-sync.
-                defaults={'name': group.name}
-            )
+            cg = self.sync_contact_group(group)
             # Associate the user with any groups they're in that we don't
             # already know of.
             UserContactGroup.objects.get_or_create(

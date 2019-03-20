@@ -41,6 +41,15 @@ class TestSyncrapidpro:
         self.get_contact_batches = MagicMock(return_value=[[]])
         monkeypatch.setattr(syncrapidpro, 'get_contact_batches', self.get_contact_batches)
 
+    def test_it_syncs_contact_groups(self):
+        cmd = syncrapidpro.Command()
+        group = make_group('funky', 'Funky Group')
+        cmd.sync_contact_group(group)
+        assert str(list(ContactGroup.objects.all())) == '[<ContactGroup: Funky Group>]'
+        group.name = 'Monkey Group'
+        cmd.sync_contact_group(group)
+        assert str(list(ContactGroup.objects.all())) == '[<ContactGroup: Monkey Group>]'
+
     def test_it_updates_metadata_with_sync_time_minus_clock_skew(self):
         with freezegun.freeze_time('2012-01-14 12:00:00'):
             call()

@@ -4,7 +4,7 @@
     Docker Django Management v0.1
 
     This script/module makes it easier to allow developers to run
-    your Django project in a Docker Compose setup.
+    your Django project in a docker container.
 
     Features:
 
@@ -16,8 +16,8 @@
     * Ctrl-C can be used during `docker-compose up` to quickly and
       gracefully exit.
 
-    * `manage.py` always waits for the database to be up if necessary,
-      ensuring there are no race conditions.
+    * `manage.py` always waits for the database to be up, ensuring
+      there are no race conditions.
 
     * If Django isn't installed on the host system, `manage.py` can be
       used as a shortcut for `docker-compose run <your Django container's
@@ -54,7 +54,7 @@
           working_dir: /app
           entrypoint: python /app/docker_django_management.py
           environment:
-            - DDM_IS_RUNNING_IN_DOCKER_COMPOSE=yup
+            - DDM_IS_RUNNING_IN_DOCKER=yup
             - PYTHONUNBUFFERED=yup
           command: python manage.py runserver 0.0.0.0:8000
           ports:
@@ -114,7 +114,7 @@ HOST_USER = os.environ.get('DDM_HOST_USER', 'docker_user')
 USER_OWNED_DIRS = os.environ.get('DDM_USER_OWNED_DIRS', '')
 VENV_DIR = os.environ.get('DDM_VENV_DIR', '')
 CONTAINER_NAME = os.environ.get('DDM_CONTAINER_NAME')
-IS_RUNNING_IN_DOCKER_COMPOSE = 'DDM_IS_RUNNING_IN_DOCKER_COMPOSE' in os.environ
+IS_RUNNING_IN_DOCKER = 'DDM_IS_RUNNING_IN_DOCKER' in os.environ
 
 
 def info(msg):  # type: (str) -> None
@@ -166,7 +166,7 @@ def setup_docker_sigterm_handler():  # type: () -> None
     signal.signal(signal.SIGTERM, handler)
 
 
-def ensure_django_waits_for_db(max_attempts=15, seconds_between_attempts=1):
+def wait_for_db(max_attempts=15, seconds_between_attempts=1):
     # type: (int, int) -> None
     '''
     Some manage.py commands interact with the database, and we want
@@ -176,50 +176,43 @@ def ensure_django_waits_for_db(max_attempts=15, seconds_between_attempts=1):
     the manage.py command may attempt to connect to a database that
     isn't yet ready for connections.
 
-    To alleviate this, we'll do a bit of monkeypatching to Django's
-    default database connection code, to have it retry a few times
-    before giving up. The monkeypatching is an unfortunate code
-    smell, but ensures that we only bother waiting for the
-    database in situations where we actually need to use it.
+    To alleviate this, we'll just wait for the database before calling
+    the manage.py command.
     '''
 
-    import django.db
-    from django.db import DEFAULT_DB_ALIAS
+    from copy import deepcopy
+    from django.conf import settings
+    from django.db import DEFAULT_DB_ALIAS, ConnectionHandler
     from django.db.utils import OperationalError
 
-    def monkeypatch_connection(connection):
-        original_ensure_connection = connection.ensure_connection
+    # If we're using a PostGIS backend, we actually want to make a copy
+    # of its config and change it to be a Postgres backend; otherwise
+    # accessing the connection object will actually raise an
+    # error because django.setup() hasn't yet been called, and we don't
+    # want to call that because it messes with `manage.py runserver`. Oy!
 
-        def retryable_ensure_connection():
-            attempts = 0
+    default_db_copy = deepcopy(settings.DATABASES[DEFAULT_DB_ALIAS])
+    if default_db_copy['ENGINE'] == 'django.contrib.gis.db.backends.postgis':
+        default_db_copy['ENGINE'] = 'django.db.backends.postgresql'
+    connections = ConnectionHandler({DEFAULT_DB_ALIAS: default_db_copy})
 
-            while True:
-                try:
-                    original_ensure_connection()
-                    break
-                except OperationalError as e:
-                    if attempts >= max_attempts:
-                        raise e
-                    attempts += 1
-                    time.sleep(seconds_between_attempts)
-                    info("Attempting to connect to database.")
+    connection = connections[DEFAULT_DB_ALIAS]
+    attempts = 0
 
-            connection.ensure_connection = original_ensure_connection
+    while True:
+        try:
+            connection.ensure_connection()
+            break
+        except OperationalError as e:
+            if attempts >= max_attempts:
+                raise e
+            attempts += 1
+            time.sleep(seconds_between_attempts)
+            info("Attempting to connect to database.")
 
-        connection.ensure_connection = retryable_ensure_connection
+    connections.close_all()
 
-    class RetryableConnectionHandler(django.db.ConnectionHandler):
-        def __getitem__(self, alias):
-            if hasattr(self._connections, alias):
-                return getattr(self._connections, alias)
-
-            connection = super().__getitem__(alias)
-
-            if alias == DEFAULT_DB_ALIAS:
-                monkeypatch_connection(connection)
-            return connection
-
-    django.db.connections = RetryableConnectionHandler()
+    info("Connection to database established.")
 
 
 def execute_from_command_line(argv):  # type: (List[str]) -> None
@@ -236,10 +229,10 @@ def execute_from_command_line(argv):  # type: (List[str]) -> None
 
     is_runserver = len(argv) > 1 and argv[1] == 'runserver'
 
-    if IS_RUNNING_IN_DOCKER_COMPOSE:
+    if IS_RUNNING_IN_DOCKER:
         if is_runserver:
             setup_docker_sigterm_handler()
-        ensure_django_waits_for_db()
+        wait_for_db()
 
         if 'PYTHONUNBUFFERED' not in os.environ:
             warn("PYTHONUNBUFFERED is not defined. Some output may "

@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Iterator
@@ -10,6 +11,7 @@ from django.contrib.auth.models import AnonymousUser, Group
 from django.contrib.sessions.middleware import SessionMiddleware
 import subprocess
 import pytest
+import requests_mock as requests_mock_module
 
 from users.tests.factories import UserFactory
 from project.schema import schema
@@ -213,3 +215,36 @@ def nycdb(db, settings):
 
     from nycdb.tests.test_models import fixtures
     yield fixtures
+
+
+@pytest.fixture(autouse=True)
+def ensure_no_network_access(requests_mock):
+    '''
+    Our tests prohibit network access from the `requests` module
+    by default to ensure that no real HTTP requests are accidentally
+    made by any suites, as this would massively slow down testing.
+
+    We do this by forcing the use of the `requests_mock` fixture.
+    If any accidental network access is made, a helpful exception
+    will be raised.
+
+    If real HTTP requests are needed, a test can explicitly whitelist
+    them via request_mock's `real_http` feature:
+
+    https://requests-mock.readthedocs.io/en/latest/mocker.html#real-http-requests
+    '''
+
+    pass
+
+
+@pytest.fixture
+def live_server(live_server, requests_mock):
+    '''
+    Override the default `live_server` fixture to cooperate with our
+    autoused `ensure_no_network_access` fixture by white-listing network access
+    to the live server.
+    '''
+
+    regex = re.compile('^' + re.escape(live_server.url) + '.*')
+    requests_mock.register_uri(requests_mock_module.ANY, regex, real_http=True)
+    return live_server

@@ -42,7 +42,8 @@ SELECT
         WHERE hp.user_id = onb.user_id
     ) AS latest_hp_action_pdf_creation_date,
     rapidpro.contact_groups AS rapidpro_contact_groups,
-    phone_number_lookup.is_valid AS is_phone_number_valid
+    phone_number_lookup.is_valid AS is_phone_number_valid,
+    phone_number_lookup.carrier ->> 'type' AS phone_number_type
 FROM
     onboarding_onboardinginfo AS onb
 LEFT OUTER JOIN

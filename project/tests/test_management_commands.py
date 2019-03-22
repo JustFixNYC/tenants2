@@ -4,6 +4,7 @@ from unittest.mock import patch
 from django.test import TestCase, override_settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
+import pytest
 
 from project.management.commands import sendtestslack
 
@@ -24,6 +25,11 @@ def test_fixnewlines_works():
         assert testfile.read_bytes() == b'hello there.\nhow are you.'
     finally:
         testfile.unlink()
+
+
+def test_raisetesterror_works():
+    with pytest.raises(Exception, match="exception with id 'boop'"):
+        call_command('raisetesterror', 'boop')
 
 
 class SendtestslackTests(TestCase):

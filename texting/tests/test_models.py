@@ -2,7 +2,7 @@ from unittest.mock import patch
 from contextlib import contextmanager
 import pytest
 
-from texting.models import PhoneNumberLookup
+from texting.models import PhoneNumberLookup, get_lookup_description_for_phone_number
 
 
 @pytest.mark.parametrize('obj,expected', [
@@ -88,3 +88,19 @@ class TestGetOrLookup(MockTwilioDbTest):
             assert PhoneNumberLookup.objects.get_or_lookup('5551234567') is None
             self.is_phone_number_valid.assert_called_once_with('5551234567')
             self.get_carrier_info.assert_not_called()
+
+
+class TestGetLookupDescriptionForPhoneNumber(MockTwilioDbTest):
+    NO_INFO = 'No lookup details are available.'
+
+    def test_it_returns_no_info_on_empty_numbers(self):
+        assert get_lookup_description_for_phone_number('') == self.NO_INFO
+
+    def test_it_returns_no_info_when_lookup_fails(self):
+        with self.mock_twilio():
+            assert get_lookup_description_for_phone_number('5551234567') == self.NO_INFO
+
+    def test_it_returns_info_when_lookup_succeeds(self):
+        with self.mock_twilio(is_valid=False):
+            assert get_lookup_description_for_phone_number(
+                '5551234567') == 'This appears to be an invalid phone number.'

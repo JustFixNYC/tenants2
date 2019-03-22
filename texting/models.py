@@ -135,6 +135,22 @@ class PhoneNumberLookup(models.Model):
 
         return join_words(self.validity_str, self.carrier_type)
 
+    @property
+    def indefinite_article_with_adjectives(self) -> str:
+        '''
+        Return an indefinite article with adjectives describing the type, e.g.:
+
+            >>> PhoneNumberLookup().indefinite_article_with_adjectives
+            'an unknown'
+
+            >>> PhoneNumberLookup(is_valid=True).indefinite_article_with_adjectives
+            'a valid'
+        '''
+
+        adjs = self.adjectives
+        article = 'an' if adjs[0] in 'aeiou' else 'a'
+        return f'{article} {adjs}'
+
     def __str__(self) -> str:
         '''
         Return a description of the lookup, e.g.:
@@ -206,3 +222,13 @@ def remind_user_about_loc(user):
             user=user,
             sid=sid
         ).save()
+
+
+def get_lookup_description_for_phone_number(phone_number: str) -> str:
+    result = "No lookup details are available."
+    if phone_number:
+        info = PhoneNumberLookup.objects.get_or_lookup(phone_number)
+        if info is not None:
+            desc = info.indefinite_article_with_adjectives
+            result = f"This appears to be {desc} phone number."
+    return result

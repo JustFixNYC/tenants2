@@ -12,7 +12,7 @@ from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
 from hpaction.admin import HPActionDocumentsInline
-from texting.models import PhoneNumberLookup
+from texting.models import get_lookup_description_for_phone_number
 import loc.admin
 import airtable.sync
 
@@ -120,12 +120,7 @@ class JustfixUserAdmin(UserAdmin):
         airtable.sync.sync_user(obj)
 
     def phone_number_lookup_details(self, obj):
-        result = "No lookup details are available."
-        if obj.phone_number:
-            info = PhoneNumberLookup.objects.get_or_lookup(obj.phone_number)
-            if info is not None:
-                result = f"This appears to be a {info.adjectives} phone number."
-        return result
+        return get_lookup_description_for_phone_number(obj.phone_number)
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

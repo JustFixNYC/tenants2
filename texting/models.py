@@ -16,6 +16,10 @@ REMINDERS = Choices([
 ])
 
 
+def join_words(*words: str) -> str:
+    return ' '.join(filter(None, words))
+
+
 class PhoneNumberLookupManager(models.Manager):
     def get_or_lookup(self, phone_number: str) -> Optional['PhoneNumberLookup']:
         from .twilio import is_phone_number_valid
@@ -89,11 +93,10 @@ class PhoneNumberLookup(models.Model):
 
     @property
     def adjectives(self) -> str:
-        adjs = filter(None, [self.validity_str, self.carrier_type])
-        return ' '.join(adjs)
+        return join_words(self.validity_str, self.carrier_type)
 
-    def __str__(self):
-        return f"{self.adjectives} phone number {self.phone_number}"
+    def __str__(self) -> str:
+        return join_words(self.adjectives, 'phone number', self.phone_number)
 
 
 class Reminder(models.Model):

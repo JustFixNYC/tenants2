@@ -25,5 +25,6 @@ class Command(BaseCommand):
             raise CommandError('Twilio integration is not enabled!')
         users = find_users_without_lookups()
         for user in users:
-            print(f"Looking up phone number for {user}.")
+            self.stdout.write(f"Looking up phone number for {user}.\n")
             PhoneNumberLookup.objects.get_or_lookup(user.phone_number)
+        self.stdout.write(f"Done syncing phone number lookups.\n")

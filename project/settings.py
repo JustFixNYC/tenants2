@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-from typing import List
+from typing import List, Dict, Optional
 import dj_database_url
 
 from . import justfix_environment
@@ -355,6 +355,8 @@ RAPIDPRO_HOSTNAME = env.RAPIDPRO_HOSTNAME
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
+
+ROLLBAR: Optional[Dict[str, str]] = None
 
 if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     # The following will enable Rollbar on the server-side.

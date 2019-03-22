@@ -41,7 +41,8 @@ SELECT
         FROM hpaction_hpactiondocuments AS hp
         WHERE hp.user_id = onb.user_id
     ) AS latest_hp_action_pdf_creation_date,
-    rapidpro.contact_groups AS rapidpro_contact_groups
+    rapidpro.contact_groups AS rapidpro_contact_groups,
+    phone_number_lookup.is_valid AS is_phone_number_valid
 FROM
     onboarding_onboardinginfo AS onb
 LEFT OUTER JOIN
@@ -63,5 +64,10 @@ LEFT OUTER JOIN
             rapidpro_usercontactgroup AS rucg ON rcg.uuid = rucg.group_id
         GROUP BY rucg.user_id
     ) AS rapidpro ON rapidpro.user_id = onb.user_id
+INNER JOIN
+    users_justfixuser AS jfuser ON jfuser.id = onb.user_id
+LEFT OUTER JOIN
+    texting_phonenumberlookup AS phone_number_lookup
+    ON jfuser.phone_number = phone_number_lookup.phone_number
 ORDER BY
     onb.user_id

@@ -12,6 +12,7 @@ from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
 from hpaction.admin import HPActionDocumentsInline
+from texting.models import PhoneNumberLookup
 import loc.admin
 import airtable.sync
 
@@ -31,7 +32,9 @@ class JustfixUserAdmin(UserAdmin):
         'issue_count', 'mailing_needed'
     ]
     fieldsets = (
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number')}),
+        (_('Personal info'), {'fields': (
+            'first_name', 'last_name', 'email', 'phone_number', 'phone_number_lookup_details'
+        )}),
         ('Username and password', {
             'fields': ('username', 'password'),
             'description': (
@@ -67,6 +70,8 @@ class JustfixUserAdmin(UserAdmin):
     actions = [loc.admin.print_loc_envelopes]
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
+
+    readonly_fields = ['phone_number_lookup_details', *UserAdmin.readonly_fields]
 
     def get_fieldsets(self, request, obj=None):
         if obj is not None and not request.user.is_superuser:
@@ -113,6 +118,14 @@ class JustfixUserAdmin(UserAdmin):
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)
         airtable.sync.sync_user(obj)
+
+    def phone_number_lookup_details(self, obj):
+        result = "No lookup details are available."
+        if obj.phone_number:
+            info = PhoneNumberLookup.objects.get_or_lookup(obj.phone_number)
+            if info is not None:
+                result = f"This appears to be a {info.adjectives} phone number."
+        return result
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

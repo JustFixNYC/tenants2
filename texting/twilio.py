@@ -1,7 +1,10 @@
 import logging
+from typing import Optional, Dict, Any
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
+from twilio.base.exceptions import TwilioRestException
+from twilio.rest.lookups.v1.phone_number import PhoneNumberInstance
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
 
@@ -32,6 +35,12 @@ class JustfixHttpClient(TwilioHttpClient):
         return super().request(*args, **kwargs)
 
 
+def get_client() -> Client:
+    return Client(settings.TWILIO_ACCOUNT_SID,
+                  settings.TWILIO_AUTH_TOKEN,
+                  http_client=JustfixHttpClient())
+
+
 def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
     '''
     Send an SMS message to the given phone number, with the given body.
@@ -44,9 +53,7 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
     '''
 
     if settings.TWILIO_ACCOUNT_SID:
-        client = Client(settings.TWILIO_ACCOUNT_SID,
-                        settings.TWILIO_AUTH_TOKEN,
-                        http_client=JustfixHttpClient())
+        client = get_client()
         try:
             msg = client.messages.create(
                 to=f"+1{phone_number}",
@@ -68,3 +75,34 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
             f'with the body {repr(body)}.'
         )
         return ''
+
+
+def _lookup_phone_number(phone_number: str, type: str = '') -> Optional[PhoneNumberInstance]:
+    if not settings.TWILIO_ACCOUNT_SID:
+        return None
+    client = get_client()
+    ctx = client.lookups.phone_numbers.get(f'+1{phone_number}')
+    info = ctx.fetch(type=type)
+    assert isinstance(info, PhoneNumberInstance)
+    return info
+
+
+def get_carrier_info(phone_number: str) -> Optional[Dict[str, Any]]:
+    try:
+        info = _lookup_phone_number(phone_number, type='carrier')
+        return info and info.carrier
+    except TwilioRestException:
+        logger.exception(f'Error while communicating with Twilio')
+        return None
+
+
+def is_phone_number_valid(phone_number: str) -> Optional[bool]:
+    try:
+        _lookup_phone_number(phone_number)
+        return True
+    except TwilioRestException as e:
+        if e.code == 20404:
+            return False
+        else:
+            logger.exception(f'Error while communicating with Twilio')
+            return None

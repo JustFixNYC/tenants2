@@ -1,0 +1,29 @@
+from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
+from django.db.models import Exists, OuterRef
+
+from users.models import JustfixUser
+from texting.models import PhoneNumberLookup
+
+
+def find_users_without_lookups():
+    lookups = PhoneNumberLookup.objects.filter(
+        phone_number=OuterRef('phone_number')
+    )
+    return JustfixUser.objects.annotate(
+        is_phone_number_looked_up=Exists(lookups)
+    ).exclude(
+        is_phone_number_looked_up=True
+    )
+
+
+class Command(BaseCommand):
+    help = 'Find information about user phone numbers via the Twilio Lookup API.'
+
+    def handle(self, *args, **options):
+        if not settings.TWILIO_ACCOUNT_SID:
+            raise CommandError('Twilio integration is not enabled!')
+        users = find_users_without_lookups()
+        for user in users:
+            print(f"Looking up phone number for {user}.")
+            PhoneNumberLookup.objects.get_or_lookup(user.phone_number)

@@ -16,12 +16,28 @@ REMINDERS = Choices([
 ])
 
 
-def join_words(*words: str) -> str:
+def join_words(*words: Optional[str]) -> str:
+    '''
+    Join together the given words, filtering out any
+    falsy values, e.g.:
+
+        >>> join_words('hi', '', None, 'there')
+        'hi there'
+    '''
+
     return ' '.join(filter(None, words))
 
 
 class PhoneNumberLookupManager(models.Manager):
     def get_or_lookup(self, phone_number: str) -> Optional['PhoneNumberLookup']:
+        '''
+        Attept to retrieve the PhoneNumberLookup with the given phone number.
+        If one doesn't exist, attempt to contact Twilio to validate the number
+        and obtain carrier information about it.
+
+        Return None if Twilio integration is disabled or a network error occured.
+        '''
+
         from .twilio import is_phone_number_valid
 
         lookup = self.filter(phone_number=phone_number).first()
@@ -69,6 +85,10 @@ class PhoneNumberLookup(models.Model):
     objects = PhoneNumberLookupManager()
 
     def save(self, *args, **kwargs):
+        '''
+        Save the model, but first attempt to fetch carrier information if possible.
+        '''
+
         from .twilio import get_carrier_info
 
         if self.carrier is None and self.is_valid:
@@ -78,6 +98,10 @@ class PhoneNumberLookup(models.Model):
 
     @property
     def validity_str(self) -> str:
+        '''
+        Return an adjective describing the validity of the phone number.
+        '''
+
         if self.is_valid is True:
             return 'valid'
         elif self.is_valid is False:
@@ -86,6 +110,12 @@ class PhoneNumberLookup(models.Model):
 
     @property
     def carrier_type(self) -> str:
+        '''
+        Return the carrier type of the phone number, or the empty
+        string if it's not available. Valid carrier types include
+        'landline', 'mobile', and 'voip'.
+        '''
+
         ctype = self.carrier and self.carrier.get('type')
         if ctype:
             return ctype
@@ -93,9 +123,29 @@ class PhoneNumberLookup(models.Model):
 
     @property
     def adjectives(self) -> str:
+        '''
+        Return a set of adjectives describing the type, e.g.:
+
+            >>> PhoneNumberLookup().adjectives
+            'unknown'
+
+            >>> PhoneNumberLookup(is_valid=True, carrier={'type': 'mobile'}).adjectives
+            'valid mobile'
+        '''
+
         return join_words(self.validity_str, self.carrier_type)
 
     def __str__(self) -> str:
+        '''
+        Return a description of the lookup, e.g.:
+
+            >>> str(PhoneNumberLookup())
+            'unknown phone number'
+
+            >>> str(PhoneNumberLookup(is_valid=True, phone_number='5551234567'))
+            'valid phone number 5551234567'
+        '''
+
         return join_words(self.adjectives, 'phone number', self.phone_number)
 
 

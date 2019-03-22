@@ -7,6 +7,10 @@ from texting.models import PhoneNumberLookup
 
 
 def find_users_without_lookups():
+    '''
+    Return a QuerySet of users that we don't have phone number lookups for.
+    '''
+
     lookups = PhoneNumberLookup.objects.filter(
         phone_number=OuterRef('phone_number')
     )

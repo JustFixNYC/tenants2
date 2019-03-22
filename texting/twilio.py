@@ -98,8 +98,8 @@ def get_carrier_info(phone_number: str) -> Optional[Dict[str, Any]]:
 
 def is_phone_number_valid(phone_number: str) -> Optional[bool]:
     try:
-        _lookup_phone_number(phone_number)
-        return True
+        info = _lookup_phone_number(phone_number)
+        return None if info is None else True
     except TwilioRestException as e:
         if e.code == 20404:
             return False

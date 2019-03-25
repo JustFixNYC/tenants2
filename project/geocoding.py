@@ -23,6 +23,9 @@ class FeatureProperties(pydantic.BaseModel):
     # The name, e.g. "666 FIFTH AVENUE".
     name: str
 
+    # The street, e.g. "FIFTH AVENUE".
+    street: str
+
     # The region, e.g. "New York State".
     region: str
 
@@ -49,6 +52,23 @@ class Feature(pydantic.BaseModel):
     geometry: FeatureGeometry
 
     properties: FeatureProperties
+
+
+def _log_replacements(old: List[Feature], new: List[Feature]) -> None:
+    '''
+    Log an informational message if we modify the default geocoding results
+    for diagnostic purposes.
+
+    Attempt to keep PII out of logs by not including the house number.
+    '''
+
+    if old and new:
+        np = new[0].properties
+        op = old[0].properties
+        nstr = f"{np.street} {np.borough}"
+        ostr = f"{op.street} {op.borough}"
+        if nstr != ostr:
+            logger.info(f"Promoting {nstr} over {ostr}.")
 
 
 def _promote_same_borough(search_text: str, features: List[Feature]) -> List[Feature]:
@@ -78,7 +98,10 @@ def _promote_same_borough(search_text: str, features: List[Feature]) -> List[Fea
             same_borough.append(feature)
         else:
             other_boroughs.append(feature)
-    return same_borough + other_boroughs
+
+    new_features = same_borough + other_boroughs
+    _log_replacements(features, new_features)
+    return new_features
 
 
 def search(text: str) -> Optional[List[Feature]]:

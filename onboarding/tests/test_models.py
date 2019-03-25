@@ -69,8 +69,8 @@ def test_address_lines_for_mailing():
 class TestAddrMetadataLookup:
     def mkinfo(self, **kwargs):
         return OnboardingInfo(
-            address='150 boop street',
-            borough='STATEN_ISLAND',
+            address='150 court street',
+            borough='BROOKLYN',
             **kwargs
         )
 

@@ -50,3 +50,10 @@ def test_search_returns_none_on_request_exception(requests_mock):
 def test_search_returns_none_on_bad_result(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json={'blarg': False})
     assert geocoding.search("150 court") is None
+
+
+@enable_fake_geocoding
+def test_search_promotes_results_in_same_borough(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    results = geocoding.search("150 cody court, staten island")
+    assert results[0].properties.label == "150 CODY COURT, Staten Island, New York, NY, USA"

@@ -41,7 +41,7 @@ type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFi
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
-  successRedirect?: {
+  lastSuccessRedirect?: {
     from: string,
     to: string
   }
@@ -165,7 +165,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
           this.setState({
-            successRedirect: {
+            lastSuccessRedirect: {
               from: this.props.location.pathname,
               to: redirect
             }
@@ -190,10 +190,10 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   componentDidUpdate(
     prevProps: FormSubmitterPropsWithRouter<FormInput, FormOutput>
   ) {
-    const { successRedirect } = this.state;
-    if (successRedirect &&
-        prevProps.location.pathname === successRedirect.to &&
-        this.props.location.pathname === successRedirect.from) {
+    const { lastSuccessRedirect } = this.state;
+    if (lastSuccessRedirect &&
+        prevProps.location.pathname === lastSuccessRedirect.to &&
+        this.props.location.pathname === lastSuccessRedirect.from) {
       // We were just sent back from the place we successfully
       // redirected to earlier (likely a modal, since we apparently
       // weren't unmounted) back to the original page our form was
@@ -202,7 +202,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       // to make some changes; let's make sure they can actually
       // edit the form.
       this.setState({
-        successRedirect: undefined,
+        lastSuccessRedirect: undefined,
         isLoading: false,
         wasSubmittedSuccessfully: false
       });

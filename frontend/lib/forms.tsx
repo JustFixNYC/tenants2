@@ -41,6 +41,10 @@ type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFi
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
+  successRedirect?: {
+    from: string,
+    to: string
+  }
 }
 
 /**
@@ -160,6 +164,12 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
+          this.setState({
+            successRedirect: {
+              from: this.props.location.pathname,
+              to: redirect
+            }
+          });
           performRedirect(redirect, this.props.history);
         } else {
           // Note that we only set isLoading back to false if we *don't* redirect.
@@ -175,6 +185,28 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     }).catch(e => {
       this.setState({ isLoading: false });
     });
+  }
+
+  componentDidUpdate(
+    prevProps: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+  ) {
+    const { successRedirect } = this.state;
+    if (successRedirect &&
+        prevProps.location.pathname === successRedirect.to &&
+        this.props.location.pathname === successRedirect.from) {
+      // We were just sent back from the place we successfully
+      // redirected to earlier (likely a modal, since we apparently
+      // weren't unmounted) back to the original page our form was
+      // on. This is possibly because the user was shown some kind
+      // of confirmation modal and decided to come back to the form
+      // to make some changes; let's make sure they can actually
+      // edit the form.
+      this.setState({
+        successRedirect: undefined,
+        isLoading: false,
+        wasSubmittedSuccessfully: false
+      });
+    }
   }
 
   get shouldBlockHistory(): boolean {

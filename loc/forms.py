@@ -1,11 +1,18 @@
 import datetime
 from typing import List
+import pydantic
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 
 from . import models
 from .views import render_letter_body
+from project import common_data
+
+
+class AccessDatesValidation(pydantic.BaseModel):
+    MIN_DAYS: int
+    MIN_DAYS_TEXT: str
 
 
 class AccessDatesForm(forms.Form):
@@ -21,6 +28,15 @@ class AccessDatesForm(forms.Form):
         dates = self.get_cleaned_dates(super().clean())
         if len(dates) != len(set(dates)):
             raise ValidationError('Please ensure all the dates are different.')
+        self._validate_minimum_dates(dates)
+
+    def _validate_minimum_dates(self, dates: List[datetime.date]):
+        cfg = AccessDatesValidation(**common_data.load_json('access-dates-validation.json'))
+        today = datetime.date.today()
+        for date in dates:
+            if (date - today).days < cfg.MIN_DAYS:
+                raise ValidationError(
+                    f'Please ensure all dates are at least {cfg.MIN_DAYS_TEXT} from today.')
 
     def get_cleaned_dates(self, cleaned_data=None) -> List[datetime.date]:
         if cleaned_data is None:

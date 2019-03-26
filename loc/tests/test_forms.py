@@ -17,6 +17,19 @@ def test_form_raises_error_if_dates_are_same():
     }
 
 
+@freeze_time("2018-01-01")
+def test_form_raises_error_if_dates_are_too_soon():
+    form = AccessDatesForm(data={
+        'date1': '2018-01-02',
+        'date2': '2018-01-03'
+    })
+    form.full_clean()
+    all_errors = form.errors['__all__']
+    assert len(all_errors) == 1
+    assert 'Please ensure all dates are at least ' in all_errors[0]
+
+
+@freeze_time("2017-12-01")
 def test_get_cleaned_dates_works():
     form = AccessDatesForm(data={
         'date1': '2018-01-01',

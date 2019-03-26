@@ -91,6 +91,10 @@ class Choices:
         return getattr(self.enum, value)
 
     @classmethod
-    def from_file(cls, *path):
-        obj = json.loads(COMMON_DATA_DIR.joinpath(*path).read_text())
+    def from_file(cls, *path: str):
+        obj = load_json(*path)
         return cls(_ValidatedChoices(choices=obj).choices)
+
+
+def load_json(*path: str):
+    return json.loads(COMMON_DATA_DIR.joinpath(*path).read_text())

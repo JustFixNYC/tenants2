@@ -1,4 +1,5 @@
 import pytest
+from freezegun import freeze_time
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -91,6 +92,7 @@ def execute_lr_mutation(graphql_client, **input):
 
 
 @pytest.mark.django_db
+@freeze_time("2017-01-01")
 def test_access_dates_works(graphql_client):
     graphql_client.request.user = UserFactory.create()
 

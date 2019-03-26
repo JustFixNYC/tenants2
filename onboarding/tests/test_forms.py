@@ -5,6 +5,7 @@ from onboarding.forms import (
     OnboardingStep1Form,
     OnboardingStep4Form,
 )
+from onboarding.models import AddressWithoutBoroughDiagnostic
 from users.models import JustfixUser
 from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
 
@@ -115,3 +116,12 @@ def test_onboarding_step_1_form_raises_err_on_invalid_address(requests_mock):
     form = OnboardingStep1Form(data=ADDRESS_FORM_DATA)
     form.full_clean()
     assert 'The address provided is invalid.' in form.errors['__all__']
+
+
+@pytest.mark.django_db
+def test_onboarding_step_1_creates_addr_without_borough_diagnostic():
+    form = OnboardingStep1Form(data={'address': '150 court st'})
+    form.full_clean()
+    diags = list(AddressWithoutBoroughDiagnostic.objects.all())
+    assert len(diags) == 1
+    assert diags[0].address == '150 court st'

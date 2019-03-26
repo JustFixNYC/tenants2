@@ -61,3 +61,16 @@ def admin_action(short_description: str):
         return fn
 
     return decorator
+
+
+def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
+    '''
+    A function that a ModelAdmin instance's `has_add_permission`,
+    `has_delete_permission`, etc. can be assigned to in order to
+    always return False.
+
+    >>> never_has_permission(1, 2, boop=3)
+    False
+    '''
+
+    return False

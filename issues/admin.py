@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from project.util.admin_util import never_has_permission
 from .models import Issue, CustomIssue
 
 
@@ -15,12 +16,8 @@ class IssueInline(admin.TabularInline):
 
     # We're not allowing this to be edited right now because it'd be really confusing,
     # given the coupling between the 'area' and 'value' fields.
-
-    def has_add_permission(self, *args, **kwargs) -> bool:
-        return False
-
-    def has_change_permission(self, *args, **kwargs) -> bool:
-        return False
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
 
 
 class CustomIssueInline(admin.TabularInline):

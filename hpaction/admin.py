@@ -1,18 +1,7 @@
 from django.contrib import admin
 
-from project.util.admin_util import admin_action
+from project.util.admin_util import admin_action, never_has_permission
 from .models import HPActionDocuments
-
-
-def always_return_false(*args, **kwargs) -> bool:
-    '''
-    A function that always returns false regardless of what's passed to it.
-
-    >>> always_return_false(1, 2, boop=3)
-    False
-    '''
-
-    return False
 
 
 @admin_action("Mark selected documents for deletion")
@@ -21,8 +10,8 @@ def schedule_for_deletion(modeladmin, request, queryset):
 
 
 class NoAddOrDeleteMixin:
-    has_add_permission = always_return_false
-    has_delete_permission = always_return_false
+    has_add_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
 @admin.register(HPActionDocuments)

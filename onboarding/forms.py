@@ -6,7 +6,7 @@ from django.contrib.auth.password_validation import validate_password
 from project import geocoding
 from project.forms import USPhoneNumberField
 from users.models import JustfixUser
-from .models import OnboardingInfo, BOROUGH_CHOICES
+from .models import OnboardingInfo, BOROUGH_CHOICES, AddressWithoutBoroughDiagnostic
 
 
 # Whenever we change the fields in any of the onboarding
@@ -73,6 +73,8 @@ class OnboardingStep1Form(forms.ModelForm):
             cleaned_data['address'] = address
             cleaned_data['borough'] = borough
             cleaned_data['address_verified'] = address_verified
+        if address and not borough:
+            AddressWithoutBoroughDiagnostic(address=address).save()
         return cleaned_data
 
 

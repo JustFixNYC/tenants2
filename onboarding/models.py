@@ -19,6 +19,27 @@ ADDR_META_HELP = (
     "borough, so you generally shouldn't have to change it manually."
 )
 
+ADDRESS_MAX_LENGTH = 200
+
+
+class AddressWithoutBoroughDiagnostic(models.Model):
+    '''
+    Information about submitted onboarding forms that contained
+    address information without borough information. For more
+    details on the rationale behind this, see:
+
+        https://github.com/JustFixNYC/tenants2/issues/533
+
+    We're not storing this information in Google Analytics
+    or Rollbar because those services make it very hard
+    or impossible to delete sensitive data, and a user's
+    address can be PII.
+    '''
+
+    address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 class OnboardingInfo(models.Model):
     '''
@@ -49,7 +70,7 @@ class OnboardingInfo(models.Model):
     )
 
     address = models.CharField(
-        max_length=200,
+        max_length=ADDRESS_MAX_LENGTH,
         help_text="The user's address. Only street name and number are required."
     )
 

@@ -16,6 +16,12 @@ class AccessDatesValidation(pydantic.BaseModel):
 
 
 class AccessDatesForm(forms.Form):
+    # On the client-side, we auto-fill the first date as being MIN_DAYS
+    # from today, but we don't want to deny it on the server when it's
+    # close to midnight, or due to time zone mismatch issues, so
+    # in reality we'll allow for a bit of leeway.
+    MIN_DAYS_LEEWAY = datetime.timedelta(days=1)
+
     NUM_DATE_FIELDS = 3
 
     date1 = forms.DateField(required=True)
@@ -32,7 +38,7 @@ class AccessDatesForm(forms.Form):
 
     def _validate_minimum_dates(self, dates: List[datetime.date]):
         cfg = AccessDatesValidation(**common_data.load_json('access-dates-validation.json'))
-        today = datetime.date.today()
+        today = datetime.date.today() - self.MIN_DAYS_LEEWAY
         for date in dates:
             if (date - today).days < cfg.MIN_DAYS:
                 raise ValidationError(

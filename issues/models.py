@@ -6,6 +6,7 @@ from django.core import serializers
 
 from users.models import JustfixUser
 from project.common_data import Choices
+from project.util.instance_change_tracker import InstanceChangeTracker
 
 
 ISSUE_AREA_CHOICES = Choices.from_file('issue-area-choices.json')
@@ -87,8 +88,16 @@ class Issue(models.Model):
 
     objects = IssueManager()
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.__immutable_field_tracker = InstanceChangeTracker(self, ['area', 'value'])
+
     def clean(self):
         ensure_issue_matches_area(self.value, self.area)
+
+    def save(self, *args, **kwargs):
+        assert not self.__immutable_field_tracker.has_changed()
+        super().save(*args, **kwargs)
 
 
 class CustomIssueManager(models.Manager):
@@ -135,3 +144,11 @@ class CustomIssue(models.Model):
         )
 
     objects = CustomIssueManager()
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.__immutable_field_tracker = InstanceChangeTracker(self, ['area'])
+
+    def save(self, *args, **kwargs):
+        assert not self.__immutable_field_tracker.has_changed()
+        super().save(*args, **kwargs)

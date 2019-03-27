@@ -43,7 +43,13 @@ SELECT
     ) AS latest_hp_action_pdf_creation_date,
     rapidpro.contact_groups AS rapidpro_contact_groups,
     phone_number_lookup.is_valid AS is_phone_number_valid,
-    phone_number_lookup.carrier ->> 'type' AS phone_number_type
+    phone_number_lookup.carrier ->> 'type' AS phone_number_type,
+    (
+        -- I'm not actually sure if this first condition is required, but
+        -- it seems prudent to test it just in case. -AV
+        char_length(jfuser.password) > 0 AND
+        jfuser.password NOT LIKE %(unusable_password_pattern)s
+    ) AS has_usable_password
 FROM
     onboarding_onboardinginfo AS onb
 LEFT OUTER JOIN

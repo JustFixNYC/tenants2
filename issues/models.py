@@ -1,9 +1,11 @@
 import json
-from typing import List
+from typing import List, Optional
+from enum import Enum
 from django.db import models, transaction
 from django.core.exceptions import ValidationError
 from django.core import serializers
 from django.contrib.postgres.fields import JSONField
+import pydantic
 
 from users.models import JustfixUser
 from project.common_data import Choices
@@ -38,10 +40,41 @@ def queryset_to_json(queryset):
     return json.loads(serializers.serialize("json", queryset))
 
 
-class ArchivedIssues(models.Model):
+class Event(pydantic.BaseModel):
+    class Config:
+        use_enum_values = True
+
+
+class IssuesChangedEvent(Event):
+    added: List[str]
+    removed: List[str]
+
+
+class CustomIssueEventType(Enum):
+    added = 'added'
+    removed = 'removed'
+    changed = 'changed'
+
+
+class CustomIssueEvent(Event):
+    kind: CustomIssueEventType
+    area: str
+    description: Optional[str]
+
+
+class IssueEvent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
+    kind = models.CharField(max_length=100)
     data = JSONField()
+
+    @staticmethod
+    def create(user: JustfixUser, event: Event) -> 'IssueEvent':
+        return IssueEvent(
+            user=user,
+            kind=event.__class__.__name__,
+            data=event.dict()
+        )
 
 
 class IssueManager(models.Manager):
@@ -50,9 +83,11 @@ class IssueManager(models.Manager):
         issues = list(set(issues))  # Remove duplicates.
         curr_models = self.filter(user=user, area=area)
         models_to_delete = curr_models.exclude(value__in=issues)
-        data = queryset_to_json(models_to_delete)
-        if data:
-            ArchivedIssues(user=user, data=data).save()
+        values_to_remove = [
+            model['value']
+            for model in models_to_delete.values('value')
+        ]
+        if values_to_remove:
             models_to_delete.delete()
         values_to_ignore = set(
             model['value']
@@ -63,9 +98,13 @@ class IssueManager(models.Manager):
             for value in issues
             if value not in values_to_ignore
         ]
+        values_to_add = [model.value for model in models_to_create]
         for model in models_to_create:
             model.full_clean()
         self.bulk_create(models_to_create)
+        if values_to_remove or values_to_add:
+            event = IssuesChangedEvent(added=values_to_add, removed=values_to_remove)
+            IssueEvent.create(user=user, event=event).save()
 
     def get_area_issues_for_user(self, user: JustfixUser, area: str) -> List[str]:
         return [
@@ -108,13 +147,21 @@ class CustomIssueManager(models.Manager):
         if description:
             if issue is None:
                 issue = CustomIssue(user=user, area=area)
+                kind = CustomIssueEventType.added
             elif issue.description != description:
-                issue.archive()
+                kind = CustomIssueEventType.changed
+            else:
+                return
+            event = CustomIssueEvent(kind=kind, area=area, description=description)
+            IssueEvent.create(user=user, event=event)
             issue.description = description
             issue.full_clean()
             issue.save()
         elif issue:
-            issue.archive()
+            IssueEvent.create(user=user, event=CustomIssueEvent(
+                kind=CustomIssueEventType.removed,
+                area=area
+            )).save()
             issue.delete()
 
     def get_for_user(self, user: JustfixUser, area: str) -> str:
@@ -145,7 +192,3 @@ class CustomIssue(models.Model):
         )
 
     objects = CustomIssueManager()
-
-    def archive(self):
-        data = queryset_to_json([self])
-        ArchivedIssues(user=self.user, data=data).save()

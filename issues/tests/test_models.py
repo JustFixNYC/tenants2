@@ -55,6 +55,9 @@ def test_set_area_issues_for_user_works():
     models.Issue.objects.set_area_issues_for_user(user, 'BEDROOMS', [
         'BEDROOMS__PAINT'
     ])
+    models.Issue.objects.set_area_issues_for_user(user, 'BEDROOMS', [
+        'BEDROOMS__PAINT'
+    ])
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
         'HOME__MICE', 'HOME__COCKROACHES'
     ])
@@ -81,6 +84,7 @@ def test_set_custom_issue_for_user_works():
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'blah'
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
 
+    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
     CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'gloop'

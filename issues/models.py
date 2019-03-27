@@ -1,8 +1,6 @@
-import json
 from typing import List
 from django.db import models, transaction
 from django.core.exceptions import ValidationError
-from django.core import serializers
 
 from users.models import JustfixUser
 from project.common_data import Choices
@@ -32,10 +30,6 @@ def get_issue_area(value: str) -> str:
     '''
 
     return value.split('__')[0]
-
-
-def queryset_to_json(queryset):
-    return json.loads(serializers.serialize("json", queryset))
 
 
 class IssueManager(models.Manager):

@@ -50,6 +50,8 @@ PASSWORD_HASHERS = (
 if 'nycdb' in DATABASES:  # noqa
     del DATABASES['nycdb']  # noqa
 
+ENABLE_FORMLOG = False
+
 
 class NotActuallyFileStorage:
     def __init__(self):

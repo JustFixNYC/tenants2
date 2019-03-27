@@ -20,6 +20,8 @@ from graphene_django.forms.mutation import fields_for_form
 from graphene.utils.str_converters import to_camel_case, to_snake_case
 import logging
 
+from formlog.models import log_form_submission
+
 
 logger = logging.getLogger(__name__)
 
@@ -372,6 +374,7 @@ class DjangoFormMutation(ClientIDMutation):
             return cls.make_error('You do not have permission to use this form!')
 
         form = cls.get_form(root, info, **input)
+        log_form_submission(form, request.user)
 
         if form.is_valid():
             cls.log(info, "Form is valid, performing mutation.")

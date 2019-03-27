@@ -65,7 +65,8 @@ INSTALLED_APPS = [
     'twofactor.apps.TwofactorConfig',
     'nycdb',
     'rapidpro.apps.RapidproConfig',
-    'findhelp.apps.FindhelpConfig'
+    'findhelp.apps.FindhelpConfig',
+    'formlog.apps.FormlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -371,6 +372,8 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     })
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
+
+ENABLE_FORMLOG = True
 
 CSP_STYLE_SRC = [
     "'self'",

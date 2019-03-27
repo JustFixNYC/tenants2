@@ -1,6 +1,9 @@
+import json
 from typing import List
 from django.db import models, transaction
 from django.core.exceptions import ValidationError
+from django.core import serializers
+from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
 from project.common_data import Choices
@@ -31,18 +34,38 @@ def get_issue_area(value: str) -> str:
     return value.split('__')[0]
 
 
+def queryset_to_json(queryset):
+    return json.loads(serializers.serialize("json", queryset))
+
+
+class ArchivedIssues(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
+    data = JSONField()
+
+
 class IssueManager(models.Manager):
     @transaction.atomic
     def set_area_issues_for_user(self, user: JustfixUser, area: str, issues: List[str]):
         issues = list(set(issues))  # Remove duplicates.
-        self.filter(user=user, area=area).delete()
-        models = [
+        curr_models = self.filter(user=user, area=area)
+        models_to_delete = curr_models.exclude(value__in=issues)
+        data = queryset_to_json(models_to_delete)
+        if data:
+            ArchivedIssues(user=user, data=data).save()
+            models_to_delete.delete()
+        values_to_ignore = set(
+            model['value']
+            for model in curr_models.filter(value__in=issues).values('value')
+        )
+        models_to_create = [
             Issue(user=user, area=area, value=value)
             for value in issues
+            if value not in values_to_ignore
         ]
-        for model in models:
+        for model in models_to_create:
             model.full_clean()
-        self.bulk_create(models)
+        self.bulk_create(models_to_create)
 
     def get_area_issues_for_user(self, user: JustfixUser, area: str) -> List[str]:
         return [
@@ -54,6 +77,10 @@ class Issue(models.Model):
     class Meta:
         unique_together = ('user', 'value')
         ordering = ("value",)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='issues',
@@ -76,12 +103,19 @@ class Issue(models.Model):
 class CustomIssueManager(models.Manager):
     @transaction.atomic
     def set_for_user(self, user: JustfixUser, area: str, description: str):
-        self.filter(user=user, area=area).delete()
         description = description.strip()
+        issue = self.filter(user=user, area=area).first()
         if description:
-            issue = CustomIssue(user=user, area=area, description=description)
+            if issue is None:
+                issue = CustomIssue(user=user, area=area)
+            elif issue.description != description:
+                issue.archive()
+            issue.description = description
             issue.full_clean()
             issue.save()
+        elif issue:
+            issue.archive()
+            issue.delete()
 
     def get_for_user(self, user: JustfixUser, area: str) -> str:
         issues = self.filter(user=user, area=area).all()
@@ -93,6 +127,10 @@ class CustomIssueManager(models.Manager):
 class CustomIssue(models.Model):
     class Meta:
         unique_together = ('user', 'area')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='custom_issues',
@@ -107,3 +145,7 @@ class CustomIssue(models.Model):
         )
 
     objects = CustomIssueManager()
+
+    def archive(self):
+        data = queryset_to_json([self])
+        ArchivedIssues(user=self.user, data=data).save()

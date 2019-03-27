@@ -56,13 +56,13 @@ def test_set_area_issues_for_user_works():
         'BEDROOMS__PAINT'
     ])
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
-        'HOME__MICE'
+        'HOME__MICE', 'HOME__COCKROACHES'
     ])
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
-        'HOME__RATS', 'HOME__RATS'
+        'HOME__RATS', 'HOME__RATS', 'HOME__COCKROACHES'
     ])
     assert models.Issue.objects.get_area_issues_for_user(user, 'HOME') == [
-        'HOME__RATS'
+        'HOME__COCKROACHES', 'HOME__RATS'
     ]
     assert models.Issue.objects.get_area_issues_for_user(user, 'BEDROOMS') == [
         'BEDROOMS__PAINT'
@@ -79,4 +79,14 @@ def test_set_custom_issue_for_user_works():
     CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'blah')
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'blah'
+    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+
+    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
+
+    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'gloop'
+    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+
+    CustomIssue.objects.set_for_user(user, 'BEDROOMS', '')
+
+    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''

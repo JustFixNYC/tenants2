@@ -34,6 +34,9 @@ ROLES['Outreach Coordinators'] = set([
     'loc.change_letterrequest',
     'loc.delete_letterrequest',
     VIEW_LETTER_REQUEST_PERMISSION,
+    'hpaction.add_hpactiondocuments',
+    'hpaction.change_hpactiondocuments',
+    'hpaction.delete_hpactiondocuments',
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
 ])

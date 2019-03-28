@@ -1,8 +1,9 @@
 import re
 import pytest
+import freezegun
 from django.core.exceptions import ValidationError
 
-from users.tests.factories import UserFactory
+from users.tests.factories import UserFactory, SecondUserFactory
 from issues import models
 from issues.models import CustomIssue
 
@@ -49,61 +50,91 @@ def test_issue_raises_err_on_mismatched_area():
     assert exc_info.value.args[0] == 'Issue BOOP__FOO does not match area BLAH'
 
 
-@pytest.mark.django_db
-def test_set_area_issues_for_user_works():
-    user = UserFactory.create()
-    models.Issue.objects.set_area_issues_for_user(user, 'BEDROOMS', [
-        'BEDROOMS__PAINT'
-    ])
-    models.Issue.objects.set_area_issues_for_user(user, 'BEDROOMS', [
-        'BEDROOMS__PAINT'
-    ])
-    models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
-        'HOME__MICE', 'HOME__COCKROACHES'
-    ])
-    roaches = models.Issue.objects.get(value='HOME__COCKROACHES')
-    models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
-        'HOME__RATS', 'HOME__RATS', 'HOME__COCKROACHES'
-    ])
-    roaches.refresh_from_db()
-    assert models.Issue.objects.get_area_issues_for_user(user, 'HOME') == [
-        'HOME__COCKROACHES', 'HOME__RATS'
-    ]
-    assert models.Issue.objects.get_area_issues_for_user(user, 'BEDROOMS') == [
-        'BEDROOMS__PAINT'
-    ]
-    models.Issue.objects.set_area_issues_for_user(user, 'HOME', [])
-    with pytest.raises(models.Issue.DoesNotExist):
-        roaches.refresh_from_db()
+class BaseTest:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db):
+        self.user = UserFactory.create()
 
 
-@pytest.mark.django_db
-def test_set_custom_issue_for_user_works():
-    user = UserFactory.create()
+class TestSetAreaIssuesForUser(BaseTest):
+    def set_area_issues(self, *args, **kwargs):
+        models.Issue.objects.set_area_issues_for_user(self.user, *args, **kwargs)
 
-    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
-    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
-    assert CustomIssue.objects.count() == 0
+    def get_area_issues(self, *args, **kwargs):
+        return models.Issue.objects.get_area_issues_for_user(self.user, *args, **kwargs)
 
-    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'blah')
+    def get_issue(self, *args, **kwargs):
+        return models.Issue.objects.get(*args, **kwargs)
 
-    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'blah'
-    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
-    assert CustomIssue.objects.count() == 1
-    bedrooms = CustomIssue.objects.first()
-    assert bedrooms.description == 'blah'
+    def test_models_are_created_and_persist(self):
+        with freezegun.freeze_time('2018-01-02'):
+            self.set_area_issues('HOME', ['HOME__RATS'])
+        model = self.get_issue(value='HOME__RATS')
+        assert str(model.updated_at.date()) == '2018-01-02'
+        with freezegun.freeze_time('2020-01-03'):
+            self.set_area_issues('HOME', ['HOME__MICE', 'HOME__RATS'])
+        model.refresh_from_db()
+        assert str(model.updated_at.date()) == '2018-01-02'
 
-    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
-    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
+    def test_models_are_deleted(self):
+        self.set_area_issues('HOME', ['HOME__RATS'])
+        model = self.get_issue(value='HOME__RATS')
+        self.set_area_issues('HOME', [])
+        with pytest.raises(models.Issue.DoesNotExist):
+            model.refresh_from_db()
 
-    bedrooms.refresh_from_db()
-    assert bedrooms.description == 'gloop'
+    def test_duplicate_models_are_not_created(self):
+        self.set_area_issues('HOME', ['HOME__RATS', 'HOME__RATS'])
+        assert self.get_area_issues('HOME') == ['HOME__RATS']
 
-    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'gloop'
-    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+    def test_issues_from_other_areas_are_not_clobbered(self):
+        self.set_area_issues('HOME', ['HOME__RATS'])
+        self.set_area_issues('BEDROOMS', ['BEDROOMS__PAINT'])
+        assert self.get_area_issues('HOME') == ['HOME__RATS']
+        assert self.get_area_issues('BEDROOMS') == ['BEDROOMS__PAINT']
 
-    CustomIssue.objects.set_for_user(user, 'BEDROOMS', '')
+    def test_issues_for_other_users_are_not_clobbered(self):
+        user2 = SecondUserFactory()
+        self.set_area_issues('HOME', ['HOME__MICE'])
+        models.Issue.objects.set_area_issues_for_user(user2, 'HOME', ['HOME__RATS'])
+        assert self.get_area_issues('HOME') == ['HOME__MICE']
+        assert models.Issue.objects.get_area_issues_for_user(user2, 'HOME') == ['HOME__RATS']
 
-    assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
-    assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
-    assert CustomIssue.objects.count() == 0
+
+class TestSetCustomIssueForUser(BaseTest):
+    def set_for_user(self, *args, **kwargs):
+        CustomIssue.objects.set_for_user(self.user, *args, **kwargs)
+    
+    def get_for_user(self, *args, **kwargs):
+        return CustomIssue.objects.get_for_user(self.user, *args, **kwargs)
+
+    def test_it_returns_empty_string_on_nonexistence(self):
+        assert self.get_for_user('HOME') == ''
+
+    def test_models_are_created_and_persist(self):
+        with freezegun.freeze_time('2018-01-02'):
+            self.set_for_user('HOME', 'blarg')
+        model = CustomIssue.objects.get(area='HOME')
+        assert model.description == 'blarg'
+        assert str(model.updated_at.date()) == '2018-01-02'
+        with freezegun.freeze_time('2020-01-03'):
+            self.set_for_user('HOME', 'blarg')
+            model.refresh_from_db()
+            assert str(model.updated_at.date()) == '2018-01-02'
+            self.set_for_user('HOME', 'blarg!!')
+            model.refresh_from_db()
+            assert model.description == 'blarg!!'
+            assert str(model.updated_at.date()) == '2020-01-03'
+
+    def test_models_are_deleted(self):
+        self.set_for_user('HOME', 'blarg')
+        model = CustomIssue.objects.get(area='HOME')
+        self.set_for_user('HOME', '')
+        with pytest.raises(CustomIssue.DoesNotExist):
+            model.refresh_from_db()
+
+    def test_custom_issues_from_other_areas_are_not_clobbered(self):
+        self.set_for_user('HOME', 'boof')
+        self.set_for_user('BEDROOMS', 'doof')
+        assert self.get_for_user('HOME') == 'boof'
+        assert self.get_for_user('BEDROOMS') == 'doof'

@@ -35,3 +35,19 @@ class UserFactory(factory.django.DjangoModelFactory):
     def _create(cls, model_class, *args, **kwargs):
         kwargs = cls._convert_full_name(kwargs)
         return JustfixUser.objects.create_user(*args, **kwargs)
+
+
+class SecondUserFactory(UserFactory):
+    '''
+    Convenience factory for creating a second user in addition
+    to the defaults provided by UserFactory, without having
+    to worry about uniqueness constraints being violated.
+    '''
+
+    username = 'bobby'
+
+    phone_number = '5551239000'
+
+    first_name = 'Bobby'
+
+    last_name = 'Denver'

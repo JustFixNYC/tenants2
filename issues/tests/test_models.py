@@ -61,15 +61,20 @@ def test_set_area_issues_for_user_works():
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
         'HOME__MICE', 'HOME__COCKROACHES'
     ])
+    roaches = models.Issue.objects.get(value='HOME__COCKROACHES')
     models.Issue.objects.set_area_issues_for_user(user, 'HOME', [
         'HOME__RATS', 'HOME__RATS', 'HOME__COCKROACHES'
     ])
+    roaches.refresh_from_db()
     assert models.Issue.objects.get_area_issues_for_user(user, 'HOME') == [
         'HOME__COCKROACHES', 'HOME__RATS'
     ]
     assert models.Issue.objects.get_area_issues_for_user(user, 'BEDROOMS') == [
         'BEDROOMS__PAINT'
     ]
+    models.Issue.objects.set_area_issues_for_user(user, 'HOME', [])
+    with pytest.raises(models.Issue.DoesNotExist):
+        roaches.refresh_from_db()
 
 
 @pytest.mark.django_db
@@ -78,14 +83,21 @@ def test_set_custom_issue_for_user_works():
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+    assert CustomIssue.objects.count() == 0
 
     CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'blah')
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'blah'
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+    assert CustomIssue.objects.count() == 1
+    bedrooms = CustomIssue.objects.first()
+    assert bedrooms.description == 'blah'
 
     CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
     CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'gloop')
+
+    bedrooms.refresh_from_db()
+    assert bedrooms.description == 'gloop'
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == 'gloop'
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
@@ -94,3 +106,4 @@ def test_set_custom_issue_for_user_works():
 
     assert CustomIssue.objects.get_for_user(user, 'BEDROOMS') == ''
     assert CustomIssue.objects.get_for_user(user, 'HOME') == ''
+    assert CustomIssue.objects.count() == 0

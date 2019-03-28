@@ -104,7 +104,7 @@ class TestSetAreaIssuesForUser(BaseTest):
 class TestSetCustomIssueForUser(BaseTest):
     def set_for_user(self, *args, **kwargs):
         CustomIssue.objects.set_for_user(self.user, *args, **kwargs)
-    
+
     def get_for_user(self, *args, **kwargs):
         return CustomIssue.objects.get_for_user(self.user, *args, **kwargs)
 

@@ -117,12 +117,22 @@ def convert_post_data_to_input(
         snake_cased_data.setlist(snake_key, data.getlist(key))
     form = form_class(data=snake_cased_data)
     result = {
-        to_camel_case(field): form[field].data for field in form.fields
+        to_camel_case(field): _fielddata(form, field) for field in form.fields
     }
     if formset_classes:
         result.update(_convert_formset_post_data_to_input(
             snake_cased_data, formset_classes))
     return result
+
+
+def _fielddata(form: forms.Form, field: str) -> Any:
+    field_obj = form[field].field
+    data = form[field].data
+    if isinstance(field_obj, forms.ChoiceField) and data is None:
+        # If the field is a required radio field, the GraphQL schema will be expecting
+        # a string, not null, so let's convert the field's value to an empty string.
+        data = ''
+    return data
 
 
 def _convert_formset_post_data_to_input(
@@ -140,7 +150,7 @@ def _get_formset_items(formset) -> List[Any]:
     items: List[Any] = []
     for form in formset.forms:
         item = {
-            to_camel_case(field): form[field].data for field in form.fields
+            to_camel_case(field): _fielddata(form, field) for field in form.fields
         }
 
         # Note that form.empty_permitted has been set based on

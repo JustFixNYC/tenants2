@@ -9,6 +9,7 @@ import { withAppContext, AppContextType } from './app-context';
 import Helmet from 'react-helmet';
 import { QueryLoader } from './query-loader';
 import { ExampleQuery } from './queries/ExampleQuery';
+import ExampleRadioPage from './pages/example-radio-page';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -101,6 +102,7 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.modal} exact component={LoadableExampleModalPage} />
        <Route path={Routes.dev.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
        <Route path={Routes.dev.examples.form} component={LoadableExampleFormPage} />
+       <Route path={Routes.dev.examples.radio} component={ExampleRadioPage} />
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />
        <Route path={Routes.dev.examples.metaTag} exact component={ExampleMetaTagPage} />

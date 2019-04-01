@@ -202,6 +202,23 @@ def test_form_submission_shows_errors(django_app):
     assert 'Ensure this value has at most 5 characters (it has 17)' in response
 
 
+class TestRadio:
+    @pytest.fixture(autouse=True)
+    def set_django_app(self, django_app):
+        self.django_app = django_app
+        self.form = self.django_app.get('/dev/examples/radio').forms[0]
+
+    def test_it_works(self):
+        self.form['radioField'] = 'A'
+        response = self.form.submit()
+        assert response.status == '302 Found'
+
+    def test_it_shows_error_when_not_filled_out(self):
+        response = self.form.submit()
+        assert response.status == '200 OK'
+        assert 'This field is required' in response
+
+
 class TestFormsets:
     @pytest.fixture(autouse=True)
     def set_django_app(self, django_app):

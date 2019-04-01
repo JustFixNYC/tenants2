@@ -42,7 +42,7 @@
     "@types/webpack": "4.4.17",
     "@types/webpack-bundle-analyzer": "2.13.0",
     "@types/webpack-node-externals": "1.6.3",
-    "apollo": "2.5.3",
+    "apollo": "^2.6.2",
     "chalk": "2.4.1",
     "chokidar": "2.0.4",
     "concurrently": "3.6.1",
@@ -51,7 +51,7 @@
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "24.1.0",
     "react-testing-library": "5.2.3",
-    "ts-jest": "https://github.com/kulshekhar/ts-jest#670503f65a79ec62712e5e4488b734c092b20a0f",
+    "ts-jest": "24.0.1",
     "webpack-bundle-analyzer": "2.13.1"
   },
   "dependencies": {

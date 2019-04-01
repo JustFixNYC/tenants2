@@ -216,6 +216,7 @@ class TestRadio:
     def test_it_shows_error_when_not_filled_out(self):
         response = self.form.submit()
         assert response.status == '200 OK'
+        assert 'This field is required' in response
 
 
 class TestFormsets:

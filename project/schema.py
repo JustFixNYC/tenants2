@@ -112,6 +112,17 @@ class Example(DjangoFormMutation):
         return cls(response=f"hello there {base_form.cleaned_data['example_field']}")
 
 
+class ExampleRadio(DjangoFormMutation):
+    class Meta:
+        form_class = forms.ExampleRadioForm
+
+    response = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        return cls(response='whatever')
+
+
 class ExampleQuery(graphene.ObjectType):
     hello = graphene.String(argument=graphene.String(default_value="stranger"))
 
@@ -169,6 +180,7 @@ class Mutations(
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     example = Example.Field(required=True)
+    example_radio = ExampleRadio.Field(required=True)
 
 
 class Query(FindhelpInfo, graphene.ObjectType):

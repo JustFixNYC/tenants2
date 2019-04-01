@@ -63,6 +63,10 @@ class LogoutForm(forms.Form):
     pass
 
 
+class ExampleRadioForm(forms.Form):
+    radio_field = forms.ChoiceField(choices=[('A', 'a'), ('B', 'b')])
+
+
 class ExampleForm(forms.Form):
     example_field = forms.CharField(max_length=5)
 

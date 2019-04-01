@@ -46,6 +46,11 @@ export interface ExampleInput {
   clientMutationId?: string | null;
 }
 
+export interface ExampleRadioInput {
+  radioField: string;
+  clientMutationId?: string | null;
+}
+
 export interface GeneratePDFInput {
   clientMutationId?: string | null;
 }

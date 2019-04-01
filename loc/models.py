@@ -3,6 +3,7 @@ import datetime
 from django.db import models, transaction
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import JSONField
 
 from project.common_data import Choices
 from project.util.site_util import absolute_reverse
@@ -139,6 +140,32 @@ class LetterRequest(models.Model):
     html_content = models.TextField(
         blank=True,
         help_text="The HTML content of the letter at the time it was requested."
+    )
+
+    mail_via_lob = models.BooleanField(
+        default=False,
+        help_text="If checked, this will schedule the letter to be sent via Lob."
+    )
+
+    usps_tracking_number = models.CharField(
+        # USPS tracking on priority mail and certified mail is 20 - 22 numbers, in sets
+        # of four:
+        #
+        #   https://www.quora.com/What-are-all-the-possible-formats-of-USPS-tracking-numbers
+        #
+        # We'll add a few characters just to be on the safe side.
+        max_length=30,
+        blank=True,
+        help_text="The USPS tracking number for the mail that was sent."
+    )
+
+    lob_letter_object = JSONField(
+        blank=True,
+        null=True,
+        help_text=(
+            "If the letter was sent via Lob, this is the JSON response of the API call that "
+            "was made to send the letter, documented at https://lob.com/docs/python#letters."
+        )
     )
 
     def __init__(self, *args, **kwargs) -> None:

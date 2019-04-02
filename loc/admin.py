@@ -127,6 +127,10 @@ class LocAdminViews:
             user_verification['deliverability'] != 'undeliverable'
         )
 
+        # For definite deliverability, we only really care about the
+        # landlord.
+        is_definitely_deliverable = landlord_verification['deliverability'] == 'deliverable'
+
         verifications = {
             'landlord_verification': landlord_verification,
             'landlord_verified_address': get_address_from_verification(landlord_verification),
@@ -134,7 +138,8 @@ class LocAdminViews:
             'user_verification': user_verification,
             'user_verified_address': get_address_from_verification(user_verification),
             'user_deliverability_docs': get_deliverability_docs(user_verification),
-            'is_deliverable': is_deliverable
+            'is_deliverable': is_deliverable,
+            'is_definitely_deliverable': is_definitely_deliverable
         }
 
         return {

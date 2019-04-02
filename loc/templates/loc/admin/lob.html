@@ -11,6 +11,20 @@
 {% elif is_post %}
   <p>WOO</p>
 {% else %}
+  {% if not is_deliverable %}
+  <p class="errornote">
+    At least one of the addresses below is not deliverable! Please <a href="{{ go_back_href }}">go back</a> and
+    fix things before trying to mail the letter with Lob.
+  </p>
+  {% elif not is_definitely_deliverable %}
+  <ul class="messagelist">
+    <li class="warning">
+      The letter of complaint can be sent by Lob, but there is a
+      chance it may not reach its intended recipient. See below
+      for more details.
+    </li>
+  </ul>
+  {% endif %}
   <fieldset class="module aligned">
     <h2>User/tenant address details</h2>
     <div class="form-row">
@@ -87,11 +101,6 @@
       <input type="submit" class="default" value="Mail it with Lob!">
     </div>
   </form>
-  {% else %}
-  <p>
-    At least one of the addresses is not deliverable! Please <a href="{{ go_back_href }}">go back</a> and
-    fix things before mailing the letter with Lob.
-  </p>
   {% endif %}
 {% endif %}
 {% endblock %}

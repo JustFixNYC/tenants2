@@ -142,11 +142,6 @@ class LetterRequest(models.Model):
         help_text="The HTML content of the letter at the time it was requested."
     )
 
-    mail_via_lob = models.BooleanField(
-        default=False,
-        help_text="If checked, this will schedule the letter to be sent via Lob."
-    )
-
     usps_tracking_number = models.CharField(
         # USPS tracking on priority mail and certified mail is 20 - 22 numbers, in sets
         # of four:

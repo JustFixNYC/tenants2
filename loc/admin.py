@@ -1,8 +1,13 @@
 from django.contrib import admin
 from django import forms
 from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
+from django.urls import path
 from django.urls import reverse
 from django.utils.html import format_html
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+import lob
 
 from project.util.admin_util import admin_field, admin_action
 from . import models
@@ -54,10 +59,72 @@ class LetterRequestInline(admin.StackedInline):
         url = obj.admin_pdf_url
         if not url:
             return 'This user has not yet completed the letter of complaint process.'
-        return format_html(
+        html = format_html(
             '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
             url
         )
+        if can_mail_via_lob(obj):
+            html += format_html(
+                '<br><br><a class="button" href="{}">Mail letter of complaint via Lob</a>',
+                reverse('admin:mail-via-lob', kwargs={'letterid': obj.id})
+            )
+        return html
+
+
+class LocAdminViews:
+    def __init__(self, site):
+        self.site = site
+
+    def get_urls(self):
+        return [
+            path('lob/<int:letterid>/', self.site.admin_view(self.mail_via_lob),
+                 name='mail-via-lob'),
+        ]
+
+    def mail_via_lob(self, request, letterid):
+        letter = get_object_or_404(models.LetterRequest, pk=letterid)
+        user = letter.user
+        can_mail = can_mail_via_lob(letter)
+        ctx = {
+            **self.site.each_context(request),
+            'title': "Mail letter of complaint via Lob",
+            'user': user,
+            'letter': letter,
+            'can_mail': can_mail
+        }
+
+        if can_mail:
+            landlord_details = user.landlord_details
+            onboarding_info = user.onboarding_info
+            lob.api_key = settings.LOB_SECRET_API_KEY
+
+            landlord_verification = lob.USVerification.create(
+                address=landlord_details.address
+            )
+            user_verification = lob.USVerification.create(
+                primary_line=onboarding_info.address,
+                secondary_line=onboarding_info.apartment_address_line,
+                state=onboarding_info.state,
+                city=onboarding_info.city,
+                zip_code=onboarding_info.zipcode,
+            )
+
+            ctx.update({
+                'landlord_verification': landlord_verification,
+                'user_verification': user_verification,
+            })
+
+        return TemplateResponse(request, "loc/admin/lob.html", ctx)
+
+
+def can_mail_via_lob(letter: models.LetterRequest) -> bool:
+    if not settings.LOB_SECRET_API_KEY:
+        return False
+    # TODO: Ensure letter is WE_WILL_MAIL.
+    # TODO: Ensure LandlordDetails exist.
+    # TODO: Ensure request user has proper permissions.
+    # TODO: Ensure letter has not already been mailed via Lob.
+    return True
 
 
 user_inlines = (

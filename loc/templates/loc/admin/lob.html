@@ -1,14 +1,97 @@
 {% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
 {% block content %}
 {% if not can_mail %}
   <p>The letter of complaint cannot be mailed via Lob.</p>
+{% elif is_post %}
+  <p>WOO</p>
 {% else %}
-  <h2>User (tenant) address details</h2>
-  <pre>{% for line in user.onboarding_info.address_lines_for_mailing %}{{ line }}<br>{% endfor %}</pre>
-  <p>Deliverability: <code>{{ user_verification.deliverability }}</code></p>
+  <fieldset class="module aligned">
+    <h2>User/tenant address details</h2>
+    <div class="form-row">
+      <div>
+        <label>Our version</label>
+        <div class="readonly">
+          <pre>{% for line in user.onboarding_info.address_lines_for_mailing %}{{ line }}<br>{% endfor %}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Lob's version</label>
+        <div class="readonly">
+          <pre>{{ user_verified_address }}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Lob's deliverability code</label>
+        <div class="readonly">
+          <pre>{{ user_verification.deliverability }}</pre>
+          <p>{{ user_deliverability_docs }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
 
-  <h2>Landlord address details</h2>
-  <pre>{{ user.landlord_details.address }}</pre>
-  <p>Deliverability: <code>{{ landlord_verification.deliverability }}</code></p>
+  <fieldset class="module aligned">
+    <h2>Landlord address details</h2>
+    <div class="form-row">
+      <div>
+        <label>Our version</label>
+        <div class="readonly">
+          <pre>{{ user.landlord_details.address }}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Lob's version</label>
+        <div class="readonly">
+          <pre>{{ landlord_verified_address }}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Lob's deliverability code</label>
+        <div class="readonly">
+          <pre>{{ landlord_verification.deliverability }}</pre>
+          <p>{{ landlord_deliverability_docs }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  {% if is_deliverable %}
+  <p>
+    If this information isn't copacetic, you should <a href="{{ go_back_href }}">go back</a> and
+    change anything that needs changing.
+  </p>
+
+  <p>
+    You should also look at the user's <a href="{{ pdf_url }}" target="_blank">letter of complaint PDF</a>
+    and make sure everything looks okay.
+  </p>
+
+  <form action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="signed_verifications" value="{{ signed_verifications }}" >
+    <div class="submit-row">
+      <input type="submit" class="default" value="Mail it with Lob!">
+    </div>
+  </form>
+  {% else %}
+  <p>
+    At least one of the addresses is not deliverable! Please <a href="{{ go_back_href }}">go back</a> and
+    fix things before mailing the letter with Lob.
+  </p>
+  {% endif %}
 {% endif %}
 {% endblock %}

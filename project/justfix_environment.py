@@ -180,6 +180,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # https://dashboard.lob.com/#/settings/keys.
     LOB_SECRET_API_KEY: str = ''
 
+    # Your publishable Lob API key. Leaving this empty disables
+    # address verification via Lob.
+    LOB_PUBLISHABLE_API_KEY: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

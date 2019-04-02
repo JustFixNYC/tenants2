@@ -1,16 +1,41 @@
+from typing import Dict, Any
 from django.contrib import admin
 from django import forms
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.urls import path
-from django.urls import reverse
+from django.urls import path, reverse
 from django.utils.html import format_html
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.core import signing
 import lob
 
 from project.util.admin_util import admin_field, admin_action
 from . import models
+
+# https://lob.com/docs#us_verifications_object
+DELIVERABILITY_DOCS = {
+    'deliverable': 'The address is deliverable by the USPS.',
+    'deliverable_unnecessary_unit': (
+        'The address is deliverable, but the secondary unit '
+        'information is unnecessary.'
+    ),
+    'deliverable_incorrect_unit': (
+        "The address is deliverable to the building's default "
+        "address but the secondary unit provided may not exist. "
+        "There is a chance the mail will not reach the intended "
+        "recipient."
+    ),
+    'deliverable_missing_unit': (
+        "The address is deliverable to the building's default "
+        "address but is missing secondary unit information. "
+        "There is a chance the mail will not reach the intended "
+        "recipient."
+    ),
+    'undeliverable': (
+        "The address is not deliverable according to the USPS."
+    )
+}
 
 
 @admin_action("Print letter of complaint envelopes")
@@ -47,7 +72,7 @@ class LetterRequestInline(admin.StackedInline):
     model = models.LetterRequest
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
-    exclude = ['html_content']
+    exclude = ['html_content', 'lob_letter_object']
 
     readonly_fields = ['loc_actions']
 
@@ -81,44 +106,83 @@ class LocAdminViews:
                  name='mail-via-lob'),
         ]
 
+    def _get_mail_confirmation_context(self, user):
+        landlord_details = user.landlord_details
+        onboarding_info = user.onboarding_info
+        lob.api_key = settings.LOB_PUBLISHABLE_API_KEY
+
+        landlord_verification = lob.USVerification.create(
+            address=landlord_details.address
+        )
+        user_verification = lob.USVerification.create(
+            primary_line=onboarding_info.address,
+            secondary_line=onboarding_info.apartment_address_line,
+            state=onboarding_info.state,
+            city=onboarding_info.city,
+            zip_code=onboarding_info.zipcode,
+        )
+
+        is_deliverable = (
+            landlord_verification['deliverability'] != 'undeliverable' and
+            user_verification['deliverability'] != 'undeliverable'
+        )
+
+        verifications = {
+            'landlord_verification': landlord_verification,
+            'landlord_verified_address': get_address_from_verification(landlord_verification),
+            'landlord_deliverability_docs': get_deliverability_docs(landlord_verification),
+            'user_verification': user_verification,
+            'user_verified_address': get_address_from_verification(user_verification),
+            'user_deliverability_docs': get_deliverability_docs(user_verification),
+            'is_deliverable': is_deliverable
+        }
+
+        return {
+            'signed_verifications': signing.dumps(verifications),
+            **verifications
+        }
+
     def mail_via_lob(self, request, letterid):
         letter = get_object_or_404(models.LetterRequest, pk=letterid)
         user = letter.user
         can_mail = can_mail_via_lob(letter)
+        is_post = request.method == "POST"
         ctx = {
             **self.site.each_context(request),
             'title': "Mail letter of complaint via Lob",
             'user': user,
             'letter': letter,
-            'can_mail': can_mail
+            'can_mail': can_mail,
+            'is_post': is_post,
+            'pdf_url': user.letter_request.admin_pdf_url,
+            'go_back_href': reverse('admin:users_justfixuser_change', args=(user.pk,)),
         }
 
         if can_mail:
-            landlord_details = user.landlord_details
-            onboarding_info = user.onboarding_info
-            lob.api_key = settings.LOB_SECRET_API_KEY
-
-            landlord_verification = lob.USVerification.create(
-                address=landlord_details.address
-            )
-            user_verification = lob.USVerification.create(
-                primary_line=onboarding_info.address,
-                secondary_line=onboarding_info.apartment_address_line,
-                state=onboarding_info.state,
-                city=onboarding_info.city,
-                zip_code=onboarding_info.zipcode,
-            )
-
-            ctx.update({
-                'landlord_verification': landlord_verification,
-                'user_verification': user_verification,
-            })
+            if is_post:
+                verifications = signing.loads(request.POST['signed_verifications'])
+                print(verifications)
+            else:
+                ctx.update(self._get_mail_confirmation_context(user))
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
 
 
+def get_address_from_verification(v: Dict[str, Any]) -> str:
+    return '\n'.join(filter(None, [
+        v['primary_line'],
+        v['secondary_line'],
+        v['urbanization'],
+        v['last_line']
+    ]))
+
+
+def get_deliverability_docs(v: Dict[str, Any]) -> str:
+    return DELIVERABILITY_DOCS[v['deliverability']]
+
+
 def can_mail_via_lob(letter: models.LetterRequest) -> bool:
-    if not settings.LOB_SECRET_API_KEY:
+    if not (settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY):
         return False
     # TODO: Ensure letter is WE_WILL_MAIL.
     # TODO: Ensure LandlordDetails exist.

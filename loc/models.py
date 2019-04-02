@@ -142,18 +142,6 @@ class LetterRequest(models.Model):
         help_text="The HTML content of the letter at the time it was requested."
     )
 
-    usps_tracking_number = models.CharField(
-        # USPS tracking on priority mail and certified mail is 20 - 22 numbers, in sets
-        # of four:
-        #
-        #   https://www.quora.com/What-are-all-the-possible-formats-of-USPS-tracking-numbers
-        #
-        # We'll add a few characters just to be on the safe side.
-        max_length=30,
-        blank=True,
-        help_text="The USPS tracking number for the mail that was sent."
-    )
-
     lob_letter_object = JSONField(
         blank=True,
         null=True,
@@ -196,6 +184,13 @@ class LetterRequest(models.Model):
             f"{self.user.full_name}'s letter of complaint request from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
+
+    @property
+    def lob_url(self) -> str:
+        if not self.lob_letter_object:
+            return ''
+        ltr_id = self.lob_letter_object['id']
+        return f"https://dashboard.lob.com/#/letters/{ltr_id}"
 
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:

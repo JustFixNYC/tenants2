@@ -1,5 +1,6 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from django.contrib import admin
+from django.contrib.auth.decorators import permission_required
 from django import forms
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -8,10 +9,11 @@ from django.utils.html import format_html
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core import signing
-import lob
 
 from project.util.admin_util import admin_field, admin_action
-from . import models
+from users.models import CHANGE_LETTER_REQUEST_PERMISSION
+from . import models, views, lob_api
+
 
 # https://lob.com/docs#us_verifications_object
 DELIVERABILITY_DOCS = {
@@ -74,7 +76,7 @@ class LetterRequestInline(admin.StackedInline):
     verbose_name_plural = verbose_name
     exclude = ['html_content', 'lob_letter_object']
 
-    readonly_fields = ['loc_actions']
+    readonly_fields = ['loc_actions', 'lob_integration']
 
     @admin_field(
         short_description="Letter of complaint actions",
@@ -84,16 +86,31 @@ class LetterRequestInline(admin.StackedInline):
         url = obj.admin_pdf_url
         if not url:
             return 'This user has not yet completed the letter of complaint process.'
-        html = format_html(
+        return format_html(
             '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
             url
         )
-        if can_mail_via_lob(obj):
-            html += format_html(
-                '<br><br><a class="button" href="{}">Mail letter of complaint via Lob</a>',
+
+    @admin_field(
+        short_description='Lob integration',
+        allow_tags=True
+    )
+    def lob_integration(self, obj: models.LetterRequest):
+        if obj.lob_letter_object:
+            return format_html(
+                'The letter was <a href="{}">sent via Lob</a> with the tracking number {} and '
+                "has an expected delivery date of {}.",
+                obj.lob_url,
+                obj.lob_letter_object['tracking_number'],
+                obj.lob_letter_object['expected_delivery_date']
+            )
+        nomail_reason = get_lob_nomail_reason(obj)
+        if not nomail_reason:
+            return format_html(
+                '<a class="button" href="{}">Mail letter of complaint via Lob</a>',
                 reverse('admin:mail-via-lob', kwargs={'letterid': obj.id})
             )
-        return html
+        return format_html("Unable to send mail via Lob because {}.", nomail_reason)
 
 
 class LocAdminViews:
@@ -102,19 +119,22 @@ class LocAdminViews:
 
     def get_urls(self):
         return [
-            path('lob/<int:letterid>/', self.site.admin_view(self.mail_via_lob),
+            path('lob/<int:letterid>/',
+                 self.view_with_perm(self.mail_via_lob, CHANGE_LETTER_REQUEST_PERMISSION),
                  name='mail-via-lob'),
         ]
+
+    def view_with_perm(self, view_func, perm: str):
+        return self.site.admin_view(permission_required(perm)(view_func))
 
     def _get_mail_confirmation_context(self, user):
         landlord_details = user.landlord_details
         onboarding_info = user.onboarding_info
-        lob.api_key = settings.LOB_PUBLISHABLE_API_KEY
 
-        landlord_verification = lob.USVerification.create(
+        landlord_verification = lob_api.verify_address(
             address=landlord_details.address
         )
-        user_verification = lob.USVerification.create(
+        user_verification = lob_api.verify_address(
             primary_line=onboarding_info.address,
             secondary_line=onboarding_info.apartment_address_line,
             state=onboarding_info.state,
@@ -147,30 +167,61 @@ class LocAdminViews:
             **verifications
         }
 
+    def _create_letter(self, request, letter, verifications):
+        user = letter.user
+        pdf_file = views.render_letter_of_complaint(request, user, 'pdf').file_to_stream
+        response = lob_api.mail_certified_letter(
+            description='Letter of complaint',
+            to_address={
+                'name': user.landlord_details.name,
+                **verification_to_inline_address(verifications['landlord_verification'])
+            },
+            from_address={
+                'name': letter.user.full_name,
+                **verification_to_inline_address(verifications['user_verification'])
+            },
+            file=pdf_file,
+            color=False
+        )
+        return response
+
     def mail_via_lob(self, request, letterid):
         letter = get_object_or_404(models.LetterRequest, pk=letterid)
         user = letter.user
-        can_mail = can_mail_via_lob(letter)
+        lob_nomail_reason = get_lob_nomail_reason(letter)
         is_post = request.method == "POST"
         ctx = {
             **self.site.each_context(request),
             'title': "Mail letter of complaint via Lob",
             'user': user,
             'letter': letter,
-            'can_mail': can_mail,
+            'lob_nomail_reason': lob_nomail_reason,
             'is_post': is_post,
             'pdf_url': user.letter_request.admin_pdf_url,
             'go_back_href': reverse('admin:users_justfixuser_change', args=(user.pk,)),
         }
 
-        if can_mail:
+        if not lob_nomail_reason:
             if is_post:
                 verifications = signing.loads(request.POST['signed_verifications'])
-                print(verifications)
+                response = self._create_letter(request, letter, verifications)
+                letter.lob_letter_object = response
+                letter.save()
             else:
                 ctx.update(self._get_mail_confirmation_context(user))
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
+
+
+def verification_to_inline_address(v: Dict[str, Any]) -> Dict[str, Any]:
+    vc = v['components']
+    return {
+        'address_line1': v['primary_line'],
+        'address_line2': v['secondary_line'],
+        'address_city': vc['city'],
+        'address_state': vc['state'],
+        'address_zip': vc['zip_code']
+    }
 
 
 def get_address_from_verification(v: Dict[str, Any]) -> str:
@@ -186,14 +237,18 @@ def get_deliverability_docs(v: Dict[str, Any]) -> str:
     return DELIVERABILITY_DOCS[v['deliverability']]
 
 
-def can_mail_via_lob(letter: models.LetterRequest) -> bool:
+def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     if not (settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY):
-        return False
-    # TODO: Ensure letter is WE_WILL_MAIL.
-    # TODO: Ensure LandlordDetails exist.
-    # TODO: Ensure request user has proper permissions.
-    # TODO: Ensure letter has not already been mailed via Lob.
-    return True
+        return 'Lob integration is disabled'
+    if not letter.id:
+        return 'the letter has not yet been created'
+    if letter.lob_letter_object:
+        return 'the letter has already been sent via Lob'
+    if letter.mail_choice != models.LOC_MAILING_CHOICES.WE_WILL_MAIL:
+        return 'the user does not want us to mail the letter for them'
+    if not hasattr(letter.user, 'landlord_details'):
+        return 'the user does not have landlord details'
+    return None
 
 
 user_inlines = (

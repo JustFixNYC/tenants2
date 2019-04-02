@@ -6,10 +6,16 @@
 {% endblock %}
 
 {% block content %}
-{% if not can_mail %}
-  <p>The letter of complaint cannot be mailed via Lob.</p>
+{% if lob_nomail_reason %}
+  <p>The letter of complaint cannot be mailed via Lob because {{ lob_nomail_reason }}.</p>
+  <p><a href="{{ go_back_href }}">Go back</a></p>
 {% elif is_post %}
-  <p>WOO</p>
+  <p>
+    Hooray, the letter was sent via Lob with the tracking number
+    {{ letter.lob_letter_object.tracking_number }} and an expected
+    delivery date of {{ letter.lob_letter_object.expected_delivery_date }}!
+  </p>
+  <p><a href="{{ go_back_href }}">Go back</a></p>
 {% else %}
   {% if not is_deliverable %}
   <p class="errornote">
@@ -90,7 +96,7 @@
   </p>
 
   <p>
-    You should also look at the user's <a href="{{ pdf_url }}" target="_blank">letter of complaint PDF</a>
+    You should also examine the user's <a href="{{ pdf_url }}" target="_blank">letter of complaint PDF</a>
     and make sure everything looks okay.
   </p>
 

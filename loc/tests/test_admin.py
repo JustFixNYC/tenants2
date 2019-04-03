@@ -54,7 +54,7 @@ class TestLobIntegrationField:
         monkeypatch.setattr('loc.admin.get_lob_nomail_reason', lambda _: None)
         assert self.lob_integration(lr) == (
             f'<a class="button" href="/admin/lob/{lr.pk}/">'
-            'Mail letter of complaint via Lob</a>'
+            'Mail letter of complaint via Lob&hellip;</a>'
         )
 
     def test_it_returns_reason_when_it_cannot_be_mailed(self):

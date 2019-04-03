@@ -82,7 +82,7 @@ class LetterRequestInline(admin.StackedInline):
         nomail_reason = get_lob_nomail_reason(obj)
         if not nomail_reason:
             return format_html(
-                '<a class="button" href="{}">Mail letter of complaint via Lob</a>',
+                '<a class="button" href="{}">Mail letter of complaint via Lob&hellip;</a>',
                 reverse('admin:mail-via-lob', kwargs={'letterid': obj.id})
             )
         return format_html("Unable to send mail via Lob because {}.", nomail_reason)

@@ -202,19 +202,21 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     English string explaining why. Otherwise, return None.
     '''
 
+    result: Optional[str] = None
+
     if not (settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY):
-        return 'Lob integration is disabled'
-    if not letter.id:
-        return 'the letter has not yet been created'
-    if letter.lob_letter_object:
-        return 'the letter has already been sent via Lob'
-    if letter.mail_choice != models.LOC_MAILING_CHOICES.WE_WILL_MAIL:
-        return 'the user does not want us to mail the letter for them'
-    if not hasattr(letter.user, 'landlord_details'):
-        return 'the user does not have landlord details'
-    if not hasattr(letter.user, 'onboarding_info'):
-        return 'the user does not have onboarding info'
-    return None
+        result = 'Lob integration is disabled'
+    elif not letter.id:
+        result = 'the letter has not yet been created'
+    elif letter.lob_letter_object:
+        result = 'the letter has already been sent via Lob'
+    elif letter.mail_choice != models.LOC_MAILING_CHOICES.WE_WILL_MAIL:
+        result = 'the user does not want us to mail the letter for them'
+    elif not hasattr(letter.user, 'landlord_details'):
+        result = 'the user does not have landlord details'
+    elif not hasattr(letter.user, 'onboarding_info'):
+        result = 'the user does not have onboarding info'
+    return result
 
 
 user_inlines = (

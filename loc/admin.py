@@ -117,6 +117,12 @@ class LocAdminViews:
             zip_code=onboarding_info.zipcode,
         )
 
+        return self._create_mail_confirmation_context(
+            landlord_verification=landlord_verification,
+            user_verification=user_verification
+        )
+
+    def _create_mail_confirmation_context(self, landlord_verification, user_verification):
         is_deliverable = (
             landlord_verification['deliverability'] != lob_api.UNDELIVERABLE and
             user_verification['deliverability'] != lob_api.UNDELIVERABLE
@@ -206,6 +212,8 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
         return 'the user does not want us to mail the letter for them'
     if not hasattr(letter.user, 'landlord_details'):
         return 'the user does not have landlord details'
+    if not hasattr(letter.user, 'onboarding_info'):
+        return 'the user does not have onboarding info'
     return None
 
 

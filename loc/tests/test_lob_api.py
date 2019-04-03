@@ -5,6 +5,10 @@ import lob
 
 from loc import lob_api
 
+LOB_LETTERS_URL = 'https://api.lob.com/v1/letters'
+
+LOB_VERIFICATIONS_URL = 'https://api.lob.com/v1/us_verifications'
+
 MY_DIR = Path(__file__).parent.resolve()
 
 LETTER_JSON = MY_DIR / 'lob_letter.json'
@@ -23,7 +27,7 @@ def get_sample_verification():
 def test_verify_address_works(requests_mock, settings):
     settings.LOB_PUBLISHABLE_API_KEY = 'mypubkey'
     requests_mock.post(
-        'https://api.lob.com/v1/us_verifications',
+        LOB_VERIFICATIONS_URL,
         json=get_sample_verification()
     )
     v = lob_api.verify_address(address='blarg')
@@ -34,7 +38,7 @@ def test_verify_address_works(requests_mock, settings):
 def test_mail_certified_letter_works(requests_mock, settings):
     settings.LOB_SECRET_API_KEY = 'myseckey'
     requests_mock.post(
-        'https://api.lob.com/v1/letters',
+        LOB_LETTERS_URL,
         json=get_sample_letter()
     )
     f = BytesIO(b"i am a fake pdf")

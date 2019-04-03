@@ -187,9 +187,20 @@ class LetterRequest(models.Model):
 
     @property
     def lob_url(self) -> str:
+        '''
+        Return the URL on Lob where more information about the mailed Lob
+        version of this letter can be found.
+
+        If the letter has not been sent through Lob, return an empty string.
+        '''
+
         if not self.lob_letter_object:
             return ''
         ltr_id = self.lob_letter_object['id']
+
+        # This URL structure isn't formally documented anywhere, it was
+        # just inferred, so it could technically break at any time, but
+        # it's better than nothing!
         return f"https://dashboard.lob.com/#/letters/{ltr_id}"
 
     def can_change_content(self) -> bool:

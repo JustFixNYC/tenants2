@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional
+from typing import Optional
 from django.contrib import admin
 from django.contrib.auth.decorators import permission_required
 from django import forms
@@ -13,31 +13,6 @@ from django.core import signing
 from project.util.admin_util import admin_field, admin_action
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 from . import models, views, lob_api
-
-
-# https://lob.com/docs#us_verifications_object
-DELIVERABILITY_DOCS = {
-    'deliverable': 'The address is deliverable by the USPS.',
-    'deliverable_unnecessary_unit': (
-        'The address is deliverable, but the secondary unit '
-        'information is unnecessary.'
-    ),
-    'deliverable_incorrect_unit': (
-        "The address is deliverable to the building's default "
-        "address but the secondary unit provided may not exist. "
-        "There is a chance the mail will not reach the intended "
-        "recipient."
-    ),
-    'deliverable_missing_unit': (
-        "The address is deliverable to the building's default "
-        "address but is missing secondary unit information. "
-        "There is a chance the mail will not reach the intended "
-        "recipient."
-    ),
-    'undeliverable': (
-        "The address is not deliverable according to the USPS."
-    )
-}
 
 
 @admin_action("Print letter of complaint envelopes")
@@ -143,21 +118,23 @@ class LocAdminViews:
         )
 
         is_deliverable = (
-            landlord_verification['deliverability'] != 'undeliverable' and
-            user_verification['deliverability'] != 'undeliverable'
+            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE and
+            user_verification['deliverability'] != lob_api.UNDELIVERABLE
         )
 
         # For definite deliverability, we only really care about the
         # landlord.
-        is_definitely_deliverable = landlord_verification['deliverability'] == 'deliverable'
+        is_definitely_deliverable = landlord_verification['deliverability'] == lob_api.DELIVERABLE
 
         verifications = {
             'landlord_verification': landlord_verification,
-            'landlord_verified_address': get_address_from_verification(landlord_verification),
-            'landlord_deliverability_docs': get_deliverability_docs(landlord_verification),
+            'landlord_verified_address': lob_api.get_address_from_verification(
+                landlord_verification),
+            'landlord_deliverability_docs': lob_api.get_deliverability_docs(
+                landlord_verification),
             'user_verification': user_verification,
-            'user_verified_address': get_address_from_verification(user_verification),
-            'user_deliverability_docs': get_deliverability_docs(user_verification),
+            'user_verified_address': lob_api.get_address_from_verification(user_verification),
+            'user_deliverability_docs': lob_api.get_deliverability_docs(user_verification),
             'is_deliverable': is_deliverable,
             'is_definitely_deliverable': is_definitely_deliverable
         }
@@ -174,11 +151,11 @@ class LocAdminViews:
             description='Letter of complaint',
             to_address={
                 'name': user.landlord_details.name,
-                **verification_to_inline_address(verifications['landlord_verification'])
+                **lob_api.verification_to_inline_address(verifications['landlord_verification'])
             },
             from_address={
                 'name': letter.user.full_name,
-                **verification_to_inline_address(verifications['user_verification'])
+                **lob_api.verification_to_inline_address(verifications['user_verification'])
             },
             file=pdf_file,
             color=False
@@ -213,31 +190,12 @@ class LocAdminViews:
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
 
 
-def verification_to_inline_address(v: Dict[str, Any]) -> Dict[str, Any]:
-    vc = v['components']
-    return {
-        'address_line1': v['primary_line'],
-        'address_line2': v['secondary_line'],
-        'address_city': vc['city'],
-        'address_state': vc['state'],
-        'address_zip': vc['zip_code']
-    }
-
-
-def get_address_from_verification(v: Dict[str, Any]) -> str:
-    return '\n'.join(filter(None, [
-        v['primary_line'],
-        v['secondary_line'],
-        v['urbanization'],
-        v['last_line']
-    ]))
-
-
-def get_deliverability_docs(v: Dict[str, Any]) -> str:
-    return DELIVERABILITY_DOCS[v['deliverability']]
-
-
 def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
+    '''
+    If the given letter can't be mailed via Lob, return a human-readable
+    English string explaining why. Otherwise, return None.
+    '''
+
     if not (settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY):
         return 'Lob integration is disabled'
     if not letter.id:

@@ -50,6 +50,7 @@ def test_mail_certified_letter_works(requests_mock, settings):
         from_address={},
         file=f,
         color=False,
+        double_sided=False
     )
     assert ltr['carrier'] == 'USPS'
     assert lob.api_key == 'myseckey'

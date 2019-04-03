@@ -159,7 +159,8 @@ class LocAdminViews:
                 **lob_api.verification_to_inline_address(verifications['user_verification'])
             },
             file=pdf_file,
-            color=False
+            color=False,
+            double_sided=False
         )
         return response
 

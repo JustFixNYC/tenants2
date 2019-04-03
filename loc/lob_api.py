@@ -55,7 +55,8 @@ def mail_certified_letter(
     to_address: Dict[str, Any],
     from_address: Dict[str, Any],
     file: BinaryIO,
-    color: bool
+    color: bool,
+    double_sided: bool
 ) -> Dict[str, Any]:
     '''
     Mail a certified letter via Lob:
@@ -75,6 +76,7 @@ def mail_certified_letter(
             from_address=from_address,
             file=file,
             color=color,
+            double_sided=double_sided,
             extra_service='certified',
         ))
 

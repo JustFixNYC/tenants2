@@ -207,7 +207,7 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     elif letter.lob_letter_object:
         result = 'the letter has already been sent via Lob'
     elif letter.mail_choice != models.LOC_MAILING_CHOICES.WE_WILL_MAIL:
-        result = 'the user does not want us to mail the letter for them'
+        result = 'the user wants to mail the letter themself'
     elif not hasattr(letter.user, 'landlord_details'):
         result = 'the user does not have landlord details'
     elif not hasattr(letter.user, 'onboarding_info'):

@@ -155,7 +155,7 @@ class TestGetLobNomailReason:
     def test_it_works_when_user_mails_letter_themselves(self, enable_lob, db):
         lr = LetterRequestFactory(mail_choice=LOC_MAILING_CHOICES.USER_WILL_MAIL)
         assert get_lob_nomail_reason(lr) == \
-            'the user does not want us to mail the letter for them'
+            'the user wants to mail the letter themself'
 
     def test_it_works_when_user_has_no_landlord_details(self, enable_lob, db):
         lr = LetterRequestFactory()

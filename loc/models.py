@@ -224,6 +224,8 @@ class LetterRequest(models.Model):
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:
             return True
+        if self.lob_letter_object is not None:
+            return False
         if self.created_at is None:
             return True
         return timezone.now() - self.created_at < LOC_CHANGE_LEEWAY

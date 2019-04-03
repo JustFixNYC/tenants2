@@ -75,6 +75,12 @@ class TestCanChangeContent:
     def test_it_is_true_for_instances_without_created_at(self):
         assert LetterRequest(html_content='boop').can_change_content() is True
 
+    def test_it_is_false_when_it_has_been_mailed_via_lob(self):
+        assert LetterRequest(
+            html_content='boop',
+            lob_letter_object={'blah': 1},
+        ).can_change_content() is False
+
     def test_it_is_true_when_within_leeway_window(self):
         assert LetterRequest(
             created_at=timezone.now(),

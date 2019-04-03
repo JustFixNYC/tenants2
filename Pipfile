@@ -35,6 +35,7 @@ django-storages = "==1.7.1"
 zeep = "==3.1.0"
 pyotp = "==2.2.7"
 rapidpro-python = "==2.5.1"
+lob = "==4.0.0"
 
 [requires]
 python_version = "3.7"

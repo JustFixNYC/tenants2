@@ -32,6 +32,8 @@ LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
 }
 HP_ACTION_CUSTOMER_KEY = ''
 RAPIDPRO_API_TOKEN = ''
+LOB_SECRET_API_KEY = ''
+LOB_PUBLISHABLE_API_KEY = ''
 
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 

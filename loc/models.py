@@ -2,7 +2,9 @@ from typing import List, Optional
 import datetime
 from django.db import models, transaction
 from django.utils import timezone
+from django.utils.html import format_html
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import JSONField
 
 from project.common_data import Choices
 from project.util.site_util import absolute_reverse
@@ -141,6 +143,15 @@ class LetterRequest(models.Model):
         help_text="The HTML content of the letter at the time it was requested."
     )
 
+    lob_letter_object = JSONField(
+        blank=True,
+        null=True,
+        help_text=(
+            "If the letter was sent via Lob, this is the JSON response of the API call that "
+            "was made to send the letter, documented at https://lob.com/docs/python#letters."
+        )
+    )
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])
@@ -175,9 +186,46 @@ class LetterRequest(models.Model):
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
 
+    @property
+    def lob_letter_html_description(self) -> str:
+        '''
+        Return an HTML string that describes the mailed Lob letter. If
+        the letter has not been sent through Lob, return an empty string.
+        '''
+
+        lob_url = self.lob_url
+        return lob_url and format_html(
+            'The letter was <a href="{}" rel="noreferrer noopener" target="_blank">'
+            'sent via Lob</a> with the tracking number {} and '
+            "has an expected delivery date of {}.",
+            lob_url,
+            self.lob_letter_object['tracking_number'],
+            self.lob_letter_object['expected_delivery_date']
+        )
+
+    @property
+    def lob_url(self) -> str:
+        '''
+        Return the URL on Lob where more information about the mailed Lob
+        version of this letter can be found.
+
+        If the letter has not been sent through Lob, return an empty string.
+        '''
+
+        if not self.lob_letter_object:
+            return ''
+        ltr_id = self.lob_letter_object['id']
+
+        # This URL structure isn't formally documented anywhere, it was
+        # just inferred, so it could technically break at any time, but
+        # it's better than nothing!
+        return f"https://dashboard.lob.com/#/letters/{ltr_id}"
+
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:
             return True
+        if self.lob_letter_object is not None:
+            return False
         if self.created_at is None:
             return True
         return timezone.now() - self.created_at < LOC_CHANGE_LEEWAY

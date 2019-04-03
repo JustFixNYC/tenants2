@@ -8,6 +8,7 @@ from project.management.commands.userstats import get_user_stats_rows
 from project.util.streaming_csv import streaming_csv_response
 from users.models import CHANGE_USER_PERMISSION
 from .views import react_rendered_view
+from loc.admin import LocAdminViews
 
 
 @permission_required(CHANGE_USER_PERMISSION)
@@ -25,6 +26,10 @@ class JustfixAdminSite(admin.AdminSite):
     site_title = "Tenant App admin"
     index_title = "Justfix.nyc Tenant App administration"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.loc_views = LocAdminViews(self)
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -33,7 +38,7 @@ class JustfixAdminSite(admin.AdminSite):
                  name='download-data'),
             path('download-data/userstats.csv', self.admin_view(download_userstats),
                  name='download-userstats'),
-        ]
+        ] + self.loc_views.get_urls()
         return my_urls + urls
 
     def download_data_page(self, request):

@@ -17,6 +17,8 @@ FULL_NAME_MAXLEN = 150
 
 VIEW_LETTER_REQUEST_PERMISSION = 'loc.view_letterrequest'
 
+CHANGE_LETTER_REQUEST_PERMISSION = 'loc.change_letterrequest'
+
 CHANGE_USER_PERMISSION = 'users.change_justfixuser'
 
 ROLES = {}
@@ -31,7 +33,7 @@ ROLES['Outreach Coordinators'] = set([
     'loc.add_landlorddetails',
     'loc.change_landlorddetails',
     'loc.add_letterrequest',
-    'loc.change_letterrequest',
+    CHANGE_LETTER_REQUEST_PERMISSION,
     'loc.delete_letterrequest',
     VIEW_LETTER_REQUEST_PERMISSION,
     'hpaction.add_hpactiondocuments',

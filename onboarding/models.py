@@ -154,6 +154,21 @@ class OnboardingInfo(models.Model):
         return f"{self.address}, {self.borough_label}"
 
     @property
+    def state(self) -> str:
+        '''The two-letter abbreviation for the user's state.'''
+
+        # For now we'll just hard-code this to New York.
+        return 'NY'
+
+    @property
+    def apartment_address_line(self) -> str:
+        '''The address line that specifies the user's apartment number.'''
+
+        if self.apt_number:
+            return f"Apartment {self.apt_number}"
+        return ''
+
+    @property
     def address_lines_for_mailing(self) -> List[str]:
         '''Return the full mailing address as a list of lines.'''
 
@@ -161,9 +176,9 @@ class OnboardingInfo(models.Model):
         if self.address:
             result.append(self.address)
         if self.apt_number:
-            result.append(f"Apartment {self.apt_number}")
+            result.append(self.apartment_address_line)
         if self.borough:
-            result.append(f"{self.city}, NY {self.zipcode}".strip())
+            result.append(f"{self.city}, {self.state} {self.zipcode}".strip())
 
         return result
 

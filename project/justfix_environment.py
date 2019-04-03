@@ -175,6 +175,15 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The hostname of the RapidPro server to access.
     RAPIDPRO_HOSTNAME: str = 'api.textit.in'
 
+    # Your secret Lob API key. Leaving this empty disables the sending
+    # of letters via Lob. You can get this key from
+    # https://dashboard.lob.com/#/settings/keys.
+    LOB_SECRET_API_KEY: str = ''
+
+    # Your publishable Lob API key. Leaving this empty disables
+    # address verification via Lob.
+    LOB_PUBLISHABLE_API_KEY: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

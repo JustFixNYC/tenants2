@@ -122,9 +122,10 @@ class LocAdminViews:
             user_verification['deliverability'] != lob_api.UNDELIVERABLE
         )
 
-        # For definite deliverability, we only really care about the
-        # landlord.
-        is_definitely_deliverable = landlord_verification['deliverability'] == lob_api.DELIVERABLE
+        is_definitely_deliverable = (
+            landlord_verification['deliverability'] == lob_api.DELIVERABLE and
+            user_verification['deliverability'] == lob_api.DELIVERABLE
+        )
 
         verifications = {
             'landlord_verification': landlord_verification,

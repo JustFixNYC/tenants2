@@ -74,6 +74,38 @@ def create_valid_letter_request():
     return LetterRequestFactory(user=user)
 
 
+class TestCreateMailConfirmationContext:
+    deliverable = test_lob_api.get_sample_verification(deliverability='deliverable')
+    deliverable_incorrect_unit = test_lob_api.get_sample_verification(
+        deliverability='deliverable_incorrect_unit')
+    undeliverable = test_lob_api.get_sample_verification(deliverability='undeliverable')
+
+    def create(self, landlord_verification, user_verification):
+        return LocAdminViews(None)._create_mail_confirmation_context(
+            landlord_verification,
+            user_verification
+        )
+
+    @pytest.mark.parametrize('landlord,user,expected', [
+        [deliverable, undeliverable, False],
+        [undeliverable, deliverable, False],
+        [undeliverable, undeliverable, False],
+        [deliverable_incorrect_unit, deliverable, True],
+        [deliverable, deliverable, True]
+    ])
+    def test_is_deliverable_works(self, landlord, user, expected):
+        assert self.create(landlord, user)['is_deliverable'] is expected
+
+    @pytest.mark.parametrize('landlord,user,expected', [
+        [deliverable, undeliverable, False],
+        [undeliverable, deliverable, False],
+        [deliverable_incorrect_unit, deliverable, False],
+        [deliverable, deliverable, True]
+    ])
+    def test_is_definitely_deliverable_works(self, landlord, user, expected):
+        assert self.create(landlord, user)['is_definitely_deliverable'] is expected
+
+
 class TestMailViaLob:
     @pytest.fixture(autouse=True)
     def setup_fixtures(self, db, enable_lob):

@@ -20,8 +20,10 @@ def get_sample_letter():
     return json.loads(LETTER_JSON.read_text())
 
 
-def get_sample_verification():
-    return json.loads(VERIFICATION_JSON.read_text())
+def get_sample_verification(**updates):
+    result = json.loads(VERIFICATION_JSON.read_text())
+    result.update(updates)
+    return result
 
 
 def test_verify_address_works(requests_mock, settings):

@@ -44,7 +44,8 @@ class TestLobIntegrationField:
         lr = LetterRequest()
         lr.lob_letter_object = test_lob_api.get_sample_letter()
         assert self.lob_integration(lr) == (
-            'The letter was <a href="https://dashboard.lob.com/#/letters/ltr_4868c3b754655f90">'
+            'The letter was <a href="https://dashboard.lob.com/#/letters/ltr_4868c3b754655f90" '
+            'rel="noreferrer noopener" target="_blank">'
             'sent via Lob</a> with the tracking number 9407300000000000000004 and has an '
             'expected delivery date of 2017-09-12.'
         )

@@ -2,6 +2,7 @@ from typing import List, Optional
 import datetime
 from django.db import models, transaction
 from django.utils import timezone
+from django.utils.html import format_html
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
 
@@ -183,6 +184,23 @@ class LetterRequest(models.Model):
         return (
             f"{self.user.full_name}'s letter of complaint request from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
+        )
+
+    @property
+    def lob_letter_html_description(self) -> str:
+        '''
+        Return an HTML string that describes the mailed Lob letter. If
+        the letter has not been sent through Lob, return an empty string.
+        '''
+
+        lob_url = self.lob_url
+        return lob_url and format_html(
+            'The letter was <a href="{}" rel="noreferrer noopener" target="_blank">'
+            'sent via Lob</a> with the tracking number {} and '
+            "has an expected delivery date of {}.",
+            lob_url,
+            self.lob_letter_object['tracking_number'],
+            self.lob_letter_object['expected_delivery_date']
         )
 
     @property

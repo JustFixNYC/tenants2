@@ -72,13 +72,7 @@ class LetterRequestInline(admin.StackedInline):
     )
     def lob_integration(self, obj: models.LetterRequest):
         if obj.lob_letter_object:
-            return format_html(
-                'The letter was <a href="{}">sent via Lob</a> with the tracking number {} and '
-                "has an expected delivery date of {}.",
-                obj.lob_url,
-                obj.lob_letter_object['tracking_number'],
-                obj.lob_letter_object['expected_delivery_date']
-            )
+            return obj.lob_letter_html_description
         nomail_reason = get_lob_nomail_reason(obj)
         if not nomail_reason:
             return format_html(

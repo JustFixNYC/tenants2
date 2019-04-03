@@ -8,13 +8,15 @@
 {% block content %}
 {% if lob_nomail_reason %}
   <p>The letter of complaint cannot be mailed via Lob because {{ lob_nomail_reason }}.</p>
+  {% if letter.lob_letter_html_description %}
+    <p>{{ letter.lob_letter_html_description }}</p>
+  {% endif %}
   <p><a href="{{ go_back_href }}">Go back</a></p>
 {% elif is_post %}
   <p>
-    Hooray, the letter was sent via Lob with the tracking number
-    {{ letter.lob_letter_object.tracking_number }} and an expected
-    delivery date of {{ letter.lob_letter_object.expected_delivery_date }}!
+    Hooray, the letter was sent via Lob!
   </p>
+  <p>{{ letter.lob_letter_html_description }}</p>
   <p><a href="{{ go_back_href }}">Go back</a></p>
 {% else %}
   {% if not is_deliverable %}

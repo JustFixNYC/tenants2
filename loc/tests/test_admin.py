@@ -45,8 +45,8 @@ class TestLobIntegrationField:
         lr.lob_letter_object = test_lob_api.get_sample_letter()
         assert self.lob_integration(lr) == (
             'The letter was <a href="https://dashboard.lob.com/#/letters/ltr_4868c3b754655f90">'
-            'sent via Lob</a> with the tracking number None and has an expected delivery date '
-            'of 2017-09-12.'
+            'sent via Lob</a> with the tracking number 9407300000000000000004 and has an '
+            'expected delivery date of 2017-09-12.'
         )
 
     def test_it_returns_button_when_it_can_be_mailed(self, monkeypatch, db):

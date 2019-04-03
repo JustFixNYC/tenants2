@@ -45,12 +45,12 @@
   "address_placement": "top_first_page",
   "return_envelope": false,
   "perforated_page": null,
-  "extra_service": null,
+  "extra_service": "certified",
   "mail_type": "usps_first_class",
   "url": "https://lob-assets.com/letters/ltr_4868c3b754655f90.pdf?expires=1540372221&signature=qjatwPv3jPJlQayBYQeIm42qtavaP7q",
   "template_id": null,
   "carrier": "USPS",
-  "tracking_number": null,
+  "tracking_number": "9407300000000000000004",
   "tracking_events": [],
   "thumbnails": [
     {

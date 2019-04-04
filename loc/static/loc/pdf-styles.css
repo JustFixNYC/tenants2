@@ -1,5 +1,14 @@
 @page {
     size: letter;
+    margin-top: 1in;
+
+    @top-right {
+        content: string(title);
+        white-space: pre;
+        font-weight: bold;
+        padding-top: 1in;
+        padding-bottom: 0.2in;
+    }
 
     @bottom-center {
         content: "Page " counter(page) " of " counter(pages);
@@ -54,4 +63,14 @@ h2 {
 h3 {
     font-weight: normal;
     text-decoration: underline;
+}
+
+@media print {
+    /* https://stackoverflow.com/a/51674970 */
+    h1 {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        string-set: title content();
+    }
 }

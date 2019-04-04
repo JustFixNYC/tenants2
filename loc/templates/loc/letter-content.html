@@ -1,17 +1,36 @@
+<h1 class="has-text-right">
+  <span class="is-uppercase">Request for repairs</span>
+  <br>
+  at {{ user.onboarding_info.address }}
+</h1>
+
 <p class="has-text-right">{{ today }}</p>
 
-{% if landlord_details.name and landlord_details.address_lines_for_mailing %}
-<p class="has-text-right">
-  {{ landlord_details.name }}<br/>
-  {% for line in landlord_details.address_lines_for_mailing %}
-    {{ line }}<br/>
-  {% endfor %}
-</p>
-{% endif %}
+<dl class="jf-letter-heading">
+  {% if landlord_details.name and landlord_details.address_lines_for_mailing %}
+  <dt>To</dt>
+  <dd>
+    {{ landlord_details.name|upper }}<br/>
+    {% for line in landlord_details.address_lines_for_mailing %}
+      {{ line }}<br/>
+    {% endfor %}
+  </dd>
+  {% endif %}
+  <dt>From</dt>
+  <dd>
+    {{ user.full_name|default:"Anonymous"|upper }}<br/>
+    {% if user.onboarding_info %}
+      {% for line in user.onboarding_info.address_lines_for_mailing %}
+        {{ line }}<br/>
+      {% endfor %}
+    {% endif %}
+    {{ user.formatted_phone_number }}
+  </dd>
+</dl>
 
 <p>
   {% if landlord_details.name %}
-    Dear {{ landlord_details.name }},
+    Dear {{ landlord_details.name|upper }},
   {% else %}
     To whom it may concern,
   {% endif %}
@@ -23,8 +42,10 @@
     of the building:
   </p>
 
+  <h2>Repairs required</h2>
+
   {% for area, area_issues in issues %}
-    <p>{{ area }}</p>
+    <h3>{{ area }}</h3>
     <ul>
       {% for issue in area_issues %}
         <li>{{ issue }}</li>
@@ -34,6 +55,7 @@
 
   {% if access_dates %}
     <div class="jf-avoid-page-breaks-within">
+      <h2>Available access dates</h2>
       <p>
       Below are some access dates provided for when repairs can be made.
       Please contact (using the information provided below) in order
@@ -59,6 +81,7 @@
     remedies to get the repairs done.
   </p>
   <div class="jf-avoid-page-breaks-within">
+    <h2>Civil penalties</h2>
     <p>
       Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations
       for which the time to correct has expired is as follows:
@@ -94,8 +117,8 @@
   <div class="jf-avoid-page-breaks-within">
 {% endif %}
     <p class="jf-signature">
-      Regards,<br/>
-      {{ user.full_name|default:"Anonymous" }}<br/>
+      Regards,<br/><br/>
+      {{ user.full_name|default:"Anonymous"|upper }}<br/>
       {% if user.onboarding_info %}
         {% for line in user.onboarding_info.address_lines_for_mailing %}
           {{ line }}<br/>

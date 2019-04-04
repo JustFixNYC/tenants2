@@ -10,10 +10,39 @@ html {
     text-align: right;
 }
 
+.is-uppercase {
+    text-transform: uppercase;
+}
+
+.jf-letter-heading dt {
+    font-weight: bold;
+}
+
+dl {
+    margin-top: 0.33in;
+}
+
+dd {
+    margin-bottom: 0.33in;
+}
+
 .jf-signature {
     float: right;
 }
 
 .jf-avoid-page-breaks-within {
     page-break-inside: avoid;
+}
+
+h1, h2, h3 {
+    font-size: inherit;
+}
+
+h2 {
+    margin-top: 0.33in;
+}
+
+h3 {
+    font-weight: normal;
+    text-decoration: underline;
 }

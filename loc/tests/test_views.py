@@ -89,14 +89,15 @@ def test_letter_html_works_for_users_with_minimal_info(admin_client):
 
 @pytest.mark.django_db
 def test_letter_html_prefers_prerendered_content(client):
+    zzzz = '<p>ZZZZ</p>'
     user = UserFactory()
     lr = LetterRequest(
         user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL,
-        html_content='<p>BOOP</p>')
+        html_content=zzzz)
     lr.save()
     client.force_login(user)
-    assert 'BOOP' in get_letter_html(client)
-    assert 'BOOP' not in get_letter_html(client, '?live_preview=on')
+    assert zzzz in get_letter_html(client)
+    assert zzzz not in get_letter_html(client, '?live_preview=on')
 
 
 @pytest.mark.django_db
@@ -106,11 +107,11 @@ def test_letter_html_includes_expected_content(client):
     client.force_login(user)
     html = get_letter_html(client)
 
-    assert 'Bobby Denver' in html
+    assert 'BOBBY DENVER' in html
     assert '1 Times Square' in html
     assert 'Apartment 301' in html
     assert 'New York, NY 11201' in html
-    assert 'Dear Landlordo Calrissian' in html
+    assert 'Dear LANDLORDO CALRISSIAN' in html
     assert '1 Cloud City<br/>' in html
     assert CALLED_311_SENTINEL not in html
 

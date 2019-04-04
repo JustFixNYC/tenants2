@@ -1,6 +1,7 @@
 @page {
     size: letter;
     margin-top: 1in;
+    margin-bottom: 1in;
 
     @top-right {
         content: string(title);

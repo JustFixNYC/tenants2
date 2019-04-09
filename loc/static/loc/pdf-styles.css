@@ -1,5 +1,20 @@
 @page {
     size: letter;
+    margin-top: 1in;
+    margin-bottom: 1in;
+
+    @top-right {
+        content: string(title);
+        white-space: pre;
+        font-weight: bold;
+        padding-top: 1in;
+        padding-bottom: 0.2in;
+    }
+
+    @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 9pt;
+    }
 }
 
 html {
@@ -10,10 +25,54 @@ html {
     text-align: right;
 }
 
+.is-uppercase {
+    text-transform: uppercase;
+}
+
+.jf-letter-heading {
+    margin-bottom: 0.66in;
+}
+
+.jf-letter-heading dt {
+    font-weight: bold;
+}
+
+dl {
+    margin-top: 0.33in;
+}
+
+dd {
+    margin-bottom: 0.33in;
+}
+
 .jf-signature {
     float: right;
 }
 
 .jf-avoid-page-breaks-within {
     page-break-inside: avoid;
+}
+
+h1, h2, h3 {
+    font-size: inherit;
+}
+
+h2 {
+    margin-top: 0.5in;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+@media print {
+    /* https://stackoverflow.com/a/51674970 */
+    h1 {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        string-set: title content();
+    }
 }

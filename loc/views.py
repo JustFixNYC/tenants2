@@ -82,7 +82,7 @@ def get_issues(user):
         append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
 
     for issue in user.custom_issues.all():
-        append_to_area(issue.area, issue.description)
+        append_to_area(issue.area, f"Other: {issue.description}")
 
     return [
         (area, issue_areas[area]) for area in issue_areas
@@ -209,7 +209,7 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
     html = render_english_to_string(request, template_name, {
         **context,
         'is_pdf': True,
-        'pdf_styles_css': PDF_STYLES_CSS.read_text()
+        'pdf_styles_css': SafeString(PDF_STYLES_CSS.read_text())
     })
 
     return pdf_response(html, template_name_to_pdf_filename(template_name))

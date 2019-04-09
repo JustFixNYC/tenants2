@@ -1,6 +1,6 @@
 <h1 class="has-text-right">
   <span class="is-uppercase">Request for repairs</span><br>
-  at {{ user.onboarding_info.address }}
+  at {{ user.onboarding_info.address }}{% if user.onboarding_info.apartment_address_line %}, {{ user.onboarding_info.apartment_address_line }}{% endif %}
 </h1>
 
 <p class="has-text-right">{{ today }}</p>

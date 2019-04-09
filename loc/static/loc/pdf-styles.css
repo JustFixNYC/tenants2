@@ -58,7 +58,8 @@ h1, h2, h3 {
 }
 
 h2 {
-    margin-top: 0.33in;
+    margin-top: 0.5in;
+    text-transform: uppercase;
 }
 
 h3 {

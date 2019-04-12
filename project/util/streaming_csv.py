@@ -3,6 +3,16 @@ from typing import Any, Iterator, List
 from django.http import StreamingHttpResponse
 
 
+def generate_csv_rows(cursor) -> Iterator[List[Any]]:
+    yield [column.name for column in cursor.description]
+
+    while True:
+        row = cursor.fetchone()
+        if row is None:
+            break
+        yield row
+
+
 # This is a variation on the Echo class from the Django docs:
 # https://docs.djangoproject.com/en/2.1/howto/outputting-csv/#streaming-large-csv-files
 #

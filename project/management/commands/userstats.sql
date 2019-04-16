@@ -29,6 +29,11 @@ SELECT
         )
     ) AS issue_count,
     (
+        SELECT SUM(char_length(description))
+        FROM issues_customissue
+        WHERE issues_customissue.user_id = onb.user_id
+    ) AS custom_issue_chars,
+    (
         SELECT COUNT(1)
         FROM loc_accessdate
         WHERE loc_accessdate.user_id = onb.user_id

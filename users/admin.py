@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from project.util.admin_util import admin_field
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
+import rapidpro.models
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
 from legacy_tenants.admin import LegacyUserInline
@@ -49,6 +50,13 @@ class JustfixUserAdmin(UserAdmin):
                 "or phone number."
             )
         }),
+        ('Additional read-only details', {
+            'fields': ('rapidpro_contact_groups',),
+            'description': (
+                "Note that these details may be slightly out-of-date "
+                "due to technical limitations."
+            )
+        }),
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
@@ -75,7 +83,11 @@ class JustfixUserAdmin(UserAdmin):
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
-    readonly_fields = ['phone_number_lookup_details', *UserAdmin.readonly_fields]
+    readonly_fields = [
+        'phone_number_lookup_details',
+        'rapidpro_contact_groups',
+        *UserAdmin.readonly_fields
+    ]
 
     def get_fieldsets(self, request, obj=None):
         if obj is not None and not request.user.is_superuser:
@@ -89,6 +101,17 @@ class JustfixUserAdmin(UserAdmin):
                     not LegacyUserInfo.is_legacy_user(obj)):
                 continue
             yield inline.get_formset(request, obj), inline
+
+    @admin_field(
+        short_description="Rapidpro contact groups",
+    )
+    def rapidpro_contact_groups(self, obj):
+        if obj is not None:
+            groups = rapidpro.models.get_group_names_for_user(obj)
+            if groups:
+                return ', '.join(groups)
+
+        return "None"
 
     @admin_field(
         short_description="Issues",

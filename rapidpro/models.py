@@ -1,3 +1,4 @@
+from typing import List
 from django.db import models
 
 from users.models import JustfixUser
@@ -52,3 +53,13 @@ class UserContactGroup(models.Model):
 
     def __str__(self):
         return f"User {self.user}'s association with RapidPro contact group '{self.group}'"
+
+
+def get_group_names_for_user(user: JustfixUser) -> List[str]:
+    if user.pk is None:
+        return []
+
+    groups = list(
+        UserContactGroup.objects.filter(user=user).values_list('group__name'))
+
+    return [group[0] for group in groups]

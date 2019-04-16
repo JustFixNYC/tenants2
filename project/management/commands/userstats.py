@@ -5,6 +5,9 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import UNUSABLE_PASSWORD_PREFIX
 from django.db import connection
 
+from project.util.streaming_csv import generate_csv_rows
+
+
 MY_DIR = Path(__file__).parent.resolve()
 USER_STATS_SQLFILE = MY_DIR / 'userstats.sql'
 
@@ -15,13 +18,7 @@ def get_user_stats_rows(include_pad_bbl: bool = False) -> Iterator[List[Any]]:
             'include_pad_bbl': include_pad_bbl,
             'unusable_password_pattern': UNUSABLE_PASSWORD_PREFIX + '%'
         })
-        yield [column.name for column in cursor.description]
-
-        while True:
-            row = cursor.fetchone()
-            if row is None:
-                break
-            yield row
+        yield from generate_csv_rows(cursor)
 
 
 class Command(BaseCommand):

@@ -36,25 +36,38 @@ def test_logout_works(graphql_client):
     assert graphql_client.request.user.pk is None
 
 
-@pytest.mark.django_db
-def test_password_reset_works(graphql_client, smsoutbox):
-    UserFactory(phone_number='5551234567')
-    result = graphql_client.execute(
-        '''
-        mutation {
-            passwordReset(input: {phoneNumber: "5551234567"}) {
-                errors {
-                    field,
-                    messages
+class TestPasswordReset:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, smsoutbox, db):
+        self.graphql_client = graphql_client
+        self.smsoutbox = smsoutbox
+
+    def mutate(self):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordReset(input: {phoneNumber: "5551234567"}) {
+                    errors {
+                        field,
+                        messages
+                    }
                 }
             }
-        }
-        '''
-    )
-    assert result['data']['passwordReset']['errors'] == []
-    assert len(smsoutbox) == 1
-    assert smsoutbox[0].to == '+15551234567'
-    assert 'Your verification code is' in smsoutbox[0].body
+            '''
+        )
+        return result['data']['passwordReset']['errors']
+
+    def test_it_does_nothing_on_bad_phone_number(self):
+        assert self.mutate() == []
+        assert len(self.smsoutbox) == 0
+
+    def test_it_sends_sms_on_success(self):
+        UserFactory(phone_number='5551234567')
+        assert self.mutate() == []
+        assert len(self.smsoutbox) == 1
+        msg = self.smsoutbox[0]
+        assert msg.to == '+15551234567'
+        assert 'Your verification code is' in msg.body
 
 
 def test_schema_json_is_up_to_date():

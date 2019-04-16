@@ -27,6 +27,10 @@ class JustfixUserAdmin(UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
+    ordering = ('-last_login',)
+    list_filter = [
+        'letter_request__mail_choice'
+    ] + list(UserAdmin.list_filter)
     list_display = [
         'phone_number', 'username', 'first_name', 'last_name', 'last_login',
         'issue_count', 'mailing_needed'

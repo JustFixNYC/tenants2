@@ -1011,7 +1011,7 @@
             },
             {
               "name": "USER_WILL_MAIL",
-              "description": "No thanks, I'll mail it myself. (You'll get a link to a PDF on the next page.)",
+              "description": "No thanks, I'll mail it myself.",
               "isDeprecated": false,
               "deprecationReason": null
             }

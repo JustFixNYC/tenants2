@@ -13,7 +13,7 @@ from hpaction.schema import HPActionMutations, HPActionSessionInfo
 from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
 from findhelp.schema import FindhelpInfo
-from . import forms
+from . import forms, password_reset
 
 
 class SessionInfo(
@@ -170,6 +170,21 @@ class Logout(DjangoFormMutation):
         return Logout(session=SessionInfo())
 
 
+class PasswordReset(DjangoFormMutation):
+    '''
+    Used when the user requests their password be reset.
+    '''
+
+    class Meta:
+        form_class = forms.PasswordResetForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.PasswordResetForm, info: ResolveInfo):
+        request = info.context
+        password_reset.create_verification_code(request, form.cleaned_data['phone_number'])
+        return cls(errors=[])
+
+
 class Mutations(
     HPActionMutations,
     LocMutations,
@@ -179,6 +194,7 @@ class Mutations(
 ):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
+    password_reset = PasswordReset.Field(required=True)
     example = Example.Field(required=True)
     example_radio = ExampleRadio.Field(required=True)
 

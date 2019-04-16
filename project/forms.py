@@ -63,6 +63,15 @@ class LogoutForm(forms.Form):
     pass
 
 
+class PasswordResetForm(forms.Form):
+    '''
+    Allows users to enter their phone number so they can be texted a
+    code that will allow them to reset their password.
+    '''
+
+    phone_number = USPhoneNumberField()
+
+
 class ExampleRadioForm(forms.Form):
     radio_field = forms.ChoiceField(choices=[('A', 'a'), ('B', 'b')])
 

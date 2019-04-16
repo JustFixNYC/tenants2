@@ -36,6 +36,27 @@ def test_logout_works(graphql_client):
     assert graphql_client.request.user.pk is None
 
 
+@pytest.mark.django_db
+def test_password_reset_works(graphql_client, smsoutbox):
+    UserFactory(phone_number='5551234567')
+    result = graphql_client.execute(
+        '''
+        mutation {
+            passwordReset(input: {phoneNumber: "5551234567"}) {
+                errors {
+                    field,
+                    messages
+                }
+            }
+        }
+        '''
+    )
+    assert result['data']['passwordReset']['errors'] == []
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == '+15551234567'
+    assert 'Your verification code is' in smsoutbox[0].body
+
+
 def test_schema_json_is_up_to_date():
     err_msg = (
         f'{schema_json.FILENAME} is out of date! '

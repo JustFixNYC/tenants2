@@ -13,8 +13,8 @@ import { History } from 'history';
 import hardRedirect from '../tests/hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
-import { OutboundLink } from '../google-analytics';
 import { getPostOrQuerystringVar } from '../querystring';
+import { Link } from 'react-router-dom';
 
 const NEXT = 'next';
 
@@ -101,7 +101,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
         <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
         <br/>
         <p>
-          If you forgot your password, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.
+          If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
         </p>
       </div>
     </Page>

@@ -17,6 +17,10 @@ VCODE_CHARS = '0123456789'
 # Session key where we put the verification code we sent the user.
 VCODE_SESSION_KEY = 'password_reset_vcode'
 
+# Session key where we put the user ID of the user whose password
+# is to be reset.
+USER_ID_SESSION_KEY = 'password_reset_user_id'
+
 # Session key where we put the time the verification code was sent,
 # in seconds since the epoch.
 TIMESTAMP_SESSION_KEY = 'password_reset_ts'
@@ -50,6 +54,7 @@ def create_verification_code(request: HttpRequest, phone_number: str):
         logger.warning('Phone number does not map to a valid user account.')
         return
     vcode = get_random_string(length=VCODE_LENGTH, allowed_chars=VCODE_CHARS)
+    request.session[USER_ID_SESSION_KEY] = user.pk
     request.session[VCODE_SESSION_KEY] = vcode
     request.session[TIMESTAMP_SESSION_KEY] = time.time()
     twilio.send_sms(
@@ -79,5 +84,28 @@ def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
         return "Incorrect verification code!"
 
     request.session[VERIFIED_TIMESTAMP_SESSION_KEY] = now
+
+    return None
+
+
+def set_password(request: HttpRequest, password: str) -> Optional[str]:
+    '''
+    Set the user's password. If anything is amiss, return a string
+    describing the error; otherwise, return None.
+    '''
+
+    req_user_id = request.session.get(USER_ID_SESSION_KEY)
+    req_ts = request.session.get(VERIFIED_TIMESTAMP_SESSION_KEY, 0)
+
+    now = time.time()
+    time_elapsed = now - req_ts
+
+    if req_user_id is None or time_elapsed > NEW_PASSWORD_MAX_SECS:
+        return "Please go back and re-enter your phone number."
+
+    user = JustfixUser.objects.get(pk=req_user_id)
+    user.set_password(password)
+    user.save()
+    logger.info(f'User {user.username} has changed their password.')
 
     return None

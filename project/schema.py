@@ -203,6 +203,24 @@ class PasswordResetVerificationCode(DjangoFormMutation):
         return cls(errors=[])
 
 
+class PasswordResetConfirm(DjangoFormMutation):
+    '''
+    Used when the user completes the password reset process
+    by providing a new password.
+    '''
+
+    class Meta:
+        form_class = forms.SetPasswordForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.SetPasswordForm, info: ResolveInfo):
+        request = info.context
+        err_str = password_reset.set_password(request, form.cleaned_data['password'])
+        if err_str is not None:
+            return cls.make_error(err_str)
+        return cls(errors=[])
+
+
 class Mutations(
     HPActionMutations,
     LocMutations,
@@ -214,6 +232,7 @@ class Mutations(
     login = Login.Field(required=True)
     password_reset = PasswordReset.Field(required=True)
     password_reset_verification_code = PasswordResetVerificationCode.Field(required=True)
+    password_reset_confirm = PasswordResetConfirm.Field(required=True)
     example = Example.Field(required=True)
     example_radio = ExampleRadio.Field(required=True)
 

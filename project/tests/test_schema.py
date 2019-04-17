@@ -51,6 +51,24 @@ class TestPasswordReset:
         assert allowed_chars == '0123456789'
         return '123456'
 
+    def mutate_password_reset_confirm(self):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordResetConfirm(input: {
+                    password: "my_new_pw1234",
+                    confirmPassword: "my_new_pw1234"
+                }) {
+                    errors {
+                        field,
+                        messages
+                    }
+                }
+            }
+            '''
+        )
+        return result['data']['passwordResetConfirm']['errors']
+
     def mutate_password_reset_verification_code(self):
         result = self.graphql_client.execute(
             '''
@@ -93,10 +111,16 @@ class TestPasswordReset:
         assert msg.to == '+15551234567'
         assert 'Your verification code is 123456' in msg.body
 
-    def test_verification_works(self):
-        UserFactory(phone_number='5551234567')
+    def test_entire_reset_process_works(self):
+        user = UserFactory(phone_number='5551234567')
         assert self.mutate_password_reset() == []
         assert self.mutate_password_reset_verification_code() == []
+        assert self.mutate_password_reset_confirm() == []
+        user.refresh_from_db()
+        assert user.check_password('my_new_pw1234') is True
+
+    def test_confirm_raises_errors(self):
+        assert 'Please go back' in repr(self.mutate_password_reset_confirm())
 
     def test_verification_raises_errors(self):
         assert 'Please go back' in repr(self.mutate_password_reset_verification_code())

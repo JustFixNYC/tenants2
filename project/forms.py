@@ -2,6 +2,7 @@ from typing import Optional
 from django import forms
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
 from . import password_reset
@@ -83,6 +84,32 @@ class PasswordResetVerificationCodeForm(forms.Form):
         min_length=password_reset.VCODE_LENGTH,
         max_length=password_reset.VCODE_LENGTH
     )
+
+
+class SetPasswordForm(forms.Form):
+    '''
+    A form that can be used to set a password. It can also
+    be used as a mixin.
+    '''
+
+    password = forms.CharField(required=False)
+
+    confirm_password = forms.CharField(required=False)
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if password:
+            validate_password(password)
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError('Passwords do not match!')
 
 
 class ExampleRadioForm(forms.Form):

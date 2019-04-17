@@ -4,6 +4,7 @@ from django.forms import ValidationError
 from django.contrib.auth import authenticate
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
+from . import password_reset
 
 
 class USPhoneNumberField(forms.CharField):
@@ -70,6 +71,18 @@ class PasswordResetForm(forms.Form):
     '''
 
     phone_number = USPhoneNumberField()
+
+
+class PasswordResetVerificationCodeForm(forms.Form):
+    '''
+    Allows the user to enter the verification code sent to them
+    over SMS.
+    '''
+
+    code = forms.CharField(
+        min_length=password_reset.VCODE_LENGTH,
+        max_length=password_reset.VCODE_LENGTH
+    )
 
 
 class ExampleRadioForm(forms.Form):

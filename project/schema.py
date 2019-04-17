@@ -185,6 +185,24 @@ class PasswordReset(DjangoFormMutation):
         return cls(errors=[])
 
 
+class PasswordResetVerificationCode(DjangoFormMutation):
+    '''
+    Used when the user verifies the verification code sent to them over SMS.
+    '''
+
+    class Meta:
+        form_class = forms.PasswordResetVerificationCodeForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.PasswordResetVerificationCodeForm, info: ResolveInfo):
+        request = info.context
+        err_str = password_reset.verify_verification_code(
+            request, form.cleaned_data['code'])
+        if err_str is not None:
+            return cls.make_error(err_str)
+        return cls(errors=[])
+
+
 class Mutations(
     HPActionMutations,
     LocMutations,
@@ -195,6 +213,7 @@ class Mutations(
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     password_reset = PasswordReset.Field(required=True)
+    password_reset_verification_code = PasswordResetVerificationCode.Field(required=True)
     example = Example.Field(required=True)
     example_radio = ExampleRadio.Field(required=True)
 

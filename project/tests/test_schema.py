@@ -38,11 +38,35 @@ def test_logout_works(graphql_client):
 
 class TestPasswordReset:
     @pytest.fixture(autouse=True)
-    def setup_fixture(self, graphql_client, smsoutbox, db):
+    def setup_fixture(self, graphql_client, smsoutbox, db, monkeypatch):
         self.graphql_client = graphql_client
         self.smsoutbox = smsoutbox
+        monkeypatch.setattr(
+            'project.password_reset.get_random_string',
+            self._fake_get_random_string
+        )
 
-    def mutate(self):
+    def _fake_get_random_string(self, length, allowed_chars):
+        assert length == 6
+        assert allowed_chars == '0123456789'
+        return '123456'
+
+    def mutate_password_reset_verification_code(self):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordResetVerificationCode(input: {code: "123456"}) {
+                    errors {
+                        field,
+                        messages
+                    }
+                }
+            }
+            '''
+        )
+        return result['data']['passwordResetVerificationCode']['errors']
+
+    def mutate_password_reset(self):
         result = self.graphql_client.execute(
             '''
             mutation {
@@ -58,16 +82,24 @@ class TestPasswordReset:
         return result['data']['passwordReset']['errors']
 
     def test_it_does_nothing_on_bad_phone_number(self):
-        assert self.mutate() == []
+        assert self.mutate_password_reset() == []
         assert len(self.smsoutbox) == 0
 
     def test_it_sends_sms_on_success(self):
         UserFactory(phone_number='5551234567')
-        assert self.mutate() == []
+        assert self.mutate_password_reset() == []
         assert len(self.smsoutbox) == 1
         msg = self.smsoutbox[0]
         assert msg.to == '+15551234567'
-        assert 'Your verification code is' in msg.body
+        assert 'Your verification code is 123456' in msg.body
+
+    def test_verification_works(self):
+        UserFactory(phone_number='5551234567')
+        assert self.mutate_password_reset() == []
+        assert self.mutate_password_reset_verification_code() == []
+
+    def test_verification_raises_errors(self):
+        assert 'Please go back' in repr(self.mutate_password_reset_verification_code())
 
 
 def test_schema_json_is_up_to_date():

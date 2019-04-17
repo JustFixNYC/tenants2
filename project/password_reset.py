@@ -4,6 +4,7 @@ from typing import Optional
 from django.utils.crypto import get_random_string
 from django.http import HttpRequest
 
+from . import slack
 from texting import twilio
 from users.models import JustfixUser
 
@@ -62,6 +63,11 @@ def create_verification_code(request: HttpRequest, phone_number: str):
         f"JustFix.nyc here! Your verification code is {vcode}.",
         fail_silently=True
     )
+    slack.sendmsg(
+        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"has started the password reset process.",
+        is_safe=True
+    )
 
 
 def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
@@ -107,5 +113,10 @@ def set_password(request: HttpRequest, password: str) -> Optional[str]:
     user.set_password(password)
     user.save()
     logger.info(f'User {user.username} has changed their password.')
+    slack.sendmsg(
+        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"has changed their password.",
+        is_safe=True
+    )
 
     return None

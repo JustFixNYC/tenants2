@@ -92,9 +92,9 @@ class SetPasswordForm(forms.Form):
     be used as a mixin.
     '''
 
-    password = forms.CharField(required=False)
+    password = forms.CharField()
 
-    confirm_password = forms.CharField(required=False)
+    confirm_password = forms.CharField()
 
     def clean_password(self):
         password = self.cleaned_data['password']
@@ -110,6 +110,18 @@ class SetPasswordForm(forms.Form):
 
         if password and confirm_password and password != confirm_password:
             raise ValidationError('Passwords do not match!')
+
+
+class OptionalSetPasswordForm(SetPasswordForm):
+    '''
+    A form that can be used to *optionally* set a password. It can also
+    be used as a mixin.
+    '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].required = False
+        self.fields['confirm_password'].required = False
 
 
 class ExampleRadioForm(forms.Form):

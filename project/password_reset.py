@@ -96,6 +96,9 @@ def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
     if time_elapsed > VERIFICATION_MAX_SECS:
         return "Verification code expired. Please go back and re-enter your phone number."
 
+    del request.session[VCODE_SESSION_KEY]
+    del request.session[TIMESTAMP_SESSION_KEY]
+
     request.session[VERIFIED_TIMESTAMP_SESSION_KEY] = now
 
     return None
@@ -125,5 +128,8 @@ def set_password(request: HttpRequest, password: str) -> Optional[str]:
         f"has changed their password.",
         is_safe=True
     )
+
+    del request.session[USER_ID_SESSION_KEY]
+    del request.session[VERIFIED_TIMESTAMP_SESSION_KEY]
 
     return None

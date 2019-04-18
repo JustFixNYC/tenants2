@@ -14,6 +14,26 @@ class BaseTest:
         self.req = http_request
 
 
+class TestCreateVerificationCode(BaseTest):
+    def create(self, phone_number='5551234567'):
+        return pr.create_verification_code(self.req, phone_number)
+
+    def test_it_does_nothing_on_invalid_phone_number(self, db):
+        UserFactory(phone_number='5559991111')
+        self.create()
+        assert pr.TIMESTAMP_SESSION_KEY not in self.req.session
+        assert pr.USER_ID_SESSION_KEY not in self.req.session
+        assert pr.VCODE_SESSION_KEY not in self.req.session
+
+    def test_it_sets_session_info_on_valid_phone_number(self, db):
+        user = UserFactory(phone_number='5551234567')
+        now = time.time()
+        self.create()
+        assert self.req.session[pr.TIMESTAMP_SESSION_KEY] >= now
+        assert self.req.session[pr.USER_ID_SESSION_KEY] == user.pk
+        assert len(self.req.session[pr.VCODE_SESSION_KEY]) == 6
+
+
 class TestVerifyVerificationCode(BaseTest):
     def configure_session(self, timestamp):
         self.req.session[pr.VCODE_SESSION_KEY] = VCODE
@@ -23,7 +43,12 @@ class TestVerifyVerificationCode(BaseTest):
         return pr.verify_verification_code(self.req, code)
 
     def test_it_errors_on_empty_session(self):
-        assert 'Please go back' in self.verify()
+        assert 'Incorrect verification code' in self.verify()
+        assert pr.VERIFIED_TIMESTAMP_SESSION_KEY not in self.req.session
+
+    def test_it_errors_on_invalid_code(self):
+        self.configure_session(time.time())
+        assert 'Incorrect verification code' in self.verify('111111')
         assert pr.VERIFIED_TIMESTAMP_SESSION_KEY not in self.req.session
 
     def test_it_errors_when_code_expired(self):

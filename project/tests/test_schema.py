@@ -130,7 +130,7 @@ class TestPasswordReset:
         assert 'Please go back' in repr(self.mutate_password_reset_confirm())
 
     def test_verification_raises_errors(self):
-        assert 'Please go back' in repr(self.mutate_password_reset_verification_code())
+        assert 'Incorrect verification' in repr(self.mutate_password_reset_verification_code())
 
 
 def test_schema_json_is_up_to_date():

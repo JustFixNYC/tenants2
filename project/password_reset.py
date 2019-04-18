@@ -77,17 +77,24 @@ def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
     string describing the error; otherwise, return None.
     '''
 
+    # Remember that if the user submitted an invalid phone number in the
+    # previous step, we don't want to leak that information here.
+
     req_vcode = request.session.get(VCODE_SESSION_KEY)
+
+    if req_vcode != vcode:
+        if req_vcode is not None:
+            req_user_id = request.session.get(USER_ID_SESSION_KEY)
+            logger.info(f'Invalid verification code for user id {req_user_id}.')
+        return "Incorrect verification code!"
+
     req_ts = request.session.get(TIMESTAMP_SESSION_KEY, 0)
 
     now = time.time()
     time_elapsed = now - req_ts
 
-    if req_vcode is None or time_elapsed > VERIFICATION_MAX_SECS:
+    if time_elapsed > VERIFICATION_MAX_SECS:
         return "Verification code expired. Please go back and re-enter your phone number."
-
-    if req_vcode != vcode:
-        return "Incorrect verification code!"
 
     request.session[VERIFIED_TIMESTAMP_SESSION_KEY] = now
 

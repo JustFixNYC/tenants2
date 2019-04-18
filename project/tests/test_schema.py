@@ -51,13 +51,17 @@ class TestPasswordReset:
         assert allowed_chars == '0123456789'
         return '123456'
 
-    def mutate_password_reset_confirm(self):
+    def mutate_password_reset_confirm(
+        self,
+        password='my_new_pw1234',
+        confirm_password='my_new_pw1234'
+    ):
         result = self.graphql_client.execute(
             '''
             mutation {
                 passwordResetConfirm(input: {
-                    password: "my_new_pw1234",
-                    confirmPassword: "my_new_pw1234"
+                    password: "%s",
+                    confirmPassword: "%s"
                 }) {
                     errors {
                         field,
@@ -65,7 +69,7 @@ class TestPasswordReset:
                     }
                 }
             }
-            '''
+            ''' % (password, confirm_password)
         )
         return result['data']['passwordResetConfirm']['errors']
 
@@ -118,6 +122,9 @@ class TestPasswordReset:
         assert self.mutate_password_reset_confirm() == []
         user.refresh_from_db()
         assert user.check_password('my_new_pw1234') is True
+
+    def test_password_field_is_required(self):
+        assert 'This field is required' in repr(self.mutate_password_reset_confirm('', ''))
 
     def test_confirm_raises_errors(self):
         assert 'Please go back' in repr(self.mutate_password_reset_confirm())

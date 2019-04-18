@@ -48,6 +48,19 @@ export type IssuesRouteInfo = {
   }
 }
 
+export type PasswordResetRouteInfo = ReturnType<typeof createPasswordResetRouteInfo>;
+
+function createPasswordResetRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    start: `${prefix}/start`,
+    verify: `${prefix}/verify`,
+    confirm: `${prefix}/confirm`,
+    done: `${prefix}/done`
+  };
+}
+
 export type IssuesRouteAreaProps = RouteComponentProps<{ area: string }>;
 
 function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
@@ -134,6 +147,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The home page. */
     home: `${prefix}/`,
+
+    /** The password reset flow. */
+    passwordReset: createPasswordResetRouteInfo(`${prefix}/password-reset`),
 
     /** The onboarding flow. */
     onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),

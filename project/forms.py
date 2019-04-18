@@ -2,8 +2,10 @@ from typing import Optional
 from django import forms
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 
 from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
+from . import password_reset
 
 
 class USPhoneNumberField(forms.CharField):
@@ -61,6 +63,65 @@ class LogoutForm(forms.Form):
     '''
 
     pass
+
+
+class PasswordResetForm(forms.Form):
+    '''
+    Allows users to enter their phone number so they can be texted a
+    code that will allow them to reset their password.
+    '''
+
+    phone_number = USPhoneNumberField()
+
+
+class PasswordResetVerificationCodeForm(forms.Form):
+    '''
+    Allows the user to enter the verification code sent to them
+    over SMS.
+    '''
+
+    code = forms.CharField(
+        min_length=password_reset.VCODE_LENGTH,
+        max_length=password_reset.VCODE_LENGTH
+    )
+
+
+class SetPasswordForm(forms.Form):
+    '''
+    A form that can be used to set a password. It can also
+    be used as a mixin.
+    '''
+
+    password = forms.CharField()
+
+    confirm_password = forms.CharField()
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if password:
+            validate_password(password)
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError('Passwords do not match!')
+
+
+class OptionalSetPasswordForm(SetPasswordForm):
+    '''
+    A form that can be used to *optionally* set a password. It can also
+    be used as a mixin.
+    '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].required = False
+        self.fields['confirm_password'].required = False
 
 
 class ExampleRadioForm(forms.Form):

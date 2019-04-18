@@ -110,10 +110,26 @@ export interface OnboardingStep3Input {
 export interface OnboardingStep4Input {
   canWeSms: boolean;
   signupIntent: string;
-  phoneNumber: string;
   password: string;
   confirmPassword: string;
+  phoneNumber: string;
   agreeToTerms: boolean;
+  clientMutationId?: string | null;
+}
+
+export interface PasswordResetConfirmInput {
+  password: string;
+  confirmPassword: string;
+  clientMutationId?: string | null;
+}
+
+export interface PasswordResetInput {
+  phoneNumber: string;
+  clientMutationId?: string | null;
+}
+
+export interface PasswordResetVerificationCodeInput {
+  code: string;
   clientMutationId?: string | null;
 }
 

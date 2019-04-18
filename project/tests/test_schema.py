@@ -36,6 +36,103 @@ def test_logout_works(graphql_client):
     assert graphql_client.request.user.pk is None
 
 
+class TestPasswordReset:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, smsoutbox, db, monkeypatch):
+        self.graphql_client = graphql_client
+        self.smsoutbox = smsoutbox
+        monkeypatch.setattr(
+            'project.password_reset.get_random_string',
+            self._fake_get_random_string
+        )
+
+    def _fake_get_random_string(self, length, allowed_chars):
+        assert length == 6
+        assert allowed_chars == '0123456789'
+        return '123456'
+
+    def mutate_password_reset_confirm(
+        self,
+        password='my_new_pw1234',
+        confirm_password='my_new_pw1234'
+    ):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordResetConfirm(input: {
+                    password: "%s",
+                    confirmPassword: "%s"
+                }) {
+                    errors {
+                        field,
+                        messages
+                    }
+                }
+            }
+            ''' % (password, confirm_password)
+        )
+        return result['data']['passwordResetConfirm']['errors']
+
+    def mutate_password_reset_verification_code(self):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordResetVerificationCode(input: {code: "123456"}) {
+                    errors {
+                        field,
+                        messages
+                    }
+                }
+            }
+            '''
+        )
+        return result['data']['passwordResetVerificationCode']['errors']
+
+    def mutate_password_reset(self):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordReset(input: {phoneNumber: "5551234567"}) {
+                    errors {
+                        field,
+                        messages
+                    }
+                }
+            }
+            '''
+        )
+        return result['data']['passwordReset']['errors']
+
+    def test_it_does_nothing_on_bad_phone_number(self):
+        assert self.mutate_password_reset() == []
+        assert len(self.smsoutbox) == 0
+
+    def test_it_sends_sms_on_success(self):
+        UserFactory(phone_number='5551234567')
+        assert self.mutate_password_reset() == []
+        assert len(self.smsoutbox) == 1
+        msg = self.smsoutbox[0]
+        assert msg.to == '+15551234567'
+        assert 'Your verification code is 123456' in msg.body
+
+    def test_entire_reset_process_works(self):
+        user = UserFactory(phone_number='5551234567')
+        assert self.mutate_password_reset() == []
+        assert self.mutate_password_reset_verification_code() == []
+        assert self.mutate_password_reset_confirm() == []
+        user.refresh_from_db()
+        assert user.check_password('my_new_pw1234') is True
+
+    def test_password_field_is_required(self):
+        assert 'This field is required' in repr(self.mutate_password_reset_confirm('', ''))
+
+    def test_confirm_raises_errors(self):
+        assert 'Please go back' in repr(self.mutate_password_reset_confirm())
+
+    def test_verification_raises_errors(self):
+        assert 'Incorrect verification' in repr(self.mutate_password_reset_verification_code())
+
+
 def test_schema_json_is_up_to_date():
     err_msg = (
         f'{schema_json.FILENAME} is out of date! '

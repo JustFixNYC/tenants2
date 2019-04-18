@@ -73,6 +73,11 @@ const LoadableIndexPage = Loadable({
   loading: LoadingPage
 });
 
+const LoadablePasswordResetRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "password-reset" */ './pages/password-reset')),
+  loading: LoadingPage
+});
+
 const LoadableLetterOfComplaintRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
   loading: LoadingPage
@@ -207,6 +212,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+        <Route path={Routes.locale.passwordReset.prefix} component={LoadablePasswordResetRoutes} />
         <Route render={NotFound} />
       </Switch>
     );

@@ -1,10 +1,9 @@
 from typing import Tuple
 from django import forms
 from django.forms import ValidationError
-from django.contrib.auth.password_validation import validate_password
 
 from project import geocoding
-from project.forms import USPhoneNumberField
+from project.forms import USPhoneNumberField, OptionalSetPasswordForm
 from users.models import JustfixUser
 from .models import OnboardingInfo, BOROUGH_CHOICES, AddressWithoutBoroughDiagnostic
 
@@ -93,24 +92,14 @@ class OnboardingStep3Form(forms.ModelForm):
         fields = ('lease_type', 'receives_public_assistance')
 
 
-class OnboardingStep4Form(forms.ModelForm):
+class OnboardingStep4Form(OptionalSetPasswordForm, forms.ModelForm):
     class Meta:
         model = OnboardingInfo
         fields = ('can_we_sms', 'signup_intent')
 
     phone_number = USPhoneNumberField()
 
-    password = forms.CharField(required=False)
-
-    confirm_password = forms.CharField(required=False)
-
     agree_to_terms = forms.BooleanField(required=True)
-
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        if password:
-            validate_password(password)
-        return password
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']
@@ -118,12 +107,3 @@ class OnboardingStep4Form(forms.ModelForm):
             # TODO: Are we leaking valuable PII here?
             raise ValidationError('A user with that phone number already exists.')
         return phone_number
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
-
-        if password and confirm_password and password != confirm_password:
-            raise ValidationError('Passwords do not match!')

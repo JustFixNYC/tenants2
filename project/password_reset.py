@@ -30,11 +30,11 @@ TIMESTAMP_SESSION_KEY = 'password_reset_ts'
 # verification code, in seconds since the epoch.
 VERIFIED_TIMESTAMP_SESSION_KEY = 'password_reset_verified_ts'
 
-# The amount of time the user has to enter their verification code.
+# The amount of time the user has to enter their verification code, in seconds.
 VERIFICATION_MAX_SECS = 60 * 5
 
-# The amount of time the user has to set a new password.
-NEW_PASSWORD_MAX_SECS = 60 * 60
+# The amount of time the user has to set a new password, in seconds.
+NEW_PASSWORD_MAX_SECS = 60 * 15
 
 
 logger = logging.getLogger(__name__)

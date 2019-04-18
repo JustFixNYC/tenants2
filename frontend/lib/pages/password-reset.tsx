@@ -102,7 +102,7 @@ function Done(props: {}) {
   return (
     <Page title="Your password has been reset!">
       <h1 className="title is-4 is-spaced">Your password has been reset!</h1>
-      <p className="subtitle is-6">You can now <Link to={Routes.locale.login}>log in with your shiny new password</Link>.</p>
+      <p className="subtitle is-6">You can now <Link to={Routes.locale.login}>log in with your new password</Link>.</p>
     </Page>
   );
 }

@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.utils import translation
 from django.utils.safestring import SafeString
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
@@ -151,6 +152,7 @@ def render_letter_of_complaint(
 
 
 @login_required
+@xframe_options_sameorigin
 def letter_of_complaint_doc(request, format):
     live_preview = request.GET.get('live_preview', '')
     return render_letter_of_complaint(
@@ -163,6 +165,7 @@ def letter_of_complaint_doc(request, format):
 
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
 @twofactor_required
+@xframe_options_sameorigin
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
     return render_letter_of_complaint(request, user, 'pdf')

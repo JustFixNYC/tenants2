@@ -59,6 +59,18 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If true, redirects all non-HTTPS requests to HTTPS.
     SECURE_SSL_REDIRECT: bool = True
 
+    # Whether to use a secure cookie for the session cookie.
+    # If this is set to true, the cookie will be marked as
+    # "secure", which means browsers may ensure that the
+    # cookie is only sent under an HTTPS connection.
+    SESSION_COOKIE_SECURE: bool = True
+
+    # Whether to use a secure cookie for the CSRF cookie.
+    # If this is set to true, the cookie will be marked as
+    # "secure", which means browsers may ensure that the
+    # cookie is only sent with an HTTPS connection.
+    CSRF_COOKIE_SECURE: bool = True
+
     # If set to a non-zero integer value, sets the HTTP
     # Strict Transport Security (HSTS) header on all
     # responses that do not already have it.
@@ -194,6 +206,10 @@ class JustfixDevelopmentDefaults(JustfixEnvironment):
 
     SECURE_SSL_REDIRECT = False
 
+    SESSION_COOKIE_SECURE = False
+
+    CSRF_COOKIE_SECURE = False
+
 
 class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
     '''
@@ -213,6 +229,10 @@ class JustfixTestingEnvironment(JustfixEnvironment):
     SECRET_KEY = 'for testing only!'
 
     SECURE_SSL_REDIRECT = False
+
+    SESSION_COOKIE_SECURE = False
+
+    CSRF_COOKIE_SECURE = False
 
 
 def get() -> JustfixEnvironment:

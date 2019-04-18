@@ -105,8 +105,10 @@
 
   <p>
     You should also examine the user's <a href="{{ pdf_url }}" target="_blank">letter of complaint PDF</a>
-    and make sure everything looks okay.
+    and make sure everything looks okay:
   </p>
+
+  <embed src="{{ pdf_url }}" style="width: 100%" height="600" type="application/pdf">
 
   <form action="." method="POST">
     {% csrf_token %}

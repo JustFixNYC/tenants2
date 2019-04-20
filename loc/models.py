@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 import datetime
 from django.db import models, transaction
 from django.utils import timezone
@@ -18,6 +18,9 @@ LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 # The amount of time a user has to change their letter of request
 # content after originally submitting it.
 LOC_CHANGE_LEEWAY = datetime.timedelta(hours=1)
+
+# Maximum length of a landlord address.
+ADDR_LENGTH = 1000
 
 
 class AccessDateManager(models.Manager):
@@ -63,7 +66,7 @@ class LandlordDetails(models.Model):
         max_length=100, help_text="The landlord's name.")
 
     address = models.CharField(
-        max_length=1000,
+        max_length=ADDR_LENGTH,
         help_text="The full mailing address for the landlord.")
 
     lookup_date = models.DateField(
@@ -119,6 +122,96 @@ class LandlordDetails(models.Model):
             details.save()
             return details
         return None
+
+
+class AddressDetails(models.Model):
+    '''
+    A model that maps address "blobs" of text to individual fields that
+    represent the address.
+    '''
+
+    class Meta:
+        verbose_name_plural = "Address details"
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    address = models.CharField(
+        max_length=ADDR_LENGTH,
+        unique=True,
+        help_text=(
+            'This is the address represented as a single string. Sometimes '
+            'we need to manually break it up into its constituent parts so '
+            'it is easier for machines to understand, which is what all '
+            'the other fields in this model are for.'
+        )
+    )
+
+    primary_line = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Usually the first line of the address, e.g. "150 Court Street"'
+    )
+
+    secondary_line = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Optional. Usually the second line of the address, e.g. "Suite 2"'
+    )
+
+    urbanization = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Optional. Only used for addresses in Puerto Rico.'
+    )
+
+    city = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='The city of the address, e.g. "Brooklyn".'
+    )
+
+    state = models.CharField(
+        max_length=2,
+        blank=True,
+        help_text='The two-letter state for the address, e.g. "NY".'
+    )
+
+    zip_code = models.CharField(
+        max_length=10,
+        blank=True,
+        help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
+    )
+
+    # Attributes that map to keys used by Lob's verifications API:
+    LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
+
+    def is_populated(self) -> bool:
+        '''
+        Return whether the model contains enough filled-out fields to be a useful
+        substitute to the address string.
+        '''
+
+        return bool(self.primary_line and self.city and self.state and self.zip_code)
+
+    def as_lob_params(self) -> Dict[str, str]:
+        '''
+        Returns a dictionary representing the address that can be passed directly
+        to Lob's verifications API: https://lob.com/docs#us_verifications_create
+        '''
+
+        if not self.is_populated():
+            return {'address': self.address}
+        result: Dict[str, str] = {}
+        for attr in self.LOB_ATTRS:
+            value = getattr(self, attr)
+            if value:
+                result[attr] = value
+        return result
+
+    def __str__(self):
+        return self.address.replace("\n", " / ")
 
 
 class LetterRequest(models.Model):

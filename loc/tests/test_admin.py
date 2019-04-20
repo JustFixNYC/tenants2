@@ -4,8 +4,8 @@ from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from project.tests.util import strip_locale
 from loc.admin import (
-    LetterRequestInline, print_loc_envelopes, get_lob_nomail_reason,
-    LocAdminViews)
+    LetterRequestInline, print_loc_envelopes, get_lob_nomail_reason)
+from loc.admin_views import LocAdminViews
 from loc.models import LetterRequest, LOC_MAILING_CHOICES
 from . import test_lob_api
 from .test_views import requires_pdf_rendering

@@ -8,7 +8,7 @@ from project.management.commands.userstats import get_user_stats_rows
 from project.util.streaming_csv import streaming_csv_response
 from users.models import CHANGE_USER_PERMISSION
 from .views import react_rendered_view
-from loc.admin import LocAdminViews
+from loc.admin_views import LocAdminViews
 
 
 @permission_required(CHANGE_USER_PERMISSION)

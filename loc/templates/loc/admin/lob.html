@@ -22,7 +22,8 @@
   {% if not is_deliverable %}
   <p class="errornote">
     At least one of the addresses below is not deliverable! Please <a href="{{ go_back_href }}">go back</a> and
-    fix things before trying to mail the letter with Lob.
+    fix things or <a href="{{ landlord_address_details_url }}" target="_blank">add landlord address details</a>
+    before trying to mail the letter with Lob.
   </p>
   {% elif not is_definitely_deliverable %}
   <ul class="messagelist">
@@ -83,6 +84,11 @@
         <label>Lob's version</label>
         <div class="readonly">
           <pre>{{ landlord_verified_address }}</pre>
+          <p>
+              If this seems wrong, you can
+              <a href="{{ landlord_address_details_url }}" target="_blank">add landlord address details</a>
+              and reload this page.
+          </p>
         </div>
       </div>
     </div>

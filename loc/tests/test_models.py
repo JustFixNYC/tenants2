@@ -6,7 +6,8 @@ import pytest
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from loc.models import AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES
+from loc.models import (
+    AddressDetails, AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES)
 from .test_landlord_lookup import (
     mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
 from .factories import create_user_with_all_info
@@ -154,3 +155,36 @@ class TestLetterRequestClean:
         lr.mail_choice = USER_WILL_MAIL
         lr.save()
         lr.clean()
+
+
+class TestAddressDetails:
+    def test_is_populated_works(self):
+        ad = AddressDetails()
+        assert ad.is_populated() is False
+        ad.primary_line = 'hi'
+        assert ad.is_populated() is False
+        ad.city = 'there'
+        assert ad.is_populated() is False
+        ad.state = 'NY'
+        assert ad.is_populated() is False
+        ad.zip_code = '12345'
+        assert ad.is_populated() is True
+
+    def test_as_lob_params_returns_address_string_when_not_populated(self):
+        ad = AddressDetails(address="150 Court St. #2\nBrooklyn, NY 11201")
+        assert ad.as_lob_params() == {
+            'address': "150 Court St. #2\nBrooklyn, NY 11201"
+        }
+
+    def test_as_lob_params_returns_fields_when_populated(self):
+        kwargs = dict(
+            primary_line="150 Court St. #2",
+            city="Brooklyn",
+            state="NY",
+            zip_code="11201"
+        )
+        ad = AddressDetails(**kwargs)
+        assert ad.as_lob_params() == kwargs
+
+    def test_str_works(self):
+        assert str(AddressDetails(address='hi\nthere')) == 'hi / there'

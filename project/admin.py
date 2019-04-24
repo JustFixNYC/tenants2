@@ -1,24 +1,10 @@
-import datetime
 from django.contrib import admin
 from django.urls import path
 from django.template.response import TemplateResponse
-from django.contrib.auth.decorators import permission_required
 
-from project.management.commands.userstats import get_user_stats_rows
-from project.util.streaming_csv import streaming_csv_response
-from users.models import CHANGE_USER_PERMISSION
 from .views import react_rendered_view
+from .admin_download_data import download_streaming_data, get_available_datasets
 from loc.admin_views import LocAdminViews
-
-
-@permission_required(CHANGE_USER_PERMISSION)
-def download_userstats(request):
-    today = datetime.datetime.today().strftime('%Y-%m-%d')
-    include_pad_bbl = request.GET.get('include_pad_bbl', '') == 'on'
-    extra = '-with-bbls' if include_pad_bbl else ''
-    return streaming_csv_response(get_user_stats_rows(
-        include_pad_bbl=include_pad_bbl
-    ), f'userstats{extra}-{today}.csv')
 
 
 class JustfixAdminSite(admin.AdminSite):
@@ -35,14 +21,16 @@ class JustfixAdminSite(admin.AdminSite):
         my_urls = [
             path('login/', react_rendered_view),
             path('download-data/', self.admin_view(self.download_data_page),
+                 name='download-data-index'),
+            path('download-data/<slug:dataset>.<slug:fmt>',
+                 self.admin_view(download_streaming_data),
                  name='download-data'),
-            path('download-data/userstats.csv', self.admin_view(download_userstats),
-                 name='download-userstats'),
         ] + self.loc_views.get_urls()
         return my_urls + urls
 
     def download_data_page(self, request):
         return TemplateResponse(request, "admin/justfix/download_data.html", {
             **self.each_context(request),
+            'datasets': get_available_datasets(request.user),
             'title': "Download data"
         })

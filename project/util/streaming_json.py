@@ -1,6 +1,7 @@
 import json
 from typing import Any, Iterator, Dict
 from django.http import StreamingHttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def generate_json_rows(cursor) -> Iterator[Dict[str, Any]]:
@@ -20,7 +21,7 @@ def generate_streaming_json(rows: Iterator[Dict[str, Any]]) -> Iterator[str]:
         if yielded_first:
             yield ","
         yielded_first = True
-        yield json.dumps(row)
+        yield json.dumps(row, cls=DjangoJSONEncoder)
     yield ']'
 
 

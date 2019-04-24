@@ -39,6 +39,9 @@ class DataDownload(NamedTuple):
             'fmt': fmt
         }))
 
+    def json_url(self) -> str:
+        return self._get_download_url('json').url
+
     def urls(self) -> List[DownloadUrl]:
         return [
             self._get_download_url(fmt) for fmt in ['csv', 'json']
@@ -96,6 +99,13 @@ def get_data_download(slug: str) -> Optional[DataDownload]:
         if download.slug == slug:
             return download
     return None
+
+
+def strict_get_data_download(slug: str) -> DataDownload:
+    download = get_data_download(slug)
+    if download is None:
+        raise ValueError(f"data download does not exist: {slug}")
+    return download
 
 
 def get_available_datasets(user) -> List[DataDownload]:

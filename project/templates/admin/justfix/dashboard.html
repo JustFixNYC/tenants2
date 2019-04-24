@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrahead %}
+<script src="{% static 'vendor/vega/vega-5.3.5.min.js' %}"></script>
+<script src="{% static 'vendor/vega/vega-lite-3.2.1.min.js' %}"></script>
+<script src="{% static 'vendor/vega/vega-embed-4.0.0.min.js' %}"></script>
+<script src="{% static 'admin/justfix/dashboard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  {{ viz_data|json_script:'viz-data' }}
+  {% for viz in vizs %}
+  <h2>{{ viz.title }}</h2>
+  <div id="{{ viz.id }}"></div>
+  {% endfor %}
+{% endblock %}

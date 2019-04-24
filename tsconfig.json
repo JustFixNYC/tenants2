@@ -5,6 +5,7 @@
     "frontend",
     "twofactor/static",
     "findhelp/static",
+    "project/static/admin/justfix",
   ],
   "exclude": [
     "frontend/static",

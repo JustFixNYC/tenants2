@@ -11,9 +11,13 @@ MY_DIR = Path(__file__).parent.resolve()
 USER_STATS_SQLFILE = MY_DIR / 'issuestats.sql'
 
 
+def execute_issue_stats_query(cursor):
+    cursor.execute(USER_STATS_SQLFILE.read_text())
+
+
 def get_issue_stats_rows() -> Iterator[List[Any]]:
     with connection.cursor() as cursor:
-        cursor.execute(USER_STATS_SQLFILE.read_text())
+        execute_issue_stats_query(cursor)
         yield from generate_csv_rows(cursor)
 
 

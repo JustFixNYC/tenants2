@@ -9,6 +9,7 @@ from django.shortcuts import reverse
 from users.models import CHANGE_USER_PERMISSION
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
+from issues.management.commands.issuestats import execute_issue_stats_query
 from project.management.commands.userstats import execute_user_stats_query
 
 
@@ -77,7 +78,14 @@ DATA_DOWNLOADS = [
             """,
         perms=[CHANGE_USER_PERMISSION],
         execute_query=lambda cur: execute_user_stats_query(cur, include_pad_bbl=True)
-    )
+    ),
+    DataDownload(
+        name='Issue statistics',
+        slug='issuestats',
+        html_desc="""Various statistics about the issue checklist.""",
+        perms=[CHANGE_USER_PERMISSION],
+        execute_query=execute_issue_stats_query
+    ),
 ]
 
 

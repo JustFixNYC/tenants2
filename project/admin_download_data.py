@@ -5,6 +5,8 @@ from django.http import HttpResponseNotFound
 from django.db import connection
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import reverse
+from django.urls import path
+from django.template.response import TemplateResponse
 
 from users.models import CHANGE_USER_PERMISSION
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
@@ -118,3 +120,25 @@ def download_streaming_data(request, dataset: str, fmt: str):
         return streaming_json_response(download.generate_json_rows(), filename)
     else:
         return HttpResponseNotFound("Invalid format")
+
+
+class DownloadDataViews:
+    def __init__(self, site):
+        self.site = site
+
+    def get_urls(self):
+        return [
+            path('download-data/',
+                 self.site.admin_view(self.index_page),
+                 name='download-data-index'),
+            path('download-data/<slug:dataset>.<slug:fmt>',
+                 self.site.admin_view(download_streaming_data),
+                 name='download-data'),
+        ]
+
+    def index_page(self, request):
+        return TemplateResponse(request, "admin/justfix/download_data.html", {
+            **self.site.each_context(request),
+            'datasets': get_available_datasets(request.user),
+            'title': "Download data"
+        })

@@ -248,3 +248,16 @@ def live_server(live_server, requests_mock):
     regex = re.compile('^' + re.escape(live_server.url) + '.*')
     requests_mock.register_uri(requests_mock_module.ANY, regex, real_http=True)
     return live_server
+
+
+@pytest.fixture
+def disable_locale_middleware(settings):
+    '''
+    Disable locale redirection middleware. Useful if we want to test that
+    certain views actually 404.
+    '''
+
+    settings.MIDDLEWARE = [
+        middleware for middleware in settings.MIDDLEWARE
+        if middleware != 'django.middleware.locale.LocaleMiddleware'
+    ]

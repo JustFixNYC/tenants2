@@ -12,12 +12,16 @@ MY_DIR = Path(__file__).parent.resolve()
 USER_STATS_SQLFILE = MY_DIR / 'userstats.sql'
 
 
+def execute_user_stats_query(cursor, include_pad_bbl: bool = False):
+    cursor.execute(USER_STATS_SQLFILE.read_text(), {
+        'include_pad_bbl': include_pad_bbl,
+        'unusable_password_pattern': UNUSABLE_PASSWORD_PREFIX + '%'
+    })
+
+
 def get_user_stats_rows(include_pad_bbl: bool = False) -> Iterator[List[Any]]:
     with connection.cursor() as cursor:
-        cursor.execute(USER_STATS_SQLFILE.read_text(), {
-            'include_pad_bbl': include_pad_bbl,
-            'unusable_password_pattern': UNUSABLE_PASSWORD_PREFIX + '%'
-        })
+        execute_user_stats_query(cursor, include_pad_bbl=include_pad_bbl)
         yield from generate_csv_rows(cursor)
 
 

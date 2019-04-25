@@ -137,6 +137,15 @@ def _get_debug_data_response(dataset: str, fmt: str, filename: str):
     return None
 
 
+def _get_streaming_response(download: DataDownload, fmt: str, filename: str):
+    if fmt == 'csv':
+        return streaming_csv_response(download.generate_csv_rows(), filename)
+    elif fmt == 'json':
+        return streaming_json_response(download.generate_json_rows(), filename)
+    else:
+        return HttpResponseNotFound("Invalid format")
+
+
 def download_streaming_data(request, dataset: str, fmt: str):
     download = get_data_download(dataset)
     if download is None:
@@ -145,17 +154,9 @@ def download_streaming_data(request, dataset: str, fmt: str):
         raise PermissionDenied()
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     filename = f"{dataset}-{today}.{fmt}"
-
     debug_response = _get_debug_data_response(dataset, fmt, filename)
-    if debug_response is not None:
-        return debug_response
 
-    if fmt == 'csv':
-        return streaming_csv_response(download.generate_csv_rows(), filename)
-    elif fmt == 'json':
-        return streaming_json_response(download.generate_json_rows(), filename)
-    else:
-        return HttpResponseNotFound("Invalid format")
+    return debug_response or _get_streaming_response(download, fmt, filename)
 
 
 class DownloadDataViews:

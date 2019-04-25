@@ -196,6 +196,17 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # address verification via Lob.
     LOB_PUBLISHABLE_API_KEY: str = ''
 
+    # A directory containing CSV/JSON files corresponding to the
+    # various data downloads available through the admin UI, which
+    # will override the "live" feeds provided by the server. This
+    # can be used e.g. to generate the dashboard visualizations
+    # based on different (or even production) data without having
+    # to manually construct the underlying database models.
+    #
+    # This feature is only enabled if it's non-empty and DEBUG
+    # is also True.
+    DEBUG_DATA_DIR: str = str(BASE_DIR / 'debug-data')
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

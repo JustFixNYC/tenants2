@@ -374,6 +374,8 @@ ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 
 ROLLBAR: Optional[Dict[str, str]] = None
 
+DEBUG_DATA_DIR = env.DEBUG_DATA_DIR
+
 if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     # The following will enable Rollbar on the server-side.
     ROLLBAR = {

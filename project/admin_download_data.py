@@ -1,11 +1,14 @@
 import datetime
+import logging
+from pathlib import Path
 from typing import NamedTuple, Callable, Any, Optional, List, Iterator, Dict
 from contextlib import contextmanager
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.db import connection
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import reverse
 from django.urls import path
+from django.conf import settings
 from django.template.response import TemplateResponse
 
 from users.models import CHANGE_USER_PERMISSION
@@ -14,6 +17,8 @@ from project.util.streaming_json import generate_json_rows, streaming_json_respo
 from issues.management.commands.issuestats import execute_issue_stats_query
 from project.management.commands.userstats import execute_user_stats_query
 
+
+logger = logging.getLogger(__name__)
 
 # Ideally we would have a real type for a database cursor but I'm not sure
 # what it is. The actual type passed from Django appears to be a
@@ -116,6 +121,22 @@ def get_available_datasets(user) -> List[DataDownload]:
     ]
 
 
+def _get_debug_data_response(dataset: str, fmt: str, filename: str):
+    path = Path(settings.DEBUG_DATA_DIR) / f'{dataset}.{fmt}'
+    if settings.DEBUG and settings.DEBUG_DATA_DIR and path.exists():
+        logger.info(f"Serving '{path}' as the '{dataset}' data download.")
+        response = HttpResponse(
+            path.read_bytes(),
+            content_type={
+                'csv': 'text/csv',
+                'json': 'application/json'
+            }[fmt]
+        )
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+    return None
+
+
 def download_streaming_data(request, dataset: str, fmt: str):
     download = get_data_download(dataset)
     if download is None:
@@ -124,6 +145,11 @@ def download_streaming_data(request, dataset: str, fmt: str):
         raise PermissionDenied()
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     filename = f"{dataset}-{today}.{fmt}"
+
+    debug_response = _get_debug_data_response(dataset, fmt, filename)
+    if debug_response is not None:
+        return debug_response
+
     if fmt == 'csv':
         return streaming_csv_response(download.generate_csv_rows(), filename)
     elif fmt == 'json':

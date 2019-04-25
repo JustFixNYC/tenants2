@@ -12,6 +12,6 @@
     "encoding": {
         "color": {"field": "latest step completed", "type": "ordinal"},
         "x": {"timeUnit": "yearmonth", "field": "onboarding_date", "type": "temporal"},
-        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative", "title": "users"}
     }
 }

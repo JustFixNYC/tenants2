@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block userlinks %}
+<a href="{% url 'admin:dashboard' %}">Dashboard</a> /
 <a href="{% url 'admin:download-data-index' %}">Download data</a> /
 {{ block.super }}
 {% endblock %}

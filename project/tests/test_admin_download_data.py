@@ -1,4 +1,5 @@
 import json
+import pytest
 
 from project import admin_download_data
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -66,3 +67,10 @@ def test_csv_is_inaccessible_to_non_staff_users(client, db):
     res = client.get('/admin/download-data/userstats.csv')
     assert res.status_code == 302
     assert res.url == f"/admin/login/?next=/admin/download-data/userstats.csv"
+
+
+def test_strict_get_data_download_works():
+    assert admin_download_data.strict_get_data_download('userstats')
+
+    with pytest.raises(ValueError, match='data download does not exist: boop'):
+        admin_download_data.strict_get_data_download('boop')

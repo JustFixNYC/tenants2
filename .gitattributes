@@ -8,3 +8,4 @@
 *.shx filter=lfs diff=lfs merge=lfs -text
 nycha/data/*.csv filter=lfs diff=lfs merge=lfs -text
 findhelp/static/findhelp/vendor/**/*.* filter=lfs diff=lfs merge=lfs -text
+project/static/vendor/vega/*.js filter=lfs diff=lfs merge=lfs -text

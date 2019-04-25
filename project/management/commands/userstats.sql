@@ -54,7 +54,8 @@ SELECT
         -- it seems prudent to test it just in case. -AV
         char_length(jfuser.password) > 0 AND
         jfuser.password NOT LIKE %(unusable_password_pattern)s
-    ) AS has_usable_password
+    ) AS has_usable_password,
+    %(admin_url_begin)s || onb.user_id || %(admin_url_end)s AS url
 FROM
     onboarding_onboardinginfo AS onb
 LEFT OUTER JOIN

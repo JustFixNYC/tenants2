@@ -35,6 +35,8 @@ RAPIDPRO_API_TOKEN = ''
 LOB_SECRET_API_KEY = ''
 LOB_PUBLISHABLE_API_KEY = ''
 
+DEBUG_DATA_DIR = ''
+
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 
 # Use defaults for static file storage.

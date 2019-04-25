@@ -1,10 +1,18 @@
+import json
 from typing import Dict, Any, List
+from urllib.parse import urlparse
+from pathlib import Path
 from django.urls import path
 from django.utils.text import slugify
 from django.template.response import TemplateResponse
 from csp.decorators import csp_update
 
 from .admin_download_data import strict_get_data_download
+
+
+MY_DIR = Path(__file__).parent.resolve()
+
+SPECS_DIR = MY_DIR / 'admin_dashboard'
 
 
 class DashboardViews:
@@ -60,6 +68,14 @@ def get_dataset_url(dataset: str) -> str:
     return strict_get_data_download(dataset).json_url()
 
 
+def convert_spec(raw_spec: Dict[str, Any]) -> Dict[str, Any]:
+    url = raw_spec['data']['url']
+    parsed = urlparse(url)
+    assert parsed.scheme == 'dataset'
+    raw_spec['data']['url'] = get_dataset_url(parsed.path)
+    return raw_spec
+
+
 def get_vega_lite_specs() -> List[Dict[str, Any]]:
     '''
     Return a list of all Vega-Lite specifications to show on the dashboard.
@@ -69,57 +85,9 @@ def get_vega_lite_specs() -> List[Dict[str, Any]]:
         https://vega.github.io/vega-lite/docs/
     '''
 
-    return [{
-        "$schema": "https://vega.github.io/schema/vega-lite/v2.0.json",
-        "title": "Users faceted by lease type",
-        "data": {
-            "url": get_dataset_url('userstats'),
-        },
-        "facet": {
-            "column": {
-                "field": "lease_type",
-                "type": "nominal",
-            }
-        },
-        "spec": {
-            "mark": "point",
-            "encoding": {
-                "x": {"field": "onboarding_date", "type": "temporal"},
-                "y": {"field": "issue_count", "type": "quantitative"},
-                "color": {
-                    "field": "letter_mail_choice",
-                    "type": "nominal",
-                    "scale": {
-                        "domain": ["null", "USER_WILL_MAIL", "WE_WILL_MAIL"],
-                        "range": ["red", "orange", "green"],
-                    }
-                },
-                "tooltip": [
-                    {"field": "issue_count", "type": "quantitative"},
-                    {"field": "onboarding_date", "type": "temporal"},
-                    {"field": "borough", "type": "nominal"},
-                    {"field": "is_in_eviction", "type": "nominal"},
-                    {"field": "needs_repairs", "type": "nominal"},
-                    {"field": "has_no_services", "type": "nominal"},
-                    {"field": "has_pests", "type": "nominal"},
-                    {"field": "has_called_311", "type": "nominal"},
-                    {"field": "was_landlord_autofilled", "type": "nominal"},
-                    {"field": "is_phone_number_valid", "type": "nominal"},
-                    {"field": "phone_number_type", "type": "nominal"},
-                    {"field": "rapidpro_contact_groups", "type": "nominal"},
-                ],
-                "href": {"field": "url", "type": "nominal"}
-            }
-        }
-    }, {
-        "$schema": "https://vega.github.io/schema/vega-lite/v2.0.json",
-        "title": "Issues per area",
-        "data": {
-            "url": get_dataset_url('issuestats'),
-        },
-        "mark": "bar",
-        "encoding": {
-            "x": {"aggregate": "sum", "field": "count", "type": "quantitative"},
-            "y": {"field": "area", "type": "nominal"}
-        }
-    }]
+    specfiles = list(SPECS_DIR.glob('*.json'))
+    specs = [
+        convert_spec(json.loads(specfile.read_text()))
+        for specfile in specfiles
+    ]
+    return specs

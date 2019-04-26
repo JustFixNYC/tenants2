@@ -3,6 +3,17 @@ from typing import Any, Iterator, List
 from django.http import StreamingHttpResponse
 
 
+def transform_csv_row(row: Iterator[Any]) -> Iterator[Any]:
+    for item in row:
+        if isinstance(item, (list, tuple)):
+            # Since CSVs can't contain heirarchial data, we'll
+            # concatenate the list into a single comma-separated field,
+            # which is similar to how Google Forms handles checkboxes.
+            yield ", ".join([str(listitem) for listitem in item])
+        else:
+            yield item
+
+
 def generate_csv_rows(cursor) -> Iterator[List[Any]]:
     yield [column.name for column in cursor.description]
 
@@ -10,7 +21,7 @@ def generate_csv_rows(cursor) -> Iterator[List[Any]]:
         row = cursor.fetchone()
         if row is None:
             break
-        yield row
+        yield list(transform_csv_row(row))
 
 
 # This is a variation on the Echo class from the Django docs:

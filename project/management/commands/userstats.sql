@@ -66,12 +66,7 @@ LEFT OUTER JOIN
     (
         SELECT
             rucg.user_id AS user_id,
-            -- We're going to concatenate all the user's RapidPro
-            -- Contact Group names into a single comma-separated field.
-            -- This isn't ideal, but it's how Google Forms handles
-            -- checkboxes, so CSV users should hopefully be somewhat
-            -- familiar with it.
-            string_agg(rcg.name, ', ' ORDER BY rcg.name) AS contact_groups
+            array_agg(rcg.name ORDER BY rcg.name) AS contact_groups
         FROM rapidpro_contactgroup AS rcg
         INNER JOIN
             rapidpro_usercontactgroup AS rucg ON rcg.uuid = rucg.group_id

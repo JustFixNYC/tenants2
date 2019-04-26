@@ -29,6 +29,13 @@ h2.dashboard-heading:hover a:before {
 {% endblock %}
 
 {% block content %}
+  {% if GA_TRACKING_ID %}
+  <p>
+      For additional analytics, visit
+      <a href="https://analytics.google.com" target="_blank" rel="nofollow noopener">Google Analytics</a>
+      and visit the dashboard for the property with tracking ID <code>{{ GA_TRACKING_ID }}</code>.
+  </p>
+  {% endif %}
   {{ viz_data|json_script:'viz-data' }}
   {% for viz in vizs %}
   <h2 class="dashboard-heading" id="{{ viz.anchor_id }}"><a href="#{{ viz.anchor_id }}">{{ viz.title }}</a></h2>

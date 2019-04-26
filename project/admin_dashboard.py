@@ -5,6 +5,7 @@ from pathlib import Path
 from django.urls import path
 from django.utils.text import slugify
 from django.template.response import TemplateResponse
+from django.conf import settings
 from csp.decorators import csp_update
 
 from .admin_download_data import strict_get_data_download
@@ -41,6 +42,7 @@ class DashboardViews:
         ]
         return TemplateResponse(request, "admin/justfix/dashboard.html", {
             **self.site.each_context(request),
+            "GA_TRACKING_ID": settings.GA_TRACKING_ID,
             "vizs": vizs,
             "viz_data": {
                 viz.id: viz.spec for viz in vizs

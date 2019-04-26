@@ -85,7 +85,7 @@ def get_vega_lite_specs() -> List[Dict[str, Any]]:
         https://vega.github.io/vega-lite/docs/
     '''
 
-    specfiles = list(SPECS_DIR.glob('*.json'))
+    specfiles = sorted(list(SPECS_DIR.glob('*.json')), key=lambda path: path.name)
     specs = [
         convert_spec(json.loads(specfile.read_text()))
         for specfile in specfiles

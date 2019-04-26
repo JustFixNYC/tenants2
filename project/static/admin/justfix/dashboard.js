@@ -14,11 +14,58 @@ document.addEventListener('DOMContentLoaded', () => {
     return el;
   };
 
+  /**
+   * Vega-Embed doesn't pool identical data used by multiple embeds, so we'll
+   * have to do that ourselves. This maps URLs to promises that resolve to
+   * the JSON data in them.
+   * 
+   * @type Map<string, Promise<any>>
+   */
+  const datasets = new Map();
+
+  /**
+   * This contains a mapping from element/visualization IDs to vega-lite specs,
+   * embedded into our page by a Django template.
+   */
   const vizData = JSON.parse(getEl('viz-data').textContent || '');
 
-  Object.keys(vizData).forEach(id => {
-    const spec = vizData[id];
+  /**
+   * Get the JSON data at the given URL, reusing an in-flight or already
+   * completed request if needed.
+   * 
+   * @param {string} url 
+   * @returns Promise<any>
+   */
+  function getDataset(url) {
+    let promise = datasets.get(url);
+    if (promise) {
+      return promise;
+    }
+    promise = fetch(url).then(res => res.json());
+    datasets.set(url, promise);
+    return promise;
+  }
 
-    vegaEmbed(getEl(id), spec);
+  /**
+   * Patch the given Vega-Lite specification by replacing its data
+   * URL with inline data.
+   *
+   * @param {any} spec
+   * @returns Promise<any>
+   */
+  function patchData(spec) {
+    const { url } = spec.data;
+    return getDataset(url).then(values => {
+      return {
+        ...spec,
+        data: { values }
+      };
+    });
+  }
+
+  Object.keys(vizData).forEach(id => {
+    patchData(vizData[id]).then(spec => {
+      vegaEmbed(getEl(id), spec);
+    });
   });
 });

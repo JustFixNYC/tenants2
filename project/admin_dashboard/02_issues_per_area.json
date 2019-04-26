@@ -6,7 +6,7 @@
     },
     "mark": "bar",
     "encoding": {
-        "x": {"aggregate": "sum", "field": "count", "type": "quantitative"},
+        "x": {"aggregate": "sum", "field": "count", "type": "quantitative", "title": "number of issues"},
         "y": {"field": "area", "type": "nominal"}
     }
 }

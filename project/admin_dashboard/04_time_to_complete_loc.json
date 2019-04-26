@@ -6,19 +6,33 @@
     "data": {
         "url": "dataset:userstats"
     },
-    "mark": "point",
     "transform": [
         {"filter": "datum.letter_submission_date !== null"},
         {
             "calculate": "round((time(datum.letter_submission_date) - time(datum.onboarding_date)) / (1000 * 60))",
             "as": "minutes"
-        }
+        },
+        {"filter": {"field": "minutes", "valid": true}}
     ],
-    "encoding": {
-        "y": {"field": "minutes", "type": "quantitative", "scale": {"type": "log"}},
-        "x": {"field": "onboarding_date", "type": "temporal"},
-        "color": {"field": "issue_count", "type": "quantitative", "scale": {"type": "quantile", "scheme": "orangered"}},
-        "size": {"field": "custom_issue_chars", "type": "quantitative"},
-        "href": {"field": "url", "type": "nominal"}
-    }
+    "layer": [{
+        "mark": "point",
+        "encoding": {
+            "y": {"field": "minutes", "type": "quantitative", "scale": {"type": "log"}},
+            "x": {"field": "onboarding_date", "type": "temporal"},
+            "color": {"field": "issue_count", "type": "quantitative", "scale": {"type": "quantile", "scheme": "orangered"}},
+            "size": {"field": "custom_issue_chars", "type": "quantitative"},
+            "href": {"field": "url", "type": "nominal"}
+        }
+    }, {
+        "mark": "rule",
+        "encoding": {
+            "y": {
+                "aggregate": "median",
+                "field": "minutes",
+                "type": "quantitative"
+            },
+            "color": {"value": "#1f77b4"},
+            "size": {"value": 2}
+        }
+    }]
 }

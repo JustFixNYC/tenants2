@@ -74,15 +74,19 @@ class TestStoreTestFile:
 class TestUserStats:
     def test_it_works(self, db):
         from onboarding.tests.factories import OnboardingInfoFactory
+        from rapidpro.tests.factories import UserContactGroupFactory
 
         redacted = 'REDACTED'
         pad_bbl = '1234567890'
-        OnboardingInfoFactory(pad_bbl=pad_bbl)
+        oi = OnboardingInfoFactory(pad_bbl=pad_bbl)
+        UserContactGroupFactory(user=oi.user, group__uuid='1', group__name='Boop')
+        UserContactGroupFactory(user=oi.user, group__uuid='2', group__name='Goop')
 
         out = StringIO()
         call_command('userstats', stdout=out)
         assert pad_bbl not in out.getvalue()
         assert redacted in out.getvalue()
+        assert '"Boop, Goop"' in out.getvalue()
 
         out = StringIO()
         call_command('userstats', '--include-pad-bbl', stdout=out)

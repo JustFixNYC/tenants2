@@ -3,6 +3,7 @@ import pytest
 
 from project import admin_download_data
 from onboarding.tests.factories import OnboardingInfoFactory
+from rapidpro.tests.factories import UserContactGroupFactory
 from users.tests.factories import UserFactory
 
 
@@ -23,12 +24,16 @@ def test_csv_works(outreach_client):
 
 def test_json_works(outreach_client):
     user = OnboardingInfoFactory().user
+    UserContactGroupFactory(user=user, group__uuid='1', group__name='Boop')
+    UserContactGroupFactory(user=user, group__uuid='2', group__name='Goop')
+
     res = outreach_client.get('/admin/download-data/userstats.json')
     assert res.status_code == 200
     assert res['Content-Type'] == 'application/json'
     records = json.loads(b''.join(res.streaming_content).decode('utf-8'))
     assert len(records) == 1
     assert records[0]['user_id'] == user.pk
+    assert records[0]['rapidpro_contact_groups'] == ['Boop', 'Goop']
 
 
 def test_datasets_return_appropriate_errors(

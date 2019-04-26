@@ -6,12 +6,28 @@
 <script src="{% static 'vendor/vega/vega-lite-3.2.1.min.js' %}"></script>
 <script src="{% static 'vendor/vega/vega-embed-4.0.0.min.js' %}"></script>
 <script src="{% static 'admin/justfix/dashboard.js' %}"></script>
+<style>
+h2.dashboard-heading {
+    position: relative;
+}
+
+h2.dashboard-heading a {
+    color: inherit;
+}
+
+h2.dashboard-heading:hover a:before {
+    position: absolute;
+    left: -1em;
+    content: '#';
+    color: gray;
+}
+</style>
 {% endblock %}
 
 {% block content %}
   {{ viz_data|json_script:'viz-data' }}
   {% for viz in vizs %}
-  <h2>{{ viz.title }}</h2>
+  <h2 class="dashboard-heading" id="{{ viz.anchor_id }}"><a href="#{{ viz.anchor_id }}">{{ viz.title }}</a></h2>
   <div id="{{ viz.id }}"></div>
   {% endfor %}
 {% endblock %}

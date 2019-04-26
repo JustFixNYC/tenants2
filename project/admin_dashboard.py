@@ -57,7 +57,8 @@ class Visualization:
     def __init__(self, spec: Dict[str, Any]):
         self.spec = spec
         self.title = spec['title']
-        self.id = slugify(self.title)
+        self.anchor_id = slugify(self.title)
+        self.id = f"_{self.anchor_id}"
 
         # We're going to show the title in the HTML, so remove it from the spec
         # so it doesn't show twice.

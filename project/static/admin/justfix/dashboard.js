@@ -63,9 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let allVizsLoaded = Promise.resolve();
+
   Object.keys(vizData).forEach(id => {
-    patchData(vizData[id]).then(spec => {
-      vegaEmbed(getEl(id), spec);
+    let promise = patchData(vizData[id]).then(spec => {
+      return vegaEmbed(getEl(id), spec);
     });
+    allVizsLoaded = allVizsLoaded.then(() => promise);
+  });
+
+  allVizsLoaded.then(() => {
+    let anchor = document.getElementById(window.location.hash.slice(1));
+    if (anchor) {
+      anchor.scrollIntoView(true);
+    }
   });
 });

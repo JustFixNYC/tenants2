@@ -36,6 +36,13 @@ h2.dashboard-heading:hover a:before {
       and visit the dashboard for the property with tracking ID <code>{{ GA_TRACKING_ID }}</code>.
   </p>
   {% endif %}
+  <p>
+      You can investigate data further and/or create more visualizations by
+      <a href="{% url 'admin:download-data-index' %}">downloading a dataset</a>
+      and using a spreadsheet or
+      <a href="https://vega.github.io/voyager/" target="_blank" rel="nofollow noopener">Data Voyager</a>
+      to explore it.
+  </p>
   {{ viz_data|json_script:'viz-data' }}
   {% for viz in vizs %}
   <h2 class="dashboard-heading" id="{{ viz.anchor_id }}"><a href="#{{ viz.anchor_id }}">{{ viz.title }}</a></h2>

@@ -34,8 +34,12 @@ def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
     may have changed.
     '''
 
-    borough_label = BOROUGH_CHOICES.get_label(borough)
-    features = geocoding.search(', '.join([address, borough_label]))
+    if borough:
+        borough_label = BOROUGH_CHOICES.get_label(borough)
+        search_text = ', '.join([address, borough_label])
+    else:
+        search_text = address
+    features = geocoding.search(search_text)
     if features is None:
         # Hmm, the geocoding service is unavailable. This
         # is unfortunate, but we don't want it to block
@@ -63,17 +67,27 @@ class OnboardingStep1Form(forms.ModelForm):
 
     last_name = forms.CharField(max_length=150)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['borough'].required = False
+
     def clean(self):
         cleaned_data = super().clean()
         address = cleaned_data.get('address')
         borough = cleaned_data.get('borough')
-        if address and borough:
+        if address and not borough:
+            AddressWithoutBoroughDiagnostic(address=address).save()
+        if address:
             address, borough, address_verified = verify_address(address, borough)
+            if not borough and not address_verified:
+                # The address verification service isn't working, so we should
+                # make the borough field required since we can't infer it from
+                # address verification.
+                self.add_error('borough', 'This field is required.')
+                return cleaned_data
             cleaned_data['address'] = address
             cleaned_data['borough'] = borough
             cleaned_data['address_verified'] = address_verified
-        if address and not borough:
-            AddressWithoutBoroughDiagnostic(address=address).save()
         return cleaned_data
 
 

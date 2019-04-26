@@ -21,12 +21,15 @@ def test_generate_json_rows_works(db):
     from django.db import connection
 
     with connection.cursor() as cursor:
-        cursor.execute('CREATE TABLE blarg (foo VARCHAR(5), bar VARCHAR(5))')
-        cursor.execute("INSERT INTO blarg (foo, bar) VALUES ('hi', 'there'), ('yo', 'dawg')")
-        cursor.execute('SELECT foo, bar FROM blarg')
+        cursor.execute('CREATE TABLE blarg (foo VARCHAR(5), bar VARCHAR(5), baz INTEGER[])')
+        cursor.execute(
+            "INSERT INTO blarg (foo, bar, baz) VALUES "
+            "('hi', 'there', '{1,2}'), ('yo', 'dawg', '{3,4}')"
+        )
+        cursor.execute('SELECT foo, bar, baz FROM blarg')
         rows = generate_json_rows(cursor)
-        assert next(rows) == {'foo': 'hi', 'bar': 'there'}
-        assert next(rows) == {'foo': 'yo', 'bar': 'dawg'}
+        assert next(rows) == {'foo': 'hi', 'bar': 'there', 'baz': [1, 2]}
+        assert next(rows) == {'foo': 'yo', 'bar': 'dawg', 'baz': [3, 4]}
         with pytest.raises(StopIteration):
             next(rows)
 

@@ -21,6 +21,10 @@ h2.dashboard-heading:hover a:before {
     content: '#';
     color: gray;
 }
+
+.dashboard-desc {
+    margin: 1em 0;
+}
 </style>
 {% endblock %}
 
@@ -29,5 +33,10 @@ h2.dashboard-heading:hover a:before {
   {% for viz in vizs %}
   <h2 class="dashboard-heading" id="{{ viz.anchor_id }}"><a href="#{{ viz.anchor_id }}">{{ viz.title }}</a></h2>
   <div id="{{ viz.id }}"></div>
+  {% if viz.spec.description %}
+  <div class="dashboard-desc">
+  {{ viz.spec.description|safe }}
+  </div>
+  {% endif %}
   {% endfor %}
 {% endblock %}

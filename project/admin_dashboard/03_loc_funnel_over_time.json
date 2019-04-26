@@ -1,0 +1,17 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v3.0.json",
+    "title": "Letter of complaint funnel over time",
+    "data": {
+        "url": "dataset:userstats"
+    },
+    "mark": "area",
+    "transform": [{
+        "calculate": "datum.letter_mail_choice !== null ? '4 - completed' : (datum.access_date_count > 0 ? '3 - provided access dates' : (datum.issue_count > 0 ? '2 - filed issues' : '1 - onboarded'))",
+        "as": "latest step completed"
+    }],
+    "encoding": {
+        "color": {"field": "latest step completed", "type": "ordinal"},
+        "x": {"timeUnit": "yearmonth", "field": "onboarding_date", "type": "temporal"},
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative", "title": "users"}
+    }
+}

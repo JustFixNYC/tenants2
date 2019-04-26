@@ -20,7 +20,7 @@
                 "type": "nominal",
                 "scale": {
                     "domain": ["null", "USER_WILL_MAIL", "WE_WILL_MAIL"],
-                    "range": ["red", "orange", "green"]
+                    "range": ["rgb(214, 39, 40)", "rgb(255, 127, 14)", "rgb(44, 160, 44)"]
                 }
             },
             "tooltip": [

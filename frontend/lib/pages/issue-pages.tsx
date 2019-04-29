@@ -44,6 +44,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
         />
         <TextareaFormField
           {...ctx.fieldPropsFor('other')}
+          maxLength={CUSTOM_ISSUE_MAX_LENGTH}
           label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
         />
         <CharsRemaining max={CUSTOM_ISSUE_MAX_LENGTH} current={ctx.fieldPropsFor('other').value.length} />

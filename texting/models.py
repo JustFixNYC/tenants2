@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from users.models import JustfixUser, PHONE_NUMBER_LEN
+from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.common_data import Choices
 from project.util.site_util import absolutify_url
 
@@ -201,6 +202,7 @@ def get_users_to_remind_about_loc():
     return JustfixUser.objects.filter(
         date_joined__lte=days_ago,
         onboarding_info__can_we_sms=True,
+        onboarding_info__signup_intent=SIGNUP_INTENT_CHOICES.LOC,
         letter_request__isnull=True,
     ).exclude(
         reminders__kind=REMINDERS.LOC

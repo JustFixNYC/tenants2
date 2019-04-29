@@ -27,9 +27,19 @@ def test_loc_reminder_is_not_sent_when_loc_exists(db, smsoutbox):
     assert Reminder.objects.count() == 0
 
 
+def test_loc_reminder_is_not_sent_when_signup_intent_is_not_loc(db, smsoutbox):
+    with freeze_time('2018-01-01'):
+        OnboardingInfoFactory(signup_intent='HP')
+    with freeze_time('2018-05-04'):
+        call_command('sendreminders')
+
+    assert len(smsoutbox) == 0
+    assert Reminder.objects.count() == 0
+
+
 def test_loc_reminder_is_sent_when_needed(db, smsoutbox):
     with freeze_time('2018-01-01'):
-        OnboardingInfoFactory()
+        OnboardingInfoFactory(signup_intent='LOC')
     with freeze_time('2018-05-04'):
         call_command('sendreminders')
 

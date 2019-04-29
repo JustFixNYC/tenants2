@@ -23,6 +23,7 @@ import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
 import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
+import { CharsRemaining } from '../chars-remaining';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -45,6 +46,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           {...ctx.fieldPropsFor('other')}
           label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
         />
+        <CharsRemaining max={CUSTOM_ISSUE_MAX_LENGTH} current={ctx.fieldPropsFor('other').value.length} />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );

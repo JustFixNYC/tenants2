@@ -10,6 +10,7 @@ from django.shortcuts import reverse
 from django.urls import path
 from django.conf import settings
 from django.template.response import TemplateResponse
+from django.views.decorators.gzip import gzip_page
 
 from users.models import CHANGE_USER_PERMISSION
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
@@ -146,6 +147,7 @@ def _get_streaming_response(download: DataDownload, fmt: str, filename: str):
         return HttpResponseNotFound("Invalid format")
 
 
+@gzip_page
 def download_streaming_data(request, dataset: str, fmt: str):
     download = get_data_download(dataset)
     if download is None:

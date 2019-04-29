@@ -22,6 +22,7 @@ import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
+import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -40,7 +41,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <TextareaFormField {...ctx.fieldPropsFor('other')} label="Don't see your issues listed? You can add additional issues below." />
+        <TextareaFormField
+          {...ctx.fieldPropsFor('other')}
+          label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
+        />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );

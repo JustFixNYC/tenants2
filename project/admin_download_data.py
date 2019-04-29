@@ -15,8 +15,8 @@ from django.views.decorators.gzip import gzip_page
 from users.models import CHANGE_USER_PERMISSION
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
-from issues.management.commands.issuestats import execute_issue_stats_query
-from project.management.commands.userstats import execute_user_stats_query
+from issues.issuestats import execute_issue_stats_query
+from project.userstats import execute_user_stats_query
 
 
 logger = logging.getLogger(__name__)

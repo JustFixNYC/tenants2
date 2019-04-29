@@ -5,7 +5,7 @@ from users.tests.factories import UserFactory, SecondUserFactory
 from issues.models import Issue, CustomIssue
 
 
-class TestUserStats:
+class TestIssueStats:
     def test_it_works(self, db):
         user1 = UserFactory()
         user2 = SecondUserFactory()
@@ -19,7 +19,7 @@ class TestUserStats:
         CustomIssue.objects.set_for_user(user1, 'HOME', 'blah')
 
         out = StringIO()
-        call_command('issuestats', stdout=out)
+        call_command('exportstats', 'issuestats', stdout=out)
         assert out.getvalue().splitlines() == [
             'area,value,count',
             'HOME,MICE,2',

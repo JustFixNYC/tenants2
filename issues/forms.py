@@ -1,6 +1,11 @@
 from django import forms
 
+from project import common_data
 from . import models
+
+
+CUSTOM_ISSUE_MAX_LENGTH: int = common_data.load_json("issue-validation.json")[
+    'CUSTOM_ISSUE_MAX_LENGTH']
 
 
 class IssueAreaForm(forms.Form):
@@ -18,7 +23,7 @@ class IssueAreaForm(forms.Form):
 
     other = forms.CharField(
         required=False,
-        max_length=10000,
+        max_length=CUSTOM_ISSUE_MAX_LENGTH,
         help_text="Any other custom issues the user wants to report.")
 
     def clean(self):

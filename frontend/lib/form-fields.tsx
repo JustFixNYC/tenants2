@@ -216,6 +216,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   required?: boolean;
   autoComplete?: string;
   min?: string | number | undefined;
+  maxLength?: number | undefined;
 };
 
 /**
@@ -260,6 +261,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           autoComplete={props.autoComplete}
           id={props.id}
           min={props.min}
+          maxLength={props.maxLength}
           type={type}
           value={props.value}
           required={props.required}
@@ -289,6 +291,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           rows={2}
           id={props.id}
           value={props.value}
+          maxLength={props.maxLength}
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>

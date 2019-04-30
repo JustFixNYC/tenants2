@@ -1,9 +1,7 @@
 from typing import Optional, Any, Tuple
 from dataclasses import dataclass
 import logging
-import requests
 import pydantic
-from django.conf import settings
 
 from project import geocoding
 from nycha.models import NychaOffice
@@ -71,26 +69,6 @@ def _lookup_landlord_via_nycdb(pad_bbl: str) -> Optional[LandlordInfo]:
     return None
 
 
-def _lookup_landlord_via_network(pad_bbl: str) -> Optional[LandlordInfo]:
-    url = settings.LANDLORD_LOOKUP_URL
-    if not url:
-        return None
-    try:
-        response = requests.get(
-            url,
-            {'bbl': pad_bbl},
-            timeout=settings.LANDLORD_LOOKUP_TIMEOUT
-        )
-        if response.status_code != 200:
-            raise Exception(f'Expected 200 response, got {response.status_code}')
-        return _extract_landlord_info(response.json())
-    except Exception:
-        logger.exception(f'Error while retrieving data from {url}')
-        return None
-
-    return None
-
-
 def _lookup_landlord_via_nycha(pad_bbl: str, address: str) -> Optional[LandlordInfo]:
     office = NychaOffice.objects.find_for_property(pad_bbl, address)
     if not office:
@@ -109,5 +87,4 @@ def lookup_landlord(address: str) -> Optional[LandlordInfo]:
         return None
 
     return (_lookup_landlord_via_nycha(pad_bbl, full_addr) or
-            _lookup_landlord_via_nycdb(pad_bbl) or
-            _lookup_landlord_via_network(pad_bbl))
+            _lookup_landlord_via_nycdb(pad_bbl))

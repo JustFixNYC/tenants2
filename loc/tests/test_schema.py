@@ -163,18 +163,19 @@ def test_landlord_details_is_null_when_user_has_no_onboarding_info(graphql_clien
 @enable_fake_landlord_lookup
 def test_landlord_details_are_created_when_user_has_onboarding_info(
     graphql_client,
-    requests_mock
+    requests_mock,
+    nycdb
 ):
     oi = OnboardingInfoFactory()
     graphql_client.request.user = oi.user
     assert not hasattr(oi.user, 'landlord_details')
-    mock_lookup_success(requests_mock)
+    mock_lookup_success(requests_mock, nycdb)
     result = graphql_client.execute(
         'query { session { landlordDetails { name, address, isLookedUp } } }')
     assert result['data']['session']['landlordDetails'] == {
-        'address': '123 DOOMBRINGER STREET 4 11299',
+        'address': '124 99TH STREET\nBrooklyn, NY 11999',
         'isLookedUp': True,
-        'name': 'BOBBY DENVER'
+        'name': 'BOOP JONES'
     }
     assert hasattr(oi.user, 'landlord_details')
 

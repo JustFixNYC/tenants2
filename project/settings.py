@@ -110,6 +110,7 @@ TEMPLATES = [
                 'frontend.context_processors.safe_mode',
                 'project.context_processors.ga_snippet',
                 'project.context_processors.facebook_pixel_snippet',
+                'project.context_processors.fullstory_snippet',
                 'project.context_processors.rollbar_snippet',
             ],
         },
@@ -326,6 +327,8 @@ LEGACY_ORIGIN = env.LEGACY_ORIGIN
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
 FACEBOOK_PIXEL_ID = env.FACEBOOK_PIXEL_ID
+
+FULLSTORY_ORG_ID = env.FULLSTORY_ORG_ID
 
 GIT_INFO = git.GitInfo.from_dir_or_env(BASE_DIR)
 

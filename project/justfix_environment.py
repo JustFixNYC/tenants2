@@ -207,6 +207,15 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # is also True.
     DEBUG_DATA_DIR: str = str(BASE_DIR / 'debug-data')
 
+    # Your FullStory Org ID. Leaving this empty disables
+    # FullStory integration.
+    #
+    # This can be found in FullStory's `Settings > FullStory Setup`
+    # tab.  Look for the value found on this line:
+    #
+    #   `window['_fs_org'] = 'ABC'`.
+    FULLSTORY_ORG_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

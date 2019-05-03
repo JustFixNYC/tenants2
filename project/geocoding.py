@@ -128,6 +128,11 @@ def search(text: str) -> Optional[List[Feature]]:
         if response.status_code != 200:
             raise Exception(f'Expected 200 response, got {response.status_code}')
         features = [Feature(**kwargs) for kwargs in response.json()['features']]
+    except pydantic.ValidationError:
+        logger.exception(
+            f'Validation error processing response from {settings.GEOCODING_SEARCH_URL} '
+            f'for input {repr(text)}')
+        return None
     except Exception:
         logger.exception(f'Error while retrieving data from {settings.GEOCODING_SEARCH_URL}')
         return None

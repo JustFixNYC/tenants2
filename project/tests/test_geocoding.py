@@ -47,8 +47,14 @@ def test_search_returns_none_on_request_exception(requests_mock):
 
 
 @enable_fake_geocoding
-def test_search_returns_none_on_bad_result(requests_mock):
+def test_search_returns_none_on_bad_result_without_features(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json={'blarg': False})
+    assert geocoding.search("150 court") is None
+
+
+@enable_fake_geocoding
+def test_search_returns_none_on_feature_validation_errors(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json={'features': [{'blah': 1}]})
     assert geocoding.search("150 court") is None
 
 

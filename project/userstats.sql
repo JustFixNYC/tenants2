@@ -1,6 +1,7 @@
 SELECT
     onb.user_id AS user_id,
     CASE WHEN %(include_pad_bbl)s THEN onb.pad_bbl ELSE 'REDACTED' END AS pad_bbl,
+    CASE WHEN %(include_pad_bbl)s THEN onb.pad_bin ELSE 'REDACTED' END AS pad_bin,
     EXISTS (
         SELECT pad_bbl
         FROM nycha_nychaproperty

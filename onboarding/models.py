@@ -3,7 +3,7 @@ from django.db import models
 
 from project.common_data import Choices
 from project import geocoding
-from project.util.nyc import PAD_BBL_DIGITS
+from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 
@@ -54,7 +54,7 @@ class OnboardingInfo(models.Model):
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
-        self.__addr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl'])
+        self.__addr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl', 'pad_bin'])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -97,6 +97,12 @@ class OnboardingInfo(models.Model):
         max_length=PAD_BBL_DIGITS,
         blank=True,
         help_text=f"The user's Boro, Block, and Lot number. {ADDR_META_HELP}"
+    )
+
+    pad_bin: str = models.CharField(
+        max_length=PAD_BIN_DIGITS,
+        blank=True,
+        help_text=f"The user's building identification number (BIN). {ADDR_META_HELP}"
     )
 
     apt_number = models.CharField(max_length=10)
@@ -220,12 +226,14 @@ class OnboardingInfo(models.Model):
             props = features[0].properties
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
+            self.pad_bin = props.pad_bin
         elif self.__addr.has_changed():
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
             # about their old address.
             self.zipcode = ''
             self.pad_bbl = ''
+            self.pad_bin = ''
         self.__addr.set_to_unchanged()
         self.__addr_meta.set_to_unchanged()
 

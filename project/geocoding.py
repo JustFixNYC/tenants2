@@ -44,6 +44,9 @@ class FeatureProperties(pydantic.BaseModel):
     # The borough, block, lot number of the address, e.g. "3002920026".
     pad_bbl: str
 
+    # The building identification number of the address, e.g. "3003069".
+    pad_bin: str
+
 
 class Feature(pydantic.BaseModel):
     # This is generally "Feature".

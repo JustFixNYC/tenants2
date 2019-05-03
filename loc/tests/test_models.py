@@ -62,12 +62,12 @@ class TestCreateLookupForUser:
 
     @pytest.mark.django_db
     @enable_fake_landlord_lookup
-    def test_returns_filled_instance_if_lookup_succeeds(self, requests_mock):
-        mock_lookup_success(requests_mock)
+    def test_returns_filled_instance_if_lookup_succeeds(self, requests_mock, nycdb):
+        mock_lookup_success(requests_mock, nycdb)
         oi = OnboardingInfoFactory()
         info = LandlordDetails.create_lookup_for_user(oi.user)
-        assert info.name == 'BOBBY DENVER'
-        assert info.address == "123 DOOMBRINGER STREET 4 11299"
+        assert info.name == 'BOOP JONES'
+        assert info.address == "124 99TH STREET\nBrooklyn, NY 11999"
         assert info.lookup_date is not None
         assert info.is_looked_up is True
 

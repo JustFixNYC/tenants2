@@ -8,6 +8,8 @@ LOT_DIGITS = 4
 
 PAD_BBL_DIGITS = BORO_DIGITS + BLOCK_DIGITS + LOT_DIGITS
 
+PAD_BIN_DIGITS = 7
+
 
 class BBL(NamedTuple):
     '''

@@ -78,7 +78,7 @@ class TestAddrMetadataLookup:
         return self.mkinfo()
 
     def mkinfo_with_metadata(self):
-        return self.mkinfo(zipcode='11231', pad_bbl='2002920026')
+        return self.mkinfo(zipcode='11231', pad_bbl='2002920026', pad_bin='1000000')
 
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
@@ -88,6 +88,7 @@ class TestAddrMetadataLookup:
         info.address = '120 zzz street'
         info.zipcode = '12345'
         info.pad_bbl = '4002920026'
+        info.pad_bin = '4000000'
         assert info.maybe_lookup_new_addr_metadata() is False
 
     def test_no_lookup_when_metadata_exists_and_nothing_changed(self):
@@ -104,6 +105,7 @@ class TestAddrMetadataLookup:
         assert info.maybe_lookup_new_addr_metadata() is True
         assert info.zipcode == ''
         assert info.pad_bbl == ''
+        assert info.pad_bin == ''
 
         # Because geocoding failed, we should always try looking up
         # new metadata, in case geocoding works next time.
@@ -132,3 +134,4 @@ class TestAddrMetadataLookup:
         assert info.maybe_lookup_new_addr_metadata() is True
         assert info.zipcode == '11201'
         assert info.pad_bbl == '3002920026'
+        assert info.pad_bin == '3003069'

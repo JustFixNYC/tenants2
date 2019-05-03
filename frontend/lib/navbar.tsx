@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import autobind from 'autobind-decorator';
 import { AriaExpandableButton } from './aria';
@@ -138,9 +139,13 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   render() {
     const { state } = this;
     const { session, server } = this.props;
+    const navClass = classnames(
+      'navbar',
+      !session.isSafeModeEnabled && 'is-fixed-top'
+    );
 
     return (
-      <nav className="navbar is-fixed-top" ref={this.navbarRef}>
+      <nav className={navClass} ref={this.navbarRef}>
         <div className="container">
           {this.renderNavbarBrand()}
           <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>

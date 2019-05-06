@@ -87,7 +87,7 @@ class TestCreateMailConfirmationContext:
         )
 
     @pytest.mark.parametrize('landlord,user,expected', [
-        [deliverable, undeliverable, False],
+        [deliverable, undeliverable, True],
         [undeliverable, deliverable, False],
         [undeliverable, undeliverable, False],
         [deliverable_incorrect_unit, deliverable, True],

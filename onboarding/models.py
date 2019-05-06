@@ -5,6 +5,8 @@ from project.common_data import Choices
 from project import geocoding
 from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
+from project.util.hyperlink import Hyperlink
+from project.util.admin_util import admin_field
 from users.models import JustfixUser
 
 
@@ -246,3 +248,23 @@ class OnboardingInfo(models.Model):
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()
         return super().save(*args, **kwargs)
+
+    @property
+    def building_links(self) -> List[Hyperlink]:
+        links: List[Hyperlink] = []
+        if self.pad_bbl:
+            links.append(Hyperlink(
+                name="Who Owns What",
+                url=f"https://whoownswhat.justfix.nyc/bbl/{self.pad_bbl}"
+            ))
+        if self.pad_bin:
+            links.append(Hyperlink(
+                name="NYC DOB BIS",
+                url=(f"http://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?"
+                     f"bin={self.pad_bin}&go4=+GO+&requestid=0")
+            ))
+        return links
+
+    @admin_field(short_description="Building links", allow_tags=True)
+    def get_building_links_html(self) -> str:
+        return Hyperlink.join_admin_buttons(self.building_links)

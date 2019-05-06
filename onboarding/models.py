@@ -6,6 +6,7 @@ from project import geocoding
 from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
 from project.util.hyperlink import Hyperlink
+from project.util.admin_util import admin_field
 from users.models import JustfixUser
 
 
@@ -264,6 +265,6 @@ class OnboardingInfo(models.Model):
             ))
         return links
 
-    @property
-    def building_links_html(self) -> str:
+    @admin_field(short_description="Building links", allow_tags=True)
+    def get_building_links_html(self) -> str:
         return Hyperlink.join_admin_buttons(self.building_links)

@@ -59,8 +59,7 @@ class LocAdminViews:
 
     ):
         is_deliverable = (
-            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE and
-            user_verification['deliverability'] != lob_api.UNDELIVERABLE
+            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE
         )
 
         is_definitely_deliverable = (

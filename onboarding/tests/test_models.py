@@ -5,6 +5,21 @@ from onboarding.models import OnboardingInfo
 from project.tests.test_geocoding import enable_fake_geocoding, EXAMPLE_SEARCH
 
 
+class TestBuildingLinks:
+    def test_it_works_when_empty(self):
+        info = OnboardingInfo()
+        assert info.building_links == []
+        assert info.get_building_links_html() == ''
+
+    def test_it_shows_wow_link_when_bbl_is_present(self):
+        info = OnboardingInfo(pad_bbl='1234')
+        assert 'Who Owns What' in info.get_building_links_html()
+
+    def test_it_shows_bis_link_when_bin_is_present(self):
+        info = OnboardingInfo(pad_bin='1234')
+        assert 'DOB BIS' in info.get_building_links_html()
+
+
 def test_str_works_when_fields_are_not_set():
     info = OnboardingInfo()
     assert str(info) == 'OnboardingInfo object (None)'

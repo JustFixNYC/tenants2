@@ -196,6 +196,12 @@ class HPDContact(models.Model):
         )
 
 
+def _get_landlord_from_hpd_reg(reg: Optional[HPDRegistration]) -> Optional[Contact]:
+    if reg:
+        return reg.get_landlord()
+    return None
+
+
 def get_landlord(pad_bbl: str, pad_bin: str = '') -> Optional[Contact]:
     """
     Fault-tolerant retriever of landlord information that assumes
@@ -207,13 +213,11 @@ def get_landlord(pad_bbl: str, pad_bin: str = '') -> Optional[Contact]:
     try:
         ll: Optional[Contact] = None
         if pad_bin:
-            reg = HPDRegistration.objects.filter(bin=int(pad_bin)).first()
-            if reg:
-                ll = reg.get_landlord()
+            ll = _get_landlord_from_hpd_reg(
+                HPDRegistration.objects.filter(bin=int(pad_bin)).first())
         if ll is None:
-            reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
-            if reg:
-                ll = reg.get_landlord()
+            ll = _get_landlord_from_hpd_reg(
+                HPDRegistration.objects.from_pad_bbl(pad_bbl).first())
         return ll
     except (DatabaseError, Exception):
         # TODO: Once we have more confidence in the underlying code,

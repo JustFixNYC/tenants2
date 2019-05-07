@@ -39,8 +39,8 @@ def mock_lookup_failure(requests_mock):
 
 
 def test_lookup_landlord_command_uses_nycha(db, loaded_nycha_csv_data):
-    with patch('loc.landlord_lookup._lookup_bbl_and_full_address',
-               return_value=('3005380001', '453 COLUMBIA STREET, Brooklyn blahblahblah')):
+    with patch('loc.landlord_lookup._lookup_bbl_and_bin_and_full_address',
+               return_value=('3005380001', '', '453 COLUMBIA STREET, Brooklyn blahblahblah')):
         results = lookup_landlord('453 columbia st, Brooklyn')
         assert results.name == "RED HOOK EAST MANAGEMENT"
         assert results.address == "62 MILL STREET\nBROOKLYN, NY 11231"
@@ -63,7 +63,7 @@ def test_lookup_landlord_command_fails(requests_mock):
 
 def test_lookup_landlord_via_nycdb_works(nycdb):
     reg = nycdb.load_hpd_registration('tiny-landlord.json')
-    ll = _lookup_landlord_via_nycdb(reg.pad_bbl)
+    ll = _lookup_landlord_via_nycdb(reg.pad_bbl, '')
     assert isinstance(ll, LandlordInfo)
     assert ll.name == "BOOP JONES"
     assert ll.address == "124 99TH STREET\nBrooklyn, NY 11999"

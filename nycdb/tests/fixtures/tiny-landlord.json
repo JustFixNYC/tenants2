@@ -5,7 +5,8 @@
     "fields": {
       "boroid": 3,
       "block": 9,
-      "lot": 4
+      "lot": 4,
+      "bin": 1234567
     }
   },
   {

@@ -13,6 +13,12 @@ class TestHPDRegistration:
         reg = HPDRegistration()
         assert reg.get_landlord() is None
 
+    def test_pad_bin_works(self):
+        reg = HPDRegistration()
+        assert reg.pad_bin == ''
+        reg.bin = 1234567
+        assert reg.pad_bin == '1234567'
+
 
 def test_tiny_landlord_works(nycdb):
     tiny = fixtures.load_hpd_registration("tiny-landlord.json")
@@ -91,11 +97,21 @@ class TestGetLandlord:
                 loggermock.assert_called_once_with(
                     f'Error while retrieving data from NYCDB')
 
-    def test_it_returns_contact_on_success(self, nycdb):
+    def test_it_returns_contact_of_pad_bbl_on_success(self, nycdb):
         tiny = fixtures.load_hpd_registration("tiny-landlord.json")
         boop = get_landlord(tiny.pad_bbl)
         assert isinstance(boop, Individual)
         assert boop.name == "BOOP JONES"
+
+    def test_it_returns_contact_of_pad_bin_on_success(self, nycdb):
+        tiny = fixtures.load_hpd_registration("tiny-landlord.json")
+        boop = get_landlord('zzzzz', tiny.pad_bin)
+        assert isinstance(boop, Individual)
+
+    def test_it_falls_back_to_pad_bbl_if_pad_bin_fails(self, nycdb):
+        tiny = fixtures.load_hpd_registration("tiny-landlord.json")
+        boop = get_landlord(tiny.pad_bbl, '999')
+        assert isinstance(boop, Individual)
 
 
 class TestGetManagementCompany:

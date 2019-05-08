@@ -92,6 +92,10 @@ class HPDRegistration(models.Model):
     def pad_bbl(self) -> str:
         return to_pad_bbl(self.boroid, self.block, self.lot)
 
+    @property
+    def pad_bin(self) -> str:
+        return str(self.bin) if self.bin else ''
+
     def _get_company_landlord(self) -> Optional[Company]:
         owners = [
             c.corporationname for c in self.contact_list

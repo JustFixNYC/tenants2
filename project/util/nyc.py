@@ -1,4 +1,5 @@
 from typing import NamedTuple, Optional
+import re
 
 BORO_DIGITS = 1
 
@@ -9,6 +10,8 @@ LOT_DIGITS = 4
 PAD_BBL_DIGITS = BORO_DIGITS + BLOCK_DIGITS + LOT_DIGITS
 
 PAD_BIN_DIGITS = 7
+
+PAD_BIN_RE = re.compile(r'^[1-5]\d\d\d\d\d\d$')
 
 
 class BBL(NamedTuple):
@@ -57,3 +60,21 @@ def to_pad_bbl(boro: int, block: int, lot: int) -> str:
         f'{str(block).zfill(BLOCK_DIGITS)}'
         f'{str(lot).zfill(LOT_DIGITS)}'
     )
+
+
+def is_bin(value: str) -> bool:
+    '''
+    Returns whether the given value could be a valid Building
+    Identification Number (BIN):
+
+        >>> is_bin('1234567')
+        True
+        >>> is_bin('9234567')
+        False
+
+    For more details on BINs, see:
+
+        https://nycplanning.github.io/Geosupport-UPG/chapters/chapterVI/section03/
+    '''
+
+    return PAD_BIN_RE.match(value) is not None

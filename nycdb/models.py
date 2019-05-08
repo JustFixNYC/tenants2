@@ -82,6 +82,7 @@ class HPDRegistration(models.Model):
     boroid: int = models.SmallIntegerField()
     block: int = models.SmallIntegerField()
     lot: int = models.SmallIntegerField()
+    bin: int = models.IntegerField(default=0)
 
     @property
     def contact_list(self) -> List['HPDContact']:
@@ -90,6 +91,10 @@ class HPDRegistration(models.Model):
     @property
     def pad_bbl(self) -> str:
         return to_pad_bbl(self.boroid, self.block, self.lot)
+
+    @property
+    def pad_bin(self) -> str:
+        return str(self.bin) if self.bin else ''
 
     def _get_company_landlord(self) -> Optional[Company]:
         owners = [
@@ -195,7 +200,13 @@ class HPDContact(models.Model):
         )
 
 
-def get_landlord(pad_bbl: str) -> Optional[Contact]:
+def _get_landlord_from_hpd_reg(reg: Optional[HPDRegistration]) -> Optional[Contact]:
+    if reg:
+        return reg.get_landlord()
+    return None
+
+
+def get_landlord(pad_bbl: str, pad_bin: str = '') -> Optional[Contact]:
     """
     Fault-tolerant retriever of landlord information that assumes
     the NYCDB connection is unreliable, or disabled entirely.
@@ -204,8 +215,14 @@ def get_landlord(pad_bbl: str) -> Optional[Contact]:
     if not settings.NYCDB_DATABASE:
         return None
     try:
-        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
-        return reg.get_landlord() if reg else None
+        ll: Optional[Contact] = None
+        if pad_bin:
+            ll = _get_landlord_from_hpd_reg(
+                HPDRegistration.objects.filter(bin=int(pad_bin)).first())
+        if ll is None:
+            ll = _get_landlord_from_hpd_reg(
+                HPDRegistration.objects.from_pad_bbl(pad_bbl).first())
+        return ll
     except (DatabaseError, Exception):
         # TODO: Once we have more confidence in the underlying code,
         # we should remove the above 'Exception' and only catch

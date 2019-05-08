@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core import serializers
 
 from project import geocoding
-from project.util.nyc import BBL
+from project.util.nyc import BBL, is_bin
 from nycdb.models import HPDRegistration, HPDContact, Contact
 
 
@@ -13,9 +13,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'address-or-bbl',
+            'address-or-bbl-or-bin',
             help=("The street address (e.g. '123 Boop St, Brooklyn') "
-                  "or padded BBL (e.g. '2022150116') to look up.")
+                  "or padded BBL (e.g. '2022150116') or BIN (e.g. '1234567') to look up.")
         )
         parser.add_argument(
             '--dump-models',
@@ -53,37 +53,43 @@ class Command(BaseCommand):
             print(f"\n  Management company:")
             self.show_mailing_addr(mgmt_co)
 
-    def show_registrations(self, pad_bbl: str) -> None:
-        regs = HPDRegistration.objects.from_pad_bbl(pad_bbl)
-        for reg in regs:
+    def _get_registrations(self, pad_bbl_or_bin: str):
+        if is_bin(pad_bbl_or_bin):
+            return HPDRegistration.objects.filter(bin=int(pad_bbl_or_bin))
+        return HPDRegistration.objects.from_pad_bbl(pad_bbl_or_bin)
+
+    def show_registrations(self, pad_bbl_or_bin: str) -> None:
+        for reg in self._get_registrations(pad_bbl_or_bin):
             self.show_registration(reg)
 
-    def dump_models(self, pad_bbl: str) -> None:
-        regs = HPDRegistration.objects.from_pad_bbl(pad_bbl)
+    def dump_models(self, pad_bbl_or_bin: str) -> None:
+        regs = self._get_registrations(pad_bbl_or_bin)
         models: List[Any] = list(regs)
         for reg in regs:
             models.extend(reg.contact_list)
         data = json.loads(serializers.serialize('json', models))
         self.stdout.write(json.dumps(data, indent=2))
 
-    def parse_address_or_bbl(self, value: str) -> str:
-        if BBL.safe_parse(value):
+    def parse_address_or_bbl_or_bin(self, value: str) -> str:
+        if BBL.safe_parse(value) or is_bin(value):
             return value
         features = geocoding.search(value)
         if not features:
             raise CommandError("Address not found!")
 
         props = features[0].properties
-        self.stdout.write(f"Found BBL {props.pad_bbl} ({props.label}).")
-        return props.pad_bbl
+        self.stdout.write(f"Found BBL {props.pad_bbl} / BIN {props.pad_bin} ({props.label}).")
+        self.stdout.write(
+            f"Using the BIN (call this command separately with the BBL to use that instead).")
+        return props.pad_bin
 
     def handle(self, *args, **options) -> None:
-        address_or_bbl: str = options['address-or-bbl']
+        address_or_bbl_or_bin: str = options['address-or-bbl-or-bin']
         dump_models: bool = options['dump_models']
 
-        pad_bbl = self.parse_address_or_bbl(address_or_bbl)
+        pad_bbl_or_bin = self.parse_address_or_bbl_or_bin(address_or_bbl_or_bin)
 
         if dump_models:
-            self.dump_models(pad_bbl)
+            self.dump_models(pad_bbl_or_bin)
         else:
-            self.show_registrations(pad_bbl)
+            self.show_registrations(pad_bbl_or_bin)

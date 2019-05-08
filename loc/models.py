@@ -110,7 +110,11 @@ class LandlordDetails(models.Model):
 
         if hasattr(user, 'onboarding_info'):
             oi = user.onboarding_info
-            info = lookup_landlord(oi.full_address)
+            info = lookup_landlord(
+                oi.full_address,
+                oi.pad_bbl,
+                oi.pad_bin
+            )
             details = LandlordDetails(
                 user=user,
                 lookup_date=timezone.now()

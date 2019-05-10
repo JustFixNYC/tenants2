@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormSubmitter, Form, BaseFormProps, FormSubmitterWithoutRouter, SessionUpdatingFormSubmitter, FormContext, BaseFormContextOptions } from '../forms';
-import { createTestGraphQlClient, pause } from './util';
+import { createTestGraphQlClient, pause, simpleFormErrors } from './util';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter, Route, Switch } from 'react-router';
 import { ServerFormFieldError, FormErrors } from '../form-errors';
@@ -152,7 +152,7 @@ describe('FormSubmitter', () => {
     await login;
     expect(form.state.isLoading).toBe(false);
     expect(form.state.errors).toEqual({
-      nonFieldErrors: ['nope.'],
+      nonFieldErrors: simpleFormErrors('nope.'),
       fieldErrors: {}
     });
     expect(onSuccess.mock.calls).toHaveLength(0);
@@ -235,9 +235,9 @@ describe('Form', () => {
 
   it('renders field and non-field errors', () => {
     const errors: FormErrors<MyFormInput> = {
-      nonFieldErrors: ['foo'],
+      nonFieldErrors: simpleFormErrors('foo'),
       fieldErrors: {
-        phoneNumber: ['bar']
+        phoneNumber: simpleFormErrors('bar')
       }
     };
     const form = mount(<MyForm onSubmit={jest.fn()} errors={errors} isLoading={false} />);

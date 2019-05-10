@@ -1,6 +1,7 @@
 import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap } from "../form-errors";
 import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
+import { simpleFormErrors } from "./util";
 
 test("FormsetErrorMap type makes sense", () => {
   // The value of this test is in whether it passes through
@@ -12,7 +13,7 @@ test("FormsetErrorMap type makes sense", () => {
     bar: [{
       nonFieldErrors: [],
       fieldErrors: {
-        baz: ['hi']
+        baz: simpleFormErrors('hi')
       }
     }]
   };
@@ -22,7 +23,7 @@ test("FormsetErrorMap type makes sense", () => {
 describe('formatErrors()', () => {
   it('concatenates errors', () => {
     const { errorHelp } = formatErrors({
-      errors: ['foo', 'bar']
+      errors: simpleFormErrors('foo', 'bar')
     });
     expect(shallow(assertNotNull(errorHelp)).html())
       .toBe('<p class="help is-danger">foo bar</p>');
@@ -34,7 +35,7 @@ describe('formatErrors()', () => {
 
   it('creates an ariaLabel', () => {
     expect(formatErrors({
-      errors: ['this field is required'],
+      errors: simpleFormErrors('this field is required'),
       label: 'Name'
     }).ariaLabel).toBe('Name, this field is required');
   });
@@ -53,7 +54,7 @@ describe('getFormErrors()', () => {
       field: '__all__',
       messages: ['foo', 'bar']  
     }])).toEqual({
-      nonFieldErrors: ['foo', 'bar'],
+      nonFieldErrors: simpleFormErrors('foo', 'bar'),
       fieldErrors: {}
     });
   });
@@ -65,7 +66,7 @@ describe('getFormErrors()', () => {
     }])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {
-        boop: ['foo', 'bar']
+        boop: simpleFormErrors('foo', 'bar')
       }
     });
   });
@@ -80,7 +81,7 @@ describe('getFormErrors()', () => {
     }])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {
-        boop: ['foo', 'bar']
+        boop: simpleFormErrors('foo', 'bar')
       }
     });
   });
@@ -96,7 +97,7 @@ describe('getFormErrors()', () => {
         blarg: [{
           nonFieldErrors: [],
           fieldErrors: {
-            boop: ['foo', 'bar']
+            boop: simpleFormErrors('foo', 'bar')
           }
         }]
       }
@@ -132,7 +133,7 @@ describe("addToFormsetErrors()", () => {
       blah: [{
         nonFieldErrors: [],
         fieldErrors: {
-          bop: ['hi']
+          bop: simpleFormErrors('hi')
         }
       }]
     });
@@ -146,12 +147,12 @@ describe("addToFormsetErrors()", () => {
       blah: [{
         nonFieldErrors: [],
         fieldErrors: {
-          bop: ['hi']
+          bop: simpleFormErrors('hi')
         }
       }, undefined, {
         nonFieldErrors: [],
         fieldErrors: {
-          bop: ['hmm']
+          bop: simpleFormErrors('hmm')
         }
       }]
     });
@@ -162,7 +163,7 @@ describe("addToFormsetErrors()", () => {
     expect(addToFormsetErrors(errors, { field: 'blah.0.__all__', messages: ['hi'] })).toBe(true);
     expect(errors).toEqual({
       blah: [{
-        nonFieldErrors: ['hi'],
+        nonFieldErrors: simpleFormErrors('hi'),
         fieldErrors: {}
       }]
     });

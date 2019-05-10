@@ -5,6 +5,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
 import { MemoryRouter, Route, RouteComponentProps } from "react-router";
 import { HPUploadStatus } from '../queries/globalTypes';
+import { FormError, strToFormError } from '../form-errors';
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -129,3 +130,7 @@ export const FakeGeoResults: any = {
     }
   }]
 };
+
+export function simpleFormErrors(...errors: string[]): FormError[] {
+  return errors.map(strToFormError);
+}

@@ -160,7 +160,7 @@ input:focus + .jf-checkbox-symbol {
     label {
         display: block;
         border-bottom: 1px solid $grey-light;
-        padding: 0.5em 0.5em 0.5em 2.25em;
+        padding: 0.5em 2.25em 0.5em 0.5em;
         cursor: pointer;
         color: $button-text-color;
     }
@@ -202,7 +202,7 @@ input:focus + .jf-checkbox-symbol {
         background-image: url('./img/correct8.svg');
 
         background-repeat: no-repeat;
-        background-position: 0.5em 50%;
+        background-position: right 0.5em top 50%;
     }
 }
 

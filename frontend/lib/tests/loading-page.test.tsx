@@ -128,10 +128,10 @@ describe("friendlyLoad()", () => {
 
   it("rejects promise immediately when time elapsed is imperceptible", async () => {
     let value = null;
-    friendlyLoad(Promise.reject(new Error("alas"))).catch(e => { value = e });
+    friendlyLoad(Promise.reject(new Error("alas oof"))).catch(e => { value = e });
     now = 1;
     await nextTick();
-    expect((value as any).message).toBe("alas");
+    expect((value as any).message).toBe("alas oof");
   });
 
   it("resolves promise after friendly amount of time otherwise", async () => {

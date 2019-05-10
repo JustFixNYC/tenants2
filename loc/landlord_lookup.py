@@ -1,11 +1,11 @@
-from typing import Optional, Any
+from typing import Optional, Any, Tuple
 from dataclasses import dataclass
 import logging
-import requests
 import pydantic
-from django.conf import settings
 
 from project import geocoding
+from nycha.models import NychaOffice
+import nycdb.models
 
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,8 @@ class ValidatingLandlordInfo(pydantic.BaseModel):
 @dataclass
 class LandlordInfo:
     '''
-    Landlord details extracted from the server.
+    Landlord details extracted from the server, or looked up
+    via other means.
     '''
 
     name: str
@@ -50,28 +51,43 @@ def _extract_landlord_info(json_blob: Any) -> Optional[LandlordInfo]:
     return None
 
 
-def lookup_landlord(address: str) -> Optional[LandlordInfo]:
+def _lookup_bbl_and_bin_and_full_address(address: str) -> Tuple[str, str, str]:
+    features = geocoding.search(address)
+    if not features:
+        return ('', '', '')
+    props = features[0].properties
+    return (props.pad_bbl, props.pad_bin, props.label)
+
+
+def _lookup_landlord_via_nycdb(pad_bbl: str, pad_bin: str) -> Optional[LandlordInfo]:
+    contact = nycdb.models.get_landlord(pad_bbl, pad_bin)
+    if contact:
+        return LandlordInfo(
+            name=contact.name,
+            address='\n'.join(contact.address.lines_for_mailing)
+        )
+    return None
+
+
+def _lookup_landlord_via_nycha(pad_bbl: str, address: str) -> Optional[LandlordInfo]:
+    office = NychaOffice.objects.find_for_property(pad_bbl, address)
+    if not office:
+        return None
+    return LandlordInfo(name=f"{office.name} MANAGEMENT", address=office.address)
+
+
+def lookup_landlord(address: str, pad_bbl: str = '', pad_bin: str = '') -> Optional[LandlordInfo]:
     '''
     Looks up information about the landlord at the given address
     and returns it, or None if no information could be gleaned.
     '''
 
-    features = geocoding.search(address)
-    if not features:
-        return None
-    feature = features[0]
-    url = settings.LANDLORD_LOOKUP_URL
-    try:
-        response = requests.get(
-            url,
-            {'bbl': feature.properties.pad_bbl},
-            timeout=settings.LANDLORD_LOOKUP_TIMEOUT
-        )
-        if response.status_code != 200:
-            raise Exception(f'Expected 200 response, got {response.status_code}')
-        return _extract_landlord_info(response.json())
-    except Exception:
-        logger.exception(f'Error while retrieving data from {url}')
-        return None
+    if pad_bbl:
+        full_addr = address
+    else:
+        pad_bbl, pad_bin, full_addr = _lookup_bbl_and_bin_and_full_address(address)
+        if not pad_bbl:
+            return None
 
-    return None
+    return (_lookup_landlord_via_nycha(pad_bbl, full_addr) or
+            _lookup_landlord_via_nycdb(pad_bbl, pad_bin))

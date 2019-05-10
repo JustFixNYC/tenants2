@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -6,11 +7,29 @@
 //==============================================================
 
 /**
+ * The status of the HP Action upload (document assembly) process for a user.
+ */
+export enum HPUploadStatus {
+  ERRORED = "ERRORED",
+  NOT_STARTED = "NOT_STARTED",
+  STARTED = "STARTED",
+  SUCCEEDED = "SUCCEEDED",
+}
+
+/**
  * An enumeration.
  */
 export enum LetterRequestMailChoice {
   USER_WILL_MAIL = "USER_WILL_MAIL",
   WE_WILL_MAIL = "WE_WILL_MAIL",
+}
+
+/**
+ * An enumeration.
+ */
+export enum OnboardingInfoSignupIntent {
+  HP = "HP",
+  LOC = "LOC",
 }
 
 export interface AccessDatesInput {
@@ -23,6 +42,16 @@ export interface AccessDatesInput {
 export interface ExampleInput {
   exampleField: string;
   boolField: boolean;
+  subforms: SubformsExampleSubformFormSetInput[];
+  clientMutationId?: string | null;
+}
+
+export interface ExampleRadioInput {
+  radioField: string;
+  clientMutationId?: string | null;
+}
+
+export interface GeneratePDFInput {
   clientMutationId?: string | null;
 }
 
@@ -80,11 +109,32 @@ export interface OnboardingStep3Input {
 
 export interface OnboardingStep4Input {
   canWeSms: boolean;
-  phoneNumber: string;
+  signupIntent: string;
   password: string;
   confirmPassword: string;
+  phoneNumber: string;
   agreeToTerms: boolean;
   clientMutationId?: string | null;
+}
+
+export interface PasswordResetConfirmInput {
+  password: string;
+  confirmPassword: string;
+  clientMutationId?: string | null;
+}
+
+export interface PasswordResetInput {
+  phoneNumber: string;
+  clientMutationId?: string | null;
+}
+
+export interface PasswordResetVerificationCodeInput {
+  code: string;
+  clientMutationId?: string | null;
+}
+
+export interface SubformsExampleSubformFormSetInput {
+  exampleField: string;
 }
 
 //==============================================================

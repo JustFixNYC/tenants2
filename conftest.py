@@ -1,20 +1,56 @@
+import re
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Iterator
 from unittest.mock import patch
 from graphene.test import Client
-from django.test import RequestFactory
-from django.contrib.auth.models import AnonymousUser
+from django.http import HttpRequest
+from django.test.client import Client as DjangoClient
+from django.core.management import call_command
+from django.contrib.auth.models import AnonymousUser, Group
 from django.contrib.sessions.middleware import SessionMiddleware
 import subprocess
 import pytest
+import requests_mock as requests_mock_module
 
+from users.tests.factories import UserFactory
 from project.schema import schema
+from project.settings import env
+from nycha.tests.fixtures import load_nycha_csv_data
 
 
 BASE_DIR = Path(__file__).parent.resolve()
 
 STATICFILES_DIR = BASE_DIR / 'staticfiles'
+
+collect_ignore: List[str] = []
+
+if not env.ENABLE_FINDHELP:
+    collect_ignore.append('findhelp')
+
+
+@pytest.fixture
+def django_file_storage(settings):
+    '''
+    A test fixture that can be used to store any
+    files stored via Django's file storage backend
+    into a temporary directory. The directory
+    is cleaned up at the end of the test.
+    '''
+
+    from project.tests.storage_fixture import django_file_storage
+
+    yield from django_file_storage(settings)
+
+
+@pytest.fixture(scope="session")
+def loaded_nycha_csv_data(django_db_setup, django_db_blocker):
+    '''
+    Load example NYCHA office/property data into the database.
+    '''
+
+    with django_db_blocker.unblock():
+        yield load_nycha_csv_data()
 
 
 @pytest.fixture(scope="session")
@@ -50,7 +86,20 @@ class TestGraphQLClient(Client):
 
 
 @pytest.fixture
-def graphql_client() -> TestGraphQLClient:
+def http_request(rf) -> HttpRequest:
+    '''
+    Return a Django HttpRequest suitable for testing.
+    '''
+
+    req = rf.get('/')
+    req.user = AnonymousUser()
+    SessionMiddleware().process_request(req)
+
+    return req
+
+
+@pytest.fixture
+def graphql_client(http_request) -> TestGraphQLClient:
     '''
     This test fixture returns a Graphene test client that can be
     used for GraphQL-related tests. For more information on the
@@ -62,13 +111,10 @@ def graphql_client() -> TestGraphQLClient:
     # The following was helpful in writing this:
     # https://github.com/graphql-python/graphene-django/issues/337
 
-    req = RequestFactory().get('/')
-    req.user = AnonymousUser()
-    SessionMiddleware().process_request(req)
-    client = TestGraphQLClient(schema, context_value=req)
+    client = TestGraphQLClient(schema, context=http_request)
 
     # Attach the request to the client for easy retrieval/alteration.
-    client.request = req
+    client.request = http_request
 
     return client
 
@@ -78,6 +124,12 @@ class FakeSmsMessage:
     to: str
     from_: str
     body: str
+    sid: str
+
+
+@dataclass
+class FakeSmsCreateResult:
+    sid: str
 
 
 @pytest.fixture
@@ -102,11 +154,110 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
             return self
 
         def create(self, to: str, from_: str, body: str):
+            sid = 'blarg'
             outbox.append(FakeSmsMessage(
                 to=to,
                 from_=from_,
-                body=body
+                body=body,
+                sid=sid
             ))
+            return FakeSmsCreateResult(sid=sid)
 
-    with patch('project.twilio.Client', FakeTwilioClient):
+    with patch('texting.twilio.Client', FakeTwilioClient):
         yield outbox
+
+
+@pytest.fixture
+def initgroups(db):
+    '''
+    Ensures the test runs with the "manage.py initgroups"
+    command having run.
+    '''
+
+    call_command('initgroups')
+
+
+@pytest.fixture
+def outreach_user(initgroups):
+    '''
+    Returns a user that is in the Outreach Coordinators group.
+    '''
+
+    user = UserFactory(
+        username='outreacher',
+        phone_number='1234567000',
+        is_staff=True)
+    group = Group.objects.get(name='Outreach Coordinators')
+    user.groups.add(group)
+    return user
+
+
+@pytest.fixture
+def outreach_client(outreach_user):
+    '''
+    Returns a Django test client with a logged-in Outreach
+    Coordinator.
+    '''
+
+    client = DjangoClient()
+    client.force_login(outreach_user)
+    return client
+
+
+@pytest.fixture
+def nycdb(db, settings):
+    '''
+    Enable NYCDB integration, setting the NYCDB database to
+    the default database.
+    '''
+
+    settings.NYCDB_DATABASE = 'default'
+
+    from nycdb.tests.test_models import fixtures
+    yield fixtures
+
+
+@pytest.fixture(autouse=True)
+def ensure_no_network_access(requests_mock):
+    '''
+    Our tests prohibit network access from the `requests` module
+    by default to ensure that no real HTTP requests are accidentally
+    made by any suites, as this would massively slow down testing.
+
+    We do this by forcing the use of the `requests_mock` fixture.
+    If any accidental network access is made, a helpful exception
+    will be raised.
+
+    If real HTTP requests are needed, a test can explicitly whitelist
+    them via request_mock's `real_http` feature:
+
+    https://requests-mock.readthedocs.io/en/latest/mocker.html#real-http-requests
+    '''
+
+    pass
+
+
+@pytest.fixture
+def live_server(live_server, requests_mock):
+    '''
+    Override the default `live_server` fixture to cooperate with our
+    autoused `ensure_no_network_access` fixture by white-listing network access
+    to the live server.
+    '''
+
+    regex = re.compile('^' + re.escape(live_server.url) + '.*')
+    requests_mock.register_uri(requests_mock_module.ANY, regex, real_http=True)
+    return live_server
+
+
+@pytest.fixture
+def disable_locale_middleware(settings):
+    '''
+    Disable locale redirection middleware. Useful if we want to test that
+    certain views actually 404.
+    '''
+
+    settings.MIDDLEWARE = [
+        middleware for middleware in settings.MIDDLEWARE
+        if middleware != 'django.middleware.locale.LocaleMiddleware'
+    ]

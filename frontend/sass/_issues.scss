@@ -3,28 +3,51 @@
     display: block;
     border: 1px solid $button-text-hover-background-color;
     text-align: center;
-    padding: 0.5em;
+    padding: 1.5em;
     height: 100%;
 
     svg {
-        width: 48px;
-        height: 48px;
+        width: 36px;
+        height: 36px;
         overflow: hidden;
         fill: currentColor;
+
+    }
+
+    // target icon only
+    & > svg {
+      margin-bottom: 0.5em;
+    }
+
+    p.title {
+      margin-bottom: 0;
+    }
+
+    p.subtitle {
+      margin-top: 0.5em;
     }
 }
 
+.jf-issue-area-link:focus {
+    @include outline-focus();
+}
+
 .jf-issue-area-link:not(.jf-issue-count-zero) {
-    color: $primary;
+    background-color: $primary;
+    color: $primary-invert;
+
+    &:hover {
+        // This appears to be the amount that Bulma darkens a color by
+        // for its button hover styles, though it also doesn't seem to
+        // be defined as a mixin or constant or anything, so we have
+        // to manually apply the same effect here.
+        background: darken($primary, 2.5%);
+    }
 }
 
-.jf-issue-area-link:not(.jf-issue-count-zero):hover {
-    color: $primary;
-}
-
-.jf-issue-area-link:hover {
+.jf-issue-area-link.jf-issue-count-zero:hover {
     color: $button-text-hover-color;
-    background: $button-text-hover-background-color;
+    background: $grey-lighter;
 }
 
 .jf-issue-area-link.jf-issue-count-zero .jf-issue-count {
@@ -50,6 +73,10 @@
     animation: jf-pulse 1s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+.jf-issue-area-link:not(.jf-issue-count-zero).jf-highlight {
+    color: $primary;
 }
 
 .title.jf-issue-area svg {

@@ -7,6 +7,10 @@ services:
     volumes:
       - .:/tenants2:delegated
     command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DATABASE_URL=postgis://justfix@db/justfix
+    links:
+      - db
     ports:
       - "8000:8000"
   frontend:
@@ -16,6 +20,14 @@ services:
     volumes:
       - .:/tenants2:delegated
     command: npm start
+  db:
+    image: mdillon/postgis:10-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=justfix
+      - POSTGRES_USER=justfix
 volumes:
   node-modules:
   python-venv:
+  pgdata:

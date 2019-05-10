@@ -5,25 +5,27 @@ import Routes from '../../routes';
 import { AppTesterPal } from '../app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
-import { ISSUE_AREA_CHOICES } from '../../issues';
 import ISSUE_AREA_SVGS from '../../svg/issues';
+import { IssueAreaChoices } from '../../../../common-data/issue-area-choices';
 
 
-const routes = Routes.loc.issues;
+const routes = Routes.locale.loc.issues;
 
+const TestIssuesRoutes = () => 
+  <IssuesRoutes routes={Routes.locale.loc.issues} toBack="back" toNext="next"/>;
 
 describe('issues checklist', () => {
   afterEach(AppTesterPal.cleanup);
 
   it('returns 404 for invalid area routes', () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create('LOL')
     });
     pal.rr.getByText('Alas.');
   });
 
   it('works on valid area routes', async () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create('HOME'),
       session: {
         issues: ['BEDROOMS__PAINT']
@@ -39,11 +41,11 @@ describe('issues checklist', () => {
       errors: [],
       session: { issues: ['HOME__MICE'], customIssues: [] }
     });
-    await pal.rt.waitForElement(() => pal.rr.getByText('Issue checklist'));
+    await pal.rt.waitForElement(() => pal.rr.getByText('Apartment self-inspection'));
   });
 
   it('has a functional issue search autocomplete', async () => {
-    const pal = new AppTesterPal(<IssuesRoutes />, {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.home
     });
     pal.fillFormFields([[/search/i, "mice"]]);
@@ -61,7 +63,7 @@ test('getIssueLabel() works', () => {
 });
 
 test('issue area images exist', () => {
-  ISSUE_AREA_CHOICES.forEach(([area, _]) => {
+  IssueAreaChoices.forEach(area => {
     const svg = ISSUE_AREA_SVGS[area];
     if (!svg) {
       throw new Error(`Expected ISSUE_AREA_SVGS.${area} to exist`);

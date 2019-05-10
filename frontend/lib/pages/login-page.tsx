@@ -1,5 +1,4 @@
 import React from 'react';
-import querystring from 'querystring';
 
 import Page from '../page';
 import Routes, { routeMap } from '../routes';
@@ -14,6 +13,8 @@ import { History } from 'history';
 import hardRedirect from '../tests/hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
+import { getPostOrQuerystringVar } from '../querystring';
+import { Link } from 'react-router-dom';
 
 const NEXT = 'next';
 
@@ -24,7 +25,7 @@ const initialState: LoginInput = {
 
 export interface LoginFormProps {
   next: string;
-  redirectToLegeacyAppURL: string;
+  redirectToLegacyAppURL: string;
 }
 
 /**
@@ -51,7 +52,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
         initialState={initialState}
         onSuccessRedirect={(output, input) => {
           if (assertNotNull(output.session).prefersLegacyApp) {
-            return this.props.redirectToLegeacyAppURL;
+            return this.props.redirectToLegacyAppURL;
           }
           return this.props.next;
         }}
@@ -73,52 +74,6 @@ export class LoginForm extends React.Component<LoginFormProps> {
 }
 
 /**
- * This is intentionally structured as a subset of react-router's
- * router context, to make it easy to interoperate with.
- */
-type LocationSearchInfo = {
-  location: {
-    search: string
-  }
-};
-
-/**
- * Return the value of the last-defined key in the given querystring.
- */
-export function getQuerystringVar(routeInfo: LocationSearchInfo, name: string): string|undefined {
-  let val = querystring.parse(routeInfo.location.search.slice(1))[name];
-
-  if (Array.isArray(val)) {
-    val = val[val.length - 1];
-  }
-
-  return val;
-}
-
-/**
- * This is intentionally structured as a subset of our app context,
- * to make it easy to interoperate with.
- */
-type HttpPostInfo = {
-  legacyFormSubmission?: {
-    POST: Partial<{ [key: string]: string }>;
-  }
-};
-
-/**
- * If this is a POST, returns the last value of the given key, or undefined if
- * not present.
- * 
- * Otherwise, returns the last-defined key in the given querystring.
- */
-export function getPostOrQuerystringVar(info: LocationSearchInfo & HttpPostInfo, name: string): string|undefined {
-  if (info.legacyFormSubmission) {
-    return info.legacyFormSubmission.POST[name];
-  }
-  return getQuerystringVar(info, name);
-}
-
-/**
  * Given a URL passed to us by an untrusted party, ensure that it has
  * the given origin, to mitigate the possibility of us being used as
  * an open redirect: http://cwe.mitre.org/data/definitions/601.html.
@@ -135,14 +90,20 @@ export function absolutifyURLToOurOrigin(url: string, origin: string): string {
 
 const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
   let next = absolutifyURLToOurOrigin(
-    getPostOrQuerystringVar(props, NEXT) || Routes.home,
+    getPostOrQuerystringVar(props, NEXT) || Routes.locale.home,
     props.server.originURL
   );
 
   return (
     <Page title="Sign in">
-      <h1 className="title">Sign in</h1>
-      <LoginForm next={next} redirectToLegeacyAppURL={props.server.redirectToLegacyAppURL} />
+      <div className="box">
+        <h1 className="title">Sign in</h1>
+        <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
+        <br/>
+        <p>
+          If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
+        </p>
+      </div>
     </Page>
   );
 });

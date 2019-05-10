@@ -21,12 +21,16 @@ export function dynamicallyImportFetch(): Promise<typeof fetch> {
  * Just like window.fetch(), but dynamically loads a polyfill
  * if needed.
  */
-export const awesomeFetch: typeof fetch = function(this: any) {
+export const awesomeFetch: typeof fetch = function(
+  this: any,
+  input: RequestInfo,
+  init?: RequestInit | undefined
+): Promise<Response> {
   if (typeof(fetch) === 'function') {
-    return fetch.apply(this, arguments);
+    return fetch.apply(this, [input, init]);
   }
   return dynamicallyImportFetch().then(fetch => {
-    return fetch.apply(this, arguments);
+    return fetch.apply(this, [input, init]);
   });
 };
 

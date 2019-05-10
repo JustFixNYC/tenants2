@@ -5,11 +5,11 @@ import Routes from '../../routes';
 
 describe('index page', () => {
   it('renders when logged in', () => {
-    ensureRedirect(<IndexPage isLoggedIn={true} />, Routes.loc.home);
+    ensureRedirect(<IndexPage isLoggedIn={true} />, Routes.locale.loc.latestStep);
   });
 
   it('renders when logged out', () => {
     const { wrapper } = shallowWithRouter(<IndexPage isLoggedIn={false} />);
-    expect(wrapper.html()).toContain('Get started');
+    expect(wrapper.html()).toContain('Is your landlord not responding');
   });
 });

@@ -20,11 +20,20 @@ import { trackPageView, ga } from './google-analytics';
 import { Action, Location } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { getOnboardingRouteForIntent } from './signup-intent';
 
 
 export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
+
+  /**
+   * The locale the user is on. This can be an empty string to
+   * indicate that localization is disabled, or an ISO 639-1
+   * code such as 'en' or 'es'.
+   */
+  locale: string;
 
   /** The initial session state the App was started with. */
   initialSession: AllSessionInfo;
@@ -38,6 +47,14 @@ export interface AppProps {
    * results here.
    */
   legacyFormSubmission?: AppLegacyFormSubmission;
+
+  /**
+   * If we're on the server-side and there's a modal on the page, we
+   * will actually be rendered *twice*: once with the modal background,
+   * and again with the modal itself. In the latter case, this prop will
+   * be populated with the content of the modal.
+   */
+  modal?: JSX.Element;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -56,13 +73,18 @@ const LoadableIndexPage = Loadable({
   loading: LoadingPage
 });
 
-const LoadableOnboardingRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "onboarding" */ './onboarding')),
+const LoadablePasswordResetRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "password-reset" */ './pages/password-reset')),
   loading: LoadingPage
 });
 
 const LoadableLetterOfComplaintRoutes = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
+  loading: LoadingPage
+});
+
+const LoadableHPActionRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "hp-action" */ './hp-action')),
   loading: LoadingPage
 });
 
@@ -123,7 +145,13 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       // focus isn't lost in the page transition.
       const body = this.pageBodyRef.current;
       if (body) {
-        body.focus();
+        // We're using call() here to work around the fact that TypeScript doesn't
+        // currently have the typings for this newer call signature for focus():
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+        //
+        // We want to prevent the browser from scrolling to the focus target
+        // because we're managing scrolling ourselves.
+        body.focus.call(body, { preventScroll: true });
       }
     }
   }
@@ -173,43 +201,50 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   renderRoutes(location: Location<any>): JSX.Element {
     return (
       <Switch location={location}>
-        <Route path={Routes.home} exact>
+        <Route path={Routes.locale.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
-        <Route path={Routes.login} exact component={LoginPage} />
-        <Route path={Routes.logout} exact component={LogoutPage} />
-        <Route path={Routes.onboarding.prefix} component={LoadableOnboardingRoutes} />
-        <Route path={Routes.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        <Route path={Routes.locale.login} exact component={LoginPage} />
+        <Route path={Routes.adminLogin} exact component={LoginPage} />
+        <Route path={Routes.locale.logout} exact component={LogoutPage} />
+        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
+        <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
+        <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+        <Route path={Routes.locale.passwordReset.prefix} component={LoadablePasswordResetRoutes} />
         <Route render={NotFound} />
       </Switch>
     );
   }
 
+  renderRoute(props: RouteComponentProps<any>): JSX.Element {
+    const { pathname } = props.location;
+    if (routeMap.exists(pathname)) {
+      return this.renderRoutes(props.location);
+    }
+    return NotFound(props);
+  }
+
   render() {
+    if (this.props.modal) {
+      return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
+    }
+
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <HistoryBlockerManager>
           <AppContext.Provider value={this.getAppContext()}>
             <AriaAnnouncer>
-              <section className="hero is-fullheight jf-hero">
-                <div className="hero-head">
-                  <Navbar/>
-                </div>
-                <div className="hero-body">
+                <Navbar/>
+                <section className="section">
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
-                      <Route render={(props) => {
-                        if (routeMap.exists(props.location.pathname)) {
-                          return this.renderRoutes(props.location);
-                        }
-                        return NotFound(props);
-                      }}/>
+                      <Route render={(props) => this.renderRoute(props)}/>
                     </LoadingOverlayManager>
                   </div>
-                </div>
-              </section>
+                </section>
             </AriaAnnouncer>
           </AppContext.Provider>
         </HistoryBlockerManager>

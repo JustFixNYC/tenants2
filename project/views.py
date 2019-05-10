@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import SafeString
+from django.utils import translation
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
@@ -13,6 +14,7 @@ from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
+import project.health
 
 # This is changed by test suites to ensure that
 # everything works okay when the server-side renderer fails
@@ -33,21 +35,34 @@ lambda_pool = LambdaPool(
 )
 
 
+class GraphQLQueryPrefetchInfo(NamedTuple):
+    '''
+    Encapsulates details from the server-side renderer
+    about a GraphQL query that should (ideally) be
+    pre-fetched for the current request.
+    '''
+
+    graphql: str
+    input: Any
+
+
 class LambdaResponse(NamedTuple):
     '''
     Encapsulates the result of the server-side renderer.
 
     This is more or less the same as the LambdaResponse
-    interface defined in frontend/lambda/lambda.ts.
+    interface defined in frontend/lambda/lambda.tsx.
     '''
 
     html: SafeString
     title_tag: SafeString
+    meta_tags: SafeString
     status: int
     bundle_files: List[str]
     modal_html: SafeString
     location: Optional[str]
     traceback: Optional[str]
+    graphql_query_to_prefetch: Optional[GraphQLQueryPrefetchInfo]
 
     # The amount of time rendering took, in milliseconds.
     render_time: int
@@ -58,20 +73,29 @@ def run_react_lambda(initial_props) -> LambdaResponse:
     response = lambda_pool.run_handler(initial_props)
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 
+    pf = response['graphQLQueryToPrefetch']
+    if pf is not None:
+        pf = GraphQLQueryPrefetchInfo(
+            graphql=pf['graphQL'],
+            input=pf['input']
+        )
+
     return LambdaResponse(
         html=SafeString(response['html']),
         modal_html=SafeString(response['modalHtml']),
         title_tag=SafeString(response['titleTag']),
+        meta_tags=SafeString(response['metaTags']),
         status=response['status'],
         bundle_files=response['bundleFiles'],
         location=response['location'],
         traceback=response['traceback'],
+        graphql_query_to_prefetch=pf,
         render_time=render_time
     )
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
-    result = schema.execute(query, context_value=request, variables=variables)
+    result = schema.execute(query, context=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)
     return result.data
@@ -120,7 +144,10 @@ def get_legacy_form_submission(request):
     if not form_class:
         raise LegacyFormSubmissionError('Invalid GraphQL input type')
 
-    input = django_graphql_forms.convert_post_data_to_input(form_class, request.POST)
+    formset_classes = django_graphql_forms.get_formset_classes_for_input_type(input_type)
+
+    input = django_graphql_forms.convert_post_data_to_input(
+        form_class, request.POST, formset_classes)
 
     result = execute_query(request, graphql, variables={'input': input})
 
@@ -131,8 +158,11 @@ def get_legacy_form_submission(request):
     }
 
 
-def react_rendered_view(request, url: str):
-    url = f'/{url}'
+def react_rendered_view(request):
+    url = request.path
+    cur_language = ''
+    if settings.USE_I18N:
+        cur_language = translation.get_language_from_request(request, check_path=True)
     querystring = request.GET.urlencode()
     if querystring:
         url += f'?{querystring}'
@@ -144,6 +174,7 @@ def react_rendered_view(request, url: str):
     initial_props = {
         'initialURL': url,
         'initialSession': get_initial_session(request),
+        'locale': cur_language,
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
             'staticURL': settings.STATIC_URL,
@@ -166,7 +197,24 @@ def react_rendered_view(request, url: str):
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
     lambda_response = run_react_lambda(initial_props)
-    bundle_files = lambda_response.bundle_files + ['main.bundle.js']
+    render_time = lambda_response.render_time
+
+    if lambda_response.status == 200 and lambda_response.graphql_query_to_prefetch:
+        # The page rendered, but it has a "loading..." message somewhere on it
+        # that's waiting for a GraphQL request to complete. Let's pre-fetch that
+        # request and re-render the page, so that the user receives it without
+        # any such messages (and so the user can see all the content if their
+        # JS isn't working).
+        pfquery = lambda_response.graphql_query_to_prefetch
+        initial_props['server']['prefetchedGraphQLQueryResponse'] = {
+            'graphQL': pfquery.graphql,
+            'input': pfquery.input,
+            'output': execute_query(request, pfquery.graphql, pfquery.input)
+        }
+        lambda_response = run_react_lambda(initial_props)
+        render_time += lambda_response.render_time
+
+    bundle_files = lambda_response.bundle_files
     bundle_urls = [
         f'{webpack_public_path_url}{bundle_file}'
         for bundle_file in bundle_files
@@ -178,12 +226,13 @@ def react_rendered_view(request, url: str):
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
-    logger.info(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
+    logger.debug(f"Rendering {url} in Node.js took {render_time} ms.")
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
+        'meta_tags': lambda_response.meta_tags,
         'bundle_urls': bundle_urls,
         'initial_props': initial_props,
     }, status=lambda_response.status)
@@ -211,3 +260,7 @@ def example_server_error(request, id: str):
 
 def redirect_favicon(request):
     return redirect(f'{settings.STATIC_URL}favicon.ico')
+
+
+def health(request):
+    return project.health.check().to_json_response()

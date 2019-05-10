@@ -1,4 +1,37 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import i18n from './i18n';
+
+/**
+ * Metadata about signup intents.
+ */
+type SignupIntentOnboardingInfo = {
+  /** The page users land on before starting onboarding. */
+  preOnboarding: string;
+
+  /** The page users are sent to after onboarding. */
+  postOnboarding: string;
+
+  /** The actual onboarding routes. */
+  onboarding: OnboardingRouteInfo;
+};
+
+/**
+ * Ideally this would be a map, but TypeScript doesn't let us
+ * use a union type as an index signature, so I guess we'll have
+ * to make it a function.
+ */
+export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
+  switch (intent) {
+    case OnboardingInfoSignupIntent.LOC: return {
+      preOnboarding: Routes.locale.home,
+      postOnboarding: Routes.locale.loc.latestStep,
+      onboarding: Routes.locale.onboarding
+    };
+
+    case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
+  }
+}
 
 /**
  * Special route key indicating the prefix of a set of routes,
@@ -6,73 +39,151 @@ import { matchPath, RouteComponentProps } from 'react-router-dom';
  */
 export const ROUTE_PREFIX = 'prefix';
 
-/**
- * This namespace parallels our Routes object, providing useful types
- * related to specific routes.
- */
-export namespace RouteTypes {
-  export namespace loc {
-    export namespace issues {
-      export namespace area {
-        export type RouteProps = RouteComponentProps<{ area: string }>;
-      }
-    }
+export type IssuesRouteInfo = {
+  [ROUTE_PREFIX]: string,
+  home: string,
+  area: {
+    parameterizedRoute: string,
+    create: (area: string) => string,
   }
 }
+
+export type PasswordResetRouteInfo = ReturnType<typeof createPasswordResetRouteInfo>;
+
+function createPasswordResetRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    start: `${prefix}/start`,
+    verify: `${prefix}/verify`,
+    confirm: `${prefix}/confirm`,
+    done: `${prefix}/done`
+  };
+}
+
+export type IssuesRouteAreaProps = RouteComponentProps<{ area: string }>;
+
+function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    home: prefix,
+    area: {
+      parameterizedRoute: `${prefix}/:area`,
+      create: (area: string) => `${prefix}/${area}`,
+    }
+  };
+}
+
+export type OnboardingRouteInfo = ReturnType<typeof createOnboardingRouteInfo>;
+
+function createOnboardingRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    step1: `${prefix}/step/1`,
+    step1AddressModal: `${prefix}/step/1/address-modal`,
+    step1ConfirmAddressModal: `${prefix}/step/1/confirm-address-modal`,
+    step2: `${prefix}/step/2`,
+    step2EvictionModal: `${prefix}/step/2/eviction-modal`,
+    step3: `${prefix}/step/3`,
+    step3RentStabilizedModal: `${prefix}/step/3/rent-stabilized-modal`,
+    step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,
+    step3NychaModal: `${prefix}/step/3/nycha-modal`,
+    step3OtherModal: `${prefix}/step/3/other-modal`,
+    step3NoLeaseModal: `${prefix}/step/3/no-lease-modal`,
+    step3LearnMoreModals: {
+      rentStabilized: `${prefix}/step/3/learn-more-rent-stabilized-modal`,
+      marketRate: `${prefix}/step/3/learn-more-market-rate-modal`,
+      noLease: `${prefix}/step/3/learn-more-no-lease-modal`,
+    },
+    step4: `${prefix}/step/4`,
+    step4TermsModal: `${prefix}/step/4/terms-modal`,
+  };
+}
+
+export type LetterOfComplaintInfo = ReturnType<typeof createLetterOfComplaintRouteInfo>;
+
+function createLetterOfComplaintRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    home: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    accessDates: `${prefix}/access-dates`,
+    yourLandlord: `${prefix}/your-landlord`,
+    preview: `${prefix}/preview`,
+    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
+    confirmation: `${prefix}/confirmation`
+  };
+}
+
+export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;
+
+function createHPActionRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    preOnboarding: `${prefix}/splash`,
+    splash: `${prefix}/splash`,
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+    postOnboarding: prefix,
+    welcome: `${prefix}/welcome`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
+    yourLandlord: `${prefix}/your-landlord`,
+    waitForUpload: `${prefix}/wait`,
+    confirmation: `${prefix}/confirmation`,
+  }
+}
+
+export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
+
+function createLocalizedRouteInfo(prefix: string) {
+  return {
+    /** The login page. */
+    login: `${prefix}/login`,
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
+
+    /** The home page. */
+    home: `${prefix}/`,
+
+    /** The password reset flow. */
+    passwordReset: createPasswordResetRouteInfo(`${prefix}/password-reset`),
+
+    /** The onboarding flow. */
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+
+    /** The Letter of Complaint flow. */
+    loc: createLetterOfComplaintRouteInfo(`${prefix}/loc`),
+
+    /** The HP Action flow. */
+    hp: createHPActionRouteInfo(`${prefix}/hp`),
+  }
+}
+
+let currentLocaleRoutes: LocalizedRouteInfo|null = null;
+
+i18n.addChangeListener(() => { currentLocaleRoutes = null; });
 
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const Routes = {
-  /** The login page. */
-  login: '/login',
-
-  /** The logout page. */
-  logout: '/logout',
-
-  /** The home page. */
-  home: '/',
-
-  /** The onboarding flow. */
-  onboarding: {
-    [ROUTE_PREFIX]: '/onboarding',
-    latestStep: '/onboarding',
-    step1: '/onboarding/step/1',
-    step1AddressModal: '/onboarding/step/1/address-modal',
-    step1ConfirmAddressModal: '/onboarding/step/1/confirm-address-modal',
-    step2: '/onboarding/step/2',
-    step2EvictionModal: '/onboarding/step/2/eviction-modal',
-    step3: '/onboarding/step/3',
-    step3RentStabilizedModal: '/onboarding/step/3/rent-stabilized-modal',
-    step3MarketRateModal: '/onboarding/step/3/market-rate-modal',
-    step3NychaModal: '/onboarding/step/3/nycha-modal',
-    step3OtherModal: '/onboarding/step/3/other-modal',
-    step3LearnMoreModals: {
-      rentStabilized: '/onboarding/step/3/learn-more-rent-stabilized-modal',
-      marketRate: '/onboarding/step/3/learn-more-market-rate-modal',
-      noLease: '/onboarding/step/3/learn-more-no-lease-modal',
-    },
-    step4: '/onboarding/step/4',
-    step4TermsModal: '/onboarding/step/4/terms-modal',
+  /** Localized routes for the user's currently-selected locale. */
+  get locale(): LocalizedRouteInfo {
+    if (currentLocaleRoutes === null) {
+      currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
+    }
+    return currentLocaleRoutes;
   },
 
-  /** The Letter of Complaint flow. */
-  loc: {
-    [ROUTE_PREFIX]: '/loc',
-    home: '/loc',
-    issues: {
-      [ROUTE_PREFIX]: '/loc/issues',
-      home: '/loc/issues',
-      area: {
-        parameterizedRoute: '/loc/issues/:area',
-        create: (area: string) => `/loc/issues/${area}`,
-      }
-    },
-    accessDates: '/loc/access-dates',
-    yourLandlord: '/loc/your-landlord',
-    preview: '/loc/preview',
-    confirmation: '/loc/confirmation'
-  },
+  /**
+   * The *admin* login page. We override Django's default admin login
+   * here, so we need to make sure this URL matches the URL that Django
+   * redirects users to.
+   */
+  adminLogin: '/admin/login/',
 
   /**
    * Example pages used in integration tests, and other
@@ -80,15 +191,19 @@ const Routes = {
    */
   dev: {
     [ROUTE_PREFIX]: '/dev',
-    home: '/dev',
+    home: '/dev/',
     examples: {
       [ROUTE_PREFIX]: '/dev/examples',
       redirect: '/dev/examples/redirect',
       modal: '/dev/examples/modal',
       loadingPage: '/dev/examples/loading-page',
       form: '/dev/examples/form',
+      formInModal: '/dev/examples/form/in-modal',
+      radio: '/dev/examples/radio',
       loadable: '/dev/examples/loadable-page',
       clientSideError: '/dev/examples/client-side-error',
+      metaTag: '/dev/examples/meta-tag',
+      query: '/dev/examples/query'
     }
   }
 };
@@ -120,9 +235,16 @@ export function isParameterizedRoute(path: string): boolean {
 export class RouteMap {
   private existenceMap: Map<string, boolean> = new Map();
   private parameterizedRoutes: string[] = [];
+  private isInitialized = false;
 
-  constructor(routes: any) {
-    this.populate(routes);
+  constructor(private readonly routes: any) {
+  }
+
+  private ensureIsInitialized() {
+    if (!this.isInitialized) {
+      this.populate(this.routes);
+      this.isInitialized = true;
+    }
   }
 
   private populate(routes: any) {
@@ -141,6 +263,7 @@ export class RouteMap {
   }
 
   get size(): number {
+    this.ensureIsInitialized();
     return this.existenceMap.size + this.parameterizedRoutes.length;
   }
 
@@ -148,6 +271,7 @@ export class RouteMap {
    * Return an iterator that yields all routes that don't have parameters.
    */
   nonParameterizedRoutes(): IterableIterator<string> {
+    this.ensureIsInitialized();
     return this.existenceMap.keys();
   }
 
@@ -162,6 +286,7 @@ export class RouteMap {
    * further down the view heirarchy to resolve.
    */
   exists(pathname: string): boolean {
+    this.ensureIsInitialized();
     if (this.existenceMap.has(pathname)) {
       return true;
     }

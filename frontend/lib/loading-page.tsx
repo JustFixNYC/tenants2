@@ -1,10 +1,10 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 import Page from './page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { smoothlyScrollToTopOfPage } from './scrolling';
+import { MinimalLoadingComponentProps } from './loading-component-props';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -63,7 +63,7 @@ export const LoadingPageContext = React.createContext<LoadingPageContextType>(Nu
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage(props: Loadable.LoadingComponentProps): JSX.Element {
+export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
   if (props.error) {
     return (<Page title="Network error">
       <p>Unfortunately, a network error occurred.</p>
@@ -165,7 +165,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
       if (div && this.state.latestSnapshot) {
         div.innerHTML = '';
         div.appendChild(this.state.latestSnapshot.div);
-        window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'instant' });
+        window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'auto' });
       }
     } else if (prevState.showOverlay === true && this.state.showOverlay === false) {
       // We just stopped showing the overlay, so make sure the top of the page
@@ -245,7 +245,6 @@ export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
         window.setTimeout(() => resolve(promise), ms);
       }
     };
-    promise.catch(finallyCb);
-    promise.then(finallyCb);
+    promise.then(finallyCb).catch(finallyCb);
   });
 }

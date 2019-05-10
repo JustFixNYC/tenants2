@@ -4,6 +4,9 @@ justfix_environment.IS_RUNNING_TESTS = True
 
 from .settings import *  # noqa
 
+# Disable 2FA by default.
+TWOFACTOR_VERIFY_DURATION = 0
+
 # Disable legacy auth by default, tests will need
 # to override settings if they want to enable it.
 LEGACY_MONGODB_URL = ''
@@ -13,24 +16,47 @@ TWILIO_ACCOUNT_SID = ''
 TWILIO_AUTH_TOKEN = ''
 TWILIO_PHONE_NUMBER = ''
 
-# We don't want any actual network requests to go out
-# while we're testing, so just point these at a
-# nonexistent localhost port.
-GEOCODING_SEARCH_URL = "http://127.0.0.1:9999/v1/search"
-GEOCODING_TIMEOUT = 0.001
-LANDLORD_LOOKUP_URL = "http://127.0.0.1:9999/api/landlord"
-LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
-
 # Disable a bunch of third-party integrations by default.
+GEOCODING_SEARCH_URL = ""
+AIRTABLE_API_KEY = ''
+SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
+FACEBOOK_PIXEL_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
+MAPBOX_ACCESS_TOKEN = ''
+NYCDB_DATABASE = None
 ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }
+HP_ACTION_CUSTOMER_KEY = ''
+RAPIDPRO_API_TOKEN = ''
+LOB_SECRET_API_KEY = ''
+LOB_PUBLISHABLE_API_KEY = ''
+
+DEBUG_DATA_DIR = ''
+
+DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
+
+# Use defaults for static file storage.
+STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+STATIC_URL = '/static/'
 
 # Use very fast but horribly insecure password hashing
 # to make tests run faster.
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
+
+# Access to the nycdb is read-only anyways, so we won't be able to create a
+# test database on it.
+if 'nycdb' in DATABASES:  # noqa
+    del DATABASES['nycdb']  # noqa
+
+
+class NotActuallyFileStorage:
+    def __init__(self):
+        raise Exception(
+            'Please use the django_file_storage pytest fixture if '
+            'you need to use Django file storage'
+        )

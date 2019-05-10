@@ -41,9 +41,6 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
     return (
       <>
         {this.state.mount ? <LoadingPage
-          isLoading={true}
-          pastDelay={false}
-          timedOut={false}
           error={this.state.error}
           retry={() => {
             this.setState({ mount: true, error: false });

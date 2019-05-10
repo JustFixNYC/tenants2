@@ -3,6 +3,7 @@ import atexit
 import logging
 import subprocess
 import json
+import glob
 from dataclasses import dataclass
 from typing import List, Any, BinaryIO, Optional
 from threading import RLock
@@ -82,7 +83,7 @@ class LambdaPool:
             stderr=subprocess.PIPE,
             cwd=self.cwd
         )
-        logger.info(f"Created {self.name} lambda process with pid {child.pid}.")
+        logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
     def __get_process(self) -> subprocess.Popen:
@@ -92,10 +93,10 @@ class LambdaPool:
 
         with self.__lock:
             if self.restart_on_script_change:
-                mtime = self.script_path.stat().st_mtime
+                mtime = get_latest_mtime_for_bundle(self.script_path)
                 if mtime != self.__script_path_mtime:
                     self.__script_path_mtime = mtime
-                    logger.info(
+                    logger.debug(
                         f"Change detected in {self.script_path.name}, "
                         f"restarting {self.name} lambda processs."
                     )
@@ -122,7 +123,7 @@ class LambdaPool:
             while self.__processes:
                 child = self.__processes.pop()
                 child.kill()
-                logger.info(f"Destroyed {self.name} lambda process with pid {child.pid}.")
+                logger.debug(f"Destroyed {self.name} lambda process with pid {child.pid}.")
 
             # We know we're empty at this point, so we don't need to clean up
             # anything later.
@@ -158,7 +159,7 @@ class LambdaPool:
             )
         except subprocess.TimeoutExpired as e:
             child.kill()
-            logger.warn(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
+            logger.warning(f"Killed runaway {self.name} lambda process with pid {child.pid}.")
             raise e
 
         if stderr_file:
@@ -166,7 +167,7 @@ class LambdaPool:
             stderr_file.flush()
 
         if child.returncode != 0:
-            logger.warn(f'{self.name} lambda process crashed.')
+            logger.warning(f'{self.name} lambda process crashed.')
             raise subprocess.CalledProcessError(
                 child.returncode,
                 child.args,
@@ -177,13 +178,27 @@ class LambdaPool:
         try:
             return json.loads(stdout.decode('utf-8'))
         except Exception as e:
-            logger.warn(f'{self.name} lambda process returned a malformed response.')
+            logger.warning(f'{self.name} lambda process returned a malformed response.')
             raise MalformedResponseError(
                 e,
                 self.name,
                 output=stdout,
                 stderr=stderr
             )
+
+
+def get_latest_mtime_for_bundle(path: Path) -> float:
+    '''
+    Get the most recent modified time for the given source
+    bundle and any of its loadable sub-bundles. It is assumed
+    the sub-bundles all end with the name of the original source
+    bundle, e.g. if the source bundle is called "foo.js",
+    a source bundle would be "bar.foo.js".
+    '''
+
+    filenames = [str(path)] + glob.glob(str(path.with_name(f"*.{path.name}")))
+    latest_mtime = max(Path(filename).stat().st_mtime for filename in filenames)
+    return latest_mtime
 
 
 class MalformedResponseError(Exception):

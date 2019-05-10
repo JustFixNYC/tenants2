@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Dict, Any
 from django.contrib.auth import login
 from django.conf import settings
@@ -5,9 +6,11 @@ from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
 from graphene_django.forms.mutation import fields_for_form
+from graphene_django.types import DjangoObjectType
+from django.db import transaction
 
-from project.util.django_graphql_forms import StrictFormFieldErrorType
 from project.util.session_mutation import SessionFormMutation
+from project import slack
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -15,6 +18,9 @@ from onboarding.models import OnboardingInfo
 
 # The onboarding steps we store in the request session.
 SESSION_STEPS = [1, 2, 3]
+
+
+logger = logging.getLogger(__name__)
 
 
 def session_key_for_step(step: int) -> str:
@@ -124,34 +130,37 @@ class OnboardingStep4(SessionFormMutation):
         return result
 
     @classmethod
-    def _make_error(cls, message: str):
-        err = StrictFormFieldErrorType(field='__all__', messages=[message])
-        return cls(errors=[err])
-
-    @classmethod
     def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
         password = form.cleaned_data['password'] or None
         prev_steps = cls.__extract_all_step_session_data(request)
         if prev_steps is None:
-            return cls._make_error("You haven't completed all the previous steps yet.")
-        user = JustfixUser.objects.create_user(
-            username=phone_number,
-            first_name=prev_steps['first_name'],
-            last_name=prev_steps['last_name'],
-            phone_number=phone_number,
-            password=password,
-        )
+            cls.log(info, "User has not completed previous steps, aborting mutation.")
+            return cls.make_error("You haven't completed all the previous steps yet.")
+        with transaction.atomic():
+            user = JustfixUser.objects.create_user(
+                username=JustfixUser.objects.generate_random_username(),
+                first_name=prev_steps['first_name'],
+                last_name=prev_steps['last_name'],
+                phone_number=phone_number,
+                password=password,
+            )
 
-        oi = OnboardingInfo(user=user, **pick_model_fields(
-            OnboardingInfo, **prev_steps, **form.cleaned_data))
-        oi.full_clean()
-        oi.save()
+            oi = OnboardingInfo(user=user, **pick_model_fields(
+                OnboardingInfo, **prev_steps, **form.cleaned_data))
+            oi.full_clean()
+            oi.save()
 
         user.send_sms(
-            f"Welcome to JustFix, {user.first_name}!",
+            f"Welcome to JustFix.nyc, {user.first_name}! "
+            f"We'll be sending you notifications from this phone number.",
             fail_silently=True
+        )
+        slack.sendmsg(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"from {slack.escape(oi.borough_label)} has signed up!",
+            is_safe=True
         )
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -170,6 +179,12 @@ class OnboardingMutations:
     onboarding_step_4 = OnboardingStep4.Field(required=True)
 
 
+class OnboardingInfoType(DjangoObjectType):
+    class Meta:
+        model = OnboardingInfo
+        only_fields = ('signup_intent',)
+
+
 class OnboardingSessionInfo(object):
     '''
     A mixin class defining all onboarding-related queries.
@@ -178,11 +193,33 @@ class OnboardingSessionInfo(object):
     onboarding_step_1 = graphene.Field(OnboardingStep1Info)
     onboarding_step_2 = graphene.Field(OnboardingStep2Info)
     onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+    onboarding_info = graphene.Field(
+        OnboardingInfoType,
+        description=(
+            "The user's onboarding details, which they filled out "
+            "during the onboarding process. This is not to be confused with "
+            "the individual onboarding steps, which capture information "
+            "someone filled out *during* onboarding, before they became "
+            "a full-fledged user."
+        )
+    )
 
     def __get(self, info: ResolveInfo, key: str, field_class):
         request = info.context
         obinfo = request.session.get(key)
-        return field_class(**obinfo) if obinfo else None
+        if obinfo:
+            try:
+                return field_class(**obinfo)
+            except TypeError:
+                # This can happen when we change the "schema" of an onboarding
+                # step while a user's session contains data in the old schema.
+                #
+                # This should technically never happen if we remember to keep
+                # forms.FIELD_SCHEMA_VERSION updated, but it's possible we
+                # might forget to do that.
+                logger.exception(f'Error deserializing {key} from session')
+                request.session.pop(key)
+        return None
 
     def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
         return self.__get(info, session_key_for_step(1), OnboardingStep1Info)
@@ -192,3 +229,9 @@ class OnboardingSessionInfo(object):
 
     def resolve_onboarding_step_3(self, info: ResolveInfo) -> Optional[OnboardingStep3Info]:
         return self.__get(info, session_key_for_step(3), OnboardingStep3Info)
+
+    def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
+        user = info.context.user
+        if hasattr(user, 'onboarding_info'):
+            return user.onboarding_info
+        return None

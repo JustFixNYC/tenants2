@@ -3,7 +3,6 @@ import { OnboardingStep2Input } from "../queries/globalTypes";
 import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
-import Routes from '../routes';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton, BackButton } from "../buttons";
@@ -13,6 +12,7 @@ import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';
 import { Link } from 'react-router-dom';
 import { glueToLastWord } from '../word-glue';
+import { OnboardingRouteInfo } from '../routes';
 
 
 const blankInitialState: OnboardingStep2Input = {
@@ -41,19 +41,25 @@ export function Step2EvictionModal(): JSX.Element {
   );
 }
 
-export default class OnboardingStep2 extends React.Component {
+type OnboardingStep2Props = {
+  routes: OnboardingRouteInfo;
+};
+
+export default class OnboardingStep2 extends React.Component<OnboardingStep2Props> {
   @autobind
   renderForm(ctx: FormContext<OnboardingStep2Input>): JSX.Element {
+    const { routes } = this.props;
+
     return (
       <React.Fragment>
         <AlertableCheckbox modal={Step2EvictionModal}
-                           modalPath={Routes.onboarding.step2EvictionModal}
+                           modalPath={routes.step2EvictionModal}
                            {...ctx.fieldPropsFor('isInEviction')}>
           {glueToLastWord(
-            'I received an eviction notice.', 
+            'I received an eviction notice.',
             <IconLink
               type="warning"
-              to={Routes.onboarding.step2EvictionModal}
+              to={routes.step2EvictionModal}
               title="If you are in an eviction, you need legal help."
             />
           )}
@@ -78,7 +84,7 @@ export default class OnboardingStep2 extends React.Component {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.onboarding.step1} label="Back" />
+        <BackButton to={this.props.routes.step1} label="Back" />
         <NextButton isLoading={isLoading} />
       </div>
     );
@@ -87,14 +93,15 @@ export default class OnboardingStep2 extends React.Component {
   render() {
     return (
       <Page title="What type of housing issues are you experiencing?">
-        <h1 className="title">What are you experiencing?</h1>
-        <p>Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
-        <br/>
-        <SessionUpdatingFormSubmitter
-          mutation={OnboardingStep2Mutation}
-          initialState={(session) => session.onboardingStep2 || blankInitialState}
-          onSuccessRedirect={Routes.onboarding.step3}
-        >{this.renderForm}</SessionUpdatingFormSubmitter>
+        <div>
+          <h1 className="title is-4 is-spaced">What issues are you experiencing?</h1>
+          <p className="subtitle is-6">Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
+          <SessionUpdatingFormSubmitter
+            mutation={OnboardingStep2Mutation}
+            initialState={(session) => session.onboardingStep2 || blankInitialState}
+            onSuccessRedirect={this.props.routes.step3}
+          >{this.renderForm}</SessionUpdatingFormSubmitter>
+        </div>
       </Page>
     );
   }

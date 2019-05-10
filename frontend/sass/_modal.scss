@@ -8,21 +8,37 @@
     height: 100%;
     z-index: 1050;
     overflow: hidden auto;
-    text-align: center;
     background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
-}
 
-// This is quite similar to Bulma's .modal styling.
-.jf-modal-dialog {
     display: flex;
     align-items: center;
-    flex-direction: column;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    height: 100%;
+
+    // This ideally shouldn't matter, since elements with this class only
+    // contain one child, but IE11 is bizarre and apparently requires it
+    // for our justify-content rule to have any effect:
+    // https://stackoverflow.com/a/29270539
+    flex-direction: column;
+}
+
+.jf-modal-dialog {
     cursor: default;
+}
+
+.modal-content {
+    // This appears to be the only way to size our modal on mobile
+    // devices in a way that works on *both* IE11 and modern browsers.
+    width: calc(100vw - 40px);
+}
+
+// This is just a recapitulation of Bulma's default styling, which
+// we apparently need to repeat because otherwise the above
+// .modal-content rule will override it.
+@media screen and (min-width: $tablet) {
+    .modal-content {
+        width: 640px;
+    }
 }
 
 .jf-modal-animate {

@@ -180,8 +180,21 @@ def wait_for_db(max_attempts=15, seconds_between_attempts=1):
     the manage.py command.
     '''
 
-    from django.db import DEFAULT_DB_ALIAS, connections
+    from copy import deepcopy
+    from django.conf import settings
+    from django.db import DEFAULT_DB_ALIAS, ConnectionHandler
     from django.db.utils import OperationalError
+
+    # If we're using a PostGIS backend, we actually want to make a copy
+    # of its config and change it to be a Postgres backend; otherwise
+    # accessing the connection object will actually raise an
+    # error because django.setup() hasn't yet been called, and we don't
+    # want to call that because it messes with `manage.py runserver`. Oy!
+
+    default_db_copy = deepcopy(settings.DATABASES[DEFAULT_DB_ALIAS])
+    if default_db_copy['ENGINE'] == 'django.contrib.gis.db.backends.postgis':
+        default_db_copy['ENGINE'] = 'django.db.backends.postgresql'
+    connections = ConnectionHandler({DEFAULT_DB_ALIAS: default_db_copy})
 
     connection = connections[DEFAULT_DB_ALIAS]
     attempts = 0
@@ -196,6 +209,8 @@ def wait_for_db(max_attempts=15, seconds_between_attempts=1):
             attempts += 1
             time.sleep(seconds_between_attempts)
             info("Attempting to connect to database.")
+
+    connections.close_all()
 
     info("Connection to database established.")
 

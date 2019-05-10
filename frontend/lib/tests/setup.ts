@@ -5,8 +5,11 @@ import { defaultContext } from '../app-context';
 import { FakeAppContext } from './util';
 import chalk from 'chalk';
 import './confetti.setup';
+import i18n from '../i18n';
 
 configure({ adapter: new Adapter() });
+
+i18n.initialize('');
 
 Object.keys(FakeAppContext).forEach(prop => {
   Object.defineProperty(defaultContext, prop, {
@@ -37,8 +40,8 @@ const originalLog = console.log;
  * Combined with the general sluggishness of Jest on Windows, I'm
  * very much regretting not using Mocha at this point.
  */
-console.log = function() {
-  originalLog.apply(this, arguments);
+console.log = function(message?: any, ...optionalParams: any[]) {
+  originalLog.apply(this, [message, ...optionalParams]);
   originalLog.call(this, chalk.green('\n ^^^ SOMETHING GOT LOGGED! ^^^\n'));
 };
 

@@ -10,7 +10,7 @@ describe('letter of complaint confirmation', () => {
 
   const createPal = (mailChoice: LetterRequestMailChoice) =>
     new AppTesterPal(<LetterOfComplaintRoutes/>, {
-      url: Routes.loc.confirmation,
+      url: Routes.locale.loc.confirmation,
       session: {
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",
@@ -22,12 +22,12 @@ describe('letter of complaint confirmation', () => {
   it('mentions date of reception when we will mail', async () => {
     const pal = createPal(LetterRequestMailChoice.WE_WILL_MAIL);
 
-    pal.rr.getByText(/We've received your request .* Thursday, September 13, 2018/i);
+    pal.rr.getByText(/Thursday, September 13, 2018/i);
   });
 
   it('tells user to print it out and mail it', async () => {
     const pal = createPal(LetterRequestMailChoice.USER_WILL_MAIL);
 
-    pal.rr.getByText(/print it out and mail it/i);
+    pal.rr.getByText(/print out/i);
   });
 });

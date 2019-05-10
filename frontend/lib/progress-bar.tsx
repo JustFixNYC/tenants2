@@ -1,6 +1,15 @@
 import React from 'react';
 import autobind from "autobind-decorator";
-import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
+import { RouteComponentProps, withRouter, Route, RouteProps, Switch } from 'react-router';
+import { CSSTransition } from 'react-transition-group';
+import { TransitionContextGroup } from './transition-context';
+import classnames from 'classnames';
+
+/**
+ * This value must be mirrored in our SCSS by a similarly-named constant,
+ * $jf-progress-transition-ms.
+ */
+export const JF_PROGRESS_TRANSITION_MS = 1000;
 
 interface ProgressBarState {
   pct: number;
@@ -9,6 +18,10 @@ interface ProgressBarState {
 export interface ProgressBarProps {
   pct: number;
   children?: any;
+}
+
+function isInternetExplorer(): boolean {
+  return /trident/i.test(navigator.userAgent);
 }
 
 /** An animated progress bar component. */
@@ -53,22 +66,128 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
 
   render() {
     return (
-      <progress className="progress is-primary" value={this.state.pct} max="100">
-        {this.props.children || `${this.state.pct}%`}
-      </progress>
+      <div className="jf-progress-title-wrapper">
+        {this.props.children}
+        <progress className="progress is-primary" value={this.state.pct} max="100">
+        </progress>
+      </div>
     );
   }
 }
 
-export interface ProgressStepRoute {
-  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+type BaseProgressStepRoute = {
   exact?: boolean;
   path: string;
-}
+};
+
+type ComponentProgressStepRoute = BaseProgressStepRoute & {
+  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+};
+
+type RenderProgressStepRoute = BaseProgressStepRoute & {
+  render: () => JSX.Element;
+};
+
+export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
 
 interface RouteProgressBarProps extends RouteComponentProps<any> {
   steps: ProgressStepRoute[];
   label: string;
+
+  /** If true, hide the actual progress bar but still render the routes. */
+  hideBar?: boolean;
+}
+
+interface RouteProgressBarState {
+  currStep: number;
+  prevStep: number;
+  isTransitionEnabled: boolean;
+}
+
+export function getStepForPathname(pathname: string, steps: ProgressStepRoute[]) {
+  let currStep = 0;
+
+  steps.map((step, i) => {
+    if (pathname.indexOf(step.path) === 0) {
+      currStep = i + 1;
+    }
+  });
+
+  if (currStep === 0 && process.env.NODE_ENV !== 'production') {
+    console.warn(`Path ${pathname} is not a valid step!`);
+  }
+
+  return currStep;
+}
+
+class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {
+  constructor(props: RouteProgressBarProps) {
+    super(props);
+    this.state = {
+      currStep: this.getStep(props.location.pathname),
+      prevStep: 0,
+      isTransitionEnabled: true
+    };
+  }
+
+  private getStep(pathname: string): number {
+    return getStepForPathname(pathname, this.props.steps);
+  }
+
+  componentDidMount() {
+    // For some bizarre reason our CSS transition doesn't work on IE11 (the exit transition
+    // triggers, but the enter transition doesn't) so we'll just disable it entirely if we're
+    // on that browser.
+    if (isInternetExplorer()) {
+      this.setState({ isTransitionEnabled: false });
+    }
+  }
+
+  componentDidUpdate(prevProps: RouteProgressBarProps, prevState: RouteProgressBarState) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      const currStep = this.getStep(this.props.location.pathname);
+      if (this.state.currStep !== currStep) {
+        const prevStep = this.getStep(prevProps.location.pathname);
+        this.setState({ currStep, prevStep });
+      }
+    }
+  }
+
+  render() {
+    const { props } = this;
+    const { location } = props;
+    const { isTransitionEnabled } = this.state;
+    let numSteps = props.steps.length;
+    let currStep = this.getStep(location.pathname);
+    const pct = Math.floor((currStep / numSteps) * 100);
+    let prevStep = this.state.prevStep;
+
+    if (currStep !== this.state.currStep) {
+      // We're in the phase while we're rendering but before componentDidUpdate() has been called,
+      // or at least before its setState() calls have taken effect.
+      prevStep = this.state.currStep;
+    }
+
+    let directionClass = currStep >= prevStep ? 'jf-progress-forward' : 'jf-progress-backward';
+
+    return (
+      <React.Fragment>
+        {!this.props.hideBar && <ProgressBar pct={pct}>
+          <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">{props.label}: Step {currStep} of {numSteps}</h6>
+         </ProgressBar>}
+        <TransitionContextGroup className={classnames('jf-progress-step-wrapper', directionClass, {
+          'jf-progress-animation-is-disabled': !isTransitionEnabled
+        })}>
+          <CSSTransition key={currStep} classNames="jf-progress-step"
+           timeout={JF_PROGRESS_TRANSITION_MS} enter={isTransitionEnabled} exit={isTransitionEnabled}>
+            <Switch location={location}>
+              {props.steps.map(step => <Route<RouteProps> key={step.path} {...step} />)}
+            </Switch>
+          </CSSTransition>
+        </TransitionContextGroup>
+      </React.Fragment>
+    );
+  }
 }
 
 /**
@@ -76,27 +195,4 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
  * represents a series of steps the user is working through,
  * where each step is a route.
  */
-export const RouteProgressBar = withRouter((props: RouteProgressBarProps): JSX.Element => {
-  const { pathname } = props.location;
-  let numSteps = props.steps.length;
-  let currStep = 0;
-
-  props.steps.map((step, i) => {
-    if (pathname.indexOf(step.path) === 0) {
-      currStep = i + 1;
-    }
-  });
-
-  const pct = Math.floor((currStep / numSteps) * 100);
-
-  return (
-    <React.Fragment>
-      <ProgressBar pct={pct}>
-        {props.label} step {currStep} of {numSteps}
-      </ProgressBar>
-      <Switch>
-        {props.steps.map(step => <Route key={step.path} {...step} />)}
-      </Switch>
-    </React.Fragment>
-  );
-});
+export const RouteProgressBar = withRouter(RouteProgressBarWithoutRouter);

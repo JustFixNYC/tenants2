@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import logging
 from typing import Optional
 from django.utils.crypto import pbkdf2
 from django.conf import settings
@@ -7,6 +8,9 @@ from django.conf import settings
 from . import mongo
 from users.models import JustfixUser
 from .models import LegacyUserInfo
+
+
+logger = logging.getLogger(__name__)
 
 
 def convert_salt_to_bytes(salt: str) -> bytes:
@@ -68,8 +72,8 @@ class LegacyTenantsAppBackend:
     legacy tenants app.
     '''
 
-    def authenticate(self, request, phone_number: Optional[str]=None,
-                     password: Optional[str]=None):
+    def authenticate(self, request, phone_number: Optional[str] = None,
+                     password: Optional[str] = None):
         if settings.LEGACY_MONGODB_URL and phone_number and password:
             mongo_user = mongo.get_user_by_phone_number(phone_number)
             if mongo_user and try_password(mongo_user.identity, password):
@@ -77,7 +81,7 @@ class LegacyTenantsAppBackend:
                     user = JustfixUser.objects.get(phone_number=phone_number)
                 except JustfixUser.DoesNotExist:
                     user = JustfixUser(
-                        username=f"legacy_{phone_number}",
+                        username=JustfixUser.objects.generate_random_username('legacy_'),
                         phone_number=phone_number
                     )
                     user.save()

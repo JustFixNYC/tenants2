@@ -13,4 +13,22 @@ if __name__ == '__main__':
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+
+    from django.conf import settings
+
+    # We often run management commands in production and want their
+    # errors reported via Rollbar.
+    if settings.ROLLBAR:
+        import rollbar
+
+        rollbar.init(**settings.ROLLBAR)
+        try:
+            execute_from_command_line(sys.argv)
+            rollbar.wait()
+        except Exception:
+            sys.stderr.write("An exception occurred, reporting it to Rollbar...\n")
+            rollbar.report_exc_info()
+            rollbar.wait()
+            raise
+    else:
+        execute_from_command_line(sys.argv)

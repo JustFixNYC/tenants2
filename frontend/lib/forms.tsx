@@ -12,9 +12,14 @@ import { getAppStaticContext } from './app-static-context';
 import { History } from 'history';
 import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
+import { ga } from './google-analytics';
+import { BaseFormsetProps } from './formset';
 
+type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
 type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+
+export type FormContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
 
 interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
   onSubmit: (input: FormInput) => Promise<FormOutput>;
@@ -22,10 +27,11 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
   performRedirect?: (redirect: string, history: History) => void;
   confirmNavIfChanged?: boolean;
+  formId?: string;
   idPrefix?: string;
   initialState: FormInput;
   initialErrors?: FormErrors<FormInput>;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
@@ -35,6 +41,10 @@ type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFi
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
+  lastSuccessRedirect?: {
+    from: string,
+    to: string
+  }
 }
 
 /**
@@ -146,21 +156,57 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         });
       } else {
         this.setState({
-          isLoading: false,
           wasSubmittedSuccessfully: true
         });
-        const redirect = getSuccessRedirect(this.props, input, output);
-        if (redirect) {
-          const performRedirect = this.props.performRedirect || defaultPerformRedirect;
-          performRedirect(redirect, this.props.history);
-        }
         if (this.props.onSuccess) {
           this.props.onSuccess(output);
         }
+        const redirect = getSuccessRedirect(this.props, input, output);
+        if (redirect) {
+          const performRedirect = this.props.performRedirect || defaultPerformRedirect;
+          this.setState({
+            lastSuccessRedirect: {
+              from: this.props.location.pathname,
+              to: redirect
+            }
+          });
+          performRedirect(redirect, this.props.history);
+        } else {
+          // Note that we only set isLoading back to false if we *don't* redirect.
+          // This is so that our user doesn't accidentally see
+          // the page appearing to no longer be in a loading state, while still
+          // having not moved on to the next page. It is especially useful in the
+          // case of e.g. transition animations.
+          this.setState({ isLoading: false });
+        }
+        ga('send', 'event', 'form-success',
+           this.props.formId || 'default', redirect || undefined);
       }
     }).catch(e => {
       this.setState({ isLoading: false });
     });
+  }
+
+  componentDidUpdate(
+    prevProps: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+  ) {
+    const { lastSuccessRedirect } = this.state;
+    if (lastSuccessRedirect &&
+        prevProps.location.pathname === lastSuccessRedirect.to &&
+        this.props.location.pathname === lastSuccessRedirect.from) {
+      // We were just sent back from the place we successfully
+      // redirected to earlier (likely a modal, since we apparently
+      // weren't unmounted) back to the original page our form was
+      // on. This is possibly because the user was shown some kind
+      // of confirmation modal and decided to come back to the form
+      // to make some changes; let's make sure they can actually
+      // edit the form.
+      this.setState({
+        lastSuccessRedirect: undefined,
+        isLoading: false,
+        wasSubmittedSuccessfully: false
+      });
+    }
   }
 
   get shouldBlockHistory(): boolean {
@@ -190,8 +236,10 @@ interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
   session: Partial<AllSessionInfo>|null;
 }
 
-type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'onSuccess'|'initialState'> & {
-  initialState: ((session: AllSessionInfo) => FormInput)|FormInput;
+type stateFromSessionFn<FormInput> = ((session: AllSessionInfo) => FormInput);
+
+type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'initialState'> & {
+  initialState: stateFromSessionFn<FormInput>|FormInput;
 };
 
 /**
@@ -205,12 +253,27 @@ export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionU
       <AppContext.Consumer>
         {(appCtx) => {
           let initialState = (typeof(this.props.initialState) === 'function')
-            ? this.props.initialState(appCtx.session)
+            // TypeScript 3.1 introduced an extremely confusing breaking change with
+            // opaque intentions [1] that broke our type narrowing, and after about an
+            // hour of trying I'm giving up and forcing a typecast. This might be easier
+            // if Typescript actually had a JSON type [2], since that's essentially what
+            // FormInput is, but otherwise I have no idea how to narrow FormInput in
+            // such a way that our conditional would result in a type narrowing instead
+            // of TypeScript 3.1's bizarre new behavior.
+            //
+            // [1] https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#narrowing-functions-now-intersects--object-and-unconstrained-generic-type-parameters
+            // [2] https://github.com/Microsoft/TypeScript/issues/1897
+            ? (this.props.initialState as stateFromSessionFn<FormInput>)(appCtx.session)
             : this.props.initialState;
           return <LegacyFormSubmitter
             {...this.props}
             initialState={initialState}
-            onSuccess={(output) => { appCtx.updateSession(assertNotNull(output.session)); }}
+            onSuccess={(output) => {
+              appCtx.updateSession(assertNotNull(output.session));
+              if (this.props.onSuccess) {
+                this.props.onSuccess(output);
+              }
+            }}
           />;
         }}
       </AppContext.Consumer>
@@ -230,15 +293,17 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
         {(appCtx) => {
           return (
             <Route render={(ctx) => {
-              const { mutation, ...otherProps } = this.props;
+              const { mutation, formId, ...otherProps } = this.props;
               const isOurs = (sub: AppLegacyFormSubmission) =>
-                sub.POST['graphql'] === mutation.graphQL;
+                sub.POST['graphql'] === mutation.graphQL &&
+                sub.POST['legacyFormId'] === formId;
               const props: FormSubmitterProps<FormInput, FormOutput> = {
                 ...otherProps,
                 onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
                 extraFields: (
                   <React.Fragment>
                     <input type="hidden" name="graphql" value={mutation.graphQL} />
+                    {formId && <input type="hidden" name="legacyFormId" value={formId}/>}
                     {otherProps.extraFields}
                   </React.Fragment>
                 )
@@ -273,14 +338,84 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   onChange?: (input: FormInput) => void;
   idPrefix: string;
   initialState: FormInput;
-  children: (context: FormContext<FormInput>) => JSX.Element;
+  children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-export interface FormContext<FormInput> extends FormProps<FormInput> {
-  submit: () => void,
-  fieldPropsFor: <K extends (keyof FormInput) & string>(field: K) => BaseFormFieldProps<FormInput[K]>;
+type FieldSetter<FormInput> = {
+  <K extends keyof FormInput>(field: K, value: FormInput[K]): void;
+};
+
+export interface BaseFormContextOptions<FormInput> {
+  idPrefix: string;
+  isLoading: boolean;
+  errors: FormErrors<FormInput>|undefined;
+  currentState: FormInput;
+  setField: FieldSetter<FormInput>;
+  namePrefix: string;
+}
+
+export class BaseFormContext<FormInput> {
+  readonly isLoading: boolean;
+
+  constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
+    this.isLoading = options.isLoading;
+  }
+
+  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]> {
+    const o = this.options;
+    const name = `${o.namePrefix}${field}`;
+    const ctx: BaseFormFieldProps<FormInput[K]> = {
+      onChange(value) {
+        o.setField(field, value)
+      },
+      errors: o.errors && o.errors.fieldErrors[field],
+      value: o.currentState[field],
+      name,
+      id: `${o.idPrefix}${name}`,
+      isDisabled: o.isLoading
+    };
+
+    return ctx;
+  }
+}
+
+export class FormContext<FormInput> extends BaseFormContext<FormInput> {
+  constructor(
+    options: BaseFormContextOptions<FormInput>,
+    readonly submit: () => void
+  ) {
+    super(options);
+  }
+
+  private getFormsetItems<K extends keyof FormInput>(formset: K): UnwrappedArray<FormInput[K]>[] {
+    const items = this.options.currentState[formset];
+    if (!Array.isArray(items)) {
+      throw new Error(`invalid formset '${formset}'`);
+    }
+    return items;
+  }
+
+  formsetPropsFor<K extends (keyof FormInput) & string>(formset: K): BaseFormsetProps<UnwrappedArray<FormInput[K]>> {
+    // Urg, due to weirdnesses with our UnwrappedArray type, we need
+    // to typecast here.
+
+    const o = this.options;
+    const errors: FormErrors<any>[]|undefined =
+      o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
+
+    return {
+      items: this.getFormsetItems(formset),
+      errors,
+      onChange(value) {
+        o.setField(formset, value as unknown as FormInput[K]);
+      },
+      idPrefix: o.idPrefix,
+      isLoading: o.isLoading,
+      name: formset
+    };
+  }
 }
 
 /** This class encapsulates view logic for forms. */
@@ -313,22 +448,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     }
   }
 
-  @autobind
-  fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]>  {
-    return {
-      onChange: (value) => {
-        // I'm not sure why Typescript dislikes this, but it seems
-        // like the only way to get around it is to cast to "any". :(
-        this.setState({ [field]: value } as any);
-      },
-      errors: this.props.errors && this.props.errors.fieldErrors[field],
-      value: this.state[field],
-      name: field,
-      id: `${this.props.idPrefix}${field}`,
-      isDisabled: this.props.isLoading
-    };
-  }
-
   render() {
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
@@ -336,11 +455,18 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children({
-          ...this.props,
-          submit: this.submit,
-          fieldPropsFor: this.fieldPropsFor
-        })}
+        {this.props.children(new FormContext({
+          idPrefix: this.props.idPrefix,
+          isLoading: this.props.isLoading,
+          errors: this.props.errors,
+          namePrefix: '',
+          currentState: this.state,
+          setField: (field, value) => {
+            // I'm not sure why Typescript dislikes this, but it seems
+            // like the only way to get around it is to cast to "any". :(
+            this.setState({ [field]: value } as any);
+          }
+        }, this.submit))}
       </form>
     );
   }

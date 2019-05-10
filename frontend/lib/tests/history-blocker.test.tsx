@@ -81,7 +81,7 @@ describe("HistoryBlockerManagerWithoutRouter", () => {
     const mgr = makeManager();
     mgr.block(() => false);
     const event = { preventDefault: jest.fn(), returnValue: 'not set' };
-    expect(mgr.handleBeforeUnload(event as any)).toBeNull();
+    expect(mgr.handleBeforeUnload(event as any)).toBeUndefined();
     expect(event.returnValue).toBe('not set');
     expect(event.preventDefault).toHaveBeenCalledTimes(0);
   });

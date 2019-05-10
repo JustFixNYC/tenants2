@@ -7,6 +7,79 @@ from project.util.js_snippet import JsSnippetContextProcessor
 MY_DIR = Path(__file__).parent.resolve()
 
 
+class FullstorySnippet(JsSnippetContextProcessor):
+    template = '''
+    window['_fs_debug'] = false;
+    window['_fs_host'] = 'fullstory.com';
+    window['_fs_org'] = '%(FULLSTORY_ORG_ID)s';
+    window['_fs_namespace'] = 'FS';
+    (function(m,n,e,t,l,o,g,y){
+        if (e in m) {if(m.console && m.console.log) {
+        m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
+        } return;}
+        g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];
+        o=n.createElement(t);o.async=1;o.crossOrigin='anonymous';o.src='https://'+_fs_host+'/s/fs.js';
+        y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+        g.identify=function(i,v,s){g(l,{uid:i},s);if(v)g(l,v,s)};g.setUserVars=function(v,s){g(l,v,s)};g.event=function(i,v,s){g('event',{n:i,p:v},s)};
+        g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+        g.consent=function(a){g("consent",!arguments.length||a)};
+        g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+        g.clearUserCookie=function(){};
+    })(window,document,window['_fs_namespace'],'script','user');
+    '''
+
+    var_name = 'FULLSTORY_SNIPPET'
+
+    csp_updates = {
+        'SCRIPT_SRC': 'https://fullstory.com',
+        'CONNECT_SRC': 'https://rs.fullstory.com',
+    }
+
+    def is_enabled(self):
+        return settings.FULLSTORY_ORG_ID
+
+    def get_context(self):
+        return {
+            'FULLSTORY_ORG_ID': settings.FULLSTORY_ORG_ID
+        }
+
+
+fullstory_snippet = FullstorySnippet()
+
+
+class FacebookPixelSnippet(JsSnippetContextProcessor):
+    template = '''
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '%(FACEBOOK_PIXEL_ID)s');
+    fbq('track', 'PageView');
+    '''
+
+    var_name = 'FACEBOOK_PIXEL_SNIPPET'
+
+    csp_updates = {
+        'SCRIPT_SRC': 'https://connect.facebook.net',
+        'IMG_SRC': 'https://www.facebook.com',
+    }
+
+    def is_enabled(self):
+        return settings.FACEBOOK_PIXEL_ID
+
+    def get_context(self):
+        return {
+            'FACEBOOK_PIXEL_ID': settings.FACEBOOK_PIXEL_ID
+        }
+
+
+facebook_pixel_snippet = FacebookPixelSnippet()
+
+
 class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
     template = '''
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -1,8 +1,27 @@
-import { isModalRoute, RouteMap } from "../routes";
+import Routes, { isModalRoute, RouteMap, getSignupIntentOnboardingInfo } from "../routes";
+import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import i18n from "../i18n";
+
+test('Routes object responds to locale changes', () => {
+  expect(Routes.locale.home).toBe('/');
+  i18n.initialize('en');
+  expect(Routes.locale.home).toBe('/en/');
+  i18n.initialize('');
+  expect(Routes.locale.home).toBe('/');
+});
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);
   expect(isModalRoute('/blah', '/oof/flarg-modal')).toBe(true);
+});
+
+describe('getSignupIntentRouteInfo', () => {
+  it('returns an object for all choices', () => {
+    for (let choice in OnboardingInfoSignupIntent) {
+      expect(getSignupIntentOnboardingInfo(choice as OnboardingInfoSignupIntent))
+        .not.toBeUndefined();
+    }
+  });
 });
 
 describe('RouteMap', () => {

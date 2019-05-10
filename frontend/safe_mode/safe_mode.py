@@ -10,6 +10,8 @@ SESSION_KEY = 'enable_safe_mode'
 
 SAFE_MODE_JS = MY_DIR / 'safe-mode.min.js'
 
+SAFE_MODE_HISTORY_FIX_JS = MY_DIR / 'safe-mode-history-fix.js'
+
 
 def is_enabled(request: HttpRequest) -> bool:
     return request.session.get(SESSION_KEY, False)

@@ -1,67 +1,28 @@
 @charset "utf-8";
 @import "./_bulma-overrides.scss";
 @import "../../node_modules/bulma/bulma.sass";
+@import "./_a11y.scss";
 @import "./_safe-mode.scss";
 @import "./_navbar.scss";
 @import "./_modal.scss";
 @import "./_issues.scss";
+@import "./_loc-icon.scss";
+@import "./_landing-page.scss";
 @import "./_autocomplete.scss";
 @import "./_icon-link.scss";
 @import "./_loading-overlay.scss";
+@import "./_progress.scss";
 @import "./_confetti.scss";
 @import "./_dev.scss";
 
-// Bulma's button default focus styling is not easy
-// to distinguish, so we'll make it stand out more here.
-.button:focus {
-    outline-width: 1px;
-    outline-style: dashed;
-    outline-offset: -5px;
+// Bulma's default help text size is way too small, so we'll
+// make it bigger.
+.help {
+  font-size: inherit;
 }
 
-.button.is-primary:focus {
-    outline-color: $primary-invert;
-}
-
-.button.is-text:focus {
-    outline-color: $text;
-}
-
-// We want the content of our pages to be aligned to
-// the top of the page, rather than vertically centered
-// (Bulma's heroic default).
-.jf-hero.hero.is-fullheight .hero-body {
-    align-items: flex-start;
-}
-
-// Sometimes we want non-interactive elements to be
-// programmatically focusable; when this is the case, it's
-// actually okay to not have any visual focus styling on
-// the element, so we'll do that here. For more details, see:
-// https://css-tricks.com/focus-styles-non-interactive-elements/
-[data-jf-is-noninteractive] {
-    outline: none;
-}
-
-// Anything with this mixin will only be perceivable to
-// screen readers.
-//
-// It's taken from: https://webaim.org/techniques/css/invisiblecontent/
-@mixin sr-only() {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-}
-
-// Bulma is supposed to support this, but at the moment it
-// doesn't: https://github.com/jgthms/bulma/issues/150
-//
-// Until it does, we'll use our own class.
-.jf-sr-only {
-    @include sr-only();
+.title.jf-page-steps-title {
+  margin-bottom: 0.5em;
 }
 
 .jf-radio.radio + .jf-radio.radio {
@@ -141,20 +102,48 @@ input:focus + .jf-checkbox-symbol {
     flex: 1;
 }
 
-.jf-loc-preview iframe {
-    width: 100%;
-    min-height: 20em;
+.jf-loc-preview.box {
+    padding: 8px;
 }
 
-.jf-is-extra-wide {
+.jf-loc-preview iframe[scrolling="no"] {
+    display: block;
+    width: 100%;
+    // Note that the enclosed document inside the IFRAME needs to
+    // have this max-height set; all scrolling will actually be
+    // part of the enclosing document, rather than the IFRAME
+    // wrapper, to work around the unusual behavior of iOS to
+    // always set IFRAME dimensions to the contents of their
+    // document.
+    height: 300px;
+}
+
+.button.jf-is-extra-wide {
     padding-left: 2em;
     padding-right: 2em;
+
+    // It's entirely possible that the button's text
+    // may make it too wide for some mobile screens, so
+    // this overrides Bulma's default button styling
+    // to allow the text to wrap.
+    white-space: normal;
+    height: auto;
 }
 
 // A class used around groups of two buttons to
 // put them on opposite sides of the screen.
 .jf-two-buttons, .field.is-grouped.jf-two-buttons {
     justify-content: space-between;
+    margin-top: 2rem;
+
+    &.jf-two-buttons--vertical {
+      // This centers and aligns the buttons vertically on a phone
+      @include until($tablet) {
+        flex-direction: column;
+      }
+    }
+
+
 }
 
 // This is used to "glue" content together, so that e.g. an icon doesn't
@@ -215,4 +204,11 @@ input:focus + .jf-checkbox-symbol {
         background-repeat: no-repeat;
         background-position: 0.5em 50%;
     }
+}
+
+.jf-is-scrollable-if-too-tall {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1em;
 }

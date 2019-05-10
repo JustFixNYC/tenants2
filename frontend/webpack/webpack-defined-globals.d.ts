@@ -22,3 +22,10 @@ declare const DISABLE_WEBPACK_ANALYZER: boolean;
  * Setting this to true can speed up builds.
  */
 declare const DISABLE_DEV_SOURCE_MAPS: boolean;
+
+/**
+ * Whether or not to include a bundle's content hash in its
+ * file name. This defaults to true when NODE_ENV is "production",
+ * otherwise it defaults to false.
+ */
+declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;

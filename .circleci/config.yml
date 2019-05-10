@@ -3,11 +3,19 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.1
+      - image: justfixnyc/tenants2_base:0.4
         environment:
           PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgis://justfix@localhost/justfix
           DEBUG: yup
+          ENABLE_WEBPACK_CONTENT_HASH: yup
+          ENABLE_FINDHELP: yup
+          ENABLE_I18N: yup
           CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
+      - image: mdillon/postgis:10-alpine
+        environment:
+          POSTGRES_DB: justfix
+          POSTGRES_USER: justfix
     steps:
       - checkout
       - restore_cache:
@@ -15,8 +23,13 @@ jobs:
       - run:
           command: |
              pipenv sync --dev
-             npm install --no-save
              pipenv run pip install -r requirements.production.txt
+
+             # This will ensure that 'npm prepare' scripts on dependencies are run.
+             # For more details, see: https://stackoverflow.com/a/52767310
+             npm config set unsafe-perm true
+
+             npm install --no-save
       - save_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
           paths:
@@ -31,6 +44,11 @@ jobs:
       - run:
           command: |
             node --version
+
+            # These are intended as smoke tests.
+            node querybuilder.js --version
+            node commondatabuilder.js --version
+
             npm run build
             npm test -- --runInBand
             npm run lint

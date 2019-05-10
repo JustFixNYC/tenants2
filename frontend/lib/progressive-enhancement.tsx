@@ -8,7 +8,7 @@ export interface ProgressiveEnhancementProps {
    * the component. It is guaranteed to only be run in the browser
    * (never on the server-side).
    */
-  renderEnhanced: (ctx: ProgressiveEnhancementContext) => JSX.Element|React.ReactPortal;
+  renderEnhanced: (ctx: ProgressiveEnhancementContext) => JSX.Element|React.ReactPortal|null;
 
   /**
    * A render prop to render the baseline version of the component.
@@ -137,5 +137,18 @@ export function SimpleProgressiveEnhancement(props: { children: JSX.Element, dis
   return <ProgressiveEnhancement
     renderEnhanced={() => props.children}
     disabled={props.disabled}
+  />;
+}
+
+/**
+ * The opposite of progressive enhancement: this component
+ * only renders its children in the initial server-side render of
+ * the page, and removes them as soon as it's mounted on the
+ * client-side.
+ */
+export function NoScriptFallback(props: { children: JSX.Element }): JSX.Element {
+  return <ProgressiveEnhancement
+    renderEnhanced={() => null}
+    renderBaseline={() => props.children}
   />;
 }

@@ -1,6 +1,4 @@
 # The following lines should be identical to our .gitignore.
-db.sqlite3
-db.testing.sqlite3
 *lambda.js
 *lambda.js.map
 __pycache__/
@@ -19,10 +17,14 @@ frontend/static/frontend/*.map
 frontend/static/frontend/report.html
 frontend/safe_mode/safe-mode.min.js
 staticfiles/
+mediafiles/
 frontend/lib/queries/__generated__/
-querybuilder.js
-querybuilder.js.map
 react-loadable.json
+.DS_Store
+hp-action.pdf
+hp-action.xml
+.babel-cache.json
+debug-data/
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

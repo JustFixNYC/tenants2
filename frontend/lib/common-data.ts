@@ -28,58 +28,6 @@ export type ReactDjangoChoices = ReactDjangoChoice[];
 
 
 /**
- * Retrieve the human-readable label for a choice, given its machine-readable value.
- * 
- * Throw an exception if the choice is invalid.
- */
-export function getDjangoChoiceLabel(choices: DjangoChoices, value: string): string {
-  const result = safeGetDjangoChoiceLabel(choices, value);
-  if (result === null) {
-    throw new Error(`Unable to find label for value ${value}`);
-  }
-  return result;
-}
-
-/**
- * Filter out the given values from either the given list of choices, or anything
- * that matches the given regular expression.
- */
-export function filterDjangoChoices(choices: DjangoChoices, values: string[]|RegExp): DjangoChoices {
-  if (Array.isArray(values)) {
-    if (process.env.NODE_ENV !== 'production') {
-      validateDjangoChoices(choices, values);
-    }
-    return choices.filter(([value, _]) => !values.includes(value));
-  } else {
-    return choices.filter(([value, _]) => !values.test(value));
-  }
-}
-
-/**
- * Retrieve the human-readable label for a choice, given its machine-readable value.
- * 
- * Return null if the choice is invalid.
- */
-export function safeGetDjangoChoiceLabel(choices: DjangoChoices, value: string): string|null {
-  for (let [v, label] of choices) {
-    if (v === value) return label;
-  }
-  return null;
-}
-
-/**
- * Validate that the given values are valid choices.
- * 
- * This is intended to be used in tests. It should be removed from
- * production bundles via tree-shaking.
- */
-export function validateDjangoChoices(choices: DjangoChoices, values: string[]) {
-  values.forEach(value => {
-    getDjangoChoiceLabel(choices, value);
-  });
-}
-
-/**
  * Convert an all-caps value, like 'FOO_BAR', to an
  * all-lowercase slug-friendly value, like 'foo-bar'.
  */
@@ -94,4 +42,19 @@ export function allCapsToSlug(value: string): string {
  */
 export function slugToAllCaps(value: string): string {
   return value.toUpperCase().replace(/-/g, '_');
+}
+
+type StringMapping<T extends string> = {
+  [k in T]: string
+};
+
+/**
+ * This combines a list of values to choose from with their
+ * labels into a list of DjangoChoices.
+ * 
+ * @param choices A list of values to choose from.
+ * @param labels A mapping from values to their labels.
+ */
+export function toDjangoChoices<T extends string>(choices: T[], labels: StringMapping<T>): [T, string][] {
+  return choices.map(choice => [choice, labels[choice]] as [T, string]);
 }

@@ -1,10 +1,19 @@
-import React from 'react';
-import { shallowWithRouter } from "./util";
-import LetterOfComplaintRoutes, { Welcome } from '../letter-of-complaint';
+import { getLOCProgressRoutesProps } from '../letter-of-complaint';
+import Routes from '../routes';
+import { ProgressRoutesTester } from './progress-routes-tester';
 
-test("letter of complaint routes render without throwing", () => {
-  [
-    <Welcome />,
-    <LetterOfComplaintRoutes />,
-  ].forEach(child => shallowWithRouter(child).wrapper.html());
+const tester = new ProgressRoutesTester(getLOCProgressRoutesProps(), 'letter of complaint');
+
+tester.defineSmokeTests();
+
+describe('latest step redirector', () => {
+  it('returns welcome page by default', () => {
+    expect(tester.getLatestStep()).toBe(Routes.locale.loc.home);
+  });
+
+  it('returns confirmation page if letter request has been submitted', () => {
+    expect(tester.getLatestStep({
+      letterRequest: {} as any
+    })).toBe(Routes.locale.loc.confirmation);
+  });
 });

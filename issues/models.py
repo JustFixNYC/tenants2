@@ -1,5 +1,5 @@
 from typing import List
-from django.db import models
+from django.db import models, transaction
 from django.core.exceptions import ValidationError
 
 from users.models import JustfixUser
@@ -32,16 +32,25 @@ def get_issue_area(value: str) -> str:
 
 
 class IssueManager(models.Manager):
+    @transaction.atomic
     def set_area_issues_for_user(self, user: JustfixUser, area: str, issues: List[str]):
-        issues = list(set(issues))  # Remove duplicates.
-        self.filter(user=user, area=area).delete()
-        models = [
+        issues_set = set(issues)  # Remove duplicates and make lookup fast.
+        curr_models = list(self.filter(user=user, area=area))
+        models_to_delete = [model for model in curr_models if model.value not in issues_set]
+        for model in models_to_delete:
+            model.delete()
+        values_that_already_exist = set(
+            model.value
+            for model in curr_models if model.value in issues_set
+        )
+        models_to_create = [
             Issue(user=user, area=area, value=value)
-            for value in issues
+            for value in issues_set
+            if value not in values_that_already_exist
         ]
-        for model in models:
+        for model in models_to_create:
             model.full_clean()
-        self.bulk_create(models)
+            model.save()
 
     def get_area_issues_for_user(self, user: JustfixUser, area: str) -> List[str]:
         return [
@@ -52,6 +61,11 @@ class IssueManager(models.Manager):
 class Issue(models.Model):
     class Meta:
         unique_together = ('user', 'value')
+        ordering = ("value",)
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='issues',
@@ -72,13 +86,20 @@ class Issue(models.Model):
 
 
 class CustomIssueManager(models.Manager):
+    @transaction.atomic
     def set_for_user(self, user: JustfixUser, area: str, description: str):
-        self.filter(user=user, area=area).delete()
         description = description.strip()
+        issue = self.filter(user=user, area=area).first()
         if description:
-            issue = CustomIssue(user=user, area=area, description=description)
+            if issue is None:
+                issue = CustomIssue(user=user, area=area)
+            elif issue.description == description:
+                return
+            issue.description = description
             issue.full_clean()
             issue.save()
+        elif issue:
+            issue.delete()
 
     def get_for_user(self, user: JustfixUser, area: str) -> str:
         issues = self.filter(user=user, area=area).all()
@@ -90,6 +111,10 @@ class CustomIssueManager(models.Manager):
 class CustomIssue(models.Model):
     class Meta:
         unique_together = ('user', 'area')
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='custom_issues',

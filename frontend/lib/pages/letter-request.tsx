@@ -1,61 +1,98 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { RadiosFormField } from '../form-fields';
+import { SessionUpdatingFormSubmitter } from '../forms';
 
-import { withAppContext } from '../app-context';
+import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
-import { DjangoChoices } from '../common-data';
-import { exactSubsetOrDefault } from '../util';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { HiddenFormField } from '../form-fields';
+import { BulmaClassName } from '../bulma';
 
-const LOC_MAILING_CHOICES = require('../../../common-data/loc-mailing-choices.json') as DjangoChoices;
+const UNKNOWN_LANDLORD = { name: '', address: '' };
 
-const DEFAULT_INPUT: LetterRequestInput = {
-  mailChoice: LetterRequestMailChoice.WE_WILL_MAIL
-};
+export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Element => {
+  const title = "Ready to go";
+  const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
 
-
-function renderForm(ctx: FormContext<LetterRequestInput>): JSX.Element {
   return (
-    <React.Fragment>
-      <RadiosFormField
-        label="JustFix.nyc will mail this letter to your landlord via certified mail and will cover the mailing costs for you."
-        choices={LOC_MAILING_CHOICES}
-        {...ctx.fieldPropsFor('mailChoice') }
-      />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.yourLandlord} label="Back" />
-        <NextButton isLoading={ctx.isLoading} label="Finish" />
+    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
+      <div className="content box">
+        <h1 className="title is-4">{title}</h1>
+        <p>
+          JustFix.nyc will send this letter via USPS Certified Mail<sup>&reg;</sup> <strong>within 1-2 business days</strong> to your landlord:
+        </p>
+        <address className="has-text-centered">
+          {landlord.name || 'UNKNOWN LANDLORD'}<br/>
+          {landlord.address || 'UNKNOWN ADDRESS'}
+        </address>
+        <br/>
+        <FormAsButton
+          mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
+          label="Mail my letter"
+          buttonClass="is-success"
+          isFullWidth
+        />
       </div>
-    </React.Fragment>
+    )}/>
+  );
+});
+
+interface FormAsButtonProps {
+  mailChoice: LetterRequestMailChoice;
+  label: string;
+  buttonClass?: BulmaClassName;
+  isFullWidth?: boolean;
+}
+
+function FormAsButton(props: FormAsButtonProps): JSX.Element {
+  const input: LetterRequestInput = { mailChoice: props.mailChoice };
+
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LetterRequestMutation}
+      formId={'button_' + props.mailChoice}
+      initialState={input}
+      onSuccessRedirect={Routes.locale.loc.confirmation}
+    >
+      {(ctx) => <>
+        <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
+        <NextButton isLoading={ctx.isLoading} isFullWidth={props.isFullWidth} buttonClass={props.buttonClass} label={props.label} />
+      </>}
+    </SessionUpdatingFormSubmitter>
   );
 }
 
 const LetterPreview = withAppContext((props) => (
   <div className="box has-text-centered jf-loc-preview">
-    <iframe title="Preview of your letter of complaint" src={props.server.locHtmlURL}></iframe>
+    <iframe scrolling="no" title="Preview of your letter of complaint" src={`${props.server.locHtmlURL}?live_preview=on`}></iframe>
   </div>
 ));
 
 export default function LetterRequestPage(): JSX.Element {
   return (
     <Page title="Review the Letter of Complaint">
-      <h1 className="title">Review the Letter of Complaint</h1>
-      <div className="content">
-        <p>Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
-        <LetterPreview />
+      <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
+      <p className="subtitle is-6">Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
+      <LetterPreview />
+      <div className="has-text-centered is-grouped">
+        <ModalLink to={Routes.locale.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-medium">
+          Looks good to me!
+        </ModalLink>
+        <div className="buttons jf-two-buttons jf-two-buttons--vertical">
+          <BackButton to={Routes.locale.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
+          <FormAsButton
+            mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
+            buttonClass="is-text"
+            label="I want to mail this myself."
+          />
+        </div>
       </div>
-      <SessionUpdatingFormSubmitter
-        mutation={LetterRequestMutation}
-        initialState={(session) => exactSubsetOrDefault(session.letterRequest, DEFAULT_INPUT)}
-        onSuccessRedirect={Routes.loc.confirmation}
-      >
-        {renderForm}
-      </SessionUpdatingFormSubmitter>
+
+
     </Page>
   );
 }

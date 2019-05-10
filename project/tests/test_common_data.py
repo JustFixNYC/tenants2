@@ -9,6 +9,13 @@ def test_get_label_works():
     assert choices.get_label('BAR') == 'Bar'
 
 
+def test_get_enum_member_works():
+    choices = Choices(choices=[('FOO', 'Foo'), ('BAR', 'Bar')])
+    assert choices.get_enum_member('FOO') == choices.enum.FOO
+    assert choices.get_enum_member('FOO').name == 'FOO'
+    assert choices.get_enum_member('FOO').value == 'Foo'
+
+
 def test_getattr_returns_choice_name():
     choices = Choices(choices=[('FOO', 'Foo'), ('BAR', 'Bar')])
     assert choices.FOO == 'FOO'

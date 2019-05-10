@@ -2,9 +2,10 @@
 
 import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { LoginInput, LetterRequestMailChoice } from "./globalTypes";
+import { LoginInput, OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: LoginMutation
@@ -19,6 +20,13 @@ export interface LoginMutation_output_errors {
    * A list of human-readable validation errors.
    */
   messages: string[];
+}
+
+export interface LoginMutation_output_session_onboardingInfo {
+  /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: OnboardingInfoSignupIntent;
 }
 
 export interface LoginMutation_output_session_onboardingStep1 {
@@ -99,6 +107,14 @@ export interface LoginMutation_output_session_letterRequest {
 
 export interface LoginMutation_output_session {
   /**
+   * The first name of the currently logged-in user, or null if not logged-in.
+   */
+  firstName: string | null;
+  /**
+   * The last name of the currently logged-in user, or null if not logged-in.
+   */
+  lastName: string | null;
+  /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
   phoneNumber: string | null;
@@ -115,9 +131,17 @@ export interface LoginMutation_output_session {
    */
   isSafeModeEnabled: boolean;
   /**
-   * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
+   * Whether we should redirect this user to the legacy tenant app after they log
+   * in. If null, the user is either not a legacy user, or legacy app integration is disabled.
    */
   prefersLegacyApp: boolean | null;
+  /**
+   * The user's onboarding details, which they filled out during the onboarding
+   * process. This is not to be confused with the individual onboarding steps,
+   * which capture information someone filled out *during* onboarding, before they
+   * became a full-fledged user.
+   */
+  onboardingInfo: LoginMutation_output_session_onboardingInfo | null;
   onboardingStep1: LoginMutation_output_session_onboardingStep1 | null;
   onboardingStep2: LoginMutation_output_session_onboardingStep2 | null;
   onboardingStep3: LoginMutation_output_session_onboardingStep3 | null;
@@ -126,6 +150,14 @@ export interface LoginMutation_output_session {
   accessDates: string[];
   landlordDetails: LoginMutation_output_session_landlordDetails | null;
   letterRequest: LoginMutation_output_session_letterRequest | null;
+  /**
+   * The URL of the most recently-generated HP Action PDF for the current user.
+   */
+  latestHpActionPdfUrl: string | null;
+  /**
+   * The status of the HP Action upload (document assembly) process for a user.
+   */
+  hpActionUploadStatus: HPUploadStatus;
 }
 
 export interface LoginMutation_output {

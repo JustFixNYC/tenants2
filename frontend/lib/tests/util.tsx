@@ -4,6 +4,7 @@ import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
 import { MemoryRouter, Route, RouteComponentProps } from "react-router";
+import { HPUploadStatus } from '../queries/globalTypes';
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -13,7 +14,7 @@ interface TestClient {
 /**
  * Creates a GraphQL client useful for testing. It will never hit the network
  * because the fetch implementation it uses is a Jest mock.
- * 
+ *
  * @param enableTimeout Whether to enable the client's timeout-based fetch logic.
  *   If disabled (the default), your tests will need to manually tell the client
  *   to fetch queued requests.
@@ -68,11 +69,15 @@ export function ensureRedirect(child: JSX.Element, pathname: string) {
     /You tried to redirect to the same route you're currently on/i);
 }
 
+export function pause(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const FakeServerInfo: Readonly<AppServerInfo> = {
   originURL: 'https://myserver.com',
   staticURL: '/mystatic/',
   webpackPublicPathURL: '/mystatic/myfrontend/',
-  adminIndexURL: '/myadmin/',  
+  adminIndexURL: '/myadmin/',
   debug: false,
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
@@ -81,6 +86,8 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
+  firstName: null,
+  lastName: null,
   phoneNumber: null,
   csrfToken: 'mycsrf',
   prefersLegacyApp: false,
@@ -88,12 +95,15 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   onboardingStep1: null,
   onboardingStep2: null,
   onboardingStep3: null,
+  onboardingInfo: null,
   issues: [],
   customIssues: [],
   accessDates: [],
   landlordDetails: null,
   letterRequest: null,
-  isSafeModeEnabled: false
+  isSafeModeEnabled: false,
+  latestHpActionPdfUrl: null,
+  hpActionUploadStatus: HPUploadStatus.NOT_STARTED
 };
 
 export const FakeAppContext: AppContextType = {

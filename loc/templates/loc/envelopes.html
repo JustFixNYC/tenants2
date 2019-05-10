@@ -1,0 +1,40 @@
+{% extends "loc/base.html" %}
+
+{% block title %}Envelopes{% endblock %}
+
+{% block head %}
+<style>
+@page {
+  size: 9.5in 4in;
+  margin: 0.25in;
+}
+
+.recipient {
+  margin-top: 1in;
+  margin-left: 3.5in;
+}
+
+section {
+  page-break-after: always;
+}
+</style>    
+{% endblock %}
+
+{% block body %}
+{% for user in users %}
+<section>
+  <p>
+    {{ user.full_name }}<br/>
+    {% for line in user.onboarding_info.address_lines_for_mailing %}
+      {{ line }}<br/>
+    {% endfor %}
+  </p>
+  <p class="recipient">
+    {{ user.landlord_details.name }}<br/>
+    {% for line in user.landlord_details.address_lines_for_mailing %}
+      {{ line }}<br/>
+    {% endfor %}
+  </p>
+</section>
+{% endfor %}
+{% endblock %}

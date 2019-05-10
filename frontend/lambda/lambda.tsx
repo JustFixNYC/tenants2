@@ -24,8 +24,11 @@ import Helmet from 'react-helmet';
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
+import i18n from '../lib/i18n';
 
 const readFile = promisify(fs.readFile);
+
+const loadablePreloaded = Loadable.preloadAll();
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -37,12 +40,15 @@ export interface LambdaResponse {
   /** The <title> tag for the initial render of the page. */
   titleTag: string;
 
+  /** Additional <meta> tags for the initial render of the page. */
+  metaTags: string;
+
   /** The HTTP status code of the page. */
   status: number;
 
   /**
    * Names of all JS bundles to include in the HTML output
-   * (excluding the main bundle).
+   * (including the main bundle).
    */
   bundleFiles: string[];
 
@@ -54,6 +60,15 @@ export interface LambdaResponse {
 
   /** The error traceback, if the status is 500. */
   traceback: string|null;
+
+  /**
+   * If the page contains a GraphQL query whose results should be
+   * pre-fetched, this will contain its value.
+   */
+  graphQLQueryToPrefetch: {
+    graphQL: string,
+    input: any
+  }|null;
 }
 
 /** Our event handler props are a superset of our app props. */
@@ -105,6 +120,7 @@ export function getBundleFiles(files: { file: string }[]): string[] {
  *   lazy loading purposes.
  */
 function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
+  i18n.initialize(event.locale);
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
@@ -118,12 +134,15 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
 
     const html = renderAppHtml(event, context, loadableProps);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules));
+    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules)).concat([
+      // This is the filename of the main bundle.
+      bundleStats['undefined'][0].file
+    ]);
     let modalHtml = '';
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(
         <ServerRouter event={event} context={context}>
-          {context.modal}
+          <App {...event} modal={context.modal} />
         </ServerRouter>
       );
     }
@@ -135,14 +154,19 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     resolve({
       html,
       titleTag: helmet.title.toString(),
+      metaTags: helmet.meta.toString(),
       status: context.statusCode,
       bundleFiles,
       modalHtml,
       location,
-      traceback: null
+      traceback: null,
+      graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null
     });
   });
 }
+
+const loadableStats = readFile('react-loadable.json', { encoding: 'utf-8' })
+  .then(data => JSON.parse(data));
 
 /**
  * This is a handler for serverless environments that,
@@ -153,9 +177,9 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
  * @param event The initial properties for our app.
  */
 async function baseHandler(event: EventProps): Promise<LambdaResponse> {
-  await Loadable.preloadAll();
+  await loadablePreloaded;
 
-  const stats = JSON.parse(await readFile('react-loadable.json', { encoding: 'utf-8' }));
+  const stats = await loadableStats;
 
   if (event.testInternalServerError) {
     throw new Error('Testing internal server error');
@@ -177,15 +201,17 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
         isServerSide={true}
       />
     );
-    const titleTag = Helmet.renderStatic().title.toString();
+    const helmet = Helmet.renderStatic();
     return {
       html,
-      titleTag,
+      titleTag: helmet.title.toString(),
+      metaTags: helmet.meta.toString(),
       status: 500,
       bundleFiles: [],
       modalHtml: '',
       location: null,
-      traceback: error.stack
+      traceback: error.stack,
+      graphQLQueryToPrefetch: null
     };
   });
 }

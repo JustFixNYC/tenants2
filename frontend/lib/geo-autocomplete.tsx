@@ -2,24 +2,52 @@ import React from 'react';
 import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
 import classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import { BoroughChoice, getBoroughLabel } from './boroughs';
+import { BoroughChoice, getBoroughChoiceLabels } from '../../common-data/borough-choices';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
 import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
+import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
 
 /**
- * The keys here were obtained experimentally, I'm not actually sure
- * if/where they are formally specified.
+ * Return the browser-specific "autocomplete" attribute value to disable
+ * autocomplete on a form field.
+ * 
+ * This is mostly needed because Chrome is extremely aggressive with
+ * respect to autocompleting form fields, and the behavior seems to
+ * change from one release to the next.
+ * 
+ * For more details on why Chrome ignores the standard autocomplete="off",
+ * see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
  */
-const BOROUGH_GID_TO_CHOICE: { [key: string]: BoroughChoice|undefined } = {
-  'whosonfirst:borough:1': BoroughChoice.MANHATTAN,
-  'whosonfirst:borough:2': BoroughChoice.BRONX,
-  'whosonfirst:borough:3': BoroughChoice.BROOKLYN,
-  'whosonfirst:borough:4': BoroughChoice.QUEENS,
-  'whosonfirst:borough:5': BoroughChoice.STATEN_ISLAND,
-};
+function getBrowserAutoCompleteOffValue(): string {
+  // Components using this should only be progressively-enhanced ones, meaning
+  // that the initial render on the server-side is for the baseline component.
+  // Otherwise we'd run into issues where the client-side initial render
+  // would be different from the SSR, which is bad.
+  if (typeof(navigator) === 'undefined') {
+    throw new Error('Assertion failure, this function should only be called in the browser!');
+  }
+
+  // https://stackoverflow.com/a/4565120
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+  // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
+  return isChrome ? 'disabled' : 'off';
+}
+
+function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
+  switch (gid) {
+    case GeoSearchBoroughGid.Manhattan: return 'MANHATTAN';
+    case GeoSearchBoroughGid.Bronx: return 'BRONX';
+    case GeoSearchBoroughGid.Brooklyn: return 'BROOKLYN';
+    case GeoSearchBoroughGid.Queens: return 'QUEENS';
+    case GeoSearchBoroughGid.StatenIsland: return 'STATEN_ISLAND';
+  }
+
+  throw new Error(`No borough found for ${gid}!`);
+}
 
 export interface GeoAutocompleteItem {
   address: string;
@@ -33,31 +61,6 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
 };
-
-interface GeoSearchProperties {
-  /** e.g. "Brooklyn" */
-  borough: string;
-
-  /** e.g. "whosonfirst:borough:2" */
-  borough_gid: string;
-
-  /** e.g. "150" */
-  housenumber: string;
-
-  /** e.g. "150 COURT STREET" */
-  name: string;
-
-  /** e.g. "150 COURT STREET, Brooklyn, New York, NY, USA" */
-  label: string;
-}
-
-interface GeoSearchResults {
-  bbox: unknown;
-  features: {
-    geometry: unknown;
-    properties: GeoSearchProperties
-  }[];
-}
 
 interface GeoAutocompleteState {
   isLoading: boolean;
@@ -73,13 +76,6 @@ const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
  */
 const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
 
-/**
- * For documentation about this endpoint, see:
- * 
- * https://geosearch.planninglabs.nyc/docs/#autocomplete
- */
-const GEO_AUTOCOMPLETE_URL = 'https://geosearch.planninglabs.nyc/v1/autocomplete';
-
 /** The maximum number of autocomplete suggestions to show. */
 const MAX_SUGGESTIONS = 5;
 
@@ -89,9 +85,7 @@ const MAX_SUGGESTIONS = 5;
  * a third-party API that might become unavailable.
  */
 export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
-  keyThrottleTimeout: number|null;
-  abortController?: AbortController;
-  requestId: number;
+  requester: GeoSearchRequester;
 
   constructor(props: GeoAutocompleteProps) {
     super(props);
@@ -99,9 +93,13 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       isLoading: false,
       results: []
     };
-    this.requestId = 0;
-    this.keyThrottleTimeout = null;
-    this.abortController = createAbortController();
+    this.requester = new GeoSearchRequester({
+      createAbortController,
+      fetch: awesomeFetch,
+      throttleMs: AUTOCOMPLETE_KEY_THROTTLE_MS,
+      onError: this.handleRequesterError,
+      onResults: this.handleRequesterResults
+    });
   }
 
   renderListItem(ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
@@ -127,7 +125,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   /**
    * Set the current selected item to an address consisting of the user's current
    * input and no borough.
-   * 
+   *
    * This is basically a fallback to ensure that the user's input isn't lost if
    * they are typing and happen to (intentionally or accidentally) do something
    * that causes the autocomplete to lose focus.
@@ -144,7 +142,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   /**
    * If the result list is non-empty and visible, and the user hasn't selected
    * anything, select the first item in the list and return true.
-   * 
+   *
    * Otherwise, return false.
    */
   selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
@@ -168,6 +166,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
+      autoComplete: getBrowserAutoCompleteOffValue(),
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
@@ -196,60 +195,33 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     );
   }
 
-  resetSearchRequest() {
-    if (this.keyThrottleTimeout !== null) {
-      window.clearTimeout(this.keyThrottleTimeout);
-      this.keyThrottleTimeout = null;
-    }
-    if (this.abortController) {
-      this.abortController.abort();
-      this.abortController = createAbortController();
-    }
-    this.requestId++;
+  @autobind
+  handleRequesterError(e: Error) {
+    // TODO: It would be nice if we could further differentiate
+    // between a "you aren't connected to the internet"
+    // error versus a "you issued a bad request" error, so that
+    // we could report the error if it's the latter.
+    this.props.onNetworkError(e);
   }
 
   @autobind
-  handleFetchError(e: Error) {
-    if (e instanceof DOMException && e.name === 'AbortError') {
-      // Don't worry about it, the user just aborted the request.
-    } else {
-      // TODO: It would be nice if we could further differentiate
-      // between a "you aren't connected to the internet"
-      // error versus a "you issued a bad request" error, so that
-      // we could report the error if it's the latter.
-      this.props.onNetworkError(e);
-    }
-  }
-
-  async fetchResults(value: string): Promise<void> {
-    const originalRequestId = this.requestId;
-    const url = `${GEO_AUTOCOMPLETE_URL}?text=${encodeURIComponent(value)}`;
-    const res = await awesomeFetch(url, {
-      signal: this.abortController && this.abortController.signal
+  handleRequesterResults(results: GeoSearchResults) {
+    this.setState({
+      isLoading: false,
+      results: geoSearchResultsToAutocompleteItems(results)
     });
-    const results = await res.json();
-    if (this.requestId === originalRequestId) {
-      this.setState({
-        isLoading: false,
-        results: geoSearchResultsToAutocompleteItems(results)
-      });
-    }
   }
 
   handleInputValueChange(value: string) {
-    this.resetSearchRequest();
-    if (value.length > 0) {
+    if (this.requester.changeSearchRequest(value)) {
       this.setState({ isLoading: true });
-      this.keyThrottleTimeout = window.setTimeout(() => {
-        this.fetchResults(value).catch(this.handleFetchError);
-      }, AUTOCOMPLETE_KEY_THROTTLE_MS);
     } else {
       this.setState({ results: [], isLoading: false });
     }
   }
 
   componentWillUnmount() {
-    this.resetSearchRequest();
+    this.requester.shutdown();
   }
 
   render() {
@@ -268,17 +240,13 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
 export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
   if (!item) return '';
   if (!item.borough) return item.address;
-  return `${item.address}, ${getBoroughLabel(item.borough)}`;
+  return `${item.address}, ${getBoroughChoiceLabels()[item.borough]}`;
 }
 
 export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
   return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
     const { borough_gid } = feature.properties;
-    const borough = BOROUGH_GID_TO_CHOICE[borough_gid];
-
-    if (!borough) {
-      throw new Error(`No borough found for ${borough_gid}!`);
-    }
+    const borough = boroughGidToChoice(borough_gid);
 
     return {
       address: feature.properties.name,

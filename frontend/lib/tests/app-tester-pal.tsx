@@ -29,7 +29,7 @@ interface AppTesterPalOptions {
  * some properties to be mocked.
  */
 interface AppTesterAppContext extends AppContextType {
-  updateSession: AppContextType["updateSession"] & jest.MockInstance<void>;
+  updateSession: AppContextType["updateSession"] & jest.MockInstance<any, any>;
 };
 
 /**
@@ -105,8 +105,14 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     );
   }
 
-  private getFirstRequest(): queuedRequest {
-    return this.client.getRequestQueue()[0];
+  /**
+   * Get the first network request made by any component in the
+   * heirarchy, throwing an error if no request has been made.
+   */
+  getFirstRequest(): queuedRequest {
+    const queue = this.client.getRequestQueue();
+    expect(queue.length).toBeGreaterThan(0);
+    return queue[0];
   }
 
   /**
@@ -146,5 +152,13 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   expectFormInput<FormInput>(expected: FormInput) {
     const actual = this.getFirstRequest().variables['input'];
     expect(actual).toEqual(expected);
+  }
+
+  /**
+   * Spin the event loop so any promises that have been
+   * resolved will be processed, etc.
+   */
+  nextTick(): Promise<any> {
+    return new Promise(resolve => process.nextTick(resolve));
   }
 }

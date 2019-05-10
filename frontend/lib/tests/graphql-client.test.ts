@@ -66,7 +66,7 @@ describe('GraphQLClient', () => {
     expect(reqs[1].variables).toBeUndefined();
   });
 
-  it('rejects all requests when fetch fails', () => {
+  it('rejects all requests when fetch fails', async () => {
     const { client, mockFetch } = createClient();
 
     const p1 = client.fetch('some graphql');
@@ -76,17 +76,18 @@ describe('GraphQLClient', () => {
     mockFetch.mockRejectedValue(err);
     client.fetchQueuedRequests();
 
-    expect(p1).rejects.toEqual(err);
-    expect(p2).rejects.toEqual(err);
+    await expect(p1).rejects.toEqual(err);
+    await expect(p2).rejects.toEqual(err);
   });
 
-  it('resolves requests when fetch succeeds', () => {
+  it('resolves requests when fetch succeeds', async () => {
     const { client, mockFetch } = createClient();
 
     const p1 = client.fetch('some graphql');
     const p2 = client.fetch('more graphql');
 
     mockFetch.mockResolvedValue({
+      status: 200,
       json: () => [
         { data: "response 1" },
         { data: "response 2" },
@@ -94,17 +95,27 @@ describe('GraphQLClient', () => {
     });
     client.fetchQueuedRequests();
 
-    expect(p1).resolves.toEqual("response 1");
-    expect(p2).resolves.toEqual("response 2");
+    await expect(p1).resolves.toEqual("response 1");
+    await expect(p2).resolves.toEqual("response 2");
   });
 
-  it('resolves and rejects requests when fetch is mixed', () => {
+  it('raises error when status code is not 200', async () => {
+    const { client, mockFetch } = createClient();
+
+    const p = client.fetch('some graphql');
+    mockFetch.mockResolvedValue({ status: 403 });
+    client.fetchQueuedRequests();
+    await expect(p).rejects.toHaveProperty('message', 'Expected HTTP 200, got 403');
+  });
+
+  it('resolves and rejects requests when fetch is mixed', async () => {
     const { client, mockFetch } = createClient();
 
     const p1 = client.fetch('some graphql');
     const p2 = client.fetch('more graphql');
 
     mockFetch.mockResolvedValue({
+      status: 200,
       json: () => [
         { data: "response 1" },
         { error: "blah" },
@@ -112,19 +123,19 @@ describe('GraphQLClient', () => {
     });
     client.fetchQueuedRequests();
 
-    expect(p1).resolves.toEqual("response 1");
-    expect(p2).rejects.toHaveProperty('message', 'GraphQL request failed');
+    await expect(p1).resolves.toEqual("response 1");
+    await expect(p2).rejects.toHaveProperty('message', 'GraphQL request failed');
   });
 
-  it('raises error when fetch array size is unexpected', () => {
+  it('raises error when fetch array size is unexpected', async () => {
     const { client, mockFetch } = createClient();
 
     const p1 = client.fetch('some graphql');
 
-    mockFetch.mockResolvedValue({ json: () => [] });
+    mockFetch.mockResolvedValue({ status: 200, json: () => [] });
     client.fetchQueuedRequests();
 
-    expect(p1).rejects.toHaveProperty(
+    await expect(p1).rejects.toHaveProperty(
       'message',
       'Result is not an array with size equal to requests'
     );

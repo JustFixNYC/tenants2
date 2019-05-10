@@ -1,0 +1,22 @@
+.jf-loc-image {
+  width: 70vw;
+  max-width: 400px;
+  margin: 0 auto 3rem auto;
+  opacity: 0;
+  animation: 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) 1s forwards fadein;
+
+  @include until($tablet) {
+    margin-bottom: 1.5rem;
+  }
+
+  @keyframes fadein {
+    from {
+      transform: translateX(-15vw);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}

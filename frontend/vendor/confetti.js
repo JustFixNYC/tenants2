@@ -5,6 +5,32 @@
 // https://codepen.io/iprodev/pen/azpWBr
 
 if (typeof(window) !== 'undefined') {
+  var MIN_RESPONSIVE_WIDTH = 320;
+  var MAX_RESPONSIVE_WIDTH = 1400;
+  var RESPONSIVE_RANGE = MAX_RESPONSIVE_WIDTH - MIN_RESPONSIVE_WIDTH;
+
+  /**
+   * Return an integer whose value changes between the given minimum and maximum
+   * values, depending on the size of the user's browser window.
+   * 
+   * @param {number} minValue The minimum value of the number. Mobile devices will
+   *   usually return this.
+   * @param {number} maxValue The maximum value of the number. Desktop devices with large
+   *   browser windows will usually return this.
+   */
+  function responsiveInt(minValue, maxValue, viewportWidth) {
+    if (!viewportWidth) {
+      viewportWidth = window.innerWidth;
+    }
+    var valueRange = maxValue - minValue;
+    var clampedWidth = Math.max(MIN_RESPONSIVE_WIDTH,
+                                Math.min(MAX_RESPONSIVE_WIDTH, viewportWidth));
+    var percent = (clampedWidth - MIN_RESPONSIVE_WIDTH) / RESPONSIVE_RANGE;
+    return Math.floor(valueRange * percent) + minValue;
+  };
+
+  exports.responsiveInt = responsiveInt;
+
   var retina = window.devicePixelRatio,
 
       // Math shorthands
@@ -52,11 +78,11 @@ if (typeof(window) !== 'undefined') {
 
   var speed = 50,
       duration = (1.0 / speed),
-      confettiRibbonCount = 2, // Changed from 11. -AV
+      confettiRibbonCount = responsiveInt(3, 7), // Changed from 11. -AV
       ribbonPaperCount = 30,
       ribbonPaperDist = 8.0,
       ribbonPaperThick = 8.0,
-      confettiPaperCount = 20, // Changed from 95. -AV
+      confettiPaperCount = responsiveInt(20, 60), // Changed from 95. -AV
       DEG_TO_RAD = PI / 180,
       RAD_TO_DEG = 180 / PI,
       colors = [
@@ -184,6 +210,8 @@ if (typeof(window) !== 'undefined') {
       var dy = sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
       this.corners[i] = new Vector2(dx, dy);
     }
+    this.shouldRegenerate = true;
+    this.isFinished = false;
     this.Update = function(_dt) {
       this.time += _dt;
       this.rotation += this.rotationSpeed * _dt;
@@ -191,8 +219,12 @@ if (typeof(window) !== 'undefined') {
       this.pos.x += cos(this.time * this.oscillationSpeed) * this.xSpeed * _dt
       this.pos.y += this.ySpeed * _dt;
       if (this.pos.y > ConfettiPaper.bounds.y) {
-        this.pos.x = random() * ConfettiPaper.bounds.x;
-        this.pos.y = 0;
+        if (this.shouldRegenerate) {
+          this.pos.x = random() * ConfettiPaper.bounds.x;
+          this.pos.y = 0;
+        } else {
+          this.isFinished = true;
+        }
       }
     }
     this.Draw = function(_g) {
@@ -233,6 +265,8 @@ if (typeof(window) !== 'undefined') {
     for (var i = 0; i < this.particleCount; i++) {
       this.particles[i] = new EulerMass(_x, _y - i * this.particleDist, this.particleMass, this.particleDrag);
     }
+    this.shouldRegenerate = true;
+    this.isFinished = false;
     this.Update = function(_dt) {
       var i = 0;
       this.time += _dt * this.oscillationSpeed;
@@ -261,7 +295,11 @@ if (typeof(window) !== 'undefined') {
         this.particles[i].position = rp2;
       }
       if (this.position.y > ConfettiRibbon.bounds.y + this.particleDist * this.particleCount) {
-        this.Reset();
+        if (this.shouldRegenerate) {
+          this.Reset();
+        } else {
+          this.isFinished = true;
+        }
       }
     }
     this.Reset = function() {
@@ -340,7 +378,13 @@ if (typeof(window) !== 'undefined') {
   }
   ConfettiRibbon.bounds = new Vector2(0, 0);
   confetti = {};
-  confetti.Context = function(canvas) {
+  confetti.Context = function(canvas, regenerateForSecs, onFinished) {
+    if (!regenerateForSecs) {
+      regenerateForSecs = 0;
+    }
+    if (!onFinished) {
+      onFinished = function() {};
+    }
     var i = 0;
     var canvasParent = canvas.parentNode;
     var canvasWidth = canvasParent.offsetWidth;
@@ -350,6 +394,7 @@ if (typeof(window) !== 'undefined') {
     var context = canvas.getContext('2d');
     var interval = null;
     var confettiRibbons = new Array();
+    var framesToRegenerate = Math.floor(regenerateForSecs * 60);
     ConfettiRibbon.bounds = new Vector2(canvasWidth, canvasHeight);
     for (i = 0; i < confettiRibbonCount; i++) {
       confettiRibbons[i] = new ConfettiRibbon(random() * canvasWidth, -random() * canvasHeight * 2, ribbonPaperCount, ribbonPaperDist, ribbonPaperThick, 45, 1, 0.05);
@@ -371,11 +416,33 @@ if (typeof(window) !== 'undefined') {
     }
     this.start = function() {
       this.stop()
-      var context = this;
       this.update();
     }
     this.stop = function() {
-      cAF(this.interval);
+      if (this.interval !== null) {
+        cAF(this.interval);
+        this.interval = null;
+      }
+    }
+    this.shouldRegenerate = true;
+    this.stopRegenerating = function() {
+      this.shouldRegenerate = false;
+      for (i = 0; i < confettiPaperCount; i++) {
+        confettiPapers[i].shouldRegenerate = false;
+      }
+      for (i = 0; i < confettiRibbonCount; i++) {
+        confettiRibbons[i].shouldRegenerate = false;
+      }
+    }
+    this.isFinished = function() {
+      var i = 0;
+      for (i = 0; i < confettiPaperCount; i++) {
+        if (!confettiPapers[i].isFinished) return false;
+      }
+      for (i = 0; i < confettiRibbonCount; i++) {
+        if (!confettiRibbons[i].isFinished) return false;
+      }
+      return true;
     }
     this.update = function() {
       var i = 0;
@@ -388,7 +455,16 @@ if (typeof(window) !== 'undefined') {
         confettiRibbons[i].Update(duration);
         confettiRibbons[i].Draw(context);
       }
-      this.interval = rAF(this.update.bind(this));
+      framesToRegenerate--;
+      if (framesToRegenerate == 0) {
+        this.stopRegenerating();
+      }
+      if (this.shouldRegenerate || !this.isFinished()) {
+        this.interval = rAF(this.update.bind(this));
+      } else {
+        this.interval = null;
+        onFinished();
+      }
     }
   }
 

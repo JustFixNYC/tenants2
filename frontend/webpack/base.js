@@ -48,8 +48,15 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
  /** @type WebpackConfig["mode"] */
 const MODE = IS_PRODUCTION ? 'production' : 'development';
 
+const ENABLE_WEBPACK_CONTENT_HASH = getEnvBoolean('ENABLE_WEBPACK_CONTENT_HASH', IS_PRODUCTION);
+
+const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
+                                 ? '[name].[contenthash].bundle.js'
+                                 : '[name].bundle.js';
+
 /** @type Partial<TsLoaderOptions> */
 const tsLoaderOptions = {
+  configFile: "tsconfig.build.json",
   /**
    * Without this setting, TypeScript compiles *everything* including
    * files not relevant to the bundle we're building, which often
@@ -62,23 +69,38 @@ const tsLoaderOptions = {
    * only transpile for now. This significantly improves compile speed.
    */
   transpileOnly: true,
-  compilerOptions: {
-    /**
-     * Allow unused locals during development, because it's useful for
-     * tinkering. Our linter will error on them to ensure that CI fails
-     * if code is committed with them.
-     */
-    noUnusedLocals: false
-  }
 };
 
 const baseBabelOptions = {
   babelrc: false,
   plugins: [
-    "babel-plugin-transform-object-rest-spread",
-    "babel-plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-react-jsx",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
     "react-loadable/babel"
   ]
+};
+
+const nodeBabelOptions = {
+  ...baseBabelOptions,
+  presets: [
+    ["@babel/env", {
+      "targets": {
+        "node": "current"
+      }
+    }],
+  ],
+  plugins: [
+    ...baseBabelOptions.plugins,
+    "babel-plugin-dynamic-import-node"
+  ]
+};
+
+exports.nodeBabelOptions = nodeBabelOptions;
+
+const webBabelOptions = {
+  ...baseBabelOptions,
+  presets: ["@babel/preset-env"]
 };
 
 /**
@@ -94,7 +116,7 @@ const convertSVGsToReactComponents = {
     // babel to convert it into regular JS.
     { loader: 'babel-loader', options: {
       babelrc: false,
-      plugins: ['babel-plugin-transform-react-jsx']
+      plugins: ['@babel/plugin-transform-react-jsx']
     } },
     { loader: path.resolve(__dirname, 'svg-loader.js') }
   ]
@@ -110,7 +132,8 @@ function getCommonPlugins() {
   const plugins = [
     new webpack.DefinePlugin({
       DISABLE_WEBPACK_ANALYZER,
-      DISABLE_DEV_SOURCE_MAPS
+      DISABLE_DEV_SOURCE_MAPS,
+      ENABLE_WEBPACK_CONTENT_HASH
     })
   ];
 
@@ -145,7 +168,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader', options: baseBabelOptions },
+            { loader: 'babel-loader', options: nodeBabelOptions },
             { loader: 'ts-loader', options: tsLoaderOptions },
           ]
         },
@@ -193,13 +216,13 @@ const webConfig = {
   target: 'web',
   stats: IN_WATCH_MODE ? 'minimal' : 'normal',
   entry: {
-    main: ['babel-polyfill', './frontend/lib/main.ts'],
+    main: ['@babel/polyfill', './frontend/lib/main.ts'],
   },
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: BUNDLE_FILENAME_TEMPLATE,
+    chunkFilename: BUNDLE_FILENAME_TEMPLATE,
     path: path.resolve(BASE_DIR, 'frontend', 'static', 'frontend')
   },
   module: {
@@ -209,13 +232,7 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              ...baseBabelOptions,
-              presets: ["env"],
-            }
-          },
+          { loader: 'babel-loader', options: webBabelOptions },
           { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },
@@ -235,10 +252,5 @@ const webpackConfigs = [
   exports.lambdaConfig,
   webConfig,
 ];
-
-if (DEV_DEPS_AVAIL) {
-  exports.querybuilderConfig = createNodeScriptConfig('./frontend/querybuilder/cli.ts', 'querybuilder.js');
-  webpackConfigs.push(exports.querybuilderConfig);
-}
 
 exports.allConfigs = webpackConfigs;

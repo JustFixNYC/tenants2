@@ -1,13 +1,21 @@
 // This file was automatically generated and should not be edited.
 
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { LetterRequestMailChoice } from "./globalTypes";
+import { OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL fragment: AllSessionInfo
 // ====================================================
+
+export interface AllSessionInfo_onboardingInfo {
+  /**
+   * The reason the user originally signed up with us.
+   */
+  signupIntent: OnboardingInfoSignupIntent;
+}
 
 export interface AllSessionInfo_onboardingStep1 {
   firstName: string;
@@ -87,6 +95,14 @@ export interface AllSessionInfo_letterRequest {
 
 export interface AllSessionInfo {
   /**
+   * The first name of the currently logged-in user, or null if not logged-in.
+   */
+  firstName: string | null;
+  /**
+   * The last name of the currently logged-in user, or null if not logged-in.
+   */
+  lastName: string | null;
+  /**
    * The phone number of the currently logged-in user, or null if not logged-in.
    */
   phoneNumber: string | null;
@@ -103,9 +119,17 @@ export interface AllSessionInfo {
    */
   isSafeModeEnabled: boolean;
   /**
-   * Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.
+   * Whether we should redirect this user to the legacy tenant app after they log
+   * in. If null, the user is either not a legacy user, or legacy app integration is disabled.
    */
   prefersLegacyApp: boolean | null;
+  /**
+   * The user's onboarding details, which they filled out during the onboarding
+   * process. This is not to be confused with the individual onboarding steps,
+   * which capture information someone filled out *during* onboarding, before they
+   * became a full-fledged user.
+   */
+  onboardingInfo: AllSessionInfo_onboardingInfo | null;
   onboardingStep1: AllSessionInfo_onboardingStep1 | null;
   onboardingStep2: AllSessionInfo_onboardingStep2 | null;
   onboardingStep3: AllSessionInfo_onboardingStep3 | null;
@@ -114,14 +138,27 @@ export interface AllSessionInfo {
   accessDates: string[];
   landlordDetails: AllSessionInfo_landlordDetails | null;
   letterRequest: AllSessionInfo_letterRequest | null;
+  /**
+   * The URL of the most recently-generated HP Action PDF for the current user.
+   */
+  latestHpActionPdfUrl: string | null;
+  /**
+   * The status of the HP Action upload (document assembly) process for a user.
+   */
+  hpActionUploadStatus: HPUploadStatus;
 }
 
 export const graphQL = `fragment AllSessionInfo on SessionInfo {
+    firstName
+    lastName
     phoneNumber
     csrfToken
     isStaff
     isSafeModeEnabled
     prefersLegacyApp
+    onboardingInfo {
+        signupIntent
+    }
     onboardingStep1 {
         firstName
         lastName
@@ -155,5 +192,7 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
+    latestHpActionPdfUrl,
+    hpActionUploadStatus
 }
 `;

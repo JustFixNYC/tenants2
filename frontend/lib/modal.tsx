@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
+import { TransitionContextType, withTransitionContext } from './transition-context';
 
 
 const ANIMATION_CLASS = "jf-modal-animate";
@@ -31,7 +32,7 @@ interface ModalProps {
   onCloseGoTo: string|BackOrUpOneDirLevel;
 }
 
-type ModalPropsWithRouter = ModalProps & RouteComponentProps<any>;
+type ModalPropsWithRouter = ModalProps & RouteComponentProps<any> & TransitionContextType;
 
 interface ModalState {
   isActive: boolean;
@@ -43,6 +44,8 @@ export function getOneDirLevelUp(path: string) {
 }
 
 export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
+  raf: number|null = null;
+
   constructor(props: ModalPropsWithRouter) {
     super(props);
     this.state = {
@@ -75,7 +78,9 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
   @autobind
   handleClose() {
-    this.setState({ isActive: false });
+    // Note that we don't need to set isActive to false here;
+    // because this modal class is route-based, we'll simply trust
+    // that the modal doesn't exist in the route the user is sent to.
     if (this.props.onCloseGoTo === BackOrUpOneDirLevel && this.props.history.action === "PUSH") {
       this.props.history.goBack();
     } else if (this.closeDestination) {
@@ -101,6 +106,25 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     }
   }
 
+  componentDidUpdate(prevProps: ModalPropsWithRouter) {
+    if (this.props.transition === 'exit' && prevProps.transition !== 'exit') {
+      // For some reason we need to delay for one frame after the
+      // exit transition starts, or else the browser will get confused
+      // and not transition everything properly.
+      this.raf = window.requestAnimationFrame(() => {
+        this.raf = null;
+        this.setState({ isActive: false });
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.raf !== null) {
+      window.cancelAnimationFrame(this.raf);
+      this.raf = null;
+    }
+  }
+
   renderServerModal(): JSX.Element {
     return (
       <div className={UNDERLAY_CLASS}>
@@ -114,10 +138,12 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   renderBody(): JSX.Element {
     return (
       <React.Fragment>
-        {this.props.render && this.props.render({
-          getLinkCloseProps: this.getLinkCloseProps
-        })}
-        {this.props.children}
+        <div className="modal-content">
+          {this.props.render && this.props.render({
+            getLinkCloseProps: this.getLinkCloseProps
+          })}
+          {this.props.children}
+        </div>
         <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
       </React.Fragment>
     );
@@ -154,7 +180,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   }
 }
 
-export const Modal = withRouter(ModalWithoutRouter);
+export const Modal = withRouter(withTransitionContext(ModalWithoutRouter));
 
 interface LinkToModalRouteProps extends LinkProps {
   to: string;

@@ -12,11 +12,19 @@ FROM python:3.7.0
 ENV NODE_VERSION=8
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+  && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash - \
   && apt-get update \
   && apt-get install -y \
     nodejs \
+    # Install the CLIs for databases so we can use 'manage.py dbshell'.
+    postgresql-client \
+    # Add support for GeoDjango.
+    binutils \
+    libproj-dev \
+    gdal-bin \
     # This is for CircleCI.
     ca-certificates \
+    git-lfs \
     # These are for WeasyPrint.
     libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info \
   && rm -rf /var/lib/apt/lists/* \
@@ -66,17 +74,14 @@ ENV IS_GIT_REPO_PRISTINE=$IS_GIT_REPO_PRISTINE
 
 RUN npm run build \
   #
-  # We specify 'USE_DEVELOPMENT_DEFAULTS=yup' for this single
-  # command so that it can be run without raising any errors
-  # about undefined environment variables (this is fine, since
-  # collectstatic doesn't need to use any production env vars).
+  # We specify 'USE_DEVELOPMENT_DEFAULTS=yup' and a fake
+  # database URL for this single command so that it can be run
+  # without raising any errors about undefined environment
+  # variables (this is fine, since collectstatic doesn't need
+  # to use any production env vars or access the database).
   #
-  && USE_DEVELOPMENT_DEFAULTS=yup python manage.py collectstatic \
-  #
-  # This is kind of gross, but it makes it easy to test out this
-  # container locally, as it sets up a SQLite database that
-  # comes with the container.
-  #
-  && USE_DEVELOPMENT_DEFAULTS=yup python manage.py migrate
+  && USE_DEVELOPMENT_DEFAULTS=yup \
+     DATABASE_URL=postgres://it-does-not/matter \
+     python manage.py collectstatic
 
 CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

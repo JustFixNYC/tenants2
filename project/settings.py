@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-from typing import List
+from typing import List, Dict, Optional
 import dj_database_url
 
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
-from .util.settings_util import parse_secure_proxy_ssl_header
+from .util.settings_util import (
+    parse_secure_proxy_ssl_header, LazilyImportedFunction)
 from .util import git
 
 
@@ -38,24 +39,45 @@ SECURE_SSL_REDIRECT = env.SECURE_SSL_REDIRECT
 
 SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = env.SESSION_COOKIE_SECURE
+
+CSRF_COOKIE_SECURE = env.CSRF_COOKIE_SECURE
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+X_FRAME_OPTIONS = 'DENY'
+
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'graphene_django',
     'project.apps.DefaultConfig',
+    'project.apps.JustfixAdminConfig',
     'frontend',
     'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',
     'onboarding.apps.OnboardingConfig',
     'issues.apps.IssuesConfig',
-    'loc.apps.LocConfig'
+    'loc.apps.LocConfig',
+    'airtable.apps.AirtableConfig',
+    'texting.apps.TextingConfig',
+    'nycha.apps.NychaConfig',
+    'hpaction.apps.HPActionConfig',
+    'twofactor.apps.TwofactorConfig',
+    'nycdb',
+    'rapidpro.apps.RapidproConfig',
+    'findhelp.apps.FindhelpConfig'
 ]
 
 MIDDLEWARE = [
@@ -63,11 +85,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'twofactor.middleware.admin_requires_2fa_middleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -85,11 +109,15 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'frontend.context_processors.safe_mode',
                 'project.context_processors.ga_snippet',
+                'project.context_processors.facebook_pixel_snippet',
+                'project.context_processors.fullstory_snippet',
                 'project.context_processors.rollbar_snippet',
             ],
         },
     },
 ]
+
+SITE_ID = 1
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -97,10 +125,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+DATABASE_ROUTERS: List[str] = []
+
+if not env.ENABLE_FINDHELP:
+    DATABASE_ROUTERS.append('findhelp.models.IgnoreFindhelpMigrationsRouter')
+
 DATABASES = {
     'default': dj_database_url.parse(env.DATABASE_URL),
 }
 
+NYCDB_DATABASE = None
+
+if env.NYCDB_DATABASE_URL:
+    DATABASES['nycdb'] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
+    NYCDB_DATABASE = 'nycdb'
+
+MIGRATION_MODULES = {
+    # The NYCDB is an external database that we read from, so we don't
+    # want to modify its schema in any way.
+    'nycdb': None
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -132,15 +176,20 @@ LOGIN_URL = '/login'
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = [
+    ('en', 'English'),
+]
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = env.ENABLE_I18N
 
-USE_L10N = True
+USE_L10N = env.ENABLE_I18N
 
 USE_TZ = True
+
 
 # This is based off the default Django logging configuration:
 # https://github.com/django/django/blob/master/django/utils/log.py
@@ -155,14 +204,27 @@ LOGGING = {
         },
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'debug' if env.LOG_LEVEL == 'DEBUG' else None,
         },
         'django.server': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'filters': ['skip_static_requests'],
             'formatter': 'django.server',
         },
     },
+    'filters': {
+        'skip_static_requests': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': LazilyImportedFunction(
+                'project.logging.skip_static_requests')
+        }
+    },
     'formatters': {
+        'debug': {
+            'format': '{levelname}:{name} {message}',
+            'style': '{',
+        },
         'django.server': {
             '()': 'django.utils.log.ServerFormatter',
             'format': '[{server_time}] {message}',
@@ -172,7 +234,14 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console', 'rollbar'],
-            'level': 'INFO',
+            'level': env.LOG_LEVEL,
+        },
+        'twilio': {
+            # At the INFO level, Twilio logs the recipient and
+            # body of SMS messages, which we'd like to keep out
+            # of production logs, as it's PII, so we'll only
+            # log warnings.
+            'level': 'WARNING'
         },
         'django': {
             'handlers': ['console'],
@@ -197,15 +266,43 @@ _STATIC_ROOT_PATH = BASE_DIR / 'staticfiles'
 
 STATIC_ROOT = str(_STATIC_ROOT_PATH)
 
-if not _STATIC_ROOT_PATH.exists():
-    # This avoids a spurious warning from whitenoise that
-    # shows up even in development mode.
-    _STATIC_ROOT_PATH.mkdir()
+# This avoids a spurious warning from whitenoise that
+# shows up even in development mode.
+_STATIC_ROOT_PATH.mkdir(exist_ok=True)
 
 STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
 
+_MEDIA_ROOT_PATH = BASE_DIR / 'mediafiles'
+
+_MEDIA_ROOT_PATH.mkdir(exist_ok=True)
+
+MEDIA_ROOT = str(_MEDIA_ROOT_PATH)
+
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+if env.AWS_ACCESS_KEY_ID:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+
+AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+
+AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
+
+AWS_DEFAULT_ACL = 'private'
+
+AWS_BUCKET_ACL = 'private'
+
+AWS_AUTO_CREATE_BUCKET = True
+
+AWS_STORAGE_STATICFILES_BUCKET_NAME = env.AWS_STORAGE_STATICFILES_BUCKET_NAME
+
+AWS_STORAGE_STATICFILES_ORIGIN = (
+    f'https://{AWS_STORAGE_STATICFILES_BUCKET_NAME}.s3.amazonaws.com')
+
 GRAPHENE = {
     'SCHEMA': 'project.schema.schema',
+    'SCHEMA_INDENT': 2,
     # Setting this to None is very important for error logging, as
     # its default value of
     # graphene_django.debug.middleware.DjangoDebugMiddleware somehow
@@ -219,15 +316,15 @@ GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
 GEOCODING_TIMEOUT = 3
 
-LANDLORD_LOOKUP_URL = "https://whoownswhat.justfix.nyc/api/landlord"
-
-LANDLORD_LOOKUP_TIMEOUT = GEOCODING_TIMEOUT
-
 LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
 
 LEGACY_ORIGIN = env.LEGACY_ORIGIN
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
+
+FACEBOOK_PIXEL_ID = env.FACEBOOK_PIXEL_ID
+
+FULLSTORY_ORG_ID = env.FULLSTORY_ORG_ID
 
 GIT_INFO = git.GitInfo.from_dir_or_env(BASE_DIR)
 
@@ -239,8 +336,44 @@ TWILIO_PHONE_NUMBER = env.TWILIO_PHONE_NUMBER
 
 TWILIO_TIMEOUT = 3
 
+SLACK_WEBHOOK_URL = env.SLACK_WEBHOOK_URL
+
+SLACK_TIMEOUT = 3
+
+AIRTABLE_API_KEY = env.AIRTABLE_API_KEY
+
+AIRTABLE_URL = env.AIRTABLE_URL
+
+AIRTABLE_TIMEOUT = 3
+
+HP_ACTION_API_ENDPOINT = env.HP_ACTION_API_ENDPOINT
+
+HP_ACTION_TEMPLATE_ID = env.HP_ACTION_TEMPLATE_ID
+
+HP_ACTION_CUSTOMER_KEY = env.HP_ACTION_CUSTOMER_KEY
+
+HP_ACTION_TIMEOUT = 90
+
+TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
+
+MAPBOX_ACCESS_TOKEN = env.MAPBOX_ACCESS_TOKEN
+
+MAPBOX_TILES_ORIGIN = 'https://api.tiles.mapbox.com'
+
+RAPIDPRO_API_TOKEN = env.RAPIDPRO_API_TOKEN
+
+RAPIDPRO_HOSTNAME = env.RAPIDPRO_HOSTNAME
+
+LOB_SECRET_API_KEY = env.LOB_SECRET_API_KEY
+
+LOB_PUBLISHABLE_API_KEY = env.LOB_PUBLISHABLE_API_KEY
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
+
+ROLLBAR: Optional[Dict[str, str]] = None
+
+DEBUG_DATA_DIR = env.DEBUG_DATA_DIR
 
 if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     # The following will enable Rollbar on the server-side.
@@ -256,10 +389,37 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 
+CSP_STYLE_SRC = [
+    "'self'",
+    # We originally disallowed unsafe-inline, but it just became too much of
+    # a hassle, as third-party libraries injected inline styles and
+    # even SVGs used in <img> tags were unable to contain <style> elements
+    # too.
+    "'unsafe-inline'"
+]
+
+CSP_IMG_SRC = [
+    "'self'",
+]
+
+CSP_SCRIPT_SRC = [
+    "'self'",
+]
+
 CSP_CONNECT_SRC = [
     "'self'",
     "https://geosearch.planninglabs.nyc"
 ]
+
+if AWS_STORAGE_STATICFILES_BUCKET_NAME:
+    STATICFILES_STORAGE = 'project.storage.S3StaticFilesStorage'
+    STATIC_URL = f'{AWS_STORAGE_STATICFILES_ORIGIN}/'
+    CSP_STYLE_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
+    CSP_SCRIPT_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
+    CSP_IMG_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
+
+if MAPBOX_ACCESS_TOKEN:
+    CSP_IMG_SRC.append(MAPBOX_TILES_ORIGIN)
 
 if DEBUG:
     CSP_EXCLUDE_URL_PREFIXES = (

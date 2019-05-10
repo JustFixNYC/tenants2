@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import autobind from 'autobind-decorator';
 import { AriaExpandableButton } from './aria';
@@ -7,6 +8,7 @@ import { bulmaClasses } from './bulma';
 import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
 import { ga } from './google-analytics';
+import { StaticImage } from './static-image';
 
 type Dropdown = 'developer'|'all';
 
@@ -83,7 +85,8 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   @autobind
-  handleShowSafeModeUI() {
+  handleShowSafeModeUI(e: SyntheticEvent) {
+    e.preventDefault();
     window.SafeMode.showUI();
   }
 
@@ -112,13 +115,12 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   renderNavbarBrand(): JSX.Element {
-    const { server } = this.props;
     const { state } = this;
 
     return (
       <div className="navbar-brand">
-        <Link className="navbar-item" to={Routes.home}>
-          <img src={`${server.staticURL}frontend/img/logo.png`} alt="Home" />
+        <Link className="navbar-item" to={Routes.locale.home}>
+          <StaticImage src="frontend/img/logo.png" alt="Home" />
         </Link>
         <AriaExpandableButton
           className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}
@@ -137,17 +139,21 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   render() {
     const { state } = this;
     const { session, server } = this.props;
+    const navClass = classnames(
+      'navbar',
+      !session.isSafeModeEnabled && 'is-fixed-top'
+    );
 
     return (
-      <nav className="navbar" ref={this.navbarRef}>
+      <nav className={navClass} ref={this.navbarRef}>
         <div className="container">
           {this.renderNavbarBrand()}
           <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
             <div className="navbar-end">
               {session.isStaff && <a className="navbar-item" href={server.adminIndexURL}>Admin</a>}
               {session.phoneNumber
-                ? <Link className="navbar-item" to={Routes.logout}>Sign out</Link>
-                : <Link className="navbar-item" to={Routes.login}>Sign in</Link> }
+                ? <Link className="navbar-item" to={Routes.locale.logout}>Sign out</Link>
+                : <Link className="navbar-item" to={Routes.locale.login}>Sign in</Link> }
               {this.renderDevMenu()}
             </div>
           </div>

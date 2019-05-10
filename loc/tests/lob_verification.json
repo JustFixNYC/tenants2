@@ -1,0 +1,51 @@
+{
+  "id": "us_ver_c7cb63d68f8d6",
+  "recipient": "LOB.COM",
+  "primary_line": "185 BERRY ST STE 6100",
+  "secondary_line": "",
+  "urbanization": "",
+  "last_line": "SAN FRANCISCO CA 94107-1728",
+  "deliverability": "deliverable",
+  "components": {
+    "primary_number": "185",
+    "street_predirection": "",
+    "street_name": "BERRY",
+    "street_suffix": "ST",
+    "street_postdirection": "",
+    "secondary_designator": "STE",
+    "secondary_number": "6100",
+    "pmb_designator": "",
+    "pmb_number": "",
+    "extra_secondary_designator": "",
+    "extra_secondary_number": "",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "zip_code": "94107",
+    "zip_code_plus_4": "1728",
+    "zip_code_type": "standard",
+    "delivery_point_barcode": "941071728506",
+    "address_type": "commercial",
+    "record_type": "highrise",
+    "default_building_address": false,
+    "county": "SAN FRANCISCO",
+    "county_fips": "06075",
+    "carrier_route": "C001",
+    "carrier_route_type": "city_delivery",
+    "latitude": 37.77597542841264,
+    "longitude": -122.3929557343685
+  },
+  "deliverability_analysis": {
+    "dpv_confirmation": "Y",
+    "dpv_cmra": "N",
+    "dpv_vacant": "N",
+    "dpv_footnotes": [
+      "AA",
+      "BB"
+    ],
+    "ews_match": false,
+    "lacs_indicator": "",
+    "lacs_return_code": "",
+    "suite_return_code": ""
+  },
+  "object": "us_verification"
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
+    <style>
+      .container {
+        max-width: 480px;
+      }
+
+      .jf-flexed {
+        flex: 1;
+      }
+
+      canvas#qr {
+        display: block;
+        padding: 2em 0;
+        margin: 0 auto;
+      }
+    </style>
+    <title>Two-factor verification</title>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Two-factor verification</h1>
+
+        {% if error %}
+        <div class="notification is-danger content is-large">
+          {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="content is-medium">
+          <p>
+            To proceed, you must authenticate with a
+            <strong>time-based one-time password</strong> (TOTP).
+          </p>
+          {% if not twofactor.has_user_seen_secret_yet %}
+            <p>
+              To do this, you will need to configure a TOTP
+              device, most likely by installing an app on your
+              smartphone.
+            </p>
+            <p>
+              If you're on Android, you can use the
+              <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank">Google Authenticator</a> app.
+              Or if you're on iOS, you can use Matt Rubin's open-source <a href="https://mattrubin.me/authenticator/">Authenticator</a> app.
+            </p>
+            <p>
+              Once you've installed the app, you can use the following QR
+              code to configure it for this website:
+            </p>
+            <canvas id="qr" width="300" height="300"></canvas>
+            <p>
+              Alternatively, if you're viewing this website on your
+              smartphone right now, you can
+              <a href="{{ twofactor.provisioning_uri }}" id="provisioning">follow this TOTP provisioning URL</a>.
+            </p>
+            <p>
+              Once you've configured your device, you should see a
+              six-digit number that changes every 30 seconds or so. Enter
+              it below.
+            </p>
+          {% endif %}
+        </div>
+
+        <form action="{% url 'verify' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ next }}">
+          <div class="field has-addons">
+            <label class="jf-sr-only" for="otp">Your one-time password:</label>
+            <div class="control jf-flexed">
+              <input class="input is-large" type="number" name="otp" autocomplete="off" id="otp" required placeholder="123456">
+            </div>
+            <div class="control">
+              <button class="button is-large is-primary" type="submit">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    {% if not twofactor.has_user_seen_secret_yet %}
+    <script src="{% static 'twofactor/qrious-4.0.2.min.js' %}"></script>
+    <script src="{% static 'twofactor/render-qr-code.js' %}"></script>
+    {% endif %}
+  </body>
+</html>

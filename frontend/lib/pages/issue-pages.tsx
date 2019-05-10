@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
-import { safeGetDjangoChoiceLabel, allCapsToSlug, slugToAllCaps } from "../common-data";
+import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';
-import Routes, { RouteTypes } from '../routes';
+import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
@@ -15,19 +15,25 @@ import { TextareaFormField, HiddenFormField, MultiToggleButtonFormField } from '
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
-import { issueChoicesForArea, ISSUE_AREA_CHOICES, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
+import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
 import { ga } from '../google-analytics';
 import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
+import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
+import { IssueChoice } from '../../../common-data/issue-choices';
+import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
+import { CharsRemaining } from '../chars-remaining';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
-type IssuesAreaPropsWithCtx = RouteTypes.loc.issues.area.RouteProps;
+type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
+  toHome: string
+};
 
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
-  renderForm(ctx: FormContext<IssueAreaInput>, area: string): JSX.Element {
+  renderForm(ctx: FormContext<IssueAreaInput>, area: IssueAreaChoice): JSX.Element {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor('area')} />
@@ -36,8 +42,12 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <br/>
-        <TextareaFormField {...ctx.fieldPropsFor('other')} label="Don't see your issues listed? You can add additional issues below." />
+        <TextareaFormField
+          {...ctx.fieldPropsFor('other')}
+          maxLength={CUSTOM_ISSUE_MAX_LENGTH}
+          label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
+        />
+        <CharsRemaining max={CUSTOM_ISSUE_MAX_LENGTH} current={ctx.fieldPropsFor('other').value.length} />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );
@@ -46,7 +56,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.loc.issues.home} />
+        <BackButton to={this.props.toHome} />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
     );
@@ -54,27 +64,29 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
   render() {
     const area = slugToAllCaps(this.props.match.params.area);
-    const label = safeGetDjangoChoiceLabel(ISSUE_AREA_CHOICES, area);
-    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
-      area,
-      issues: issuesForArea(area, session.issues),
-      other: customIssueForArea(area, session.customIssues)
-    });
-    if (label === null) {
+    if (!isIssueAreaChoice(area)) {
       return <NotFound {...this.props} />;
     }
+    const label = getIssueAreaChoiceLabels()[area];
+    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
+      area,
+      issues: issuesForArea(area, session.issues as IssueChoice[]),
+      other: customIssueForArea(area, session.customIssues)
+    });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
       <Page title={`${label} - Issue checklist`}>
-        <h1 className="title jf-issue-area">{svg} {label} issues</h1>
-        <SessionUpdatingFormSubmitter
-          confirmNavIfChanged
-          mutation={IssueAreaMutation}
-          initialState={getInitialState}
-          onSuccessRedirect={Routes.loc.issues.home}
-        >
-          {(formCtx) => this.renderForm(formCtx, area)}
-        </SessionUpdatingFormSubmitter>
+        <div>
+          <h1 className="title is-4 jf-issue-area">{svg} {label} issues</h1>
+          <SessionUpdatingFormSubmitter
+            confirmNavIfChanged
+            mutation={IssueAreaMutation}
+            initialState={getInitialState}
+            onSuccessRedirect={this.props.toHome}
+          >
+            {(formCtx) => this.renderForm(formCtx, area)}
+          </SessionUpdatingFormSubmitter>
+        </div>
       </Page>
     );
   }
@@ -86,14 +98,21 @@ export function getIssueLabel(count: number): string {
       : `${count} issues reported`;
 }
 
-function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boolean }): JSX.Element {
+type IssueAreaLinkProps = {
+  area: IssueAreaChoice;
+  label: string;
+  isHighlighted?: boolean;
+  routes: IssuesRouteInfo;
+};
+
+function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
 
   return (
     <AppContext.Consumer>
       {(ctx) => {
-        const count = areaIssueCount(area, ctx.session.issues, ctx.session.customIssues);
-        const url = Routes.loc.issues.area.create(allCapsToSlug(area));
+        const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssues);
+        const url = props.routes.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
@@ -102,15 +121,29 @@ function IssueAreaLink(props: { area: string, label: string, isHighlighted?: boo
 
         return (
           <Link to={url} className={classnames(
-            'jf-issue-area-link',
+            'jf-issue-area-link', 'notification',
             props.isHighlighted && 'jf-highlight',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
             {svg}
-            <p><strong>{label}</strong></p>
-            <p className="is-size-7 jf-issue-count">{checkSvg} {issueLabel}</p>
+            <p className="title is-5 is-spaced">{label}</p>
+            <p className="subtitle is-6 jf-issue-count">{checkSvg} {issueLabel}</p>
           </Link>
         );
+      }}
+    </AppContext.Consumer>
+  );
+}
+
+function LinkToNextStep(props: {toNext: string}): JSX.Element {
+  return (
+    <AppContext.Consumer>
+      {(ctx) => {
+        if (ctx.session.issues.length || ctx.session.customIssues.length) {
+          return <Link to={props.toNext} className="button is-primary is-medium">Next</Link>
+        } else {
+          return null;
+        }
       }}
     </AppContext.Consumer>
   );
@@ -144,15 +177,18 @@ interface IssuesHomeState {
   searchText: string;
 }
 
-class IssuesHome extends React.Component<{}, IssuesHomeState> {
-  constructor(props: {}) {
+type IssuesHomeProps = IssuesRoutesProps;
+
+class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
+  constructor(props: IssuesHomeProps) {
     super(props);
     this.state = { searchText: '' };
   }
 
-  renderColumnForArea(area: string, label: string): JSX.Element {
+  renderColumnForArea(area: IssueAreaChoice, label: string): JSX.Element {
     return <div className="column">
       <IssueAreaLink
+        routes={this.props.routes}
         area={area}
         label={label}
         isHighlighted={doesAreaMatchSearch(area, this.state.searchText)}
@@ -171,34 +207,48 @@ class IssuesHome extends React.Component<{}, IssuesHomeState> {
   }
 
   render() {
+    const labels = getIssueAreaChoiceLabels();
     return (
-      <Page title="Issue checklist">
-        <h1 className="title">Issue checklist</h1>
-        <SimpleProgressiveEnhancement>
-          {this.renderAutocomplete()}
-        </SimpleProgressiveEnhancement>
-        {groupByTwo(ISSUE_AREA_CHOICES).map(([a, b], i) => (
-          <div className="columns is-mobile" key={i}>
-            {this.renderColumnForArea(...a)}
-            {b && this.renderColumnForArea(...b)}
+      <Page title="Apartment self-inspection">
+        <div>
+          <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
+          <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. This <strong>issue checklist</strong> will be sent to your landlord. <strong>Don't hold back!</strong></p>
+          <SimpleProgressiveEnhancement>
+            {this.renderAutocomplete()}
+          </SimpleProgressiveEnhancement>
+          {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
+            <div className="columns is-tablet" key={i}>
+              {this.renderColumnForArea(...a)}
+              {b && this.renderColumnForArea(...b)}
+            </div>
+          ))}
+          <br/>
+          <div className="buttons jf-two-buttons">
+            <Link to={this.props.toBack} className="button is-light is-medium">Back</Link>
+            <LinkToNextStep toNext={this.props.toNext} />
           </div>
-        ))}
-        <br/>
-        <div className="buttons jf-two-buttons">
-          <Link to={Routes.loc.home} className="button is-text">Back</Link>
-          <Link to={Routes.loc.accessDates} className="button is-primary">Next</Link>
         </div>
+
       </Page>
-    );  
+    );
   }
 }
 
-export function IssuesRoutes(): JSX.Element {
+type IssuesRoutesProps = {
+  routes: IssuesRouteInfo,
+  toBack: string,
+  toNext: string
+};
+
+export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
+  const { routes } = props;
   return (
     <Switch>
-      <Route path={Routes.loc.issues.home} exact component={IssuesHome} />
-      <Route path={Routes.loc.issues.area.parameterizedRoute} render={(ctx) => (
-        <IssuesArea {...ctx} />
+      <Route path={routes.home} exact render={() => (
+        <IssuesHome {...props} />
+      )} />
+      <Route path={routes.area.parameterizedRoute} render={(ctx) => (
+        <IssuesArea {...ctx} toHome={routes.home} />
       )} />
     </Switch>
   );

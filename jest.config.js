@@ -1,6 +1,17 @@
 const path = require('path');
+const assert = require('assert');
+
+const { nodeBabelOptions } = require('./frontend/webpack/base');
+
+assert(nodeBabelOptions);
 
 module.exports = {
+  "globals": {
+    "ts-jest": {
+      "babelConfig": nodeBabelOptions,
+      "tsConfig": "tsconfig.build.json"
+    }
+  },
   "testURL": "http://localhost",
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
@@ -33,5 +44,7 @@ module.exports = {
     "\\.svg$": path.join(__dirname, "frontend", "mocks", "svg-mock.js")
   },
   "restoreMocks": true,
-  "setupTestFrameworkScriptFile": "./frontend/lib/tests/setup.ts"
+  "setupFilesAfterEnv": [
+    "./frontend/lib/tests/setup.ts"
+  ]
 };

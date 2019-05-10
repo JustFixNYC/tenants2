@@ -1,9 +1,14 @@
 fragment AllSessionInfo on SessionInfo {
+    firstName
+    lastName
     phoneNumber
     csrfToken
     isStaff
     isSafeModeEnabled
     prefersLegacyApp
+    onboardingInfo {
+        signupIntent
+    }
     onboardingStep1 {
         firstName
         lastName
@@ -37,4 +42,6 @@ fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
+    latestHpActionPdfUrl,
+    hpActionUploadStatus
 }

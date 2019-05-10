@@ -1,26 +1,31 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { bulmaClasses } from './bulma';
+import { bulmaClasses, BulmaClassName } from './bulma';
 import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
 export function BackButton(props: {
-  to: LocationDescriptor<any>,
+  buttonClass?: BulmaClassName;
+  to: LocationDescriptor<any>;
   label?: string
 }): JSX.Element {
   return (
-    <Link to={props.to} className="button is-text">{props.label || "Cancel and go back"}</Link>
+    <Link to={props.to} className={bulmaClasses('button', props.buttonClass || 'is-light', 'is-medium')}>
+      {props.label || "Cancel and go back"}</Link>
   );
 }
 
 export function NextButton(props: {
+  buttonClass?: BulmaClassName;
+  isFullWidth?: boolean;
   isLoading: boolean;
   label?: string;
 }): JSX.Element {
   return (
-    <button type="submit" className={bulmaClasses('button', 'is-primary', {
-      'is-loading': props.isLoading
+    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', 'is-medium', {
+      'is-loading': props.isLoading,
+      'is-fullwidth': props.isFullWidth
     })}>{props.label || 'Next'}</button>
   );
 }
@@ -30,7 +35,7 @@ export function CenteredPrimaryButtonLink(props: LinkProps): JSX.Element {
     ...props,
     className: classnames(
       props.className,
-      bulmaClasses('button', 'is-primary'),
+      bulmaClasses('button', 'is-primary', 'is-large'),
       'jf-is-extra-wide'
     )
   };

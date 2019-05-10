@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<ul>
+    {% for dataset in datasets %}
+    <li>
+      <strong>{{ dataset.name }}</strong>
+      ({% for fmt, url in dataset.urls %}<a href="{{ url }}">{{ fmt }}</a>{% if not forloop.last %} | {% endif %}{% endfor %})
+      -
+      {{ dataset.html_desc|safe }}
+    </li>
+    {% endfor %}
+</ul>
+<p>
+    Please be careful when downloading data that contains personally-identifiable
+    information (PII).  We don't want that information falling into the wrong hands!
+</p>
+<p>
+    You can view visualizations that explore these datasets at the
+    <a href="{% url 'admin:dashboard' %}">dashboard</a>.
+</p>
+{% endblock %}

@@ -3,6 +3,7 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import Confetti, { CONFETTI_WRAPPER_CLASS, ensurePointerEventsIsNone } from "../confetti";
 import { assertNotNull } from '../util';
+import { responsiveInt } from '../../vendor/confetti';
 
 describe('Confetti', () => {
   afterEach(ReactTestingLibraryPal.cleanup);
@@ -42,4 +43,10 @@ describe("ensurePointerEventsIsNone()", () => {
     div.style.pointerEvents = 'none';
     ensurePointerEventsIsNone(div);
   });
+});
+
+test("responsiveInt() works", () => {
+  expect(responsiveInt(2, 4, 1)).toBe(2);
+  expect(responsiveInt(2, 4, 99999)).toBe(4);
+  expect(responsiveInt(2, 4, 900)).toBe(3);
 });

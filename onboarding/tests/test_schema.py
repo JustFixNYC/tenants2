@@ -29,17 +29,22 @@ VALID_STEP_DATA = {
     4: {
         'phoneNumber': '5551234567',
         'canWeSms': True,
+        'signupIntent': 'LOC',
         'password': 'blarg1234',
         'confirmPassword': 'blarg1234',
         'agreeToTerms': True
     }
 }
 
-
-@pytest.fixture
-def fake_geocoding():
-    with patch('project.geocoding.search', new=lambda text: None):
-        yield None
+ONBOARDING_INFO_QUERY = '''
+query {
+    session {
+        onboardingInfo {
+            signupIntent
+        }
+    }
+}
+'''
 
 
 def _get_step_1_info(graphql_client):
@@ -54,21 +59,21 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
         queries.append('AllSessionInfo.graphql')
     return graphql_client.execute(
         get_frontend_queries(*queries),
-        variable_values={'input': {
+        variables={'input': {
             **VALID_STEP_DATA[n],
             **input_kwargs
         }}
     )['data'][f'output']
 
 
-def test_onboarding_step_1_validates_data(graphql_client, fake_geocoding):
+def test_onboarding_step_1_validates_data(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client, firstName='')
     assert len(ob['errors']) > 0
     assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
-def test_onboarding_step_1_works(graphql_client, fake_geocoding):
+def test_onboarding_step_1_works(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client)
     assert ob['errors'] == []
     assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
@@ -95,7 +100,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client, fake_geocoding, smsoutbox):
+def test_onboarding_works(graphql_client, smsoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
@@ -113,11 +118,24 @@ def test_onboarding_works(graphql_client, fake_geocoding, smsoutbox):
     assert oi.lease_type == 'MARKET_RATE'
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
-    assert "Welcome to JustFix, boop" in smsoutbox[0].body
+    assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
 
 
 @pytest.mark.django_db
-def test_onboarding_works_without_password(graphql_client, fake_geocoding):
+def test_onboarding_info_is_none_when_it_does_not_exist(graphql_client):
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
+    assert result['onboardingInfo'] is None
+
+
+@pytest.mark.django_db
+def test_onboarding_info_is_present_when_it_exists(graphql_client):
+    execute_onboarding(graphql_client)
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
+    assert result['onboardingInfo']['signupIntent'] == 'LOC'
+
+
+@pytest.mark.django_db
+def test_onboarding_works_without_password(graphql_client):
     result = execute_onboarding(graphql_client, {
         **VALID_STEP_DATA,
         4: {
@@ -135,3 +153,13 @@ def test_onboarding_works_without_password(graphql_client, fake_geocoding):
     assert user.pk == request.user.pk
     assert is_password_usable(user.password) is False
     assert oi.address == '123 boop way'
+
+
+def test_onboarding_session_info_is_fault_tolerant(graphql_client):
+    key = session_key_for_step(1)
+    graphql_client.request.session[key] = {'lol': 1}
+
+    with patch('onboarding.schema.logger') as m:
+        assert _get_step_1_info(graphql_client) is None
+        m.exception.assert_called_once_with(f'Error deserializing {key} from session')
+        assert key not in graphql_client.request.session

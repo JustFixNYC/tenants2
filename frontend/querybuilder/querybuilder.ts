@@ -244,23 +244,6 @@ function doesApolloCodegenNeedToBeRun(): boolean {
   return latestInputMod > earliestOutputMod;
 }
 
-function fixInvalidGlobaltypesReferences() {
-  // This is a fix for a bug in Apollo 1.7.0:
-  //
-  //   https://github.com/apollographql/apollo-cli/issues/543
-  //
-  // At the time of this writing, the bug is actually fixed but
-  // a new release hasn't been issued yet. Once one has, we should
-  // upgrade to it and remove this code.
-  fs.readdirSync(GEN_PATH)
-    .forEach(filename => {
-      const abspath = path.join(GEN_PATH, filename);
-      const contents = fs.readFileSync(abspath, { encoding: 'utf-8' })
-        .replace('"globalTypes"', '"./globalTypes"');
-      fs.writeFileSync(abspath, contents, { encoding: 'utf-8' });
-    });
-}
-
 /**
  * Run Apollo codegen:generate if needed, returning 0 on success, nonzero on errors.
  * 
@@ -272,9 +255,10 @@ export function runApolloCodegen(force: boolean = false): number {
   const child = child_process.spawnSync('node', [
     'node_modules/apollo/bin/run',
     'codegen:generate',
-    '--queries', `${LIB_PATH}/*.graphql`,
-    '--schema', SCHEMA_PATH,
+    '--includes', `${LIB_PATH}/*.graphql`,
+    '--localSchemaFile', SCHEMA_PATH,
     '--target', 'typescript',
+    '--no-addTypename',
     '--outputFlat',
     GEN_PATH,
   ], {
@@ -287,7 +271,6 @@ export function runApolloCodegen(force: boolean = false): number {
     return child.status;
   }
 
-  fixInvalidGlobaltypesReferences();
   COPY_FROM_GEN_TO_LIB.forEach(filename => {
     const content = fs.readFileSync(path.join(GEN_PATH, filename), { encoding: 'utf-8' });
     writeFileIfChangedSync(path.join(LIB_PATH, filename), content);

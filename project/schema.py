@@ -3,23 +3,41 @@ import graphene
 from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
+from django.forms import formset_factory
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
 from issues.schema import IssueMutations, IssueSessionInfo
 from loc.schema import LocMutations, LocSessionInfo
+from hpaction.schema import HPActionMutations, HPActionSessionInfo
 from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
-from . import forms
+from findhelp.schema import FindhelpInfo
+from . import forms, password_reset
 
 
 class SessionInfo(
     LegacyUserSessionInfo,
+    HPActionSessionInfo,
     LocSessionInfo,
     OnboardingSessionInfo,
     IssueSessionInfo,
     graphene.ObjectType
 ):
+    first_name = graphene.String(
+        description=(
+            "The first name of the currently logged-in user, or "
+            "null if not logged-in."
+        )
+    )
+
+    last_name = graphene.String(
+        description=(
+            "The last name of the currently logged-in user, or "
+            "null if not logged-in."
+        )
+    )
+
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or "
@@ -45,6 +63,18 @@ class SessionInfo(
         required=True
     )
 
+    def resolve_first_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.first_name
+
+    def resolve_last_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.last_name
+
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -65,12 +95,39 @@ class SessionInfo(
 class Example(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleForm
+        formset_classes = {
+            'subforms': formset_factory(
+                forms.ExampleSubform,
+                max_num=5,
+                validate_max=True,
+                formset=forms.ExampleSubformFormset
+            )
+        }
 
     response = graphene.String()
 
     @classmethod
-    def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
-        return cls(response=f"hello there {form.cleaned_data['example_field']}")
+    def perform_mutate(cls, form, info: ResolveInfo):
+        base_form: forms.LoginForm = form.base_form
+        return cls(response=f"hello there {base_form.cleaned_data['example_field']}")
+
+
+class ExampleRadio(DjangoFormMutation):
+    class Meta:
+        form_class = forms.ExampleRadioForm
+
+    response = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        return cls(response='whatever')
+
+
+class ExampleQuery(graphene.ObjectType):
+    hello = graphene.String(argument=graphene.String(default_value="stranger"))
+
+    def resolve_hello(self, info: ResolveInfo, argument: str) -> str:
+        return f"Hello {argument}"
 
 
 class Login(DjangoFormMutation):
@@ -113,13 +170,74 @@ class Logout(DjangoFormMutation):
         return Logout(session=SessionInfo())
 
 
-class Mutations(LocMutations, OnboardingMutations, IssueMutations, graphene.ObjectType):
+class PasswordReset(DjangoFormMutation):
+    '''
+    Used when the user requests their password be reset.
+    '''
+
+    class Meta:
+        form_class = forms.PasswordResetForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.PasswordResetForm, info: ResolveInfo):
+        request = info.context
+        password_reset.create_verification_code(request, form.cleaned_data['phone_number'])
+        return cls(errors=[])
+
+
+class PasswordResetVerificationCode(DjangoFormMutation):
+    '''
+    Used when the user verifies the verification code sent to them over SMS.
+    '''
+
+    class Meta:
+        form_class = forms.PasswordResetVerificationCodeForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.PasswordResetVerificationCodeForm, info: ResolveInfo):
+        request = info.context
+        err_str = password_reset.verify_verification_code(
+            request, form.cleaned_data['code'])
+        if err_str is not None:
+            return cls.make_error(err_str)
+        return cls(errors=[])
+
+
+class PasswordResetConfirm(DjangoFormMutation):
+    '''
+    Used when the user completes the password reset process
+    by providing a new password.
+    '''
+
+    class Meta:
+        form_class = forms.SetPasswordForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.SetPasswordForm, info: ResolveInfo):
+        request = info.context
+        err_str = password_reset.set_password(request, form.cleaned_data['password'])
+        if err_str is not None:
+            return cls.make_error(err_str)
+        return cls(errors=[])
+
+
+class Mutations(
+    HPActionMutations,
+    LocMutations,
+    OnboardingMutations,
+    IssueMutations,
+    graphene.ObjectType
+):
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
+    password_reset = PasswordReset.Field(required=True)
+    password_reset_verification_code = PasswordResetVerificationCode.Field(required=True)
+    password_reset_confirm = PasswordResetConfirm.Field(required=True)
     example = Example.Field(required=True)
+    example_radio = ExampleRadio.Field(required=True)
 
 
-class Query(graphene.ObjectType):
+class Query(FindhelpInfo, graphene.ObjectType):
     '''
     Here is some help text that gets passed back to
     GraphQL clients as part of our schema.
@@ -127,8 +245,13 @@ class Query(graphene.ObjectType):
 
     session = graphene.NonNull(SessionInfo)
 
+    example_query = graphene.NonNull(ExampleQuery)
+
     def resolve_session(self, info: ResolveInfo) -> SessionInfo:
         return SessionInfo()
+
+    def resolve_example_query(self, info: ResolveInfo) -> ExampleQuery:
+        return ExampleQuery()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

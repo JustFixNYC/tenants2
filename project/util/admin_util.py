@@ -2,9 +2,9 @@ from typing import Optional, get_type_hints
 
 
 def admin_field(
-    short_description: Optional[str]=None,
-    allow_tags: Optional[bool]=None,
-    admin_order_field: Optional[str]=None,
+    short_description: Optional[str] = None,
+    allow_tags: Optional[bool] = None,
+    admin_order_field: Optional[str] = None,
 ):
     '''
     This decorator can be used to easily assign Django
@@ -49,3 +49,28 @@ def admin_field(
             fn.boolean = True
         return fn
     return decorator
+
+
+def admin_action(short_description: str):
+    '''
+    Simple helper to add metadata to custom admin actions.
+    '''
+
+    def decorator(fn):
+        fn.short_description = short_description
+        return fn
+
+    return decorator
+
+
+def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
+    '''
+    A function that a ModelAdmin instance's `has_add_permission`,
+    `has_delete_permission`, etc. can be assigned to in order to
+    always return False.
+
+    >>> never_has_permission(1, 2, boop=3)
+    False
+    '''
+
+    return False

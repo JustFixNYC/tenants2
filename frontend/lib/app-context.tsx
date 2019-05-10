@@ -59,6 +59,16 @@ export interface AppServerInfo {
    * the Django app).
    */
   debug: boolean;
+
+  /**
+   * If the page contains a GraphQL query whose result has been pre-fetched
+   * by the server, this will contain its value.
+   */
+  prefetchedGraphQLQueryResponse?: {
+    graphQL: string,
+    input: any,
+    output: any
+  };
 }
 
 /**
@@ -145,9 +155,11 @@ export const AppContext = React.createContext<AppContextType>(defaultContext);
  */
 export function withAppContext<P extends AppContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AppContextType>> {
   return function(props: Omit<P, keyof AppContextType>) {
+    // https://github.com/Microsoft/TypeScript/issues/28748
+    const tsIssue28748Workaround = props as any;
     return (
       <AppContext.Consumer>
-        {(context) => <Component {...props} {...context} />}
+        {(context) => <Component {...tsIssue28748Workaround} {...context} />}
       </AppContext.Consumer>
     );
   }

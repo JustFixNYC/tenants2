@@ -1,7 +1,10 @@
 import pytest
+from freezegun import freeze_time
+
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from .test_landlord_lookup import mock_lookup_success
+from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
+from .factories import create_user_with_all_info
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -89,6 +92,7 @@ def execute_lr_mutation(graphql_client, **input):
 
 
 @pytest.mark.django_db
+@freeze_time("2017-01-01")
 def test_access_dates_works(graphql_client):
     graphql_client.request.user = UserFactory.create()
 
@@ -156,37 +160,39 @@ def test_landlord_details_is_null_when_user_has_no_onboarding_info(graphql_clien
 
 
 @pytest.mark.django_db
+@enable_fake_landlord_lookup
 def test_landlord_details_are_created_when_user_has_onboarding_info(
     graphql_client,
-    requests_mock
+    requests_mock,
+    nycdb
 ):
     oi = OnboardingInfoFactory()
     graphql_client.request.user = oi.user
     assert not hasattr(oi.user, 'landlord_details')
-    mock_lookup_success(requests_mock)
+    mock_lookup_success(requests_mock, nycdb)
     result = graphql_client.execute(
         'query { session { landlordDetails { name, address, isLookedUp } } }')
     assert result['data']['session']['landlordDetails'] == {
-        'address': '123 DOOMBRINGER STREET 4 11299',
+        'address': '124 99TH STREET\nBrooklyn, NY 11999',
         'isLookedUp': True,
-        'name': 'BOBBY DENVER'
+        'name': 'BOOP JONES'
     }
     assert hasattr(oi.user, 'landlord_details')
 
 
 @pytest.mark.django_db
 def test_letter_request_works(graphql_client, smsoutbox):
-    graphql_client.request.user = UserFactory.create(full_name='Boop Jones')
+    graphql_client.request.user = create_user_with_all_info()
 
     result = execute_lr_mutation(graphql_client)
     assert result['errors'] == []
     assert result['session']['letterRequest']['mailChoice'] == 'WE_WILL_MAIL'
     assert isinstance(result['session']['letterRequest']['updatedAt'], str)
 
-    # Ensure we text them if they want us to mail the letter.
-    assert len(smsoutbox) == 2
-    assert 'Boop' in smsoutbox[0].body
-    assert 'http://testserver/' in smsoutbox[1].body
+    # Ensure we text them if they want us to mail the letter *and* they gave us
+    # permission to SMS during onboarding.
+    assert len(smsoutbox) == 1
+    assert 'received your request' in smsoutbox[0].body
 
     smsoutbox[:] = []
 

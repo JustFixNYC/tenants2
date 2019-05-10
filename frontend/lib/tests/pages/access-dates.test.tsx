@@ -12,7 +12,7 @@ describe('access dates page', () => {
 
   it('redirects to next step after successful submission', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes/>, {
-      url: Routes.loc.accessDates
+      url: Routes.locale.loc.accessDates
     });
 
     pal.fillFormFields([
@@ -38,7 +38,7 @@ test('getInitialState() works', () => {
 
   expect(getInitialState([], new Date(2018, 0, 1))).toEqual({
     ...BLANK,
-    date1: '2018-01-08'
+    date1: '2018-01-15'
   });
   expect(getInitialState([date1])).toEqual({ ...BLANK, date1 });
   expect(getInitialState([date1, date2])).toEqual({ ...BLANK, date1, date2 });

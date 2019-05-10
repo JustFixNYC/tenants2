@@ -278,7 +278,7 @@ class FormWithFormsets:
         # on it later.
         non_form_errors = formset.non_form_errors()
         if non_form_errors:
-            all_errors = self._errors.get('__all__', [])
+            all_errors = self._errors.get('__all__', forms.utils.ErrorList())
             all_errors.extend(non_form_errors)
             self.errors['__all__'] = all_errors
 

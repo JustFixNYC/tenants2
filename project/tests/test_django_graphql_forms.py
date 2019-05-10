@@ -97,7 +97,7 @@ def jsonify(obj):
     return json.loads(json.dumps(obj))
 
 
-def execute_query(bar_field='blah', multi_field=None):
+def execute_query(bar_field='blah', multi_field=None, errors='field, messages'):
     if multi_field is None:
         multi_field = []
     client = Client(schema)
@@ -108,12 +108,13 @@ def execute_query(bar_field='blah', multi_field=None):
         foo(input: $input) {
             bazField,
             errors {
-                field,
-                messages
+                %(errors)s
             }
         }
     }
-    ''', variables={'input': input_var}, context=create_fake_request()))
+    ''' % {
+        'errors': errors
+    }, variables={'input': input_var}, context=create_fake_request()))
 
 
 def create_fake_request(user=None):
@@ -140,7 +141,7 @@ def execute_form_with_auth_query(some_field='HI', user=None):
     ''', variables={'input': input_var}, context=create_fake_request(user)))
 
 
-def execute_formsets_query(simples):
+def execute_formsets_query(simples, errors='field, messages'):
     client = Client(schema)
     input_var = {'simples': simples}
 
@@ -149,12 +150,13 @@ def execute_formsets_query(simples):
         mutationWithFormsets(input: $input) {
             output,
             errors {
-                field,
-                messages
+                %(errors)s
             }
         }
     }
-    ''', variables={'input': input_var}, context=create_fake_request()))
+    ''' % {
+        'errors': errors
+    }, variables={'input': input_var}, context=create_fake_request()))
 
 
 def test_formsets_query_works():
@@ -181,6 +183,25 @@ def test_formsets_query_reports_errors():
             'errors': [{
                 'field': 'simples.1.someField',
                 'messages': ['This field is required.']
+            }]
+        }}
+    }
+
+
+def test_formsets_query_reports_extended_errors():
+    result = execute_formsets_query([
+        {'someField': 'hello'},
+        {'someField': ''},
+    ], errors='field, extendedMessages { message, code }')
+    assert result == {
+        'data': {'mutationWithFormsets': {
+            'output': None,
+            'errors': [{
+                'field': 'simples.1.someField',
+                'extendedMessages': [{
+                    'message': 'This field is required.',
+                    'code': 'required'
+                }],
             }]
         }}
     }
@@ -338,6 +359,19 @@ def test_invalid_forms_return_camelcased_errors():
             }
         }
     }
+
+
+def test_invalid_forms_return_extended_errors():
+    assert execute_query(
+        bar_field='',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': 'barField',
+        'extendedMessages': [{
+            'message': 'This field is required.',
+            'code': 'required'
+        }]
+    }]
 
 
 def test_get_input_type_from_query_works():

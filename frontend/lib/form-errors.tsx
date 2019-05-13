@@ -4,11 +4,21 @@ import { ga } from './google-analytics';
 /** The server uses this as the field "name" for non-field errors. */
 const SERVER_NON_FIELD_ERROR = '__all__';
 
+/**
+ * This is a terse, old-style form validation error returned by
+ * the server. Only information about the human-readable messages
+ * is transimitted.
+ */
 export interface TerseServerFormFieldError {
   field: string;
   messages: string[];
 }
 
+/**
+ * This is the extended, new-style form validation error returned
+ * by the server. Aside from the human-readable error message to
+ * display, additional machine-readable information is communicated.
+ */
 export interface ExtendedServerFormFieldError {
   field: string;
   extendedMessages: {
@@ -30,10 +40,21 @@ export type WithServerFormFieldErrors = {
   errors: ServerFormFieldError[];
 };
 
+/**
+ * Normalized representation of a form validation error.
+ */
 export class FormError {
+  /**
+   * TypeScript doesn't seem to distinguish between an object
+   * with the "shape" of a FormError vs. an actual instance of it,
+   * so we'll add this sentinel to manually ensure it.
+   */
+  _type = 'FormError';
+
   constructor(readonly message: string, readonly code?: string) {
   }
 
+  /** The human-readable representation of the error. */
   toString(): string {
     return this.message;
   }

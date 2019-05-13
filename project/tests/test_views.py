@@ -243,6 +243,7 @@ class TestFormsets:
         response = self.form.submit()
         assert response.status == '200 OK'
         assert 'This is an example non-form error' in response
+        assert 'CODE_NFOER' in response
 
     def test_it_shows_field_errors(self):
         self.form['subforms-0-exampleField'] = 'hello there buddy'

@@ -4,13 +4,23 @@ import { ga } from './google-analytics';
 /** The server uses this as the field "name" for non-field errors. */
 const SERVER_NON_FIELD_ERROR = '__all__';
 
-/**
- * This is the form validation error type returned from the server.
- */
-export interface ServerFormFieldError {
+export interface TerseServerFormFieldError {
   field: string;
   messages: string[];
 }
+
+export interface ExtendedServerFormFieldError {
+  field: string;
+  extendedMessages: {
+    message: string,
+    code?: string
+  }[]
+}
+
+/**
+ * This is the form validation error type returned from the server.
+ */
+export type ServerFormFieldError = TerseServerFormFieldError | ExtendedServerFormFieldError;
 
 /**
  * Any form validation done by the server will return an object that
@@ -61,8 +71,8 @@ export interface FormErrors<T> {
  */
 export function trackFormErrors(errors: ServerFormFieldError[]): void {
   for (let error of errors) {
-    for (let message of error.messages) {
-      ga('send', 'event', 'form-error', error.field, message);
+    for (let fe of toFormErrors(error)) {
+      ga('send', 'event', 'form-error', error.field, fe.message);
     }
   }
 }
@@ -109,7 +119,7 @@ export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[
   }
 
   const result = getFormErrors([
-    { field: ff.field, messages: error.messages }
+    { ...error, field: ff.field }
   ], formsetErrors[ff.index]);
 
   formsetErrors[ff.index] = result;
@@ -119,6 +129,13 @@ export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[
 
 export function strToFormError(message: string): FormError {
   return new FormError(message);
+}
+
+export function toFormErrors(errors: ServerFormFieldError): FormError[] {
+  if ('extendedMessages' in errors) {
+    return errors.extendedMessages.map(em => new FormError(em.message, em.code));
+  }
+  return errors.messages.map(strToFormError);
 }
 
 /**
@@ -135,7 +152,7 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
 
   errors.forEach(error => {
     if (error.field === SERVER_NON_FIELD_ERROR) {
-      result.nonFieldErrors.push(...error.messages.map(strToFormError));
+      result.nonFieldErrors.push(...toFormErrors(error));
     } else {
       // Note that we're forcing a few typecasts here. It's not ideal, but
       // it seems better than the alternative of not parameterizing
@@ -154,9 +171,9 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
       // This code looks weird because TypeScript is being fidgety.
       const arr = result.fieldErrors[field];
       if (arr) {
-        arr.push(...error.messages.map(strToFormError));
+        arr.push(...toFormErrors(error));
       } else {
-        result.fieldErrors[field] = [...error.messages.map(strToFormError)];
+        result.fieldErrors[field] = [...toFormErrors(error)];
       }
     }
   });

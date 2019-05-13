@@ -10,6 +10,17 @@ import { ExampleInput } from "./globalTypes";
 // GraphQL mutation operation: ExampleMutation
 // ====================================================
 
+export interface ExampleMutation_output_errors_extendedMessages {
+  /**
+   * A human-readable validation error.
+   */
+  message: string;
+  /**
+   * A machine-readable representation of the error.
+   */
+  code: string | null;
+}
+
 export interface ExampleMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
@@ -19,6 +30,10 @@ export interface ExampleMutation_output_errors {
    * A list of human-readable validation errors.
    */
   messages: string[];
+  /**
+   * A list of validation errors with extended metadata.
+   */
+  extendedMessages: ExampleMutation_output_errors_extendedMessages[];
 }
 
 export interface ExampleMutation_output {
@@ -43,7 +58,11 @@ export const ExampleMutation = {
     output: example(input: $input) {
         errors {
             field,
-            messages
+            messages,
+            extendedMessages {
+                message,
+                code
+            }
         },
         response
     }

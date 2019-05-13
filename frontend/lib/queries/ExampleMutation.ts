@@ -27,10 +27,6 @@ export interface ExampleMutation_output_errors {
    */
   field: string;
   /**
-   * A list of human-readable validation errors.
-   */
-  messages: string[];
-  /**
    * A list of validation errors with extended metadata.
    */
   extendedMessages: ExampleMutation_output_errors_extendedMessages[];
@@ -58,7 +54,6 @@ export const ExampleMutation = {
     output: example(input: $input) {
         errors {
             field,
-            messages,
             extendedMessages {
                 message,
                 code

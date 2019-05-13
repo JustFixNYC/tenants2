@@ -2,7 +2,6 @@ mutation ExampleMutation($input: ExampleInput!) {
     output: example(input: $input) {
         errors {
             field,
-            messages,
             extendedMessages {
                 message,
                 code

@@ -23,7 +23,7 @@ export interface ExtendedServerFormFieldError {
   field: string;
   extendedMessages: {
     message: string,
-    code?: string
+    code: string|null
   }[]
 }
 
@@ -51,7 +51,7 @@ export class FormError {
    */
   _type = 'FormError';
 
-  constructor(readonly message: string, readonly code?: string) {
+  constructor(readonly message: string, readonly code: string|null = null) {
   }
 
   /** The human-readable representation of the error. */

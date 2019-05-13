@@ -184,11 +184,11 @@ class ExtendedFormFieldError(graphene.ObjectType):
     )
 
     @classmethod
-    def list_from_validation_errors(cls, errors: List[ValidationError]):
+    def list_from_error_list(cls, errors: forms.utils.ErrorList):
         results = []
-        for error in errors:
-            message = error.message
-            code = None if error.code is None else str(error.code)
+        for error in errors.get_json_data():
+            message = error['message']
+            code = None if not error['code'] else str(error['code'])
             results.append(cls(message=message, code=code))
         return results
 
@@ -223,10 +223,8 @@ class StrictFormFieldErrorType(graphene.ObjectType):
     @classmethod
     def list_from_form_errors(cls, form_errors: forms.utils.ErrorDict):
         errors = []
-        errors_as_data = form_errors.as_data()
         for key, value in form_errors.items():
-            extended = ExtendedFormFieldError.list_from_validation_errors(
-                errors_as_data.get(key, []))
+            extended = ExtendedFormFieldError.list_from_error_list(value)
             if not key.endswith('__all__'):
                 # Graphene-Django's default implementation for form field validation
                 # errors doesn't convert field names to camel case, but we want to,

@@ -6,6 +6,7 @@ from typing import Any
 import pytest
 from graphene.test import Client
 from django import forms
+from django.core.exceptions import ValidationError
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
 
@@ -36,6 +37,9 @@ class FooForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         multi_field = cleaned_data.get('multi_field')
+
+        if cleaned_data.get('bar_field') == 'ERR_WITHOUT_CODE':
+            raise ValidationError('error without code')
 
         if multi_field:
             assert isinstance(multi_field, list)
@@ -370,6 +374,19 @@ def test_invalid_forms_return_extended_errors():
         'extendedMessages': [{
             'message': 'This field is required.',
             'code': 'required'
+        }]
+    }]
+
+
+def test_invalid_forms_return_extended_errors_when_code_is_none():
+    assert execute_query(
+        bar_field='ERR_WITHOUT_CODE',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': '__all__',
+        'extendedMessages': [{
+            'message': 'error without code',
+            'code': None
         }]
     }]
 

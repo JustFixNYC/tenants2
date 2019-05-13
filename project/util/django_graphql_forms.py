@@ -221,7 +221,7 @@ class StrictFormFieldErrorType(graphene.ObjectType):
     )
 
     @classmethod
-    def list_from_form_errors(cls, form_errors):
+    def list_from_form_errors(cls, form_errors: forms.utils.ErrorDict):
         errors = []
         errors_as_data = form_errors.as_data()
         for key, value in form_errors.items():
@@ -406,9 +406,15 @@ class DjangoFormMutation(ClientIDMutation):
         logger.info(f"[{preamble}] {msg}")
 
     @classmethod
-    def make_error(cls: Type[T], message: str) -> T:
-        err = StrictFormFieldErrorType(field='__all__', messages=[message])
-        return cls(errors=[err])
+    def make_error(cls: Type[T], message: str, code: Optional[str] = None) -> T:
+        errors = StrictFormFieldErrorType.list_from_form_errors(
+            forms.utils.ErrorDict({
+                '__all__': forms.utils.ErrorList([
+                    ValidationError(message, code=code)
+                ])
+            })
+        )
+        return cls(errors=errors)
 
     @classmethod
     def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:

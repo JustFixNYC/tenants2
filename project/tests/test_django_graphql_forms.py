@@ -53,6 +53,9 @@ class Foo(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form, info):
+        if form.cleaned_data['bar_field'] == 'MAKE_ERROR':
+            return cls.make_error("This error was created by make_error().",
+                                  code='make_error')
         return cls(baz_field=f"{form.cleaned_data['bar_field']} back")
 
 
@@ -387,6 +390,19 @@ def test_invalid_forms_return_extended_errors_when_code_is_none():
         'extendedMessages': [{
             'message': 'error without code',
             'code': None
+        }]
+    }]
+
+
+def test_make_error_returns_extended_errors():
+    assert execute_query(
+        bar_field='MAKE_ERROR',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': '__all__',
+        'extendedMessages': [{
+            'message': 'This error was created by make_error().',
+            'code': 'make_error'
         }]
     }]
 

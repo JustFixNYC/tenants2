@@ -1,9 +1,6 @@
 mutation LoginMutation($input: LoginInput!) {
     output: login(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             ...AllSessionInfo
         }

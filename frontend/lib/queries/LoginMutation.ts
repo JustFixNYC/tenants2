@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
 import * as AllSessionInfo from './AllSessionInfo'
 /* tslint:disable */
 /* eslint-disable */
@@ -11,15 +12,26 @@ import { LoginInput, OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUplo
 // GraphQL mutation operation: LoginMutation
 // ====================================================
 
+export interface LoginMutation_output_errors_extendedMessages {
+  /**
+   * A human-readable validation error.
+   */
+  message: string;
+  /**
+   * A machine-readable representation of the error.
+   */
+  code: string | null;
+}
+
 export interface LoginMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
   field: string;
   /**
-   * A list of human-readable validation errors.
+   * A list of validation errors with extended metadata.
    */
-  messages: string[];
+  extendedMessages: LoginMutation_output_errors_extendedMessages[];
 }
 
 export interface LoginMutation_output_session_onboardingInfo {
@@ -180,16 +192,14 @@ export const LoginMutation = {
   // The following query was taken from LoginMutation.graphql.
   graphQL: `mutation LoginMutation($input: LoginInput!) {
     output: login(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             ...AllSessionInfo
         }
     }
 }
 
+${ExtendedFormFieldErrors.graphQL}
 ${AllSessionInfo.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: LoginMutationVariables): Promise<LoginMutation> {
     return fetchGraphQL(LoginMutation.graphQL, args);

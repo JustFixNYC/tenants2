@@ -1,9 +1,6 @@
 mutation GenerateHPActionPDFMutation($input: GeneratePDFInput!) {
     output: generateHpActionPdf(input: $input) {
-        errors {
-            field,
-            messages
-        }
+        errors { ...ExtendedFormFieldErrors },
         session {
             latestHpActionPdfUrl,
             hpActionUploadStatus

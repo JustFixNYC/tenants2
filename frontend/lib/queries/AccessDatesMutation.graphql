@@ -1,9 +1,6 @@
 mutation AccessDatesMutation($input: AccessDatesInput!) {
     output: accessDates(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             accessDates
         }

@@ -146,8 +146,12 @@ def get_legacy_form_submission(request):
 
     formset_classes = django_graphql_forms.get_formset_classes_for_input_type(input_type)
 
+    base_data = django_graphql_forms.get_base_data(request.POST)
+    if base_data is None:
+        raise LegacyFormSubmissionError('Invalid base data')
+
     input = django_graphql_forms.convert_post_data_to_input(
-        form_class, request.POST, formset_classes)
+        form_class, request.POST, base_data, formset_classes)
 
     result = execute_query(request, graphql, variables={'input': input})
 

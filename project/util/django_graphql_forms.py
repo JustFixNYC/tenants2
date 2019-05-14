@@ -3,6 +3,7 @@
     to resolve some of its limitations.
 '''
 
+import json
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List
 from weakref import WeakValueDictionary
 from django import forms
@@ -97,9 +98,22 @@ def to_capitalized_camel_case(s: str) -> str:
     return camel[:1].upper() + camel[1:]
 
 
+def get_base_data(data: QueryDict) -> Optional[Dict[str, Any]]:
+    base_data_str = data.get('basedata')
+
+    if not base_data_str:
+        return {}
+
+    try:
+        return json.loads(base_data_str)
+    except json.decoder.JSONDecodeError:
+        return None
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
+    base_data: Dict[str, Any],
     formset_classes: Optional[FormsetClasses] = None
 ) -> Dict[str, Any]:
     '''

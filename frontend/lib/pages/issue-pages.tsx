@@ -168,13 +168,9 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
   return result;
 }
 
-interface IssuesHomeState {
-  searchText: string;
-}
-
 type IssuesHomeProps = IssuesRoutesProps;
 
-class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
+class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
     this.state = { searchText: '' };

@@ -14,10 +14,7 @@ import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
-import { doesAreaMatchSearch, IssueAutocomplete } from '../issue-search';
-import { ga } from '../google-analytics';
 import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
@@ -101,7 +98,6 @@ export function getIssueLabel(count: number): string {
 type IssueAreaLinkProps = {
   area: IssueAreaChoice;
   label: string;
-  isHighlighted?: boolean;
   routes: IssuesRouteInfo;
 };
 
@@ -122,7 +118,6 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
         return (
           <Link to={url} className={classnames(
             'jf-issue-area-link', 'notification',
-            props.isHighlighted && 'jf-highlight',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
             {svg}
@@ -173,13 +168,9 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
   return result;
 }
 
-interface IssuesHomeState {
-  searchText: string;
-}
-
 type IssuesHomeProps = IssuesRoutesProps;
 
-class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
+class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
     this.state = { searchText: '' };
@@ -191,19 +182,8 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
         routes={this.props.routes}
         area={area}
         label={label}
-        isHighlighted={doesAreaMatchSearch(area, this.state.searchText)}
       />
     </div>;
-  }
-
-  renderAutocomplete(): JSX.Element {
-    return <IssueAutocomplete
-      inputValue={this.state.searchText}
-      onInputValueChange={(searchText) => {
-        ga('send', 'event', 'issue-search', 'change', searchText);
-        this.setState({ searchText })
-      }}
-    />;
   }
 
   render() {
@@ -213,9 +193,6 @@ class IssuesHome extends React.Component<IssuesHomeProps, IssuesHomeState> {
         <div>
           <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
           <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. This <strong>issue checklist</strong> will be sent to your landlord. <strong>Don't hold back!</strong></p>
-          <SimpleProgressiveEnhancement>
-            {this.renderAutocomplete()}
-          </SimpleProgressiveEnhancement>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
               {this.renderColumnForArea(...a)}

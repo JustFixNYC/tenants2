@@ -43,16 +43,6 @@ describe('issues checklist', () => {
     });
     await pal.rt.waitForElement(() => pal.rr.getByText('Apartment self-inspection'));
   });
-
-  it('has a functional issue search autocomplete', async () => {
-    const pal = new AppTesterPal(<TestIssuesRoutes />, {
-      url: routes.home
-    });
-    pal.fillFormFields([[/search/i, "mice"]]);
-    pal.clickListItem(/mice/i);
-    const input = pal.rr.getByLabelText(/search/i) as HTMLInputElement;
-    expect(input.value).toBe('Entire home and hallways - Mice');
-  });
 });
 
 test('getIssueLabel() works', () => {

@@ -104,18 +104,6 @@ export interface GoogleAnalyticsAPI {
   (cmd: 'send', hitType: 'event', eventCategory: 'safe-mode', eventAction: 'show'|'hide'): void;
 
   /**
-   * A custom event for when the issue search is interacted with.
-   * 
-   * This can be triggered fairly often; it shouldn't be too spammy on GA because of how
-   * GA manages rate limiting:
-   * 
-   *   https://developers.google.com/analytics/devguides/collection/protocol/v1/limits-quotas
-   * 
-   * @param searchText The text of the search.
-   */
-  (cmd: 'send', hitType: 'event', eventCategory: 'issue-search', eventAction: 'change', searchText: string): void;
-
-  /**
    * A custom event for tracking form errors.
    * 
    * @param formField The form field the error occurred in.

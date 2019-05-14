@@ -113,8 +113,8 @@ def get_base_data(data: QueryDict) -> Optional[Dict[str, Any]]:
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
-    base_data: Dict[str, Any],
-    formset_classes: Optional[FormsetClasses] = None
+    formset_classes: Optional[FormsetClasses] = None,
+    base_data: Dict[str, Any] = None
 ) -> Dict[str, Any]:
     '''
     Given a QueryDict that represents POST data, return a dictionary

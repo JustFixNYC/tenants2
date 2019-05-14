@@ -151,7 +151,7 @@ def get_legacy_form_submission(request):
         raise LegacyFormSubmissionError('Invalid base data')
 
     input = django_graphql_forms.convert_post_data_to_input(
-        form_class, request.POST, base_data, formset_classes)
+        form_class, request.POST, formset_classes, base_data)
 
     result = execute_query(request, graphql, variables={'input': input})
 

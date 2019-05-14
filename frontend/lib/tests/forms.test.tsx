@@ -145,7 +145,7 @@ describe('FormSubmitter', () => {
       login: {
         errors: [{
           field: '__all__',
-          messages: ['nope.']
+          extendedMessages: [{ message: 'nope.', code: null }]
         }]
       }
     });

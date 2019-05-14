@@ -1,7 +1,14 @@
-import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap } from "../form-errors";
+import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap, ServerFormFieldError } from "../form-errors";
 import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
 import { simpleFormErrors } from "./util";
+
+function extMsgs(...messages: string[]): ServerFormFieldError['extendedMessages'] {
+  return messages.map(message => ({
+    message,
+    code: null
+  }));
+}
 
 test("FormsetErrorMap type makes sense", () => {
   // The value of this test is in whether it passes through
@@ -52,7 +59,7 @@ describe('getFormErrors()', () => {
   it('sets nonFieldErrors', () => {
     expect(getFormErrors([{
       field: '__all__',
-      messages: ['foo', 'bar']  
+      extendedMessages: extMsgs('foo', 'bar')
     }])).toEqual({
       nonFieldErrors: simpleFormErrors('foo', 'bar'),
       fieldErrors: {}
@@ -62,7 +69,7 @@ describe('getFormErrors()', () => {
   it('sets fieldErrors', () => {
     expect(getFormErrors([{
       field: 'boop',
-      messages: ['foo', 'bar']  
+      extendedMessages: extMsgs('foo', 'bar'),
     }])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {
@@ -74,10 +81,10 @@ describe('getFormErrors()', () => {
   it('combines multiple field error messages', () => {
     expect(getFormErrors([{
       field: 'boop',
-      messages: ['foo']
+      extendedMessages: extMsgs('foo'),
     }, {
       field: 'boop',
-      messages: ['bar']
+      extendedMessages: extMsgs('bar')
     }])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {
@@ -89,7 +96,7 @@ describe('getFormErrors()', () => {
   it('sets formsetErrors', () => {
     expect(getFormErrors([{
       field: 'blarg.0.boop',
-      messages: ['foo', 'bar']
+      extendedMessages: extMsgs('foo', 'bar'),
     }])).toEqual({
       nonFieldErrors: [],
       fieldErrors: {},
@@ -122,13 +129,13 @@ describe("parseFormsetField()", () => {
 describe("addToFormsetErrors()", () => {
   it("returns false when nothing is added", () => {
     const errors = {};
-    expect(addToFormsetErrors(errors, { field: 'blah', messages: ['hi'] })).toBe(false);
+    expect(addToFormsetErrors(errors, { field: 'blah', extendedMessages: extMsgs('hi') })).toBe(false);
     expect(errors).toEqual({});
   });
 
   it("populates errors", () => {
     const errors = {};
-    expect(addToFormsetErrors(errors, { field: 'blah.0.bop', messages: ['hi'] })).toBe(true);
+    expect(addToFormsetErrors(errors, { field: 'blah.0.bop', extendedMessages: extMsgs('hi') })).toBe(true);
     expect(errors).toEqual({
       blah: [{
         nonFieldErrors: [],
@@ -141,8 +148,8 @@ describe("addToFormsetErrors()", () => {
 
   it("can create arrays with holes", () => {
     const errors = {};
-    addToFormsetErrors(errors, { field: 'blah.0.bop', messages: ['hi'] });
-    expect(addToFormsetErrors(errors, { field: 'blah.2.bop', messages: ['hmm'] })).toBe(true);
+    addToFormsetErrors(errors, { field: 'blah.0.bop', extendedMessages: extMsgs('hi') });
+    expect(addToFormsetErrors(errors, { field: 'blah.2.bop', extendedMessages: extMsgs('hmm') })).toBe(true);
     expect(errors).toEqual({
       blah: [{
         nonFieldErrors: [],
@@ -160,7 +167,7 @@ describe("addToFormsetErrors()", () => {
 
   it("populates non-field errors", () => {
     const errors = {};
-    expect(addToFormsetErrors(errors, { field: 'blah.0.__all__', messages: ['hi'] })).toBe(true);
+    expect(addToFormsetErrors(errors, { field: 'blah.0.__all__', extendedMessages: extMsgs('hi') })).toBe(true);
     expect(errors).toEqual({
       blah: [{
         nonFieldErrors: simpleFormErrors('hi'),

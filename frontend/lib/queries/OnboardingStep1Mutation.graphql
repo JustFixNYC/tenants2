@@ -1,9 +1,6 @@
 mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
     output: onboardingStep1(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             onboardingStep1 {
                 firstName,

@@ -10,7 +10,10 @@ def test_login_works(graphql_client):
     user = UserFactory(phone_number='5551234567', password='blarg')
     result = graphql_client.execute(
         get_frontend_queries(
-            'LoginMutation.graphql', 'AllSessionInfo.graphql'),
+            'LoginMutation.graphql',
+            'AllSessionInfo.graphql',
+            'ExtendedFormFieldErrors.graphql'
+        ),
         variables={
             'input': {
                 'phoneNumber': '5551234567',
@@ -30,7 +33,10 @@ def test_logout_works(graphql_client):
     user = UserFactory()
     graphql_client.request.user = user
     logout_mutation = get_frontend_queries(
-        'LogoutMutation.graphql', 'AllSessionInfo.graphql')
+        'LogoutMutation.graphql',
+        'AllSessionInfo.graphql',
+        'ExtendedFormFieldErrors.graphql'
+    )
     result = graphql_client.execute(logout_mutation, variables={'input': {}})
     assert len(result['data']['output']['session']['csrfToken']) > 0
     assert graphql_client.request.user.pk is None

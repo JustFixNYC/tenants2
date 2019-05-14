@@ -1,9 +1,6 @@
 mutation ExampleRadioMutation($input: ExampleRadioInput!) {
     output: exampleRadio(input: $input) {
-        errors {
-            field,
-            messages
-        }
+        errors { ...ExtendedFormFieldErrors },
         response
     }
 }

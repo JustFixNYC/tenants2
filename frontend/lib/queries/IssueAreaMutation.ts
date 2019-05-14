@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -10,15 +11,26 @@ import { IssueAreaInput } from "./globalTypes";
 // GraphQL mutation operation: IssueAreaMutation
 // ====================================================
 
+export interface IssueAreaMutation_output_errors_extendedMessages {
+  /**
+   * A human-readable validation error.
+   */
+  message: string;
+  /**
+   * A machine-readable representation of the error.
+   */
+  code: string | null;
+}
+
 export interface IssueAreaMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
   field: string;
   /**
-   * A list of human-readable validation errors.
+   * A list of validation errors with extended metadata.
    */
-  messages: string[];
+  extendedMessages: IssueAreaMutation_output_errors_extendedMessages[];
 }
 
 export interface IssueAreaMutation_output_session_customIssues {
@@ -51,10 +63,7 @@ export const IssueAreaMutation = {
   // The following query was taken from IssueAreaMutation.graphql.
   graphQL: `mutation IssueAreaMutation($input: IssueAreaInput!) {
   output: issueArea(input: $input) {
-    errors {
-      field,
-      messages
-    }
+    errors { ...ExtendedFormFieldErrors },
     session {
       issues
       customIssues {
@@ -64,7 +73,8 @@ export const IssueAreaMutation = {
     }
   }
 }
-`,
+
+${ExtendedFormFieldErrors.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: IssueAreaMutationVariables): Promise<IssueAreaMutation> {
     return fetchGraphQL(IssueAreaMutation.graphQL, args);
   }

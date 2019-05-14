@@ -54,7 +54,7 @@ def _get_step_1_info(graphql_client):
 
 
 def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
-    queries = [f'OnboardingStep{n}Mutation.graphql']
+    queries = [f'OnboardingStep{n}Mutation.graphql', 'ExtendedFormFieldErrors.graphql']
     if n == 4:
         queries.append('AllSessionInfo.graphql')
     return graphql_client.execute(
@@ -86,8 +86,8 @@ def test_onboarding_step_4_returns_err_if_prev_steps_not_completed(graphql_clien
     result = _exec_onboarding_step_n(4, graphql_client)
     assert result['errors'] == [{
         'field': '__all__',
-        'messages': [
-            "You haven't completed all the previous steps yet."
+        'extendedMessages': [
+            {"message": "You haven't completed all the previous steps yet.", "code": None}
         ]
     }]
 

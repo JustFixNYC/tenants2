@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -10,15 +11,26 @@ import { GeneratePDFInput, HPUploadStatus } from "./globalTypes";
 // GraphQL mutation operation: GenerateHPActionPDFMutation
 // ====================================================
 
+export interface GenerateHPActionPDFMutation_output_errors_extendedMessages {
+  /**
+   * A human-readable validation error.
+   */
+  message: string;
+  /**
+   * A machine-readable representation of the error.
+   */
+  code: string | null;
+}
+
 export interface GenerateHPActionPDFMutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
   field: string;
   /**
-   * A list of human-readable validation errors.
+   * A list of validation errors with extended metadata.
    */
-  messages: string[];
+  extendedMessages: GenerateHPActionPDFMutation_output_errors_extendedMessages[];
 }
 
 export interface GenerateHPActionPDFMutation_output_session {
@@ -52,17 +64,15 @@ export const GenerateHPActionPDFMutation = {
   // The following query was taken from GenerateHPActionPDFMutation.graphql.
   graphQL: `mutation GenerateHPActionPDFMutation($input: GeneratePDFInput!) {
     output: generateHpActionPdf(input: $input) {
-        errors {
-            field,
-            messages
-        }
+        errors { ...ExtendedFormFieldErrors },
         session {
             latestHpActionPdfUrl,
             hpActionUploadStatus
         }
     }
 }
-`,
+
+${ExtendedFormFieldErrors.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: GenerateHPActionPDFMutationVariables): Promise<GenerateHPActionPDFMutation> {
     return fetchGraphQL(GenerateHPActionPDFMutation.graphQL, args);
   }

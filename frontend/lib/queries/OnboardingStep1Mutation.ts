@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -10,15 +11,26 @@ import { OnboardingStep1Input } from "./globalTypes";
 // GraphQL mutation operation: OnboardingStep1Mutation
 // ====================================================
 
+export interface OnboardingStep1Mutation_output_errors_extendedMessages {
+  /**
+   * A human-readable validation error.
+   */
+  message: string;
+  /**
+   * A machine-readable representation of the error.
+   */
+  code: string | null;
+}
+
 export interface OnboardingStep1Mutation_output_errors {
   /**
    * The camel-cased name of the input field, or '__all__' for non-field errors.
    */
   field: string;
   /**
-   * A list of human-readable validation errors.
+   * A list of validation errors with extended metadata.
    */
-  messages: string[];
+  extendedMessages: OnboardingStep1Mutation_output_errors_extendedMessages[];
 }
 
 export interface OnboardingStep1Mutation_output_session_onboardingStep1 {
@@ -59,10 +71,7 @@ export const OnboardingStep1Mutation = {
   // The following query was taken from OnboardingStep1Mutation.graphql.
   graphQL: `mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
     output: onboardingStep1(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             onboardingStep1 {
                 firstName,
@@ -74,7 +83,8 @@ export const OnboardingStep1Mutation = {
         }
     }
 }
-`,
+
+${ExtendedFormFieldErrors.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: OnboardingStep1MutationVariables): Promise<OnboardingStep1Mutation> {
     return fetchGraphQL(OnboardingStep1Mutation.graphQL, args);
   }

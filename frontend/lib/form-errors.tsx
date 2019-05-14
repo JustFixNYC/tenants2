@@ -5,32 +5,17 @@ import { ga } from './google-analytics';
 const SERVER_NON_FIELD_ERROR = '__all__';
 
 /**
- * This is a terse, old-style form validation error returned by
- * the server. Only information about the human-readable messages
- * is transimitted.
- */
-export interface TerseServerFormFieldError {
-  field: string;
-  messages: string[];
-}
-
-/**
  * This is the extended, new-style form validation error returned
  * by the server. Aside from the human-readable error message to
  * display, additional machine-readable information is communicated.
  */
-export interface ExtendedServerFormFieldError {
+export interface ServerFormFieldError {
   field: string;
   extendedMessages: {
     message: string,
     code: string|null
   }[]
 }
-
-/**
- * This is the form validation error type returned from the server.
- */
-export type ServerFormFieldError = TerseServerFormFieldError | ExtendedServerFormFieldError;
 
 /**
  * Any form validation done by the server will return an object that
@@ -153,10 +138,7 @@ export function strToFormError(message: string): FormError {
 }
 
 export function toFormErrors(errors: ServerFormFieldError): FormError[] {
-  if ('extendedMessages' in errors) {
-    return errors.extendedMessages.map(em => new FormError(em.message, em.code));
-  }
-  return errors.messages.map(strToFormError);
+  return errors.extendedMessages.map(em => new FormError(em.message, em.code));
 }
 
 /**

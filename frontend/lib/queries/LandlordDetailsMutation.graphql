@@ -1,9 +1,6 @@
 mutation LandlordDetailsMutation($input: LandlordDetailsInput!) {
     output: landlordDetails(input: $input) {
-        errors {
-            field,
-            messages
-        },
+        errors { ...ExtendedFormFieldErrors },
         session {
             landlordDetails {
                 name

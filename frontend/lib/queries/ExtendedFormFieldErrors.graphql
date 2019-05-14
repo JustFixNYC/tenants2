@@ -1,0 +1,7 @@
+fragment ExtendedFormFieldErrors on StrictFormFieldErrorType {
+    field,
+    extendedMessages {
+        message,
+        code
+    }
+}

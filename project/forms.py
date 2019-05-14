@@ -145,7 +145,8 @@ class ExampleSubformFormset(forms.BaseFormSet):
                 # This is used during manual and automated
                 # tests to ensure that non-form errors work
                 # in formsets.
-                raise forms.ValidationError('This is an example non-form error!')
+                raise forms.ValidationError('This is an example non-form error!',
+                                            code='CODE_NFOER')
 
 
 class ExampleSubform(forms.Form):

@@ -5,12 +5,32 @@ import { ga } from './google-analytics';
 const SERVER_NON_FIELD_ERROR = '__all__';
 
 /**
- * This is the form validation error type returned from the server.
+ * This is a terse, old-style form validation error returned by
+ * the server. Only information about the human-readable messages
+ * is transimitted.
  */
-export interface ServerFormFieldError {
+export interface TerseServerFormFieldError {
   field: string;
   messages: string[];
 }
+
+/**
+ * This is the extended, new-style form validation error returned
+ * by the server. Aside from the human-readable error message to
+ * display, additional machine-readable information is communicated.
+ */
+export interface ExtendedServerFormFieldError {
+  field: string;
+  extendedMessages: {
+    message: string,
+    code: string|null
+  }[]
+}
+
+/**
+ * This is the form validation error type returned from the server.
+ */
+export type ServerFormFieldError = TerseServerFormFieldError | ExtendedServerFormFieldError;
 
 /**
  * Any form validation done by the server will return an object that
@@ -20,10 +40,30 @@ export type WithServerFormFieldErrors = {
   errors: ServerFormFieldError[];
 };
 
+/**
+ * Normalized representation of a form validation error.
+ */
+export class FormError {
+  /**
+   * TypeScript doesn't seem to distinguish between an object
+   * with the "shape" of a FormError vs. an actual instance of it,
+   * so we'll add this sentinel to manually ensure it.
+   */
+  _type = 'FormError';
+
+  constructor(readonly message: string, readonly code: string|null = null) {
+  }
+
+  /** The human-readable representation of the error. */
+  toString(): string {
+    return this.message;
+  }
+};
+
 // This type is parameterized by the form input, so that each
 // key corresponds to the name of a form input field.
 export type FormFieldErrorMap<T> = {
-  [K in keyof T]?: string[];
+  [K in keyof T]?: FormError[];
 }
 
 export type FormsetErrorMap<T> = {
@@ -34,7 +74,7 @@ export interface FormErrors<T> {
   /**
    * Non-field errors that don't correspond to any particular field.
    */
-  nonFieldErrors: string[];
+  nonFieldErrors: FormError[];
 
   /**
    * Field-specific errors.
@@ -52,8 +92,8 @@ export interface FormErrors<T> {
  */
 export function trackFormErrors(errors: ServerFormFieldError[]): void {
   for (let error of errors) {
-    for (let message of error.messages) {
-      ga('send', 'event', 'form-error', error.field, message);
+    for (let fe of toFormErrors(error)) {
+      ga('send', 'event', 'form-error', error.field, fe.message);
     }
   }
 }
@@ -100,12 +140,23 @@ export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[
   }
 
   const result = getFormErrors([
-    { field: ff.field, messages: error.messages }
+    { ...error, field: ff.field }
   ], formsetErrors[ff.index]);
 
   formsetErrors[ff.index] = result;
 
   return true;
+}
+
+export function strToFormError(message: string): FormError {
+  return new FormError(message);
+}
+
+export function toFormErrors(errors: ServerFormFieldError): FormError[] {
+  if ('extendedMessages' in errors) {
+    return errors.extendedMessages.map(em => new FormError(em.message, em.code));
+  }
+  return errors.messages.map(strToFormError);
 }
 
 /**
@@ -122,7 +173,7 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
 
   errors.forEach(error => {
     if (error.field === SERVER_NON_FIELD_ERROR) {
-      result.nonFieldErrors.push(...error.messages);
+      result.nonFieldErrors.push(...toFormErrors(error));
     } else {
       // Note that we're forcing a few typecasts here. It's not ideal, but
       // it seems better than the alternative of not parameterizing
@@ -141,9 +192,9 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
       // This code looks weird because TypeScript is being fidgety.
       const arr = result.fieldErrors[field];
       if (arr) {
-        arr.push(...error.messages);
+        arr.push(...toFormErrors(error));
       } else {
-        result.fieldErrors[field] = [...error.messages];
+        result.fieldErrors[field] = [...toFormErrors(error)];
       }
     }
   });
@@ -161,7 +212,7 @@ export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element
 
   return (
     <React.Fragment>
-      {errors.map(error => <div className="notification is-danger" key={error}>{error}</div>)}
+      {errors.map(error => <div className="notification is-danger" key={error.message}>{error.message}</div>)}
     </React.Fragment>
   );
 }
@@ -172,7 +223,7 @@ export type WithFormFieldErrors = {
    * This should either be undefined, or an array with one or more elements.
    * It should never be an empty array.
    */
-  errors?: string[];
+  errors?: FormError[];
 };
 
 /**

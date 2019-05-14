@@ -43,6 +43,11 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
     >
       {(ctx) => (
         <React.Fragment>
+          {ctx.nonFieldErrors &&
+           ctx.nonFieldErrors.some(nfe => nfe.code === 'CODE_NFOER') &&
+           <p className="has-grey-light">
+             An error with code <code>CODE_NFOER</code> is present.
+           </p>}
           <TextualFormField label="Example field" {...ctx.fieldPropsFor('exampleField')} />
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field

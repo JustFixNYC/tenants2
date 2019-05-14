@@ -3,6 +3,7 @@ import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceForm
 import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
 import ReactTestingLibraryPal from './rtl-pal';
+import { simpleFormErrors } from './util';
 
 const CHOICES: DjangoChoices = [
   ['BAR', 'Bar'],
@@ -49,7 +50,7 @@ describe('TextualFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeField({ errors: ['this cannot be blank'] }).html();
+    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -94,7 +95,7 @@ describe('HiddenFormField', () => {
 
   it('throws an exception when it has errors', () => {
     expect(() =>
-      makeField({ errors: ['this cannot be blank'] }).html()
+      makeField({ errors: simpleFormErrors('this cannot be blank') }).html()
     ).toThrow(/Hidden fields should have no errors, but "foo" does/);
   });
 });
@@ -126,7 +127,7 @@ describe('TextareaFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeField({ errors: ['this cannot be blank'] }).html();
+    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -157,7 +158,7 @@ describe('SelectFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeSelect({ errors: ['this cannot be blank'] }).html();
+    const html = makeSelect({ errors: simpleFormErrors('this cannot be blank') }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -184,7 +185,7 @@ describe('RadiosFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeRadios({ errors: ['this cannot be blank'] }).html();
+    const html = makeRadios({ errors: simpleFormErrors('this cannot be blank') }).html();
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -231,7 +232,7 @@ describe('MultiCheckboxFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeMultiCheckbox({ errors: ['this must be checked'] }).html();
+    const html = makeMultiCheckbox({ errors: simpleFormErrors('this must be checked') }).html();
     expect(html).toContain('aria-invalid="true"');
   });
 });
@@ -261,7 +262,7 @@ describe('CheckboxFormField', () => {
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeCheckbox({ errors: ['this must be checked'] }).html();
+    const html = makeCheckbox({ errors: simpleFormErrors('this must be checked') }).html();
     expect(html).toContain('aria-invalid="true"');
   });
 });

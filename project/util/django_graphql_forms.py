@@ -7,6 +7,7 @@ from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List
 from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
+from django.core.exceptions import ValidationError
 from graphql import ResolveInfo, parse, visit
 from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
@@ -166,6 +167,32 @@ def _get_formset_items(formset) -> List[Any]:
     return items
 
 
+class ExtendedFormFieldError(graphene.ObjectType):
+    '''
+    Contains extended information about a form field error, including
+    not only its human-readable message, but also additional details,
+    such as its error code.
+    '''
+
+    message = graphene.String(
+        required=True,
+        description="A human-readable validation error."
+    )
+
+    code = graphene.String(
+        description="A machine-readable representation of the error."
+    )
+
+    @classmethod
+    def list_from_error_list(cls, errors: forms.utils.ErrorList):
+        results = []
+        for error in errors.get_json_data():
+            message = error['message']
+            code = None if not error['code'] else str(error['code'])
+            results.append(cls(message=message, code=code))
+        return results
+
+
 class StrictFormFieldErrorType(graphene.ObjectType):
     '''
     This is similar to Graphene-Django's default form field
@@ -187,17 +214,24 @@ class StrictFormFieldErrorType(graphene.ObjectType):
         description="A list of human-readable validation errors."
     )
 
+    extended_messages = graphene.List(
+        graphene.NonNull(ExtendedFormFieldError),
+        required=True,
+        description="A list of validation errors with extended metadata."
+    )
+
     @classmethod
-    def list_from_form_errors(cls, form_errors):
+    def list_from_form_errors(cls, form_errors: forms.utils.ErrorDict):
         errors = []
         for key, value in form_errors.items():
+            extended = ExtendedFormFieldError.list_from_error_list(value)
             if not key.endswith('__all__'):
                 # Graphene-Django's default implementation for form field validation
                 # errors doesn't convert field names to camel case, but we want to,
                 # because the input was provided using camel case field names, so the
                 # errors should use them too.
                 key = to_camel_case(key)
-            errors.append(cls(field=key, messages=value))
+            errors.append(cls(field=key, messages=value, extended_messages=extended))
         return errors
 
 
@@ -242,7 +276,7 @@ class FormWithFormsets:
         # on it later.
         non_form_errors = formset.non_form_errors()
         if non_form_errors:
-            all_errors = self._errors.get('__all__', [])
+            all_errors = self._errors.get('__all__', forms.utils.ErrorList())
             all_errors.extend(non_form_errors)
             self.errors['__all__'] = all_errors
 
@@ -370,9 +404,15 @@ class DjangoFormMutation(ClientIDMutation):
         logger.info(f"[{preamble}] {msg}")
 
     @classmethod
-    def make_error(cls: Type[T], message: str) -> T:
-        err = StrictFormFieldErrorType(field='__all__', messages=[message])
-        return cls(errors=[err])
+    def make_error(cls: Type[T], message: str, code: Optional[str] = None) -> T:
+        errors = StrictFormFieldErrorType.list_from_form_errors(
+            forms.utils.ErrorDict({
+                '__all__': forms.utils.ErrorList([
+                    ValidationError(message, code=code)
+                ])
+            })
+        )
+        return cls(errors=errors)
 
     @classmethod
     def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:

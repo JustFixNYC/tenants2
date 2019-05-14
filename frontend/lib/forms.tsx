@@ -2,7 +2,7 @@ import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, Route } from 'react-router';
 import { AriaAnnouncement } from './aria';
-import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors } from './form-errors';
+import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors, FormError } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
 import { AppContext, AppLegacyFormSubmission } from './app-context';
 import { Omit, assertNotNull } from './util';
@@ -361,6 +361,10 @@ export class BaseFormContext<FormInput> {
 
   constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
+  }
+
+  get nonFieldErrors(): undefined|FormError[] {
+    return this.options.errors && this.options.errors.nonFieldErrors;
   }
 
   fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]> {

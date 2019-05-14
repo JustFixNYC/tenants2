@@ -6,6 +6,7 @@ from typing import Any
 import pytest
 from graphene.test import Client
 from django import forms
+from django.core.exceptions import ValidationError
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
 
@@ -37,6 +38,9 @@ class FooForm(forms.Form):
         cleaned_data = super().clean()
         multi_field = cleaned_data.get('multi_field')
 
+        if cleaned_data.get('bar_field') == 'ERR_WITHOUT_CODE':
+            raise ValidationError('error without code')
+
         if multi_field:
             assert isinstance(multi_field, list)
 
@@ -49,6 +53,9 @@ class Foo(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form, info):
+        if form.cleaned_data['bar_field'] == 'MAKE_ERROR':
+            return cls.make_error("This error was created by make_error().",
+                                  code='make_error')
         return cls(baz_field=f"{form.cleaned_data['bar_field']} back")
 
 
@@ -97,7 +104,7 @@ def jsonify(obj):
     return json.loads(json.dumps(obj))
 
 
-def execute_query(bar_field='blah', multi_field=None):
+def execute_query(bar_field='blah', multi_field=None, errors='field, messages'):
     if multi_field is None:
         multi_field = []
     client = Client(schema)
@@ -108,12 +115,13 @@ def execute_query(bar_field='blah', multi_field=None):
         foo(input: $input) {
             bazField,
             errors {
-                field,
-                messages
+                %(errors)s
             }
         }
     }
-    ''', variables={'input': input_var}, context=create_fake_request()))
+    ''' % {
+        'errors': errors
+    }, variables={'input': input_var}, context=create_fake_request()))
 
 
 def create_fake_request(user=None):
@@ -140,7 +148,7 @@ def execute_form_with_auth_query(some_field='HI', user=None):
     ''', variables={'input': input_var}, context=create_fake_request(user)))
 
 
-def execute_formsets_query(simples):
+def execute_formsets_query(simples, errors='field, messages'):
     client = Client(schema)
     input_var = {'simples': simples}
 
@@ -149,12 +157,13 @@ def execute_formsets_query(simples):
         mutationWithFormsets(input: $input) {
             output,
             errors {
-                field,
-                messages
+                %(errors)s
             }
         }
     }
-    ''', variables={'input': input_var}, context=create_fake_request()))
+    ''' % {
+        'errors': errors
+    }, variables={'input': input_var}, context=create_fake_request()))
 
 
 def test_formsets_query_works():
@@ -181,6 +190,25 @@ def test_formsets_query_reports_errors():
             'errors': [{
                 'field': 'simples.1.someField',
                 'messages': ['This field is required.']
+            }]
+        }}
+    }
+
+
+def test_formsets_query_reports_extended_errors():
+    result = execute_formsets_query([
+        {'someField': 'hello'},
+        {'someField': ''},
+    ], errors='field, extendedMessages { message, code }')
+    assert result == {
+        'data': {'mutationWithFormsets': {
+            'output': None,
+            'errors': [{
+                'field': 'simples.1.someField',
+                'extendedMessages': [{
+                    'message': 'This field is required.',
+                    'code': 'required'
+                }],
             }]
         }}
     }
@@ -338,6 +366,45 @@ def test_invalid_forms_return_camelcased_errors():
             }
         }
     }
+
+
+def test_invalid_forms_return_extended_errors():
+    assert execute_query(
+        bar_field='',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': 'barField',
+        'extendedMessages': [{
+            'message': 'This field is required.',
+            'code': 'required'
+        }]
+    }]
+
+
+def test_invalid_forms_return_extended_errors_when_code_is_none():
+    assert execute_query(
+        bar_field='ERR_WITHOUT_CODE',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': '__all__',
+        'extendedMessages': [{
+            'message': 'error without code',
+            'code': None
+        }]
+    }]
+
+
+def test_make_error_returns_extended_errors():
+    assert execute_query(
+        bar_field='MAKE_ERROR',
+        errors='field, extendedMessages { code, message }'
+    )['data']['foo']['errors'] == [{
+        'field': '__all__',
+        'extendedMessages': [{
+            'message': 'This error was created by make_error().',
+            'code': 'make_error'
+        }]
+    }]
 
 
 def test_get_input_type_from_query_works():

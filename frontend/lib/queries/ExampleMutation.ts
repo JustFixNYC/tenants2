@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -52,17 +53,12 @@ export const ExampleMutation = {
   // The following query was taken from ExampleMutation.graphql.
   graphQL: `mutation ExampleMutation($input: ExampleInput!) {
     output: example(input: $input) {
-        errors {
-            field,
-            extendedMessages {
-                message,
-                code
-            }
-        },
+        errors { ...ExtendedFormFieldErrors },
         response
     }
 }
-`,
+
+${ExtendedFormFieldErrors.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: ExampleMutationVariables): Promise<ExampleMutation> {
     return fetchGraphQL(ExampleMutation.graphQL, args);
   }

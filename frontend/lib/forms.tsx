@@ -34,7 +34,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
-  onCreateFormContext?: (ctx: BaseFormContext<FormInput>) => void
+  onCreateFormContext?: (ctx: BaseFormContext<any>) => void
 }
 
 type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
@@ -48,7 +48,7 @@ interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   }
 }
 
-function makeOnCreateFormContext<FormInput>(props: RouteComponentProps<any>): ((ctx: BaseFormContext<FormInput>) => void)|undefined {
+function makeOnCreateFormContext(props: RouteComponentProps<any>): ((ctx: BaseFormContext<any>) => void)|undefined {
   const appStaticCtx = getAppStaticContext(props);
   if (appStaticCtx) {
     return (ctx) => {
@@ -354,7 +354,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
-  onCreateFormContext?: (ctx: BaseFormContext<FormInput>) => void
+  onCreateFormContext?: (ctx: BaseFormContext<any>) => void
 }
 
 type FieldSetter<FormInput> = {
@@ -368,6 +368,7 @@ export interface BaseFormContextOptions<FormInput> {
   currentState: FormInput;
   setField: FieldSetter<FormInput>;
   namePrefix: string;
+  onCreateFormContext?: (ctx: BaseFormContext<any>) => void;
 }
 
 export class BaseFormContext<FormInput> {
@@ -376,6 +377,9 @@ export class BaseFormContext<FormInput> {
 
   constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
+    if (this.options.onCreateFormContext) {
+      this.options.onCreateFormContext(this);
+    }
   }
 
   get nonFieldErrors(): undefined|FormError[] {
@@ -485,6 +489,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
       errors: this.props.errors,
       namePrefix: '',
       currentState: this.state,
+      onCreateFormContext: this.props.onCreateFormContext,
       setField: (field, value) => {
         // I'm not sure why Typescript dislikes this, but it seems
         // like the only way to get around it is to cast to "any". :(
@@ -492,10 +497,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
       }
     }, this.submit);
     const children = this.props.children(ctx);
-
-    if (this.props.onCreateFormContext) {
-      this.props.onCreateFormContext(ctx);
-    }
 
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>

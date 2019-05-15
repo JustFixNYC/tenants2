@@ -10,6 +10,7 @@ export interface BaseFormsetProps<FormsetInput> {
   idPrefix: string;
   isLoading: boolean;
   name: string;
+  onCreateFormContext?: (ctx: BaseFormContext<any>) => void;
 }
 
 export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInput> {
@@ -54,6 +55,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             errors: itemErrors,
             namePrefix: `${name}-${i}-`,
             currentState: item,
+            onCreateFormContext: props.onCreateFormContext,
             setField: (field, value) => {
               const newItems = filterEmpty(withItemChanged(items, i, field, value));
               props.onChange(newItems);

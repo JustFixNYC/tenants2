@@ -358,6 +358,7 @@ export interface BaseFormContextOptions<FormInput> {
 
 export class BaseFormContext<FormInput> {
   readonly isLoading: boolean;
+  protected readonly fieldsRendered: Set<string> = new Set();
 
   constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
@@ -365,6 +366,14 @@ export class BaseFormContext<FormInput> {
 
   get nonFieldErrors(): undefined|FormError[] {
     return this.options.errors && this.options.errors.nonFieldErrors;
+  }
+
+  logWarnings(): void {
+    for (let key in this.options.currentState) {
+      if (!this.fieldsRendered.has(key)) {
+        console.warn(`Did not render a field/formset for '${key}'. Form may not work without JS.`);
+      }
+    }
   }
 
   fieldPropsFor<K extends (keyof FormInput) & string>(field: K): BaseFormFieldProps<FormInput[K]> {
@@ -380,6 +389,8 @@ export class BaseFormContext<FormInput> {
       id: `${o.idPrefix}${name}`,
       isDisabled: o.isLoading
     };
+
+    this.fieldsRendered.add(field);
 
     return ctx;
   }
@@ -405,6 +416,7 @@ export class FormContext<FormInput> extends BaseFormContext<FormInput> {
     // Urg, due to weirdnesses with our UnwrappedArray type, we need
     // to typecast here.
 
+    this.fieldsRendered.add(formset);
     const o = this.options;
     const errors: FormErrors<any>[]|undefined =
       o.errors && o.errors.formsetErrors && o.errors.formsetErrors[formset];
@@ -453,24 +465,28 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   }
 
   render() {
+    const ctx = new FormContext({
+      idPrefix: this.props.idPrefix,
+      isLoading: this.props.isLoading,
+      errors: this.props.errors,
+      namePrefix: '',
+      currentState: this.state,
+      setField: (field, value) => {
+        // I'm not sure why Typescript dislikes this, but it seems
+        // like the only way to get around it is to cast to "any". :(
+        this.setState({ [field]: value } as any);
+      }
+    }, this.submit);
+    const children = this.props.children(ctx);
+
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
         {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children(new FormContext({
-          idPrefix: this.props.idPrefix,
-          isLoading: this.props.isLoading,
-          errors: this.props.errors,
-          namePrefix: '',
-          currentState: this.state,
-          setField: (field, value) => {
-            // I'm not sure why Typescript dislikes this, but it seems
-            // like the only way to get around it is to cast to "any". :(
-            this.setState({ [field]: value } as any);
-          }
-        }, this.submit))}
+        {children}
+        {ctx.logWarnings()}
       </form>
     );
   }

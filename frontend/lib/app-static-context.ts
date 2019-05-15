@@ -27,6 +27,12 @@ export interface AppStaticContext {
     graphQL: string,
     input: any
   }
+
+  /**
+   * Functions to call after the SSR process has ended, which
+   * can perform checks to ensure that certain conditions are met.
+   */
+  postRenderChecks: (() => void)[]
 }
 
 /**

@@ -63,7 +63,6 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             <React.Fragment key={i}>
               <NonFieldErrors errors={itemErrors} />
               {props.children(ctx, i)}
-              {ctx.logWarnings()}
             </React.Fragment>
           );
         })}

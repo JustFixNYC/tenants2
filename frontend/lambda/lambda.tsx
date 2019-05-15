@@ -124,6 +124,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
+      postRenderChecks: []
     };
     const modules: string[] = [];
 
@@ -146,6 +147,7 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
         </ServerRouter>
       );
     }
+    context.postRenderChecks.forEach(check => check());
     let location = null;
     if (context.url) {
       context.statusCode = 302;

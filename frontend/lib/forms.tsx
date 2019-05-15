@@ -34,6 +34,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
+  onCreateFormContext?: (ctx: BaseFormContext<FormInput>) => void
 }
 
 type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
@@ -45,6 +46,16 @@ interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
     from: string,
     to: string
   }
+}
+
+function makeOnCreateFormContext<FormInput>(props: RouteComponentProps<any>): ((ctx: BaseFormContext<FormInput>) => void)|undefined {
+  const appStaticCtx = getAppStaticContext(props);
+  if (appStaticCtx) {
+    return (ctx) => {
+      appStaticCtx.postRenderChecks.push(() => ctx.logWarnings());
+    };
+  }
+  return undefined;
 }
 
 /**
@@ -72,7 +83,8 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
             ...props.extraFormAttributes,
             method: 'POST',
             action: props.location.pathname
-          }
+          },
+          onCreateFormContext: makeOnCreateFormContext(props),
         };
         /* istanbul ignore next: this is tested by integration tests. */
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
@@ -225,6 +237,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         idPrefix={this.props.idPrefix}
         extraFields={this.props.extraFields}
         extraFormAttributes={this.props.extraFormAttributes}
+        onCreateFormContext={this.props.onCreateFormContext}
       >
         {this.props.children}
       </Form>
@@ -341,6 +354,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
   children: FormContextRenderer<FormInput>;
   extraFields?: JSX.Element;
   extraFormAttributes?: HTMLFormAttrs;
+  onCreateFormContext?: (ctx: BaseFormContext<FormInput>) => void
 }
 
 type FieldSetter<FormInput> = {
@@ -371,7 +385,7 @@ export class BaseFormContext<FormInput> {
   logWarnings(): void {
     for (let key in this.options.currentState) {
       if (!this.fieldsRendered.has(key)) {
-        console.warn(`Did not render a field/formset for '${key}'. Form may not work without JS.`);
+        throw new Error(`Did not render a field/formset for '${key}'. Form may not work without JS.`);
       }
     }
   }
@@ -479,6 +493,10 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     }, this.submit);
     const children = this.props.children(ctx);
 
+    if (this.props.onCreateFormContext) {
+      this.props.onCreateFormContext(ctx);
+    }
+
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
         {this.props.extraFields}
@@ -486,7 +504,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
         {children}
-        {ctx.logWarnings()}
       </form>
     );
   }

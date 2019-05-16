@@ -11,15 +11,11 @@ import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutati
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { HPUploadStatus, FeeWaiverInput } from './queries/globalTypes';
+import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
-import { FeeWaiverMutation } from './queries/FeeWaiverMutation';
-import { RadiosFormField } from './form-fields';
-import { toDjangoChoices } from './common-data';
-import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../common-data/income-frequency-choices';
-import { exactSubsetOrDefault } from './util';
+import { FeeWaiver } from './tests/pages/fee-waiver';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -71,36 +67,6 @@ const HPActionIssuesRoutes = () => (
     toBack={Routes.locale.hp.postOnboarding}
     toNext={Routes.locale.hp.feeWaiver}
   />
-);
-
-const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
-  incomeFrequency: ''
-};
-
-const FeeWaiver = () => (
-  <Page title="It's fee waiver time!" className="content">
-    <h1 className="title is-4">It's fee waiver time!</h1>
-    <SessionUpdatingFormSubmitter
-      mutation={FeeWaiverMutation}
-      initialState={(session) => exactSubsetOrDefault(session.feeWaiver, INITIAL_FEE_WAIVER_STATE)}
-      onSuccessRedirect={Routes.locale.hp.yourLandlord}
-    >
-      {(ctx) => <>
-        <RadiosFormField
-          label="How often do you get paid?"
-          choices={toDjangoChoices(
-            IncomeFrequencyChoices,
-            getIncomeFrequencyChoiceLabels()
-          )}
-          {...ctx.fieldPropsFor('incomeFrequency')}
-        />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={Routes.locale.hp.issues.home} label="Back" />
-          <NextButton isLoading={ctx.isLoading} label="Next"/>
-        </div>
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
 );
 
 const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => (

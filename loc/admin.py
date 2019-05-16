@@ -77,7 +77,7 @@ class LetterRequestForm(forms.ModelForm):
     def clean(self):
         super().clean()
         if self.instance.pk is None:
-            self.instance.regenerate_html_content()
+            self.instance.regenerate_html_content(author='a staff member')
 
 
 LOC_INCOMPLETE = 'This user has not yet completed the letter of complaint process.'

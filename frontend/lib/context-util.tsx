@@ -11,11 +11,11 @@ import { Omit } from './util';
 export function buildContextHocFactory<ContextType>(reactContext: React.Context<ContextType>) {
   return function withContext<P extends ContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof ContextType>> {
     return function (props: Omit<P, keyof ContextType>) {
-      // https://github.com/Microsoft/TypeScript/issues/28748
-      const tsIssue28748Workaround = props as any;
+      // https://github.com/Microsoft/TypeScript/issues/28884
+      const tsIssue28884Workaround = props as any;
 
       return (<reactContext.Consumer>
-        {(context) => <Component {...tsIssue28748Workaround} {...context} />}
+        {(context) => <Component {...tsIssue28884Workaround} {...context} />}
       </reactContext.Consumer>);
     };
   };

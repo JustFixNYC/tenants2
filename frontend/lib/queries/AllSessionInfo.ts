@@ -1,5 +1,6 @@
 // This file was automatically generated and should not be edited.
 
+import * as FeeWaiverDetails from './FeeWaiverDetails'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -203,9 +204,10 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
         mailChoice
     }
     feeWaiver {
-        incomeFrequency
+        ...FeeWaiverDetails
     }
     latestHpActionPdfUrl,
     hpActionUploadStatus
 }
-`;
+
+${FeeWaiverDetails.graphQL}`;

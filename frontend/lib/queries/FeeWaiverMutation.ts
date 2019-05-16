@@ -1,6 +1,7 @@
 // This file was automatically generated and should not be edited.
 
 import * as ExtendedFormFieldErrors from './ExtendedFormFieldErrors'
+import * as FeeWaiverDetails from './FeeWaiverDetails'
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -64,13 +65,14 @@ export const FeeWaiverMutation = {
         errors { ...ExtendedFormFieldErrors },
         session {
             feeWaiver {
-                incomeFrequency,
+                ...FeeWaiverDetails
             }
         }
     }
 }
 
-${ExtendedFormFieldErrors.graphQL}`,
+${ExtendedFormFieldErrors.graphQL}
+${FeeWaiverDetails.graphQL}`,
   fetch(fetchGraphQL: (query: string, args?: any) => Promise<any>, args: FeeWaiverMutationVariables): Promise<FeeWaiverMutation> {
     return fetchGraphQL(FeeWaiverMutation.graphQL, args);
   }

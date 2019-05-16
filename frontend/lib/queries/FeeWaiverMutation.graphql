@@ -3,7 +3,7 @@ mutation FeeWaiverMutation($input: FeeWaiverInput!) {
         errors { ...ExtendedFormFieldErrors },
         session {
             feeWaiver {
-                incomeFrequency,
+                ...FeeWaiverDetails
             }
         }
     }

@@ -232,4 +232,31 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     for cissue in user.custom_issues.all():
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
+    # TODO: This is temporary and should be removed.
+
+    # How often do you get paid?
+    v.pay_period_mc = hp.PayPeriodMC.WEEK
+
+    # What is your household income?
+    v.tenant_income_nu = 1500
+
+    # What is the source of your income?
+    v.tenant_income_source_te = "Employment, child support"
+
+    # What is your monthly rent?
+    v.tenant_monthly_rent_nu = 800
+
+    # Monthly expenditure for utilities
+    v.tenant_monthly_exp_utilities_nu = 15
+
+    # Monthly expenditure for other stuff
+    v.tenant_monthly_exp_other_nu = 300
+
+    # Have you asked for a fee waiver before?
+    v.previous_application_tf = True
+
+    # Completes the sentence "I have applied for a fee waiver before, but I am making
+    # this application because..."
+    v.reason_for_further_application_te = "I am awesome"
+
     return v

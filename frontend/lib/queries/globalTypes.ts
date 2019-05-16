@@ -7,6 +7,15 @@
 //==============================================================
 
 /**
+ * An enumeration.
+ */
+export enum FeeWaiverDetailsIncomeFrequency {
+  EVERY_TWO_WEEKS = "EVERY_TWO_WEEKS",
+  MONTHLY = "MONTHLY",
+  WEEKLY = "WEEKLY",
+}
+
+/**
  * The status of the HP Action upload (document assembly) process for a user.
  */
 export enum HPUploadStatus {
@@ -48,6 +57,11 @@ export interface ExampleInput {
 
 export interface ExampleRadioInput {
   radioField: string;
+  clientMutationId?: string | null;
+}
+
+export interface FeeWaiverInput {
+  incomeFrequency: string;
   clientMutationId?: string | null;
 }
 

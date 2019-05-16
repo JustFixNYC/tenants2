@@ -6,7 +6,7 @@ import * as AllSessionInfo from './AllSessionInfo'
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { OnboardingStep4Input, OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
+import { OnboardingStep4Input, OnboardingInfoSignupIntent, LetterRequestMailChoice, FeeWaiverDetailsIncomeFrequency, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: OnboardingStep4Mutation
@@ -117,6 +117,10 @@ export interface OnboardingStep4Mutation_output_session_letterRequest {
   mailChoice: LetterRequestMailChoice;
 }
 
+export interface OnboardingStep4Mutation_output_session_feeWaiver {
+  incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+}
+
 export interface OnboardingStep4Mutation_output_session {
   /**
    * The ID of the currently logged-in user, or null if not logged-in.
@@ -166,6 +170,7 @@ export interface OnboardingStep4Mutation_output_session {
   accessDates: string[];
   landlordDetails: OnboardingStep4Mutation_output_session_landlordDetails | null;
   letterRequest: OnboardingStep4Mutation_output_session_letterRequest | null;
+  feeWaiver: OnboardingStep4Mutation_output_session_feeWaiver | null;
   /**
    * The URL of the most recently-generated HP Action PDF for the current user.
    */

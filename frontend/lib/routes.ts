@@ -129,6 +129,7 @@ function createHPActionRouteInfo(prefix: string) {
     postOnboarding: prefix,
     welcome: `${prefix}/welcome`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
+    feeWaiver: `${prefix}/fee-waiver`,
     yourLandlord: `${prefix}/your-landlord`,
     waitForUpload: `${prefix}/wait`,
     confirmation: `${prefix}/confirmation`,

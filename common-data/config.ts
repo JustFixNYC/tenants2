@@ -25,6 +25,11 @@ const config: DjangoChoicesTypescriptConfig = {
       typeName: 'LeaseChoice',
       exportLabels: true,
       filterOut: ['NOT_SURE']
+    },
+    {
+      jsonFilename: 'income-frequency-choices.json',
+      typeName: 'IncomeFrequencyChoice',
+      exportLabels: true
     }
   ]
 };

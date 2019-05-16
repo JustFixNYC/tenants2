@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from project.util.site_util import absolute_reverse
+from project.common_data import Choices
 from users.models import JustfixUser
 
 
@@ -15,6 +16,20 @@ UPLOAD_TOKEN_LENGTH = 40
 
 # How long an upload token is valid.
 UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
+
+INCOME_FREQUENCY_CHOICES = Choices.from_file('income-frequency-choices.json')
+
+
+class FeeWaiverDetails(models.Model):
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='fee_waiver_details',
+        help_text="The user whom this fee waiver is for."
+    )
+
+    income_frequency = models.CharField(
+        max_length=50,
+        choices=INCOME_FREQUENCY_CHOICES.choices
+    )
 
 
 class HPActionDocumentsManager(models.Manager):

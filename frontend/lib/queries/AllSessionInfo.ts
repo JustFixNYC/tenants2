@@ -4,7 +4,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { OnboardingInfoSignupIntent, LetterRequestMailChoice, HPUploadStatus } from "./globalTypes";
+import { OnboardingInfoSignupIntent, LetterRequestMailChoice, FeeWaiverDetailsIncomeFrequency, HPUploadStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL fragment: AllSessionInfo
@@ -93,6 +93,10 @@ export interface AllSessionInfo_letterRequest {
   mailChoice: LetterRequestMailChoice;
 }
 
+export interface AllSessionInfo_feeWaiver {
+  incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+}
+
 export interface AllSessionInfo {
   /**
    * The ID of the currently logged-in user, or null if not logged-in.
@@ -142,6 +146,7 @@ export interface AllSessionInfo {
   accessDates: string[];
   landlordDetails: AllSessionInfo_landlordDetails | null;
   letterRequest: AllSessionInfo_letterRequest | null;
+  feeWaiver: AllSessionInfo_feeWaiver | null;
   /**
    * The URL of the most recently-generated HP Action PDF for the current user.
    */
@@ -196,6 +201,9 @@ export const graphQL = `fragment AllSessionInfo on SessionInfo {
     letterRequest {
         updatedAt
         mailChoice
+    }
+    feeWaiver {
+        incomeFrequency
     }
     latestHpActionPdfUrl,
     hpActionUploadStatus

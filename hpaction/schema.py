@@ -1,15 +1,18 @@
 from typing import Optional
 from threading import Thread
 import graphene
+from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 from django.urls import reverse
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
 from project import slack
+from loc.schema import OneToOneUserModelFormMutation
 from .models import (
     UploadToken, HPActionDocuments, HPUploadStatus, get_upload_status_for_user)
-from .forms import GeneratePDFForm
+from . import models
+from .forms import GeneratePDFForm, FeeWaiverForm
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
@@ -71,11 +74,25 @@ class GeneratePDF(SessionFormMutation):
         return cls.mutation_success()
 
 
+class FeeWaiverType(DjangoObjectType):
+    class Meta:
+        model = models.FeeWaiverDetails
+        only_fields = ('income_frequency')
+
+
+class FeeWaiver(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = FeeWaiverForm
+
+
 class HPActionMutations:
     generate_hp_action_pdf = GeneratePDF.Field(required=True)
+    fee_waiver = FeeWaiver.Field(required=True)
 
 
 class HPActionSessionInfo:
+    fee_waiver = graphene.Field(FeeWaiverType, resolver=FeeWaiver.resolve)
+
     latest_hp_action_pdf_url = graphene.String(
         description=(
             "The URL of the most recently-generated HP Action PDF "

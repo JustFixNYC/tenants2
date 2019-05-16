@@ -5,6 +5,7 @@ from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 import nycdb.models
+from .models import INCOME_FREQUENCY_CHOICES
 from . import hpactionvars as hp
 
 
@@ -39,6 +40,12 @@ BOROUGHS: Dict[str, hp.TenantBoroughMC] = {
     BOROUGH_CHOICES.BROOKLYN: hp.TenantBoroughMC.BROOKLYN,
     BOROUGH_CHOICES.QUEENS: hp.TenantBoroughMC.QUEENS,
     BOROUGH_CHOICES.STATEN_ISLAND: hp.TenantBoroughMC.STATEN_ISLAND
+}
+
+INCOME_FREQUENCIES: Dict[str, hp.PayPeriodMC] = {
+    INCOME_FREQUENCY_CHOICES.WEEKLY: hp.PayPeriodMC.WEEK,
+    INCOME_FREQUENCY_CHOICES.EVERY_TWO_WEEKS: hp.PayPeriodMC.TWO_WEEKS,
+    INCOME_FREQUENCY_CHOICES.MONTHLY: hp.PayPeriodMC.MONTH
 }
 
 
@@ -232,31 +239,34 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     for cissue in user.custom_issues.all():
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
-    # TODO: This is temporary and should be removed.
+    if hasattr(user, 'fee_waiver_details'):
+        fwd = user.fee_waiver_details
 
-    # How often do you get paid?
-    v.pay_period_mc = hp.PayPeriodMC.WEEK
+        # TODO: Much of this is temporary and should be removed/fixed.
 
-    # What is your household income?
-    v.tenant_income_nu = 1500
+        # How often do you get paid?
+        v.pay_period_mc = INCOME_FREQUENCIES[fwd.income_frequency]
 
-    # What is the source of your income?
-    v.tenant_income_source_te = "Employment, child support"
+        # What is your household income?
+        v.tenant_income_nu = 1500
 
-    # What is your monthly rent?
-    v.tenant_monthly_rent_nu = 800
+        # What is the source of your income?
+        v.tenant_income_source_te = "Employment, child support"
 
-    # Monthly expenditure for utilities
-    v.tenant_monthly_exp_utilities_nu = 15
+        # What is your monthly rent?
+        v.tenant_monthly_rent_nu = 800
 
-    # Monthly expenditure for other stuff
-    v.tenant_monthly_exp_other_nu = 300
+        # Monthly expenditure for utilities
+        v.tenant_monthly_exp_utilities_nu = 15
 
-    # Have you asked for a fee waiver before?
-    v.previous_application_tf = True
+        # Monthly expenditure for other stuff
+        v.tenant_monthly_exp_other_nu = 300
 
-    # Completes the sentence "I have applied for a fee waiver before, but I am making
-    # this application because..."
-    v.reason_for_further_application_te = "I am awesome"
+        # Have you asked for a fee waiver before?
+        v.previous_application_tf = True
+
+        # Completes the sentence "I have applied for a fee waiver before, but I am making
+        # this application because..."
+        v.reason_for_further_application_te = "I am awesome"
 
     return v

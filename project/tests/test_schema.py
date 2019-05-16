@@ -12,7 +12,8 @@ def test_login_works(graphql_client):
         get_frontend_queries(
             'LoginMutation.graphql',
             'AllSessionInfo.graphql',
-            'ExtendedFormFieldErrors.graphql'
+            'ExtendedFormFieldErrors.graphql',
+            'FeeWaiverDetails.graphql',
         ),
         variables={
             'input': {
@@ -35,7 +36,8 @@ def test_logout_works(graphql_client):
     logout_mutation = get_frontend_queries(
         'LogoutMutation.graphql',
         'AllSessionInfo.graphql',
-        'ExtendedFormFieldErrors.graphql'
+        'ExtendedFormFieldErrors.graphql',
+        'FeeWaiverDetails.graphql',
     )
     result = graphql_client.execute(logout_mutation, variables={'input': {}})
     assert len(result['data']['output']['session']['csrfToken']) > 0

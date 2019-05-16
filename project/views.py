@@ -111,7 +111,11 @@ def get_initial_session(request) -> Dict[str, Any]:
             }
         }
         %s
-        ''' % (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
+        %s
+        ''' % (
+            (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
+            (FRONTEND_QUERY_DIR / 'FeeWaiverDetails.graphql').read_text()
+        )
     )
     return data['session']
 

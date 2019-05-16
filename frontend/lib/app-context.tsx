@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { GraphQLFetch } from './graphql-client';
-import { Omit } from './util';
+import { buildContextHocFactory } from './context-util';
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission {
@@ -149,18 +149,4 @@ export const defaultContext: AppContextType = {
  */
 export const AppContext = React.createContext<AppContextType>(defaultContext);
 
-/**
- * Higher-order component (HOC) factory function to wrap existing
- * components in a context consumer.
- */
-export function withAppContext<P extends AppContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AppContextType>> {
-  return function(props: Omit<P, keyof AppContextType>) {
-    // https://github.com/Microsoft/TypeScript/issues/28748
-    const tsIssue28748Workaround = props as any;
-    return (
-      <AppContext.Consumer>
-        {(context) => <Component {...tsIssue28748Workaround} {...context} />}
-      </AppContext.Consumer>
-    );
-  }
-}
+export const withAppContext = buildContextHocFactory(AppContext);

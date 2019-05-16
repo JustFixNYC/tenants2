@@ -240,7 +240,7 @@ describe('MultiCheckboxFormField', () => {
 describe('CheckboxFormField', () => {
   const makeCheckbox = (props: Partial<BooleanFormFieldProps> = {}) => {
     const defaultProps: BooleanFormFieldProps = {
-      ...baseFieldProps({ value: false }),
+      ...baseFieldProps<boolean>({ value: false }),
       children: 'Foo'
     };
     return shallow(

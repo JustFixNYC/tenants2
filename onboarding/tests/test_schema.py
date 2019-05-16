@@ -2,7 +2,7 @@ from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
-from project.tests.util import get_frontend_queries
+from project.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
 
@@ -54,11 +54,8 @@ def _get_step_1_info(graphql_client):
 
 
 def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
-    queries = [f'OnboardingStep{n}Mutation.graphql', 'ExtendedFormFieldErrors.graphql']
-    if n == 4:
-        queries.append('AllSessionInfo.graphql')
     return graphql_client.execute(
-        get_frontend_queries(*queries),
+        get_frontend_query(f'OnboardingStep{n}Mutation.graphql'),
         variables={'input': {
             **VALID_STEP_DATA[n],
             **input_kwargs

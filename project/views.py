@@ -1,3 +1,4 @@
+import re
 import time
 import logging
 from typing import NamedTuple, List, Dict, Any, Optional
@@ -68,6 +69,32 @@ class LambdaResponse(NamedTuple):
     render_time: int
 
 
+def find_all_graphql_fragments(query: str) -> List[str]:
+    '''
+    >>> find_all_graphql_fragments('blah')
+    []
+    >>> find_all_graphql_fragments('query { ...Thing,\\n ...OtherThing }')
+    ['Thing', 'OtherThing']
+    '''
+
+    results = re.findall(r'\.\.\.([A-Za-z0-9_]+)', query)
+    return [thing for thing in results]
+
+
+def add_graphql_fragments(query: str) -> str:
+    all_graphql = [query]
+    to_find = find_all_graphql_fragments(query)
+
+    while to_find:
+        fragname = to_find.pop()
+        fragpath = FRONTEND_QUERY_DIR / f"{fragname}.graphql"
+        fragtext = fragpath.read_text()
+        to_find.extend(find_all_graphql_fragments(fragtext))
+        all_graphql.append(fragtext)
+
+    return '\n'.join(all_graphql)
+
+
 def run_react_lambda(initial_props) -> LambdaResponse:
     start_time = time.time_ns()
     response = lambda_pool.run_handler(initial_props)
@@ -104,18 +131,13 @@ def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
 def get_initial_session(request) -> Dict[str, Any]:
     data = execute_query(
         request,
-        '''
+        add_graphql_fragments('''
         query GetInitialSession {
             session {
                 ...AllSessionInfo
             }
         }
-        %s
-        %s
-        ''' % (
-            (FRONTEND_QUERY_DIR / 'AllSessionInfo.graphql').read_text(),
-            (FRONTEND_QUERY_DIR / 'FeeWaiverDetails.graphql').read_text()
-        )
+        ''')
     )
     return data['session']
 

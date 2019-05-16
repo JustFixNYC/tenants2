@@ -5,12 +5,12 @@ import { AppWithoutRouter, AppPropsWithRouter } from '../app';
 import { createTestGraphQlClient, FakeSessionInfo, FakeServerInfo } from './util';
 
 describe('AppWithoutRouter', () => {
-  const buildApp = () => {
+  const buildApp = (initialSession = FakeSessionInfo) => {
     const { client } = createTestGraphQlClient();
     const props: AppPropsWithRouter = {
       initialURL: '/',
       locale: '',
-      initialSession: FakeSessionInfo,
+      initialSession,
       server: FakeServerInfo,
       history: {} as any,
       location: {} as any,
@@ -37,6 +37,28 @@ describe('AppWithoutRouter', () => {
     expect(consoleError.mock.calls[0][0]).toBe(err);
     expect(windowAlert.mock.calls).toHaveLength(1);
     expect(windowAlert.mock.calls[0][0]).toContain('network error');
+  });
+
+  it('notifies FullStory when user logs in', () => {
+    const identify = jest.fn();
+    window.FS = { identify };
+    const { app } = buildApp();
+    expect(identify.mock.calls).toHaveLength(0);
+    app.handleSessionChange({
+      userId: 1,
+      firstName: 'Boop'
+    });
+    expect(identify.mock.calls).toHaveLength(1);
+    expect(identify.mock.calls).toEqual([
+      ["user:1", { displayName: "Boop (#1)" }]
+    ]);
+  });
+
+  it('notifies FullStory on mount if user is already logged in', () => {
+    const identify = jest.fn();
+    window.FS = { identify };
+    buildApp({ ...FakeSessionInfo, userId: 5, firstName: 'blah' });
+    expect(identify.mock.calls).toHaveLength(1);
   });
 
   it('handles session updates', () => {

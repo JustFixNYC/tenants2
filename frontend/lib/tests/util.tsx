@@ -87,6 +87,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = {
+  userId: null,
   firstName: null,
   lastName: null,
   phoneNumber: null,

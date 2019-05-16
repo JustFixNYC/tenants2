@@ -175,7 +175,39 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     }
   }
 
+  handleLogin() {
+    const { userId, firstName } = this.state.session;
+    if (window.FS && userId !== null) {
+      // FullStory ignores '1' as a user ID because it might be unintentional,
+      // but that's actually a valid user ID for our purposes, so we'll munge
+      // our user IDs a bit so FullStory always uses them.
+      const uid = `user:${userId}`;
+
+      window.FS.identify(uid, { displayName: `${firstName || '' } (#${userId})` });
+    }
+  }
+
+  handleLogout() {
+    // We're not going to bother telling FullStory that the user logged out,
+    // because we don't really want it associating the current user with a
+    // brand-new anonymous user (as FullStory's priced plans have strict limits
+    // on the number of user sessions they can support).
+  }
+
+  componentDidMount() {
+    if (this.state.session.userId !== null) {
+      this.handleLogin();
+    }
+  }
+
   componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
+    if (prevState.session.userId !== this.state.session.userId) {
+      if (this.state.session.userId === null) {
+        this.handleLogout();
+      } else {
+        this.handleLogin();
+      }
+    }
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
     }

@@ -69,13 +69,35 @@ class LandlordDetailsInline(admin.StackedInline):
     verbose_name_plural = verbose_name
 
 
+class LetterRequestForm(forms.ModelForm):
+    class Meta:
+        model = models.LetterRequest
+        exclude = ['html_content', 'lob_letter_object', 'user']
+
+    def clean(self):
+        super().clean()
+        if self.instance.pk is None:
+            self.instance.regenerate_html_content(author='a staff member')
+
+
+LOC_INCOMPLETE = 'This user has not yet completed the letter of complaint process.'
+
+
 class LetterRequestInline(admin.StackedInline):
+    form = LetterRequestForm
     model = models.LetterRequest
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
-    exclude = ['html_content', 'lob_letter_object']
 
-    readonly_fields = ['loc_actions', 'lob_integration']
+    readonly_fields = ['letter_snippet', 'loc_actions', 'lob_integration']
+
+    @admin_field(short_description="Letter HTML snippet", allow_tags=True)
+    def letter_snippet(self, obj: models.LetterRequest) -> str:
+        if obj.pk is None:
+            return LOC_INCOMPLETE
+        if not obj.html_content:
+            return "Letter has no cached HTML content!"
+        return format_html("<code>{}\u2026</code>", obj.html_content[:150])
 
     @admin_field(
         short_description="Letter of complaint actions",
@@ -84,7 +106,7 @@ class LetterRequestInline(admin.StackedInline):
     def loc_actions(self, obj: models.LetterRequest):
         url = obj.admin_pdf_url
         if not url:
-            return 'This user has not yet completed the letter of complaint process.'
+            return LOC_INCOMPLETE
         return format_html(
             '<a class="button" target="_blank" href="{}">View letter of complaint PDF</a>',
             url

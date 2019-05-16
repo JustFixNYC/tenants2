@@ -1,8 +1,9 @@
 import React from 'react';
 import { ReactElement } from "react";
 import { TransitionProps } from "react-transition-group/Transition";
-import { assertNotNull, Omit } from './util';
+import { assertNotNull } from './util';
 import { TransitionGroup } from 'react-transition-group';
+import { buildContextHocFactory } from './context-util';
 
 /**
  * This context communicates information about the current
@@ -43,18 +44,4 @@ export function TransitionContextGroup(props: TransitionContextGroupProps): JSX.
   return <TransitionGroup childFactory={childFactory} {...props} />;
 }
 
-/**
- * Higher-order component (HOC) factory function to wrap existing
- * components in a context consumer.
- */
-export function withTransitionContext<P extends TransitionContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof TransitionContextType>> {
-  return function(props: Omit<P, keyof TransitionContextType>) {
-    // https://github.com/Microsoft/TypeScript/issues/28748
-    const tsIssue28748Workaround = props as any;
-    return (
-      <TransitionContext.Consumer>
-        {(context) => <Component {...tsIssue28748Workaround} {...context} />}
-      </TransitionContext.Consumer>
-    );
-  }
-}
+export const withTransitionContext = buildContextHocFactory(TransitionContext);

@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { Omit } from './util';
 import { KEY_ENTER, KEY_SPACE } from './key-codes';
+import { buildContextHocFactory } from './context-util';
 
 function trapEnterOrSpace(e: React.KeyboardEvent): boolean {
   if (e.which === KEY_ENTER || e.which === KEY_SPACE) {
@@ -79,17 +79,7 @@ export const AriaContext = React.createContext<AriaContextType>({
   announce(text: string) {}
 });
 
-function withAriaContext<P extends AriaContextType>(Component: React.ComponentType<P>): React.ComponentType<Omit<P, keyof AriaContextType>> {
-  return function(props: Omit<P, keyof AriaContextType>) {
-    // https://github.com/Microsoft/TypeScript/issues/28748
-    const tsIssue28748Workaround = props as any;
-    return (
-      <AriaContext.Consumer>
-        {(context) => <Component {...tsIssue28748Workaround} announce={context.announce} />}
-      </AriaContext.Consumer>
-    );
-  }
-}
+export const withAriaContext = buildContextHocFactory(AriaContext);
 
 interface AriaAnnouncementProps extends AriaContextType {
   text: string;

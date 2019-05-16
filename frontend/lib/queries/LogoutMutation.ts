@@ -119,6 +119,10 @@ export interface LogoutMutation_output_session_letterRequest {
 
 export interface LogoutMutation_output_session {
   /**
+   * The ID of the currently logged-in user, or null if not logged-in.
+   */
+  userId: number | null;
+  /**
    * The first name of the currently logged-in user, or null if not logged-in.
    */
   firstName: string | null;

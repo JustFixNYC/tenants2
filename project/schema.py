@@ -24,6 +24,12 @@ class SessionInfo(
     IssueSessionInfo,
     graphene.ObjectType
 ):
+    user_id = graphene.Int(
+        description=(
+            "The ID of the currently logged-in user, or null if not logged-in."
+        )
+    )
+
     first_name = graphene.String(
         description=(
             "The first name of the currently logged-in user, or "
@@ -62,6 +68,12 @@ class SessionInfo(
         ),
         required=True
     )
+
+    def resolve_user_id(self, info: ResolveInfo) -> Optional[int]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.pk
 
     def resolve_first_name(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

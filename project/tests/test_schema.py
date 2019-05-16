@@ -173,3 +173,16 @@ def test_first_and_last_name_works(graphql_client):
 
     graphql_client.request.user = UserFactory.build(full_name="Boop Jones")
     assert get() == ("Boop", "Jones")
+
+
+def test_user_id_works(graphql_client, db):
+    def get():
+        result = graphql_client.execute('query { session { userId } }')
+        return result['data']['session']['userId']
+
+    assert get() is None, "anonymous user has no user ID"
+
+    user = UserFactory()
+    assert user.pk is not None
+    graphql_client.request.user = user
+    assert get() == user.pk

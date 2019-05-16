@@ -4,10 +4,12 @@ from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from project.tests.util import strip_locale
 from loc.admin import (
-    LetterRequestInline, print_loc_envelopes, get_lob_nomail_reason)
+    LetterRequestInline, print_loc_envelopes, get_lob_nomail_reason,
+    LetterRequestForm)
 from loc.admin_views import LocAdminViews
 from loc.models import LetterRequest, LOC_MAILING_CHOICES
 from . import test_lob_api
+from .test_forms import save_letter_request_form
 from .test_views import requires_pdf_rendering
 from .factories import (
     LandlordDetailsFactory, LetterRequestFactory, create_user_with_all_info)
@@ -34,6 +36,22 @@ def test_print_loc_envelopes_works():
     redirect = print_loc_envelopes(None, None, JustfixUser.objects.all())
     url = strip_locale(redirect.url)
     assert url == f'/loc/admin/envelopes.pdf?user_ids={user.pk}'
+
+
+@pytest.mark.django_db
+def test_letter_request_form_creates_html_content_upon_creation():
+    form1 = save_letter_request_form(form_class=LetterRequestForm)
+    lr = form1.instance
+    assert lr.user.first_name.upper() in lr.html_content.upper()
+
+    lr.user.first_name = "IT CHANGED!"
+    lr.user.save()
+
+    save_letter_request_form(
+        form_class=LetterRequestForm,
+        instance=lr
+    )
+    assert lr.user.first_name.upper() not in lr.html_content.upper()
 
 
 class TestLobIntegrationField:

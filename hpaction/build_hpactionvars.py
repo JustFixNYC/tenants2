@@ -5,7 +5,7 @@ from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 import nycdb.models
-from .models import INCOME_FREQUENCY_CHOICES
+from .models import INCOME_FREQUENCY_CHOICES, FeeWaiverDetails
 from . import hpactionvars as hp
 
 
@@ -240,7 +240,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
     if hasattr(user, 'fee_waiver_details'):
-        fwd = user.fee_waiver_details
+        fwd: FeeWaiverDetails = user.fee_waiver_details
 
         # TODO: Much of this is temporary and should be removed/fixed.
 
@@ -248,7 +248,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.pay_period_mc = INCOME_FREQUENCIES[fwd.income_frequency]
 
         # What is your household income?
-        v.tenant_income_nu = 1500
+        v.tenant_income_nu = float(fwd.income_amount)
 
         # What is the source of your income?
         v.tenant_income_source_te = "Employment, child support"

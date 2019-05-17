@@ -77,7 +77,7 @@ class GeneratePDF(SessionFormMutation):
 class FeeWaiverType(DjangoObjectType):
     class Meta:
         model = models.FeeWaiverDetails
-        only_fields = ('income_frequency')
+        exclude_fields = ('user',)
 
 
 class FeeWaiver(OneToOneUserModelFormMutation):

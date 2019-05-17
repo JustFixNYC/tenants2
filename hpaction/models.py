@@ -1,3 +1,4 @@
+from decimal import Decimal
 from datetime import timedelta
 from typing import Optional, Union
 from enum import Enum
@@ -26,10 +27,12 @@ class FeeWaiverDetails(models.Model):
         help_text="The user whom this fee waiver is for."
     )
 
-    income_frequency = models.CharField(
+    income_frequency: str = models.CharField(
         max_length=50,
         choices=INCOME_FREQUENCY_CHOICES.choices
     )
+
+    income_amount: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class HPActionDocumentsManager(models.Manager):

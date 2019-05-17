@@ -119,6 +119,7 @@ export interface OnboardingStep4Mutation_output_session_letterRequest {
 
 export interface OnboardingStep4Mutation_output_session_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+  incomeAmount: number;
 }
 
 export interface OnboardingStep4Mutation_output_session {

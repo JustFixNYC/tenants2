@@ -42,6 +42,7 @@ def convert_form_field_to_required_list(field):
 @convert_form_field.register(forms.CharField)
 @convert_form_field.register(forms.DateField)
 @convert_form_field.register(forms.ChoiceField)
+@convert_form_field.register(forms.DecimalField)
 def convert_form_field_to_required_string(field):
     # Note that we're *always* setting required to True, even if the
     # field isn't required. This is because we always want an empty

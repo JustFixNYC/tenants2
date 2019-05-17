@@ -1,3 +1,4 @@
 fragment FeeWaiverDetails on FeeWaiverType {
     incomeFrequency,
+    incomeAmount
 }

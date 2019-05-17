@@ -119,6 +119,7 @@ export interface LoginMutation_output_session_letterRequest {
 
 export interface LoginMutation_output_session_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+  incomeAmount: number;
 }
 
 export interface LoginMutation_output_session {

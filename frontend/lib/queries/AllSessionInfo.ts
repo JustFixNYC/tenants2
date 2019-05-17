@@ -96,6 +96,7 @@ export interface AllSessionInfo_letterRequest {
 
 export interface AllSessionInfo_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+  incomeAmount: number;
 }
 
 export interface AllSessionInfo {

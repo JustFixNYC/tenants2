@@ -36,6 +36,7 @@ export interface FeeWaiverMutation_output_errors {
 
 export interface FeeWaiverMutation_output_session_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+  incomeAmount: number;
 }
 
 export interface FeeWaiverMutation_output_session {

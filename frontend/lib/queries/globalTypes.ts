@@ -62,6 +62,7 @@ export interface ExampleRadioInput {
 
 export interface FeeWaiverInput {
   incomeFrequency: string;
+  incomeAmount: string;
   clientMutationId?: string | null;
 }
 

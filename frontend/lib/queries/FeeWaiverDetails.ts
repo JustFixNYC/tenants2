@@ -12,9 +12,11 @@ import { FeeWaiverDetailsIncomeFrequency } from "./globalTypes";
 
 export interface FeeWaiverDetails {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
+  incomeAmount: number;
 }
 
 export const graphQL = `fragment FeeWaiverDetails on FeeWaiverType {
     incomeFrequency,
+    incomeAmount
 }
 `;

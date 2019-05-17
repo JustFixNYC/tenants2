@@ -6,7 +6,7 @@ from .models import FeeWaiverDetails
 class FeeWaiverForm(forms.ModelForm):
     class Meta:
         model = FeeWaiverDetails
-        fields = ['income_frequency']
+        exclude = ['user']
 
 
 class GeneratePDFForm(forms.Form):

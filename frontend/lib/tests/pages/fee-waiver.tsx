@@ -16,11 +16,23 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeAmount: '',
 };
 
+type StringifiedNumbers<A> = {
+  [K in keyof A]: A[K] extends number ? string : A[K]
+};
+
+function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
+  let result: any = {};
+
+  for (let key in obj) {
+    const value = obj[key];
+    result[key] = typeof(value) === 'number' ? value.toString() : value;
+  }
+
+  return result;
+}
+
 function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
-  return feeWaiver ? {
-    ...feeWaiver,
-    incomeAmount: feeWaiver.incomeAmount.toString()
-  } : INITIAL_FEE_WAIVER_STATE;
+  return feeWaiver ? withStringifiedNumbers(feeWaiver) : INITIAL_FEE_WAIVER_STATE;
 }
 
 export const FeeWaiver = () => (

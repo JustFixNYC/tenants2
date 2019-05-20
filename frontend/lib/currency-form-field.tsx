@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { formatErrors } from "./form-errors";
 import { bulmaClasses } from './bulma';
 import { ariaBool } from './aria';
@@ -15,6 +15,7 @@ export interface CurrencyFormFieldProps extends BaseFormFieldProps<string> {
 };
 
 type State = {
+  isFocused: boolean,
   currentText: string
 };
 
@@ -44,28 +45,48 @@ export function parseCurrency(value: string): number|null {
 }
 
 export class CurrencyFormField extends React.Component<CurrencyFormFieldProps, State> {
+  inputRef: RefObject<HTMLInputElement> = React.createRef();
+
   constructor(props: CurrencyFormFieldProps) {
     super(props);
     this.state = {
+      isFocused: false,
       currentText: normalizeCurrency(this.props.value)
     };
   }
 
+  componentDidMount() {
+    const { activeElement } = document;
+    if (activeElement && activeElement === this.inputRef.current) {
+      this.setState({ isFocused: true });
+    }
+  }
+
   componentDidUpdate(prevProps: CurrencyFormFieldProps, prevState: State) {
     if (prevProps.value !== this.props.value) {
-      const currentText = normalizeCurrency(this.props.value);
-      if (this.state.currentText !== currentText) {
-        this.setState({ currentText });
-      }
+      this.setState({ currentText: normalizeCurrency(this.props.value) });
     }
   }
 
   handleChange(value: string) {
-    this.setState({ currentText: value });
+    if (this.state.isFocused) {
+      this.setState({ currentText: value });
+    } else {
+      this.commitValue(value);
+    }
+  }
+
+  handleFocus() {
+    this.setState({ isFocused: true });
   }
 
   handleBlur() {
-    const newText = normalizeCurrency(this.state.currentText);
+    this.setState({ isFocused: false });
+    this.commitValue();
+  }
+
+  commitValue(value = this.state.currentText) {
+    const newText = normalizeCurrency(value);
     this.setState({ currentText: newText });
     this.props.onChange(stripNonDecimalChars(newText));
   }
@@ -79,6 +100,7 @@ export class CurrencyFormField extends React.Component<CurrencyFormFieldProps, S
         {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
         <div className="control jf-currency">
           <input
+            ref={this.inputRef}
             className={bulmaClasses('input', { 'is-danger': !!props.errors })}
             disabled={props.isDisabled}
             aria-invalid={ariaBool(!!props.errors)}
@@ -89,8 +111,9 @@ export class CurrencyFormField extends React.Component<CurrencyFormFieldProps, S
             value={this.state.currentText}
             required={props.required}
             onChange={(e) => this.handleChange(e.target.value)}
+            onFocus={() => this.handleFocus()}
             onBlur={() => this.handleBlur()}
-            onKeyDown={(e) => e.keyCode === KEY_ENTER && this.handleBlur()}
+            onKeyDown={(e) => e.keyCode === KEY_ENTER && this.commitValue()}
           />
           <span className="jf-currency-symbol">$</span>
         </div>

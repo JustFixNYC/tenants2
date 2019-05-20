@@ -2,6 +2,7 @@ import React from 'react';
 
 import ReactTestingLibraryPal from "./rtl-pal";
 import { normalizeCurrency, parseCurrency, CurrencyFormFieldProps, CurrencyFormField } from '../currency-form-field';
+import { KEY_ENTER } from '../key-codes';
 
 describe("normalizeCurrency()", () => {
   it("returns empty string if value can't be parsed", () => {
@@ -24,8 +25,9 @@ describe("parseCurrency()", () => {
 });
 
 describe("CurrencyFormField", () => {
+  const label = "how much does salad cost";
+
   const initState = () => {
-    const label = "how much does salad cost";
     const onChange = jest.fn();
     const props: CurrencyFormFieldProps = {
       label,
@@ -37,10 +39,7 @@ describe("CurrencyFormField", () => {
     };
     const pal = new ReactTestingLibraryPal(<CurrencyFormField {...props} />);
     const input = pal.rr.getByLabelText(label) as HTMLInputElement;
-    const changeValue = (value: string) => {
-      pal.fillFormFields([[label, value]]);
-      pal.rt.fireEvent.blur(input);  
-    };
+    const changeValue = (value: string) => pal.fillFormFields([[label, value]]);
     return { label, onChange, props, pal, input, changeValue };
   };
 
@@ -64,5 +63,44 @@ describe("CurrencyFormField", () => {
     expect(input.value).toEqual("5,512.00");
     changeValue('5512.002');
     expect(input.value).toEqual("5,512.00");
+  });
+
+  it("normalizes value when props change", () => {
+    const { pal, props, input } = initState();
+    pal.rr.rerender(<CurrencyFormField {...props} value="9999" />);
+    expect(input.value).toEqual("9,999.00");
+  });
+
+  describe("if focused", () => {
+    const initFocusedState = () => {
+      let s = initState();
+      s.pal.rt.fireEvent.focus(s.input);
+      return s;
+    };
+
+    afterEach(ReactTestingLibraryPal.cleanup);
+
+    it("does not commit input when changed", () => {
+      const { input, changeValue, onChange } = initFocusedState();
+      changeValue('5512');
+      expect(input.value).toEqual('5512');
+      expect(onChange.mock.calls).toEqual([]);
+    });
+
+    it("commits input when blurred", () => {
+      const { input, pal, changeValue, onChange } = initFocusedState();
+      changeValue('5512');
+      pal.rt.fireEvent.blur(input);
+      expect(input.value).toEqual('5,512.00');
+      expect(onChange.mock.calls).toEqual([['5512.00']]);
+    });
+
+    it("commits input when enter is pressed", () => {
+      const { input, pal, changeValue, onChange } = initFocusedState();
+      changeValue('5512');
+      pal.rt.fireEvent.keyDown(input, { keyCode: KEY_ENTER });
+      expect(input.value).toEqual('5,512.00');
+      expect(onChange.mock.calls).toEqual([['5512.00']]);
+    });
   });
 });

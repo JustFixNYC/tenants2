@@ -165,6 +165,7 @@ input:focus + .jf-checkbox-symbol {
 
 .jf-currency input {
     padding-left: calc(#{$control-padding-horizontal} + 1em);
+    max-width: 10em;
 }
 
 .jf-currency .jf-currency-symbol {

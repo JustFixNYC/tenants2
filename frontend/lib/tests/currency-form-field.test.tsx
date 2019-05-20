@@ -24,7 +24,7 @@ describe("parseCurrency()", () => {
 });
 
 describe("CurrencyFormField", () => {
-  it("works", () => {
+  const initState = () => {
     const label = "how much does salad cost";
     const onChange = jest.fn();
     const props: CurrencyFormFieldProps = {
@@ -41,10 +41,27 @@ describe("CurrencyFormField", () => {
       pal.fillFormFields([[label, value]]);
       pal.rt.fireEvent.blur(input);  
     };
+    return { label, onChange, props, pal, input, changeValue };
+  };
+
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  it("sets initial input value to be human-friendly", () => {
+    const { input } = initState();
     expect(input.value).toBe('1,234.00');
-    changeValue('5512.001');
+  });
+
+  it("sends decimal value to onChange handler but keeps input value human-friendly", () => {
+    const { input, onChange, changeValue } = initState();
+    changeValue('5512.01');
+    expect(input.value).toEqual("5,512.01");
+    expect(onChange.mock.calls).toEqual([["5512.01"]]);
+  });
+
+  it("maintains two decimal places at all times", () => {
+    const { input, changeValue } = initState();
+    changeValue('5512');
     expect(input.value).toEqual("5,512.00");
-    expect(onChange.mock.calls).toEqual([["5512.00"]]);
     changeValue('5512.002');
     expect(input.value).toEqual("5,512.00");
   });

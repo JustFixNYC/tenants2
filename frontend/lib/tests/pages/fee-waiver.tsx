@@ -5,7 +5,7 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { RadiosFormField, TextualFormField } from '../../form-fields';
+import { RadiosFormField } from '../../form-fields';
 import { toDjangoChoices } from '../../common-data';
 import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../../../common-data/income-frequency-choices';
 import { BackButton, NextButton } from '../../buttons';

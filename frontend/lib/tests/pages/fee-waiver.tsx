@@ -10,6 +10,7 @@ import { toDjangoChoices } from '../../common-data';
 import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../../../common-data/income-frequency-choices';
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
+import { CurrencyFormField } from '../../currency-form-field';
 
 const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeFrequency: '',
@@ -52,7 +53,7 @@ export const FeeWaiver = () => (
           )}
           {...ctx.fieldPropsFor('incomeFrequency')}
         />
-        <TextualFormField
+        <CurrencyFormField
           label="How much do you get paid?"
           {...ctx.fieldPropsFor('incomeAmount')}
         />

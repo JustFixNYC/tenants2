@@ -158,3 +158,18 @@ input:focus + .jf-checkbox-symbol {
     -webkit-overflow-scrolling: touch;
     margin-bottom: 1em;
 }
+
+.jf-currency {
+    position: relative;
+}
+
+.jf-currency input {
+    padding-left: calc(#{$control-padding-horizontal} + 1em);
+}
+
+.jf-currency .jf-currency-symbol {
+    position: absolute;
+    top: $control-padding-vertical;
+    left: $control-padding-horizontal;
+    content: '$';
+}

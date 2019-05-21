@@ -1,7 +1,7 @@
 import time
 import logging
 from typing import Optional
-from django.utils.crypto import get_random_string
+from django.utils.crypto import get_random_string, constant_time_compare
 from django.http import HttpRequest
 
 from . import slack
@@ -82,7 +82,7 @@ def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
 
     req_vcode = request.session.get(VCODE_SESSION_KEY)
 
-    if req_vcode != vcode:
+    if not constant_time_compare(req_vcode, vcode):
         if req_vcode is not None:
             req_user_id = request.session.get(USER_ID_SESSION_KEY)
             logger.info(f'Invalid verification code for user id {req_user_id}.')

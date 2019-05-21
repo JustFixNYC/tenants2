@@ -42,6 +42,7 @@ export interface AccessDatesInput {
 export interface ExampleInput {
   exampleField: string;
   boolField: boolean;
+  currencyField: string;
   subforms: SubformsExampleSubformFormSetInput[];
   clientMutationId?: string | null;
 }

@@ -133,6 +133,8 @@ class ExampleForm(forms.Form):
 
     bool_field = forms.BooleanField(required=False)
 
+    currency_field = forms.DecimalField(max_digits=10, decimal_places=2)
+
 
 class ExampleSubformFormset(forms.BaseFormSet):
     def clean(self):

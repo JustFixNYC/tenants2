@@ -9,10 +9,12 @@ import Routes from '../routes';
 import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { Formset } from '../formset';
+import { CurrencyFormField } from '../currency-form-field';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',
   boolField: false,
+  currencyField: '15.00',
   subforms: []
 };
 
@@ -52,6 +54,7 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field
           </CheckboxFormField>
+          <CurrencyFormField label="Example currency field" {...ctx.fieldPropsFor('currencyField')}/>
           <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
             {(subforms, i) => (
               <TextualFormField label={`example subform field #${i + 1}`} {...subforms.fieldPropsFor('exampleField')} />

@@ -12,7 +12,7 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": null,
+          "description": "Query the site.",
           "fields": [
             {
               "name": "tenantResources",
@@ -263,7 +263,7 @@
         {
           "kind": "OBJECT",
           "name": "SessionInfo",
-          "description": null,
+          "description": "Information about the current user.",
           "fields": [
             {
               "name": "issues",
@@ -1112,7 +1112,7 @@
         {
           "kind": "OBJECT",
           "name": "Mutations",
-          "description": null,
+          "description": "Mutate (i.e., change the state of) the site.",
           "fields": [
             {
               "name": "issueArea",

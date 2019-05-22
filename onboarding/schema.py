@@ -10,7 +10,7 @@ from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
-from project import slack
+from project import slack, schema_registry
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -168,6 +168,7 @@ class OnboardingStep4(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutations
 class OnboardingMutations:
     '''
     A mixin class defining all onboarding-related mutations.
@@ -185,6 +186,7 @@ class OnboardingInfoType(DjangoObjectType):
         only_fields = ('signup_intent',)
 
 
+@schema_registry.register_session_info
 class OnboardingSessionInfo(object):
     '''
     A mixin class defining all onboarding-related queries.

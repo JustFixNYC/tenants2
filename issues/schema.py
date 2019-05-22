@@ -4,6 +4,7 @@ import graphene
 from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
+from project import schema_registry
 from . import forms, models
 
 
@@ -25,6 +26,7 @@ class IssueArea(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutations
 class IssueMutations:
     issue_area = IssueArea.Field(required=True)
 
@@ -35,6 +37,7 @@ class CustomIssue(graphene.ObjectType):
     description = graphene.String(required=True)
 
 
+@schema_registry.register_session_info
 class IssueSessionInfo:
     issues = graphene.List(graphene.NonNull(graphene.String), required=True)
 

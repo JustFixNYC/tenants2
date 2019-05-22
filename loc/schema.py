@@ -4,7 +4,7 @@ from graphene_django.types import DjangoObjectType
 from django.forms import ModelForm
 
 from project.util.session_mutation import SessionFormMutation
-from project import slack
+from project import slack, schema_registry
 from . import forms, models
 from airtable.sync import sync_user as sync_user_with_airtable
 
@@ -115,6 +115,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutations
 class LocMutations:
     access_dates = AccessDates.Field(required=True)
     landlord_details = LandlordDetails.Field(required=True)
@@ -133,6 +134,7 @@ class LetterRequestType(DjangoObjectType):
         only_fields = ('mail_choice', 'updated_at')
 
 
+@schema_registry.register_session_info
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
     landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetails.resolve)

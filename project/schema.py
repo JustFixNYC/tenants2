@@ -4,19 +4,13 @@ from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
 from django.forms import formset_factory
-from django.utils.module_loading import autodiscover_modules
 
 from project.util.django_graphql_forms import DjangoFormMutation
-from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
-from issues.schema import IssueMutations, IssueSessionInfo
-from loc.schema import LocMutations, LocSessionInfo
-from hpaction.schema import HPActionMutations, HPActionSessionInfo
-from legacy_tenants.schema import LegacyUserSessionInfo
 from frontend import safe_mode
-from findhelp.schema import FindhelpInfo
-from . import forms, password_reset
+from . import forms, password_reset, schema_registry
 
 
+@schema_registry.register_session_info
 class BaseSessionInfo:
     user_id = graphene.Int(
         description=(
@@ -98,17 +92,6 @@ class BaseSessionInfo:
         return safe_mode.is_enabled(info.context)
 
 
-SessionInfo = type("SessionInfo", (
-    BaseSessionInfo,
-    LegacyUserSessionInfo,
-    HPActionSessionInfo,
-    LocSessionInfo,
-    OnboardingSessionInfo,
-    IssueSessionInfo,
-    graphene.ObjectType
-), {})
-
-
 class Example(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleForm
@@ -160,7 +143,7 @@ class Login(DjangoFormMutation):
     class Meta:
         form_class = forms.LoginForm
 
-    session = graphene.Field(SessionInfo)
+    session = graphene.Field('project.schema.SessionInfo')
 
     @classmethod
     def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
@@ -178,7 +161,7 @@ class Logout(DjangoFormMutation):
     class Meta:
         form_class = forms.LogoutForm
 
-    session = graphene.NonNull(SessionInfo)
+    session = graphene.NonNull('project.schema.SessionInfo')
 
     @classmethod
     def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
@@ -238,6 +221,7 @@ class PasswordResetConfirm(DjangoFormMutation):
         return cls(errors=[])
 
 
+@schema_registry.register_mutations
 class BaseMutations:
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
@@ -248,22 +232,13 @@ class BaseMutations:
     example_radio = ExampleRadio.Field(required=True)
 
 
-Mutations = type('Mutations', (
-    BaseMutations,
-    HPActionMutations,
-    LocMutations,
-    OnboardingMutations,
-    IssueMutations,
-    graphene.ObjectType
-), {})
-
-
+@schema_registry.register_queries
 class BaseQuery:
     '''
     These are all our GraphQL query endpoints.
     '''
 
-    session = graphene.NonNull(SessionInfo)
+    session = graphene.NonNull('project.schema.SessionInfo')
 
     example_query = graphene.NonNull(ExampleQuery)
 
@@ -274,14 +249,10 @@ class BaseQuery:
         return ExampleQuery()
 
 
-Query = type('Query', (
-    BaseQuery,
-    FindhelpInfo,
-    graphene.ObjectType
-), {})
+SessionInfo = schema_registry.build_session_info()
 
+Mutations = schema_registry.build_mutations()
+
+Query = schema_registry.build_query()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
-
-
-autodiscover_modules('schema')

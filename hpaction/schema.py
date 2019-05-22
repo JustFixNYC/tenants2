@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
-from project import slack
+from project import slack, schema_registry
 from .models import (
     UploadToken, HPActionDocuments, HPUploadStatus, get_upload_status_for_user)
 from .forms import GeneratePDFForm
@@ -71,10 +71,12 @@ class GeneratePDF(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutations
 class HPActionMutations:
     generate_hp_action_pdf = GeneratePDF.Field(required=True)
 
 
+@schema_registry.register_session_info
 class HPActionSessionInfo:
     latest_hp_action_pdf_url = graphene.String(
         description=(

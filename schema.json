@@ -12,7 +12,7 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": "Here is some help text that gets passed back to\nGraphQL clients as part of our schema.",
+          "description": null,
           "fields": [
             {
               "name": "tenantResources",

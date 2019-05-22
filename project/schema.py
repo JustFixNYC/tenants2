@@ -4,6 +4,7 @@ from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
 from django.forms import formset_factory
+from django.utils.module_loading import autodiscover_modules
 
 from project.util.django_graphql_forms import DjangoFormMutation
 from onboarding.schema import OnboardingMutations, OnboardingSessionInfo
@@ -16,14 +17,7 @@ from findhelp.schema import FindhelpInfo
 from . import forms, password_reset
 
 
-class SessionInfo(
-    LegacyUserSessionInfo,
-    HPActionSessionInfo,
-    LocSessionInfo,
-    OnboardingSessionInfo,
-    IssueSessionInfo,
-    graphene.ObjectType
-):
+class BaseSessionInfo:
     user_id = graphene.Int(
         description=(
             "The ID of the currently logged-in user, or null if not logged-in."
@@ -102,6 +96,17 @@ class SessionInfo(
 
     def resolve_is_safe_mode_enabled(self, info: ResolveInfo) -> bool:
         return safe_mode.is_enabled(info.context)
+
+
+SessionInfo = type("SessionInfo", (
+    BaseSessionInfo,
+    LegacyUserSessionInfo,
+    HPActionSessionInfo,
+    LocSessionInfo,
+    OnboardingSessionInfo,
+    IssueSessionInfo,
+    graphene.ObjectType
+), {})
 
 
 class Example(DjangoFormMutation):
@@ -233,13 +238,7 @@ class PasswordResetConfirm(DjangoFormMutation):
         return cls(errors=[])
 
 
-class Mutations(
-    HPActionMutations,
-    LocMutations,
-    OnboardingMutations,
-    IssueMutations,
-    graphene.ObjectType
-):
+class BaseMutations:
     logout = Logout.Field(required=True)
     login = Login.Field(required=True)
     password_reset = PasswordReset.Field(required=True)
@@ -249,21 +248,40 @@ class Mutations(
     example_radio = ExampleRadio.Field(required=True)
 
 
-class Query(FindhelpInfo, graphene.ObjectType):
+Mutations = type('Mutations', (
+    BaseMutations,
+    HPActionMutations,
+    LocMutations,
+    OnboardingMutations,
+    IssueMutations,
+    graphene.ObjectType
+), {})
+
+
+class BaseQuery:
     '''
-    Here is some help text that gets passed back to
-    GraphQL clients as part of our schema.
+    These are all our GraphQL query endpoints.
     '''
 
     session = graphene.NonNull(SessionInfo)
 
     example_query = graphene.NonNull(ExampleQuery)
 
-    def resolve_session(self, info: ResolveInfo) -> SessionInfo:
+    def resolve_session(self, info: ResolveInfo):
         return SessionInfo()
 
     def resolve_example_query(self, info: ResolveInfo) -> ExampleQuery:
         return ExampleQuery()
 
 
+Query = type('Query', (
+    BaseQuery,
+    FindhelpInfo,
+    graphene.ObjectType
+), {})
+
+
 schema = graphene.Schema(query=Query, mutation=Mutations)
+
+
+autodiscover_modules('schema')

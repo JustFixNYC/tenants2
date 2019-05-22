@@ -4,8 +4,10 @@ from graphql import ResolveInfo
 from django.conf import settings
 
 from .models import LegacyUserInfo
+from project import schema_registry
 
 
+@schema_registry.register_session_info
 class LegacyUserSessionInfo(object):
     '''
     A mixin class defining all legacy tenants app-related queries.

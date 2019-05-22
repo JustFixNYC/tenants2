@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
-from project import slack
+from project import slack, schema_registry
 from loc.schema import OneToOneUserModelFormMutation
 from .models import (
     UploadToken, HPActionDocuments, HPUploadStatus, get_upload_status_for_user)
@@ -85,11 +85,13 @@ class FeeWaiver(OneToOneUserModelFormMutation):
         form_class = FeeWaiverForm
 
 
+@schema_registry.register_mutations
 class HPActionMutations:
     generate_hp_action_pdf = GeneratePDF.Field(required=True)
     fee_waiver = FeeWaiver.Field(required=True)
 
 
+@schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(FeeWaiverType, resolver=FeeWaiver.resolve)
 

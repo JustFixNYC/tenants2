@@ -3,6 +3,7 @@ from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
 
 from .models import TenantResource
+from project import schema_registry
 
 
 MAX_RESULTS = 10
@@ -44,6 +45,7 @@ class TenantResourceType(DjangoObjectType):
         return self.distance.mi
 
 
+@schema_registry.register_queries
 class FindhelpInfo:
     tenant_resources = graphene.List(
         graphene.NonNull(TenantResourceType),

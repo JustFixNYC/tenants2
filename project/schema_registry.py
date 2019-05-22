@@ -13,19 +13,16 @@ _mutations_classes: List[Type] = []
 
 
 def register_session_info(klass: Type) -> Type:
-    print(f"Registering session info {klass.__name__}.")
     _session_info_classes.append(klass)
     return klass
 
 
 def register_queries(klass: Type) -> Type:
-    print(f"Registering queries {klass.__name__}.")
     _queries_classes.append(klass)
     return klass
 
 
 def register_mutations(klass: Type) -> Type:
-    print(f"Registering mutations {klass.__name__}.")
     _mutations_classes.append(klass)
     return klass
 

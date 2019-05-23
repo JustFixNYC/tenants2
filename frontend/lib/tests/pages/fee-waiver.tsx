@@ -47,7 +47,7 @@ function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
 }
 
 export const FeeWaiver = () => (
-  <Page title="It's fee waiver time!" className="content">
+  <Page title="It's fee waiver time!">
     <h1 className="title is-4">It's fee waiver time!</h1>
     <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
     <SessionUpdatingFormSubmitter

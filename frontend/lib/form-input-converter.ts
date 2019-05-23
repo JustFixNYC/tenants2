@@ -14,10 +14,8 @@ type StringifiedNumbers<A> = {
  * Convert *only* the given property names of the given object from
  * boolean values to stringified boolean values that our backend
  * will accept as valid choices for yes/no radio inputs.
- * 
- * This conversion is required to support legacy HTTP POST.
  */
-export function withStringifiedBools<T, K extends BooleanPropertyNames<T>>(
+function withStringifiedBools<T, K extends BooleanPropertyNames<T>>(
   obj: T,
   ...keys: readonly K[]
 ): StringifiedBooleans<T, K> {
@@ -39,10 +37,8 @@ export function withStringifiedBools<T, K extends BooleanPropertyNames<T>>(
 /**
  * Convert all numeric types in the given object to their string
  * representation.
- * 
- * This conversion is required to support legacy HTTP POST.
  */
-export function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
+function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
   let result: any = {};
 
   for (let key in obj) {
@@ -51,4 +47,39 @@ export function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
   }
 
   return result;
+}
+
+/**
+ * This class converts strongly-typed data from the server into
+ * a more loosely-typed, "stringifed" structure that's suitable for
+ * submitting into GraphQL mutation endpoints that need to support
+ * legacy HTTP POST.
+ */
+export class FormInputConverter<T> {
+  /**
+   * Create a converter instance.
+   * 
+   * @param data Strongly-typed data from the server.
+   */
+  constructor(readonly data: T) {
+  }
+
+  /**
+   * Finish the conversion of the original data.
+   */
+  finish(): StringifiedNumbers<T> {
+    return withStringifiedNumbers(this.data);
+  }
+
+  /**
+   * Prepare boolean properties for use as input to yes/no radio button
+   * form fields.
+   *
+   * @param keys Boolean properties from the original data needing conversion.
+   */
+  yesNoRadios<K extends BooleanPropertyNames<T>>(
+    ...keys: readonly K[]
+  ): FormInputConverter<StringifiedBooleans<T, K>> {
+    return new FormInputConverter(withStringifiedBools(this.data, ...keys));
+  }
 }

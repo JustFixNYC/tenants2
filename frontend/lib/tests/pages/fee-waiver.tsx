@@ -11,7 +11,7 @@ import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../..
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import { CurrencyFormField } from '../../currency-form-field';
-import { withStringifiedNumbers, withStringifiedBools } from '../../form-input-util';
+import { FormInputConverter } from '../../form-input-converter';
 
 const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeFrequency: '',
@@ -29,9 +29,9 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
 };
 
 function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
-  if (feeWaiver === null) return INITIAL_FEE_WAIVER_STATE;
-
-  return withStringifiedNumbers(withStringifiedBools(feeWaiver, 'askedBefore'));
+  return feeWaiver
+    ? new FormInputConverter(feeWaiver).yesNoRadios('askedBefore').finish()
+    : INITIAL_FEE_WAIVER_STATE;
 }
 
 export const FeeWaiver = () => (

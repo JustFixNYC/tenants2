@@ -11,6 +11,7 @@ import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../..
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import { CurrencyFormField } from '../../currency-form-field';
+import { withStringifiedNumbers, withStringifiedBools } from '../../form-input-util';
 
 const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeFrequency: '',
@@ -26,41 +27,6 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   expensePhone: false,
   askedBefore: ''
 };
-
-type Bools<T> = {
-  [k in keyof T]: T[k] extends boolean ? k : never
-}[keyof T];
-
-type StringifiedBools<T, K extends Bools<T>> = {
-  [k in keyof T]: k extends K ? string : T[k]
-};
-
-function withStringifiedBools<T, K extends Bools<T>>(obj: T, ...keys: readonly K[]): StringifiedBools<T, K> {
-  const result = Object.assign({}, obj) as StringifiedBools<T, K>;
-  for (let key of keys) {
-    if (obj[key]) {
-      result[key] = 'True' as any;
-    } else {
-      result[key] = 'False' as any;
-    }
-  }
-  return result;
-}
-
-type StringifiedNumbers<A> = {
-  [K in keyof A]: A[K] extends number ? string : A[K]
-};
-
-function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
-  let result: any = {};
-
-  for (let key in obj) {
-    const value = obj[key];
-    result[key] = typeof(value) === 'number' ? value.toString() : value;
-  }
-
-  return result;
-}
 
 function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
   if (feeWaiver === null) return INITIAL_FEE_WAIVER_STATE;

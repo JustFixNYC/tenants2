@@ -73,7 +73,7 @@ export interface FeeWaiverInput {
   expenseCable: boolean;
   expensePhone: boolean;
   expenseChildcare: boolean;
-  askedBefore: boolean;
+  askedBefore: string;
   clientMutationId?: string | null;
 }
 

@@ -5,7 +5,7 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { RadiosFormField, CheckboxFormField } from '../../form-fields';
+import { RadiosFormField, CheckboxFormField, YesNoRadiosFormField } from '../../form-fields';
 import { toDjangoChoices } from '../../common-data';
 import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../../../common-data/income-frequency-choices';
 import { BackButton, NextButton } from '../../buttons';
@@ -24,8 +24,28 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   expenseCable: false,
   expenseChildcare: false,
   expensePhone: false,
-  askedBefore: false
+  askedBefore: ''
 };
+
+type Bools<T> = {
+  [k in keyof T]: T[k] extends boolean ? k : never
+}[keyof T];
+
+type StringifiedBools<T, K extends Bools<T>> = {
+  [k in keyof T]: k extends K ? string : T[k]
+};
+
+function withStringifiedBools<T, K extends Bools<T>>(obj: T, ...keys: readonly K[]): StringifiedBools<T, K> {
+  const result = Object.assign({}, obj) as StringifiedBools<T, K>;
+  for (let key of keys) {
+    if (obj[key]) {
+      result[key] = 'True' as any;
+    } else {
+      result[key] = 'False' as any;
+    }
+  }
+  return result;
+}
 
 type StringifiedNumbers<A> = {
   [K in keyof A]: A[K] extends number ? string : A[K]
@@ -43,7 +63,9 @@ function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
 }
 
 function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
-  return feeWaiver ? withStringifiedNumbers(feeWaiver) : INITIAL_FEE_WAIVER_STATE;
+  if (feeWaiver === null) return INITIAL_FEE_WAIVER_STATE;
+
+  return withStringifiedNumbers(withStringifiedBools(feeWaiver, 'askedBefore'));
 }
 
 export const FeeWaiver = () => (
@@ -104,9 +126,7 @@ export const FeeWaiver = () => (
           </CheckboxFormField>
         </fieldset>
         <br/>
-        <CheckboxFormField {...ctx.fieldPropsFor('askedBefore')}>
-          I have asked for a fee waiver before.
-        </CheckboxFormField>
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.locale.hp.issues.home} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Next"/>

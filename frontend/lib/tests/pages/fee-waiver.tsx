@@ -105,7 +105,7 @@ export const FeeWaiver = () => (
         </fieldset>
         <br/>
         <CheckboxFormField {...ctx.fieldPropsFor('askedBefore')}>
-          I have been asked for a fee waiver before.
+          I have asked for a fee waiver before.
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.locale.hp.issues.home} label="Back" />

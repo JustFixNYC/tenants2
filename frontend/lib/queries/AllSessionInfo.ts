@@ -97,6 +97,16 @@ export interface AllSessionInfo_letterRequest {
 export interface AllSessionInfo_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
   incomeAmount: number;
+  incomeSrcEmployment: boolean;
+  incomeSrcHra: boolean;
+  incomeSrcChildSupport: boolean;
+  incomeSrcAlimony: boolean;
+  rentAmount: number;
+  expenseUtilities: boolean;
+  expenseCable: boolean;
+  expenseChildcare: boolean;
+  expensePhone: boolean;
+  askedBefore: boolean;
 }
 
 export interface AllSessionInfo {

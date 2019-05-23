@@ -159,3 +159,14 @@ input:focus + .jf-checkbox-symbol {
     -webkit-overflow-scrolling: touch;
     margin-bottom: 1em;
 }
+
+// Until https://github.com/jgthms/bulma/issues/886 is fixed,
+// Bulma doesn't have fieldset/legend styling, so we'll provide
+// our own.
+fieldset {
+    border: none;
+
+    legend {
+        font-weight: bold;
+    }
+}

@@ -64,6 +64,16 @@ export interface ExampleRadioInput {
 export interface FeeWaiverInput {
   incomeFrequency: string;
   incomeAmount: string;
+  incomeSrcEmployment: boolean;
+  incomeSrcHra: boolean;
+  incomeSrcChildSupport: boolean;
+  incomeSrcAlimony: boolean;
+  rentAmount: string;
+  expenseUtilities: boolean;
+  expenseCable: boolean;
+  expensePhone: boolean;
+  expenseChildcare: boolean;
+  askedBefore: boolean;
   clientMutationId?: string | null;
 }
 

@@ -120,6 +120,16 @@ export interface LoginMutation_output_session_letterRequest {
 export interface LoginMutation_output_session_feeWaiver {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
   incomeAmount: number;
+  incomeSrcEmployment: boolean;
+  incomeSrcHra: boolean;
+  incomeSrcChildSupport: boolean;
+  incomeSrcAlimony: boolean;
+  rentAmount: number;
+  expenseUtilities: boolean;
+  expenseCable: boolean;
+  expenseChildcare: boolean;
+  expensePhone: boolean;
+  askedBefore: boolean;
 }
 
 export interface LoginMutation_output_session {

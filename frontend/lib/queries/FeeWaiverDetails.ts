@@ -13,10 +13,30 @@ import { FeeWaiverDetailsIncomeFrequency } from "./globalTypes";
 export interface FeeWaiverDetails {
   incomeFrequency: FeeWaiverDetailsIncomeFrequency;
   incomeAmount: number;
+  incomeSrcEmployment: boolean;
+  incomeSrcHra: boolean;
+  incomeSrcChildSupport: boolean;
+  incomeSrcAlimony: boolean;
+  rentAmount: number;
+  expenseUtilities: boolean;
+  expenseCable: boolean;
+  expenseChildcare: boolean;
+  expensePhone: boolean;
+  askedBefore: boolean;
 }
 
 export const graphQL = `fragment FeeWaiverDetails on FeeWaiverType {
     incomeFrequency,
-    incomeAmount
+    incomeAmount,
+    incomeSrcEmployment,
+    incomeSrcHra,
+    incomeSrcChildSupport,
+    incomeSrcAlimony,
+    rentAmount,
+    expenseUtilities,
+    expenseCable,
+    expenseChildcare,
+    expensePhone,
+    askedBefore
 }
 `;

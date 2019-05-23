@@ -34,6 +34,26 @@ class FeeWaiverDetails(models.Model):
 
     income_amount: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
+    income_src_employment: bool = models.BooleanField()
+
+    income_src_hra: bool = models.BooleanField()
+
+    income_src_child_support: bool = models.BooleanField()
+
+    income_src_alimony: bool = models.BooleanField()
+
+    rent_amount: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+
+    expense_utilities: bool = models.BooleanField()
+
+    expense_cable: bool = models.BooleanField()
+
+    expense_phone: bool = models.BooleanField()
+
+    expense_childcare: bool = models.BooleanField()
+
+    asked_before: bool = models.BooleanField()
+
 
 class HPActionDocumentsManager(models.Manager):
     def purge(self) -> None:

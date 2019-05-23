@@ -254,7 +254,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.tenant_income_source_te = "Employment, child support"
 
         # What is your monthly rent?
-        v.tenant_monthly_rent_nu = 800
+        v.tenant_monthly_rent_nu = float(fwd.rent_amount)
 
         # Monthly expenditure for utilities
         v.tenant_monthly_exp_utilities_nu = 15
@@ -263,10 +263,11 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.tenant_monthly_exp_other_nu = 300
 
         # Have you asked for a fee waiver before?
-        v.previous_application_tf = True
+        v.previous_application_tf = fwd.asked_before
 
-        # Completes the sentence "I have applied for a fee waiver before, but I am making
-        # this application because..."
-        v.reason_for_further_application_te = "I am awesome"
+        if fwd.asked_before:
+            # Completes the sentence "I have applied for a fee waiver before, but I am making
+            # this application because..."
+            v.reason_for_further_application_te = "I am awesome"
 
     return v

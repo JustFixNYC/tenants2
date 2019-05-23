@@ -104,7 +104,7 @@ export interface OnboardingStep2Input {
 
 export interface OnboardingStep3Input {
   leaseType: string;
-  receivesPublicAssistance: boolean;
+  receivesPublicAssistance: string;
   clientMutationId?: string | null;
 }
 

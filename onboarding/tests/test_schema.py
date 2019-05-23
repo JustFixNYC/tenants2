@@ -24,7 +24,7 @@ VALID_STEP_DATA = {
     },
     3: {
         'leaseType': 'MARKET_RATE',
-        'receivesPublicAssistance': False
+        'receivesPublicAssistance': 'False'
     },
     4: {
         'phoneNumber': '5551234567',

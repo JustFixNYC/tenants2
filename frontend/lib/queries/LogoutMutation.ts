@@ -86,7 +86,7 @@ export interface LogoutMutation_output_session_onboardingStep3 {
   /**
    * Does the user receive public assistance, e.g. Section 8?
    */
-  receivesPublicAssistance: boolean;
+  receivesPublicAssistance: string;
 }
 
 export interface LogoutMutation_output_session_customIssues {

@@ -3,7 +3,8 @@ from django import forms
 from django.forms import ValidationError
 
 from project import geocoding
-from project.forms import USPhoneNumberField, OptionalSetPasswordForm
+from project.forms import (
+    USPhoneNumberField, OptionalSetPasswordForm, YesNoRadiosField)
 from users.models import JustfixUser
 from .models import OnboardingInfo, BOROUGH_CHOICES, AddressWithoutBoroughDiagnostic
 
@@ -104,6 +105,10 @@ class OnboardingStep3Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
         fields = ('lease_type', 'receives_public_assistance')
+
+    receives_public_assistance = YesNoRadiosField(
+        help_text=OnboardingInfo._meta.get_field('receives_public_assistance').help_text
+    )
 
 
 class OnboardingStep4Form(OptionalSetPasswordForm, forms.ModelForm):

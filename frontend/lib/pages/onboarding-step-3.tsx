@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
 import { NextButton, BackButton } from "../buttons";
 import { IconLink } from "../icon-link";
-import { CheckboxFormField, RadiosFormField } from '../form-fields';
+import { RadiosFormField, YesNoRadiosFormField } from '../form-fields';
 import { ReactDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
@@ -17,7 +17,7 @@ import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common
 
 const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
-  receivesPublicAssistance: false
+  receivesPublicAssistance: ''
 };
 
 type LeaseInfoModalProps = {
@@ -188,9 +188,10 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
     return (
       <React.Fragment>
         <RadiosFormField {...ctx.fieldPropsFor('leaseType')} choices={this.leaseChoicesWithInfo} label="Lease type" />
-        <CheckboxFormField {...ctx.fieldPropsFor('receivesPublicAssistance')}>
-          I also receive a housing voucher (Section 8, FEPS, Link, HASA, other)
-        </CheckboxFormField>
+        <YesNoRadiosFormField
+          {...ctx.fieldPropsFor('receivesPublicAssistance')}
+          label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
+        />
         <div className="buttons jf-two-buttons">
           <BackButton to={this.props.routes.step2} label="Back" />
           <NextButton isLoading={ctx.isLoading} />

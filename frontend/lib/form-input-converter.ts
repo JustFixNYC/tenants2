@@ -1,3 +1,5 @@
+import { YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from "./yes-no-radios-form-field";
+
 type BooleanPropertyNames<T> = {
   [k in keyof T]: T[k] extends boolean ? k : never
 }[keyof T];
@@ -26,9 +28,9 @@ function withStringifiedBools<T, K extends BooleanPropertyNames<T>>(
       throw new Error(`Expected key '${key}' to be a boolean, but it is ${type}`);
     }
     if (obj[key]) {
-      result[key] = 'True' as any;
+      result[key] = YES_NO_RADIOS_TRUE as any;
     } else {
-      result[key] = 'False' as any;
+      result[key] = YES_NO_RADIOS_FALSE as any;
     }
   }
   return result;

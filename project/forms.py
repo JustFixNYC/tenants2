@@ -8,6 +8,14 @@ from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
 from . import password_reset
 
 
+class YesNoRadiosField(forms.ChoiceField):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, choices=[
+            (True, 'Yes'),
+            (False, 'No')
+        ])
+
+
 class USPhoneNumberField(forms.CharField):
     '''
     A field for a United States phone number.

@@ -45,7 +45,7 @@ describe('onboarding step 3 page', () => {
         session: {
           onboardingStep3: {
             leaseType,
-            receivesPublicAssistance: false
+            receivesPublicAssistance: 'False'
           }
         }
       });

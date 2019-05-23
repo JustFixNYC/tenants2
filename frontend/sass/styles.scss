@@ -169,4 +169,8 @@ fieldset {
     legend {
         font-weight: bold;
     }
+
+    .field:not(:last-child) {
+        margin-bottom: 0;
+    }
 }

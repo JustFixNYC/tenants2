@@ -50,6 +50,7 @@ export const FeeWaiver = () => (
   <Page title="It's fee waiver time!">
     <h1 className="title is-4">It's fee waiver time!</h1>
     <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
+    <br/>
     <SessionUpdatingFormSubmitter
       mutation={FeeWaiverMutation}
       initialState={getInitialState}
@@ -60,7 +61,7 @@ export const FeeWaiver = () => (
           label="What is your monthly income?"
           {...ctx.fieldPropsFor('incomeAmount')}
         />
-        <fieldset>
+        <fieldset className="field">
           <legend>Where do you receive your income from? Select all that apply.</legend>
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcEmployment')}>
             Employment
@@ -87,7 +88,7 @@ export const FeeWaiver = () => (
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}
         />
-        <fieldset>
+        <fieldset className="field">
           <legend>What are your expenses?</legend>
           <CheckboxFormField {...ctx.fieldPropsFor('expenseUtilities')}>
             Utilities

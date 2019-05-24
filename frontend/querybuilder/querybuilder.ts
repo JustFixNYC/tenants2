@@ -6,6 +6,7 @@ import {
   strContains,
   getGraphQlFragments,
 } from "./util";
+import { GraphQLValidator } from './validator';
 
 /**
  * The following directory paths assume we've been compiled to the
@@ -18,6 +19,8 @@ import {
  */
 export const LIB_PATH_PARTS = ['frontend', 'lib', 'queries'];
 export const LIB_PATH = path.join(...LIB_PATH_PARTS);
+
+const QUERIES_GLOB = `${LIB_PATH}/*.graphql`;
 
 /** The path into which Apollo codegen:generate will put its generated files. */
 const GEN_PATH = path.join(LIB_PATH, '__generated__');
@@ -255,7 +258,7 @@ export function runApolloCodegen(force: boolean = false): number {
   const child = child_process.spawnSync('node', [
     'node_modules/apollo/bin/run',
     'codegen:generate',
-    '--includes', `${LIB_PATH}/*.graphql`,
+    '--includes', QUERIES_GLOB,
     '--localSchemaFile', SCHEMA_PATH,
     '--target', 'typescript',
     '--no-addTypename',
@@ -287,6 +290,15 @@ export interface MainOptions {
 
 /** Our main query-building functionality. */
 export function main(options: MainOptions): number {
+  const validator = new GraphQLValidator(SCHEMA_PATH, QUERIES_GLOB);
+
+  const errors = validator.validate();
+
+  if (errors.length) {
+    console.log(`UH OH:\n\n${errors.join('\n')}`);
+    return 1;
+  }
+
   const apolloStatus = runApolloCodegen(options.forceApolloCodegen);
   if (apolloStatus !== 0) {
     return apolloStatus;

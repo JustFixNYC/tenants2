@@ -58,17 +58,6 @@ export function renderLabel(label: string, labelProps: LabelProps, renderer?: La
   return renderer(label, labelProps);
 }
 
-export interface YesNoRadiosFormFieldProps extends BaseFormFieldProps<string> {
-  label: string;
-}
-
-export function YesNoRadiosFormField(props: YesNoRadiosFormFieldProps): JSX.Element {
-  return <RadiosFormField {...props} choices={[
-    ['True', 'Yes'],
-    ['False', 'No']
-  ]} />;
-}
-
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   choices: ReactDjangoChoices;
   label: string;

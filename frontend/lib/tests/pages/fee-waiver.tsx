@@ -19,10 +19,11 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeSrcChildSupport: false,
   incomeSrcAlimony: false,
   rentAmount: '',
-  expenseUtilities: false,
-  expenseCable: false,
-  expenseChildcare: false,
-  expensePhone: false,
+  expenseUtilities: '0.00',
+  expenseCable: '0.00',
+  expenseChildcare: '0.00',
+  expensePhone: '0.00',
+  expenseOther: '0.00',
   askedBefore: ''
 };
 
@@ -66,21 +67,12 @@ export const FeeWaiver = () => (
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}
         />
-        <fieldset className="field">
-          <legend>What are your expenses?</legend>
-          <CheckboxFormField {...ctx.fieldPropsFor('expenseUtilities')}>
-            Utilities
-          </CheckboxFormField>
-          <CheckboxFormField {...ctx.fieldPropsFor('expenseCable')}>
-            Cable
-          </CheckboxFormField>
-          <CheckboxFormField {...ctx.fieldPropsFor('expenseChildcare')}>
-            Childcare
-          </CheckboxFormField>
-          <CheckboxFormField {...ctx.fieldPropsFor('expensePhone')}>
-            Phone
-          </CheckboxFormField>
-        </fieldset>
+        <h2 className="title is-5">What are your expenses?</h2>
+        <CurrencyFormField label="Utilities expenses" {...ctx.fieldPropsFor('expenseUtilities')} />
+        <CurrencyFormField label="Cable expenses" {...ctx.fieldPropsFor('expenseCable')} />
+        <CurrencyFormField label="Childcare expenses" {...ctx.fieldPropsFor('expenseChildcare')} />
+        <CurrencyFormField label="Phone expenses" {...ctx.fieldPropsFor('expensePhone')} />
+        <CurrencyFormField label="Other expenses" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
         <div className="buttons jf-two-buttons">

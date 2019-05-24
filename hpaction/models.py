@@ -36,13 +36,15 @@ class FeeWaiverDetails(models.Model):
 
     rent_amount: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    expense_utilities: bool = models.BooleanField()
+    expense_utilities: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    expense_cable: bool = models.BooleanField()
+    expense_cable: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    expense_phone: bool = models.BooleanField()
+    expense_phone: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    expense_childcare: bool = models.BooleanField()
+    expense_childcare: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+
+    expense_other: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
 
     asked_before: bool = models.BooleanField()
 

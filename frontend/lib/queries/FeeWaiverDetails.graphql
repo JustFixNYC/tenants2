@@ -9,5 +9,6 @@ fragment FeeWaiverDetails on FeeWaiverType {
     expenseCable,
     expenseChildcare,
     expensePhone,
+    expenseOther,
     askedBefore
 }

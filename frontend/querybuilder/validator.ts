@@ -37,6 +37,7 @@ class QueryInfo  {
   fragments: QueryInfo[];
   validationErrors: string[];
   wasValidateCalled: boolean;
+  resolvedAST: DocumentNode|null;
 
   constructor(readonly filename: string) {
     this.contents = fs.readFileSync(filename, { encoding: 'utf-8' });
@@ -48,6 +49,7 @@ class QueryInfo  {
     this.validationErrors = [];
     this.fragments = [];
     this.wasValidateCalled = false;
+    this.resolvedAST = null;
 
     try {
       this.ast = parse(this.contents);
@@ -75,11 +77,15 @@ class QueryInfo  {
         return;
       }
       fragQuery.validate(schema, queries);
-      if (fragQuery.validationErrors.length) return;
-      resolvedAST = includeFragment(resolvedAST, assertNotNull(fragQuery.ast));
+      const fragAST = fragQuery.resolvedAST;
+      if (!fragAST) return;
+      resolvedAST = includeFragment(resolvedAST, fragAST);
     }
     const rules = isFragment(ast) ? rulesMinusUnusedFragments : specifiedRules;
     const validationErrors = validate(schema, resolvedAST, rules);
+    if (validationErrors.length === 0) {
+      this.resolvedAST = resolvedAST;
+    }
     for (let error of validationErrors) {
       this.validationErrors.push(makeError(this.filename, error));
     }

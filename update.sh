@@ -13,6 +13,9 @@ pip install -r requirements.production.txt
 echo "----- Updating Node Dependencies -----"
 npm install --no-save
 
+echo "----- Rebuilding GraphQL queries -----"
+npm run querybuilder -- --force
+
 echo "----- Migrating Database -----"
 python manage.py migrate --noinput
 python manage.py initgroups

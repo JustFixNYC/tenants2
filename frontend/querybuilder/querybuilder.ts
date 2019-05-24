@@ -287,15 +287,21 @@ export interface MainOptions {
   forceApolloCodegen: boolean;
 }
 
+let validator: GraphQLValidator|null = null;
+
+export function getGlobalValidator(): GraphQLValidator {
+  if (!validator) {
+    validator = new GraphQLValidator(SCHEMA_PATH, QUERIES_GLOB);
+  }
+  return validator;
+}
 
 /** Our main query-building functionality. */
 export function main(options: MainOptions): number {
-  const validator = new GraphQLValidator(SCHEMA_PATH, QUERIES_GLOB);
-
-  const errors = validator.validate();
+  const errors = getGlobalValidator().validate();
 
   if (errors.length) {
-    console.log(`UH OH:\n\n${errors.join('\n')}`);
+    console.log(errors.join('\n'));
     return 1;
   }
 

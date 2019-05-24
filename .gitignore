@@ -18,6 +18,7 @@ frontend/safe_mode/safe-mode.min.js
 staticfiles/
 mediafiles/
 frontend/lib/queries/__generated__/
+frontend/lib/queries/*.ts
 react-loadable.json
 .DS_Store
 hp-action.pdf

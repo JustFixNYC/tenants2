@@ -1,6 +1,5 @@
 import { argvHasOption } from "./util";
 import { main } from "./querybuilder";
-import { watch } from "./watcher";
 
 const VERSION = '0.1.0';
 
@@ -25,6 +24,9 @@ export function run() {
   };
 
   if (argvHasOption('-w', '--watch')) {
+    // This requires devDependencies, so we'll import it dynamically,
+    // allowing production builds to do non-watch-related tasks.
+    const { watch } = require('./watcher');
     watch(mainOptions);
   } else {
     process.exit(main(mainOptions));

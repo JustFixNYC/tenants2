@@ -292,17 +292,22 @@ export function main(options: MainOptions): number {
     return apolloStatus;
   }
 
-  console.log(`Building type-safe functions to access the GraphQL`);
-  console.log(`queries in ${LIB_PATH}...\n`);
+  const filesWritten: string[] = [];
 
   // Find all raw GraphQL queries and generate type-safe functions
   // for them.
   GraphQlFile.fromDir().forEach(query => {
     if (query.writeTsCode()) {
-      console.log(`Wrote ${query.tsCodePath}.`);
+      filesWritten.push(query.tsCodePath);
     }
   });
 
-  console.log('\nDone!');
+  if (filesWritten.length > 0) {
+    const files = filesWritten.length > 1 ? 'files' : 'file';
+    console.log(`Generated ${filesWritten.length} TS ${files} from GraphQL queries in ${LIB_PATH}.`);
+  } else {
+    console.log(`GraphQL queries in ${LIB_PATH} are unchanged, doing nothing.`);
+  }
+
   return 0;
 }

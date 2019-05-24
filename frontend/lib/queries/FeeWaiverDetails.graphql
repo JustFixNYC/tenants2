@@ -1,6 +1,5 @@
 fragment FeeWaiverDetails on FeeWaiverType {
-    incomeFrequency,
-    incomeAmount,
+    incomeAmountMonthly,
     incomeSrcEmployment,
     incomeSrcHra,
     incomeSrcChildSupport,

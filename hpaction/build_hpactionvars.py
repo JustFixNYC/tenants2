@@ -5,7 +5,7 @@ from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 import nycdb.models
-from .models import INCOME_FREQUENCY_CHOICES, FeeWaiverDetails
+from .models import FeeWaiverDetails
 from . import hpactionvars as hp
 
 
@@ -40,12 +40,6 @@ BOROUGHS: Dict[str, hp.TenantBoroughMC] = {
     BOROUGH_CHOICES.BROOKLYN: hp.TenantBoroughMC.BROOKLYN,
     BOROUGH_CHOICES.QUEENS: hp.TenantBoroughMC.QUEENS,
     BOROUGH_CHOICES.STATEN_ISLAND: hp.TenantBoroughMC.STATEN_ISLAND
-}
-
-INCOME_FREQUENCIES: Dict[str, hp.PayPeriodMC] = {
-    INCOME_FREQUENCY_CHOICES.WEEKLY: hp.PayPeriodMC.WEEK,
-    INCOME_FREQUENCY_CHOICES.EVERY_TWO_WEEKS: hp.PayPeriodMC.TWO_WEEKS,
-    INCOME_FREQUENCY_CHOICES.MONTHLY: hp.PayPeriodMC.MONTH
 }
 
 
@@ -245,10 +239,10 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         # TODO: Much of this is temporary and should be removed/fixed.
 
         # How often do you get paid?
-        v.pay_period_mc = INCOME_FREQUENCIES[fwd.income_frequency]
+        v.pay_period_mc = hp.PayPeriodMC.MONTH
 
         # What is your household income?
-        v.tenant_income_nu = float(fwd.income_amount)
+        v.tenant_income_nu = float(fwd.income_amount_monthly)
 
         # What is the source of your income?
         v.tenant_income_source_te = "Employment, child support"

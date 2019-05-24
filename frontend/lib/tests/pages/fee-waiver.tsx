@@ -5,18 +5,15 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { RadiosFormField, CheckboxFormField } from '../../form-fields';
+import { CheckboxFormField } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
-import { toDjangoChoices } from '../../common-data';
-import { IncomeFrequencyChoices, getIncomeFrequencyChoiceLabels } from '../../../../common-data/income-frequency-choices';
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import { CurrencyFormField } from '../../currency-form-field';
 import { FormInputConverter } from '../../form-input-converter';
 
 const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
-  incomeFrequency: '',
-  incomeAmount: '',
+  incomeAmountMonthly: '',
   incomeSrcEmployment: false,
   incomeSrcHra: false,
   incomeSrcChildSupport: false,
@@ -48,7 +45,7 @@ export const FeeWaiver = () => (
       {(ctx) => <>
         <CurrencyFormField
           label="What is your monthly income?"
-          {...ctx.fieldPropsFor('incomeAmount')}
+          {...ctx.fieldPropsFor('incomeAmountMonthly')}
         />
         <fieldset className="field">
           <legend>Where do you receive your income from? Select all that apply.</legend>
@@ -65,14 +62,6 @@ export const FeeWaiver = () => (
             Alimony
           </CheckboxFormField>
         </fieldset>
-        <RadiosFormField
-          label="How often do you get paid?"
-          choices={toDjangoChoices(
-            IncomeFrequencyChoices,
-            getIncomeFrequencyChoiceLabels()
-          )}
-          {...ctx.fieldPropsFor('incomeFrequency')}
-        />
         <CurrencyFormField
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}

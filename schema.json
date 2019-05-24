@@ -929,23 +929,7 @@
               "deprecationReason": null
             },
             {
-              "name": "incomeFrequency",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "FeeWaiverDetailsIncomeFrequency",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "incomeAmount",
+              "name": "incomeAmountMonthly",
               "description": "",
               "args": [],
               "type": {
@@ -1134,35 +1118,6 @@
           "inputFields": null,
           "interfaces": null,
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "FeeWaiverDetailsIncomeFrequency",
-          "description": "An enumeration.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "WEEKLY",
-              "description": "Weekly",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "EVERY_TWO_WEEKS",
-              "description": "Every two weeks",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "MONTHLY",
-              "description": "Monthly",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
@@ -2879,21 +2834,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "incomeFrequency",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "incomeAmount",
+              "name": "incomeAmountMonthly",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

@@ -930,7 +930,7 @@
             },
             {
               "name": "incomeAmountMonthly",
-              "description": "",
+              "description": "The amount of income the user receives per month.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -946,7 +946,7 @@
             },
             {
               "name": "incomeSrcEmployment",
-              "description": "",
+              "description": "Whether the user receives income from employment.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -962,7 +962,7 @@
             },
             {
               "name": "incomeSrcHra",
-              "description": "",
+              "description": "Whether the user receives income from the Human Resources Administration (e.g., Temporary Aid to Needy Families).",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -978,7 +978,7 @@
             },
             {
               "name": "incomeSrcChildSupport",
-              "description": "",
+              "description": "Whether the user receives income from child support.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -994,7 +994,7 @@
             },
             {
               "name": "incomeSrcAlimony",
-              "description": "",
+              "description": "Whether the user receives income from alimony.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1010,7 +1010,7 @@
             },
             {
               "name": "rentAmount",
-              "description": "",
+              "description": "The amount of money the user pays in rent per month.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1106,7 +1106,7 @@
             },
             {
               "name": "askedBefore",
-              "description": "",
+              "description": "Whether the user has requested a fee waiver before.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -2851,7 +2851,7 @@
           "inputFields": [
             {
               "name": "incomeAmountMonthly",
-              "description": "",
+              "description": "The amount of income the user receives per month.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2865,7 +2865,7 @@
             },
             {
               "name": "incomeSrcEmployment",
-              "description": "",
+              "description": "Whether the user receives income from employment.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2879,7 +2879,7 @@
             },
             {
               "name": "incomeSrcHra",
-              "description": "",
+              "description": "Whether the user receives income from the Human Resources Administration (e.g., Temporary Aid to Needy Families).",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2893,7 +2893,7 @@
             },
             {
               "name": "incomeSrcChildSupport",
-              "description": "",
+              "description": "Whether the user receives income from child support.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2907,7 +2907,7 @@
             },
             {
               "name": "incomeSrcAlimony",
-              "description": "",
+              "description": "Whether the user receives income from alimony.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2921,7 +2921,7 @@
             },
             {
               "name": "rentAmount",
-              "description": "",
+              "description": "The amount of money the user pays in rent per month.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

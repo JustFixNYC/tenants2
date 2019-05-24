@@ -1,6 +1,6 @@
 from decimal import Decimal
 from datetime import timedelta
-from typing import Optional, Union
+from typing import Optional, Union, List
 from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -17,6 +17,8 @@ UPLOAD_TOKEN_LENGTH = 40
 # How long an upload token is valid.
 UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
 
+CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
+
 
 class FeeWaiverDetails(models.Model):
     user = models.OneToOneField(
@@ -24,29 +26,81 @@ class FeeWaiverDetails(models.Model):
         help_text="The user whom this fee waiver is for."
     )
 
-    income_amount_monthly: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    income_amount_monthly: Decimal = models.DecimalField(
+        **CURRENCY_KWARGS,
+        help_text="The amount of income the user receives per month."
+    )
 
-    income_src_employment: bool = models.BooleanField()
+    # All model fields that represent an income source will start with this prefix.
+    INCOME_SRC_FIELD_PREFIX = 'income_src_'
 
-    income_src_hra: bool = models.BooleanField()
+    income_src_employment: bool = models.BooleanField(
+        verbose_name="Employment",
+        help_text="Whether the user receives income from employment.",
+        default=False
+    )
 
-    income_src_child_support: bool = models.BooleanField()
+    income_src_hra: bool = models.BooleanField(
+        verbose_name="HRA",
+        help_text=(
+            "Whether the user receives income from the Human Resources Administration "
+            "(e.g., Temporary Aid to Needy Families)."
+        ),
+        default=False
+    )
 
-    income_src_alimony: bool = models.BooleanField()
+    income_src_child_support: bool = models.BooleanField(
+        verbose_name="Child support",
+        help_text="Whether the user receives income from child support.",
+        default=False
+    )
 
-    rent_amount: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    income_src_alimony: bool = models.BooleanField(
+        verbose_name="Alimony",
+        help_text="Whether the user receives income from alimony.",
+        default=False
+    )
 
-    expense_utilities: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    rent_amount: Decimal = models.DecimalField(
+        **CURRENCY_KWARGS,
+        help_text="The amount of money the user pays in rent per month."
+    )
 
-    expense_cable: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    expense_utilities: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    expense_phone: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    expense_cable: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    expense_childcare: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    expense_phone: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    expense_other: Decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    expense_childcare: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    asked_before: bool = models.BooleanField()
+    expense_other: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
+
+    asked_before: bool = models.BooleanField(
+        help_text="Whether the user has requested a fee waiver before.")
+
+    @property
+    def income_sources(self) -> List[str]:
+        attrs = [
+            'income_src_employment',
+            'income_src_hra',
+            'income_src_child_support',
+            'income_src_alimony'
+        ]
+        sources: List[str] = []
+        for attr in attrs:
+            if getattr(self, attr):
+                sources.append(self._meta.get_field(attr).verbose_name)
+        return sources
+
+    @property
+    def non_utility_expenses(self) -> Decimal:
+        return (
+            self.expense_cable +
+            self.expense_phone +
+            self.expense_childcare +
+            self.expense_other
+        )
 
 
 class HPActionDocumentsManager(models.Manager):

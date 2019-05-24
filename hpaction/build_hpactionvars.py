@@ -161,6 +161,36 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
         v.service_address_full_te = ld.address
 
 
+def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
+    # How often do you get paid?
+    v.pay_period_mc = hp.PayPeriodMC.MONTH
+
+    # What is your household income?
+    v.tenant_income_nu = float(fwd.income_amount_monthly)
+
+    # What is the source of your income?
+    v.tenant_income_source_te = ', '.join(fwd.income_sources)
+
+    # What is your monthly rent?
+    v.tenant_monthly_rent_nu = float(fwd.rent_amount)
+
+    # Monthly expenditure for utilities
+    v.tenant_monthly_exp_utilities_nu = float(fwd.expense_utilities)
+
+    # Monthly expenditure for other stuff
+    v.tenant_monthly_exp_other_nu = float(fwd.non_utility_expenses)
+
+    # Have you asked for a fee waiver before?
+    v.previous_application_tf = fwd.asked_before
+
+    if fwd.asked_before:
+        # Completes the sentence "I have applied for a fee waiver before, but I am making
+        # this application because..."
+        #
+        # TODO: Replace with something more appropriate.
+        v.reason_for_further_application_te = "I am awesome"
+
+
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
@@ -234,34 +264,6 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
     if hasattr(user, 'fee_waiver_details'):
-        fwd: FeeWaiverDetails = user.fee_waiver_details
-
-        # TODO: Much of this is temporary and should be removed/fixed.
-
-        # How often do you get paid?
-        v.pay_period_mc = hp.PayPeriodMC.MONTH
-
-        # What is your household income?
-        v.tenant_income_nu = float(fwd.income_amount_monthly)
-
-        # What is the source of your income?
-        v.tenant_income_source_te = "Employment, child support"
-
-        # What is your monthly rent?
-        v.tenant_monthly_rent_nu = float(fwd.rent_amount)
-
-        # Monthly expenditure for utilities
-        v.tenant_monthly_exp_utilities_nu = 15
-
-        # Monthly expenditure for other stuff
-        v.tenant_monthly_exp_other_nu = 300
-
-        # Have you asked for a fee waiver before?
-        v.previous_application_tf = fwd.asked_before
-
-        if fwd.asked_before:
-            # Completes the sentence "I have applied for a fee waiver before, but I am making
-            # this application because..."
-            v.reason_for_further_application_te = "I am awesome"
+        fill_fee_waiver_details(v, user.fee_waiver_details)
 
     return v

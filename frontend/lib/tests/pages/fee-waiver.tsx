@@ -5,7 +5,7 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { CheckboxFormField, TextualFormField, TextualFormFieldProps } from '../../form-fields';
+import { CheckboxFormField, TextualFormField, TextualFormFieldProps, CheckboxView } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
@@ -40,20 +40,13 @@ function OtherCheckbox(props: TextualFormFieldProps): JSX.Element {
   const id = `${props.id}_checkbox`;
 
   return (
-    <div className="field">
-      <label htmlFor={id} className="checkbox jf-single-checkbox">
-        <input
-          type="checkbox"
-          id={id}
-          checked={isChecked}
-          disabled={props.isDisabled}
-          onChange={(e) => setChecked(e.target.checked)}
-        /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text">
-          <h5 className="subtitle is-5">Other</h5>
-        </span>
-      </label>
-      {isChecked && <TextualFormField {...props} required />}
-    </div>
+    <CheckboxView
+      id={id}
+      checked={isChecked}
+      disabled={props.isDisabled}
+      onChange={(e) => setChecked(e.target.checked)}
+      contentAfterLabel={isChecked && <TextualFormField {...props} required />}
+    >Other</CheckboxView>
   );
 }
 

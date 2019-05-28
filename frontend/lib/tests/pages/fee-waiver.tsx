@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { FeeWaiverInput } from "../../queries/globalTypes";
 import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { CheckboxFormField, TextualFormField } from '../../form-fields';
+import { CheckboxFormField, TextualFormField, TextualFormFieldProps } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import { CurrencyFormField } from '../../currency-form-field';
 import { FormInputConverter } from '../../form-input-converter';
+import { ProgressiveEnhancement } from '../../progressive-enhancement';
 
 const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeAmountMonthly: '',
@@ -32,6 +33,28 @@ function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
   return feeWaiver
     ? new FormInputConverter(feeWaiver).yesNoRadios('askedBefore').finish()
     : INITIAL_FEE_WAIVER_STATE;
+}
+
+function OtherCheckbox(props: TextualFormFieldProps): JSX.Element {
+  const [isChecked, setChecked] = useState(props.value !== '');
+  const id = `${props.id}_checkbox`;
+
+  return (
+    <div className="field">
+      <label htmlFor={id} className="checkbox jf-single-checkbox">
+        <input
+          type="checkbox"
+          id={id}
+          checked={isChecked}
+          disabled={props.isDisabled}
+          onChange={(e) => setChecked(e.target.checked)}
+        /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text">
+          <h5 className="subtitle is-5">Other</h5>
+        </span>
+      </label>
+      {isChecked && <TextualFormField {...props} required />}
+    </div>
+  );
 }
 
 export const FeeWaiver = () => (
@@ -63,9 +86,17 @@ export const FeeWaiver = () => (
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcChildSupport')}>
             Alimony
           </CheckboxFormField>
+          <ProgressiveEnhancement
+            renderBaseline={() =>
+              <TextualFormField {...ctx.fieldPropsFor('incomeSrcOther')}
+                label="If you have other sources of income, please specify them." />
+            }
+            renderEnhanced={() =>
+              <OtherCheckbox {...ctx.fieldPropsFor('incomeSrcOther')}
+                label="Please specify your other sources of income." />
+            }
+          />
         </fieldset>
-        <TextualFormField {...ctx.fieldPropsFor('incomeSrcOther')}
-                          label="If you receive any other kind of income, please specify it below." />
         <CurrencyFormField
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}

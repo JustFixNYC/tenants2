@@ -4,6 +4,7 @@ fragment FeeWaiverDetails on FeeWaiverType {
     incomeSrcHra,
     incomeSrcChildSupport,
     incomeSrcAlimony,
+    incomeSrcOther,
     rentAmount,
     expenseUtilities,
     expenseCable,

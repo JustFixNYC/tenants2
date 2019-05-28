@@ -5,7 +5,7 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { CheckboxFormField } from '../../form-fields';
+import { CheckboxFormField, TextualFormField } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
@@ -18,6 +18,7 @@ const INITIAL_FEE_WAIVER_STATE: FeeWaiverInput = {
   incomeSrcHra: false,
   incomeSrcChildSupport: false,
   incomeSrcAlimony: false,
+  incomeSrcOther: '',
   rentAmount: '',
   expenseUtilities: '0.00',
   expenseCable: '0.00',
@@ -63,6 +64,8 @@ export const FeeWaiver = () => (
             Alimony
           </CheckboxFormField>
         </fieldset>
+        <TextualFormField {...ctx.fieldPropsFor('incomeSrcOther')}
+                          label="If you receive any other kind of income, please specify it below." />
         <CurrencyFormField
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}

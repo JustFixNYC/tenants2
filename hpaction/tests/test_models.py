@@ -148,6 +148,8 @@ class TestFeeWaiverDetails:
         assert f.income_sources == ['Employment']
         f.income_src_hra = True
         assert f.income_sources == ['Employment', 'HRA']
+        f.income_src_other = "Boop"
+        assert f.income_sources == ['Employment', 'HRA', 'Boop']
 
     def test_non_utility_expenses_works(self):
         f = FeeWaiverDetails()

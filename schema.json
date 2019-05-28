@@ -1009,6 +1009,22 @@
               "deprecationReason": null
             },
             {
+              "name": "incomeSrcOther",
+              "description": "Other income the user receives",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "rentAmount",
               "description": "The amount of money the user pays in rent per month.",
               "args": [],
@@ -2914,6 +2930,20 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "incomeSrcOther",
+              "description": "Other income the user receives",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },

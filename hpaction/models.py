@@ -61,6 +61,12 @@ class FeeWaiverDetails(models.Model):
         default=False
     )
 
+    income_src_other: str = models.CharField(
+        max_length=100,
+        help_text="Other income the user receives",
+        blank=True
+    )
+
     rent_amount: Decimal = models.DecimalField(
         **CURRENCY_KWARGS,
         help_text="The amount of money the user pays in rent per month."
@@ -91,6 +97,8 @@ class FeeWaiverDetails(models.Model):
         for attr in attrs:
             if getattr(self, attr):
                 sources.append(self._meta.get_field(attr).verbose_name)
+        if self.income_src_other:
+            sources.append(self.income_src_other)
         return sources
 
     @property

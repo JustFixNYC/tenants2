@@ -76,7 +76,7 @@ export const FeeWaiver = () => (
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcChildSupport')}>
             Child support
           </CheckboxFormField>
-          <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcChildSupport')}>
+          <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcAlimony')}>
             Alimony
           </CheckboxFormField>
           <ProgressiveEnhancement

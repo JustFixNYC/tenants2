@@ -1,4 +1,5 @@
 from typing import Union, List, Sequence, NamedTuple, Optional, TypeVar
+from decimal import Decimal
 from enum import Enum
 from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
@@ -40,7 +41,7 @@ class Unanswered(NamedTuple):
 
 # The split between "BaseAnswerValue" and "AnswerValue" is due to
 # the fact that mypy doesn't currently support recursive types.
-BaseAnswerValue = Union[str, int, float, bool, date, MCValue, Unanswered]
+BaseAnswerValue = Union[str, int, float, Decimal, bool, date, MCValue, Unanswered]
 AnswerValue = Union[BaseAnswerValue, Sequence[BaseAnswerValue]]
 
 
@@ -110,7 +111,7 @@ class AnswerSet:
         node.appendChild(self.doc.createTextNode(text))
         return node
 
-    def create_number(self, value: Union[int, float]) -> Element:
+    def create_number(self, value: Union[int, float, Decimal]) -> Element:
         node = self.doc.createElement(AnswerType.NUM.value)
         node.appendChild(self.doc.createTextNode(str(value)))
         return node
@@ -142,7 +143,7 @@ class AnswerSet:
             return self.create_text(value)
         elif isinstance(value, bool):
             return self.create_true_false(value)
-        elif isinstance(value, (int, float)):
+        elif isinstance(value, (int, float, Decimal)):
             return self.create_number(value)
         elif isinstance(value, date):
             return self.create_date(value)

@@ -8,13 +8,15 @@ from django.urls import reverse
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
 from project import slack, schema_registry
-from loc.schema import OneToOneUserModelFormMutation
+from project.util.model_form_util import (
+    OneToOneUserModelFormMutation, create_model_for_user_resolver)
 from .models import (
-    UploadToken, HPActionDocuments, HPUploadStatus, get_upload_status_for_user)
+    FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
+    get_upload_status_for_user)
 from . import models
 from .forms import (
     GeneratePDFForm, FeeWaiverMiscForm, FeeWaiverIncomeForm,
-    FeeWaiverExpensesForm, FeeWaiverForm)
+    FeeWaiverExpensesForm)
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
@@ -87,11 +89,6 @@ class FeeWaiverMisc(OneToOneUserModelFormMutation):
         form_class = FeeWaiverMiscForm
 
 
-class FeeWaiver(OneToOneUserModelFormMutation):
-    class Meta:
-        form_class = FeeWaiverForm
-
-
 class FeeWaiverIncome(OneToOneUserModelFormMutation):
     class Meta:
         form_class = FeeWaiverIncomeForm
@@ -112,7 +109,10 @@ class HPActionMutations:
 
 @schema_registry.register_session_info
 class HPActionSessionInfo:
-    fee_waiver = graphene.Field(FeeWaiverType, resolver=FeeWaiver.resolve)
+    fee_waiver = graphene.Field(
+        FeeWaiverType,
+        resolver=create_model_for_user_resolver(FeeWaiverDetails)
+    )
 
     latest_hp_action_pdf_url = graphene.String(
         description=(

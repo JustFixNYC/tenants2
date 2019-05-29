@@ -61,6 +61,7 @@ class PythonCodeGenerator:
         self.primary_class_name = primary_class_name
         self.imports = [
             'from typing import Optional, Union, List',
+            'from decimal import Decimal',
             'import datetime',
             'from enum import Enum',
             'from dataclasses import dataclass, field',

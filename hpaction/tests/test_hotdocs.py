@@ -1,5 +1,6 @@
 from textwrap import dedent
 from datetime import date
+from decimal import Decimal
 from enum import Enum
 import pytest
 
@@ -73,6 +74,7 @@ def test_bool_answer_values_work():
 def test_numeric_answer_values_work():
     assert value_xml(5) == '<NumValue>5</NumValue>'
     assert value_xml(5.5) == '<NumValue>5.5</NumValue>'
+    assert value_xml(Decimal('5.03')) == '<NumValue>5.03</NumValue>'
 
 
 def test_date_answer_values_work():

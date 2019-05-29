@@ -166,21 +166,19 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
     v.pay_period_mc = hp.PayPeriodMC.MONTH
 
     # What is your household income?
-    if fwd.income_amount_monthly is not None:
-        v.tenant_income_nu = float(fwd.income_amount_monthly)
+    v.tenant_income_nu = fwd.income_amount_monthly
 
     # What is the source of your income?
     v.tenant_income_source_te = ', '.join(fwd.income_sources)
 
     # What is your monthly rent?
-    if fwd.rent_amount is not None:
-        v.tenant_monthly_rent_nu = float(fwd.rent_amount)
+    v.tenant_monthly_rent_nu = fwd.rent_amount
 
     # Monthly expenditure for utilities
-    v.tenant_monthly_exp_utilities_nu = float(fwd.expense_utilities)
+    v.tenant_monthly_exp_utilities_nu = fwd.expense_utilities
 
     # Monthly expenditure for other stuff
-    v.tenant_monthly_exp_other_nu = float(fwd.non_utility_expenses)
+    v.tenant_monthly_exp_other_nu = fwd.non_utility_expenses
 
     # Have you asked for a fee waiver before?
     v.previous_application_tf = fwd.asked_before

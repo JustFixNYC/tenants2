@@ -8,9 +8,8 @@ import { CheckboxFormField } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { CurrencyFormField } from '../../currency-form-field';
-import { FormInputConverter } from '../../form-input-converter';
+import { getInitialFormInput } from '../../form-input-converter';
 import { FeeWaiverMiscMutation } from '../../queries/FeeWaiverMiscMutation';
-import { exactSubsetOrDefault } from '../../util';
 import { FeeWaiverIncomeMutation } from '../../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation } from '../../queries/FeeWaiverExpensesMutation';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
@@ -37,12 +36,6 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   expenseOther: '0.00',
 };
 
-function getInitialState<From, To>(from: From|null, defaultValue: To, convert: (from: FormInputConverter<From>) => To): To {
-  return from
-    ? exactSubsetOrDefault(convert(new FormInputConverter(from)), defaultValue)
-    : defaultValue;
-}
-
 export const FeeWaiverMisc = () => (
   <Page title="It's fee waiver time!">
     <h1 className="title is-4">It's fee waiver time!</h1>
@@ -50,7 +43,7 @@ export const FeeWaiverMisc = () => (
     <br/>
     <SessionUpdatingFormSubmitter
       mutation={FeeWaiverMiscMutation}
-      initialState={({ feeWaiver }) => getInitialState(
+      initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
         INITIAL_MISC_STATE,
         (feeWaiver) => feeWaiver.yesNoRadios('askedBefore').finish()
@@ -73,7 +66,7 @@ export const FeeWaiverIncome = () => (
     <h1 className="title is-4">Your income</h1>
     <SessionUpdatingFormSubmitter
       mutation={FeeWaiverIncomeMutation}
-      initialState={({ feeWaiver }) => getInitialState(
+      initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
         INITIAL_INCOME_STATE,
         (feeWaiver) => feeWaiver.finish()
@@ -117,7 +110,7 @@ export const FeeWaiverExpenses = () => (
     <h1 className="title is-4">Your expenses</h1>
     <SessionUpdatingFormSubmitter
       mutation={FeeWaiverExpensesMutation}
-      initialState={({ feeWaiver }) => getInitialState(
+      initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
         INITIAL_EXPENSES_STATE,
         (feeWaiver) => feeWaiver.finish()

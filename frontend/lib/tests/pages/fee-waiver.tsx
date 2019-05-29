@@ -37,14 +37,24 @@ function getInitialState({ feeWaiver }: AllSessionInfo): FeeWaiverInput {
 
 function OtherCheckbox(props: TextualFormFieldProps): JSX.Element {
   const [isChecked, setChecked] = useState(props.value !== '');
+  const [prevOtherValue, setPrevOtherValue] = useState(props.value);
   const id = `${props.id}_checkbox`;
+  const handleChange = (value: boolean) => {
+    if (value) {
+      props.onChange(prevOtherValue);
+    } else {
+      setPrevOtherValue(props.value);
+      props.onChange('');
+    }
+    setChecked(value);
+  };
 
   return (
     <CheckboxView
       id={id}
       checked={isChecked}
       disabled={props.isDisabled}
-      onChange={(e) => setChecked(e.target.checked)}
+      onChange={(e) => handleChange(e.target.checked)}
       contentAfterLabel={isChecked
         ? <TextualFormField {...props} required />
         : <HiddenFormField {...props} />

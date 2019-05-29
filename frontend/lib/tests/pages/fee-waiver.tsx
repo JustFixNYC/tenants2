@@ -5,7 +5,7 @@ import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import { FeeWaiverMutation } from '../../queries/FeeWaiverMutation';
 import Routes from '../../routes';
-import { CheckboxFormField, TextualFormField, TextualFormFieldProps, CheckboxView } from '../../form-fields';
+import { CheckboxFormField, TextualFormField, TextualFormFieldProps, CheckboxView, HiddenFormField, BaseFormFieldProps } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
@@ -45,8 +45,26 @@ function OtherCheckbox(props: TextualFormFieldProps): JSX.Element {
       checked={isChecked}
       disabled={props.isDisabled}
       onChange={(e) => setChecked(e.target.checked)}
-      contentAfterLabel={isChecked && <TextualFormField {...props} required />}
+      contentAfterLabel={isChecked
+        ? <TextualFormField {...props} required />
+        : <HiddenFormField {...props} />
+      }
     >Other</CheckboxView>
+  );
+}
+
+type ProgressiveOtherCheckboxProps = BaseFormFieldProps<string> & {
+  baselineLabel: string,
+  enhancedLabel: string
+};
+
+function ProgressiveOtherCheckbox(props: ProgressiveOtherCheckboxProps): JSX.Element {
+  const { baselineLabel, enhancedLabel, ...baseProps } = props;
+  return (
+    <ProgressiveEnhancement
+      renderBaseline={() => <TextualFormField {...baseProps} label={baselineLabel} />}
+      renderEnhanced={() => <OtherCheckbox {...props} label={enhancedLabel} />}
+    />
   );
 }
 
@@ -79,16 +97,9 @@ export const FeeWaiver = () => (
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcAlimony')}>
             Alimony
           </CheckboxFormField>
-          <ProgressiveEnhancement
-            renderBaseline={() =>
-              <TextualFormField {...ctx.fieldPropsFor('incomeSrcOther')}
-                label="If you have other sources of income, please specify them." />
-            }
-            renderEnhanced={() =>
-              <OtherCheckbox {...ctx.fieldPropsFor('incomeSrcOther')}
-                label="Please specify your other sources of income." />
-            }
-          />
+          <ProgressiveOtherCheckbox {...ctx.fieldPropsFor('incomeSrcOther')}
+            baselineLabel="If you have other sources of income, please specify them."
+            enhancedLabel="Please specify your other sources of income." />
         </fieldset>
         <CurrencyFormField
           label="How much do you pay in rent?"

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { FeeWaiverMiscInput, FeeWaiverIncomeInput, FeeWaiverExpensesInput } from "../../queries/globalTypes";
 import Page from "../../page";
 import { SessionUpdatingFormSubmitter } from '../../forms';
 import Routes from '../../routes';
-import { CheckboxFormField, TextualFormField, TextualFormFieldProps, CheckboxView, HiddenFormField, BaseFormFieldProps } from '../../form-fields';
+import { CheckboxFormField } from '../../form-fields';
 import { YesNoRadiosFormField } from "../../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../../buttons';
 import { CurrencyFormField } from '../../currency-form-field';
 import { FormInputConverter } from '../../form-input-converter';
-import { ProgressiveEnhancement } from '../../progressive-enhancement';
 import { FeeWaiverMiscMutation } from '../../queries/FeeWaiverMiscMutation';
 import { exactSubsetOrDefault } from '../../util';
 import { FeeWaiverIncomeMutation } from '../../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation } from '../../queries/FeeWaiverExpensesMutation';
+import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
 
 const INITIAL_MISC_STATE: FeeWaiverMiscInput = {
   askedBefore: ''
@@ -41,49 +41,6 @@ function getInitialState<From, To>(from: From|null, defaultValue: To, convert: (
   return from
     ? exactSubsetOrDefault(convert(new FormInputConverter(from)), defaultValue)
     : defaultValue;
-}
-
-function OtherCheckbox(props: TextualFormFieldProps): JSX.Element {
-  const [isChecked, setChecked] = useState(props.value !== '');
-  const [prevOtherValue, setPrevOtherValue] = useState(props.value);
-  const id = `${props.id}_checkbox`;
-  const handleChange = (value: boolean) => {
-    if (value) {
-      props.onChange(prevOtherValue);
-    } else {
-      setPrevOtherValue(props.value);
-      props.onChange('');
-    }
-    setChecked(value);
-  };
-
-  return (
-    <CheckboxView
-      id={id}
-      checked={isChecked}
-      disabled={props.isDisabled}
-      onChange={(e) => handleChange(e.target.checked)}
-      contentAfterLabel={isChecked
-        ? <TextualFormField {...props} required />
-        : <HiddenFormField {...props} />
-      }
-    >Other</CheckboxView>
-  );
-}
-
-type ProgressiveOtherCheckboxProps = BaseFormFieldProps<string> & {
-  baselineLabel: string,
-  enhancedLabel: string
-};
-
-function ProgressiveOtherCheckbox(props: ProgressiveOtherCheckboxProps): JSX.Element {
-  const { baselineLabel, enhancedLabel, ...baseProps } = props;
-  return (
-    <ProgressiveEnhancement
-      renderBaseline={() => <TextualFormField {...baseProps} label={baselineLabel} />}
-      renderEnhanced={() => <OtherCheckbox {...props} label={enhancedLabel} />}
-    />
-  );
 }
 
 export const FeeWaiverMisc = () => (
@@ -142,7 +99,7 @@ export const FeeWaiverIncome = () => (
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcAlimony')}>
             Alimony
           </CheckboxFormField>
-          <ProgressiveOtherCheckbox {...ctx.fieldPropsFor('incomeSrcOther')}
+          <ProgressiveOtherCheckboxFormField {...ctx.fieldPropsFor('incomeSrcOther')}
             baselineLabel="If you have other sources of income, please specify them."
             enhancedLabel="Please specify your other sources of income." />
         </fieldset>

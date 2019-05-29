@@ -26,13 +26,11 @@ class FeeWaiverDetails(models.Model):
         help_text="The user whom this fee waiver is for."
     )
 
-    income_amount_monthly: Decimal = models.DecimalField(
+    income_amount_monthly: Optional[Decimal] = models.DecimalField(
         **CURRENCY_KWARGS,
-        help_text="The amount of income the user receives per month."
+        help_text="The amount of income the user receives per month.",
+        null=True
     )
-
-    # All model fields that represent an income source will start with this prefix.
-    INCOME_SRC_FIELD_PREFIX = 'income_src_'
 
     income_src_employment: bool = models.BooleanField(
         verbose_name="Employment",
@@ -67,9 +65,10 @@ class FeeWaiverDetails(models.Model):
         blank=True
     )
 
-    rent_amount: Decimal = models.DecimalField(
+    rent_amount: Optional[Decimal] = models.DecimalField(
         **CURRENCY_KWARGS,
-        help_text="The amount of money the user pays in rent per month."
+        help_text="The amount of money the user pays in rent per month.",
+        null=True
     )
 
     expense_utilities: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
@@ -82,8 +81,9 @@ class FeeWaiverDetails(models.Model):
 
     expense_other: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    asked_before: bool = models.BooleanField(
-        help_text="Whether the user has requested a fee waiver before.")
+    asked_before: Optional[bool] = models.NullBooleanField(
+        help_text="Whether the user has requested a fee waiver before.",
+    )
 
     @property
     def income_sources(self) -> List[str]:

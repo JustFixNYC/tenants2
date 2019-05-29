@@ -15,7 +15,7 @@ import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
-import { FeeWaiver } from './tests/pages/fee-waiver';
+import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses } from './tests/pages/fee-waiver';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -65,7 +65,7 @@ const HPActionIssuesRoutes = () => (
   <IssuesRoutes
     routes={Routes.locale.hp.issues}
     toBack={Routes.locale.hp.postOnboarding}
-    toNext={Routes.locale.hp.feeWaiver}
+    toNext={Routes.locale.hp.feeWaiverMisc}
   />
 );
 
@@ -99,7 +99,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.hp.feeWaiver} label="Back" />
+            <BackButton to={Routes.locale.hp.feeWaiverExpenses} label="Back" />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }
@@ -186,7 +186,9 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   }],
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
-    { path: Routes.locale.hp.feeWaiver, component: FeeWaiver },
+    { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc },
+    { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome },
+    { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses },
     { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],

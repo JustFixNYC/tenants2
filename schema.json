@@ -1546,7 +1546,7 @@
               "deprecationReason": null
             },
             {
-              "name": "feeWaiver",
+              "name": "feeWaiverMisc",
               "description": null,
               "args": [
                 {
@@ -1557,7 +1557,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "FeeWaiverInput",
+                      "name": "FeeWaiverMiscInput",
                       "ofType": null
                     }
                   },
@@ -1569,7 +1569,69 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "FeeWaiverPayload",
+                  "name": "FeeWaiverMiscPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "feeWaiverIncome",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "FeeWaiverIncomeInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FeeWaiverIncomePayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "feeWaiverExpenses",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "FeeWaiverExpensesInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FeeWaiverExpensesPayload",
                   "ofType": null
                 }
               },
@@ -2790,7 +2852,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "FeeWaiverPayload",
+          "name": "FeeWaiverMiscPayload",
           "description": null,
           "fields": [
             {
@@ -2849,7 +2911,101 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "FeeWaiverInput",
+          "name": "FeeWaiverMiscInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "askedBefore",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "FeeWaiverIncomePayload",
+          "description": null,
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "session",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "FeeWaiverIncomeInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -2938,6 +3094,86 @@
               "defaultValue": null
             },
             {
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "FeeWaiverExpensesPayload",
+          "description": null,
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "session",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "FeeWaiverExpensesInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
               "name": "rentAmount",
               "description": "The amount of money the user pays in rent per month.",
               "type": {
@@ -3009,20 +3245,6 @@
             },
             {
               "name": "expenseOther",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "askedBefore",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

@@ -12,7 +12,9 @@ from loc.schema import OneToOneUserModelFormMutation
 from .models import (
     UploadToken, HPActionDocuments, HPUploadStatus, get_upload_status_for_user)
 from . import models
-from .forms import GeneratePDFForm, FeeWaiverForm
+from .forms import (
+    GeneratePDFForm, FeeWaiverMiscForm, FeeWaiverIncomeForm,
+    FeeWaiverExpensesForm, FeeWaiverForm)
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
@@ -80,15 +82,32 @@ class FeeWaiverType(DjangoObjectType):
         exclude_fields = ('user',)
 
 
+class FeeWaiverMisc(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = FeeWaiverMiscForm
+
+
 class FeeWaiver(OneToOneUserModelFormMutation):
     class Meta:
         form_class = FeeWaiverForm
 
 
+class FeeWaiverIncome(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = FeeWaiverIncomeForm
+
+
+class FeeWaiverExpenses(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = FeeWaiverExpensesForm
+
+
 @schema_registry.register_mutations
 class HPActionMutations:
     generate_hp_action_pdf = GeneratePDF.Field(required=True)
-    fee_waiver = FeeWaiver.Field(required=True)
+    fee_waiver_misc = FeeWaiverMisc.Field(required=True)
+    fee_waiver_income = FeeWaiverIncome.Field(required=True)
+    fee_waiver_expenses = FeeWaiverExpenses.Field(required=True)
 
 
 @schema_registry.register_session_info

@@ -1,5 +1,5 @@
-mutation FeeWaiverMutation($input: FeeWaiverInput!) {
-    output: feeWaiver(input: $input) {
+mutation FeeWaiverExpensesMutation($input: FeeWaiverExpensesInput!) {
+    output: feeWaiverExpenses(input: $input) {
         errors { ...ExtendedFormFieldErrors },
         session {
             feeWaiver {

@@ -19,6 +19,11 @@ type MyFormInput = {
 
 const myInitialState: MyFormInput = { phoneNumber: '', password: '' };
 
+const renderMyFormFields = (ctx: FormContext<MyFormInput>) => <>
+  <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
+  <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
+</>;
+
 describe('SessionUpdatingFormSubmitter', () => {
   const SomeFormMutation = {
     graphQL: 'blah',
@@ -34,7 +39,10 @@ describe('SessionUpdatingFormSubmitter', () => {
         mutation={SomeFormMutation}
         initialState={{ blarg: 1 } as any}
         onSuccess={onSuccess}
-        children={() => <button type="submit">submit</button>} />
+        children={(ctx) => {
+          ctx.fieldPropsFor('blarg');
+          return <button type="submit">submit</button>;
+        }} />
     );
     pal.clickButtonOrLink('submit');
     pal.expectFormInput({ blarg: 1 });
@@ -64,7 +72,7 @@ describe('FormSubmitter', () => {
         onSuccess={(output: MyFormOutput) => { onSuccess(output); }}
         initialState={myInitialState}
       >
-        {(ctx) => <br/>}
+        {renderMyFormFields}
       </FormSubmitterWithoutRouter>
     );
     const form = wrapper.instance() as FormSubmitterWithoutRouter<MyFormInput, MyFormOutput>;
@@ -84,7 +92,7 @@ describe('FormSubmitter', () => {
               onSuccessRedirect="/blah"
               performRedirect={performRedirect}
               initialState={myInitialState}
-              children={(ctx) => <p>This is the form.</p>} />
+              children={renderMyFormFields} />
           </Route>
         </Switch>
       </MemoryRouter>
@@ -109,7 +117,7 @@ describe('FormSubmitter', () => {
               onSuccess={() => { glob.word = "blah"; }}
               onSuccessRedirect="/blah"
               initialState={myInitialState}
-              children={(ctx) => <p>This is the form.</p>} />
+              children={renderMyFormFields} />
           </Route>
         </Switch>
       </MemoryRouter>
@@ -210,12 +218,7 @@ describe('Form', () => {
   function MyForm(props: MyFormProps): JSX.Element {
     return (
       <Form {...props} initialState={myInitialState}>
-        {(ctx) => (
-          <React.Fragment>
-            <TextualFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
-            <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
-          </React.Fragment>
-        )}
+        {renderMyFormFields}
       </Form>
     );
   }

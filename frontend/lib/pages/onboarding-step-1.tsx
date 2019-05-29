@@ -103,9 +103,63 @@ type OnboardingStep1Props = {
 } & RouteComponentProps<any> & AppContextType;
 
 type AddressAndBoroughFieldProps = {
+  disableProgressiveEnhancement?: boolean;
+  renderAddressLabel: LabelRenderer,
   addressProps: BaseFormFieldProps<string>,
   boroughProps: BaseFormFieldProps<string>
 };
+
+class AddressAndBoroughField extends React.Component<AddressAndBoroughFieldProps> {
+  renderBaselineAddressFields(): JSX.Element {
+    return (
+      <React.Fragment>
+        <TextualFormField
+          label="Address"
+          renderLabel={this.props.renderAddressLabel}
+          {...this.props.addressProps}
+        />
+        <RadiosFormField
+          label="What is your borough?"
+          {...this.props.boroughProps}
+          choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())}
+        />
+      </React.Fragment>
+    );
+  }
+
+  renderEnhancedAddressField(pe: ProgressiveEnhancementContext) {
+    const { addressProps, boroughProps } = this.props;
+    let initialValue = addressProps.value && boroughProps.value
+      ? { address: addressProps.value,
+          borough: boroughProps.value as BoroughChoice }
+      : undefined;
+
+    if (boroughProps.errors && !addressProps.errors) {
+      return this.renderBaselineAddressFields();
+    }
+
+    return <GeoAutocomplete
+      label="Address"
+      renderLabel={this.props.renderAddressLabel}
+      initialValue={initialValue}
+      onChange={selection => {
+        addressProps.onChange(selection.address);
+        boroughProps.onChange(selection.borough || '');
+      }}
+      onNetworkError={pe.fallbackToBaseline}
+      errors={addressProps.errors}
+    />;
+  }
+
+  render() {
+    return (
+      <ProgressiveEnhancement
+        disabled={this.props.disableProgressiveEnhancement}
+        renderBaseline={() => this.renderBaselineAddressFields()}
+        renderEnhanced={(pe) => this.renderEnhancedAddressField(pe)} />
+    );
+  }
+}
 
 class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Props> {
   readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -122,54 +176,9 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
     );
   }
 
-  renderBaselineAddressFields(ab: AddressAndBoroughFieldProps): JSX.Element {
-    return (
-      <React.Fragment>
-        <TextualFormField
-          label="Address"
-          renderLabel={this.renderAddressLabel}
-          {...ab.addressProps}
-        />
-        <RadiosFormField
-          label="What is your borough?"
-          {...ab.boroughProps}
-          choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())}
-        />
-      </React.Fragment>
-    );
-  }
-
-  renderEnhancedAddressField(ab: AddressAndBoroughFieldProps, pe: ProgressiveEnhancementContext) {
-    const { addressProps, boroughProps } = ab;
-    let initialValue = addressProps.value && boroughProps.value
-      ? { address: addressProps.value,
-          borough: boroughProps.value as BoroughChoice }
-      : undefined;
-
-    if (boroughProps.errors && !addressProps.errors) {
-      return this.renderBaselineAddressFields(ab);
-    }
-
-    return <GeoAutocomplete
-      label="Address"
-      renderLabel={this.renderAddressLabel}
-      initialValue={initialValue}
-      onChange={selection => {
-        addressProps.onChange(selection.address);
-        boroughProps.onChange(selection.borough || '');
-      }}
-      onNetworkError={pe.fallbackToBaseline}
-      errors={addressProps.errors}
-    />;
-  }
-
   @autobind
   renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
     const { routes } = this.props;
-    const ab: AddressAndBoroughFieldProps = {
-      addressProps: ctx.fieldPropsFor('address'),
-      boroughProps: ctx.fieldPropsFor('borough')
-    };
 
     return (
       <React.Fragment>
@@ -181,10 +190,12 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
             <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
           </div>
         </div>
-        <ProgressiveEnhancement
-          disabled={this.props.disableProgressiveEnhancement}
-          renderBaseline={() => this.renderBaselineAddressFields(ab)}
-          renderEnhanced={(pe) => this.renderEnhancedAddressField(ab, pe)} />
+        <AddressAndBoroughField
+          disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
+          renderAddressLabel={this.renderAddressLabel}
+          addressProps={ctx.fieldPropsFor('address')}
+          boroughProps={ctx.fieldPropsFor('borough')}
+        />
         <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={routes.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>

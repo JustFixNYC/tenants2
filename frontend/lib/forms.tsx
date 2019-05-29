@@ -387,22 +387,25 @@ export class BaseFormContext<FormInput> {
     return ctx;
   }
 
+  private warnOrThrow(msg: string) {
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(msg);
+    } else {
+      throw new Error(msg);
+    }
+  }
+
   logWarnings() {
     const { namePrefix } = this.options;
     const nameInfo = namePrefix ? ` with name prefix "${namePrefix}"` : '';
 
     for (let key in this.options.currentState) {
       if (!this.fieldPropsRequested.has(key)) {
-        const msg = (
+        this.warnOrThrow(
           `Form field "${key}"${nameInfo} may not have been rendered. ` +
           `Please ensure that the field/formsetPropsFor("${key}") method on ` +
           `the relevant form context is called at render time.`
         );
-        if (process.env.NODE_ENV === 'production') {
-          console.warn(msg);
-        } else {
-          throw new Error(msg);
-        }
       }
     }
   }

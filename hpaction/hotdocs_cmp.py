@@ -88,7 +88,7 @@ class HDTrueFalse(HDVariable):
 class HDNumber(HDVariable):
     @property
     def py_annotation(self) -> str:
-        return 'Union[int, float]'
+        return 'Union[int, float, Decimal]'
 
     @property
     def answer_type(self) -> AnswerType:

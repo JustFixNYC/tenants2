@@ -17,6 +17,19 @@ type StringifiedNulls<A> = {
 };
 
 /**
+ * Convert the given boolean or null to a string value
+ * suitable for a yes/no radio input.
+ */
+function toStringifiedNullBool(value: boolean|null): string {
+  if (value === true) {
+    return YES_NO_RADIOS_TRUE;
+  } else if (value === false) {
+    return YES_NO_RADIOS_FALSE;
+  }
+  return '';
+}
+
+/**
  * Convert *only* the given property names of the given object from
  * boolean or null values to stringified values that our backend
  * will accept as choices for yes/no radio inputs (or the lack of a choice,
@@ -32,13 +45,7 @@ function withStringifiedNullBools<T, K extends NullBooleanPropertyNames<T>>(
     if (!(typeof(value) === 'boolean' || value === null)) {
       throw new Error(`Expected key '${key}' to be a boolean or null, but it is ${typeof(value)}`);
     }
-    if (value === true) {
-      result[key] = YES_NO_RADIOS_TRUE as any;
-    } else if (value === false) {
-      result[key] = YES_NO_RADIOS_FALSE as any;
-    } else {
-      result[key] = '' as any;
-    }
+    result[key] = toStringifiedNullBool(value) as any;
   }
   return result;
 }

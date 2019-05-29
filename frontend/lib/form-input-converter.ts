@@ -1,36 +1,43 @@
 import { YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from "./yes-no-radios-form-field";
 
-type BooleanPropertyNames<T> = {
-  [k in keyof T]: T[k] extends boolean ? k : never
+type NullBooleanPropertyNames<T> = {
+  [k in keyof T]: T[k] extends boolean|null ? k : never
 }[keyof T];
 
-type StringifiedBooleans<T, K extends BooleanPropertyNames<T>> = {
+type StringifiedNullBooleans<T, K extends NullBooleanPropertyNames<T>> = {
   [k in keyof T]: k extends K ? string : T[k]
 };
 
 type StringifiedNumbers<A> = {
-  [K in keyof A]: A[K] extends number ? string : A[K]
+  [K in keyof A]: Extract<A[K], number> extends never ? A[K] : Exclude<A[K], number>|string
+};
+
+type StringifiedNulls<A> = {
+  [K in keyof A]: Extract<A[K], null> extends never ? A[K] : Exclude<A[K], null>|string
 };
 
 /**
  * Convert *only* the given property names of the given object from
- * boolean values to stringified boolean values that our backend
- * will accept as valid choices for yes/no radio inputs.
+ * boolean or null values to stringified values that our backend
+ * will accept as choices for yes/no radio inputs (or the lack of a choice,
+ * if the original value was null).
  */
-function withStringifiedBools<T, K extends BooleanPropertyNames<T>>(
+function withStringifiedNullBools<T, K extends NullBooleanPropertyNames<T>>(
   obj: T,
   ...keys: readonly K[]
-): StringifiedBooleans<T, K> {
-  const result = Object.assign({}, obj) as StringifiedBooleans<T, K>;
+): StringifiedNullBooleans<T, K> {
+  const result = Object.assign({}, obj) as StringifiedNullBooleans<T, K>;
   for (let key of keys) {
-    const type = typeof(obj[key]);
-    if (type !== 'boolean') {
-      throw new Error(`Expected key '${key}' to be a boolean, but it is ${type}`);
+    const value = obj[key];
+    if (!(typeof(value) === 'boolean' || value === null)) {
+      throw new Error(`Expected key '${key}' to be a boolean or null, but it is ${typeof(value)}`);
     }
-    if (obj[key]) {
+    if (value === true) {
       result[key] = YES_NO_RADIOS_TRUE as any;
-    } else {
+    } else if (value === false) {
       result[key] = YES_NO_RADIOS_FALSE as any;
+    } else {
+      result[key] = '' as any;
     }
   }
   return result;
@@ -46,6 +53,20 @@ function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
   for (let key in obj) {
     const value = obj[key];
     result[key] = typeof(value) === 'number' ? value.toString() : value;
+  }
+
+  return result;
+}
+
+/**
+ * Convert all nulls in the given object to the empty string.
+ */
+function withStringifiedNulls<A>(obj: A): StringifiedNulls<A> {
+  let result: any = {};
+
+  for (let key in obj) {
+    const value = obj[key];
+    result[key] = value === null ? '' : value;
   }
 
   return result;
@@ -69,8 +90,8 @@ export class FormInputConverter<T> {
   /**
    * Finish the conversion of the original data.
    */
-  finish(): StringifiedNumbers<T> {
-    return withStringifiedNumbers(this.data);
+  finish(): StringifiedNulls<StringifiedNumbers<T>> {
+    return withStringifiedNulls(withStringifiedNumbers(this.data));
   }
 
   /**
@@ -79,9 +100,9 @@ export class FormInputConverter<T> {
    *
    * @param keys Boolean properties from the original data needing conversion.
    */
-  yesNoRadios<K extends BooleanPropertyNames<T>>(
+  yesNoRadios<K extends NullBooleanPropertyNames<T>>(
     ...keys: readonly K[]
-  ): FormInputConverter<StringifiedBooleans<T, K>> {
-    return new FormInputConverter(withStringifiedBools(this.data, ...keys));
+  ): FormInputConverter<StringifiedNullBooleans<T, K>> {
+    return new FormInputConverter(withStringifiedNullBools(this.data, ...keys));
   }
 }

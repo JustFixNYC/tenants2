@@ -79,7 +79,7 @@ export const FeeWaiverIncome = () => (
           {...ctx.fieldPropsFor('incomeAmountMonthly')}
         />
         <fieldset className="field">
-          <legend>Where do you receive your income from? Select all that apply.</legend>
+          <legend>Where do you receive your income from? You can select more than one.</legend>
           <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcEmployment')}>
             Employment
           </CheckboxFormField>

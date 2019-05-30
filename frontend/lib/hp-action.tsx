@@ -15,7 +15,7 @@ import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
-import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses } from './tests/pages/fee-waiver';
+import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses } from './pages/fee-waiver';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 

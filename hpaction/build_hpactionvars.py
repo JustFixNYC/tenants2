@@ -165,6 +165,13 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = "Landlord has failed to do repairs"
 
+    # Waive any and all statutory fees for the defense or prosecution of the action.
+    v.ifp_what_orders_ms = [hp.IFPWhatOrdersMS.FEES]
+
+    # List any major property that you own, like a car or a valuable item, and the value of that
+    # property.
+    v.tenant_property_owned_te = "None"
+
     # How often do you get paid?
     v.pay_period_mc = hp.PayPeriodMC.MONTH
 
@@ -191,7 +198,7 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
         # this application because..."
         #
         # TODO: Replace with something more appropriate.
-        v.reason_for_further_application_te = "I am awesome"
+        v.reason_for_further_application_te = "economic hardship"
 
 
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:

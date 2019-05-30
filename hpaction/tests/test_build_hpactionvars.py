@@ -115,4 +115,4 @@ def test_fill_fee_waiver_details_works():
     fill_fee_waiver_details(v, fwd)
 
     assert v.previous_application_tf is True
-    assert v.reason_for_further_application_te == "I am awesome"
+    assert v.reason_for_further_application_te == "economic hardship"

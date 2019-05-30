@@ -60,6 +60,26 @@ input:focus + .jf-radio-symbol {
     border: 2px solid $border-hover;
 }
 
+.checkbox + .jf-inset-field {
+    padding-left: 1.4em + 0.3em + 0.6em;
+
+    .label {
+        font-weight: normal;
+        color: $subtitle-color;
+    }
+}
+
+.jf-slidedown-5em {
+    animation-duration: 0.5s;
+    animation-name: jf-slidedown-5em;
+    overflow: hidden;
+}
+
+@keyframes jf-slidedown-5em {
+    from { max-height: 0; }
+    to { max-height: 5em; }
+}
+
 input:checked + .jf-checkbox-symbol {
     border-color: $primary;
     background-color: $primary;

@@ -141,6 +141,8 @@ class ExampleForm(forms.Form):
 
     bool_field = forms.BooleanField(required=False)
 
+    example_other_field = forms.CharField(max_length=10, required=False)
+
     currency_field = forms.DecimalField(max_digits=10, decimal_places=2)
 
 

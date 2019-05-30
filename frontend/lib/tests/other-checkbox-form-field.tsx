@@ -30,7 +30,7 @@ export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JS
       disabled={props.isDisabled}
       onChange={(e) => handleChange(e.target.checked)}
       contentAfterLabel={isChecked
-        ? <TextualFormField {...props} required />
+        ? <div className="jf-inset-field"><TextualFormField {...props} required /></div>
         : <HiddenFormField {...props} />
       }
     >Other</CheckboxView>

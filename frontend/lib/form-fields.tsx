@@ -36,6 +36,9 @@ export interface BaseFormFieldProps<T> extends WithFormFieldErrors {
 /** The props for an HTML <label> element. */
 export type LabelProps = React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
 
+/** The props for an HTML <input> element. */
+export type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+
 /**
  * A label renderer is a function that renders a JSX element containing
  * a <label> with the given text and the given props somewhere inside it.
@@ -170,24 +173,42 @@ export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
   children: any;
 }
 
+export type CheckboxViewProps = InputProps & {
+  id: string,
+  contentAfterLabel?: any,
+  children: any
+};
+
+export function CheckboxView(props: CheckboxViewProps) {
+  const { children, contentAfterLabel, ...inputProps } = props;
+
+  return (
+    <div className="field">
+      <label htmlFor={inputProps.id} className="checkbox jf-single-checkbox">
+        <input type="checkbox" {...inputProps} /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text">
+          <h5 className="subtitle is-5">{props.children}</h5>
+        </span>
+      </label>
+      {contentAfterLabel}
+    </div>
+  );
+}
+
 export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
   const { errorHelp } = formatErrors(props);
 
   return (
-    <div className="field">
-      <label htmlFor={props.id} className="checkbox jf-single-checkbox">
-        <input
-          type="checkbox"
-          name={props.name}
-          id={props.id}
-          checked={props.value}
-          aria-invalid={ariaBool(!!props.errors)}
-          disabled={props.isDisabled}
-          onChange={(e) => props.onChange(e.target.checked)}
-        /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text"><h5 className="subtitle is-5">{props.children}</h5></span>
-      </label>
-      {errorHelp}
-    </div>
+    <CheckboxView
+      name={props.name}
+      id={props.id}
+      checked={props.value}
+      aria-invalid={ariaBool(!!props.errors)}
+      disabled={props.isDisabled}
+      onChange={(e) => props.onChange(e.target.checked)}
+      contentAfterLabel={errorHelp}
+    >
+      {props.children}
+    </CheckboxView>
   );
 }
 

@@ -60,6 +60,14 @@ input:focus + .jf-radio-symbol {
     border: 2px solid $border-hover;
 }
 
+.checkbox + .jf-inset-field {
+    padding-left: 1.4em + 0.3em + 0.6em;
+
+    .label {
+        font-weight: normal;
+    }
+}
+
 input:checked + .jf-checkbox-symbol {
     border-color: $primary;
     background-color: $primary;

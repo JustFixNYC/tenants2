@@ -122,12 +122,13 @@ export const FeeWaiverExpenses = () => (
           label="How much do you pay in rent?"
           {...ctx.fieldPropsFor('rentAmount')}
         />
+        <br/>
         <h2 className="title is-5">What are your expenses?</h2>
-        <CurrencyFormField label="Utilities expenses" {...ctx.fieldPropsFor('expenseUtilities')} />
-        <CurrencyFormField label="Cable expenses" {...ctx.fieldPropsFor('expenseCable')} />
-        <CurrencyFormField label="Childcare expenses" {...ctx.fieldPropsFor('expenseChildcare')} />
-        <CurrencyFormField label="Phone expenses" {...ctx.fieldPropsFor('expensePhone')} />
-        <CurrencyFormField label="Other expenses" {...ctx.fieldPropsFor('expenseOther')} />
+        <CurrencyFormField label="Utilities" {...ctx.fieldPropsFor('expenseUtilities')} />
+        <CurrencyFormField label="Cable/TV" {...ctx.fieldPropsFor('expenseCable')} />
+        <CurrencyFormField label="Childcare" {...ctx.fieldPropsFor('expenseChildcare')} />
+        <CurrencyFormField label="Phone" {...ctx.fieldPropsFor('expensePhone')} />
+        <CurrencyFormField label="Other" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
         <div className="buttons jf-two-buttons">
           <BackButton to={Routes.locale.hp.feeWaiverIncome} label="Back" />

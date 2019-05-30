@@ -162,6 +162,9 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
 
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
+    # Completes "My case is good and worthwhile because_______".
+    v.cause_of_action_description_te = "Landlord has failed to do repairs"
+
     # How often do you get paid?
     v.pay_period_mc = hp.PayPeriodMC.MONTH
 

@@ -1,4 +1,4 @@
-import { FormInputConverter } from "../form-input-converter";
+import { FormInputConverter, getInitialFormInput } from "../form-input-converter";
 
 describe('yesNoRadios()', () => {
   it('raises error when property is not a boolean', () => {
@@ -31,5 +31,25 @@ describe('finish()', () => {
     const converted = conv.finish();
     const expected: typeof converted = { hi: '3', there: false, buddy: '' };
     expect(converted).toEqual(expected);
+  });
+});
+
+describe("getInitialFormInput()", () => {
+  it('works', () => {
+    const from = {
+      hi: 3,
+      there: true,
+      extra: 'hmm'
+    };
+    const defaultValue = {
+      hi: '',
+      there: false
+    };
+    const to = {
+      hi: '3',
+      there: true
+    };
+    expect(getInitialFormInput(from, defaultValue, (conv) => conv.finish()))
+      .toEqual(to);
   });
 });

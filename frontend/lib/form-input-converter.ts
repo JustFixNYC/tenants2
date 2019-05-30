@@ -1,4 +1,5 @@
 import { YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from "./yes-no-radios-form-field";
+import { exactSubsetOrDefault } from "./util";
 
 type NullBooleanPropertyNames<T> = {
   [k in keyof T]: T[k] extends boolean|null ? k : never
@@ -112,4 +113,28 @@ export class FormInputConverter<T> {
   ): FormInputConverter<StringifiedNullBooleans<T, K>> {
     return new FormInputConverter(withStringifiedNullBools(this.data, ...keys));
   }
+}
+
+/**
+ * This convenience function can be used to get the initial
+ * input for a form, either by converting source data or
+ * providing a default value if no source data exists.
+ * 
+ * @param from The initial source data that needs to be
+ *   transformed.
+ * @param defaultValue The value to return if the initial
+ *   source data doesn't exist. The keys of this default value
+ *   are also used to ensure the converted data only contains
+ *   the keys the server is expecting.
+ * @param convert A function that converts the source data to
+ *   the form input.
+ */
+export function getInitialFormInput<From, To>(
+  from: From|null,
+  defaultValue: To,
+  convert: (from: FormInputConverter<From>) => To
+): To {
+  return from
+    ? exactSubsetOrDefault(convert(new FormInputConverter(from)), defaultValue)
+    : defaultValue;
 }

@@ -10,10 +10,12 @@ import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/glo
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { Formset } from '../formset';
 import { CurrencyFormField } from '../currency-form-field';
+import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
 
 const INITIAL_STATE: ExampleInput = {
   exampleField: '',
   boolField: false,
+  exampleOtherField: '',
   currencyField: '15.00',
   subforms: []
 };
@@ -54,6 +56,10 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
           <CheckboxFormField {...ctx.fieldPropsFor('boolField')}>
             Example boolean field
           </CheckboxFormField>
+          <ProgressiveOtherCheckboxFormField {...ctx.fieldPropsFor('exampleOtherField')}
+            baselineLabel="If you have anything else to report, please specify it."
+            enhancedLabel="Please specify."
+          />
           <CurrencyFormField label="Example currency field" {...ctx.fieldPropsFor('currencyField')}/>
           <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
             {(subforms, i) => (

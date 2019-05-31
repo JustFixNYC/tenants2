@@ -226,6 +226,28 @@ export class GraphQlFile {
 export class ToolError extends Error {}
 
 /**
+ * Find all TS files that lack graphQL queries/fragments (presumably because their
+ * original query/fragment has been deleted).
+ */
+export function findStaleTypescriptFiles(graphQlFiles = GraphQlFile.fromDir()): string[] {
+  const graphQlCodePaths = new Set(graphQlFiles.map(g => g.tsCodePath));
+  const files: string[] = [];
+
+  fs.readdirSync(LIB_PATH).forEach(filename => {
+    if (!/\.ts$/.test(filename)) return;
+
+    if (COPY_FROM_GEN_TO_LIB.indexOf(filename) !== -1) return;
+
+    const tsCodePath = path.join(LIB_PATH, filename);
+    if (graphQlCodePaths.has(tsCodePath)) return;
+
+    files.push(tsCodePath);
+  });
+
+  return files;
+}
+
+/**
  * Determine whether we need to run Apollo codegen:generate, based on
  * examining file modification dates.
  */
@@ -296,6 +318,47 @@ export function getGlobalValidator(): GraphQLValidator {
   return validator;
 }
 
+/**
+ * Find all raw GraphQL queries and generate type-safe functions
+ * for them. Return the number of files created.
+ * 
+ * Files will not be created if they already exist with
+ * identical content, to prevent spurious triggering of
+ * static asset build pipelines that may be watching.
+ */
+function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): number {
+  const filesWritten: string[] = [];
+
+  graphQlFiles.forEach(query => {
+    if (query.writeTsCode()) {
+      filesWritten.push(query.tsCodePath);
+    }
+  });
+
+  if (filesWritten.length > 0) {
+    const files = filesWritten.length > 1 ? 'files' : 'file';
+    console.log(`Generated ${filesWritten.length} TS ${files} from GraphQL queries in ${LIB_PATH}.`);
+  }
+
+  return filesWritten.length;
+}
+
+/**
+ * Delete any stale TS files whose associated GraphQL files have been
+ * deleted. Return the number of files deleted.
+ */
+function deleteStaleTsFiles(graphQlFiles: GraphQlFile[]): number {
+  const staleFiles = findStaleTypescriptFiles(graphQlFiles);
+
+  if (staleFiles.length > 0) {
+    const files = staleFiles.length > 1 ? 'files' : 'file';
+    staleFiles.forEach(fs.unlinkSync);
+    console.log(`Deleted ${staleFiles.length} stale TS ${files} from ${LIB_PATH}.`);
+  }
+
+  return staleFiles.length;
+}
+
 /** Our main query-building functionality. */
 export function main(options: MainOptions): number {
   const errors = getGlobalValidator().validate();
@@ -310,20 +373,11 @@ export function main(options: MainOptions): number {
     return apolloStatus;
   }
 
-  const filesWritten: string[] = [];
+  const graphQlFiles = GraphQlFile.fromDir();
+  const filesWritten = generateGraphQlFiles(graphQlFiles);
+  const staleFiles = deleteStaleTsFiles(graphQlFiles);
 
-  // Find all raw GraphQL queries and generate type-safe functions
-  // for them.
-  GraphQlFile.fromDir().forEach(query => {
-    if (query.writeTsCode()) {
-      filesWritten.push(query.tsCodePath);
-    }
-  });
-
-  if (filesWritten.length > 0) {
-    const files = filesWritten.length > 1 ? 'files' : 'file';
-    console.log(`Generated ${filesWritten.length} TS ${files} from GraphQL queries in ${LIB_PATH}.`);
-  } else {
+  if (!(filesWritten || staleFiles)) {
     console.log(`GraphQL queries in ${LIB_PATH} are unchanged, doing nothing.`);
   }
 

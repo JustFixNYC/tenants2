@@ -1,6 +1,6 @@
 import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
-import { RouteComponentProps, Route } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors, FormError } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
@@ -14,6 +14,7 @@ import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { BaseFormsetProps } from './formset';
+import { ProgressContextType, RouteWithProgressContext } from './progress-context';
 
 type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
@@ -25,6 +26,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
+  onSuccessGoToNextStep?: boolean;
   performRedirect?: (redirect: string, history: History) => void;
   confirmNavIfChanged?: boolean;
   formId?: string;
@@ -36,7 +38,8 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
+type FormSubmitterPropsWithContexts<FormInput, FormOutput extends WithServerFormFieldErrors> =
+  FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any> & ProgressContextType;
 
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
@@ -52,7 +55,7 @@ interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
  * passed from the server as a result of a legacy browser POST.
  */
 function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFormFieldErrors>(
-  props: FormSubmitterPropsWithRouter<FormInput, FormOutput> & {
+  props: FormSubmitterPropsWithContexts<FormInput, FormOutput> & {
     isSubmissionOurs: (submission: AppLegacyFormSubmission) => boolean;
   }
 ) {
@@ -60,7 +63,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
     <AppContext.Consumer>
       {(appCtx) => {
         const { isSubmissionOurs, ...otherProps } = props;
-        let newProps: FormSubmitterPropsWithRouter<FormInput, FormOutput> = {
+        let newProps: FormSubmitterPropsWithContexts<FormInput, FormOutput> = {
           ...otherProps,
           extraFields: (
             <React.Fragment>
@@ -98,18 +101,21 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
             // during server-side rendering. So I'm not really sure what to do here.
           }
         }
-        return <FormSubmitterWithoutRouter {...newProps} />;
+        return <FormSubmitterWithoutContexts {...newProps} />;
       }}
     </AppContext.Consumer>
   );
 }
 
 function getSuccessRedirect<FormInput, FormOutput extends WithServerFormFieldErrors>(
-  props: FormSubmitterPropsWithRouter<FormInput, FormOutput>,
+  props: FormSubmitterPropsWithContexts<FormInput, FormOutput>,
   input: FormInput,
   output: FormOutput
 ): string|null {
-  const { onSuccessRedirect } = props;
+  const { onSuccessRedirect, onSuccessGoToNextStep } = props;
+  if (onSuccessGoToNextStep) {
+    return assertNotNull(props.nextStep).path;
+  }
   if (onSuccessRedirect) {
     return typeof(onSuccessRedirect) === 'function'
       ? onSuccessRedirect(output, input)
@@ -123,8 +129,8 @@ export function defaultPerformRedirect(redirect: string, history: History) {
 }
 
 /** This class encapsulates common logic for form submission. */
-export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
-  constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
+export class FormSubmitterWithoutContexts<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithContexts<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+  constructor(props: FormSubmitterPropsWithContexts<FormInput, FormOutput>) {
     super(props);
     this.state = {
       isLoading: false,
@@ -188,7 +194,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 
   componentDidUpdate(
-    prevProps: FormSubmitterPropsWithRouter<FormInput, FormOutput>
+    prevProps: FormSubmitterPropsWithContexts<FormInput, FormOutput>
   ) {
     const { lastSuccessRedirect } = this.state;
     if (lastSuccessRedirect &&
@@ -292,7 +298,7 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
       <AppContext.Consumer>
         {(appCtx) => {
           return (
-            <Route render={(ctx) => {
+            <RouteWithProgressContext render={(ctx) => {
               const { mutation, formId, ...otherProps } = this.props;
               const isOurs = (sub: AppLegacyFormSubmission) =>
                 sub.POST['graphql'] === mutation.graphQL &&
@@ -321,8 +327,8 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
 export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
   render() {
     return (
-      <Route render={(ctx) => (
-        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
+      <RouteWithProgressContext render={(ctx) => (
+        <FormSubmitterWithoutContexts {...this.props} {...ctx} />
       )} />
     );
   }

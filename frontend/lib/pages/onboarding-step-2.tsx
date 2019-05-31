@@ -5,7 +5,7 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
@@ -13,6 +13,7 @@ import { OutboundLink } from '../google-analytics';
 import { Link } from 'react-router-dom';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
+import { BackToPrevStepButton } from '../progress-elements';
 
 
 const blankInitialState: OnboardingStep2Input = {
@@ -84,7 +85,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="buttons jf-two-buttons">
-        <BackButton to={this.props.routes.step1} label="Back" />
+        <BackToPrevStepButton label="Back" />
         <NextButton isLoading={isLoading} />
       </div>
     );
@@ -99,7 +100,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep2Mutation}
             initialState={(session) => session.onboardingStep2 || blankInitialState}
-            onSuccessRedirect={this.props.routes.step3}
+            onSuccessGoToNextStep
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>
       </Page>

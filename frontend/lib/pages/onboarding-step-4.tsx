@@ -5,12 +5,13 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { OnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation';
 import { OnboardingRouteInfo } from '../routes';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton } from "../buttons";
 import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../faceboox-pixel';
+import { BackToPrevStepButton } from '../progress-elements';
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -49,7 +50,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
           </ModalLink>.
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
-          <BackButton to={routes.step3} label="Back" />
+          <BackToPrevStepButton label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Create my account" />
         </div>
       </React.Fragment>

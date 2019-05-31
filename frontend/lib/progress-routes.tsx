@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { SessionProgressStepRoute, RedirectToLatestStep } from "./progress-redirection";
-import { Switch, Route, RouteProps, withRouter, RouteComponentProps } from "react-router";
+import { Switch, Route, RouteProps } from "react-router";
 import { RouteProgressBar } from './progress-bar';
-import { getOneDirLevelUp } from './modal';
+import { ProgressContextProvider } from './progress-context';
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -71,45 +71,15 @@ function generateRoutes(props: ProgressRoutesProps): RouteProps[] {
   ];
 }
 
-interface ProgressRoutesContextType {
-  nextStep?: SessionProgressStepRoute,
-  prevStep?: SessionProgressStepRoute
-}
-
-function buildProgressRoutesContext(
-  steps: SessionProgressStepRoute[],
-  currentPathname: string
-): ProgressRoutesContextType {
-  const stepPathnames = steps.map(step => step.path);
-  let index = stepPathnames.indexOf(currentPathname);
-
-  if (index === -1) {
-    index = stepPathnames.indexOf(getOneDirLevelUp(currentPathname));
-  }
-
-  const ctx: ProgressRoutesContextType = {};
-
-  if (index >= 0) {
-    ctx.prevStep = steps[index - 1];
-    ctx.nextStep = steps[index + 1];
-  }
-
-  return ctx;
-}
-
-export const ProgressRoutesContext = React.createContext<ProgressRoutesContextType>({});
-
-export const ProgressRoutes = withRouter((props: ProgressRoutesProps & RouteComponentProps<any>) => {
-  const ctx = buildProgressRoutesContext(getAllSteps(props), props.location.pathname);
-
+export function ProgressRoutes(props: ProgressRoutesProps): JSX.Element {
   return (
-    <ProgressRoutesContext.Provider value={ctx}>
+    <ProgressContextProvider steps={getAllSteps(props)}>
       <Switch>
         {generateRoutes(props).map((routeProps, i) => <Route key={i} {...routeProps} />)}
       </Switch>
-    </ProgressRoutesContext.Provider>
+    </ProgressContextProvider>
   );
-});
+}
 
 export function buildProgressRoutesComponent(getProps: () => ProgressRoutesProps): () => JSX.Element {
   return () => <ProgressRoutes {...getProps()}/>;

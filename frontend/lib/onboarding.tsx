@@ -8,6 +8,7 @@ import OnboardingStep4 from './pages/onboarding-step-4';
 import { RouteProgressBar } from './progress-bar';
 import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { ProgressContextProvider } from './progress-context';
 
 export type OnboardingRoutesProps = {
   toCancel: string;
@@ -46,14 +47,16 @@ export default class OnboardingRoutes extends React.Component<OnboardingRoutesPr
   render() {
     return (
       <div>
-        <Switch>
-          <Route path={this.props.routes.latestStep} exact render={() => (
-            <RedirectToLatestStep steps={this.onboardingSteps}/>
-          )} />
-          <Route render={() => (
-            <RouteProgressBar label="Create an Account" steps={this.onboardingSteps} />
-          )} />
-        </Switch>
+        <ProgressContextProvider steps={this.onboardingSteps}>
+          <Switch>
+            <Route path={this.props.routes.latestStep} exact render={() => (
+              <RedirectToLatestStep steps={this.onboardingSteps}/>
+            )} />
+            <Route render={() => (
+              <RouteProgressBar label="Create an Account" steps={this.onboardingSteps} />
+            )} />
+          </Switch>
+        </ProgressContextProvider>
       </div>
     );
   }

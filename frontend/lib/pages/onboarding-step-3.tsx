@@ -4,7 +4,7 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { RadiosFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
@@ -15,6 +15,7 @@ import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';
+import { BackToPrevStepButton } from '../progress-elements';
 
 const blankInitialState: OnboardingStep3Input = {
   leaseType: '',
@@ -194,7 +195,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
         />
         <div className="buttons jf-two-buttons">
-          <BackButton to={this.props.routes.step2} label="Back" />
+          <BackToPrevStepButton label="Back" />
           <NextButton isLoading={ctx.isLoading} />
         </div>
       </React.Fragment>

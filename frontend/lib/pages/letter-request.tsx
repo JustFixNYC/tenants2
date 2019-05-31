@@ -56,7 +56,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
       mutation={LetterRequestMutation}
       formId={'button_' + props.mailChoice}
       initialState={input}
-      onSuccessRedirect={Routes.locale.loc.confirmation}
+      onSuccessGoToNextStep
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />

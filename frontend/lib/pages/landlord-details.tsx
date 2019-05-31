@@ -4,14 +4,13 @@ import Page from "../page";
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField, TextareaFormField } from '../form-fields';
 
-import { NextButton, BackButton } from "../buttons";
-import Routes from '../routes';
+import { NextButton } from "../buttons";
 import { LandlordDetailsInput } from '../queries/globalTypes';
 import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
 import { AppContextType, withAppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
-import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
+import { BackToPrevStepButton, ProgressLink } from '../progress-elements';
 
 
 const BLANK_INPUT: LandlordDetailsInput = {
@@ -19,17 +18,13 @@ const BLANK_INPUT: LandlordDetailsInput = {
   address: ''
 };
 
-const PREV_STEP = () => Routes.locale.loc.accessDates;
-
-const NEXT_STEP = () => Routes.locale.loc.preview;
-
 function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
   return (
     <React.Fragment>
       <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP()} label="Back" />
+        <BackToPrevStepButton label="Back" />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
       </div>
     </React.Fragment>
@@ -68,8 +63,8 @@ function ReadOnlyLandlordDetails(props: {details: AllSessionInfo_landlordDetails
         <dd>{splitLines(details.address)}</dd>
       </dl>
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP()} label="Back" />
-        <Link to={NEXT_STEP()} className="button is-primary is-medium">Preview letter</Link>
+        <BackToPrevStepButton label="Back" />
+        <ProgressLink to="next" className="button is-primary is-medium">Preview letter</ProgressLink>
       </div>
     </div>
   );
@@ -88,7 +83,7 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
           : <SessionUpdatingFormSubmitter
               mutation={LandlordDetailsMutation}
               initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}
-              onSuccessRedirect={NEXT_STEP}
+              onSuccessGoToNextStep
             >
               {renderForm}
             </SessionUpdatingFormSubmitter>

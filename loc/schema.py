@@ -9,6 +9,7 @@ from . import forms, models
 from airtable.sync import sync_user as sync_user_with_airtable
 
 
+@schema_registry.register_mutation
 class AccessDates(SessionFormMutation):
     class Meta:
         form_class = forms.AccessDatesForm
@@ -22,6 +23,7 @@ class AccessDates(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
 class LandlordDetails(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsForm
@@ -36,6 +38,7 @@ class LandlordDetails(OneToOneUserModelFormMutation):
         return result
 
 
+@schema_registry.register_mutation
 class LetterRequest(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LetterRequestForm
@@ -59,13 +62,6 @@ class LetterRequest(OneToOneUserModelFormMutation):
             is_safe=True
         )
         return cls.mutation_success()
-
-
-@schema_registry.register_mutations
-class LocMutations:
-    access_dates = AccessDates.Field(required=True)
-    landlord_details = LandlordDetails.Field(required=True)
-    letter_request = LetterRequest.Field(required=True)
 
 
 class LandlordDetailsType(DjangoObjectType):

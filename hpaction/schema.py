@@ -52,7 +52,8 @@ class GetAnswersAndDocumentsThread(Thread):
 GET_ANSWERS_AND_DOCUMENTS_ASYNC = True
 
 
-class GeneratePDF(SessionFormMutation):
+@schema_registry.register_mutation
+class GenerateHpActionPdf(SessionFormMutation):
     class Meta:
         form_class = GeneratePDFForm
 
@@ -69,11 +70,6 @@ class GeneratePDF(SessionFormMutation):
         else:
             thread.run()
         return cls.mutation_success()
-
-
-@schema_registry.register_mutations
-class HPActionMutations:
-    generate_hp_action_pdf = GeneratePDF.Field(required=True)
 
 
 @schema_registry.register_session_info

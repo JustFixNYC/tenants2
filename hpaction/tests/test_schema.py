@@ -10,7 +10,7 @@ import hpaction.schema
 def execute_genpdf_mutation(graphql_client, **input):
     return graphql_client.execute(
         """
-        mutation MyMutation($input: GeneratePDFInput!) {
+        mutation MyMutation($input: GenerateHpActionPdfInput!) {
             output: generateHpActionPdf(input: $input) {
                 errors { field, messages }
                 session { latestHpActionPdfUrl }

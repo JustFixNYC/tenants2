@@ -8,6 +8,7 @@ from project import schema_registry
 from . import forms, models
 
 
+@schema_registry.register_mutation
 class IssueArea(SessionFormMutation):
     class Meta:
         form_class = forms.IssueAreaForm
@@ -24,11 +25,6 @@ class IssueArea(SessionFormMutation):
             models.CustomIssue.objects.set_for_user(
                 user, area, form.cleaned_data['other'])
         return cls.mutation_success()
-
-
-@schema_registry.register_mutations
-class IssueMutations:
-    issue_area = IssueArea.Field(required=True)
 
 
 class CustomIssue(graphene.ObjectType):

@@ -26,6 +26,9 @@ module.exports = {
     "webpack-defined-globals.d.ts",
     "/frontend/vendor/",
   ],
+  "watchPathIgnorePatterns": [
+    "<rootDir>/frontend/lib/queries/__generated__/",
+  ],
   "coverageReporters": [
     "lcov",
     "html"

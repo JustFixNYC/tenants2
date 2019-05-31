@@ -42,7 +42,7 @@ function withStringifiedNullBools<T, K extends NullBooleanPropertyNames<T>>(
 ): StringifiedNullBooleans<T, K> {
   const result = Object.assign({}, obj) as StringifiedNullBooleans<T, K>;
   for (let key of keys) {
-    const value = obj[key];
+    const value = obj[key] as unknown;
     if (!(typeof(value) === 'boolean' || value === null)) {
       throw new Error(`Expected key '${key}' to be a boolean or null, but it is ${typeof(value)}`);
     }

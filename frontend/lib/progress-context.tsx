@@ -3,27 +3,51 @@ import React, { useContext } from 'react';
 import { SessionProgressStepRoute } from "./progress-redirection";
 import { RouteComponentProps, Route, withRouter } from "react-router";
 import { getStepIndexForPathname } from './progress-util';
+import { Location } from 'history';
 
 export interface ProgressContextType {
+  allSteps: SessionProgressStepRoute[],
+  currStep: SessionProgressStepRoute|null,
   nextStep: SessionProgressStepRoute|null,
   prevStep: SessionProgressStepRoute|null
 }
 
-const DEFAULT_CONTEXT: ProgressContextType = { nextStep: null, prevStep: null };
+export const EMPTY_PROGRESS_CONTEXT: ProgressContextType = {
+  allSteps: [],
+  currStep: null,
+  nextStep: null,
+  prevStep: null,
+};
 
 function buildProgressContext(
-  steps: SessionProgressStepRoute[],
+  allSteps: SessionProgressStepRoute[],
   currentPath: string
 ): ProgressContextType {
-  const index = getStepIndexForPathname(currentPath, steps);
-  const ctx: ProgressContextType = { ...DEFAULT_CONTEXT };
+  const index = getStepIndexForPathname(currentPath, allSteps);
+  const ctx: ProgressContextType = { ...EMPTY_PROGRESS_CONTEXT, allSteps };
 
   if (index >= 0) {
-    ctx.prevStep = steps[index - 1] || null;
-    ctx.nextStep = steps[index + 1] || null;
+    ctx.currStep = allSteps[index];
+    ctx.prevStep = allSteps[index - 1] || null;
+    ctx.nextStep = allSteps[index + 1] || null;
   }
 
   return ctx;
+}
+
+type ChangeProgressContextProps = {
+  location: Location<any>,
+  children: any
+};
+
+export function ChangeProgressContext(props: ChangeProgressContextProps): JSX.Element {
+  const progCtx = useContext(ProgressContext);
+
+  return (
+    <ProgressContext.Provider
+      value={buildProgressContext(progCtx.allSteps, props.location.pathname)}
+      children={props.children} />
+  );
 }
 
 export function RouteWithProgressContext(
@@ -34,7 +58,7 @@ export function RouteWithProgressContext(
   return <Route render={(routeCtx) => props.render({ ...routeCtx, ...progCtx })}/>;
 }
 
-export const ProgressContext = React.createContext<ProgressContextType>(DEFAULT_CONTEXT);
+export const ProgressContext = React.createContext<ProgressContextType>(EMPTY_PROGRESS_CONTEXT);
 
 type ProgressContextProviderProps = RouteComponentProps<any> & {
   steps: SessionProgressStepRoute[],

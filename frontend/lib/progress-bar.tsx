@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import { TransitionContextGroup } from './transition-context';
 import classnames from 'classnames';
 import { StepRouteInfo, getStepIndexForPathname } from './progress-util';
+import { ChangeProgressContext } from './progress-context';
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -160,9 +161,11 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
         })}>
           <CSSTransition key={currStep} classNames="jf-progress-step"
            timeout={JF_PROGRESS_TRANSITION_MS} enter={isTransitionEnabled} exit={isTransitionEnabled}>
-            <Switch location={location}>
-              {props.steps.map(step => <Route<RouteProps> key={step.path} {...step} />)}
-            </Switch>
+            <ChangeProgressContext location={location}>
+              <Switch location={location}>
+                {props.steps.map(step => <Route<RouteProps> key={step.path} {...step} />)}
+              </Switch>
+            </ChangeProgressContext>
           </CSSTransition>
         </TransitionContextGroup>
       </React.Fragment>

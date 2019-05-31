@@ -93,6 +93,7 @@ class BaseSessionInfo:
         return safe_mode.is_enabled(info.context)
 
 
+@schema_registry.register_mutation
 class Example(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleForm
@@ -113,6 +114,7 @@ class Example(DjangoFormMutation):
         return cls(response=f"hello there {base_form.cleaned_data['example_field']}")
 
 
+@schema_registry.register_mutation
 class ExampleRadio(DjangoFormMutation):
     class Meta:
         form_class = forms.ExampleRadioForm
@@ -131,6 +133,7 @@ class ExampleQuery(graphene.ObjectType):
         return f"Hello {argument}"
 
 
+@schema_registry.register_mutation
 class Login(SessionFormMutation):
     '''
     A mutation to log in the user. Returns whether or not the login was successful
@@ -151,6 +154,7 @@ class Login(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
 class Logout(SessionFormMutation):
     '''
     Logs out the user. Clients should pay attention to the
@@ -169,6 +173,7 @@ class Logout(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
 class PasswordReset(DjangoFormMutation):
     '''
     Used when the user requests their password be reset.
@@ -184,6 +189,7 @@ class PasswordReset(DjangoFormMutation):
         return cls(errors=[])
 
 
+@schema_registry.register_mutation
 class PasswordResetVerificationCode(DjangoFormMutation):
     '''
     Used when the user verifies the verification code sent to them over SMS.
@@ -202,6 +208,7 @@ class PasswordResetVerificationCode(DjangoFormMutation):
         return cls(errors=[])
 
 
+@schema_registry.register_mutation
 class PasswordResetConfirm(DjangoFormMutation):
     '''
     Used when the user completes the password reset process
@@ -218,17 +225,6 @@ class PasswordResetConfirm(DjangoFormMutation):
         if err_str is not None:
             return cls.make_error(err_str)
         return cls(errors=[])
-
-
-@schema_registry.register_mutations
-class BaseMutations:
-    logout = Logout.Field(required=True)
-    login = Login.Field(required=True)
-    password_reset = PasswordReset.Field(required=True)
-    password_reset_verification_code = PasswordResetVerificationCode.Field(required=True)
-    password_reset_confirm = PasswordResetConfirm.Field(required=True)
-    example = Example.Field(required=True)
-    example_radio = ExampleRadio.Field(required=True)
 
 
 @schema_registry.register_queries

@@ -59,7 +59,8 @@ class GetAnswersAndDocumentsThread(Thread):
 GET_ANSWERS_AND_DOCUMENTS_ASYNC = True
 
 
-class GeneratePDF(SessionFormMutation):
+@schema_registry.register_mutation
+class GenerateHpActionPdf(SessionFormMutation):
     class Meta:
         form_class = GeneratePDFForm
 
@@ -84,27 +85,22 @@ class FeeWaiverType(DjangoObjectType):
         exclude_fields = ('user',)
 
 
+@schema_registry.register_mutation
 class FeeWaiverMisc(OneToOneUserModelFormMutation):
     class Meta:
         form_class = FeeWaiverMiscForm
 
 
+@schema_registry.register_mutation
 class FeeWaiverIncome(OneToOneUserModelFormMutation):
     class Meta:
         form_class = FeeWaiverIncomeForm
 
 
+@schema_registry.register_mutation
 class FeeWaiverExpenses(OneToOneUserModelFormMutation):
     class Meta:
         form_class = FeeWaiverExpensesForm
-
-
-@schema_registry.register_mutations
-class HPActionMutations:
-    generate_hp_action_pdf = GeneratePDF.Field(required=True)
-    fee_waiver_misc = FeeWaiverMisc.Field(required=True)
-    fee_waiver_income = FeeWaiverIncome.Field(required=True)
-    fee_waiver_expenses = FeeWaiverExpenses.Field(required=True)
 
 
 @schema_registry.register_session_info

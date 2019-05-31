@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter, Route, RouteProps, Switch } from 'reac
 import { CSSTransition } from 'react-transition-group';
 import { TransitionContextGroup } from './transition-context';
 import classnames from 'classnames';
+import { StepRouteInfo, getStepIndexForPathname } from './progress-util';
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -75,16 +76,11 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
   }
 }
 
-type BaseProgressStepRoute = {
-  exact?: boolean;
-  path: string;
-};
-
-type ComponentProgressStepRoute = BaseProgressStepRoute & {
+type ComponentProgressStepRoute = StepRouteInfo & {
   component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
 };
 
-type RenderProgressStepRoute = BaseProgressStepRoute & {
+type RenderProgressStepRoute = StepRouteInfo & {
   render: () => JSX.Element;
 };
 
@@ -104,22 +100,6 @@ interface RouteProgressBarState {
   isTransitionEnabled: boolean;
 }
 
-export function getStepForPathname(pathname: string, steps: ProgressStepRoute[]) {
-  let currStep = 0;
-
-  steps.map((step, i) => {
-    if (pathname.indexOf(step.path) === 0) {
-      currStep = i + 1;
-    }
-  });
-
-  if (currStep === 0 && process.env.NODE_ENV !== 'production') {
-    console.warn(`Path ${pathname} is not a valid step!`);
-  }
-
-  return currStep;
-}
-
 class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {
   constructor(props: RouteProgressBarProps) {
     super(props);
@@ -131,7 +111,7 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
   }
 
   private getStep(pathname: string): number {
-    return getStepForPathname(pathname, this.props.steps);
+    return getStepIndexForPathname(pathname, this.props.steps) + 1;
   }
 
   componentDidMount() {

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 
 import { SessionProgressStepRoute } from "./progress-redirection";
-import { RouteComponentProps, Route, withRouter, matchPath } from "react-router";
+import { RouteComponentProps, Route, withRouter } from "react-router";
+import { getStepIndexForPathname } from './progress-util';
 
 export interface ProgressContextType {
   nextStep: SessionProgressStepRoute|null,
@@ -10,19 +11,6 @@ export interface ProgressContextType {
 
 const DEFAULT_CONTEXT: ProgressContextType = { nextStep: null, prevStep: null };
 
-function getStepIndexForPathname(pathname: string, steps: SessionProgressStepRoute[]): number {
-  for (let i = 0; i < steps.length; i++) {
-    const step = steps[i];
-    const { path, exact } = step;
-    const match = matchPath(pathname, { path, exact });
-    if (match) {
-      return i;
-    }
-  }
-
-  return -1;
-}
-
 function buildProgressContext(
   steps: SessionProgressStepRoute[],
   currentPath: string
@@ -30,9 +18,7 @@ function buildProgressContext(
   const index = getStepIndexForPathname(currentPath, steps);
   const ctx: ProgressContextType = { ...DEFAULT_CONTEXT };
 
-  if (index === -1) {
-    console.warn(`Path ${currentPath} does not match to a valid step.`);
-  } else {
+  if (index >= 0) {
     ctx.prevStep = steps[index - 1] || null;
     ctx.nextStep = steps[index + 1] || null;
   }

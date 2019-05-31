@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getStepForPathname, ProgressStepRoute, ProgressBar, RouteProgressBar } from "../progress-bar";
+import { ProgressStepRoute, ProgressBar, RouteProgressBar } from "../progress-bar";
 import { AppTesterPal } from "./app-tester-pal";
 import { FakeRequestAnimationFrame } from './fake-raf';
 
@@ -8,6 +8,7 @@ const fakeSteps: ProgressStepRoute[] = [
   {
     component: () => <p>I am foo</p>,
     path: '/foo',
+    exact: true
   },
   {
     component: () => <p>I am foo 2</p>,
@@ -18,21 +19,6 @@ const fakeSteps: ProgressStepRoute[] = [
     path: '/foo/3',
   }
 ];
-
-describe("getStepForPathname()", () => {
-  it("logs a console warning if path is not found", () => {
-    const warn = jest.fn();
-    jest.spyOn(console, 'warn').mockImplementationOnce(warn);
-    expect(getStepForPathname('/blarg', fakeSteps)).toBe(0);
-    expect(warn).toBeCalled();
-  });
-
-  it("returns highest step for path that matches", () => {
-    expect(getStepForPathname('/foo', fakeSteps)).toBe(1);
-    expect(getStepForPathname('/foo/2', fakeSteps)).toBe(2);
-    expect(getStepForPathname('/foo/3', fakeSteps)).toBe(3);
-  });
-});
 
 describe("ProgressBar", () => {
   afterEach(AppTesterPal.cleanup);

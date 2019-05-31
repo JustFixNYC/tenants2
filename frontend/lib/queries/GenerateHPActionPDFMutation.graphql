@@ -1,4 +1,4 @@
-mutation GenerateHPActionPDFMutation($input: GeneratePDFInput!) {
+mutation GenerateHPActionPDFMutation($input: GenerateHpActionPdfInput!) {
     output: generateHpActionPdf(input: $input) {
         errors { ...ExtendedFormFieldErrors },
         session {

@@ -74,6 +74,7 @@ class StoreToSessionForm(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
 class OnboardingStep1(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep1Form
@@ -81,6 +82,7 @@ class OnboardingStep1(StoreToSessionForm):
     SESSION_KEY = session_key_for_step(1)
 
 
+@schema_registry.register_mutation
 class OnboardingStep2(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep2Form
@@ -88,6 +90,7 @@ class OnboardingStep2(StoreToSessionForm):
     SESSION_KEY = session_key_for_step(2)
 
 
+@schema_registry.register_mutation
 class OnboardingStep3(StoreToSessionForm):
     class Meta:
         form_class = forms.OnboardingStep3Form
@@ -113,6 +116,7 @@ def pick_model_fields(model, **kwargs):
     }
 
 
+@schema_registry.register_mutation
 class OnboardingStep4(SessionFormMutation):
     class Meta:
         form_class = forms.OnboardingStep4Form
@@ -166,18 +170,6 @@ class OnboardingStep4(SessionFormMutation):
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
         return cls.mutation_success()
-
-
-@schema_registry.register_mutations
-class OnboardingMutations:
-    '''
-    A mixin class defining all onboarding-related mutations.
-    '''
-
-    onboarding_step_1 = OnboardingStep1.Field(required=True)
-    onboarding_step_2 = OnboardingStep2.Field(required=True)
-    onboarding_step_3 = OnboardingStep3.Field(required=True)
-    onboarding_step_4 = OnboardingStep4.Field(required=True)
 
 
 class OnboardingInfoType(DjangoObjectType):

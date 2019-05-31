@@ -1146,7 +1146,7 @@
               "deprecationReason": null
             },
             {
-              "name": "onboardingStep1",
+              "name": "onboardingStep4",
               "description": null,
               "args": [
                 {
@@ -1157,7 +1157,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "OnboardingStep1Input",
+                      "name": "OnboardingStep4Input",
                       "ofType": null
                     }
                   },
@@ -1169,38 +1169,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "OnboardingStep1Payload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "onboardingStep2",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "OnboardingStep2Input",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "OnboardingStep2Payload",
+                  "name": "OnboardingStep4Payload",
                   "ofType": null
                 }
               },
@@ -1239,7 +1208,7 @@
               "deprecationReason": null
             },
             {
-              "name": "onboardingStep4",
+              "name": "onboardingStep2",
               "description": null,
               "args": [
                 {
@@ -1250,7 +1219,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "OnboardingStep4Input",
+                      "name": "OnboardingStep2Input",
                       "ofType": null
                     }
                   },
@@ -1262,7 +1231,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "OnboardingStep4Payload",
+                  "name": "OnboardingStep2Payload",
                   "ofType": null
                 }
               },
@@ -1270,7 +1239,7 @@
               "deprecationReason": null
             },
             {
-              "name": "accessDates",
+              "name": "onboardingStep1",
               "description": null,
               "args": [
                 {
@@ -1281,7 +1250,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "AccessDatesInput",
+                      "name": "OnboardingStep1Input",
                       "ofType": null
                     }
                   },
@@ -1293,38 +1262,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "AccessDatesPayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "landlordDetails",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "LandlordDetailsInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "LandlordDetailsPayload",
+                  "name": "OnboardingStep1Payload",
                   "ofType": null
                 }
               },
@@ -1363,7 +1301,7 @@
               "deprecationReason": null
             },
             {
-              "name": "generateHpActionPdf",
+              "name": "landlordDetails",
               "description": null,
               "args": [
                 {
@@ -1374,7 +1312,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "GeneratePDFInput",
+                      "name": "LandlordDetailsInput",
                       "ofType": null
                     }
                   },
@@ -1386,7 +1324,162 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "GeneratePDFPayload",
+                  "name": "LandlordDetailsPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "accessDates",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "AccessDatesInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AccessDatesPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "generateHpActionPdf",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "GenerateHpActionPdfInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "GenerateHpActionPdfPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "passwordResetConfirm",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "PasswordResetConfirmInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PasswordResetConfirmPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "passwordResetVerificationCode",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "PasswordResetVerificationCodeInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PasswordResetVerificationCodePayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "passwordReset",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "PasswordResetInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PasswordResetPayload",
                   "ofType": null
                 }
               },
@@ -1456,7 +1549,7 @@
               "deprecationReason": null
             },
             {
-              "name": "passwordReset",
+              "name": "exampleRadio",
               "description": null,
               "args": [
                 {
@@ -1467,7 +1560,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "PasswordResetInput",
+                      "name": "ExampleRadioInput",
                       "ofType": null
                     }
                   },
@@ -1479,69 +1572,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "PasswordResetPayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "passwordResetVerificationCode",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "PasswordResetVerificationCodeInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PasswordResetVerificationCodePayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "passwordResetConfirm",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "PasswordResetConfirmInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PasswordResetConfirmPayload",
+                  "name": "ExampleRadioPayload",
                   "ofType": null
                 }
               },
@@ -1573,37 +1604,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "ExamplePayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "exampleRadio",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "ExampleRadioInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ExampleRadioPayload",
                   "ofType": null
                 }
               },
@@ -1862,7 +1862,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "OnboardingStep1Payload",
+          "name": "OnboardingStep4Payload",
           "description": null,
           "fields": [
             {
@@ -1921,13 +1921,27 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "OnboardingStep1Input",
+          "name": "OnboardingStep4Input",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "address",
-              "description": "The user's address. Only street name and number are required.",
+              "name": "canWeSms",
+              "description": "Whether we can contact the user via SMS to follow up.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "signupIntent",
+              "description": "The reason the user originally signed up with us.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1940,21 +1954,7 @@
               "defaultValue": null
             },
             {
-              "name": "borough",
-              "description": "The New York City borough the user's address is in.",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "aptNumber",
+              "name": "password",
               "description": "",
               "type": {
                 "kind": "NON_NULL",
@@ -1968,7 +1968,7 @@
               "defaultValue": null
             },
             {
-              "name": "firstName",
+              "name": "confirmPassword",
               "description": "",
               "type": {
                 "kind": "NON_NULL",
@@ -1982,8 +1982,130 @@
               "defaultValue": null
             },
             {
-              "name": "lastName",
+              "name": "phoneNumber",
               "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "agreeToTerms",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OnboardingStep3Payload",
+          "description": null,
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "session",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OnboardingStep3Input",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "leaseType",
+              "description": "The type of lease the user has on their dwelling.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "receivesPublicAssistance",
+              "description": "Does the user receive public assistance, e.g. Section 8?",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2162,7 +2284,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "OnboardingStep3Payload",
+          "name": "OnboardingStep1Payload",
           "description": null,
           "fields": [
             {
@@ -2221,13 +2343,13 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "OnboardingStep3Input",
+          "name": "OnboardingStep1Input",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "leaseType",
-              "description": "The type of lease the user has on their dwelling.",
+              "name": "address",
+              "description": "The user's address. Only street name and number are required.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2240,8 +2362,50 @@
               "defaultValue": null
             },
             {
-              "name": "receivesPublicAssistance",
-              "description": "Does the user receive public assistance, e.g. Section 8?",
+              "name": "borough",
+              "description": "The New York City borough the user's address is in.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "aptNumber",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "firstName",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "lastName",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2270,7 +2434,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "OnboardingStep4Payload",
+          "name": "LetterRequestPayload",
           "description": null,
           "fields": [
             {
@@ -2329,27 +2493,13 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "OnboardingStep4Input",
+          "name": "LetterRequestInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "canWeSms",
-              "description": "Whether we can contact the user via SMS to follow up.",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "signupIntent",
-              "description": "The reason the user originally signed up with us.",
+              "name": "mailChoice",
+              "description": "How the letter of complaint will be mailed.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2362,8 +2512,88 @@
               "defaultValue": null
             },
             {
-              "name": "password",
-              "description": "",
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "LandlordDetailsPayload",
+          "description": null,
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "session",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "LandlordDetailsInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "name",
+              "description": "The landlord's name.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2376,42 +2606,14 @@
               "defaultValue": null
             },
             {
-              "name": "confirmPassword",
-              "description": "",
+              "name": "address",
+              "description": "The full mailing address for the landlord.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "phoneNumber",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "agreeToTerms",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -2556,7 +2758,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "LandlordDetailsPayload",
+          "name": "GenerateHpActionPdfPayload",
           "description": null,
           "fields": [
             {
@@ -2615,13 +2817,81 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "LandlordDetailsInput",
+          "name": "GenerateHpActionPdfInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "name",
-              "description": "The landlord's name.",
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "PasswordResetConfirmPayload",
+          "description": "Used when the user completes the password reset process\nby providing a new password.",
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "PasswordResetConfirmInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "password",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2634,8 +2904,8 @@
               "defaultValue": null
             },
             {
-              "name": "address",
-              "description": "The full mailing address for the landlord.",
+              "name": "confirmPassword",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2664,8 +2934,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "LetterRequestPayload",
-          "description": null,
+          "name": "PasswordResetVerificationCodePayload",
+          "description": "Used when the user verifies the verification code sent to them over SMS.",
           "fields": [
             {
               "name": "errors",
@@ -2692,18 +2962,6 @@
               "deprecationReason": null
             },
             {
-              "name": "session",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "clientMutationId",
               "description": null,
               "args": [],
@@ -2723,13 +2981,13 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "LetterRequestInput",
+          "name": "PasswordResetVerificationCodeInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "mailChoice",
-              "description": "How the letter of complaint will be mailed.",
+              "name": "code",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2758,8 +3016,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "GeneratePDFPayload",
-          "description": null,
+          "name": "PasswordResetPayload",
+          "description": "Used when the user requests their password be reset.",
           "fields": [
             {
               "name": "errors",
@@ -2786,18 +3044,6 @@
               "deprecationReason": null
             },
             {
-              "name": "session",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "clientMutationId",
               "description": null,
               "args": [],
@@ -2817,10 +3063,24 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "GeneratePDFInput",
+          "name": "PasswordResetInput",
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "phoneNumber",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
             {
               "name": "clientMutationId",
               "description": null,
@@ -3030,8 +3290,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "PasswordResetPayload",
-          "description": "Used when the user requests their password be reset.",
+          "name": "ExampleRadioPayload",
+          "description": null,
           "fields": [
             {
               "name": "errors",
@@ -3058,83 +3318,13 @@
               "deprecationReason": null
             },
             {
-              "name": "clientMutationId",
+              "name": "response",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "PasswordResetInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "phoneNumber",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PasswordResetVerificationCodePayload",
-          "description": "Used when the user verifies the verification code sent to them over SMS.",
-          "fields": [
-            {
-              "name": "errors",
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3159,108 +3349,12 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "PasswordResetVerificationCodeInput",
+          "name": "ExampleRadioInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "code",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PasswordResetConfirmPayload",
-          "description": "Used when the user completes the password reset process\nby providing a new password.",
-          "fields": [
-            {
-              "name": "errors",
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "PasswordResetConfirmInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "password",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "confirmPassword",
+              "name": "radioField",
               "description": "",
               "type": {
                 "kind": "NON_NULL",
@@ -3463,100 +3557,6 @@
                   "name": "String",
                   "ofType": null
                 }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "ExampleRadioPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "errors",
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "response",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "ExampleRadioInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "radioField",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "defaultValue": null
             }

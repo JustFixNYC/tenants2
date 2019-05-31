@@ -1,5 +1,7 @@
 from typing import List, Type
 import graphene
+from graphene.utils.str_converters import to_snake_case
+from graphene.types.mutation import Mutation
 from django.utils.module_loading import autodiscover_modules
 
 
@@ -31,12 +33,17 @@ def register_queries(klass: Type) -> Type:
     return klass
 
 
-def register_mutations(klass: Type) -> Type:
+def register_mutation(klass: Type[Mutation]) -> Type:
     """
-    Register a class containing GraphQL mutations to be exposed by the site.
+    Register a class representing a GraphQL mutation to be exposed by the site.
     """
 
-    _mutations_classes.append(klass)
+    name = f"{klass.__name__}Mixin"
+    attr_name = to_snake_case(klass.__name__)
+    _mutations_classes.append(type(name, tuple(), {
+        attr_name: klass.Field(required=True)
+    }))
+
     return klass
 
 

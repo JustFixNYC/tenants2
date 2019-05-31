@@ -51,14 +51,6 @@ export function assertNotUndefined<T>(thing: T|undefined): T|never {
 }
 
 /**
- * This class can be used to omit a set of keys from a type.
- * 
- * This type was taken from:
- * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
- */
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
-/**
  * Convert a Date to just the date part of its ISO representation,
  * e.g. '2018-09-15'.
  */

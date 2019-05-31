@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Omit } from './util';
-
 /**
  * This function returns a higher-order component (HOC) factory function that
  * wraps existing components in a React context consumer.

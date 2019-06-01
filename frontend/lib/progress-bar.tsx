@@ -82,7 +82,10 @@ export type BaseProgressStepRoute = {
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
+  /** The URL path to the step before the one being rendered, if any. */
   prevStep: string|null,
+
+  /** The URL path to the step after the one being rendered, if any. */
   nextStep: string|null,
 };
 
@@ -97,8 +100,16 @@ type RenderProgressStepRoute = BaseProgressStepRoute & {
 export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
 
 interface RouteProgressBarProps extends RouteComponentProps<any> {
+  /** The steps represented by the progress bar. */
   steps: ProgressStepRoute[];
+
+  /**
+   * If the progress bar represents part of a larger step-based flow, those
+   * "outer steps" can be provided here.
+   */
   outerSteps?: ProgressStepRoute[];
+
+  /** The human-readable label for the progress bar. */
   label: string;
 
   /** If true, hide the actual progress bar but still render the routes. */
@@ -111,6 +122,13 @@ interface RouteProgressBarState {
   isTransitionEnabled: boolean;
 }
 
+/**
+ * Creates a <Route> that renders the given progress step, in the
+ * context of other steps.
+ * 
+ * Ordinarily this might be a component, but since <Switch> requires
+ * its immediate descendants to be <Route> components, we can't do that.
+ */
 export function createStepRoute(options: { key: string, step: ProgressStepRoute, allSteps: ProgressStepRoute[] }) {
   const { step, allSteps } = options;
   return <Route key={options.key} render={(routerCtx) => {

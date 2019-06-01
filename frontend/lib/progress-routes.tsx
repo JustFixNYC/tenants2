@@ -3,6 +3,7 @@ import React from 'react';
 import { SessionProgressStepRoute, RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route, RouteProps } from "react-router";
 import { RouteProgressBar } from './progress-bar';
+import { ProgressContextProvider } from './progress-context';
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -72,9 +73,11 @@ function generateRoutes(props: ProgressRoutesProps): RouteProps[] {
 
 export function ProgressRoutes(props: ProgressRoutesProps): JSX.Element {
   return (
-    <Switch>
-      {generateRoutes(props).map((routeProps, i) => <Route key={i} {...routeProps} />)}
-    </Switch>
+    <ProgressContextProvider steps={getAllSteps(props)}>
+      <Switch>
+        {generateRoutes(props).map((routeProps, i) => <Route key={i} {...routeProps} />)}
+      </Switch>
+    </ProgressContextProvider>
   );
 }
 

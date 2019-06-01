@@ -1,6 +1,6 @@
 import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
-import { RouteComponentProps, Route } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { AriaAnnouncement } from './aria';
 import { WithServerFormFieldErrors, getFormErrors, FormErrors, NonFieldErrors, trackFormErrors, FormError } from './form-errors';
 import { BaseFormFieldProps } from './form-fields';
@@ -14,6 +14,7 @@ import { HistoryBlocker } from './history-blocker';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { BaseFormsetProps } from './formset';
+import { ProgressContextType, RouteWithProgressContext } from './progress-context';
 
 type UnwrappedArray<T> = T extends (infer U)[] ? U : never;
 
@@ -25,6 +26,7 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   onSubmit: (input: FormInput) => Promise<FormOutput>;
   onSuccess?: (output: FormOutput) => void;
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
+  onSuccessGoToNextStep?: boolean;
   performRedirect?: (redirect: string, history: History) => void;
   confirmNavIfChanged?: boolean;
   formId?: string;
@@ -36,7 +38,8 @@ interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldEr
   extraFormAttributes?: HTMLFormAttrs;
 }
 
-type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
+type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> =
+  FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any> & ProgressContextType;
 
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
@@ -104,11 +107,23 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
   );
 }
 
+function getNextStepRedirect(props: FormSubmitterPropsWithRouter<any, any>): string|null {
+  const { onSuccessGoToNextStep, progress, location } = props;
+  if (onSuccessGoToNextStep) {
+    return progress.getRelativeStepStrict(location.pathname, 'next').path;
+  }
+  return null;
+}
+
 function getSuccessRedirect<FormInput, FormOutput extends WithServerFormFieldErrors>(
   props: FormSubmitterPropsWithRouter<FormInput, FormOutput>,
   input: FormInput,
   output: FormOutput
 ): string|null {
+  const nextStepRedirect = getNextStepRedirect(props);
+  if (nextStepRedirect) {
+    return nextStepRedirect;
+  }
   const { onSuccessRedirect } = props;
   if (onSuccessRedirect) {
     return typeof(onSuccessRedirect) === 'function'
@@ -132,6 +147,10 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       isDirty: false,
       wasSubmittedSuccessfully: false
     };
+
+    // This will throw an error if we're configured to go to the next step after
+    // form submission but no next step exists. Crash early, crash often!
+    getNextStepRedirect(props);
   }
 
   @autobind
@@ -292,7 +311,7 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
       <AppContext.Consumer>
         {(appCtx) => {
           return (
-            <Route render={(ctx) => {
+            <RouteWithProgressContext render={(ctx) => {
               const { mutation, formId, ...otherProps } = this.props;
               const isOurs = (sub: AppLegacyFormSubmission) =>
                 sub.POST['graphql'] === mutation.graphQL &&
@@ -321,7 +340,7 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
 export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
   render() {
     return (
-      <Route render={(ctx) => (
+      <RouteWithProgressContext render={(ctx) => (
         <FormSubmitterWithoutRouter {...this.props} {...ctx} />
       )} />
     );

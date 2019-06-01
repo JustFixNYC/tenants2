@@ -4,13 +4,14 @@ import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
 
 import { withAppContext, AppContextType } from '../app-context';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton } from "../buttons";
 import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../form-fields';
 import { BulmaClassName } from '../bulma';
+import { BackToPrevStepButton } from '../progress-elements';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
@@ -56,7 +57,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
       mutation={LetterRequestMutation}
       formId={'button_' + props.mailChoice}
       initialState={input}
-      onSuccessRedirect={Routes.locale.loc.confirmation}
+      onSuccessGoToNextStep
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
@@ -83,7 +84,7 @@ export default function LetterRequestPage(): JSX.Element {
           Looks good to me!
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-          <BackButton to={Routes.locale.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
+          <BackToPrevStepButton buttonClass="is-text" label="Go back and edit" />
           <FormAsButton
             mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
             buttonClass="is-text"

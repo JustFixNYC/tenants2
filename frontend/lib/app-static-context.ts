@@ -1,4 +1,5 @@
 import { StaticRouterContext, RouteComponentProps } from "react-router";
+import { SessionProgressStepRoute } from "./progress-redirection";
 
 /**
  * This structure keeps track of anything we need during server-side
@@ -18,6 +19,12 @@ export interface AppStaticContext {
 
   /** The modal to render server-side, if any. */
   modal?: JSX.Element;
+
+  /**
+   * If the modal is to be renderer server-side, these are the progress steps they
+   * are being rendered in the context of.
+   */
+  modalProgressSteps?: readonly SessionProgressStepRoute[];
 
   /**
    * If the page contains a GraphQL query whose results should be

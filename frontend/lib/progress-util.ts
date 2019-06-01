@@ -7,7 +7,7 @@ export type StepRouteInfo = {
 
 export function getStepIndexForPathname(
   pathname: string,
-  steps: StepRouteInfo[],
+  steps: readonly StepRouteInfo[],
   warnIfNotFound = false
 ): number {
   for (let i = 0; i < steps.length; i++) {

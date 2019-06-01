@@ -5,6 +5,7 @@ import { RouteComponentProps, withRouter, Route } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
 import { TransitionContextType, withTransitionContext } from './transition-context';
+import { ProgressContextType, withProgressContext } from './progress-context';
 
 
 const ANIMATION_CLASS = "jf-modal-animate";
@@ -32,7 +33,8 @@ interface ModalProps {
   onCloseGoTo: string|BackOrUpOneDirLevel;
 }
 
-type ModalPropsWithRouter = ModalProps & RouteComponentProps<any> & TransitionContextType;
+type ModalPropsWithRouter =
+  ModalProps & RouteComponentProps<any> & TransitionContextType & ProgressContextType;
 
 interface ModalState {
   isActive: boolean;
@@ -153,6 +155,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     const ctx = getAppStaticContext(this.props);
     if (ctx) {
       ctx.modal = this.renderServerModal();
+      ctx.modalProgressSteps = this.props.progress.steps;
     }
 
     if (!this.state.isActive) {
@@ -180,7 +183,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   }
 }
 
-export const Modal = withRouter(withTransitionContext(ModalWithoutRouter));
+export const Modal = withProgressContext(withRouter(withTransitionContext(ModalWithoutRouter)));
 
 interface LinkToModalRouteProps extends LinkProps {
   to: string;

@@ -6,6 +6,7 @@ import { MemoryRouter, Route, Switch } from 'react-router';
 import { ServerFormFieldError, FormErrors } from '../form-errors';
 import { TextualFormField } from '../form-fields';
 import { AppTesterPal } from './app-tester-pal';
+import { ProgressContextObject } from '../progress-context';
 
 type MyFormOutput = {
   errors: ServerFormFieldError[],
@@ -65,6 +66,7 @@ describe('FormSubmitter', () => {
 
     const wrapper = shallow(
       <FormSubmitterWithoutRouter
+        progress={new ProgressContextObject()}
         history={null as any}
         location={null as any}
         match={null as any}

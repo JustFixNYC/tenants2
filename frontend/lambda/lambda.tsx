@@ -25,6 +25,8 @@ import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
+import { ProgressContextProvider } from '../lib/progress-context';
+import { assertNotUndefined } from '../lib/util';
 
 const readFile = promisify(fs.readFile);
 
@@ -142,7 +144,9 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(
         <ServerRouter event={event} context={context}>
-          <App {...event} modal={context.modal} />
+          <ProgressContextProvider steps={assertNotUndefined(context.modalProgressSteps)}>
+            <App {...event} modal={context.modal} />
+          </ProgressContextProvider>
         </ServerRouter>
       );
     }

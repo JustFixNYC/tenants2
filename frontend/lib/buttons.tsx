@@ -5,10 +5,13 @@ import { bulmaClasses, BulmaClassName } from './bulma';
 import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
-export function BackButton(props: {
+export type BaseButtonProps = {
   buttonClass?: BulmaClassName;
-  to: LocationDescriptor<any>;
   label?: string
+};
+
+export function BackButton(props: BaseButtonProps & {
+  to: LocationDescriptor<any>;
 }): JSX.Element {
   return (
     <Link to={props.to} className={bulmaClasses('button', props.buttonClass || 'is-light', 'is-medium')}>
@@ -16,11 +19,9 @@ export function BackButton(props: {
   );
 }
 
-export function NextButton(props: {
-  buttonClass?: BulmaClassName;
+export function NextButton(props: BaseButtonProps & {
   isFullWidth?: boolean;
   isLoading: boolean;
-  label?: string;
 }): JSX.Element {
   return (
     <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', 'is-medium', {

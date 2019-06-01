@@ -1,6 +1,7 @@
-import { getStepIndexForPathname, StepRouteInfo } from "../progress-util";
+import { getStepIndexForPathname } from "../progress-util";
+import { BaseProgressStepRoute } from "../progress-bar";
 
-const fakeSteps: StepRouteInfo[] = [
+const fakeSteps: BaseProgressStepRoute[] = [
   { path: '/foo', exact: true },
   { path: '/foo/2' },
   { path: '/foo/3' }

@@ -1,13 +1,9 @@
 import { matchPath } from "react-router";
-
-export type StepRouteInfo = {
-  path: string,
-  exact?: boolean
-};
+import { BaseProgressStepRoute } from "./progress-bar";
 
 export function getStepIndexForPathname(
   pathname: string,
-  steps: StepRouteInfo[],
+  steps: BaseProgressStepRoute[],
   warnIfNotFound = false
 ): number {
   for (let i = 0; i < steps.length; i++) {
@@ -24,4 +20,15 @@ export function getStepIndexForPathname(
   }
 
   return -1;
+}
+
+export type NextOrPrev = 'next'|'prev';
+
+export function getRelativeStep<T extends BaseProgressStepRoute>(pathname: string, which: NextOrPrev, steps: T[]): T|null {
+  const currIndex = getStepIndexForPathname(pathname, steps);
+  if (currIndex === -1) {
+    return null;
+  }
+  let relIndex = currIndex + (which === 'next' ? 1 : -1);
+  return steps[relIndex] || null;
 }

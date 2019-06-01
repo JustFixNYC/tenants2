@@ -1,7 +1,7 @@
 import React from 'react';
 import AriaModal from 'react-aria-modal';
 import autobind from 'autobind-decorator';
-import { RouteComponentProps, withRouter, Route } from 'react-router';
+import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
 import { TransitionContextType, withTransitionContext } from './transition-context';
@@ -182,11 +182,20 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
 
 export const Modal = withRouter(withTransitionContext(ModalWithoutRouter));
 
-interface LinkToModalRouteProps extends LinkProps {
+interface BaseLinkToModalRouteProps extends LinkProps {
   to: string;
-  component: React.ComponentType;
   children: any;
 }
+
+type ComponentLinkToModalRouteProps = BaseLinkToModalRouteProps & {
+  component: React.ComponentType;
+}
+
+type RenderLinkToModalRouteProps = BaseLinkToModalRouteProps & {
+  render: () => JSX.Element;
+};
+
+type LinkToModalRouteProps = ComponentLinkToModalRouteProps | RenderLinkToModalRouteProps;
 
 /**
  * A component that's similar to React Router's <Link> but
@@ -194,11 +203,16 @@ interface LinkToModalRouteProps extends LinkProps {
  * defines a route that points to said modal.
  */
 export function ModalLink(props: LinkToModalRouteProps): JSX.Element {
-  const { component, ...linkProps } = props;
-  return (
-    <React.Fragment>
-      <Link {...linkProps}>{props.children}</Link>
-      <Route path={props.to} exact component={props.component} />
-    </React.Fragment>
-  );
+  const make = (linkProps: LinkProps, routeProps: RouteProps) => <>
+    <Link {...linkProps}>{props.children}</Link>
+    <Route path={props.to} exact {...routeProps} />
+  </>;
+
+  if ('component' in props) {
+    const { component, ...linkProps } = props;
+    return make(linkProps, { component });
+  } else {
+    const { render, ...linkProps } = props;
+    return make(linkProps, { render });
+  }
 }

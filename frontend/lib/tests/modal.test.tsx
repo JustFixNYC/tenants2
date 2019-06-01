@@ -3,10 +3,11 @@ import React from 'react';
 import { ModalWithoutRouter, Modal, getOneDirLevelUp } from "../modal";
 import { mountWithRouter } from "./util";
 import { Route, Switch } from 'react-router';
+import { ProgressContextObject } from '../progress-context';
 
 describe('ModalWithoutRouter', () => {
   it('pre-renders modal when on server-side', () => {
-    const ctx = { staticContext: {}, onCloseGoTo: '/' } as any;
+    const ctx = { staticContext: {}, onCloseGoTo: '/', progress: new ProgressContextObject() } as any;
     const modal = new ModalWithoutRouter(ctx);
     modal.render();
     expect(ctx.staticContext.modal).toBeTruthy();

@@ -1,10 +1,11 @@
 import React from 'react';
 import autobind from "autobind-decorator";
-import { RouteComponentProps, withRouter, Route, Switch } from 'react-router';
+import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { TransitionContextGroup } from './transition-context';
 import classnames from 'classnames';
-import { getStepIndexForPathname, getRelativeStep } from './progress-util';
+import { getStepIndexForPathname } from './progress-util';
+import { ProgressStepRoute, createStepRoute } from './progress-step-route';
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -76,29 +77,6 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
   }
 }
 
-export type BaseProgressStepRoute = {
-  exact?: boolean;
-  path: string;
-};
-
-export type ProgressStepProps = RouteComponentProps<{}> & {
-  /** The URL path to the step before the one being rendered, if any. */
-  prevStep: string|null,
-
-  /** The URL path to the step after the one being rendered, if any. */
-  nextStep: string|null,
-};
-
-type ComponentProgressStepRoute = BaseProgressStepRoute & {
-  component: React.ComponentType<ProgressStepProps> | React.ComponentType<{}>;
-};
-
-type RenderProgressStepRoute = BaseProgressStepRoute & {
-  render: (ctx: ProgressStepProps) => JSX.Element;
-};
-
-export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
-
 interface RouteProgressBarProps extends RouteComponentProps<any> {
   /** The steps represented by the progress bar. */
   steps: ProgressStepRoute[];
@@ -120,31 +98,6 @@ interface RouteProgressBarState {
   currStep: number;
   prevStep: number;
   isTransitionEnabled: boolean;
-}
-
-/**
- * Creates a <Route> that renders the given progress step, in the
- * context of other steps.
- * 
- * Ordinarily this might be a component, but since <Switch> requires
- * its immediate descendants to be <Route> components, we can't do that.
- */
-export function createStepRoute(options: { key: string, step: ProgressStepRoute, allSteps: ProgressStepRoute[] }) {
-  const { step, allSteps } = options;
-  return <Route key={options.key} render={(routerCtx) => {
-    const prev = getRelativeStep(step.path, 'prev', allSteps);
-    const next = getRelativeStep(step.path, 'next', allSteps);
-    const ctx: ProgressStepProps = {
-      ...routerCtx,
-      prevStep: prev && prev.path,
-      nextStep: next && next.path
-    };
-    if ('component' in options.step) {
-      return <options.step.component {...ctx} />;
-    } else {
-      return options.step.render(ctx);
-    }
-  }} path={step.path} exact={step.exact} />
 }
 
 class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {

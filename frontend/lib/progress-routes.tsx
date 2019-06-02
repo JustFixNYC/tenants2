@@ -2,7 +2,8 @@ import React from 'react';
 
 import { SessionProgressStepRoute, RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
-import { RouteProgressBar, createStepRoute } from './progress-bar';
+import { RouteProgressBar } from './progress-bar';
+import { createStepRoute } from './progress-step-route';
 
 /**
  * These props make it easy to define user flows that correspond to

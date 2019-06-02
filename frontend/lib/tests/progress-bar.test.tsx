@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { ProgressStepRoute, ProgressBar, RouteProgressBar } from "../progress-bar";
+import { ProgressBar, RouteProgressBar } from "../progress-bar";
 import { AppTesterPal } from "./app-tester-pal";
 import { FakeRequestAnimationFrame } from './fake-raf';
+import { ProgressStepRoute } from '../progress-step-route';
 
 const fakeSteps: ProgressStepRoute[] = [
   {

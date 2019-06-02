@@ -1,5 +1,5 @@
 import { getStepIndexForPathname, getRelativeStep } from "../progress-util";
-import { BaseProgressStepRoute } from "../progress-bar";
+import { BaseProgressStepRoute } from "../progress-step-route";
 
 const fakeSteps: BaseProgressStepRoute[] = [
   { path: '/foo', exact: true },

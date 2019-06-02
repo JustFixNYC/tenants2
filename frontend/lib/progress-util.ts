@@ -1,5 +1,5 @@
 import { matchPath } from "react-router";
-import { BaseProgressStepRoute } from "./progress-bar";
+import { BaseProgressStepRoute } from "./progress-step-route";
 
 /**
  * Given a path and a series of step definitions, return

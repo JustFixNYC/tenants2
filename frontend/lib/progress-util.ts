@@ -1,6 +1,10 @@
 import { matchPath } from "react-router";
 import { BaseProgressStepRoute } from "./progress-bar";
 
+/**
+ * Given a path and a series of step definitions, return
+ * the index of the step the path represents.
+ */
 export function getStepIndexForPathname(
   pathname: string,
   steps: BaseProgressStepRoute[],
@@ -24,6 +28,9 @@ export function getStepIndexForPathname(
 
 export type NextOrPrev = 'next'|'prev';
 
+/**
+ * Return the next or previous step relative to the given pathname.
+ */
 export function getRelativeStep<T extends BaseProgressStepRoute>(pathname: string, which: NextOrPrev, steps: T[]): T|null {
   const currIndex = getStepIndexForPathname(pathname, steps);
   if (currIndex === -1) {

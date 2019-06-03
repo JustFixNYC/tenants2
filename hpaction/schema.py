@@ -13,10 +13,7 @@ from project.util.model_form_util import (
 from .models import (
     FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
     get_upload_status_for_user)
-from . import models
-from .forms import (
-    GeneratePDFForm, FeeWaiverMiscForm, FeeWaiverIncomeForm,
-    FeeWaiverExpensesForm)
+from . import models, forms
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
@@ -62,12 +59,12 @@ GET_ANSWERS_AND_DOCUMENTS_ASYNC = True
 @schema_registry.register_mutation
 class GenerateHpActionPdf(SessionFormMutation):
     class Meta:
-        form_class = GeneratePDFForm
+        form_class = forms.GeneratePDFForm
 
     login_required = True
 
     @classmethod
-    def perform_mutate(cls, form: GeneratePDFForm, info: ResolveInfo):
+    def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
         hdinfo = user_to_hpactionvars(user)
         token = UploadToken.objects.create_for_user(user)
@@ -88,19 +85,25 @@ class FeeWaiverType(DjangoObjectType):
 @schema_registry.register_mutation
 class FeeWaiverMisc(OneToOneUserModelFormMutation):
     class Meta:
-        form_class = FeeWaiverMiscForm
+        form_class = forms.FeeWaiverMiscForm
 
 
 @schema_registry.register_mutation
 class FeeWaiverIncome(OneToOneUserModelFormMutation):
     class Meta:
-        form_class = FeeWaiverIncomeForm
+        form_class = forms.FeeWaiverIncomeForm
 
 
 @schema_registry.register_mutation
 class FeeWaiverExpenses(OneToOneUserModelFormMutation):
     class Meta:
-        form_class = FeeWaiverExpensesForm
+        form_class = forms.FeeWaiverExpensesForm
+
+
+@schema_registry.register_mutation
+class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.FeeWaiverPublicAssistanceForm
 
 
 @schema_registry.register_session_info

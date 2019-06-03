@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FeeWaiverMiscInput, FeeWaiverIncomeInput, FeeWaiverExpensesInput } from "../queries/globalTypes";
+import { FeeWaiverMiscInput, FeeWaiverIncomeInput, FeeWaiverExpensesInput, FeeWaiverPublicAssistanceInput } from "../queries/globalTypes";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
 import { CheckboxFormField } from '../form-fields';
@@ -14,9 +14,14 @@ import { FeeWaiverExpensesMutation } from '../queries/FeeWaiverExpensesMutation'
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
 import { ProgressStepProps } from '../progress-step-route';
 import { assertNotNull } from '../util';
+import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAssistanceMutation';
 
 const INITIAL_MISC_STATE: FeeWaiverMiscInput = {
   askedBefore: ''
+};
+
+const INITIAL_PUBLIC_ASSISTANCE_STATE: FeeWaiverPublicAssistanceInput = {
+  receivesPublicAssistance: ''
 };
 
 const INITIAL_INCOME_STATE: FeeWaiverIncomeInput = {
@@ -53,6 +58,30 @@ export const FeeWaiverMisc = (props: ProgressStepProps) => (
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
+        <div className="buttons jf-two-buttons">
+          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+          <NextButton isLoading={ctx.isLoading} label="Next"/>
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </Page>
+);
+
+export const FeeWaiverPublicAssistance = (props: ProgressStepProps) => (
+  <Page title="Public assistance">
+    <h1 className="title is-4">Public assistance</h1>
+    <br/>
+    <SessionUpdatingFormSubmitter
+      mutation={FeeWaiverPublicAssistanceMutation}
+      initialState={({ feeWaiver }) => getInitialFormInput(
+        feeWaiver,
+        INITIAL_PUBLIC_ASSISTANCE_STATE,
+        (feeWaiver) => feeWaiver.yesNoRadios('receivesPublicAssistance').finish()
+      )}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
+    >
+      {(ctx) => <>
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('receivesPublicAssistance')} label="Do you receive public assistance?" />
         <div className="buttons jf-two-buttons">
           <BackButton to={assertNotNull(props.prevStep)} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Next"/>

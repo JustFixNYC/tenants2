@@ -1064,6 +1064,18 @@
               "deprecationReason": null
             },
             {
+              "name": "receivesPublicAssistance",
+              "description": "Whether the user receives any kind of public assistance benefits, e.g. cash benefits, rent assistance, food stamps, Medicaid.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "incomeAmountMonthly",
               "description": "The amount of income the user receives per month.",
               "args": [],
@@ -1601,6 +1613,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "AccessDatesPayload",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "feeWaiverPublicAssistance",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "FeeWaiverPublicAssistanceInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FeeWaiverPublicAssistancePayload",
                   "ofType": null
                 }
               },
@@ -3067,6 +3110,100 @@
             },
             {
               "name": "date3",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "FeeWaiverPublicAssistancePayload",
+          "description": null,
+          "fields": [
+            {
+              "name": "errors",
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "session",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "FeeWaiverPublicAssistanceInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "receivesPublicAssistance",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

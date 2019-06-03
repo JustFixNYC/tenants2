@@ -38,5 +38,13 @@ class FeeWaiverMiscForm(forms.ModelForm):
     asked_before = YesNoRadiosField()
 
 
+class FeeWaiverPublicAssistanceForm(forms.ModelForm):
+    class Meta:
+        model = FeeWaiverDetails
+        fields = ['receives_public_assistance']
+
+    receives_public_assistance = YesNoRadiosField()
+
+
 class GeneratePDFForm(forms.Form):
     pass

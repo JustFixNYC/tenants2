@@ -26,6 +26,13 @@ class FeeWaiverDetails(models.Model):
         help_text="The user whom this fee waiver is for."
     )
 
+    receives_public_assistance: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether the user receives any kind of public assistance benefits, e.g. "
+            "cash benefits, rent assistance, food stamps, Medicaid."
+        )
+    )
+
     income_amount_monthly: Optional[Decimal] = models.DecimalField(
         **CURRENCY_KWARGS,
         help_text="The amount of income the user receives per month.",

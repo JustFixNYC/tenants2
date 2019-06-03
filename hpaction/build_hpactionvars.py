@@ -193,6 +193,9 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
     # Have you asked for a fee waiver before?
     v.previous_application_tf = fwd.asked_before
 
+    # Do you receive public assistance benefits?
+    v.tenant_receives_public_assistance_tf = fwd.receives_public_assistance
+
     if fwd.asked_before:
         # Completes the sentence "I have applied for a fee waiver before, but I am making
         # this application because..."

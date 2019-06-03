@@ -1,4 +1,5 @@
 fragment FeeWaiverDetails on FeeWaiverType {
+    receivesPublicAssistance,
     incomeAmountMonthly,
     incomeSrcEmployment,
     incomeSrcHra,

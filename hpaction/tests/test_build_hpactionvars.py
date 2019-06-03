@@ -91,6 +91,7 @@ def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb):
 def test_fill_fee_waiver_details_works():
     v = hp.HPActionVariables()
     fwd = FeeWaiverDetails(
+        receives_public_assistance=True,
         rent_amount=Decimal('5.00'),
         income_amount_monthly=Decimal('11.50'),
         income_src_employment=True,
@@ -102,6 +103,7 @@ def test_fill_fee_waiver_details_works():
     )
     fill_fee_waiver_details(v, fwd)
 
+    assert v.tenant_receives_public_assistance_tf is True
     assert v.tenant_income_nu == 11.50
     assert v.tenant_income_source_te == 'Employment, HRA'
     assert v.tenant_monthly_rent_nu == 5

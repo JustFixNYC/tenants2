@@ -5,7 +5,7 @@ import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
 import { CheckboxFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
-import { BackButton, NextButton } from '../buttons';
+import { BackButton, NextButton, CenteredPrimaryButtonLink } from '../buttons';
 import { CurrencyFormField } from '../currency-form-field';
 import { getInitialFormInput } from '../form-input-converter';
 import { FeeWaiverMiscMutation } from '../queries/FeeWaiverMiscMutation';
@@ -15,6 +15,9 @@ import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field'
 import { ProgressStepProps } from '../progress-step-route';
 import { assertNotNull } from '../util';
 import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAssistanceMutation';
+import { Link } from 'react-router-dom';
+import Routes from '../routes';
+import { bulmaClasses } from '../bulma';
 
 const INITIAL_MISC_STATE: FeeWaiverMiscInput = {
   askedBefore: ''
@@ -42,11 +45,24 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   expenseOther: '0.00',
 };
 
-export const FeeWaiverMisc = (props: ProgressStepProps) => (
-  <Page title="It's fee waiver time!">
-    <h1 className="title is-4">It's fee waiver time!</h1>
+export const FeeWaiverStart = (props: ProgressStepProps) => (
+  <Page title="Requesting Not to Pay the $45 Filing Fee">
+    <h1 className="title is-4">Requesting Not to Pay the $45 Filing Fee</h1>
     <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
     <br/>
+    <CenteredPrimaryButtonLink className="is-large" to={assertNotNull(props.nextStep)}>
+      Ask the court to waive the filing fee
+    </CenteredPrimaryButtonLink>
+    <div className="buttons jf-two-buttons jf-two-buttons--vertical">
+      <BackButton to={assertNotNull(props.prevStep)} label="Back"/>
+      <Link to={Routes.locale.hp.yourLandlord} className={bulmaClasses('button', 'is-light', 'is-medium')}>Skip</Link>
+    </div>
+  </Page>
+);
+
+export const FeeWaiverMisc = (props: ProgressStepProps) => (
+  <Page title="Prior fee waivers">
+    <h1 className="title is-4">Prior fee waivers</h1>
     <SessionUpdatingFormSubmitter
       mutation={FeeWaiverMiscMutation}
       initialState={({ feeWaiver }) => getInitialFormInput(

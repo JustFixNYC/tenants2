@@ -15,7 +15,7 @@ import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
-import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance } from './pages/fee-waiver';
+import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
 import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
 
@@ -188,6 +188,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   }],
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
+    { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc },
     { path: Routes.locale.hp.feeWaiverPublicAssistance, component: FeeWaiverPublicAssistance },
     { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome },

@@ -1,0 +1,16 @@
+fragment FeeWaiverDetails on FeeWaiverType {
+    receivesPublicAssistance,
+    incomeAmountMonthly,
+    incomeSrcEmployment,
+    incomeSrcHra,
+    incomeSrcChildSupport,
+    incomeSrcAlimony,
+    incomeSrcOther,
+    rentAmount,
+    expenseUtilities,
+    expenseCable,
+    expenseChildcare,
+    expensePhone,
+    expenseOther,
+    askedBefore
+}

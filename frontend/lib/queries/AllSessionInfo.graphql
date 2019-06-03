@@ -43,6 +43,9 @@ fragment AllSessionInfo on SessionInfo {
         updatedAt
         mailChoice
     }
+    feeWaiver {
+        ...FeeWaiverDetails
+    }
     latestHpActionPdfUrl,
     hpActionUploadStatus
 }

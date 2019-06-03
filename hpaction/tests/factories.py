@@ -1,7 +1,7 @@
 import factory
 
 from users.tests.factories import UserFactory
-from ..models import HPActionDocuments, UploadToken
+from ..models import HPActionDocuments, UploadToken, FeeWaiverDetails
 
 
 class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
@@ -30,3 +30,10 @@ class UploadTokenFactory(factory.django.DjangoModelFactory):
     @classmethod
     def _create(self, model_class, user):
         return UploadToken.objects.create_for_user(user)
+
+
+class FeeWaiverDetailsFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = FeeWaiverDetails
+
+    user = factory.SubFactory(UserFactory)

@@ -15,6 +15,9 @@ import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
+import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
+import { ProgressStepProps } from './progress-step-route';
+import { assertNotNull } from './util';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -60,11 +63,11 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
   );
 });
 
-const HPActionIssuesRoutes = () => (
+const HPActionIssuesRoutes = (props: ProgressStepProps) => (
   <IssuesRoutes
     routes={Routes.locale.hp.issues}
-    toBack={Routes.locale.hp.postOnboarding}
-    toNext={Routes.locale.hp.yourLandlord}
+    toBack={assertNotNull(props.prevStep)}
+    toNext={assertNotNull(props.nextStep)}
   />
 );
 
@@ -86,7 +89,7 @@ const GeneratePDFForm = (props: { children: FormContextRenderer<{}> }) => (
    onSuccessRedirect={Routes.locale.hp.waitForUpload} {...props} />
 );
 
-const HPActionYourLandlord = withAppContext((props: AppContextType) => {
+const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressStepProps) => {
   const details = props.session.landlordDetails;
 
   return (
@@ -98,7 +101,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType) => {
       <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.hp.issues.home} label="Back" />
+            <BackButton to={assertNotNull(props.prevStep)} label="Back" />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }
@@ -185,6 +188,11 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   }],
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
+    { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
+    { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc },
+    { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome },
+    { path: Routes.locale.hp.feeWaiverPublicAssistance, component: FeeWaiverPublicAssistance },
+    { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses },
     { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],

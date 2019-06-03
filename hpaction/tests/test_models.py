@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from freezegun import freeze_time
 
 from users.tests.factories import UserFactory
@@ -6,7 +7,7 @@ from project.tests.util import strip_locale
 from .factories import HPActionDocumentsFactory, UploadTokenFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
-    get_upload_status_for_user, HPUploadStatus)
+    get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails)
 
 
 class TestUploadToken:
@@ -137,3 +138,22 @@ class TestGetUploadStatusForUser:
             time.tick(delta=datetime.timedelta(days=1))
             HPActionDocumentsFactory(user=token.user)
             assert get_upload_status_for_user(token.user) == HPUploadStatus.SUCCEEDED
+
+
+class TestFeeWaiverDetails:
+    def test_income_sources_works(self):
+        f = FeeWaiverDetails()
+        assert f.income_sources == []
+        f.income_src_employment = True
+        assert f.income_sources == ['Employment']
+        f.income_src_hra = True
+        assert f.income_sources == ['Employment', 'HRA']
+        f.income_src_other = "Boop"
+        assert f.income_sources == ['Employment', 'HRA', 'Boop']
+
+    def test_non_utility_expenses_works(self):
+        f = FeeWaiverDetails()
+        assert f.non_utility_expenses == Decimal('0.00')
+        f.expense_cable = Decimal('1.10')
+        f.expense_other = Decimal('2.20')
+        assert f.non_utility_expenses == Decimal('3.30')

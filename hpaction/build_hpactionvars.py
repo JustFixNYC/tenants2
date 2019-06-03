@@ -5,6 +5,7 @@ from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 import nycdb.models
+from .models import FeeWaiverDetails
 from . import hpactionvars as hp
 
 
@@ -160,6 +161,49 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
         v.service_address_full_te = ld.address
 
 
+def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
+    # Completes "My case is good and worthwhile because_______".
+    v.cause_of_action_description_te = "Landlord has failed to do repairs"
+
+    # Waive any and all statutory fees for the defense or prosecution of the action.
+    v.ifp_what_orders_ms = [hp.IFPWhatOrdersMS.FEES]
+
+    # List any major property that you own, like a car or a valuable item, and the value of that
+    # property.
+    v.tenant_property_owned_te = "None"
+
+    # How often do you get paid?
+    v.pay_period_mc = hp.PayPeriodMC.MONTH
+
+    # What is your household income?
+    v.tenant_income_nu = fwd.income_amount_monthly
+
+    # What is the source of your income?
+    v.tenant_income_source_te = ', '.join(fwd.income_sources)
+
+    # What is your monthly rent?
+    v.tenant_monthly_rent_nu = fwd.rent_amount
+
+    # Monthly expenditure for utilities
+    v.tenant_monthly_exp_utilities_nu = fwd.expense_utilities
+
+    # Monthly expenditure for other stuff
+    v.tenant_monthly_exp_other_nu = fwd.non_utility_expenses
+
+    # Have you asked for a fee waiver before?
+    v.previous_application_tf = fwd.asked_before
+
+    # Do you receive public assistance benefits?
+    v.tenant_receives_public_assistance_tf = fwd.receives_public_assistance
+
+    if fwd.asked_before:
+        # Completes the sentence "I have applied for a fee waiver before, but I am making
+        # this application because..."
+        #
+        # TODO: Replace with something more appropriate.
+        v.reason_for_further_application_te = "economic hardship"
+
+
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
@@ -231,5 +275,8 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
 
     for cissue in user.custom_issues.all():
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
+
+    if hasattr(user, 'fee_waiver_details'):
+        fill_fee_waiver_details(v, user.fee_waiver_details)
 
     return v

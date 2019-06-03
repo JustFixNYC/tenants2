@@ -1,8 +1,9 @@
+from decimal import Decimal
 from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
-from .factories import UploadTokenFactory
+from .factories import UploadTokenFactory, FeeWaiverDetailsFactory
 from hpaction.models import get_upload_status_for_user, HPUploadStatus
 import hpaction.schema
 
@@ -54,7 +55,7 @@ class TestGenerateHPActionPDF:
         assert get_upload_status_for_user(user) == HPUploadStatus.SUCCEEDED
 
 
-class TestSessionInfo:
+class TestSessionPdfInfo:
     def execute(self, graphql_client):
         return graphql_client.execute(
             'query { session { latestHpActionPdfUrl, hpActionUploadStatus } }'
@@ -81,4 +82,25 @@ class TestSessionInfo:
         assert self.execute(graphql_client) == {
             'latestHpActionPdfUrl': None,
             'hpActionUploadStatus': 'STARTED'
+        }
+
+
+class TestSessionFeeWaiverInfo:
+    def execute(self, graphql_client):
+        return graphql_client.execute(
+            'query { session { feeWaiver { incomeAmountMonthly } } }'
+        )['data']['session']
+
+    def test_it_works_if_unauthenticated(self, graphql_client):
+        assert self.execute(graphql_client) == {
+            'feeWaiver': None,
+        }
+
+    def test_it_works_if_started(self, graphql_client, db):
+        fw = FeeWaiverDetailsFactory(income_amount_monthly=Decimal('3.15'))
+        graphql_client.request.user = fw.user
+        assert self.execute(graphql_client) == {
+            'feeWaiver': {
+                'incomeAmountMonthly': 3.15
+            }
         }

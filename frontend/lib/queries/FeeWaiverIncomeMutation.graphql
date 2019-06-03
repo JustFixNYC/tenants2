@@ -1,0 +1,10 @@
+mutation FeeWaiverIncomeMutation($input: FeeWaiverIncomeInput!) {
+    output: feeWaiverIncome(input: $input) {
+        errors { ...ExtendedFormFieldErrors },
+        session {
+            feeWaiver {
+                ...FeeWaiverDetails
+            }
+        }
+    }
+}

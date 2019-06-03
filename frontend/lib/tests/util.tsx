@@ -87,6 +87,7 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = {
   landlordDetails: null,
   letterRequest: null,
   isSafeModeEnabled: false,
+  feeWaiver: null,
   latestHpActionPdfUrl: null,
   hpActionUploadStatus: HPUploadStatus.NOT_STARTED
 };

@@ -3,7 +3,6 @@ import React from 'react';
 import { FeeWaiverMiscInput, FeeWaiverIncomeInput, FeeWaiverExpensesInput } from "../queries/globalTypes";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
-import Routes from '../routes';
 import { CheckboxFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
 import { BackButton, NextButton } from '../buttons';
@@ -13,6 +12,8 @@ import { FeeWaiverMiscMutation } from '../queries/FeeWaiverMiscMutation';
 import { FeeWaiverIncomeMutation } from '../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation } from '../queries/FeeWaiverExpensesMutation';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
+import { ProgressStepProps } from '../progress-step-route';
+import { assertNotNull } from '../util';
 
 const INITIAL_MISC_STATE: FeeWaiverMiscInput = {
   askedBefore: ''
@@ -36,7 +37,7 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   expenseOther: '0.00',
 };
 
-export const FeeWaiverMisc = () => (
+export const FeeWaiverMisc = (props: ProgressStepProps) => (
   <Page title="It's fee waiver time!">
     <h1 className="title is-4">It's fee waiver time!</h1>
     <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
@@ -48,12 +49,12 @@ export const FeeWaiverMisc = () => (
         INITIAL_MISC_STATE,
         (feeWaiver) => feeWaiver.yesNoRadios('askedBefore').finish()
       )}
-      onSuccessRedirect={Routes.locale.hp.feeWaiverIncome}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={Routes.locale.hp.issues.home} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
@@ -61,7 +62,7 @@ export const FeeWaiverMisc = () => (
   </Page>
 );
 
-export const FeeWaiverIncome = () => (
+export const FeeWaiverIncome = (props: ProgressStepProps) => (
   <Page title="Your income">
     <h1 className="title is-4">Your income</h1>
     <SessionUpdatingFormSubmitter
@@ -71,7 +72,7 @@ export const FeeWaiverIncome = () => (
         INITIAL_INCOME_STATE,
         (feeWaiver) => feeWaiver.finish()
       )}
-      onSuccessRedirect={Routes.locale.hp.feeWaiverExpenses}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
     >
       {(ctx) => <>
         <CurrencyFormField
@@ -97,7 +98,7 @@ export const FeeWaiverIncome = () => (
             enhancedLabel="Please specify your other sources of income." />
         </fieldset>
         <div className="buttons jf-two-buttons">
-          <BackButton to={Routes.locale.hp.feeWaiverMisc} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
@@ -105,7 +106,7 @@ export const FeeWaiverIncome = () => (
   </Page>
 );
 
-export const FeeWaiverExpenses = () => (
+export const FeeWaiverExpenses = (props: ProgressStepProps) => (
   <Page title="Your expenses">
     <h1 className="title is-4">Your expenses</h1>
     <SessionUpdatingFormSubmitter
@@ -115,7 +116,7 @@ export const FeeWaiverExpenses = () => (
         INITIAL_EXPENSES_STATE,
         (feeWaiver) => feeWaiver.finish()
       )}
-      onSuccessRedirect={Routes.locale.hp.yourLandlord}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
     >
       {(ctx) => <>
         <CurrencyFormField
@@ -131,7 +132,7 @@ export const FeeWaiverExpenses = () => (
         <CurrencyFormField label="Other" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
         <div className="buttons jf-two-buttons">
-          <BackButton to={Routes.locale.hp.feeWaiverIncome} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}

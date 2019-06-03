@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { SessionProgressStepRoute, RedirectToLatestStep } from "./progress-redirection";
-import { Switch, Route, RouteProps } from "react-router";
+import { Switch, Route } from "react-router";
 import { RouteProgressBar } from './progress-bar';
+import { createStepRoute } from './progress-step-route';
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -55,27 +56,29 @@ export function getAllSteps(props: ProgressRoutesProps): SessionProgressStepRout
   ];
 }
 
-function generateRoutes(props: ProgressRoutesProps): RouteProps[] {
+function createRoutesForSteps(steps: SessionProgressStepRoute[], allSteps: SessionProgressStepRoute[], keyPrefix: string) {
+  return steps.map((step, i) => {
+    return createStepRoute({ key: keyPrefix + i, step, allSteps });
+  });
+}
+
+function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
+  const allSteps = getAllSteps(props);
+
   return [
-    {
-      path: props.toLatestStep,
-      exact: true,
-      render: () => <RedirectToLatestStep steps={getAllSteps(props)} />
-    },
-    ...props.welcomeSteps,
-    ...props.confirmationSteps,
-    {
-      render: () => <RouteProgressBar label={props.label} steps={props.stepsToFillOut} />
-    }
+    <Route key="toLatestStep" path={props.toLatestStep} exact render={() => 
+      <RedirectToLatestStep steps={allSteps} />
+    }/>,
+    ...createRoutesForSteps(props.welcomeSteps, allSteps, 'welcome'),
+    ...createRoutesForSteps(props.confirmationSteps, allSteps, 'confirmation'),
+    <Route key="progressBar" render={() => {
+      return <RouteProgressBar label={props.label} steps={props.stepsToFillOut} outerSteps={allSteps} />;
+    }}/>
   ];
 }
 
 export function ProgressRoutes(props: ProgressRoutesProps): JSX.Element {
-  return (
-    <Switch>
-      {generateRoutes(props).map((routeProps, i) => <Route key={i} {...routeProps} />)}
-    </Switch>
-  );
+  return <Switch>{generateRoutes(props)}</Switch>;
 }
 
 export function buildProgressRoutesComponent(getProps: () => ProgressRoutesProps): () => JSX.Element {

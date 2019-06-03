@@ -2,7 +2,7 @@ import React from 'react';
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { shallow, ShallowWrapper, mount, ReactWrapper } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import { MemoryRouter, Route, RouteComponentProps } from "react-router";
 import { HPUploadStatus } from '../queries/globalTypes';
 import { FormError, strToFormError } from '../form-errors';
@@ -47,27 +47,10 @@ export function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-export function shallowWithRouter(child: JSX.Element): { wrapper: ShallowWrapper, routerContext: RouteComponentProps<any> } {
-  const { routerContext, route } = childWithRouterCtx(child);
-  const wrapper = shallow(<MemoryRouter>{route}</MemoryRouter>);
-  return { wrapper, routerContext };
-}
-
 export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper, routerContext: RouteComponentProps<any> } {
   const { routerContext, route } = childWithRouterCtx(child);
   const wrapper = mount(<MemoryRouter>{route}</MemoryRouter>);
   return { wrapper, routerContext };
-}
-
-export function ensureRedirect(child: JSX.Element, pathname: string) {
-  const consoleErr = jest.fn();
-  jest.spyOn(console, 'error').mockImplementationOnce(consoleErr);
-  const { routerContext, wrapper } = mountWithRouter(child);
-  wrapper.update();
-  expect(routerContext.location.pathname).toBe(pathname);
-  expect(consoleErr.mock.calls).toHaveLength(1);
-  expect(consoleErr.mock.calls[0][0]).toMatch(
-    /You tried to redirect to the same route you're currently on/i);
 }
 
 export function pause(ms: number): Promise<void> {

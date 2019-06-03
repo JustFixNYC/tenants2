@@ -11,10 +11,12 @@ import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../form-fields';
 import { BulmaClassName } from '../bulma';
+import { ProgressStepProps } from '../progress-step-route';
+import { assertNotNull } from '../util';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
-export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Element => {
+export const SendConfirmModal = withAppContext((props: AppContextType & { nextStep: string }) => {
   const title = "Ready to go";
   const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
 
@@ -35,6 +37,7 @@ export const SendConfirmModal = withAppContext((props: AppContextType): JSX.Elem
           label="Mail my letter"
           buttonClass="is-success"
           isFullWidth
+          nextStep={props.nextStep}
         />
       </div>
     )}/>
@@ -46,6 +49,7 @@ interface FormAsButtonProps {
   label: string;
   buttonClass?: BulmaClassName;
   isFullWidth?: boolean;
+  nextStep: string;
 }
 
 function FormAsButton(props: FormAsButtonProps): JSX.Element {
@@ -56,7 +60,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
       mutation={LetterRequestMutation}
       formId={'button_' + props.mailChoice}
       initialState={input}
-      onSuccessRedirect={Routes.locale.loc.confirmation}
+      onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
@@ -72,22 +76,27 @@ const LetterPreview = withAppContext((props) => (
   </div>
 ));
 
-export default function LetterRequestPage(): JSX.Element {
+export default function LetterRequestPage(props: ProgressStepProps): JSX.Element {
+  const nextStep = assertNotNull(props.nextStep);
+
   return (
     <Page title="Review the Letter of Complaint">
       <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
       <p className="subtitle is-6">Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist.</p>
       <LetterPreview />
       <div className="has-text-centered is-grouped">
-        <ModalLink to={Routes.locale.loc.previewSendConfirmModal} component={SendConfirmModal} className="button is-primary is-medium">
+        <ModalLink to={Routes.locale.loc.previewSendConfirmModal} className="button is-primary is-medium" render={() => (
+          <SendConfirmModal nextStep={nextStep} />
+        )}>
           Looks good to me!
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-          <BackButton to={Routes.locale.loc.yourLandlord} buttonClass="is-text" label="Go back and edit" />
+          <BackButton to={assertNotNull(props.prevStep)} buttonClass="is-text" label="Go back and edit" />
           <FormAsButton
             mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
             buttonClass="is-text"
             label="I want to mail this myself."
+            nextStep={nextStep}
           />
         </div>
       </div>

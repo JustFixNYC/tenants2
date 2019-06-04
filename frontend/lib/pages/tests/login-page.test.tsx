@@ -1,8 +1,8 @@
 import React from 'react';
-import LoginPage, { performHardOrSoftRedirect, absolutifyURLToOurOrigin } from '../../pages/login-page';
+import LoginPage, { performHardOrSoftRedirect, absolutifyURLToOurOrigin } from '../login-page';
 import { Route } from 'react-router';
-import { AppTesterPal } from '../app-tester-pal';
-import { setHardRedirector } from '../hard-redirect';
+import { AppTesterPal } from '../../tests/app-tester-pal';
+import { setHardRedirector } from '../../tests/hard-redirect';
 
 test('login page sets "next" input to expected value', () => {
   const pal = new AppTesterPal(<Route component={LoginPage} />, {

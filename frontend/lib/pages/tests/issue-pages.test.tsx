@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { IssuesRoutes, getIssueLabel, groupByTwo } from '../../pages/issue-pages';
+import { IssuesRoutes, getIssueLabel, groupByTwo } from '../issue-pages';
 import Routes from '../../routes';
-import { AppTesterPal } from '../app-tester-pal';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { IssueAreaInput } from '../../queries/globalTypes';
 import { IssueAreaMutation_output } from '../../queries/IssueAreaMutation';
 import ISSUE_AREA_SVGS from '../../svg/issues';

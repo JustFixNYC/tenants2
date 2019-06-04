@@ -1,4 +1,4 @@
-import { NotFound } from '../../pages/not-found';
+import { NotFound } from '../not-found';
 
 test('NotFound sets status on static renders', () => {
   const ctx: any = { staticContext: {} };

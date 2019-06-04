@@ -1,10 +1,10 @@
 import React from 'react';
 import Routes from '../../routes';
-import { AppTesterPal } from '../app-tester-pal';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
 import { LetterRequestMailChoice, LetterRequestInput } from '../../queries/globalTypes';
-import { pause } from '../util';
+import { pause } from '../../tests/util';
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,

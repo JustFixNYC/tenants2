@@ -1,7 +1,7 @@
 import React from 'react';
 import Routes from '../../routes';
 import { LetterRequestMailChoice } from '../../queries/globalTypes';
-import { AppTesterPal } from '../app-tester-pal';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 
 

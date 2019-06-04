@@ -1,7 +1,7 @@
 import React from 'react';
 
-import OnboardingStep2 from '../../pages/onboarding-step-2';
-import { AppTesterPal } from '../app-tester-pal';
+import OnboardingStep2 from '../onboarding-step-2';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import Routes from '../../routes';
 
 

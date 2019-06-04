@@ -2,7 +2,7 @@ import React from 'react';
 
 import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
-import { AppTesterPal } from '../app-tester-pal';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { LandlordDetailsMutation_output } from '../../queries/LandlordDetailsMutation';
 import { LandlordDetailsInput } from '../../queries/globalTypes';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import IndexPage from '../../pages/index-page';
+import IndexPage from '../index-page';
 import Routes from '../../routes';
-import { AppTesterPal } from '../app-tester-pal';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { Route } from 'react-router';
 
 describe('index page', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { LogoutPage } from '../../pages/logout-page';
-import { AppTesterPal } from '../app-tester-pal';
+import { LogoutPage } from '../logout-page';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 
 describe('logout page', () => {
   const pageWithPhoneNumber = (phoneNumber: string|null) => (

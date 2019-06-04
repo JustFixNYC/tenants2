@@ -1,10 +1,10 @@
 import React from 'react';
 
-import OnboardingStep1, { areAddressesTheSame } from '../../pages/onboarding-step-1';
-import { AppTesterPal } from '../app-tester-pal';
+import OnboardingStep1, { areAddressesTheSame } from '../onboarding-step-1';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
-import { createMockFetch } from '../mock-fetch';
-import { FakeGeoResults } from '../util';
+import { createMockFetch } from '../../tests/mock-fetch';
+import { FakeGeoResults } from '../../tests/util';
 import Routes from '../../routes';
 
 const PROPS = {

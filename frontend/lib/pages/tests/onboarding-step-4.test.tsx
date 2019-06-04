@@ -1,7 +1,7 @@
 import React from 'react';
 
-import OnboardingStep4 from '../../pages/onboarding-step-4';
-import { AppTesterPal } from '../app-tester-pal';
+import OnboardingStep4 from '../onboarding-step-4';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { Switch, Route } from 'react-router';
 import Routes from '../../routes';
 import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';

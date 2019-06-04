@@ -124,6 +124,8 @@ export function defaultPerformRedirect(redirect: string, history: History) {
 
 /** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+  willUnmount = false;
+
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
     super(props);
     this.state = {
@@ -148,6 +150,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       wasSubmittedSuccessfully: false
     });
     return this.props.onSubmit(input).then(output => {
+      if (this.willUnmount) return;
       if (output.errors.length) {
         trackFormErrors(output.errors);
         this.setState({
@@ -161,6 +164,11 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         if (this.props.onSuccess) {
           this.props.onSuccess(output);
         }
+
+        // It's actually possible our onSuccess() callback may have caused a state
+        // change elsewhere in the app that unmounted us; if that's the case, abort!
+        if (this.willUnmount) return;
+
         const redirect = getSuccessRedirect(this.props, input, output);
         if (redirect) {
           const performRedirect = this.props.performRedirect || defaultPerformRedirect;
@@ -185,6 +193,10 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     }).catch(e => {
       this.setState({ isLoading: false });
     });
+  }
+
+  componentWillUnmount() {
+    this.willUnmount = true;
   }
 
   componentDidUpdate(

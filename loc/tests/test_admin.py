@@ -99,11 +99,21 @@ class TestCreateMailConfirmationContext:
         deliverability='deliverable_incorrect_unit')
     undeliverable = test_lob_api.get_sample_verification(deliverability='undeliverable')
 
-    def create(self, landlord_verification, user_verification):
+    def create(self, landlord_verification, user_verification, is_manually_overridden=False):
         return LocAdminViews(None)._create_mail_confirmation_context(
             landlord_verification,
-            user_verification
+            user_verification,
+            is_manually_overridden
         )
+
+    def test_manual_override_works(self):
+        ctx = self.create(self.undeliverable, self.undeliverable, False)
+        assert ctx['is_deliverable'] is False
+        assert ctx['is_manually_overridden'] is False
+
+        ctx = self.create(self.undeliverable, self.undeliverable, True)
+        assert ctx['is_deliverable'] is True
+        assert ctx['is_manually_overridden'] is True
 
     @pytest.mark.parametrize('landlord,user,expected', [
         [deliverable, undeliverable, True],
@@ -144,7 +154,8 @@ class TestMailViaLob:
     def test_post_works(self, admin_client, requests_mock):
         signed_verifications = LocAdminViews(None)._create_mail_confirmation_context(
             landlord_verification=test_lob_api.get_sample_verification(),
-            user_verification=test_lob_api.get_sample_verification()
+            user_verification=test_lob_api.get_sample_verification(),
+            is_manually_overridden=False
         )['signed_verifications']
         requests_mock.post(
             test_lob_api.LOB_LETTERS_URL,

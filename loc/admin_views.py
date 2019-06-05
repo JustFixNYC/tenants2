@@ -35,10 +35,9 @@ class LocAdminViews:
     def _get_mail_confirmation_context(self, user):
         landlord_details = user.landlord_details
         onboarding_info = user.onboarding_info
+        ll_addr_details = get_ll_addr_details(landlord_details)
 
-        landlord_verification = lob_api.verify_address(
-            **get_ll_addr_details(landlord_details).as_lob_params()
-        )
+        landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
         user_verification = lob_api.verify_address(
             primary_line=onboarding_info.address,
             secondary_line=onboarding_info.apartment_address_line,
@@ -49,17 +48,19 @@ class LocAdminViews:
 
         return self._create_mail_confirmation_context(
             landlord_verification=landlord_verification,
-            user_verification=user_verification
+            user_verification=user_verification,
+            is_manually_overridden=ll_addr_details.is_definitely_deliverable
         )
 
     def _create_mail_confirmation_context(
         self,
         landlord_verification,
         user_verification,
-
+        is_manually_overridden: bool
     ):
         is_deliverable = (
-            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE
+            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE or
+            is_manually_overridden
         )
 
         is_definitely_deliverable = (
@@ -77,7 +78,8 @@ class LocAdminViews:
             'user_verified_address': lob_api.get_address_from_verification(user_verification),
             'user_deliverability_docs': lob_api.get_deliverability_docs(user_verification),
             'is_deliverable': is_deliverable,
-            'is_definitely_deliverable': is_definitely_deliverable
+            'is_definitely_deliverable': is_definitely_deliverable,
+            'is_manually_overridden': is_manually_overridden
         }
 
         return {

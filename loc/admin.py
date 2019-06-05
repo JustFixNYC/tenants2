@@ -37,6 +37,8 @@ class AddressDetailsAdmin(admin.ModelAdmin):
         'city',
         'state',
         'zip_code',
+        'is_definitely_deliverable',
+        'notes'
     ]
 
     list_display = ['address', 'state', 'created_at', 'updated_at']

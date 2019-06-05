@@ -14,6 +14,9 @@ from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
 
 
+LOB_STRICTNESS_HELP_URL = \
+    "https://lob.com/resources/guides/general/verification-of-mailing-addresses"
+
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
 # The amount of time a user has to change their letter of request
@@ -187,6 +190,30 @@ class AddressDetails(models.Model):
         max_length=10,
         blank=True,
         help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
+    )
+
+    is_definitely_deliverable = models.BooleanField(
+        verbose_name=(
+            "This address is definitely deliverable "
+            "(manually override Lob's address verification)"
+        ),
+        default=False,
+        help_text=(
+            "If you know for certain that this address is deliverable, even if Lob thinks "
+            "otherwise, check this box. This will manually override Lob's verification "
+            "and force any letters sent to this address to be mailed, assuming you have "
+            "configured your "
+            f"<a href=\"{LOB_STRICTNESS_HELP_URL}\" "
+            "target=\"_blank\" rel=\"noopener nofollow\">Lob strictness settings</a> to 'Relaxed'."
+        )
+    )
+
+    notes = models.TextField(
+        blank=True,
+        help_text=(
+            "Notes about this address. In particular, if you had to override the deliverability "
+            "of this address or change it in non-trivial ways, please add your rationale here."
+        )
     )
 
     # Attributes that map to keys used by Lob's verifications API:

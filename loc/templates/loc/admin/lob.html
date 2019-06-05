@@ -106,6 +106,12 @@
         <div class="readonly">
           <pre>{{ landlord_verification.deliverability }}</pre>
           <p>{{ landlord_deliverability_docs }}</p>
+          {% if is_manually_overridden %}
+            <p>
+              <strong>Note:</strong> The <a href="{{ landlord_address_details_url }}" target="_blank">landlord address details</a>
+              have specified that this address is definitely deliverable, so we will override Lob's verdict.
+            </p>
+          {% endif %}
         </div>
       </div>
     </div>

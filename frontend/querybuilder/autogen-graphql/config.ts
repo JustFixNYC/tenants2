@@ -7,14 +7,6 @@ type LatestVersion = 1;
 
 const LATEST_VERSION: LatestVersion = 1;
 
-export type AutogenTypeConfig = {
-  /** A list of fields in GraphQL types to ignore when generating queries. */
-  ignoreFields?: string[],
-
-  /** The GraphQL fragment name to create for the type. */
-  fragmentName?: string,
-};
-
 export type AutogenConfig = {
   /**
    * The current version of the configuration. If/when we change the configuration format, we
@@ -24,10 +16,19 @@ export type AutogenConfig = {
   version: LatestVersion,
 
   /**
-   * A mapping from GraphQL type names to fragment names. GraphQL queries will be
-   * created for each fragment.
+   * A mapping from GraphQL type names to configuration metadata.
    */
   types: { [name: string]: AutogenTypeConfig },
+};
+
+export type AutogenTypeConfig = {
+  /** A list of fields in GraphQL types to ignore when generating queries. */
+  ignoreFields?: string[],
+
+  /**
+   * The GraphQL fragment name to create for the type.
+   */
+  fragmentName?: string,
 };
 
 function validateBasicConfig(config: AutogenConfig): AutogenConfig {

@@ -89,10 +89,12 @@ export function reportChanged(
  * 
  * Returns true if the file's contents have changed, false otherwise.
  */
-export function writeFileIfChangedSync(path: string, contents: string): boolean {
+export function writeFileIfChangedSync(path: string, contents: string, dryRun: boolean = false): boolean {
   if (fs.existsSync(path) && fs.readFileSync(path, { encoding: 'utf-8' }) === contents) {
     return false;
   }
-  fs.writeFileSync(path, contents, { encoding: 'utf-8' });
+  if (!dryRun) {
+    fs.writeFileSync(path, contents, { encoding: 'utf-8' });
+  }
   return true;
 }

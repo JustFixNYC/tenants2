@@ -112,13 +112,19 @@ function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema): Outp
  * Delete any stale GraphQL files if needed, given a list of GraphQL files
  * we know are fresh.
  */
-function deleteStaleGraphQlFiles(freshFiles: Set<string>, graphQlFiles = GraphQlFile.fromDir()) {
+function deleteStaleGraphQlFiles(
+  freshFiles: Set<string>,
+  dryRun: boolean,
+  graphQlFiles = GraphQlFile.fromDir()
+) {
   const filesRemoved: string[] = [];
   graphQlFiles = graphQlFiles.filter(file => {
     if (file.graphQl.startsWith(AUTOGEN_PREAMBLE) && !freshFiles.has(file.graphQlFilename)) {
       // This is a stale auto-generated file, remove it.
       filesRemoved.push(file.graphQlFilename);
-      fs.unlinkSync(file.graphQlPath);
+      if (!dryRun) {
+        fs.unlinkSync(file.graphQlPath);
+      }
       return false;
     }
     return true;
@@ -131,7 +137,7 @@ function deleteStaleGraphQlFiles(freshFiles: Set<string>, graphQlFiles = GraphQl
  * Autogenerate GraphQL files against the given schema, deleting any stale
  * auto-generated GraphQL files if needed.
  */
-export function autogenerateGraphQlFiles(schema: GraphQLSchema): {
+export function autogenerateGraphQlFiles(schema: GraphQLSchema, dryRun: boolean = false): {
   graphQlFiles: GraphQlFile[],
   filesChanged: string[]
 } {
@@ -142,12 +148,13 @@ export function autogenerateGraphQlFiles(schema: GraphQLSchema): {
 
   output.forEach(({ filename, contents }) => {
     freshFiles.add(filename);
-    if (writeFileIfChangedSync(path.join(QUERIES_PATH, filename), `${AUTOGEN_PREAMBLE}${contents}`)) {
+    const fullPath = path.join(QUERIES_PATH, filename);
+    if (writeFileIfChangedSync(fullPath, `${AUTOGEN_PREAMBLE}${contents}`, dryRun)) {
       filesGenerated.push(filename);
     }
   });
 
-  const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(freshFiles);
+  const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(freshFiles, dryRun);
 
   reportChanged(filesGenerated, (number, s) => 
     `Generated ${number} GraphQL query file${s} in ${QUERIES_PATH}.`);

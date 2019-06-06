@@ -4,7 +4,8 @@ import {
   strContains,
   getGraphQlFragments,
   argvHasOption,
-  debouncer
+  debouncer,
+  reportChanged
 } from "../util";
 
 test('debouncer() works', () => {
@@ -52,3 +53,24 @@ test('getGraphQlFragments() works', () => {
   )).toEqual(['blah', 'Mehhh123']);
 });
 
+describe('reportChanged()', () => {
+  const createMsg = (number: number, s: 's'|'') => `hey ${number} thing${s} changed`;
+
+  it('does not call logging function if list is empty', () => {
+    const fn = jest.fn();
+    reportChanged([], createMsg, fn);
+    expect(fn).not.toBeCalled();  
+  });
+
+  it('logs singular if list has one element', () => {
+    const fn = jest.fn();
+    reportChanged(['hi'], createMsg, fn);
+    expect(fn).toBeCalledWith('hey 1 thing changed');
+  });
+
+  it('logs plural if list has more than one element', () => {
+    const fn = jest.fn();
+    reportChanged(['hi', 'there'], createMsg, fn);
+    expect(fn).toBeCalledWith('hey 2 things changed');
+  });
+});

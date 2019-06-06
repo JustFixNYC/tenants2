@@ -6,6 +6,7 @@ import {
   strContains,
   getGraphQlFragments,
   ToolError,
+  reportChanged,
 } from "./util";
 import { GraphQLValidator } from './validator';
 import { autogenerateGraphql } from './autogen-graphql';
@@ -340,10 +341,8 @@ function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): string[] {
     }
   });
 
-  if (filesWritten.length > 0) {
-    const files = filesWritten.length > 1 ? 'files' : 'file';
-    console.log(`Generated ${filesWritten.length} TS ${files} from GraphQL queries in ${LIB_PATH}.`);
-  }
+  reportChanged(filesWritten, (number, s) =>
+    `Generated ${number} TS file${s} from GraphQL queries in ${LIB_PATH}.`);
 
   return filesWritten;
 }
@@ -355,11 +354,10 @@ function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): string[] {
 export function deleteStaleTsFiles(graphQlFiles: GraphQlFile[] = GraphQlFile.fromDir()): string[] {
   const staleFiles = findStaleTypescriptFiles(graphQlFiles);
 
-  if (staleFiles.length > 0) {
-    const files = staleFiles.length > 1 ? 'files' : 'file';
-    staleFiles.forEach(fs.unlinkSync);
-    console.log(`Deleted ${staleFiles.length} stale TS ${files} from ${LIB_PATH}.`);
-  }
+  staleFiles.forEach(fs.unlinkSync);
+
+  reportChanged(staleFiles, (number, s) =>
+    `Deleted ${number} stale TS file${s} from ${LIB_PATH}.`);
 
   return staleFiles;
 }
@@ -391,15 +389,11 @@ function autogenerateGraphQlFiles(schema: GraphQLSchema): {
     return true;
   });
 
-  if (filesGenerated.length > 0) {
-    const files = filesGenerated.length > 1 ? 'files' : 'file';
-    console.log(`Generated ${filesGenerated.length} GraphQL query ${files} in ${LIB_PATH}.`);
-  }
+  reportChanged(filesGenerated, (number, s) => 
+    `Generated ${number} GraphQL query file${s} in ${LIB_PATH}.`);
 
-  if (filesRemoved.length > 0) {
-    const files = filesRemoved.length > 1 ? 'files' : 'file';
-    console.log(`Deleted ${filesGenerated.length} stale GraphQL query ${files} from ${LIB_PATH}.`);
-  }
+  reportChanged(filesRemoved, (number, s) =>
+    `Deleted ${number} stale GraphQL query file${s} from ${LIB_PATH}.`);
 
   return {
     graphQlFiles,

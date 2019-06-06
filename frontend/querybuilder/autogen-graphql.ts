@@ -52,7 +52,7 @@ class AutogenContext {
         throw new ToolError(`"${name}" is not a valid GraphQL type.`);
       }
 
-      validateIgnoreFields(type, info);
+      validateTypeConfig(type, info);
 
       this.typeMap.set(name, {
         ...info,
@@ -96,17 +96,21 @@ class InvalidGraphQlTypeError extends ToolError {
   }
 }
 
-function validateIgnoreFields(type: GraphQLNamedType, config: TypeConfig) {
+function validateTypeConfig(type: GraphQLNamedType, config: TypeConfig) {
   if (config.ignoreFields) {
     if (!isObjectType(type)) {
       throw new InvalidGraphQlTypeError(type, 'object');
     }
-    const fields = type.getFields();
-    for (let fieldName of config.ignoreFields) {
-      const field = fields[fieldName];
-      if (!field) {
-        throw new ToolError(`Field "${fieldName}" does not exist on type "${type.name}".`);
-      }
+    validateIgnoreFields(type, config.ignoreFields);
+  }
+}
+
+function validateIgnoreFields(type: GraphQLObjectType, ignoreFields: string[]) {
+  const fields = type.getFields();
+  for (let fieldName of ignoreFields) {
+    const field = fields[fieldName];
+    if (!field) {
+      throw new ToolError(`Field "${fieldName}" does not exist on type "${type.name}".`);
     }
   }
 }

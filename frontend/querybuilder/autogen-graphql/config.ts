@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import toml from 'toml';
 
 import { GraphQLNamedType, GraphQLField, GraphQLObjectType, isObjectType, GraphQLSchema } from "graphql";
-import { ToolError } from "./util";
+import { ToolError } from "../util";
 
 type LatestVersion = 1;
 

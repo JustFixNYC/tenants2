@@ -2,11 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { GraphQLSchema, GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
-import { writeFileIfChangedSync, reportChanged} from "./util";
-import { GraphQlFile } from "./graphql-file";
-import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "./config";
+import { writeFileIfChangedSync, reportChanged} from "../util";
+import { GraphQlFile } from "../graphql-file";
+import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "../config";
 import { fullyUnwrapType } from './graphql-schema-util';
-import { AutogenContext, loadAutogenConfig } from './autogen-graphql-config';
+import { AutogenContext, loadAutogenConfig } from './config';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.

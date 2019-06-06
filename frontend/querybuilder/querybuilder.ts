@@ -325,13 +325,13 @@ export function getGlobalValidator(): GraphQLValidator {
 
 /**
  * Find all raw GraphQL queries and generate type-safe functions
- * for them. Return the number of files created.
+ * for them. Return a list of the files created.
  * 
  * Files will not be created if they already exist with
  * identical content, to prevent spurious triggering of
  * static asset build pipelines that may be watching.
  */
-function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): number {
+function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): string[] {
   const filesWritten: string[] = [];
 
   graphQlFiles.forEach(query => {
@@ -345,14 +345,14 @@ function generateGraphQlFiles(graphQlFiles: GraphQlFile[]): number {
     console.log(`Generated ${filesWritten.length} TS ${files} from GraphQL queries in ${LIB_PATH}.`);
   }
 
-  return filesWritten.length;
+  return filesWritten;
 }
 
 /**
  * Delete any stale TS files whose associated GraphQL files have been
- * deleted. Return the number of files deleted.
+ * deleted. Return a list of the files deleted.
  */
-export function deleteStaleTsFiles(graphQlFiles: GraphQlFile[] = GraphQlFile.fromDir()): number {
+export function deleteStaleTsFiles(graphQlFiles: GraphQlFile[] = GraphQlFile.fromDir()): string[] {
   const staleFiles = findStaleTypescriptFiles(graphQlFiles);
 
   if (staleFiles.length > 0) {
@@ -361,53 +361,79 @@ export function deleteStaleTsFiles(graphQlFiles: GraphQlFile[] = GraphQlFile.fro
     console.log(`Deleted ${staleFiles.length} stale TS ${files} from ${LIB_PATH}.`);
   }
 
-  return staleFiles.length;
+  return staleFiles;
 }
 
-function autogenerateGraphQlFiles(schema: GraphQLSchema): GraphQlFile[] {
+function autogenerateGraphQlFiles(schema: GraphQLSchema): {
+  graphQlFiles: GraphQlFile[],
+  filesChanged: string[]
+} {
   const autogenConfig = JSON.parse(fs.readFileSync(AUTOGEN_CONFIG_PATH, { encoding: 'utf-8' }));
   const output = autogenerateGraphql(autogenConfig, schema);
   const generatedFiles = new Set();
+  const filesGenerated: string[] = [];
+  const filesRemoved: string[] = [];
 
   output.forEach(({ filename, contents }) => {
     generatedFiles.add(filename);
-    writeFileIfChangedSync(path.join(LIB_PATH, filename), `${AUTOGEN_PREAMBLE}${contents}`);
+    if (writeFileIfChangedSync(path.join(LIB_PATH, filename), `${AUTOGEN_PREAMBLE}${contents}`)) {
+      filesGenerated.push(filename);
+    }
   });
 
-  const finalGraphQlFiles = GraphQlFile.fromDir().filter(file => {
+  const graphQlFiles = GraphQlFile.fromDir().filter(file => {
     if (file.graphQl.startsWith(AUTOGEN_PREAMBLE) && !generatedFiles.has(file.graphQlFilename)) {
       // This is a stale auto-generated file, remove it.
+      filesRemoved.push(file.graphQlFilename);
       fs.unlinkSync(file.graphQlPath);
       return false;
     }
     return true;
   });
 
-  return finalGraphQlFiles;
+  if (filesGenerated.length > 0) {
+    const files = filesGenerated.length > 1 ? 'files' : 'file';
+    console.log(`Generated ${filesGenerated.length} GraphQL query ${files} in ${LIB_PATH}.`);
+  }
+
+  if (filesRemoved.length > 0) {
+    const files = filesRemoved.length > 1 ? 'files' : 'file';
+    console.log(`Deleted ${filesGenerated.length} stale GraphQL query ${files} from ${LIB_PATH}.`);
+  }
+
+  return {
+    graphQlFiles,
+    filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(LIB_PATH, f))
+  };
 }
 
 /** Our main query-building functionality. */
-export function main(options: MainOptions): number {
+export function main(options: MainOptions): {
+  exitCode: number,
+  filesChanged: string[]
+} {
   const validator = getGlobalValidator();
-  const graphQlFiles = autogenerateGraphQlFiles(validator.getSchema());
+  let { graphQlFiles, filesChanged } = autogenerateGraphQlFiles(validator.getSchema());
   const errors = validator.validate();
 
   if (errors.length) {
     console.log(errors.join('\n'));
-    return 1;
+    return { exitCode: 1, filesChanged };
   }
 
   const apolloStatus = runApolloCodegen(options.forceApolloCodegen);
   if (apolloStatus !== 0) {
-    return apolloStatus;
+    return { exitCode: apolloStatus, filesChanged };
   }
 
   const filesWritten = generateGraphQlFiles(graphQlFiles);
   const staleFiles = deleteStaleTsFiles(graphQlFiles);
 
-  if (!(filesWritten || staleFiles)) {
+  filesChanged = [...filesWritten, ...staleFiles, ...filesChanged];
+
+  if (filesChanged.length === 0) {
     console.log(`GraphQL queries in ${LIB_PATH} are unchanged, doing nothing.`);
   }
 
-  return 0;
+  return { exitCode: 0, filesChanged };
 }

@@ -12,14 +12,20 @@ test('debouncer() works', () => {
   jest.useFakeTimers();
 
   const debouncedFn = debouncer(fn, 1000);
-  debouncedFn();
-  debouncedFn();
+  debouncedFn(null, 'one');
+  debouncedFn(null, 'two');
   jest.runTimersToTime(500);
-  debouncedFn();
+  debouncedFn(null, 'three');
   expect(fn.mock.calls).toHaveLength(0);
 
   jest.runTimersToTime(1001);
   expect(fn.mock.calls).toHaveLength(1);
+  expect(fn.mock.calls[0][1]).toEqual(['one', 'two', 'three']);
+
+  debouncedFn(null, 'four');
+  jest.runTimersToTime(1001);
+  expect(fn.mock.calls).toHaveLength(2);
+  expect(fn.mock.calls[1][1]).toEqual(['four']);
 });
 
 test('argvHasOption() works', () => {

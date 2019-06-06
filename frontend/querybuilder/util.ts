@@ -38,14 +38,25 @@ export function argvHasOption(...opts: string[]): boolean {
 }
 
 /** A simple debouncer to aid in file watching. */
-export function debouncer(func: () => void, debounceMs: number) {
+export function debouncer(func: (events: any[], paths: string[]) => void, debounceMs: number) {
   let timeout: any = null;
+  let events: any[] = [];
+  let paths: string[] = [];
+  const dispatchFunc = () => {
+    const finalEvents = events;
+    const finalPaths = paths;
+    events = [];
+    paths = [];
+    func(finalEvents, finalPaths)
+  };
 
-  return () => {
+  return (event: any, path: string) => {
+    events = [...events, event];
+    paths = [...paths, path];
     if (timeout !== null) {
       clearTimeout(timeout);
     }
-    timeout = setTimeout(func,  debounceMs);
+    timeout = setTimeout(dispatchFunc, debounceMs);
   };
 }
 

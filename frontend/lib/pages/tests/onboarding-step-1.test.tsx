@@ -45,7 +45,8 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
-          borough: "MANHATTAN"
+          borough: "MANHATTAN",
+          addressVerified: true
         }
       }
     });
@@ -95,7 +96,8 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
-          aptNumber: '2'
+          aptNumber: '2',
+          addressVerified: true
         }  
       }
     });

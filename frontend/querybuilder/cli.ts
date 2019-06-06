@@ -29,7 +29,7 @@ export function run() {
     const { watch } = require('./watcher');
     watch(mainOptions);
   } else {
-    process.exit(main(mainOptions));
+    process.exit(main(mainOptions).exitCode);
   }
 }
 

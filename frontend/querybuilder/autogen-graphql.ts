@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { GraphQLSchema, GraphQLObjectType, GraphQLType, isNonNullType, isListType, isObjectType } from "graphql";
+import { GraphQLSchema, GraphQLObjectType, GraphQLType, isNonNullType, isListType, isObjectType, GraphQLField } from "graphql";
 import { ToolError, writeFileIfChangedSync, reportChanged} from "./util";
 import { GraphQlFile } from "./graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "./config";
@@ -34,39 +34,36 @@ function fullyUnwrapType(type: GraphQLType): GraphQLType {
   }
 }
 
-function getQueryForType({
-  type,
-  indent = '  ',
-  fragmentMap,
-  ignoreFields
-}: {
-  type: GraphQLObjectType;
-  indent?: string;
+type BuildQueryContext = {
+  indent: string;
   fragmentMap: Map<string, string>;
   ignoreFields: Set<string>
-}): string {
+};
+
+function getQueryField(field: GraphQLField<any, any>, ctx: BuildQueryContext): string {
+  const type = fullyUnwrapType(field.type);
+  if (isObjectType(type)) {
+    const fragmentName = ctx.fragmentMap.get(type.name);
+    if (fragmentName) {
+      return `${ctx.indent}${field.name} { ...${fragmentName} }`;
+    } else {
+      const subquery = getQueryForType(type, {
+        ...ctx,
+        indent: ctx.indent + '  ',
+      });
+      return `${ctx.indent}${field.name} {\n${subquery}\n${ctx.indent}}`;
+    }
+  } else {
+    return `${ctx.indent}${field.name}`;
+  }
+}
+
+function getQueryForType(type: GraphQLObjectType, ctx: BuildQueryContext): string {
   const fields = type.getFields();
   const queryKeys: string[] = [];
-  for (let fieldName in fields) {
-    if (ignoreFields.has(fieldName)) continue;
-    const field = fields[fieldName];
-    const type = fullyUnwrapType(field.type);
-    if (isObjectType(type)) {
-      const fragmentName = fragmentMap.get(type.name);
-      if (fragmentName) {
-        queryKeys.push(`${indent}${fieldName} { ...${fragmentName} }`);
-      } else {
-        const subquery = getQueryForType({
-          type,
-          indent: indent + '  ',
-          fragmentMap,
-          ignoreFields
-        });
-        queryKeys.push(`${indent}${fieldName} {\n${subquery}\n${indent}}`);
-      }
-    } else {
-      queryKeys.push(`${indent}${fieldName}`);
-    }
+  for (let field of Object.values(fields)) {
+    if (ctx.ignoreFields.has(field.name)) continue;
+    queryKeys.push(getQueryField(field, ctx));
   }
   return queryKeys.join(',\n');
 }
@@ -98,8 +95,8 @@ function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema): Outp
       throw new ToolError(`"${typeName}" is not a valid GraphQL object type.`);
     }
 
-    const queryBody = getQueryForType({
-      type,
+    const queryBody = getQueryForType(type, {
+      indent: '  ',
       fragmentMap,
       ignoreFields
     });

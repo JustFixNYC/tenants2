@@ -44,6 +44,10 @@ export function watch(options: MainOptions, debounceMs = 250) {
     if (pathsChanged.length === 0) return;
 
     const result = runMain(options);
+
+    // Remember the files that were changed by querybuilder this run;
+    // it's possible they may trigger our filesystem watcher, but we
+    // want to disregard such "false positives" if possible.
     filesJustChangedByUs = result.filesChanged;
 
     if (result.exitCode !== 0) {

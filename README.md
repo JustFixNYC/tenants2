@@ -183,19 +183,25 @@ Client-side GraphQL code is generated as follows:
     }
     ```
 
-2. The querybuilder, which runs as part of `npm start`, will notice
-   changes to any of these raw queries *or* the server's `schema.json`,
-   and do the following:
+2. Some GraphQL queries are automatically generated based on
+   the configuration in `frontend/lib/queries/autogen-config.json`.
 
-    1. It runs [Apollo Code Generation][] to validate the raw queries
+3. The querybuilder, which runs as part of `npm start`, will notice
+   changes to any of these raw queries *or* `autogen-config.json`
+   *or* the server's `schema.json`, and do the following:
+
+    1. It automatically generates any GraphQL queries that need
+       generating.
+
+    2. It runs [Apollo Code Generation][] to validate the raw queries
        against the server's GraphQL schema and create TypeScript
        interfaces for them.
 
-    2. For queries and mutations, it adds a function to the TypeScript
+    3. For queries and mutations, it adds a function to the TypeScript
        interfaces that is responsible for performing the query in a
        type-safe way.
        
-    3. The resultant TypeScript interfaces and/or function is written
+    4. The resultant TypeScript interfaces and/or function is written
        to a file that is created next to the original `.graphql` file
        (e.g., `SimpleQuery.ts`).
 

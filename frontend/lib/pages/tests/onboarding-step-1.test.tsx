@@ -77,6 +77,7 @@ describe('onboarding step 1 page', () => {
     });
   });
 
+  
   it('opens confirmation modal if address returned from server is different (baseline experience only)', async () => {
     jest.useRealTimers();
     const pal = new AppTesterPal(<OnboardingStep1  {...PROPS} disableProgressiveEnhancement />);

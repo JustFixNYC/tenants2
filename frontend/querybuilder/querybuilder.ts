@@ -13,35 +13,9 @@ import { GRAPHQL_SCHEMA_PATH, COPY_FROM_APOLLO_GEN_TO_QUERIES, QUERIES_PATH, QUE
 import { deleteStaleTsFiles } from './stale-ts-files';
 
 /**
- * Determine whether we need to run Apollo codegen:generate, based on
- * examining file modification dates.
- */
-function doesApolloCodegenNeedToBeRun(): boolean {
-  const queries = GraphQlFile.fromDir();
-
-  const inputFiles = [GRAPHQL_SCHEMA_PATH, ...queries.map(q => q.graphQlPath)];
-  const latestInputMod = Math.max(...inputFiles.map(f => fs.statSync(f).mtimeMs));
-
-  const outputFiles = [
-    ...COPY_FROM_APOLLO_GEN_TO_QUERIES.map(filename => path.join(QUERIES_PATH, filename)),
-    ...queries.map(q => q.tsInterfacesPath)
-  ];
-  const earliestOutputMod = Math.min(...outputFiles.map(f => {
-    if (!fs.existsSync(f)) return 0;
-    return fs.statSync(f).mtimeMs;
-  }));
-
-  return latestInputMod > earliestOutputMod;
-}
-
-/**
  * Run Apollo codegen:generate if needed, returning 0 on success, nonzero on errors.
- * 
- * @param force Force running of Apollo Codegen, regardless of file modification dates.
  */
-export function runApolloCodegen(force: boolean = false): number {
-  if (!force && !doesApolloCodegenNeedToBeRun()) return 0;
-
+export function runApolloCodegen(): number {
   const child = child_process.spawnSync('node', [
     'node_modules/apollo/bin/run',
     'codegen:generate',
@@ -70,8 +44,7 @@ export function runApolloCodegen(force: boolean = false): number {
 
 /** Options for our main querybuilder functionality. */
 export interface MainOptions {
-  /** Whether to force-run Apollo codegen:generate even if we don't think it's necessary. */
-  forceApolloCodegen: boolean;
+  // Um, we used to have options but now we don't. Maybe we will again someday.
 }
 
 let validator: GraphQLValidator|null = null;
@@ -120,7 +93,7 @@ export function main(options: MainOptions): {
     return { exitCode: 1, filesChanged };
   }
 
-  const apolloStatus = runApolloCodegen(options.forceApolloCodegen);
+  const apolloStatus = runApolloCodegen();
   if (apolloStatus !== 0) {
     return { exitCode: apolloStatus, filesChanged };
   }

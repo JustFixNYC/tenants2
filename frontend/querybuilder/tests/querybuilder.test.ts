@@ -9,7 +9,7 @@ import {
 import { GraphQlFile } from '../graphql-file';
 import { findStaleTypescriptFiles } from '../stale-ts-files';
 
-const RE_RUN_MSG = 'Please re-run "node querybuilder.js --force".';
+const RE_RUN_MSG = 'Please re-run "node querybuilder.js".';
 
 describe('querybuilder', () => {
   it('should have generated up-to-date TS files based on latest schema and queries', () => {

@@ -40,7 +40,11 @@ export function watch(options: MainOptions, debounceMs = 250) {
     path.posix.join(...QUERIES_PATH_PARTS, `*${DOT_GRAPHQL}`)
   ];
   let filesJustChangedByUs: string[] = [];
-  chokidar.watch(paths).on('all', debouncer((_, pathsChanged) => {
+  const logWaitingMsg = () => console.log(`Waiting for changes in ${paths.join(', ')}...`);
+
+  chokidar.watch(paths, {
+    ignoreInitial: true
+  }).on('all', debouncer((_, pathsChanged) => {
     pathsChanged = subtractPaths(pathsChanged, filesJustChangedByUs);
     if (pathsChanged.length === 0) return;
 
@@ -54,6 +58,8 @@ export function watch(options: MainOptions, debounceMs = 250) {
     if (result.exitCode !== 0) {
       console.log(chalk.redBright('ERROR: Rebuilding GraphQL queries failed!'));
     }
-    console.log(`Waiting for changes in ${paths.join(', ')}...`);
+    logWaitingMsg();
   }, debounceMs));
+
+  logWaitingMsg();
 }

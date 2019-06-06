@@ -6,7 +6,8 @@ import { writeFileIfChangedSync, reportChanged} from "../util";
 import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "../config";
 import { fullyUnwrapType } from './graphql-schema-util';
-import { AutogenContext, loadAutogenConfig } from './config';
+import { loadAutogenConfig } from './config';
+import { AutogenContext } from './context';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.

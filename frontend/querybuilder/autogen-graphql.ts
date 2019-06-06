@@ -1,5 +1,10 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
 import { GraphQLSchema, GraphQLObjectType, GraphQLType, isNonNullType, isListType, isObjectType } from "graphql";
-import { ToolError } from "./util";
+import { ToolError, writeFileIfChangedSync, reportChanged} from "./util";
+import { GraphQlFile } from "./graphql-file";
+import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "./config";
 
 type LatestVersion = 1;
 
@@ -66,22 +71,12 @@ function getQueryForType({
   return queryKeys.join(',\n');
 }
 
-function objectToMap(object: { [key: string]: string }): Map<string, string> {
-  const result = new Map();
-
-  for (let key in object) {
-    result.set(key, object[key]);
-  }
-
-  return result;
-}
-
 type OutputFile = {
   filename: string,
   contents: string
 };
 
-export function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema): OutputFile[] {
+function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema): OutputFile[] {
   if (config.version !== LATEST_VERSION) {
     throw new ToolError(
       `Please restart this tool, configuration schema has changed ` +
@@ -89,7 +84,7 @@ export function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema
     );
   }
 
-  const fragmentMap = objectToMap(config.fragments);
+  const fragmentMap = new Map(Object.entries(config.fragments));
   const ignoreFields = new Set(config.ignoreFields);
   const output = [];
 
@@ -114,4 +109,57 @@ export function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema
   }
 
   return output;
+}
+
+/**
+ * Delete any stale GraphQL files if needed, given a list of GraphQL files
+ * we know are fresh.
+ */
+function deleteStaleGraphQlFiles(freshFiles: Set<string>, graphQlFiles = GraphQlFile.fromDir()) {
+  const filesRemoved: string[] = [];
+  graphQlFiles = graphQlFiles.filter(file => {
+    if (file.graphQl.startsWith(AUTOGEN_PREAMBLE) && !freshFiles.has(file.graphQlFilename)) {
+      // This is a stale auto-generated file, remove it.
+      filesRemoved.push(file.graphQlFilename);
+      fs.unlinkSync(file.graphQlPath);
+      return false;
+    }
+    return true;
+  });
+
+  return { filesRemoved, graphQlFiles };
+}
+
+/**
+ * Autogenerate GraphQL files against the given schema, deleting any stale
+ * auto-generated GraphQL files if needed.
+ */
+export function autogenerateGraphQlFiles(schema: GraphQLSchema): {
+  graphQlFiles: GraphQlFile[],
+  filesChanged: string[]
+} {
+  const autogenConfig = JSON.parse(fs.readFileSync(AUTOGEN_CONFIG_PATH, { encoding: 'utf-8' }));
+  const output = autogenerateGraphql(autogenConfig, schema);
+  const freshFiles = new Set<string>();
+  const filesGenerated: string[] = [];
+
+  output.forEach(({ filename, contents }) => {
+    freshFiles.add(filename);
+    if (writeFileIfChangedSync(path.join(QUERIES_PATH, filename), `${AUTOGEN_PREAMBLE}${contents}`)) {
+      filesGenerated.push(filename);
+    }
+  });
+
+  const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(freshFiles);
+
+  reportChanged(filesGenerated, (number, s) => 
+    `Generated ${number} GraphQL query file${s} in ${QUERIES_PATH}.`);
+
+  reportChanged(filesRemoved, (number, s) =>
+    `Deleted ${number} stale GraphQL query file${s} from ${QUERIES_PATH}.`);
+
+  return {
+    graphQlFiles,
+    filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(QUERIES_PATH, f))
+  };
 }

@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 /** Returns whether a source string contains any of the given strings. */
 export function strContains(source: string, ...strings: string[]): boolean {
   for (let string of strings) {
@@ -79,4 +81,18 @@ export function reportChanged(
   if (files.length > 0) {
     log(createMsg(files.length, files.length > 1 ? 's' : ''));
   }
+}
+
+/**
+ * Write the given file to disk, but only if its new contents are
+ * different from its existing contents.
+ * 
+ * Returns true if the file's contents have changed, false otherwise.
+ */
+export function writeFileIfChangedSync(path: string, contents: string): boolean {
+  if (fs.existsSync(path) && fs.readFileSync(path, { encoding: 'utf-8' }) === contents) {
+    return false;
+  }
+  fs.writeFileSync(path, contents, { encoding: 'utf-8' });
+  return true;
 }

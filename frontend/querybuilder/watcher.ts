@@ -2,8 +2,9 @@ import path from 'path';
 
 import chokidar from 'chokidar';
 import chalk from 'chalk';
-import { main, MainOptions, SCHEMA_PATH, LIB_PATH_PARTS, DOT_GRAPHQL, AUTOGEN_CONFIG_PATH } from './querybuilder';
+import { main, MainOptions } from './querybuilder';
 import { debouncer, ToolError } from './util';
+import { GRAPHQL_SCHEMA_PATH, AUTOGEN_CONFIG_PATH, QUERIES_PATH_PARTS, DOT_GRAPHQL } from './config';
 
 
 function subtractPaths(paths: string[], pathsToRemove: string[]): string[] {
@@ -34,9 +35,9 @@ function runMain(options: MainOptions): ReturnType<typeof main> {
 /** Watch GraphQL queries and schema and re-build queries when they change. */
 export function watch(options: MainOptions, debounceMs = 250) {
   const paths = [
-    SCHEMA_PATH,
+    GRAPHQL_SCHEMA_PATH,
     AUTOGEN_CONFIG_PATH,
-    path.posix.join(...LIB_PATH_PARTS, `*${DOT_GRAPHQL}`)
+    path.posix.join(...QUERIES_PATH_PARTS, `*${DOT_GRAPHQL}`)
   ];
   let filesJustChangedByUs: string[] = [];
   chokidar.watch(paths).on('all', debouncer((_, pathsChanged) => {

@@ -5,9 +5,9 @@ import * as path from 'path';
 
 import {
   runApolloCodegen,
-  GraphQlFile,
-  findStaleTypescriptFiles,
 } from "../querybuilder";
+import { GraphQlFile } from '../graphql-file';
+import { findStaleTypescriptFiles } from '../stale-ts-files';
 
 const RE_RUN_MSG = 'Please re-run "node querybuilder.js --force".';
 

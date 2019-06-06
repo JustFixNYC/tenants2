@@ -45,8 +45,7 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
-          borough: "MANHATTAN",
-          addressVerified: true
+          borough: "MANHATTAN"
         }
       }
     });
@@ -77,7 +76,6 @@ describe('onboarding step 1 page', () => {
     });
   });
 
-  
   it('opens confirmation modal if address returned from server is different (baseline experience only)', async () => {
     jest.useRealTimers();
     const pal = new AppTesterPal(<OnboardingStep1  {...PROPS} disableProgressiveEnhancement />);
@@ -97,8 +95,7 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
-          aptNumber: '2',
-          addressVerified: true
+          aptNumber: '2'
         }  
       }
     });

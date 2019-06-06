@@ -85,7 +85,8 @@ function getQueryForType(type: GraphQLObjectType, ctx: BuildQueryContext): strin
   const fields = type.getFields();
   const queryKeys: string[] = [];
   for (let field of Object.values(fields)) {
-    if (ctx.ignoreFields.has(field.name)) continue;
+    const dottedName = `${type.name}.${field.name}`;
+    if (ctx.ignoreFields.has(field.name) || ctx.ignoreFields.has(dottedName)) continue;
     queryKeys.push(getQueryField(field, ctx));
   }
   return queryKeys.join(',\n');

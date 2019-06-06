@@ -13,7 +13,7 @@ VALID_STEP_DATA = {
         'lastName': 'jones',
         'address': '123 boop way',
         'borough': 'MANHATTAN',
-        'aptNumber': '3B',
+        'aptNumber': '3B'
     },
     2: {
         'isInEviction': False,
@@ -73,10 +73,7 @@ def test_onboarding_step_1_validates_data(graphql_client):
 def test_onboarding_step_1_works(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client)
     assert ob['errors'] == []
-    assert ob['session']['onboardingStep1'] == {
-        **VALID_STEP_DATA[1],
-        'addressVerified': False
-    }
+    assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
     assert graphql_client.request.session[session_key_for_step(1)]['apt_number'] == '3B'
     assert _get_step_1_info(graphql_client)['aptNumber'] == '3B'
 

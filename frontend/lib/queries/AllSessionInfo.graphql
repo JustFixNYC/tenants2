@@ -10,8 +10,7 @@ fragment AllSessionInfo on SessionInfo {
     borough,
     aptNumber,
     firstName,
-    lastName,
-    addressVerified
+    lastName
   },
   onboardingStep2 {
     isInEviction,

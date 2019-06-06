@@ -11,11 +11,24 @@ type LatestVersion = 1;
 const LATEST_VERSION: LatestVersion = 1;
 
 type AutogenConfig = {
+  /**
+   * The current version of the configuration. If/when we change the configuration format, we
+   * may want to increment the version to ensure that developers know they need to
+   * restart watcher processes, instead of getting confusing tracebacks.
+   */
   version: LatestVersion,
+
+  /**
+   * A mapping from GraphQL type names to fragment names. GraphQL queries will be
+   * created for each fragment.
+   */
   fragments: { [name: string]: string },
+
+  /** A list of fields in GraphQL types to ignore when generating queries. */
   ignoreFields: string[]
 };
 
+/** If the given GraphQL type is a List or NonNull, return the type it wraps. */
 function getWrappedType(type: GraphQLType): GraphQLType|null {
   if (isNonNullType(type)) {
     return type.ofType;
@@ -26,6 +39,7 @@ function getWrappedType(type: GraphQLType): GraphQLType|null {
   return null;
 }
 
+/** Unwrap the given GraphQL type until it can be unwrapped no more! */
 function fullyUnwrapType(type: GraphQLType): GraphQLType {
   while (true) {
     let wrappedType = getWrappedType(type);
@@ -35,11 +49,16 @@ function fullyUnwrapType(type: GraphQLType): GraphQLType {
 }
 
 type BuildQueryContext = {
+  /** The amount of indent to indent emitted code. */
   indent: string;
+
   fragmentMap: Map<string, string>;
   ignoreFields: Set<string>
 };
 
+/**
+ * Return a GraphQL query for just the given field and any sub-fields in it.
+ */
 function getQueryField(field: GraphQLField<any, any>, ctx: BuildQueryContext): string {
   const type = fullyUnwrapType(field.type);
   if (isObjectType(type)) {
@@ -58,6 +77,9 @@ function getQueryField(field: GraphQLField<any, any>, ctx: BuildQueryContext): s
   }
 }
 
+/**
+ * Return a GraphQL query body for all fields in the given type in the schema.
+ */
 function getQueryForType(type: GraphQLObjectType, ctx: BuildQueryContext): string {
   const fields = type.getFields();
   const queryKeys: string[] = [];
@@ -73,6 +95,9 @@ type OutputFile = {
   contents: string
 };
 
+/**
+ * Auto-generate GraphQL queries based on our configuration.
+ */
 function autogenerateGraphql(config: AutogenConfig, schema: GraphQLSchema): OutputFile[] {
   if (config.version !== LATEST_VERSION) {
     throw new ToolError(

@@ -48,3 +48,9 @@ export function debouncer(func: () => void, debounceMs: number) {
     timeout = setTimeout(func,  debounceMs);
   };
 }
+
+/**
+ * A custom error that indicates an error from a tool, which
+ * users can take steps to resolve.
+ */
+export class ToolError extends Error {}

@@ -2,14 +2,15 @@ import path from 'path';
 
 import chokidar from 'chokidar';
 import chalk from 'chalk';
-import { main, ToolError, MainOptions, SCHEMA_PATH, LIB_PATH_PARTS, DOT_GRAPHQL } from './querybuilder';
-import { debouncer } from './util';
+import { main, MainOptions, SCHEMA_PATH, LIB_PATH_PARTS, DOT_GRAPHQL, AUTOGEN_CONFIG_PATH } from './querybuilder';
+import { debouncer, ToolError } from './util';
 
 
 /** Watch GraphQL queries and schema and re-build queries when they change. */
 export function watch(options: MainOptions, debounceMs = 250) {
   const paths = [
     SCHEMA_PATH,
+    AUTOGEN_CONFIG_PATH,
     path.posix.join(...LIB_PATH_PARTS, `*${DOT_GRAPHQL}`)
   ];
   chokidar.watch(paths).on('all', debouncer(() => {

@@ -15,7 +15,7 @@ export const QUERIES_PATH = path.join(...QUERIES_PATH_PARTS);
 /**
  * Path to the configuration file for the GraphQL files we automatically generate.
  */
-export const AUTOGEN_CONFIG_PATH = path.join(QUERIES_PATH, 'autogen-config.json');
+export const AUTOGEN_CONFIG_PATH = path.join(QUERIES_PATH, 'autogen-config.toml');
 
 /** The preamble at the top of GraphQL files we automatically generate. */
 export const AUTOGEN_PREAMBLE =

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import toml from 'toml';
 
 import { GraphQLSchema, GraphQLObjectType, GraphQLType, isNonNullType, isListType, isObjectType, GraphQLField } from "graphql";
 import { ToolError, writeFileIfChangedSync, reportChanged} from "./util";
@@ -166,7 +167,7 @@ export function autogenerateGraphQlFiles(schema: GraphQLSchema, dryRun: boolean 
   graphQlFiles: GraphQlFile[],
   filesChanged: string[]
 } {
-  const autogenConfig = JSON.parse(fs.readFileSync(AUTOGEN_CONFIG_PATH, { encoding: 'utf-8' }));
+  const autogenConfig = toml.parse(fs.readFileSync(AUTOGEN_CONFIG_PATH, { encoding: 'utf-8' }));
   const output = autogenerateGraphql(autogenConfig, schema);
   const freshFiles = new Set<string>();
   const filesGenerated: string[] = [];

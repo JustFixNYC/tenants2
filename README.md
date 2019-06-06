@@ -184,10 +184,11 @@ Client-side GraphQL code is generated as follows:
     ```
 
 2. Some GraphQL queries are automatically generated based on
-   the configuration in `frontend/lib/queries/autogen-config.json`.
+   the configuration in
+   [`frontend/lib/queries/autogen-config.toml`](frontend/lib/queries/autogen-config.toml).
 
 3. The querybuilder, which runs as part of `npm start`, will notice
-   changes to any of these raw queries *or* `autogen-config.json`
+   changes to any of these raw queries *or* `autogen-config.toml`
    *or* the server's `schema.json`, and do the following:
 
     1. It automatically generates any GraphQL queries that need

@@ -9,20 +9,6 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
   'Boolean': false
 };
 
-class UnimplementedError extends Error {
-  constructor(actionDesc: string, fieldName: string) {
-    super(`Don't know how to ${actionDesc} for field "${fieldName}"`);
-  }
-}
-
-function encodeStringToUnquote(content: string): string {
-  return `__unquote(${content})__`;
-}
-
-function decodeStringsToUnquote(content: string): string {
-  return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
-}
-
 /**
  * Create a string of TypeScript code that represents a "blank" object literal
  * for the given GraphQL object type.
@@ -74,4 +60,42 @@ function createBlankTypeLiteralObj(type: GraphQLObjectType): TypeLiteral {
       : createNonNullableBlank(assertNonNullType(type).ofType, name);
   }
   return result;
+}
+
+/**
+ * Exception representing an unimplemented use case.
+ *
+ * There's actually a bunch of potential use cases we don't currently cover;
+ * at least we can make the error output for such situations as helpful
+ * as possible.
+ */
+class UnimplementedError extends Error {
+  constructor(actionDesc: string, fieldName: string) {
+    super(`Don't know how to ${actionDesc} for field "${fieldName}"`);
+  }
+}
+
+/**
+ * Urg, at first I thought I could represent object literals by
+ * stringifying JSON objects, but it turns out that because TypeScript
+ * is so strict with respect to enums, that's not possible.
+ * 
+ * So this function is part of a hack that allows us to "munge" an
+ * expression into a string and later "un-munge" it so that it's no
+ * longer quoted in a string.
+ * 
+ * Note that this whole hack is only possible because we're creating
+ * these "blank" object literals with very restrictive limits on
+ * their content.
+ */
+function encodeStringToUnquote(content: string): string {
+  return `__unquote(${content})__`;
+}
+
+/**
+ * The other side of the hack finds the "munged" strings we
+ * made earlier and unmunges them.
+ */
+function decodeStringsToUnquote(content: string): string {
+  return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
 }

@@ -7,7 +7,7 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
-import { assertNotNull } from '../util';
+import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, BaseFormFieldProps } from '../form-fields';
 import { NextButton } from '../buttons';
@@ -252,7 +252,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
-            initialState={(s) => s.onboardingStep1 || blankInitialState}
+            initialState={s => exactSubsetOrDefault(s.onboardingStep1, blankInitialState)}
             onSuccessRedirect={(output, input) => {
               const successSession = assertNotNull(output.session);
               const successInfo = assertNotNull(successSession.onboardingStep1);

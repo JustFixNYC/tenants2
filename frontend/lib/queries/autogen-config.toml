@@ -1,0 +1,23 @@
+# This file defines how we auto-generate some of our GraphQL queries.
+# For more details on its layout, see:
+#
+#   frontend/querybuilder/autogen-graphql/config.ts
+
+version = 1
+
+[types.SessionInfo]
+fragmentName = "AllSessionInfo"
+
+[types.FeeWaiverType]
+fragmentName = "FeeWaiverDetails"
+ignoreFields = [
+    "id"
+]
+
+[types.OnboardingStep1Info]
+ignoreFields = [
+    # This is defined by our GraphQL schema because it's easier than
+    # not including it in the schema, but we don't need it in the
+    # front-end.
+    "addressVerified"
+]

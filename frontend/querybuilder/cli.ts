@@ -7,7 +7,6 @@ export function run() {
   if (argvHasOption('-h', '--help')) {
     console.log(`usage: ${process.argv[1]} [OPTIONS]\n`);
     console.log(`options:\n`);
-    console.log('  -f / --force    Force run Apollo Codgen');
     console.log('  -w / --watch    Watch files for changes');
     console.log('  -h / --help     Show this help');
     console.log('  -v / --version  Show the version number');
@@ -19,9 +18,7 @@ export function run() {
     process.exit(0);
   }
 
-  const mainOptions = {
-    forceApolloCodegen: argvHasOption('-f', '--force')
-  };
+  const mainOptions = {};
 
   if (argvHasOption('-w', '--watch')) {
     // This requires devDependencies, so we'll import it dynamically,
@@ -29,7 +26,7 @@ export function run() {
     const { watch } = require('./watcher');
     watch(mainOptions);
   } else {
-    process.exit(main(mainOptions));
+    process.exit(main(mainOptions).exitCode);
   }
 }
 

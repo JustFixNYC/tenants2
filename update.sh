@@ -14,7 +14,7 @@ echo "----- Updating Node Dependencies -----"
 npm install --no-save
 
 echo "----- Rebuilding GraphQL queries -----"
-npm run querybuilder -- --force
+npm run querybuilder
 
 echo "----- Migrating Database -----"
 python manage.py migrate --noinput

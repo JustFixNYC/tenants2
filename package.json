@@ -98,6 +98,7 @@
     "react-transition-group": "2.5.0",
     "smoothscroll-polyfill": "0.4.3",
     "source-map-support": "0.5.9",
+    "toml": "^3.0.0",
     "ts-loader": "4.5.0",
     "typescript": "3.5.1",
     "uglify-js": "3.4.9",

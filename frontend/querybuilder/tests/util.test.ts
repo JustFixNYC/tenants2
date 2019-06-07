@@ -4,7 +4,8 @@ import {
   strContains,
   getGraphQlFragments,
   argvHasOption,
-  debouncer
+  debouncer,
+  reportChanged
 } from "../util";
 
 test('debouncer() works', () => {
@@ -12,14 +13,20 @@ test('debouncer() works', () => {
   jest.useFakeTimers();
 
   const debouncedFn = debouncer(fn, 1000);
-  debouncedFn();
-  debouncedFn();
+  debouncedFn(null, 'one');
+  debouncedFn(null, 'two');
   jest.runTimersToTime(500);
-  debouncedFn();
+  debouncedFn(null, 'three');
   expect(fn.mock.calls).toHaveLength(0);
 
   jest.runTimersToTime(1001);
   expect(fn.mock.calls).toHaveLength(1);
+  expect(fn.mock.calls[0][1]).toEqual(['one', 'two', 'three']);
+
+  debouncedFn(null, 'four');
+  jest.runTimersToTime(1001);
+  expect(fn.mock.calls).toHaveLength(2);
+  expect(fn.mock.calls[1][1]).toEqual(['four']);
 });
 
 test('argvHasOption() works', () => {
@@ -46,3 +53,24 @@ test('getGraphQlFragments() works', () => {
   )).toEqual(['blah', 'Mehhh123']);
 });
 
+describe('reportChanged()', () => {
+  const createMsg = (number: number, s: 's'|'') => `hey ${number} thing${s} changed`;
+
+  it('does not call logging function if list is empty', () => {
+    const fn = jest.fn();
+    reportChanged([], createMsg, fn);
+    expect(fn).not.toBeCalled();  
+  });
+
+  it('logs singular if list has one element', () => {
+    const fn = jest.fn();
+    reportChanged(['hi'], createMsg, fn);
+    expect(fn).toBeCalledWith('hey 1 thing changed');
+  });
+
+  it('logs plural if list has more than one element', () => {
+    const fn = jest.fn();
+    reportChanged(['hi', 'there'], createMsg, fn);
+    expect(fn).toBeCalledWith('hey 2 things changed');
+  });
+});

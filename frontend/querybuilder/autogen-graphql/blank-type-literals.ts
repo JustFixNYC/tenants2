@@ -23,6 +23,13 @@ function decodeStringsToUnquote(content: string): string {
   return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
 }
 
+/**
+ * Create a string of TypeScript code that represents a "blank" object literal
+ * for the given GraphQL object type.
+ * 
+ * Note that because TypeScript is quite strict with enums, any GraphQL enum values
+ * will assume that the related enum type is visible in the code's enclosing scope.
+ */
 export function createBlankTypeLiteral(type: GraphQLObjectType, spaces: number|null = 2): string {
   return stringifyBlankTypeLiteral(createBlankTypeLiteralObj(type), spaces);
 }

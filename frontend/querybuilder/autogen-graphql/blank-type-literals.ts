@@ -2,23 +2,36 @@ import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonN
 
 type TypeLiteral = { [key: string]: any };
 
-function createNonNullableBlank(type: any, fieldName: string): any {
-  const err = (msg: string) => new Error(msg + ` for field "${fieldName}"`);
+const SCALAR_DEFAULTS: { [key: string]: any } = {
+  'Int': 0,
+  'Float': 0.0,
+  'String': '',
+  'Boolean': false
+};
 
+class UnimplementedError extends Error {
+  constructor(actionDesc: string, fieldName: string) {
+    super(`Don't know how to ${actionDesc} for field "${fieldName}"`);
+  }
+}
+
+function getDefaultValueForScalar(name: string, field: string): any {
+  const defaultValue = SCALAR_DEFAULTS[name];
+
+  if (defaultValue === undefined) {
+    throw new UnimplementedError(`create an empty value for GraphQL scalar type "${name}"`, field);
+  }
+  return defaultValue;
+}
+
+function createNonNullableBlank(type: any, field: string): any {
   if (isListType(type)) {
     return [];
   }
   if (isScalarType(type)) {
-    if (type.name === 'Int') return 0;
-    if (type.name === 'Float') return 0.0;
-    if (type.name === 'String') return '';
-    if (type.name === 'Boolean') return false;
-
-    throw err(
-      `Don't know how to create an empty value for GraphQL scalar type "${type.name}"`
-    );
+    return getDefaultValueForScalar(type.name, field);
   }
-  throw err(`Don't know how to create a blank value for GraphQL type "${type.name}"`);
+  throw new UnimplementedError(`create a blank value for GraphQL type "${type.name}"`, field);
 }
 
 export function createBlankTypeLiteral(type: GraphQLObjectType): TypeLiteral {

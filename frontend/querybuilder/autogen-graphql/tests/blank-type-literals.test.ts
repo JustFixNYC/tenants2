@@ -1,8 +1,12 @@
 import { buildSchema, assertObjectType } from "graphql";
 import { createBlankTypeLiteral } from "../blank-type-literals";
 
+function buildSchemaAndGetObjectType(graphql: string, typeName: string) {
+  return assertObjectType(buildSchema(graphql).getType(typeName));
+}
+
 function buildObjectType(fields: string, name = 'AnonymousType') {
-  return assertObjectType(buildSchema(`type ${name} { ${fields} }`).getType(name));
+  return buildSchemaAndGetObjectType(`type ${name} { ${fields} }`, name);
 }
 
 function createBlankForFields(fields: string): any {
@@ -32,5 +36,13 @@ describe("createBlankTypeLiteral()", () => {
 
   it("sets non-nullable boolean fields to false", () => {
     expect(createBlankForFields('foo: Boolean!')).toEqual({ foo: false });
+  });
+
+  it("sets non-nullable enum fields to their first value", () => {
+    const type = buildSchemaAndGetObjectType(`
+      enum Episode { NEWHOPE, EMPIRE, JEDI }
+      type Blarg { episode: Episode! }
+    `, 'Blarg');
+    expect(createBlankTypeLiteral(type)).toEqual({ episode: 'NEWHOPE' });
   });
 });

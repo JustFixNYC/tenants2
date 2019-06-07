@@ -1,4 +1,4 @@
-import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType } from "graphql";
+import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType, isEnumType, GraphQLEnumType } from "graphql";
 
 type TypeLiteral = { [key: string]: any };
 
@@ -24,9 +24,16 @@ function getDefaultValueForScalar(name: string, field: string): any {
   return defaultValue;
 }
 
+function getDefaultValueForEnum(type: GraphQLEnumType): any {
+  return type.getValues()[0].value;
+}
+
 function createNonNullableBlank(type: any, field: string): any {
   if (isListType(type)) {
     return [];
+  }
+  if (isEnumType(type)) {
+    return getDefaultValueForEnum(type);
   }
   if (isScalarType(type)) {
     return getDefaultValueForScalar(type.name, field);

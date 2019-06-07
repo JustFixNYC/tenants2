@@ -29,6 +29,13 @@ export type AutogenTypeConfig = {
    * The GraphQL fragment name to create for the type.
    */
   fragmentName?: string,
+
+  /**
+   * Whether to create a "blank" object literal for the type. This
+   * literal will contain keys for the type set to values that will
+   * satisfy a type checker.
+   */
+  createBlankLiteral?: boolean
 };
 
 function validateBasicConfig(config: AutogenConfig): AutogenConfig {

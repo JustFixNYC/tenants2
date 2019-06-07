@@ -7,10 +7,12 @@ import {
   writeFileIfChangedSync,
 } from "./util";
 import { GraphQLValidator } from './validator';
-import { autogenerateGraphQlFiles } from './autogen-graphql';
+import { autogenerateGraphQlFiles, generateBlankTypeLiterals } from './autogen-graphql';
 import { GraphQlFile } from './graphql-file';
-import { GRAPHQL_SCHEMA_PATH, COPY_FROM_APOLLO_GEN_TO_QUERIES, QUERIES_PATH, QUERIES_GLOB, APOLLO_GEN_PATH } from './config';
+import { GRAPHQL_SCHEMA_PATH, COPY_FROM_APOLLO_GEN_TO_QUERIES, QUERIES_PATH, QUERIES_GLOB, APOLLO_GEN_PATH, AUTOGEN_CONFIG_PATH } from './config';
 import { deleteStaleTsFiles } from './stale-ts-files';
+import { AutogenContext } from './autogen-graphql/context';
+import { loadAutogenConfig } from './autogen-graphql/config';
 
 /**
  * Run Apollo codegen:generate if needed, returning 0 on success, nonzero on errors.
@@ -48,6 +50,15 @@ export interface MainOptions {
 }
 
 let validator: GraphQLValidator|null = null;
+let autogenContext: AutogenContext|null = null;
+
+export function getGlobalAutogenContext(): AutogenContext {
+  if (!autogenContext) {
+    const schema = getGlobalValidator().getSchema();
+    autogenContext = new AutogenContext(loadAutogenConfig(AUTOGEN_CONFIG_PATH), schema);
+  }
+  return autogenContext;
+}
 
 export function getGlobalValidator(): GraphQLValidator {
   if (!validator) {
@@ -64,11 +75,12 @@ export function getGlobalValidator(): GraphQLValidator {
  * identical content, to prevent spurious triggering of
  * static asset build pipelines that may be watching.
  */
-function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[]): string[] {
+function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[], extraTsCode: Map<string, string>): string[] {
   const filesWritten: string[] = [];
 
   graphQlFiles.forEach(query => {
-    if (query.writeTsCode()) {
+    const extraTsCodeForFile = extraTsCode.get(query.graphQlFilename);
+    if (query.writeTsCode(extraTsCodeForFile)) {
       filesWritten.push(query.tsCodePath);
     }
   });
@@ -84,9 +96,9 @@ export function main(options: MainOptions): {
   exitCode: number,
   filesChanged: string[]
 } {
-  const validator = getGlobalValidator();
-  let { graphQlFiles, filesChanged } = autogenerateGraphQlFiles(validator.getSchema());
-  const errors = validator.validate();
+  const ctx = getGlobalAutogenContext();
+  let { graphQlFiles, filesChanged } = autogenerateGraphQlFiles(ctx);
+  const errors = getGlobalValidator().validate();
 
   if (errors.length) {
     console.log(errors.join('\n'));
@@ -98,7 +110,8 @@ export function main(options: MainOptions): {
     return { exitCode: apolloStatus, filesChanged };
   }
 
-  const filesWritten = generateGraphQlTsFiles(graphQlFiles);
+  const extraTsCode = generateBlankTypeLiterals(ctx);
+  const filesWritten = generateGraphQlTsFiles(graphQlFiles, extraTsCode);
   const staleFiles = deleteStaleTsFiles(graphQlFiles);
 
   filesChanged = [...filesWritten, ...staleFiles, ...filesChanged];

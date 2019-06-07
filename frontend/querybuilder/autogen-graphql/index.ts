@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { GraphQLSchema, GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
-import { writeFileIfChangedSync, reportChanged} from "../util";
+import { GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
+import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
 import { GraphQlFile } from "../graphql-file";
-import { AUTOGEN_PREAMBLE, AUTOGEN_CONFIG_PATH, QUERIES_PATH } from "../config";
-import { fullyUnwrapType } from './graphql-schema-util';
-import { loadAutogenConfig } from './config';
+import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
+import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
+import { createBlankTypeLiteral } from './blank-type-literals';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -46,13 +46,17 @@ type OutputFile = {
   contents: string
 };
 
+function filenameForFragment(fragmentName: string): string {
+  return `${fragmentName}.graphql`;
+}
+
 /**
  * Auto-generate GraphQL fragments.
  */
 function *generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
   for (let typeInfo of ctx.iterFragmentTypes()) {
     const { type, fragmentName } = typeInfo;
-    const filename = `${fragmentName}.graphql`;
+    const filename = filenameForFragment(fragmentName);
     const queryBody = getQueryForType(type, '  ', ctx);
     const contents = `fragment ${fragmentName} on ${type.name} {\n${queryBody}\n}`;
     yield { filename, contents };
@@ -88,11 +92,10 @@ function deleteStaleGraphQlFiles(
  * Autogenerate GraphQL files against the given schema, deleting any stale
  * auto-generated GraphQL files if needed.
  */
-export function autogenerateGraphQlFiles(schema: GraphQLSchema, dryRun: boolean = false): {
+export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = false): {
   graphQlFiles: GraphQlFile[],
   filesChanged: string[]
 } {
-  const ctx = new AutogenContext(loadAutogenConfig(AUTOGEN_CONFIG_PATH), schema);
   const output = [...generateFragments(ctx)];
   const freshFiles = new Set<string>();
   const filesGenerated: string[] = [];
@@ -117,4 +120,35 @@ export function autogenerateGraphQlFiles(schema: GraphQLSchema, dryRun: boolean 
     graphQlFiles,
     filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(QUERIES_PATH, f))
   };
+}
+
+function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType): [string, string] {
+  const blankLiteral = createBlankTypeLiteral(type);
+  const fragmentName = ctx.getFragmentName(type);
+  if (!fragmentName) {
+    throw new ToolError(
+      `Blank object literals are only currently supported on fragments, ` +
+      `which the type "${type.name}" does not have.`
+    );
+  }
+  const exportedName = `Blank${fragmentName}`;
+  const tsCode = `export const ${exportedName}: ${fragmentName} = ${blankLiteral};\n`;
+  const filename = filenameForFragment(fragmentName);
+  return [filename, tsCode];
+}
+
+/**
+ * Auto-generate blank type literals for anything that needs it. Return a
+ * mapping from GraphQL filenames to TypeScript code defining the literals.
+ */
+export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
+  let fileMap = new Map<string, string>();
+
+  for (let info of ctx.typeMap.values()) {
+    if (info.createBlankLiteral) {
+      fileMap.set(...generateBlankTypeLiteral(ctx, ensureObjectType(info.type)));
+    }
+  }
+
+  return fileMap;
 }

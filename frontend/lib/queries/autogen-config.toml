@@ -7,6 +7,7 @@ version = 1
 
 [types.SessionInfo]
 fragmentName = "AllSessionInfo"
+createBlankLiteral = true
 
 [types.FeeWaiverType]
 fragmentName = "FeeWaiverDetails"

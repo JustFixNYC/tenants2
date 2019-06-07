@@ -132,11 +132,15 @@ function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType):
     );
   }
   const exportedName = `Blank${fragmentName}`;
-  const tsCode = `export const ${exportedName} = ${blankLiteral};\n`;
+  const tsCode = `export const ${exportedName}: ${fragmentName} = ${blankLiteral};\n`;
   const filename = filenameForFragment(fragmentName);
   return [filename, tsCode];
 }
 
+/**
+ * Auto-generate blank type literals for anything that needs it. Return a
+ * mapping from GraphQL filenames to TypeScript code defining the literals.
+ */
 export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
   let fileMap = new Map<string, string>();
 

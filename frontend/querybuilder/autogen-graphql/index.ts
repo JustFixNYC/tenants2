@@ -7,7 +7,7 @@ import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
-import { createBlankTypeLiteral, stringifyBlankTypeLiteral } from './blank-type-literals';
+import { createStringifiedBlankTypeLiteral } from './blank-type-literals';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -122,23 +122,27 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   };
 }
 
+function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType): [string, string] {
+  const blankLiteral = createStringifiedBlankTypeLiteral(type);
+  const fragmentName = ctx.getFragmentName(type);
+  if (!fragmentName) {
+    throw new ToolError(
+      `Blank object literals are only currently supported on fragments, ` +
+      `which the type "${type.name}" does not have.`
+    );
+  }
+  const exportedName = `Blank${fragmentName}`;
+  const tsCode = `export const ${exportedName} = ${blankLiteral};\n`;
+  const filename = filenameForFragment(fragmentName);
+  return [filename, tsCode];
+}
+
 export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
   let fileMap = new Map<string, string>();
 
   for (let info of ctx.typeMap.values()) {
     if (info.createBlankLiteral) {
-      const type = ensureObjectType(info.type);
-      const blankLiteral = stringifyBlankTypeLiteral(createBlankTypeLiteral(type));
-      const fragmentName = ctx.getFragmentName(type);
-      if (!fragmentName) {
-        throw new ToolError(
-          `Blank object literals are only currently supported on fragments, ` +
-          `which the type "${type.name}" does not have.`
-        );
-      }
-      const exportedName = `Blank${fragmentName}`;
-      const tsCode = `export const ${exportedName} = ${blankLiteral};\n`;
-      fileMap.set(filenameForFragment(fragmentName), tsCode);
+      fileMap.set(...generateBlankTypeLiteral(ctx, ensureObjectType(info.type)));
     }
   }
 

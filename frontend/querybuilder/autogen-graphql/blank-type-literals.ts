@@ -23,6 +23,10 @@ function decodeStringsToUnquote(content: string): string {
   return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
 }
 
+export function createStringifiedBlankTypeLiteral(type: GraphQLObjectType): string {
+  return stringifyBlankTypeLiteral(createBlankTypeLiteral(type));
+}
+
 export function stringifyBlankTypeLiteral(thing: any): string {
   return decodeStringsToUnquote(JSON.stringify(thing, null, 2));
 }

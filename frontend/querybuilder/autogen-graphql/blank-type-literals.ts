@@ -1,4 +1,4 @@
-import { GraphQLObjectType, isNullableType, isListType, isScalarType, GraphQLOutputType, assertNonNullType } from "graphql";
+import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType } from "graphql";
 
 type TypeLiteral = { [key: string]: any };
 

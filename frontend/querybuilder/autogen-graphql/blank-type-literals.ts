@@ -15,6 +15,18 @@ class UnimplementedError extends Error {
   }
 }
 
+function encodeStringToUnquote(content: string): string {
+  return `__unquote(${content})__`;
+}
+
+function decodeStringsToUnquote(content: string): string {
+  return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
+}
+
+export function stringifyBlankTypeLiteral(thing: any): string {
+  return decodeStringsToUnquote(JSON.stringify(thing, null, 2));
+}
+
 function getDefaultValueForScalar(name: string, field: string): any {
   const defaultValue = SCALAR_DEFAULTS[name];
 
@@ -25,7 +37,7 @@ function getDefaultValueForScalar(name: string, field: string): any {
 }
 
 function getDefaultValueForEnum(type: GraphQLEnumType): any {
-  return type.getValues()[0].value;
+  return encodeStringToUnquote(`${type.name}.${type.getValues()[0].name}`);
 }
 
 function createNonNullableBlank(type: any, field: string): any {

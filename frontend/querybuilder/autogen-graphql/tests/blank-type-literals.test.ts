@@ -1,5 +1,5 @@
 import { buildSchema, assertObjectType } from "graphql";
-import { createBlankTypeLiteral, stringifyBlankTypeLiteral } from "../blank-type-literals";
+import { createBlankTypeLiteral } from "../blank-type-literals";
 
 function buildSchemaAndGetObjectType(graphql: string, typeName: string) {
   return assertObjectType(buildSchema(graphql).getType(typeName));
@@ -10,7 +10,7 @@ function buildObjectType(fields: string, name = 'AnonymousType') {
 }
 
 function createBlankForFields(fields: string): any {
-  return createBlankTypeLiteral(buildObjectType(fields));
+  return JSON.parse(createBlankTypeLiteral(buildObjectType(fields)));
 }
 
 describe("createBlankTypeLiteral()", () => {
@@ -43,14 +43,6 @@ describe("createBlankTypeLiteral()", () => {
       enum Episode { NEWHOPE, EMPIRE, JEDI }
       type Blarg { episode: Episode! }
     `, 'Blarg');
-    const literal = createBlankTypeLiteral(type);
-    expect(literal).toEqual({
-      episode: "__unquote(Episode.NEWHOPE)__"
-    });
-    expect(stringifyBlankTypeLiteral(literal)).toEqual([
-      `{`,
-      `  "episode": Episode.NEWHOPE`,
-      `}`
-    ].join('\n'));
+    expect(createBlankTypeLiteral(type, null)).toEqual('{"episode":Episode.NEWHOPE}');
   });
 });

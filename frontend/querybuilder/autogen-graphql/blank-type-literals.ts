@@ -23,12 +23,13 @@ function decodeStringsToUnquote(content: string): string {
   return content.replace(/\"__unquote\(([A-Za-z0-9._]+)\)__\"/g, "$1");
 }
 
-export function createStringifiedBlankTypeLiteral(type: GraphQLObjectType): string {
-  return stringifyBlankTypeLiteral(createBlankTypeLiteral(type));
+export function createBlankTypeLiteral(type: GraphQLObjectType, spaces: number|null = 2): string {
+  return stringifyBlankTypeLiteral(createBlankTypeLiteralObj(type), spaces);
 }
 
-export function stringifyBlankTypeLiteral(thing: any): string {
-  return decodeStringsToUnquote(JSON.stringify(thing, null, 2));
+function stringifyBlankTypeLiteral(thing: any, spaces: number|null): string {
+  const rawJSON = JSON.stringify(thing, null, spaces === null ? undefined : spaces);
+  return decodeStringsToUnquote(rawJSON);
 }
 
 function getDefaultValueForScalar(name: string, field: string): any {
@@ -57,7 +58,7 @@ function createNonNullableBlank(type: any, field: string): any {
   throw new UnimplementedError(`create a blank value for GraphQL type "${type.name}"`, field);
 }
 
-export function createBlankTypeLiteral(type: GraphQLObjectType): TypeLiteral {
+function createBlankTypeLiteralObj(type: GraphQLObjectType): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
     const { type, name } = field;

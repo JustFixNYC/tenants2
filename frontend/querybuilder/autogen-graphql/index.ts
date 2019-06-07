@@ -7,7 +7,7 @@ import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
-import { createStringifiedBlankTypeLiteral } from './blank-type-literals';
+import { createBlankTypeLiteral } from './blank-type-literals';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -123,7 +123,7 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
 }
 
 function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType): [string, string] {
-  const blankLiteral = createStringifiedBlankTypeLiteral(type);
+  const blankLiteral = createBlankTypeLiteral(type);
   const fragmentName = ctx.getFragmentName(type);
   if (!fragmentName) {
     throw new ToolError(

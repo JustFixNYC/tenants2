@@ -32,34 +32,59 @@ function runMain(options: MainOptions): ReturnType<typeof main> {
   }
 }
 
-/** Watch GraphQL queries and schema and re-build queries when they change. */
-export function watch(options: MainOptions, debounceMs = 250) {
-  const paths = [
-    GRAPHQL_SCHEMA_PATH,
-    AUTOGEN_CONFIG_PATH,
-    path.posix.join(...QUERIES_PATH_PARTS, `*${DOT_GRAPHQL}`)
-  ];
-  let filesJustChangedByUs: string[] = [];
-  const logWaitingMsg = () => console.log(`Waiting for changes in ${paths.join(', ')}...`);
+const BASE_WATCH_OPTIONS: chokidar.WatchOptions = {
+  ignoreInitial: true
+};
 
-  chokidar.watch(paths, {
-    ignoreInitial: true
-  }).on('all', debouncer((_, pathsChanged) => {
-    pathsChanged = subtractPaths(pathsChanged, filesJustChangedByUs);
+class QuerybuilderWatcher {
+  private filesJustChangedByUs: string[];
+  private debouncedOnFileEvent: (...args: any) => void;
+
+  constructor(readonly options: MainOptions, readonly debounceMs: number) {
+    this.debouncedOnFileEvent = debouncer(this.onFileEvent.bind(this), debounceMs);
+    this.filesJustChangedByUs = [];
+  }
+
+  logWaitingMsg() {
+    console.log(`Waiting for changes to GraphQL-related files...`);
+  }
+
+  onFileEvent(events: any[], pathsChanged: string[]) {
+    pathsChanged = subtractPaths(pathsChanged, this.filesJustChangedByUs);
     if (pathsChanged.length === 0) return;
 
-    const result = runMain(options);
+    const result = runMain(this.options);
 
     // Remember the files that were changed by querybuilder this run;
     // it's possible they may trigger our filesystem watcher, but we
     // want to disregard such "false positives" if possible.
-    filesJustChangedByUs = result.filesChanged;
+    this.filesJustChangedByUs = result.filesChanged;
 
     if (result.exitCode !== 0) {
       console.log(chalk.redBright('ERROR: Rebuilding GraphQL queries failed!'));
     }
-    logWaitingMsg();
-  }, debounceMs));
+    this.logWaitingMsg();
+  }
 
-  logWaitingMsg();
+  watch() {
+    chokidar.watch([
+      AUTOGEN_CONFIG_PATH,
+      path.posix.join(...QUERIES_PATH_PARTS, `*${DOT_GRAPHQL}`)
+    ], BASE_WATCH_OPTIONS).on('all', this.debouncedOnFileEvent);
+
+    chokidar.watch(GRAPHQL_SCHEMA_PATH, {
+      ...BASE_WATCH_OPTIONS,
+      // The GraphQL schema, in particular, is large and we should wait
+      // until its size stabilizes, or else superfluous events will be
+      // triggered, causing multiple builds.
+      awaitWriteFinish: { stabilityThreshold: 1000 }
+    }).on('all', this.debouncedOnFileEvent);
+
+    this.logWaitingMsg();
+  }
+}
+
+/** Watch GraphQL queries and schema and re-build queries when they change. */
+export function watch(options: MainOptions, debounceMs = 250) {
+  new QuerybuilderWatcher(options, debounceMs).watch();
 }

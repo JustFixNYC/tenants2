@@ -1,5 +1,6 @@
-import { buildSchema, isObjectType } from "graphql";
+import { buildSchema } from "graphql";
 import { assertNotUndefined } from "../../../lib/util";
+import { ensureObjectType } from "../graphql-schema-util";
 
 export const BEET_SCHEMA = buildSchema(`
   type Beet {
@@ -9,7 +10,7 @@ export const BEET_SCHEMA = buildSchema(`
   }
 `);
 
-export const BEET_TYPE = ensureType(BEET_SCHEMA.getType('Beet'), isObjectType);
+export const BEET_TYPE = ensureObjectType(BEET_SCHEMA.getType('Beet'));
 
 const beetFields = BEET_TYPE.getFields();
 
@@ -18,12 +19,3 @@ export const BEET_FIELDS = {
   weight: assertNotUndefined(beetFields.weight),
   friends: assertNotUndefined(beetFields.friends)
 };
-
-type GraphQLTypePredicate<T> = (thing: any) => thing is T;
-
-function ensureType<T>(thing: any, predicate: GraphQLTypePredicate<T>): T {
-  if (!predicate(thing)) {
-    throw new Error(`Expected ${predicate.name}(${thing}) to be true!`);
-  }
-  return thing;
-}

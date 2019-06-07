@@ -1,6 +1,7 @@
-import { GraphQLNamedType, GraphQLField, GraphQLObjectType, isObjectType, GraphQLSchema } from "graphql";
+import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema } from "graphql";
 import { AutogenTypeConfig, AutogenConfig } from "./config";
 import { ToolError } from "../util";
+import { ensureObjectType } from "./graphql-schema-util";
 
 type ExtendedTypeConfig = AutogenTypeConfig & {
   type: GraphQLNamedType
@@ -51,30 +52,16 @@ export class AutogenContext {
     type: GraphQLObjectType
   }> {
     for (let typeInfo of this.typeMap.values()) {
-      const { type, fragmentName } = typeInfo;
+      let { type, fragmentName } = typeInfo;
       if (!fragmentName) continue;
-
-      if (!isObjectType(type)) {
-        throw new InvalidGraphQlTypeError(type, 'object');
-      }
-
-      yield { ...typeInfo, fragmentName, type };
+      yield { ...typeInfo, fragmentName, type: ensureObjectType(type) };
     }
-  }
-}
-
-class InvalidGraphQlTypeError extends ToolError {
-  constructor(type: GraphQLNamedType, typeName: string) {
-    super(`"${type.name}" is not a valid GraphQL ${typeName} type.`);
   }
 }
 
 function validateTypeConfig(type: GraphQLNamedType, config: AutogenTypeConfig) {
   if (config.ignoreFields) {
-    if (!isObjectType(type)) {
-      throw new InvalidGraphQlTypeError(type, 'object');
-    }
-    validateIgnoreFields(type, config.ignoreFields);
+    validateIgnoreFields(ensureObjectType(type), config.ignoreFields);
   }
 }
 

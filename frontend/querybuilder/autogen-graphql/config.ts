@@ -5,7 +5,7 @@ import { ToolError } from "../util";
 
 type LatestVersion = 1;
 
-const LATEST_VERSION: LatestVersion = 1;
+export const LATEST_AUTOGEN_CONFIG_VERSION: LatestVersion = 1;
 
 export type AutogenConfig = {
   /**
@@ -32,10 +32,10 @@ export type AutogenTypeConfig = {
 };
 
 function validateBasicConfig(config: AutogenConfig): AutogenConfig {
-  if (config.version !== LATEST_VERSION) {
+  if (config.version !== LATEST_AUTOGEN_CONFIG_VERSION) {
     throw new ToolError(
       `Please restart this tool, configuration schema has changed ` +
-      `from ${LATEST_VERSION} to ${config.version}`
+      `from ${LATEST_AUTOGEN_CONFIG_VERSION} to ${config.version}`
     );
   }
   return config;

@@ -1,11 +1,8 @@
 /** @jest-environment node */
 
-import * as fs from 'fs';
 import * as path from 'path';
 
-import {
-  runApolloCodegen, getGlobalAutogenContext,
-} from "../querybuilder";
+import { getGlobalAutogenContext } from "../querybuilder";
 import { GraphQlFile } from '../graphql-file';
 import { findStaleTypescriptFiles } from '../stale-ts-files';
 import { autogenerateGraphQlFiles } from '../autogen-graphql';
@@ -13,16 +10,13 @@ import { autogenerateGraphQlFiles } from '../autogen-graphql';
 const RE_RUN_MSG = 'Please re-run "node querybuilder.js".';
 
 describe('querybuilder', () => {
-  it('should have generated up-to-date TS files based on latest schema and queries', () => {
-    runApolloCodegen();
-    GraphQlFile.fromDir().forEach(query => {
-      const expected = query.generateTsCode();
-      const actual = fs.readFileSync(query.tsCodePath, { encoding: 'utf-8' });
-
-      if (expected != actual) {
-        throw new Error(`GraphQL queries have changed. ${RE_RUN_MSG}`);
-      }
-    });
+  it('should generate TS files without throwing', () => {
+    // This is really just a smoke test. We used to actually run the whole
+    // GraphQL-to-TypeScript code generation pipeline here back when we
+    // stored the TS in version control to make sure that the TS was up-to-date,
+    // but that's not needed anymore now that we always run the pipeline as
+    // part of our build process.
+    GraphQlFile.fromDir().forEach(query => query.generateTsCode());
   });
 
   it('should not have generated any TS files that lack graphQL queries/fragments', () => {

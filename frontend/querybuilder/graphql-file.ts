@@ -158,8 +158,9 @@ export class GraphQlFile {
   }
 
   /** Write out our TypeScript code to a file. */
-  writeTsCode(): boolean {
-    return writeFileIfChangedSync(this.tsCodePath, this.generateTsCode());
+  writeTsCode(extraCode?: string): boolean {
+    extraCode = extraCode ? '\n\n' + extraCode : '';
+    return writeFileIfChangedSync(this.tsCodePath, this.generateTsCode() + extraCode);
   }
 
   /** Scan the directory containing our GraphQL queries. */

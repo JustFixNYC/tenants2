@@ -75,11 +75,12 @@ export function getGlobalValidator(): GraphQLValidator {
  * identical content, to prevent spurious triggering of
  * static asset build pipelines that may be watching.
  */
-function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[]): string[] {
+function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[], extraTsCode: Map<string, string>): string[] {
   const filesWritten: string[] = [];
 
   graphQlFiles.forEach(query => {
-    if (query.writeTsCode()) {
+    const extraTsCodeForFile = extraTsCode.get(query.graphQlFilename);
+    if (query.writeTsCode(extraTsCodeForFile)) {
       filesWritten.push(query.tsCodePath);
     }
   });
@@ -109,16 +110,11 @@ export function main(options: MainOptions): {
     return { exitCode: apolloStatus, filesChanged };
   }
 
-  const blankTypeLiterals = generateBlankTypeLiterals(ctx);
-  const filesWritten = generateGraphQlTsFiles(graphQlFiles);
+  const extraTsCode = generateBlankTypeLiterals(ctx);
+  const filesWritten = generateGraphQlTsFiles(graphQlFiles, extraTsCode);
   const staleFiles = deleteStaleTsFiles(graphQlFiles);
 
-  filesChanged = [
-    ...filesWritten,
-    ...staleFiles,
-    ...filesChanged,
-    ...blankTypeLiterals.filesWritten
-  ];
+  filesChanged = [...filesWritten, ...staleFiles, ...filesChanged];
 
   if (filesChanged.length === 0) {
     console.log(`GraphQL queries in ${QUERIES_PATH} are unchanged, doing nothing.`);

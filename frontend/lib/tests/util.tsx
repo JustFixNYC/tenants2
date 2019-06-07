@@ -1,10 +1,9 @@
 import React from 'react';
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
-import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { mount, ReactWrapper } from "enzyme";
 import { MemoryRouter, Route, RouteComponentProps } from "react-router";
-import { HPUploadStatus } from '../queries/globalTypes';
 import { FormError, strToFormError } from '../form-errors';
 
 interface TestClient {
@@ -69,28 +68,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   redirectToLegacyAppURL: '/myredirect-to-legacy-app'
 };
 
-export const FakeSessionInfo: Readonly<AllSessionInfo> = {
-  userId: null,
-  firstName: null,
-  lastName: null,
-  phoneNumber: null,
-  csrfToken: 'mycsrf',
-  prefersLegacyApp: false,
-  isStaff: false,
-  onboardingStep1: null,
-  onboardingStep2: null,
-  onboardingStep3: null,
-  onboardingInfo: null,
-  issues: [],
-  customIssues: [],
-  accessDates: [],
-  landlordDetails: null,
-  letterRequest: null,
-  isSafeModeEnabled: false,
-  feeWaiver: null,
-  latestHpActionPdfUrl: null,
-  hpActionUploadStatus: HPUploadStatus.NOT_STARTED
-};
+export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;
 
 export const FakeAppContext: AppContextType = {
   server: FakeServerInfo,

@@ -12,8 +12,6 @@ import * as path from 'path';
 export const QUERIES_PATH_PARTS = ['frontend', 'lib', 'queries'];
 export const QUERIES_PATH = path.join(...QUERIES_PATH_PARTS);
 
-export const BLANK_TYPE_LITERALS_PATH = path.join(...QUERIES_PATH_PARTS, 'blanks');
-
 /**
  * Path to the configuration file for the GraphQL files we automatically generate.
  */

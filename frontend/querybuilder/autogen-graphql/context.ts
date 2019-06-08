@@ -1,4 +1,4 @@
-import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema, isObjectType, GraphQLArgument } from "graphql";
+import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema, GraphQLArgument, GraphQLFieldMap, assertObjectType } from "graphql";
 import { AutogenTypeConfig, AutogenConfig, AutogenMutationConfig } from "./config";
 import { ToolError } from "../util";
 import { ensureObjectType, fullyUnwrapType } from "./graphql-schema-util";
@@ -28,10 +28,15 @@ export class AutogenContext {
   constructor(readonly config: AutogenConfig, readonly schema: GraphQLSchema) {
     this.globalIgnoreFields = new Set(config.ignoreFields || []);
     this.typeMap = new Map();
+    this.mutationMap = new Map();
+    this.populateTypeMap();
+    this.populateMutationMap();
+  }
 
-    for (let entry of Object.entries(config.types || {})) {
+  private populateTypeMap() {
+    for (let entry of Object.entries(this.config.types || {})) {
       const [name, info] = entry;
-      const type = schema.getType(name);
+      const type = this.schema.getType(name);
 
       if (!type) {
         throw new ToolError(`"${name}" is not a valid GraphQL type.`);
@@ -44,13 +49,13 @@ export class AutogenContext {
         type
       });
     }
+  }
 
-    this.mutationMap = new Map();
-
-    for (let entry of Object.entries(config.mutations || {})) {
+  private populateMutationMap() {
+    for (let entry of Object.entries(this.config.mutations || {})) {
       const [name, info] = entry;
       
-      this.mutationMap.set(name, getExtendedMutationConfig(schema, name, info));
+      this.mutationMap.set(name, getExtendedMutationConfig(this.schema, name, info));
     }
   }
 
@@ -67,7 +72,10 @@ export class AutogenContext {
   }
 
   shouldIgnoreField(type: GraphQLNamedType, field: GraphQLField<any, any>): boolean {
-    return this.globalIgnoreFields.has(field.name) || this.doesTypeConfigIgnoreField(type, field);
+    return (
+      this.globalIgnoreFields.has(field.name) ||
+      this.doesTypeConfigIgnoreField(type, field)
+    );
   }
 
   *iterFragmentTypes(): IterableIterator<ExtendedTypeConfig & {
@@ -90,14 +98,16 @@ function getDefaultMutationName(fieldName: string): string {
   return `${upperCaseFirstLetter(fieldName)}Mutation`;
 }
 
-function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, config: AutogenMutationConfig): ExtendedMutationConfig {
+function getMutationFields(schema: GraphQLSchema): GraphQLFieldMap<any, any> {
   const mutations = schema.getMutationType();
 
-  if (!mutations) {
-    throw new ToolError(`The GraphQL schema has no mutations.`);
-  }
+  if (!mutations) return {};
 
-  const field = mutations.getFields()[fieldName];
+  return mutations.getFields();
+}
+
+function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, config: AutogenMutationConfig): ExtendedMutationConfig {
+  const field = getMutationFields(schema)[fieldName];
 
   if (!field) {
     throw new ToolError(`"${fieldName}" is not a valid mutation name.`);
@@ -108,12 +118,7 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
   }
 
   const inputArg = field.args[0];
-  const outputType = fullyUnwrapType(field.type);
-
-  if (!isObjectType(outputType)) {
-    throw new ToolError(`Mutation field "${fieldName}" should be a GraphQL object type.`);
-  }
-
+  const outputType = assertObjectType(fullyUnwrapType(field.type));
   const name = config.name || getDefaultMutationName(fieldName);
   const filename = `${name}.graphql`;
 

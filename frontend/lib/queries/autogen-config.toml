@@ -39,4 +39,7 @@ ignoreFields = [
 
 [mutations.logout]
 
+[mutations.onboardingStep1]
+sessionKeys = ["onboardingStep1"]
+
 [mutations.onboardingStep4]

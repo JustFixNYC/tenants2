@@ -35,6 +35,16 @@ export class AutogenContext {
     this.populateMutationMap();
   }
 
+  withModifiedTypes(types: { [name: string]: AutogenTypeConfig }): AutogenContext {
+    return new AutogenContext({
+      ...this.config,
+      types: {
+        ...this.config.types,
+        ...types
+      }
+    }, this.schema);
+  }
+
   private populateTypeMap() {
     for (let entry of Object.entries(this.config.types || {})) {
       const [name, info] = entry;

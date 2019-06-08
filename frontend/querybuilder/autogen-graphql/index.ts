@@ -8,6 +8,7 @@ import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
 import { createBlankTypeLiteral } from './blank-type-literals';
+import { AutogenConfig } from './config';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -65,11 +66,14 @@ function *generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
 
 function *generateMutations(ctx: AutogenContext): IterableIterator<OutputFile> {
   for (let mutInfo of ctx.mutationMap.values()) {
-    const { name, filename, fieldName, inputArg, outputType } = mutInfo;
+    const { name, filename, fieldName, inputArg, outputType, sessionKeys } = mutInfo;
+    let queryCtx = sessionKeys ? ctx.withModifiedTypes({
+      SessionInfo: { includeOnlyFields: sessionKeys }
+    }): ctx;
     const contents = [
       `mutation ${name}($input: ${inputArg.type}) {`,
       `  output: ${fieldName}(${inputArg.name}: $input) {`,
-      getQueryForType(outputType, '    ', ctx),
+      getQueryForType(outputType, '    ', queryCtx),
       `  }`,
       `}`
     ].join('\n');

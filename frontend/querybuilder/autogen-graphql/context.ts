@@ -3,8 +3,10 @@ import { AutogenTypeConfig, AutogenConfig, AutogenMutationConfig } from "./confi
 import { ToolError } from "../util";
 import { ensureObjectType, fullyUnwrapType } from "./graphql-schema-util";
 
-type ExtendedTypeConfig = AutogenTypeConfig & {
-  type: GraphQLNamedType
+type ExtendedTypeConfig = Omit<AutogenTypeConfig, 'ignoreFields' | 'includeOnlyFields'> & {
+  type: GraphQLNamedType,
+  ignoreFields?: Set<string>,
+  includeOnlyFields?: Set<string>
 };
 
 type ExtendedMutationConfig = AutogenMutationConfig & {
@@ -33,6 +35,16 @@ export class AutogenContext {
     this.populateMutationMap();
   }
 
+  withModifiedTypes(types: { [name: string]: AutogenTypeConfig }): AutogenContext {
+    return new AutogenContext({
+      ...this.config,
+      types: {
+        ...this.config.types,
+        ...types
+      }
+    }, this.schema);
+  }
+
   private populateTypeMap() {
     for (let entry of Object.entries(this.config.types || {})) {
       const [name, info] = entry;
@@ -42,12 +54,7 @@ export class AutogenContext {
         throw new ToolError(`"${name}" is not a valid GraphQL type.`);
       }
 
-      validateTypeConfig(type, info);
-
-      this.typeMap.set(name, {
-        ...info,
-        type
-      });
+      this.typeMap.set(name, toExtendedTypeConfig(info, type));
     }
   }
 
@@ -67,8 +74,12 @@ export class AutogenContext {
 
   private doesTypeConfigIgnoreField(type: GraphQLNamedType, field: GraphQLField<any, any>): boolean {
     const typeInfo = this.typeMap.get(type.name);
-    if (!typeInfo || !typeInfo.ignoreFields) return false;
-    return typeInfo.ignoreFields.indexOf(field.name) >= 0;
+    if (!typeInfo) return false;
+
+    const { ignoreFields, includeOnlyFields } = typeInfo;
+    if (ignoreFields) return ignoreFields.has(field.name);
+    if (includeOnlyFields) return !includeOnlyFields.has(field.name);
+    return false;
   }
 
   shouldIgnoreField(type: GraphQLNamedType, field: GraphQLField<any, any>): boolean {
@@ -88,6 +99,21 @@ export class AutogenContext {
       yield { ...typeInfo, fragmentName, type: ensureObjectType(type) };
     }
   }
+}
+
+function toExtendedTypeConfig(info: AutogenTypeConfig, type: GraphQLNamedType): ExtendedTypeConfig {
+  validateTypeConfig(type, info);
+
+  const { ignoreFields, includeOnlyFields, ...baseValue } = info;
+  const value: ExtendedTypeConfig = { ...baseValue, type };
+
+  if (ignoreFields) {
+    value.ignoreFields = new Set(ignoreFields);
+  } else if (includeOnlyFields) {
+    value.includeOnlyFields = new Set(includeOnlyFields);
+  }
+
+  return value;
 }
 
 function upperCaseFirstLetter(value: string): string {
@@ -133,14 +159,26 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
 }
 
 function validateTypeConfig(type: GraphQLNamedType, config: AutogenTypeConfig) {
-  if (config.ignoreFields) {
-    validateIgnoreFields(ensureObjectType(type), config.ignoreFields);
+  const { ignoreFields, includeOnlyFields } = config;
+  if (ignoreFields && includeOnlyFields) {
+    throw new ToolError(
+      `Field "${type.name}" cannot contain both a list of fields to ignore and ` +
+      `a list of fields to exclusively include.`
+    );
+  }
+  maybeValidateFieldsExist(type, ignoreFields);
+  maybeValidateFieldsExist(type, includeOnlyFields);
+}
+
+function maybeValidateFieldsExist(type: GraphQLNamedType, fieldList?: string[]) {
+  if (fieldList) {
+    validateFieldsExist(ensureObjectType(type), fieldList);
   }
 }
 
-function validateIgnoreFields(type: GraphQLObjectType, ignoreFields: string[]) {
+function validateFieldsExist(type: GraphQLObjectType, fieldList: string[]) {
   const fields = type.getFields();
-  for (let fieldName of ignoreFields) {
+  for (let fieldName of fieldList) {
     const field = fields[fieldName];
     if (!field) {
       throw new ToolError(`Field "${fieldName}" does not exist on type "${type.name}".`);

@@ -39,11 +39,24 @@ export type AutogenMutationConfig = {
    * "BoopMutation" made for it.
    */
   name?: string;
+
+  /**
+   * If the mutation's output includes the user session, this array can
+   * contain a list of its fields to exclusively include in the GraphQL
+   * mutation, to reduce the size of the response payload.
+   */
+  sessionFields?: string[];
 };
 
 export type AutogenTypeConfig = {
   /** A list of fields in GraphQL types to ignore when generating queries. */
   ignoreFields?: string[],
+
+  /**
+   * A list of fields in GraphQL types to *only* include when generating queries,
+   * ignoring all others.
+   */
+  includeOnlyFields?: string[],
 
   /**
    * The GraphQL fragment name to create for the type.

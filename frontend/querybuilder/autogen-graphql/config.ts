@@ -16,9 +16,29 @@ export type AutogenConfig = {
   version: LatestVersion,
 
   /**
+   * A list of fields to globally ignore, regardless of what GraphQL type they appear in.
+   */
+  ignoreFields?: string[],
+
+  /**
    * A mapping from GraphQL type names to configuration metadata.
    */
-  types: { [name: string]: AutogenTypeConfig },
+  types?: { [name: string]: AutogenTypeConfig },
+
+  /**
+   * A mapping from GraphQL mutation fields to configuration metadata.
+   */
+  mutations?: { [name: string]: AutogenMutationConfig },
+};
+
+export type AutogenMutationConfig = {
+  /**
+   * The GraphQL mutation name to create for the mutation field.
+   * Defaults to the CamelCased name of the field followed by the word 'Mutation',
+   * e.g. a mutation field called "boop" will have a mutation called
+   * "BoopMutation" made for it.
+   */
+  name?: string;
 };
 
 export type AutogenTypeConfig = {

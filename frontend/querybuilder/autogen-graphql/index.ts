@@ -63,6 +63,20 @@ function *generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
   }
 }
 
+function *generateMutations(ctx: AutogenContext): IterableIterator<OutputFile> {
+  for (let mutInfo of ctx.mutationMap.values()) {
+    const { name, filename, fieldName, inputArg, outputType } = mutInfo;
+    const contents = [
+      `mutation ${name}($input: ${inputArg.type}) {`,
+      `  output: ${fieldName}(${inputArg.name}: $input) {`,
+      getQueryForType(outputType, '    ', ctx),
+      `  }`,
+      `}`
+    ].join('\n');
+    yield { filename, contents };
+  }
+}
+
 /**
  * Delete any stale GraphQL files if needed, given a list of GraphQL files
  * we know are fresh.
@@ -96,7 +110,7 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   graphQlFiles: GraphQlFile[],
   filesChanged: string[]
 } {
-  const output = [...generateFragments(ctx)];
+  const output = [...generateFragments(ctx), ...generateMutations(ctx)];
   const freshFiles = new Set<string>();
   const filesGenerated: string[] = [];
 

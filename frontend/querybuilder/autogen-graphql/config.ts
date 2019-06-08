@@ -46,6 +46,12 @@ export type AutogenTypeConfig = {
   ignoreFields?: string[],
 
   /**
+   * A list of fields in GraphQL types to *only* include when generating queries,
+   * ignoring all others.
+   */
+  includeOnlyFields?: string[],
+
+  /**
    * The GraphQL fragment name to create for the type.
    */
   fragmentName?: string,

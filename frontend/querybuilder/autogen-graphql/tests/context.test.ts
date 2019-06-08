@@ -35,6 +35,34 @@ describe("AutogenContext", () => {
     expect(ctx.shouldIgnoreField(BEET_TYPE, BEET_FIELDS.weight)).toBe(false);
   });
 
+  it("includes only specific fields", () => {
+    const ctx = new AutogenContext(config({
+      types: { Beet: { includeOnlyFields: ['name'] } }
+    }), BEET_SCHEMA);
+    expect(ctx.shouldIgnoreField(BEET_TYPE, BEET_FIELDS.name)).toBe(false);
+    expect(ctx.shouldIgnoreField(BEET_TYPE, BEET_FIELDS.weight)).toBe(true);
+  });
+
+  it("globally ignores fields", () => {
+    const ctx = new AutogenContext(config({
+      ignoreFields: ['weight']
+    }), BEET_SCHEMA);
+    expect(ctx.shouldIgnoreField(BEET_TYPE, BEET_FIELDS.name)).toBe(false);
+    expect(ctx.shouldIgnoreField(BEET_TYPE, BEET_FIELDS.weight)).toBe(true);
+  });
+
+  it("raises exceptions when asked to ignore and include only specific fields", () => {
+    expect(() => new AutogenContext(config({
+      types: { Beet: { ignoreFields: ['hairstyle'], includeOnlyFields: ['hairstyle'] } }
+    }), BEET_SCHEMA)).toThrow(/ignore/);
+  });
+
+  it("raises exceptions on invalid include only fields", () => {
+    expect(() => new AutogenContext(config({
+      types: { Beet: { includeOnlyFields: ['hairstyle'] } }
+    }), BEET_SCHEMA)).toThrow('Field "hairstyle" does not exist on type "Beet".');
+  });
+
   it("raises exceptions on invalid ignored fields", () => {
     expect(() => new AutogenContext(config({
       types: { Beet: { ignoreFields: ['hairstyle'] } }

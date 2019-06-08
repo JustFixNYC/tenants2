@@ -8,7 +8,6 @@ import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
 import { createBlankTypeLiteral } from './blank-type-literals';
-import { AutogenConfig } from './config';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.

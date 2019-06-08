@@ -5,6 +5,11 @@
 
 version = 1
 
+ignoreFields = [
+    # This field is added to mutation outputs by Apollo but we never use it.
+    "clientMutationId"
+]
+
 [types.SessionInfo]
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
@@ -15,6 +20,13 @@ ignoreFields = [
     "id"
 ]
 
+[types.StrictFormFieldErrorType]
+fragmentName = "ExtendedFormFieldErrors"
+ignoreFields = [
+    # This is a deprecated field that we will eventually remove from the server.
+    "messages"
+]
+
 [types.OnboardingStep1Info]
 ignoreFields = [
     # This is defined by our GraphQL schema because it's easier than
@@ -22,3 +34,9 @@ ignoreFields = [
     # front-end.
     "addressVerified"
 ]
+
+[mutations.login]
+
+[mutations.logout]
+
+[mutations.onboardingStep4]

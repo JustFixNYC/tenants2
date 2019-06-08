@@ -42,10 +42,10 @@ export type AutogenMutationConfig = {
 
   /**
    * If the mutation's output includes the user session, this array can
-   * contain a list of its keys to exclusively include in the GraphQL
+   * contain a list of its fields to exclusively include in the GraphQL
    * mutation, to reduce the size of the response payload.
    */
-  sessionKeys?: string[];
+  sessionFields?: string[];
 };
 
 export type AutogenTypeConfig = {

@@ -65,9 +65,9 @@ function *generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
 
 function *generateMutations(ctx: AutogenContext): IterableIterator<OutputFile> {
   for (let mutInfo of ctx.mutationMap.values()) {
-    const { name, filename, fieldName, inputArg, outputType, sessionKeys } = mutInfo;
-    let queryCtx = sessionKeys ? ctx.withModifiedTypes({
-      SessionInfo: { includeOnlyFields: sessionKeys }
+    const { name, filename, fieldName, inputArg, outputType, sessionFields } = mutInfo;
+    let queryCtx = sessionFields ? ctx.withModifiedTypes({
+      SessionInfo: { includeOnlyFields: sessionFields }
     }): ctx;
     const contents = [
       `mutation ${name}($input: ${inputArg.type}) {`,

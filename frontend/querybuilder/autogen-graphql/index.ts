@@ -4,7 +4,7 @@ import * as path from 'path';
 import { GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
 import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
 import { GraphQlFile } from "../graphql-file";
-import { AUTOGEN_PREAMBLE, QUERIES_PATH } from "../config";
+import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
 import { createBlankTypeLiteral } from './blank-type-literals';
@@ -119,7 +119,7 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
 
   output.forEach(({ filename, contents }) => {
     freshFiles.add(filename);
-    const fullPath = path.join(QUERIES_PATH, filename);
+    const fullPath = path.join(AUTOGEN_QUERIES_PATH, filename);
     if (writeFileIfChangedSync(fullPath, `${AUTOGEN_PREAMBLE}${contents}`, dryRun)) {
       filesGenerated.push(filename);
     }
@@ -128,14 +128,14 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(freshFiles, dryRun);
 
   reportChanged(filesGenerated, (number, s) => 
-    `Generated ${number} GraphQL query file${s} in ${QUERIES_PATH}.`);
+    `Generated ${number} GraphQL query file${s} in ${AUTOGEN_QUERIES_PATH}.`);
 
   reportChanged(filesRemoved, (number, s) =>
-    `Deleted ${number} stale GraphQL query file${s} from ${QUERIES_PATH}.`);
+    `Deleted ${number} stale GraphQL query file${s} from ${AUTOGEN_QUERIES_PATH}.`);
 
   return {
     graphQlFiles,
-    filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(QUERIES_PATH, f))
+    filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(AUTOGEN_QUERIES_PATH, f))
   };
 }
 

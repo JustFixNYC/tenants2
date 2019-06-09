@@ -127,6 +127,9 @@ export class GraphQLValidator {
       if (query.parseError) {
         errors.push(makeError(filename, query.parseError));
       }
+      if (queries.has(query.stem)) {
+        errors.push(`Multiple queries with the name "${query.basename}" exist!`);
+      }
       queries.set(query.stem, query);
     }
 

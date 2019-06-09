@@ -98,3 +98,11 @@ export function writeFileIfChangedSync(path: string, contents: string, dryRun: b
   }
   return true;
 }
+
+/**
+ * Combine the given list of glob expressions into a single
+ * glob expression.
+ */
+export function combineGlobs(globs: string[]): string {
+  return globs.length === 1 ? globs[0] : `{${globs.join(',')}}`
+}

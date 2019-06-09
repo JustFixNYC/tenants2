@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { combineGlobs } from './util';
 
 /**
  * The following directory paths assume we've been compiled to the
@@ -27,7 +28,7 @@ const ALL_QUERY_PATHS = [
 ];
 
 /** The glob that locates all our GraphQL queries. */
-export const QUERIES_GLOB = `{${ALL_QUERY_PATHS.map(p => `${p}/*.graphql`).join(',')}}`;
+export const QUERIES_GLOB = combineGlobs(ALL_QUERY_PATHS.map(p => `${p}/*.graphql`));
 
 /** The path into which Apollo codegen:generate will put its generated files. */
 export const APOLLO_GEN_PATH = path.join(QUERIES_PATH, '__generated__');

@@ -50,14 +50,10 @@ export interface MainOptions {
 }
 
 let validator: GraphQLValidator|null = null;
-let autogenContext: AutogenContext|null = null;
 
 export function getGlobalAutogenContext(): AutogenContext {
-  if (!autogenContext) {
-    const schema = getGlobalValidator().getSchema();
-    autogenContext = new AutogenContext(loadAutogenConfig(AUTOGEN_CONFIG_PATH), schema);
-  }
-  return autogenContext;
+  const schema = getGlobalValidator().getSchema();
+  return new AutogenContext(loadAutogenConfig(AUTOGEN_CONFIG_PATH), schema);
 }
 
 export function getGlobalValidator(): GraphQLValidator {

@@ -27,9 +27,11 @@ export class AutogenContext {
   readonly globalIgnoreFields: Set<string>;
   readonly typeMap: Map<string, ExtendedTypeConfig>;
   readonly mutationMap: Map<string, ExtendedMutationConfig>;
+  readonly config: AutogenConfig;
 
-  constructor(readonly config: AutogenConfig, readonly schema: GraphQLSchema) {
-    this.globalIgnoreFields = new Set(config.ignoreFields || []);
+  constructor(config: AutogenConfig, readonly schema: GraphQLSchema) {
+    this.config = resolveRegexps(config, schema);
+    this.globalIgnoreFields = new Set(this.config.ignoreFields || []);
     this.typeMap = new Map();
     this.mutationMap = new Map();
     this.populateTypeMap();
@@ -100,6 +102,37 @@ export class AutogenContext {
       yield { ...typeInfo, fragmentName, type: ensureObjectType(type) };
     }
   }
+}
+
+function splitBasedOnRegexp(strings: string[], regexp: RegExp): [string[], string[]] {
+  return strings.reduce(([matching, notMatching], string) => {
+    if (regexp.test(string)) {
+      return [[string, ...matching], notMatching];
+    }
+    return [matching, [string, ...notMatching]];
+  }, [[], []] as [string[], string[]]);
+}
+
+function resolveRegexps(config: AutogenConfig, schema: GraphQLSchema): AutogenConfig {
+  const origMutations = config.mutations || {};
+  const mutations: typeof origMutations = {};
+  const mutationNames = Object.keys(getMutationFields(schema));
+  const [identifiers, regexps] = splitBasedOnRegexp(Object.keys(origMutations || {}), /^\w+$/);
+
+  identifiers.forEach(id => mutations[id] = origMutations[id]);
+  regexps.forEach(reStr => {
+    const re = new RegExp(reStr);
+    const matchingMutations = mutationNames.filter(name => re.test(name));
+    const config = origMutations[reStr];
+    if (matchingMutations.length === 0) {
+      throw new ToolError(`The pattern "${reStr}" does not match any mutation names!`);
+    }
+    matchingMutations.forEach(id => {
+      mutations[id] = config;
+    });
+  });
+
+  return {...config, mutations};
 }
 
 function toExtendedTypeConfig(info: AutogenTypeConfig, type: GraphQLNamedType): ExtendedTypeConfig {

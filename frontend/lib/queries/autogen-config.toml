@@ -49,3 +49,6 @@ sessionFields = ["onboardingStep2"]
 sessionFields = ["onboardingStep3"]
 
 [mutations.onboardingStep4]
+
+[mutations."feeWaiver.*"]
+sessionFields = ["feeWaiver"]

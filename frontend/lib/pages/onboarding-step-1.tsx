@@ -6,7 +6,7 @@ import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
-import { OnboardingStep1Mutation } from '../queries/OnboardingStep1Mutation';
+import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, BaseFormFieldProps } from '../form-fields';
@@ -19,14 +19,6 @@ import { getBoroughChoiceLabels, BoroughChoice, isBoroughChoice, BoroughChoices 
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { toDjangoChoices } from '../common-data';
-
-const blankInitialState: OnboardingStep1Input = {
-  firstName: '',
-  lastName: '',
-  address: '',
-  aptNumber: '',
-  borough: '',
-};
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -77,7 +69,7 @@ export function PrivacyInfoModal(): JSX.Element {
 }
 
 export const ConfirmAddressModal = withAppContext((props: AppContextType & { toStep2: string }): JSX.Element => {
-  const onboardingStep1 = props.session.onboardingStep1 || blankInitialState;
+  const onboardingStep1 = props.session.onboardingStep1 || BlankOnboardingStep1Input;
   let borough = '';
 
   if (isBoroughChoice(onboardingStep1.borough)) {
@@ -252,7 +244,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
-            initialState={s => exactSubsetOrDefault(s.onboardingStep1, blankInitialState)}
+            initialState={s => exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)}
             onSuccessRedirect={(output, input) => {
               const successSession = assertNotNull(output.session);
               const successInfo = assertNotNull(successSession.onboardingStep1);

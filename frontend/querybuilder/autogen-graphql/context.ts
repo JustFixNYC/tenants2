@@ -1,4 +1,4 @@
-import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema, GraphQLArgument, GraphQLFieldMap, assertObjectType } from "graphql";
+import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema, GraphQLArgument, GraphQLFieldMap, assertObjectType, GraphQLInputObjectType, assertInputObjectType } from "graphql";
 import { AutogenTypeConfig, AutogenConfig, AutogenMutationConfig } from "./config";
 import { ToolError } from "../util";
 import { ensureObjectType, fullyUnwrapType } from "./graphql-schema-util";
@@ -14,6 +14,7 @@ type ExtendedMutationConfig = AutogenMutationConfig & {
   filename: string,
   fieldName: string,
   inputArg: GraphQLArgument,
+  inputObjectType: GraphQLInputObjectType,
   outputType: GraphQLObjectType
 };
 
@@ -144,6 +145,7 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
   }
 
   const inputArg = field.args[0];
+  const inputObjectType = assertInputObjectType(fullyUnwrapType(inputArg.type));
   const outputType = assertObjectType(fullyUnwrapType(field.type));
   const name = config.name || getDefaultMutationName(fieldName);
   const filename = `${name}.graphql`;
@@ -154,6 +156,7 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
     name,
     fieldName,
     inputArg,
+    inputObjectType,
     outputType
   }
 }

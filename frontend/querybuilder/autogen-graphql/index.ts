@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
+import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType, GraphQLNamedType } from "graphql";
 import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
 import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
-import { createBlankTypeLiteral } from './blank-type-literals';
+import { createBlankTypeLiteral, CreateBlankTypeLiteralOptions } from './blank-type-literals';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -139,8 +139,18 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   };
 }
 
-function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType): [string, string] {
-  const blankLiteral = createBlankTypeLiteral(type);
+function generateBlankTypeLiteral(
+  type: GraphQLObjectType|GraphQLInputObjectType,
+  typeName: string,
+  options?: CreateBlankTypeLiteralOptions
+): string {
+  const blankLiteral = createBlankTypeLiteral(type, options);
+  const exportedName = `Blank${typeName}`;
+  const tsCode = `export const ${exportedName}: ${typeName} = ${blankLiteral};\n`;
+  return tsCode;
+}
+
+function ensureFragmentName(ctx: AutogenContext, type: GraphQLNamedType): string {
   const fragmentName = ctx.getFragmentName(type);
   if (!fragmentName) {
     throw new ToolError(
@@ -148,10 +158,19 @@ function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType):
       `which the type "${type.name}" does not have.`
     );
   }
-  const exportedName = `Blank${fragmentName}`;
-  const tsCode = `export const ${exportedName}: ${fragmentName} = ${blankLiteral};\n`;
-  const filename = filenameForFragment(fragmentName);
-  return [filename, tsCode];
+  return fragmentName;
+}
+
+function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, string]> {
+  for (let info of ctx.typeMap.values()) {
+    if (info.createBlankLiteral) {
+      const fragmentName = ensureFragmentName(ctx, info.type);
+      yield [filenameForFragment(fragmentName), generateBlankTypeLiteral(
+        ensureObjectType(info.type),
+        fragmentName,
+      )];
+    }
+  }
 }
 
 /**
@@ -161,10 +180,14 @@ function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType):
 export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
   let fileMap = new Map<string, string>();
 
-  for (let info of ctx.typeMap.values()) {
-    if (info.createBlankLiteral) {
-      fileMap.set(...generateBlankTypeLiteral(ctx, ensureObjectType(info.type)));
-    }
+  for (let entry of generateBlankTypeLiteralsForFragments(ctx)) {
+    fileMap.set(...entry);
+  }
+
+  for (let { filename, inputObjectType } of ctx.mutationMap.values()) {
+    fileMap.set(filename, generateBlankTypeLiteral(inputObjectType, inputObjectType.name, {
+      excludeNullableFields: true
+    }));
   }
 
   return fileMap;

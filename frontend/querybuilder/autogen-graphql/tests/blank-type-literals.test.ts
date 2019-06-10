@@ -1,5 +1,5 @@
 import { buildSchema, assertObjectType } from "graphql";
-import { createBlankTypeLiteral } from "../blank-type-literals";
+import { createBlankTypeLiteral, CreateBlankTypeLiteralOptions } from "../blank-type-literals";
 
 function buildSchemaAndGetObjectType(graphql: string, typeName: string) {
   return assertObjectType(buildSchema(graphql).getType(typeName));
@@ -9,13 +9,19 @@ function buildObjectType(fields: string, name = 'AnonymousType') {
   return buildSchemaAndGetObjectType(`type ${name} { ${fields} }`, name);
 }
 
-function createBlankForFields(fields: string): any {
-  return JSON.parse(createBlankTypeLiteral(buildObjectType(fields)));
+function createBlankForFields(fields: string, options?: CreateBlankTypeLiteralOptions): any {
+  return JSON.parse(createBlankTypeLiteral(buildObjectType(fields), options));
 }
 
 describe("createBlankTypeLiteral()", () => {
-  it("sets nullable fields to null", () => {
+  it("sets nullable fields to null by default", () => {
     expect(createBlankForFields('foo: Int')).toEqual({ foo: null });
+  });
+
+  it("excludes nullable fields if configured", () => {
+    expect(createBlankForFields('foo: Int', {
+      excludeNullableFields: true
+    })).toEqual({});
   });
 
   it("sets non-nullable list fields to an empty list", () => {
@@ -43,6 +49,8 @@ describe("createBlankTypeLiteral()", () => {
       enum Episode { NEWHOPE, EMPIRE, JEDI }
       type Blarg { episode: Episode! }
     `, 'Blarg');
-    expect(createBlankTypeLiteral(type, null)).toEqual('{"episode":Episode.NEWHOPE}');
+    expect(createBlankTypeLiteral(type, {
+      spaces: null
+    })).toEqual('{"episode":Episode.NEWHOPE}');
   });
 });

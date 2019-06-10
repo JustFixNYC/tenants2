@@ -1,4 +1,4 @@
-import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType, isEnumType, GraphQLEnumType } from "graphql";
+import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType, isEnumType, GraphQLEnumType, GraphQLInputObjectType } from "graphql";
 
 type TypeLiteral = { [key: string]: any };
 
@@ -9,6 +9,27 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
   'Boolean': false
 };
 
+export type CreateBlankTypeLiteralOptions = Partial<Options>;
+
+type Options = {
+  /**
+   * Number of characters to use as white space, or null for no white space.
+   * Defaults to 2.
+   */
+  spaces: number|null,
+
+  /**
+   * For nullable fields, if true, leave the field out entirely rather than explicitly
+   * setting it to null. Defaults to false.
+   */
+  excludeNullableFields: boolean
+};
+
+const DEFAULT_OPTIONS: Options = {
+  spaces: 2,
+  excludeNullableFields: false
+};
+
 /**
  * Create a string of TypeScript code that represents a "blank" object literal
  * for the given GraphQL object type.
@@ -16,8 +37,9 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
  * Note that because TypeScript is quite strict with enums, any GraphQL enum values
  * will assume that the related enum type is visible in the code's enclosing scope.
  */
-export function createBlankTypeLiteral(type: GraphQLObjectType, spaces: number|null = 2): string {
-  return stringifyBlankTypeLiteral(createBlankTypeLiteralObj(type), spaces);
+export function createBlankTypeLiteral(type: GraphQLObjectType|GraphQLInputObjectType, options?: Partial<Options>): string {
+  const o = Object.assign({}, DEFAULT_OPTIONS, options);
+  return stringifyBlankTypeLiteral(createBlankTypeLiteralObj(type, o.excludeNullableFields), o.spaces);
 }
 
 function stringifyBlankTypeLiteral(thing: any, spaces: number|null): string {
@@ -51,13 +73,22 @@ function createNonNullableBlank(type: any, field: string): any {
   throw new UnimplementedError(`create a blank value for GraphQL type "${type.name}"`, field);
 }
 
-function createBlankTypeLiteralObj(type: GraphQLObjectType): TypeLiteral {
+function maybeAssignNullValue(thing: TypeLiteral, key: string, assignNull: boolean) {
+  if (assignNull) {
+    thing[key] = null;
+  }
+}
+
+function createBlankTypeLiteralObj(type: GraphQLObjectType|GraphQLInputObjectType, excludeNullableFields: boolean): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
     const { type, name } = field;
-    result[name] = isNullableType(type)
-      ? null
-      : createNonNullableBlank(assertNonNullType(type).ofType, name);
+
+    if (isNullableType(type)) {
+      maybeAssignNullValue(result, name, !excludeNullableFields);
+    } else {
+      result[name] = createNonNullableBlank(assertNonNullType(type).ofType, name);
+    }
   }
   return result;
 }

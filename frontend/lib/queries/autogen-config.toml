@@ -68,6 +68,7 @@ sessionFields = ["letterRequest"]
 
 [mutations.generateHpActionPdf]
 name = "GenerateHPActionPDFMutation"
+sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
 
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]

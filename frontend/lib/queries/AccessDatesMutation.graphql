@@ -1,8 +1,0 @@
-mutation AccessDatesMutation($input: AccessDatesInput!) {
-    output: accessDates(input: $input) {
-        errors { ...ExtendedFormFieldErrors },
-        session {
-            accessDates
-        }
-    }
-}

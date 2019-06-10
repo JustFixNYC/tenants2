@@ -35,9 +35,13 @@ ignoreFields = [
     "addressVerified"
 ]
 
+[mutations."example.*"]
+
 [mutations.login]
 
 [mutations.logout]
+
+[mutations."passwordReset.*"]
 
 [mutations.onboardingStep1]
 sessionFields = ["onboardingStep1"]
@@ -49,6 +53,21 @@ sessionFields = ["onboardingStep2"]
 sessionFields = ["onboardingStep3"]
 
 [mutations.onboardingStep4]
+
+[mutations.issueArea]
+sessionFields = ["issues", "customIssues"]
+
+[mutations.accessDates]
+sessionFields = ["accessDates"]
+
+[mutations.landlordDetails]
+sessionFields = ["landlordDetails"]
+
+[mutations.letterRequest]
+sessionFields = ["letterRequest"]
+
+[mutations.generateHpActionPdf]
+name = "GenerateHPActionPDFMutation"
 
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]

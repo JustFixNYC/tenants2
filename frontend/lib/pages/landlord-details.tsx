@@ -7,17 +7,12 @@ import { TextualFormField, TextareaFormField } from '../form-fields';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
 import { LandlordDetailsInput } from '../queries/globalTypes';
-import { LandlordDetailsMutation } from '../queries/LandlordDetailsMutation';
+import { LandlordDetailsMutation, BlankLandlordDetailsInput } from '../queries/LandlordDetailsMutation';
 import { AppContextType, withAppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
 import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 
-
-const BLANK_INPUT: LandlordDetailsInput = {
-  name: '',
-  address: ''
-};
 
 const PREV_STEP = () => Routes.locale.loc.accessDates;
 
@@ -87,7 +82,7 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
           ? <ReadOnlyLandlordDetails details={landlordDetails} />
           : <SessionUpdatingFormSubmitter
               mutation={LandlordDetailsMutation}
-              initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BLANK_INPUT)}
+              initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BlankLandlordDetailsInput)}
               onSuccessRedirect={NEXT_STEP}
             >
               {renderForm}

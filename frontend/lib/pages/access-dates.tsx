@@ -3,7 +3,7 @@ import React from 'react';
 import Page from "../page";
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField } from '../form-fields';
-import { AccessDatesMutation } from '../queries/AccessDatesMutation';
+import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
 import { NextButton, BackButton } from "../buttons";
 import Routes from '../routes';
@@ -26,8 +26,7 @@ const DEFAULT_FIRST_DATE_DAYS = MIN_DAYS;
 export function getInitialState(accessDates: string[], now: Date = new Date()): AccessDatesInput {
   const result: AccessDatesInput = {
     date1: dateAsISO(addDays(now, DEFAULT_FIRST_DATE_DAYS)),
-    date2: '',
-    date3: ''
+    ...BlankAccessDatesInput
   };
   accessDates.forEach((date, i) => {
     (result as any)[`date${i + 1}`] = date;

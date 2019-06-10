@@ -1,6 +1,7 @@
 import { AutogenContext } from "../context";
 import { AutogenConfig, LATEST_AUTOGEN_CONFIG_VERSION } from "../config";
 import { BEET_SCHEMA, BEET_TYPE, BEET_FIELDS } from "./util";
+import { assertNotUndefined } from "../../../lib/util";
 
 const EMPTY_AUTOGEN_CONFIG: AutogenConfig = {
   version: LATEST_AUTOGEN_CONFIG_VERSION,
@@ -85,5 +86,25 @@ describe("AutogenContext", () => {
     expect(() => new AutogenContext(config({
       mutations: { "doFunky.*": {} }
     }), BEET_SCHEMA)).toThrow("The pattern \"doFunky.*\" does not match any mutation names!");
+  });
+
+  it("works with mutations", () => {
+    const ctx = new AutogenContext(config({
+      mutations: { eat: {} }
+    }), BEET_SCHEMA);
+    const info = assertNotUndefined(ctx.mutationMap.get('eat'));
+    expect(info.name).toBe('EatMutation');
+    expect(info.inputArg.name).toBe('beetDeets');
+    expect(info.fieldName).toBe('eat');
+    expect(info.outputType.name).toBe('Beet');
+    expect(info.inputObjectType.name).toBe('BeetInput');
+  });
+
+  it("allows mutations to be renamed", () => {
+    const ctx = new AutogenContext(config({
+      mutations: { eat: { name: 'ConsumeMutation' } }
+    }), BEET_SCHEMA);
+    const info = assertNotUndefined(ctx.mutationMap.get('eat'));
+    expect(info.name).toBe('ConsumeMutation');
   });
 });

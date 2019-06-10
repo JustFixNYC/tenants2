@@ -8,6 +8,14 @@ export const BEET_SCHEMA = buildSchema(`
     weight: Float!,
     friends: [Beet!]!
   }
+
+  input BeetInput {
+    beet: Beet!
+  }
+
+  type Mutation {
+    eat(beetDeets: BeetInput!): Beet
+  }
 `);
 
 export const BEET_TYPE = ensureObjectType(BEET_SCHEMA.getType('Beet'));

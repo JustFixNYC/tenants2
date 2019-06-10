@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType } from "graphql";
+import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType, GraphQLNamedType } from "graphql";
 import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
 import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
@@ -150,16 +150,21 @@ function generateBlankTypeLiteral(
   return tsCode;
 }
 
+function ensureFragmentName(ctx: AutogenContext, type: GraphQLNamedType): string {
+  const fragmentName = ctx.getFragmentName(type);
+  if (!fragmentName) {
+    throw new ToolError(
+      `Blank object literals are only currently supported on fragments, ` +
+      `which the type "${type.name}" does not have.`
+    );
+  }
+  return fragmentName;
+}
+
 function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, string]> {
   for (let info of ctx.typeMap.values()) {
     if (info.createBlankLiteral) {
-      const fragmentName = ctx.getFragmentName(info.type);
-      if (!fragmentName) {
-        throw new ToolError(
-          `Blank object literals are only currently supported on fragments, ` +
-          `which the type "${info.type.name}" does not have.`
-        );
-      }
+      const fragmentName = ensureFragmentName(ctx, info.type);
       yield [filenameForFragment(fragmentName), generateBlankTypeLiteral(
         ensureObjectType(info.type),
         fragmentName,

@@ -73,15 +73,19 @@ function createNonNullableBlank(type: any, field: string): any {
   throw new UnimplementedError(`create a blank value for GraphQL type "${type.name}"`, field);
 }
 
+function maybeAssignNullValue(thing: TypeLiteral, key: string, assignNull: boolean) {
+  if (assignNull) {
+    thing[key] = null;
+  }
+}
+
 function createBlankTypeLiteralObj(type: GraphQLObjectType|GraphQLInputObjectType, excludeNullableFields: boolean): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
     const { type, name } = field;
 
     if (isNullableType(type)) {
-      if (!excludeNullableFields) {
-        result[name] = null;
-      }
+      maybeAssignNullValue(result, name, !excludeNullableFields);
     } else {
       result[name] = createNonNullableBlank(assertNonNullType(type).ofType, name);
     }

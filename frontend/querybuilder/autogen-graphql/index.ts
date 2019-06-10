@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { GraphQLObjectType, isObjectType, GraphQLField } from "graphql";
+import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType } from "graphql";
 import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
 import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
@@ -139,19 +139,32 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   };
 }
 
-function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType): [string, string] {
+function generateBlankTypeLiteral(
+  type: GraphQLObjectType|GraphQLInputObjectType,
+  typeName: string
+): string {
   const blankLiteral = createBlankTypeLiteral(type);
-  const fragmentName = ctx.getFragmentName(type);
-  if (!fragmentName) {
-    throw new ToolError(
-      `Blank object literals are only currently supported on fragments, ` +
-      `which the type "${type.name}" does not have.`
-    );
+  const exportedName = `Blank${typeName}`;
+  const tsCode = `export const ${exportedName}: ${typeName} = ${blankLiteral};\n`;
+  return tsCode;
+}
+
+function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, string]> {
+  for (let info of ctx.typeMap.values()) {
+    if (info.createBlankLiteral) {
+      const fragmentName = ctx.getFragmentName(info.type);
+      if (!fragmentName) {
+        throw new ToolError(
+          `Blank object literals are only currently supported on fragments, ` +
+          `which the type "${info.type.name}" does not have.`
+        );
+      }
+      yield [filenameForFragment(fragmentName), generateBlankTypeLiteral(
+        ensureObjectType(info.type),
+        fragmentName,
+      )];
+    }
   }
-  const exportedName = `Blank${fragmentName}`;
-  const tsCode = `export const ${exportedName}: ${fragmentName} = ${blankLiteral};\n`;
-  const filename = filenameForFragment(fragmentName);
-  return [filename, tsCode];
 }
 
 /**
@@ -161,10 +174,15 @@ function generateBlankTypeLiteral(ctx: AutogenContext, type: GraphQLObjectType):
 export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
   let fileMap = new Map<string, string>();
 
-  for (let info of ctx.typeMap.values()) {
-    if (info.createBlankLiteral) {
-      fileMap.set(...generateBlankTypeLiteral(ctx, ensureObjectType(info.type)));
-    }
+  for (let entry of generateBlankTypeLiteralsForFragments(ctx)) {
+    fileMap.set(...entry);
+  }
+
+  for (let info of ctx.mutationMap.values()) {
+    fileMap.set(info.filename, generateBlankTypeLiteral(
+      info.inputObjectType,
+      info.inputObjectType.name
+    ));
   }
 
   return fileMap;

@@ -1,4 +1,4 @@
-import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType, isEnumType, GraphQLEnumType } from "graphql";
+import { GraphQLObjectType, isNullableType, isListType, isScalarType, assertNonNullType, isEnumType, GraphQLEnumType, GraphQLInputObjectType } from "graphql";
 
 type TypeLiteral = { [key: string]: any };
 
@@ -16,7 +16,7 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
  * Note that because TypeScript is quite strict with enums, any GraphQL enum values
  * will assume that the related enum type is visible in the code's enclosing scope.
  */
-export function createBlankTypeLiteral(type: GraphQLObjectType, spaces: number|null = 2): string {
+export function createBlankTypeLiteral(type: GraphQLObjectType|GraphQLInputObjectType, spaces: number|null = 2): string {
   return stringifyBlankTypeLiteral(createBlankTypeLiteralObj(type), spaces);
 }
 
@@ -51,7 +51,7 @@ function createNonNullableBlank(type: any, field: string): any {
   throw new UnimplementedError(`create a blank value for GraphQL type "${type.name}"`, field);
 }
 
-function createBlankTypeLiteralObj(type: GraphQLObjectType): TypeLiteral {
+function createBlankTypeLiteralObj(type: GraphQLObjectType|GraphQLInputObjectType): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
     const { type, name } = field;

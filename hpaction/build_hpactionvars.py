@@ -17,11 +17,11 @@ from . import hpactionvars as hp
 # Red Hook.  I guess this means we ultimately let the user decide
 # which court to go to, as the LHI form does.
 COURT_LOCATIONS: Dict[str, hp.CourtLocationMC] = {
-    BOROUGH_CHOICES.MANHATTAN: hp.CourtLocationMC.NY,
-    BOROUGH_CHOICES.BRONX: hp.CourtLocationMC.BRONX,
-    BOROUGH_CHOICES.BROOKLYN: hp.CourtLocationMC.KINGS,
-    BOROUGH_CHOICES.QUEENS: hp.CourtLocationMC.QUEENS,
-    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtLocationMC.RICHMOND
+    BOROUGH_CHOICES.MANHATTAN: hp.CourtLocationMC.NEW_YORK_COUNTY,
+    BOROUGH_CHOICES.BRONX: hp.CourtLocationMC.BRONX_COUNTY,
+    BOROUGH_CHOICES.BROOKLYN: hp.CourtLocationMC.KINGS_COUNTY,
+    BOROUGH_CHOICES.QUEENS: hp.CourtLocationMC.QUEENS_COUNTY,
+    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtLocationMC.RICHMOND_COUNTY
 }
 
 

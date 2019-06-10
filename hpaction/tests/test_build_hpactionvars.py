@@ -28,7 +28,7 @@ def test_user_to_hpactionvars_populates_onboarding_info(db):
     v = user_to_hpactionvars(oi.user)
     assert v.tenant_address_apt_no_te == '2B'
     assert v.court_county_mc == hp.CourtCountyMC.KINGS
-    assert v.court_location_mc == hp.CourtLocationMC.KINGS
+    assert v.court_location_mc == hp.CourtLocationMC.KINGS_COUNTY
     v.to_answer_set()
 
 

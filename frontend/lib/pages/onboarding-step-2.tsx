@@ -8,20 +8,12 @@ import AlertableCheckbox from '../alertable-checkbox';
 import { NextButton, BackButton } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField } from '../form-fields';
-import { OnboardingStep2Mutation } from '../queries/OnboardingStep2Mutation';
+import { OnboardingStep2Mutation, BlankOnboardingStep2Input } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';
 import { Link } from 'react-router-dom';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 
-
-const blankInitialState: OnboardingStep2Input = {
-  isInEviction: false,
-  needsRepairs: false,
-  hasNoServices: false,
-  hasPests: false,
-  hasCalled311: false,
-};
 
 export function Step2EvictionModal(): JSX.Element {
   return (
@@ -98,7 +90,7 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
           <p className="subtitle is-6">Please select <strong>all that applies</strong> to your housing situation. You can add more details later on.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep2Mutation}
-            initialState={(session) => session.onboardingStep2 || blankInitialState}
+            initialState={(session) => session.onboardingStep2 || BlankOnboardingStep2Input}
             onSuccessRedirect={this.props.routes.step3}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>

@@ -9,17 +9,12 @@ import { IconLink } from "../icon-link";
 import { RadiosFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
 import { ReactDjangoChoices } from '../common-data';
-import { OnboardingStep3Mutation } from '../queries/OnboardingStep3Mutation';
+import { OnboardingStep3Mutation, BlankOnboardingStep3Input } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';
-
-const blankInitialState: OnboardingStep3Input = {
-  leaseType: '',
-  receivesPublicAssistance: ''
-};
 
 type LeaseInfoModalProps = {
   children: any;
@@ -219,7 +214,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           <p className="subtitle is-6">Your rights vary depending on what type of lease you have.</p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}
-            initialState={(session) => session.onboardingStep3 || blankInitialState}
+            initialState={(session) => session.onboardingStep3 || BlankOnboardingStep3Input}
             onSuccessRedirect={(_, input) => this.getSuccessRedirect(input.leaseType)}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>

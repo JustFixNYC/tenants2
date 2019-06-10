@@ -3,7 +3,7 @@ import { OnboardingStep4Input, OnboardingInfoSignupIntent } from "../queries/glo
 import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
-import { OnboardingStep4Mutation } from '../queries/OnboardingStep4Mutation';
+import { OnboardingStep4Mutation, BlankOnboardingStep4Input } from '../queries/OnboardingStep4Mutation';
 import { OnboardingRouteInfo } from '../routes';
 import { NextButton, BackButton } from "../buttons";
 import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fields';
@@ -20,12 +20,9 @@ type OnboardingStep4Props = {
 
 export default class OnboardingStep4 extends React.Component<OnboardingStep4Props> {
   private readonly blankInitialState: OnboardingStep4Input = {
-    phoneNumber: '',
+    ...BlankOnboardingStep4Input,
     canWeSms: true,
     signupIntent: this.props.signupIntent,
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false
   };
 
   @autobind

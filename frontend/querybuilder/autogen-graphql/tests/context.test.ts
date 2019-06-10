@@ -74,4 +74,16 @@ describe("AutogenContext", () => {
       types: { Hamburger: {} }
     }), BEET_SCHEMA)).toThrow('"Hamburger" is not a valid GraphQL type.');
   });
+
+  it("raises exceptions on invalid mutation names", () => {
+    expect(() => new AutogenContext(config({
+      mutations: { doFunkyThing: {} }
+    }), BEET_SCHEMA)).toThrow('"doFunkyThing" is not a valid mutation name.');
+  });
+
+  it("raises exceptions on invalid mutation regexps", () => {
+    expect(() => new AutogenContext(config({
+      mutations: { "doFunky.*": {} }
+    }), BEET_SCHEMA)).toThrow("The pattern \"doFunky.*\" does not match any mutation names!");
+  });
 });

@@ -25,8 +25,8 @@ const DEFAULT_FIRST_DATE_DAYS = MIN_DAYS;
 
 export function getInitialState(accessDates: string[], now: Date = new Date()): AccessDatesInput {
   const result: AccessDatesInput = {
-    date1: dateAsISO(addDays(now, DEFAULT_FIRST_DATE_DAYS)),
-    ...BlankAccessDatesInput
+    ...BlankAccessDatesInput,
+    date1: dateAsISO(addDays(now, DEFAULT_FIRST_DATE_DAYS))
   };
   accessDates.forEach((date, i) => {
     (result as any)[`date${i + 1}`] = date;

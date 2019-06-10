@@ -24,6 +24,14 @@ class ActionTypeMS(Enum):
     FEE_WAIVER = 'Fee waiver'
 
 
+class CopyIsForMC(Enum):
+    COURT = 'Court'
+    HPD = 'HPD'
+    TENANT = 'Tenant'
+    LANDLORD = 'Landlord'
+    MANAGEMENT_COMPANY = 'Management Company'
+
+
 class CourtCountyMC(Enum):
     BRONX = 'Bronx'
     KINGS = 'Kings'
@@ -34,19 +42,19 @@ class CourtCountyMC(Enum):
 
 class CourtLocationMC(Enum):
     # Bronx County
-    BRONX = 'Bronx'
+    BRONX_COUNTY = 'Bronx County'
     # Harlem Community Justice Center
-    HARLEM = 'Harlem'
+    HARLEM_COMMUNITY_JUSTICE_CENTER = 'Harlem Community Justice Center'
     # Kings County
-    KINGS = 'Kings'
+    KINGS_COUNTY = 'Kings County'
     # New York County
-    NY = 'NY'
+    NEW_YORK_COUNTY = 'New York County'
     # Queens County
-    QUEENS = 'Queens'
+    QUEENS_COUNTY = 'Queens County'
     # Richmond County
-    RICHMOND = 'Richmond'
+    RICHMOND_COUNTY = 'Richmond County'
     # Red Hook Community Justice Center
-    REDHOOK = 'Redhook'
+    RED_HOOK_COMMUNITY_JUSTICE_CENTER = 'Red Hook Community Justice Center'
 
 
 class HPDServiceLandlordMC(Enum):
@@ -600,6 +608,21 @@ class HPActionVariables:
 
     conditions_counter_nu: Optional[Union[int, float, Decimal]] = None
 
+    # not asked - used to insert label in top right corner for who the copy of the form goes to
+    copy_counter_nu: Optional[Union[int, float, Decimal]] = None
+
+    # not asked - used to insert label in top right corner for who the copy of the form goes to
+    copy_counter_add_nu: Optional[Union[int, float, Decimal]] = None
+
+    # not asked - used to insert label in top right corner for who the copy of the form goes to
+    copy_counter_insp_nu: Optional[Union[int, float, Decimal]] = None
+
+    # not asked - used to insert label in top right corner for who the copy of the form goes to
+    copy_counter_insp_add_nu: Optional[Union[int, float, Decimal]] = None
+
+    # not asked - used to insert label in top right corner for who the copy of the form goes to
+    fee_waiver_counter_nu: Optional[Union[int, float, Decimal]] = None
+
     # What floor do you live on?
     tenant_address_floor_nu: Optional[Union[int, float, Decimal]] = None
 
@@ -725,11 +748,17 @@ class HPActionVariables:
     # Do you want to serve the papers yourself?
     tenant_wants_to_serve_tf: Optional[bool] = None
 
+    # not asked - passed from JustFix.nyc
+    user_is_nycha_tf: Optional[bool] = None
+
     # Who will be home to let the City housing inspector in?
     access_person_mc: Optional[AccessPersonMC] = None
 
     # «.b»What would you like to do?«.be»  (Choose all that apply.)
     action_type_ms: Optional[List[ActionTypeMS]] = None
+
+    # not asked - used for labeling upper right corner
+    copy_is_for_mc: Optional[List[CopyIsForMC]] = None
 
     # In what jurisdiction/county will you be filing?
     court_county_mc: Optional[CourtCountyMC] = None
@@ -955,6 +984,16 @@ class HPActionVariables:
                        self.service_date_management_company_da)
         result.add_opt('Conditions counter NU',
                        self.conditions_counter_nu)
+        result.add_opt('Copy counter NU',
+                       self.copy_counter_nu)
+        result.add_opt('Copy counter add NU',
+                       self.copy_counter_add_nu)
+        result.add_opt('Copy counter insp NU',
+                       self.copy_counter_insp_nu)
+        result.add_opt('Copy counter insp add NU',
+                       self.copy_counter_insp_add_nu)
+        result.add_opt('Fee waiver counter NU',
+                       self.fee_waiver_counter_nu)
         result.add_opt('Tenant address floor NU',
                        self.tenant_address_floor_nu)
         result.add_opt('Tenant children under 6 NU',
@@ -1043,10 +1082,14 @@ class HPActionVariables:
                        self.tenant_receives_public_assistance_tf)
         result.add_opt('Tenant wants to serve TF',
                        self.tenant_wants_to_serve_tf)
+        result.add_opt('user_is_NYCHA_tf',
+                       self.user_is_nycha_tf)
         result.add_opt('Access person MC',
                        enum2mc_opt(self.access_person_mc))
         result.add_opt('Action type MS',
                        enum2mc_opt(self.action_type_ms))
+        result.add_opt('Copy is for MC',
+                       enum2mc_opt(self.copy_is_for_mc))
         result.add_opt('Court county MC',
                        enum2mc_opt(self.court_county_mc))
         result.add_opt('Court location MC',

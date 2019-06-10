@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FeeWaiverMiscInput, FeeWaiverIncomeInput, FeeWaiverExpensesInput, FeeWaiverPublicAssistanceInput } from "../queries/globalTypes";
+import { FeeWaiverExpensesInput } from "../queries/globalTypes";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
 import { CheckboxFormField } from '../form-fields';
@@ -8,36 +8,19 @@ import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
 import { BackButton, NextButton, CenteredPrimaryButtonLink } from '../buttons';
 import { CurrencyFormField } from '../currency-form-field';
 import { getInitialFormInput } from '../form-input-converter';
-import { FeeWaiverMiscMutation } from '../queries/FeeWaiverMiscMutation';
-import { FeeWaiverIncomeMutation } from '../queries/FeeWaiverIncomeMutation';
-import { FeeWaiverExpensesMutation } from '../queries/FeeWaiverExpensesMutation';
+import { FeeWaiverMiscMutation, BlankFeeWaiverMiscInput } from '../queries/FeeWaiverMiscMutation';
+import { FeeWaiverIncomeMutation, BlankFeeWaiverIncomeInput } from '../queries/FeeWaiverIncomeMutation';
+import { FeeWaiverExpensesMutation, BlankFeeWaiverExpensesInput } from '../queries/FeeWaiverExpensesMutation';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
 import { ProgressStepProps } from '../progress-step-route';
 import { assertNotNull } from '../util';
-import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAssistanceMutation';
+import { FeeWaiverPublicAssistanceMutation, BlankFeeWaiverPublicAssistanceInput } from '../queries/FeeWaiverPublicAssistanceMutation';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { bulmaClasses } from '../bulma';
 
-const INITIAL_MISC_STATE: FeeWaiverMiscInput = {
-  askedBefore: ''
-};
-
-const INITIAL_PUBLIC_ASSISTANCE_STATE: FeeWaiverPublicAssistanceInput = {
-  receivesPublicAssistance: ''
-};
-
-const INITIAL_INCOME_STATE: FeeWaiverIncomeInput = {
-  incomeAmountMonthly: '',
-  incomeSrcEmployment: false,
-  incomeSrcHra: false,
-  incomeSrcChildSupport: false,
-  incomeSrcAlimony: false,
-  incomeSrcOther: '',
-};
-
 const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
-  rentAmount: '',
+  ...BlankFeeWaiverExpensesInput,
   expenseUtilities: '0.00',
   expenseCable: '0.00',
   expenseChildcare: '0.00',
@@ -67,7 +50,7 @@ export const FeeWaiverMisc = (props: ProgressStepProps) => (
       mutation={FeeWaiverMiscMutation}
       initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
-        INITIAL_MISC_STATE,
+        BlankFeeWaiverMiscInput,
         (feeWaiver) => feeWaiver.yesNoRadios('askedBefore').finish()
       )}
       onSuccessRedirect={assertNotNull(props.nextStep)}
@@ -91,7 +74,7 @@ export const FeeWaiverPublicAssistance = (props: ProgressStepProps) => (
       mutation={FeeWaiverPublicAssistanceMutation}
       initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
-        INITIAL_PUBLIC_ASSISTANCE_STATE,
+        BlankFeeWaiverPublicAssistanceInput,
         (feeWaiver) => feeWaiver.yesNoRadios('receivesPublicAssistance').finish()
       )}
       onSuccessRedirect={assertNotNull(props.nextStep)}
@@ -114,7 +97,7 @@ export const FeeWaiverIncome = (props: ProgressStepProps) => (
       mutation={FeeWaiverIncomeMutation}
       initialState={({ feeWaiver }) => getInitialFormInput(
         feeWaiver,
-        INITIAL_INCOME_STATE,
+        BlankFeeWaiverIncomeInput,
         (feeWaiver) => feeWaiver.finish()
       )}
       onSuccessRedirect={assertNotNull(props.nextStep)}

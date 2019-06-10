@@ -4,12 +4,12 @@ import Routes from "../routes";
 import { OutboundLink } from '../google-analytics';
 import Page from '../page';
 import { LegacyFormSubmitter } from '../forms';
-import { PasswordResetMutation } from '../queries/PasswordResetMutation';
+import { PasswordResetMutation, BlankPasswordResetInput } from '../queries/PasswordResetMutation';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { BackButton, NextButton } from '../buttons';
-import { PasswordResetVerificationCodeMutation } from '../queries/PasswordResetVerificationCodeMutation';
+import { PasswordResetVerificationCodeMutation, BlankPasswordResetVerificationCodeInput } from '../queries/PasswordResetVerificationCodeMutation';
 import { TextualFormField } from '../form-fields';
-import { PasswordResetConfirmMutation } from '../queries/PasswordResetConfirmMutation';
+import { PasswordResetConfirmMutation, BlankPasswordResetConfirmInput } from '../queries/PasswordResetConfirmMutation';
 import { Link } from 'react-router-dom';
 
 function getPasswordResetRoutesProps(): ProgressRoutesProps {
@@ -35,7 +35,7 @@ function Start(props: {}) {
       <p className="subtitle is-6">If you're having trouble logging in, we can reset your password. In order to do that, we'll need your phone number.</p>
       <LegacyFormSubmitter
         mutation={PasswordResetMutation}
-        initialState={{phoneNumber: ''}}
+        initialState={BlankPasswordResetInput}
         onSuccessRedirect={Routes.locale.passwordReset.verify}
       >
         {(ctx) => <>
@@ -57,7 +57,7 @@ function Verify(props: {}) {
       <p className="subtitle is-6">We've just sent you a text message containing a verification code. Please enter it below.</p>
       <LegacyFormSubmitter
         mutation={PasswordResetVerificationCodeMutation}
-        initialState={{code: ''}}
+        initialState={BlankPasswordResetVerificationCodeInput}
         onSuccessRedirect={Routes.locale.passwordReset.confirm}
       >
         {(ctx) => <>
@@ -81,7 +81,7 @@ function Confirm(props: {}) {
       <p className="subtitle is-6">Hooray! The final step is to provide us with a new password.</p>
       <LegacyFormSubmitter
         mutation={PasswordResetConfirmMutation}
-        initialState={{password: '', confirmPassword: ''}}
+        initialState={BlankPasswordResetConfirmInput}
         onSuccessRedirect={Routes.locale.passwordReset.done}
       >
         {(ctx) => <>

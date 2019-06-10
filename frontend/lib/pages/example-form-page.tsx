@@ -2,7 +2,7 @@ import React from 'react';
 
 import Page from "../page";
 import { LegacyFormSubmitter } from '../forms';
-import { ExampleMutation } from '../queries/ExampleMutation';
+import { ExampleMutation, BlankExampleInput } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
@@ -13,11 +13,8 @@ import { CurrencyFormField } from '../currency-form-field';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
 
 const INITIAL_STATE: ExampleInput = {
-  exampleField: '',
-  boolField: false,
-  exampleOtherField: '',
+  ...BlankExampleInput,
   currencyField: '15.00',
-  subforms: []
 };
 
 const EMPTY_SUBFORM: SubformsExampleSubformFormSetInput = {

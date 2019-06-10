@@ -1,17 +1,9 @@
-import path from 'path';
-
 import chokidar from 'chokidar';
 import chalk from 'chalk';
 import { main, MainOptions } from './querybuilder';
 import { debouncer, ToolError } from './util';
-import { GRAPHQL_SCHEMA_PATH, AUTOGEN_CONFIG_PATH, QUERIES_PATH_PARTS, DOT_GRAPHQL } from './config';
+import { GRAPHQL_SCHEMA_PATH, AUTOGEN_CONFIG_PATH, WATCHABLE_QUERIES_GLOB } from './config';
 
-
-function subtractPaths(paths: string[], pathsToRemove: string[]): string[] {
-  const setToRemove = new Set(pathsToRemove.map(p => path.resolve(p)));
-
-  return paths.map(p => path.resolve(p)).filter(p => !setToRemove.has(p));
-}
 
 /**
  * Run querybuilder and return its exit code. If it threw an
@@ -37,12 +29,10 @@ const BASE_WATCH_OPTIONS: chokidar.WatchOptions = {
 };
 
 class QuerybuilderWatcher {
-  private filesJustChangedByUs: string[];
   private debouncedOnFileEvent: (...args: any) => void;
 
   constructor(readonly options: MainOptions, readonly debounceMs: number) {
     this.debouncedOnFileEvent = debouncer(this.onFileEvent.bind(this), debounceMs);
-    this.filesJustChangedByUs = [];
   }
 
   logWaitingMsg() {
@@ -50,15 +40,7 @@ class QuerybuilderWatcher {
   }
 
   onFileEvent(events: any[], pathsChanged: string[]) {
-    pathsChanged = subtractPaths(pathsChanged, this.filesJustChangedByUs);
-    if (pathsChanged.length === 0) return;
-
     const result = runMain(this.options);
-
-    // Remember the files that were changed by querybuilder this run;
-    // it's possible they may trigger our filesystem watcher, but we
-    // want to disregard such "false positives" if possible.
-    this.filesJustChangedByUs = result.filesChanged;
 
     if (result.exitCode !== 0) {
       console.log(chalk.redBright('ERROR: Rebuilding GraphQL queries failed!'));
@@ -69,7 +51,7 @@ class QuerybuilderWatcher {
   watch() {
     chokidar.watch([
       AUTOGEN_CONFIG_PATH,
-      path.posix.join(...QUERIES_PATH_PARTS, `*${DOT_GRAPHQL}`)
+      WATCHABLE_QUERIES_GLOB
     ], BASE_WATCH_OPTIONS).on('all', this.debouncedOnFileEvent);
 
     chokidar.watch(GRAPHQL_SCHEMA_PATH, {

@@ -42,4 +42,10 @@ ignoreFields = [
 [mutations.onboardingStep1]
 sessionFields = ["onboardingStep1"]
 
+[mutations.onboardingStep2]
+sessionFields = ["onboardingStep2"]
+
+[mutations.onboardingStep3]
+sessionFields = ["onboardingStep3"]
+
 [mutations.onboardingStep4]

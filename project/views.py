@@ -22,7 +22,7 @@ import project.health
 # (relatively) gracefully.
 TEST_INTERNAL_SERVER_ERROR = False
 
-FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries'
+FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries' / 'autogen'
 
 NS_PER_MS = 1e+6
 

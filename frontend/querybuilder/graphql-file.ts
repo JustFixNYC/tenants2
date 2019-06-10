@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import glob from 'glob';
 
 import { getGraphQlFragments, strContains, ToolError, writeFileIfChangedSync } from './util';
-import { APOLLO_GEN_PATH, QUERIES_PATH, DOT_GRAPHQL } from './config';
+import { APOLLO_GEN_PATH, QUERIES_PATH, DOT_GRAPHQL, QUERIES_GLOB } from './config';
 
 /**
  * This class is responsible for taking a raw text
@@ -20,6 +21,9 @@ import { APOLLO_GEN_PATH, QUERIES_PATH, DOT_GRAPHQL } from './config';
  * https://medium.com/@crucialfelix/bridging-the-server-client-gap-graphql-typescript-and-apollo-codegen-e5b54fa96ae2
  */
 export class GraphQlFile {
+  /** The name of the GraphQL query filename, without its directory. */
+  graphQlFilename: string;
+
   /** The base name of the GraphQL query filename, without its extension. */
   basename: string;
 
@@ -41,9 +45,9 @@ export class GraphQlFile {
   /** External fragments that the GraphQL refers to, if any. */
   fragments: string[];
 
-  constructor(readonly graphQlFilename: string, genPath: string = APOLLO_GEN_PATH) {
-    const fullPath = path.join(QUERIES_PATH, graphQlFilename);
-    this.basename = path.basename(graphQlFilename, DOT_GRAPHQL);
+  constructor(readonly fullPath: string, genPath: string = APOLLO_GEN_PATH) {
+    this.graphQlFilename = path.basename(fullPath);
+    this.basename = path.basename(this.graphQlFilename, DOT_GRAPHQL);
     this.graphQlPath = fullPath;
     this.graphQl = fs.readFileSync(fullPath, { encoding: 'utf-8' });
     this.tsInterfacesFilename = `${this.basename}.ts`;
@@ -165,8 +169,6 @@ export class GraphQlFile {
 
   /** Scan the directory containing our GraphQL queries. */
   static fromDir() {
-    return fs.readdirSync(QUERIES_PATH)
-      .filter(filename => path.extname(filename) === DOT_GRAPHQL)
-      .map(filename => new GraphQlFile(filename));
+    return glob.sync(QUERIES_GLOB).map(fullPath => new GraphQlFile(fullPath));
   }
 }

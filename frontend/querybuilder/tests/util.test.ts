@@ -5,7 +5,8 @@ import {
   getGraphQlFragments,
   argvHasOption,
   debouncer,
-  reportChanged
+  reportChanged,
+  combineGlobs
 } from "../util";
 
 test('debouncer() works', () => {
@@ -73,4 +74,9 @@ describe('reportChanged()', () => {
     reportChanged(['hi', 'there'], createMsg, fn);
     expect(fn).toBeCalledWith('hey 2 things changed');
   });
+});
+
+test('combineGlobs() works', () => {
+  expect(combineGlobs(['foo'])).toEqual('foo');
+  expect(combineGlobs(['foo', 'bar'])).toEqual('{foo,bar}');
 });

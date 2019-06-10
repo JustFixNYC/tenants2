@@ -7,7 +7,7 @@ import { GraphQlFile } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
 import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
 import { AutogenContext } from './context';
-import { createBlankTypeLiteral } from './blank-type-literals';
+import { createBlankTypeLiteral, CreateBlankTypeLiteralOptions } from './blank-type-literals';
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
@@ -141,9 +141,10 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
 
 function generateBlankTypeLiteral(
   type: GraphQLObjectType|GraphQLInputObjectType,
-  typeName: string
+  typeName: string,
+  options?: CreateBlankTypeLiteralOptions
 ): string {
-  const blankLiteral = createBlankTypeLiteral(type);
+  const blankLiteral = createBlankTypeLiteral(type, options);
   const exportedName = `Blank${typeName}`;
   const tsCode = `export const ${exportedName}: ${typeName} = ${blankLiteral};\n`;
   return tsCode;
@@ -178,11 +179,10 @@ export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, stri
     fileMap.set(...entry);
   }
 
-  for (let info of ctx.mutationMap.values()) {
-    fileMap.set(info.filename, generateBlankTypeLiteral(
-      info.inputObjectType,
-      info.inputObjectType.name
-    ));
+  for (let { filename, inputObjectType } of ctx.mutationMap.values()) {
+    fileMap.set(filename, generateBlankTypeLiteral(inputObjectType, inputObjectType.name, {
+      excludeNullableFields: true
+    }));
   }
 
   return fileMap;

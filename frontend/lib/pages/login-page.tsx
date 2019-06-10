@@ -3,10 +3,9 @@ import React from 'react';
 import Page from '../page';
 import Routes, { routeMap } from '../routes';
 import { SessionUpdatingFormSubmitter } from '../forms';
-import { LoginMutation } from '../queries/LoginMutation';
+import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
-import { LoginInput } from '../queries/globalTypes';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType } from '../app-context';
 import { History } from 'history';
@@ -17,11 +16,6 @@ import { getPostOrQuerystringVar } from '../querystring';
 import { Link } from 'react-router-dom';
 
 const NEXT = 'next';
-
-const initialState: LoginInput = {
-  phoneNumber: '',
-  password: ''
-};
 
 export interface LoginFormProps {
   next: string;
@@ -49,7 +43,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
     return (
       <SessionUpdatingFormSubmitter
         mutation={LoginMutation}
-        initialState={initialState}
+        initialState={BlankLoginInput}
         onSuccessRedirect={(output, input) => {
           if (assertNotNull(output.session).prefersLegacyApp) {
             return this.props.redirectToLegacyAppURL;

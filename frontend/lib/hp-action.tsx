@@ -23,7 +23,7 @@ const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for repairs through an HP Action proceeding" withHeading className="content">
+    <Page title="Sue your landlord for repairs through an HP Action proceeding" withHeading="big" className="content">
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
@@ -38,26 +38,23 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
   const title = `Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`;
 
   return (
-    <Page title={title}>
-      <div className="content">
-        <h1>{title}</h1>
-        <p>
-          An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
-        </p>
-        <ol className="has-text-left">
-          <li>Answer a few questions about your housing situation.</li>
-          <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
-          <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
+    <Page title={title} withHeading="big">
+      <p>
+        An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
+      </p>
+      <ol className="has-text-left">
+        <li>Answer a few questions about your housing situation.</li>
+        <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
+        <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
-        </ol>
-        <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
-          Select repair issues
-        </CenteredPrimaryButtonLink>
-        <br/>
-        <p>
-          <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed and what those repairs are. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
-        </p>
-      </div>
+      </ol>
+      <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
+        Select repair issues
+      </CenteredPrimaryButtonLink>
+      <br/>
+      <p>
+        <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed and what those repairs are. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
+      </p>
     </Page>
   );
 });

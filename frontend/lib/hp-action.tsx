@@ -23,8 +23,7 @@ const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for repairs through an HP Action proceeding" className="content">
-      <h1>Sue your landlord for repairs through an HP Action proceeding</h1>
+    <Page title="Sue your landlord for repairs through an HP Action proceeding" withHeading className="content">
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
@@ -35,33 +34,26 @@ function HPActionSplash(): JSX.Element {
   );
 }
 
-const HPActionWelcome = withAppContext((props: AppContextType) => {
-  const title = `Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`;
-
-  return (
-    <Page title={title}>
-      <div className="content">
-        <h1>{title}</h1>
-        <p>
-          An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
-        </p>
-        <ol className="has-text-left">
-          <li>Answer a few questions about your housing situation.</li>
-          <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
-          <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
+const HPActionWelcome = withAppContext((props: AppContextType) => (
+  <Page title={`Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`} className="content">
+    <p>
+      An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
+    </p>
+    <ol className="has-text-left">
+      <li>Answer a few questions about your housing situation.</li>
+      <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
+      <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
-        </ol>
-        <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
-          Select repair issues
-        </CenteredPrimaryButtonLink>
-        <br/>
-        <p>
-          <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed and what those repairs are. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
-        </p>
-      </div>
-    </Page>
-  );
-});
+    </ol>
+    <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
+      Select repair issues
+    </CenteredPrimaryButtonLink>
+    <br/>
+    <p>
+      <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed and what those repairs are. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
+    </p>
+  </Page>
+));
 
 const HPActionIssuesRoutes = (props: ProgressStepProps) => (
   <IssuesRoutes
@@ -93,8 +85,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressSte
   const details = props.session.landlordDetails;
 
   return (
-    <Page title="Your landlord" className="content">
-      <h1 className="title is-4">Your landlord</h1>
+    <Page title="Your landlord" withHeading className="content">
       {details && details.isLookedUp && details.name && details.address
         ? <LandlordDetails details={details} />
         : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
@@ -111,8 +102,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressSte
 });
 
 const HPActionUploadError = () => (
-  <Page title="Alas." className="content">
-    <h1>Alas.</h1>
+  <Page title="Alas." withHeading className="content">
     <p>Unfortunately, an error occurred when generating your HP Action packet.</p>
     <GeneratePDFForm>
       {(ctx) => <NextButton isLoading={ctx.isLoading} label="Try again"/>}
@@ -156,8 +146,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
 
   return (
-    <Page title="Your HP Action packet has been created!!" className="content">
-      <h1 className="title is-4">Your HP Action packet has been created!</h1>
+    <Page title="Your HP Action packet has been created!" withHeading className="content">
       <p>Here is all of your HP Action paperwork, including instructions:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>

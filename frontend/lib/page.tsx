@@ -4,6 +4,7 @@ import { AriaAnnouncement } from './aria';
 
 interface PageProps {
   title: string;
+  withHeading?: boolean;
   className?: string;
   children?: any;
 }
@@ -17,6 +18,7 @@ export default function Page(props: PageProps): JSX.Element {
         <title>JustFix.nyc - {props.title}</title>
       </Helmet>
       <AriaAnnouncement text={props.title} />
+      {props.withHeading && <h1 className="title is-4">{props.title}</h1>}
       {props.children}
     </div>
   );

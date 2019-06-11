@@ -80,7 +80,7 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
     v.to_answer_set()
 
 
-def test_fill_nycha_info_works(loaded_nycha_csv_data):
+def test_fill_nycha_info_works(db, loaded_nycha_csv_data):
     oinfo = OnboardingInfoFactory(pad_bbl='')
     v = hp.HPActionVariables()
     fill_nycha_info(v, oinfo.user)

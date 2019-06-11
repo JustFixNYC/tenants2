@@ -4,6 +4,7 @@ from enum import Enum
 from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
+from nycha.models import is_nycha_bbl
 import nycdb.models
 from .models import FeeWaiverDetails
 from . import hpactionvars as hp
@@ -141,6 +142,18 @@ def fill_landlord_info_from_bbl(v: hp.HPActionVariables, pad_bbl: str) -> bool:
     return landlord_found
 
 
+def get_user_pad_bbl(user: JustfixUser) -> str:
+    if hasattr(user, 'onboarding_info'):
+        return user.onboarding_info.pad_bbl
+    return ''
+
+
+def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
+    pad_bbl = get_user_pad_bbl(user)
+    if pad_bbl:
+        v.user_is_nycha_tf = is_nycha_bbl(pad_bbl)
+
+
 def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
     landlord_found = False
 
@@ -149,10 +162,9 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
     v.service_method_mc = hp.ServiceMethodMC.MAIL
     v.landlord_is_party_tf = True
 
-    if hasattr(user, 'onboarding_info'):
-        pad_bbl: str = user.onboarding_info.pad_bbl
-        if pad_bbl:
-            landlord_found = fill_landlord_info_from_bbl(v, pad_bbl)
+    pad_bbl = get_user_pad_bbl(user)
+    if pad_bbl:
+        landlord_found = fill_landlord_info_from_bbl(v, pad_bbl)
 
     if not landlord_found and hasattr(user, 'landlord_details'):
         ld = user.landlord_details
@@ -253,6 +265,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v.problem_is_urgent_tf = False
 
     fill_landlord_info(v, user)
+    fill_nycha_info(v, user)
 
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info

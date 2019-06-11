@@ -60,3 +60,7 @@ class NychaProperty(models.Model):
         related_name='properties',
         help_text="The NYCHA office that manages the property."
     )
+
+
+def is_nycha_bbl(pad_bbl: str) -> bool:
+    return NychaProperty.objects.filter(pad_bbl=pad_bbl).exists()

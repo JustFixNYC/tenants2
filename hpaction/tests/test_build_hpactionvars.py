@@ -6,7 +6,8 @@ from loc.tests.factories import LandlordDetailsFactory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
-    user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details)
+    user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
+    fill_nycha_info)
 import hpaction.hpactionvars as hp
 
 
@@ -77,6 +78,21 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
     assert v.management_company_name_te == "FUNKY APARTMENT MANAGEMENT"
     assert v.management_company_address_street_te == "900 EAST 25TH STREET #2"
     v.to_answer_set()
+
+
+def test_fill_nycha_info_works(db, loaded_nycha_csv_data):
+    oinfo = OnboardingInfoFactory(pad_bbl='')
+    v = hp.HPActionVariables()
+    fill_nycha_info(v, oinfo.user)
+    assert v.user_is_nycha_tf is None
+
+    oinfo.pad_bbl = '1234567890'
+    fill_nycha_info(v, oinfo.user)
+    assert v.user_is_nycha_tf is False
+
+    oinfo.pad_bbl = '2022150116'
+    fill_nycha_info(v, oinfo.user)
+    assert v.user_is_nycha_tf is True
 
 
 def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb):

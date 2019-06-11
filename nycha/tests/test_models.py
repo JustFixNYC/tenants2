@@ -1,4 +1,4 @@
-from nycha.models import NychaOffice
+from nycha.models import NychaOffice, is_nycha_bbl
 
 
 find_for_property = NychaOffice.objects.find_for_property
@@ -25,3 +25,8 @@ class TestFindForProperty:
     ):
         office = find_for_property('3005380001', '453 COLUMBIA STREET, Brooklyn')
         assert office.name == 'RED HOOK EAST'
+
+
+def test_is_nycha_bbl_works(loaded_nycha_csv_data):
+    assert is_nycha_bbl('123') is False
+    assert is_nycha_bbl('2022150116') is True

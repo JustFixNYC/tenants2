@@ -118,6 +118,16 @@ class FeeWaiverDetails(models.Model):
         )
 
 
+class TenantChild(models.Model):
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='children',
+        help_text="The user who this child belongs to.")
+
+    name = models.CharField(max_length=80, help_text="The child's name.")
+
+    dob = models.DateField(help_text="The child's date of birth.")
+
+
 class HPActionDocumentsManager(models.Manager):
     def purge(self) -> None:
         '''

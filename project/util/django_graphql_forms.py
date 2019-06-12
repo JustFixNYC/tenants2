@@ -8,6 +8,7 @@ from weakref import WeakValueDictionary
 from django import forms
 from django.http import QueryDict
 from django.core.exceptions import ValidationError
+from django.forms.models import InlineForeignKeyField
 from graphql import ResolveInfo, parse, visit
 from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
@@ -27,6 +28,12 @@ logger = logging.getLogger(__name__)
 FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
 
 Formsets = Dict[str, forms.BaseFormSet]
+
+
+@convert_form_field.register(InlineForeignKeyField)
+def convert_inline_foreign_key_field(field):
+    print("TODO INLINE FOREIGN KEY FIELD", field)
+    return graphene.String()
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll

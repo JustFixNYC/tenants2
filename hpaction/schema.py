@@ -4,8 +4,9 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 from django.urls import reverse
-from django.forms import formset_factory
+from django.forms import formset_factory, inlineformset_factory
 
+from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
 from project import slack, schema_registry
@@ -13,7 +14,7 @@ from project.util.model_form_util import (
     OneToOneUserModelFormMutation, create_model_for_user_resolver)
 from .models import (
     FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
-    get_upload_status_for_user)
+    get_upload_status_for_user, TenantChild)
 from . import models, forms
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
@@ -112,7 +113,9 @@ class tenantChildren(SessionFormMutation):
     class Meta:
         form_class = forms.TenantChildrenForm
         formset_classes = {
-            'children': formset_factory(
+            'children': inlineformset_factory(
+                JustfixUser,
+                TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
                 max_num=4,

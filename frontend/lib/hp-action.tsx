@@ -38,7 +38,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
   const title = `Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`;
 
   return (
-    <Page title={title} withHeading="big">
+    <Page title={title} withHeading="big" className="content">
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>

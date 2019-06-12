@@ -184,7 +184,7 @@ class HPActionSessionInfo:
             return HPUploadStatus.NOT_STARTED
         return get_upload_status_for_user(request.user)
 
-    def resolve_tenant_children(self, info: ResolveInfo) -> List[TenantChild]:
+    def resolve_tenant_children(self, info: ResolveInfo) -> Optional[List[TenantChild]]:
         request = info.context
         if not request.user.is_authenticated:
             return None

@@ -4,6 +4,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 from django.urls import reverse
+from django.forms import formset_factory
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
@@ -104,6 +105,24 @@ class FeeWaiverExpenses(OneToOneUserModelFormMutation):
 class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.FeeWaiverPublicAssistanceForm
+
+
+@schema_registry.register_mutation
+class tenantChildren(SessionFormMutation):
+    class Meta:
+        form_class = forms.TenantChildrenForm
+        formset_classes = {
+            'children': formset_factory(
+                forms.TenantChildForm,
+                max_num=4,
+                validate_max=True,
+            )
+        }
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        print("TODO MUTATE!")
+        return cls.mutation_success()
 
 
 @schema_registry.register_session_info

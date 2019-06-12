@@ -18,6 +18,9 @@ import { SessionPoller } from './session-poller';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
 import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
+import { TenantChildrenMutation, BlanktenantChildrenInput } from './queries/TenantChildrenMutation';
+import { Formset } from './formset';
+import { TextualFormField } from './form-fields';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -170,6 +173,31 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
+const TenantChildren = (props: ProgressStepProps) => {
+  return (
+    <Page title="Children on premises" withHeading className="content">
+      <SessionUpdatingFormSubmitter
+        mutation={TenantChildrenMutation}
+        initialState={BlanktenantChildrenInput}
+        onSuccessRedirect={assertNotNull(props.nextStep)}
+      >
+        {(formCtx) => <>
+          <Formset {...formCtx.formsetPropsFor('children')} emptyForm={{name: '', dob: ''}}>
+            {(ctx) => <>
+              <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
+              <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
+            </>}
+          </Formset>
+          <div className="buttons jf-two-buttons">
+            <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+            <NextButton isLoading={formCtx.isLoading} />
+          </div>
+        </>}
+      </SessionUpdatingFormSubmitter>
+    </Page>
+  );
+};
+
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
@@ -181,6 +209,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   }],
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
+    { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc },
     { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome },

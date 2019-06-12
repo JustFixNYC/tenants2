@@ -32,8 +32,7 @@ Formsets = Dict[str, forms.BaseFormSet]
 
 @convert_form_field.register(InlineForeignKeyField)
 def convert_inline_foreign_key_field(field):
-    print("TODO INLINE FOREIGN KEY FIELD", field)
-    return graphene.String()
+    return graphene.ID()
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
@@ -350,7 +349,7 @@ class DjangoFormMutation(ClientIDMutation):
 
         for (formset_name, formset_class) in formset_classes.items():
             formset_form = formset_class().forms[0]
-            formset_input_fields = fields_for_form(formset_form, (), ())
+            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
             formset_form_type = type(
                 f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
                 (graphene.InputObjectType,),
@@ -452,15 +451,16 @@ class DjangoFormMutation(ClientIDMutation):
     def _get_formsets(cls, root, info, **input) -> Formsets:
         formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
-            fsinput = input[formset_name]
-            formset = formset_class(data=cls._get_data_for_formset(fsinput))
-            formsets[formset_name] = formset
+            formset_kwargs = cls.get_formset_kwargs(
+                root, info, formset_name, input[formset_name])
+            formsets[formset_name] = formset_class(**formset_kwargs)
         return formsets
 
     @classmethod
-    def _get_data_for_formset(cls, fsinput) -> Dict[str, Any]:
+    def get_data_for_formset(cls, fsinput, initial_forms=None) -> Dict[str, Any]:
         data: Dict[str, Any] = {}
-        data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
+        data['form-TOTAL_FORMS'] = len(fsinput)
+        data['form-INITIAL_FORMS'] = len(fsinput) if initial_forms is None else initial_forms
         for i in range(len(fsinput)):
             for key, value in fsinput[i].items():
                 data[f'form-{i}-{key}'] = value
@@ -475,6 +475,11 @@ class DjangoFormMutation(ClientIDMutation):
         # convert it into an "instance" kwarg for the form, but
         # we don't need it right now.
 
+        return kwargs
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info, formset_name, input):
+        kwargs = {"data": cls.get_data_for_formset(input)}
         return kwargs
 
     @classmethod

@@ -39,6 +39,11 @@ fragment AllSessionInfo on SessionInfo {
   feeWaiver { ...FeeWaiverDetails },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
+  tenantChildren {
+    id,
+    name,
+    dob
+  },
   prefersLegacyApp,
   userId,
   firstName,

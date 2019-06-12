@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 from threading import Thread
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 from django.urls import reverse
-from django.forms import formset_factory, inlineformset_factory
+from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
@@ -84,6 +84,12 @@ class FeeWaiverType(DjangoObjectType):
         exclude_fields = ('user',)
 
 
+class TenantChildType(DjangoObjectType):
+    class Meta:
+        model = models.TenantChild
+        exclude_fields = ('user',)
+
+
 @schema_registry.register_mutation
 class FeeWaiverMisc(OneToOneUserModelFormMutation):
     class Meta:
@@ -111,6 +117,7 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
 @schema_registry.register_mutation
 class tenantChildren(SessionFormMutation):
     class Meta:
+        exclude_fields = ['user']
         form_class = forms.TenantChildrenForm
         formset_classes = {
             'children': inlineformset_factory(
@@ -118,25 +125,29 @@ class tenantChildren(SessionFormMutation):
                 TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
+                extra=1,
                 max_num=4,
                 validate_max=True,
             )
         }
 
+    login_required = True
+
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
-        print("TODO MUTATE!")
-        # TODO: Delete all children associated with the user.
-        formset = form.formsets['children']
-        deleted = set(formset.deleted_forms)
-        children = [
-            subform.instance for subform in formset
-            if subform not in deleted
-        ]
-        for child in children:
-            # TODO: Create child.
-            print("CHILD", child.name, child.dob)
+        for formset in form.formsets.values():
+            formset.save()
         return cls.mutation_success()
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input):
+        initial_forms = len([form for form in input if form.get('id')])
+        kwargs = {
+            "data": cls.get_data_for_formset(input, initial_forms),
+            "instance": info.context.user,
+            "prefix": "form"
+        }
+        return kwargs
 
 
 @schema_registry.register_session_info
@@ -157,6 +168,8 @@ class HPActionSessionInfo:
                                              required=True,
                                              description=HPUploadStatus.__doc__)
 
+    tenant_children = graphene.List(graphene.NonNull(TenantChildType))
+
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
@@ -170,3 +183,9 @@ class HPActionSessionInfo:
         if not request.user.is_authenticated:
             return HPUploadStatus.NOT_STARTED
         return get_upload_status_for_user(request.user)
+
+    def resolve_tenant_children(self, info: ResolveInfo) -> List[TenantChild]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return list(TenantChild.objects.filter(user=request.user))

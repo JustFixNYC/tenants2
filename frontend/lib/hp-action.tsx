@@ -20,7 +20,7 @@ import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildrenMutation, BlanktenantChildrenInput } from './queries/TenantChildrenMutation';
 import { Formset } from './formset';
-import { TextualFormField, CheckboxFormField } from './form-fields';
+import { TextualFormField, CheckboxFormField, HiddenFormField } from './form-fields';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -178,12 +178,15 @@ const TenantChildren = (props: ProgressStepProps) => {
     <Page title="Children on premises" withHeading>
       <SessionUpdatingFormSubmitter
         mutation={TenantChildrenMutation}
-        initialState={BlanktenantChildrenInput}
-//        onSuccessRedirect={assertNotNull(props.nextStep)}
+        initialState={(sess) => sess.tenantChildren ? {
+          children: sess.tenantChildren.map(child => ({...child, DELETE: false}))
+        } : BlanktenantChildrenInput}
+        onSuccessRedirect={assertNotNull(props.nextStep)}
       >
         {(formCtx) => <>
           <Formset {...formCtx.formsetPropsFor('children')} emptyForm={{name: '', dob: '', DELETE: false}}>
             {(ctx) => <>
+              <HiddenFormField {...ctx.fieldPropsFor('id')} />
               <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
               <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
               <CheckboxFormField {...ctx.fieldPropsFor('DELETE')}>Delete</CheckboxFormField>

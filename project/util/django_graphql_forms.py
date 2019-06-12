@@ -342,7 +342,7 @@ class DjangoFormMutation(ClientIDMutation):
         formset_classes = formset_classes or {}
 
         for (formset_name, formset_class) in formset_classes.items():
-            formset_form = formset_class.form()
+            formset_form = formset_class().forms[0]
             formset_input_fields = fields_for_form(formset_form, (), ())
             formset_form_type = type(
                 f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",

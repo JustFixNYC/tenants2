@@ -114,6 +114,7 @@ class tenantChildren(SessionFormMutation):
         formset_classes = {
             'children': formset_factory(
                 forms.TenantChildForm,
+                can_delete=True,
                 max_num=4,
                 validate_max=True,
             )
@@ -122,6 +123,16 @@ class tenantChildren(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         print("TODO MUTATE!")
+        # TODO: Delete all children associated with the user.
+        formset = form.formsets['children']
+        deleted = set(formset.deleted_forms)
+        children = [
+            subform.instance for subform in formset
+            if subform not in deleted
+        ]
+        for child in children:
+            # TODO: Create child.
+            print("CHILD", child.name, child.dob)
         return cls.mutation_success()
 
 

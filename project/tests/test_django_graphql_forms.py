@@ -15,6 +15,7 @@ from ..util.django_graphql_forms import (
     DjangoFormMutation,
     get_input_type_from_query,
     convert_post_data_to_input,
+    to_snake_case_field_name,
     logger
 )
 from .util import qdict
@@ -444,3 +445,14 @@ def test_get_input_type_from_query_works():
     # Ensure the variable definition must be for "input".
     assert get_input_type_from_query(
         'mutation Foo($boop: BarInput!) { foo(input: $boop) }') is None
+
+
+@pytest.mark.parametrize("original,expected", [
+    ["fooBar", "foo_bar"],
+    ["fooBar-jibberJabber", "foo_bar-jibber_jabber"],
+    ["fooBar-TOTAL_FORMS", "foo_bar-TOTAL_FORMS"],
+    ["fooBar-INITIAL_FORMS", "foo_bar-INITIAL_FORMS"],
+    ["fooBar-DELETE", "foo_bar-DELETE"],
+])
+def test_to_snake_case_field_name(original, expected):
+    assert to_snake_case_field_name(original) == expected

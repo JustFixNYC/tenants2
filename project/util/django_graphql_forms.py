@@ -6,6 +6,7 @@
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from weakref import WeakValueDictionary
 from django import forms
+from django.forms import formsets
 from django.http import QueryDict
 from django.core.exceptions import ValidationError
 from django.forms.models import InlineForeignKeyField
@@ -104,6 +105,22 @@ def to_capitalized_camel_case(s: str) -> str:
     return camel[:1].upper() + camel[1:]
 
 
+def to_snake_case_field_name(key: str) -> str:
+    snake_key = to_snake_case(key)
+    # Urg, to_snake_case() mangles some special names,
+    # so we need to un-mangle them.
+    for special_name in [
+        formsets.TOTAL_FORM_COUNT,
+        formsets.INITIAL_FORM_COUNT,
+        formsets.MIN_NUM_FORM_COUNT,
+        formsets.MAX_NUM_FORM_COUNT,
+        formsets.ORDERING_FIELD_NAME,
+        formsets.DELETION_FIELD_NAME
+    ]:
+        snake_key = snake_key.replace(f'-{special_name.lower()}', f'-{special_name}')
+    return snake_key
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
@@ -118,13 +135,7 @@ def convert_post_data_to_input(
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_key = to_snake_case(key)
-        # Urg, to_snake_case() mangles some special names,
-        # so we need to un-mangle them.
-        snake_key = snake_key\
-            .replace('-total_forms', '-TOTAL_FORMS')\
-            .replace('-initial_forms', '-INITIAL_FORMS')\
-            .replace('-delete', '-DELETE')
+        snake_key = to_snake_case_field_name(key)
         snake_cased_data.setlist(snake_key, data.getlist(key))
     form = form_class(data=snake_cased_data)
     result = _get_camel_cased_field_data(form, exclude_fields)

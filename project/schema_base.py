@@ -96,6 +96,7 @@ class BaseSessionInfo:
 @schema_registry.register_mutation
 class Example(DjangoFormMutation):
     class Meta:
+        exclude_fields = ['field_to_ignore']
         form_class = forms.ExampleForm
         formset_classes = {
             'subforms': formset_factory(

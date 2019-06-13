@@ -8,6 +8,28 @@ from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantCh
 import hpaction.schema
 
 
+def execute_tenant_children_mutation(graphql_client, children):
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: tenantChildrenInput!) {
+            output: tenantChildren(input: $input) {
+                errors { field, messages }
+            }
+        }
+        """,
+        variables={'input': {
+            'children': children
+        }}
+    )['data']['output']
+
+
+def test_tenant_children_mutation_requires_login(db, graphql_client):
+    result = execute_tenant_children_mutation(graphql_client, [])
+    assert result['errors'] == [{'field': '__all__', 'messages': [
+        'You do not have permission to use this form!'
+    ]}]
+
+
 class TestTenantChildrenSession:
     def query(self, graphql_client):
         return graphql_client.execute(
@@ -52,18 +74,7 @@ class TestTenantChildrenMutation:
         self.graphql_client = graphql_client
 
     def mutate(self, children, ensure_success=False):
-        result = self.graphql_client.execute(
-            """
-            mutation MyMutation($input: tenantChildrenInput!) {
-                output: tenantChildren(input: $input) {
-                    errors { field, messages }
-                }
-            }
-            """,
-            variables={'input': {
-                'children': children
-            }}
-        )['data']['output']
+        result = execute_tenant_children_mutation(self.graphql_client, children)
         if ensure_success:
             assert result['errors'] == []
         return result

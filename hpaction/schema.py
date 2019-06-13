@@ -131,7 +131,6 @@ class tenantChildren(ManyToOneUserModelFormMutation):
                 TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
-                extra=1,
                 max_num=COMMON_DATA['maxChildren'],
                 validate_max=True,
             )

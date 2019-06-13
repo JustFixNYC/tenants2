@@ -21,6 +21,7 @@ import { assertNotNull } from './util';
 import { TenantChildrenMutation, BlanktenantChildrenInput } from './queries/TenantChildrenMutation';
 import { Formset } from './formset';
 import { TextualFormField, CheckboxFormField, HiddenFormField } from './form-fields';
+import { maxChildren } from '../../common-data/hp-action.json';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -176,6 +177,11 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
 const TenantChildren = (props: ProgressStepProps) => {
   return (
     <Page title="Children on premises" withHeading>
+      <div className="content">
+        <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
+        <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
+        <p>Please list up to {maxChildren} children under the age of 6 who live in the apartment.</p>
+      </div>
       <SessionUpdatingFormSubmitter
         mutation={TenantChildrenMutation}
         initialState={(sess) => sess.tenantChildren ? {

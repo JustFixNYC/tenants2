@@ -190,7 +190,10 @@ const TenantChildren = (props: ProgressStepProps) => {
         onSuccessRedirect={assertNotNull(props.nextStep)}
       >
         {(formCtx) => <>
-          <Formset {...formCtx.formsetPropsFor('children')} emptyForm={{name: '', dob: '', DELETE: false}}>
+          <Formset {...formCtx.formsetPropsFor('children')}
+                   maxNum={maxChildren}
+                   extra={4}
+                   emptyForm={{name: '', dob: '', DELETE: false}}>
             {(ctx) => <>
               <HiddenFormField {...ctx.fieldPropsFor('id')} />
               <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />

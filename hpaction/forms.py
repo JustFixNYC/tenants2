@@ -46,10 +46,6 @@ class FeeWaiverPublicAssistanceForm(forms.ModelForm):
     receives_public_assistance = YesNoRadiosField()
 
 
-class TenantChildrenForm(forms.Form):
-    pass
-
-
 class TenantChildForm(forms.ModelForm):
     class Meta:
         model = TenantChild

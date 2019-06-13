@@ -34,6 +34,35 @@ def create_model_for_user_resolver(model_class):
     return resolver
 
 
+class ManyToOneUserModelFormMutation(SessionFormMutation):
+    '''
+    A base class that can be used to make any
+    ModelForm that represents a many-to-one relationship
+    with the user into a GraphQL mutation.
+    '''
+
+    class Meta:
+        abstract = True
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        for formset in form.formsets.values():
+            formset.save()
+        return cls.mutation_success()
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input):
+        initial_forms = len([form for form in input if form.get('id')])
+        kwargs = {
+            "data": cls.get_data_for_formset(input, initial_forms),
+            "instance": info.context.user,
+            "prefix": "form"
+        }
+        return kwargs
+
+
 class OneToOneUserModelFormMutation(SessionFormMutation):
     '''
     A base class that can be used to make any

@@ -145,6 +145,8 @@ class ExampleForm(forms.Form):
 
     currency_field = forms.DecimalField(max_digits=10, decimal_places=2)
 
+    field_to_ignore = forms.CharField(required=False)
+
 
 class ExampleSubformFormset(forms.BaseFormSet):
     def clean(self):

@@ -11,6 +11,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
 from project import slack, schema_registry
 from project.util.model_form_util import (
+    ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation, create_model_for_user_resolver)
 from .models import (
     FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
@@ -115,10 +116,9 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
-class tenantChildren(SessionFormMutation):
+class tenantChildren(ManyToOneUserModelFormMutation):
     class Meta:
         exclude_fields = ['user']
-        form_class = forms.TenantChildrenForm
         formset_classes = {
             'children': inlineformset_factory(
                 JustfixUser,
@@ -130,24 +130,6 @@ class tenantChildren(SessionFormMutation):
                 validate_max=True,
             )
         }
-
-    login_required = True
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        for formset in form.formsets.values():
-            formset.save()
-        return cls.mutation_success()
-
-    @classmethod
-    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input):
-        initial_forms = len([form for form in input if form.get('id')])
-        kwargs = {
-            "data": cls.get_data_for_formset(input, initial_forms),
-            "instance": info.context.user,
-            "prefix": "form"
-        }
-        return kwargs
 
 
 @schema_registry.register_session_info

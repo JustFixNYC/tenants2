@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 from threading import Thread
 import graphene
 from graphene_django.types import DjangoObjectType
@@ -12,7 +12,10 @@ from project.util.site_util import absolute_reverse
 from project import slack, schema_registry, common_data
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
-    OneToOneUserModelFormMutation, create_model_for_user_resolver)
+    OneToOneUserModelFormMutation,
+    create_model_for_user_resolver,
+    create_models_for_user_resolver
+)
 from .models import (
     FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
     get_upload_status_for_user, TenantChild)
@@ -153,7 +156,10 @@ class HPActionSessionInfo:
                                              required=True,
                                              description=HPUploadStatus.__doc__)
 
-    tenant_children = graphene.List(graphene.NonNull(TenantChildType))
+    tenant_children = graphene.List(
+        graphene.NonNull(TenantChildType),
+        resolver=create_models_for_user_resolver(TenantChild)
+    )
 
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
@@ -168,9 +174,3 @@ class HPActionSessionInfo:
         if not request.user.is_authenticated:
             return HPUploadStatus.NOT_STARTED
         return get_upload_status_for_user(request.user)
-
-    def resolve_tenant_children(self, info: ResolveInfo) -> Optional[List[TenantChild]]:
-        request = info.context
-        if not request.user.is_authenticated:
-            return None
-        return list(TenantChild.objects.filter(user=request.user))

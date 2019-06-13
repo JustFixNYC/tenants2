@@ -22,16 +22,43 @@ def get_model_for_user(model_class, user):
         return None
 
 
+def get_models_for_user(model_class, user):
+    '''
+    Given a model class that has a ForeignKey called 'user'
+    that maps to a user, returns a list of model instances for the
+    given user.
+
+    If the user is not logged in, returns None.
+    '''
+
+    if not user.is_authenticated:
+        return None
+    return list(model_class.objects.filter(user=user))
+
+
+def _make_resolver(func, model_class):
+    def resolver(parent, info: ResolveInfo):
+        return func(model_class, info.context.user)
+
+    return resolver
+
+
+def create_models_for_user_resolver(model_class):
+    '''
+    Creates a GraphQL resolver that returns the model instances
+    associated with a given user.
+    '''
+
+    return _make_resolver(get_models_for_user, model_class)
+
+
 def create_model_for_user_resolver(model_class):
     '''
     Creates a GraphQL resolver that returns the model instance
     associated with a given user.
     '''
 
-    def resolver(parent, info: ResolveInfo):
-        return get_model_for_user(model_class, info.context.user)
-
-    return resolver
+    return _make_resolver(get_model_for_user, model_class)
 
 
 class ManyToOneUserModelFormMutation(SessionFormMutation):

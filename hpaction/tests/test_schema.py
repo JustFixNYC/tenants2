@@ -4,8 +4,73 @@ import pytest
 
 from users.tests.factories import UserFactory
 from .factories import UploadTokenFactory, FeeWaiverDetailsFactory
-from hpaction.models import get_upload_status_for_user, HPUploadStatus
+from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
 import hpaction.schema
+
+
+def execute_children_mutation(graphql_client, children):
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: tenantChildrenInput!) {
+            output: tenantChildren(input: $input) {
+                errors { field, messages }
+                session { tenantChildren { id, name, dob } }
+            }
+        }
+        """,
+        variables={'input': {
+            'children': children
+        }}
+    )['data']['output']
+
+
+class TestTenantChildren:
+    BLANK_INPUT = {
+        'name': '',
+        'dob': '',
+        'DELETE': False
+    }
+
+    def test_it_works(self, db, graphql_client):
+        user = UserFactory.create()
+        graphql_client.request.user = user
+
+        # Ensure sending an empty list of children works.
+        result = execute_children_mutation(graphql_client, [])
+        assert result['errors'] == []
+        assert len(TenantChild.objects.all()) == 0
+
+        # Ensure adding a child works.
+        result = execute_children_mutation(graphql_client, [{
+            **self.BLANK_INPUT,
+            'name': 'Boop Jones Jr.',
+            'dob': '10/12/2001',
+        }])
+        assert result['errors'] == []
+        children = TenantChild.objects.all()
+        assert len(children) == 1
+
+        # Ensure deleting the child works.
+        result = execute_children_mutation(graphql_client, [{
+            **self.BLANK_INPUT,
+            'id': str(children[0].id),
+            'DELETE': True
+        }])
+        assert result['errors'] == []
+        assert len(TenantChild.objects.all()) == 0
+
+        # Ensure submitting a blank form does nothing.
+        result = execute_children_mutation(graphql_client, [self.BLANK_INPUT])
+        assert result['errors'] == []
+        assert len(TenantChild.objects.all()) == 0
+
+        # Ensure submitting an incomplete form reports errors.
+        result = execute_children_mutation(graphql_client, [{
+            **self.BLANK_INPUT,
+            'name': 'Blarf',
+        }])
+        assert len(result['errors']) > 0
+        assert len(TenantChild.objects.all()) == 0
 
 
 def execute_genpdf_mutation(graphql_client, **input):

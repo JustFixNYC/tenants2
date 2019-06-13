@@ -118,7 +118,7 @@ class AnswerSet:
 
     def create_date(self, value: date) -> Element:
         node = self.doc.createElement(AnswerType.DATE.value)
-        date_str = f'{value.month}/{value.day}/{value.year}'
+        date_str = f'{value.day}/{value.month}/{value.year}'
         node.appendChild(self.doc.createTextNode(date_str))
         return node
 

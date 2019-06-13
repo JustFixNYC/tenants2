@@ -7,7 +7,8 @@ from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
-    fill_nycha_info)
+    fill_nycha_info, fill_tenant_children)
+from .factories import TenantChildFactory
 import hpaction.hpactionvars as hp
 
 
@@ -134,3 +135,24 @@ def test_fill_fee_waiver_details_works():
 
     assert v.previous_application_tf is True
     assert v.reason_for_further_application_te == "economic hardship"
+
+
+def test_fill_tenant_children_works_when_there_are_no_children():
+    v = hp.HPActionVariables()
+    fill_tenant_children(v, [])
+
+    assert v.tenant_children_under_6_nu == 0
+    assert v.tenant_child_list == []
+
+
+def test_fill_tenant_children_works_when_there_are_children():
+    v = hp.HPActionVariables()
+    child = TenantChildFactory.build()
+
+    fill_tenant_children(v, [child])
+
+    assert v.tenant_children_under_6_nu == 1
+    assert len(v.tenant_child_list) == 1
+    hp_child = v.tenant_child_list[0]
+    assert hp_child.tenant_child_name_te == child.name
+    assert hp_child.tenant_child_dob == child.dob

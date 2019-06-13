@@ -1,5 +1,5 @@
 from decimal import Decimal
-from datetime import timedelta
+from datetime import timedelta, date
 from typing import Optional, Union, List
 from enum import Enum
 from django.db import models
@@ -123,9 +123,9 @@ class TenantChild(models.Model):
         JustfixUser, on_delete=models.CASCADE, related_name='children',
         help_text="The user who this child belongs to.")
 
-    name = models.CharField(max_length=80, help_text="The child's name.")
+    name: str = models.CharField(max_length=80, help_text="The child's name.")
 
-    dob = models.DateField(help_text="The child's date of birth.")
+    dob: date = models.DateField(help_text="The child's date of birth.")
 
 
 class HPActionDocumentsManager(models.Manager):

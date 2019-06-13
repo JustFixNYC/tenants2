@@ -3,12 +3,42 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
-from .factories import UploadTokenFactory, FeeWaiverDetailsFactory
+from .factories import UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory
 from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
 import hpaction.schema
 
 
-class TestTenantChildren:
+class TestTenantChildrenSession:
+    def query(self, graphql_client):
+        return graphql_client.execute(
+            """
+            query {
+                session {
+                    tenantChildren {
+                        id,
+                        name,
+                        dob
+                    }
+                }
+            }
+            """
+        )['data']['session']['tenantChildren']
+
+    def test_it_returns_none_if_not_logged_in(self, graphql_client):
+        assert self.query(graphql_client) is None
+
+    def test_it_returns_list_if_logged_in(self, db, graphql_client):
+        child = TenantChildFactory()
+        graphql_client.request.user = child.user
+        results = self.query(graphql_client)
+        assert len(results) == 1
+        r = results[0]
+        assert r['id'] == str(child.id)
+        assert r['name'] == child.name
+        assert r['dob'] == '2001-10-11'
+
+
+class TestTenantChildrenMutation:
     BLANK_INPUT = {
         'name': '',
         'dob': '',

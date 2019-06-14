@@ -5,7 +5,7 @@ import Page from "./page";
 import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
+import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
 import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
@@ -171,6 +171,10 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
+const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) => (session: AllSessionInfo) => (
+  session.feeWaiver ? condition(session.feeWaiver) : false
+);
+
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
@@ -184,10 +188,14 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
-    { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc },
-    { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome },
-    { path: Routes.locale.hp.feeWaiverPublicAssistance, component: FeeWaiverPublicAssistance },
-    { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses },
+    { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
+      isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },
+    { path: Routes.locale.hp.feeWaiverIncome, component: FeeWaiverIncome,
+      isComplete: hasFeeWaiverAnd(fw => fw.incomeAmountMonthly !== null) },
+    { path: Routes.locale.hp.feeWaiverPublicAssistance, component: FeeWaiverPublicAssistance,
+      isComplete: hasFeeWaiverAnd(fw => fw.receivesPublicAssistance !== null) },
+    { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses,
+      isComplete: hasFeeWaiverAnd(fw => fw.rentAmount !== null) },
     { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],

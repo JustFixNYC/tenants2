@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from './queries/AllSessionInfo';
+import { AppContext } from './app-context';
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -44,9 +45,20 @@ type StepInfo = {
   allSteps: ProgressStepRoute[]
 };
 
+function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
+  const prev = getRelativeStep(path, 'prev', allSteps);
+  if (prev && prev.isComplete && !prev.isComplete(session)) {
+    // The previous step hasn't been completed, so it's possible that
+    // an earlier step decided to skip past it. Keep searching backwards.
+    return getBestPrevStep(session, prev.path, allSteps);
+  }
+  return prev;
+}
+
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   const { step, allSteps, ...routerCtx } = props;
-  const prev = getRelativeStep(step.path, 'prev', allSteps);
+  const { session } = useContext(AppContext);
+  const prev = getBestPrevStep(session, step.path, allSteps);
   const next = getRelativeStep(step.path, 'next', allSteps);
   const ctx: ProgressStepProps = {
     ...routerCtx,

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
-import { AppContext } from './app-context';
 
 export type BaseProgressStepRoute = {
   exact?: boolean;

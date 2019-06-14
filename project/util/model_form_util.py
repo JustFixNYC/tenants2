@@ -74,6 +74,10 @@ class ManyToOneUserModelFormMutation(SessionFormMutation):
     login_required = True
 
     @classmethod
+    def __init_subclass_with_meta__(cls, exclude_fields=('user',), **options):
+        super().__init_subclass_with_meta__(exclude_fields=exclude_fields, **options)
+
+    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         for formset in form.formsets.values():
             formset.save()

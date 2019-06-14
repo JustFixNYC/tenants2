@@ -48,7 +48,7 @@ function findLatestNonEmptyFormIndex<T>(items: T[], empty: T): number {
   return -1;
 }
 
-function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
+export function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
   if (!empty) {
     return items;
   }
@@ -56,7 +56,7 @@ function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
   return items.slice(0, i + 1);
 }
 
-function addEmptyForms<FormsetInput>(options: {
+export function addEmptyForms<FormsetInput>(options: {
   items: FormsetInput[],
   emptyForm?: FormsetInput,
   maxNum?: number,

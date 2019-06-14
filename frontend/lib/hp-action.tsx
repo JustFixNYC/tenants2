@@ -174,14 +174,21 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>) {
+function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
   const idProps = ctx.fieldPropsFor('id');
   const deleteProps = ctx.fieldPropsFor('DELETE');
 
   return <>
+    <h2 className="subtitle is-5">Child #{i + 1}</h2>
     <HiddenFormField {...idProps} />
-    <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
-    <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
+    <div className="columns is-mobile">
+      <div className="column">
+        <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
+      </div>
+      <div className="column">
+        <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
+      </div>
+    </div>
     {idProps.value
       ? <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
       : <HiddenFormField {...deleteProps} />}

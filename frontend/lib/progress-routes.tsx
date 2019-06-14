@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { SessionProgressStepRoute, RedirectToLatestStep } from "./progress-redirection";
+import { RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
 import { RouteProgressBar } from './progress-bar';
-import { createStepRoute } from './progress-step-route';
+import { createStepRoute, ProgressStepRoute } from './progress-step-route';
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -29,7 +29,7 @@ export type ProgressRoutesProps = {
    * The steps that welcome the user to the flow, but that we won't
    * display a progress bar for.
    */
-  welcomeSteps: SessionProgressStepRoute[],
+  welcomeSteps: ProgressStepRoute[],
 
   /**
    * The steps that the user needs to fill out or otherwise provide
@@ -38,17 +38,17 @@ export type ProgressRoutesProps = {
    * The length of this array is where "y" comes from when we
    * show "Step x of y" text to the user.
    */
-  stepsToFillOut: SessionProgressStepRoute[],
+  stepsToFillOut: ProgressStepRoute[],
 
   /**
    * The steps that confirm the completion of the flow,
    * let the user know what will happen in the short/long term,
    * and so on. We won't display a progress bar for these.
    */
-  confirmationSteps: SessionProgressStepRoute[],
+  confirmationSteps: ProgressStepRoute[],
 };
 
-export function getAllSteps(props: ProgressRoutesProps): SessionProgressStepRoute[] {
+export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {
   return [
     ...props.welcomeSteps,
     ...props.stepsToFillOut,
@@ -56,7 +56,7 @@ export function getAllSteps(props: ProgressRoutesProps): SessionProgressStepRout
   ];
 }
 
-function createRoutesForSteps(steps: SessionProgressStepRoute[], allSteps: SessionProgressStepRoute[], keyPrefix: string) {
+function createRoutesForSteps(steps: ProgressStepRoute[], allSteps: ProgressStepRoute[], keyPrefix: string) {
   return steps.map((step, i) => {
     return createStepRoute({ key: keyPrefix + i, step, allSteps });
   });

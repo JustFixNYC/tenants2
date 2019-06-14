@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
+import { AllSessionInfo } from './queries/AllSessionInfo';
+import { AppContext } from './app-context';
 
 export type BaseProgressStepRoute = {
-  exact?: boolean;
+  /** The route's URL path. */
   path: string;
+
+  /**
+   * Whether the URL must match the route's URL path exactly, or whether
+   * simply beginning with the route's URL path will result in a match.
+   */
+  exact?: boolean;
+
+  /**
+   * Returns whether or not the user has completed the current step, given the
+   * current session.
+   */
+  isComplete?: (session: AllSessionInfo) => boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -26,6 +40,38 @@ type RenderProgressStepRoute = BaseProgressStepRoute & {
 
 export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
 
+type StepInfo = {
+  step: ProgressStepRoute,
+  allSteps: ProgressStepRoute[]
+};
+
+export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
+  const prev = getRelativeStep(path, 'prev', allSteps);
+  if (prev && prev.isComplete && !prev.isComplete(session)) {
+    // The previous step hasn't been completed, so it's possible that
+    // an earlier step decided to skip past it. Keep searching backwards.
+    return getBestPrevStep(session, prev.path, allSteps);
+  }
+  return prev;
+}
+
+function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
+  const { step, allSteps, ...routerCtx } = props;
+  const { session } = useContext(AppContext);
+  const prev = getBestPrevStep(session, step.path, allSteps);
+  const next = getRelativeStep(step.path, 'next', allSteps);
+  const ctx: ProgressStepProps = {
+    ...routerCtx,
+    prevStep: prev && prev.path,
+    nextStep: next && next.path
+  };
+  if ('component' in step) {
+    return <step.component {...ctx} />;
+  } else {
+    return step.render(ctx);
+  }
+}
+
 /**
  * Creates a <Route> that renders the given progress step, in the
  * context of other steps.
@@ -36,17 +82,6 @@ export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepR
 export function createStepRoute(options: { key: string, step: ProgressStepRoute, allSteps: ProgressStepRoute[] }) {
   const { step, allSteps } = options;
   return <Route key={options.key} render={(routerCtx) => {
-    const prev = getRelativeStep(step.path, 'prev', allSteps);
-    const next = getRelativeStep(step.path, 'next', allSteps);
-    const ctx: ProgressStepProps = {
-      ...routerCtx,
-      prevStep: prev && prev.path,
-      nextStep: next && next.path
-    };
-    if ('component' in options.step) {
-      return <options.step.component {...ctx} />;
-    } else {
-      return options.step.render(ctx);
-    }
+    return <ProgressStepRenderer step={step} allSteps={allSteps} {...routerCtx} />;
   }} path={step.path} exact={step.exact} />
 }

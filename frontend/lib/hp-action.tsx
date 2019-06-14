@@ -6,12 +6,12 @@ import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
+import { SessionUpdatingFormSubmitter, FormContextRenderer, BaseFormContext } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { HPUploadStatus } from './queries/globalTypes';
+import { HPUploadStatus, ChildrenTenantChildFormFormSetInput } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
@@ -174,6 +174,20 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
+function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>) {
+  const idProps = ctx.fieldPropsFor('id');
+  const deleteProps = ctx.fieldPropsFor('DELETE');
+
+  return <>
+    <HiddenFormField {...idProps} />
+    <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
+    <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
+    {idProps.value
+      ? <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
+      : <HiddenFormField {...deleteProps} />}
+  </>;
+}
+
 const TenantChildren = (props: ProgressStepProps) => {
   return (
     <Page title="Children on premises" withHeading>
@@ -192,14 +206,9 @@ const TenantChildren = (props: ProgressStepProps) => {
         {(formCtx) => <>
           <Formset {...formCtx.formsetPropsFor('children')}
                    maxNum={maxChildren}
-                   extra={4}
+                   extra={maxChildren}
                    emptyForm={{name: '', dob: '', DELETE: false}}>
-            {(ctx) => <>
-              <HiddenFormField {...ctx.fieldPropsFor('id')} />
-              <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
-              <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
-              <CheckboxFormField {...ctx.fieldPropsFor('DELETE')}>Delete</CheckboxFormField>
-            </>}
+            {renderTenantChild}
           </Formset>
           <div className="buttons jf-two-buttons">
             <BackButton to={assertNotNull(props.prevStep)} label="Back" />

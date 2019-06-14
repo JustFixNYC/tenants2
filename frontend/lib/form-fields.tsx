@@ -212,7 +212,12 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
   );
 }
 
-type HiddenFormFieldProps = Omit<BaseFormFieldProps<string|null|undefined>, 'onChange'>;
+type HiddenFormFieldProps = Omit<BaseFormFieldProps<string|boolean|null|undefined>, 'onChange'>;
+
+export function toHiddenFormFieldValue(value: string|boolean|null|undefined): string|undefined {
+  if (value === true) return 'on';
+  return value || undefined;
+}
 
 export function HiddenFormField(props: HiddenFormFieldProps): JSX.Element {
   if (props.errors) {
@@ -221,7 +226,7 @@ export function HiddenFormField(props: HiddenFormFieldProps): JSX.Element {
       `${JSON.stringify(props.errors)}`
     );
   }
-  return <input type="hidden" name={props.name} value={props.value || undefined} />;
+  return <input type="hidden" name={props.name} value={toHiddenFormFieldValue(props.value)} />;
 }
 
 /**

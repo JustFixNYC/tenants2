@@ -45,7 +45,7 @@ type StepInfo = {
   allSteps: ProgressStepRoute[]
 };
 
-function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
+export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
   const prev = getRelativeStep(path, 'prev', allSteps);
   if (prev && prev.isComplete && !prev.isComplete(session)) {
     // The previous step hasn't been completed, so it's possible that

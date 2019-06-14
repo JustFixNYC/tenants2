@@ -56,15 +56,24 @@ export function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
   return items.slice(0, i + 1);
 }
 
+function getExtra({ extra, isMounted }: { extra?: number, isMounted?: boolean }) {
+  const base = getValueOrDefault(extra, 1);
+  if (isMounted) {
+    // If we're progressively-enhanced, show at most one extra form.
+    return Math.min(base, 1);
+  }
+  return base;
+}
+
 export function addEmptyForms<FormsetInput>(options: {
   items: FormsetInput[],
   emptyForm?: FormsetInput,
   maxNum?: number,
-  extra?: number
-}, isMounted?: boolean): { initialForms: number, items: FormsetInput[] } {
+  extra?: number,
+  isMounted?: boolean
+}): { initialForms: number, items: FormsetInput[] } {
   if (options.emptyForm) {
-    const baseExtra= getValueOrDefault(options.extra, 1);
-    const extra = isMounted ? Math.min(1, baseExtra) : baseExtra;
+    const extra = getExtra(options);
     const maxNum = getValueOrDefault(options.maxNum, Infinity);
     const items = removeEmptyFormsAtEnd(options.items, options.emptyForm);
     const initialForms = items.length;
@@ -94,8 +103,9 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
 
   render() {
     const { props } = this;
+    const { isMounted } = this.state;
     const { errors, name } = props;
-    const { initialForms, items } = addEmptyForms(props, this.state.isMounted);
+    const { initialForms, items } = addEmptyForms({ ...props, isMounted });
 
     return (
       <>

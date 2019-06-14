@@ -90,6 +90,18 @@ describe("addEmptyForms()", () => {
       .toEqual({ initialForms: 1, items: [{foo}, emptyForm, emptyForm] });
   });
 
+  it('adds at most one empty form if mounted', () => {
+    expect(addEmptyForms({ items: [{foo}], emptyForm, extra: 2, isMounted: true }))
+      .toEqual({ initialForms: 1, items: [{foo}, emptyForm] });
+  });
+
+  it('adds no empty forms if configured to, even when mounted', () => {
+    for (let isMounted of [true, false]) {
+      expect(addEmptyForms({ items: [{foo}], emptyForm, extra: 0, isMounted }))
+        .toEqual({ initialForms: 1, items: [{foo}] });
+    }
+  });
+
   it('does not exceed max forms', () => {
     expect(addEmptyForms({ items: [{foo}], emptyForm, maxNum: 1 }))
       .toEqual({ initialForms: 1, items: [{foo}] });

@@ -75,7 +75,7 @@ describe('TextualFormField with type="date"', () => {
 });
 
 describe('HiddenFormField', () => {
-  const makeField = (props: Partial<BaseFormFieldProps<string>> = {}) => {
+  const makeField = (props: Partial<BaseFormFieldProps<string|boolean|null|undefined>> = {}) => {
     const defaultProps: BaseFormFieldProps<string> = {
       ...baseFieldProps({ value: '' }),
     };
@@ -88,9 +88,25 @@ describe('HiddenFormField', () => {
   }
 
   it('renders name and value attrs', () => {
-    const html = makeField({ name: 'boop', value: 'blah' }).html();
+    for (let value of ['', 'blah']) {
+      const html = makeField({ name: 'boop', value }).html();
+      expect(html).toContain('name="boop"');
+      expect(html).toContain(`value="${value}"`);
+    }
+  });
+
+  it('renders value attr as "on" if it is true', () => {
+    const html = makeField({ name: 'boop', value: true }).html();
     expect(html).toContain('name="boop"');
-    expect(html).toContain('value="blah"');
+    expect(html).toContain('value="on"');
+  });
+
+  it('does not render value attr if it is undefined, null, or false', () => {
+    for (let value of [undefined, false, null]) {
+      const html = makeField({ name: 'boop', value }).html();
+      expect(html).toContain('name="boop"');
+      expect(html).not.toContain('value');
+    }
   });
 
   it('throws an exception when it has errors', () => {

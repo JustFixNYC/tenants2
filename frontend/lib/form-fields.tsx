@@ -216,6 +216,7 @@ type HiddenFormFieldProps = Omit<BaseFormFieldProps<string|boolean|null|undefine
 
 export function toHiddenFormFieldValue(value: string|boolean|null|undefined): string|undefined {
   if (value === true) return 'on';
+  if (value === '') return '';
   return value || undefined;
 }
 

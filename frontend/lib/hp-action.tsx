@@ -5,13 +5,13 @@ import Page from "./page";
 import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
+import { AllSessionInfo_landlordDetails, AllSessionInfo } from './queries/AllSessionInfo';
 import { SessionUpdatingFormSubmitter, FormContextRenderer, BaseFormContext } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { HPUploadStatus, ChildrenTenantChildFormFormSetInput } from './queries/globalTypes';
+import { HPUploadStatus, ChildrenTenantChildFormFormSetInput, tenantChildrenInput } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
@@ -195,6 +195,14 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
   </>;
 }
 
+function getInitialTenantChildren(session: AllSessionInfo): tenantChildrenInput {
+  const { tenantChildren } = session;
+  if (tenantChildren) {
+    return {children: tenantChildren.map(child => ({...child, DELETE: false}))};
+  }
+  return BlanktenantChildrenInput;
+}
+
 const TenantChildren = (props: ProgressStepProps) => {
   return (
     <Page title="Children on premises" withHeading>
@@ -205,9 +213,7 @@ const TenantChildren = (props: ProgressStepProps) => {
       </div>
       <SessionUpdatingFormSubmitter
         mutation={TenantChildrenMutation}
-        initialState={(sess) => sess.tenantChildren ? {
-          children: sess.tenantChildren.map(child => ({...child, DELETE: false}))
-        } : BlanktenantChildrenInput}
+        initialState={getInitialTenantChildren}
         onSuccessRedirect={assertNotNull(props.nextStep)}
       >
         {(formCtx) => <>

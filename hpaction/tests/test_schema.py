@@ -11,7 +11,7 @@ import hpaction.schema
 def execute_tenant_children_mutation(graphql_client, children):
     return graphql_client.execute(
         """
-        mutation MyMutation($input: tenantChildrenInput!) {
+        mutation MyMutation($input: TenantChildrenInput!) {
             output: tenantChildren(input: $input) {
                 errors { field, messages }
             }

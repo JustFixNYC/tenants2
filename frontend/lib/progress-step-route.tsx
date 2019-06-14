@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
+import { AppContext } from './app-context';
 
 export type BaseProgressStepRoute = {
   exact?: boolean;
@@ -26,6 +27,27 @@ type RenderProgressStepRoute = BaseProgressStepRoute & {
 
 export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
 
+type StepInfo = {
+  step: ProgressStepRoute,
+  allSteps: ProgressStepRoute[]
+};
+
+function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
+  const { step, allSteps, ...routerCtx } = props;
+  const prev = getRelativeStep(step.path, 'prev', allSteps);
+  const next = getRelativeStep(step.path, 'next', allSteps);
+  const ctx: ProgressStepProps = {
+    ...routerCtx,
+    prevStep: prev && prev.path,
+    nextStep: next && next.path
+  };
+  if ('component' in step) {
+    return <step.component {...ctx} />;
+  } else {
+    return step.render(ctx);
+  }
+}
+
 /**
  * Creates a <Route> that renders the given progress step, in the
  * context of other steps.
@@ -36,17 +58,6 @@ export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepR
 export function createStepRoute(options: { key: string, step: ProgressStepRoute, allSteps: ProgressStepRoute[] }) {
   const { step, allSteps } = options;
   return <Route key={options.key} render={(routerCtx) => {
-    const prev = getRelativeStep(step.path, 'prev', allSteps);
-    const next = getRelativeStep(step.path, 'next', allSteps);
-    const ctx: ProgressStepProps = {
-      ...routerCtx,
-      prevStep: prev && prev.path,
-      nextStep: next && next.path
-    };
-    if ('component' in options.step) {
-      return <options.step.component {...ctx} />;
-    } else {
-      return options.step.render(ctx);
-    }
+    return <ProgressStepRenderer step={step} allSteps={allSteps} {...routerCtx} />;
   }} path={step.path} exact={step.exact} />
 }

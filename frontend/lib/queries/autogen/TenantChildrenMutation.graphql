@@ -2,6 +2,12 @@
 mutation TenantChildrenMutation($input: TenantChildrenInput!) {
   output: tenantChildren(input: $input) {
     errors { ...ExtendedFormFieldErrors },
-    session { ...AllSessionInfo }
+    session {
+      tenantChildren {
+        id,
+        name,
+        dob
+      }
+    }
   }
 }

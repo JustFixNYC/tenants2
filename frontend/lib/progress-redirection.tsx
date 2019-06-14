@@ -5,18 +5,10 @@ import { ProgressStepRoute } from "./progress-step-route";
 import { withAppContext, AppContextType } from "./app-context";
 import { Redirect } from "react-router";
 
-export type SessionProgressStepRoute = {
-  /**
-   * Returns whether or not the user has completed the current step, given the
-   * current session.
-   */
-  isComplete?: (session: AllSessionInfo) => boolean;
-} & ProgressStepRoute;
-
 /**
  * Returns the latest step the user still needs to complete.
  */
-export function getLatestStep(session: AllSessionInfo, steps: SessionProgressStepRoute[]): string {
+export function getLatestStep(session: AllSessionInfo, steps: ProgressStepRoute[]): string {
   let target = steps[0].path;
   let prevStep = null;
 
@@ -31,7 +23,7 @@ export function getLatestStep(session: AllSessionInfo, steps: SessionProgressSte
 }
 
 export type RedirectToLatestStepProps = {
-  steps: SessionProgressStepRoute[];
+  steps: ProgressStepRoute[];
 } & AppContextType;
 
 /**

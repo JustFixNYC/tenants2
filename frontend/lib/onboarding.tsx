@@ -6,8 +6,9 @@ import OnboardingStep2 from './pages/onboarding-step-2';
 import OnboardingStep3 from './pages/onboarding-step-3';
 import OnboardingStep4 from './pages/onboarding-step-4';
 import { RouteProgressBar } from './progress-bar';
-import { SessionProgressStepRoute, RedirectToLatestStep } from './progress-redirection';
+import { RedirectToLatestStep } from './progress-redirection';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { ProgressStepRoute } from './progress-step-route';
 
 export type OnboardingRoutesProps = {
   toCancel: string;
@@ -17,7 +18,7 @@ export type OnboardingRoutesProps = {
 };
 
 export default class OnboardingRoutes extends React.Component<OnboardingRoutesProps> {
-  readonly onboardingSteps: SessionProgressStepRoute[];
+  readonly onboardingSteps: ProgressStepRoute[];
 
   constructor(props: OnboardingRoutesProps) {
     super(props);

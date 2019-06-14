@@ -1,17 +1,18 @@
 import React from 'react';
 
-import { SessionProgressStepRoute, getLatestStep } from "../progress-redirection";
+import { getLatestStep } from "../progress-redirection";
 import { ProgressRoutesProps, getAllSteps, ProgressRoutes } from "../progress-routes";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { FakeSessionInfo } from './util';
 import { AppTesterPal } from './app-tester-pal';
+import { ProgressStepRoute } from '../progress-step-route';
 
 /**
  * A convenience class that makes it easier to test progress route flows.
  */
 export class ProgressRoutesTester {
   /** A concatenation of all the steps in the flow. */
-  readonly allSteps: SessionProgressStepRoute[];
+  readonly allSteps: ProgressStepRoute[];
 
   constructor(readonly props: ProgressRoutesProps, readonly name: string) {
     this.allSteps = getAllSteps(props);

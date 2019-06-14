@@ -2,10 +2,23 @@ import React from 'react';
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
+import { AllSessionInfo } from './queries/AllSessionInfo';
 
 export type BaseProgressStepRoute = {
-  exact?: boolean;
+  /** The route's URL path. */
   path: string;
+
+  /**
+   * Whether the URL must match the route's URL path exactly, or whether
+   * simply beginning with the route's URL path will result in a match.
+   */
+  exact?: boolean;
+
+  /**
+   * Returns whether or not the user has completed the current step, given the
+   * current session.
+   */
+  isComplete?: (session: AllSessionInfo) => boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {

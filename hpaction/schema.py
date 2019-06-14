@@ -94,7 +94,7 @@ class FeeWaiverType(DjangoObjectType):
 class TenantChildType(DjangoObjectType):
     class Meta:
         model = models.TenantChild
-        exclude_fields = ('user',)
+        exclude_fields = ('user', 'created_at', 'updated_at')
 
 
 @schema_registry.register_mutation

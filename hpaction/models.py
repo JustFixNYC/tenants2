@@ -119,6 +119,10 @@ class FeeWaiverDetails(models.Model):
 
 
 class TenantChild(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name='children',
         help_text="The user who this child belongs to.")

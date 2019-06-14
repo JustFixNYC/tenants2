@@ -5,23 +5,20 @@ import Page from "./page";
 import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails, AllSessionInfo } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer, BaseFormContext } from './forms';
+import { AllSessionInfo_landlordDetails } from './queries/AllSessionInfo';
+import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { HPUploadStatus, ChildrenTenantChildFormFormSetInput, tenantChildrenInput } from './queries/globalTypes';
+import { HPUploadStatus } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
 import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
-import { TenantChildrenMutation, BlanktenantChildrenInput } from './queries/TenantChildrenMutation';
-import { Formset } from './formset';
-import { TextualFormField, CheckboxFormField, HiddenFormField } from './form-fields';
-import { maxChildren } from '../../common-data/hp-action.json';
+import { TenantChildren } from './pages/hp-action-tenant-children';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -173,65 +170,6 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
     </Page>
   );
 });
-
-function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
-  const idProps = ctx.fieldPropsFor('id');
-  const deleteProps = ctx.fieldPropsFor('DELETE');
-
-  return <>
-    <h2 className="subtitle is-5">Child #{i + 1}</h2>
-    <HiddenFormField {...idProps} />
-    <div className="columns is-mobile">
-      <div className="column">
-        <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
-      </div>
-      <div className="column">
-        <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
-      </div>
-    </div>
-    {idProps.value
-      ? <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
-      : <HiddenFormField {...deleteProps} />}
-  </>;
-}
-
-function getInitialTenantChildren(session: AllSessionInfo): tenantChildrenInput {
-  const { tenantChildren } = session;
-  if (tenantChildren) {
-    return {children: tenantChildren.map(child => ({...child, DELETE: false}))};
-  }
-  return BlanktenantChildrenInput;
-}
-
-const TenantChildren = (props: ProgressStepProps) => {
-  return (
-    <Page title="Children on premises" withHeading>
-      <div className="content">
-        <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
-        <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
-        <p>Please list up to {maxChildren} children under the age of 6 who live in the apartment.</p>
-      </div>
-      <SessionUpdatingFormSubmitter
-        mutation={TenantChildrenMutation}
-        initialState={getInitialTenantChildren}
-        onSuccessRedirect={assertNotNull(props.nextStep)}
-      >
-        {(formCtx) => <>
-          <Formset {...formCtx.formsetPropsFor('children')}
-                   maxNum={maxChildren}
-                   extra={maxChildren}
-                   emptyForm={{name: '', dob: '', DELETE: false}}>
-            {renderTenantChild}
-          </Formset>
-          <div className="buttons jf-two-buttons">
-            <BackButton to={assertNotNull(props.prevStep)} label="Back" />
-            <NextButton isLoading={formCtx.isLoading} />
-          </div>
-        </>}
-      </SessionUpdatingFormSubmitter>
-    </Page>
-  );
-};
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,

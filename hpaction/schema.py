@@ -122,7 +122,7 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
-class tenantChildren(ManyToOneUserModelFormMutation):
+class TenantChildren(ManyToOneUserModelFormMutation):
     class Meta:
         exclude_fields = ['user']
         formset_classes = {

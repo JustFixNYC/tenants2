@@ -1,9 +1,9 @@
 import React from 'react';
 import { BaseFormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { ChildrenTenantChildFormFormSetInput, tenantChildrenInput } from '../queries/globalTypes';
+import { ChildrenTenantChildFormFormSetInput, TenantChildrenInput } from '../queries/globalTypes';
 import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { BlanktenantChildrenInput, TenantChildrenMutation } from '../queries/TenantChildrenMutation';
+import { BlankTenantChildrenInput, TenantChildrenMutation } from '../queries/TenantChildrenMutation';
 import { ProgressStepProps } from '../progress-step-route';
 import Page from '../page';
 import { assertNotNull } from '../util';
@@ -32,12 +32,12 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
   </>;
 }
 
-function getInitialTenantChildren(session: AllSessionInfo): tenantChildrenInput {
+function getInitialTenantChildren(session: AllSessionInfo): TenantChildrenInput {
   const { tenantChildren } = session;
   if (tenantChildren) {
     return {children: tenantChildren.map(child => ({...child, DELETE: false}))};
   }
-  return BlanktenantChildrenInput;
+  return BlankTenantChildrenInput;
 }
 
 export const TenantChildren = (props: ProgressStepProps) => {

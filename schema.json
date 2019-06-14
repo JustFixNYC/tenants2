@@ -1720,7 +1720,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "tenantChildrenInput",
+                      "name": "TenantChildrenInput",
                       "ofType": null
                     }
                   },
@@ -1732,7 +1732,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "tenantChildrenPayload",
+                  "name": "TenantChildrenPayload",
                   "ofType": null
                 }
               },
@@ -3259,7 +3259,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "tenantChildrenPayload",
+          "name": "TenantChildrenPayload",
           "description": null,
           "fields": [
             {
@@ -3318,7 +3318,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "tenantChildrenInput",
+          "name": "TenantChildrenInput",
           "description": null,
           "fields": null,
           "inputFields": [

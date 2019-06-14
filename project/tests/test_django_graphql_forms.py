@@ -15,6 +15,7 @@ from ..util.django_graphql_forms import (
     DjangoFormMutation,
     get_input_type_from_query,
     convert_post_data_to_input,
+    to_snake_case_field_name,
     logger
 )
 from .util import qdict
@@ -62,9 +63,13 @@ class Foo(DjangoFormMutation):
 class SimpleForm(forms.Form):
     some_field = forms.CharField()
 
+    some_field_to_exclude = forms.CharField(required=False)
+
 
 class MutationWithFormsets(DjangoFormMutation):
     class Meta:
+        exclude_fields = ['some_field_to_exclude']
+
         formset_classes = {
             'simples': forms.formset_factory(SimpleForm)
         }
@@ -82,6 +87,8 @@ class MutationWithFormsets(DjangoFormMutation):
 
 class FormWithAuth(DjangoFormMutation):
     class Meta:
+        exclude_fields = ['some_field_to_exclude']
+
         form_class = SimpleForm
 
     login_required = True
@@ -266,16 +273,29 @@ def test_convert_post_data_to_input_works_with_date_fields():
     assert convert_post_data_to_input(DateForm, qdict()) == {'date1': None}
 
 
-def test_convert_post_data_to_input_works_with_char_fields():
-    assert convert_post_data_to_input(SimpleForm, qdict({
+def test_convert_post_data_to_input_works_with_char_fields_and_excludes():
+    class CharForm(forms.Form):
+        some_field = forms.CharField()
+
+    assert convert_post_data_to_input(CharForm, qdict({
         'someField': ['boop'],
     })) == {'someField': 'boop'}
 
-    assert convert_post_data_to_input(SimpleForm, qdict({
+    assert convert_post_data_to_input(CharForm, qdict({
         'someField': [''],
     })) == {'someField': ''}
 
-    assert convert_post_data_to_input(SimpleForm, qdict()) == {'someField': None}
+    assert convert_post_data_to_input(CharForm, qdict()) == {'someField': None}
+
+
+def test_convert_post_data_to_input_excludes_fields():
+    class MyForm(forms.Form):
+        foo_field = forms.CharField()
+        bar_field = forms.CharField()
+
+    assert convert_post_data_to_input(MyForm, qdict(), exclude_fields=['bar_field']) == {
+        'fooField': None,
+    }
 
 
 def test_convert_post_data_to_input_works_with_multi_choice_fields():
@@ -425,3 +445,14 @@ def test_get_input_type_from_query_works():
     # Ensure the variable definition must be for "input".
     assert get_input_type_from_query(
         'mutation Foo($boop: BarInput!) { foo(input: $boop) }') is None
+
+
+@pytest.mark.parametrize("original,expected", [
+    ["fooBar", "foo_bar"],
+    ["fooBar-jibberJabber", "foo_bar-jibber_jabber"],
+    ["fooBar-TOTAL_FORMS", "foo_bar-TOTAL_FORMS"],
+    ["fooBar-INITIAL_FORMS", "foo_bar-INITIAL_FORMS"],
+    ["fooBar-DELETE", "foo_bar-DELETE"],
+])
+def test_to_snake_case_field_name(original, expected):
+    assert to_snake_case_field_name(original) == expected

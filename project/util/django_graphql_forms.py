@@ -3,11 +3,13 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List
+from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from weakref import WeakValueDictionary
 from django import forms
+from django.forms import formsets
 from django.http import QueryDict
 from django.core.exceptions import ValidationError
+from django.forms.models import InlineForeignKeyField
 from graphql import ResolveInfo, parse, visit
 from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
@@ -27,6 +29,11 @@ logger = logging.getLogger(__name__)
 FormsetClasses = Dict[str, Type[forms.BaseFormSet]]
 
 Formsets = Dict[str, forms.BaseFormSet]
+
+
+@convert_form_field.register(InlineForeignKeyField)
+def convert_inline_foreign_key_field(field):
+    return graphene.ID()
 
 
 # Graphene-Django doesn't suport MultipleChoiceFields out-of-the-box, so we'll
@@ -98,10 +105,27 @@ def to_capitalized_camel_case(s: str) -> str:
     return camel[:1].upper() + camel[1:]
 
 
+def to_snake_case_field_name(key: str) -> str:
+    snake_key = to_snake_case(key)
+    # Urg, to_snake_case() mangles some special names,
+    # so we need to un-mangle them.
+    for special_name in [
+        formsets.TOTAL_FORM_COUNT,
+        formsets.INITIAL_FORM_COUNT,
+        formsets.MIN_NUM_FORM_COUNT,
+        formsets.MAX_NUM_FORM_COUNT,
+        formsets.ORDERING_FIELD_NAME,
+        formsets.DELETION_FIELD_NAME
+    ]:
+        snake_key = snake_key.replace(f'-{special_name.lower()}', f'-{special_name}')
+    return snake_key
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
-    formset_classes: Optional[FormsetClasses] = None
+    formset_classes: Optional[FormsetClasses] = None,
+    exclude_fields: Iterable[str] = tuple()
 ) -> Dict[str, Any]:
     '''
     Given a QueryDict that represents POST data, return a dictionary
@@ -111,20 +135,13 @@ def convert_post_data_to_input(
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_key = to_snake_case(key)
-        # Urg, to_snake_case() mangles formset management names,
-        # so we need to un-mangle them.
-        snake_key = snake_key\
-            .replace('-total_forms', '-TOTAL_FORMS')\
-            .replace('-initial_forms', '-INITIAL_FORMS')
+        snake_key = to_snake_case_field_name(key)
         snake_cased_data.setlist(snake_key, data.getlist(key))
     form = form_class(data=snake_cased_data)
-    result = {
-        to_camel_case(field): _fielddata(form, field) for field in form.fields
-    }
+    result = _get_camel_cased_field_data(form, exclude_fields)
     if formset_classes:
         result.update(_convert_formset_post_data_to_input(
-            snake_cased_data, formset_classes))
+            snake_cased_data, formset_classes, exclude_fields))
     return result
 
 
@@ -140,21 +157,27 @@ def _fielddata(form: forms.Form, field: str) -> Any:
 
 def _convert_formset_post_data_to_input(
     snake_cased_data: QueryDict,
-    formset_classes: FormsetClasses
+    formset_classes: FormsetClasses,
+    exclude_fields: Iterable[str]
 ) -> Dict[str, Any]:
     result: Dict[str, Any] = {}
     for (formset_name, formset_class) in (formset_classes or {}).items():
         formset = formset_class(data=snake_cased_data, prefix=formset_name)
-        result[to_camel_case(formset_name)] = _get_formset_items(formset)
+        result[to_camel_case(formset_name)] = _get_formset_items(formset, exclude_fields)
     return result
 
 
-def _get_formset_items(formset) -> List[Any]:
+def _get_camel_cased_field_data(form, exclude_fields: Iterable[str]):
+    return {
+        to_camel_case(field):
+            _fielddata(form, field) for field in form.fields if field not in exclude_fields
+    }
+
+
+def _get_formset_items(formset, exclude_fields: Iterable[str]) -> List[Any]:
     items: List[Any] = []
     for form in formset.forms:
-        item = {
-            to_camel_case(field): _fielddata(form, field) for field in form.fields
-        }
+        item = _get_camel_cased_field_data(form, exclude_fields)
 
         # Note that form.empty_permitted has been set based on
         # the formset management data, so we're essentially testing
@@ -294,6 +317,8 @@ class DjangoFormMutationOptions(MutationOptions):
 
     formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
 
+    exclude_fields: Optional[Iterable[str]] = None
+
 
 class DjangoFormMutation(ClientIDMutation):
     '''
@@ -342,8 +367,8 @@ class DjangoFormMutation(ClientIDMutation):
         formset_classes = formset_classes or {}
 
         for (formset_name, formset_class) in formset_classes.items():
-            formset_form = formset_class.form()
-            formset_input_fields = fields_for_form(formset_form, (), ())
+            formset_form = formset_class().forms[0]
+            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
             formset_form_type = type(
                 f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
                 (graphene.InputObjectType,),
@@ -367,6 +392,7 @@ class DjangoFormMutation(ClientIDMutation):
         _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class
         _meta.formset_classes = formset_classes
+        _meta.exclude_fields = exclude_fields
         _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
@@ -394,6 +420,13 @@ class DjangoFormMutation(ClientIDMutation):
         if not mut_class:
             return None
         return mut_class._meta.formset_classes
+
+    @classmethod
+    def get_exclude_fields_for_input_type(cls, input_type: str) -> Iterable[str]:
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return []
+        return mut_class._meta.exclude_fields or []
 
     @classmethod
     def log(cls, info: ResolveInfo, msg: str) -> None:
@@ -445,15 +478,16 @@ class DjangoFormMutation(ClientIDMutation):
     def _get_formsets(cls, root, info, **input) -> Formsets:
         formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
-            fsinput = input[formset_name]
-            formset = formset_class(data=cls._get_data_for_formset(fsinput))
-            formsets[formset_name] = formset
+            formset_kwargs = cls.get_formset_kwargs(
+                root, info, formset_name, input[formset_name])
+            formsets[formset_name] = formset_class(**formset_kwargs)
         return formsets
 
     @classmethod
-    def _get_data_for_formset(cls, fsinput) -> Dict[str, Any]:
+    def get_data_for_formset(cls, fsinput, initial_forms=None) -> Dict[str, Any]:
         data: Dict[str, Any] = {}
-        data['form-TOTAL_FORMS'] = data['form-INITIAL_FORMS'] = len(fsinput)
+        data['form-TOTAL_FORMS'] = len(fsinput)
+        data['form-INITIAL_FORMS'] = len(fsinput) if initial_forms is None else initial_forms
         for i in range(len(fsinput)):
             for key, value in fsinput[i].items():
                 data[f'form-{i}-{key}'] = value
@@ -471,9 +505,15 @@ class DjangoFormMutation(ClientIDMutation):
         return kwargs
 
     @classmethod
+    def get_formset_kwargs(cls, root, info, formset_name, input):
+        kwargs = {"data": cls.get_data_for_formset(input)}
+        return kwargs
+
+    @classmethod
     def perform_mutate(cls, form, info):
         return cls(errors=[])
 
 
 get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type
 get_formset_classes_for_input_type = DjangoFormMutation.get_formset_classes_for_input_type
+get_exclude_fields_for_input_type = DjangoFormMutation.get_exclude_fields_for_input_type

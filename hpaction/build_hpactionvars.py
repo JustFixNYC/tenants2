@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Iterable
 from enum import Enum
 
 from users.models import JustfixUser
@@ -6,7 +6,7 @@ from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
 import nycdb.models
-from .models import FeeWaiverDetails
+from .models import FeeWaiverDetails, TenantChild
 from . import hpactionvars as hp
 
 
@@ -173,6 +173,17 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
         v.service_address_full_te = ld.address
 
 
+def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:
+    v.tenant_child_list = [
+        hp.TenantChild(
+            tenant_child_name_te=child.name,
+            tenant_child_dob=child.dob
+        )
+        for child in children
+    ]
+    v.tenant_children_under_6_nu = len(v.tenant_child_list)
+
+
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = "Landlord has failed to do repairs"
@@ -291,5 +302,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
 
     if hasattr(user, 'fee_waiver_details'):
         fill_fee_waiver_details(v, user.fee_waiver_details)
+
+    fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
     return v

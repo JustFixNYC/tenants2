@@ -4,19 +4,28 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 from django.urls import reverse
+from django.forms import inlineformset_factory
 
+from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
-from project import slack, schema_registry
+from project import slack, schema_registry, common_data
 from project.util.model_form_util import (
-    OneToOneUserModelFormMutation, create_model_for_user_resolver)
+    ManyToOneUserModelFormMutation,
+    OneToOneUserModelFormMutation,
+    create_model_for_user_resolver,
+    create_models_for_user_resolver
+)
 from .models import (
     FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
-    get_upload_status_for_user)
+    get_upload_status_for_user, TenantChild)
 from . import models, forms
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
+
+
+COMMON_DATA = common_data.load_json("hp-action.json")
 
 
 class GetAnswersAndDocumentsThread(Thread):
@@ -82,6 +91,12 @@ class FeeWaiverType(DjangoObjectType):
         exclude_fields = ('user',)
 
 
+class TenantChildType(DjangoObjectType):
+    class Meta:
+        model = models.TenantChild
+        exclude_fields = ('user', 'created_at', 'updated_at')
+
+
 @schema_registry.register_mutation
 class FeeWaiverMisc(OneToOneUserModelFormMutation):
     class Meta:
@@ -106,6 +121,21 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
         form_class = forms.FeeWaiverPublicAssistanceForm
 
 
+@schema_registry.register_mutation
+class TenantChildren(ManyToOneUserModelFormMutation):
+    class Meta:
+        formset_classes = {
+            'children': inlineformset_factory(
+                JustfixUser,
+                TenantChild,
+                forms.TenantChildForm,
+                can_delete=True,
+                max_num=COMMON_DATA['maxChildren'],
+                validate_max=True,
+            )
+        }
+
+
 @schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
@@ -123,6 +153,11 @@ class HPActionSessionInfo:
     hp_action_upload_status = graphene.Field(graphene.Enum.from_enum(HPUploadStatus),
                                              required=True,
                                              description=HPUploadStatus.__doc__)
+
+    tenant_children = graphene.List(
+        graphene.NonNull(TenantChildType),
+        resolver=create_models_for_user_resolver(TenantChild)
+    )
 
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

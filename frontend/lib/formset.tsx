@@ -15,6 +15,8 @@ export interface BaseFormsetProps<FormsetInput> {
 export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInput> {
   children: FormsetRenderer<FormsetInput>
   emptyForm?: FormsetInput;
+  maxNum?: number;
+  extra?: number;
 }
 
 export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
@@ -28,19 +30,58 @@ function withItemChanged<T, K extends keyof T>(items: T[], index: number, field:
   return newItems;
 }
 
+function getValueOrDefault<T>(value: T|undefined, defaultValue: T): T {
+  return typeof(value) === 'undefined' ? defaultValue : value;
+}
+
+function findLatestNonEmptyFormIndex<T>(items: T[], empty: T): number {
+  let i = items.length - 1;
+
+  while (i >= 0) {
+    const item = items[i];
+    if (!isDeepEqual(item, empty)) {
+      return i;
+    }
+    i--;
+  }
+
+  return -1;
+}
+
+export function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
+  if (!empty) {
+    return items;
+  }
+  const i = findLatestNonEmptyFormIndex(items, empty);
+  return items.slice(0, i + 1);
+}
+
+export function addEmptyForms<FormsetInput>(options: {
+  items: FormsetInput[],
+  emptyForm?: FormsetInput,
+  maxNum?: number,
+  extra?: number
+}): { initialForms: number, items: FormsetInput[] } {
+  if (options.emptyForm) {
+    const extra = getValueOrDefault(options.extra, 1);
+    const maxNum = getValueOrDefault(options.maxNum, Infinity);
+    const items = removeEmptyFormsAtEnd(options.items, options.emptyForm);
+    const initialForms = items.length;
+    for (let i = 0; i < extra && items.length < maxNum; i++) {
+      items.push(options.emptyForm);
+    }
+    return { initialForms, items };
+  }
+  const { items } = options;
+  const initialForms = items.length;
+  return { initialForms, items };
+}
+
 export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>> {
   render() {
     const { props } = this;
-    let { items, errors, name } = props;
-    let initialForms = items.length;
-    const filterEmpty = (i: typeof items) =>
-      props.emptyForm ? i.filter(item => !isDeepEqual(item, props.emptyForm)) : i;
-
-    if (props.emptyForm) {
-      items = filterEmpty(items);
-      initialForms = items.length;
-      items = [...items, props.emptyForm];
-    }
+    const { errors, name } = props;
+    const { initialForms, items } = addEmptyForms(props);
 
     return (
       <>
@@ -55,7 +96,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             namePrefix: `${name}-${i}-`,
             currentState: item,
             setField: (field, value) => {
-              const newItems = filterEmpty(withItemChanged(items, i, field, value));
+              const newItems = removeEmptyFormsAtEnd(withItemChanged(items, i, field, value), props.emptyForm);
               props.onChange(newItems);
             }
           });

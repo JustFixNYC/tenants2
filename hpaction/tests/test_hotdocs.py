@@ -78,7 +78,8 @@ def test_numeric_answer_values_work():
 
 
 def test_date_answer_values_work():
-    assert value_xml(date(2017, 1, 2)) == '<DateValue>1/2/2017</DateValue>'
+    # Yes, apparently hotdocs takes a dd/mm/yyyy format.
+    assert value_xml(date(2017, 1, 2)) == '<DateValue>2/1/2017</DateValue>'
 
 
 def test_multiple_choice_values_work():

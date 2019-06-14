@@ -1,5 +1,5 @@
 from decimal import Decimal
-from datetime import timedelta
+from datetime import timedelta, date
 from typing import Optional, Union, List
 from enum import Enum
 from django.db import models
@@ -116,6 +116,20 @@ class FeeWaiverDetails(models.Model):
             self.expense_childcare +
             self.expense_other
         )
+
+
+class TenantChild(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='children',
+        help_text="The user who this child belongs to.")
+
+    name: str = models.CharField(max_length=80, help_text="The child's name.")
+
+    dob: date = models.DateField(help_text="The child's date of birth.")
 
 
 class HPActionDocumentsManager(models.Manager):

@@ -1,7 +1,7 @@
 from django import forms
 
 from project.forms import YesNoRadiosField
-from .models import FeeWaiverDetails
+from .models import FeeWaiverDetails, TenantChild
 
 
 class FeeWaiverIncomeForm(forms.ModelForm):
@@ -44,6 +44,12 @@ class FeeWaiverPublicAssistanceForm(forms.ModelForm):
         fields = ['receives_public_assistance']
 
     receives_public_assistance = YesNoRadiosField()
+
+
+class TenantChildForm(forms.ModelForm):
+    class Meta:
+        model = TenantChild
+        fields = ['name', 'dob']
 
 
 class GeneratePDFForm(forms.Form):

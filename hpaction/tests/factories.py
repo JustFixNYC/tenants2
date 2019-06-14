@@ -1,7 +1,20 @@
+from datetime import date
 import factory
 
 from users.tests.factories import UserFactory
-from ..models import HPActionDocuments, UploadToken, FeeWaiverDetails
+from ..models import (
+    HPActionDocuments, UploadToken, FeeWaiverDetails, TenantChild)
+
+
+class TenantChildFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = TenantChild
+
+    user = factory.SubFactory(UserFactory)
+
+    name = 'Boop Jones Jr.'
+
+    dob = date(2001, 10, 11)
 
 
 class HPActionDocumentsFactory(factory.django.DjangoModelFactory):

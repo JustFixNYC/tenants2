@@ -61,9 +61,10 @@ export function addEmptyForms<FormsetInput>(options: {
   emptyForm?: FormsetInput,
   maxNum?: number,
   extra?: number
-}): { initialForms: number, items: FormsetInput[] } {
+}, isMounted?: boolean): { initialForms: number, items: FormsetInput[] } {
   if (options.emptyForm) {
-    const extra = getValueOrDefault(options.extra, 1);
+    const baseExtra= getValueOrDefault(options.extra, 1);
+    const extra = isMounted ? Math.min(1, baseExtra) : baseExtra;
     const maxNum = getValueOrDefault(options.maxNum, Infinity);
     const items = removeEmptyFormsAtEnd(options.items, options.emptyForm);
     const initialForms = items.length;
@@ -77,11 +78,24 @@ export function addEmptyForms<FormsetInput>(options: {
   return { initialForms, items };
 }
 
-export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>> {
+type State = {
+  isMounted: boolean
+};
+
+export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>, State> {
+  constructor(props: FormsetProps<FormsetInput>) {
+    super(props);
+    this.state = { isMounted: false };
+  }
+
+  componentDidMount() {
+    this.setState({ isMounted: true });
+  }
+
   render() {
     const { props } = this;
     const { errors, name } = props;
-    const { initialForms, items } = addEmptyForms(props);
+    const { initialForms, items } = addEmptyForms(props, this.state.isMounted);
 
     return (
       <>

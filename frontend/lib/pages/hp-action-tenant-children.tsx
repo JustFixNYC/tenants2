@@ -16,9 +16,11 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
   const deleteProps = ctx.fieldPropsFor('DELETE');
 
   return <>
-    <h2 className="subtitle is-5">Child #{i + 1}</h2>
+    <h2 className="subtitle is-5 is-marginless">
+      Child #{i + 1} (optional)
+    </h2>
     <HiddenFormField {...idProps} />
-    <div className="columns is-mobile">
+    <div className="columns is-mobile is-marginless">
       <div className="column">
         <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
       </div>
@@ -27,7 +29,11 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
       </div>
     </div>
     {idProps.value
-      ? <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
+      ? <div className="columns is-mobile is-marginless">
+          <div className="column">
+            <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
+          </div>
+        </div>
       : <HiddenFormField {...deleteProps} />}
   </>;
 }

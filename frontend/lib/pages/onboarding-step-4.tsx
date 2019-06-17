@@ -46,7 +46,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
           </ModalLink>.
         </CheckboxFormField>
         <div className="buttons jf-two-buttons">
-          <BackButton to={routes.step3} label="Back" />
+          <BackButton to={routes.step3} />
           <NextButton isLoading={ctx.isLoading} label="Create my account" />
         </div>
       </React.Fragment>

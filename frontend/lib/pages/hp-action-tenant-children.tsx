@@ -67,7 +67,7 @@ export const TenantChildren = (props: ProgressStepProps) => {
             {renderTenantChild}
           </Formset>
           <div className="buttons jf-two-buttons">
-            <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+            <BackButton to={assertNotNull(props.prevStep)} />
             <NextButton isLoading={formCtx.isLoading} />
           </div>
         </>}

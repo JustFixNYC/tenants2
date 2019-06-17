@@ -24,7 +24,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
       <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP()} label="Back" />
+        <BackButton to={PREV_STEP()} />
         <NextButton isLoading={ctx.isLoading} label="Preview letter" />
       </div>
     </React.Fragment>
@@ -63,7 +63,7 @@ function ReadOnlyLandlordDetails(props: {details: AllSessionInfo_landlordDetails
         <dd>{splitLines(details.address)}</dd>
       </dl>
       <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP()} label="Back" />
+        <BackButton to={PREV_STEP()} />
         <Link to={NEXT_STEP()} className="button is-primary is-medium">Preview letter</Link>
       </div>
     </div>

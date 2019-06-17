@@ -12,7 +12,7 @@ export function BackButton(props: {
 }): JSX.Element {
   return (
     <Link to={props.to} className={bulmaClasses('button', props.buttonClass || 'is-light', 'is-medium')}>
-      {props.label || "Cancel and go back"}</Link>
+      {props.label || "Back"}</Link>
   );
 }
 

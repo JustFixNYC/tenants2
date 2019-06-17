@@ -189,7 +189,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
         />
         <div className="buttons jf-two-buttons">
-          <BackButton to={this.props.routes.step2} label="Back" />
+          <BackButton to={this.props.routes.step2} />
           <NextButton isLoading={ctx.isLoading} />
         </div>
       </React.Fragment>

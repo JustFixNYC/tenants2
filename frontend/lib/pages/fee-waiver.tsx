@@ -37,7 +37,7 @@ export const FeeWaiverStart = (props: ProgressStepProps) => (
       Ask the court to waive the filing fee
     </CenteredPrimaryButtonLink>
     <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-      <BackButton to={assertNotNull(props.prevStep)} label="Back"/>
+      <BackButton to={assertNotNull(props.prevStep)} />
       <Link to={Routes.locale.hp.yourLandlord} className={bulmaClasses('button', 'is-light', 'is-medium')}>Skip</Link>
     </div>
   </Page>
@@ -58,7 +58,7 @@ export const FeeWaiverMisc = (props: ProgressStepProps) => (
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
@@ -82,7 +82,7 @@ export const FeeWaiverPublicAssistance = (props: ProgressStepProps) => (
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('receivesPublicAssistance')} label="Do you receive public assistance?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
@@ -126,7 +126,7 @@ export const FeeWaiverIncome = (props: ProgressStepProps) => (
             enhancedLabel="Please specify your other sources of income." />
         </fieldset>
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
@@ -160,7 +160,7 @@ export const FeeWaiverExpenses = (props: ProgressStepProps) => (
         <CurrencyFormField label="Other" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+          <BackButton to={assertNotNull(props.prevStep)} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}

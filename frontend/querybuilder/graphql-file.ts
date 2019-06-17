@@ -86,11 +86,11 @@ export class GraphQlFile {
     ];
 
     this.fragments.forEach(fragmentName => {
-      lines.push(`import * as ${fragmentName} from './${fragmentName}'`);
+      lines.push(`import * as ${fragmentName} from './${fragmentName}';`);
     });
 
     ((extraCodeInfo && extraCodeInfo.extraGlobalTypesImports) || []).forEach(typeName => {
-      lines.push(`import { ${typeName} } from './globalTypes'`);
+      lines.push(`import { ${typeName} } from './globalTypes';`);
     });
 
     return lines.join('\n');

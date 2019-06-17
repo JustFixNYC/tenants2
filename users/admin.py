@@ -61,8 +61,8 @@ class JustfixUserAdmin(UserAdmin):
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        ('HP action details', {
-            'fields': ('hp_action_details',),
+        ('HP action information', {
+            'fields': ('hp_action_info',),
         }),
     )
     non_superuser_fieldsets = tuple(
@@ -87,7 +87,7 @@ class JustfixUserAdmin(UserAdmin):
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
     readonly_fields = [
-        'hp_action_details',
+        'hp_action_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
         *UserAdmin.readonly_fields
@@ -107,12 +107,12 @@ class JustfixUserAdmin(UserAdmin):
             yield inline.get_formset(request, obj), inline
 
     @admin_field(
-        short_description="HP action details",
+        short_description="HP action information",
         allow_tags=True
     )
-    def hp_action_details(self, obj):
+    def hp_action_info(self, obj):
         url = reverse('admin:hpaction_hpuser_change', args=[obj.pk])
-        return format_html('<a class="button" href="{}">View/edit HP action details</a>', url)
+        return format_html('<a class="button" href="{}">View/edit HP action information</a>', url)
 
     @admin_field(
         short_description="Rapidpro contact groups",

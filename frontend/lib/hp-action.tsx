@@ -63,6 +63,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
 const HPActionIssuesRoutes = (props: ProgressStepProps) => (
   <IssuesRoutes
     routes={Routes.locale.hp.issues}
+    introContent={<>This <strong>issue checklist</strong> will be the basis for your case.</>}
     toBack={assertNotNull(props.prevStep)}
     toNext={assertNotNull(props.nextStep)}
   />

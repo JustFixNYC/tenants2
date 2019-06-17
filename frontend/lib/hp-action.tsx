@@ -84,6 +84,9 @@ const PrevAttempts = (props: ProgressStepProps) => (
       )}
     >
       {ctx => <>
+        <div className="content">
+          <p>It is important for the court to know if you have already tried to get help from the city to resolve your issues.</p>
+        </div>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('filedWith311')} label="Have you filed any complaints with 311 already?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('thirtyDaysSince311')} label="Have 30 days passed since you filed the complaints?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('hpdIssuedViolations')} label="Did HPD issue any Violations?" />

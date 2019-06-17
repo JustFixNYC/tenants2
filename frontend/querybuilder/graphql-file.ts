@@ -80,7 +80,7 @@ export class GraphQlFile {
    * Returns the comments and imports that should appear at the
    * beginning of our generated TypeScript code.
    */
-  getTsCodeHeader(): string {
+  getTsCodeHeader(extraCodeInfo?: ExtraTsCodeInfo): string {
     const lines = [
       '// This file was automatically generated and should not be edited.\n'
     ];
@@ -89,22 +89,30 @@ export class GraphQlFile {
       lines.push(`import * as ${fragmentName} from './${fragmentName}'`);
     });
 
+    ((extraCodeInfo && extraCodeInfo.extraGlobalTypesImports) || []).forEach(typeName => {
+      lines.push(`import { ${typeName} } from './globalTypes'`);
+    });
+
     return lines.join('\n');
   }
 
   /** Generate the TypeScript code that clients will use. */
-  generateTsCode(): string {
+  generateTsCode(extraCodeInfo?: ExtraTsCodeInfo): string {
     if (this.graphQl.indexOf(this.basename) === -1) {
       throw new ToolError(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
     }
 
+    let baseCode: string;
+
     if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
-      return this.generateTsCodeForQueryOrMutation();
+      baseCode = this.generateTsCodeForQueryOrMutation(extraCodeInfo);
     } else if (this.graphQlContains(`fragment ${this.basename}`)) {
-      return this.generateTsCodeForFragment();
+      baseCode = this.generateTsCodeForFragment(extraCodeInfo);
     } else {
       throw new ToolError(`${this.basename} is an unrecognized GraphQL type`);
     }
+
+    return extraCodeInfo ? baseCode + '\n\n' + extraCodeInfo.code : baseCode;
   }
 
   /** Return the TypeScript interfaces code created by Apollo codegen:generate. */
@@ -123,9 +131,9 @@ export class GraphQlFile {
   }
 
   /** Generate the TypeScript code when our file is a GraphQL fragment. */
-  generateTsCodeForFragment(): string {
+  generateTsCodeForFragment(extraCodeInfo?: ExtraTsCodeInfo): string {
     return [
-      this.getTsCodeHeader(),
+      this.getTsCodeHeader(extraCodeInfo),
       this.getTsInterfaces(),
       `export const graphQL = ${this.getGraphQlTemplateLiteral()};`
     ].join('\n');
@@ -135,7 +143,7 @@ export class GraphQlFile {
    * Generate the TypeScript code when our file is a GraphQL
    * query or mutation.
    */
-  generateTsCodeForQueryOrMutation(): string {
+  generateTsCodeForQueryOrMutation(extraCodeInfo?: ExtraTsCodeInfo): string {
     const tsInterfaces = this.getTsInterfaces();
     let variablesInterfaceName = `${this.basename}Variables`;
     let args = '';
@@ -147,7 +155,7 @@ export class GraphQlFile {
     const fetchGraphQL = 'fetchGraphQL: (query: string, args?: any) => Promise<any>';
 
     return [
-      this.getTsCodeHeader(),
+      this.getTsCodeHeader(extraCodeInfo),
       tsInterfaces,
       `export const ${this.basename} = {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
@@ -162,9 +170,8 @@ export class GraphQlFile {
   }
 
   /** Write out our TypeScript code to a file. */
-  writeTsCode(extraCode?: string): boolean {
-    extraCode = extraCode ? '\n\n' + extraCode : '';
-    return writeFileIfChangedSync(this.tsCodePath, this.generateTsCode() + extraCode);
+  writeTsCode(extraCodeInfo?: ExtraTsCodeInfo): boolean {
+    return writeFileIfChangedSync(this.tsCodePath, this.generateTsCode(extraCodeInfo));
   }
 
   /** Scan the directory containing our GraphQL queries. */
@@ -172,3 +179,8 @@ export class GraphQlFile {
     return glob.sync(QUERIES_GLOB).map(fullPath => new GraphQlFile(fullPath));
   }
 }
+
+export type ExtraTsCodeInfo = {
+  code: string,
+  extraGlobalTypesImports?: string[]
+};

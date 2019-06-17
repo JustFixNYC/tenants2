@@ -3,9 +3,9 @@ import * as path from 'path';
 
 import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType, GraphQLNamedType } from "graphql";
 import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
-import { GraphQlFile } from "../graphql-file";
+import { GraphQlFile, ExtraTsCodeInfo } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
-import { fullyUnwrapType, ensureObjectType } from './graphql-schema-util';
+import { fullyUnwrapType, ensureObjectType, findContainedInputObjectTypes } from './graphql-schema-util';
 import { AutogenContext } from './context';
 import { createBlankTypeLiteral, CreateBlankTypeLiteralOptions } from './blank-type-literals';
 
@@ -161,33 +161,48 @@ function ensureFragmentName(ctx: AutogenContext, type: GraphQLNamedType): string
   return fragmentName;
 }
 
-function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, string]> {
+function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, ExtraTsCodeInfo]> {
   for (let info of ctx.typeMap.values()) {
     if (info.createBlankLiteral) {
       const fragmentName = ensureFragmentName(ctx, info.type);
-      yield [filenameForFragment(fragmentName), generateBlankTypeLiteral(
-        ensureObjectType(info.type),
-        fragmentName,
-      )];
+      yield [filenameForFragment(fragmentName), {
+        code: generateBlankTypeLiteral(
+          ensureObjectType(info.type),
+          fragmentName,
+        )
+      }]
     }
   }
+}
+
+function generateBlankTypeLiteralForInput(inputObjectType: GraphQLInputObjectType): string {
+  return generateBlankTypeLiteral(inputObjectType, inputObjectType.name, {
+    excludeNullableFields: true
+  });
 }
 
 /**
  * Auto-generate blank type literals for anything that needs it. Return a
  * mapping from GraphQL filenames to TypeScript code defining the literals.
  */
-export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, string> {
-  let fileMap = new Map<string, string>();
+export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, ExtraTsCodeInfo> {
+  let fileMap = new Map<string, ExtraTsCodeInfo>();
 
   for (let entry of generateBlankTypeLiteralsForFragments(ctx)) {
     fileMap.set(...entry);
   }
 
   for (let { filename, inputObjectType } of ctx.mutationMap.values()) {
-    fileMap.set(filename, generateBlankTypeLiteral(inputObjectType, inputObjectType.name, {
-      excludeNullableFields: true
-    }));
+    const extraInputTypes = findContainedInputObjectTypes(inputObjectType);
+    const codeSnippets = [
+      generateBlankTypeLiteralForInput(inputObjectType),
+      ...extraInputTypes.map(generateBlankTypeLiteralForInput)
+    ];
+    const codeInfo: ExtraTsCodeInfo = {
+      extraGlobalTypesImports: extraInputTypes.map(type => type.name),
+      code: codeSnippets.join('\n\n')
+    };
+    fileMap.set(filename, codeInfo);
   }
 
   return fileMap;

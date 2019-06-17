@@ -3,7 +3,7 @@ import { BaseFormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { ChildrenTenantChildFormFormSetInput, TenantChildrenInput } from '../queries/globalTypes';
 import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { BlankTenantChildrenInput, TenantChildrenMutation } from '../queries/TenantChildrenMutation';
+import { BlankTenantChildrenInput, TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { ProgressStepProps } from '../progress-step-route';
 import Page from '../page';
 import { assertNotNull } from '../util';
@@ -63,7 +63,7 @@ export const TenantChildren = (props: ProgressStepProps) => {
           <Formset {...formCtx.formsetPropsFor('children')}
                    maxNum={maxChildren}
                    extra={maxChildren}
-                   emptyForm={{name: '', dob: '', DELETE: false}}>
+                   emptyForm={BlankChildrenTenantChildFormFormSetInput}>
             {renderTenantChild}
           </Formset>
           <div className="buttons jf-two-buttons">

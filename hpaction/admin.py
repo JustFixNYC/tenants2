@@ -42,6 +42,10 @@ class HPUser(JustfixUser):
         verbose_name = "User HP Action"
 
 
+class HPActionDetailsInline(admin.StackedInline):
+    model = models.HPActionDetails
+
+
 class FeeWaiverDetailsInline(admin.StackedInline):
     model = models.FeeWaiverDetails
 
@@ -69,6 +73,7 @@ class HPUserAdmin(admin.ModelAdmin):
 
     inlines = (
         TenantChildInline,
+        HPActionDetailsInline,
         FeeWaiverDetailsInline,
         HPActionDocumentsInline,
     )

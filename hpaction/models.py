@@ -192,6 +192,50 @@ class HPActionDocumentsManager(models.Manager):
         return self.filter(user=user).order_by('-created_at').first()
 
 
+class HPActionDetails(models.Model):
+    '''
+    Details related to a user's HP action.
+    '''
+
+    class Meta:
+        verbose_name_plural = 'HP Action Details'
+
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='hp_action_details',
+        help_text="The user whom the HP action is for."
+    )
+
+    filed_with_311: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether the user has filed any complaints with 311 before."
+        )
+    )
+
+    thirty_days_since_311: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether 30 days have passed since the user filed complaints with 311."
+        )
+    )
+
+    hpd_issued_violations: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether HPD issued any violations."
+        )
+    )
+
+    issues_fixed: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether the issues have been fixed."
+        )
+    )
+
+    urgent_and_dangerous: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether the conditions are urgent and dangerous."
+        )
+    )
+
+
 class HPActionDocuments(models.Model):
     '''
     A model used to store the HP Action documents (paperwork) for

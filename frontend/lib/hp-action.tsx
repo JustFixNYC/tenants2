@@ -19,6 +19,7 @@ import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssis
 import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
+import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -188,6 +189,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
+    { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

@@ -16,9 +16,7 @@ from project.util.model_form_util import (
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from .models import (
-    FeeWaiverDetails, UploadToken, HPActionDocuments, HPUploadStatus,
-    get_upload_status_for_user, TenantChild)
+from .models import HPUploadStatus
 from . import models, forms
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
@@ -43,7 +41,7 @@ class GetAnswersAndDocumentsThread(Thread):
         self.hdinfo = hdinfo
 
     def run(self) -> None:
-        token = UploadToken.objects.find_unexpired(self.token_id)
+        token = models.UploadToken.objects.find_unexpired(self.token_id)
         assert token is not None
         user = token.user
         docs = lhiapi.get_answers_and_documents(token, self.hdinfo)
@@ -76,7 +74,7 @@ class GenerateHpActionPdf(SessionFormMutation):
     def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
         hdinfo = user_to_hpactionvars(user)
-        token = UploadToken.objects.create_for_user(user)
+        token = models.UploadToken.objects.create_for_user(user)
         thread = GetAnswersAndDocumentsThread(token.id, hdinfo)
         if GET_ANSWERS_AND_DOCUMENTS_ASYNC:
             thread.start()
@@ -88,6 +86,12 @@ class GenerateHpActionPdf(SessionFormMutation):
 class FeeWaiverType(DjangoObjectType):
     class Meta:
         model = models.FeeWaiverDetails
+        exclude_fields = ('user',)
+
+
+class HPActionDetailsType(DjangoObjectType):
+    class Meta:
+        model = models.HPActionDetails
         exclude_fields = ('user',)
 
 
@@ -122,12 +126,18 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class HPActionPreviousAttempts(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.PreviousAttemptsForm
+
+
+@schema_registry.register_mutation
 class TenantChildren(ManyToOneUserModelFormMutation):
     class Meta:
         formset_classes = {
             'children': inlineformset_factory(
                 JustfixUser,
-                TenantChild,
+                models.TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
                 max_num=COMMON_DATA['maxChildren'],
@@ -140,7 +150,12 @@ class TenantChildren(ManyToOneUserModelFormMutation):
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
         FeeWaiverType,
-        resolver=create_model_for_user_resolver(FeeWaiverDetails)
+        resolver=create_model_for_user_resolver(models.FeeWaiverDetails)
+    )
+
+    hp_action_details = graphene.Field(
+        HPActionDetailsType,
+        resolver=create_model_for_user_resolver(models.HPActionDetails)
     )
 
     latest_hp_action_pdf_url = graphene.String(
@@ -156,14 +171,14 @@ class HPActionSessionInfo:
 
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),
-        resolver=create_models_for_user_resolver(TenantChild)
+        resolver=create_models_for_user_resolver(models.TenantChild)
     )
 
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         if not request.user.is_authenticated:
             return None
-        if HPActionDocuments.objects.filter(user=request.user).exists():
+        if models.HPActionDocuments.objects.filter(user=request.user).exists():
             return reverse('hpaction:latest_pdf')
         return None
 
@@ -171,4 +186,4 @@ class HPActionSessionInfo:
         request = info.context
         if not request.user.is_authenticated:
             return HPUploadStatus.NOT_STARTED
-        return get_upload_status_for_user(request.user)
+        return models.get_upload_status_for_user(request.user)

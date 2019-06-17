@@ -73,5 +73,8 @@ sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]
 
+[mutations."hpAction.*"]
+sessionFields = ["hpActionDetails"]
+
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]

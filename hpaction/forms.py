@@ -1,12 +1,12 @@
 from django import forms
 
 from project.forms import YesNoRadiosField
-from .models import FeeWaiverDetails, TenantChild
+from . import models
 
 
 class FeeWaiverIncomeForm(forms.ModelForm):
     class Meta:
-        model = FeeWaiverDetails
+        model = models.FeeWaiverDetails
         fields = [
             'income_amount_monthly',
             'income_src_employment',
@@ -19,7 +19,7 @@ class FeeWaiverIncomeForm(forms.ModelForm):
 
 class FeeWaiverExpensesForm(forms.ModelForm):
     class Meta:
-        model = FeeWaiverDetails
+        model = models.FeeWaiverDetails
         fields = [
             'rent_amount',
             'expense_utilities',
@@ -32,7 +32,7 @@ class FeeWaiverExpensesForm(forms.ModelForm):
 
 class FeeWaiverMiscForm(forms.ModelForm):
     class Meta:
-        model = FeeWaiverDetails
+        model = models.FeeWaiverDetails
         fields = ['asked_before']
 
     asked_before = YesNoRadiosField()
@@ -40,7 +40,7 @@ class FeeWaiverMiscForm(forms.ModelForm):
 
 class FeeWaiverPublicAssistanceForm(forms.ModelForm):
     class Meta:
-        model = FeeWaiverDetails
+        model = models.FeeWaiverDetails
         fields = ['receives_public_assistance']
 
     receives_public_assistance = YesNoRadiosField()
@@ -48,8 +48,20 @@ class FeeWaiverPublicAssistanceForm(forms.ModelForm):
 
 class TenantChildForm(forms.ModelForm):
     class Meta:
-        model = TenantChild
+        model = models.TenantChild
         fields = ['name', 'dob']
+
+
+class PreviousAttemptsForm(forms.ModelForm):
+    class Meta:
+        model = models.HPActionDetails
+        exclude = ['user']
+
+    filed_with_311 = YesNoRadiosField()
+    thirty_days_since_311 = YesNoRadiosField()
+    hpd_issued_violations = YesNoRadiosField()
+    issues_fixed = YesNoRadiosField()
+    urgent_and_dangerous = YesNoRadiosField()
 
 
 class GeneratePDFForm(forms.Form):

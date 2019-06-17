@@ -2,13 +2,12 @@ from datetime import date
 import factory
 
 from users.tests.factories import UserFactory
-from ..models import (
-    HPActionDocuments, UploadToken, FeeWaiverDetails, TenantChild)
+from .. import models
 
 
 class TenantChildFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = TenantChild
+        model = models.TenantChild
 
     user = factory.SubFactory(UserFactory)
 
@@ -19,7 +18,7 @@ class TenantChildFactory(factory.django.DjangoModelFactory):
 
 class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = HPActionDocuments
+        model = models.HPActionDocuments
 
     id = 'decafbad'
 
@@ -31,22 +30,29 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):
-        return HPActionDocuments.objects.create_from_file_data(*args, **kwargs)
+        return models.HPActionDocuments.objects.create_from_file_data(*args, **kwargs)
 
 
 class UploadTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = UploadToken
+        model = models.UploadToken
 
     user = factory.SubFactory(UserFactory)
 
     @classmethod
     def _create(self, model_class, user):
-        return UploadToken.objects.create_for_user(user)
+        return models.UploadToken.objects.create_for_user(user)
 
 
 class FeeWaiverDetailsFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = FeeWaiverDetails
+        model = models.FeeWaiverDetails
+
+    user = factory.SubFactory(UserFactory)
+
+
+class HPActionDetailsFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.HPActionDetails
 
     user = factory.SubFactory(UserFactory)

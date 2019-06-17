@@ -1,4 +1,4 @@
-import { buildSchema } from "graphql";
+import { buildSchema, assertInputObjectType } from "graphql";
 import { assertNotUndefined } from "../../../lib/util";
 import { ensureObjectType } from "../graphql-schema-util";
 
@@ -9,8 +9,13 @@ export const BEET_SCHEMA = buildSchema(`
     friends: [Beet!]!
   }
 
+  input TinySubformInput {
+    disposition: String!
+  }
+
   input BeetInput {
-    beet: Beet!
+    beet: Beet!,
+    tinySubforms: [TinySubformInput!]
   }
 
   type Mutation {
@@ -19,6 +24,8 @@ export const BEET_SCHEMA = buildSchema(`
 `);
 
 export const BEET_TYPE = ensureObjectType(BEET_SCHEMA.getType('Beet'));
+
+export const BEET_INPUT_TYPE = assertInputObjectType(BEET_SCHEMA.getType('BeetInput'));
 
 const beetFields = BEET_TYPE.getFields();
 

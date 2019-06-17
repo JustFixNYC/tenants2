@@ -21,6 +21,9 @@ CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
 
 
 class FeeWaiverDetails(models.Model):
+    class Meta:
+        verbose_name = "Fee waiver"
+
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name='fee_waiver_details',
         help_text="The user whom this fee waiver is for."
@@ -119,6 +122,9 @@ class FeeWaiverDetails(models.Model):
 
 
 class TenantChild(models.Model):
+    class Meta:
+        verbose_name_plural = "Tenant children"
+
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     updated_at = models.DateTimeField(auto_now=True)

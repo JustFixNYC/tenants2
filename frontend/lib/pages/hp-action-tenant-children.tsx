@@ -22,7 +22,7 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
     <HiddenFormField {...idProps} />
     <div className="columns is-mobile is-marginless">
       <div className="column">
-        <TextualFormField {...ctx.fieldPropsFor('name')} label="Name" />
+        <TextualFormField {...ctx.fieldPropsFor('name')} label="Full name" />
       </div>
       <div className="column">
         <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
@@ -48,7 +48,7 @@ function getInitialTenantChildren(session: AllSessionInfo): TenantChildrenInput 
 
 export const TenantChildren = (props: ProgressStepProps) => {
   return (
-    <Page title="Children on premises" withHeading>
+    <Page title="Do any children live on the premises?" withHeading>
       <div className="content">
         <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
         <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>

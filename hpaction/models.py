@@ -1,8 +1,9 @@
 from decimal import Decimal
 from datetime import timedelta, date
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Dict, Any
 from enum import Enum
 from django.db import models
+from django.db.models import Q, Count
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -21,6 +22,9 @@ CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
 
 
 class FeeWaiverDetails(models.Model):
+    class Meta:
+        verbose_name = "Fee waiver"
+
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name='fee_waiver_details',
         help_text="The user whom this fee waiver is for."
@@ -119,6 +123,9 @@ class FeeWaiverDetails(models.Model):
 
 
 class TenantChild(models.Model):
+    class Meta:
+        verbose_name_plural = "Tenant children"
+
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -376,3 +383,29 @@ def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
             return HPUploadStatus.ERRORED
         return HPUploadStatus.STARTED
     return HPUploadStatus.NOT_STARTED
+
+
+def _filter_users_with_any_related_models(user_queryset, models):
+    filter_query = Q()
+    annotation_kwargs: Dict[str, Any] = {}
+
+    for model in models:
+        related_name = model._meta.get_field('user').related_query_name()
+        count_name = f"{related_name}_count"
+        annotation_kwargs[count_name] = Count(related_name)
+        filter_query = filter_query | Q(**{f"{count_name}__gt": 0})
+
+    return user_queryset.annotate(**annotation_kwargs).filter(filter_query)
+
+
+def filter_users_with_hp_actions(user_queryset):
+    '''
+    Filter the given user queryset so it only contains users who
+    have started the HP Action process.
+    '''
+
+    return _filter_users_with_any_related_models(user_queryset, [
+        TenantChild,
+        HPActionDocuments,
+        FeeWaiverDetails
+    ])

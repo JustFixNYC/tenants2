@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
-from project.util.admin_util import admin_action, never_has_permission
-from .models import HPActionDocuments
+from users.models import JustfixUser
+from project.util.admin_util import admin_field, admin_action, never_has_permission
+from . import models
 
 
 @admin_action("Mark selected documents for deletion")
@@ -14,7 +16,7 @@ class NoAddOrDeleteMixin:
     has_delete_permission = never_has_permission
 
 
-@admin.register(HPActionDocuments)
+@admin.register(models.HPActionDocuments)
 class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     list_display = [
         'id', 'user', 'created_at'
@@ -24,10 +26,52 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
 
 class HPActionDocumentsInline(NoAddOrDeleteMixin, admin.TabularInline):
-    model = HPActionDocuments
+    model = models.HPActionDocuments
 
     fields = ['pdf_file', 'created_at']
 
     readonly_fields = fields
 
     ordering = ['-created_at']
+
+
+class HPUser(JustfixUser):
+    class Meta:
+        proxy = True
+
+        verbose_name = "User HP Action"
+
+
+class FeeWaiverDetailsInline(admin.StackedInline):
+    model = models.FeeWaiverDetails
+
+
+class TenantChildInline(admin.TabularInline):
+    model = models.TenantChild
+
+    extra = 1
+
+
+@admin.register(HPUser)
+class HPUserAdmin(admin.ModelAdmin):
+    list_display = ['username', 'first_name', 'last_name']
+
+    fields = ['username', 'first_name', 'last_name', 'phone_number', 'email', 'edit_user']
+
+    readonly_fields = fields
+
+    @admin_field(short_description="View/edit user details", allow_tags=True)
+    def edit_user(self, obj):
+        return format_html(
+            '<a class="button" href="{}">View/edit user details</a>',
+            obj.admin_url
+        )
+
+    inlines = (
+        TenantChildInline,
+        FeeWaiverDetailsInline,
+        HPActionDocumentsInline,
+    )
+
+    def get_queryset(self, request):
+        return models.filter_users_with_hp_actions(self.model.objects)

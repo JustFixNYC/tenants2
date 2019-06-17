@@ -1,6 +1,8 @@
 from django.db.models import Count, Q
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from project.util.admin_util import admin_field
@@ -9,10 +11,10 @@ from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
+from hpaction.models import filter_users_with_hp_actions
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
-from hpaction.admin import HPActionDocumentsInline
 from texting.models import get_lookup_description_for_phone_number
 import loc.admin
 import airtable.sync
@@ -60,6 +62,9 @@ class JustfixUserAdmin(UserAdmin):
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        ('HP action details', {
+            'fields': ('hp_action_details',),
+        }),
     )
     non_superuser_fieldsets = tuple(
         (label, details) for label, details in fieldsets
@@ -76,7 +81,6 @@ class JustfixUserAdmin(UserAdmin):
         OnboardingInline,
         IssueInline,
         CustomIssueInline,
-        HPActionDocumentsInline
     ) + loc.admin.user_inlines
 
     actions = [loc.admin.print_loc_envelopes]
@@ -84,6 +88,7 @@ class JustfixUserAdmin(UserAdmin):
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
     readonly_fields = [
+        'hp_action_details',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
         *UserAdmin.readonly_fields
@@ -101,6 +106,16 @@ class JustfixUserAdmin(UserAdmin):
                     not LegacyUserInfo.is_legacy_user(obj)):
                 continue
             yield inline.get_formset(request, obj), inline
+
+    @admin_field(
+        short_description="HP action details",
+        allow_tags=True
+    )
+    def hp_action_details(self, obj):
+        if not filter_users_with_hp_actions(self.model.objects).filter(pk=obj.pk):
+            return "This user has not started the HP action process."
+        url = reverse('admin:hpaction_hpuser_change', args=[obj.pk])
+        return format_html('<a class="button" href="{}">View/edit HP action details</a>', url)
 
     @admin_field(
         short_description="Rapidpro contact groups",

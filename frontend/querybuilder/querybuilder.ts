@@ -8,7 +8,7 @@ import {
 } from "./util";
 import { GraphQLValidator } from './validator';
 import { autogenerateGraphQlFiles, generateBlankTypeLiterals } from './autogen-graphql';
-import { GraphQlFile } from './graphql-file';
+import { GraphQlFile, ExtraTsCodeInfo } from './graphql-file';
 import { GRAPHQL_SCHEMA_PATH, COPY_FROM_APOLLO_GEN_TO_QUERIES, QUERIES_PATH, QUERIES_GLOB, APOLLO_GEN_PATH, AUTOGEN_CONFIG_PATH } from './config';
 import { deleteStaleTsFiles } from './stale-ts-files';
 import { AutogenContext } from './autogen-graphql/context';
@@ -71,7 +71,7 @@ export function getGlobalValidator(): GraphQLValidator {
  * identical content, to prevent spurious triggering of
  * static asset build pipelines that may be watching.
  */
-function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[], extraTsCode: Map<string, string>): string[] {
+function generateGraphQlTsFiles(graphQlFiles: GraphQlFile[], extraTsCode: Map<string, ExtraTsCodeInfo>): string[] {
   const filesWritten: string[] = [];
 
   graphQlFiles.forEach(query => {

@@ -2,11 +2,11 @@ import React from 'react';
 
 import Page from "../page";
 import { LegacyFormSubmitter } from '../forms';
-import { ExampleMutation, BlankExampleInput } from '../queries/ExampleMutation';
+import { ExampleMutation, BlankExampleInput, BlankSubformsExampleSubformFormSetInput } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
-import { ExampleInput, SubformsExampleSubformFormSetInput } from '../queries/globalTypes';
+import { ExampleInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { Formset } from '../formset';
 import { CurrencyFormField } from '../currency-form-field';
@@ -15,10 +15,6 @@ import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field'
 const INITIAL_STATE: ExampleInput = {
   ...BlankExampleInput,
   currencyField: '15.00',
-};
-
-const EMPTY_SUBFORM: SubformsExampleSubformFormSetInput = {
-  exampleField: ''
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -58,7 +54,7 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
             enhancedLabel="Please specify."
           />
           <CurrencyFormField label="Example currency field" {...ctx.fieldPropsFor('currencyField')}/>
-          <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={EMPTY_SUBFORM}>
+          <Formset {...ctx.formsetPropsFor('subforms')} emptyForm={BlankSubformsExampleSubformFormSetInput}>
             {(subforms, i) => (
               <TextualFormField label={`example subform field #${i + 1}`} {...subforms.fieldPropsFor('exampleField')} />
             )}

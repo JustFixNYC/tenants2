@@ -1,4 +1,4 @@
-import { GraphQLType, isNonNullType, isListType, GraphQLNamedType, isObjectType } from "graphql";
+import { GraphQLType, isNonNullType, isListType, GraphQLNamedType, isObjectType, GraphQLInputObjectType, isInputObjectType } from "graphql";
 import { ToolError } from "../util";
 
 /** If the given GraphQL type is a List or NonNull, return the type it wraps. */
@@ -40,3 +40,16 @@ function ensureType<T>(thing: EnsureArg, predicate: GraphQLTypePredicate<T>): T 
 }
 
 export const ensureObjectType = (thing: EnsureArg) => ensureType(thing, isObjectType);
+
+export function findContainedInputObjectTypes(type: GraphQLInputObjectType): GraphQLInputObjectType[] {
+  const results: GraphQLInputObjectType[] = [];
+
+  for (let field of Object.values(type.getFields())) {
+    const type = fullyUnwrapType(field.type);
+    if (isInputObjectType(type)) {
+      results.push(type);
+    }
+  }
+
+  return results;
+}

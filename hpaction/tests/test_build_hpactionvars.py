@@ -1,4 +1,5 @@
 from decimal import Decimal
+import pytest
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -7,8 +8,9 @@ from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
-    fill_nycha_info, fill_tenant_children)
-from .factories import TenantChildFactory
+    fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
+    fill_hp_action_details)
+from .factories import TenantChildFactory, HPActionDetailsFactory
 import hpaction.hpactionvars as hp
 
 
@@ -156,3 +158,30 @@ def test_fill_tenant_children_works_when_there_are_children():
     hp_child = v.tenant_child_list[0]
     assert hp_child.tenant_child_name_te == child.name
     assert hp_child.tenant_child_dob == child.dob
+
+
+COMPLAINED_30_DAYS_AGO = dict(filed_with_311=True, thirty_days_since_311=True)
+
+
+@pytest.mark.parametrize('hp_action_details_kwargs,expected', [
+    (dict(), None),
+    (dict(**COMPLAINED_30_DAYS_AGO), None),
+    (dict(**COMPLAINED_30_DAYS_AGO, hpd_issued_violations=False),
+     hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED),
+    (dict(**COMPLAINED_30_DAYS_AGO, hpd_issued_violations=True, issues_fixed=False),
+     hp.TenantRepairsAllegationsMC.NOTICE_ISSUED),
+])
+def test_get_tenant_repairs_allegations_mc_works(hp_action_details_kwargs, expected):
+    h = HPActionDetailsFactory.build(**hp_action_details_kwargs)
+    assert get_tenant_repairs_allegations_mc(h) == expected
+
+
+def test_problem_is_urgent_tf_works():
+    h = HPActionDetailsFactory.build(urgent_and_dangerous=True)
+    v = hp.HPActionVariables()
+    fill_hp_action_details(v, h)
+    assert v.problem_is_urgent_tf is True
+
+    h.urgent_and_dangerous = False
+    fill_hp_action_details(v, h)
+    assert v.problem_is_urgent_tf is False

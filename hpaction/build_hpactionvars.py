@@ -1,4 +1,4 @@
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Optional
 from enum import Enum
 
 from users.models import JustfixUser
@@ -6,7 +6,7 @@ from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
 import nycdb.models
-from .models import FeeWaiverDetails, TenantChild
+from .models import FeeWaiverDetails, TenantChild, HPActionDetails
 from . import hpactionvars as hp
 
 
@@ -184,6 +184,26 @@ def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild
     v.tenant_children_under_6_nu = len(v.tenant_child_list)
 
 
+def get_tenant_repairs_allegations_mc(
+    h: HPActionDetails
+) -> Optional[hp.TenantRepairsAllegationsMC]:
+    if h.filed_with_311 is True and h.thirty_days_since_311 is True:
+        if h.hpd_issued_violations is False:
+            # I filed a complaint with HPD. More than 30 days have passed since then.
+            # HPD has not issued a Notice of Violation.
+            return hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED
+        elif h.hpd_issued_violations is True and h.issues_fixed is False:
+            # I filed a complaint with HPD. HPD issued a Notice of Violation.
+            # More than 30 days have passed since then. The landlord has not fixed the problem.
+            return hp.TenantRepairsAllegationsMC.NOTICE_ISSUED
+    return None
+
+
+def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
+    v.tenant_repairs_allegations_mc = get_tenant_repairs_allegations_mc(h)
+    v.problem_is_urgent_tf = h.urgent_and_dangerous
+
+
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = "Landlord has failed to do repairs"
@@ -304,5 +324,8 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         fill_fee_waiver_details(v, user.fee_waiver_details)
 
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
+
+    if hasattr(user, 'hp_action_details'):
+        fill_hp_action_details(v, user.hp_action_details)
 
     return v

@@ -72,6 +72,3 @@ class HPUserAdmin(admin.ModelAdmin):
         FeeWaiverDetailsInline,
         HPActionDocumentsInline,
     )
-
-    def get_queryset(self, request):
-        return models.filter_users_with_hp_actions(self.model.objects)

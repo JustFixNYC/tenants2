@@ -11,7 +11,6 @@ from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
 from issues.admin import IssueInline, CustomIssueInline
-from hpaction.models import filter_users_with_hp_actions
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from loc.models import LOC_MAILING_CHOICES
@@ -112,8 +111,6 @@ class JustfixUserAdmin(UserAdmin):
         allow_tags=True
     )
     def hp_action_details(self, obj):
-        if not filter_users_with_hp_actions(self.model.objects).filter(pk=obj.pk):
-            return "This user has not started the HP action process."
         url = reverse('admin:hpaction_hpuser_change', args=[obj.pk])
         return format_html('<a class="button" href="{}">View/edit HP action details</a>', url)
 

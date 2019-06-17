@@ -97,7 +97,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressSte
       <GeneratePDFForm>
         {(ctx) =>
           <div className="buttons jf-two-buttons">
-            <BackButton to={assertNotNull(props.prevStep)} label="Back" />
+            <BackButton to={assertNotNull(props.prevStep)} />
             <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
           </div>
         }

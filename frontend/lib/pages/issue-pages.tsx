@@ -53,7 +53,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <div className="buttons jf-two-buttons">
-        <BackButton to={this.props.toHome} />
+        <BackButton to={this.props.toHome} label="Cancel and go back" />
         <NextButton isLoading={isLoading} label="Save" />
       </div>
     );

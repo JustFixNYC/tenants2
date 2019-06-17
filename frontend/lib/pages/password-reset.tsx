@@ -41,7 +41,7 @@ function Start(props: {}) {
         {(ctx) => <>
           <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.login} label="Back" />
+            <BackButton to={Routes.locale.login} />
             <NextButton isLoading={ctx.isLoading} />
           </div>
         </>}
@@ -65,7 +65,7 @@ function Verify(props: {}) {
           <br/>
           <p>If you didn't receive a verification code, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.</p>
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.passwordReset.start} label="Back" />
+            <BackButton to={Routes.locale.passwordReset.start} />
             <NextButton isLoading={ctx.isLoading} />
           </div>
         </>}
@@ -89,7 +89,7 @@ function Confirm(props: {}) {
           <TextualFormField type="password" label="Confirm your new password" {...ctx.fieldPropsFor('confirmPassword')} />
           <br/>
           <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.passwordReset.verify} label="Back" />
+            <BackButton to={Routes.locale.passwordReset.verify} />
             <NextButton isLoading={ctx.isLoading} />
           </div>
         </>}

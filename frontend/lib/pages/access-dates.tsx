@@ -43,7 +43,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label="Second access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date3')} />
       <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.locale.loc.issues.home} label="Back" />
+        <BackButton to={Routes.locale.loc.issues.home} />
         <NextButton isLoading={ctx.isLoading} />
       </div>
     </React.Fragment>

@@ -21,6 +21,11 @@ def get_user_change_view_html(client):
     return res.content.decode('utf-8')
 
 
+def test_change_view_works(admin_client):
+    html = get_user_change_view_html(admin_client)
+    assert 'View/edit HP action details' in html
+
+
 def test_change_view_works_for_superusers(admin_client):
     html = get_user_change_view_html(admin_client)
     assert SUPERUSER_SENTINEL in html

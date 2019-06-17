@@ -126,9 +126,9 @@ class FeeWaiverPublicAssistance(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
-class HPActionDetails(OneToOneUserModelFormMutation):
+class HPActionPreviousAttempts(OneToOneUserModelFormMutation):
     class Meta:
-        form_class = forms.HPActionDetailsForm
+        form_class = forms.PreviousAttemptsForm
 
 
 @schema_registry.register_mutation

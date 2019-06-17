@@ -52,7 +52,7 @@ class TenantChildForm(forms.ModelForm):
         fields = ['name', 'dob']
 
 
-class HPActionDetailsForm(forms.ModelForm):
+class PreviousAttemptsForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         exclude = ['user']

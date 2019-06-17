@@ -1839,7 +1839,7 @@
               "deprecationReason": null
             },
             {
-              "name": "hpActionDetails",
+              "name": "hpActionPreviousAttempts",
               "description": null,
               "args": [
                 {
@@ -1850,7 +1850,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "HPActionDetailsInput",
+                      "name": "HPActionPreviousAttemptsInput",
                       "ofType": null
                     }
                   },
@@ -1862,7 +1862,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "HPActionDetailsPayload",
+                  "name": "HPActionPreviousAttemptsPayload",
                   "ofType": null
                 }
               },
@@ -3554,7 +3554,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "HPActionDetailsPayload",
+          "name": "HPActionPreviousAttemptsPayload",
           "description": null,
           "fields": [
             {
@@ -3613,7 +3613,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "HPActionDetailsInput",
+          "name": "HPActionPreviousAttemptsInput",
           "description": null,
           "fields": null,
           "inputFields": [

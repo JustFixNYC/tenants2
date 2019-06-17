@@ -3,22 +3,31 @@ import React from 'react';
 import { ProgressStepProps } from "../progress-step-route";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from "../forms";
-import { HpActionDetailsMutation, BlankHPActionDetailsInput } from "../queries/HpActionDetailsMutation";
 import { assertNotNull } from "../util";
 import { getInitialFormInput } from "../form-input-converter";
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { BackButton, NextButton } from '../buttons';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { BlankHPActionPreviousAttemptsInput, HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
+import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
+
+function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput {
+  return getInitialFormInput(
+    session.hpActionDetails,
+    BlankHPActionPreviousAttemptsInput,
+    hp => hp.yesNoRadios(
+      'filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations',
+      'issuesFixed', 'urgentAndDangerous'
+    ).finish()
+  );
+}
 
 export const HPActionPreviousAttempts = (props: ProgressStepProps) => (
   <Page title="Previous attempts to get help" withHeading>
     <SessionUpdatingFormSubmitter
-      mutation={HpActionDetailsMutation}
+      mutation={HpActionPreviousAttemptsMutation}
       onSuccessRedirect={assertNotNull(props.nextStep)}
-      initialState={({ hpActionDetails }) => getInitialFormInput(
-        hpActionDetails,
-        BlankHPActionDetailsInput,
-        hp => hp.yesNoRadios('filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations', 'issuesFixed', 'urgentAndDangerous').finish()
-      )}
+      initialState={getInitialState}
     >
       {ctx => <>
         <div className="content">

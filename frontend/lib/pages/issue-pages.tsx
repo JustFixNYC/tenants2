@@ -188,11 +188,14 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
 
   render() {
     const labels = getIssueAreaChoiceLabels();
+    const introContent = this.props.introContent || <>
+      This <strong>issue checklist</strong> will be sent to your landlord.
+    </>;
     return (
       <Page title="Apartment self-inspection">
         <div>
           <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
-          <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. This <strong>issue checklist</strong> will be sent to your landlord. <strong>Don't hold back!</strong></p>
+          <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. {introContent} <strong>Don't hold back!</strong></p>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
               {this.renderColumnForArea(...a)}
@@ -213,6 +216,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
 
 type IssuesRoutesProps = {
   routes: IssuesRouteInfo,
+  introContent?: string|JSX.Element,
   toBack: string,
   toNext: string
 };

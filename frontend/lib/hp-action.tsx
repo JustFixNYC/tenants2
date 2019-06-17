@@ -19,6 +19,9 @@ import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssis
 import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
+import { HpActionDetailsMutation, BlankHPActionDetailsInput } from './queries/HpActionDetailsMutation';
+import { getInitialFormInput } from './form-input-converter';
+import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -67,6 +70,32 @@ const HPActionIssuesRoutes = (props: ProgressStepProps) => (
     toBack={assertNotNull(props.prevStep)}
     toNext={assertNotNull(props.nextStep)}
   />
+);
+
+const PrevAttempts = (props: ProgressStepProps) => (
+  <Page title="Previous attempts to get help" withHeading>
+    <SessionUpdatingFormSubmitter
+      mutation={HpActionDetailsMutation}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
+      initialState={({ hpActionDetails }) => getInitialFormInput(
+        hpActionDetails,
+        BlankHPActionDetailsInput,
+        hp => hp.yesNoRadios('filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations', 'issuesFixed', 'urgentAndDangerous').finish()
+      )}
+    >
+      {ctx => <>
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('filedWith311')} label="Have you filed any complaints with 311 already?" />
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('thirtyDaysSince311')} label="Have 30 days passed since you filed the complaints?" />
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('hpdIssuedViolations')} label="Did HPD issue any Violations?" />
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('issuesFixed')} label="Have the issues been fixed?" />
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('urgentAndDangerous')} label="Are the conditions urgent and dangerous?" />
+        <div className="buttons jf-two-buttons">
+          <BackButton to={assertNotNull(props.prevStep)} />
+          <NextButton isLoading={ctx.isLoading} />
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </Page>
 );
 
 const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => (
@@ -188,6 +217,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
+    { path: Routes.locale.hp.prevAttempts, component: PrevAttempts },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

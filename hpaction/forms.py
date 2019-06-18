@@ -66,13 +66,17 @@ class TenantChildForm(forms.ModelForm):
 class PreviousAttemptsForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
-        exclude = ['user']
+        fields = [
+            'filed_with_311',
+            'thirty_days_since_311',
+            'hpd_issued_violations',
+            'thirty_days_since_violations'
+        ]
 
     filed_with_311 = YesNoRadiosField()
     thirty_days_since_311 = YesNoRadiosField()
     hpd_issued_violations = YesNoRadiosField()
     thirty_days_since_violations = YesNoRadiosField()
-    urgent_and_dangerous = YesNoRadiosField()
 
 
 class GeneratePDFForm(forms.Form):

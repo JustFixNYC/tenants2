@@ -1,6 +1,7 @@
 from django import forms
 
 from project.forms import YesNoRadiosField
+from onboarding.models import OnboardingInfo
 from . import models
 
 
@@ -44,6 +45,16 @@ class FeeWaiverPublicAssistanceForm(forms.ModelForm):
         fields = ['receives_public_assistance']
 
     receives_public_assistance = YesNoRadiosField()
+
+
+class AccessForInspectionForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ['floor_number']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['floor_number'].required = True
 
 
 class TenantChildForm(forms.ModelForm):

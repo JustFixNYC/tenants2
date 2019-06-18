@@ -24,7 +24,8 @@ fragment AllSessionInfo on SessionInfo {
     receivesPublicAssistance
   },
   onboardingInfo {
-    signupIntent
+    signupIntent,
+    floorNumber
   },
   accessDates,
   landlordDetails {

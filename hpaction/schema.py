@@ -132,6 +132,21 @@ class HPActionPreviousAttempts(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class AccessForInspection(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.AccessForInspectionForm
+
+    @classmethod
+    def perform_mutate(cls, form, *args, **kwargs):
+        if form.instance.id is None:
+            # Database constraints will be violated if we actually try saving this,
+            # so just return a validation error for now. This should never really
+            # happen unless a user created via the admin UI or command-line was made.
+            return cls.make_error("You must complete onboarding before submitting this form!")
+        return super().perform_mutate(form, *args, **kwargs)
+
+
+@schema_registry.register_mutation
 class TenantChildren(ManyToOneUserModelFormMutation):
     class Meta:
         formset_classes = {

@@ -78,3 +78,6 @@ sessionFields = ["hpActionDetails"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]
+
+[mutations.accessForInspection]
+sessionFields = ["onboardingInfo"]

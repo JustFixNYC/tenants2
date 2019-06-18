@@ -130,6 +130,7 @@ function createHPActionRouteInfo(prefix: string) {
     welcome: `${prefix}/welcome`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     tenantChildren: `${prefix}/children`,
+    accessForInspection: `${prefix}/access`,
     prevAttempts: `${prefix}/previous-attempts`,
     feeWaiverStart: `${prefix}/fee-waiver`,
     feeWaiverMisc: `${prefix}/fee-waiver/misc`,

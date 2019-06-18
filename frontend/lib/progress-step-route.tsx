@@ -4,6 +4,7 @@ import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppContext } from './app-context';
+import { assertNotNull } from './util';
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -29,6 +30,28 @@ export type ProgressStepProps = RouteComponentProps<{}> & {
   /** The URL path to the step after the one being rendered, if any. */
   nextStep: string|null,
 };
+
+export type MiddleProgressStepProps = ProgressStepProps & {
+  /** The URL path to the step before the one being rendered. */
+  prevStep: string,
+
+  /** The URL path to the step after the one being rendered. */
+  nextStep: string
+};
+
+/**
+ * A simple higher-order component that guarantees, at runtime, that
+ * it's a middle step (i.e., that it has both next and previous steps)
+ * and passes them on to the component it's wrapping.
+ */
+export function MiddleProgressStep(
+  Component: React.ComponentType<MiddleProgressStepProps>
+): React.FunctionComponent<ProgressStepProps> {
+  return (props: ProgressStepProps) => {
+    let { prevStep, nextStep, ...rest } = props;
+    return <Component prevStep={assertNotNull(prevStep)} nextStep={assertNotNull(nextStep)} {...rest} />
+  };
+}
 
 type ComponentProgressStepRoute = BaseProgressStepRoute & {
   component: React.ComponentType<ProgressStepProps> | React.ComponentType<{}>;

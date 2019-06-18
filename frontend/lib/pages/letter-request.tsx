@@ -11,8 +11,7 @@ import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../form-fields';
 import { BulmaClassName } from '../bulma';
-import { ProgressStepProps } from '../progress-step-route';
-import { assertNotNull } from '../util';
+import { MiddleProgressStep } from '../progress-step-route';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
@@ -76,9 +75,7 @@ const LetterPreview = withAppContext((props) => (
   </div>
 ));
 
-export default function LetterRequestPage(props: ProgressStepProps): JSX.Element {
-  const nextStep = assertNotNull(props.nextStep);
-
+const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
   return (
     <Page title="Review the Letter of Complaint">
       <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
@@ -91,7 +88,7 @@ export default function LetterRequestPage(props: ProgressStepProps): JSX.Element
           Looks good to me!
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-          <BackButton to={assertNotNull(props.prevStep)} buttonClass="is-text" label="Go back and edit" />
+          <BackButton to={prevStep} buttonClass="is-text" label="Go back and edit" />
           <FormAsButton
             mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
             buttonClass="is-text"
@@ -104,4 +101,6 @@ export default function LetterRequestPage(props: ProgressStepProps): JSX.Element
 
     </Page>
   );
-}
+});
+
+export default LetterRequestPage;

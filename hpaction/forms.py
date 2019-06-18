@@ -65,14 +65,20 @@ class TenantChildForm(forms.ModelForm):
         fields = ['name', 'dob']
 
 
+FILED_WITH_311 = 'filed_with_311'
+THIRTY_DAYS_SINCE_311 = 'thirty_days_since_311'
+HPD_ISSUED_VIOLATIONS = 'hpd_issued_violations'
+THIRTY_DAYS_SINCE_VIOLATIONS = 'thirty_days_since_violations'
+
+
 class PreviousAttemptsForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
-            'filed_with_311',
-            'thirty_days_since_311',
-            'hpd_issued_violations',
-            'thirty_days_since_violations'
+            FILED_WITH_311,
+            THIRTY_DAYS_SINCE_311,
+            HPD_ISSUED_VIOLATIONS,
+            THIRTY_DAYS_SINCE_VIOLATIONS,
         ]
 
     filed_with_311 = YesNoRadiosField()
@@ -94,15 +100,21 @@ class PreviousAttemptsForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        filed_with_311 = YesNoRadiosField.coerce(cleaned_data.get('filed_with_311'))
+        filed_with_311 = YesNoRadiosField.coerce(cleaned_data.get(FILED_WITH_311))
 
         if filed_with_311 is True:
             hpd_issued_violations = self.require_bool_field(
-                'hpd_issued_violations', cleaned_data)
+                HPD_ISSUED_VIOLATIONS, cleaned_data)
             if hpd_issued_violations is False:
-                self.require_bool_field('thirty_days_since_311', cleaned_data)
+                self.require_bool_field(THIRTY_DAYS_SINCE_311, cleaned_data)
+                cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ''
             elif hpd_issued_violations is True:
-                self.require_bool_field('thirty_days_since_violations', cleaned_data)
+                self.require_bool_field(THIRTY_DAYS_SINCE_VIOLATIONS, cleaned_data)
+                cleaned_data[THIRTY_DAYS_SINCE_311] = ''
+        elif filed_with_311 is False:
+            cleaned_data[HPD_ISSUED_VIOLATIONS] = ''
+            cleaned_data[THIRTY_DAYS_SINCE_311] = ''
+            cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ''
 
         return cleaned_data
 

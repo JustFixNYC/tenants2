@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { ProgressStepProps } from "../progress-step-route";
+import { MiddleProgressStep } from "../progress-step-route";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from "../forms";
-import { assertNotNull } from "../util";
 import { getInitialFormInput } from "../form-input-converter";
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { BackButton, NextButton } from '../buttons';
@@ -22,11 +21,11 @@ function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput
   );
 }
 
-export const HPActionPreviousAttempts = (props: ProgressStepProps) => (
+export const HPActionPreviousAttempts = MiddleProgressStep(props => (
   <Page title="Previous attempts to get help" withHeading>
     <SessionUpdatingFormSubmitter
       mutation={HpActionPreviousAttemptsMutation}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
       initialState={getInitialState}
     >
       {ctx => <>
@@ -39,10 +38,10 @@ export const HPActionPreviousAttempts = (props: ProgressStepProps) => (
         <YesNoRadiosFormField {...ctx.fieldPropsFor('issuesFixed')} label="Have the issues been fixed?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('urgentAndDangerous')} label="Are the conditions urgent and dangerous?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} />
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));

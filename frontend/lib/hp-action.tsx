@@ -16,7 +16,7 @@ import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
-import { ProgressStepProps } from './progress-step-route';
+import { ProgressStepProps, MiddleProgressStep } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
@@ -64,14 +64,14 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
   );
 });
 
-const HPActionIssuesRoutes = (props: ProgressStepProps) => (
+const HPActionIssuesRoutes = MiddleProgressStep(props => (
   <IssuesRoutes
     routes={Routes.locale.hp.issues}
     introContent={<>This <strong>issue checklist</strong> will be the basis for your case.</>}
-    toBack={assertNotNull(props.prevStep)}
-    toNext={assertNotNull(props.nextStep)}
+    toBack={props.prevStep}
+    toNext={props.nextStep}
   />
-);
+));
 
 const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => (
   <>
@@ -176,14 +176,14 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-const AccessForInspection = (props: ProgressStepProps) => (
+const AccessForInspection = MiddleProgressStep(props => (
   <Page title="Access for Your HPD Inspection" withHeading>
     <div className="content">
       <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
     </div>
     <SessionUpdatingFormSubmitter
       mutation={AccessForInspectionMutation}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
       initialState={({ onboardingInfo }) => getInitialFormInput(
         onboardingInfo,
         BlankAccessForInspectionInput,
@@ -193,14 +193,18 @@ const AccessForInspection = (props: ProgressStepProps) => (
       {(ctx) => <>
         <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} />
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));
 
+/**
+ * Returns whether the given session fee waiver info exists, and, if so, whether
+ * it satisfies the criteria encapsulated by the given predicate function.
+ */
 const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) => (session: AllSessionInfo) => (
   session.feeWaiver ? condition(session.feeWaiver) : false
 );

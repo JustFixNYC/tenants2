@@ -12,8 +12,7 @@ import { FeeWaiverMiscMutation, BlankFeeWaiverMiscInput } from '../queries/FeeWa
 import { FeeWaiverIncomeMutation, BlankFeeWaiverIncomeInput } from '../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation, BlankFeeWaiverExpensesInput } from '../queries/FeeWaiverExpensesMutation';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
-import { ProgressStepProps } from '../progress-step-route';
-import { assertNotNull } from '../util';
+import { MiddleProgressStep } from '../progress-step-route';
 import { FeeWaiverPublicAssistanceMutation, BlankFeeWaiverPublicAssistanceInput } from '../queries/FeeWaiverPublicAssistanceMutation';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
@@ -28,22 +27,22 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   expenseOther: '0.00',
 };
 
-export const FeeWaiverStart = (props: ProgressStepProps) => (
+export const FeeWaiverStart = MiddleProgressStep(props => (
   <Page title="Requesting Not to Pay the $45 Filing Fee">
     <h1 className="title is-4">Requesting Not to Pay the $45 Filing Fee</h1>
     <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
     <br/>
-    <CenteredPrimaryButtonLink className="is-large" to={assertNotNull(props.nextStep)}>
+    <CenteredPrimaryButtonLink className="is-large" to={props.nextStep}>
       Ask the court to waive the filing fee
     </CenteredPrimaryButtonLink>
     <div className="buttons jf-two-buttons jf-two-buttons--vertical">
-      <BackButton to={assertNotNull(props.prevStep)} />
+      <BackButton to={props.prevStep} />
       <Link to={Routes.locale.hp.yourLandlord} className={bulmaClasses('button', 'is-light', 'is-medium')}>Skip</Link>
     </div>
   </Page>
-);
+));
 
-export const FeeWaiverMisc = (props: ProgressStepProps) => (
+export const FeeWaiverMisc = MiddleProgressStep(props => (
   <Page title="Prior fee waivers">
     <h1 className="title is-4">Prior fee waivers</h1>
     <SessionUpdatingFormSubmitter
@@ -53,20 +52,20 @@ export const FeeWaiverMisc = (props: ProgressStepProps) => (
         BlankFeeWaiverMiscInput,
         (feeWaiver) => feeWaiver.yesNoRadios('askedBefore').finish()
       )}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));
 
-export const FeeWaiverPublicAssistance = (props: ProgressStepProps) => (
+export const FeeWaiverPublicAssistance = MiddleProgressStep(props => (
   <Page title="Public assistance">
     <h1 className="title is-4">Public assistance</h1>
     <br/>
@@ -77,20 +76,20 @@ export const FeeWaiverPublicAssistance = (props: ProgressStepProps) => (
         BlankFeeWaiverPublicAssistanceInput,
         (feeWaiver) => feeWaiver.yesNoRadios('receivesPublicAssistance').finish()
       )}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('receivesPublicAssistance')} label="Do you receive public assistance?" />
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));
 
-export const FeeWaiverIncome = (props: ProgressStepProps) => (
+export const FeeWaiverIncome = MiddleProgressStep(props => (
   <Page title="Your income">
     <h1 className="title is-4">Your income</h1>
     <SessionUpdatingFormSubmitter
@@ -100,7 +99,7 @@ export const FeeWaiverIncome = (props: ProgressStepProps) => (
         BlankFeeWaiverIncomeInput,
         (feeWaiver) => feeWaiver.finish()
       )}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
         <CurrencyFormField
@@ -126,15 +125,15 @@ export const FeeWaiverIncome = (props: ProgressStepProps) => (
             enhancedLabel="Please specify your other sources of income." />
         </fieldset>
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));
 
-export const FeeWaiverExpenses = (props: ProgressStepProps) => (
+export const FeeWaiverExpenses = MiddleProgressStep(props => (
   <Page title="Your expenses">
     <h1 className="title is-4">Your expenses</h1>
     <SessionUpdatingFormSubmitter
@@ -144,7 +143,7 @@ export const FeeWaiverExpenses = (props: ProgressStepProps) => (
         INITIAL_EXPENSES_STATE,
         (feeWaiver) => feeWaiver.finish()
       )}
-      onSuccessRedirect={assertNotNull(props.nextStep)}
+      onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
         <CurrencyFormField
@@ -160,10 +159,10 @@ export const FeeWaiverExpenses = (props: ProgressStepProps) => (
         <CurrencyFormField label="Other" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
         <div className="buttons jf-two-buttons">
-          <BackButton to={assertNotNull(props.prevStep)} />
+          <BackButton to={props.prevStep} />
           <NextButton isLoading={ctx.isLoading} label="Next"/>
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
-);
+));

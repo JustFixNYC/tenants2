@@ -4,9 +4,8 @@ import { ChildrenTenantChildFormFormSetInput, TenantChildrenInput } from '../que
 import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { BlankTenantChildrenInput, TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
-import { ProgressStepProps } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress-step-route';
 import Page from '../page';
-import { assertNotNull } from '../util';
 import { Formset } from '../formset';
 import { maxChildren } from '../../../common-data/hp-action.json';
 import { BackButton, NextButton } from '../buttons';
@@ -46,7 +45,7 @@ function getInitialTenantChildren(session: AllSessionInfo): TenantChildrenInput 
   return BlankTenantChildrenInput;
 }
 
-export const TenantChildren = (props: ProgressStepProps) => {
+export const TenantChildren = MiddleProgressStep(props=> {
   return (
     <Page title="Do any children live on the premises?" withHeading>
       <div className="content">
@@ -57,7 +56,7 @@ export const TenantChildren = (props: ProgressStepProps) => {
       <SessionUpdatingFormSubmitter
         mutation={TenantChildrenMutation}
         initialState={getInitialTenantChildren}
-        onSuccessRedirect={assertNotNull(props.nextStep)}
+        onSuccessRedirect={props.nextStep}
       >
         {(formCtx) => <>
           <Formset {...formCtx.formsetPropsFor('children')}
@@ -67,11 +66,11 @@ export const TenantChildren = (props: ProgressStepProps) => {
             {renderTenantChild}
           </Formset>
           <div className="buttons jf-two-buttons">
-            <BackButton to={assertNotNull(props.prevStep)} />
+            <BackButton to={props.prevStep} />
             <NextButton isLoading={formCtx.isLoading} />
           </div>
         </>}
       </SessionUpdatingFormSubmitter>
     </Page>
   );
-};
+});

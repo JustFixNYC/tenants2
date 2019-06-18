@@ -3,6 +3,7 @@
     to resolve some of its limitations.
 '''
 
+import re
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from weakref import WeakValueDictionary
 from django import forms
@@ -122,6 +123,38 @@ def to_snake_case_field_name(key: str) -> str:
     return snake_key
 
 
+def iter_possible_snake_cased_field_names(key: str):
+    '''
+    This is utterly absurd.  Ideally we should just ignore the GraphQL convention of
+    using CamelCased field names, or ignore Python's convention of using snake_case'd
+    field names, but instead we're converting between the two, and unfortunately it's
+    possible for the conversion to be ambiguous.  For instance, 'foo_1' in snake_case
+    becomes 'Foo1' when CamelCased, which becomes 'foo1' when snake_cased again.
+
+    This function simply iterates over *all* possible snake_cased variations of a
+    CamelCased field name.
+    '''
+
+    base_field_name = to_snake_case_field_name(key)
+    yield base_field_name
+    with_underscore_before_digits = re.sub(r'([a-z])([0-9])', r'\1_\2', base_field_name)
+    if with_underscore_before_digits != base_field_name:
+        yield with_underscore_before_digits
+
+
+def populate_all_possible_snake_cased_fields(key: str, value, snake_cased_data: QueryDict):
+    '''
+    Because of the fact that Django forms simply ignores fields that it doesn't
+    recognize, and because it's extremely unlikely that e.g. `foo_1` and `foo1` both
+    represent valid fields, we're just going to go nuts and populate our QueryDict
+    with *all* possible snake_cased variations of a CamelCased field name. Django will
+    just pick the ones that actually match with forms that we validate against.
+    '''
+
+    for snake_key in iter_possible_snake_cased_field_names(key):
+        snake_cased_data.setlist(snake_key, value)
+
+
 def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
@@ -136,8 +169,7 @@ def convert_post_data_to_input(
 
     snake_cased_data = QueryDict(mutable=True)
     for key in data:
-        snake_key = to_snake_case_field_name(key)
-        snake_cased_data.setlist(snake_key, data.getlist(key))
+        populate_all_possible_snake_cased_fields(key, data.getlist(key), snake_cased_data)
     form = form_class(data=snake_cased_data)
     result = _get_camel_cased_field_data(form, exclude_fields)
     if formset_classes:

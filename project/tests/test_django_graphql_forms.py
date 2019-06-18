@@ -16,7 +16,8 @@ from ..util.django_graphql_forms import (
     get_input_type_from_query,
     convert_post_data_to_input,
     to_snake_case_field_name,
-    logger
+    logger,
+    iter_possible_snake_cased_field_names
 )
 from .util import qdict
 
@@ -456,3 +457,11 @@ def test_get_input_type_from_query_works():
 ])
 def test_to_snake_case_field_name(original, expected):
     assert to_snake_case_field_name(original) == expected
+
+
+@pytest.mark.parametrize("key,expected", [
+    ['fooBar', ['foo_bar']],
+    ['blah134', ['blah134', 'blah_134']],
+])
+def test_iter_possible_snake_cased_field_names(key, expected):
+    assert list(iter_possible_snake_cased_field_names(key)) == expected

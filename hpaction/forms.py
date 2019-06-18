@@ -71,7 +71,7 @@ class PreviousAttemptsForm(forms.ModelForm):
     filed_with_311 = YesNoRadiosField()
     thirty_days_since_311 = YesNoRadiosField()
     hpd_issued_violations = YesNoRadiosField()
-    issues_fixed = YesNoRadiosField()
+    thirty_days_since_violations = YesNoRadiosField()
     urgent_and_dangerous = YesNoRadiosField()
 
 

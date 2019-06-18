@@ -43,7 +43,7 @@ fragment AllSessionInfo on SessionInfo {
     filedWith311,
     thirtyDaysSince311,
     hpdIssuedViolations,
-    issuesFixed,
+    thirtyDaysSinceViolations,
     urgentAndDangerous
   },
   latestHpActionPdfUrl,

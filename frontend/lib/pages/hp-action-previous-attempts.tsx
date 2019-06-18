@@ -16,7 +16,7 @@ function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput
     BlankHPActionPreviousAttemptsInput,
     hp => hp.yesNoRadios(
       'filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations',
-      'issuesFixed', 'urgentAndDangerous'
+      'thirtyDaysSinceViolations', 'urgentAndDangerous'
     ).finish()
   );
 }
@@ -35,7 +35,7 @@ export const HPActionPreviousAttempts = MiddleProgressStep(props => (
         <YesNoRadiosFormField {...ctx.fieldPropsFor('filedWith311')} label="Have you filed any complaints with 311 already?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('thirtyDaysSince311')} label="Have 30 days passed since you filed the complaints?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('hpdIssuedViolations')} label="Did HPD issue any Violations?" />
-        <YesNoRadiosFormField {...ctx.fieldPropsFor('issuesFixed')} label="Have the issues been fixed?" />
+        <YesNoRadiosFormField {...ctx.fieldPropsFor('thirtyDaysSinceViolations')} label="Have 30 days passed since the Violations were issued?" />
         <YesNoRadiosFormField {...ctx.fieldPropsFor('urgentAndDangerous')} label="Are the conditions urgent and dangerous?" />
         <div className="buttons jf-two-buttons">
           <BackButton to={props.prevStep} />

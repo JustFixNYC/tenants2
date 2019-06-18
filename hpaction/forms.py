@@ -1,4 +1,6 @@
+from typing import Optional
 from django import forms
+from django.core.exceptions import ValidationError
 
 from project.forms import YesNoRadiosField
 from onboarding.models import OnboardingInfo
@@ -74,9 +76,34 @@ class PreviousAttemptsForm(forms.ModelForm):
         ]
 
     filed_with_311 = YesNoRadiosField()
-    thirty_days_since_311 = YesNoRadiosField()
-    hpd_issued_violations = YesNoRadiosField()
-    thirty_days_since_violations = YesNoRadiosField()
+    thirty_days_since_311 = YesNoRadiosField(required=False)
+    hpd_issued_violations = YesNoRadiosField(required=False)
+    thirty_days_since_violations = YesNoRadiosField(required=False)
+
+    def add_dynamically_required_error(self, field: str):
+        msg = forms.Field.default_error_messages['required']
+        self.add_error(field, ValidationError(msg, code='required'))
+
+    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
+        value = cleaned_data.get(field)
+        if value is None:
+            self.add_dynamically_required_error(field)
+        else:
+            assert isinstance(value, bool)
+        return value
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get('filed_with_311') is True:
+            hpd_issued_violations = self.require_bool_field(
+                'hpd_issued_violations', cleaned_data)
+            if hpd_issued_violations is False:
+                self.require_bool_field('thirty_days_since_311', cleaned_data)
+            elif hpd_issued_violations is True:
+                self.require_bool_field('thirty_days_since_violations', cleaned_data)
+
+        return cleaned_data
 
 
 class GeneratePDFForm(forms.Form):

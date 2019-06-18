@@ -109,6 +109,12 @@ class OnboardingInfo(models.Model):
 
     apt_number = models.CharField(max_length=10)
 
+    floor_number = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text="The floor number the user's apartment is on."
+    )
+
     is_in_eviction = models.BooleanField(
         help_text="Has the user received an eviction notice?")
 

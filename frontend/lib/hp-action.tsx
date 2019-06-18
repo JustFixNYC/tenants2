@@ -20,6 +20,9 @@ import { ProgressStepProps } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
+import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
+import { TextualFormField } from './form-fields';
+import { getInitialFormInput } from './form-input-converter';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -173,6 +176,31 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
+const AccessForInspection = (props: ProgressStepProps) => (
+  <Page title="Access for Your HPD Inspection" withHeading>
+    <div className="content">
+      <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
+    </div>
+    <SessionUpdatingFormSubmitter
+      mutation={AccessForInspectionMutation}
+      onSuccessRedirect={assertNotNull(props.nextStep)}
+      initialState={({ onboardingInfo }) => getInitialFormInput(
+        onboardingInfo,
+        BlankAccessForInspectionInput,
+        o => o.finish()
+      )}
+    >
+      {(ctx) => <>
+        <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
+        <div className="buttons jf-two-buttons">
+          <BackButton to={assertNotNull(props.prevStep)} />
+          <NextButton isLoading={ctx.isLoading} />
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </Page>
+);
+
 const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) => (session: AllSessionInfo) => (
   session.feeWaiver ? condition(session.feeWaiver) : false
 );
@@ -189,6 +217,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
+    { path: Routes.locale.hp.accessForInspection, component: AccessForInspection },
     { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,

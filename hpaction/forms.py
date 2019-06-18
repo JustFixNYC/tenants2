@@ -85,7 +85,7 @@ class PreviousAttemptsForm(forms.ModelForm):
         self.add_error(field, ValidationError(msg, code='required'))
 
     def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
-        value = cleaned_data.get(field)
+        value = YesNoRadiosField.coerce(cleaned_data.get(field))
         if value is None:
             self.add_dynamically_required_error(field)
         else:
@@ -94,8 +94,9 @@ class PreviousAttemptsForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        filed_with_311 = YesNoRadiosField.coerce(cleaned_data.get('filed_with_311'))
 
-        if cleaned_data.get('filed_with_311') is True:
+        if filed_with_311 is True:
             hpd_issued_violations = self.require_bool_field(
                 'hpd_issued_violations', cleaned_data)
             if hpd_issued_violations is False:

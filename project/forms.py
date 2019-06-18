@@ -8,26 +8,22 @@ from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
 from . import password_reset
 
 
-class YesNoRadiosField(forms.TypedChoiceField):
+class YesNoRadiosField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            **kwargs,
-            coerce=self.coerce_to_boolean,
-            empty_value=None,
-            choices=[
-                (True, 'Yes'),
-                (False, 'No')
-            ]
-        )
+        super().__init__(*args, **kwargs, choices=[
+            (True, 'Yes'),
+            (False, 'No')
+        ])
 
-    @staticmethod
-    def coerce_to_boolean(value: str) -> bool:
+    @classmethod
+    def coerce(cls, value: Optional[str]) -> Optional[bool]:
+        if value in cls.empty_values:
+            return None
         if value == 'True':
             return True
         if value == 'False':
             return False
-        raise ValueError()
+        raise ValueError(f'Invalid YesNoRadiosField value: {value}')
 
 
 class USPhoneNumberField(forms.CharField):

@@ -165,11 +165,15 @@ COMPLAINED_30_DAYS_AGO = dict(filed_with_311=True, thirty_days_since_311=True)
 
 @pytest.mark.parametrize('hp_action_details_kwargs,expected', [
     (dict(), None),
-    (dict(**COMPLAINED_30_DAYS_AGO), None),
-    (dict(**COMPLAINED_30_DAYS_AGO, hpd_issued_violations=False),
+    (dict(filed_with_311=True), None),
+    (dict(filed_with_311=True, thirty_days_since_311=True, hpd_issued_violations=False),
      hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED),
-    (dict(**COMPLAINED_30_DAYS_AGO, hpd_issued_violations=True, issues_fixed=False),
+    (dict(filed_with_311=True, thirty_days_since_311=False, hpd_issued_violations=False),
+     None),
+    (dict(filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=True),
      hp.TenantRepairsAllegationsMC.NOTICE_ISSUED),
+    (dict(filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=False),
+     None),
 ])
 def test_get_tenant_repairs_allegations_mc_works(hp_action_details_kwargs, expected):
     h = HPActionDetailsFactory.build(**hp_action_details_kwargs)

@@ -133,6 +133,7 @@ function createHPActionRouteInfo(prefix: string) {
     accessForInspection: `${prefix}/access`,
     prevAttempts: `${prefix}/previous-attempts`,
     prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
+    urgentAndDangerous: `${prefix}/urgency`,
     feeWaiverStart: `${prefix}/fee-waiver`,
     feeWaiverMisc: `${prefix}/fee-waiver/misc`,
     feeWaiverIncome: `${prefix}/fee-waiver/income`,

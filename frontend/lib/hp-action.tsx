@@ -23,6 +23,8 @@ import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
 import { TextualFormField } from './form-fields';
 import { getInitialFormInput } from './form-input-converter';
+import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
+import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -201,6 +203,34 @@ const AccessForInspection = MiddleProgressStep(props => (
   </Page>
 ));
 
+const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
+  <Page title="Urgency of issues" withHeading>
+    <div className="content">
+      <p>if the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
+    </div>
+    <SessionUpdatingFormSubmitter
+      mutation={HpActionUrgentAndDangerousMutation}
+      onSuccessRedirect={nextStep}
+      initialState={({ hpActionDetails }) => getInitialFormInput(
+        hpActionDetails,
+        BlankHPActionUrgentAndDangerousInput,
+        hp => hp.yesNoRadios('urgentAndDangerous').finish()
+      )}
+    >
+      {(ctx) => <>
+        <YesNoRadiosFormField
+          {...ctx.fieldPropsFor('urgentAndDangerous')}
+          label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
+        />
+        <div className="buttons jf-two-buttons">
+          <BackButton to={prevStep} />
+          <NextButton isLoading={ctx.isLoading} />
+        </div>
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </Page>
+));
+
 /**
  * Returns whether the given session fee waiver info exists, and, if so, whether
  * it satisfies the criteria encapsulated by the given predicate function.
@@ -223,6 +253,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
     { path: Routes.locale.hp.accessForInspection, component: AccessForInspection },
     { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
+    { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

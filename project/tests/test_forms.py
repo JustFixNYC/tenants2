@@ -4,6 +4,7 @@ from django.forms import ValidationError
 
 from project.forms import (
     LoginForm,
+    YesNoRadiosField,
     USPhoneNumberField
 )
 
@@ -62,3 +63,18 @@ def test_phone_number_field_raises_errors(bad_phone_number):
 def test_phone_number_field_raises_error_on_bad_area_code():
     with pytest.raises(ValidationError, match="area code"):
         USPhoneNumberField().clean("1912311234")
+
+
+class TestYesNoRadiosField:
+    @pytest.mark.parametrize('value,expected', [
+        ('', None),
+        (None, None),
+        ('True', True),
+        ('False', False),
+    ])
+    def test_coerce_works(self, value, expected):
+        assert YesNoRadiosField.coerce(value) is expected
+
+    def test_raises_value_error_on_unexpected_value(self):
+        with pytest.raises(ValueError, match='Invalid YesNoRadiosField value: blah'):
+            YesNoRadiosField.coerce('blah')

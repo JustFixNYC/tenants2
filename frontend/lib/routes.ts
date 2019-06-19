@@ -132,6 +132,7 @@ function createHPActionRouteInfo(prefix: string) {
     tenantChildren: `${prefix}/children`,
     accessForInspection: `${prefix}/access`,
     prevAttempts: `${prefix}/previous-attempts`,
+    prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
     feeWaiverStart: `${prefix}/fee-waiver`,
     feeWaiverMisc: `${prefix}/fee-waiver/misc`,
     feeWaiverIncome: `${prefix}/fee-waiver/income`,

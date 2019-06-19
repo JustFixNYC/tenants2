@@ -4,12 +4,12 @@ import { MiddleProgressStep } from "../progress-step-route";
 import Page from "../page";
 import { SessionUpdatingFormSubmitter, FormContext } from "../forms";
 import { getInitialFormInput } from "../form-input-converter";
-import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YesNoRadiosFormFieldProps, YES_NO_RADIOS_FALSE } from '../yes-no-radios-form-field';
+import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '../yes-no-radios-form-field';
 import { BackButton, NextButton } from '../buttons';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { BlankHPActionPreviousAttemptsInput, HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
-import { HiddenFormField, BaseFormFieldProps } from '../form-fields';
+import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
 
 function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput {
   return getInitialFormInput(
@@ -20,26 +20,6 @@ function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput
       'thirtyDaysSinceViolations', 'urgentAndDangerous'
     ).finish()
   );
-}
-
-type WithHidden = { hidden: boolean };
-
-type ConditionalYesNoRadiosFieldProps = YesNoRadiosFormFieldProps & WithHidden;
-
-function hideByDefault<T>(props: BaseFormFieldProps<T>): BaseFormFieldProps<T> & WithHidden {
-  return {...props, hidden: true};
-}
-
-/**
- * A yes/no radios form field, but conditionally rendered.  It always
- * renders at least an <input type="hidden"> to ensure that progressive
- * enhancement will still work.
- */
-function ConditionalYesNoRadiosFormField(props: ConditionalYesNoRadiosFieldProps) {
-  if (!props.hidden || props.errors) {
-    return <YesNoRadiosFormField {...props} />;
-  }
-  return <HiddenFormField {...props} />;
 }
 
 function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {

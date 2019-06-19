@@ -132,6 +132,12 @@ class HPActionPreviousAttempts(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class HPActionUrgentAndDangerous(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.UrgentAndDangerousForm
+
+
+@schema_registry.register_mutation
 class AccessForInspection(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.AccessForInspectionForm

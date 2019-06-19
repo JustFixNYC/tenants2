@@ -71,6 +71,16 @@ HPD_ISSUED_VIOLATIONS = 'hpd_issued_violations'
 THIRTY_DAYS_SINCE_VIOLATIONS = 'thirty_days_since_violations'
 
 
+class UrgentAndDangerousForm(forms.ModelForm):
+    class Meta:
+        model = models.HPActionDetails
+        fields = [
+            'urgent_and_dangerous'
+        ]
+
+    urgent_and_dangerous = YesNoRadiosField()
+
+
 class PreviousAttemptsForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails

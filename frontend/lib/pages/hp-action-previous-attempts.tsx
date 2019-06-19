@@ -10,6 +10,10 @@ import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { BlankHPActionPreviousAttemptsInput, HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
 import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
+import Routes from '../routes';
+import { Route } from 'react-router';
+import { Modal } from '../modal';
+import { Link } from 'react-router-dom';
 
 function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput {
   return getInitialFormInput(
@@ -46,11 +50,37 @@ function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {
   </>;
 }
 
+function getSuccessRedirect(input: HPActionPreviousAttemptsInput, nextStep: string): string {
+  if (input.filedWith311 === YES_NO_RADIOS_FALSE) {
+    return Routes.locale.hp.prevAttempts311Modal;
+  }
+  return nextStep;
+}
+
+function ModalFor311(props: { nextStep: string }) {
+  const title = "311 is an important tool";
+  return (
+    <Modal title={title} onCloseGoTo={props.nextStep} >
+      <div className="content box">
+        <h1 className="title is-4">{title}</h1>
+        <p>
+          311 complaints are an important tool to help you strengthen your case. You can still file complaints by calling 311 to let the city know what’s going on.
+        </p>
+        <div className="has-text-centered">
+          <Link to={props.nextStep} className="button is-primary is-medium">
+            Continue
+          </Link>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
 export const HPActionPreviousAttempts = MiddleProgressStep(props => (
   <Page title="Previous attempts to get help" withHeading>
     <SessionUpdatingFormSubmitter
       mutation={HpActionPreviousAttemptsMutation}
-      onSuccessRedirect={props.nextStep}
+      onSuccessRedirect={(_, input) => getSuccessRedirect(input, props.nextStep)}
       initialState={getInitialState}
     >
       {ctx => <>
@@ -64,5 +94,6 @@ export const HPActionPreviousAttempts = MiddleProgressStep(props => (
         </div>
       </>}
     </SessionUpdatingFormSubmitter>
+    <Route path={Routes.locale.hp.prevAttempts311Modal} render={() => <ModalFor311 {...props} />} />
   </Page>
 ));

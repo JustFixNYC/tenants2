@@ -113,15 +113,57 @@ def to_capitalized_camel_case(s: str) -> str:
     return camel[:1].upper() + camel[1:]
 
 
+def _set_list_if_nonempty(data: QueryDict, key: str, value: List[Any]):
+    if value:
+        data.setlist(key, value)
+
+
 def convert_post_data_to_form_data(
     form: forms.Form,
     data: QueryDict,
 ) -> QueryDict:
+    '''
+    Convert CamelCased POST data for the given form into snake_cased POST data.
+
+    Ideally we could do this via pure string manipulation, but there are
+    issues with that, such as e.g. the fact that `foo_1` and `foo1` both map
+    to `foo1` when converted to CamelCase, which means they can't reliably be
+    converted back to snake_case.
+    '''
+
     snake_cased_data = QueryDict(mutable=True)
     for snake_key in form.fields:
-        camelcased_key = to_camel_case(snake_key)
-        if camelcased_key in data:
-            snake_cased_data.setlist(snake_key, data.getlist(camelcased_key))
+        value = data.getlist(to_camel_case(snake_key))
+        _set_list_if_nonempty(snake_cased_data, snake_key, value)
+    return snake_cased_data
+
+
+def convert_post_data_to_formset_data(
+    snake_formset_name: str,
+    formset: forms.BaseFormSet,
+    data: QueryDict
+) -> QueryDict:
+    '''
+    Convert CamelCased POST data for the given formsets into snake_cased POST data.
+    '''
+
+    snake_cased_data = QueryDict(mutable=True)
+    camel_formset_name = to_camel_case(snake_formset_name)
+    total_forms_key = f'{camel_formset_name}-{formsets.TOTAL_FORM_COUNT}'
+    total_forms = _get_safe_int(
+        data.get(total_forms_key, ''), default=0, max_value=formsets.DEFAULT_MAX_NUM)
+    for special_key in SPECIAL_FORMSET_FIELD_NAMES:
+        snake_key = f'{snake_formset_name}-{special_key}'
+        camel_key = f'{camel_formset_name}-{special_key}'
+        value = data.getlist(camel_key)
+        _set_list_if_nonempty(snake_cased_data, snake_key, value)
+    form = get_formset_form(formset)
+    for i in range(total_forms):
+        for snake_field_name in form.fields:
+            snake_key = f'{snake_formset_name}-{i}-{snake_field_name}'
+            camel_key = f'{camel_formset_name}-{i}-{to_camel_case(snake_field_name)}'
+            value = data.getlist(camel_key)
+            _set_list_if_nonempty(snake_cased_data, snake_key, value)
     return snake_cased_data
 
 
@@ -171,36 +213,6 @@ def get_formset_form(formset: forms.BaseFormSet) -> forms.Form:
     # have any initial forms (e.g. because users can delete from it but
     # not add to it), this could throw.
     return formset.forms[0]
-
-
-def convert_post_data_to_formset_data(
-    snake_formset_name: str,
-    formset: forms.BaseFormSet,
-    data: QueryDict
-) -> QueryDict:
-    snake_cased_data = QueryDict(mutable=True)
-    camel_formset_name = to_camel_case(snake_formset_name)
-    total_forms_key = f'{camel_formset_name}-{formsets.TOTAL_FORM_COUNT}'
-    total_forms = _get_safe_int(
-        data.get(total_forms_key, ''), default=0, max_value=formsets.DEFAULT_MAX_NUM)
-    for special_key in SPECIAL_FORMSET_FIELD_NAMES:
-        camel_key = f'{camel_formset_name}-{special_key}'
-        if camel_key in data:
-            snake_cased_data.setlist(
-                f'{snake_formset_name}-{special_key}',
-                data.getlist(camel_key)
-            )
-    form = get_formset_form(formset)
-    for i in range(total_forms):
-        for snake_field_name in form.fields:
-            camelcased_field_name = to_camel_case(snake_field_name)
-            camel_key = f'{camel_formset_name}-{i}-{camelcased_field_name}'
-            if camel_key in data:
-                snake_cased_data.setlist(
-                    f'{snake_formset_name}-{i}-{snake_field_name}',
-                    data.getlist(camel_key)
-                )
-    return snake_cased_data
 
 
 def _convert_formset_post_data_to_input(

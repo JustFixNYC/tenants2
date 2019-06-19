@@ -68,7 +68,7 @@ function ModalFor311(props: { nextStep: string }) {
         </p>
         <div className="has-text-centered">
           <Link to={props.nextStep} className="button is-primary is-medium">
-            Continue
+            Got it
           </Link>
         </div>
       </div>

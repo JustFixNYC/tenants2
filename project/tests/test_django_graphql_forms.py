@@ -15,9 +15,9 @@ from ..util.django_graphql_forms import (
     DjangoFormMutation,
     get_input_type_from_query,
     convert_post_data_to_input,
-    to_snake_case_field_name,
+    convert_post_data_to_form_data,
+    convert_post_data_to_formset_data,
     logger,
-    iter_possible_snake_cased_field_names
 )
 from .util import qdict
 
@@ -327,6 +327,92 @@ def test_convert_post_data_to_input_works_with_bool_fields():
     })) == {'boolField': True}
 
 
+class FormWithWeirdlyNamedFields(forms.Form):
+    # A form with fields that have weird field names that used to trip up
+    # our previous implementation. For more details, see:
+    #
+    # https://github.com/JustFixNYC/tenants2/issues/165
+
+    field_1 = forms.IntegerField()
+
+    field2 = forms.IntegerField()
+
+    bool_field = forms.BooleanField()
+
+
+FormsetWithWeirdlyNamedFields = forms.formset_factory(
+    FormWithWeirdlyNamedFields,
+    can_delete=True
+)
+
+
+class TestConvertPostDataToFormData:
+    def setup(self):
+        self.form = FormWithWeirdlyNamedFields()
+
+    def convert(self, qdict):
+        return convert_post_data_to_form_data(self.form, qdict)
+
+    def test_it_ignores_nonexistent_fields(self):
+        assert self.convert(qdict({
+            'blarg': ['5'],
+            'narg': ['6'],
+        })) == {}
+
+    def test_it_works_with_required_fields(self):
+        assert self.convert(qdict({
+            'field1': ['5'],
+            'field2': ['6'],
+        })) == {'field_1': ['5'], 'field2': ['6']}
+
+    def test_it_works_with_optional_fields(self):
+        assert self.convert(qdict({
+            'boolField': ['on'],
+        })) == {'bool_field': ['on']}
+
+
+class TestConvertPostDataToFormsetData:
+    def setup(self):
+        self.formset = FormsetWithWeirdlyNamedFields()
+
+    def convert(self, qdict):
+        return convert_post_data_to_formset_data('foo_1', self.formset, qdict)
+
+    def test_it_ignores_nonexistent_fields(self):
+        assert self.convert(qdict({'blah': ['5']})) == {}
+
+    def test_it_works_with_special_fields(self):
+        assert self.convert(qdict({
+            'foo1-TOTAL_FORMS': ['1'],
+            'foo1-INITIAL_FORMS': ['1'],
+            'foo1-0-DELETE': ['on'],
+        })) == {
+            'foo_1-TOTAL_FORMS': ['1'],
+            'foo_1-INITIAL_FORMS': ['1'],
+            'foo_1-0-DELETE': ['on'],
+        }
+
+    def test_it_works_with_required_fields(self):
+        assert self.convert(qdict({
+            'foo1-TOTAL_FORMS': ['1'],
+            'foo1-0-field1': ['5'],
+            'foo1-0-field2': ['6'],
+        })) == {
+            'foo_1-TOTAL_FORMS': ['1'],
+            'foo_1-0-field_1': ['5'],
+            'foo_1-0-field2': ['6'],
+        }
+
+    def test_it_works_with_optional_fields(self):
+        assert self.convert(qdict({
+            'foo1-TOTAL_FORMS': ['1'],
+            'foo1-0-boolField': ['on'],
+        })) == {
+            'foo_1-TOTAL_FORMS': ['1'],
+            'foo_1-0-bool_field': ['on'],
+        }
+
+
 def test_muliple_choice_fields_accept_lists():
     result = execute_query(multi_field=['A', 'B'])
     assert result['data']['foo']['errors'] == []
@@ -446,22 +532,3 @@ def test_get_input_type_from_query_works():
     # Ensure the variable definition must be for "input".
     assert get_input_type_from_query(
         'mutation Foo($boop: BarInput!) { foo(input: $boop) }') is None
-
-
-@pytest.mark.parametrize("original,expected", [
-    ["fooBar", "foo_bar"],
-    ["fooBar-jibberJabber", "foo_bar-jibber_jabber"],
-    ["fooBar-TOTAL_FORMS", "foo_bar-TOTAL_FORMS"],
-    ["fooBar-INITIAL_FORMS", "foo_bar-INITIAL_FORMS"],
-    ["fooBar-DELETE", "foo_bar-DELETE"],
-])
-def test_to_snake_case_field_name(original, expected):
-    assert to_snake_case_field_name(original) == expected
-
-
-@pytest.mark.parametrize("key,expected", [
-    ['fooBar', ['foo_bar']],
-    ['blah134', ['blah134', 'blah_134']],
-])
-def test_iter_possible_snake_cased_field_names(key, expected):
-    assert list(iter_possible_snake_cased_field_names(key)) == expected

@@ -187,12 +187,12 @@ def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild
 def get_tenant_repairs_allegations_mc(
     h: HPActionDetails
 ) -> Optional[hp.TenantRepairsAllegationsMC]:
-    if h.filed_with_311 is True and h.thirty_days_since_311 is True:
-        if h.hpd_issued_violations is False:
+    if h.filed_with_311 is True:
+        if h.hpd_issued_violations is False and h.thirty_days_since_311 is True:
             # I filed a complaint with HPD. More than 30 days have passed since then.
             # HPD has not issued a Notice of Violation.
             return hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED
-        elif h.hpd_issued_violations is True and h.issues_fixed is False:
+        elif h.hpd_issued_violations is True and h.thirty_days_since_violations is True:
             # I filed a complaint with HPD. HPD issued a Notice of Violation.
             # More than 30 days have passed since then. The landlord has not fixed the problem.
             return hp.TenantRepairsAllegationsMC.NOTICE_ISSUED

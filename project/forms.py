@@ -15,6 +15,16 @@ class YesNoRadiosField(forms.ChoiceField):
             (False, 'No')
         ])
 
+    @classmethod
+    def coerce(cls, value: Optional[str]) -> Optional[bool]:
+        if value in cls.empty_values:
+            return None
+        if value == 'True':
+            return True
+        if value == 'False':
+            return False
+        raise ValueError(f'Invalid YesNoRadiosField value: {value}')
+
 
 class USPhoneNumberField(forms.CharField):
     '''

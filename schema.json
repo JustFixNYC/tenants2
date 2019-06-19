@@ -1399,8 +1399,8 @@
               "deprecationReason": null
             },
             {
-              "name": "issuesFixed",
-              "description": "Whether the issues have been fixed.",
+              "name": "thirtyDaysSinceViolations",
+              "description": "Whether 30 days have passed since HPD issued violations.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -3797,21 +3797,7 @@
               "defaultValue": null
             },
             {
-              "name": "issuesFixed",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "urgentAndDangerous",
+              "name": "thirtyDaysSinceViolations",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

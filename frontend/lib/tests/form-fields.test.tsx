@@ -10,7 +10,7 @@ const CHOICES: DjangoChoices = [
   ['BAZ', 'Baz']
 ];
 
-function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
+export function fakeBaseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
   return {
     onChange: jest.fn(),
     name: 'foo',
@@ -22,7 +22,7 @@ function baseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T })
 
 function choiceFieldProps(props: Partial<ChoiceFormFieldProps> = {}): ChoiceFormFieldProps {
   return {
-    ...baseFieldProps({ value: '' }),
+    ...fakeBaseFieldProps({ value: '' }),
     choices: CHOICES,
     label: 'Foo',
     ...props
@@ -32,7 +32,7 @@ function choiceFieldProps(props: Partial<ChoiceFormFieldProps> = {}): ChoiceForm
 describe('TextualFormField', () => {
   const makeField = (props: Partial<TextualFormFieldProps> = {}) => {
     const defaultProps: TextualFormFieldProps = {
-      ...baseFieldProps({ value: '' }),
+      ...fakeBaseFieldProps({ value: '' }),
       label: 'Foo'
     };
     return shallow(
@@ -66,7 +66,7 @@ describe('TextualFormField with type="date"', () => {
       <TextualFormField
         type="date"
         label="Boop"
-        {...baseFieldProps({ value: '01/01/2011', onChange })}
+        {...fakeBaseFieldProps({ value: '01/01/2011', onChange })}
       />
     );
     pal.clickButtonOrLink(/Clear/);
@@ -77,7 +77,7 @@ describe('TextualFormField with type="date"', () => {
 describe('HiddenFormField', () => {
   const makeField = (props: Partial<BaseFormFieldProps<string|boolean|null|undefined>> = {}) => {
     const defaultProps: BaseFormFieldProps<string> = {
-      ...baseFieldProps({ value: '' }),
+      ...fakeBaseFieldProps({ value: '' }),
     };
     return shallow(
       <HiddenFormField
@@ -119,7 +119,7 @@ describe('HiddenFormField', () => {
 describe('TextareaFormField', () => {
   const makeField = (props: Partial<TextualFormFieldProps> = {}) => {
     const defaultProps: TextualFormFieldProps = {
-      ...baseFieldProps({ value: '' }),
+      ...fakeBaseFieldProps({ value: '' }),
       label: 'Foo'
     };
     return shallow(
@@ -216,7 +216,7 @@ test('toggleChoice works', () => {
 describe('MultiCheckboxFormField', () => {
   const makeMultiCheckbox = (props: Partial<MultiChoiceFormFieldProps> = {}) => {
     const defaultProps: MultiChoiceFormFieldProps = {
-      ...baseFieldProps<string[]>({ value: [] }),
+      ...fakeBaseFieldProps<string[]>({ value: [] }),
       choices: CHOICES,
       label: 'Foo',  
     };
@@ -256,7 +256,7 @@ describe('MultiCheckboxFormField', () => {
 describe('CheckboxFormField', () => {
   const makeCheckbox = (props: Partial<BooleanFormFieldProps> = {}) => {
     const defaultProps: BooleanFormFieldProps = {
-      ...baseFieldProps<boolean>({ value: false }),
+      ...fakeBaseFieldProps<boolean>({ value: false }),
       children: 'Foo'
     };
     return shallow(

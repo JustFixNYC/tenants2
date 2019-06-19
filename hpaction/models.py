@@ -223,9 +223,9 @@ class HPActionDetails(models.Model):
         )
     )
 
-    issues_fixed: Optional[bool] = models.NullBooleanField(
+    thirty_days_since_violations: Optional[bool] = models.NullBooleanField(
         help_text=(
-            "Whether the issues have been fixed."
+            "Whether 30 days have passed since HPD issued violations."
         )
     )
 

@@ -8,7 +8,7 @@ mutation HpActionPreviousAttemptsMutation($input: HPActionPreviousAttemptsInput!
         filedWith311,
         thirtyDaysSince311,
         hpdIssuedViolations,
-        issuesFixed,
+        thirtyDaysSinceViolations,
         urgentAndDangerous
       }
     }

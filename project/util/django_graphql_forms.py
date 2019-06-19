@@ -3,7 +3,6 @@
     to resolve some of its limitations.
 '''
 
-import re
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from weakref import WeakValueDictionary
 from django import forms
@@ -21,9 +20,16 @@ from graphene.types.utils import yank_fields_from_attrs
 from graphene.types.mutation import MutationOptions
 from graphene_django.forms.converter import convert_form_field
 from graphene_django.forms.mutation import fields_for_form
-from graphene.utils.str_converters import to_camel_case, to_snake_case
+from graphene.utils.str_converters import to_camel_case
 import logging
 
+
+SPECIAL_FORMSET_FIELD_NAMES = [
+    formsets.TOTAL_FORM_COUNT,
+    formsets.INITIAL_FORM_COUNT,
+    formsets.MIN_NUM_FORM_COUNT,
+    formsets.MAX_NUM_FORM_COUNT,
+]
 
 logger = logging.getLogger(__name__)
 
@@ -107,52 +113,16 @@ def to_capitalized_camel_case(s: str) -> str:
     return camel[:1].upper() + camel[1:]
 
 
-def to_snake_case_field_name(key: str) -> str:
-    snake_key = to_snake_case(key)
-    # Urg, to_snake_case() mangles some special names,
-    # so we need to un-mangle them.
-    for special_name in [
-        formsets.TOTAL_FORM_COUNT,
-        formsets.INITIAL_FORM_COUNT,
-        formsets.MIN_NUM_FORM_COUNT,
-        formsets.MAX_NUM_FORM_COUNT,
-        formsets.ORDERING_FIELD_NAME,
-        formsets.DELETION_FIELD_NAME
-    ]:
-        snake_key = snake_key.replace(f'-{special_name.lower()}', f'-{special_name}')
-    return snake_key
-
-
-def iter_possible_snake_cased_field_names(key: str):
-    '''
-    This is utterly absurd.  Ideally we should just ignore the GraphQL convention of
-    using CamelCased field names, or ignore Python's convention of using snake_case'd
-    field names, but instead we're converting between the two, and unfortunately it's
-    possible for the conversion to be ambiguous.  For instance, 'foo_1' in snake_case
-    becomes 'Foo1' when CamelCased, which becomes 'foo1' when snake_cased again.
-
-    This function simply iterates over *all* possible snake_cased variations of a
-    CamelCased field name.
-    '''
-
-    base_field_name = to_snake_case_field_name(key)
-    yield base_field_name
-    with_underscore_before_digits = re.sub(r'([a-z])([0-9])', r'\1_\2', base_field_name)
-    if with_underscore_before_digits != base_field_name:
-        yield with_underscore_before_digits
-
-
-def populate_all_possible_snake_cased_fields(key: str, value, snake_cased_data: QueryDict):
-    '''
-    Because of the fact that Django forms simply ignores fields that it doesn't
-    recognize, and because it's extremely unlikely that e.g. `foo_1` and `foo1` both
-    represent valid fields, we're just going to go nuts and populate our QueryDict
-    with *all* possible snake_cased variations of a CamelCased field name. Django will
-    just pick the ones that actually match with forms that we validate against.
-    '''
-
-    for snake_key in iter_possible_snake_cased_field_names(key):
-        snake_cased_data.setlist(snake_key, value)
+def convert_post_data_to_form_data(
+    form: forms.Form,
+    data: QueryDict,
+) -> QueryDict:
+    snake_cased_data = QueryDict(mutable=True)
+    for snake_key in form.fields:
+        camelcased_key = to_camel_case(snake_key)
+        if camelcased_key in data:
+            snake_cased_data.setlist(snake_key, data.getlist(camelcased_key))
+    return snake_cased_data
 
 
 def convert_post_data_to_input(
@@ -167,14 +137,12 @@ def convert_post_data_to_input(
     the given form and formset classes.
     '''
 
-    snake_cased_data = QueryDict(mutable=True)
-    for key in data:
-        populate_all_possible_snake_cased_fields(key, data.getlist(key), snake_cased_data)
+    snake_cased_data = convert_post_data_to_form_data(form_class(), data)
     form = form_class(data=snake_cased_data)
     result = _get_camel_cased_field_data(form, exclude_fields)
     if formset_classes:
         result.update(_convert_formset_post_data_to_input(
-            snake_cased_data, formset_classes, exclude_fields))
+            data, formset_classes, exclude_fields))
     return result
 
 
@@ -188,15 +156,67 @@ def _fielddata(form: forms.Form, field: str) -> Any:
     return data
 
 
+def _get_safe_int(value: str, default: int, max_value: int) -> int:
+    try:
+        return min([int(value), max_value])
+    except ValueError:
+        return default
+
+
+def get_formset_form(formset: forms.BaseFormSet) -> forms.Form:
+    # This seems to be the easiest way to get a form instance behind
+    # a formset while including any additional fields like DELETE.
+    #
+    # We should be careful though, because if a formset doesn't actually
+    # have any initial forms (e.g. because users can delete from it but
+    # not add to it), this could throw.
+    return formset.forms[0]
+
+
+def convert_post_data_to_formset_data(
+    snake_formset_name: str,
+    formset: forms.BaseFormSet,
+    data: QueryDict
+) -> QueryDict:
+    snake_cased_data = QueryDict(mutable=True)
+    camel_formset_name = to_camel_case(snake_formset_name)
+    total_forms_key = f'{camel_formset_name}-{formsets.TOTAL_FORM_COUNT}'
+    total_forms = _get_safe_int(
+        data.get(total_forms_key, ''), default=0, max_value=formsets.DEFAULT_MAX_NUM)
+    for special_key in SPECIAL_FORMSET_FIELD_NAMES:
+        camel_key = f'{camel_formset_name}-{special_key}'
+        if camel_key in data:
+            snake_cased_data.setlist(
+                f'{snake_formset_name}-{special_key}',
+                data.getlist(camel_key)
+            )
+    form = get_formset_form(formset)
+    for i in range(total_forms):
+        for snake_field_name in form.fields:
+            camelcased_field_name = to_camel_case(snake_field_name)
+            camel_key = f'{camel_formset_name}-{i}-{camelcased_field_name}'
+            if camel_key in data:
+                snake_cased_data.setlist(
+                    f'{snake_formset_name}-{i}-{snake_field_name}',
+                    data.getlist(camel_key)
+                )
+    return snake_cased_data
+
+
 def _convert_formset_post_data_to_input(
-    snake_cased_data: QueryDict,
+    data: QueryDict,
     formset_classes: FormsetClasses,
     exclude_fields: Iterable[str]
 ) -> Dict[str, Any]:
     result: Dict[str, Any] = {}
-    for (formset_name, formset_class) in (formset_classes or {}).items():
-        formset = formset_class(data=snake_cased_data, prefix=formset_name)
-        result[to_camel_case(formset_name)] = _get_formset_items(formset, exclude_fields)
+    for (snake_formset_name, formset_class) in (formset_classes or {}).items():
+        snake_cased_data = convert_post_data_to_formset_data(
+            snake_formset_name,
+            formset_class(),
+            data
+        )
+        formset = formset_class(data=snake_cased_data, prefix=snake_formset_name)
+        result[to_camel_case(snake_formset_name)] = _get_formset_items(formset, exclude_fields)
     return result
 
 
@@ -400,7 +420,7 @@ class DjangoFormMutation(ClientIDMutation):
         formset_classes = formset_classes or {}
 
         for (formset_name, formset_class) in formset_classes.items():
-            formset_form = formset_class().forms[0]
+            formset_form = get_formset_form(formset_class())
             formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
             formset_form_type = type(
                 f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",

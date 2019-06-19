@@ -206,7 +206,7 @@ const AccessForInspection = MiddleProgressStep(props => (
 const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
   <Page title="Urgency of issues" withHeading>
     <div className="content">
-      <p>if the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
+      <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
     </div>
     <SessionUpdatingFormSubmitter
       mutation={HpActionUrgentAndDangerousMutation}

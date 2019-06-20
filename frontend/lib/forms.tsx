@@ -244,7 +244,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 }
 
-interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
+export interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
   session: Partial<AllSessionInfo>|null;
 }
 

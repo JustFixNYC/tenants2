@@ -5,8 +5,8 @@ import Page from "./page";
 import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
+import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver, AllSessionInfo_hpActionDetails } from './queries/AllSessionInfo';
+import { SessionUpdatingFormSubmitter, FormContextRenderer, FormContext, SessionUpdatingFormOutput } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -22,10 +22,11 @@ import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
 import { TextualFormField } from './form-fields';
-import { getInitialFormInput } from './form-input-converter';
+import { getInitialFormInput, FormInputConverter } from './form-input-converter';
 import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
+import { FetchMutationInfo } from './forms-graphql';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -199,30 +200,56 @@ const AccessForInspection = MiddleProgressStep(props => (
   </Page>
 ));
 
-const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
-  <Page title="Urgency of issues" withHeading>
-    <div className="content">
-      <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
-    </div>
-    <SessionUpdatingFormSubmitter
-      mutation={HpActionUrgentAndDangerousMutation}
-      onSuccessRedirect={nextStep}
-      initialState={({ hpActionDetails }) => getInitialFormInput(
-        hpActionDetails,
-        BlankHPActionUrgentAndDangerousInput,
-        hp => hp.yesNoRadios('urgentAndDangerous').finish()
-      )}
-    >
-      {(ctx) => <>
-        <YesNoRadiosFormField
-          {...ctx.fieldPropsFor('urgentAndDangerous')}
-          label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
-        />
-        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+type HpActionStepOptions<FormInput, FormOutput extends SessionUpdatingFormOutput> = {
+  title: string,
+  renderIntro?: () => JSX.Element,
+  mutation: FetchMutationInfo<FormInput, FormOutput>,
+  blank: FormInput,
+  toFormInput: (hp: FormInputConverter<AllSessionInfo_hpActionDetails>) => FormInput,
+  renderForm: (ctx: FormContext<FormInput>) => JSX.Element,
+};
+
+function createHpActionStep<FormInput, FormOutput extends SessionUpdatingFormOutput>(
+  options: HpActionStepOptions<FormInput, FormOutput>
+): React.FunctionComponent<ProgressStepProps> {
+  return MiddleProgressStep(({ nextStep, prevStep }) => (
+    <Page title={options.title} withHeading>
+      {options.renderIntro
+        ? <div className="content">{options.renderIntro()}</div>
+        : null}
+      <SessionUpdatingFormSubmitter
+        mutation={options.mutation}
+        onSuccessRedirect={nextStep}
+        initialState={({ hpActionDetails }) => getInitialFormInput(
+          hpActionDetails,
+          options.blank,
+          options.toFormInput
+        )}
+      >
+        {(ctx) => <>
+          {options.renderForm(ctx)}
+          <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
+        </>}
+      </SessionUpdatingFormSubmitter>
+    </Page>
+  ));
+}
+
+const UrgentAndDangerous = createHpActionStep({
+  title: "Urgency of issues",
+  mutation: HpActionUrgentAndDangerousMutation,
+  blank: BlankHPActionUrgentAndDangerousInput,
+  toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
+  renderIntro: () => (
+    <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
+  ),
+  renderForm: (ctx) => (
+    <YesNoRadiosFormField
+      {...ctx.fieldPropsFor('urgentAndDangerous')}
+      label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
+    />
+  )
+});
 
 const SueForHarassment = MiddleProgressStep(({ nextStep, prevStep }) => (
   <Page title="Suing your landlord for harassment" withHeading>

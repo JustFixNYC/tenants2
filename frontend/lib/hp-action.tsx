@@ -6,7 +6,7 @@ import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './button
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver, AllSessionInfo_hpActionDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer, FormContext, SessionUpdatingFormOutput } from './forms';
+import { SessionUpdatingFormSubmitter, FormContextRenderer, SessionUpdatingFormOutput } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -22,11 +22,11 @@ import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
 import { TextualFormField } from './form-fields';
-import { getInitialFormInput, FormInputConverter } from './form-input-converter';
+import { getInitialFormInput } from './form-input-converter';
 import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
-import { FetchMutationInfo } from './forms-graphql';
+import { AwesomeStepOptions, createAwesomeStep } from './awesome-step';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -200,39 +200,17 @@ const AccessForInspection = MiddleProgressStep(props => (
   </Page>
 ));
 
-type HpActionStepOptions<FormInput, FormOutput extends SessionUpdatingFormOutput> = {
-  title: string,
-  renderIntro?: () => JSX.Element,
-  mutation: FetchMutationInfo<FormInput, FormOutput>,
-  blank: FormInput,
-  toFormInput: (hp: FormInputConverter<AllSessionInfo_hpActionDetails>) => FormInput,
-  renderForm: (ctx: FormContext<FormInput>) => JSX.Element,
-};
-
 function createHpActionStep<FormInput, FormOutput extends SessionUpdatingFormOutput>(
-  options: HpActionStepOptions<FormInput, FormOutput>
+  options: AwesomeStepOptions<FormInput, FormOutput, AllSessionInfo_hpActionDetails>
 ): React.FunctionComponent<ProgressStepProps> {
-  return MiddleProgressStep(({ nextStep, prevStep }) => (
-    <Page title={options.title} withHeading>
-      {options.renderIntro
-        ? <div className="content">{options.renderIntro()}</div>
-        : null}
-      <SessionUpdatingFormSubmitter
-        mutation={options.mutation}
-        onSuccessRedirect={nextStep}
-        initialState={({ hpActionDetails }) => getInitialFormInput(
-          hpActionDetails,
-          options.blank,
-          options.toFormInput
-        )}
-      >
-        {(ctx) => <>
-          {options.renderForm(ctx)}
-          <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
-        </>}
-      </SessionUpdatingFormSubmitter>
-    </Page>
-  ));
+  return createAwesomeStep(
+    options,
+    ({ hpActionDetails }) => getInitialFormInput(
+      hpActionDetails,
+      options.blank,
+      options.toFormInput
+    )
+  );
 }
 
 const UrgentAndDangerous = createHpActionStep({

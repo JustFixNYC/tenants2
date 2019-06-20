@@ -14,6 +14,12 @@ type ProgressButtonsOptions = {
   nextLabel?: string
 };
 
+/**
+ * A component that can be used in two different ways:
+ * 
+ *   1. As a container for two child buttons of any type.
+ *   2. As a childless element with props that render back/next buttons.
+ */
 export function ProgressButtons(props: ProgressButtonsOptions) {
   return (
     <div className="buttons jf-two-buttons">
@@ -27,6 +33,7 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
   );
 }
 
+/** A back button, mean to go back to the previous step in a flow. */
 export function BackButton(props: {
   buttonClass?: BulmaClassName;
   to: LocationDescriptor<any>;
@@ -38,6 +45,7 @@ export function BackButton(props: {
   );
 }
 
+/** A next button that submits a form and takes the user to the next step in a flow. */
 export function NextButton(props: {
   buttonClass?: BulmaClassName;
   isFullWidth?: boolean;

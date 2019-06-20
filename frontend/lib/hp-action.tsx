@@ -5,8 +5,8 @@ import Page from "./page";
 import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver, AllSessionInfo_hpActionDetails } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer, SessionUpdatingFormOutput } from './forms';
+import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
+import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -25,8 +25,8 @@ import { TextualFormField } from './form-fields';
 import { getInitialFormInput } from './form-input-converter';
 import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
+import { SessionStepBuilder } from './session-step';
 import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
-import { AwesomeStepOptions, createAwesomeStep } from './awesome-step';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -200,20 +200,9 @@ const AccessForInspection = MiddleProgressStep(props => (
   </Page>
 ));
 
-function createHpActionStep<FormInput, FormOutput extends SessionUpdatingFormOutput>(
-  options: AwesomeStepOptions<FormInput, FormOutput, AllSessionInfo_hpActionDetails>
-): React.FunctionComponent<ProgressStepProps> {
-  return createAwesomeStep(
-    options,
-    ({ hpActionDetails }) => getInitialFormInput(
-      hpActionDetails,
-      options.blank,
-      options.toFormInput
-    )
-  );
-}
+const hpDetailsStepBuilder = new SessionStepBuilder((sess) => sess.hpActionDetails);
 
-const UrgentAndDangerous = createHpActionStep({
+const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
   title: "Urgency of issues",
   mutation: HpActionUrgentAndDangerousMutation,
   blank: BlankHPActionUrgentAndDangerousInput,

@@ -202,6 +202,11 @@ def get_tenant_repairs_allegations_mc(
 def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
     v.tenant_repairs_allegations_mc = get_tenant_repairs_allegations_mc(h)
     v.problem_is_urgent_tf = h.urgent_and_dangerous
+    if h.sue_for_harassment:
+        v.sue_for_harassment_tf = True
+        if v.action_type_ms is None:
+            v.action_type_ms = []
+        v.action_type_ms.append(hp.ActionTypeMS.HARASSMENT)
 
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:

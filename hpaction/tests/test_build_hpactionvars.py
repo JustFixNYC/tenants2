@@ -189,3 +189,17 @@ def test_problem_is_urgent_tf_works():
     h.urgent_and_dangerous = False
     fill_hp_action_details(v, h)
     assert v.problem_is_urgent_tf is False
+
+
+def test_sue_for_harassment_works():
+    h = HPActionDetailsFactory.build(sue_for_harassment=True)
+    v = hp.HPActionVariables()
+    fill_hp_action_details(v, h)
+    assert v.sue_for_harassment_tf is True
+    assert v.action_type_ms == [hp.ActionTypeMS.HARASSMENT]
+
+    h.sue_for_harassment = None
+    v = hp.HPActionVariables()
+    fill_hp_action_details(v, h)
+    assert v.problem_is_urgent_tf is None
+    assert v.action_type_ms is None

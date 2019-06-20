@@ -7,12 +7,16 @@ import { MiddleProgressStep } from "./progress-step-route";
 import Page from "./page";
 import { ProgressButtons } from './buttons';
 import { AllSessionInfo } from './queries/AllSessionInfo';
+import { WithServerFormFieldErrors } from './form-errors';
+
+export type MutationWithBlankInput<FormInput, FormOutput extends WithServerFormFieldErrors> = {
+  blankInput: FormInput
+} & FetchMutationInfo<FormInput, FormOutput>;
 
 export type SessionStepOptions<FormInput, FormOutput extends SessionUpdatingFormOutput, SessionValue> = {
   title: string,
   renderIntro?: () => JSX.Element,
-  mutation: FetchMutationInfo<FormInput, FormOutput>,
-  blank: FormInput,
+  mutation: MutationWithBlankInput<FormInput, FormOutput>,
   toFormInput: (hp: FormInputConverter<SessionValue>) => FormInput,
   renderForm: (ctx: FormContext<FormInput>) => JSX.Element,
 };
@@ -36,7 +40,7 @@ export class SessionStepBuilder<SessionValue> {
           onSuccessRedirect={nextStep}
           initialState={session => getInitialFormInput(
             fromSession(session),
-            options.blank,
+            options.mutation.blankInput,
             options.toFormInput
           )}
         >

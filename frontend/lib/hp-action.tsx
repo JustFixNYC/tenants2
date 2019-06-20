@@ -205,7 +205,6 @@ const hpDetailsStepBuilder = new SessionStepBuilder((sess) => sess.hpActionDetai
 const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
   title: "Urgency of issues",
   mutation: HpActionUrgentAndDangerousMutation,
-  blank: BlankHPActionUrgentAndDangerousInput,
   toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
   renderIntro: () => (
     <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
@@ -221,7 +220,6 @@ const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
 const SueForHarassment = hpDetailsStepBuilder.createStep({
   title: "Suing your landlord for harassment",
   mutation: HpActionSueForHarassmentMutation,
-  blank: BlankHPActionSueForHarassmentInput,
   toFormInput: hp => hp.yesNoRadios('sueForHarassment').finish(),
   renderForm: (ctx) => <>
     <YesNoRadiosFormField

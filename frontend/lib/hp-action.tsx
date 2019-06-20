@@ -20,13 +20,12 @@ import { ProgressStepProps, MiddleProgressStep } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
-import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
+import { AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
 import { TextualFormField } from './form-fields';
-import { getInitialFormInput } from './form-input-converter';
-import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
+import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step';
-import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
+import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -178,31 +177,23 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-const AccessForInspection = MiddleProgressStep(props => (
-  <Page title="Access for Your HPD Inspection" withHeading>
-    <div className="content">
-      <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
-    </div>
-    <SessionUpdatingFormSubmitter
-      mutation={AccessForInspectionMutation}
-      onSuccessRedirect={props.nextStep}
-      initialState={({ onboardingInfo }) => getInitialFormInput(
-        onboardingInfo,
-        BlankAccessForInspectionInput,
-        o => o.finish()
-      )}
-    >
-      {(ctx) => <>
-        <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
-        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+const onboardingStepBuilder = new SessionStepBuilder(sess => sess.onboardingInfo);
 
-const hpDetailsStepBuilder = new SessionStepBuilder((sess) => sess.hpActionDetails);
+const AccessForInspection = onboardingStepBuilder.createStep({
+  title: "Access for Your HPD Inspection",
+  mutation: AccessForInspectionMutation,
+  toFormInput: onb => onb.finish(),
+  renderIntro: () => <>
+    <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
+  </>,
+  renderForm: ctx => <>
+    <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
+  </>,
+});
 
-const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
+const hpActionDetailsStepBuilder = new SessionStepBuilder(sess => sess.hpActionDetails);
+
+const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   title: "Urgency of issues",
   mutation: HpActionUrgentAndDangerousMutation,
   toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
@@ -217,7 +208,7 @@ const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
   </>
 });
 
-const SueForHarassment = hpDetailsStepBuilder.createStep({
+const SueForHarassment = hpActionDetailsStepBuilder.createStep({
   title: "Suing your landlord for harassment",
   mutation: HpActionSueForHarassmentMutation,
   toFormInput: hp => hp.yesNoRadios('sueForHarassment').finish(),

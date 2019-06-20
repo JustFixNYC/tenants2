@@ -136,8 +136,8 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     );
   }
 
-  renderBodyContent(): JSX.Element {
-    return (
+  renderBody(): JSX.Element {
+    return <>
       <div className="modal-content">
         <div className="content box">
           {this.props.withHeading && <h1 className="title is-4">{this.props.title}</h1>}
@@ -147,21 +147,8 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
           {this.props.children}
         </div>
       </div>
-    );
-  }
-
-  renderBody(): JSX.Element {
-    return (
-      <React.Fragment>
-        <div className="modal-content">
-          {this.props.render && this.props.render({
-            getLinkCloseProps: this.getLinkCloseProps
-          })}
-          {this.props.children}
-        </div>
-        <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
-      </React.Fragment>
-    );
+      <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
+    </>;
   }
 
   render() {

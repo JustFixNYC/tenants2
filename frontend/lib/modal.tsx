@@ -30,6 +30,7 @@ interface ModalProps {
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
   onCloseGoTo: string|BackOrUpOneDirLevel;
+  withHeading?: boolean;
 }
 
 type ModalPropsWithRouter = ModalProps & RouteComponentProps<any> & TransitionContextType;
@@ -136,17 +137,18 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   }
 
   renderBody(): JSX.Element {
-    return (
-      <React.Fragment>
-        <div className="modal-content">
+    return <>
+      <div className="modal-content">
+        <div className="content box">
+          {this.props.withHeading && <h1 className="title is-4">{this.props.title}</h1>}
           {this.props.render && this.props.render({
             getLinkCloseProps: this.getLinkCloseProps
           })}
           {this.props.children}
         </div>
-        <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
-      </React.Fragment>
-    );
+      </div>
+      <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
+    </>;
   }
 
   render() {

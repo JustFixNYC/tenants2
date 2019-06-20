@@ -58,19 +58,15 @@ function getSuccessRedirect(input: HPActionPreviousAttemptsInput, nextStep: stri
 }
 
 function ModalFor311(props: { nextStep: string }) {
-  const title = "311 is an important tool";
   return (
-    <Modal title={title} onCloseGoTo={props.nextStep} >
-      <div className="content box">
-        <h1 className="title is-4">{title}</h1>
-        <p>
-          311 complaints are an important tool to help you strengthen your case. You can still file complaints by calling 311 to let the city know what’s going on.
-        </p>
-        <div className="has-text-centered">
-          <Link to={props.nextStep} className="button is-primary is-medium">
-            Got it
-          </Link>
-        </div>
+    <Modal title="311 is an important tool" withHeading onCloseGoTo={props.nextStep} >
+      <p>
+        311 complaints are an important tool to help you strengthen your case. You can still file complaints by calling 311 to let the city know what’s going on.
+      </p>
+      <div className="has-text-centered">
+        <Link to={props.nextStep} className="button is-primary is-medium">
+          Got it
+        </Link>
       </div>
     </Modal>
   );

@@ -25,16 +25,13 @@ type LeaseInfoModalProps = {
 
 export function LeaseInfoModal(props: LeaseInfoModalProps): JSX.Element {
   return (
-    <Modal title={props.title} onCloseGoTo={props.toNextStep}>
-      <div className="content box">
-        <h1 className="title is-4">{props.title}</h1>
-        {props.children}
-        <div className="has-text-centered">
-          <Link to={props.toNextStep}
-            className={`button is-primary is-medium ${props.isWarning ? 'is-danger' : ''}`}>
-            {props.isWarning ? 'I understand the risk' : 'Continue'}
-          </Link>
-        </div>
+    <Modal title={props.title} withHeading onCloseGoTo={props.toNextStep}>
+      {props.children}
+      <div className="has-text-centered">
+        <Link to={props.toNextStep}
+          className={`button is-primary is-medium ${props.isWarning ? 'is-danger' : ''}`}>
+          {props.isWarning ? 'I understand the risk' : 'Continue'}
+        </Link>
       </div>
     </Modal>
   );
@@ -42,15 +39,12 @@ export function LeaseInfoModal(props: LeaseInfoModalProps): JSX.Element {
 
 export function LeaseLearnMoreModal(props: { children: any, title: string }): JSX.Element {
   return (
-    <Modal title={props.title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
-      <div className="content box">
-        <h1 className="title is-4">{props.title}</h1>
-        {props.children}
-        <div className="has-text-centered">
-          <Link {...ctx.getLinkCloseProps()} className="button is-primary is-medium">Got it!</Link>
-        </div>
+    <Modal title={props.title} withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+      {props.children}
+      <div className="has-text-centered">
+        <Link {...ctx.getLinkCloseProps()} className="button is-primary is-medium">Got it!</Link>
       </div>
-    )}/>
+    </>}/>
   );
 }
 

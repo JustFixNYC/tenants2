@@ -40,6 +40,7 @@ fragment AllSessionInfo on SessionInfo {
   feeWaiver { ...FeeWaiverDetails },
   hpActionDetails {
     id,
+    sueForHarassment,
     filedWith311,
     thirtyDaysSince311,
     hpdIssuedViolations,

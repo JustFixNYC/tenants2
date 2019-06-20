@@ -138,6 +138,12 @@ class HPActionUrgentAndDangerous(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class HPActionSueForHarassment(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.SueForHarassmentForm
+
+
+@schema_registry.register_mutation
 class AccessForInspection(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.AccessForInspectionForm

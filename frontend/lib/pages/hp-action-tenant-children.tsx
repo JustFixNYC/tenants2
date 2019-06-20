@@ -1,14 +1,11 @@
 import React from 'react';
-import { BaseFormContext, SessionUpdatingFormSubmitter } from '../forms';
-import { ChildrenTenantChildFormFormSetInput, TenantChildrenInput } from '../queries/globalTypes';
+import { BaseFormContext } from '../forms';
+import { ChildrenTenantChildFormFormSetInput } from '../queries/globalTypes';
 import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { BlankTenantChildrenInput, TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
-import { MiddleProgressStep } from '../progress-step-route';
-import Page from '../page';
+import { TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { Formset } from '../formset';
 import { maxChildren } from '../../../common-data/hp-action.json';
-import { ProgressButtons } from '../buttons';
+import { SessionStepBuilder } from '../session-step';
 
 function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
   const idProps = ctx.fieldPropsFor('id');
@@ -37,37 +34,25 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
   </>;
 }
 
-function getInitialTenantChildren(session: AllSessionInfo): TenantChildrenInput {
-  const { tenantChildren } = session;
-  if (tenantChildren) {
-    return {children: tenantChildren.map(child => ({...child, DELETE: false}))};
-  }
-  return BlankTenantChildrenInput;
-}
+const tenantChildrenStepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);
 
-export const TenantChildren = MiddleProgressStep(props=> {
-  return (
-    <Page title="Do any children live on the premises?" withHeading>
-      <div className="content">
-        <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
-        <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
-        <p>Please list up to {maxChildren} children under the age of 6 who live in the apartment.</p>
-      </div>
-      <SessionUpdatingFormSubmitter
-        mutation={TenantChildrenMutation}
-        initialState={getInitialTenantChildren}
-        onSuccessRedirect={props.nextStep}
-      >
-        {(formCtx) => <>
-          <Formset {...formCtx.formsetPropsFor('children')}
-                   maxNum={maxChildren}
-                   extra={maxChildren}
-                   emptyForm={BlankChildrenTenantChildFormFormSetInput}>
-            {renderTenantChild}
-          </Formset>
-          <ProgressButtons back={props.prevStep} isLoading={formCtx.isLoading} />
-        </>}
-      </SessionUpdatingFormSubmitter>
-    </Page>
-  );
+export const TenantChildren = tenantChildrenStepBuilder.createStep({
+  title: "Do any children live on the premises?",
+  mutation: TenantChildrenMutation,
+  toFormInput: tc => ({
+    children: tc.data.map(child => ({...child, DELETE: false}))
+  }),
+  renderIntro: () => <>
+    <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
+    <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
+    <p>Please list up to {maxChildren} children under the age of 6 who live in the apartment.</p>
+  </>,
+  renderForm: ctx => <>
+    <Formset {...ctx.formsetPropsFor('children')}
+              maxNum={maxChildren}
+              extra={maxChildren}
+              emptyForm={BlankChildrenTenantChildFormFormSetInput}>
+      {renderTenantChild}
+    </Formset>
+  </>
 });

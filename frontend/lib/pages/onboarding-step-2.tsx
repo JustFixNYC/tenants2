@@ -5,7 +5,7 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
-import { NextButton, BackButton } from "../buttons";
+import { ProgressButtons } from "../buttons";
 import { IconLink } from "../icon-link";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation, BlankOnboardingStep2Input } from '../queries/OnboardingStep2Mutation';
@@ -68,17 +68,8 @@ export default class OnboardingStep2 extends React.Component<OnboardingStep2Prop
         <CheckboxFormField {...ctx.fieldPropsFor('hasCalled311')}>
           I've already called 311 but nothing has changed.
         </CheckboxFormField>
-        {this.renderFormButtons(ctx.isLoading)}
+        <ProgressButtons back={this.props.routes.step1} isLoading={ctx.isLoading} />
       </React.Fragment>
-    );
-  }
-
-  renderFormButtons(isLoading: boolean): JSX.Element {
-    return (
-      <div className="buttons jf-two-buttons">
-        <BackButton to={this.props.routes.step1} />
-        <NextButton isLoading={isLoading} />
-      </div>
     );
   }
 

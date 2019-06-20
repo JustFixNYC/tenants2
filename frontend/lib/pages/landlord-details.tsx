@@ -4,7 +4,7 @@ import Page from "../page";
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField, TextareaFormField } from '../form-fields';
 
-import { NextButton, BackButton } from "../buttons";
+import { BackButton, ProgressButtons } from "../buttons";
 import Routes from '../routes';
 import { LandlordDetailsInput } from '../queries/globalTypes';
 import { LandlordDetailsMutation, BlankLandlordDetailsInput } from '../queries/LandlordDetailsMutation';
@@ -23,10 +23,7 @@ function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
     <React.Fragment>
       <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
       <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={PREV_STEP()} />
-        <NextButton isLoading={ctx.isLoading} label="Preview letter" />
-      </div>
+      <ProgressButtons back={PREV_STEP()} isLoading={ctx.isLoading} nextLabel="Preview letter" />
     </React.Fragment>
   );
 }
@@ -62,10 +59,10 @@ function ReadOnlyLandlordDetails(props: {details: AllSessionInfo_landlordDetails
         <dt><strong>Landlord address</strong></dt>
         <dd>{splitLines(details.address)}</dd>
       </dl>
-      <div className="buttons jf-two-buttons">
+      <ProgressButtons>
         <BackButton to={PREV_STEP()} />
         <Link to={NEXT_STEP()} className="button is-primary is-medium">Preview letter</Link>
-      </div>
+      </ProgressButtons>
     </div>
   );
 }

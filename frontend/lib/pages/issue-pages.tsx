@@ -12,7 +12,7 @@ import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton, BackButton, ProgressButtons } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
 import ISSUE_AREA_SVGS from '../svg/issues';
@@ -52,10 +52,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
-      <div className="buttons jf-two-buttons">
+      <ProgressButtons>
         <BackButton to={this.props.toHome} label="Cancel and go back" />
         <NextButton isLoading={isLoading} label="Save" />
-      </div>
+      </ProgressButtons>
     );
   }
 
@@ -203,10 +203,10 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             </div>
           ))}
           <br/>
-          <div className="buttons jf-two-buttons">
+          <ProgressButtons>
             <Link to={this.props.toBack} className="button is-light is-medium">Back</Link>
             <LinkToNextStep toNext={this.props.toNext} />
-          </div>
+          </ProgressButtons>
         </div>
 
       </Page>

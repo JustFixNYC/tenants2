@@ -5,6 +5,28 @@ import { bulmaClasses, BulmaClassName } from './bulma';
 import { Link, LinkProps } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 
+type ProgressButtonsOptions = {
+  children: JSX.Element[]
+} | {
+  children?: undefined,
+  back: string,
+  isLoading: boolean,
+  nextLabel?: string
+};
+
+export function ProgressButtons(props: ProgressButtonsOptions) {
+  return (
+    <div className="buttons jf-two-buttons">
+      {'children' in props
+       ? props.children
+       : <>
+        <BackButton to={props.back} />
+        <NextButton isLoading={props.isLoading} label={props.nextLabel} />
+       </>}
+    </div>
+  );
+}
+
 export function BackButton(props: {
   buttonClass?: BulmaClassName;
   to: LocationDescriptor<any>;

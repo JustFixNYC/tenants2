@@ -5,7 +5,7 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import { TextualFormField } from '../form-fields';
 import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
-import { NextButton, BackButton } from "../buttons";
+import { ProgressButtons } from "../buttons";
 import Routes from '../routes';
 import { dateAsISO, addDays } from '../util';
 
@@ -42,10 +42,7 @@ function renderForm(ctx: FormContext<AccessDatesInput>): JSX.Element {
       <TextualFormField label={`First access date (at least ${MIN_DAYS_TEXT} from today)`} type="date" min={minDate} required {...ctx.fieldPropsFor('date1')} />
       <TextualFormField label="Second access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date2')} />
       <TextualFormField label="Third access date (optional)" type="date" min={minDate} {...ctx.fieldPropsFor('date3')} />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={Routes.locale.loc.issues.home} />
-        <NextButton isLoading={ctx.isLoading} />
-      </div>
+      <ProgressButtons back={Routes.locale.loc.issues.home} isLoading={ctx.isLoading} />
     </React.Fragment>
   );
 }

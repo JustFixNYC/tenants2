@@ -41,9 +41,9 @@ export const FeeWaiverStart = MiddleProgressStep(props => (
   </Page>
 ));
 
-const feeWaiverStepBuilder = new SessionStepBuilder(sess => sess.feeWaiver);
+const stepBuilder = new SessionStepBuilder(sess => sess.feeWaiver);
 
-export const FeeWaiverMisc = feeWaiverStepBuilder.createStep({
+export const FeeWaiverMisc = stepBuilder.createStep({
   title: "Prior fee waivers",
   mutation: FeeWaiverMiscMutation,
   toFormInput: feeWaiver => feeWaiver.yesNoRadios('askedBefore').finish(),
@@ -52,7 +52,7 @@ export const FeeWaiverMisc = feeWaiverStepBuilder.createStep({
   </>
 });
 
-export const FeeWaiverPublicAssistance = feeWaiverStepBuilder.createStep({
+export const FeeWaiverPublicAssistance = stepBuilder.createStep({
   title: "Public assistance",
   mutation: FeeWaiverPublicAssistanceMutation,
   toFormInput: feeWaiver => feeWaiver.yesNoRadios('receivesPublicAssistance').finish(),
@@ -61,7 +61,7 @@ export const FeeWaiverPublicAssistance = feeWaiverStepBuilder.createStep({
   </>
 });
 
-export const FeeWaiverIncome = feeWaiverStepBuilder.createStep({
+export const FeeWaiverIncome = stepBuilder.createStep({
   title: "Your income",
   mutation: FeeWaiverIncomeMutation,
   toFormInput: feeWaiver => feeWaiver.finish(),
@@ -91,7 +91,7 @@ export const FeeWaiverIncome = feeWaiverStepBuilder.createStep({
   </>
 });
 
-export const FeeWaiverExpenses = feeWaiverStepBuilder.createStep({
+export const FeeWaiverExpenses = stepBuilder.createStep({
   title: "Your expenses",
   mutation: FeeWaiverExpensesMutation,
   toFormInput: feeWaiver => feeWaiver.finish(),

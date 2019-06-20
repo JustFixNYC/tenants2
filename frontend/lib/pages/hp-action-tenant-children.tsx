@@ -34,9 +34,9 @@ function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetIn
   </>;
 }
 
-const tenantChildrenStepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);
+const stepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);
 
-export const TenantChildren = tenantChildrenStepBuilder.createStep({
+export const TenantChildren = stepBuilder.createStep({
   title: "Do any children live on the premises?",
   mutation: TenantChildrenMutation,
   toFormInput: tc => ({

@@ -5,7 +5,7 @@ import Page from "../page";
 import { SessionUpdatingFormSubmitter, FormContext } from "../forms";
 import { getInitialFormInput } from "../form-input-converter";
 import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '../yes-no-radios-form-field';
-import { BackButton, NextButton } from '../buttons';
+import { ProgressButtons } from '../buttons';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { BlankHPActionPreviousAttemptsInput, HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
@@ -88,10 +88,7 @@ export const HPActionPreviousAttempts = MiddleProgressStep(props => (
           <p>It is important for the court to know if you have already tried to get help from the city to resolve your issues.</p>
         </div>
         {renderQuestions(ctx)}
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} />
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
     <Route path={Routes.locale.hp.prevAttempts311Modal} render={() => <ModalFor311 {...props} />} />

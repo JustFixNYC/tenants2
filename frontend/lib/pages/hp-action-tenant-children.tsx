@@ -8,7 +8,7 @@ import { MiddleProgressStep } from '../progress-step-route';
 import Page from '../page';
 import { Formset } from '../formset';
 import { maxChildren } from '../../../common-data/hp-action.json';
-import { BackButton, NextButton } from '../buttons';
+import { ProgressButtons } from '../buttons';
 
 function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
   const idProps = ctx.fieldPropsFor('id');
@@ -65,10 +65,7 @@ export const TenantChildren = MiddleProgressStep(props=> {
                    emptyForm={BlankChildrenTenantChildFormFormSetInput}>
             {renderTenantChild}
           </Formset>
-          <div className="buttons jf-two-buttons">
-            <BackButton to={props.prevStep} />
-            <NextButton isLoading={formCtx.isLoading} />
-          </div>
+          <ProgressButtons back={props.prevStep} isLoading={formCtx.isLoading} />
         </>}
       </SessionUpdatingFormSubmitter>
     </Page>

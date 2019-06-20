@@ -4,7 +4,7 @@ import Page from '../page';
 import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
-import { NextButton, BackButton } from "../buttons";
+import { ProgressButtons } from "../buttons";
 import { IconLink } from "../icon-link";
 import { RadiosFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
@@ -188,10 +188,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           {...ctx.fieldPropsFor('receivesPublicAssistance')}
           label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
         />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={this.props.routes.step2} />
-          <NextButton isLoading={ctx.isLoading} />
-        </div>
+        <ProgressButtons back={this.props.routes.step2} isLoading={ctx.isLoading} />
       </React.Fragment>
     );
   }

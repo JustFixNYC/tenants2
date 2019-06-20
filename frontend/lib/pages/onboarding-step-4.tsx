@@ -5,7 +5,7 @@ import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
 import autobind from 'autobind-decorator';
 import { OnboardingStep4Mutation, BlankOnboardingStep4Input } from '../queries/OnboardingStep4Mutation';
 import { OnboardingRouteInfo } from '../routes';
-import { NextButton, BackButton } from "../buttons";
+import { ProgressButtons } from "../buttons";
 import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fields';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
@@ -45,10 +45,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
             JustFix.nyc terms and conditions
           </ModalLink>.
         </CheckboxFormField>
-        <div className="buttons jf-two-buttons">
-          <BackButton to={routes.step3} />
-          <NextButton isLoading={ctx.isLoading} label="Create my account" />
-        </div>
+        <ProgressButtons back={routes.step3} isLoading={ctx.isLoading} nextLabel="Create my account" />
       </React.Fragment>
     );
   }

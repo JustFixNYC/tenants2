@@ -5,7 +5,7 @@ import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../forms';
 import { CheckboxFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
-import { BackButton, NextButton, CenteredPrimaryButtonLink } from '../buttons';
+import { BackButton, CenteredPrimaryButtonLink, ProgressButtons } from '../buttons';
 import { CurrencyFormField } from '../currency-form-field';
 import { getInitialFormInput } from '../form-input-converter';
 import { FeeWaiverMiscMutation, BlankFeeWaiverMiscInput } from '../queries/FeeWaiverMiscMutation';
@@ -56,10 +56,7 @@ export const FeeWaiverMisc = MiddleProgressStep(props => (
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('askedBefore')} label="Have you asked for a fee waiver before?" />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} label="Next"/>
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
@@ -80,10 +77,7 @@ export const FeeWaiverPublicAssistance = MiddleProgressStep(props => (
     >
       {(ctx) => <>
         <YesNoRadiosFormField {...ctx.fieldPropsFor('receivesPublicAssistance')} label="Do you receive public assistance?" />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} label="Next"/>
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
@@ -124,10 +118,7 @@ export const FeeWaiverIncome = MiddleProgressStep(props => (
             baselineLabel="If you have other sources of income, please specify them."
             enhancedLabel="Please specify your other sources of income." />
         </fieldset>
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} label="Next"/>
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
@@ -158,10 +149,7 @@ export const FeeWaiverExpenses = MiddleProgressStep(props => (
         <CurrencyFormField label="Phone" {...ctx.fieldPropsFor('expensePhone')} />
         <CurrencyFormField label="Other" {...ctx.fieldPropsFor('expenseOther')} />
         <br/>
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} label="Next"/>
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>

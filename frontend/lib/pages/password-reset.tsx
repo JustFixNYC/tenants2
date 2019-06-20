@@ -6,7 +6,7 @@ import Page from '../page';
 import { LegacyFormSubmitter } from '../forms';
 import { PasswordResetMutation, BlankPasswordResetInput } from '../queries/PasswordResetMutation';
 import { PhoneNumberFormField } from '../phone-number-form-field';
-import { BackButton, NextButton } from '../buttons';
+import { ProgressButtons } from '../buttons';
 import { PasswordResetVerificationCodeMutation, BlankPasswordResetVerificationCodeInput } from '../queries/PasswordResetVerificationCodeMutation';
 import { TextualFormField } from '../form-fields';
 import { PasswordResetConfirmMutation, BlankPasswordResetConfirmInput } from '../queries/PasswordResetConfirmMutation';
@@ -40,10 +40,7 @@ function Start(props: {}) {
       >
         {(ctx) => <>
           <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
-          <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.login} />
-            <NextButton isLoading={ctx.isLoading} />
-          </div>
+          <ProgressButtons back={Routes.locale.login} isLoading={ctx.isLoading} />
         </>}
       </LegacyFormSubmitter>
     </Page>
@@ -64,10 +61,7 @@ function Verify(props: {}) {
           <TextualFormField label="Verification code" {...ctx.fieldPropsFor('code')} />
           <br/>
           <p>If you didn't receive a verification code, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.</p>
-          <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.passwordReset.start} />
-            <NextButton isLoading={ctx.isLoading} />
-          </div>
+          <ProgressButtons back={Routes.locale.passwordReset.start} isLoading={ctx.isLoading} />
         </>}
       </LegacyFormSubmitter>
     </Page>
@@ -88,10 +82,7 @@ function Confirm(props: {}) {
           <TextualFormField type="password" label="New password" {...ctx.fieldPropsFor('password')} />
           <TextualFormField type="password" label="Confirm your new password" {...ctx.fieldPropsFor('confirmPassword')} />
           <br/>
-          <div className="buttons jf-two-buttons">
-            <BackButton to={Routes.locale.passwordReset.verify} />
-            <NextButton isLoading={ctx.isLoading} />
-          </div>
+          <ProgressButtons back={Routes.locale.passwordReset.verify} isLoading={ctx.isLoading} />
         </>}
       </LegacyFormSubmitter>
     </Page>

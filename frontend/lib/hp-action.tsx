@@ -2,7 +2,7 @@ import React from 'react';
 
 import Routes from "./routes";
 import Page from "./page";
-import { CenteredPrimaryButtonLink, BackButton, NextButton } from './buttons';
+import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
@@ -103,10 +103,8 @@ const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressSte
         : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
       <GeneratePDFForm>
         {(ctx) =>
-          <div className="buttons jf-two-buttons">
-            <BackButton to={assertNotNull(props.prevStep)} />
-            <NextButton isLoading={ctx.isLoading} label="Generate forms"/>
-          </div>
+          <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}
+            nextLabel="Generate forms" />
         }
       </GeneratePDFForm>
     </Page>
@@ -194,10 +192,7 @@ const AccessForInspection = MiddleProgressStep(props => (
     >
       {(ctx) => <>
         <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={props.prevStep} />
-          <NextButton isLoading={ctx.isLoading} />
-        </div>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>
@@ -222,10 +217,7 @@ const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
           {...ctx.fieldPropsFor('urgentAndDangerous')}
           label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
         />
-        <div className="buttons jf-two-buttons">
-          <BackButton to={prevStep} />
-          <NextButton isLoading={ctx.isLoading} />
-        </div>
+        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>
   </Page>

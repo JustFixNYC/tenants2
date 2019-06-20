@@ -17,6 +17,7 @@ export type SessionStepOptions<FormInput, FormOutput extends SessionUpdatingForm
   title: string,
   renderIntro?: () => JSX.Element,
   mutation: MutationWithBlankInput<FormInput, FormOutput>,
+  blankInput?: FormInput,
   toFormInput: (hp: FormInputConverter<SessionValue>) => FormInput,
   renderForm: (ctx: FormContext<FormInput>) => JSX.Element,
 };
@@ -40,7 +41,7 @@ export class SessionStepBuilder<SessionValue> {
           onSuccessRedirect={nextStep}
           initialState={session => getInitialFormInput(
             fromSession(session),
-            options.mutation.blankInput,
+            options.blankInput || options.mutation.blankInput,
             options.toFormInput
           )}
         >

@@ -205,6 +205,12 @@ class HPActionDetails(models.Model):
         help_text="The user whom the HP action is for."
     )
 
+    sue_for_harassment: Optional[bool] = models.NullBooleanField(
+        help_text=(
+            "Whether the user wants to sue for harassment."
+        )
+    )
+
     filed_with_311: Optional[bool] = models.NullBooleanField(
         help_text=(
             "Whether the user has filed any complaints with 311 before."

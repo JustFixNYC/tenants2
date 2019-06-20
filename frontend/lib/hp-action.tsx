@@ -25,6 +25,7 @@ import { TextualFormField } from './form-fields';
 import { getInitialFormInput } from './form-input-converter';
 import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
+import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -223,6 +224,28 @@ const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
   </Page>
 ));
 
+const SueForHarassment = MiddleProgressStep(({ nextStep, prevStep }) => (
+  <Page title="Suing your landlord for harassment" withHeading>
+    <SessionUpdatingFormSubmitter
+      mutation={HpActionSueForHarassmentMutation}
+      onSuccessRedirect={nextStep}
+      initialState={({ hpActionDetails }) => getInitialFormInput(
+        hpActionDetails,
+        BlankHPActionSueForHarassmentInput,
+        hp => hp.yesNoRadios('sueForHarassment').finish()
+      )}
+    >
+      {(ctx) => <>
+        <YesNoRadiosFormField
+          {...ctx.fieldPropsFor('sueForHarassment')}
+          label="Would you like to sue your landlord for harassment?"
+        />
+        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </Page>
+));
+
 /**
  * Returns whether the given session fee waiver info exists, and, if so, whether
  * it satisfies the criteria encapsulated by the given predicate function.
@@ -246,6 +269,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.accessForInspection, component: AccessForInspection },
     { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
+    { path: Routes.locale.hp.sueForHarassment, component: SueForHarassment },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

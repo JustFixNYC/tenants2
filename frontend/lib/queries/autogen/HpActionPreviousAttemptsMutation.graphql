@@ -5,6 +5,7 @@ mutation HpActionPreviousAttemptsMutation($input: HPActionPreviousAttemptsInput!
     session {
       hpActionDetails {
         id,
+        sueForHarassment,
         filedWith311,
         thirtyDaysSince311,
         hpdIssuedViolations,

@@ -15,7 +15,7 @@ import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAss
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { bulmaClasses } from '../bulma';
-import { SessionStepBuilder } from '../session-step';
+import { SessionStepBuilder } from '../session-step-builder';
 
 const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   ...BlankFeeWaiverExpensesInput,

@@ -9,7 +9,7 @@ import Routes from '../routes';
 import { Route } from 'react-router';
 import { Modal } from '../modal';
 import { Link } from 'react-router-dom';
-import { SessionStepBuilder } from '../session-step';
+import { SessionStepBuilder } from '../session-step-builder';
 
 function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {
   const filedWith311 = ctx.fieldPropsFor('filedWith311');

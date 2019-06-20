@@ -24,7 +24,7 @@ import { AccessForInspectionMutation } from './queries/AccessForInspectionMutati
 import { TextualFormField } from './form-fields';
 import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
-import { SessionStepBuilder } from './session-step';
+import { SessionStepBuilder } from './session-step-builder';
 import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;

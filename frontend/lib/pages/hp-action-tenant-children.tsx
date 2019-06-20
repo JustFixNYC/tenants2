@@ -5,7 +5,7 @@ import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fi
 import { TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { Formset } from '../formset';
 import { maxChildren } from '../../../common-data/hp-action.json';
-import { SessionStepBuilder } from '../session-step';
+import { SessionStepBuilder } from '../session-step-builder';
 
 function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
   const idProps = ctx.fieldPropsFor('id');

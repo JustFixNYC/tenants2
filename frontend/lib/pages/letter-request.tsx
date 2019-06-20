@@ -16,30 +16,26 @@ import { MiddleProgressStep } from '../progress-step-route';
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 
 export const SendConfirmModal = withAppContext((props: AppContextType & { nextStep: string }) => {
-  const title = "Ready to go";
   const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
 
   return (
-    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
-      <div className="content box">
-        <h1 className="title is-4">{title}</h1>
-        <p>
-          JustFix.nyc will send this letter via USPS Certified Mail<sup>&reg;</sup> <strong>within 1-2 business days</strong> to your landlord:
-        </p>
-        <address className="has-text-centered">
-          {landlord.name || 'UNKNOWN LANDLORD'}<br/>
-          {landlord.address || 'UNKNOWN ADDRESS'}
-        </address>
-        <br/>
-        <FormAsButton
-          mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-          label="Mail my letter"
-          buttonClass="is-success"
-          isFullWidth
-          nextStep={props.nextStep}
-        />
-      </div>
-    )}/>
+    <Modal title="Ready to go" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+      <p>
+        JustFix.nyc will send this letter via USPS Certified Mail<sup>&reg;</sup> <strong>within 1-2 business days</strong> to your landlord:
+      </p>
+      <address className="has-text-centered">
+        {landlord.name || 'UNKNOWN LANDLORD'}<br/>
+        {landlord.address || 'UNKNOWN ADDRESS'}
+      </address>
+      <br/>
+      <FormAsButton
+        mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
+        label="Mail my letter"
+        buttonClass="is-success"
+        isFullWidth
+        nextStep={props.nextStep}
+      />
+    </>}/>
   );
 });
 

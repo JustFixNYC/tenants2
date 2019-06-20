@@ -20,12 +20,10 @@ const INITIAL_STATE: ExampleInput = {
 /* istanbul ignore next: this is tested by integration tests. */
 function FormInModal(): JSX.Element {
   return (
-    <Modal title="Example form in a modal" onCloseGoTo={BackOrUpOneDirLevel} render={() => (
-      <div className="content box">
-        <p>Here's the same form, but in a modal!</p>
-        <ExampleForm onSuccessRedirect={Routes.dev.examples.form} id="in_modal" />
-      </div>
-    )}/>
+    <Modal title="Example form in a modal" onCloseGoTo={BackOrUpOneDirLevel} render={() => <>
+      <p>Here's the same form, but in a modal!</p>
+      <ExampleForm onSuccessRedirect={Routes.dev.examples.form} id="in_modal" />
+    </>}/>
   );
 }
 

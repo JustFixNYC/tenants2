@@ -17,19 +17,16 @@ import { OnboardingRouteInfo } from '../routes';
 
 export function Step2EvictionModal(): JSX.Element {
   return (
-    <Modal title="You need legal help" onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => (
-      <div className="content box">
-        <h1 className="title">You need legal help</h1>
-        <p>
-          If you're in an eviction, it's important to try to get legal help right away.
-        </p>
-        <p>
-          Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
-        </p>
-        <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</OutboundLink>
-        <Link className="button is-text is-fullwidth" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
-      </div>
-    )} />
+    <Modal title="You need legal help" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+      <p>
+        If you're in an eviction, it's important to try to get legal help right away.
+      </p>
+      <p>
+        Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
+      </p>
+      <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</OutboundLink>
+      <Link className="button is-text is-fullwidth" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
+    </>} />
   );
 }
 

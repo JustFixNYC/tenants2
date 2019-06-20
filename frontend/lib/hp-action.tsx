@@ -210,35 +210,26 @@ const UrgentAndDangerous = hpDetailsStepBuilder.createStep({
   renderIntro: () => (
     <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
   ),
-  renderForm: (ctx) => (
+  renderForm: (ctx) => <>
     <YesNoRadiosFormField
       {...ctx.fieldPropsFor('urgentAndDangerous')}
       label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
     />
-  )
+  </>
 });
 
-const SueForHarassment = MiddleProgressStep(({ nextStep, prevStep }) => (
-  <Page title="Suing your landlord for harassment" withHeading>
-    <SessionUpdatingFormSubmitter
-      mutation={HpActionSueForHarassmentMutation}
-      onSuccessRedirect={nextStep}
-      initialState={({ hpActionDetails }) => getInitialFormInput(
-        hpActionDetails,
-        BlankHPActionSueForHarassmentInput,
-        hp => hp.yesNoRadios('sueForHarassment').finish()
-      )}
-    >
-      {(ctx) => <>
-        <YesNoRadiosFormField
-          {...ctx.fieldPropsFor('sueForHarassment')}
-          label="Would you like to sue your landlord for harassment?"
-        />
-        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+const SueForHarassment = hpDetailsStepBuilder.createStep({
+  title: "Suing your landlord for harassment",
+  mutation: HpActionSueForHarassmentMutation,
+  blank: BlankHPActionSueForHarassmentInput,
+  toFormInput: hp => hp.yesNoRadios('sueForHarassment').finish(),
+  renderForm: (ctx) => <>
+    <YesNoRadiosFormField
+      {...ctx.fieldPropsFor('sueForHarassment')}
+      label="Would you like to sue your landlord for harassment?"
+    />
+  </>
+});
 
 /**
  * Returns whether the given session fee waiver info exists, and, if so, whether

@@ -18,7 +18,8 @@ type ProgressButtonsOptions = {
  * A component that can be used in two different ways:
  * 
  *   1. As a container for two child buttons of any type.
- *   2. As a childless element with props that render back/next buttons.
+ *   2. As a childless component with props that will automatically
+ *      render back/next buttons with the most common options.
  */
 export function ProgressButtons(props: ProgressButtonsOptions) {
   return (
@@ -33,7 +34,7 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
   );
 }
 
-/** A back button, mean to go back to the previous step in a flow. */
+/** A back button, meant to go back to the previous step in a flow. */
 export function BackButton(props: {
   buttonClass?: BulmaClassName;
   to: LocationDescriptor<any>;

@@ -47,6 +47,13 @@ fragment AllSessionInfo on SessionInfo {
     thirtyDaysSinceViolations,
     urgentAndDangerous
   },
+  harassmentDetails {
+    id,
+    moreThanTwoApartmentsInBuilding,
+    moreThanOneFamilyPerApartment,
+    harassmentDetails,
+    priorReliefSoughtCaseNumbersAndDates
+  },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
   tenantChildren {

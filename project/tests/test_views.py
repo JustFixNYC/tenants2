@@ -51,6 +51,19 @@ def test_get_initial_session_works(graphql_client):
     assert len(get_initial_session(request)['csrfToken']) > 0
 
 
+def test_post_is_processed_before_getting_initial_session(client, monkeypatch):
+    # We're going to test this by making an invalid POST, which should be
+    # processed and thus cause a 400, before the initial session is retrieved.
+
+    # Because the initial session should not *ever* be retrieved, we can delete
+    # the function that retrieves it.
+    monkeypatch.delattr("project.views.get_initial_session")
+
+    response = client.post(react_url('/'))
+    assert response.status_code == 400
+    assert response.content == b'No GraphQL query found'
+
+
 def test_invalid_post_returns_400(client):
     response = client.post(react_url('/'))
     assert response.status_code == 400

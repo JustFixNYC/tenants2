@@ -199,6 +199,12 @@ def react_rendered_view(request):
 
     if request.method == "POST":
         try:
+            # It's important that we process the legacy form submission
+            # *before* getting the initial session, so that when we
+            # get the initial session, it reflects any state changes
+            # made by the form submission. This will ensure the same
+            # behavior between baseline (non-JS) and progressively
+            # enhanced (JS) clients.
             legacy_form_submission = get_legacy_form_submission(request)
         except LegacyFormSubmissionError as e:
             return HttpResponseBadRequest(e.args[0])

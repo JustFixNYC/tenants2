@@ -229,6 +229,11 @@ const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) =
   session.feeWaiver ? condition(session.feeWaiver) : false
 );
 
+function isNotSuingForHarassment(session: AllSessionInfo): boolean {
+  if (!session.hpActionDetails) return true;
+  return session.hpActionDetails.sueForHarassment !== true;
+}
+
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
@@ -245,9 +250,12 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
     { path: Routes.locale.hp.sueForHarassment, exact: true, component: SueForHarassment },
-    { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment },
-    { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain },
-    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory },
+    { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
+      shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

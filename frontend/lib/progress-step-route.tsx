@@ -74,11 +74,24 @@ type StepInfo = {
   allSteps: ProgressStepRoute[]
 };
 
+class StepQuerier {
+  constructor(readonly step: BaseProgressStepRoute, readonly session: AllSessionInfo) {
+  }
+
+  get isIncomplete(): boolean {
+    return this.step.isComplete ? !this.step.isComplete(this.session) : false;
+  }
+
+  get shouldBeSkipped(): boolean {
+    return this.step.shouldBeSkipped ? this.step.shouldBeSkipped(this.session) : false;
+  }
+}
+
 export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
   const prev = getRelativeStep(path, 'prev', allSteps);
   if (prev) {
-    if ((prev.isComplete && !prev.isComplete(session)) ||
-        (prev.shouldBeSkipped && prev.shouldBeSkipped(session))) {
+    const pq = new StepQuerier(prev, session);
+    if (pq.isIncomplete || pq.shouldBeSkipped) {
       // The previous step either hasn't been completed, so it's possible that
       // an earlier step decided to skip past it, or it explicitly wants to
       // be skipped. Keep searching backwards.
@@ -90,9 +103,12 @@ export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps:
 
 export function getBestNextStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
   const next = getRelativeStep(path, 'next', allSteps);
-  if (next && next.shouldBeSkipped && next.shouldBeSkipped(session)) {
-    // The next step wants to be skipped. Keep searching.
-    return getBestNextStep(session, next.path, allSteps);
+  if (next) {
+    const nq = new StepQuerier(next, session);
+    if (nq.shouldBeSkipped) {
+      // The next step wants to be skipped. Keep searching.
+      return getBestNextStep(session, next.path, allSteps);
+    }
   }
   return next;
 }

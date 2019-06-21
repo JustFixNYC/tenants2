@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Optional
+from typing import Dict, Iterable, Optional, Callable, Any
 from enum import Enum
 
 from users.models import JustfixUser
@@ -265,6 +265,16 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
         v.reason_for_further_application_te = "economic hardship"
 
 
+def fill_if_user_has(
+    fill_func: Callable[[hp.HPActionVariables, Any], None],
+    v: hp.HPActionVariables,
+    user: JustfixUser,
+    attr_name: str,
+):
+    if hasattr(user, attr_name):
+        fill_func(v, getattr(user, attr_name))
+
+
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
@@ -334,16 +344,14 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     for cissue in user.custom_issues.all():
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
-    if hasattr(user, 'fee_waiver_details'):
-        fill_fee_waiver_details(v, user.fee_waiver_details)
+    fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
 
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
-    if hasattr(user, 'hp_action_details'):
-        fill_hp_action_details(v, user.hp_action_details)
+    fill_if_user_has(fill_hp_action_details, v, user, 'hp_action_details')
 
-    if v.sue_for_harassment_tf and hasattr(user, 'harassment_details'):
-        fill_harassment_details(v, user.harassment_details)
+    if v.sue_for_harassment_tf:
+        fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
 
     # Assume the tenant always wants to serve the papers themselves.
     v.tenant_wants_to_serve_tf = True

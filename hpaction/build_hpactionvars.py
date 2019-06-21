@@ -214,7 +214,7 @@ def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> No
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
     v.harassment_details_te = h.harassment_details
 
-    prior_relief = h.prior_relief_sought_case_numbers_and_dates
+    prior_relief = h.prior_relief_sought_case_numbers_and_dates.strip()
     if prior_relief:
         v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.YES
         v.prior_relief_sought_case_numbers_and_dates_te = prior_relief

@@ -219,6 +219,11 @@ def test_fill_harassment_details_works():
     assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
     assert v.prior_relief_sought_case_numbers_and_dates_te is None
 
+    h.prior_relief_sought_case_numbers_and_dates = "      "
+    fill_harassment_details(v, h)
+    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
+    assert v.prior_relief_sought_case_numbers_and_dates_te is None
+
     h.prior_relief_sought_case_numbers_and_dates = "123412"
     fill_harassment_details(v, h)
     assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.YES

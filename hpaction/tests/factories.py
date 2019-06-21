@@ -56,3 +56,10 @@ class HPActionDetailsFactory(factory.django.DjangoModelFactory):
         model = models.HPActionDetails
 
     user = factory.SubFactory(UserFactory)
+
+
+class HarassmentDetailsFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.HarassmentDetails
+
+    user = factory.SubFactory(UserFactory)

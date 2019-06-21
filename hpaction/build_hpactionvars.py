@@ -6,7 +6,7 @@ from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
 import nycdb.models
-from .models import FeeWaiverDetails, TenantChild, HPActionDetails
+from .models import FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails
 from . import hpactionvars as hp
 
 
@@ -209,6 +209,19 @@ def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
         v.action_type_ms.append(hp.ActionTypeMS.HARASSMENT)
 
 
+def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
+    v.more_than_2_apartments_in_building_tf = h.more_than_two_apartments_in_building
+    v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
+    v.harassment_details_te = h.harassment_details
+
+    prior_relief = h.prior_relief_sought_case_numbers_and_dates
+    if prior_relief:
+        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.YES
+        v.prior_relief_sought_case_numbers_and_dates_te = prior_relief
+    else:
+        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.NO
+
+
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = "Landlord has failed to do repairs"
@@ -296,10 +309,6 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
-    # For now we're going to say the problem is not urgent, as this
-    # will generate the HPD inspection forms.
-    v.problem_is_urgent_tf = False
-
     fill_landlord_info(v, user)
     fill_nycha_info(v, user)
 
@@ -332,5 +341,11 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
 
     if hasattr(user, 'hp_action_details'):
         fill_hp_action_details(v, user.hp_action_details)
+
+    if v.sue_for_harassment_tf and hasattr(user, 'harassment_details'):
+        fill_harassment_details(v, user.harassment_details)
+
+    # Assume the tenant always wants to serve the papers themselves.
+    v.tenant_wants_to_serve_tf = True
 
     return v

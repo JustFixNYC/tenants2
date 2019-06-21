@@ -9,8 +9,8 @@ from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
     fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
-    fill_hp_action_details)
-from .factories import TenantChildFactory, HPActionDetailsFactory
+    fill_hp_action_details, fill_harassment_details)
+from .factories import TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory
 import hpaction.hpactionvars as hp
 
 
@@ -203,3 +203,35 @@ def test_sue_for_harassment_works():
     fill_hp_action_details(v, h)
     assert v.problem_is_urgent_tf is None
     assert v.action_type_ms is None
+
+
+def test_fill_harassment_details_works():
+    h = HarassmentDetailsFactory.build(
+        more_than_two_apartments_in_building=True,
+        more_than_one_family_per_apartment=False,
+        harassment_details="Blarg"
+    )
+    v = hp.HPActionVariables()
+    fill_harassment_details(v, h)
+    assert v.more_than_2_apartments_in_building_tf is True
+    assert v.more_than_one_family_per_apartment_tf is False
+    assert v.harassment_details_te == 'Blarg'
+    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
+    assert v.prior_relief_sought_case_numbers_and_dates_te is None
+
+    h.prior_relief_sought_case_numbers_and_dates = "123412"
+    fill_harassment_details(v, h)
+    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.YES
+    assert v.prior_relief_sought_case_numbers_and_dates_te == "123412"
+
+
+def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
+    har = HarassmentDetailsFactory(more_than_two_apartments_in_building=True)
+    v = user_to_hpactionvars(har.user)
+    assert v.sue_for_harassment_tf is False
+    assert v.more_than_2_apartments_in_building_tf is None
+
+    HPActionDetailsFactory(sue_for_harassment=True, user=har.user)
+    v = user_to_hpactionvars(har.user)
+    assert v.sue_for_harassment_tf is True
+    assert v.more_than_2_apartments_in_building_tf is True

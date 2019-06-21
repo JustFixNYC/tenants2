@@ -244,14 +244,14 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   }
 }
 
-interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
+export interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
   session: Partial<AllSessionInfo>|null;
 }
 
-type stateFromSessionFn<FormInput> = ((session: AllSessionInfo) => FormInput);
+export type SessionToFormInputFn<FormInput> = ((session: AllSessionInfo) => FormInput);
 
 type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'initialState'> & {
-  initialState: stateFromSessionFn<FormInput>|FormInput;
+  initialState: SessionToFormInputFn<FormInput>|FormInput;
 };
 
 /**
@@ -275,7 +275,7 @@ export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionU
             //
             // [1] https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#narrowing-functions-now-intersects--object-and-unconstrained-generic-type-parameters
             // [2] https://github.com/Microsoft/TypeScript/issues/1897
-            ? (this.props.initialState as stateFromSessionFn<FormInput>)(appCtx.session)
+            ? (this.props.initialState as SessionToFormInputFn<FormInput>)(appCtx.session)
             : this.props.initialState;
           return <LegacyFormSubmitter
             {...this.props}

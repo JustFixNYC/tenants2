@@ -102,17 +102,13 @@ export class GraphQlFile {
       throw new ToolError(`Expected ${this.graphQlFilename} to define "${this.basename}"!`);
     }
 
-    let baseCode: string;
-
     if (this.graphQlContains(`mutation ${this.basename}`, `query ${this.basename}`)) {
-      baseCode = this.generateTsCodeForQueryOrMutation(extraCodeInfo);
+      return this.generateTsCodeForQueryOrMutation(extraCodeInfo);
     } else if (this.graphQlContains(`fragment ${this.basename}`)) {
-      baseCode = this.generateTsCodeForFragment(extraCodeInfo);
+      return this.generateTsCodeForFragment(extraCodeInfo);
     } else {
       throw new ToolError(`${this.basename} is an unrecognized GraphQL type`);
     }
-
-    return extraCodeInfo ? baseCode + '\n\n' + extraCodeInfo.code : baseCode;
   }
 
   /** Return the TypeScript interfaces code created by Apollo codegen:generate. */
@@ -135,6 +131,7 @@ export class GraphQlFile {
     return [
       this.getTsCodeHeader(extraCodeInfo),
       this.getTsInterfaces(),
+      extraCodeInfo && extraCodeInfo.code,
       `export const graphQL = ${this.getGraphQlTemplateLiteral()};`
     ].join('\n');
   }
@@ -152,17 +149,20 @@ export class GraphQlFile {
       args = `args: ${variablesInterfaceName}`;
     }
 
+    const extraProps = (extraCodeInfo && extraCodeInfo.extraObjectProperties) || [];
     const fetchGraphQL = 'fetchGraphQL: (query: string, args?: any) => Promise<any>';
 
     return [
       this.getTsCodeHeader(extraCodeInfo),
       tsInterfaces,
+      extraCodeInfo && extraCodeInfo.code,
       `export const ${this.basename} = {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
       `  graphQL: ${this.getGraphQlTemplateLiteral()},`,
       `  fetch(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
       `    return fetchGraphQL(${this.basename}.graphQL${args ? ', args' : ''});`,
-      `  }`,
+      `  },`,
+      extraProps.map(([prop, value]) => `  ${prop}: ${value},`),
       `};`,
       ``,
       `export const fetch${this.basename} = ${this.basename}.fetch;`
@@ -182,5 +182,6 @@ export class GraphQlFile {
 
 export type ExtraTsCodeInfo = {
   code: string,
-  extraGlobalTypesImports?: string[]
+  extraGlobalTypesImports?: string[],
+  extraObjectProperties?: [string, string][]
 };

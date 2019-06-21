@@ -20,12 +20,12 @@ import { ProgressStepProps, MiddleProgressStep } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
-import { BlankAccessForInspectionInput, AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
+import { AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
 import { TextualFormField } from './form-fields';
-import { getInitialFormInput } from './form-input-converter';
-import { HpActionUrgentAndDangerousMutation, BlankHPActionUrgentAndDangerousInput } from './queries/HpActionUrgentAndDangerousMutation';
+import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
-import { HpActionSueForHarassmentMutation, BlankHPActionSueForHarassmentInput } from './queries/HpActionSueForHarassmentMutation';
+import { SessionStepBuilder } from './session-step-builder';
+import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -177,74 +177,48 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   );
 });
 
-const AccessForInspection = MiddleProgressStep(props => (
-  <Page title="Access for Your HPD Inspection" withHeading>
-    <div className="content">
-      <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
-    </div>
-    <SessionUpdatingFormSubmitter
-      mutation={AccessForInspectionMutation}
-      onSuccessRedirect={props.nextStep}
-      initialState={({ onboardingInfo }) => getInitialFormInput(
-        onboardingInfo,
-        BlankAccessForInspectionInput,
-        o => o.finish()
-      )}
-    >
-      {(ctx) => <>
-        <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
-        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+const onboardingStepBuilder = new SessionStepBuilder(sess => sess.onboardingInfo);
 
-const UrgentAndDangerous = MiddleProgressStep(({ nextStep, prevStep }) => (
-  <Page title="Urgency of issues" withHeading>
-    <div className="content">
-      <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
-    </div>
-    <SessionUpdatingFormSubmitter
-      mutation={HpActionUrgentAndDangerousMutation}
-      onSuccessRedirect={nextStep}
-      initialState={({ hpActionDetails }) => getInitialFormInput(
-        hpActionDetails,
-        BlankHPActionUrgentAndDangerousInput,
-        hp => hp.yesNoRadios('urgentAndDangerous').finish()
-      )}
-    >
-      {(ctx) => <>
-        <YesNoRadiosFormField
-          {...ctx.fieldPropsFor('urgentAndDangerous')}
-          label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
-        />
-        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+const AccessForInspection = onboardingStepBuilder.createStep({
+  title: "Access for Your HPD Inspection",
+  mutation: AccessForInspectionMutation,
+  toFormInput: onb => onb.finish(),
+  renderIntro: () => <>
+    <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
+  </>,
+  renderForm: ctx => <>
+    <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
+  </>,
+});
 
-const SueForHarassment = MiddleProgressStep(({ nextStep, prevStep }) => (
-  <Page title="Suing your landlord for harassment" withHeading>
-    <SessionUpdatingFormSubmitter
-      mutation={HpActionSueForHarassmentMutation}
-      onSuccessRedirect={nextStep}
-      initialState={({ hpActionDetails }) => getInitialFormInput(
-        hpActionDetails,
-        BlankHPActionSueForHarassmentInput,
-        hp => hp.yesNoRadios('sueForHarassment').finish()
-      )}
-    >
-      {(ctx) => <>
-        <YesNoRadiosFormField
-          {...ctx.fieldPropsFor('sueForHarassment')}
-          label="Would you like to sue your landlord for harassment?"
-        />
-        <ProgressButtons back={prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
-  </Page>
-));
+const hpActionDetailsStepBuilder = new SessionStepBuilder(sess => sess.hpActionDetails);
+
+const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
+  title: "Urgency of issues",
+  mutation: HpActionUrgentAndDangerousMutation,
+  toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
+  renderIntro: () => (
+    <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
+  ),
+  renderForm: (ctx) => <>
+    <YesNoRadiosFormField
+      {...ctx.fieldPropsFor('urgentAndDangerous')}
+      label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
+    />
+  </>
+});
+
+const SueForHarassment = hpActionDetailsStepBuilder.createStep({
+  title: "Suing your landlord for harassment",
+  mutation: HpActionSueForHarassmentMutation,
+  toFormInput: hp => hp.yesNoRadios('sueForHarassment').finish(),
+  renderForm: (ctx) => <>
+    <YesNoRadiosFormField
+      {...ctx.fieldPropsFor('sueForHarassment')}
+      label="Would you like to sue your landlord for harassment?"
+    />
+  </>
+});
 
 /**
  * Returns whether the given session fee waiver info exists, and, if so, whether

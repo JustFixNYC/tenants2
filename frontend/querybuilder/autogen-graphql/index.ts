@@ -139,13 +139,15 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   };
 }
 
+const blankName = (typeName: string) => `Blank${typeName}`;
+
 function generateBlankTypeLiteral(
   type: GraphQLObjectType|GraphQLInputObjectType,
   typeName: string,
   options?: CreateBlankTypeLiteralOptions
 ): string {
   const blankLiteral = createBlankTypeLiteral(type, options);
-  const exportedName = `Blank${typeName}`;
+  const exportedName = blankName(typeName);
   const tsCode = `export const ${exportedName}: ${typeName} = ${blankLiteral};\n`;
   return tsCode;
 }
@@ -200,6 +202,7 @@ export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, Extr
     ];
     const codeInfo: ExtraTsCodeInfo = {
       extraGlobalTypesImports: extraInputTypes.map(type => type.name),
+      extraObjectProperties: [['blankInput', blankName(inputObjectType.name)]],
       code: codeSnippets.join('\n\n')
     };
     fileMap.set(filename, codeInfo);

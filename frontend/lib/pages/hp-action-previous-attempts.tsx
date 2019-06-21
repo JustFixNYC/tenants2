@@ -1,30 +1,15 @@
 import React from 'react';
 
-import { MiddleProgressStep } from "../progress-step-route";
-import Page from "../page";
-import { SessionUpdatingFormSubmitter, FormContext } from "../forms";
-import { getInitialFormInput } from "../form-input-converter";
+import { FormContext } from "../forms";
 import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '../yes-no-radios-form-field';
-import { ProgressButtons } from '../buttons';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { BlankHPActionPreviousAttemptsInput, HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
+import { HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
 import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
 import Routes from '../routes';
 import { Route } from 'react-router';
 import { Modal } from '../modal';
 import { Link } from 'react-router-dom';
-
-function getInitialState(session: AllSessionInfo): HPActionPreviousAttemptsInput {
-  return getInitialFormInput(
-    session.hpActionDetails,
-    BlankHPActionPreviousAttemptsInput,
-    hp => hp.yesNoRadios(
-      'filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations',
-      'thirtyDaysSinceViolations', 'urgentAndDangerous'
-    ).finish()
-  );
-}
+import { SessionStepBuilder } from '../session-step-builder';
 
 function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {
   const filedWith311 = ctx.fieldPropsFor('filedWith311');
@@ -50,13 +35,6 @@ function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {
   </>;
 }
 
-function getSuccessRedirect(input: HPActionPreviousAttemptsInput, nextStep: string): string {
-  if (input.filedWith311 === YES_NO_RADIOS_FALSE) {
-    return Routes.locale.hp.prevAttempts311Modal;
-  }
-  return nextStep;
-}
-
 function ModalFor311(props: { nextStep: string }) {
   return (
     <Modal title="311 is an important tool" withHeading onCloseGoTo={props.nextStep} >
@@ -72,21 +50,20 @@ function ModalFor311(props: { nextStep: string }) {
   );
 }
 
-export const HPActionPreviousAttempts = MiddleProgressStep(props => (
-  <Page title="Previous attempts to get help" withHeading>
-    <SessionUpdatingFormSubmitter
-      mutation={HpActionPreviousAttemptsMutation}
-      onSuccessRedirect={(_, input) => getSuccessRedirect(input, props.nextStep)}
-      initialState={getInitialState}
-    >
-      {ctx => <>
-        <div className="content">
-          <p>It is important for the court to know if you have already tried to get help from the city to resolve your issues.</p>
-        </div>
-        {renderQuestions(ctx)}
-        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-      </>}
-    </SessionUpdatingFormSubmitter>
+const stepBuilder = new SessionStepBuilder(sess => sess.hpActionDetails);
+
+export const HPActionPreviousAttempts = stepBuilder.createStep(props => ({
+  title: "Previous attempts to get help",
+  mutation: HpActionPreviousAttemptsMutation,
+  toFormInput: hp => hp.yesNoRadios(
+    'filedWith311', 'thirtyDaysSince311', 'hpdIssuedViolations',
+    'thirtyDaysSinceViolations', 'urgentAndDangerous'
+  ).finish(),
+  onSuccessRedirect: (_, input) =>
+    input.filedWith311 === YES_NO_RADIOS_FALSE && Routes.locale.hp.prevAttempts311Modal,
+  renderIntro: () => <>
+    <p>It is important for the court to know if you have already tried to get help from the city to resolve your issues.</p>
     <Route path={Routes.locale.hp.prevAttempts311Modal} render={() => <ModalFor311 {...props} />} />
-  </Page>
-));
+  </>,
+  renderForm: renderQuestions
+}));

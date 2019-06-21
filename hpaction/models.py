@@ -20,6 +20,44 @@ UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
 CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
 
 
+class HarassmentDetails(models.Model):
+    '''
+    Represents a user's harassment information.
+    '''
+
+    class Meta:
+        verbose_name = "Harassment details"
+
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='harassment_details',
+        help_text="The user whom the harassment details are for."
+    )
+
+    more_than_two_apartments_in_building: Optional[bool] = models.NullBooleanField(
+        help_text="Are there more than two apartments in your building?"
+    )
+
+    more_than_one_family_per_apartment: Optional[bool] = models.NullBooleanField(
+        help_text="Is there more than one family living in each apartment?"
+    )
+
+    harassment_details: str = models.TextField(
+        blank=True,
+        help_text="Explain how the landlord has harassed you."
+    )
+
+    prior_relief_sought_case_numbers_and_dates: str = models.TextField(
+        blank=True,
+        help_text=(
+            """
+            Please provide the court case number (the "index number") and/or the date(s)
+            of the earlier case(s).  (Please also include the case number and date(s) of
+            any case(s) you have brought in the housing court for repairs.)
+            """
+        )
+    )
+
+
 class FeeWaiverDetails(models.Model):
     class Meta:
         verbose_name = "Fee waiver"

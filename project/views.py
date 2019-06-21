@@ -195,10 +195,25 @@ def react_rendered_view(request):
         url += f'?{querystring}'
     webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
 
+    initial_props: Dict[str, Any] = {}
+
+    if request.method == "POST":
+        try:
+            # It's important that we process the legacy form submission
+            # *before* getting the initial session, so that when we
+            # get the initial session, it reflects any state changes
+            # made by the form submission. This will ensure the same
+            # behavior between baseline (non-JS) and progressively
+            # enhanced (JS) clients.
+            legacy_form_submission = get_legacy_form_submission(request)
+        except LegacyFormSubmissionError as e:
+            return HttpResponseBadRequest(e.args[0])
+        initial_props['legacyFormSubmission'] = legacy_form_submission
+
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
-    initial_props = {
+    initial_props.update({
         'initialURL': url,
         'initialSession': get_initial_session(request),
         'locale': cur_language,
@@ -214,14 +229,7 @@ def react_rendered_view(request):
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
-    }
-
-    if request.method == "POST":
-        try:
-            legacy_form_submission = get_legacy_form_submission(request)
-        except LegacyFormSubmissionError as e:
-            return HttpResponseBadRequest(e.args[0])
-        initial_props['legacyFormSubmission'] = legacy_form_submission
+    })
 
     lambda_response = run_react_lambda(initial_props)
     render_time = lambda_response.render_time

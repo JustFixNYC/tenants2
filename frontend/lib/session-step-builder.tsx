@@ -36,7 +36,7 @@ export type SessionStepOptions<FormInput, FormOutput extends SessionUpdatingForm
   /**
    * Convert the session chunk to the form input.
    */
-  toFormInput: (hp: FormInputConverter<SessionChunk>) => FormInput,
+  toFormInput: (converter: FormInputConverter<SessionChunk>) => FormInput,
 
   /** Render the form's fields. */
   renderForm: (ctx: FormContext<FormInput>) => JSX.Element,

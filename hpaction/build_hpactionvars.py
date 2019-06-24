@@ -6,7 +6,9 @@ from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
 import nycdb.models
-from .models import FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails
+from .models import (
+    FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
+    attr_name_for_harassment_allegation)
 from . import hpactionvars as hp
 
 
@@ -209,7 +211,18 @@ def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
         v.action_type_ms.append(hp.ActionTypeMS.HARASSMENT)
 
 
+def get_hpactionvars_attr_for_harassment_alleg(name: str) -> str:
+    return f"harassment_{name.lower()}_tf"
+
+
+def fill_harassment_allegations(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
+    for entry in hp.HarassmentAllegationsMS:
+        value = getattr(h, attr_name_for_harassment_allegation(entry.name))
+        setattr(v, get_hpactionvars_attr_for_harassment_alleg(entry.name), value)
+
+
 def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
+    fill_harassment_allegations(v, h)
     v.more_than_2_apartments_in_building_tf = h.more_than_two_apartments_in_building
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
     v.harassment_details_te = h.harassment_details

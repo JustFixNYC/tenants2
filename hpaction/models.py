@@ -9,8 +9,10 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
+from project import common_data
 from users.models import JustfixUser
 
+COMMON_DATA = common_data.load_json("hp-action.json")
 
 # The length, in characters, of an upload token.
 UPLOAD_TOKEN_LENGTH = 40
@@ -48,11 +50,13 @@ class HarassmentDetails(models.Model):
 
     harassment_details: str = models.TextField(
         blank=True,
+        max_length=COMMON_DATA['HARASSMENT_DETAILS_MAX_LENGTH'],
         help_text="Explain how the landlord has harassed you."
     )
 
     prior_relief_sought_case_numbers_and_dates: str = models.TextField(
         blank=True,
+        max_length=COMMON_DATA['PRIOR_RELIEF_MAX_LENGTH'],
         help_text=(
             """
             Please provide the court case number (the "index number") and/or the date(s)

@@ -1,5 +1,6 @@
 import React from 'react';
 import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
+import { TextualFormFieldProps, TextareaFormField } from './form-fields';
 
 /**
  * Once the user has this percentage of their maximum limit left,
@@ -22,4 +23,13 @@ export function CharsRemaining({ max, current }: CharsRemainingProps): JSX.Eleme
       <p className={className}>{text}</p>
     </SimpleProgressiveEnhancement>
   );
+}
+
+export function TextareaWithCharsRemaining(props: TextualFormFieldProps & {
+  maxLength: number
+}) {
+  return <>
+    <TextareaFormField {...props} />
+    <CharsRemaining max={props.maxLength} current={props.value.length} />
+  </>;
 }

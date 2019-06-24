@@ -4,7 +4,7 @@ import { ChildrenTenantChildFormFormSetInput } from '../queries/globalTypes';
 import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
 import { TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { Formset } from '../formset';
-import { maxChildren } from '../../../common-data/hp-action.json';
+import { TENANT_CHILDREN_MAX_COUNT } from '../../../common-data/hp-action.json';
 import { SessionStepBuilder } from '../session-step-builder';
 
 function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
@@ -45,12 +45,12 @@ export const TenantChildren = stepBuilder.createStep({
   renderIntro: () => <>
     <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
     <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
-    <p>Please list up to {maxChildren} children under the age of 6 who live in the apartment.</p>
+    <p>Please list up to {TENANT_CHILDREN_MAX_COUNT} children under the age of 6 who live in the apartment.</p>
   </>,
   renderForm: ctx => <>
     <Formset {...ctx.formsetPropsFor('children')}
-              maxNum={maxChildren}
-              extra={maxChildren}
+              maxNum={TENANT_CHILDREN_MAX_COUNT}
+              extra={TENANT_CHILDREN_MAX_COUNT}
               emptyForm={BlankChildrenTenantChildFormFormSetInput}>
       {renderTenantChild}
     </Formset>

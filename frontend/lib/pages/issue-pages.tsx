@@ -11,7 +11,7 @@ import { IssueAreaInput } from '../queries/globalTypes';
 import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, TextareaFormField, HiddenFormField } from '../form-fields';
+import { MultiCheckboxFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton, ProgressButtons } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
@@ -20,7 +20,7 @@ import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
 import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
-import { CharsRemaining } from '../chars-remaining';
+import { TextareaWithCharsRemaining } from '../chars-remaining';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -39,12 +39,11 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <TextareaFormField
+        <TextareaWithCharsRemaining
           {...ctx.fieldPropsFor('other')}
           maxLength={CUSTOM_ISSUE_MAX_LENGTH}
           label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
         />
-        <CharsRemaining max={CUSTOM_ISSUE_MAX_LENGTH} current={ctx.fieldPropsFor('other').value.length} />
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );

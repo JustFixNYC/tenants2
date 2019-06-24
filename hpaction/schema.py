@@ -9,21 +9,18 @@ from django.forms import inlineformset_factory
 from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
-from project import slack, schema_registry, common_data
+from project import slack, schema_registry
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from .models import HPUploadStatus
+from .models import HPUploadStatus, COMMON_DATA
 from . import models, forms
 from .build_hpactionvars import user_to_hpactionvars
 from .hpactionvars import HPActionVariables
 from . import lhiapi
-
-
-COMMON_DATA = common_data.load_json("hp-action.json")
 
 
 class GetAnswersAndDocumentsThread(Thread):
@@ -203,7 +200,7 @@ class TenantChildren(ManyToOneUserModelFormMutation):
                 models.TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
-                max_num=COMMON_DATA['maxChildren'],
+                max_num=COMMON_DATA['TENANT_CHILDREN_MAX_COUNT'],
                 validate_max=True,
             )
         }

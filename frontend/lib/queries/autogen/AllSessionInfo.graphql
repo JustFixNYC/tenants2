@@ -48,7 +48,6 @@ fragment AllSessionInfo on SessionInfo {
     urgentAndDangerous
   },
   harassmentDetails {
-    id,
     moreThanTwoApartmentsInBuilding,
     moreThanOneFamilyPerApartment,
     harassmentDetails,

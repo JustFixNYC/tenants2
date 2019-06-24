@@ -4,7 +4,6 @@ mutation HarassmentCaseHistoryMutation($input: HarassmentCaseHistoryInput!) {
     errors { ...ExtendedFormFieldErrors },
     session {
       harassmentDetails {
-        id,
         moreThanTwoApartmentsInBuilding,
         moreThanOneFamilyPerApartment,
         harassmentDetails,

@@ -98,7 +98,7 @@ class HPActionDetailsType(DjangoObjectType):
 class HarassmentDetailsType(DjangoObjectType):
     class Meta:
         model = models.HarassmentDetails
-        exclude_fields = ('user',)
+        exclude_fields = ('user', 'id')
 
 
 class TenantChildType(DjangoObjectType):

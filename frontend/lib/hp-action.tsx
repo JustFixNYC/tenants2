@@ -26,6 +26,7 @@ import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndD
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
 import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
+import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory } from './pages/hp-action-harassment';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -228,6 +229,11 @@ const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) =
   session.feeWaiver ? condition(session.feeWaiver) : false
 );
 
+export function isNotSuingForHarassment(session: AllSessionInfo): boolean {
+  if (!session.hpActionDetails) return true;
+  return session.hpActionDetails.sueForHarassment !== true;
+}
+
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
@@ -243,7 +249,13 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.accessForInspection, component: AccessForInspection },
     { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
-    { path: Routes.locale.hp.sueForHarassment, component: SueForHarassment },
+    { path: Routes.locale.hp.sueForHarassment, exact: true, component: SueForHarassment },
+    { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
+      shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd(fw => fw.askedBefore !== null) },

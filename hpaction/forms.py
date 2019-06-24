@@ -139,5 +139,37 @@ class PreviousAttemptsForm(forms.ModelForm):
         return cleaned_data
 
 
+class HarassmentApartmentForm(forms.ModelForm):
+    class Meta:
+        model = models.HarassmentDetails
+        fields = [
+            'more_than_two_apartments_in_building',
+            'more_than_one_family_per_apartment',
+        ]
+
+    more_than_two_apartments_in_building = YesNoRadiosField()
+    more_than_one_family_per_apartment = YesNoRadiosField()
+
+
+class HarassmentExplainForm(forms.ModelForm):
+    class Meta:
+        model = models.HarassmentDetails
+        fields = [
+            'harassment_details',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['harassment_details'].required = True
+
+
+class HarassmentCaseHistoryForm(forms.ModelForm):
+    class Meta:
+        model = models.HarassmentDetails
+        fields = [
+            'prior_relief_sought_case_numbers_and_dates',
+        ]
+
+
 class GeneratePDFForm(forms.Form):
     pass

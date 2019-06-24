@@ -47,6 +47,7 @@ fragment AllSessionInfo on SessionInfo {
     thirtyDaysSinceViolations,
     urgentAndDangerous
   },
+  harassmentDetails { ...HarassmentDetails },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
   tenantChildren {

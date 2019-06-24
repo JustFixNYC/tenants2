@@ -20,6 +20,9 @@ ignoreFields = [
     "id"
 ]
 
+[types.HarassmentDetailsType]
+fragmentName = "HarassmentDetails"
+
 [types.StrictFormFieldErrorType]
 fragmentName = "ExtendedFormFieldErrors"
 ignoreFields = [
@@ -75,6 +78,9 @@ sessionFields = ["feeWaiver"]
 
 [mutations."hpAction.*"]
 sessionFields = ["hpActionDetails"]
+
+[mutations."harassment.*"]
+sessionFields = ["harassmentDetails"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]

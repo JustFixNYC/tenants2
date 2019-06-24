@@ -95,6 +95,12 @@ class HPActionDetailsType(DjangoObjectType):
         exclude_fields = ('user',)
 
 
+class HarassmentDetailsType(DjangoObjectType):
+    class Meta:
+        model = models.HarassmentDetails
+        exclude_fields = ('user', 'id')
+
+
 class TenantChildType(DjangoObjectType):
     class Meta:
         model = models.TenantChild
@@ -144,6 +150,24 @@ class HPActionSueForHarassment(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class HarassmentApartment(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.HarassmentApartmentForm
+
+
+@schema_registry.register_mutation
+class HarassmentExplain(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.HarassmentExplainForm
+
+
+@schema_registry.register_mutation
+class HarassmentCaseHistory(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.HarassmentCaseHistoryForm
+
+
+@schema_registry.register_mutation
 class AccessForInspection(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.AccessForInspectionForm
@@ -183,6 +207,11 @@ class HPActionSessionInfo:
     hp_action_details = graphene.Field(
         HPActionDetailsType,
         resolver=create_model_for_user_resolver(models.HPActionDetails)
+    )
+
+    harassment_details = graphene.Field(
+        HarassmentDetailsType,
+        resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
 
     latest_hp_action_pdf_url = graphene.String(

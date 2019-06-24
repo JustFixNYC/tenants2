@@ -21,6 +21,12 @@ export type BaseProgressStepRoute = {
    * current session.
    */
   isComplete?: (session: AllSessionInfo) => boolean;
+
+  /**
+   * Returns whether or not the step should be skipped, e.g. because a question
+   * the user answered earlier obviated the need for it.
+   */
+  shouldBeSkipped?: (session: AllSessionInfo) => boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -68,21 +74,50 @@ type StepInfo = {
   allSteps: ProgressStepRoute[]
 };
 
+class StepQuerier {
+  constructor(readonly step: BaseProgressStepRoute, readonly session: AllSessionInfo) {
+  }
+
+  get isIncomplete(): boolean {
+    return this.step.isComplete ? !this.step.isComplete(this.session) : false;
+  }
+
+  get shouldBeSkipped(): boolean {
+    return this.step.shouldBeSkipped ? this.step.shouldBeSkipped(this.session) : false;
+  }
+}
+
 export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
   const prev = getRelativeStep(path, 'prev', allSteps);
-  if (prev && prev.isComplete && !prev.isComplete(session)) {
-    // The previous step hasn't been completed, so it's possible that
-    // an earlier step decided to skip past it. Keep searching backwards.
-    return getBestPrevStep(session, prev.path, allSteps);
+  if (prev) {
+    const pq = new StepQuerier(prev, session);
+    if (pq.isIncomplete || pq.shouldBeSkipped) {
+      // The previous step either hasn't been completed, so it's possible that
+      // an earlier step decided to skip past it, or it explicitly wants to
+      // be skipped. Keep searching backwards.
+      return getBestPrevStep(session, prev.path, allSteps);
+    }
   }
   return prev;
+}
+
+export function getBestNextStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
+  const next = getRelativeStep(path, 'next', allSteps);
+  if (next) {
+    const nq = new StepQuerier(next, session);
+    if (nq.shouldBeSkipped) {
+      // The next step wants to be skipped. Keep searching.
+      return getBestNextStep(session, next.path, allSteps);
+    }
+  }
+  return next;
 }
 
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   const { step, allSteps, ...routerCtx } = props;
   const { session } = useContext(AppContext);
   const prev = getBestPrevStep(session, step.path, allSteps);
-  const next = getRelativeStep(step.path, 'next', allSteps);
+  const next = getBestNextStep(session, step.path, allSteps);
   const ctx: ProgressStepProps = {
     ...routerCtx,
     prevStep: prev && prev.path,

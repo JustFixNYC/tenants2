@@ -38,15 +38,7 @@ fragment AllSessionInfo on SessionInfo {
     mailChoice
   },
   feeWaiver { ...FeeWaiverDetails },
-  hpActionDetails {
-    id,
-    sueForHarassment,
-    filedWith311,
-    thirtyDaysSince311,
-    hpdIssuedViolations,
-    thirtyDaysSinceViolations,
-    urgentAndDangerous
-  },
+  hpActionDetails { ...HPActionDetails },
   harassmentDetails { ...HarassmentDetails },
   latestHpActionPdfUrl,
   hpActionUploadStatus,

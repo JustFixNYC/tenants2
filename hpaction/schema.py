@@ -86,13 +86,13 @@ class GenerateHpActionPdf(SessionFormMutation):
 class FeeWaiverType(DjangoObjectType):
     class Meta:
         model = models.FeeWaiverDetails
-        exclude_fields = ('user',)
+        exclude_fields = ('user', 'id')
 
 
 class HPActionDetailsType(DjangoObjectType):
     class Meta:
         model = models.HPActionDetails
-        exclude_fields = ('user',)
+        exclude_fields = ('user', 'id')
 
 
 class HarassmentDetailsType(DjangoObjectType):

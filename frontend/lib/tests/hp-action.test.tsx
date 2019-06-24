@@ -6,6 +6,7 @@ import { ProgressRoutesTester } from './progress-routes-tester';
 import Routes from '../routes';
 import { HPUploadStatus } from '../queries/globalTypes';
 import { BlankAllSessionInfo } from '../queries/AllSessionInfo';
+import { BlankHPActionDetails } from '../queries/HPActionDetails';
 
 const tester = new ProgressRoutesTester(getHPActionProgressRoutesProps(), 'HP Action');
 
@@ -83,7 +84,10 @@ test("isNotSuingForHarassment works", () => {
   expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);
 
   [[false, true], [true, false], [null, true]].forEach(([sueForHarassment, expected]) => {
-    expect(isNotSuingForHarassment({ hpActionDetails: { sueForHarassment }} as any))
+    expect(isNotSuingForHarassment({
+      ...BlankAllSessionInfo,
+      hpActionDetails: { ...BlankHPActionDetails, sueForHarassment }
+    }))
       .toBe(expected);
   });
 });

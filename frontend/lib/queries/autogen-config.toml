@@ -14,11 +14,12 @@ ignoreFields = [
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
 
+[types.HPActionDetailsType]
+fragmentName = "HPActionDetails"
+createBlankLiteral = true
+
 [types.FeeWaiverType]
 fragmentName = "FeeWaiverDetails"
-ignoreFields = [
-    "id"
-]
 
 [types.HarassmentDetailsType]
 fragmentName = "HarassmentDetails"

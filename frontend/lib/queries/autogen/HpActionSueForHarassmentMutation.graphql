@@ -3,14 +3,7 @@ mutation HpActionSueForHarassmentMutation($input: HPActionSueForHarassmentInput!
   output: hpActionSueForHarassment(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      hpActionDetails {
-        sueForHarassment,
-        filedWith311,
-        thirtyDaysSince311,
-        hpdIssuedViolations,
-        thirtyDaysSinceViolations,
-        urgentAndDangerous
-      }
+      hpActionDetails { ...HPActionDetails }
     }
   }
 }

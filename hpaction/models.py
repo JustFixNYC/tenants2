@@ -66,7 +66,7 @@ class HarassmentDetails(models.Model):
         locals()[attr_name_for_harassment_allegation(_enum.name)] = models.BooleanField(
             default=False,
             verbose_name=f"Harassment allegation: {_enum.name}",
-            help_text=f"Tenant alleges the landlord has {_enum.name}"
+            help_text=f"Whether the tenant alleges the landlord has {_enum.name}."
         )
     del _enum
 

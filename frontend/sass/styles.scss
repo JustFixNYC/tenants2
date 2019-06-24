@@ -26,12 +26,9 @@ body {
     min-height: 100vh;
 }
 
-body:not([data-jf-has-prerendered-modal]) {
-    // If we're not displaying a pre-rendered modal, make sure it's not displayed,
-    // so that it doesn't mess with our flex layout.
-    #prerendered-modal {
-        display: none;
-    }
+// Don't let any pre-rendered modal mess with our flex layout.
+body > #prerendered-modal {
+    position: absolute;
 }
 
 body[data-jf-has-prerendered-modal] {

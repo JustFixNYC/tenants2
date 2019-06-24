@@ -3,12 +3,7 @@ mutation HarassmentExplainMutation($input: HarassmentExplainInput!) {
   output: harassmentExplain(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      harassmentDetails {
-        moreThanTwoApartmentsInBuilding,
-        moreThanOneFamilyPerApartment,
-        harassmentDetails,
-        priorReliefSoughtCaseNumbersAndDates
-      }
+      harassmentDetails { ...HarassmentDetails }
     }
   }
 }

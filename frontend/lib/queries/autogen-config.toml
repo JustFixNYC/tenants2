@@ -20,6 +20,9 @@ ignoreFields = [
     "id"
 ]
 
+[types.HarassmentDetailsType]
+fragmentName = "HarassmentDetails"
+
 [types.StrictFormFieldErrorType]
 fragmentName = "ExtendedFormFieldErrors"
 ignoreFields = [

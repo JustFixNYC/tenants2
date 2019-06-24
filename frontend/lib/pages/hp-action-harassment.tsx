@@ -30,7 +30,7 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
 const TOTAL_ALLEGATIONS_PAGES = 2;
 
 const allegationsTitle = (page: number) =>
-  `"Harassment allegations (page ${page} of ${TOTAL_ALLEGATIONS_PAGES})"`;
+  `Harassment allegations (page ${page} of ${TOTAL_ALLEGATIONS_PAGES})`;
 
 const renderAllegationsIntro = () => <>
   <p>Choose any of the following that have happened.</p>

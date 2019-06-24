@@ -314,6 +314,14 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # booleans are used, but I'm setting the multiple-select
     # too, just in case it's used anywhere.
     #
+    # Update in June 2019: It turns out that the reason the
+    # booleans were added is because A2J (one of the interview
+    # formats) doesn't support multiple-select options, so the
+    # hotdocs setup had to be modified to use a bunch of
+    # booleans instead. In all cases, we only need to care
+    # about the booleans, and can ignore the multiple-select
+    # values.
+    #
     # Note also that we're implying fee waiver
     # now even though we don't collect information from the
     # user about it; this is because,

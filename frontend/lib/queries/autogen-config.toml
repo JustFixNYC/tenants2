@@ -16,9 +16,6 @@ createBlankLiteral = true
 
 [types.FeeWaiverType]
 fragmentName = "FeeWaiverDetails"
-ignoreFields = [
-    "id"
-]
 
 [types.HarassmentDetailsType]
 fragmentName = "HarassmentDetails"

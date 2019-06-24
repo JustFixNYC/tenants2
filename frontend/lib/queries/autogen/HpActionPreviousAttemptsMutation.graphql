@@ -4,7 +4,6 @@ mutation HpActionPreviousAttemptsMutation($input: HPActionPreviousAttemptsInput!
     errors { ...ExtendedFormFieldErrors },
     session {
       hpActionDetails {
-        id,
         sueForHarassment,
         filedWith311,
         thirtyDaysSince311,

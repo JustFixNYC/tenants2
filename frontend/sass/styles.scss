@@ -31,12 +31,10 @@ body > #prerendered-modal {
     position: absolute;
 }
 
-body[data-jf-has-prerendered-modal] {
-    // If we're showing a pre-rendered modal, don't show the UI to disable safe mode.
-    // The user can disable it on the next/previous page outside of the modal.
-    .safe-mode-disable {
-        display: none;
-    }
+// If we're showing a pre-rendered modal, don't show the UI to disable safe mode.
+// The user can disable it on the next/previous page outside of the modal.
+body > #prerendered-modal ~ .safe-mode-disable {
+    display: none;
 }
 
 // Bulma's default help text size is way too small, so we'll

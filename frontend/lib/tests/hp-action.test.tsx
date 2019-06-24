@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { AppTesterPal } from "./app-tester-pal";
-import HPActionRoutes, { getHPActionProgressRoutesProps } from '../hp-action';
+import HPActionRoutes, { getHPActionProgressRoutesProps, isNotSuingForHarassment } from '../hp-action';
 import { ProgressRoutesTester } from './progress-routes-tester';
 import Routes from '../routes';
 import { HPUploadStatus } from '../queries/globalTypes';
+import { BlankAllSessionInfo } from '../queries/AllSessionInfo';
 
 const tester = new ProgressRoutesTester(getHPActionProgressRoutesProps(), 'HP Action');
 
@@ -75,5 +76,14 @@ describe('latest step redirector', () => {
       latestHpActionPdfUrl: '/boop.pdf',
       hpActionUploadStatus: HPUploadStatus.SUCCEEDED
     })).toBe(Routes.locale.hp.confirmation);
+  });
+});
+
+test("isNotSuingForHarassment works", () => {
+  expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);
+
+  [[false, true], [true, false], [null, true]].forEach(([sueForHarassment, expected]) => {
+    expect(isNotSuingForHarassment({ hpActionDetails: { sueForHarassment }} as any))
+      .toBe(expected);
   });
 });

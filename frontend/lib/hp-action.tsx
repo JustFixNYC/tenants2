@@ -229,7 +229,7 @@ const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) =
   session.feeWaiver ? condition(session.feeWaiver) : false
 );
 
-function isNotSuingForHarassment(session: AllSessionInfo): boolean {
+export function isNotSuingForHarassment(session: AllSessionInfo): boolean {
   if (!session.hpActionDetails) return true;
   return session.hpActionDetails.sueForHarassment !== true;
 }

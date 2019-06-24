@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 
@@ -18,6 +19,10 @@ UPLOAD_TOKEN_LENGTH = 40
 UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
 
 CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
+
+
+def attr_name_for_harassment_allegation(name: str) -> str:
+    return f"alleg_{name.lower()}"
 
 
 class HarassmentDetails(models.Model):
@@ -56,6 +61,14 @@ class HarassmentDetails(models.Model):
             """
         )
     )
+
+    for _enum in HarassmentAllegationsMS:
+        locals()[attr_name_for_harassment_allegation(_enum.name)] = models.BooleanField(
+            default=False,
+            verbose_name=f"Harassment allegation: {_enum.name}",
+            help_text=f"Whether the tenant alleges the landlord has {_enum.name}."
+        )
+    del _enum
 
 
 class FeeWaiverDetails(models.Model):

@@ -26,7 +26,7 @@ import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndD
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
 import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
-import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory } from './pages/hp-action-harassment';
+import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -251,6 +251,10 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
     { path: Routes.locale.hp.sueForHarassment, exact: true, component: SueForHarassment },
     { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentAllegations1, component: HarassmentAllegations1,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentAllegations2, component: HarassmentAllegations2,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain,
       shouldBeSkipped: isNotSuingForHarassment },

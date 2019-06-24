@@ -4,8 +4,10 @@ import { SessionStepBuilder } from "../session-step-builder";
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';
-import { TextareaFormField } from '../form-fields';
+import { TextareaFormField, CheckboxFormField } from '../form-fields';
 import { HarassmentCaseHistoryMutation } from '../queries/HarassmentCaseHistoryMutation';
+import { HarassmentAllegations1Mutation } from '../queries/HarassmentAllegations1Mutation';
+import { HarassmentAllegations2Mutation } from '../queries/HarassmentAllegations2Mutation';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
 
@@ -23,6 +25,79 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
     <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanOneFamilyPerApartment')}
       label="Is there more than one family living in each apartment?" />
   </>
+}));
+
+const TOTAL_ALLEGATIONS_PAGES = 2;
+
+const allegationsTitle = (page: number) =>
+  `"Harassment allegations (page ${page} of ${TOTAL_ALLEGATIONS_PAGES})"`;
+
+const renderAllegationsIntro = () => <>
+  <p>Choose any of the following that have happened.</p>
+</>;
+
+const AllegationsFieldset = (props: { children: any }) => (
+  <fieldset>
+    <legend>The landlord, or someone acting on the landlord's behalf has:</legend>
+    {props.children}
+  </fieldset>
+);
+
+export const HarassmentAllegations1 = stepBuilder.createStep(props => ({
+  title: allegationsTitle(1),
+  mutation: HarassmentAllegations1Mutation,
+  toFormInput: h => h.finish(),
+  renderIntro: renderAllegationsIntro,
+  renderForm: ctx => <AllegationsFieldset>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegForce')}>
+      used force or said they would use force or implied the use of force
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegMisleadingInfo')}>
+      knowingly provided false or misleading information on the current occupancy, or rent stabilization status of a unit on any application or construction document for a permit for work to be performed in said building
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegStoppedService')}>
+      interrupted or stopped essential services repeatedly, or only once where a previous violation in the building occurred
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegFailedToComply')}>
+      failed to timely comply with NYC Admin. Code §27–2140[c] by failing to correct the conditions which made the unit unlivable or unfit for habitation, which are described in the Vacate Order issued by DHPD pursuant to NYC Admin. Code §27–2139[b], and a violation of record was issued for at least one of those conditions
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegFalseCertRepairs')}>
+      repeatedly made false certifications that a violation relating to the unit or unit building has been corrected
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegConductInViolation')}>
+      repeatedly engaged in conduct in the building in violation of NYC Admin. Code §28–105.1
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegSued')}>
+      repeatedly brought court cases for no good reason.
+    </CheckboxFormField>
+  </AllegationsFieldset>
+}));
+
+export const HarassmentAllegations2 = stepBuilder.createStep(props => ({
+  title: allegationsTitle(2),
+  mutation: HarassmentAllegations2Mutation,
+  toFormInput: h => h.finish(),
+  renderIntro: renderAllegationsIntro,
+  renderForm: ctx => <AllegationsFieldset>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegRemovedPossessions')}>
+      removed tenant possessions from the unit, or removed the unit front door or made the lock to the unit not work, or changed the lock on the unit door without giving a key to the new lock to the tenant/petitioner
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegInducedLeaving')}>
+      offered money or valuables to tenant, or their relatives, to induce tenant to leave, or to surrender or waive their rights, without written disclosure of the tenant’s rights and without written permission to make an offer from court or the tenant; or, while: threatening, intimidating or using obscene language; frequently harassing or communicating abusively; communicating at tenant’s place of employment without prior written consent; or  knowingly falsifying or misrepresenting information to tenant
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegContact')}>
+      repeatedly contacted or visited tenant without written consent on: weekends, legal holidays, outside of 9am-5pm, or in such a manner that would abuse or harass tenant
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegThreatsReStatus')}>
+      threatened tenant based on their age; race; creed; color; national origin; gender; disability; marital or partnership status; caregiver status; uniformed service; sexual orientation; citizenship status; status as a victim of domestic violence, sex offenses, or stalking; lawful source of income; or because they have children as terms are defined in NYC Admin. Codes §8–102 and §8–107.1
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegRequestedId')}>
+      requested identifying documentation that would disclose tenant’s citizenship status, when they have already provided government-issued personal identification as such term is defined in NYC Admin. Code §21–908, and when the documentation was neither required by law, nor requested for any unrelated, specific, and limited purpose
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegDisturbed')}>
+      repeatedly caused or permitted acts or omissions that substantially interfered with or disturbed the comfort, peace, or quiet of the tenant, including requiring them to seek, receive, or refrain from medical treatment in violation of NYC Admin. Code §26–1202[b].  If the acts or omissions involve physical conditions in the unit or the building, a violation of record was issued.
+    </CheckboxFormField>
+  </AllegationsFieldset>
 }));
 
 export const HarassmentExplain = stepBuilder.createStep(props => ({

@@ -156,6 +156,18 @@ class HarassmentApartment(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class HarassmentAllegations1(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.HarassmentAllegations1Form
+
+
+@schema_registry.register_mutation
+class HarassmentAllegations2(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.HarassmentAllegations2Form
+
+
+@schema_registry.register_mutation
 class HarassmentExplain(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.HarassmentExplainForm

@@ -156,6 +156,12 @@ class HarassmentAllegations1Form(forms.ModelForm):
         model = models.HarassmentDetails
         fields = [
             'alleg_force',
+            'alleg_misleading_info',
+            'alleg_stopped_service',
+            'alleg_failed_to_comply',
+            'alleg_false_cert_repairs',
+            'alleg_conduct_in_violation',
+            'alleg_sued',
         ]
 
 
@@ -164,6 +170,11 @@ class HarassmentAllegations2Form(forms.ModelForm):
         model = models.HarassmentDetails
         fields = [
             'alleg_removed_possessions',
+            'alleg_induced_leaving',
+            'alleg_contact',
+            'alleg_threats_re_status',
+            'alleg_requested_id',
+            'alleg_disturbed'
         ]
 
 

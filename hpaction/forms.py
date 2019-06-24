@@ -151,6 +151,22 @@ class HarassmentApartmentForm(forms.ModelForm):
     more_than_one_family_per_apartment = YesNoRadiosField()
 
 
+class HarassmentAllegations1Form(forms.ModelForm):
+    class Meta:
+        model = models.HarassmentDetails
+        fields = [
+            'alleg_force',
+        ]
+
+
+class HarassmentAllegations2Form(forms.ModelForm):
+    class Meta:
+        model = models.HarassmentDetails
+        fields = [
+            'alleg_removed_possessions',
+        ]
+
+
 class HarassmentExplainForm(forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails

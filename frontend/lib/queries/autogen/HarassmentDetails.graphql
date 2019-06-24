@@ -3,5 +3,18 @@ fragment HarassmentDetails on HarassmentDetailsType {
   moreThanTwoApartmentsInBuilding,
   moreThanOneFamilyPerApartment,
   harassmentDetails,
-  priorReliefSoughtCaseNumbersAndDates
+  priorReliefSoughtCaseNumbersAndDates,
+  allegForce,
+  allegMisleadingInfo,
+  allegStoppedService,
+  allegFailedToComply,
+  allegFalseCertRepairs,
+  allegConductInViolation,
+  allegSued,
+  allegRemovedPossessions,
+  allegInducedLeaving,
+  allegContact,
+  allegThreatsReStatus,
+  allegRequestedId,
+  allegDisturbed
 }

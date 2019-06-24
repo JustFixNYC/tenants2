@@ -4,8 +4,10 @@ import { SessionStepBuilder } from "../session-step-builder";
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';
-import { TextareaFormField } from '../form-fields';
+import { TextareaFormField, CheckboxFormField } from '../form-fields';
 import { HarassmentCaseHistoryMutation } from '../queries/HarassmentCaseHistoryMutation';
+import { HarassmentAllegations1Mutation } from '../queries/HarassmentAllegations1Mutation';
+import { HarassmentAllegations2Mutation } from '../queries/HarassmentAllegations2Mutation';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
 
@@ -23,6 +25,46 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
     <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanOneFamilyPerApartment')}
       label="Is there more than one family living in each apartment?" />
   </>
+}));
+
+const TOTAL_ALLEGATIONS_PAGES = 2;
+
+const allegationsTitle = (page: number) =>
+  `"Harassment allegations (page ${page} of ${TOTAL_ALLEGATIONS_PAGES})"`;
+
+const renderAllegationsIntro = () => <>
+  <p>Choose any of the following that have happened.</p>
+</>;
+
+const AllegationsFieldset = (props: { children: any }) => (
+  <fieldset>
+    <legend>The landlord, or someone acting on the landlord's behalf has:</legend>
+    {props.children}
+  </fieldset>
+);
+
+export const HarassmentAllegations1 = stepBuilder.createStep(props => ({
+  title: allegationsTitle(1),
+  mutation: HarassmentAllegations1Mutation,
+  toFormInput: h => h.finish(),
+  renderIntro: renderAllegationsIntro,
+  renderForm: ctx => <AllegationsFieldset>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegForce')}>
+      used force or said they would use force or implied the use of force
+    </CheckboxFormField>
+  </AllegationsFieldset>
+}));
+
+export const HarassmentAllegations2 = stepBuilder.createStep(props => ({
+  title: allegationsTitle(2),
+  mutation: HarassmentAllegations2Mutation,
+  toFormInput: h => h.finish(),
+  renderIntro: renderAllegationsIntro,
+  renderForm: ctx => <AllegationsFieldset>
+    <CheckboxFormField {...ctx.fieldPropsFor('allegRemovedPossessions')}>
+      removed tenant possessions from the unit, or removed the unit front door or made the lock to the unit not work, or changed the lock on the unit door without giving a key to the new lock to the tenant/petitioner
+    </CheckboxFormField>
+  </AllegationsFieldset>
 }));
 
 export const HarassmentExplain = stepBuilder.createStep(props => ({

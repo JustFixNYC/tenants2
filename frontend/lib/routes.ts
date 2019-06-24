@@ -136,6 +136,8 @@ function createHPActionRouteInfo(prefix: string) {
     urgentAndDangerous: `${prefix}/urgency`,
     sueForHarassment: `${prefix}/harassment`,
     harassmentApartment: `${prefix}/harassment/apartment`,
+    harassmentAllegations1: `${prefix}/harassment/allegations/1`,
+    harassmentAllegations2: `${prefix}/harassment/allegations/2`,
     harassmentExplain: `${prefix}/harassment/explain`,
     harassmentCaseHistory: `${prefix}/harassment/case-history`,
     feeWaiverStart: `${prefix}/fee-waiver`,

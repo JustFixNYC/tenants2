@@ -3,6 +3,7 @@ import React from 'react';
 import { TextualFormFieldProps, CheckboxView, TextualFormField, HiddenFormField, BaseFormFieldProps } from "./form-fields";
 import { useState } from "react";
 import { ProgressiveEnhancement } from "./progressive-enhancement";
+import classnames from 'classnames';
 
 /**
  * An "other" checkbox with a "please specify" text field. Semantically, the form field
@@ -11,6 +12,7 @@ import { ProgressiveEnhancement } from "./progressive-enhancement";
  */
 export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JSX.Element {
   const [isChecked, setChecked] = useState(props.value !== '');
+  const [timesChanged, setTimesChanged] = useState(0);
   const [prevOtherValue, setPrevOtherValue] = useState(props.value);
   const id = `${props.id}_checkbox`;
   const handleChange = (value: boolean) => {
@@ -20,8 +22,10 @@ export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JS
       setPrevOtherValue(props.value);
       props.onChange('');
     }
+    setTimesChanged(timesChanged + 1);
     setChecked(value);
   };
+  const classes = classnames('jf-inset-field', timesChanged > 0 && 'jf-slidedown-5em');
 
   return (
     <CheckboxView
@@ -30,7 +34,7 @@ export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JS
       disabled={props.isDisabled}
       onChange={(e) => handleChange(e.target.checked)}
       contentAfterLabel={isChecked
-        ? <div className="jf-inset-field jf-slidedown-5em"><TextualFormField {...props} required /></div>
+        ? <div className={classes}><TextualFormField {...props} required /></div>
         : <HiddenFormField {...props} />
       }
     >Other</CheckboxView>

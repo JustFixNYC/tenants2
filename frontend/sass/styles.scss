@@ -16,6 +16,32 @@
 @import "./_currency-form-field.scss";
 @import "./_dev.scss";
 
+// We want to give the page a column-based flex layout so we can
+// have our safe mode UI be a sticky footer if needed.
+body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+body:not([data-jf-has-prerendered-modal]) {
+    // If we're not displaying a pre-rendered modal, make sure it's not displayed,
+    // so that it doesn't mess with our flex layout.
+    #prerendered-modal {
+        display: none;
+    }
+}
+
+body[data-jf-has-prerendered-modal] {
+    // If we're showing a pre-rendered modal, don't show the UI to disable safe mode.
+    // The user can disable it on the next/previous page outside of the modal.
+    .safe-mode-disable {
+        display: none;
+    }
+}
+
 // Bulma's default help text size is way too small, so we'll
 // make it bigger.
 .help {

@@ -13,6 +13,8 @@ const DIALOG_CLASS = "jf-modal-dialog"
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
+const HAS_PRERENDERED_MODAL_ATTR = "data-jf-has-prerendered-modal";
+
 type BackOrUpOneDirLevel = 1;
 
 export const BackOrUpOneDirLevel = 1;
@@ -103,7 +105,13 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
         // want to animate ourselves in, lest we disorient the user.
         this.setState({ animate: false });
       }
-      prerenderedModalEl.parentNode.removeChild(prerenderedModalEl);
+      const { parentNode } = prerenderedModalEl;
+      if (parentNode instanceof HTMLElement) {
+        if (parentNode.hasAttribute(HAS_PRERENDERED_MODAL_ATTR)) {
+          parentNode.removeAttribute(HAS_PRERENDERED_MODAL_ATTR);
+        }
+      }
+      parentNode.removeChild(prerenderedModalEl);
     }
   }
 

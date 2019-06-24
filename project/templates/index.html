@@ -12,7 +12,8 @@
         {{ FACEBOOK_PIXEL_SNIPPET }}
         {{ title_tag }}
     </head>
-    <body class="{% if not is_safe_mode_enabled %}has-navbar-fixed-top{% endif %}">
+    <body class="{% if not is_safe_mode_enabled %}has-navbar-fixed-top{% endif %}"
+        {% if modal_html %}data-jf-has-prerendered-modal{% endif %}>
         <div id="prerendered-modal">{{ modal_html }}</div>
         <div id="main" {% if modal_html %}hidden{% endif %}>{{ initial_render }}</div>
         {% if not is_safe_mode_enabled %}

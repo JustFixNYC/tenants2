@@ -50,6 +50,10 @@ class FeeWaiverDetailsInline(admin.StackedInline):
     model = models.FeeWaiverDetails
 
 
+class HarassmentDetailsInline(admin.StackedInline):
+    model = models.HarassmentDetails
+
+
 class TenantChildInline(admin.TabularInline):
     model = models.TenantChild
 
@@ -75,5 +79,6 @@ class HPUserAdmin(admin.ModelAdmin):
         TenantChildInline,
         HPActionDetailsInline,
         FeeWaiverDetailsInline,
+        HarassmentDetailsInline,
         HPActionDocumentsInline,
     )

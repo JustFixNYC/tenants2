@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, NamedTuple, List, Union
+from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings
@@ -200,55 +200,47 @@ class HPDContact(models.Model):
         )
 
 
-def _get_landlord_from_hpd_reg(reg: Optional[HPDRegistration]) -> Optional[Contact]:
-    if reg:
-        return reg.get_landlord()
-    return None
+T = TypeVar('T')
 
 
-def get_landlord(pad_bbl: str, pad_bin: str = '') -> Optional[Contact]:
+class NycdbGetter(Generic[T]):
     """
-    Fault-tolerant retriever of landlord information that assumes
+    Generic, fault-tolerant retriever of NYCDB information that assumes
     the NYCDB connection is unreliable, or disabled entirely.
+
+    It's specialized for getting information based on a source BIN or BBL.
+    At minimum, a BBL is required, but optionally a BIN may also be provided,
+    and could be useful for retrieving the most accurate results.
     """
 
-    if not settings.NYCDB_DATABASE:
-        return None
-    try:
-        ll: Optional[Contact] = None
-        if pad_bin:
-            ll = _get_landlord_from_hpd_reg(
-                HPDRegistration.objects.filter(bin=int(pad_bin)).first())
-        if ll is None:
-            ll = _get_landlord_from_hpd_reg(
-                HPDRegistration.objects.from_pad_bbl(pad_bbl).first())
-        return ll
-    except (DatabaseError, Exception):
-        # TODO: Once we have more confidence in the underlying code,
-        # we should remove the above 'Exception' and only catch
-        # 'DatabaseError'.
-        logger.exception(f'Error while retrieving data from NYCDB')
+    def __init__(self, getter: Callable[[HPDRegistration], Optional[T]]) -> None:
+        self.getter = getter
+
+    def get_from_opt_hpd_registration(self, reg: Optional[HPDRegistration]) -> Optional[T]:
+        if reg:
+            return self.getter(reg)
         return None
 
+    def __call__(self, pad_bbl: str, pad_bin: str = '') -> Optional[T]:
+        if not settings.NYCDB_DATABASE:
+            return None
+        try:
+            result: Optional[T] = None
+            if pad_bin:
+                result = self.get_from_opt_hpd_registration(
+                    HPDRegistration.objects.filter(bin=int(pad_bin)).first())
+            if result is None:
+                result = self.get_from_opt_hpd_registration(
+                    HPDRegistration.objects.from_pad_bbl(pad_bbl).first())
+            return result
+        except (DatabaseError, Exception):
+            # TODO: Once we have more confidence in the underlying code,
+            # we should remove the above 'Exception' and only catch
+            # 'DatabaseError'.
+            logger.exception(f'Error while retrieving data from NYCDB')
+            return None
 
-def get_management_company(pad_bbl: str) -> Optional[Company]:
-    """
-    Fault-tolerant retriever of management company information that assumes
-    the NYCDB connection is unreliable, or disabled entirely.
-    """
 
-    # Yes, this contains a ton of duplicate logic from get_landlord().
-    # Ideally we'd use a decorator but apparently mypy has major
-    # problems with it.
+get_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord())
 
-    if not settings.NYCDB_DATABASE:
-        return None
-    try:
-        reg = HPDRegistration.objects.from_pad_bbl(pad_bbl).first()
-        return reg.get_management_company() if reg else None
-    except (DatabaseError, Exception):
-        # TODO: Once we have more confidence in the underlying code,
-        # we should remove the above 'Exception' and only catch
-        # 'DatabaseError'.
-        logger.exception(f'Error while retrieving data from NYCDB')
-        return None
+get_management_company = NycdbGetter[Company](lambda reg: reg.get_management_company())

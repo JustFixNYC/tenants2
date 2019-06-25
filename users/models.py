@@ -2,11 +2,12 @@ import re
 import logging
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import AbstractUser, UserManager, Permission
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.crypto import get_random_string
 
 from texting import twilio
 from project.util.site_util import absolute_reverse
+from .permission_util import ModelPermissions
 
 
 PHONE_NUMBER_LEN = 10
@@ -27,9 +28,7 @@ ROLES['Outreach Coordinators'] = set([
     'users.add_justfixuser',
     CHANGE_USER_PERMISSION,
     'legacy_tenants.change_legacyuserinfo',
-    'loc.add_accessdate',
-    'loc.change_accessdate',
-    'loc.delete_accessdate',
+    *ModelPermissions('loc', 'accessdate').all,
     'loc.add_landlorddetails',
     'loc.change_landlorddetails',
     'loc.add_letterrequest',
@@ -37,17 +36,17 @@ ROLES['Outreach Coordinators'] = set([
     'loc.delete_letterrequest',
     VIEW_LETTER_REQUEST_PERMISSION,
     'loc.change_addressdetails',
-    'hpaction.add_hpactiondocuments',
-    'hpaction.change_hpactiondocuments',
-    'hpaction.delete_hpactiondocuments',
+    *ModelPermissions('hpaction', 'hpactiondocuments').all,
+    *ModelPermissions('hpaction', 'harassmentdetails').all,
+    *ModelPermissions('hpaction', 'feewaiverdetails').all,
+    *ModelPermissions('hpaction', 'tenantchild').all,
+    *ModelPermissions('hpaction', 'hpactiondetails').all,
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
 ])
 
 ROLES['Tenant Resource Editors'] = set([
-    'findhelp.add_tenantresource',
-    'findhelp.change_tenantresource',
-    'findhelp.delete_tenantresource',
+    *ModelPermissions('findhelp', 'tenantresource').all,
     'findhelp.view_communitydistrict',
     'findhelp.view_neighborhood',
     'findhelp.view_borough',
@@ -56,19 +55,6 @@ ROLES['Tenant Resource Editors'] = set([
 
 
 logger = logging.getLogger(__name__)
-
-
-def get_permissions_from_ns_codenames(ns_codenames):
-    '''
-    Returns a list of Permission objects for the specified namespaced codenames
-    '''
-
-    splitnames = [ns_codename.split('.') for ns_codename in ns_codenames]
-    return [
-        Permission.objects.get(codename=codename,
-                               content_type__app_label=app_label)
-        for app_label, codename in splitnames
-    ]
 
 
 def validate_phone_number(value: str) -> None:

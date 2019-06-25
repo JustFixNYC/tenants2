@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group
 from django.db import transaction
 
-from users.models import get_permissions_from_ns_codenames, ROLES
+from users.permission_util import get_permissions_from_ns_codenames
+from users.models import ROLES
 
 
 class Command(BaseCommand):

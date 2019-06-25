@@ -1,6 +1,5 @@
 import logging
-from typing import Optional, NamedTuple, List, Union, TypeVar, Generic
-from abc import ABCMeta, abstractmethod
+from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Tuple
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings
@@ -204,7 +203,7 @@ class HPDContact(models.Model):
 T = TypeVar('T')
 
 
-class NycdbGetter(Generic[T], metaclass=ABCMeta):
+class NycdbGetter(Generic[T]):
     """
     Generic, fault-tolerant retriever of NYCDB information that assumes
     the NYCDB connection is unreliable, or disabled entirely.
@@ -214,13 +213,12 @@ class NycdbGetter(Generic[T], metaclass=ABCMeta):
     and could be useful for retrieving the most accurate results.
     """
 
-    @abstractmethod
-    def get_from_hpd_registration(self, reg: HPDRegistration) -> Optional[T]:
-        ...
+    def __init__(self, getter: Callable[[HPDRegistration], Optional[T]]) -> None:
+        self.getter = getter
 
     def get_from_opt_hpd_registration(self, reg: Optional[HPDRegistration]) -> Optional[T]:
         if reg:
-            return self.get_from_hpd_registration(reg)
+            return self.getter(reg)
         return None
 
     def get(self, pad_bbl: str, pad_bin: str = '') -> Optional[T]:
@@ -243,29 +241,6 @@ class NycdbGetter(Generic[T], metaclass=ABCMeta):
             return None
 
 
-class LandlordGetter(NycdbGetter[Contact]):
-    def get_from_hpd_registration(self, reg: HPDRegistration) -> Optional[Contact]:
-        return reg.get_landlord()
+get_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord()).get
 
-
-def get_landlord(pad_bbl: str, pad_bin: str = '') -> Optional[Contact]:
-    """
-    Fault-tolerant retriever of landlord information that assumes
-    the NYCDB connection is unreliable, or disabled entirely.
-    """
-
-    return LandlordGetter().get(pad_bbl, pad_bin)
-
-
-class MangementCompanyGetter(NycdbGetter[Company]):
-    def get_from_hpd_registration(self, reg: HPDRegistration) -> Optional[Company]:
-        return reg.get_management_company()
-
-
-def get_management_company(pad_bbl: str, pad_bin: str = '') -> Optional[Company]:
-    """
-    Fault-tolerant retriever of management company information that assumes
-    the NYCDB connection is unreliable, or disabled entirely.
-    """
-
-    return MangementCompanyGetter().get(pad_bbl, pad_bin)
+get_management_company = NycdbGetter[Company](lambda reg: reg.get_management_company()).get

@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Tuple
+from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings

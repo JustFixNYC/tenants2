@@ -221,7 +221,7 @@ class NycdbGetter(Generic[T]):
             return self.getter(reg)
         return None
 
-    def get(self, pad_bbl: str, pad_bin: str = '') -> Optional[T]:
+    def __call__(self, pad_bbl: str, pad_bin: str = '') -> Optional[T]:
         if not settings.NYCDB_DATABASE:
             return None
         try:
@@ -241,6 +241,6 @@ class NycdbGetter(Generic[T]):
             return None
 
 
-get_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord()).get
+get_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord())
 
-get_management_company = NycdbGetter[Company](lambda reg: reg.get_management_company()).get
+get_management_company = NycdbGetter[Company](lambda reg: reg.get_management_company())

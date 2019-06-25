@@ -41,6 +41,7 @@ ROLES['Outreach Coordinators'] = set([
     *ModelPermissions('hpaction', 'feewaiverdetails').all,
     *ModelPermissions('hpaction', 'tenantchild').all,
     *ModelPermissions('hpaction', 'hpactiondetails').all,
+    'hpaction.view_hpuser',
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
 ])

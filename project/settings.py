@@ -270,7 +270,7 @@ STATIC_ROOT = str(_STATIC_ROOT_PATH)
 # shows up even in development mode.
 _STATIC_ROOT_PATH.mkdir(exist_ok=True)
 
-STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 _MEDIA_ROOT_PATH = BASE_DIR / 'mediafiles'
 

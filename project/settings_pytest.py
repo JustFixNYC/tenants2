@@ -39,7 +39,7 @@ DEBUG_DATA_DIR = ''
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 
 # Use defaults for static file storage.
-STATICFILES_STORAGE = 'project.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATIC_URL = '/static/'
 
 # Use very fast but horribly insecure password hashing

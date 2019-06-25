@@ -1,6 +1,6 @@
 from typing import NamedTuple, List
 from django.utils.html import format_html
-from django.utils.text import SafeText
+from django.utils.safestring import SafeText
 
 
 class Hyperlink(NamedTuple):

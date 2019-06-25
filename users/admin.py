@@ -82,7 +82,7 @@ class JustfixUserAdmin(UserAdmin):
         CustomIssueInline,
     ) + loc.admin.user_inlines
 
-    actions = [loc.admin.print_loc_envelopes]
+    actions = UserAdmin.actions + [loc.admin.print_loc_envelopes]
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
 

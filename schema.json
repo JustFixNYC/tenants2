@@ -1333,6 +1333,18 @@
           "description": null,
           "fields": [
             {
+              "name": "sueForRepairs",
+              "description": "Whether the user wants to sue for repairs.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sueForHarassment",
               "description": "Whether the user wants to sue for harassment.",
               "args": [],

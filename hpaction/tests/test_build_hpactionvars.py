@@ -69,9 +69,10 @@ def test_user_to_hpactionvars_populates_basic_landlord_info(db):
     v.to_answer_set()
 
 
-def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb):
+@pytest.mark.parametrize('use_bin', [True, False])
+def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bin):
     med = nycdb.load_hpd_registration('medium-landlord.json')
-    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl)
+    oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, use_bin))
     v = user_to_hpactionvars(oinfo.user)
     assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
@@ -98,9 +99,18 @@ def test_fill_nycha_info_works(db, loaded_nycha_csv_data):
     assert v.user_is_nycha_tf is True
 
 
-def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb):
-    med = nycdb.load_hpd_registration('tiny-landlord.json')
-    oinfo = OnboardingInfoFactory(pad_bbl=med.pad_bbl)
+def onboarding_info_pad_kwarg(hpd_reg, use_bin):
+    if use_bin:
+        assert hpd_reg.bin
+        return {'pad_bin': hpd_reg.bin}
+    assert hpd_reg.pad_bbl
+    return {'pad_bbl': hpd_reg.pad_bbl}
+
+
+@pytest.mark.parametrize('use_bin', [True, False])
+def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb, use_bin):
+    tiny = nycdb.load_hpd_registration('tiny-landlord.json')
+    oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(tiny, use_bin))
     v = user_to_hpactionvars(oinfo.user)
     assert v.landlord_entity_name_te == "BOOP JONES"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.INDIVIDUAL

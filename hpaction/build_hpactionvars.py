@@ -132,22 +132,34 @@ def fill_landlord_management_info_from_company(
     v.service_method_mgmt_co_mc = hp.ServiceMethodMgmtCoMC.MAIL
 
 
-def fill_landlord_info_from_bbl(v: hp.HPActionVariables, pad_bbl: str) -> bool:
+def fill_landlord_info_from_bbl_or_bin(
+    v: hp.HPActionVariables,
+    pad_bbl: str,
+    pad_bin: str
+) -> bool:
     landlord_found = False
-    contact = nycdb.models.get_landlord(pad_bbl)
+    contact = nycdb.models.get_landlord(pad_bbl, pad_bin)
     if contact:
         landlord_found = True
         fill_landlord_info_from_contact(v, contact)
-    mgmtco = nycdb.models.get_management_company(pad_bbl)
+    mgmtco = nycdb.models.get_management_company(pad_bbl, pad_bin)
     if mgmtco:
         fill_landlord_management_info_from_company(v, mgmtco)
     return landlord_found
 
 
-def get_user_pad_bbl(user: JustfixUser) -> str:
+def get_user_onboarding_str_attr(user: JustfixUser, attr: str) -> str:
     if hasattr(user, 'onboarding_info'):
-        return user.onboarding_info.pad_bbl
+        return getattr(user.onboarding_info, attr)
     return ''
+
+
+def get_user_pad_bbl(user: JustfixUser) -> str:
+    return get_user_onboarding_str_attr(user, 'pad_bbl')
+
+
+def get_user_pad_bin(user: JustfixUser) -> str:
+    return get_user_onboarding_str_attr(user, 'pad_bin')
 
 
 def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
@@ -165,8 +177,9 @@ def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
     v.landlord_is_party_tf = True
 
     pad_bbl = get_user_pad_bbl(user)
-    if pad_bbl:
-        landlord_found = fill_landlord_info_from_bbl(v, pad_bbl)
+    pad_bin = get_user_pad_bin(user)
+    if pad_bbl or pad_bin:
+        landlord_found = fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
 
     if not landlord_found and hasattr(user, 'landlord_details'):
         ld = user.landlord_details

@@ -128,6 +128,7 @@ function createHPActionRouteInfo(prefix: string) {
     onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
     postOnboarding: prefix,
     welcome: `${prefix}/welcome`,
+    sueForRepairs: `${prefix}/repairs`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     tenantChildren: `${prefix}/children`,
     accessForInspection: `${prefix}/access`,

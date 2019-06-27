@@ -27,6 +27,7 @@ import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
 import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
+import { HpActionSueForRepairsMutation } from './queries/HpActionSueForRepairsMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -209,6 +210,18 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   </>
 });
 
+const SueForRepairs = hpActionDetailsStepBuilder.createStep({
+  title: "Suing your landlord for repairs",
+  mutation: HpActionSueForRepairsMutation,
+  toFormInput: hp => hp.yesNoRadios('sueForRepairs').finish(),
+  renderForm: (ctx) => <>
+    <YesNoRadiosFormField
+      {...ctx.fieldPropsFor('sueForRepairs')}
+      label="Would you like to sue your landlord for repairs?"
+    />
+  </>
+});
+
 const SueForHarassment = hpActionDetailsStepBuilder.createStep({
   title: "Suing your landlord for harassment",
   mutation: HpActionSueForHarassmentMutation,
@@ -234,6 +247,11 @@ export function isNotSuingForHarassment(session: AllSessionInfo): boolean {
   return session.hpActionDetails.sueForHarassment !== true;
 }
 
+export function isNotSuingForRepairs(session: AllSessionInfo): boolean {
+  if (!session.hpActionDetails) return true;
+  return session.hpActionDetails.sueForRepairs !== true;
+}
+
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
   label: "HP Action",
@@ -244,11 +262,17 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     path: Routes.locale.hp.welcome, exact: true, component: HPActionWelcome
   }],
   stepsToFillOut: [
-    { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes },
-    { path: Routes.locale.hp.tenantChildren, component: TenantChildren },
-    { path: Routes.locale.hp.accessForInspection, component: AccessForInspection },
-    { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts },
-    { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous },
+    { path: Routes.locale.hp.sueForRepairs, component: SueForRepairs },
+    { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes,
+      shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.hp.tenantChildren, component: TenantChildren,
+      shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.hp.accessForInspection, component: AccessForInspection,
+      shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts,
+      shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous,
+      shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.sueForHarassment, exact: true, component: SueForHarassment },
     { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,
       shouldBeSkipped: isNotSuingForHarassment },

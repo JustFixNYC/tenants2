@@ -11,7 +11,7 @@ pipenv install --dev --keep-outdated
 pip install -r requirements.production.txt
 
 echo "----- Updating Node Dependencies -----"
-npm install --no-save
+yarn install --modules-folder /node_modules
 
 echo "----- Rebuilding GraphQL queries -----"
 npm run querybuilder

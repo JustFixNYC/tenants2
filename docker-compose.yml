@@ -29,5 +29,6 @@ services:
       - POSTGRES_USER=justfix
 volumes:
   node-modules:
+  unused-node-modules:
   python-venv:
   pgdata:

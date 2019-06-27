@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
       - run:
           command: |
              pipenv sync --dev
@@ -31,7 +31,7 @@ jobs:
 
              npm install --no-save
       - save_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "package-lock.json" }}-{{ checksum "requirements.production.txt" }}
+          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
             - "node_modules"

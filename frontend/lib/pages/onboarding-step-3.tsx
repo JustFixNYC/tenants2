@@ -1,7 +1,7 @@
 import React from 'react';
 import { OnboardingStep3Input } from "../queries/globalTypes";
 import Page from '../page';
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
 import { ProgressButtons } from "../buttons";
@@ -15,6 +15,7 @@ import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';
+import { FormContext } from '../form-context';
 
 type LeaseInfoModalProps = {
   children: any;

@@ -3,7 +3,7 @@ import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress-r
 import Routes from "../routes";
 import { OutboundLink } from '../google-analytics';
 import Page from '../page';
-import { LegacyFormSubmitter } from '../forms';
+import { LegacyFormSubmitter } from '../legacy-form-submitter';
 import { PasswordResetMutation, BlankPasswordResetInput } from '../queries/PasswordResetMutation';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ProgressButtons } from '../buttons';

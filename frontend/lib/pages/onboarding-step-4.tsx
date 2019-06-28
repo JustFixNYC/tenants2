@@ -1,7 +1,7 @@
 import React from 'react';
 import { OnboardingStep4Input, OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import Page from '../page';
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import autobind from 'autobind-decorator';
 import { OnboardingStep4Mutation, BlankOnboardingStep4Input } from '../queries/OnboardingStep4Mutation';
 import { OnboardingRouteInfo } from '../routes';
@@ -11,6 +11,7 @@ import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../faceboox-pixel';
+import { FormContext } from '../form-context';
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;

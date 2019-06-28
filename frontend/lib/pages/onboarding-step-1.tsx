@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Page from '../page';
 import { OnboardingRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { OnboardingStep1Input } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
@@ -19,6 +19,7 @@ import { getBoroughChoiceLabels, BoroughChoice, isBoroughChoice, BoroughChoices 
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { toDjangoChoices } from '../common-data';
+import { FormContext } from '../form-context';
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (

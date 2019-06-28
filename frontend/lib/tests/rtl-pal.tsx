@@ -11,6 +11,9 @@ import { queryHelpers } from '@testing-library/react';
  */
 export type FormFieldFill = [RegExp|string, string];
 
+/** Any HTML element that can be used as a form field. */
+type FormFieldElement = HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement;
+
 /**
  * This class encapsulates react-testing-library in a slightly
  * easier-to-use API.
@@ -68,8 +71,8 @@ export default class ReactTestingLibraryPal {
    * Return a form field (e.g. an <input> or <select>) in the render result,
    * given label text or a regular expression matching the label text.
    */
-  getFormField(label: string|RegExp): HTMLInputElement {
-    return this.getByLabelTextAndSelector(label, 'input, select') as HTMLInputElement;
+  getFormField(label: string|RegExp): FormFieldElement {
+    return this.getByLabelTextAndSelector(label, 'input, select, textarea') as FormFieldElement;
   }
 
   /** Send a keyDown event to the given form field with the give key code. */

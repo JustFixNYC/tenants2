@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
-import { BaseFormContext } from "./forms";
+import { BaseFormContext } from "./form";
 import { isDeepEqual } from './util';
 
 export interface BaseFormsetProps<FormsetInput> {

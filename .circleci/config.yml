@@ -27,9 +27,9 @@ jobs:
 
              # This will ensure that 'npm prepare' scripts on dependencies are run.
              # For more details, see: https://stackoverflow.com/a/52767310
-             npm config set unsafe-perm true
+             yarn config set unsafe-perm true
 
-             npm install --no-save
+             yarn install --frozen-lockfile
       - save_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
@@ -49,9 +49,9 @@ jobs:
             node querybuilder.js --version
             node commondatabuilder.js --version
 
-            npm run build
-            npm test -- --runInBand
-            npm run lint
+            yarn build
+            yarn test -- --runInBand
+            yarn lint
             pipenv run "pytest" --cov-report xml:./coverage/python/coverage.xml
       - run:
           name: CodeClimate combine and upload coverage

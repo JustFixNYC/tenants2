@@ -19,7 +19,7 @@ services:
       service: base_app
     volumes:
       - .:/tenants2:delegated
-    command: npm start
+    command: yarn start
   db:
     image: mdillon/postgis:10-alpine
     volumes:

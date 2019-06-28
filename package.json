@@ -9,15 +9,15 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
-    "sass:watch": "npm run sass -- --watch",
+    "sass:watch": "yarn sass -- --watch",
     "querybuilder": "node querybuilder.js",
     "querybuilder:watch": "node querybuilder.js --watch",
     "webpack": "webpack",
     "webpack:watch": "webpack --watch",
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
-    "build": "npm run querybuilder && npm run sass && npm run webpack && npm run safe_mode_snippet",
-    "start": "npm run querybuilder && npm run sass && concurrently --kill-others \"npm run webpack:watch\" \"npm run lint:watch\" \"npm run sass:watch\" \"npm run querybuilder:watch\" \"npm run safe_mode_snippet:watch\""
+    "build": "yarn querybuilder && yarn sass && yarn webpack && yarn safe_mode_snippet",
+    "start": "yarn querybuilder && yarn sass && concurrently --kill-others \"yarn webpack:watch\" \"yarn lint:watch\" \"yarn sass:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\""
   },
   "repository": {
     "type": "git",

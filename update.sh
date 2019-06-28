@@ -11,10 +11,10 @@ pipenv install --dev --keep-outdated
 pip install -r requirements.production.txt
 
 echo "----- Updating Node Dependencies -----"
-npm install --no-save
+yarn install --modules-folder /node_modules --frozen-lockfile
 
 echo "----- Rebuilding GraphQL queries -----"
-npm run querybuilder
+yarn querybuilder
 
 echo "----- Migrating Database -----"
 python manage.py migrate --noinput

@@ -9,7 +9,7 @@ test('login page sets "next" input to expected value', () => {
     url: '/login?next=/bop',
     server: { originURL: 'https://blarg.com' }
   });
-  pal.rr.getByText(/Sign in/i);
+  pal.rr.getAllByText(/Sign in/i);
   expect(pal.getElement('input', '[name="next"]').value).toEqual('https://blarg.com/bop');
 });
 

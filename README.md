@@ -11,7 +11,7 @@ This is an attempt at creating a new Tenants app for JustFix.
 makes development much easier. But if you'd really rather set
 everything up without Docker, read on!
 
-You'll need Python 3.7.0 and [pipenv][], as well as Node 8 and
+You'll need Python 3.7.0 and [pipenv][], as well as Node 8, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
 set up Postgres version 10 or later.
 
@@ -32,8 +32,8 @@ Then set up the front-end and configure it to
 continuously re-build itself as you change the source code:
 
 ```
-npm install
-npm start
+yarn
+yarn start
 ```
 
 Then, in a separate terminal, you'll want to instantiate
@@ -100,10 +100,10 @@ pytest
 To run the front-end Node/TypeScript tests, use:
 
 ```
-npm test
+yarn test
 ```
 
-You can also use `npm run test:watch` to have Jest
+You can also use `yarn test:watch` to have Jest
 continuously watch the front-end tests for changes and
 re-run them as needed.
 
@@ -187,7 +187,7 @@ Client-side GraphQL code is generated as follows:
    the configuration in
    [`frontend/lib/queries/autogen-config.toml`](frontend/lib/queries/autogen-config.toml).
 
-3. The querybuilder, which runs as part of `npm start`, will notice
+3. The querybuilder, which runs as part of `yarn start`, will notice
    changes to any of these raw queries *or* `autogen-config.toml`
    *or* the server's `schema.json`, and do the following:
 
@@ -206,7 +206,7 @@ Client-side GraphQL code is generated as follows:
        to a file that is created next to the original `.graphql` file
        (e.g., `SimpleQuery.ts`).
 
-    If the developer prefers not to rely on `npm start`
+    If the developer prefers not to rely on `yarn start`
     to automatically rebuild queries for them, they can also manually
     run `node querybuilder.js`.
 

@@ -9,7 +9,7 @@ const FILENAME = 'safe-mode.js';
 function uglify() {
   console.log(`Uglifying ${FILENAME}.`);
   try {
-    execSync('npm run safe_mode_snippet', { stdio: 'inherit' });
+    execSync('yarn safe_mode_snippet', { stdio: 'inherit' });
   } catch (e) {
     console.log(chalk.redBright(`Uglification failed!`));
   }

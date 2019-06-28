@@ -70,9 +70,9 @@ export default class ReactTestingLibraryPal {
    * given label text or a regular expression matching the label text.
    */
   getFormField(label: string|RegExp): HTMLInputElement {
-    return this.rr.getByLabelText(label, {
+    return this.rr.getAllByLabelText(label, {
       selector: 'input, select'
-    }) as HTMLInputElement;
+    })[0] as HTMLInputElement;
   }
 
   /** Send a keyDown event to the given form field with the give key code. */
@@ -90,9 +90,9 @@ export default class ReactTestingLibraryPal {
 
   /** Retrieve a modal dialog with the given label in the render result. */
   getDialogWithLabel(matcher: RegExp|string): HTMLDivElement {
-    return this.rr.getByLabelText(matcher, {
+    return this.rr.getAllByLabelText(matcher, {
       selector: 'div[role="dialog"]'
-    }) as HTMLDivElement;
+    })[0] as HTMLDivElement;
   }
 
   /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */

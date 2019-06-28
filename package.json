@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
+    "@testing-library/dom": "5.4.0",
     "@testing-library/react": "8.0.4",
     "@types/chokidar": "1.7.5",
     "@types/dotenv": "4.0.3",

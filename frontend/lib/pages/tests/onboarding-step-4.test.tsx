@@ -33,6 +33,6 @@ describe('onboarding step 4 page', () => {
     const pal = new AppTesterPal(<OnboardingStep4 {...PROPS} />);
 
     pal.clickButtonOrLink(/terms/i);
-    pal.getDialogWithLabel(/terms/i);
+    pal.getDialogWithLabel(/Your privacy is very/i);
   });
 });

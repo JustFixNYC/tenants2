@@ -1,5 +1,6 @@
 import * as rt from '@testing-library/react'
 import { getElement } from '../util';
+import { queryHelpers } from '@testing-library/react';
 
 /**
  * A type for expressing how to fill out a form field.
@@ -60,9 +61,7 @@ export default class ReactTestingLibraryPal {
 
   /** Click a radio button or checkbox in the render result. */
   clickRadioOrCheckbox(matcher: RegExp|string) {
-    rt.fireEvent.click(this.rr.getByLabelText(matcher, {
-      selector: 'input'
-    }));
+    rt.fireEvent.click(this.getByLabelTextAndSelector(matcher, 'input'));
   }
 
   /**
@@ -70,9 +69,7 @@ export default class ReactTestingLibraryPal {
    * given label text or a regular expression matching the label text.
    */
   getFormField(label: string|RegExp): HTMLInputElement {
-    return this.rr.getAllByLabelText(label, {
-      selector: 'input, select'
-    })[0] as HTMLInputElement;
+    return this.getByLabelTextAndSelector(label, 'input, select') as HTMLInputElement;
   }
 
   /** Send a keyDown event to the given form field with the give key code. */
@@ -90,9 +87,22 @@ export default class ReactTestingLibraryPal {
 
   /** Retrieve a modal dialog with the given label in the render result. */
   getDialogWithLabel(matcher: RegExp|string): HTMLDivElement {
-    return this.rr.getAllByLabelText(matcher, {
-      selector: 'div[role="dialog"]'
-    })[0] as HTMLDivElement;
+    return this.getByLabelTextAndSelector(matcher, 'div[role="dialog"]') as HTMLDivElement;
+  }
+
+  getByLabelTextAndSelector(matcher: RegExp|string, selector: string): HTMLElement {
+    const allMatches = this.rr.getAllByLabelText(matcher)
+    const matches = allMatches.filter(match => match.matches(selector));
+    if (matches.length !== 1) {
+      const matchDescs = allMatches.map(el => `<${el.nodeName.toLowerCase()}>`).join(', ');
+      const cond = matches.length === 0 ? 'none match' : 'more than one matches';
+      throw queryHelpers.getElementError(
+        `Found at least one element with label text "${matcher}" (${matchDescs}), ` +
+        `but ${cond} the selector "${selector}"`,
+        this.rr.container
+      );
+    }
+    return matches[0];
   }
 
   /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */

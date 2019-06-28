@@ -9,6 +9,11 @@ services:
       # in these directories won't get mixed up with Darwin or
       # other non-Linux native code compiled on the Docker Host.
       - python-venv:/venv/
+      # This is really weird: some OS X systems behave erratically when
+      # we try overlaying and then populating our own node_modules atop the
+      # user's repository checkout, so instead we're going to mount an
+      # *empty* node_modules in that place and use /node_modules (in the
+      # root of the container) to store all our things.
       - unused-node-modules:/tenants2/node_modules/
       - node-modules:/node_modules/
     environment:

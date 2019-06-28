@@ -14,15 +14,11 @@ import { deleteStaleTsFiles } from './stale-ts-files';
 import { AutogenContext } from './autogen-graphql/context';
 import { loadAutogenConfig } from './autogen-graphql/config';
 
-function findApollo(): string {
-  // TODO: Ideally we should iterate through NODE_PATH.
-  for (let p of ['node_modules', path.join('..', 'node_modules')]) {
-    const pathname = path.join(p, 'apollo', 'bin', 'run');
-    if (fs.existsSync(pathname)) {
-      return pathname;
-    }
-  }
-  throw new Error('unable to find apollo!');
+/** Find the path to Apollo's command-line interface (CLI) script. */
+function findApolloCliScript(): string {
+  // This should be something like '/foo/node_modules/apollo/lib'.
+  const apolloPath = path.dirname(require.resolve('apollo'));
+  return path.normalize(path.join(apolloPath, '..', 'bin', 'run'));
 }
 
 /**
@@ -30,7 +26,7 @@ function findApollo(): string {
  */
 export function runApolloCodegen(): number {
   const child = child_process.spawnSync('node', [
-    findApollo(),
+    findApolloCliScript(),
     'codegen:generate',
     '--includes', QUERIES_GLOB,
     '--localSchemaFile', GRAPHQL_SCHEMA_PATH,

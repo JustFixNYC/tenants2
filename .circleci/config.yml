@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.4
+      - image: justfixnyc/tenants2_base:0.5
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgis://justfix@localhost/justfix

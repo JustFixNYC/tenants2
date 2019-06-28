@@ -11,8 +11,13 @@ import { queryHelpers } from '@testing-library/react';
  */
 export type FormFieldFill = [RegExp|string, string];
 
-/** Any HTML element that can be used as a form field. */
-type FormFieldElement = HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement;
+/**
+ * Any HTML element that can be used as a form field, with some
+ * modifications to make type checking easier.
+ */
+type FormFieldElement = (HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement) & {
+  checked?: boolean
+};
 
 /**
  * This class encapsulates react-testing-library in a slightly

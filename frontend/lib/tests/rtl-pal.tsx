@@ -1,4 +1,4 @@
-import * as rt from 'react-testing-library'
+import * as rt from '@testing-library/react'
 import { getElement } from '../util';
 
 /**

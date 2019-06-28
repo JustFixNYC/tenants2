@@ -13,9 +13,12 @@ ENV NODE_VERSION=8
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash - \
+  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
   && apt-get update \
   && apt-get install -y \
     nodejs \
+    yarn \
     # Install the CLIs for databases so we can use 'manage.py dbshell'.
     postgresql-client \
     # Add support for GeoDjango.
@@ -30,7 +33,7 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && rm -rf /var/lib/apt/lists/* \
   && pip install pipenv
 
-ENV PATH /tenants2/node_modules/.bin:$PATH
+ENV PATH /tenants2/node_modules/.bin:/node_modules/.bin:$PATH
 
 # This is where we start to deviate from the base Dockerfile.
 

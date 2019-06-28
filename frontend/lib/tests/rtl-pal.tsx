@@ -49,7 +49,7 @@ export default class ReactTestingLibraryPal {
 
   /** Click anything with the given text and selector. */
   click(matcher: RegExp|string, selector: string) {
-    rt.fireEvent.click(this.rr.getByText(matcher, { selector }));
+    rt.fireEvent.click(this.getByTextAndSelector(matcher, selector));
   }
 
   /** Click a list item in the render result. */
@@ -93,8 +93,15 @@ export default class ReactTestingLibraryPal {
     return this.getByLabelTextAndSelector(matcher, 'div[role="dialog"]') as HTMLDivElement;
   }
 
-  getByLabelTextAndSelector(matcher: RegExp|string, selector: string): HTMLElement {
-    const allMatches = this.rr.getAllByLabelText(matcher)
+  /**
+   * Given a list of elements, find the one element matching the given selector,
+   * raising an exception if there is zero or more than one match.
+   */
+  private getMatchFromSelector(
+    matcher: RegExp|string,
+    allMatches: HTMLElement[],
+    selector: string
+  ): HTMLElement {
     const matches = allMatches.filter(match => match.matches(selector));
     if (matches.length !== 1) {
       const matchDescs = allMatches.map(el => `<${el.nodeName.toLowerCase()}>`).join(', ');
@@ -106,6 +113,22 @@ export default class ReactTestingLibraryPal {
       );
     }
     return matches[0];
+  }
+
+  /**
+   * Get the one input element matching the given label text *and* selector, raising
+   * an error if zero or more than one result is found.
+   */
+  getByLabelTextAndSelector(matcher: RegExp|string, selector: string): HTMLElement {
+    return this.getMatchFromSelector(matcher, this.rr.getAllByLabelText(matcher), selector);
+  }
+
+  /**
+   * Get the one element matching the given text *and* selector, raising
+   * an error if zero or more than one result is found.
+   */
+  getByTextAndSelector(matcher: RegExp|string, selector: string): HTMLElement {
+    return this.getMatchFromSelector(matcher, this.rr.getAllByText(matcher), selector);
   }
 
   /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */

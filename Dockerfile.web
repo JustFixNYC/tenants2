@@ -58,7 +58,7 @@ RUN pipenv install --system --keep-outdated \
 
 WORKDIR /tenants2
 
-COPY package*.json /tenants2/
+COPY package.json yarn.lock /tenants2/
 
 # Make sure we run as a non-root user.
 RUN useradd -m myuser

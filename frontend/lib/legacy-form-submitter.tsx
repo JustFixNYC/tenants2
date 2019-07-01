@@ -8,10 +8,20 @@ import { assertNotNull } from './util';
 import { getAppStaticContext } from './app-static-context';
 
 export type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
+  /**
+   * The GraphQL mutation that submits the form and returns the
+   * server's response.
+   */
   mutation: FetchMutationInfo<FormInput, FormOutput>
 };
 
-/** A form submitter that supports submission via legacy browser POST. */
+/**
+ * A form submitter that supports submission via a GraphQL mutation.
+ * 
+ * On progressively-enhanced clients, this is done via a client-side
+ * network request. For situations where we can't rely on JavaScript, 
+ * legacy browser POST is used.
+ */
 export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<LegacyFormSubmitterProps<FormInput, FormOutput>> {
   render() {
     return (

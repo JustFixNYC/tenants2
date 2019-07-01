@@ -7,18 +7,33 @@ import { LegacyFormSubmitterProps, LegacyFormSubmitter } from './legacy-form-sub
 
 
 export interface SessionUpdatingFormOutput extends WithServerFormFieldErrors {
+  /**
+   * The output of a successful session-updating GraphQL mutation should
+   * contain a subset of the user session.
+   * 
+   * If the form submission had validation errors, however, this
+   * may be null.
+   */
   session: Partial<AllSessionInfo>|null;
 }
 
+/** 
+ * A callable that takes the user session and converts it into
+ * initial input for the form.
+ */
 export type SessionToFormInputFn<FormInput> = ((session: AllSessionInfo) => FormInput);
 
 type SessionUpdatingFormSubmitterProps<FormInput, FormOutput extends SessionUpdatingFormOutput> = Omit<LegacyFormSubmitterProps<FormInput, FormOutput>, 'initialState'> & {
+  /**
+   * The initial state of the form's fields may either be data, or a function
+   * that takes the current user session and returns data.
+   */
   initialState: SessionToFormInputFn<FormInput>|FormInput;
 };
 
 /**
  * This form submitter supports a very common use case in which the GraphQL mutation,
- * when successful, simply returns a 'session' key that contains updates to the
+ * when successful, simply returns a payload that contains updates to the
  * session state.
  */
 export class SessionUpdatingFormSubmitter<FormInput, FormOutput extends SessionUpdatingFormOutput> extends React.Component<SessionUpdatingFormSubmitterProps<FormInput, FormOutput>> {

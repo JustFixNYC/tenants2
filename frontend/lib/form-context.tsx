@@ -63,7 +63,7 @@ export class BaseFormContext<FormInput> {
    * predictor, since calling this method is a prerequisite for
    * rendering a field. It's also very important for us to
    * make sure all form fields are rendered, because legacy POST
-   * form submisisons won't work if they are.
+   * form submisisons won't work otherwise.
    * 
    * A particular wrinkle in this usage is that this method needs
    * to be called for all fields by the component that is passed

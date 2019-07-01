@@ -52,7 +52,7 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * distinguish the form from others that may exist on the same
    * page.
    * 
-   * If provided, identifier is sent to analytics services
+   * If provided, the identifier is sent to analytics services
    * when form events occur, to help disambiguate it from events
    * on other forms in the same page.
    */

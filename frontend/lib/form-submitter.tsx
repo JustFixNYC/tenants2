@@ -1,6 +1,6 @@
 import React from 'react';
 import { WithServerFormFieldErrors, FormErrors, trackFormErrors, getFormErrors } from './form-errors';
-import { FormContextRenderer, HTMLFormAttrs, BaseFormProps, Form } from './form';
+import { BaseFormProps, Form, FormProps } from './form';
 import { RouteComponentProps, Route } from 'react-router';
 import { History } from 'history';
 import autobind from 'autobind-decorator';
@@ -8,19 +8,84 @@ import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { HistoryBlocker } from './history-blocker';
 
-export interface FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> {
+export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {
+  /**
+   * This function is called when the user submits the form; it
+   * is responsible for communicating with a server and returning the
+   * result of the form submission.
+   */
   onSubmit: (input: FormInput) => Promise<FormOutput>;
+
+  /**
+   * This function is called when a server returns a response to
+   * form submission that has no validation errors.
+   * 
+   * Note that this function is *only* called on the client-side
+   * in progressively-enhanced scenarios, so it should only be
+   * used to do things that aren't mission-critical, e.g. pinging
+   * an analytics service.
+   */
   onSuccess?: (output: FormOutput) => void;
+
+  /**
+   * This prop is used to determine where to send the user when
+   * the form is submitted without any errors. It can either be
+   * a URL path, or a function that returns one.
+   */
   onSuccessRedirect?: string|((output: FormOutput, input: FormInput) => string);
+
+  /**
+   * This function is used to actually perform the browser redirect
+   * made on successful form submission.
+   */
   performRedirect?: (redirect: string, history: History) => void;
+
+  /**
+   * This specifies whether to ask the user if they're sure they
+   * want to navigate away from the page if the form has unsaved
+   * data in it.
+   */
   confirmNavIfChanged?: boolean;
+
+  /**
+   * This is a unique identifier given to the form, useful to
+   * distinguish the form from others that may exist on the same
+   * page.
+   * 
+   * If provided, identifier is sent to analytics services
+   * when form events occur, to help disambiguate it from events
+   * on other forms in the same page.
+   */
   formId?: string;
-  idPrefix?: string;
-  initialState: FormInput;
+
+  /**
+   * Any validation errors to show upon initial display of the form.
+   * Note that this should either be undefined or an array containing
+   * at least one element; it should *never* be an empty array.
+   */
   initialErrors?: FormErrors<FormInput>;
-  children: FormContextRenderer<FormInput>;
-  extraFields?: JSX.Element;
-  extraFormAttributes?: HTMLFormAttrs;
+} & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
+
+/**
+ * This class encapsulates common logic for form submission. It's
+ * responsible for:
+ * 
+ *   * Redirecting users to other pages upon successful form submission.
+ * 
+ *   * Potentially prompting users if they are about to leave the page
+ *     while the form has unsaved data in it.
+ * 
+ *   * Communicating the success/failure of form submission to analytics
+ *     services.
+ */
+export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
+  render() {
+    return (
+      <Route render={(ctx) => (
+        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
+      )} />
+    );
+  }
 }
 
 export type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
@@ -52,7 +117,6 @@ export function defaultPerformRedirect(redirect: string, history: History) {
   history.push(redirect);
 }
 
-/** This class encapsulates common logic for form submission. */
 export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
   willUnmount = false;
 
@@ -171,15 +235,5 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         {this.props.children}
       </Form>
     </>
-  }
-}
-
-export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterProps<FormInput, FormOutput>> {
-  render() {
-    return (
-      <Route render={(ctx) => (
-        <FormSubmitterWithoutRouter {...this.props} {...ctx} />
-      )} />
-    );
   }
 }

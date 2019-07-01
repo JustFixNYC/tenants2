@@ -46,7 +46,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
    * form that needs an identifier that is unique within the whole
    * page.
    */
-  idPrefix: string;
+  idPrefix?: string;
 
   /** 
    * The initial state of the form's input (what the form's fields
@@ -99,10 +99,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     this.state = props.initialState;
   }
 
-  static defaultProps = {
-    idPrefix: ''
-  };
-
   @autobind
   submit() {
     if (!this.props.isLoading) {
@@ -124,7 +120,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
 
   render() {
     let ctx = new FormContext({
-      idPrefix: this.props.idPrefix,
+      idPrefix: this.props.idPrefix || '',
       isLoading: this.props.isLoading,
       errors: this.props.errors,
       namePrefix: '',

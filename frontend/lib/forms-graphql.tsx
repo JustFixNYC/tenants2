@@ -1,12 +1,26 @@
 import { WithServerFormFieldErrors } from "./form-errors";
 import { GraphQLFetch } from "./graphql-client";
 
+/**
+ * A callable that takes a GraphQL fetch implementation, some
+ * form input, and returns the response from the server.
+ */
 export interface FetchMutation<FormInput, FormOutput extends WithServerFormFieldErrors> {
   (fetch: GraphQLFetch, args: { input: FormInput  }): Promise<{ output: FormOutput }>;
 }
 
+/**
+ * An interface that encapsulates how to submit a particular form
+ * via GraphQL.
+ */
 export interface FetchMutationInfo<FormInput, FormOutput extends WithServerFormFieldErrors> {
+  /** The literal GraphQL of the form submission. */
   graphQL: string;
+
+  /**
+   * The callable that can perform the form submission, given a
+   * GraphQL implementation.
+   */
   fetch: FetchMutation<FormInput, FormOutput>;
 };
 

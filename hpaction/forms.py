@@ -81,24 +81,13 @@ class UrgentAndDangerousForm(forms.ModelForm):
     urgent_and_dangerous = YesNoRadiosField()
 
 
-class SueForRepairsForm(forms.ModelForm):
+class SueForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
-            'sue_for_repairs'
+            'sue_for_repairs',
+            'sue_for_harassment',
         ]
-
-    sue_for_repairs = YesNoRadiosField()
-
-
-class SueForHarassmentForm(forms.ModelForm):
-    class Meta:
-        model = models.HPActionDetails
-        fields = [
-            'sue_for_harassment'
-        ]
-
-    sue_for_harassment = YesNoRadiosField()
 
 
 class PreviousAttemptsForm(forms.ModelForm):

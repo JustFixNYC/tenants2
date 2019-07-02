@@ -1337,9 +1337,13 @@
               "description": "Whether the user wants to sue for repairs.",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1349,9 +1353,13 @@
               "description": "Whether the user wants to sue for harassment.",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2316,7 +2324,7 @@
               "deprecationReason": null
             },
             {
-              "name": "hpActionSueForHarassment",
+              "name": "hpActionSue",
               "description": null,
               "args": [
                 {
@@ -2327,7 +2335,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "HPActionSueForHarassmentInput",
+                      "name": "HPActionSueInput",
                       "ofType": null
                     }
                   },
@@ -2339,38 +2347,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "HPActionSueForHarassmentPayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "hpActionSueForRepairs",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "HPActionSueForRepairsInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "HPActionSueForRepairsPayload",
+                  "name": "HPActionSuePayload",
                   "ofType": null
                 }
               },
@@ -4856,7 +4833,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "HPActionSueForHarassmentPayload",
+          "name": "HPActionSuePayload",
           "description": null,
           "fields": [
             {
@@ -4915,113 +4892,33 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "HPActionSueForHarassmentInput",
+          "name": "HPActionSueInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "sueForHarassment",
-              "description": "",
+              "name": "sueForRepairs",
+              "description": "Whether the user wants to sue for repairs.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
               "defaultValue": null
             },
             {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "HPActionSueForRepairsPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "errors",
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "session",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "HPActionSueForRepairsInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "sueForRepairs",
-              "description": "",
+              "name": "sueForHarassment",
+              "description": "Whether the user wants to sue for harassment.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },

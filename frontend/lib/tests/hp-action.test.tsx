@@ -83,7 +83,7 @@ describe('latest step redirector', () => {
 test("isNotSuingForHarassment works", () => {
   expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);
 
-  [[false, true], [true, false], [null, true]].forEach(([sueForHarassment, expected]) => {
+  [[false, true], [true, false]].forEach(([sueForHarassment, expected]) => {
     expect(isNotSuingForHarassment({
       ...BlankAllSessionInfo,
       hpActionDetails: { ...BlankHPActionDetails, sueForHarassment }

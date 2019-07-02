@@ -21,14 +21,13 @@ import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
-import { TextualFormField } from './form-fields';
+import { TextualFormField, CheckboxFormField } from './form-fields';
 import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
-import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
-import { HpActionSueForRepairsMutation } from './queries/HpActionSueForRepairsMutation';
 import { FormContextRenderer } from './form';
+import { HpActionSueMutation } from './queries/HpActionSueMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -59,7 +58,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
         <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
       </ol>
-      <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
+      <CenteredPrimaryButtonLink to={Routes.locale.hp.sue}>
         Get started
       </CenteredPrimaryButtonLink>
       <br/>
@@ -211,27 +210,17 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   </>
 });
 
-const SueForRepairs = hpActionDetailsStepBuilder.createStep({
-  title: "Suing your landlord for repairs",
-  mutation: HpActionSueForRepairsMutation,
-  toFormInput: hp => hp.yesNoRadios('sueForRepairs').finish(),
+const Sue = hpActionDetailsStepBuilder.createStep({
+  title: "What would you like to do? (Select all that apply)",
+  mutation: HpActionSueMutation,
+  toFormInput: hp => hp.finish(),
   renderForm: (ctx) => <>
-    <YesNoRadiosFormField
-      {...ctx.fieldPropsFor('sueForRepairs')}
-      label="Would you like to sue your landlord for repairs?"
-    />
-  </>
-});
-
-const SueForHarassment = hpActionDetailsStepBuilder.createStep({
-  title: "Suing your landlord for harassment",
-  mutation: HpActionSueForHarassmentMutation,
-  toFormInput: hp => hp.yesNoRadios('sueForHarassment').finish(),
-  renderForm: (ctx) => <>
-    <YesNoRadiosFormField
-      {...ctx.fieldPropsFor('sueForHarassment')}
-      label="Would you like to sue your landlord for harassment?"
-    />
+    <CheckboxFormField {...ctx.fieldPropsFor('sueForRepairs')}>
+      Sue my landlord for repairs
+    </CheckboxFormField>
+    <CheckboxFormField {...ctx.fieldPropsFor('sueForHarassment')}>
+      Sue my landlord for harassment
+    </CheckboxFormField>
   </>
 });
 
@@ -263,7 +252,9 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     path: Routes.locale.hp.welcome, exact: true, component: HPActionWelcome
   }],
   stepsToFillOut: [
-    { path: Routes.locale.hp.sueForRepairs, component: SueForRepairs },
+    { path: Routes.locale.hp.sue, component: Sue },
+    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
+      shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren,
@@ -274,7 +265,6 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous,
       shouldBeSkipped: isNotSuingForRepairs },
-    { path: Routes.locale.hp.sueForHarassment, exact: true, component: SueForHarassment },
     { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.harassmentAllegations1, component: HarassmentAllegations1,
@@ -282,8 +272,6 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.harassmentAllegations2, component: HarassmentAllegations2,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain,
-      shouldBeSkipped: isNotSuingForHarassment },
-    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,

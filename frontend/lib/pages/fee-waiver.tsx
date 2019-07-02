@@ -27,9 +27,9 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
 };
 
 export const FeeWaiverStart = MiddleProgressStep(props => (
-  <Page title="Requesting Not to Pay the $45 Filing Fee">
-    <h1 className="title is-4">Requesting Not to Pay the $45 Filing Fee</h1>
-    <p>We can create a petition for you to ask the court to waive the $45 filing fee. The court needs some information about your finances to make their decision.</p>
+  <Page title="Requesting not to pay any fees" withHeading>
+    <p>The court charges a $45 fee to start a case against your landlord, but we can create a petition for you to ask the court to waive the fee. The court needs some information about your finances to make their decision.</p>
+    <p><strong>Note:</strong> this information has no effect on your case and is only used to estimate your income and expenses to get the filing fee waived.</p>
     <br/>
     <CenteredPrimaryButtonLink className="is-large" to={props.nextStep}>
       Ask the court to waive the filing fee
@@ -97,12 +97,13 @@ export const FeeWaiverExpenses = stepBuilder.createStep({
   toFormInput: feeWaiver => feeWaiver.finish(),
   blankInput: INITIAL_EXPENSES_STATE,
   renderForm: ctx => <>
+    <p>If you live with someone else, please put in only what <strong>you</strong> pay.</p>
     <CurrencyFormField
-      label="How much do you pay in rent?"
+      label="How much do you pay in rent each month?"
       {...ctx.fieldPropsFor('rentAmount')}
     />
     <br/>
-    <h2 className="title is-5">What are your expenses?</h2>
+    <h2 className="title is-5">What are your monthly expenses?</h2>
     <CurrencyFormField label="Utilities" {...ctx.fieldPropsFor('expenseUtilities')} />
     <CurrencyFormField label="Cable/TV" {...ctx.fieldPropsFor('expenseCable')} />
     <CurrencyFormField label="Childcare" {...ctx.fieldPropsFor('expenseChildcare')} />

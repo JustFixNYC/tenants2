@@ -6,7 +6,7 @@ import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './button
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter, FormContextRenderer } from './forms';
+import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
@@ -28,12 +28,13 @@ import { SessionStepBuilder } from './session-step-builder';
 import { HpActionSueForHarassmentMutation } from './queries/HpActionSueForHarassmentMutation';
 import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
 import { HpActionSueForRepairsMutation } from './queries/HpActionSueForRepairsMutation';
+import { FormContextRenderer } from './form';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
 function HPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for repairs through an HP Action proceeding" withHeading="big" className="content">
+    <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding" withHeading="big" className="content">
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
@@ -53,17 +54,17 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>
       <ol className="has-text-left">
-        <li>Answer a few questions about your housing situation.</li>
+        <li>You answer a few questions here about your housing situation.</li>
         <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
-        <li><strong>Print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
+        <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
 </li>
       </ol>
       <CenteredPrimaryButtonLink to={Routes.locale.hp.issues.home}>
-        Select repair issues
+        Get started
       </CenteredPrimaryButtonLink>
       <br/>
       <p>
-        <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed and what those repairs are. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
+        <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed, what those repairs are, and, if you are suing for harassment, you must provide proof of the harassing behavior. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
       </p>
     </Page>
   );
@@ -159,8 +160,8 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
 
   return (
-    <Page title="Your HP Action packet has been created!" withHeading className="content">
-      <p>Here is all of your HP Action paperwork, including instructions:</p>
+    <Page title="Your HP Action packet is ready!" withHeading className="content">
+      <p>Here is all of your HP Action paperwork, including instructions for how to navigate the process:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>
       <ol>

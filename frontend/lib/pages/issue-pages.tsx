@@ -6,7 +6,7 @@ import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { IssueAreaInput } from '../queries/globalTypes';
 import { IssueAreaMutation } from '../queries/IssueAreaMutation';
 import autobind from 'autobind-decorator';
@@ -21,6 +21,7 @@ import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueArea
 import { IssueChoice } from '../../../common-data/issue-choices';
 import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
 import { TextareaWithCharsRemaining } from '../chars-remaining';
+import { FormContext } from '../form-context';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 

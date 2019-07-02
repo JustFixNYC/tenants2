@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 
 import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";

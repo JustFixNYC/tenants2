@@ -2,7 +2,7 @@ import React from 'react';
 
 import Page from '../page';
 import Routes, { routeMap } from '../routes';
-import { SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';

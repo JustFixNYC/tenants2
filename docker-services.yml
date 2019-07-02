@@ -9,7 +9,13 @@ services:
       # in these directories won't get mixed up with Darwin or
       # other non-Linux native code compiled on the Docker Host.
       - python-venv:/venv/
-      - node-modules:/tenants2/node_modules/
+      # This is really weird: some OS X systems behave erratically when
+      # we try overlaying and then populating our own node_modules atop the
+      # user's repository checkout, so instead we're going to mount an
+      # *empty* node_modules in that place and use /node_modules (in the
+      # root of the container) to store all our things.
+      - unused-node-modules:/tenants2/node_modules/
+      - node-modules:/node_modules/
     environment:
       # This is used by pipenv, but not really documented anywhere:
       #   https://github.com/pypa/pipenv/blob/master/pipenv/environments.py#L208
@@ -17,7 +23,7 @@ services:
 
       - PYTHONUNBUFFERED=yup
       - DDM_VENV_DIR=/venv
-      - DDM_USER_OWNED_DIRS=/venv:/tenants2/node_modules
+      - DDM_USER_OWNED_DIRS=/venv:/node_modules
       - DDM_HOST_USER=justfix
       - DDM_IS_RUNNING_IN_DOCKER=yup
       - CHOKIDAR_USEPOLLING=1

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter } from '../forms';
+import { LegacyFormSubmitter } from '../legacy-form-submitter';
 import { ExampleMutation, BlankExampleInput, BlankSubformsExampleSubformFormSetInput } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../form-fields';
 import { NextButton } from '../buttons';

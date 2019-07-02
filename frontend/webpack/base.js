@@ -134,7 +134,9 @@ function getCommonPlugins() {
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH
-    })
+    }),
+    // https://github.com/webpack/webpack/issues/3078
+    new webpack.IgnorePlugin(/\/iconv-loader$/)
   ];
 
   return plugins;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter } from '../forms';
+import { LegacyFormSubmitter } from '../legacy-form-submitter';
 import { ExampleRadioMutation } from '../queries/ExampleRadioMutation';
 import { ExampleRadioInput } from '../queries/globalTypes';
 import { RadiosFormField } from '../form-fields';

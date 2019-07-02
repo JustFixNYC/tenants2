@@ -1,7 +1,7 @@
 import React from 'react';
 import { OnboardingStep2Input } from "../queries/globalTypes";
 import Page from '../page';
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import autobind from 'autobind-decorator';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
@@ -13,6 +13,7 @@ import { OutboundLink } from '../google-analytics';
 import { Link } from 'react-router-dom';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
+import { FormContext } from '../form-context';
 
 
 export function Step2EvictionModal(): JSX.Element {

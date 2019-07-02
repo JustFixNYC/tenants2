@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { TextualFormField } from '../form-fields';
 import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
@@ -10,6 +10,7 @@ import Routes from '../routes';
 import { dateAsISO, addDays } from '../util';
 
 import validation from '../../../common-data/access-dates-validation.json';
+import { FormContext } from '../form-context';
 
 /**
  * The minimum number of days from today that the first access date

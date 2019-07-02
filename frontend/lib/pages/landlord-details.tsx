@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { FormContext, SessionUpdatingFormSubmitter } from '../forms';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { TextualFormField, TextareaFormField } from '../form-fields';
 
 import { BackButton, ProgressButtons } from "../buttons";
@@ -12,6 +12,7 @@ import { AppContextType, withAppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
 import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
+import { FormContext } from '../form-context';
 
 
 const PREV_STEP = () => Routes.locale.loc.accessDates;

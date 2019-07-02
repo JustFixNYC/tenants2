@@ -27,10 +27,9 @@ const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
 };
 
 export const FeeWaiverStart = MiddleProgressStep(props => (
-  <Page title="Requesting not to pay any fees" withHeading>
+  <Page title="Requesting not to pay any fees" withHeading className="content">
     <p>The court charges a $45 fee to start a case against your landlord, but we can create a petition for you to ask the court to waive the fee. The court needs some information about your finances to make their decision.</p>
     <p><strong>Note:</strong> this information has no effect on your case and is only used to estimate your income and expenses to get the filing fee waived.</p>
-    <br/>
     <CenteredPrimaryButtonLink className="is-large" to={props.nextStep}>
       Ask the court to waive the filing fee
     </CenteredPrimaryButtonLink>
@@ -96,8 +95,10 @@ export const FeeWaiverExpenses = stepBuilder.createStep({
   mutation: FeeWaiverExpensesMutation,
   toFormInput: feeWaiver => feeWaiver.finish(),
   blankInput: INITIAL_EXPENSES_STATE,
-  renderForm: ctx => <>
+  renderIntro: () => <>
     <p>If you live with someone else, please put in only what <strong>you</strong> pay.</p>
+  </>,
+  renderForm: ctx => <>
     <CurrencyFormField
       label="How much do you pay in rent each month?"
       {...ctx.fieldPropsFor('rentAmount')}

@@ -89,6 +89,15 @@ class SueForm(forms.ModelForm):
             'sue_for_harassment',
         ]
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        true_fields = [True for value in cleaned_data.values() if value is True]
+        if not true_fields:
+            raise ValidationError("Please choose at least one option.")
+
+        return cleaned_data
+
 
 class PreviousAttemptsForm(forms.ModelForm):
     class Meta:

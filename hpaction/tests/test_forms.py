@@ -1,7 +1,7 @@
 from typing import List
 import pytest
 
-from ..forms import PreviousAttemptsForm
+from ..forms import PreviousAttemptsForm, SueForm
 
 
 class TestPreviousAttemptsForm:
@@ -26,3 +26,18 @@ class TestPreviousAttemptsForm:
             if required_errors:
                 required_fields.append(field)
         assert set(required_fields) == set(expected_required_fields)
+
+
+class TestSueForm:
+    @pytest.mark.parametrize('data', [
+        dict(sue_for_repairs='on'),
+        dict(sue_for_harassment='on'),
+        dict(sue_for_repairs='on', sue_for_harassment='on')
+    ])
+    def test_it_works_when_at_least_one_box_is_checked(self, data):
+        f = SueForm(data=data)
+        assert f.is_valid()
+
+    def test_it_raises_error_when_no_boxes_are_checked(self):
+        f = SueForm(data={})
+        assert f.is_valid() is False

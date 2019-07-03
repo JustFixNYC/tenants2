@@ -25,9 +25,10 @@ import { TextualFormField, CheckboxFormField } from './form-fields';
 import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
-import { HarassmentApartment, HarassmentExplain, HarassmentCaseHistory, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
+import { HarassmentApartment, HarassmentExplain, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
 import { FormContextRenderer } from './form';
 import { HpActionSueMutation } from './queries/HpActionSueMutation';
+import { HarassmentCaseHistory } from './pages/hp-action-case-history';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 

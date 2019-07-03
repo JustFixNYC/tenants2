@@ -59,6 +59,12 @@ class AccessForInspectionForm(forms.ModelForm):
         self.fields['floor_number'].required = True
 
 
+class PriorCaseForm(forms.ModelForm):
+    class Meta:
+        model = models.PriorCase
+        fields = ['case_number', 'case_date', 'is_harassment', 'is_repairs']
+
+
 class TenantChildForm(forms.ModelForm):
     class Meta:
         model = models.TenantChild

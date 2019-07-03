@@ -176,6 +176,27 @@ class FeeWaiverDetails(models.Model):
         )
 
 
+class PriorCase(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='prior_hp_action_cases',
+        help_text="The user who this prior case belongs to.")
+
+    case_number: str = models.CharField(
+        max_length=9,
+        help_text="The court case number (also known as the \"index number\")."
+    )
+
+    case_date: date = models.DateField(help_text="The date of the case.")
+
+    is_harassment: bool = models.BooleanField(help_text="Whether this is a harassment case.")
+
+    is_repairs: bool = models.BooleanField(help_text="Whether this is a repairs case.")
+
+
 class TenantChild(models.Model):
     class Meta:
         verbose_name_plural = "Tenant children"

@@ -5,10 +5,9 @@ import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';
 import { CheckboxFormField } from '../form-fields';
-import { HarassmentCaseHistoryMutation } from '../queries/HarassmentCaseHistoryMutation';
 import { HarassmentAllegations1Mutation } from '../queries/HarassmentAllegations1Mutation';
 import { HarassmentAllegations2Mutation } from '../queries/HarassmentAllegations2Mutation';
-import { HARASSMENT_DETAILS_MAX_LENGTH, PRIOR_RELIEF_MAX_LENGTH } from '../../../common-data/hp-action.json';
+import { HARASSMENT_DETAILS_MAX_LENGTH } from '../../../common-data/hp-action.json';
 import { TextareaWithCharsRemaining } from '../chars-remaining';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
@@ -110,20 +109,5 @@ export const HarassmentExplain = stepBuilder.createStep(props => ({
     <TextareaWithCharsRemaining {...ctx.fieldPropsFor('harassmentDetails')}
       maxLength={HARASSMENT_DETAILS_MAX_LENGTH}
       label="Explain how the landlord or someone on the landlord's behalf has harassed you. Be as specific as you can and be sure to give the date these things happened. (If you cannot remember the exact date, give the month and year.)" />
-  </>
-}));
-
-export const HarassmentCaseHistory = stepBuilder.createStep(props => ({
-  title: "Harassment case history (optional)",
-  mutation: HarassmentCaseHistoryMutation,
-  toFormInput: h => h.finish(),
-  renderIntro: () => <>
-    <p>Have you brought a case in housing court against this landlord for harassment before this case?</p>
-    <p>If not, you may skip this question.</p>
-  </>,
-  renderForm: ctx => <>
-    <TextareaWithCharsRemaining {...ctx.fieldPropsFor('priorReliefSoughtCaseNumbersAndDates')}
-      maxLength={PRIOR_RELIEF_MAX_LENGTH}
-      label="Please provide the court case number (the “index number”) and/or the date(s) of the earlier case(s). Please also include the case number and date(s) of any case(s) you may have brought in the housing court for repairs." />
   </>
 }));

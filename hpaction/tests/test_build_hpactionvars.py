@@ -19,6 +19,34 @@ def test_justfix_issue_to_hp_room_works():
     assert justfix_issue_area_to_hp_room('BEDROOMS').value == "Bedrooms"
 
 
+def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
+    user = UserFactory(full_name="Boop Jones")
+    v = user_to_hpactionvars(user)
+    assert v.request_fee_waiver_tf is None
+
+    FeeWaiverDetails(user=user)
+    v = user_to_hpactionvars(user)
+    assert v.request_fee_waiver_tf is True
+
+
+def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
+    user = UserFactory(full_name="Boop Jones")
+    v = user_to_hpactionvars(user)
+    assert v.sue_for_harassment_tf is None
+    assert v.sue_for_repairs_tf is None
+
+    hpd = HPActionDetailsFactory(
+        user=user, sue_for_harassment=True, sue_for_repairs=False)
+    v = user_to_hpactionvars(user)
+    assert v.sue_for_harassment_tf is True
+    assert v.sue_for_repairs_tf is False
+
+    hpd.sue_for_repairs = True
+    hpd.save()
+    v = user_to_hpactionvars(user)
+    assert v.sue_for_repairs_tf is True
+
+
 def test_user_to_hpactionvars_populates_basic_info(db):
     user = UserFactory(full_name="Boop Jones")
     v = user_to_hpactionvars(user)
@@ -132,6 +160,7 @@ def test_fill_fee_waiver_details_works():
     )
     fill_fee_waiver_details(v, fwd)
 
+    assert v.request_fee_waiver_tf is True
     assert v.tenant_receives_public_assistance_tf is True
     assert v.tenant_income_nu == 11.50
     assert v.tenant_income_source_te == 'Employment, HRA'
@@ -206,13 +235,11 @@ def test_sue_for_harassment_works():
     v = hp.HPActionVariables()
     fill_hp_action_details(v, h)
     assert v.sue_for_harassment_tf is True
-    assert v.action_type_ms == [hp.ActionTypeMS.HARASSMENT]
 
     h.sue_for_harassment = None
     v = hp.HPActionVariables()
     fill_hp_action_details(v, h)
     assert v.problem_is_urgent_tf is None
-    assert v.action_type_ms is None
 
 
 def test_fill_harassment_details_works():
@@ -246,7 +273,7 @@ def test_fill_harassment_details_works():
 def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     har = HarassmentDetailsFactory(more_than_two_apartments_in_building=True)
     v = user_to_hpactionvars(har.user)
-    assert v.sue_for_harassment_tf is False
+    assert v.sue_for_harassment_tf is None
     assert v.more_than_2_apartments_in_building_tf is None
 
     HPActionDetailsFactory(sue_for_harassment=True, user=har.user)

@@ -217,11 +217,8 @@ def get_tenant_repairs_allegations_mc(
 def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
     v.tenant_repairs_allegations_mc = get_tenant_repairs_allegations_mc(h)
     v.problem_is_urgent_tf = h.urgent_and_dangerous
-    if h.sue_for_harassment:
-        v.sue_for_harassment_tf = True
-        if v.action_type_ms is None:
-            v.action_type_ms = []
-        v.action_type_ms.append(hp.ActionTypeMS.HARASSMENT)
+    v.sue_for_harassment_tf = h.sue_for_harassment
+    v.sue_for_repairs_tf = h.sue_for_repairs
 
 
 def get_hpactionvars_attr_for_harassment_alleg(name: str) -> str:
@@ -249,6 +246,8 @@ def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> No
 
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
+    v.request_fee_waiver_tf = True
+
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = "Landlord has failed to do repairs"
 
@@ -327,28 +326,15 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     # booleans are used, but I'm setting the multiple-select
     # too, just in case it's used anywhere.
     #
-    # Update in June 2019: It turns out that the reason the
-    # booleans were added is because A2J (one of the interview
+    # Note that in some cases, there are multiple-select
+    # options *and* a set of booleans for the same thing.
+    # Historically, there were originally just multiple-selects,
+    # but later booleans were added, because A2J (one of the interview
     # formats) doesn't support multiple-select options, so the
     # hotdocs setup had to be modified to use a bunch of
     # booleans instead. In all cases, we only need to care
     # about the booleans, and can ignore the multiple-select
     # values.
-    #
-    # Note also that we're implying fee waiver
-    # now even though we don't collect information from the
-    # user about it; this is because,
-    # until we explicitly add support for it, we want users
-    # to have the forms for it at least available in
-    # the generated PDF just in case they end up wanting
-    # to pursue it.
-    v.action_type_ms = [
-        hp.ActionTypeMS.REPAIRS,
-        hp.ActionTypeMS.FEE_WAIVER,
-    ]
-    v.sue_for_repairs_tf = True
-    v.request_fee_waiver_tf = True
-    v.sue_for_harassment_tf = False
 
     # We're only serving New Yorkers at the moment...
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK

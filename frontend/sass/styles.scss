@@ -219,3 +219,37 @@ fieldset {
         margin-bottom: 0;
     }
 }
+
+.content ol.jf-biglist {
+    & {
+        list-style: none;
+        counter-reset: jf-biglist-counter;
+        margin-left: 4em;
+    }
+
+    li {
+        counter-increment: jf-biglist-counter;
+        position: relative;
+        padding-bottom: 2em;
+    }
+
+    li:last-child {
+        padding-bottom: 1em;
+    }
+
+    li::before {
+        content: counter(jf-biglist-counter);
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        left: -60px;
+        top: 5px;
+        padding-left: 14px;
+        width: 45px;
+        height: 45px;
+        overflow: hidden;
+        border-radius: 100%;
+        background-color: hsl(0, 0%, 29%);
+        color: white;
+    }
+}

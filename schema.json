@@ -2316,7 +2316,7 @@
               "deprecationReason": null
             },
             {
-              "name": "hpActionSueForHarassment",
+              "name": "hpActionSue",
               "description": null,
               "args": [
                 {
@@ -2327,7 +2327,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "HPActionSueForHarassmentInput",
+                      "name": "HPActionSueInput",
                       "ofType": null
                     }
                   },
@@ -2339,7 +2339,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "HPActionSueForHarassmentPayload",
+                  "name": "HPActionSuePayload",
                   "ofType": null
                 }
               },
@@ -4825,7 +4825,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "HPActionSueForHarassmentPayload",
+          "name": "HPActionSuePayload",
           "description": null,
           "fields": [
             {
@@ -4884,10 +4884,24 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "HPActionSueForHarassmentInput",
+          "name": "HPActionSueInput",
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "sueForRepairs",
+              "description": "",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
             {
               "name": "sueForHarassment",
               "description": "",
@@ -4896,7 +4910,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },

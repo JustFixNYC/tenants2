@@ -1,5 +1,28 @@
 import { FormInputConverter, getInitialFormInput } from "../form-input-converter";
 
+
+describe('nullsToBools()', () => {
+  it('raises error when property is not a boolean', () => {
+    const conv = new FormInputConverter({ boop: 'hi' } as any);
+    expect(() => conv.nullsToBools(false, 'boop'))
+      .toThrowError("Expected key 'boop' to be a boolean or null, but it is string");
+  });
+
+  it('works when default is false', () => {
+    const conv = new FormInputConverter({blah: true, oof: null, boof: null});
+    const converted = conv.nullsToBools(false, 'blah', 'oof').data;
+    const expected: typeof converted = {blah: true, oof: false, boof: null};
+    expect(converted).toEqual(expected);
+  });
+
+  it('works when default is true', () => {
+    const conv = new FormInputConverter({blah: true, oof: null, boof: null});
+    const converted = conv.nullsToBools(true, 'blah', 'oof').data;
+    const expected: typeof converted = {blah: true, oof: true, boof: null};
+    expect(converted).toEqual(expected);
+  });
+});
+
 describe('yesNoRadios()', () => {
   it('raises error when property is not a boolean', () => {
     const conv = new FormInputConverter({ boop: 'hi' } as any);

@@ -81,14 +81,25 @@ class UrgentAndDangerousForm(forms.ModelForm):
     urgent_and_dangerous = YesNoRadiosField()
 
 
-class SueForHarassmentForm(forms.ModelForm):
+class SueForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
-            'sue_for_harassment'
+            'sue_for_repairs',
+            'sue_for_harassment',
         ]
 
-    sue_for_harassment = YesNoRadiosField()
+    sue_for_repairs = forms.BooleanField(required=False)
+    sue_for_harassment = forms.BooleanField(required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        true_fields = [True for value in cleaned_data.values() if value is True]
+        if not true_fields:
+            raise ValidationError("Please choose at least one option.")
+
+        return cleaned_data
 
 
 class PreviousAttemptsForm(forms.ModelForm):

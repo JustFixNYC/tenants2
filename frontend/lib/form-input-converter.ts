@@ -9,6 +9,10 @@ type StringifiedNullBooleans<T, K extends NullBooleanPropertyNames<T>> = {
   [k in keyof T]: k extends K ? string : T[k]
 };
 
+type NullsToBooleans<T, K extends NullBooleanPropertyNames<T>> = {
+  [k in keyof T]: k extends K ? boolean : T[k]
+};
+
 type StringifiedNumbers<A> = {
   [K in keyof A]: Extract<A[K], number> extends never ? A[K] : Exclude<A[K], number>|string
 };
@@ -16,6 +20,49 @@ type StringifiedNumbers<A> = {
 type StringifiedNulls<A> = {
   [K in keyof A]: Extract<A[K], null> extends never ? A[K] : Exclude<A[K], null>|string
 };
+
+/** 
+ * Assert that the given value is either `null` or a boolean and return it.
+ * 
+ * @param key The object key the value was taken from; used only to make
+ *   the exception message more helpful, in case of failure.
+ * @param value The value to assert (and return).
+ */
+function assertNullOrBool(key: string|number|symbol, value: unknown): null|boolean {
+  if (!(typeof(value) === 'boolean' || value === null)) {
+    const keyStr = String(key);
+    throw new Error(`Expected key '${keyStr}' to be a boolean or null, but it is ${typeof(value)}`);
+  }
+  return value;
+}
+
+/**
+ * Convert the given value to a boolean, assigning a default if it's `null`.
+ */
+function nullToBool(value: boolean|null, defaultValue: boolean): boolean {
+  if (value === null) {
+    return defaultValue;
+  }
+  return value;
+}
+
+/**
+ * Convert *only* the given property names of the given object from
+ * boolean or null values to boolean values that our backend
+ * will accept as choices for checkbox inputs.
+ */
+function withNullAsBool<T, K extends NullBooleanPropertyNames<T>>(
+  obj: T,
+  defaultValue: boolean,
+  ...keys: readonly K[]
+): NullsToBooleans<T, K> {
+  const result = Object.assign({}, obj) as NullsToBooleans<T, K>;
+  for (let key of keys) {
+    const value = assertNullOrBool(key, obj[key]);
+    result[key] = nullToBool(value, defaultValue) as any;
+  }
+  return result;
+}
 
 /**
  * Convert the given boolean or null to a string value
@@ -42,10 +89,7 @@ function withStringifiedNullBools<T, K extends NullBooleanPropertyNames<T>>(
 ): StringifiedNullBooleans<T, K> {
   const result = Object.assign({}, obj) as StringifiedNullBooleans<T, K>;
   for (let key of keys) {
-    const value = obj[key] as unknown;
-    if (!(typeof(value) === 'boolean' || value === null)) {
-      throw new Error(`Expected key '${key}' to be a boolean or null, but it is ${typeof(value)}`);
-    }
+    const value = assertNullOrBool(key, obj[key]);
     result[key] = toStringifiedNullBool(value) as any;
   }
   return result;
@@ -103,10 +147,25 @@ export class FormInputConverter<T> {
   }
 
   /**
-   * Prepare boolean properties for use as input to yes/no radio button
+   * Convert null/boolean properties into boolean properties, converting any
+   * `null` values to the given default value. This can be useful for preparing
+   * data for use as checkbox form field input.
+   * 
+   * @param defaultValue The default boolean value to convert `null` values to.
+   * @param keys Null/boolean properties from the original data needing conversion.
+   */
+  nullsToBools<K extends NullBooleanPropertyNames<T>>(
+    defaultValue: boolean,
+    ...keys: readonly K[]
+  ): FormInputConverter<NullsToBooleans<T, K>> {
+    return new FormInputConverter(withNullAsBool(this.data, defaultValue, ...keys));
+  }
+
+  /**
+   * Prepare null/boolean properties for use as input to yes/no radio button
    * form fields.
    *
-   * @param keys Boolean properties from the original data needing conversion.
+   * @param keys Null/boolean properties from the original data needing conversion.
    */
   yesNoRadios<K extends NullBooleanPropertyNames<T>>(
     ...keys: readonly K[]

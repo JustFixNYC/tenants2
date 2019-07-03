@@ -213,7 +213,7 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
 const Sue = hpActionDetailsStepBuilder.createStep({
   title: "What would you like to do? (Select all that apply)",
   mutation: HpActionSueMutation,
-  toFormInput: hp => hp.finish(),
+  toFormInput: hp => hp.nullsToBools(false, 'sueForRepairs', 'sueForHarassment').finish(),
   renderForm: (ctx) => <>
     <CheckboxFormField {...ctx.fieldPropsFor('sueForRepairs')}>
       Sue my landlord for repairs

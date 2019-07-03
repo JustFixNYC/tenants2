@@ -1337,13 +1337,9 @@
               "description": "Whether the user wants to sue for repairs.",
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1353,13 +1349,9 @@
               "description": "Whether the user wants to sue for harassment.",
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4898,7 +4890,7 @@
           "inputFields": [
             {
               "name": "sueForRepairs",
-              "description": "Whether the user wants to sue for repairs.",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4912,7 +4904,7 @@
             },
             {
               "name": "sueForHarassment",
-              "description": "Whether the user wants to sue for harassment.",
+              "description": "",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

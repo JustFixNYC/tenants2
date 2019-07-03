@@ -89,6 +89,9 @@ class SueForm(forms.ModelForm):
             'sue_for_harassment',
         ]
 
+    sue_for_repairs = forms.BooleanField()
+    sue_for_harassment = forms.BooleanField()
+
     def clean(self):
         cleaned_data = super().clean()
 

@@ -163,7 +163,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
       <p>Here is all of your HP Action paperwork, including instructions for how to navigate the process:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>
-      <ol>
+      <ol className="jf-biglist">
         <li><strong>Print out this packet and bring it to Housing Court.</strong> Do not sign any of the documents until you bring them to court.</li>
         <li>Once you arrive at court, <strong>go to the clerk’s office to file these papers</strong>. They will assign you an Index Number and various dates.</li>
         <li>After you file your papers, you will need to <strong>serve your landlord and/or management company</strong>. This paperwork is also included in your packet.</li>

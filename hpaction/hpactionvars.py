@@ -24,14 +24,6 @@ class ActionTypeMS(Enum):
     FEE_WAIVER = 'Fee waiver'
 
 
-class CopyIsForMC(Enum):
-    COURT = 'Court'
-    HPD = 'HPD'
-    TENANT = 'Tenant'
-    LANDLORD = 'Landlord'
-    MANAGEMENT_COMPANY = 'Management Company'
-
-
 class CourtCountyMC(Enum):
     BRONX = 'Bronx'
     KINGS = 'Kings'
@@ -55,20 +47,6 @@ class CourtLocationMC(Enum):
     RICHMOND_COUNTY = 'Richmond County'
     # Red Hook Community Justice Center
     RED_HOOK_COMMUNITY_JUSTICE_CENTER = 'Red Hook Community Justice Center'
-
-
-class HPDServiceLandlordMC(Enum):
-    # I or someone else will hand deliver the papers
-    DELIVER = 'deliver'
-    # I or someone else has/have already hand delivered the papers
-    DELIVERED = 'delivered'
-    # The papers were/will be left with the NYS Unified Court HP Clerk at 111 Centre St., Rm. 225,
-    # for same-day pick-up by a DHPD Representative
-    LEFT = 'left'
-    # I or someone else will mail the papers
-    MAIL = 'mail'
-    # I or someone else has/have already mailed the papers
-    MAILED = 'mailed'
 
 
 class HarassmentAllegationsMS(Enum):
@@ -216,34 +194,6 @@ class PriorHarassmentCaseMC(Enum):
     NO = 'No'
 
 
-class ServedLandlordOrAgentMC(Enum):
-    # Landlord
-    LANDLORD = 'Landlord'
-    # Attorney or Agent
-    ATTORNEY_OR_AGENT = 'Attorney or Agent'
-
-
-class ServedMgmtCoOrAgentMC(Enum):
-    # Management Company
-    MANAGEMENT_COMPANY = 'Management Company'
-    # Attorney or Agent
-    ATTORNEY_OR_AGENT = 'Attorney or Agent'
-
-
-class ServiceMethodMC(Enum):
-    # By hand delivery
-    PERSONAL = 'Personal'
-    # By certified mail return receipt
-    MAIL = 'Mail'
-
-
-class ServiceMethodMgmtCoMC(Enum):
-    # Hand delivery
-    PERSONAL = 'Personal'
-    # Certified mail return receipt
-    MAIL = 'Mail'
-
-
 class TenantBoroughMC(Enum):
     BRONX = 'Bronx'
     BROOKLYN = 'Brooklyn'
@@ -308,8 +258,6 @@ class WhichRoomMC(Enum):
     # All Rooms
     ALL_ROOMS = 'All Rooms'
 
-
-HPDServiceMgmtCoMC = HPDServiceLandlordMC
 
 ManagementCompanyAddressStateMC = LandlordAddressStateMC
 
@@ -413,17 +361,11 @@ class HPActionVariables:
     # First name
     landlord_name_first_te: Optional[str] = None
 
-    # not asked
-    landlord_name_full_te: Optional[str] = None
-
     # Last name
     landlord_name_last_te: Optional[str] = None
 
     # City
     management_company_address_city_te: Optional[str] = None
-
-    # not asked
-    management_company_address_full_te: Optional[str] = None
 
     # Management company's street address
     management_company_address_street_te: Optional[str] = None
@@ -449,119 +391,6 @@ class HPActionVariables:
     # If your earlier application was granted, you can write "my prior application was granted and I
     # cannot afford the filing fee."«.ie»
     reason_for_further_application_te: Optional[str] = None
-
-    # Approximate age
-    served_person_dhpd_age_te: Optional[str] = None
-
-    # Hair color
-    served_person_dhpd_hair_color_te: Optional[str] = None
-
-    # Approximate height
-    served_person_dhpd_height_te: Optional[str] = None
-
-    # Sex
-    served_person_dhpd_sex_te: Optional[str] = None
-
-    # Skin color
-    served_person_dhpd_skin_color_te: Optional[str] = None
-
-    # Approximate weight
-    served_person_dhpd_weight_te: Optional[str] = None
-
-    # Name of person you handed the documents to
-    served_person_te: Optional[str] = None
-
-    # Approximate age
-    served_person_landlord_age_te: Optional[str] = None
-
-    # Hair color
-    served_person_landlord_hair_color_te: Optional[str] = None
-
-    # Approximate height
-    served_person_landlord_height_te: Optional[str] = None
-
-    # Sex
-    served_person_landlord_sex_te: Optional[str] = None
-
-    # Skin color
-    served_person_landlord_skin_color_te: Optional[str] = None
-
-    # Approximate weight
-    served_person_landlord_weight_te: Optional[str] = None
-
-    # Name of person you handed the documents to
-    served_person_management_company_te: Optional[str] = None
-
-    # Approximate age
-    served_person_mgmt_co_age_te: Optional[str] = None
-
-    # Hair color
-    served_person_mgmt_co_hair_color_te: Optional[str] = None
-
-    # Approximate height
-    served_person_mgmt_co_height_te: Optional[str] = None
-
-    # Sex
-    served_person_mgmt_co_sex_te: Optional[str] = None
-
-    # Skin color
-    served_person_mgmt_co_skin_color_te: Optional[str] = None
-
-    # Approximate weight
-    served_person_mgmt_co_weight_te: Optional[str] = None
-
-    # Approximate age
-    served_person_mmco_dhpd_age_te: Optional[str] = None
-
-    # Hair color
-    served_person_mmco_dhpd_hair_color_te: Optional[str] = None
-
-    # Approximate height
-    served_person_mmco_dhpd_height_te: Optional[str] = None
-
-    # Sex
-    served_person_mmco_dhpd_sex_te: Optional[str] = None
-
-    # Skin color
-    served_person_mmco_dhpd_skin_color_te: Optional[str] = None
-
-    # Approximate weight
-    served_person_mmco_dhpd_weight_te: Optional[str] = None
-
-    # Full address of person mailing the documents to HPD (number and street, city, state, zip)
-    server_address_full_hpd_te: Optional[str] = None
-
-    # Full address of person mailing or delivering the documents (number and street, city, state,
-    # zip)
-    server_address_full_te: Optional[str] = None
-
-    # Full address of person mailing or delivering the documents (number and street, city, state,
-    # zip)
-    server_address_full_management_company_te: Optional[str] = None
-
-    # Full name of person mailing the documents to HPD
-    server_name_full_hpd_te: Optional[str] = None
-
-    # Full name of person mailing or delivering the documents. (If it was not you, put the right
-    # name and address below.)
-    server_name_full_te: Optional[str] = None
-
-    # Full name of person mailing or delivering the documents. (If it was not you, put the right
-    # name and address below.)
-    server_name_full_management_company_te: Optional[str] = None
-
-    # Full address where you «IF VALUE(Service already completed landlord TF)»delivered «ELSE»plan
-    # to deliver«END IF» the documents (number and street, city, state, zip)
-    service_address_full_te: Optional[str] = None
-
-    # Full address where you delivered the documents (number and street, city, state, zip)
-    service_address_full_management_company_te: Optional[str] = None
-
-    # What time were the papers served?
-    service_time_te: Optional[str] = None
-
-    # What time were the papers served?
-    service_time_mgmt_cote: Optional[str] = None
 
     # Apt. No.
     tenant_address_apt_no_te: Optional[str] = None
@@ -597,31 +426,6 @@ class HPActionVariables:
     # List any major property that you own, like a car or a valuable item, and the value of that
     # property. (You can list several items in the same answer.)
     tenant_property_owned_te: Optional[str] = None
-
-    # Date served
-    service_date_da: Optional[datetime.date] = None
-
-    service_date_hpd_da: Optional[datetime.date] = None
-
-    # Date served
-    service_date_management_company_da: Optional[datetime.date] = None
-
-    conditions_counter_nu: Optional[Union[int, float, Decimal]] = None
-
-    # not asked - used to insert label in top right corner for who the copy of the form goes to
-    copy_counter_nu: Optional[Union[int, float, Decimal]] = None
-
-    # not asked - used to insert label in top right corner for who the copy of the form goes to
-    copy_counter_add_nu: Optional[Union[int, float, Decimal]] = None
-
-    # not asked - used to insert label in top right corner for who the copy of the form goes to
-    copy_counter_insp_nu: Optional[Union[int, float, Decimal]] = None
-
-    # not asked - used to insert label in top right corner for who the copy of the form goes to
-    copy_counter_insp_add_nu: Optional[Union[int, float, Decimal]] = None
-
-    # not asked - used to insert label in top right corner for who the copy of the form goes to
-    fee_waiver_counter_nu: Optional[Union[int, float, Decimal]] = None
 
     # What floor do you live on?
     tenant_address_floor_nu: Optional[Union[int, float, Decimal]] = None
@@ -701,14 +505,8 @@ class HPActionVariables:
 
     harassment_threats_re_status_tf: Optional[bool] = None
 
-    # Is the landlord a party to the action?
-    landlord_is_party_tf: Optional[bool] = None
-
     # Is there a management company or managing agent for the landlord that you also want to sue?
     management_company_to_be_sued_tf: Optional[bool] = None
-
-    # Is the management company a party to the action?
-    mgmt_co_is_party_tf: Optional[bool] = None
 
     # Are there more than two apartments in your building?
     more_than_2_apartments_in_building_tf: Optional[bool] = None
@@ -728,12 +526,6 @@ class HPActionVariables:
 
     # Ask the court to waive the court fee ($45)
     request_fee_waiver_tf: Optional[bool] = None
-
-    # Has service already been completed?
-    service_already_completed_landlord_tf: Optional[bool] = None
-
-    # Has service already been completed?
-    service_already_completed_mgmt_co_tf: Optional[bool] = None
 
     # Sue my landlord for harassment
     sue_for_harassment_tf: Optional[bool] = None
@@ -757,22 +549,11 @@ class HPActionVariables:
     # «.b»What would you like to do?«.be»  (Choose all that apply.)
     action_type_ms: Optional[List[ActionTypeMS]] = None
 
-    # not asked - used for labeling upper right corner
-    copy_is_for_mc: Optional[List[CopyIsForMC]] = None
-
     # In what jurisdiction/county will you be filing?
     court_county_mc: Optional[CourtCountyMC] = None
 
     # Which Court will you be filing in?
     court_location_mc: Optional[CourtLocationMC] = None
-
-    # How will you be providing the City Department of Housing Preservation and Development (HPD)
-    # with a copy of the court papers you're serving on the landlord? (choose one)
-    hpd_service_landlord_mc: Optional[HPDServiceLandlordMC] = None
-
-    # How will you be providing the City Department of Housing Preservation and Development (HPD)
-    # with a copy of the court papers you're serving on the management company? (choose one)
-    hpd_service_mgmt_co_mc: Optional[HPDServiceMgmtCoMC] = None
 
     # «.i»Choose any of the following that have happened.«.ie» The landlord, or someone acting on
     # the landlord’s behalf, has:
@@ -800,22 +581,6 @@ class HPActionVariables:
     # Have you brought a case in housing court to get repairs to this apartment or building before
     # this case?
     prior_repairs_case_mc: Optional[PriorRepairsCaseMC] = None
-
-    # «IF Service already completed landlord TF»Did«ELSE»Will«END IF» you deliver the papers to the
-    # landlord or to an attorney or agent of the landlord?
-    served_landlord_or_agent_mc: Optional[ServedLandlordOrAgentMC] = None
-
-    # «IF Service already completed mgmt co TF»Did«ELSE»Will«END IF» you deliver the papers to the
-    # management company or to an attorney or agent of the management company?
-    served_mgmt_co_or_agent_mc: Optional[ServedMgmtCoOrAgentMC] = None
-
-    # How «IF VALUE(Service already completed landlord TF)»did you «ELSE»do you plan to «END
-    # IF»serve the documents?
-    service_method_mc: Optional[ServiceMethodMC] = None
-
-    # How «IF VALUE(Service already completed mgmt co TF)»did you «ELSE»do you plan to «END IF»serve
-    # the documents?
-    service_method_mgmt_co_mc: Optional[ServiceMethodMgmtCoMC] = None
 
     # State
     tenant_address_state_mc: Optional[TenantAddressStateMC] = None
@@ -862,14 +627,10 @@ class HPActionVariables:
                        self.landlord_entity_name_te)
         result.add_opt('Landlord name first TE',
                        self.landlord_name_first_te)
-        result.add_opt('Landlord name full TE',
-                       self.landlord_name_full_te)
         result.add_opt('Landlord name last TE',
                        self.landlord_name_last_te)
         result.add_opt('Management company address city TE',
                        self.management_company_address_city_te)
-        result.add_opt('Management company address full TE',
-                       self.management_company_address_full_te)
         result.add_opt('Management company address street TE',
                        self.management_company_address_street_te)
         result.add_opt('Management company address zip TE',
@@ -882,78 +643,6 @@ class HPActionVariables:
                        self.prior_relief_sought_case_numbers_and_dates_te)
         result.add_opt('Reason for further application TE',
                        self.reason_for_further_application_te)
-        result.add_opt('Served person DHPD age TE',
-                       self.served_person_dhpd_age_te)
-        result.add_opt('Served person DHPD hair color TE',
-                       self.served_person_dhpd_hair_color_te)
-        result.add_opt('Served person DHPD height TE',
-                       self.served_person_dhpd_height_te)
-        result.add_opt('Served person DHPD sex TE',
-                       self.served_person_dhpd_sex_te)
-        result.add_opt('Served person DHPD skin color TE',
-                       self.served_person_dhpd_skin_color_te)
-        result.add_opt('Served person DHPD weight TE',
-                       self.served_person_dhpd_weight_te)
-        result.add_opt('Served person TE',
-                       self.served_person_te)
-        result.add_opt('Served person landlord age TE',
-                       self.served_person_landlord_age_te)
-        result.add_opt('Served person landlord hair color TE',
-                       self.served_person_landlord_hair_color_te)
-        result.add_opt('Served person landlord height TE',
-                       self.served_person_landlord_height_te)
-        result.add_opt('Served person landlord sex TE',
-                       self.served_person_landlord_sex_te)
-        result.add_opt('Served person landlord skin color TE',
-                       self.served_person_landlord_skin_color_te)
-        result.add_opt('Served person landlord weight TE',
-                       self.served_person_landlord_weight_te)
-        result.add_opt('Served person management company TE',
-                       self.served_person_management_company_te)
-        result.add_opt('Served person mgmt co age TE',
-                       self.served_person_mgmt_co_age_te)
-        result.add_opt('Served person mgmt co hair color TE',
-                       self.served_person_mgmt_co_hair_color_te)
-        result.add_opt('Served person mgmt co height TE',
-                       self.served_person_mgmt_co_height_te)
-        result.add_opt('Served person mgmt co sex TE',
-                       self.served_person_mgmt_co_sex_te)
-        result.add_opt('Served person mgmt co skin color TE',
-                       self.served_person_mgmt_co_skin_color_te)
-        result.add_opt('Served person mgmt co weight TE',
-                       self.served_person_mgmt_co_weight_te)
-        result.add_opt('Served person mmco DHPD age TE',
-                       self.served_person_mmco_dhpd_age_te)
-        result.add_opt('Served person mmco DHPD hair color TE',
-                       self.served_person_mmco_dhpd_hair_color_te)
-        result.add_opt('Served person mmco DHPD height TE',
-                       self.served_person_mmco_dhpd_height_te)
-        result.add_opt('Served person mmco DHPD sex TE',
-                       self.served_person_mmco_dhpd_sex_te)
-        result.add_opt('Served person mmco DHPD skin color TE',
-                       self.served_person_mmco_dhpd_skin_color_te)
-        result.add_opt('Served person mmco DHPD weight TE',
-                       self.served_person_mmco_dhpd_weight_te)
-        result.add_opt('Server address full HPD TE',
-                       self.server_address_full_hpd_te)
-        result.add_opt('Server address full TE',
-                       self.server_address_full_te)
-        result.add_opt('Server address full management company TE',
-                       self.server_address_full_management_company_te)
-        result.add_opt('Server name full HPD TE',
-                       self.server_name_full_hpd_te)
-        result.add_opt('Server name full TE',
-                       self.server_name_full_te)
-        result.add_opt('Server name full management company TE',
-                       self.server_name_full_management_company_te)
-        result.add_opt('Service address full TE',
-                       self.service_address_full_te)
-        result.add_opt('Service address full management company TE',
-                       self.service_address_full_management_company_te)
-        result.add_opt('Service time TE',
-                       self.service_time_te)
-        result.add_opt('Service time mgmt coTE',
-                       self.service_time_mgmt_cote)
         result.add_opt('Tenant address apt no TE',
                        self.tenant_address_apt_no_te)
         result.add_opt('Tenant address city TE',
@@ -976,24 +665,6 @@ class HPActionVariables:
                        self.tenant_phone_work_te)
         result.add_opt('Tenant property owned TE',
                        self.tenant_property_owned_te)
-        result.add_opt('Service date DA',
-                       self.service_date_da)
-        result.add_opt('Service date HPD DA',
-                       self.service_date_hpd_da)
-        result.add_opt('Service date management company DA',
-                       self.service_date_management_company_da)
-        result.add_opt('Conditions counter NU',
-                       self.conditions_counter_nu)
-        result.add_opt('Copy counter NU',
-                       self.copy_counter_nu)
-        result.add_opt('Copy counter add NU',
-                       self.copy_counter_add_nu)
-        result.add_opt('Copy counter insp NU',
-                       self.copy_counter_insp_nu)
-        result.add_opt('Copy counter insp add NU',
-                       self.copy_counter_insp_add_nu)
-        result.add_opt('Fee waiver counter NU',
-                       self.fee_waiver_counter_nu)
         result.add_opt('Tenant address floor NU',
                        self.tenant_address_floor_nu)
         result.add_opt('Tenant children under 6 NU',
@@ -1054,12 +725,8 @@ class HPActionVariables:
                        self.harassment_sued_tf)
         result.add_opt('Harassment threats re status TF',
                        self.harassment_threats_re_status_tf)
-        result.add_opt('Landlord is party TF',
-                       self.landlord_is_party_tf)
         result.add_opt('Management company to be sued TF',
                        self.management_company_to_be_sued_tf)
-        result.add_opt('Mgmt co is party TF',
-                       self.mgmt_co_is_party_tf)
         result.add_opt('More than 2 apartments in building TF',
                        self.more_than_2_apartments_in_building_tf)
         result.add_opt('More than one family per apartment TF',
@@ -1070,10 +737,6 @@ class HPActionVariables:
                        self.problem_is_urgent_tf)
         result.add_opt('Request fee waiver TF',
                        self.request_fee_waiver_tf)
-        result.add_opt('Service already completed landlord TF',
-                       self.service_already_completed_landlord_tf)
-        result.add_opt('Service already completed mgmt co TF',
-                       self.service_already_completed_mgmt_co_tf)
         result.add_opt('Sue for harassment TF',
                        self.sue_for_harassment_tf)
         result.add_opt('Sue for repairs TF',
@@ -1088,16 +751,10 @@ class HPActionVariables:
                        enum2mc_opt(self.access_person_mc))
         result.add_opt('Action type MS',
                        enum2mc_opt(self.action_type_ms))
-        result.add_opt('Copy is for MC',
-                       enum2mc_opt(self.copy_is_for_mc))
         result.add_opt('Court county MC',
                        enum2mc_opt(self.court_county_mc))
         result.add_opt('Court location MC',
                        enum2mc_opt(self.court_location_mc))
-        result.add_opt('HPD service landlord MC',
-                       enum2mc_opt(self.hpd_service_landlord_mc))
-        result.add_opt('HPD service mgmt co MC',
-                       enum2mc_opt(self.hpd_service_mgmt_co_mc))
         result.add_opt('Harassment allegations MS',
                        enum2mc_opt(self.harassment_allegations_ms))
         result.add_opt('IFP what orders MS',
@@ -1114,14 +771,6 @@ class HPActionVariables:
                        enum2mc_opt(self.prior_harassment_case_mc))
         result.add_opt('Prior repairs case MC',
                        enum2mc_opt(self.prior_repairs_case_mc))
-        result.add_opt('Served landlord or agent MC',
-                       enum2mc_opt(self.served_landlord_or_agent_mc))
-        result.add_opt('Served mgmt co or agent MC',
-                       enum2mc_opt(self.served_mgmt_co_or_agent_mc))
-        result.add_opt('Service method MC',
-                       enum2mc_opt(self.service_method_mc))
-        result.add_opt('Service method mgmt co MC',
-                       enum2mc_opt(self.service_method_mgmt_co_mc))
         result.add_opt('Tenant address state MC',
                        enum2mc_opt(self.tenant_address_state_mc))
         result.add_opt('Tenant borough MC',

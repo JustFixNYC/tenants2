@@ -60,6 +60,12 @@ class TenantChildInline(admin.TabularInline):
     extra = 1
 
 
+class PriorCaseInline(admin.TabularInline):
+    model = models.PriorCase
+
+    extra = 1
+
+
 @admin.register(HPUser)
 class HPUserAdmin(admin.ModelAdmin):
     list_display = ['username', 'first_name', 'last_name']
@@ -77,6 +83,7 @@ class HPUserAdmin(admin.ModelAdmin):
 
     inlines = (
         TenantChildInline,
+        PriorCaseInline,
         HPActionDetailsInline,
         FeeWaiverDetailsInline,
         HarassmentDetailsInline,

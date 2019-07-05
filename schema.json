@@ -1488,22 +1488,6 @@
               "deprecationReason": null
             },
             {
-              "name": "priorReliefSoughtCaseNumbersAndDates",
-              "description": "\n            Please provide the court case number (the \"index number\") and/or the date(s)\n            of the earlier case(s).  (Please also include the case number and date(s) of\n            any case(s) you have brought in the housing court for repairs.)\n            ",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "allegForce",
               "description": "Whether the tenant alleges the landlord has FORCE.",
               "args": [],
@@ -2296,37 +2280,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "AccessForInspectionPayload",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "harassmentCaseHistory",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "HarassmentCaseHistoryInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "HarassmentCaseHistoryPayload",
                   "ofType": null
                 }
               },
@@ -4494,100 +4447,6 @@
             {
               "name": "floorNumber",
               "description": "The floor number the user's apartment is on.",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "HarassmentCaseHistoryPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "errors",
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "session",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "HarassmentCaseHistoryInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "priorReliefSoughtCaseNumbersAndDates",
-              "description": "\n            Please provide the court case number (the \"index number\") and/or the date(s)\n            of the earlier case(s).  (Please also include the case number and date(s) of\n            any case(s) you have brought in the housing court for repairs.)\n            ",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

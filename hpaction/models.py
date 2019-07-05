@@ -54,18 +54,6 @@ class HarassmentDetails(models.Model):
         help_text="Explain how the landlord has harassed you."
     )
 
-    prior_relief_sought_case_numbers_and_dates: str = models.TextField(
-        blank=True,
-        max_length=COMMON_DATA['PRIOR_RELIEF_MAX_LENGTH'],
-        help_text=(
-            """
-            Please provide the court case number (the "index number") and/or the date(s)
-            of the earlier case(s).  (Please also include the case number and date(s) of
-            any case(s) you have brought in the housing court for repairs.)
-            """
-        )
-    )
-
     for _enum in HarassmentAllegationsMS:
         locals()[attr_name_for_harassment_allegation(_enum.name)] = models.BooleanField(
             default=False,

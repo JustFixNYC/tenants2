@@ -177,12 +177,6 @@ class HarassmentExplain(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
-class HarassmentCaseHistory(OneToOneUserModelFormMutation):
-    class Meta:
-        form_class = forms.HarassmentCaseHistoryForm
-
-
-@schema_registry.register_mutation
 class AccessForInspection(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.AccessForInspectionForm

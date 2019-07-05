@@ -207,13 +207,5 @@ class HarassmentExplainForm(forms.ModelForm):
         self.fields['harassment_details'].required = True
 
 
-class HarassmentCaseHistoryForm(forms.ModelForm):
-    class Meta:
-        model = models.HarassmentDetails
-        fields = [
-            'prior_relief_sought_case_numbers_and_dates',
-        ]
-
-
 class GeneratePDFForm(forms.Form):
     pass

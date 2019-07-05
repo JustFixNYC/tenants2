@@ -26,6 +26,7 @@ hp-action.pdf
 hp-action.xml
 .babel-cache.json
 debug-data/
+*.log
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

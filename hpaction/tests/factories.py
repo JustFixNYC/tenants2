@@ -76,3 +76,5 @@ class PriorCaseFactory(factory.django.DjangoModelFactory):
     case_date = date(2018, 1, 3)
 
     is_repairs = True
+
+    is_harassment = False

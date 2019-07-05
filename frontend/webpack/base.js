@@ -75,12 +75,13 @@ const baseBabelOptions = {
 const nodeBabelOptions = {
   ...baseBabelOptions,
   presets: [
-    ...baseBabelOptions.presets,
+    // Remember, presets are loaded from last to first!
     ["@babel/env", {
       "targets": {
         "node": "current"
       }
     }],
+    ...baseBabelOptions.presets,
   ],
   plugins: [
     ...baseBabelOptions.plugins,
@@ -92,7 +93,11 @@ exports.nodeBabelOptions = nodeBabelOptions;
 
 const webBabelOptions = {
   ...baseBabelOptions,
-  presets: [...baseBabelOptions.presets, "@babel/preset-env"]
+  presets: [
+    // Remember, presets are loaded from last to first!
+    "@babel/preset-env",
+    ...baseBabelOptions.presets
+  ]
 };
 
 /**

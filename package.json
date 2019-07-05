@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
-    "sass:watch": "yarn sass -- --watch",
+    "sass:watch": "yarn sass --watch",
     "querybuilder": "node querybuilder.js",
     "querybuilder:watch": "node querybuilder.js --watch",
     "webpack": "webpack",

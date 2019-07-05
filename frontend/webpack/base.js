@@ -3,7 +3,6 @@
  * @typedef {import("webpack").Configuration} WebpackConfig
  * @typedef {import("webpack").Plugin} WebpackPlugin
  * @typedef {import("webpack").RuleSetRule} WebpackRule
- * @typedef {import("ts-loader").Options} TsLoaderOptions
  */
 
 const path = require('path');
@@ -54,26 +53,12 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
                                  ? '[name].[contenthash].bundle.js'
                                  : '[name].bundle.js';
 
-/** @type Partial<TsLoaderOptions> */
-const tsLoaderOptions = {
-  configFile: "tsconfig.build.json",
-  /**
-   * Without this setting, TypeScript compiles *everything* including
-   * files not relevant to the bundle we're building, which often
-   * results in spurious errors. For more information, see
-   * https://github.com/TypeStrong/ts-loader/issues/267.
-   */
-  onlyCompileBundledFiles: true,
-  /**
-   * We're going to run the type checker in a separate process, so
-   * only transpile for now. This significantly improves compile speed.
-   */
-  transpileOnly: true,
-};
-
 const baseBabelOptions = {
   babelrc: false,
+  presets: ["@babel/preset-typescript"],
   plugins: [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose" : true }],
     "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
@@ -84,6 +69,7 @@ const baseBabelOptions = {
 const nodeBabelOptions = {
   ...baseBabelOptions,
   presets: [
+    ...baseBabelOptions.presets,
     ["@babel/env", {
       "targets": {
         "node": "current"
@@ -100,7 +86,7 @@ exports.nodeBabelOptions = nodeBabelOptions;
 
 const webBabelOptions = {
   ...baseBabelOptions,
-  presets: ["@babel/preset-env"]
+  presets: [...baseBabelOptions.presets, "@babel/preset-env"]
 };
 
 /**
@@ -171,7 +157,6 @@ function createNodeScriptConfig(entry, filename) {
           exclude: /node_modules/,
           use: [
             { loader: 'babel-loader', options: nodeBabelOptions },
-            { loader: 'ts-loader', options: tsLoaderOptions },
           ]
         },
       ]
@@ -235,7 +220,6 @@ const webConfig = {
         exclude: /node_modules/,
         use: [
           { loader: 'babel-loader', options: webBabelOptions },
-          { loader: 'ts-loader', options: tsLoaderOptions }
         ]
       },
     ]

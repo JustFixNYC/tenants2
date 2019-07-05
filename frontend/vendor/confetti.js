@@ -377,7 +377,7 @@ if (typeof(window) !== 'undefined') {
     }
   }
   ConfettiRibbon.bounds = new Vector2(0, 0);
-  confetti = {};
+  var confetti = {};
   confetti.Context = function(canvas, regenerateForSecs, onFinished) {
     if (!regenerateForSecs) {
       regenerateForSecs = 0;

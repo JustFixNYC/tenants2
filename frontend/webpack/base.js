@@ -53,13 +53,14 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
                                  ? '[name].[contenthash].bundle.js'
                                  : '[name].bundle.js';
 
-const baseBabelOptions = {
-  /** This option may be specific to babel-loader, but I'm not sure. */
-  babelrc: false,
-  /** These are specific to babel-loader. */
+/** These options are specific to babel-loader. */
+const babelLoaderOptions = {
   cacheDirectory: true,
   cacheCompression: false,
-  /** These are *not* specific to babel-loader. */
+};
+
+const baseBabelOptions = {
+  babelrc: false,
   presets: ["@babel/preset-typescript"],
   plugins: [
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
@@ -106,6 +107,7 @@ const convertSVGsToReactComponents = {
     // Our SVG loader generates JSX code, so we need to use
     // babel to convert it into regular JS.
     { loader: 'babel-loader', options: {
+      ...babelLoaderOptions,
       babelrc: false,
       plugins: ['@babel/plugin-transform-react-jsx']
     } },
@@ -161,7 +163,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader', options: nodeBabelOptions },
+            { loader: 'babel-loader', options: {...nodeBabelOptions, ...babelLoaderOptions} },
           ]
         },
       ]
@@ -224,7 +226,7 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'babel-loader', options: webBabelOptions },
+          { loader: 'babel-loader', options: {...webBabelOptions, ...babelLoaderOptions} },
         ]
       },
     ]

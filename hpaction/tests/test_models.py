@@ -1,6 +1,7 @@
 import datetime
 from decimal import Decimal
 from freezegun import freeze_time
+from django.core.exceptions import ValidationError
 import pytest
 
 from users.tests.factories import UserFactory
@@ -171,3 +172,17 @@ class TestPriorCase:
     def test_str_works(self):
         p = PriorCaseFactory.build()
         assert str(p) == 'repairs case #123456789 on 2018-01-03'
+
+    @pytest.mark.parametrize('kwargs', [
+        dict(is_harassment=False, is_repairs=True),
+        dict(is_harassment=True, is_repairs=False),
+        dict(is_harassment=True, is_repairs=True),
+    ])
+    def test_clean_does_not_raise_when_case_type_is_chosen(self, kwargs):
+        p = PriorCaseFactory.build(**kwargs)
+        p.clean()
+
+    def test_clean_raises_when_case_type_is_not_chosen(self):
+        p = PriorCaseFactory.build(is_harassment=False, is_repairs=False)
+        with pytest.raises(ValidationError, match='Please select repairs and/or harassment'):
+            p.clean()

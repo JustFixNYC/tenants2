@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.exceptions import ValidationError
 
 from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
@@ -193,6 +194,11 @@ class PriorCase(models.Model):
 
     def __str__(self) -> str:
         return f"{self.case_type} case #{self.case_number} on {self.case_date}"
+
+    def clean(self):
+        super().clean()
+        if not (self.is_harassment or self.is_repairs):
+            raise ValidationError('Please select repairs and/or harassment.')
 
 
 class TenantChild(models.Model):

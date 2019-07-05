@@ -1,38 +1,10 @@
 import React from 'react';
-import { BaseFormContext } from '../form-context';
-import { ChildrenTenantChildFormFormSetInput } from '../queries/globalTypes';
-import { HiddenFormField, TextualFormField, CheckboxFormField } from '../form-fields';
+import { TextualFormField } from '../form-fields';
 import { TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { Formset } from '../formset';
 import { TENANT_CHILDREN_MAX_COUNT } from '../../../common-data/hp-action.json';
 import { SessionStepBuilder } from '../session-step-builder';
-
-function renderTenantChild(ctx: BaseFormContext<ChildrenTenantChildFormFormSetInput>, i: number) {
-  const idProps = ctx.fieldPropsFor('id');
-  const deleteProps = ctx.fieldPropsFor('DELETE');
-
-  return <>
-    <h2 className="subtitle is-5 is-marginless">
-      Child #{i + 1} (optional)
-    </h2>
-    <HiddenFormField {...idProps} />
-    <div className="columns is-mobile is-marginless">
-      <div className="column">
-        <TextualFormField {...ctx.fieldPropsFor('name')} label="Full name" />
-      </div>
-      <div className="column">
-        <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
-      </div>
-    </div>
-    {idProps.value
-      ? <div className="columns is-mobile is-marginless">
-          <div className="column">
-            <CheckboxFormField {...deleteProps}>Delete</CheckboxFormField>
-          </div>
-        </div>
-      : <HiddenFormField {...deleteProps} />}
-  </>;
-}
+import { FormsetItem, formsetItemProps } from '../formset-item';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);
 
@@ -52,7 +24,18 @@ export const TenantChildren = stepBuilder.createStep({
               maxNum={TENANT_CHILDREN_MAX_COUNT}
               extra={TENANT_CHILDREN_MAX_COUNT}
               emptyForm={BlankChildrenTenantChildFormFormSetInput}>
-      {renderTenantChild}
+      {(ctx, i) =>
+        <FormsetItem label={`Child #${i + 1} (optional)`} {...formsetItemProps(ctx)}>
+          <div className="columns is-mobile is-marginless">
+            <div className="column">
+              <TextualFormField {...ctx.fieldPropsFor('name')} label="Full name" />
+            </div>
+            <div className="column">
+              <TextualFormField {...ctx.fieldPropsFor('dob')} type="date" label="Date of birth" />
+            </div>
+          </div>
+        </FormsetItem>
+      }
     </Formset>
   </>
 });

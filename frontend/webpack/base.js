@@ -215,7 +215,7 @@ const webConfig = {
   target: 'web',
   stats: IN_WATCH_MODE ? 'minimal' : 'normal',
   entry: {
-    main: ['@babel/polyfill', './frontend/lib/main.ts'],
+    main: ['core-js/stable', 'regenerator-runtime/runtime', './frontend/lib/main.ts'],
   },
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,

@@ -196,6 +196,16 @@ class PriorCase(models.Model):
 
     is_repairs: bool = models.BooleanField(help_text="Whether this is a repairs case.")
 
+    @property
+    def case_type(self) -> str:
+        return ' & '.join(filter(None, [
+            'harassment' if self.is_harassment else '',
+            'repairs' if self.is_repairs else ''
+        ]))
+
+    def __str__(self) -> str:
+        return f"{self.case_type} case #{self.case_number} on {self.case_date}"
+
 
 class TenantChild(models.Model):
     class Meta:

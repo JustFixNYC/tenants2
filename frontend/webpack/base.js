@@ -54,7 +54,12 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
                                  : '[name].bundle.js';
 
 const baseBabelOptions = {
+  /** This option may be specific to babel-loader, but I'm not sure. */
   babelrc: false,
+  /** These are specific to babel-loader. */
+  cacheDirectory: true,
+  cacheCompression: false,
+  /** These are *not* specific to babel-loader. */
   presets: ["@babel/preset-typescript"],
   plugins: [
     ["@babel/plugin-proposal-decorators", { "legacy": true }],

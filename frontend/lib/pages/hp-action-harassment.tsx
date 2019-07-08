@@ -96,7 +96,7 @@ export const HarassmentAllegations2 = stepBuilder.createStep(props => ({
       asked for documents that would reveal citizenship status when they already have your government-issued ID
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegDisturbed')}>
-      repeatedly disturbed your comfort, peace, or quiet - OR - Made it such that you had to get or stop medical treatment
+      repeatedly disturbed your comfort, peace, or quiet <strong>or</strong> made it such that you had to get or stop medical treatment
 </CheckboxFormField>
   </AllegationsFieldset>
 }));

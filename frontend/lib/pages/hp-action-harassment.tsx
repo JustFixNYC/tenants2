@@ -55,7 +55,7 @@ export const HarassmentAllegations1 = stepBuilder.createStep(props => ({
       used force or threatened to use force
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegMisleadingInfo')}>
-      lied about occupancy or rent status of your apartment
+      lied about the occupancy or rent status of your apartment
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegStoppedService')}>
       interrupted or stopped essential services repeatedly
@@ -84,7 +84,7 @@ export const HarassmentAllegations2 = stepBuilder.createStep(props => ({
       removed your belongings, the front door, or locked you out of your apartment
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegInducedLeaving')}>
-      made buyout offers while threatening you - OR - Cursed or used profane language to intimidate you - OR - Knowingly lied to you - OR - Contacted your job without your permission
+      made buyout offers while threatening you <strong>or</strong> cursed or used profane language to intimidate you <strong>or</strong> knowingly lied to you <strong>or</strong> contacted your job without your permission
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegContact')}>
       repeatedly contacted or visited you outside of business hours

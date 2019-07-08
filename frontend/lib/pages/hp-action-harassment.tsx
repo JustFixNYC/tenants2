@@ -52,7 +52,7 @@ export const HarassmentAllegations1 = stepBuilder.createStep(props => ({
   renderIntro: renderAllegationsIntro,
   renderForm: ctx => <AllegationsFieldset>
     <CheckboxFormField {...ctx.fieldPropsFor('allegForce')}>
-      used force or said they would use force or implied the use of force
+      Used force or threatened to use force
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegMisleadingInfo')}>
       knowingly provided false or misleading information on the current occupancy, or rent stabilization status of a unit on any application or construction document for a permit for work to be performed in said building

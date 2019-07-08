@@ -3,7 +3,6 @@
  * @typedef {import("webpack").Configuration} WebpackConfig
  * @typedef {import("webpack").Plugin} WebpackPlugin
  * @typedef {import("webpack").RuleSetRule} WebpackRule
- * @typedef {import("ts-loader").Options} TsLoaderOptions
  */
 
 const path = require('path');
@@ -54,26 +53,18 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
                                  ? '[name].[contenthash].bundle.js'
                                  : '[name].bundle.js';
 
-/** @type Partial<TsLoaderOptions> */
-const tsLoaderOptions = {
-  configFile: "tsconfig.build.json",
-  /**
-   * Without this setting, TypeScript compiles *everything* including
-   * files not relevant to the bundle we're building, which often
-   * results in spurious errors. For more information, see
-   * https://github.com/TypeStrong/ts-loader/issues/267.
-   */
-  onlyCompileBundledFiles: true,
-  /**
-   * We're going to run the type checker in a separate process, so
-   * only transpile for now. This significantly improves compile speed.
-   */
-  transpileOnly: true,
+/** These options are specific to babel-loader. */
+const babelLoaderOptions = {
+  cacheDirectory: true,
+  cacheCompression: false,
 };
 
 const baseBabelOptions = {
   babelrc: false,
+  presets: ["@babel/preset-typescript"],
   plugins: [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose" : true }],
     "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
@@ -84,11 +75,13 @@ const baseBabelOptions = {
 const nodeBabelOptions = {
   ...baseBabelOptions,
   presets: [
+    // Remember, presets are loaded from last to first!
     ["@babel/env", {
       "targets": {
         "node": "current"
       }
     }],
+    ...baseBabelOptions.presets,
   ],
   plugins: [
     ...baseBabelOptions.plugins,
@@ -100,7 +93,11 @@ exports.nodeBabelOptions = nodeBabelOptions;
 
 const webBabelOptions = {
   ...baseBabelOptions,
-  presets: ["@babel/preset-env"]
+  presets: [
+    // Remember, presets are loaded from last to first!
+    "@babel/preset-env",
+    ...baseBabelOptions.presets
+  ]
 };
 
 /**
@@ -115,6 +112,7 @@ const convertSVGsToReactComponents = {
     // Our SVG loader generates JSX code, so we need to use
     // babel to convert it into regular JS.
     { loader: 'babel-loader', options: {
+      ...babelLoaderOptions,
       babelrc: false,
       plugins: ['@babel/plugin-transform-react-jsx']
     } },
@@ -170,8 +168,7 @@ function createNodeScriptConfig(entry, filename) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader', options: nodeBabelOptions },
-            { loader: 'ts-loader', options: tsLoaderOptions },
+            { loader: 'babel-loader', options: {...nodeBabelOptions, ...babelLoaderOptions} },
           ]
         },
       ]
@@ -218,7 +215,7 @@ const webConfig = {
   target: 'web',
   stats: IN_WATCH_MODE ? 'minimal' : 'normal',
   entry: {
-    main: ['@babel/polyfill', './frontend/lib/main.ts'],
+    main: ['core-js/stable', 'regenerator-runtime/runtime', './frontend/lib/main.ts'],
   },
   devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
   mode: MODE,
@@ -234,8 +231,7 @@ const webConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'babel-loader', options: webBabelOptions },
-          { loader: 'ts-loader', options: tsLoaderOptions }
+          { loader: 'babel-loader', options: {...webBabelOptions, ...babelLoaderOptions} },
         ]
       },
     ]

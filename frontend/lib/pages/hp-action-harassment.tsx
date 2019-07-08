@@ -51,25 +51,24 @@ export const HarassmentAllegations1 = stepBuilder.createStep(props => ({
   renderIntro: renderAllegationsIntro,
   renderForm: ctx => <AllegationsFieldset>
     <CheckboxFormField {...ctx.fieldPropsFor('allegForce')}>
-      used force or said they would use force or implied the use of force
+      used force or threatened to use force
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegMisleadingInfo')}>
-      knowingly provided false or misleading information on the current occupancy, or rent stabilization status of a unit on any application or construction document for a permit for work to be performed in said building
+      lied about occupancy or rent status of your apartment
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegStoppedService')}>
-      interrupted or stopped essential services repeatedly, or only once where a previous violation in the building occurred
+      interrupted or stopped essential services repeatedly
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegFailedToComply')}>
-      failed to timely comply with NYC Admin. Code §27–2140[c] by failing to correct the conditions which made the unit unlivable or unfit for habitation, which are described in the Vacate Order issued by DHPD pursuant to NYC Admin. Code §27–2139[b], and a violation of record was issued for at least one of those conditions
-    </CheckboxFormField>
+      has not made required repairs even though HPD has already filed violations     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegFalseCertRepairs')}>
-      repeatedly made false certifications that a violation relating to the unit or unit building has been corrected
+      lied about making required repairs
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegConductInViolation')}>
-      repeatedly engaged in conduct in the building in violation of NYC Admin. Code §28–105.1
+      done construction without a permit from the Department of Buildings
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegSued')}>
-      repeatedly brought court cases for no good reason.
+      brought court cases for no good reason.
     </CheckboxFormField>
   </AllegationsFieldset>
 }));

@@ -25,3 +25,4 @@ hp-action.pdf
 hp-action.xml
 .babel-cache.json
 debug-data/
+*.log

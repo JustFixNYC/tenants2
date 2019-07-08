@@ -81,23 +81,23 @@ export const HarassmentAllegations2 = stepBuilder.createStep(props => ({
   renderIntro: renderAllegationsIntro,
   renderForm: ctx => <AllegationsFieldset>
     <CheckboxFormField {...ctx.fieldPropsFor('allegRemovedPossessions')}>
-      removed tenant possessions from the unit, or removed the unit front door or made the lock to the unit not work, or changed the lock on the unit door without giving a key to the new lock to the tenant/petitioner
+      removed your belongings, the front door, or locked you out of your apartment
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegInducedLeaving')}>
-      offered money or valuables to tenant, or their relatives, to induce tenant to leave, or to surrender or waive their rights, without written disclosure of the tenant’s rights and without written permission to make an offer from court or the tenant; or, while: threatening, intimidating or using obscene language; frequently harassing or communicating abusively; communicating at tenant’s place of employment without prior written consent; or  knowingly falsifying or misrepresenting information to tenant
+      made buyout offers while threatening you - OR - Cursed or used profane language to intimidate you - OR - Knowingly lied to you - OR - Contacted your job without your permission
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegContact')}>
-      repeatedly contacted or visited tenant without written consent on: weekends, legal holidays, outside of 9am-5pm, or in such a manner that would abuse or harass tenant
+      repeatedly contacted or visited you outside of business hours
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegThreatsReStatus')}>
-      threatened tenant based on their age; race; creed; color; national origin; gender; disability; marital or partnership status; caregiver status; uniformed service; sexual orientation; citizenship status; status as a victim of domestic violence, sex offenses, or stalking; lawful source of income; or because they have children as terms are defined in NYC Admin. Codes §8–102 and §8–107.1
+      threatened you based on your age; race; creed; color; national origin; gender; disability; marital or partnership status; caregiver status; uniformed service; sexual orientation; citizenship status; status as a victim of domestic violence, sex offenses, or stalking; lawful source of income; or because you have children
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegRequestedId')}>
-      requested identifying documentation that would disclose tenant’s citizenship status, when they have already provided government-issued personal identification as such term is defined in NYC Admin. Code §21–908, and when the documentation was neither required by law, nor requested for any unrelated, specific, and limited purpose
+      asked for documents that would reveal citizenship status when they already have your government-issued ID
     </CheckboxFormField>
     <CheckboxFormField {...ctx.fieldPropsFor('allegDisturbed')}>
-      repeatedly caused or permitted acts or omissions that substantially interfered with or disturbed the comfort, peace, or quiet of the tenant, including requiring them to seek, receive, or refrain from medical treatment in violation of NYC Admin. Code §26–1202[b].  If the acts or omissions involve physical conditions in the unit or the building, a violation of record was issued.
-    </CheckboxFormField>
+      repeatedly disturbed your comfort, peace, or quiet - OR - Made it such that you had to get or stop medical treatment
+</CheckboxFormField>
   </AllegationsFieldset>
 }));
 

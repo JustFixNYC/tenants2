@@ -21,6 +21,7 @@ jobs:
       - restore_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
       - run:
+          name: Install dependencies
           command: |
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
@@ -42,6 +43,7 @@ jobs:
             chmod +x ./cc-test-reporter
             ./cc-test-reporter before-build
       - run:
+          name: Run tests
           command: |
             node --version
 
@@ -68,3 +70,38 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
+  deploy:
+    working_directory: ~/tenants2_deploy
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      # Ideally we would use Docker Layer Caching (DLC) here to speed things up,
+      # but apparently that's a premium feature:
+      #
+      #   https://circleci.com/docs/2.0/docker-layer-caching/
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            # Note that you will need to set HEROKU_API_KEY in the CircleCI
+            # settings for this to work. You can generate a Heroku API key
+            # from the command-line with `heroku authorizations:create` for
+            # production apps or `heroku auth:token` for development.
+            #
+            # Also be sure to set TENANTS2_HEROKU_APP to the Heroku app name
+            # you want to deploy to.
+            curl https://cli-assets.heroku.com/install.sh | sh
+            heroku git:remote -a ${TENANTS2_HEROKU_APP}
+            python deploy.py heroku -r heroku
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

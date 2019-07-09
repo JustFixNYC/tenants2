@@ -35,7 +35,7 @@ if (DEV_DEPS_AVAIL) {
   require('dotenv').config({ path: path.join(BASE_DIR, '.justfix-env') });
 }
 
-const DISABLE_WEBPACK_ANALYZER = getEnvBoolean('DISABLE_WEBPACK_ANALYZER', false) || !DEV_DEPS_AVAIL;
+const DISABLE_WEBPACK_ANALYZER = !DEV_DEPS_AVAIL || getEnvBoolean('DISABLE_WEBPACK_ANALYZER', true);
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 

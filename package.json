@@ -26,7 +26,7 @@
   "author": "Atul Varma <atul@justfix.nyc>",
   "license": "ISC",
   "engines": {
-    "node": ">=8.4.0"
+    "node": ">=10.0.0"
   },
   "bugs": {
     "url": "https://github.com/justfixnyc/tenants2/issues"

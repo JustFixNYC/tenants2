@@ -76,3 +76,16 @@ def test_everything_uses_the_same_version_of_node():
 
 def test_dockerignore_starts_with_gitignore():
     ensure_starts_with(DOCKERIGNORE, GITIGNORE)
+
+
+def test_everything_uses_same_base_docker_image():
+    version_re = '(justfixnyc/tenants2_base:[0-9.]+)'
+
+    prod_version = get_match(f'FROM {version_re}', BASE_DIR / 'Dockerfile.web')
+    dev_version = get_match(f'image: {version_re}', BASE_DIR / 'docker-services.yml')
+
+    assert prod_version == dev_version
+
+    ci_version = get_match(f'image: {version_re}', BASE_DIR / '.circleci' / 'config.yml')
+
+    assert prod_version == ci_version

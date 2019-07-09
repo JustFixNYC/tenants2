@@ -292,15 +292,19 @@ if it detects that Django isn't installed.
 
 ## Changing the Dockerfile
 
-Our continuous integration pipeline, [CircleCI][], uses
-a built image from the `Dockerfile` on Docker Hub as its
-base to ensure that the testing/CI environment has parity
-with development and production.
+Development, production, and our continuous integration
+pipeline ([CircleCI][]) use a built image from the
+`Dockerfile` on Docker Hub as their base to ensure
+[dev/prod parity][].
+
+Changes to `Dockerfile` should be pretty infrequent, as
+they define the lowest level of our application's software
+stack, such as its Linux distribution. However, changes
+do occasionally need to be made.
 
 Whenever you change the `Dockerfile`, you will need to
 push the new version to Docker Hub and change the
-tag in `.circleci/config.yml` to correspond to the new
-version you've pushed.
+tag in a few files to correspond to the new version you've pushed.
 
 To push your new version, you will need to:
 
@@ -318,8 +322,8 @@ To push your new version, you will need to:
 3. Run `docker push justfixnyc/tenants2_base:0.1` to
    push the new image to Docker Hub.
 
-4. In `.circleci/config.yml`, edit the reference to
-   `justfixnyc/tenants2_base` to point to the new tag.
+4. In `Dockerfile.web`, `docker-services.yml`, and `.circleci/config.yml`,
+   edit the references to `justfixnyc/tenants2_base` to point to the new tag.
 
 [CircleCI]: https://circleci.com/
 [already taken]: https://hub.docker.com/r/justfixnyc/tenants2_base/tags/
@@ -398,3 +402,4 @@ and has the following provenance:
 [multiple buildpacks]: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
 [Heroku Postgres]: https://www.heroku.com/postgres
 [Container Registry and Runtime]: https://devcenter.heroku.com/articles/container-registry-and-runtime
+[dev/prod parity]: https://12factor.net/dev-prod-parity

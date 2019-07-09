@@ -6,7 +6,6 @@ from project.justfix_environment import BASE_DIR
 
 README = BASE_DIR / 'README.md'
 BASE_DOCKERFILE = BASE_DIR / 'Dockerfile'
-PROD_DOCKERFILE = BASE_DIR / 'Dockerfile.web'
 
 GITIGNORE = BASE_DIR / '.gitignore'
 DOCKERIGNORE = BASE_DIR / '.dockerignore'
@@ -79,5 +78,14 @@ def test_dockerignore_starts_with_gitignore():
     ensure_starts_with(DOCKERIGNORE, GITIGNORE)
 
 
-def test_prod_dockerfile_starts_with_base_dockerfile():
-    ensure_starts_with(PROD_DOCKERFILE, BASE_DOCKERFILE)
+def test_everything_uses_same_base_docker_image():
+    version_re = '(justfixnyc/tenants2_base:[0-9.]+)'
+
+    prod_version = get_match(f'FROM {version_re}', BASE_DIR / 'Dockerfile.web')
+    dev_version = get_match(f'image: {version_re}', BASE_DIR / 'docker-services.yml')
+
+    assert prod_version == dev_version
+
+    ci_version = get_match(f'image: {version_re}', BASE_DIR / '.circleci' / 'config.yml')
+
+    assert prod_version == ci_version

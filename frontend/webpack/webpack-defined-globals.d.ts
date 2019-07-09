@@ -13,6 +13,8 @@
  * Whether or not to disable the webpack analyzer.
  * 
  * Setting this to true can speed up builds.
+ * 
+ * This defaults to true.
  */
 declare const DISABLE_WEBPACK_ANALYZER: boolean;
 

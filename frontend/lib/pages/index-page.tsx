@@ -27,7 +27,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                 <StaticImage src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
-                Is your landlord not responding? Take action today! BOOP
+                Is your landlord not responding? Take action today!
               </h1>
               <h2 className="subtitle">
                 JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.

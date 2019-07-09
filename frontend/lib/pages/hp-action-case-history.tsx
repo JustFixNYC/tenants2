@@ -22,7 +22,9 @@ export const HarassmentCaseHistory = stepBuilder.createStep(props => ({
         <FormsetItem {...formsetItemProps(ctx)} label={`Prior case #${i + 1} (optional)`}>
           <div className="columns is-mobile is-marginless">
             <div className="column">
-              <TextualFormField {...ctx.fieldPropsFor('caseNumber')} label="Case number" />
+              <TextualFormField {...ctx.fieldPropsFor('caseNumber')}
+               label="Case number (9 digits)"
+               help="This is sometimes called the &ldquo;index number&rdquo;." />
             </div>
             <div className="column">
               <TextualFormField {...ctx.fieldPropsFor('caseDate')} type="date" label="Date" />

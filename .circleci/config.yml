@@ -81,7 +81,7 @@ jobs:
           command: |
             curl https://cli-assets.heroku.com/install.sh | sh
             heroku git:remote -a ${TENANTS2_HEROKU_APP}
-            python deploy.py heroku -r ${TENANTS2_HEROKU_APP}
+            python deploy.py heroku -r heroku
 workflows:
   version: 2
   build_and_deploy:

@@ -86,7 +86,10 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      # TODO: this is only for testing, remove this & restore original config.
+      - deploy
+
+#      - build
+#      - deploy:
+#          requires:
+#            - build

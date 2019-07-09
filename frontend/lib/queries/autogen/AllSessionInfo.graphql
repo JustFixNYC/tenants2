@@ -47,6 +47,13 @@ fragment AllSessionInfo on SessionInfo {
     name,
     dob
   },
+  priorHpActionCases {
+    id,
+    caseNumber,
+    caseDate,
+    isHarassment,
+    isRepairs
+  },
   prefersLegacyApp,
   userId,
   firstName,

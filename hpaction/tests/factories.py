@@ -63,3 +63,18 @@ class HarassmentDetailsFactory(factory.django.DjangoModelFactory):
         model = models.HarassmentDetails
 
     user = factory.SubFactory(UserFactory)
+
+
+class PriorCaseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.PriorCase
+
+    user = factory.SubFactory(UserFactory)
+
+    case_number = '123456789'
+
+    case_date = date(2018, 1, 3)
+
+    is_repairs = True
+
+    is_harassment = False

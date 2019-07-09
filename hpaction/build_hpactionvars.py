@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Optional, Callable, Any
+from typing import Dict, Iterable, Optional, Callable, Any, List
 from enum import Enum
 
 from users.models import JustfixUser
@@ -8,7 +8,7 @@ from nycha.models import is_nycha_bbl
 import nycdb.models
 from .models import (
     FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
-    attr_name_for_harassment_allegation)
+    attr_name_for_harassment_allegation, PriorCase)
 from . import hpactionvars as hp
 
 
@@ -221,13 +221,6 @@ def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> No
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
     v.harassment_details_te = h.harassment_details
 
-    prior_relief = h.prior_relief_sought_case_numbers_and_dates.strip()
-    if prior_relief:
-        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.YES
-        v.prior_relief_sought_case_numbers_and_dates_te = prior_relief
-    else:
-        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.NO
-
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
     v.request_fee_waiver_tf = True
@@ -282,6 +275,26 @@ def fill_if_user_has(
 ):
     if hasattr(user, attr_name):
         fill_func(v, getattr(user, attr_name))
+
+
+def fill_prior_repairs_and_harassment_mcs(v: hp.HPActionVariables, cases: List[PriorCase]):
+    if bool([case for case in cases if case.is_harassment]):
+        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.YES
+    else:
+        v.prior_harassment_case_mc = hp.PriorHarassmentCaseMC.NO
+
+    if bool([case for case in cases if case.is_repairs]):
+        v.prior_repairs_case_mc = hp.PriorRepairsCaseMC.YES
+    else:
+        v.prior_repairs_case_mc = hp.PriorRepairsCaseMC.NO
+
+
+def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser):
+    cases = list(user.prior_hp_action_cases.all())
+    v.prior_relief_sought_case_numbers_and_dates_te = ", ".join([
+        str(case) for case in cases
+    ])
+    fill_prior_repairs_and_harassment_mcs(v, cases)
 
 
 def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
@@ -348,6 +361,7 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
 
     if v.sue_for_harassment_tf:
         fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
+        fill_prior_cases(v, user)
 
     # Assume the tenant always wants to serve the papers themselves.
     v.tenant_wants_to_serve_tf = True

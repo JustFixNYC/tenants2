@@ -1,10 +1,12 @@
 import datetime
 from decimal import Decimal
 from freezegun import freeze_time
+from django.core.exceptions import ValidationError
+import pytest
 
 from users.tests.factories import UserFactory
 from project.tests.util import strip_locale
-from .factories import HPActionDocumentsFactory, UploadTokenFactory
+from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
     get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails)
@@ -157,3 +159,30 @@ class TestFeeWaiverDetails:
         f.expense_cable = Decimal('1.10')
         f.expense_other = Decimal('2.20')
         assert f.non_utility_expenses == Decimal('3.30')
+
+
+class TestPriorCase:
+    @pytest.mark.parametrize('kwargs, expected', [
+        [dict(is_harassment=False, is_repairs=True), 'repairs'],
+        [dict(is_harassment=True, is_repairs=True), 'harassment & repairs']
+    ])
+    def test_case_type_works(self, kwargs, expected):
+        assert PriorCaseFactory.build(**kwargs).case_type == expected
+
+    def test_str_works(self):
+        p = PriorCaseFactory.build()
+        assert str(p) == 'repairs case #123456789 on 2018-01-03'
+
+    @pytest.mark.parametrize('kwargs', [
+        dict(is_harassment=False, is_repairs=True),
+        dict(is_harassment=True, is_repairs=False),
+        dict(is_harassment=True, is_repairs=True),
+    ])
+    def test_clean_does_not_raise_when_case_type_is_chosen(self, kwargs):
+        p = PriorCaseFactory.build(**kwargs)
+        p.clean()
+
+    def test_clean_raises_when_case_type_is_not_chosen(self):
+        p = PriorCaseFactory.build(is_harassment=False, is_repairs=False)
+        with pytest.raises(ValidationError, match='Please select repairs and/or harassment'):
+            p.clean()

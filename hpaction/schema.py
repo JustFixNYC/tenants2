@@ -104,6 +104,12 @@ class TenantChildType(DjangoObjectType):
         exclude_fields = ('user', 'created_at', 'updated_at')
 
 
+class PriorHPActionCaseType(DjangoObjectType):
+    class Meta:
+        model = models.PriorCase
+        exclude_fields = ('user', 'created_at', 'updated_at')
+
+
 @schema_registry.register_mutation
 class FeeWaiverMisc(OneToOneUserModelFormMutation):
     class Meta:
@@ -171,12 +177,6 @@ class HarassmentExplain(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
-class HarassmentCaseHistory(OneToOneUserModelFormMutation):
-    class Meta:
-        form_class = forms.HarassmentCaseHistoryForm
-
-
-@schema_registry.register_mutation
 class AccessForInspection(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.AccessForInspectionForm
@@ -201,6 +201,21 @@ class TenantChildren(ManyToOneUserModelFormMutation):
                 forms.TenantChildForm,
                 can_delete=True,
                 max_num=COMMON_DATA['TENANT_CHILDREN_MAX_COUNT'],
+                validate_max=True,
+            )
+        }
+
+
+@schema_registry.register_mutation
+class PriorHPActionCases(ManyToOneUserModelFormMutation):
+    class Meta:
+        formset_classes = {
+            'cases': inlineformset_factory(
+                JustfixUser,
+                models.PriorCase,
+                forms.PriorCaseForm,
+                can_delete=True,
+                max_num=10,
                 validate_max=True,
             )
         }
@@ -237,6 +252,11 @@ class HPActionSessionInfo:
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),
         resolver=create_models_for_user_resolver(models.TenantChild)
+    )
+
+    prior_hp_action_cases = graphene.List(
+        graphene.NonNull(PriorHPActionCaseType),
+        resolver=create_models_for_user_resolver(models.PriorCase)
     )
 
     def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:

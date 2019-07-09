@@ -59,6 +59,12 @@ class AccessForInspectionForm(forms.ModelForm):
         self.fields['floor_number'].required = True
 
 
+class PriorCaseForm(forms.ModelForm):
+    class Meta:
+        model = models.PriorCase
+        fields = ['case_number', 'case_date', 'is_harassment', 'is_repairs']
+
+
 class TenantChildForm(forms.ModelForm):
     class Meta:
         model = models.TenantChild
@@ -199,14 +205,6 @@ class HarassmentExplainForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['harassment_details'].required = True
-
-
-class HarassmentCaseHistoryForm(forms.ModelForm):
-    class Meta:
-        model = models.HarassmentDetails
-        fields = [
-            'prior_relief_sought_case_numbers_and_dates',
-        ]
 
 
 class GeneratePDFForm(forms.Form):

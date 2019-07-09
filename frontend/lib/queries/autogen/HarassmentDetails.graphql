@@ -3,7 +3,6 @@ fragment HarassmentDetails on HarassmentDetailsType {
   moreThanTwoApartmentsInBuilding,
   moreThanOneFamilyPerApartment,
   harassmentDetails,
-  priorReliefSoughtCaseNumbersAndDates,
   allegForce,
   allegMisleadingInfo,
   allegStoppedService,

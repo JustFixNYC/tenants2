@@ -9,8 +9,10 @@ from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
     fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
-    fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg)
-from .factories import TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory
+    fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
+    fill_prior_cases, fill_prior_repairs_and_harassment_mcs)
+from .factories import (
+    TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory)
 import hpaction.hpactionvars as hp
 
 
@@ -256,30 +258,22 @@ def test_fill_harassment_details_works():
     assert v.harassment_sued_tf is True
     assert v.harassment_stopped_service_tf is False
     assert v.harassment_details_te == 'Blarg'
-    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
     assert v.prior_relief_sought_case_numbers_and_dates_te is None
-
-    h.prior_relief_sought_case_numbers_and_dates = "      "
-    fill_harassment_details(v, h)
-    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
-    assert v.prior_relief_sought_case_numbers_and_dates_te is None
-
-    h.prior_relief_sought_case_numbers_and_dates = "123412"
-    fill_harassment_details(v, h)
-    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.YES
-    assert v.prior_relief_sought_case_numbers_and_dates_te == "123412"
 
 
 def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     har = HarassmentDetailsFactory(more_than_two_apartments_in_building=True)
+    PriorCaseFactory(user=har.user)
     v = user_to_hpactionvars(har.user)
     assert v.sue_for_harassment_tf is None
     assert v.more_than_2_apartments_in_building_tf is None
+    assert v.prior_repairs_case_mc is None
 
     HPActionDetailsFactory(sue_for_harassment=True, user=har.user)
     v = user_to_hpactionvars(har.user)
     assert v.sue_for_harassment_tf is True
     assert v.more_than_2_apartments_in_building_tf is True
+    assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
 
 
 @pytest.mark.parametrize("enum_name,attr_name", [
@@ -289,3 +283,26 @@ def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
 def test_hp_action_variables_has_harassment_allegation_attr(enum_name, attr_name):
     v = hp.HPActionVariables()
     assert hasattr(v, attr_name)
+
+
+def test_fill_prior_cases_works(db):
+    pc = PriorCaseFactory()
+    v = hp.HPActionVariables()
+    fill_prior_cases(v, pc.user)
+    assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
+    assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
+    assert v.prior_relief_sought_case_numbers_and_dates_te == \
+        "repairs case #123456789 on 2018-01-03"
+
+
+@pytest.mark.parametrize('kwargs,repairs,harassment', [
+    [dict(is_repairs=True, is_harassment=False), 'YES', 'NO'],
+    [dict(is_repairs=False, is_harassment=True), 'NO', 'YES'],
+    [dict(is_repairs=True, is_harassment=True), 'YES', 'YES'],
+])
+def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment):
+    pc = PriorCaseFactory.build(**kwargs)
+    v = hp.HPActionVariables()
+    fill_prior_repairs_and_harassment_mcs(v, [pc])
+    assert v.prior_repairs_case_mc == getattr(hp.PriorRepairsCaseMC, repairs)
+    assert v.prior_harassment_case_mc == getattr(hp.PriorHarassmentCaseMC, harassment)

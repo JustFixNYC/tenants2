@@ -244,6 +244,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   renderLabel?: LabelRenderer;
   required?: boolean;
   autoComplete?: string;
+  help?: string|JSX.Element;
   min?: string | number | undefined;
   maxLength?: number | undefined;
 };
@@ -298,6 +299,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
         />
         {type === 'date' && <DateClear {...props} />}
       </div>
+      {props.help && <p className="help">{props.help}</p>}
       {errorHelp}
     </div>
   );

@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.exceptions import ValidationError
 
 from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
@@ -52,18 +53,6 @@ class HarassmentDetails(models.Model):
         blank=True,
         max_length=COMMON_DATA['HARASSMENT_DETAILS_MAX_LENGTH'],
         help_text="Explain how the landlord has harassed you."
-    )
-
-    prior_relief_sought_case_numbers_and_dates: str = models.TextField(
-        blank=True,
-        max_length=COMMON_DATA['PRIOR_RELIEF_MAX_LENGTH'],
-        help_text=(
-            """
-            Please provide the court case number (the "index number") and/or the date(s)
-            of the earlier case(s).  (Please also include the case number and date(s) of
-            any case(s) you have brought in the housing court for repairs.)
-            """
-        )
     )
 
     for _enum in HarassmentAllegationsMS:
@@ -174,6 +163,42 @@ class FeeWaiverDetails(models.Model):
             self.expense_childcare +
             self.expense_other
         )
+
+
+class PriorCase(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name='prior_hp_action_cases',
+        help_text="The user who this prior case belongs to.")
+
+    case_number: str = models.CharField(
+        max_length=9,
+        help_text="The court case number (also known as the \"index number\")."
+    )
+
+    case_date: date = models.DateField(help_text="The date of the case.")
+
+    is_harassment: bool = models.BooleanField(help_text="Whether this is a harassment case.")
+
+    is_repairs: bool = models.BooleanField(help_text="Whether this is a repairs case.")
+
+    @property
+    def case_type(self) -> str:
+        return ' & '.join(filter(None, [
+            'harassment' if self.is_harassment else '',
+            'repairs' if self.is_repairs else ''
+        ]))
+
+    def __str__(self) -> str:
+        return f"{self.case_type} case #{self.case_number} on {self.case_date}"
+
+    def clean(self):
+        super().clean()
+        if not (self.is_harassment or self.is_repairs):
+            raise ValidationError('Please select repairs and/or harassment.')
 
 
 class TenantChild(models.Model):

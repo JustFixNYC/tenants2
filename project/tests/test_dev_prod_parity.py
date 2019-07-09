@@ -6,7 +6,6 @@ from project.justfix_environment import BASE_DIR
 
 README = BASE_DIR / 'README.md'
 BASE_DOCKERFILE = BASE_DIR / 'Dockerfile'
-PROD_DOCKERFILE = BASE_DIR / 'Dockerfile.web'
 
 GITIGNORE = BASE_DIR / '.gitignore'
 DOCKERIGNORE = BASE_DIR / '.dockerignore'
@@ -77,7 +76,3 @@ def test_everything_uses_the_same_version_of_node():
 
 def test_dockerignore_starts_with_gitignore():
     ensure_starts_with(DOCKERIGNORE, GITIGNORE)
-
-
-def test_prod_dockerfile_starts_with_base_dockerfile():
-    ensure_starts_with(PROD_DOCKERFILE, BASE_DOCKERFILE)

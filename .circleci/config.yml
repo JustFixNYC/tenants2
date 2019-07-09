@@ -75,11 +75,19 @@ jobs:
     docker:
       - image: circleci/python:3.7
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - checkout
       - run:
           name: Deploy
           command: |
+            # Note that you will need to set HEROKU_API_KEY in the CircleCI
+            # settings for this to work. You can generate a Heroku API key
+            # from the command-line with `heroku authorizations:create` for
+            # production apps or `heroku auth:token` for development.
+            #
+            # Also be sure to set TENANTS2_HEROKU_APP to the Heroku app name
+            # you want to deploy to.
             curl https://cli-assets.heroku.com/install.sh | sh
             heroku git:remote -a ${TENANTS2_HEROKU_APP}
             python deploy.py heroku -r heroku

@@ -21,6 +21,7 @@ jobs:
       - restore_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
       - run:
+          name: Install dependencies
           command: |
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
@@ -42,6 +43,7 @@ jobs:
             chmod +x ./cc-test-reporter
             ./cc-test-reporter before-build
       - run:
+          name: Run tests
           command: |
             node --version
 
@@ -68,3 +70,23 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
+  deploy:
+    working_directory: ~/tenants2_deploy
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+            heroku git:remote -a ${TENANTS2_HEROKU_APP}
+            python deploy.py heroku
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

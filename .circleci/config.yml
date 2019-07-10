@@ -76,14 +76,14 @@ jobs:
       - image: circleci/python:3.7
     steps:
       - run:
-        name: Boop
-        command: |
-          echo "HI HI ${CIRCLE_BRANCH}"
-          if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
-            echo "I AM ON PRODUCTION"
-          else
-            echo "I AM NOT ON PRODUCTION"
-          fi
+          name: Boop
+          command: |
+            echo "HI HI ${CIRCLE_BRANCH}"
+            if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
+              echo "I AM ON PRODUCTION"
+            else
+              echo "I AM NOT ON PRODUCTION"
+            fi
   deploy:
     working_directory: ~/tenants2_deploy
     docker:

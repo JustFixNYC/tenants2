@@ -88,11 +88,14 @@ jobs:
             # settings for this to work. You can generate a Heroku API key
             # from the command-line with `heroku authorizations:create` for
             # production apps or `heroku auth:token` for development.
-            #
-            # Also be sure to set TENANTS2_HEROKU_APP to the Heroku app name
-            # you want to deploy to.
             curl https://cli-assets.heroku.com/install.sh | sh
-            heroku git:remote -a ${TENANTS2_HEROKU_APP}
+            if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
+              # This should be the Heroku app name of our production instance.
+              heroku git:remote -a tenants2
+            else
+              # This should be the Heroku app name of our development instance.
+              heroku git:remote -a tenants2-dev
+            fi
             python deploy.py heroku -r heroku --cache-from-docker-registry
 workflows:
   version: 2
@@ -104,4 +107,6 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - production

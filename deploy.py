@@ -16,10 +16,11 @@ def get_git_info_env_items() -> ItemsView[str, str]:
     return GitInfo.create_env_dict(BASE_DIR).items()
 
 
-def build_local_container(container_name: str):
+def build_local_container(container_name: str, cache_from: Optional[str] = None):
     args = [
         'docker',
         'build',
+        *(['--cache-from', cache_from] if cache_from else []),
         '-f',
         'Dockerfile.web',
         '-t',
@@ -102,6 +103,7 @@ class HerokuDeployer:
         self.process_type = 'web'
         self.heroku = HerokuCLI(self.remote)
         self.config = self.heroku.get_full_config()
+        self.is_logged_into_docker_registry = False
 
     @staticmethod
     def get_heroku_app_name_from_git_remote(remote: str) -> str:
@@ -127,17 +129,31 @@ class HerokuDeployer:
         if returncode:
             raise Exception(f'Command failed: {cmdline}')
 
+    def login_to_docker_registry(self) -> None:
+        if not self.is_logged_into_docker_registry:
+            auth_token = self.heroku.get_auth_token()
+            subprocess.check_call([
+                'docker', 'login',
+                '--username=_', f'--password={auth_token}',
+                'registry.heroku.com'
+            ])
+            self.is_logged_into_docker_registry = True
+
     def push_to_docker_registry(self) -> None:
-        auth_token = self.heroku.get_auth_token()
-        subprocess.check_call([
-            'docker', 'login',
-            '--username=_', f'--password={auth_token}',
-            'registry.heroku.com'
-        ])
+        self.login_to_docker_registry()
         subprocess.check_call(['docker', 'push', self.container_tag])
 
-    def build_and_deploy(self) -> None:
-        build_local_container(self.container_tag)
+    def pull_from_docker_registry(self) -> None:
+        self.login_to_docker_registry()
+        subprocess.check_call(['docker', 'pull', self.container_tag])
+
+    def build_and_deploy(self, cache_from_docker_registry: bool) -> None:
+        if cache_from_docker_registry:
+            self.pull_from_docker_registry()
+            build_local_container(
+                self.container_tag, cache_from=f"{self.container_tag}:latest")
+        else:
+            build_local_container(self.container_tag)
 
         print("Pushing container to Docker registry...")
         self.push_to_docker_registry()
@@ -166,7 +182,8 @@ class HerokuDeployer:
 
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
-    deployer.build_and_deploy()
+    deployer.build_and_deploy(
+        cache_from_docker_registry=args.cache_from_docker_registry)
 
 
 def heroku_run(args):
@@ -202,6 +219,14 @@ def main():
         '--remote',
         default='',
         help="The git remote of the app to use."
+    )
+    parser_heroku.add_argument(
+        '--cache-from-docker-registry',
+        action='store_true',
+        help=(
+            "Whether to pull the latest container image from the Heroku Docker "
+            "registry and use it as a cache when building the container."
+        )
     )
     parser_heroku.set_defaults(func=deploy_heroku)
 

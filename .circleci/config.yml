@@ -84,6 +84,7 @@ jobs:
             else
               echo "I AM NOT ON PRODUCTION"
             fi
+            echo "OK BYE"
   deploy:
     working_directory: ~/tenants2_deploy
     docker:

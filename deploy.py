@@ -136,6 +136,15 @@ class HerokuDeployer:
         ])
         subprocess.check_call(['docker', 'push', self.container_tag])
 
+    def pull_from_docker_registry(self) -> None:
+        auth_token = self.heroku.get_auth_token()
+        subprocess.check_call([
+            'docker', 'login',
+            '--username=_', f'--password={auth_token}',
+            'registry.heroku.com'
+        ])
+        subprocess.check_call(['docker', 'pull', self.container_tag])
+
     def build_and_deploy(self) -> None:
         build_local_container(self.container_tag)
 
@@ -186,6 +195,11 @@ def heroku_run(args):
     ))
 
 
+def heroku_pull(args):
+    deployer = HerokuDeployer(args.remote)
+    deployer.pull_from_docker_registry()
+
+
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(
@@ -226,6 +240,18 @@ def main():
         nargs=argparse.REMAINDER
     )
     parser_heroku_run.set_defaults(func=heroku_run)
+
+    parser_heroku_pull = subparsers.add_parser(
+        'heroku-pull',
+        help='Pull container from Heroku Docker registry.'
+    )
+    parser_heroku_pull.add_argument(
+        '-r',
+        '--remote',
+        default='',
+        help="The git remote of the app to use."
+    )
+    parser_heroku_pull.set_defaults(func=heroku_pull)
 
     args = parser.parse_args()
     if not hasattr(args, 'func'):

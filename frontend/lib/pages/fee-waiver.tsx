@@ -100,7 +100,7 @@ export const FeeWaiverExpenses = stepBuilder.createStep({
   </>,
   renderForm: ctx => <>
     <CurrencyFormField
-      label="How much do you pay in rent each month?"
+      label="How much do you pay in rent each month? If you live with someone else, please put in only the part of the rent that you pay."
       {...ctx.fieldPropsFor('rentAmount')}
     />
     <br/>

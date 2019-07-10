@@ -104,7 +104,7 @@ const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressSte
     <Page title="Your landlord" withHeading className="content">
       {details && details.isLookedUp && details.name && details.address
         ? <LandlordDetails details={details} />
-        : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
+        : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself by hand once we give you the forms.</p>}
       <GeneratePDFForm>
         {(ctx) =>
           <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}

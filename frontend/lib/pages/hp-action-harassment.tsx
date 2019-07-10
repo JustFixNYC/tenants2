@@ -22,7 +22,7 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
   </>,
   renderForm: ctx => <>
     <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanTwoApartmentsInBuilding')}
-      label="Are there more than 2 apartments in your building?" />
+      label="Does you building have 2 apartment or less?" />
     <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanOneFamilyPerApartment')}
       label="Is there more than one family living in each apartment?" />
   </>

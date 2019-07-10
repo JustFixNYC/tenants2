@@ -20,6 +20,8 @@ def build_local_container(container_name: str):
     args = [
         'docker',
         'build',
+        '--cache-from',
+        'registry.heroku.com/tenants2-dev/web:latest',
         '-f',
         'Dockerfile.web',
         '-t',

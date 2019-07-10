@@ -70,21 +70,6 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
-  boop:
-    working_directory: ~/tenants2_boop
-    docker:
-      - image: circleci/python:3.7
-    steps:
-      - run:
-          name: Boop
-          command: |
-            echo "HI HI ${CIRCLE_BRANCH}"
-            if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
-              echo "I AM ON PRODUCTION"
-            else
-              echo "I AM NOT ON PRODUCTION"
-            fi
-            echo "OK BYE"
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
@@ -103,25 +88,25 @@ jobs:
             # settings for this to work. You can generate a Heroku API key
             # from the command-line with `heroku authorizations:create` for
             # production apps or `heroku auth:token` for development.
-            #
-            # Also be sure to set TENANTS2_HEROKU_APP to the Heroku app name
-            # you want to deploy to.
             curl https://cli-assets.heroku.com/install.sh | sh
             if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
-              heroku git:remote -a ${TENANTS2_PROD_HEROKU_APP}
+              # This should be the Heroku app name of our production instance.
+              heroku git:remote -a tenants2
             else
-              heroku git:remote -a ${TENANTS2_DEV_HEROKU_APP}
+              # This should be the Heroku app name of our development instance.
+              heroku git:remote -a tenants2-dev
             fi
             python deploy.py heroku -r heroku --cache-from-docker-registry
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - boop
-      # - build
-      # - deploy:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: master
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - production

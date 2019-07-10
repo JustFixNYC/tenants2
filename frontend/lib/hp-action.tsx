@@ -254,8 +254,6 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   }],
   stepsToFillOut: [
     { path: Routes.locale.hp.sue, component: Sue },
-    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
-      shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.issues.prefix, component: HPActionIssuesRoutes,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.tenantChildren, component: TenantChildren,
@@ -273,6 +271,8 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.harassmentAllegations2, component: HarassmentAllegations2,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.harassmentExplain, component: HarassmentExplain,
+      shouldBeSkipped: isNotSuingForHarassment },
+    { path: Routes.locale.hp.harassmentCaseHistory, component: HarassmentCaseHistory,
       shouldBeSkipped: isNotSuingForHarassment },
     { path: Routes.locale.hp.feeWaiverStart, exact: true, component: FeeWaiverStart },
     { path: Routes.locale.hp.feeWaiverMisc, component: FeeWaiverMisc,

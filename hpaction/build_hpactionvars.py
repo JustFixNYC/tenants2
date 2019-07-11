@@ -215,9 +215,23 @@ def fill_harassment_allegations(v: hp.HPActionVariables, h: HarassmentDetails) -
         setattr(v, get_hpactionvars_attr_for_harassment_alleg(entry.name), value)
 
 
+def flip_null_bool(value: Optional[bool]) -> Optional[bool]:
+    '''
+    >>> flip_null_bool(None)
+    >>> flip_null_bool(False)
+    True
+    >>> flip_null_bool(True)
+    False
+    '''
+
+    if value is None:
+        return value
+    return not value
+
+
 def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
     fill_harassment_allegations(v, h)
-    v.more_than_2_apartments_in_building_tf = h.more_than_two_apartments_in_building
+    v.more_than_2_apartments_in_building_tf = flip_null_bool(h.two_or_less_apartments_in_building)
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
     v.harassment_details_te = h.harassment_details
 

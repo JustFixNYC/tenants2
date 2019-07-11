@@ -41,6 +41,10 @@ class HarassmentDetails(models.Model):
         help_text="The user whom the harassment details are for."
     )
 
+    two_or_less_apartments_in_building: Optional[bool] = models.NullBooleanField(
+        help_text="Does you building have 2 apartments or less?"
+    )
+
     more_than_two_apartments_in_building: Optional[bool] = models.NullBooleanField(
         help_text="Are there more than two apartments in your building?"
     )

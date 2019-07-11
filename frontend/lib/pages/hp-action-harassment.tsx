@@ -16,13 +16,13 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
   title: "Your apartment",
   mutation: HarassmentApartmentMutation,
   toFormInput: h => h.yesNoRadios(
-    'moreThanOneFamilyPerApartment', 'moreThanTwoApartmentsInBuilding').finish(),
+    'moreThanOneFamilyPerApartment', 'twoOrLessApartmentsInBuilding').finish(),
   renderIntro: () => <>
     To sue your landlord for harassment, we need to know a few details about your apartment.
   </>,
   renderForm: ctx => <>
-    <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanTwoApartmentsInBuilding')}
-      label="Are there more than 2 apartments in your building?" />
+    <YesNoRadiosFormField {...ctx.fieldPropsFor('twoOrLessApartmentsInBuilding')}
+      label="Does you building have 2 apartments or less?" />
     <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanOneFamilyPerApartment')}
       label="Is there more than one family living in each apartment?" />
   </>

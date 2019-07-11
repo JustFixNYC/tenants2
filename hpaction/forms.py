@@ -160,11 +160,11 @@ class HarassmentApartmentForm(forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
-            'more_than_two_apartments_in_building',
+            'two_or_less_apartments_in_building',
             'more_than_one_family_per_apartment',
         ]
 
-    more_than_two_apartments_in_building = YesNoRadiosField()
+    two_or_less_apartments_in_building = YesNoRadiosField()
     more_than_one_family_per_apartment = YesNoRadiosField()
 
 

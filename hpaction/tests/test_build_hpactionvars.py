@@ -246,7 +246,7 @@ def test_sue_for_harassment_works():
 
 def test_fill_harassment_details_works():
     h = HarassmentDetailsFactory.build(
-        more_than_two_apartments_in_building=True,
+        two_or_less_apartments_in_building=False,
         more_than_one_family_per_apartment=False,
         alleg_sued=True,
         harassment_details="Blarg"
@@ -262,7 +262,7 @@ def test_fill_harassment_details_works():
 
 
 def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
-    har = HarassmentDetailsFactory(more_than_two_apartments_in_building=True)
+    har = HarassmentDetailsFactory(two_or_less_apartments_in_building=False)
     PriorCaseFactory(user=har.user)
     v = user_to_hpactionvars(har.user)
     assert v.sue_for_harassment_tf is None

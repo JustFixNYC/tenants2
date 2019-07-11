@@ -1460,18 +1460,6 @@
               "deprecationReason": null
             },
             {
-              "name": "moreThanTwoApartmentsInBuilding",
-              "description": "Are there more than two apartments in your building?",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "moreThanOneFamilyPerApartment",
               "description": "Is there more than one family living in each apartment?",
               "args": [],

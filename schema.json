@@ -1448,6 +1448,18 @@
           "description": null,
           "fields": [
             {
+              "name": "twoOrLessApartmentsInBuilding",
+              "description": "Does you building have 2 apartments or less?",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "moreThanTwoApartmentsInBuilding",
               "description": "Are there more than two apartments in your building?",
               "args": [],
@@ -4975,7 +4987,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "moreThanTwoApartmentsInBuilding",
+              "name": "twoOrLessApartmentsInBuilding",
               "description": "",
               "type": {
                 "kind": "NON_NULL",

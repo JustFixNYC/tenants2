@@ -83,6 +83,9 @@ export const FeeWaiverIncome = stepBuilder.createStep({
       <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcAlimony')}>
         Alimony
       </CheckboxFormField>
+      <CheckboxFormField {...ctx.fieldPropsFor('incomeSrcSocialSecurity')}>
+        Social security
+      </CheckboxFormField>
       <ProgressiveOtherCheckboxFormField {...ctx.fieldPropsFor('incomeSrcOther')}
         baselineLabel="If you have other sources of income, please specify them."
         enhancedLabel="Please specify your other sources of income." />

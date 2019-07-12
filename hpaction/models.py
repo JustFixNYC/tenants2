@@ -113,6 +113,12 @@ class FeeWaiverDetails(models.Model):
         default=False
     )
 
+    income_src_social_security: bool = models.BooleanField(
+        verbose_name="Social security",
+        help_text="Whether the user receives income from social security.",
+        default=False
+    )
+
     income_src_other: str = models.CharField(
         max_length=100,
         help_text="Other income the user receives",
@@ -145,7 +151,8 @@ class FeeWaiverDetails(models.Model):
             'income_src_employment',
             'income_src_hra',
             'income_src_child_support',
-            'income_src_alimony'
+            'income_src_alimony',
+            'income_src_social_security',
         ]
         sources: List[str] = []
         for attr in attrs:

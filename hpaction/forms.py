@@ -16,6 +16,7 @@ class FeeWaiverIncomeForm(forms.ModelForm):
             'income_src_hra',
             'income_src_child_support',
             'income_src_alimony',
+            'income_src_social_security',
             'income_src_other',
         ]
 

@@ -7,7 +7,6 @@ import { Route } from 'react-router';
 import { assertNotNull } from './util';
 import { getAppStaticContext } from './app-static-context';
 
-
 export type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
   /**
    * The GraphQL mutation that submits the form and returns the

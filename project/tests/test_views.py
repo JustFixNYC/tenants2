@@ -8,7 +8,8 @@ from project.views import (
     execute_query,
     get_legacy_form_submission,
     fix_newlines,
-    LegacyFormSubmissionError
+    LegacyFormSubmissionError,
+    FORMS_COMMON_DATA
 )
 from users.tests.factories import UserFactory
 from .util import qdict
@@ -263,6 +264,14 @@ class TestFormsets:
         response = self.form.submit()
         assert response.status == '200 OK'
         assert 'Ensure this value has at most 5 characters (it has 17)' in response
+
+    def test_add_another_works(self):
+        second_field = 'subforms-1-exampleField'
+        assert second_field not in self.form.fields
+        self.form['subforms-0-exampleField'] = 'boop'
+        response = self.form.submit(FORMS_COMMON_DATA["LEGACY_FORMSET_ADD_BUTTON_NAME"])
+        assert response.status == '200 OK'
+        assert second_field in response.forms[0].fields
 
 
 def test_form_submission_preserves_boolean_fields(django_app):

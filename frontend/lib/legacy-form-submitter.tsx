@@ -84,16 +84,16 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
         };
         /* istanbul ignore next: this is tested by integration tests. */
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
-          const initialState: FormInput = appCtx.legacyFormSubmission.input;
-          const output: FormOutput|null = appCtx.legacyFormSubmission.result;
+          let sub: AppLegacyFormSubmission<FormInput, FormOutput> = appCtx.legacyFormSubmission;
+          const output = sub.result;
           const initialErrors = output && output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
             ...newProps,
-            initialState,
+            initialState: sub.input,
             initialErrors
           };
           if (output && output.errors.length === 0) {
-            const redirect = getSuccessRedirect(newProps, initialState, output);
+            const redirect = getSuccessRedirect(newProps, sub.input, output);
             if (redirect) {
               const appStaticCtx = assertNotNull(getAppStaticContext(props));
               appStaticCtx.url = redirect;

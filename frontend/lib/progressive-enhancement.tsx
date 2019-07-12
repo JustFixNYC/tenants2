@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import autobind from 'autobind-decorator';
 import { ga } from './google-analytics';
 
@@ -151,4 +151,19 @@ export function NoScriptFallback(props: { children: JSX.Element }): JSX.Element 
     renderEnhanced={() => null}
     renderBaseline={() => props.children}
   />;
+}
+
+/**
+ * This is a very simple custom React Hook that lets us know if we've been
+ * mounted into the DOM or not. It's useful for components whose baseline
+ * experience is very similar to its progressively-enhanced one.
+ */
+export function useProgressiveEnhancement(): boolean {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+  });
+
+  return isMounted;
 }

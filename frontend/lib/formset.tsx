@@ -5,6 +5,7 @@ import { isDeepEqual } from './util';
 import { bulmaClasses } from './bulma';
 
 import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../common-data/forms.json';
+import { useProgressiveEnhancement } from './progressive-enhancement';
 
 export interface BaseFormsetProps<FormsetInput> {
   /**
@@ -180,59 +181,42 @@ function AddButton(props: {}) {
   );
 }
 
-type State = {
-  /** Whether or not the component has been mounted to the DOM. */
-  isMounted: boolean
-};
-
 /**
  * A "formset" is a term taken from Django and refers to an array
  * of forms (e.g., the items in a to-do list).
  */
-export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetInput>, State> {
-  constructor(props: FormsetProps<FormsetInput>) {
-    super(props);
-    this.state = { isMounted: false };
-  }
+export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
+  const isMounted = useProgressiveEnhancement();
+  const { errors, name } = props;
+  const { initialForms, items } = addEmptyForms({ ...props, isMounted });
+  const canAddAnother = items.length < (props.maxNum || Infinity);
 
-  componentDidMount() {
-    this.setState({ isMounted: true });
-  }
-
-  render() {
-    const { props } = this;
-    const { isMounted } = this.state;
-    const { errors, name } = props;
-    const { initialForms, items } = addEmptyForms({ ...props, isMounted });
-    const canAddAnother = items.length < (props.maxNum || Infinity);
-
-    return (
-      <>
-        <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
-        <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
-        {items.map((item, i) => {
-          const itemErrors = errors && errors[i];
-          const ctx = new BaseFormContext({
-            idPrefix: props.idPrefix,
-            isLoading: props.isLoading,
-            errors: itemErrors,
-            namePrefix: `${name}-${i}-`,
-            currentState: item,
-            setField: (field, value) => {
-              const newItems = removeEmptyFormsAtEnd(withItemChanged(items, i, field, value), props.emptyForm);
-              props.onChange(newItems);
-            }
-          });
-          return (
-            <React.Fragment key={i}>
-              <NonFieldErrors errors={itemErrors} />
-              {props.children(ctx, i)}
-              {ctx.logWarnings()}
-            </React.Fragment>
-          );
-        })}
-        {!isMounted && canAddAnother && <AddButton />}
-      </>
-    );
-  }
+  return (
+    <>
+      <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
+      <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
+      {items.map((item, i) => {
+        const itemErrors = errors && errors[i];
+        const ctx = new BaseFormContext({
+          idPrefix: props.idPrefix,
+          isLoading: props.isLoading,
+          errors: itemErrors,
+          namePrefix: `${name}-${i}-`,
+          currentState: item,
+          setField: (field, value) => {
+            const newItems = removeEmptyFormsAtEnd(withItemChanged(items, i, field, value), props.emptyForm);
+            props.onChange(newItems);
+          }
+        });
+        return (
+          <React.Fragment key={i}>
+            <NonFieldErrors errors={itemErrors} />
+            {props.children(ctx, i)}
+            {ctx.logWarnings()}
+          </React.Fragment>
+        );
+      })}
+      {!isMounted && canAddAnother && <AddButton />}
+    </>
+  );
 }

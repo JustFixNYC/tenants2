@@ -239,8 +239,14 @@ def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> No
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:
     v.request_fee_waiver_tf = True
 
+    causes: List[str] = []
+    if v.sue_for_repairs_tf:
+        causes.append('failed to do repairs')
+    if v.sue_for_harassment_tf:
+        causes.append('engaged in harassing behaviors')
+
     # Completes "My case is good and worthwhile because_______".
-    v.cause_of_action_description_te = "Landlord has failed to do repairs"
+    v.cause_of_action_description_te = f"Landlord has {' and '.join(causes)}"
 
     # Waive any and all statutory fees for the defense or prosecution of the action.
     v.ifp_what_orders_ms = [hp.IFPWhatOrdersMS.FEES]
@@ -367,8 +373,6 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     for cissue in user.custom_issues.all():
         v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
 
-    fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
-
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
     fill_if_user_has(fill_hp_action_details, v, user, 'hp_action_details')
@@ -376,6 +380,8 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
     if v.sue_for_harassment_tf:
         fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
         fill_prior_cases(v, user)
+
+    fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
 
     # Assume the tenant always wants to serve the papers themselves.
     v.tenant_wants_to_serve_tf = True

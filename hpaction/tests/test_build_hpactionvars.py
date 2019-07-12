@@ -148,7 +148,7 @@ def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb, use_b
 
 
 def test_fill_fee_waiver_details_works():
-    v = hp.HPActionVariables()
+    v = hp.HPActionVariables(sue_for_repairs_tf=True)
     fwd = FeeWaiverDetails(
         receives_public_assistance=True,
         rent_amount=Decimal('5.00'),
@@ -162,6 +162,7 @@ def test_fill_fee_waiver_details_works():
     )
     fill_fee_waiver_details(v, fwd)
 
+    assert v.cause_of_action_description_te == "Landlord has failed to do repairs"
     assert v.request_fee_waiver_tf is True
     assert v.tenant_receives_public_assistance_tf is True
     assert v.tenant_income_nu == 11.50
@@ -173,11 +174,13 @@ def test_fill_fee_waiver_details_works():
     assert v.reason_for_further_application_te is None
 
     fwd.asked_before = True
-    v = hp.HPActionVariables()
+    v = hp.HPActionVariables(sue_for_repairs_tf=True, sue_for_harassment_tf=True)
     fill_fee_waiver_details(v, fwd)
 
     assert v.previous_application_tf is True
     assert v.reason_for_further_application_te == "economic hardship"
+    assert v.cause_of_action_description_te == \
+        "Landlord has failed to do repairs and engaged in harassing behaviors"
 
 
 def test_fill_tenant_children_works_when_there_are_no_children():

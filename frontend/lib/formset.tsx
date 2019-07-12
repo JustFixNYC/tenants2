@@ -165,11 +165,6 @@ export function addEmptyForms<FormsetInput>(options: {
   return { initialForms, items };
 }
 
-type State = {
-  /** Whether or not the component has been mounted to the DOM. */
-  isMounted: boolean
-};
-
 function AddButton(props: {}) {
   return (
     <div className="field">
@@ -184,6 +179,11 @@ function AddButton(props: {}) {
     </div>
   );
 }
+
+type State = {
+  /** Whether or not the component has been mounted to the DOM. */
+  isMounted: boolean
+};
 
 /**
  * A "formset" is a term taken from Django and refers to an array

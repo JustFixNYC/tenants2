@@ -155,7 +155,7 @@ export function NoScriptFallback(props: { children: JSX.Element }): JSX.Element 
 
 /**
  * This is a very simple custom React Hook that lets us know if we've been
- * mounted into the DOM or not. It's useful for components whose baseline
+ * mounted into the DOM or not. It's useful for any component whose baseline
  * experience is very similar to its progressively-enhanced one.
  */
 export function useProgressiveEnhancement(): boolean {

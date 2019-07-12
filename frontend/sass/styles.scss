@@ -231,6 +231,7 @@ fieldset {
         counter-increment: jf-biglist-counter;
         position: relative;
         padding-bottom: 2em;
+        min-height: 5em;
     }
 
     li:last-child {

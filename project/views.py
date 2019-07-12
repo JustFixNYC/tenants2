@@ -176,11 +176,14 @@ def get_legacy_form_submission(request):
     input = django_graphql_forms.convert_post_data_to_input(
         form_class, request.POST, formset_classes, exclude_fields)
 
-    result = execute_query(request, graphql, variables={'input': input})
+    if request.POST.get('legacyFormsetAddButton'):
+        result = None
+    else:
+        result = execute_query(request, graphql, variables={'input': input})
 
     return {
         'input': input,
-        'result': result['output'],
+        'result': None if result is None else result['output'],
         'POST': fix_newlines(request.POST.dict())
     }
 

@@ -7,16 +7,6 @@ import { Route } from 'react-router';
 import { assertNotNull } from './util';
 import { getAppStaticContext } from './app-static-context';
 
-/**
- * Any <input> elements with a `name` attribute that start with this
- * prefix will prevent the website from redirecting the user to a different
- * page after they submit the form.
- */
-export const LEGACY_PERSIST_FORM_PREFIX = 'legacyPersistForm';
-
-function shouldPersistForm(POST: AppLegacyFormSubmission["POST"]): boolean {
-  return Object.keys(POST).some(name => name.startsWith(LEGACY_PERSIST_FORM_PREFIX));
-}
 
 export type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
   /**
@@ -95,16 +85,16 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
         /* istanbul ignore next: this is tested by integration tests. */
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
           const initialState: FormInput = appCtx.legacyFormSubmission.input;
-          const output: FormOutput = appCtx.legacyFormSubmission.result;
-          const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
+          const output: FormOutput|null = appCtx.legacyFormSubmission.result;
+          const initialErrors = output && output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
             ...newProps,
             initialState,
             initialErrors
           };
-          if (output.errors.length === 0) {
+          if (output && output.errors.length === 0) {
             const redirect = getSuccessRedirect(newProps, initialState, output);
-            if (redirect && !shouldPersistForm(appCtx.legacyFormSubmission.POST)) {
+            if (redirect) {
               const appStaticCtx = assertNotNull(getAppStaticContext(props));
               appStaticCtx.url = redirect;
               return null;

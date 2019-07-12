@@ -2,7 +2,6 @@ import React from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from './util';
-import { LEGACY_PERSIST_FORM_PREFIX } from './legacy-form-submitter';
 import { bulmaClasses } from './bulma';
 
 export interface BaseFormsetProps<FormsetInput> {
@@ -215,7 +214,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             </React.Fragment>
           );
         })}
-        {!isMounted && canAddAnother && <div className="field"><input type="submit" name={`${LEGACY_PERSIST_FORM_PREFIX}Add`} className={bulmaClasses('button')} value="Save and add another" /></div>}
+        {!isMounted && canAddAnother && <div className="field"><input type="submit" name="legacyFormsetAddButton" className={bulmaClasses('button')} value="Add another" /></div>}
       </>
     );
   }

@@ -173,6 +173,12 @@ type State = {
 function AddButton(props: {}) {
   return (
     <div className="field">
+      {/**
+        * Ugh, we need to insert an "invisible" submit button here to make it the default
+        * instead of the add button, in case the user presses enter. Unfortunately this
+        * might end up confusing screen reader users, but hopefully not.
+        */}
+      <input type="submit" value="Submit form" className="jf-sr-only" tabIndex={-1} />
       <input type="submit" name={LEGACY_FORMSET_ADD_BUTTON_NAME} className={bulmaClasses('button')}
              value="Add another" />
     </div>

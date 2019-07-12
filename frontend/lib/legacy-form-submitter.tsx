@@ -7,6 +7,17 @@ import { Route } from 'react-router';
 import { assertNotNull } from './util';
 import { getAppStaticContext } from './app-static-context';
 
+/**
+ * Any <input> elements with a `name` attribute that start with this
+ * prefix will prevent the website from redirecting the user to a different
+ * page after they submit the form.
+ */
+export const LEGACY_PERSIST_FORM_PREFIX = 'legacyPersistForm';
+
+function shouldPersistForm(POST: AppLegacyFormSubmission["POST"]): boolean {
+  return Object.keys(POST).some(name => name.startsWith(LEGACY_PERSIST_FORM_PREFIX));
+}
+
 export type LegacyFormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = Omit<FormSubmitterProps<FormInput, FormOutput>, 'onSubmit'> & {
   /**
    * The GraphQL mutation that submits the form and returns the
@@ -93,16 +104,11 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
           };
           if (output.errors.length === 0) {
             const redirect = getSuccessRedirect(newProps, initialState, output);
-            if (redirect) {
+            if (redirect && !shouldPersistForm(appCtx.legacyFormSubmission.POST)) {
               const appStaticCtx = assertNotNull(getAppStaticContext(props));
               appStaticCtx.url = redirect;
               return null;
             }
-            // TODO: If we're still here, that means the form submission was successful.
-            // When processing forms on the client-side, we'd call the form's onSuccess
-            // handler here, but we don't want to do that here because it would likely
-            // result in a component state change, and our components are stateless
-            // during server-side rendering. So I'm not really sure what to do here.
           }
         }
         return <FormSubmitterWithoutRouter {...newProps} />;

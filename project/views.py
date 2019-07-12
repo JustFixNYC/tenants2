@@ -15,6 +15,7 @@ from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_pool import LambdaPool
 from project.schema import schema
+from project import common_data
 import project.health
 
 # This is changed by test suites to ensure that
@@ -23,6 +24,8 @@ import project.health
 TEST_INTERNAL_SERVER_ERROR = False
 
 FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries' / 'autogen'
+
+FORMS_COMMON_DATA = common_data.load_json("forms.json")
 
 NS_PER_MS = 1e+6
 
@@ -154,6 +157,12 @@ def fix_newlines(d: Dict[str, str]) -> Dict[str, str]:
     return result
 
 
+def get_legacy_form_submission_result(request, graphql, input):
+    if request.POST.get(FORMS_COMMON_DATA["LEGACY_FORMSET_ADD_BUTTON_NAME"]):
+        return None
+    return execute_query(request, graphql, variables={'input': input})['output']
+
+
 def get_legacy_form_submission(request):
     graphql = request.POST.get('graphql')
 
@@ -176,14 +185,9 @@ def get_legacy_form_submission(request):
     input = django_graphql_forms.convert_post_data_to_input(
         form_class, request.POST, formset_classes, exclude_fields)
 
-    if request.POST.get('legacyFormsetAddButton'):
-        result = None
-    else:
-        result = execute_query(request, graphql, variables={'input': input})
-
     return {
         'input': input,
-        'result': None if result is None else result['output'],
+        'result': get_legacy_form_submission_result(request, graphql, input),
         'POST': fix_newlines(request.POST.dict())
     }
 

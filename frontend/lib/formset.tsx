@@ -4,6 +4,8 @@ import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from './util';
 import { bulmaClasses } from './bulma';
 
+import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../common-data/forms.json';
+
 export interface BaseFormsetProps<FormsetInput> {
   /**
    * The current state of all the forms in the formset.
@@ -168,6 +170,15 @@ type State = {
   isMounted: boolean
 };
 
+function AddButton(props: {}) {
+  return (
+    <div className="field">
+      <input type="submit" name={LEGACY_FORMSET_ADD_BUTTON_NAME} className={bulmaClasses('button')}
+             value="Add another" />
+    </div>
+  );
+}
+
 /**
  * A "formset" is a term taken from Django and refers to an array
  * of forms (e.g., the items in a to-do list).
@@ -214,7 +225,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             </React.Fragment>
           );
         })}
-        {!isMounted && canAddAnother && <div className="field"><input type="submit" name="legacyFormsetAddButton" className={bulmaClasses('button')} value="Add another" /></div>}
+        {!isMounted && canAddAnother && <AddButton />}
       </>
     );
   }

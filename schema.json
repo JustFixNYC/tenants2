@@ -1222,6 +1222,22 @@
               "deprecationReason": null
             },
             {
+              "name": "incomeSrcSocialSecurity",
+              "description": "Whether the user receives income from social security.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "incomeSrcOther",
               "description": "Other income the user receives",
               "args": [],
@@ -5737,6 +5753,20 @@
             {
               "name": "incomeSrcAlimony",
               "description": "Whether the user receives income from alimony.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "incomeSrcSocialSecurity",
+              "description": "Whether the user receives income from social security.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

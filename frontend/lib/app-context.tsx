@@ -5,12 +5,16 @@ import { GraphQLFetch } from './graphql-client';
 import { buildContextHocFactory } from './context-util';
 
 /** Metadata about forms submitted via legacy POST. */
-export interface AppLegacyFormSubmission {
+export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
   /** The original form input. */
-  input: any;
+  input: FormInput;
 
-  /** The result of the GraphQL mutation for the form. */
-  result: any;
+  /**
+   * The result of the GraphQL mutation for the form. It may be `null` if
+   * the server didn't actually validate and process the form, e.g.
+   * if the user clicked "add another" on a formset.
+   */
+  result: FormOutput|null;
 
   /**
    * The raw POST data. If more than one value was supplied for a key,

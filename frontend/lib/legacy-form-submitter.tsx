@@ -83,26 +83,21 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
         };
         /* istanbul ignore next: this is tested by integration tests. */
         if (appCtx.legacyFormSubmission && isSubmissionOurs(appCtx.legacyFormSubmission)) {
-          const initialState: FormInput = appCtx.legacyFormSubmission.input;
-          const output: FormOutput = appCtx.legacyFormSubmission.result;
-          const initialErrors = output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
+          let sub: AppLegacyFormSubmission<FormInput, FormOutput> = appCtx.legacyFormSubmission;
+          const output = sub.result;
+          const initialErrors = output && output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
             ...newProps,
-            initialState,
+            initialState: sub.input,
             initialErrors
           };
-          if (output.errors.length === 0) {
-            const redirect = getSuccessRedirect(newProps, initialState, output);
+          if (output && output.errors.length === 0) {
+            const redirect = getSuccessRedirect(newProps, sub.input, output);
             if (redirect) {
               const appStaticCtx = assertNotNull(getAppStaticContext(props));
               appStaticCtx.url = redirect;
               return null;
             }
-            // TODO: If we're still here, that means the form submission was successful.
-            // When processing forms on the client-side, we'd call the form's onSuccess
-            // handler here, but we don't want to do that here because it would likely
-            // result in a component state change, and our components are stateless
-            // during server-side rendering. So I'm not really sure what to do here.
           }
         }
         return <FormSubmitterWithoutRouter {...newProps} />;

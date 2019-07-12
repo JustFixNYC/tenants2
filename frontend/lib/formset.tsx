@@ -2,6 +2,9 @@ import React from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from './util';
+import { bulmaClasses } from './bulma';
+
+import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../common-data/forms.json';
 
 export interface BaseFormsetProps<FormsetInput> {
   /**
@@ -162,6 +165,21 @@ export function addEmptyForms<FormsetInput>(options: {
   return { initialForms, items };
 }
 
+function AddButton(props: {}) {
+  return (
+    <div className="field">
+      {/**
+        * Ugh, we need to insert an "invisible" submit button here to make it the default
+        * instead of the add button, in case the user presses enter. Unfortunately this
+        * might end up confusing screen reader users, but hopefully not.
+        */}
+      <input type="submit" value="Submit form" className="jf-sr-only" tabIndex={-1} />
+      <input type="submit" name={LEGACY_FORMSET_ADD_BUTTON_NAME} className={bulmaClasses('button')}
+             value="Add another" />
+    </div>
+  );
+}
+
 type State = {
   /** Whether or not the component has been mounted to the DOM. */
   isMounted: boolean
@@ -186,6 +204,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
     const { isMounted } = this.state;
     const { errors, name } = props;
     const { initialForms, items } = addEmptyForms({ ...props, isMounted });
+    const canAddAnother = items.length < (props.maxNum || Infinity);
 
     return (
       <>
@@ -212,6 +231,7 @@ export class Formset<FormsetInput> extends React.Component<FormsetProps<FormsetI
             </React.Fragment>
           );
         })}
+        {!isMounted && canAddAnother && <AddButton />}
       </>
     );
   }

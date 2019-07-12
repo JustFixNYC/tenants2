@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement, NoScriptFallback } from "../progressive-enhancement";
+import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement, NoScriptFallback, useProgressiveEnhancement } from "../progressive-enhancement";
 import ReactTestingLibraryPal from './rtl-pal';
 
 
@@ -134,5 +134,24 @@ describe("NoScriptFallback", () => {
   it("renders fallback content on the server", () => {
     const html = ReactDOMServer.renderToString(<Component />);
     expect(html).toMatch(/i am fallback content/);
+  });
+});
+
+describe("useProgressiveEnhancement", () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  function MyComponent() {
+    const isMounted = useProgressiveEnhancement();
+    return <p>{`isMounted is ${isMounted}`}</p>;
+  }
+
+  it("renders 'true' when mounted", () => {
+    const pal = new ReactTestingLibraryPal(<MyComponent/>);
+    expect(pal.rr.container.textContent).toBe('isMounted is true');
+  });
+
+  it("renders 'false' on the server", () => {
+    const html = ReactDOMServer.renderToString(<MyComponent />);
+    expect(html).toMatch(/isMounted is false/);
   });
 });

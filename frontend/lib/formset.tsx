@@ -192,9 +192,9 @@ function useExtraFromLegacyPOST(options: Pick<FormsetProps<any>, 'extra'|'items'
 }): number|undefined {
   const legacyCtx = useContext(LegacyFormSubmissionContext);
   if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && options.emptyForm) {
+    const prevNonEmptyForms = findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
     const prevTotalForms = parseInt(legacyCtx.POST[options.totalFormsName] || '');
-    if (!isNaN(prevTotalForms)) {
-      const prevNonEmptyForms = findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
+    if (prevTotalForms >= prevNonEmptyForms) {
       return prevTotalForms - prevNonEmptyForms + 1;
     }
   }

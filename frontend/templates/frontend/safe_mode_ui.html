@@ -3,7 +3,6 @@
   <div class="container">
     <div class="notification is-primary">
       <form method="post" action="{% url 'safe_mode:disable' %}">
-        {% csrf_token %}
         <div class="columns">
           <div class="column is-8">
             This site is currently in <strong>compatibility mode</strong>. For an enhanced
@@ -23,7 +22,6 @@
   <div class="container">
     <div class="notification is-danger">
       <form method="post" action="{% url 'safe_mode:enable' %}">
-        {% csrf_token %}
         <div class="columns">
           <div class="column is-8">
             Having problems using this page? We're sorry for the inconvenience.

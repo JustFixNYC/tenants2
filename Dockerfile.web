@@ -20,9 +20,9 @@ FROM justfixnyc/tenants2_base:0.6
 
 ENV NODE_ENV=production
 
-COPY Pipfile* requirements.production.txt /tmp/tenants2/
+COPY Pipfile* requirements.production.txt /var/tenants2/
 
-WORKDIR /tmp/tenants2
+WORKDIR /var/tenants2
 
 RUN pipenv install --system --keep-outdated \
   && pip install -r requirements.production.txt

@@ -182,25 +182,30 @@ function AddButton(props: {}) {
   );
 }
 
+function useExtraFromLegacyPOST(options: Pick<FormsetProps<any>, 'extra'|'items'|'emptyForm'> & {
+  totalFormsName: string,
+}): number|undefined {
+  const legacyCtx = useContext(LegacyFormSubmissionContext);
+  if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && options.emptyForm) {
+    const prevTotalForms = parseInt(legacyCtx.POST[options.totalFormsName] || '');
+    if (!isNaN(prevTotalForms)) {
+      const prevNonEmptyForms = findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
+      return prevTotalForms - prevNonEmptyForms + 1;
+    }
+  }
+
+  return options.extra;
+}
+
 /**
  * A "formset" is a term taken from Django and refers to an array
  * of forms (e.g., the items in a to-do list).
  */
 export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
-  const isMounted = useProgressiveEnhancement();
-  const legacyCtx = useContext(LegacyFormSubmissionContext);
   const { errors, name } = props;
   const totalFormsName = `${name}-TOTAL_FORMS`;
-  let extra = props.extra;
-
-  if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && props.emptyForm) {
-    const prevTotalForms = parseInt(legacyCtx.POST[totalFormsName] || '');
-    if (!isNaN(prevTotalForms)) {
-      const prevNonEmptyForms = findLatestNonEmptyFormIndex(props.items, props.emptyForm) + 1;
-      extra = prevTotalForms - prevNonEmptyForms + 1;
-    }
-  }
-
+  const isMounted = useProgressiveEnhancement();
+  const extra = useExtraFromLegacyPOST({ ...props, totalFormsName });
   const { initialForms, items } = addEmptyForms({ ...props, isMounted, extra });
   const canAddAnother = items.length < (props.maxNum || Infinity);
 

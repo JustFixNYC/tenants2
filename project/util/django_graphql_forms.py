@@ -65,6 +65,14 @@ def convert_form_field_to_required_string(field):
     return graphene.String(description=field.help_text, required=True)
 
 
+@convert_form_field.register(forms.BooleanField)
+def convert_form_field_to_required_boolean(field):
+    # We always want our booleans to be required; this actually
+    # used to be the default behavior of graphene-django, but it was
+    # changed byhttps://github.com/graphql-python/graphene-django/pull/613.
+    return graphene.Boolean(description=field.help_text, required=True)
+
+
 def get_input_type_from_query(query: str) -> Optional[str]:
     '''
     Given a GraphQL query for a DjangoFormMutation, return the input type, e.g.:

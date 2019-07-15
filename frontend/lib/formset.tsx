@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from './util';
@@ -6,6 +6,7 @@ import { bulmaClasses } from './bulma';
 
 import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../common-data/forms.json';
 import { useProgressiveEnhancement } from './progressive-enhancement';
+import { LegacyFormSubmissionContext } from './legacy-form-submitter';
 
 export interface BaseFormsetProps<FormsetInput> {
   /**
@@ -187,13 +188,25 @@ function AddButton(props: {}) {
  */
 export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
   const isMounted = useProgressiveEnhancement();
+  const legacyCtx = useContext(LegacyFormSubmissionContext);
   const { errors, name } = props;
-  const { initialForms, items } = addEmptyForms({ ...props, isMounted });
+  const totalFormsName = `${name}-TOTAL_FORMS`;
+  let extra = props.extra;
+
+  if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && props.emptyForm) {
+    const prevTotalForms = parseInt(legacyCtx.POST[totalFormsName] || '');
+    if (!isNaN(prevTotalForms)) {
+      const prevNonEmptyForms = findLatestNonEmptyFormIndex(props.items, props.emptyForm) + 1;
+      extra = prevTotalForms - prevNonEmptyForms + 1;
+    }
+  }
+
+  const { initialForms, items } = addEmptyForms({ ...props, isMounted, extra });
   const canAddAnother = items.length < (props.maxNum || Infinity);
 
   return (
     <>
-      <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
+      <input type="hidden" name={totalFormsName} value={items.length} />
       <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
       {items.map((item, i) => {
         const itemErrors = errors && errors[i];

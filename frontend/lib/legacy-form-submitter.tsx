@@ -99,9 +99,18 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
               return null;
             }
           }
+          return (
+            <LegacyFormSubmissionContext.Provider value={appCtx.legacyFormSubmission}>
+              <FormSubmitterWithoutRouter {...newProps} />
+            </LegacyFormSubmissionContext.Provider>
+          );
         }
         return <FormSubmitterWithoutRouter {...newProps} />;
       }}
     </AppContext.Consumer>
   );
 }
+
+export type LegacyFormSubmissionContextType = AppLegacyFormSubmission|null;
+
+export const LegacyFormSubmissionContext = React.createContext<LegacyFormSubmissionContextType>(null);

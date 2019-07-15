@@ -113,4 +113,11 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
 
 export type LegacyFormSubmissionContextType = AppLegacyFormSubmission|null;
 
+/**
+ * This is a React context that represents the legacy form
+ * submission information for the current form. If
+ * it's null, it means that either no legacy POST was made,
+ * or one *was* made, but not for the current form that's being
+ * rendered.
+ */
 export const LegacyFormSubmissionContext = React.createContext<LegacyFormSubmissionContextType>(null);

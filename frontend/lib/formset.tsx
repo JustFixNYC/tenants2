@@ -182,6 +182,11 @@ function AddButton(props: {}) {
   );
 }
 
+/**
+ * If we're responding to a legacy POST, look at the previous POST data
+ * to determine how many extra forms to show. Otherwise, just return the
+ * default number of extra forms.
+ */
 function useExtraFromLegacyPOST(options: Pick<FormsetProps<any>, 'extra'|'items'|'emptyForm'> & {
   totalFormsName: string,
 }): number|undefined {

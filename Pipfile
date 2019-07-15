@@ -22,7 +22,7 @@ dj-database-url = "==0.5.0"
 django-csp = "==3.4"
 gunicorn = "==19.9.0"
 "psycopg2-binary" = "==2.7.5"
-graphene-django = "==2.2.0"
+graphene-django = "==2.4.0"
 graphene = "==2.1.3"
 graphql-core = "==2.1.0"
 pymongo = "==3.7.1"
@@ -37,7 +37,6 @@ zeep = "==3.1.0"
 pyotp = "==2.2.7"
 rapidpro-python = "==2.5.1"
 lob = "==4.0.0"
-
 # https://github.com/graphql-python/graphql-relay-py/issues/23
 graphql-relay = {editable = true,git = "https://github.com/graphql-python/graphql-relay-py.git",ref = "48856fb3cf9e6c122535076a82d862bac3c21779"}
 

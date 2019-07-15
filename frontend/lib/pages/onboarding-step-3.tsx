@@ -58,7 +58,7 @@ type LeaseModalInfo = {
 const GENERIC_NO_LEASE_WARNING = (
   <p>
     <strong className="has-text-danger">Warning:</strong> If you do not have a lease,
-    {' '}sending a letter to  your landlord could provoke retaliation and/or an eviction
+    {' '}taking action against your landlord could provoke retaliation and/or an eviction
     {' '}notice. <strong>Take caution and make sure that this service is right for you.</strong>
   </p>
 );
@@ -78,16 +78,7 @@ export const createLeaseModals = (routes: OnboardingRouteInfo): LeaseModalInfo[]
     leaseType: 'MARKET_RATE',
     component: () => (
       <LeaseInfoModal title="Market Rate lease" isWarning toNextStep={routes.step4}>
-        <p><strong className="has-text-danger">Warning:</strong> Sending a letter to  your landlord could provoke retaliation and/or an eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
-      </LeaseInfoModal>
-    )
-  },
-  {
-    route: routes.step3NychaModal,
-    leaseType: 'NYCHA',
-    component: () => (
-      <LeaseInfoModal title="NYCHA Housing Development" toNextStep={routes.step4}>
-        <p>We’ll make sure your letter gets to the head of the Housing Authority. You should also download the MyNYCHA app to make service requests.</p>
+        <p><strong className="has-text-danger">Warning:</strong> Taking action against your landlord could provoke retaliation and/or an eviction notice. <strong>Take caution and make sure that this service is right for you.</strong></p>
       </LeaseInfoModal>
     )
   },

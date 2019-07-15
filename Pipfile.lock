@@ -146,7 +146,7 @@
         },
         "graphql-relay": {
             "hashes": [
-                "sha256:2716b7245d97091af21abf096fabafac576905096d21ba7118fba722596f65db"
+                "sha256:80750a57f8d9b7dc548195c7b5b9a2ae7f5d006f11963181ed768e3709952513"
             ],
             "version": "==0.4.5"
         },

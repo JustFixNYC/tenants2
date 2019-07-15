@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from './util';
@@ -6,6 +6,7 @@ import { bulmaClasses } from './bulma';
 
 import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../common-data/forms.json';
 import { useProgressiveEnhancement } from './progressive-enhancement';
+import { LegacyFormSubmissionContext } from './legacy-form-submitter';
 
 export interface BaseFormsetProps<FormsetInput> {
   /**
@@ -182,18 +183,40 @@ function AddButton(props: {}) {
 }
 
 /**
+ * If we're responding to a legacy POST, look at the previous POST data
+ * to determine how many extra forms to show. Otherwise, just return the
+ * default number of extra forms.
+ */
+function useExtraFromLegacyPOST(options: Pick<FormsetProps<any>, 'extra'|'items'|'emptyForm'> & {
+  totalFormsName: string,
+}): number|undefined {
+  const legacyCtx = useContext(LegacyFormSubmissionContext);
+  if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && options.emptyForm) {
+    const prevNonEmptyForms = findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
+    const prevTotalForms = parseInt(legacyCtx.POST[options.totalFormsName] || '');
+    if (prevTotalForms >= prevNonEmptyForms) {
+      return prevTotalForms - prevNonEmptyForms + 1;
+    }
+  }
+
+  return options.extra;
+}
+
+/**
  * A "formset" is a term taken from Django and refers to an array
  * of forms (e.g., the items in a to-do list).
  */
 export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
-  const isMounted = useProgressiveEnhancement();
   const { errors, name } = props;
-  const { initialForms, items } = addEmptyForms({ ...props, isMounted });
+  const totalFormsName = `${name}-TOTAL_FORMS`;
+  const isMounted = useProgressiveEnhancement();
+  const extra = useExtraFromLegacyPOST({ ...props, totalFormsName });
+  const { initialForms, items } = addEmptyForms({ ...props, isMounted, extra });
   const canAddAnother = items.length < (props.maxNum || Infinity);
 
   return (
     <>
-      <input type="hidden" name={`${name}-TOTAL_FORMS`} value={items.length} />
+      <input type="hidden" name={totalFormsName} value={items.length} />
       <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
       {items.map((item, i) => {
         const itemErrors = errors && errors[i];

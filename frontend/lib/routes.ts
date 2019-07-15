@@ -88,7 +88,6 @@ function createOnboardingRouteInfo(prefix: string) {
     step3: `${prefix}/step/3`,
     step3RentStabilizedModal: `${prefix}/step/3/rent-stabilized-modal`,
     step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,
-    step3NychaModal: `${prefix}/step/3/nycha-modal`,
     step3OtherModal: `${prefix}/step/3/other-modal`,
     step3NoLeaseModal: `${prefix}/step/3/no-lease-modal`,
     step3LearnMoreModals: {

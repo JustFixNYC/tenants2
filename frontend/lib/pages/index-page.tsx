@@ -90,10 +90,6 @@ export default class IndexPage extends React.Component<IndexPageProps> {
           <div className="tile is-ancestor">
             <div className="tile is-parent is-6">
               <div className="tile is-child box">
-                <div className="media">
-                  <div className="media-left">
-                 
-                  </div>
                   <div className="media-content">
                     <p className="image container is-128x128">
                       <StaticImage className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
@@ -105,14 +101,10 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                       Veronica, 45 years old <br /> Hamilton Heights
                     </h5>
                   </div>
-                </div>
               </div>
             </div>
             <div className="tile is-parent is-6">
               <div className="tile is-child box">
-                <div className="media">
-                  <div className="media-left">
-                  </div>
                   <div className="media-content">
                   <p className="image container is-128x128">
                       <StaticImage className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
@@ -123,7 +115,6 @@ export default class IndexPage extends React.Component<IndexPageProps> {
                     <h5 className="title has-text-centered is-5">
                       Steven, 36 years old <br /> East New York
                     </h5>
-                  </div>
                 </div>
               </div>
             </div>

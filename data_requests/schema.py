@@ -9,6 +9,8 @@ class DataRequestResult(graphene.ObjectType):
 
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
+    if not landlords.strip():
+        return None
     return DataRequestResult(
         csv_url="https://example.com/todo-fill-this-out",
         csv_snippet=f"TODO: put CSV snippet for '{landlords}' search here"

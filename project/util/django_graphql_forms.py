@@ -430,6 +430,45 @@ class GrapheneDjangoFormMixin:
     )
 
     @classmethod
+    def populate_meta_options_and_get_input_fields(
+        cls,
+        _meta: DjangoFormOptionsMixin,
+        form_class: Type[forms.Form],
+        formset_classes: Optional[FormsetClasses] = None,
+        only_fields=(), exclude_fields=()
+    ):
+        form = form_class()
+        input_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        formset_classes = formset_classes or {}
+
+        for (formset_name, formset_class) in formset_classes.items():
+            formset_form = get_formset_form(formset_class())
+            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
+            formset_form_type = type(
+                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
+                (graphene.InputObjectType,),
+                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
+            )
+            if formset_name in input_fields:
+                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
+            input_field_for_form = yank_fields_from_attrs({
+                formset_name: graphene.List(
+                    graphene.NonNull(formset_form_type),
+                    required=True
+                )
+            })
+            input_fields.update(input_field_for_form)
+
+        _meta.form_class = form_class
+        _meta.formset_classes = formset_classes
+        _meta.exclude_fields = exclude_fields
+
+        input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
+
+        return input_fields
+
+    @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
         '''
         Given the name of a GraphQL input type that has been defined by us,
@@ -510,36 +549,14 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         formset_classes: Optional[FormsetClasses] = None,
         only_fields=(), exclude_fields=(), **options
     ):
-        # TODO: Consolidate repeated code w/ mutation version.
-        form = form_class()
-        input_fields = fields_for_form(form, only_fields, exclude_fields)
-
-        formset_classes = formset_classes or {}
-
-        for (formset_name, formset_class) in formset_classes.items():
-            formset_form = get_formset_form(formset_class())
-            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
-            formset_form_type = type(
-                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
-                (graphene.InputObjectType,),
-                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
-            )
-            if formset_name in input_fields:
-                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
-            input_field_for_form = yank_fields_from_attrs({
-                formset_name: graphene.List(
-                    graphene.NonNull(formset_form_type),
-                    required=True
-                )
-            })
-            input_fields.update(input_field_for_form)
-
         _meta = DjangoFormQueryOptions(cls)
-        _meta.form_class = form_class
-        _meta.formset_classes = formset_classes
-        _meta.exclude_fields = exclude_fields
-
-        input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
+        input_fields = cls.populate_meta_options_and_get_input_fields(
+            _meta=_meta,
+            form_class=form_class,
+            formset_classes=formset_classes,
+            only_fields=only_fields,
+            exclude_fields=exclude_fields,
+        )
 
         cls.Input = type(
             "{}Input".format(cls.__name__),
@@ -548,9 +565,7 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         )
         _meta.arguments = OrderedDict(input=cls.Input(required=True))
 
-        super().__init_subclass_with_meta__(
-            _meta=_meta, **options
-        )
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
         cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
@@ -599,35 +614,15 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
         formset_classes: Optional[FormsetClasses] = None,
         only_fields=(), exclude_fields=(), **options
     ):
-        form = form_class()
-        input_fields = fields_for_form(form, only_fields, exclude_fields)
-
-        formset_classes = formset_classes or {}
-
-        for (formset_name, formset_class) in formset_classes.items():
-            formset_form = get_formset_form(formset_class())
-            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
-            formset_form_type = type(
-                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
-                (graphene.InputObjectType,),
-                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
-            )
-            if formset_name in input_fields:
-                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
-            input_field_for_form = yank_fields_from_attrs({
-                formset_name: graphene.List(
-                    graphene.NonNull(formset_form_type),
-                    required=True
-                )
-            })
-            input_fields.update(input_field_for_form)
-
         _meta = DjangoFormMutationOptions(cls)
-        _meta.form_class = form_class
-        _meta.formset_classes = formset_classes
-        _meta.exclude_fields = exclude_fields
+        input_fields = cls.populate_meta_options_and_get_input_fields(
+            _meta=_meta,
+            form_class=form_class,
+            formset_classes=formset_classes,
+            only_fields=only_fields,
+            exclude_fields=exclude_fields,
+        )
 
-        input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
         super().__init_subclass_with_meta__(
             _meta=_meta, input_fields=input_fields, **options
         )

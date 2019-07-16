@@ -390,19 +390,16 @@ class FormWithFormsets:
 
 
 class DjangoFormOptionsMixin:
+    '''
+    Attributes common to any Meta class in a GraphQL query
+    that uses Django forms for validation.
+    '''
+
     form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
 
     formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
 
     exclude_fields: Optional[Iterable[str]] = None
-
-
-class DjangoFormQueryOptions(DjangoFormOptionsMixin, ObjectTypeOptions):
-    arguments: Optional[Dict[str, Argument]] = None
-
-
-class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
-    pass
 
 
 class GrapheneDjangoFormMixin:
@@ -589,6 +586,14 @@ class GrapheneDjangoFormMixin:
         return cls(errors=errors)  # type: ignore
 
 
+class DjangoFormQueryOptions(DjangoFormOptionsMixin, ObjectTypeOptions):
+    '''
+    Attributes in the Meta class for DjangoFormQuery.
+    '''
+
+    arguments: Optional[Dict[str, Argument]] = None
+
+
 class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
     '''
     This can be used for making any GraphQL query (not a
@@ -651,6 +656,14 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
             deprecation_reason=deprecation_reason,
             required=required,
         )
+
+
+class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
+    '''
+    Attributes in the Meta class for DjangoFormMutation.
+    '''
+
+    pass
 
 
 class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):

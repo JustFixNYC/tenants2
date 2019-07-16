@@ -13,6 +13,7 @@ from django.contrib.auth.models import AnonymousUser
 from users.tests.factories import UserFactory
 from ..util.django_graphql_forms import (
     DjangoFormMutation,
+    DjangoFormQuery,
     get_input_type_from_query,
     convert_post_data_to_input,
     convert_post_data_to_form_data,
@@ -172,6 +173,49 @@ def execute_formsets_query(simples, errors='field, messages'):
     ''' % {
         'errors': errors
     }, variables={'input': input_var}, context=create_fake_request()))
+
+
+def test_non_mutation_form_query_works():
+    class FormQueryForm(forms.Form):
+        my_field = forms.CharField(max_length=5)
+
+    class FormQuery(DjangoFormQuery):
+        class Meta:
+            form_class = FormQueryForm
+
+        response = graphene.String()
+
+        @classmethod
+        def perform_query(cls, form, info):
+            return cls(response=f"hello there from query {form.cleaned_data['my_field']}")
+
+    class Queries(graphene.ObjectType):
+        form_query = FormQuery.Field()
+
+    schema = graphene.Schema(query=Queries)
+
+    client = Client(schema)
+
+    response = jsonify(client.execute('''
+    query {
+        formQuery(input: {myField:"boop"}) {
+            errors {
+                field,
+                messages
+            },
+            response
+        }
+    }
+    ''', context=create_fake_request()))
+
+    assert response == {
+        'data': {
+            'formQuery': {
+                'errors': [],
+                'response': 'hello there from query boop'
+            }
+        }
+    }
 
 
 def test_formsets_query_works():

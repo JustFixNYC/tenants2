@@ -406,6 +406,17 @@ class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
 
 
 class GrapheneDjangoFormMixin:
+    '''
+    This mixin class for Graphene's ObjectType can be used to add
+    plumbing common to a GraphQL query that uses at least one
+    Django form for validation.
+
+    This class is needed because Graphene uses different classes
+    for GraphQL queries and mutations, and we want to use Django
+    forms for validating both (this is analogous to using Django
+    forms for both GET and POST requests).
+    '''
+
     query_type: str = "[Subclasses should define this!]"
 
     _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
@@ -579,6 +590,13 @@ class GrapheneDjangoFormMixin:
 
 
 class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
+    '''
+    This can be used for making any GraphQL query (not a
+    mutation) use at least one Django form for validation. It
+    is the GraphQL analog to using Django forms for a
+    GET request.
+    '''
+
     class Meta:
         abstract = True
 
@@ -637,6 +655,10 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
 
 class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
     '''
+    This can be used for making any GraphQL mutation use at least
+    one Django form for validation. It is the GraphQL analog to
+    using Django forms for a POST request.
+
     This is similar to Graphene-Django's eponymous class, but makes enough
     changes to its behavior that it's easier to just derive the class
     from Graphene's ClientIDMutation rather than subclass Graphene-Django's

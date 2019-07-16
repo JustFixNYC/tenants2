@@ -5,7 +5,7 @@ from django.contrib.auth import logout, login
 from django.middleware import csrf
 from django.forms import formset_factory
 
-from project.util.django_graphql_forms import DjangoFormMutation, DjangoFormQuery
+from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from frontend import safe_mode
 from . import forms, password_reset, schema_registry
@@ -134,17 +134,6 @@ class ExampleQuery(graphene.ObjectType):
         return f"Hello {argument}"
 
 
-class ExampleFormQuery(DjangoFormQuery):
-    class Meta:
-        form_class = forms.ExampleQueryForm
-
-    response = graphene.String()
-
-    @classmethod
-    def perform_query(cls, form, info: ResolveInfo):
-        return cls(response=f"hello there from query {form.cleaned_data['example_field']}")
-
-
 @schema_registry.register_mutation
 class Login(SessionFormMutation):
     '''
@@ -249,8 +238,6 @@ class BaseQuery:
 
     example_query = graphene.NonNull(ExampleQuery)
 
-    example_form_query = ExampleFormQuery.Field(required=True)
-
     def resolve_session(self, info: ResolveInfo):
         from project.schema import SessionInfo
 
@@ -258,6 +245,3 @@ class BaseQuery:
 
     def resolve_example_query(self, info: ResolveInfo) -> ExampleQuery:
         return ExampleQuery()
-
-    def resolve_example_form_query(self, info: ResolveInfo) -> ExampleFormQuery:
-        return ExampleFormQuery()

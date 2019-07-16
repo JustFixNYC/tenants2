@@ -183,7 +183,3 @@ class ExampleSubform(forms.Form):
             # This is used during manual and automated tests to
             # ensure that non-field errors work in formsets.
             raise ValidationError('This is an example non-field error!')
-
-
-class ExampleQueryForm(forms.Form):
-    example_field = forms.CharField(max_length=5)

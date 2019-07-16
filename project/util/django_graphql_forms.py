@@ -3,7 +3,9 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
+from typing import (
+    Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable)
+from collections import OrderedDict
 from weakref import WeakValueDictionary
 from django import forms
 from django.forms import formsets
@@ -15,7 +17,8 @@ from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
 from graphql.error import GraphQLSyntaxError
 import graphene
-from graphene.types import ObjectType
+from graphene.types import ObjectType, Argument, InputObjectType, Field
+from graphene.types.objecttype import ObjectTypeOptions
 from graphene.relay.mutation import ClientIDMutation
 from graphene.types.utils import yank_fields_from_attrs
 from graphene.types.mutation import MutationOptions
@@ -386,12 +389,20 @@ class FormWithFormsets:
         return not self.errors
 
 
-class DjangoFormMutationOptions(MutationOptions):
+class DjangoFormOptionsMixin:
     form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
 
     formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
 
     exclude_fields: Optional[Iterable[str]] = None
+
+
+class DjangoFormQueryOptions(DjangoFormOptionsMixin, ObjectTypeOptions):
+    arguments: Optional[Dict[str, Argument]] = None
+
+
+class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
+    pass
 
 
 class GrapheneDjangoFormMixin:
@@ -486,6 +497,94 @@ class GrapheneDjangoFormMixin:
     def get_formset_kwargs(cls, root, info, formset_name, input):
         kwargs = {"data": cls.get_data_for_formset(input)}
         return kwargs
+
+
+class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        form_class: Type[forms.Form] = forms.Form,
+        formset_classes: Optional[FormsetClasses] = None,
+        only_fields=(), exclude_fields=(), **options
+    ):
+        # TODO: Consolidate repeated code w/ mutation version.
+        form = form_class()
+        input_fields = fields_for_form(form, only_fields, exclude_fields)
+
+        formset_classes = formset_classes or {}
+
+        for (formset_name, formset_class) in formset_classes.items():
+            formset_form = get_formset_form(formset_class())
+            formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
+            formset_form_type = type(
+                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
+                (graphene.InputObjectType,),
+                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
+            )
+            if formset_name in input_fields:
+                raise AssertionError(f'multiple definitions for "{formset_name}" exist')
+            input_field_for_form = yank_fields_from_attrs({
+                formset_name: graphene.List(
+                    graphene.NonNull(formset_form_type),
+                    required=True
+                )
+            })
+            input_fields.update(input_field_for_form)
+
+        # The original Graphene-Django implementation set the output fields
+        # to the same value as the input fields. We don't need this, and it
+        # bloats our schema, so we'll ignore it.
+        output_fields = {}  # type: ignore
+
+        _meta = DjangoFormQueryOptions(cls)
+        _meta.form_class = form_class
+        _meta.formset_classes = formset_classes
+        _meta.exclude_fields = exclude_fields
+        _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
+
+        input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
+
+        cls.Input = type(
+            "{}Input".format(cls.__name__),
+            (InputObjectType,),
+            OrderedDict(input_fields)
+        )
+        _meta.arguments = OrderedDict(input=cls.Input(required=True))
+
+        super().__init_subclass_with_meta__(
+            _meta=_meta, **options
+        )
+
+        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
+
+    @classmethod
+    def resolve(cls, root, info: ResolveInfo, input):
+        # TODO: Check cls.login_required.
+
+        form = cls.get_form(root, info, **input)
+
+        if form.is_valid():
+            return cls.perform_query(form, info)
+        else:
+            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
+            return cls(errors=errors)
+
+    @classmethod
+    def Field(
+        cls, name=None, description=None, deprecation_reason=None, required=False
+    ):
+        return Field(
+            cls,
+            args=cls._meta.arguments,
+            resolver=cls.resolve,
+            name=name,
+            description=description,
+            deprecation_reason=deprecation_reason,
+            required=required,
+        )
 
 
 class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):

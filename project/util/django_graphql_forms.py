@@ -534,16 +534,10 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
             })
             input_fields.update(input_field_for_form)
 
-        # The original Graphene-Django implementation set the output fields
-        # to the same value as the input fields. We don't need this, and it
-        # bloats our schema, so we'll ignore it.
-        output_fields = {}  # type: ignore
-
         _meta = DjangoFormQueryOptions(cls)
         _meta.form_class = form_class
         _meta.formset_classes = formset_classes
         _meta.exclude_fields = exclude_fields
-        _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
 
@@ -628,16 +622,10 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
             })
             input_fields.update(input_field_for_form)
 
-        # The original Graphene-Django implementation set the output fields
-        # to the same value as the input fields. We don't need this, and it
-        # bloats our schema, so we'll ignore it.
-        output_fields = {}  # type: ignore
-
         _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class
         _meta.formset_classes = formset_classes
         _meta.exclude_fields = exclude_fields
-        _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
         super().__init_subclass_with_meta__(

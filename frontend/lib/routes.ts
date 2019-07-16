@@ -150,6 +150,14 @@ function createHPActionRouteInfo(prefix: string) {
   }
 }
 
+function createDataRequestsRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    home: prefix,
+    multiLandlord: `${prefix}/multi-landlord`,
+  };
+}
+
 export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
 
 function createLocalizedRouteInfo(prefix: string) {
@@ -174,6 +182,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The HP Action flow. */
     hp: createHPActionRouteInfo(`${prefix}/hp`),
+
+    /** The data requests portal.  */
+    dataRequests: createDataRequestsRouteInfo(`${prefix}/data-requests`),
   }
 }
 

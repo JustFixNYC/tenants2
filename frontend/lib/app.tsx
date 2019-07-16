@@ -93,6 +93,11 @@ const LoadableDevRoutes = Loadable({
   loading: LoadingPage
 });
 
+const LoadableDataRequestsRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "data-requests" */ './pages/data-requests')),
+  loading: LoadingPage
+});
+
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
@@ -244,6 +249,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+        <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />
         <Route path={Routes.locale.passwordReset.prefix} component={LoadablePasswordResetRoutes} />
         <Route render={NotFound} />
       </Switch>

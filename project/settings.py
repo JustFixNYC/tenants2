@@ -77,7 +77,8 @@ INSTALLED_APPS = [
     'twofactor.apps.TwofactorConfig',
     'nycdb',
     'rapidpro.apps.RapidproConfig',
-    'findhelp.apps.FindhelpConfig'
+    'findhelp.apps.FindhelpConfig',
+    'data_requests.apps.DataRequestsConfig',
 ]
 
 MIDDLEWARE = [

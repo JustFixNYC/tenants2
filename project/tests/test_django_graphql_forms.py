@@ -13,6 +13,7 @@ from django.contrib.auth.models import AnonymousUser
 from users.tests.factories import UserFactory
 from ..util.django_graphql_forms import (
     DjangoFormMutation,
+    DjangoFormQuery,
     get_input_type_from_query,
     convert_post_data_to_input,
     convert_post_data_to_form_data,
@@ -172,6 +173,61 @@ def execute_formsets_query(simples, errors='field, messages'):
     ''' % {
         'errors': errors
     }, variables={'input': input_var}, context=create_fake_request()))
+
+
+class TestDjangoFormQuery:
+    @pytest.fixture(autouse=True)
+    def setup_schema(self):
+        class FormQueryForm(forms.Form):
+            my_field = forms.CharField(max_length=5)
+
+        class FormQuery(DjangoFormQuery):
+            class Meta:
+                form_class = FormQueryForm
+
+            response = graphene.String()
+
+            @classmethod
+            def perform_query(cls, form, info):
+                return cls(response=f"hello there from query {form.cleaned_data['my_field']}")
+
+        class Queries(graphene.ObjectType):
+            form_query = FormQuery.Field()
+
+        self.schema = graphene.Schema(query=Queries)
+        self.client = Client(self.schema)
+
+    def request(self, input):
+        response = jsonify(self.client.execute('''
+        query MyQuery($input: FormQueryInput!) {
+            formQuery(input: $input) {
+                errors {
+                    field,
+                    extendedMessages { message, code }
+                },
+                response
+            }
+        }
+        ''', variables={'input': input}, context=create_fake_request()))
+        return response['data']['formQuery']
+
+    def test_it_works(self):
+        assert self.request({'myField': 'boop'}) == {
+            'errors': [],
+            'response': 'hello there from query boop'
+        }
+
+    def test_it_returns_errors(self):
+        assert self.request({'myField': 'boooop'}) == {
+            'errors': [{
+                'field': 'myField',
+                'extendedMessages': [{
+                    'code': 'max_length',
+                    'message': 'Ensure this value has at most 5 characters (it has 6).'
+                }]
+            }],
+            'response': None
+        }
 
 
 def test_formsets_query_works():

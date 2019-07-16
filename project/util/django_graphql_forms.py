@@ -3,7 +3,9 @@
     to resolve some of its limitations.
 '''
 
-from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
+from typing import (
+    Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable)
+from collections import OrderedDict
 from weakref import WeakValueDictionary
 from django import forms
 from django.forms import formsets
@@ -15,6 +17,8 @@ from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
 from graphql.error import GraphQLSyntaxError
 import graphene
+from graphene.types import ObjectType, Argument, InputObjectType, Field
+from graphene.types.objecttype import ObjectTypeOptions
 from graphene.relay.mutation import ClientIDMutation
 from graphene.types.utils import yank_fields_from_attrs
 from graphene.types.mutation import MutationOptions
@@ -385,7 +389,12 @@ class FormWithFormsets:
         return not self.errors
 
 
-class DjangoFormMutationOptions(MutationOptions):
+class DjangoFormOptionsMixin:
+    '''
+    Attributes common to any Meta class in a GraphQL query
+    that uses Django forms for validation.
+    '''
+
     form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
 
     formset_classes: Optional[FormsetClasses] = None  # noqa (flake8 bug)
@@ -393,16 +402,19 @@ class DjangoFormMutationOptions(MutationOptions):
     exclude_fields: Optional[Iterable[str]] = None
 
 
-class DjangoFormMutation(ClientIDMutation):
+class GrapheneDjangoFormMixin:
     '''
-    This is similar to Graphene-Django's eponymous class, but makes enough
-    changes to its behavior that it's easier to just derive the class
-    from Graphene's ClientIDMutation rather than subclass Graphene-Django's
-    class and make pervasive modifications.
+    This mixin class for Graphene's ObjectType can be used to add
+    plumbing common to a GraphQL query that uses at least one
+    Django form for validation.
+
+    This class is needed because Graphene uses different classes
+    for GraphQL queries and mutations, and we want to use Django
+    forms for validating both (this is analogous to using Django
+    forms for both GET and POST requests).
     '''
 
-    class Meta:
-        abstract = True
+    query_type: str = "[Subclasses should define this!]"
 
     _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
         WeakValueDictionary()
@@ -428,11 +440,12 @@ class DjangoFormMutation(ClientIDMutation):
     )
 
     @classmethod
-    def __init_subclass_with_meta__(
+    def populate_meta_options_and_get_input_fields(
         cls,
-        form_class: Type[forms.Form] = forms.Form,
+        _meta: DjangoFormOptionsMixin,
+        form_class: Type[forms.Form],
         formset_classes: Optional[FormsetClasses] = None,
-        only_fields=(), exclude_fields=(), **options
+        only_fields=(), exclude_fields=()
     ):
         form = form_class()
         input_fields = fields_for_form(form, only_fields, exclude_fields)
@@ -457,23 +470,13 @@ class DjangoFormMutation(ClientIDMutation):
             })
             input_fields.update(input_field_for_form)
 
-        # The original Graphene-Django implementation set the output fields
-        # to the same value as the input fields. We don't need this, and it
-        # bloats our schema, so we'll ignore it.
-        output_fields = {}  # type: ignore
-
-        _meta = DjangoFormMutationOptions(cls)
         _meta.form_class = form_class
         _meta.formset_classes = formset_classes
         _meta.exclude_fields = exclude_fields
-        _meta.fields = yank_fields_from_attrs(output_fields, _as=graphene.Field)
 
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
-        super().__init_subclass_with_meta__(
-            _meta=_meta, input_fields=input_fields, **options
-        )
 
-        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
+        return input_fields
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
@@ -502,44 +505,6 @@ class DjangoFormMutation(ClientIDMutation):
         return mut_class._meta.exclude_fields or []
 
     @classmethod
-    def log(cls, info: ResolveInfo, msg: str) -> None:
-        parts = [f'{info.field_name} mutation']
-        user = info.context.user
-        if user.is_authenticated:
-            parts.append(f'user={user.username}')
-        preamble = ' '.join(parts)
-        logger.info(f"[{preamble}] {msg}")
-
-    @classmethod
-    def make_error(cls: Type[T], message: str, code: Optional[str] = None) -> T:
-        errors = StrictFormFieldErrorType.list_from_form_errors(
-            forms.utils.ErrorDict({
-                '__all__': forms.utils.ErrorList([
-                    ValidationError(message, code=code)
-                ])
-            })
-        )
-        return cls(errors=errors)
-
-    @classmethod
-    def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:
-        request = info.context
-
-        if cls.login_required and not request.user.is_authenticated:
-            cls.log(info, "User must be logged in to access mutation.")
-            return cls.make_error('You do not have permission to use this form!')
-
-        form = cls.get_form(root, info, **input)
-
-        if form.is_valid():
-            cls.log(info, "Form is valid, performing mutation.")
-            return cls.perform_mutate(form, info)
-        else:
-            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
-            cls.log(info, f"Form is invalid with {len(errors)} error(s).")
-            return cls(errors=errors)
-
-    @classmethod
     def get_form(cls, root, info, **input):
         form_kwargs = cls.get_form_kwargs(root, info, **input)
         form = cls._meta.form_class(**form_kwargs)
@@ -548,7 +513,7 @@ class DjangoFormMutation(ClientIDMutation):
         return FormWithFormsets(form, cls._get_formsets(root, info, **input))
 
     @classmethod
-    def _get_formsets(cls, root, info, **input) -> Formsets:
+    def _get_formsets(cls: ObjectType, root, info, **input) -> Formsets:
         formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
             formset_kwargs = cls.get_formset_kwargs(
@@ -583,10 +548,173 @@ class DjangoFormMutation(ClientIDMutation):
         return kwargs
 
     @classmethod
+    def perform_resolve(cls, root, info: ResolveInfo, resolver, **input):
+        request = info.context
+
+        if cls.login_required and not request.user.is_authenticated:
+            cls.log(info, f"User must be logged in to access {cls.query_type}.")
+            return cls.make_error('You do not have permission to use this form!')
+
+        form = cls.get_form(root, info, **input)
+
+        if form.is_valid():
+            cls.log(info, f"Form is valid, performing {cls.query_type}.")
+            return resolver(form, info)
+        else:
+            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
+            cls.log(info, f"Form is invalid with {len(errors)} error(s).")
+            return cls(errors=errors)  # type: ignore
+
+    @classmethod
+    def log(cls, info: ResolveInfo, msg: str) -> None:
+        parts = [f'{info.field_name} {cls.query_type}']
+        user = info.context.user
+        if user.is_authenticated:
+            parts.append(f'user={user.username}')
+        preamble = ' '.join(parts)
+        logger.info(f"[{preamble}] {msg}")
+
+    @classmethod
+    def make_error(cls, message: str, code: Optional[str] = None):
+        errors = StrictFormFieldErrorType.list_from_form_errors(
+            forms.utils.ErrorDict({
+                '__all__': forms.utils.ErrorList([
+                    ValidationError(message, code=code)
+                ])
+            })
+        )
+        return cls(errors=errors)  # type: ignore
+
+
+class DjangoFormQueryOptions(DjangoFormOptionsMixin, ObjectTypeOptions):
+    '''
+    Attributes in the Meta class for DjangoFormQuery.
+    '''
+
+    arguments: Optional[Dict[str, Argument]] = None
+
+
+class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
+    '''
+    This can be used for making any GraphQL query (not a
+    mutation) use at least one Django form for validation. It
+    is the GraphQL analog to using Django forms for a
+    GET request.
+    '''
+
+    class Meta:
+        abstract = True
+
+    query_type = "query"
+
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        form_class: Type[forms.Form] = forms.Form,
+        formset_classes: Optional[FormsetClasses] = None,
+        only_fields=(), exclude_fields=(), **options
+    ):
+        _meta = DjangoFormQueryOptions(cls)
+        input_fields = cls.populate_meta_options_and_get_input_fields(
+            _meta=_meta,
+            form_class=form_class,
+            formset_classes=formset_classes,
+            only_fields=only_fields,
+            exclude_fields=exclude_fields,
+        )
+
+        cls.Input = type(
+            "{}Input".format(cls.__name__),
+            (InputObjectType,),
+            OrderedDict(input_fields)
+        )
+        _meta.arguments = OrderedDict(input=cls.Input(required=True))
+
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
+
+        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
+
+    @classmethod
+    def perform_query(cls, form, info):
+        # This should be implemented by subclasses.
+        return cls(errors=[])
+
+    @classmethod
+    def query_and_get_payload(cls, root, info: ResolveInfo, input):
+        return cls.perform_resolve(root, info, cls.perform_query, **input)
+
+    @classmethod
+    def Field(
+        cls, name=None, description=None, deprecation_reason=None, required=False
+    ):
+        return Field(
+            cls,
+            args=cls._meta.arguments,
+            resolver=cls.query_and_get_payload,
+            name=name,
+            description=description,
+            deprecation_reason=deprecation_reason,
+            required=required,
+        )
+
+
+class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
+    '''
+    Attributes in the Meta class for DjangoFormMutation.
+    '''
+
+    pass
+
+
+class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
+    '''
+    This can be used for making any GraphQL mutation use at least
+    one Django form for validation. It is the GraphQL analog to
+    using Django forms for a POST request.
+
+    This is similar to Graphene-Django's eponymous class, but makes enough
+    changes to its behavior that it's easier to just derive the class
+    from Graphene's ClientIDMutation rather than subclass Graphene-Django's
+    class and make pervasive modifications.
+    '''
+
+    class Meta:
+        abstract = True
+
+    query_type = "mutation"
+
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        form_class: Type[forms.Form] = forms.Form,
+        formset_classes: Optional[FormsetClasses] = None,
+        only_fields=(), exclude_fields=(), **options
+    ):
+        _meta = DjangoFormMutationOptions(cls)
+        input_fields = cls.populate_meta_options_and_get_input_fields(
+            _meta=_meta,
+            form_class=form_class,
+            formset_classes=formset_classes,
+            only_fields=only_fields,
+            exclude_fields=exclude_fields,
+        )
+
+        super().__init_subclass_with_meta__(
+            _meta=_meta, input_fields=input_fields, **options
+        )
+
+        cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
+
+    @classmethod
+    def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:
+        return cls.perform_resolve(root, info, cls.perform_mutate, **input)
+
+    @classmethod
     def perform_mutate(cls, form, info):
+        # This should be implemented by subclasses.
         return cls(errors=[])
 
 
-get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type
-get_formset_classes_for_input_type = DjangoFormMutation.get_formset_classes_for_input_type
-get_exclude_fields_for_input_type = DjangoFormMutation.get_exclude_fields_for_input_type
+get_form_class_for_input_type = GrapheneDjangoFormMixin.get_form_class_for_input_type
+get_formset_classes_for_input_type = GrapheneDjangoFormMixin.get_formset_classes_for_input_type
+get_exclude_fields_for_input_type = GrapheneDjangoFormMixin.get_exclude_fields_for_input_type

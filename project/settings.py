@@ -427,6 +427,10 @@ if DEBUG:
         # that we need to permit if we want to use it, so
         # allow it during development.
         f'{STATIC_URL}frontend/report.html',
-        # Bleh, the GraphIQL UI has a bunch of inline script code.
+        # While the GraphIQL UI no longer has a bunch of inline
+        # script code, it does retrieve many dependencies
+        # from cdn.jsdelivr.net, and since we only use it
+        # for development it's easiest to just disable CSP
+        # on it entirely.
         '/graphiql',
     )

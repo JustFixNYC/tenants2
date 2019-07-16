@@ -15,6 +15,7 @@ from graphql.language.visitor import Visitor
 from graphql.language.ast import NamedType, VariableDefinition
 from graphql.error import GraphQLSyntaxError
 import graphene
+from graphene.types import ObjectType
 from graphene.relay.mutation import ClientIDMutation
 from graphene.types.utils import yank_fields_from_attrs
 from graphene.types.mutation import MutationOptions
@@ -393,17 +394,7 @@ class DjangoFormMutationOptions(MutationOptions):
     exclude_fields: Optional[Iterable[str]] = None
 
 
-class DjangoFormMutation(ClientIDMutation):
-    '''
-    This is similar to Graphene-Django's eponymous class, but makes enough
-    changes to its behavior that it's easier to just derive the class
-    from Graphene's ClientIDMutation rather than subclass Graphene-Django's
-    class and make pervasive modifications.
-    '''
-
-    class Meta:
-        abstract = True
-
+class GrapheneDjangoFormMixin:
     _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
         WeakValueDictionary()
 
@@ -426,6 +417,87 @@ class DjangoFormMutation(ClientIDMutation):
             "If the form was valid, this list will be empty."
         )
     )
+
+    @classmethod
+    def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
+        '''
+        Given the name of a GraphQL input type that has been defined by us,
+        return the form class it corresponds to.
+        '''
+
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.form_class
+
+    @classmethod
+    def get_formset_classes_for_input_type(cls, input_type: str) -> Optional[FormsetClasses]:
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return None
+        return mut_class._meta.formset_classes
+
+    @classmethod
+    def get_exclude_fields_for_input_type(cls, input_type: str) -> Iterable[str]:
+        mut_class = cls._input_type_to_mut_mapping.get(input_type)
+        if not mut_class:
+            return []
+        return mut_class._meta.exclude_fields or []
+
+    @classmethod
+    def get_form(cls, root, info, **input):
+        form_kwargs = cls.get_form_kwargs(root, info, **input)
+        form = cls._meta.form_class(**form_kwargs)
+        if not cls._meta.formset_classes:
+            return form
+        return FormWithFormsets(form, cls._get_formsets(root, info, **input))
+
+    @classmethod
+    def _get_formsets(cls: ObjectType, root, info, **input) -> Formsets:
+        formsets: Formsets = {}  # noqa (flake8 bug)
+        for (formset_name, formset_class) in cls._meta.formset_classes.items():
+            formset_kwargs = cls.get_formset_kwargs(
+                root, info, formset_name, input[formset_name])
+            formsets[formset_name] = formset_class(**formset_kwargs)
+        return formsets
+
+    @classmethod
+    def get_data_for_formset(cls, fsinput, initial_forms=None) -> Dict[str, Any]:
+        data: Dict[str, Any] = {}
+        data['form-TOTAL_FORMS'] = len(fsinput)
+        data['form-INITIAL_FORMS'] = len(fsinput) if initial_forms is None else initial_forms
+        for i in range(len(fsinput)):
+            for key, value in fsinput[i].items():
+                data[f'form-{i}-{key}'] = value
+        return data
+
+    @classmethod
+    def get_form_kwargs(cls, root, info, **input):
+        kwargs = {"data": input}
+
+        # Graphene-Django's implementation of this method contained
+        # some logic to retrieve the input's "id" parameter and
+        # convert it into an "instance" kwarg for the form, but
+        # we don't need it right now.
+
+        return kwargs
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info, formset_name, input):
+        kwargs = {"data": cls.get_data_for_formset(input)}
+        return kwargs
+
+
+class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
+    '''
+    This is similar to Graphene-Django's eponymous class, but makes enough
+    changes to its behavior that it's easier to just derive the class
+    from Graphene's ClientIDMutation rather than subclass Graphene-Django's
+    class and make pervasive modifications.
+    '''
+
+    class Meta:
+        abstract = True
 
     @classmethod
     def __init_subclass_with_meta__(
@@ -476,32 +548,6 @@ class DjangoFormMutation(ClientIDMutation):
         cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
     @classmethod
-    def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
-        '''
-        Given the name of a GraphQL input type that has been defined by us,
-        return the form class it corresponds to.
-        '''
-
-        mut_class = cls._input_type_to_mut_mapping.get(input_type)
-        if not mut_class:
-            return None
-        return mut_class._meta.form_class
-
-    @classmethod
-    def get_formset_classes_for_input_type(cls, input_type: str) -> Optional[FormsetClasses]:
-        mut_class = cls._input_type_to_mut_mapping.get(input_type)
-        if not mut_class:
-            return None
-        return mut_class._meta.formset_classes
-
-    @classmethod
-    def get_exclude_fields_for_input_type(cls, input_type: str) -> Iterable[str]:
-        mut_class = cls._input_type_to_mut_mapping.get(input_type)
-        if not mut_class:
-            return []
-        return mut_class._meta.exclude_fields or []
-
-    @classmethod
     def log(cls, info: ResolveInfo, msg: str) -> None:
         parts = [f'{info.field_name} mutation']
         user = info.context.user
@@ -540,53 +586,10 @@ class DjangoFormMutation(ClientIDMutation):
             return cls(errors=errors)
 
     @classmethod
-    def get_form(cls, root, info, **input):
-        form_kwargs = cls.get_form_kwargs(root, info, **input)
-        form = cls._meta.form_class(**form_kwargs)
-        if not cls._meta.formset_classes:
-            return form
-        return FormWithFormsets(form, cls._get_formsets(root, info, **input))
-
-    @classmethod
-    def _get_formsets(cls, root, info, **input) -> Formsets:
-        formsets: Formsets = {}  # noqa (flake8 bug)
-        for (formset_name, formset_class) in cls._meta.formset_classes.items():
-            formset_kwargs = cls.get_formset_kwargs(
-                root, info, formset_name, input[formset_name])
-            formsets[formset_name] = formset_class(**formset_kwargs)
-        return formsets
-
-    @classmethod
-    def get_data_for_formset(cls, fsinput, initial_forms=None) -> Dict[str, Any]:
-        data: Dict[str, Any] = {}
-        data['form-TOTAL_FORMS'] = len(fsinput)
-        data['form-INITIAL_FORMS'] = len(fsinput) if initial_forms is None else initial_forms
-        for i in range(len(fsinput)):
-            for key, value in fsinput[i].items():
-                data[f'form-{i}-{key}'] = value
-        return data
-
-    @classmethod
-    def get_form_kwargs(cls, root, info, **input):
-        kwargs = {"data": input}
-
-        # Graphene-Django's implementation of this method contained
-        # some logic to retrieve the input's "id" parameter and
-        # convert it into an "instance" kwarg for the form, but
-        # we don't need it right now.
-
-        return kwargs
-
-    @classmethod
-    def get_formset_kwargs(cls, root, info, formset_name, input):
-        kwargs = {"data": cls.get_data_for_formset(input)}
-        return kwargs
-
-    @classmethod
     def perform_mutate(cls, form, info):
         return cls(errors=[])
 
 
-get_form_class_for_input_type = DjangoFormMutation.get_form_class_for_input_type
-get_formset_classes_for_input_type = DjangoFormMutation.get_formset_classes_for_input_type
-get_exclude_fields_for_input_type = DjangoFormMutation.get_exclude_fields_for_input_type
+get_form_class_for_input_type = GrapheneDjangoFormMixin.get_form_class_for_input_type
+get_formset_classes_for_input_type = GrapheneDjangoFormMixin.get_formset_classes_for_input_type
+get_exclude_fields_for_input_type = GrapheneDjangoFormMixin.get_exclude_fields_for_input_type

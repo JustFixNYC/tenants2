@@ -406,6 +406,8 @@ class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
 
 
 class GrapheneDjangoFormMixin:
+    query_type: str = "[Subclasses should define this!]"
+
     _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
         WeakValueDictionary()
 
@@ -537,10 +539,50 @@ class GrapheneDjangoFormMixin:
         kwargs = {"data": cls.get_data_for_formset(input)}
         return kwargs
 
+    @classmethod
+    def perform_resolve(cls, root, info: ResolveInfo, resolver, **input):
+        request = info.context
+
+        if cls.login_required and not request.user.is_authenticated:
+            cls.log(info, f"User must be logged in to access {cls.query_type}.")
+            return cls.make_error('You do not have permission to use this form!')
+
+        form = cls.get_form(root, info, **input)
+
+        if form.is_valid():
+            cls.log(info, f"Form is valid, performing {cls.query_type}.")
+            return resolver(form, info)
+        else:
+            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
+            cls.log(info, f"Form is invalid with {len(errors)} error(s).")
+            return cls(errors=errors)  # type: ignore
+
+    @classmethod
+    def log(cls, info: ResolveInfo, msg: str) -> None:
+        parts = [f'{info.field_name} {cls.query_type}']
+        user = info.context.user
+        if user.is_authenticated:
+            parts.append(f'user={user.username}')
+        preamble = ' '.join(parts)
+        logger.info(f"[{preamble}] {msg}")
+
+    @classmethod
+    def make_error(cls, message: str, code: Optional[str] = None):
+        errors = StrictFormFieldErrorType.list_from_form_errors(
+            forms.utils.ErrorDict({
+                '__all__': forms.utils.ErrorList([
+                    ValidationError(message, code=code)
+                ])
+            })
+        )
+        return cls(errors=errors)  # type: ignore
+
 
 class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
     class Meta:
         abstract = True
+
+    query_type = "query"
 
     @classmethod
     def __init_subclass_with_meta__(
@@ -570,16 +612,13 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
     @classmethod
-    def resolve(cls, root, info: ResolveInfo, input):
-        # TODO: Check cls.login_required.
+    def perform_query(cls, form, info):
+        # This should be implemented by subclasses.
+        return cls(errors=[])
 
-        form = cls.get_form(root, info, **input)
-
-        if form.is_valid():
-            return cls.perform_query(form, info)
-        else:
-            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
-            return cls(errors=errors)
+    @classmethod
+    def query_and_get_payload(cls, root, info: ResolveInfo, input):
+        return cls.perform_resolve(root, info, cls.perform_query, **input)
 
     @classmethod
     def Field(
@@ -588,7 +627,7 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         return Field(
             cls,
             args=cls._meta.arguments,
-            resolver=cls.resolve,
+            resolver=cls.query_and_get_payload,
             name=name,
             description=description,
             deprecation_reason=deprecation_reason,
@@ -606,6 +645,8 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
 
     class Meta:
         abstract = True
+
+    query_type = "mutation"
 
     @classmethod
     def __init_subclass_with_meta__(
@@ -630,45 +671,12 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
         cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 
     @classmethod
-    def log(cls, info: ResolveInfo, msg: str) -> None:
-        parts = [f'{info.field_name} mutation']
-        user = info.context.user
-        if user.is_authenticated:
-            parts.append(f'user={user.username}')
-        preamble = ' '.join(parts)
-        logger.info(f"[{preamble}] {msg}")
-
-    @classmethod
-    def make_error(cls: Type[T], message: str, code: Optional[str] = None) -> T:
-        errors = StrictFormFieldErrorType.list_from_form_errors(
-            forms.utils.ErrorDict({
-                '__all__': forms.utils.ErrorList([
-                    ValidationError(message, code=code)
-                ])
-            })
-        )
-        return cls(errors=errors)
-
-    @classmethod
     def mutate_and_get_payload(cls: Type[T], root, info: ResolveInfo, **input) -> T:
-        request = info.context
-
-        if cls.login_required and not request.user.is_authenticated:
-            cls.log(info, "User must be logged in to access mutation.")
-            return cls.make_error('You do not have permission to use this form!')
-
-        form = cls.get_form(root, info, **input)
-
-        if form.is_valid():
-            cls.log(info, "Form is valid, performing mutation.")
-            return cls.perform_mutate(form, info)
-        else:
-            errors = StrictFormFieldErrorType.list_from_form_errors(form.errors)
-            cls.log(info, f"Form is invalid with {len(errors)} error(s).")
-            return cls(errors=errors)
+        return cls.perform_resolve(root, info, cls.perform_mutate, **input)
 
     @classmethod
     def perform_mutate(cls, form, info):
+        # This should be implemented by subclasses.
         return cls(errors=[])
 
 

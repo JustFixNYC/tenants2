@@ -49,6 +49,25 @@ function maybePushHistory(router: RouteComponentProps, varName: string, newValue
   }
 }
 
+type SearchResultsProps = {
+  query: string,
+  csvSnippet: string
+};
+
+function SearchResults({ csvSnippet, query }: SearchResultsProps) {
+  const queryFrag = <>&ldquo;{query}&rdquo;</>;
+
+  return (
+    <div className="content">
+      <br/>
+      {csvSnippet ? <>
+        <h3>Query results for {queryFrag}</h3>
+        <pre>{csvSnippet}</pre>
+      </> : (query && <p>No results for {queryFrag}.</p>)}
+    </div>
+  );
+}
+
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const currentQuery = getQuerystringVar(props, QUERYSTRING_VAR) || '';
@@ -72,7 +91,6 @@ function MultiLandlordPage(props: RouteComponentProps) {
     setLastSearch(input.landlords);
     maybePushHistory(props, QUERYSTRING_VAR, input.landlords);
   });
-  const lastSearchFragment = <>&ldquo;{lastSearch}&rdquo;</>;
 
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
@@ -87,15 +105,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
         <SyncFieldWithQuerystring currentQuery={currentQuery} field={ctx.fieldPropsFor(QUERYSTRING_VAR)} ctx={ctx} />
         <TextualFormField {...ctx.fieldPropsFor(QUERYSTRING_VAR)} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <>
-          <div className="content">
-            <br/>
-            {snippet ? <>
-              <h3>Query results for {lastSearchFragment}</h3>
-              <pre>{snippet}</pre>
-            </> : (lastSearch && <p>No results for {lastSearchFragment}.</p>)}
-          </div>
-        </>}
+        {!ctx.isLoading && <SearchResults query={lastSearch} csvSnippet={snippet} />}
       </>}
     </FormSubmitter>
   </Page>;

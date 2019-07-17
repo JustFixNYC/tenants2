@@ -4,7 +4,7 @@ import Page from '../page';
 import Routes from '../routes';
 import { FormSubmitter } from '../form-submitter';
 import { AppContext } from '../app-context';
-import { DataRequestMultiLandlordQuery } from '../queries/DataRequestMultiLandlordQuery';
+import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output, DataRequestMultiLandlordQueryVariables } from '../queries/DataRequestMultiLandlordQuery';
 import { TextualFormField, BaseFormFieldProps } from '../form-fields';
 import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
@@ -51,44 +51,49 @@ function maybePushHistory(router: RouteComponentProps, varName: string, newValue
 
 type SearchResultsProps = {
   query: string,
-  csvSnippet: string
+  output: DataRequestMultiLandlordQuery_output|null
 };
 
-function SearchResults({ csvSnippet, query }: SearchResultsProps) {
+function SearchResults({ output, query }: SearchResultsProps) {
   const queryFrag = <>&ldquo;{query}&rdquo;</>;
 
   return (
     <div className="content">
       <br/>
-      {csvSnippet ? <>
+      {output ? <>
         <h3>Query results for {queryFrag}</h3>
-        <pre>{csvSnippet}</pre>
+        <pre>{output.csvSnippet}</pre>
       </> : (query && <p>No results for {queryFrag}.</p>)}
     </div>
   );
+}
+
+function useLatestResults(
+  router: RouteComponentProps,
+  initialState: DataRequestMultiLandlordQueryVariables,
+  query: string
+) {
+  const appCtx = useContext(AppContext);
+  let initialResults: SearchResultsProps = { query: '', output: null };
+  const qlp = new QueryLoaderPrefetcher(router, appCtx, DataRequestMultiLandlordQuery, initialState);
+
+  qlp.maybeQueueForPrefetching();
+
+  if (qlp.prefetchedResponse) {
+    const { output } = qlp.prefetchedResponse;
+    initialResults = { query, output };
+  }
+
+  return useState(initialResults);
 }
 
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const currentQuery = getQuerystringVar(props, QUERYSTRING_VAR) || '';
   const initialState = {landlords: currentQuery};
-  let initialSnippet = '';
-  let initialLastSearch = '';
-
-  if (currentQuery) {
-    const qlp = new QueryLoaderPrefetcher(props, appCtx, DataRequestMultiLandlordQuery, initialState);
-    qlp.maybeQueueForPrefetching();
-    if (qlp.prefetchedResponse) {
-      const { output } = qlp.prefetchedResponse;
-      initialLastSearch = currentQuery;
-      initialSnippet = output ? output.csvSnippet : '';
-    }
-  }
-
-  const [snippet, setSnippet] = useState(initialSnippet);
-  const [lastSearch, setLastSearch] = useState(initialLastSearch);
+  const [latestResults, setLatestResults] = useLatestResults(props, initialState, currentQuery);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
-    setLastSearch(input.landlords);
+    setLatestResults({ query: input.landlords, output: null });
     maybePushHistory(props, QUERYSTRING_VAR, input.landlords);
   });
 
@@ -96,16 +101,13 @@ function MultiLandlordPage(props: RouteComponentProps) {
     <FormSubmitter
       initialState={initialState}
       onSubmit={onSubmit}
-      onSuccess={output => {
-        const { simpleQueryOutput } = output;
-        simpleQueryOutput ? setSnippet(simpleQueryOutput.csvSnippet) : setSnippet('')
-      }}
+      onSuccess={output => setLatestResults({ ...latestResults, output: output.simpleQueryOutput })}
     >
       {ctx => <>
         <SyncFieldWithQuerystring currentQuery={currentQuery} field={ctx.fieldPropsFor(QUERYSTRING_VAR)} ctx={ctx} />
         <TextualFormField {...ctx.fieldPropsFor(QUERYSTRING_VAR)} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <SearchResults query={lastSearch} csvSnippet={snippet} />}
+        {!ctx.isLoading && <SearchResults {...latestResults} />}
       </>}
     </FormSubmitter>
   </Page>;

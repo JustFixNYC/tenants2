@@ -10,6 +10,8 @@ import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { getQuerystringVar } from '../querystring';
 import { FormContext } from '../form-context';
+import { getAppStaticContext } from '../app-static-context';
+import { isDeepEqual } from '../util';
 
 const QUERYSTRING_VAR = 'landlords';
 
@@ -50,9 +52,29 @@ function maybePushHistory(router: RouteComponentProps, varName: string, newValue
 
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const [snippet, setSnippet] = useState('');
-  const [lastSearch, setLastSearch] = useState('');
+  const appStaticCtx = getAppStaticContext(props);
   const currentQuery = getQuerystringVar(props, QUERYSTRING_VAR) || '';
+  const initialState = {landlords: currentQuery};
+  let initialSnippet = '';
+  let initialLastSearch = '';
+
+  if (currentQuery) {
+    const qr = appCtx.server.prefetchedGraphQLQueryResponse;
+    if (qr && qr.graphQL === DataRequestMultiLandlordQuery.graphQL && isDeepEqual(qr.input, initialState)) {
+      const output: DataRequestMultiLandlordQuery = qr.output;
+      initialLastSearch = currentQuery;
+      initialSnippet = output.output ? output.output.csvSnippet : '';
+    } else if (appStaticCtx && !appStaticCtx.graphQLQueryToPrefetch) {
+      // We're on the server-side, tell the server to pre-fetch our query.
+      appStaticCtx.graphQLQueryToPrefetch = {
+        graphQL: DataRequestMultiLandlordQuery.graphQL,
+        input: initialState
+      };
+    }
+  }
+
+  const [snippet, setSnippet] = useState(initialSnippet);
+  const [lastSearch, setLastSearch] = useState(initialLastSearch);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
     setLastSearch(input.landlords);
     maybePushHistory(props, QUERYSTRING_VAR, input.landlords);
@@ -61,7 +83,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
 
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
-      initialState={{landlords: currentQuery}}
+      initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => {
         const { simpleQueryOutput } = output;

@@ -93,6 +93,7 @@ export type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServe
 interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
+  currentSubmissionId: number;
   lastSuccessRedirect?: {
     from: string,
     to: string
@@ -125,6 +126,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     this.state = {
       isLoading: false,
       errors: props.initialErrors,
+      currentSubmissionId: 0,
       isDirty: false,
       wasSubmittedSuccessfully: false
     };
@@ -138,13 +140,16 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
 
   @autobind
   handleSubmit(input: FormInput) {
+    const submissionId = this.state.currentSubmissionId + 1;
     this.setState({
       isLoading: true,
       errors: undefined,
+      currentSubmissionId: submissionId,
       wasSubmittedSuccessfully: false
     });
     return this.props.onSubmit(input).then(output => {
       if (this.willUnmount) return;
+      if (this.state.currentSubmissionId !== submissionId) return;
       if (output.errors.length) {
         trackFormErrors(output.errors);
         this.setState({

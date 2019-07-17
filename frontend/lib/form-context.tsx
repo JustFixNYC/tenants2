@@ -133,7 +133,7 @@ export class FormContext<FormInput> extends BaseFormContext<FormInput> {
   constructor(
     options: BaseFormContextOptions<FormInput>,
     /** A function that is called when the user submits the form. */
-    readonly submit: () => void
+    readonly submit: (force?: boolean) => void
   ) {
     super(options);
   }

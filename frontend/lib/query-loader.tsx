@@ -1,20 +1,9 @@
 import React from 'react';
-import { GraphQLFetch } from './graphql-client';
 import { RouteComponentProps, Route } from 'react-router';
-import { getAppStaticContext } from './app-static-context';
 import { AppContextType, AppContext } from './app-context';
-import { isDeepEqual } from './util';
 import autobind from 'autobind-decorator';
 import { MinimalLoadingComponentProps } from './loading-component-props';
-
-export interface QueryLoaderFetch<Input, Output> {
-  (fetch: GraphQLFetch, args: Input): Promise<Output>;
-}
-
-export interface QueryLoaderQuery<Input, Output> {
-  graphQL: string;
-  fetch: QueryLoaderFetch<Input, Output>;
-}
+import { QueryLoaderQuery, QueryLoaderPrefetcher } from './query-loader-prefetcher';
 
 export interface QueryLoaderProps<Input, Output> {
   /** The GraphQL query to load. */
@@ -51,28 +40,12 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<Props<Input, 
 
   constructor(props: Props<Input, Output>) {
     super(props);
-    const state: State<Output> = {};
-    const appStaticCtx = getAppStaticContext(props);
-    state.output = this.getPrefetchedResponse();
-    if (appStaticCtx && !appStaticCtx.graphQLQueryToPrefetch) {
-      // We're on the server-side, tell the server to pre-fetch our query.
-      appStaticCtx.graphQLQueryToPrefetch = {
-        graphQL: props.query.graphQL,
-        input: props.input
-      };
-    }
-    this.state = state;
-  }
+    const qlp = new QueryLoaderPrefetcher(props, props, props.query, props.input);
 
-  /* istanbul ignore next: this is tested by integration tests. */
-  private getPrefetchedResponse(): Output|undefined {
-    const { props } = this;
-    const qr = props.server.prefetchedGraphQLQueryResponse;
-    if (qr && qr.graphQL === props.query.graphQL && isDeepEqual(qr.input, props.input)) {
-      // Our response has been pre-fetched, so we can render the real component.
-      return qr.output;
-    }
-    return undefined;
+    qlp.maybeQueueForPrefetching();
+    this.state = {
+      output: qlp.prefetchedResponse
+    };
   }
 
   @autobind

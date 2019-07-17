@@ -221,7 +221,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           renderEnhanced={() => {
             if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
             return ReactDOM.createPortal(
-              <button type="button" onClick={ctx.submit} className={bulmaClasses('button', 'is-light', 'is-medium', {
+              <button type="button" onClick={() => ctx.submit()} className={bulmaClasses('button', 'is-light', 'is-medium', {
                 'is-loading': ctx.isLoading
               })}>Cancel signup</button>,
               this.cancelControlRef.current

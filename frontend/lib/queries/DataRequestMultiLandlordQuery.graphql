@@ -1,0 +1,6 @@
+query DataRequestMultiLandlordQuery($landlords: String!) {
+  output: dataRequestMultiLandlord(landlords: $landlords) {
+    csvUrl,
+    csvSnippet
+  }
+}

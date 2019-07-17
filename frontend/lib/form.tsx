@@ -100,8 +100,8 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
   }
 
   @autobind
-  submit() {
-    if (!this.props.isLoading) {
+  submit(force: boolean = false) {
+    if (!this.props.isLoading || force === true) {
       this.props.onSubmit(this.state);
     }
   }

@@ -13,7 +13,14 @@ export interface QueryLoaderQuery<Input, Output> {
   fetch: QueryLoaderFetch<Input, Output>;
 }
 
+/** 
+ * This class encapsulates the plumbing needed to tell the
+ * server process to pre-fetch GraphQL queries for us
+ * during server-side rendering, and to retrieve
+ * pre-fetched responses if they're available.
+ */
 export class QueryLoaderPrefetcher<Input, Output> {
+  /** The response of the pre-fetched GraphQL query, if it's available. */
   readonly prefetchedResponse: Output|undefined;
 
   constructor(
@@ -29,6 +36,9 @@ export class QueryLoaderPrefetcher<Input, Output> {
     }
   }
 
+  /**
+   * If possible, tell the server to pre-fetch our GraphQL query.
+   */
   maybeQueueForPrefetching() {
     if (this.prefetchedResponse !== undefined) return;
     const appStaticCtx = getAppStaticContext(this.router);

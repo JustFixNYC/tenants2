@@ -35,7 +35,7 @@ function SyncFieldWithQuerystring(props: {
   // URL change, and immediately triggers a form submission.
   useEffect(() => {
     if (triggeredChange && props.field.value === props.currentQuery) {
-      props.ctx.submit();
+      props.ctx.submit(true);
       setTriggeredChange(false);
     }
   }, [props.field.value]);

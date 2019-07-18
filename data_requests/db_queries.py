@@ -24,7 +24,7 @@ def split_into_list(value: str) -> List[str]:
 
 def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]:
     landlords_list = split_into_list(landlords)
-    if not landlords_list:
+    if not landlords_list or not settings.NYCDB_DATABASE:
         return iter([])
     args = {'landlords': json.dumps([{'value': ll.upper()} for ll in landlords_list])}
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:

@@ -68,13 +68,19 @@ function SearchResults({ output, query }: SearchResultsProps) {
   let content = null;
 
   if (query && output) {
-    const lines: string[][] = JSON.parse(output.csvSnippet);
+    const lines: string[][] = JSON.parse(output.snippetRows);
     const header = lines[0];
     const rows = lines.slice(1);
+    const mightBeTruncated = rows.length === output.snippetMaxRows;
+    const downloadProps = {href: output.csvUrl, download: 'multi-landlord.csv'};
 
     content = <>
       <h3>Query results for {queryFrag}</h3>
-      <p><a href={output.csvUrl} download="multi-landlord.csv" className="button">Download CSV</a></p>
+      <p><a {...downloadProps} className="button">Download CSV</a></p>
+      {mightBeTruncated
+        ? <p>Only the first {output.snippetMaxRows} rows are shown. Please <a {...downloadProps}>download the CSV</a> for the full dataset.</p>
+        : <p>{rows.length} result{rows.length > 1 && 's'} found.</p>
+      }
       <div style={{maxWidth: '100%', overflowX: 'scroll'}}>
         <table className="table">
           <thead>

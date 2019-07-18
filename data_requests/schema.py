@@ -16,11 +16,12 @@ SNIPPET_MAX_ROWS = 100
 
 class DataRequestResult(graphene.ObjectType):
     csv_url = graphene.String(required=True)
-    csv_snippet = graphene.String(required=True)
+    snippet_rows = graphene.String(required=True)
+    snippet_max_rows = graphene.Int(required=True)
 
 
 def get_csv_snippet(rows: Iterator[List[Any]]) -> str:
-    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, SNIPPET_MAX_ROWS))))
+    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, SNIPPET_MAX_ROWS + 1))))
 
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
@@ -32,7 +33,8 @@ def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestRe
     return DataRequestResult(
         csv_url=(reverse('data_requests:multi-landlord-csv') +
                  f'?q={urllib.parse.quote(landlords)}'),
-        csv_snippet=json.dumps(snippet_rows)
+        snippet_rows=json.dumps(snippet_rows),
+        snippet_max_rows=SNIPPET_MAX_ROWS
     )
 
 

@@ -11,22 +11,28 @@ from project.util.streaming_csv import generate_streaming_csv
 from . import db_queries
 
 
+SNIPPET_MAX_ROWS = 100
+
+
 class DataRequestResult(graphene.ObjectType):
     csv_url = graphene.String(required=True)
     csv_snippet = graphene.String(required=True)
 
 
 def get_csv_snippet(rows: Iterator[List[Any]]) -> str:
-    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, 5))))
+    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, SNIPPET_MAX_ROWS))))
 
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
     snippet = get_csv_snippet(db_queries.get_csv_rows_for_multi_landlord_query(landlords))
-    snippet = json.dumps(list(csv.reader(snippet.split('\n'))))
+    snippet_rows = list(filter(None, list(csv.reader(snippet.split('\n')))))
+    if len(snippet_rows) <= 1:
+        # It's either completely empty or just a header row.
+        return None
     return DataRequestResult(
         csv_url=(reverse('data_requests:multi-landlord-csv') +
                  f'?q={urllib.parse.quote(landlords)}'),
-        csv_snippet=snippet
+        csv_snippet=json.dumps(snippet_rows)
     )
 
 

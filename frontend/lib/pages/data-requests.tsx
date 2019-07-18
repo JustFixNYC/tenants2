@@ -54,16 +54,58 @@ type SearchResultsProps = {
   output: DataRequestMultiLandlordQuery_output|null
 };
 
+function getColumnValue(name: string, value: string): JSX.Element|string {
+  if (name.toLowerCase() === 'bbl') {
+    return <a href={`https://whoownswhat.justfix.nyc/bbl/${value}`} target="_blank" rel="noopener noreferrer">
+      {value}
+    </a>
+  }
+  return value;
+}
+
 function SearchResults({ output, query }: SearchResultsProps) {
   const queryFrag = <>&ldquo;{query}&rdquo;</>;
+  let content = null;
+
+  if (query && output) {
+    const lines: string[][] = JSON.parse(output.snippetRows);
+    const header = lines[0];
+    const rows = lines.slice(1);
+    const mightBeTruncated = rows.length === output.snippetMaxRows;
+    const downloadProps = {href: output.csvUrl, download: 'multi-landlord.csv'};
+
+    content = <>
+      <h3>Query results for {queryFrag}</h3>
+      <p><a {...downloadProps} className="button">Download CSV</a></p>
+      {mightBeTruncated
+        ? <p>Only the first {output.snippetMaxRows} rows are shown. Please <a {...downloadProps}>download the CSV</a> for the full dataset.</p>
+        : <p>{rows.length} result{rows.length > 1 && 's'} found.</p>
+      }
+      <div style={{maxWidth: '100%', overflowX: 'scroll'}}>
+        <table className="table">
+          <thead>
+            <tr>
+              {header.map((heading, i) => <th key={i}>{heading}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr key={i}>
+                {row.map((column, i) => <td key={i}>{getColumnValue(header[i], column)}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>;
+  } else if (query) {
+    content = <p>No results for {queryFrag}.</p>;
+  }
 
   return (
     <div className="content">
       <br/>
-      {output ? <>
-        <h3>Query results for {queryFrag}</h3>
-        <pre>{output.csvSnippet}</pre>
-      </> : (query && <p>No results for {queryFrag}.</p>)}
+      {content}
     </div>
   );
 }

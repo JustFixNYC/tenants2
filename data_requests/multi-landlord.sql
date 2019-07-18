@@ -1,20 +1,7 @@
-WITH names AS (
-    SELECT
-        reg.registrationid,
-        ARRAY_AGG (con.firstname || ' ' || con.lastname) AS landlords
-    FROM
-        hpd_registrations AS reg
-    LEFT JOIN
-        hpd_contacts AS con
-    ON
-        reg.registrationid = con.registrationid
-    GROUP BY
-        reg.registrationid
-)
 SELECT
-    *
+    hpd.*
 FROM
-    names
+    hpd_registrations_grouped_by_bbl_with_contacts AS hpd
 WHERE
-    landlords @> %(landlords)s
+    hpd.ownernames::jsonb @> %(landlords)s::jsonb
 LIMIT 10

@@ -59,7 +59,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
   const queryFrag = <>&ldquo;{query}&rdquo;</>;
   let content = null;
 
-  if (output) {
+  if (query && output) {
     const lines: string[][] = parseCsv(output.csvSnippet);
     const header = lines[0];
     const rows = lines.slice(1);

@@ -25,7 +25,7 @@ def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]
     landlords_list = split_into_list(landlords)
     if not landlords_list:
         return iter([])
-    args = {'boroughs': [ll.upper() for ll in landlords_list]}
+    args = {'landlords': [ll.upper() for ll in landlords_list]}
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(MULTI_LANDLORD_SQL.read_text(), args)
         yield from generate_csv_rows(cursor)

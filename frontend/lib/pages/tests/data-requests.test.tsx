@@ -49,7 +49,7 @@ describe('Data requests', () => {
     pal.expectGraphQL(/DataRequestMultiLandlordQuery/);
     const response: DataRequestMultiLandlordQuery = {
       output: {
-        csvSnippet: 'blargh',
+        csvSnippet: JSON.stringify([['blargh'], ['boop']]),
         csvUrl: 'http://boop'
       }
     };

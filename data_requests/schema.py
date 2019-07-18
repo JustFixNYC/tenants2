@@ -1,4 +1,6 @@
 from typing import Optional, Iterator, List, Any
+import csv
+import json
 import itertools
 import urllib.parse
 import graphene
@@ -20,6 +22,7 @@ def get_csv_snippet(rows: Iterator[List[Any]]) -> str:
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
     snippet = get_csv_snippet(db_queries.get_csv_rows_for_multi_landlord_query(landlords))
+    snippet = json.dumps(list(csv.reader(snippet.split('\n'))))
     return DataRequestResult(
         csv_url=(reverse('data_requests:multi-landlord-csv') +
                  f'?q={urllib.parse.quote(landlords)}'),

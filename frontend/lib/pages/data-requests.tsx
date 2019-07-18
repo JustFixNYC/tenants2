@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import parseCsv from 'csv-parse/lib/sync';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page from '../page';
 import Routes from '../routes';
@@ -60,7 +59,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
   let content = null;
 
   if (query && output) {
-    const lines: string[][] = parseCsv(output.csvSnippet);
+    const lines: string[][] = JSON.parse(output.csvSnippet);
     const header = lines[0];
     const rows = lines.slice(1);
 

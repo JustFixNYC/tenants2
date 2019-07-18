@@ -59,6 +59,8 @@ function getColumnValue(name: string, value: string): JSX.Element|string {
     return <a href={`https://whoownswhat.justfix.nyc/bbl/${value}`} target="_blank" rel="noopener noreferrer">
       {value}
     </a>
+  } else if (name === 'error') {
+    return <span className="has-text-danger" style={{fontFamily: 'monospace', whiteSpace: 'pre'}}>{value}</span>
   }
   return value;
 }

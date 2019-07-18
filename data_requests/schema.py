@@ -1,6 +1,12 @@
-from typing import Optional, List
+from typing import Optional, Iterator, List, Any
+import itertools
+import urllib.parse
 import graphene
+from django.urls import reverse
+
 from project import schema_registry
+from project.util.streaming_csv import generate_streaming_csv
+from . import db_queries
 
 
 class DataRequestResult(graphene.ObjectType):
@@ -8,23 +14,16 @@ class DataRequestResult(graphene.ObjectType):
     csv_snippet = graphene.String(required=True)
 
 
-def split_into_list(value: str) -> List[str]:
-    '''
-    >>> split_into_list('boop,, blop')
-    ['boop', 'blop']
-    '''
-
-    items = value.split(',')
-    return list(filter(None, [item.strip() for item in items]))
+def get_csv_snippet(rows: Iterator[List[Any]]) -> str:
+    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, 5))))
 
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
-    landlords_list = split_into_list(landlords)
-    if not landlords_list:
-        return None
+    snippet = get_csv_snippet(db_queries.get_csv_rows_for_multi_landlord_query(landlords))
     return DataRequestResult(
-        csv_url="https://example.com/todo-fill-this-out",
-        csv_snippet=f"TODO: put CSV snippet for '{landlords}' search here"
+        csv_url=(reverse('data_requests:multi-landlord-csv') +
+                 f'?q={urllib.parse.quote(landlords)}'),
+        csv_snippet=snippet
     )
 
 

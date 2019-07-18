@@ -62,6 +62,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
       <br/>
       {output ? <>
         <h3>Query results for {queryFrag}</h3>
+        <p><a href={output.csvUrl} download="multi-landlord.csv" className="button">Download CSV</a></p>
         <pre>{output.csvSnippet}</pre>
       </> : (query && <p>No results for {queryFrag}.</p>)}
     </div>

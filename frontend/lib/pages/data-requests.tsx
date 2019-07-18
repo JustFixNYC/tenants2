@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import parseCsv from 'csv-parse/lib/sync';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page from '../page';
 import Routes from '../routes';
@@ -56,15 +57,41 @@ type SearchResultsProps = {
 
 function SearchResults({ output, query }: SearchResultsProps) {
   const queryFrag = <>&ldquo;{query}&rdquo;</>;
+  let content = null;
+
+  if (output) {
+    const lines: string[][] = parseCsv(output.csvSnippet);
+    const header = lines[0];
+    const rows = lines.slice(1);
+
+    content = <>
+      <h3>Query results for {queryFrag}</h3>
+      <p><a href={output.csvUrl} download="multi-landlord.csv" className="button">Download CSV</a></p>
+      <div style={{maxWidth: '100%', overflowX: 'scroll'}}>
+        <table className="table">
+          <thead>
+            <tr>
+              {header.map((heading, i) => <th key={i}>{heading}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr key={i}>
+                {row.map((column, i) => <td key={i}>{column}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>;
+  } else if (query) {
+    content = <p>No results for {queryFrag}.</p>;
+  }
 
   return (
     <div className="content">
       <br/>
-      {output ? <>
-        <h3>Query results for {queryFrag}</h3>
-        <p><a href={output.csvUrl} download="multi-landlord.csv" className="button">Download CSV</a></p>
-        <pre>{output.csvSnippet}</pre>
-      </> : (query && <p>No results for {queryFrag}.</p>)}
+      {content}
     </div>
   );
 }

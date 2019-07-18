@@ -54,6 +54,15 @@ type SearchResultsProps = {
   output: DataRequestMultiLandlordQuery_output|null
 };
 
+function getColumnValue(name: string, value: string): JSX.Element|string {
+  if (name.toLowerCase() === 'bbl') {
+    return <a href={`https://whoownswhat.justfix.nyc/bbl/${value}`} target="_blank" rel="noopener noreferrer">
+      {value}
+    </a>
+  }
+  return value;
+}
+
 function SearchResults({ output, query }: SearchResultsProps) {
   const queryFrag = <>&ldquo;{query}&rdquo;</>;
   let content = null;
@@ -76,7 +85,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
           <tbody>
             {rows.map((row, i) => (
               <tr key={i}>
-                {row.map((column, i) => <td key={i}>{column}</td>)}
+                {row.map((column, i) => <td key={i}>{getColumnValue(header[i], column)}</td>)}
               </tr>
             ))}
           </tbody>

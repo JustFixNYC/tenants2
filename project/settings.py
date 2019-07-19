@@ -141,6 +141,12 @@ if env.NYCDB_DATABASE_URL:
     DATABASES['nycdb'] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
     NYCDB_DATABASE = 'nycdb'
 
+WOW_DATABASE = None
+
+if env.WOW_DATABASE_URL:
+    DATABASES['wow'] = dj_database_url.parse(env.WOW_DATABASE_URL)
+    WOW_DATABASE = 'wow'
+
 MIGRATION_MODULES = {
     # The NYCDB is an external database that we read from, so we don't
     # want to modify its schema in any way.

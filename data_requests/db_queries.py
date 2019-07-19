@@ -49,6 +49,10 @@ def parse_landlord(name: str) -> Optional[Tuple[str, str]]:
     return (firstname, lastname)
 
 
+def make_error_rows(lines: List[str]) -> Iterator[List[Any]]:
+    return iter([['error'], *[[line] for line in lines]])
+
+
 def get_sql_error_rows(e: ProgrammingError) -> Iterator[List[Any]]:
     '''
     Converts a SQL error exception into a structure that looks like
@@ -59,16 +63,20 @@ def get_sql_error_rows(e: ProgrammingError) -> Iterator[List[Any]]:
     '''
 
     if settings.DEBUG:
-        lines = [[s] for s in str(e).split('\n')]
+        lines = str(e).split('\n')
     else:
-        lines = [['Alas, an error occurred.']]
-    return iter([['error'], *lines])
+        lines = ['Alas, an error occurred.']
+    return make_error_rows(lines)
 
 
 def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]:
     ll_list = list(filter(None, [parse_landlord(ll) for ll in split_into_list(landlords)]))
-    if not ll_list or not settings.WOW_DATABASE:
-        return iter([])
+    if not ll_list:
+        yield from iter([])
+        return
+    if not settings.WOW_DATABASE:
+        yield from make_error_rows(['This functionality requires WOW integration.'])
+        return
     full_sql = MULTI_LANDLORD_SQL.read_text() % {'full_intersection_sql': " INTERSECT ".join([
         r"SELECT unnest(get_regids_from_name(%s, %s)) AS registrationid"
     ] * len(ll_list))}

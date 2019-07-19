@@ -49,6 +49,22 @@ def parse_landlord(name: str) -> Optional[Tuple[str, str]]:
     return (firstname, lastname)
 
 
+def get_sql_error_rows(e: ProgrammingError) -> Iterator[List[Any]]:
+    '''
+    Converts a SQL error exception into a structure that looks like
+    CSV rows. Useful for debugging SQL queries without having to
+    add special error-handling logic to clients.
+
+    In production, we hide the actual exception details.
+    '''
+
+    if settings.DEBUG:
+        lines = [[s] for s in str(e).split('\n')]
+    else:
+        lines = [['Alas, an error occurred.']]
+    return iter([['error'], *lines])
+
+
 def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]:
     ll_list = list(filter(None, [parse_landlord(ll) for ll in split_into_list(landlords)]))
     if not ll_list or not settings.WOW_DATABASE:
@@ -62,7 +78,6 @@ def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]
             cursor.execute(full_sql, args)
         except ProgrammingError as e:
             logger.exception('An error occurred when running a data request SQL query.')
-            lines = [[s] for s in str(e).split('\n')]
-            yield from iter([['error'], *lines])
+            yield from get_sql_error_rows(e)
             return
         yield from generate_csv_rows(cursor)

@@ -2,7 +2,13 @@ from unittest.mock import patch
 from contextlib import contextmanager
 import pytest
 
-from texting.models import PhoneNumberLookup, get_lookup_description_for_phone_number
+from users.models import JustfixUser
+from users.tests.factories import UserFactory
+from texting.models import (
+    PhoneNumberLookup,
+    get_lookup_description_for_phone_number,
+    exclude_users_with_invalid_phone_numbers,
+)
 
 
 @pytest.mark.parametrize('obj,expected', [
@@ -104,3 +110,24 @@ class TestGetLookupDescriptionForPhoneNumber(MockTwilioDbTest):
         with self.mock_twilio(is_valid=False):
             assert get_lookup_description_for_phone_number(
                 '5551234567') == 'This appears to be an invalid phone number.'
+
+
+class TestExcludeUsersWithInvalidPhoneNumbers:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db):
+        self.phone_number = '5551234567'
+        self.user = UserFactory(phone_number=self.phone_number)
+
+    def get_users_with_valid_numbers(self):
+        return exclude_users_with_invalid_phone_numbers(JustfixUser.objects.all())
+
+    def test_users_are_not_excluded_when_no_lookup_exists(self):
+        assert self.get_users_with_valid_numbers().count() == 1
+
+    def test_users_are_not_excluded_when_lookup_indicates_valid_phone_number(self):
+        PhoneNumberLookup(phone_number=self.phone_number, is_valid=True).save()
+        assert self.get_users_with_valid_numbers().count() == 1
+
+    def test_users_are_excluded_when_lookup_indicates_invalid_phone_number(self):
+        PhoneNumberLookup(phone_number=self.phone_number, is_valid=False).save()
+        assert self.get_users_with_valid_numbers().count() == 0

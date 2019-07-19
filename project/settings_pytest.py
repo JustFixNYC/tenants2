@@ -25,6 +25,7 @@ FACEBOOK_PIXEL_ID = ''
 ROLLBAR_ACCESS_TOKEN = ''
 MAPBOX_ACCESS_TOKEN = ''
 NYCDB_DATABASE = None
+WOW_DATABASE = None
 ROLLBAR = {}  # type: ignore
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
@@ -52,6 +53,9 @@ PASSWORD_HASHERS = (
 # test database on it.
 if 'nycdb' in DATABASES:  # noqa
     del DATABASES['nycdb']  # noqa
+
+if 'wow' in DATABASES:  # noqa
+    del DATABASES['wow']  # noqa
 
 
 class NotActuallyFileStorage:

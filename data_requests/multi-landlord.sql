@@ -1,16 +1,13 @@
 SELECT
+    hpd.registrationid AS hpdregistrationid,
+    bbl,
+    bin,
+    boro,
     housenumber,
     streetname,
-    zip,
-    boro,
-    registrationid,
-    bbl,
-    corpnames,
-    (
-        SELECT ARRAY_AGG(person->>'value' || ' (' || (person->>'title') || ')' )
-        FROM json_array_elements(ownernames) AS person
-    ) AS owners
+    zip
 FROM
-    hpd_registrations_grouped_by_bbl_with_contacts
-WHERE
-    ownernames::jsonb @> %(landlords)s::jsonb
+    hpd_registrations AS hpd
+INNER JOIN (
+    %(full_intersection_sql)s
+) AS owner_regs ON hpd.registrationid = owner_regs.registrationid

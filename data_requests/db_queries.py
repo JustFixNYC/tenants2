@@ -69,19 +69,12 @@ def get_sql_error_rows(e: ProgrammingError) -> Iterator[List[Any]]:
     return make_error_rows(lines)
 
 
-def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]:
-    ll_list = list(filter(None, [parse_landlord(ll) for ll in split_into_list(landlords)]))
-    if not ll_list:
-        yield from iter([])
-        return
-    if not settings.WOW_DATABASE:
-        yield from make_error_rows(['This functionality requires WOW integration.'])
-        return
+def _multi_landlord_query(ll_list: List[Tuple[str, str]], db: str) -> Iterator[List[Any]]:
     full_sql = MULTI_LANDLORD_SQL.read_text() % {'full_intersection_sql': " INTERSECT ".join([
         r"SELECT unnest(get_regids_from_name(%s, %s)) AS registrationid"
     ] * len(ll_list))}
     args = list(itertools.chain(*ll_list))
-    with connections[settings.WOW_DATABASE].cursor() as cursor:
+    with connections[db].cursor() as cursor:
         try:
             cursor.execute(full_sql, args)
         except ProgrammingError as e:
@@ -89,3 +82,12 @@ def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]
             yield from get_sql_error_rows(e)
             return
         yield from generate_csv_rows(cursor)
+
+
+def get_csv_rows_for_multi_landlord_query(landlords: str) -> Iterator[List[Any]]:
+    ll_list = list(filter(None, [parse_landlord(ll) for ll in split_into_list(landlords)]))
+    if not ll_list:
+        return iter([])
+    if not settings.WOW_DATABASE:
+        return make_error_rows(['This functionality requires WOW integration.'])
+    return _multi_landlord_query(ll_list, settings.WOW_DATABASE)

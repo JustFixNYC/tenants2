@@ -63,7 +63,11 @@ function stringifyInputValue(varName: string, value: unknown): string {
   }
 }
 
-function maybePushHistory<T>(router: RouteComponentProps, input: T) {
+type SupportedQsTypes<T> = {
+  [k in keyof T]: T[k] extends string ? T[k] : never
+};
+
+function maybePushHistory<T>(router: RouteComponentProps, input: SupportedQsTypes<T>) {
   let changed = false;
   const newQsEntries = new Map<string, string>();
   for (let entry of Object.entries(input)) {
@@ -85,8 +89,8 @@ function maybePushHistory<T>(router: RouteComponentProps, input: T) {
   }
 }
 
-function getInitialStateFromQs<T>(router: RouteComponentProps, defaultValue: T): T {
-  const result = {} as T;
+function getInitialStateFromQs<T>(router: RouteComponentProps, defaultValue: SupportedQsTypes<T>): T {
+  const result = {};
   for (let entry of Object.entries(defaultValue)) {
     const [varName, defaultVarValue] = entry;
     if (typeof(defaultVarValue) === 'string') {
@@ -98,7 +102,7 @@ function getInitialStateFromQs<T>(router: RouteComponentProps, defaultValue: T):
     }
   }
 
-  return result;
+  return result as any;
 }
 
 function useLatestOutput(
@@ -134,7 +138,8 @@ function AutoSubmitter(props: {
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const initialState = getInitialStateFromQs(props, {address: '', borough: ''});
+  const defaultState = {address: '', borough: ''};
+  const initialState = getInitialStateFromQs(props, defaultState);
   const [latestOutput, setLatestOutput] = useLatestOutput(props, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {

@@ -30,3 +30,8 @@ export function getBoroughChoiceLabels(): BoroughChoiceLabels {
     STATEN_ISLAND: "Staten Island",
   };
 }
+
+export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
+  if (isBoroughChoice(choice)) return choice;
+  return null;
+}

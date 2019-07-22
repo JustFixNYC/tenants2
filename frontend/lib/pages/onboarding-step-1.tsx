@@ -15,7 +15,7 @@ import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
-import { getBoroughChoiceLabels, BoroughChoice, isBoroughChoice, BoroughChoices } from '../../../common-data/borough-choices';
+import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoices, safeGetBoroughChoice } from '../../../common-data/borough-choices';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { toDjangoChoices } from '../common-data';
@@ -118,9 +118,9 @@ export class AddressAndBoroughField extends React.Component<AddressAndBoroughFie
 
   renderEnhancedAddressField(pe: ProgressiveEnhancementContext) {
     const { addressProps, boroughProps } = this.props;
-    let initialValue = addressProps.value && boroughProps.value
+    let initialValue = addressProps.value
       ? { address: addressProps.value,
-          borough: boroughProps.value as BoroughChoice }
+          borough: safeGetBoroughChoice(boroughProps.value) }
       : undefined;
 
     if (boroughProps.errors && !addressProps.errors) {

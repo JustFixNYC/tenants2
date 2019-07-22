@@ -67,6 +67,13 @@ type SupportedQsTypes<T> = {
   [k in keyof T]: T[k] extends string ? T[k] : never
 };
 
+function stableQuerystring(entries: Map<string, string>): string {
+  return Array.from(entries.entries())
+    .sort((a, b) => a[0] === b[0] ? 0 : (a[0] < b[0] ? -1 : 1))
+    .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
+    .join('&');
+}
+
 function maybePushHistory<T>(router: RouteComponentProps, input: SupportedQsTypes<T>) {
   let changed = false;
   const newQsEntries = new Map<string, string>();
@@ -81,10 +88,7 @@ function maybePushHistory<T>(router: RouteComponentProps, input: SupportedQsType
   }
 
   if (changed) {
-    const qs = Array.from(newQsEntries.entries())
-      .sort((a, b) => a[0] === b[0] ? 0 : (a[0] < b[0] ? -1 : 1))
-      .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
-      .join('&');
+    const qs = stableQuerystring(newQsEntries);
     router.history.push(router.location.pathname + `?${qs}`);
   }
 }

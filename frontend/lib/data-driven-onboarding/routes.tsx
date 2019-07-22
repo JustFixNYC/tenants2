@@ -79,16 +79,15 @@ function maybePushHistory(router: RouteComponentProps, input: Object) {
   }
 }
 
-function AutoSubmitOnChange(props: {
-  enabled: boolean,
+function AutoSubmitter(props: {
+  autoSubmit: boolean,
   ctx: FormContext<any>
 }) {
   useEffect(() => {
-    if (props.enabled) {
-      console.log("Auto-submitting now.");
+    if (props.autoSubmit) {
       props.ctx.submit();
     }
-  }, [props.enabled]);
+  }, [props.autoSubmit]);
 
   return null;
 }
@@ -115,7 +114,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           boroughProps={ctx.fieldPropsFor('borough')}
           onChange={() => setAutoSubmit(true)}
         />
-        <AutoSubmitOnChange ctx={ctx} enabled={autoSubmit} />
+        <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
         <SyncFieldsWithQuerystring router={props} fields={[
           ctx.fieldPropsFor('address'),
           ctx.fieldPropsFor('borough'),

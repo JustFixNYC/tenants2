@@ -10,6 +10,11 @@ import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
 import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
 
+// https://stackoverflow.com/a/4565120
+function isChrome(): boolean {
+  return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+}
+
 /**
  * Return the browser-specific "autocomplete" attribute value to disable
  * autocomplete on a form field.
@@ -30,11 +35,8 @@ function getBrowserAutoCompleteOffValue(): string {
     throw new Error('Assertion failure, this function should only be called in the browser!');
   }
 
-  // https://stackoverflow.com/a/4565120
-  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-
   // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
-  return isChrome ? 'disabled' : 'off';
+  return isChrome() ? 'disabled' : 'off';
 }
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
@@ -224,9 +226,11 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   interval?: number;
 
   componentDidMount() {
-    this.interval = window.setInterval(() => {
-      this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
-    }, 1000);
+    if (isChrome()) {
+      this.interval = window.setInterval(() => {
+        this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
+      }, 1000);
+    }
   }
 
   componentWillUnmount() {

@@ -11,7 +11,7 @@ class DDOSuggestion(graphene.ObjectType):
 
 class DDOSuggestionsResult(graphene.ObjectType):
     full_address = graphene.String(required=True)
-    suggestions = graphene.List(DDOSuggestion)
+    suggestions = graphene.NonNull(graphene.List(graphene.NonNull(DDOSuggestion)))
 
 
 @schema_registry.register_queries
@@ -30,6 +30,9 @@ class DDOQuery:
         return DDOSuggestionsResult(
             full_address=props.label,
             suggestions=[
-                DDOSuggestion(name=f"TODO fill this out!", url="http://example.com")
+                DDOSuggestion(
+                    name=f"Who Owns What",
+                    url=f"https://whoownswhat.justfix.nyc/bbl/{props.pad_bbl}"
+                )
             ]
         )

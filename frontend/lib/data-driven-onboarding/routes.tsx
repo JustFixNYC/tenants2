@@ -4,7 +4,7 @@ import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { AppContext } from '../app-context';
-import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestionsVariables, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
+import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestionsVariables, DataDrivenOnboardingSuggestions_output, DataDrivenOnboardingSuggestions_output_suggestions } from '../queries/DataDrivenOnboardingSuggestions';
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { AddressAndBoroughField } from '../pages/onboarding-step-1';
@@ -140,6 +140,35 @@ function AutoSubmitter(props: {
   return null;
 }
 
+function Suggestion(props: DataDrivenOnboardingSuggestions_output_suggestions) {
+  const sugg = props;
+  return <a href={sugg.url} target="_blank" rel="noopener noreferrer">{sugg.name}</a>;
+}
+
+function Results(props: {
+  address: string,
+  output: DataDrivenOnboardingSuggestions_output|null,
+}) {
+  let content = null;
+  if (props.output) {
+    content = <>
+      <p>Here is some cool info about <strong>{props.output.fullAddress}.</strong></p>
+      <ol>
+        {props.output.suggestions.map((suggestion, i) =>
+          <li key={i}><Suggestion {...suggestion} /></li>)}
+      </ol>
+    </>;
+  } else if (props.address.trim()) {
+    content = <>
+      <p>Sorry, we don't recognize the address you entered.</p>
+    </>;
+  }
+  return <div className="content">
+    <br/>
+    {content}
+  </div>;
+}
+
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const defaultState = {address: '', borough: ''};
@@ -162,6 +191,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
       {ctx => <>
         <AddressAndBoroughField
           key={props.location.search}
+          addressLabel="Enter an address and we'll give you some cool info."
           hideBoroughField
           addressProps={ctx.fieldPropsFor('address')}
           boroughProps={ctx.fieldPropsFor('borough')}
@@ -173,8 +203,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           ctx.fieldPropsFor('borough'),
         ]} ctx={ctx} />
         <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && latestOutput ?
-          <pre>{JSON.stringify(latestOutput, null, 2)}</pre> : null}
+        {!ctx.isLoading && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
       </>}
     </FormSubmitter>
   </Page>;

@@ -89,6 +89,8 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType & { toS
   );
 });
 
+const DEFAULT_ADDRESS_LABEL = "Address";
+
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
   routes: OnboardingRouteInfo;
@@ -97,6 +99,7 @@ type OnboardingStep1Props = {
 
 type AddressAndBoroughFieldProps = {
   disableProgressiveEnhancement?: boolean;
+  addressLabel?: string,
   hideBoroughField?: boolean;
   onChange?: () => void;
   renderAddressLabel?: LabelRenderer,
@@ -109,7 +112,7 @@ export class AddressAndBoroughField extends React.Component<AddressAndBoroughFie
     return (
       <React.Fragment>
         <TextualFormField
-          label="Address"
+          label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
           renderLabel={this.props.renderAddressLabel}
           {...this.props.addressProps}
         />
@@ -135,7 +138,7 @@ export class AddressAndBoroughField extends React.Component<AddressAndBoroughFie
     }
 
     return <GeoAutocomplete
-      label="Address"
+      label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
       renderLabel={this.props.renderAddressLabel}
       initialValue={initialValue}
       onChange={selection => {

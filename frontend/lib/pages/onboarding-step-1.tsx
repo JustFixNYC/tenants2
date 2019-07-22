@@ -92,12 +92,12 @@ type OnboardingStep1Props = {
 
 type AddressAndBoroughFieldProps = {
   disableProgressiveEnhancement?: boolean;
-  renderAddressLabel: LabelRenderer,
+  renderAddressLabel?: LabelRenderer,
   addressProps: BaseFormFieldProps<string>,
   boroughProps: BaseFormFieldProps<string>
 };
 
-class AddressAndBoroughField extends React.Component<AddressAndBoroughFieldProps> {
+export class AddressAndBoroughField extends React.Component<AddressAndBoroughFieldProps> {
   renderBaselineAddressFields(): JSX.Element {
     return (
       <React.Fragment>

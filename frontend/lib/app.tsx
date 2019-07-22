@@ -68,6 +68,11 @@ interface AppState {
   session: AllSessionInfo;
 }
 
+const LoadableDataDrivenOnboardingRoutes = Loadable({
+  loader: () => friendlyLoad(import(/* webpackChunkName: "data-driven-onbarding" */ './data-driven-onboarding/routes')),
+  loading: LoadingPage
+});
+
 const LoadableIndexPage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
   loading: LoadingPage
@@ -241,6 +246,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
+        <Route path={Routes.locale.dataDrivenOnboarding} component={LoadableDataDrivenOnboardingRoutes} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.locale.logout} exact component={LogoutPage} />

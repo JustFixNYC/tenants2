@@ -185,6 +185,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The data requests portal.  */
     dataRequests: createDataRequestsRouteInfo(`${prefix}/data-requests`),
+
+    /** Experimental data-driven onboarding. */
+    dataDrivenOnboarding: `${prefix}/ddo`,
   }
 }
 

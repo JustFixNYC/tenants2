@@ -65,6 +65,7 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
 interface GeoAutocompleteState {
   isLoading: boolean;
   results: GeoAutocompleteItem[];
+  inputName?: string;
 }
 
 const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
@@ -183,7 +184,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className={bulmaClasses('control', {
           'is-loading': this.state.isLoading
         })}>
-          <input className="input" {...this.getInputProps(ds)} />
+          <input name={this.state.inputName} className="input" {...this.getInputProps(ds)} />
           <ul className={classnames({
             'jf-autocomplete-open': ds.isOpen && results.length > 0
           })} {...ds.getMenuProps()}>
@@ -220,7 +221,16 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
+  interval?: number;
+
+  componentDidMount() {
+    this.interval = window.setInterval(() => {
+      this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
+    }, 1000);
+  }
+
   componentWillUnmount() {
+    window.clearInterval(this.interval);
     this.requester.shutdown();
   }
 

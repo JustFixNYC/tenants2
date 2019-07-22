@@ -4,13 +4,14 @@ import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { AppContext } from '../app-context';
-import { DataDrivenOnboardingSuggestions } from '../queries/DataDrivenOnboardingSuggestions';
+import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestionsVariables, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { AddressAndBoroughField } from '../pages/onboarding-step-1';
 import { BaseFormFieldProps } from '../form-fields';
 import { FormContext } from '../form-context';
 import { getQuerystringVar } from '../querystring';
+import { QueryLoaderPrefetcher } from '../query-loader-prefetcher';
 
 function SyncFieldsWithQuerystring(props: {
   router: RouteComponentProps,
@@ -79,6 +80,40 @@ function maybePushHistory(router: RouteComponentProps, input: Object) {
   }
 }
 
+function getInitialState<T>(router: RouteComponentProps, defaultValue: T): T {
+  const result = {} as T;
+  for (let entry of Object.entries(defaultValue)) {
+    const [varName, defaultVarValue] = entry;
+    if (typeof(defaultVarValue) === 'string') {
+      const qsValue = getQuerystringVar(router, varName);
+      const value: string = qsValue === undefined ? defaultVarValue : qsValue;
+      (result as any)[varName] = value;
+    } else {
+      throw new Error(`Cannot convert input "${varName}" value of type "${typeof(defaultVarValue)}"`);
+    }
+  }
+
+  return result;
+}
+
+function useLatestOutput(
+  router: RouteComponentProps,
+  initialState: DataDrivenOnboardingSuggestionsVariables
+) {
+  const appCtx = useContext(AppContext);
+  const qlp = new QueryLoaderPrefetcher(router, appCtx, DataDrivenOnboardingSuggestions, initialState);
+  let initialResults: DataDrivenOnboardingSuggestions_output|null = null;
+
+  qlp.maybeQueueForPrefetching();
+
+  if (qlp.prefetchedResponse) {
+    const { output } = qlp.prefetchedResponse;
+    initialResults = output;
+  }
+
+  return useState(initialResults);
+}
+
 function AutoSubmitter(props: {
   autoSubmit: boolean,
   ctx: FormContext<any>
@@ -94,18 +129,21 @@ function AutoSubmitter(props: {
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
+  const initialState = getInitialState(props, {address: '', borough: ''});
+  const [latestOutput, setLatestOutput] = useLatestOutput(props, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {
     setAutoSubmit(false);
     maybePushHistory(props, input);
   });
-  const initialState = {address: '', borough: ''};
 
   return <Page title="Data-driven onboarding prototype">
     <FormSubmitter
       initialState={initialState}
       onSubmit={onSubmit}
-      onSuccess={output => {}}
+      onSuccess={output => {
+        setLatestOutput(output.simpleQueryOutput);
+      }}
     >
       {ctx => <>
         <AddressAndBoroughField
@@ -120,6 +158,8 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           ctx.fieldPropsFor('borough'),
         ]} ctx={ctx} />
         <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
+        {!ctx.isLoading && latestOutput ?
+          <pre>{JSON.stringify(latestOutput, null, 2)}</pre> : null}
       </>}
     </FormSubmitter>
   </Page>;

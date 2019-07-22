@@ -15,11 +15,16 @@ import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
 import { GeoAutocomplete } from '../geo-autocomplete';
-import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoices, safeGetBoroughChoice } from '../../../common-data/borough-choices';
+import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoices, BoroughChoice } from '../../../common-data/borough-choices';
 import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { toDjangoChoices } from '../common-data';
 import { FormContext } from '../form-context';
+
+export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
+  if (isBoroughChoice(choice)) return choice;
+  return null;
+}
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (

@@ -55,19 +55,24 @@ function SyncFieldsWithQuerystring(props: {
   return null;
 }
 
-function maybePushHistory(router: RouteComponentProps, input: Object) {
+function stringifyInputValue(varName: string, value: unknown): string {
+  if (typeof(value) === 'string') {
+    return value;
+  } else {
+    throw new Error(`Cannot convert input "${varName}" value of type "${typeof(value)}"`);
+  }
+}
+
+function maybePushHistory<T>(router: RouteComponentProps, input: T) {
   let changed = false;
   const newQsEntries = new Map<string, string>();
   for (let entry of Object.entries(input)) {
-    const [varName, value] = entry;
+    const varName = entry[0];
+    const value = stringifyInputValue(varName, entry[1]);
     const qsValue = getQuerystringVar(router, varName) || '';
-    if (typeof(value) === 'string') {
-      newQsEntries.set(varName, value);
-      if (qsValue !== value) {
-        changed = true;
-      }
-    } else {
-      throw new Error(`Cannot convert input "${varName}" value of type "${typeof(value)}"`);
+    newQsEntries.set(varName, value);
+    if (qsValue !== value) {
+      changed = true;
     }
   }
 
@@ -80,7 +85,7 @@ function maybePushHistory(router: RouteComponentProps, input: Object) {
   }
 }
 
-function getInitialState<T>(router: RouteComponentProps, defaultValue: T): T {
+function getInitialStateFromQs<T>(router: RouteComponentProps, defaultValue: T): T {
   const result = {} as T;
   for (let entry of Object.entries(defaultValue)) {
     const [varName, defaultVarValue] = entry;
@@ -129,7 +134,7 @@ function AutoSubmitter(props: {
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const initialState = getInitialState(props, {address: '', borough: ''});
+  const initialState = getInitialStateFromQs(props, {address: '', borough: ''});
   const [latestOutput, setLatestOutput] = useLatestOutput(props, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {

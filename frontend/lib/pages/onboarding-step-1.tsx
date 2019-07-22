@@ -92,6 +92,7 @@ type OnboardingStep1Props = {
 
 type AddressAndBoroughFieldProps = {
   disableProgressiveEnhancement?: boolean;
+  onChange?: () => void;
   renderAddressLabel?: LabelRenderer,
   addressProps: BaseFormFieldProps<string>,
   boroughProps: BaseFormFieldProps<string>
@@ -131,6 +132,7 @@ export class AddressAndBoroughField extends React.Component<AddressAndBoroughFie
       renderLabel={this.props.renderAddressLabel}
       initialValue={initialValue}
       onChange={selection => {
+        this.props.onChange && this.props.onChange();
         addressProps.onChange(selection.address);
         boroughProps.onChange(selection.borough || '');
       }}

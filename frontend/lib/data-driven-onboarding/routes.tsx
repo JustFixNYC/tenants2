@@ -79,9 +79,25 @@ function maybePushHistory(router: RouteComponentProps, input: Object) {
   }
 }
 
+function AutoSubmitOnChange(props: {
+  enabled: boolean,
+  ctx: FormContext<any>
+}) {
+  useEffect(() => {
+    if (props.enabled) {
+      console.log("Auto-submitting now.");
+      props.ctx.submit();
+    }
+  }, [props.enabled]);
+
+  return null;
+}
+
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
+  const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {
+    setAutoSubmit(false);
     maybePushHistory(props, input);
   });
   const initialState = {address: '', borough: ''};
@@ -90,11 +106,16 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
     <FormSubmitter
       initialState={initialState}
       onSubmit={onSubmit}
-      onSuccess={output => console.log("WOO", JSON.stringify(output.simpleQueryOutput))}
+      onSuccess={output => {}}
     >
       {ctx => <>
-        <p>umm {ctx.fieldPropsFor('address').value}</p>
-        <AddressAndBoroughField key={props.location.search} addressProps={ctx.fieldPropsFor('address')} boroughProps={ctx.fieldPropsFor('borough')} />
+        <AddressAndBoroughField
+          key={props.location.search}
+          addressProps={ctx.fieldPropsFor('address')}
+          boroughProps={ctx.fieldPropsFor('borough')}
+          onChange={() => setAutoSubmit(true)}
+        />
+        <AutoSubmitOnChange ctx={ctx} enabled={autoSubmit} />
         <SyncFieldsWithQuerystring router={props} fields={[
           ctx.fieldPropsFor('address'),
           ctx.fieldPropsFor('borough'),

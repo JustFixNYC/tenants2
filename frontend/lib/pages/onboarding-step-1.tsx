@@ -9,7 +9,7 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, BaseFormFieldProps } from '../form-fields';
+import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, BaseFormFieldProps, HiddenFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
@@ -92,6 +92,7 @@ type OnboardingStep1Props = {
 
 type AddressAndBoroughFieldProps = {
   disableProgressiveEnhancement?: boolean;
+  hideBoroughField?: boolean;
   onChange?: () => void;
   renderAddressLabel?: LabelRenderer,
   addressProps: BaseFormFieldProps<string>,
@@ -107,11 +108,12 @@ export class AddressAndBoroughField extends React.Component<AddressAndBoroughFie
           renderLabel={this.props.renderAddressLabel}
           {...this.props.addressProps}
         />
-        <RadiosFormField
-          label="What is your borough?"
-          {...this.props.boroughProps}
-          choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())}
-        />
+        {this.props.hideBoroughField
+          ? <HiddenFormField {...this.props.boroughProps} />
+          : <RadiosFormField
+             label="What is your borough?"
+             {...this.props.boroughProps}
+             choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())} />}
       </React.Fragment>
     );
   }

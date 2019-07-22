@@ -162,6 +162,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
       {ctx => <>
         <AddressAndBoroughField
           key={props.location.search}
+          hideBoroughField
           addressProps={ctx.fieldPropsFor('address')}
           boroughProps={ctx.fieldPropsFor('borough')}
           onChange={() => setAutoSubmit(true)}

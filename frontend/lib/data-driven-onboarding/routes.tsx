@@ -4,7 +4,7 @@ import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { AppContext } from '../app-context';
-import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestionsVariables, DataDrivenOnboardingSuggestions_output, DataDrivenOnboardingSuggestions_output_suggestions } from '../queries/DataDrivenOnboardingSuggestions';
+import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output, DataDrivenOnboardingSuggestions_output_suggestions } from '../queries/DataDrivenOnboardingSuggestions';
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { AddressAndBoroughField } from '../pages/onboarding-step-1';

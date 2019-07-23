@@ -9,6 +9,7 @@ import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../http-get-query-util';
+import { WhoOwnsWhatLink } from '../tests/wow-link';
 
 type SearchResultsProps = {
   query: string,
@@ -17,9 +18,7 @@ type SearchResultsProps = {
 
 function getColumnValue(name: string, value: string): JSX.Element|string {
   if (name.toLowerCase() === 'bbl') {
-    return <a href={`https://whoownswhat.justfix.nyc/bbl/${value}`} target="_blank" rel="noopener noreferrer">
-      {value}
-    </a>
+    return <WhoOwnsWhatLink bbl={value}>{value}</WhoOwnsWhatLink>;
   } else if (name === 'error') {
     return <span className="has-text-danger" style={{fontFamily: 'monospace', whiteSpace: 'pre'}}>{value}</span>
   }

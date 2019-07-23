@@ -4,12 +4,13 @@ import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
 import { AppContext } from '../app-context';
-import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output, DataDrivenOnboardingSuggestions_output_suggestions } from '../queries/DataDrivenOnboardingSuggestions';
+import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { AddressAndBoroughField } from '../pages/onboarding-step-1';
 import { FormContext } from '../form-context';
 import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
+import { WhoOwnsWhatLink } from '../tests/wow-link';
 
 function AutoSubmitter(props: {
   autoSubmit: boolean,
@@ -24,22 +25,24 @@ function AutoSubmitter(props: {
   return null;
 }
 
-function Suggestion(props: DataDrivenOnboardingSuggestions_output_suggestions) {
-  const sugg = props;
-  return <a href={sugg.url} target="_blank" rel="noopener noreferrer">{sugg.name}</a>;
-}
-
 function Results(props: {
   address: string,
   output: DataDrivenOnboardingSuggestions_output|null,
 }) {
   let content = null;
   if (props.output) {
+    const { output } = props;
     content = <>
-      <p>Here is some cool info about <strong>{props.output.fullAddress}.</strong></p>
+      <p>Here is some cool info about <strong>{output.fullAddress}.</strong></p>
       <ol>
-        {props.output.suggestions.map((suggestion, i) =>
-          <li key={i}><Suggestion {...suggestion} /></li>)}
+        <li>It is in ZIP code {output.zipcode}.</li>
+        <li>It has {output.unitCount} units.</li>
+        {!!output.stabilizedUnitCount2007 && <li>{output.stabilizedUnitCount2007} units were rent-stabilized in 2007.</li>}
+        {!!output.stabilizedUnitCount2017 && <li>{output.stabilizedUnitCount2017} units were rent-stabilized in 2017.</li>}
+        {!!output.hpdComplaintCount && <li>It has {output.hpdComplaintCount} HPD complaints.</li>}
+        {!!output.hpdOpenViolationCount && <li>It has {output.hpdOpenViolationCount} open HPD violations.</li>}
+        {output.hasStabilizedUnits && <li>The building has at least one rent-stabilized unit. If you live there, you can find out for sure by <a href="https://www.justfix.nyc/#rental-history" target="_blank" rel="noopener noreferrer">getting your rental history</a>.</li>}
+        <li>Learn more at <WhoOwnsWhatLink bbl={output.bbl}>Who Owns What</WhoOwnsWhatLink>.</li>
       </ol>
     </>;
   } else if (props.address.trim()) {

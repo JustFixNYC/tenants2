@@ -40,7 +40,7 @@ class DDOQuery:
 
     def resolve_ddo_suggestions(self, info, address: str, borough: str):
         if not settings.WOW_DATABASE:
-            logger.warn("Data-driven onboarding requires WoW integration.")
+            logger.warning("Data-driven onboarding requires WoW integration.")
             return None
         features = geocoding.search(get_geocoding_search_text(address, borough))
         if not features:

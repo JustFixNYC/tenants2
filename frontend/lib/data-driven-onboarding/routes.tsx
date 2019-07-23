@@ -76,7 +76,6 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         <AddressAndBoroughField
           key={props.location.search}
           addressLabel="Enter an address and we'll give you some cool info."
-          hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
           addressProps={ctx.fieldPropsFor('address')}
           boroughProps={ctx.fieldPropsFor('borough')}
           onChange={() => setAutoSubmit(true)}

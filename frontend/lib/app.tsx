@@ -69,7 +69,7 @@ interface AppState {
 }
 
 const LoadableDataDrivenOnboardingRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "data-driven-onbarding" */ './data-driven-onboarding/routes')),
+  loader: () => friendlyLoad(import(/* webpackChunkName: "data-driven-onbarding" */ './pages/data-driven-onboarding')),
   loading: LoadingPage
 });
 

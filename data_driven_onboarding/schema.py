@@ -1,4 +1,3 @@
-from typing import List
 from pathlib import Path
 import logging
 from django.db import connections
@@ -6,6 +5,7 @@ from django.conf import settings
 import graphene
 
 from project import schema_registry, geocoding
+from project.util.streaming_json import generate_json_rows
 from onboarding.forms import get_geocoding_search_text
 
 
@@ -49,8 +49,7 @@ class DDOQuery:
         sql_query = DDO_SQL_FILE.read_text()
         with connections[settings.WOW_DATABASE].cursor() as cursor:
             cursor.execute(sql_query, {'bbl': props.pad_bbl})
-            columns: List[str] = [col[0] for col in cursor.description]
-            row = dict(zip(columns, cursor.fetchone()))
+            row = list(generate_json_rows(cursor))[0]
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,

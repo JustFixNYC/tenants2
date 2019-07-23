@@ -86,17 +86,20 @@ export function maybePushQueryInputToHistory<T>(router: RouteComponentProps, inp
   }
 }
 
+function assertString(value: unknown): string {
+  if (typeof(value) !== 'string') {
+    throw new Error(`Expected value to be string, not ${typeof(value)}`);
+  }
+  return value;
+}
+
 export function getInitialQueryInputFromQs<T>(router: RouteComponentProps, defaultValue: SupportedQsTypes<T>): T {
   const result = {};
   for (let entry of Object.entries(defaultValue)) {
     const [varName, defaultVarValue] = entry;
-    if (typeof(defaultVarValue) === 'string') {
-      const qsValue = getQuerystringVar(router, varName);
-      const value: string = qsValue === undefined ? defaultVarValue : qsValue;
-      (result as any)[varName] = value;
-    } else {
-      throw new Error(`Cannot convert input "${varName}" value of type "${typeof(defaultVarValue)}"`);
-    }
+    const qsValue = getQuerystringVar(router, varName);
+    const value: string = qsValue === undefined ? assertString(defaultVarValue) : qsValue;
+    (result as any)[varName] = value;
   }
 
   return result as any;

@@ -11,7 +11,7 @@ import { AddressAndBoroughField } from '../pages/onboarding-step-1';
 import { BaseFormFieldProps } from '../form-fields';
 import { FormContext } from '../form-context';
 import { getQuerystringVar } from '../querystring';
-import { QueryLoaderPrefetcher } from '../query-loader-prefetcher';
+import { QueryLoaderPrefetcher, QueryLoaderQuery } from '../query-loader-prefetcher';
 
 function SyncFieldsWithQuerystring(props: {
   router: RouteComponentProps,
@@ -109,19 +109,23 @@ function getInitialStateFromQs<T>(router: RouteComponentProps, defaultValue: Sup
   return result as any;
 }
 
-function useLatestOutput(
+type QueryWithOutput<T> = {
+  output: T
+};
+
+function useLatestOutput<Input, Output>(
   router: RouteComponentProps,
-  initialState: DataDrivenOnboardingSuggestionsVariables
+  query: QueryLoaderQuery<Input, QueryWithOutput<Output>>,
+  initialState: Input
 ) {
   const appCtx = useContext(AppContext);
-  const qlp = new QueryLoaderPrefetcher(router, appCtx, DataDrivenOnboardingSuggestions, initialState);
-  let initialResults: DataDrivenOnboardingSuggestions_output|null = null;
+  const qlp = new QueryLoaderPrefetcher(router, appCtx, query, initialState);
+  let initialResults: Output|null = null;
 
   qlp.maybeQueueForPrefetching();
 
   if (qlp.prefetchedResponse) {
-    const { output } = qlp.prefetchedResponse;
-    initialResults = output;
+    initialResults = qlp.prefetchedResponse.output;
   }
 
   return useState(initialResults);
@@ -173,7 +177,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const defaultState = {address: '', borough: ''};
   const initialState = getInitialStateFromQs(props, defaultState);
-  const [latestOutput, setLatestOutput] = useLatestOutput(props, initialState);
+  const [latestOutput, setLatestOutput] = useLatestOutput(props, DataDrivenOnboardingSuggestions, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {
     setAutoSubmit(false);

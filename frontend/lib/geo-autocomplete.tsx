@@ -157,7 +157,20 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     return false;
   }
 
+  /**
+   * Despite all our efforts to make Chome disable its built-in autocomplete, we
+   * somehow still fail, so our only other resort is to change the `name` attribute
+   * of our `<input>` element to something that Chrome won't have any autocomplete
+   * information for.
+   */
+  makeChromeNotBeAnnoying() {
+    if (isChrome()) {
+      this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
+    }
+  }
+
   handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
+    this.makeChromeNotBeAnnoying();
     if (event.keyCode === KEY_ENTER || event.keyCode === KEY_TAB) {
       if (this.selectFirstResult(ds)) {
         event.preventDefault();
@@ -170,6 +183,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
       autoComplete: getBrowserAutoCompleteOffValue(),
+      onFocus: () => this.makeChromeNotBeAnnoying(),
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
@@ -223,18 +237,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     }
   }
 
-  interval?: number;
-
-  componentDidMount() {
-    if (isChrome()) {
-      this.interval = window.setInterval(() => {
-        this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
-      }, 1000);
-    }
-  }
-
   componentWillUnmount() {
-    window.clearInterval(this.interval);
     this.requester.shutdown();
   }
 

@@ -9,7 +9,7 @@ import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { AddressAndBoroughField } from '../pages/onboarding-step-1';
 import { FormContext } from '../form-context';
-import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../tests/http-get-query-util';
+import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
 
 function AutoSubmitter(props: {
   autoSubmit: boolean,

@@ -8,7 +8,7 @@ import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } f
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../tests/http-get-query-util';
+import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../http-get-query-util';
 
 type SearchResultsProps = {
   query: string,

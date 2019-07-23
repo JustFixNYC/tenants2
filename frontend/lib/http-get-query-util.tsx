@@ -1,10 +1,10 @@
 import { RouteComponentProps } from "react-router";
-import { BaseFormFieldProps } from "../form-fields";
-import { FormContext } from "../form-context";
+import { BaseFormFieldProps } from "./form-fields";
+import { FormContext } from "./form-context";
 import { useState, useEffect, useContext } from "react";
-import { getQuerystringVar } from "../querystring";
-import { QueryLoaderQuery, QueryLoaderPrefetcher } from "../query-loader-prefetcher";
-import { AppContext } from "../app-context";
+import { getQuerystringVar } from "./querystring";
+import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
+import { AppContext } from "./app-context";
 
 export function SyncQuerystringToFields(props: {
   router: RouteComponentProps,

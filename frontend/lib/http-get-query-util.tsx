@@ -6,26 +6,46 @@ import { getQuerystringVar } from "./querystring";
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
 import { AppContext } from "./app-context";
 
+function applyQsToFields(
+  router: RouteComponentProps,
+  fields: BaseFormFieldProps<string>[]
+): boolean {
+  let changed = false;
+  for (let field of fields) {
+    const qsValue = getQuerystringVar(router, field.name) || '';
+    if (field.value !== qsValue) {
+      field.onChange(qsValue);
+      changed = true;
+    }
+  }
+  return changed;
+}
+
+function areFieldsSameAsQs(
+  router: RouteComponentProps,
+  fields: BaseFormFieldProps<string>[]
+): boolean {
+  for (let field of fields) {
+    const qsValue = getQuerystringVar(router, field.name) || '';
+    if (field.value !== qsValue) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function SyncQuerystringToFields(props: {
   router: RouteComponentProps,
   fields: BaseFormFieldProps<string>[],
   ctx: FormContext<any>
 }) {
-  const { router } = props;
+  const { router, fields } = props;
   const [triggeredChange, setTriggeredChange] = useState(false);
 
   // This effect detects when the current query in our URL has changed,
   // and matches our search field to sync with it.
   useEffect(() => {
-    let changed = false;
-    for (let field of props.fields) {
-      const qsValue = getQuerystringVar(router, field.name) || '';
-      if (field.value !== qsValue) {
-        field.onChange(qsValue);
-        changed = true;
-      }
-    }
-    if (changed) {
+    if (applyQsToFields(router, fields)) {
       setTriggeredChange(true);
     }
   }, props.fields.map(f => getQuerystringVar(router, f.name)));
@@ -33,13 +53,7 @@ export function SyncQuerystringToFields(props: {
   // This effect detects when our search fields have caught up with our
   // URL change, and immediately triggers a form submission.
   useEffect(() => {
-    if (triggeredChange) {
-      for (let field of props.fields) {
-        const qsValue = getQuerystringVar(router, field.name) || '';
-        if (field.value !== qsValue) {
-          return;
-        }
-      }
+    if (triggeredChange && areFieldsSameAsQs(router, fields)) {
       props.ctx.submit(true);
       setTriggeredChange(false);
     }

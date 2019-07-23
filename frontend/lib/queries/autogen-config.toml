@@ -39,6 +39,9 @@ ignoreFields = [
     "addressVerified"
 ]
 
+[types.DDOSuggestionsResult]
+fragmentName = "DDOSuggestionsResult"
+
 [mutations."example.*"]
 
 [mutations.login]

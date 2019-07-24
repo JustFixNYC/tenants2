@@ -169,8 +169,10 @@ select
     -- average wait time for repairs after a landlord has been notified of a violation. for the the entire associated portfolio
     -- may return null if unknown
     P.AverageWaitTimeForPortfolio as average_wait_time_for_repairs_for_portfolio,
-    M.majorcategory as Most_Common_Category_Of_HPD_Complaint,
-	M.NumberOfComplaints as Number_Of_Complaints_Of_Most_Common_Category
+    M.majorcategory as most_common_category_of_hpd_complaint,
+    --The list of major categories can be found here: 
+    --https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf
+	M.NumberOfComplaints as number_of_complaints_of_most_common_category
 from Total_Res_Units T
     left join Count_HPD HPD on T.bbl=HPD.bbl
     left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl

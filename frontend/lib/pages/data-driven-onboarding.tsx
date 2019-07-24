@@ -11,6 +11,9 @@ import { FormContext } from '../form-context';
 import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
+import { Link } from 'react-router-dom';
+
+type DDOData = DataDrivenOnboardingSuggestions_output;
 
 function AutoSubmitter(props: {
   autoSubmit: boolean,
@@ -25,28 +28,137 @@ function AutoSubmitter(props: {
   return null;
 }
 
+function Indicator(props: {value: number, unit: string, pluralUnit?: string, verb?: string}) {
+  const num = new Intl.NumberFormat('en-US');
+  const { value, unit } = props;
+  const isSingular = value === 1;
+  let pluralUnit = props.pluralUnit || `${unit}s`;
+  let verb = props.verb;
+
+  if (verb) {
+    const [singVerb, pluralVerb] = verb.split('/');
+    verb = isSingular ? `${singVerb} ` : `${pluralVerb} `;
+  }
+
+  return <>
+    {verb}{num.format(value)} {isSingular ? unit : pluralUnit}
+  </>;
+}
+
+type ActionCardProps = {
+  title?: string,
+  indicators: (JSX.Element | 0 | false | null)[],
+  cta: JSX.Element
+};
+
+type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
+
+function ActionCard(props: ActionCardProps) {
+  return (
+    <div className="card">
+      <div className="card-content">
+        {props.title && <p className="title">{props.title}</p>}
+        {props.indicators.map((indicator, i) => (
+          indicator ? <p key={i} className="subtitle">{indicator}</p> : null
+        ))}
+      </div>
+      <div className="card-footer">
+        <p className="card-footer-item">
+          <span>
+            {props.cta}
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const ACTION_CARDS: ActionCardPropsCreator[] = [
+  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
+    return {
+      title: fullAddress,
+      indicators: [
+        associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
+          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+        </p>,
+        unitCount && <p className="subtitle">
+          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+        </p>,  
+      ],
+      cta: <WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
+    };
+  },
+  function letterOfComplaint(data) {
+    return {
+      indicators: [
+        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
+      ],
+      cta: <Link to={Routes.locale.home}>Send a letter of complaint</Link>
+    };
+  },
+  function hpAction(data) {
+    return {
+      indicators: [
+        data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
+      ],
+      cta: <Link to={Routes.locale.hp.splash}>Sue your landlord</Link>
+    }
+  },
+  function rentHistory(data) {
+    return {
+      indicators: [
+        (data.hasStabilizedUnits || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
+        ? <>
+          Your apartment may be rent stabilized.
+        </> : null,
+        data.stabilizedUnitCount2017 && <>
+          Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
+        </>,
+      ],
+      cta: <a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>
+    };
+  },
+  function evictionFreeNyc(data) {
+    return {
+      indicators: [
+        data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
+      ],
+      cta: <a href="https://www.evictionfreenyc.org/" rel="noopener noreferrer" target="_blank">Fight an eviction</a>
+    }
+  }
+];
+
+function FoundResults(props: DDOData) {
+  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(props));
+  const recommendedActions: ActionCardProps[] = [];
+  const otherActions: ActionCardProps[] = [];
+
+  actionCardProps.forEach(props => {
+    if (props.indicators.some(value => !!value)) {
+      recommendedActions.push(props);
+    } else {
+      otherActions.push(props);
+    }
+  });
+
+  return <>
+    {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    {otherActions.length > 0 && <>
+      <h2>Other actions</h2>
+      <ul>
+        {otherActions.map((props, i) => <li key={i}>{props.cta}</li>)}
+      </ul>
+    </>}
+  </>;
+}
+
 function Results(props: {
   address: string,
-  output: DataDrivenOnboardingSuggestions_output|null,
+  output: DDOData|null,
 }) {
   let content = null;
   if (props.output) {
-    const { output } = props;
-    content = <>
-      <p>Here is some cool info about <strong>{output.fullAddress}.</strong></p>
-      <ol>
-        <li>It is in ZIP code {output.zipcode}.</li>
-        <li>It has {output.unitCount} units.</li>
-        {!!output.stabilizedUnitCount2007 && <li>{output.stabilizedUnitCount2007} units were rent-stabilized in 2007.</li>}
-        {!!output.stabilizedUnitCount2017 && <li>{output.stabilizedUnitCount2017} units were rent-stabilized in 2017.</li>}
-        {!!output.hpdComplaintCount && <li>It has {output.hpdComplaintCount} HPD complaints.</li>}
-        {!!output.hpdOpenViolationCount && <li>It has {output.hpdOpenViolationCount} open HPD violations.</li>}
-        {output.hasStabilizedUnits && <li>The building has had at least one rent-stabilized unit at some point. If you live there, you can find out for sure by <a href="https://www.justfix.nyc/#rental-history" target="_blank" rel="noopener noreferrer">getting your rental history</a>.</li>}
-        {output.averageWaitTimeForRepairsAtBbl && <li>For this building, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsAtBbl} days.</li>}
-        {output.averageWaitTimeForRepairsForPortfolio && <li>Across the landlord's portfolio, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsForPortfolio} days.</li>}
-        <li>Learn more at <WhoOwnsWhatLink bbl={output.bbl}>Who Owns What</WhoOwnsWhatLink>.</li>
-      </ol>
-    </>;
+    content = <FoundResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
       <p>Sorry, we don't recognize the address you entered.</p>
@@ -80,7 +192,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
       {ctx => <>
         <AddressAndBoroughField
           key={props.location.search}
-          addressLabel="Enter an address and we'll give you some cool info."
+          addressLabel="Enter your address and we'll give you some cool info."
           addressProps={ctx.fieldPropsFor('address')}
           boroughProps={ctx.fieldPropsFor('borough')}
           onChange={() => setAutoSubmit(true)}

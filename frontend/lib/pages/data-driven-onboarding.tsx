@@ -45,11 +45,15 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   </>;
 }
 
-function ActionCard(props: {
+type ActionCardProps = {
   title?: string,
   indicators: (JSX.Element | 0 | false | null)[],
   cta: JSX.Element
-}) {
+};
+
+type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
+
+function ActionCard(props: ActionCardProps) {
   return (
     <div className="card">
       <div className="card-content">
@@ -69,54 +73,82 @@ function ActionCard(props: {
   );
 }
 
-const LetterOfComplaintCard = (props: DDOData) => (
-  <ActionCard indicators={[
-    <>There <Indicator verb="has been/have been" value={props.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
-  ]} cta={<Link to={Routes.locale.home}>Send a letter of complaint</Link>} />
-);
+const ACTION_CARDS: ActionCardPropsCreator[] = [
+  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
+    return {
+      title: fullAddress,
+      indicators: [
+        associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
+          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+        </p>,
+        unitCount && <p className="subtitle">
+          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+        </p>,  
+      ],
+      cta: <WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
+    };
+  },
+  function letterOfComplaint(data) {
+    return {
+      indicators: [
+        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
+      ],
+      cta: <Link to={Routes.locale.home}>Send a letter of complaint</Link>
+    };
+  },
+  function hpAction(data) {
+    return {
+      indicators: [
+        data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
+      ],
+      cta: <Link to={Routes.locale.hp.splash}>Sue your landlord</Link>
+    }
+  },
+  function rentHistory(data) {
+    return {
+      indicators: [
+        (data.hasStabilizedUnits || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
+        ? <>
+          Your apartment may be rent stabilized.
+        </> : null,
+        data.stabilizedUnitCount2017 && <>
+          Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
+        </>,
+      ],
+      cta: <a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>
+    };
+  },
+  function evictionFreeNyc(data) {
+    return {
+      indicators: [
+        data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
+      ],
+      cta: <a href="https://www.evictionfreenyc.org/" rel="noopener noreferrer" target="_blank">Fight an eviction</a>
+    }
+  }
+];
 
-const WhoOwnsWhatCard = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}: DDOData) => (
-  <ActionCard title={fullAddress} indicators={[
-    associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
-      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
-    </p>,
-    unitCount && <p className="subtitle">
-      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
-    </p>,
-  ]} cta={<WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>} />
-);
-
-const HPActionCard = (props: DDOData) => (
-  <ActionCard indicators={[
-    <>There <Indicator verb="is/are" value={props.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
-  ]} cta={<Link to={Routes.locale.hp.splash}>Sue your landlord</Link>} />
-);
-
-const RentHistoryCard = (props: DDOData) => (
-  <ActionCard indicators={[
-    (props.hasStabilizedUnits || props.stabilizedUnitCount2007 || props.stabilizedUnitCount2017)
-    ? <>
-      Your apartment may be rent stabilized.
-    </> : null,
-    props.stabilizedUnitCount2017 && <>
-      Your building had <Indicator value={props.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
-    </>,
-  ]} cta={<a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>} />
-);
-
-const EvictionFreeNYCCard = (props: DDOData) => (
-  <ActionCard indicators={[
-    props.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
-  ]} cta={<a href="https://www.evictionfreenyc.org/" rel="noopener noreferrer" target="_blank">Fight an eviction</a>} />
-);
-  
 function FoundResults(props: DDOData) {
+  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(props));
+  const recommendedActions: ActionCardProps[] = [];
+  const otherActions: ActionCardProps[] = [];
+
+  actionCardProps.forEach(props => {
+    if (props.indicators.some(value => !!value)) {
+      recommendedActions.push(props);
+    } else {
+      otherActions.push(props);
+    }
+  });
+
   return <>
-    <WhoOwnsWhatCard {...props} />
-    <LetterOfComplaintCard {...props} />
-    <HPActionCard {...props} />
-    <RentHistoryCard {...props} />
-    <EvictionFreeNYCCard {...props} />
+    {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    {otherActions.length > 0 && <>
+      <h2>Other actions</h2>
+      <ul>
+        {otherActions.map((props, i) => <li key={i}>{props.cta}</li>)}
+      </ul>
+    </>}
   </>;
 }
 

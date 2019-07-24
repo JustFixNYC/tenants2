@@ -84,7 +84,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           onChange={() => setAutoSubmit(true)}
         />
         <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-        <SyncQuerystringToFields router={props} fields={[
+        <SyncQuerystringToFields routeInfo={props} fields={[
           ctx.fieldPropsFor('address'),
           ctx.fieldPropsFor('borough'),
         ]} ctx={ctx} />

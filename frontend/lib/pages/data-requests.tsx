@@ -91,7 +91,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
       onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
     >
       {ctx => <>
-        <SyncQuerystringToFields router={props} fields={[
+        <SyncQuerystringToFields routeInfo={props} fields={[
           ctx.fieldPropsFor('landlords'),
         ]} ctx={ctx} />
         <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />

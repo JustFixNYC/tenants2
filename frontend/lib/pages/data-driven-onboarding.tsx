@@ -13,6 +13,8 @@ import { WhoOwnsWhatLink } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 
+type DDOData = DataDrivenOnboardingSuggestions_output;
+
 function AutoSubmitter(props: {
   autoSubmit: boolean,
   ctx: FormContext<any>
@@ -43,16 +45,23 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   </>;
 }
 
-function LetterOfComplaintCard(props: DataDrivenOnboardingSuggestions_output) {
+function ActionCard(props: {
+  title?: string,
+  indicators: (JSX.Element | 0 | null)[],
+  cta: JSX.Element
+}) {
   return (
     <div className="card">
       <div className="card-content">
-        <p className="subtitle">There <Indicator verb="has been/have been" value={props.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</p>
+        {props.title && <p className="title">{props.title}</p>}
+        {props.indicators.map((indicator, i) => (
+          indicator && <p key={i} className="subtitle">{indicator}</p>
+        ))}
       </div>
       <div className="card-footer">
         <p className="card-footer-item">
           <span>
-            <Link to={Routes.locale.home}>Send a letter of complaint</Link>
+            {props.cta}
           </span>
         </p>
       </div>
@@ -60,41 +69,53 @@ function LetterOfComplaintCard(props: DataDrivenOnboardingSuggestions_output) {
   );
 }
 
-function GeneralAddressInfoCard(props: DataDrivenOnboardingSuggestions_output) {
-  let { associatedBuildingCount, portfolioUnitCount, unitCount} = props;
+const LetterOfComplaintCard = (props: DDOData) => (
+  <ActionCard indicators={[
+    <>There <Indicator verb="has been/have been" value={props.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
+  ]} cta={<Link to={Routes.locale.home}>Send a letter of complaint</Link>} />
+);
 
-  return (
-    <div className="card">
-      <div className="card-content">
-        <p className="title">{props.fullAddress}</p>
-        {associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
-          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
-        </p>}
-        {unitCount && <p className="subtitle">
-          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
-        </p>}
-      </div>
-      <div className="card-footer">
-        <p className="card-footer-item">
-          <span>
-            Learn more at <WhoOwnsWhatLink bbl={props.bbl}>Who Owns What</WhoOwnsWhatLink>
-          </span>
-        </p>
-      </div>
-    </div>
-  );
-}
+const WhoOwnsWhatCard = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}: DDOData) => (
+  <ActionCard title={fullAddress} indicators={[
+    associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
+      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+    </p>,
+    unitCount && <p className="subtitle">
+      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+    </p>,
+  ]} cta={<WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>} />
+);
 
-function FoundResults(props: DataDrivenOnboardingSuggestions_output) {
+const HPActionCard = (props: DDOData) => (
+  <ActionCard indicators={[
+    <>There <Indicator verb="is/are" value={props.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
+  ]} cta={<Link to={Routes.locale.hp.splash}>Sue your landlord</Link>} />
+);
+
+const RentHistoryCard = (props: DDOData) => (
+  <ActionCard indicators={[
+    (props.hasStabilizedUnits || props.stabilizedUnitCount2007 || props.stabilizedUnitCount2017)
+    ? <>
+      Your apartment may be rent stabilized.
+    </> : null,
+    props.stabilizedUnitCount2017 && <>
+      Your building had <Indicator value={props.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
+    </>,
+  ]} cta={<a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>} />
+);
+
+function FoundResults(props: DDOData) {
   return <>
-    <GeneralAddressInfoCard {...props} />
+    <WhoOwnsWhatCard {...props} />
     <LetterOfComplaintCard {...props} />
+    <HPActionCard {...props} />
+    <RentHistoryCard {...props} />
   </>;
 }
 
 function Results(props: {
   address: string,
-  output: DataDrivenOnboardingSuggestions_output|null,
+  output: DDOData|null,
 }) {
   let content = null;
   if (props.output) {

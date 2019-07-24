@@ -41,6 +41,7 @@ ignoreFields = [
 
 [types.DDOSuggestionsResult]
 fragmentName = "DDOSuggestionsResult"
+createBlankLiteral = true
 
 [mutations."example.*"]
 

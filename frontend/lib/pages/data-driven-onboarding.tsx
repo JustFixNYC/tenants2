@@ -41,7 +41,9 @@ function Results(props: {
         {!!output.stabilizedUnitCount2017 && <li>{output.stabilizedUnitCount2017} units were rent-stabilized in 2017.</li>}
         {!!output.hpdComplaintCount && <li>It has {output.hpdComplaintCount} HPD complaints.</li>}
         {!!output.hpdOpenViolationCount && <li>It has {output.hpdOpenViolationCount} open HPD violations.</li>}
-        {output.hasStabilizedUnits && <li>The building has at least one rent-stabilized unit. If you live there, you can find out for sure by <a href="https://www.justfix.nyc/#rental-history" target="_blank" rel="noopener noreferrer">getting your rental history</a>.</li>}
+        {output.hasStabilizedUnits && <li>The building has had at least one rent-stabilized unit at some point. If you live there, you can find out for sure by <a href="https://www.justfix.nyc/#rental-history" target="_blank" rel="noopener noreferrer">getting your rental history</a>.</li>}
+        {output.averageWaitTimeForRepairsAtBbl && <li>For this building, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsAtBbl} days.</li>}
+        {output.averageWaitTimeForRepairsForPortfolio && <li>Across the landlord's portfolio, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsForPortfolio} days.</li>}
         <li>Learn more at <WhoOwnsWhatLink bbl={output.bbl}>Who Owns What</WhoOwnsWhatLink>.</li>
       </ol>
     </>;

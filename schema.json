@@ -216,7 +216,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The full address of the location.",
               "isDeprecated": false,
               "name": "fullAddress",
               "type": {
@@ -232,7 +232,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The 10-digit Borough-Block-Lot (BBL) of the location.",
               "isDeprecated": false,
               "name": "bbl",
               "type": {
@@ -248,19 +248,23 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The zip code of the location. It may be blank.",
               "isDeprecated": false,
               "name": "zipcode",
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               }
             },
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Number of residential units for the BBL, if available.",
               "isDeprecated": false,
               "name": "unitCount",
               "type": {
@@ -272,7 +276,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Number of HPD complaints for the BBL. If there are no listed complaints, this will be null.",
               "isDeprecated": false,
               "name": "hpdComplaintCount",
               "type": {
@@ -284,7 +288,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Number of open HPD violations for the BBL. If there are no listed violations, this will be null.",
               "isDeprecated": false,
               "name": "hpdOpenViolationCount",
               "type": {
@@ -296,43 +300,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "stabilizedUnitCount2007",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "stabilizedUnitCount2017",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "hasStabilizedUnits",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
+              "description": "Number of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "associatedBuildingCount",
               "type": {
@@ -344,9 +312,81 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The number of residential units in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "portfolioUnitCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of rent-stabilized residential units at the BBL in 2007.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCount2007",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of rent-stabilized residential units at the BBL in 2017.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCount2017",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Whether this building has ever had rent-stabilized units at any point.",
+              "isDeprecated": false,
+              "name": "hasStabilizedUnits",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The average wait time for repairs, in days, after a landlord has been notified of a violation, if known, for the property.",
+              "isDeprecated": false,
+              "name": "averageWaitTimeForRepairsAtBbl",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The average wait time for repairs, in days, after a landlord has been notified of a violation, if known, for the landlord's entire portfolio.",
+              "isDeprecated": false,
+              "name": "averageWaitTimeForRepairsForPortfolio",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",

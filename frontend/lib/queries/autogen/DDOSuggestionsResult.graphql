@@ -6,9 +6,11 @@ fragment DDOSuggestionsResult on DDOSuggestionsResult {
   unitCount,
   hpdComplaintCount,
   hpdOpenViolationCount,
+  associatedBuildingCount,
+  portfolioUnitCount,
   stabilizedUnitCount2007,
   stabilizedUnitCount2017,
   hasStabilizedUnits,
-  associatedBuildingCount,
-  portfolioUnitCount
+  averageWaitTimeForRepairsAtBbl,
+  averageWaitTimeForRepairsForPortfolio
 }

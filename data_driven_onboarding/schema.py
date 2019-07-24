@@ -18,17 +18,86 @@ logger = logging.getLogger(__name__)
 
 
 class DDOSuggestionsResult(graphene.ObjectType):
-    full_address = graphene.String(required=True)
-    bbl = graphene.String(required=True)
-    zipcode = graphene.String()
-    unit_count = graphene.Int()
-    hpd_complaint_count = graphene.Int()
-    hpd_open_violation_count = graphene.Int()
-    stabilized_unit_count_2007 = graphene.Int()
-    stabilized_unit_count_2017 = graphene.Int()
-    has_stabilized_units = graphene.Boolean()
-    associated_building_count = graphene.Int()
-    portfolio_unit_count = graphene.Int()
+    # This information is obtained from geocoding.
+    full_address = graphene.String(
+        required=True,
+        description='The full address of the location.'
+    )
+    bbl = graphene.String(
+        required=True,
+        description="The 10-digit Borough-Block-Lot (BBL) of the location."
+    )
+
+    # This information is obtained from our SQL query.
+    zipcode = graphene.String(
+        required=True,
+        description="The zip code of the location. It may be blank."
+    )
+
+    unit_count = graphene.Int(
+        description="Number of residential units for the BBL, if available."
+    )
+
+    hpd_complaint_count = graphene.Int(
+        description=(
+            "Number of HPD complaints for the BBL. If there are no listed complaints, "
+            "this will be null."
+        )
+    )
+
+    hpd_open_violation_count = graphene.Int(
+        description=(
+            "Number of open HPD violations for the BBL. If there are no listed violations, "
+            "this will be null."
+        )
+    )
+
+    associated_building_count = graphene.Int(
+        description=(
+            "Number of associated buildings from the portfolio that the BBL is in. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    portfolio_unit_count = graphene.Int(
+        description=(
+            "The number of residential units in the portfolio that the BBL belongs to. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    stabilized_unit_count_2007 = graphene.Int(
+        required=True,
+        description=(
+            "The number of rent-stabilized residential units at the BBL in 2007."
+        )
+    )
+
+    stabilized_unit_count_2017 = graphene.Int(
+        required=True,
+        description=(
+            "The number of rent-stabilized residential units at the BBL in 2017."
+        )
+    )
+
+    has_stabilized_units = graphene.Boolean(
+        required=True,
+        description="Whether this building has ever had rent-stabilized units at any point."
+    )
+
+    average_wait_time_for_repairs_at_bbl = graphene.Int(
+        description=(
+            "The average wait time for repairs, in days, after a landlord has been notified "
+            "of a violation, if known, for the property."
+        )
+    )
+
+    average_wait_time_for_repairs_for_portfolio = graphene.Int(
+        description=(
+            "The average wait time for repairs, in days, after a landlord has been notified "
+            "of a violation, if known, for the landlord's entire portfolio."
+        )
+    )
 
 
 @schema_registry.register_queries

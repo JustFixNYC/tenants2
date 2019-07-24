@@ -6,8 +6,7 @@ with Total_Res_Units as(
         UnitsRes,
         bbl -- is this necessary?
     from pluto_18v2
-    where bbl= 
-%(bbl)s
+    where bbl= %(bbl)s
     ),
     
 -- sum of res units in associated portfolio (get_assoc_addrs_from_bbl)
@@ -42,7 +41,7 @@ Count_Open_HPD as (
         bbl,
         count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations
     from public.hpd_violations
-    where bbl= %(bbl)s and currentstatus !='VIOLATION CLOSED'
+    where bbl= %(bbl)s and violationstatus !='Close'
     group by bbl
 ),
 

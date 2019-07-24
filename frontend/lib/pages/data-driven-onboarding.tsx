@@ -11,6 +11,7 @@ import { FormContext } from '../form-context';
 import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
+import { Link } from 'react-router-dom';
 
 function AutoSubmitter(props: {
   autoSubmit: boolean,
@@ -42,6 +43,23 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   </>;
 }
 
+function LetterOfComplaintCard(props: DataDrivenOnboardingSuggestions_output) {
+  return (
+    <div className="card">
+      <div className="card-content">
+        <p className="subtitle">There <Indicator verb="has been/have been" value={props.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</p>
+      </div>
+      <div className="card-footer">
+        <p className="card-footer-item">
+          <span>
+            <Link to={Routes.locale.home}>Send a letter of complaint</Link>
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function GeneralAddressInfoCard(props: DataDrivenOnboardingSuggestions_output) {
   let { associatedBuildingCount, portfolioUnitCount, unitCount} = props;
 
@@ -68,9 +86,10 @@ function GeneralAddressInfoCard(props: DataDrivenOnboardingSuggestions_output) {
 }
 
 function FoundResults(props: DataDrivenOnboardingSuggestions_output) {
-  return (
+  return <>
     <GeneralAddressInfoCard {...props} />
-  );
+    <LetterOfComplaintCard {...props} />
+  </>;
 }
 
 function Results(props: {

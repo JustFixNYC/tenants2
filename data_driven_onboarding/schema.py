@@ -14,6 +14,19 @@ MY_DIR = Path(__file__).parent.resolve()
 
 DDO_SQL_FILE = MY_DIR / 'data-driven-onboarding.sql'
 
+RTC_ZIPCODES = set([
+    # Brooklyn
+    '11216', '11221', '11225', '11226',
+    # Bronx
+    '10457', '10467', '10468' '10462',
+    # Manhattan
+    '10026', '10027', '10025', '10031',
+    # Queens
+    '11433', '11434', '11373' '11385',
+    # Staten Island
+    '10302', '10303', '10314' '10310',
+])
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,9 +36,15 @@ class DDOSuggestionsResult(graphene.ObjectType):
         required=True,
         description='The full address of the location.'
     )
+
     bbl = graphene.String(
         required=True,
         description="The 10-digit Borough-Block-Lot (BBL) of the location."
+    )
+
+    is_rtc_eligible = graphene.Boolean(
+        required=True,
+        description="Whether the location is eligible for NYC's Right to Counsel program."
     )
 
     # This information is obtained from our SQL query.
@@ -120,6 +139,7 @@ class DDOQuery:
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
+            is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
             **row
         )
 

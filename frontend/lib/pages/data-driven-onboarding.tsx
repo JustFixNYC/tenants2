@@ -47,7 +47,7 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
 
 function ActionCard(props: {
   title?: string,
-  indicators: (JSX.Element | 0 | null)[],
+  indicators: (JSX.Element | 0 | false | null)[],
   cta: JSX.Element
 }) {
   return (
@@ -55,7 +55,7 @@ function ActionCard(props: {
       <div className="card-content">
         {props.title && <p className="title">{props.title}</p>}
         {props.indicators.map((indicator, i) => (
-          indicator && <p key={i} className="subtitle">{indicator}</p>
+          indicator ? <p key={i} className="subtitle">{indicator}</p> : null
         ))}
       </div>
       <div className="card-footer">
@@ -104,12 +104,19 @@ const RentHistoryCard = (props: DDOData) => (
   ]} cta={<a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>} />
 );
 
+const EvictionFreeNYCCard = (props: DDOData) => (
+  <ActionCard indicators={[
+    props.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
+  ]} cta={<a href="https://www.evictionfreenyc.org/" rel="noopener noreferrer" target="_blank">Fight an eviction</a>} />
+);
+  
 function FoundResults(props: DDOData) {
   return <>
     <WhoOwnsWhatCard {...props} />
     <LetterOfComplaintCard {...props} />
     <HPActionCard {...props} />
     <RentHistoryCard {...props} />
+    <EvictionFreeNYCCard {...props} />
   </>;
 }
 

@@ -7,10 +7,10 @@ import { AppContext } from '../app-context';
 import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
-import { AddressAndBoroughField } from './onboarding-step-1';
 import { FormContext } from '../form-context';
 import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
+import { AddressAndBoroughField } from '../address-and-borough-form-field';
 
 function AutoSubmitter(props: {
   autoSubmit: boolean,

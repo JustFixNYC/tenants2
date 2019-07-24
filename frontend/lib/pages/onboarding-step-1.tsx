@@ -9,17 +9,16 @@ import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { TextualFormField, RadiosFormField, renderSimpleLabel, LabelRenderer, BaseFormFieldProps } from '../form-fields';
+import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
-import { GeoAutocomplete } from '../geo-autocomplete';
-import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoices, BoroughChoice } from '../../../common-data/borough-choices';
-import { ProgressiveEnhancement, ProgressiveEnhancementContext } from '../progressive-enhancement';
+import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
+import { ProgressiveEnhancement } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
-import { toDjangoChoices } from '../common-data';
 import { FormContext } from '../form-context';
+import { AddressAndBoroughField } from '../address-and-borough-form-field';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -89,75 +88,11 @@ export const ConfirmAddressModal = withAppContext((props: AppContextType & { toS
   );
 });
 
-const DEFAULT_ADDRESS_LABEL = "Address";
-
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
   routes: OnboardingRouteInfo;
   toCancel: string;
 } & RouteComponentProps<any> & AppContextType;
-
-type AddressAndBoroughFieldProps = {
-  disableProgressiveEnhancement?: boolean;
-  addressLabel?: string,
-  onChange?: () => void;
-  renderAddressLabel?: LabelRenderer,
-  addressProps: BaseFormFieldProps<string>,
-  boroughProps: BaseFormFieldProps<string>
-};
-
-export class AddressAndBoroughField extends React.Component<AddressAndBoroughFieldProps> {
-  renderBaselineAddressFields(): JSX.Element {
-    return (
-      <React.Fragment>
-        <TextualFormField
-          label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
-          renderLabel={this.props.renderAddressLabel}
-          {...this.props.addressProps}
-        />
-        <RadiosFormField
-          label="What is your borough?"
-          {...this.props.boroughProps}
-          choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())}
-        />
-      </React.Fragment>
-    );
-  }
-
-  renderEnhancedAddressField(pe: ProgressiveEnhancementContext) {
-    const { addressProps, boroughProps } = this.props;
-    let initialValue = addressProps.value
-      ? { address: addressProps.value,
-          borough: safeGetBoroughChoice(boroughProps.value) }
-      : undefined;
-
-    if (boroughProps.errors && !addressProps.errors) {
-      return this.renderBaselineAddressFields();
-    }
-
-    return <GeoAutocomplete
-      label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
-      renderLabel={this.props.renderAddressLabel}
-      initialValue={initialValue}
-      onChange={selection => {
-        this.props.onChange && this.props.onChange();
-        addressProps.onChange(selection.address);
-        boroughProps.onChange(selection.borough || '');
-      }}
-      onNetworkError={pe.fallbackToBaseline}
-      errors={addressProps.errors}
-    />;
-  }
-
-  render() {
-    return (
-      <ProgressiveEnhancement
-        disabled={this.props.disableProgressiveEnhancement}
-        renderBaseline={() => this.renderBaselineAddressFields()}
-        renderEnhanced={(pe) => this.renderEnhancedAddressField(pe)} />
-    );
-  }
-}
 
 class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Props> {
   readonly cancelControlRef: React.RefObject<HTMLDivElement> = React.createRef();

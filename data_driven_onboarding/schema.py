@@ -128,6 +128,8 @@ class DDOQuery:
     )
 
     def resolve_ddo_suggestions(self, info, address: str, borough: str):
+        if not address.strip():
+            return None
         if not settings.WOW_DATABASE:
             logger.warning("Data-driven onboarding requires WoW integration.")
             return None

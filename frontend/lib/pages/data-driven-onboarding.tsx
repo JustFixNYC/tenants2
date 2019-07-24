@@ -25,28 +25,61 @@ function AutoSubmitter(props: {
   return null;
 }
 
+function Indicator(props: {value: number, unit: string, pluralUnit?: string, verb?: string}) {
+  const num = new Intl.NumberFormat('en-US');
+  const { value, unit } = props;
+  const isSingular = value === 1;
+  let pluralUnit = props.pluralUnit || `${unit}s`;
+  let verb = props.verb;
+
+  if (verb) {
+    const [singVerb, pluralVerb] = verb.split('/');
+    verb = isSingular ? `${singVerb} ` : `${pluralVerb} `;
+  }
+
+  return <>
+    {verb}{num.format(value)} {isSingular ? unit : pluralUnit}
+  </>;
+}
+
+function GeneralAddressInfoCard(props: DataDrivenOnboardingSuggestions_output) {
+  let { associatedBuildingCount, portfolioUnitCount, unitCount} = props;
+
+  return (
+    <div className="card">
+      <div className="card-content">
+        <p className="title">{props.fullAddress}</p>
+        {associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
+          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+        </p>}
+        {unitCount && <p className="subtitle">
+          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+        </p>}
+      </div>
+      <div className="card-footer">
+        <p className="card-footer-item">
+          <span>
+            Learn more at <WhoOwnsWhatLink bbl={props.bbl}>Who Owns What</WhoOwnsWhatLink>
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function FoundResults(props: DataDrivenOnboardingSuggestions_output) {
+  return (
+    <GeneralAddressInfoCard {...props} />
+  );
+}
+
 function Results(props: {
   address: string,
   output: DataDrivenOnboardingSuggestions_output|null,
 }) {
   let content = null;
   if (props.output) {
-    const { output } = props;
-    content = <>
-      <p>Here is some cool info about <strong>{output.fullAddress}.</strong></p>
-      <ol>
-        <li>It is in ZIP code {output.zipcode}.</li>
-        <li>It has {output.unitCount} units.</li>
-        {!!output.stabilizedUnitCount2007 && <li>{output.stabilizedUnitCount2007} units were rent-stabilized in 2007.</li>}
-        {!!output.stabilizedUnitCount2017 && <li>{output.stabilizedUnitCount2017} units were rent-stabilized in 2017.</li>}
-        {!!output.hpdComplaintCount && <li>It has {output.hpdComplaintCount} HPD complaints.</li>}
-        {!!output.hpdOpenViolationCount && <li>It has {output.hpdOpenViolationCount} open HPD violations.</li>}
-        {output.hasStabilizedUnits && <li>The building has had at least one rent-stabilized unit at some point. If you live there, you can find out for sure by <a href="https://www.justfix.nyc/#rental-history" target="_blank" rel="noopener noreferrer">getting your rental history</a>.</li>}
-        {output.averageWaitTimeForRepairsAtBbl && <li>For this building, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsAtBbl} days.</li>}
-        {output.averageWaitTimeForRepairsForPortfolio && <li>Across the landlord's portfolio, the average time it takes for the landlord to repair a problem once it has been reported as a violation is {output.averageWaitTimeForRepairsForPortfolio} days.</li>}
-        <li>Learn more at <WhoOwnsWhatLink bbl={output.bbl}>Who Owns What</WhoOwnsWhatLink>.</li>
-      </ol>
-    </>;
+    content = <FoundResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
       <p>Sorry, we don't recognize the address you entered.</p>
@@ -80,7 +113,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
       {ctx => <>
         <AddressAndBoroughField
           key={props.location.search}
-          addressLabel="Enter an address and we'll give you some cool info."
+          addressLabel="Enter your address and we'll give you some cool info."
           addressProps={ctx.fieldPropsFor('address')}
           boroughProps={ctx.fieldPropsFor('borough')}
           onChange={() => setAutoSubmit(true)}

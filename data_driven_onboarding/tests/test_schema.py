@@ -1,6 +1,6 @@
 import pytest
 
-from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
+from project.tests.test_geocoding import EXAMPLE_SEARCH
 from data_driven_onboarding import schema
 
 
@@ -31,8 +31,8 @@ class TestSchema:
         settings.WOW_DATABASE = 'blah'
         assert self.request('boop', '') is None
 
-    @enable_fake_geocoding
     def test_it_works(self, settings, requests_mock, monkeypatch):
+        settings.GEOCODING_SEARCH_URL = 'http://bawlabr'
         settings.WOW_DATABASE = 'blah'
         requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         monkeypatch.setattr(schema, 'run_ddo_sql_query', lambda bbl: {'unit_count': 123})

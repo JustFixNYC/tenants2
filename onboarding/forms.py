@@ -28,6 +28,15 @@ BOROUGH_GID_TO_CHOICE = {
 }
 
 
+def get_geocoding_search_text(address: str, borough: str) -> str:
+    if borough not in BOROUGH_CHOICES.choices_dict:
+        borough = ''
+    if borough:
+        borough_label = BOROUGH_CHOICES.get_label(borough)
+        return ', '.join([address, borough_label])
+    return address
+
+
 def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
     '''
     Attempt to verify the given address, returning the address, and whether it
@@ -35,11 +44,7 @@ def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
     may have changed.
     '''
 
-    if borough:
-        borough_label = BOROUGH_CHOICES.get_label(borough)
-        search_text = ', '.join([address, borough_label])
-    else:
-        search_text = address
+    search_text = get_geocoding_search_text(address, borough)
     features = geocoding.search(search_text)
     if features is None:
         # Hmm, the geocoding service is unavailable. This

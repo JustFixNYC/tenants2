@@ -1,0 +1,5 @@
+query DataDrivenOnboardingSuggestions($address: String!, $borough: String!) {
+  output: ddoSuggestions(address: $address, borough: $borough) {
+    ...DDOSuggestionsResult
+  }
+}

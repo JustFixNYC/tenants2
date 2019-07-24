@@ -1,53 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page from '../page';
 import Routes from '../routes';
 import { FormSubmitter } from '../form-submitter';
 import { AppContext } from '../app-context';
-import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output, DataRequestMultiLandlordQueryVariables } from '../queries/DataRequestMultiLandlordQuery';
-import { TextualFormField, BaseFormFieldProps } from '../form-fields';
+import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } from '../queries/DataRequestMultiLandlordQuery';
+import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { getQuerystringVar } from '../querystring';
-import { FormContext } from '../form-context';
-import { QueryLoaderPrefetcher } from '../query-loader-prefetcher';
-
-const QUERYSTRING_VAR = 'landlords';
-
-function SyncFieldWithQuerystring(props: {
-  currentQuery: string,
-  field: BaseFormFieldProps<string>,
-  ctx: FormContext<any>
-}) {
-  const [triggeredChange, setTriggeredChange] = useState(false);
-
-  // This effect detects when the current query in our URL has changed,
-  // and matches our search field to sync with it.
-  useEffect(() => {
-    if (props.field.value !== props.currentQuery) {
-      props.field.onChange(props.currentQuery);
-      setTriggeredChange(true);
-    }
-  }, [props.currentQuery]);
-
-  // This effect detects when our search field has caught up with our
-  // URL change, and immediately triggers a form submission.
-  useEffect(() => {
-    if (triggeredChange && props.field.value === props.currentQuery) {
-      props.ctx.submit(true);
-      setTriggeredChange(false);
-    }
-  }, [props.field.value]);
-
-  return null;
-}
-
-function maybePushHistory(router: RouteComponentProps, varName: string, newValue: string) {
-  const currentValue = getQuerystringVar(router, varName) || '';
-  if (currentValue !== newValue) {
-    router.history.push(router.location.pathname + `?${varName}=${encodeURIComponent(newValue)}`);
-  }
-}
+import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../http-get-query-util';
+import { WhoOwnsWhatLink } from '../tests/wow-link';
 
 type SearchResultsProps = {
   query: string,
@@ -56,9 +18,7 @@ type SearchResultsProps = {
 
 function getColumnValue(name: string, value: string): JSX.Element|string {
   if (name.toLowerCase() === 'bbl') {
-    return <a href={`https://whoownswhat.justfix.nyc/bbl/${value}`} target="_blank" rel="noopener noreferrer">
-      {value}
-    </a>
+    return <WhoOwnsWhatLink bbl={value}>{value}</WhoOwnsWhatLink>;
   } else if (name === 'error') {
     return <span className="has-text-danger" style={{fontFamily: 'monospace', whiteSpace: 'pre'}}>{value}</span>
   }
@@ -112,46 +72,31 @@ function SearchResults({ output, query }: SearchResultsProps) {
   );
 }
 
-function useLatestResults(
-  router: RouteComponentProps,
-  initialState: DataRequestMultiLandlordQueryVariables,
-  query: string
-) {
-  const appCtx = useContext(AppContext);
-  let initialResults: SearchResultsProps = { query: '', output: null };
-  const qlp = new QueryLoaderPrefetcher(router, appCtx, DataRequestMultiLandlordQuery, initialState);
-
-  qlp.maybeQueueForPrefetching();
-
-  if (qlp.prefetchedResponse) {
-    const { output } = qlp.prefetchedResponse;
-    initialResults = { query, output };
-  }
-
-  return useState(initialResults);
-}
-
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const currentQuery = getQuerystringVar(props, QUERYSTRING_VAR) || '';
-  const initialState = {landlords: currentQuery};
-  const [latestResults, setLatestResults] = useLatestResults(props, initialState, currentQuery);
+  const defaultState = { landlords: '' };
+  const initialState = getInitialQueryInputFromQs(props, defaultState);
+  const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
+  const [latestQuery, setLatestQuery] = useState(initialState.landlords);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
-    setLatestResults({ query: input.landlords, output: null });
-    maybePushHistory(props, QUERYSTRING_VAR, input.landlords);
+    setLatestResults(null);
+    setLatestQuery(input.landlords);
+    maybePushQueryInputToHistory(props, input);
   });
 
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
       initialState={initialState}
       onSubmit={onSubmit}
-      onSuccess={output => setLatestResults({ ...latestResults, output: output.simpleQueryOutput })}
+      onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
     >
       {ctx => <>
-        <SyncFieldWithQuerystring currentQuery={currentQuery} field={ctx.fieldPropsFor(QUERYSTRING_VAR)} ctx={ctx} />
-        <TextualFormField {...ctx.fieldPropsFor(QUERYSTRING_VAR)} label="Landlords (comma-separated)" />
+        <SyncQuerystringToFields routeInfo={props} fields={[
+          ctx.fieldPropsFor('landlords'),
+        ]} ctx={ctx} />
+        <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <SearchResults {...latestResults} />}
+        {!ctx.isLoading && <SearchResults output={latestResults} query={latestQuery} />}
       </>}
     </FormSubmitter>
   </Page>;

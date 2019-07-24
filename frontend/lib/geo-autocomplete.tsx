@@ -10,6 +10,11 @@ import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
 import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
 
+// https://stackoverflow.com/a/4565120
+function isChrome(): boolean {
+  return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+}
+
 /**
  * Return the browser-specific "autocomplete" attribute value to disable
  * autocomplete on a form field.
@@ -30,11 +35,8 @@ function getBrowserAutoCompleteOffValue(): string {
     throw new Error('Assertion failure, this function should only be called in the browser!');
   }
 
-  // https://stackoverflow.com/a/4565120
-  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-
   // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
-  return isChrome ? 'disabled' : 'off';
+  return isChrome() ? 'disabled' : 'off';
 }
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
@@ -65,6 +67,7 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
 interface GeoAutocompleteState {
   isLoading: boolean;
   results: GeoAutocompleteItem[];
+  inputName?: string;
 }
 
 const GeoDownshift = Downshift as DownshiftInterface<GeoAutocompleteItem>;
@@ -154,7 +157,20 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
     return false;
   }
 
+  /**
+   * Despite all our efforts to make Chome disable its built-in autocomplete, we
+   * somehow still fail, so our only other resort is to change the `name` attribute
+   * of our `<input>` element to something that Chrome won't have any autocomplete
+   * information for.
+   */
+  makeChromeNotBeAnnoying() {
+    if (isChrome()) {
+      this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
+    }
+  }
+
   handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
+    this.makeChromeNotBeAnnoying();
     if (event.keyCode === KEY_ENTER || event.keyCode === KEY_TAB) {
       if (this.selectFirstResult(ds)) {
         event.preventDefault();
@@ -167,6 +183,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   getInputProps(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
     return ds.getInputProps({
       autoComplete: getBrowserAutoCompleteOffValue(),
+      onFocus: () => this.makeChromeNotBeAnnoying(),
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
       onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
@@ -183,7 +200,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
         <div className={bulmaClasses('control', {
           'is-loading': this.state.isLoading
         })}>
-          <input className="input" {...this.getInputProps(ds)} />
+          <input name={this.state.inputName} className="input" {...this.getInputProps(ds)} />
           <ul className={classnames({
             'jf-autocomplete-open': ds.isOpen && results.length > 0
           })} {...ds.getMenuProps()}>

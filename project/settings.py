@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'rapidpro.apps.RapidproConfig',
     'findhelp.apps.FindhelpConfig',
     'data_requests.apps.DataRequestsConfig',
+    'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
 ]
 
 MIDDLEWARE = [

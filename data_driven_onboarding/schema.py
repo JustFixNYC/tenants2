@@ -1,3 +1,4 @@
+from typing import Dict, Any
 from pathlib import Path
 import logging
 from django.db import connections
@@ -46,12 +47,16 @@ class DDOQuery:
         if not features:
             return None
         props = features[0].properties
-        sql_query = DDO_SQL_FILE.read_text()
-        with connections[settings.WOW_DATABASE].cursor() as cursor:
-            cursor.execute(sql_query, {'bbl': props.pad_bbl})
-            row = list(generate_json_rows(cursor))[0]
+        row = run_ddo_sql_query(props.pad_bbl)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
             **row
         )
+
+
+def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+    sql_query = DDO_SQL_FILE.read_text()
+    with connections[settings.WOW_DATABASE].cursor() as cursor:
+        cursor.execute(sql_query, {'bbl': bbl})
+        return list(generate_json_rows(cursor))[0]

@@ -10,9 +10,11 @@ import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { FormContext } from '../form-context';
 import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
-import { WhoOwnsWhatLink } from '../tests/wow-link';
+import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
+
+const CTA_CLASS_NAME = "button is-primary";
 
 type DDOData = DataDrivenOnboardingSuggestions_output;
 
@@ -46,15 +48,29 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   </>;
 }
 
+type CallToActionProps = {
+  to: string,
+  text: string,
+  className?: string
+};
+
 type ActionCardProps = {
   cardClass?: string,
   titleClass?: string,
   title?: string,
   indicators: (JSX.Element | 0 | false | null)[],
-  cta: JSX.Element
+  cta: CallToActionProps
 };
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
+
+function CallToAction({to, text, className}: CallToActionProps) {
+  const isInternal = to[0] === '/';
+  if (isInternal) {
+    return <Link to={to} className={className}>{text}</Link>;
+  }
+  return <a href={to} rel="noopener noreferrer" target="_blank" className={className}>{text}</a>;
+}
 
 function ActionCard(props: ActionCardProps) {
   return <>
@@ -68,7 +84,7 @@ function ActionCard(props: ActionCardProps) {
       <div className="card-footer">
         <p className="card-footer-item">
           <span>
-            {props.cta}
+            <CallToAction {...props.cta} className={CTA_CLASS_NAME} />
           </span>
         </p>
       </div>
@@ -76,8 +92,6 @@ function ActionCard(props: ActionCardProps) {
     <br/>
   </>;
 }
-
-const CTA_CLASS_NAME = "button is-primary";
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
@@ -93,7 +107,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
         </>,  
       ],
-      cta: <WhoOwnsWhatLink className={CTA_CLASS_NAME} bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
+      cta: {
+        to: whoOwnsWhatURL(bbl),
+        text: "Learn more at Who Owns What"
+      }
     };
   },
   function letterOfComplaint(data) {
@@ -102,7 +119,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [
         data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
       ],
-      cta: <Link to={Routes.locale.home} className={CTA_CLASS_NAME}>Send a letter of complaint</Link>
+      cta: {
+        to: Routes.locale.home,
+        text: "Send a letter of complaint",
+      }
     };
   },
   function hpAction(data) {
@@ -111,7 +131,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [
         data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
       ],
-      cta: <Link to={Routes.locale.hp.splash} className={CTA_CLASS_NAME}>Sue your landlord</Link>
+      cta: {
+        to: Routes.locale.hp.splash,
+        text: "Sue your landlord"
+      }
     }
   },
   function rentHistory(data) {
@@ -126,7 +149,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
         </>,
       ],
-      cta: <a href="https://www.justfix.nyc/#rental-history" className={CTA_CLASS_NAME} rel="noopener noreferrer" target="_blank">Order your rental history</a>
+      cta: {
+        to: "https://www.justfix.nyc/#rental-history",
+        text: "Order your rental history"
+      }
     };
   },
   function evictionFreeNyc(data) {
@@ -135,7 +161,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [
         data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
       ],
-      cta: <a href="https://www.evictionfreenyc.org/" className={CTA_CLASS_NAME} rel="noopener noreferrer" target="_blank">Fight an eviction</a>
+      cta: {
+        to: "https://www.evictionfreenyc.org/",
+        text: "Fight an eviction"
+      }
     }
   }
 ];
@@ -158,7 +187,7 @@ function FoundResults(props: DDOData) {
     {otherActions.length > 0 && <>
       <h2>Other actions</h2>
       <ul>
-        {otherActions.map((props, i) => <li key={i}>{props.cta}</li>)}
+        {otherActions.map((props, i) => <li key={i}><CallToAction {...props.cta} /></li>)}
       </ul>
     </>}
   </>;

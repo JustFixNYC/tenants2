@@ -64,8 +64,12 @@ function ActionCard(props: ActionCardProps) {
         {props.indicators.map((indicator, i) => (
           indicator ? <p key={i} className="subtitle is-spaced">{indicator}</p> : null
         ))}
-        <p className="jf-cta">
-          {props.cta}
+      </div>
+      <div className="card-footer">
+        <p className="card-footer-item">
+          <span>
+            {props.cta}
+          </span>
         </p>
       </div>
     </div>

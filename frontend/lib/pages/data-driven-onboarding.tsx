@@ -184,7 +184,6 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   return <Page title="Data-driven onboarding prototype">
     <FormSubmitter
       submitOnMount={latestOutput === undefined}
-      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => {

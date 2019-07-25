@@ -87,7 +87,6 @@ function MultiLandlordPage(props: RouteComponentProps) {
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
       submitOnMount={latestResults === undefined}
-      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }

@@ -74,8 +74,8 @@ function SearchResults({ output, query }: SearchResultsProps) {
 
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const defaultState = { landlords: '' };
-  const initialState = getInitialQueryInputFromQs(props, defaultState);
+  const emptyState = { landlords: '' };
+  const initialState = getInitialQueryInputFromQs(props, emptyState);
   const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
   const [latestQuery, setLatestQuery] = useState(initialState.landlords);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
@@ -86,6 +86,8 @@ function MultiLandlordPage(props: RouteComponentProps) {
 
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
+      submitOnMount={latestResults === undefined}
+      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
@@ -96,7 +98,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
         ]} ctx={ctx} />
         <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <SearchResults output={latestResults} query={latestQuery} />}
+        {!ctx.isLoading && latestResults !== undefined && <SearchResults output={latestResults} query={latestQuery} />}
       </>}
     </FormSubmitter>
   </Page>;

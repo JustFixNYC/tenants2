@@ -78,12 +78,12 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: fullAddress,
       indicators: [
-        associatedBuildingCount && portfolioUnitCount && <p className="subtitle">
+        associatedBuildingCount && portfolioUnitCount && <>
           Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
-        </p>,
-        unitCount && <p className="subtitle">
+        </>,
+        unitCount && <>
           There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
-        </p>,  
+        </>,  
       ],
       cta: <WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
     };
@@ -172,8 +172,8 @@ function Results(props: {
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
-  const defaultState = {address: '', borough: ''};
-  const initialState = getInitialQueryInputFromQs(props, defaultState);
+  const emptyState = {address: '', borough: ''};
+  const initialState = getInitialQueryInputFromQs(props, emptyState);
   const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, DataDrivenOnboardingSuggestions, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {
@@ -183,6 +183,8 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
   return <Page title="Data-driven onboarding prototype">
     <FormSubmitter
+      submitOnMount={latestOutput === undefined}
+      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => {
@@ -203,7 +205,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           ctx.fieldPropsFor('borough'),
         ]} ctx={ctx} />
         <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
+        {!ctx.isLoading && latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
       </>}
     </FormSubmitter>
   </Page>;

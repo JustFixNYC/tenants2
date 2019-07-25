@@ -187,7 +187,7 @@ export function useLatestQueryOutput<Input, Output>(
 ) {
   const appCtx = useContext(AppContext);
   const qlp = new QueryLoaderPrefetcher(router, appCtx, query, initialState);
-  let initialResults: Output|null = null;
+  let initialResults: Output|undefined = undefined;
 
   qlp.maybeQueueForPrefetching();
 

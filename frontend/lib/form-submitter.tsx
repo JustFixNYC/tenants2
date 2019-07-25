@@ -7,7 +7,6 @@ import autobind from 'autobind-decorator';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { HistoryBlocker } from './history-blocker';
-import { isDeepEqual } from './util';
 
 export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {
   /**

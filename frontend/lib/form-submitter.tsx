@@ -7,7 +7,6 @@ import autobind from 'autobind-decorator';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { HistoryBlocker } from './history-blocker';
-import { isDeepEqual } from './util';
 
 export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {
   /**
@@ -72,13 +71,6 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * forms that don't have cached/pre-fetched results available.
    */
   submitOnMount?: boolean;
-
-  /**
-   * A representation of empty form input. If the form is
-   * ever submitted when in this state, we won't bother actually
-   * submitting the form, since we know nothing will happen.
-   */
-  emptyState?: FormInput;
 } & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
 
 /**
@@ -155,9 +147,6 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
 
   @autobind
   handleSubmit(input: FormInput) {
-    if (this.props.emptyState && isDeepEqual(input, this.props.emptyState)) {
-      return;
-    }
     const submissionId = this.state.currentSubmissionId + 1;
     this.setState({
       isLoading: true,

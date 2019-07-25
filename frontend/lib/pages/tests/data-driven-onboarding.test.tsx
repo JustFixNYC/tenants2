@@ -17,13 +17,14 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
   const pal = new AppTesterPal(<DataDrivenOnboardingRoutes/>, {
     url: Routes.locale.dataDrivenOnboarding
   });
-  fetch.mockReturnJson(FakeGeoResults);
-  pal.fillFormFields([[/address/i, '150 cou']]);
-  await fetch.resolvePromisesAndTimers();
-  pal.clickListItem(/150 COURT STREET/);
-  pal.clickButtonOrLink(/gimme some info/i);
-  pal.expectGraphQL(/ddoSuggestions/);
   await suppressSpuriousActErrors(async () => {
+    await pal.nextTick();
+    fetch.mockReturnJson(FakeGeoResults);
+    pal.fillFormFields([[/address/i, '150 cou']]);
+    await fetch.resolvePromisesAndTimers();
+    pal.clickListItem(/150 COURT STREET/);
+    pal.clickButtonOrLink(/gimme some info/i);
+    pal.expectGraphQL(/ddoSuggestions/);
     pal.getFirstRequest().resolve({output});
     await pal.nextTick();
   });

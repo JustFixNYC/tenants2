@@ -176,15 +176,17 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const initialState = getInitialQueryInputFromQs(props, emptyState);
   const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, DataDrivenOnboardingSuggestions, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
-  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, input => {
-    setAutoSubmit(false);
-    maybePushQueryInputToHistory(props, input);
+  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, {
+    cache: [[emptyState, null]],
+    onSubmit(input) {
+      setAutoSubmit(false);
+      maybePushQueryInputToHistory(props, input);
+    }
   });
 
   return <Page title="Data-driven onboarding prototype">
     <FormSubmitter
       submitOnMount={latestOutput === undefined}
-      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => {

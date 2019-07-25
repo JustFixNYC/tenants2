@@ -78,16 +78,18 @@ function MultiLandlordPage(props: RouteComponentProps) {
   const initialState = getInitialQueryInputFromQs(props, emptyState);
   const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
   const [latestQuery, setLatestQuery] = useState(initialState.landlords);
-  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
-    setLatestResults(null);
-    setLatestQuery(input.landlords);
-    maybePushQueryInputToHistory(props, input);
+  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, {
+    cache: [[emptyState, null]],
+    onSubmit(input) {
+      setLatestResults(null);
+      setLatestQuery(input.landlords);
+      maybePushQueryInputToHistory(props, input);
+    }
   });
 
   return <Page title="Multi-landlord data request" withHeading>
     <FormSubmitter
       submitOnMount={latestResults === undefined}
-      emptyState={emptyState}
       initialState={initialState}
       onSubmit={onSubmit}
       onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }

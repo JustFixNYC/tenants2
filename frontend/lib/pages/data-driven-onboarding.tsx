@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import classnames from 'classnames';
 import Routes from "../routes";
 import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
@@ -46,6 +47,8 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
 }
 
 type ActionCardProps = {
+  cardClass?: string,
+  titleClass?: string,
   title?: string,
   indicators: (JSX.Element | 0 | false | null)[],
   cta: JSX.Element
@@ -54,12 +57,12 @@ type ActionCardProps = {
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
 
 function ActionCard(props: ActionCardProps) {
-  return (
-    <div className="card">
+  return <>
+    <div className={classnames('card', 'jf-ddo-card', props.cardClass)}>
       <div className="card-content">
-        {props.title && <p className="title">{props.title}</p>}
+        {props.title && <p className={props.titleClass || 'title is-spaced is-size-4'}>{props.title}</p>}
         {props.indicators.map((indicator, i) => (
-          indicator ? <p key={i} className="subtitle">{indicator}</p> : null
+          indicator ? <p key={i} className="subtitle is-spaced">{indicator}</p> : null
         ))}
       </div>
       <div className="card-footer">
@@ -70,13 +73,18 @@ function ActionCard(props: ActionCardProps) {
         </p>
       </div>
     </div>
-  );
+    <br/>
+  </>;
 }
+
+const CTA_CLASS_NAME = "button is-primary";
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
     return {
       title: fullAddress,
+      titleClass: 'title',
+      cardClass: 'has-background-light',
       indicators: [
         associatedBuildingCount && portfolioUnitCount && <>
           Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
@@ -85,27 +93,30 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
         </>,  
       ],
-      cta: <WhoOwnsWhatLink bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
+      cta: <WhoOwnsWhatLink className={CTA_CLASS_NAME} bbl={bbl}>Learn more at Who Owns What</WhoOwnsWhatLink>
     };
   },
   function letterOfComplaint(data) {
     return {
+      title: 'Complaints',
       indicators: [
         data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
       ],
-      cta: <Link to={Routes.locale.home}>Send a letter of complaint</Link>
+      cta: <Link to={Routes.locale.home} className={CTA_CLASS_NAME}>Send a letter of complaint</Link>
     };
   },
   function hpAction(data) {
     return {
+      title: 'Violations',
       indicators: [
         data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
       ],
-      cta: <Link to={Routes.locale.hp.splash}>Sue your landlord</Link>
+      cta: <Link to={Routes.locale.hp.splash} className={CTA_CLASS_NAME}>Sue your landlord</Link>
     }
   },
   function rentHistory(data) {
     return {
+      title: 'Rent history',
       indicators: [
         (data.hasStabilizedUnits || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
         ? <>
@@ -115,15 +126,16 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
         </>,
       ],
-      cta: <a href="https://www.justfix.nyc/#rental-history" rel="noopener noreferrer" target="_blank">Order your rental history</a>
+      cta: <a href="https://www.justfix.nyc/#rental-history" className={CTA_CLASS_NAME} rel="noopener noreferrer" target="_blank">Order your rental history</a>
     };
   },
   function evictionFreeNyc(data) {
     return {
+      title: 'Eviction defense',
       indicators: [
         data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
       ],
-      cta: <a href="https://www.evictionfreenyc.org/" rel="noopener noreferrer" target="_blank">Fight an eviction</a>
+      cta: <a href="https://www.evictionfreenyc.org/" className={CTA_CLASS_NAME} rel="noopener noreferrer" target="_blank">Fight an eviction</a>
     }
   }
 ];

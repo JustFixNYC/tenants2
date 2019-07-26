@@ -42,6 +42,42 @@ function areFieldsSameAsQs(
   return true;
 }
 
+type OnlyStrings<T> = {
+  [k in keyof T]: T[k] extends string ? string : never;
+}
+
+export class QuerystringConverter<T> {
+  constructor(readonly routeInfo: string|LocationSearchInfo, readonly emptyInput: OnlyStrings<T>) {
+  }
+
+  applyToFields(ctx: FormContext<OnlyStrings<T>>): boolean {
+    const values = this.finish();
+    let changed = false;
+    for (let key in this.emptyInput) {
+      const fieldProps: BaseFormFieldProps<string> = ctx.fieldPropsFor(key) as any;
+      const qsValue = values[key];
+      if (fieldProps.value !== qsValue) {
+        fieldProps.onChange(qsValue);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  finish(): OnlyStrings<T> {
+    let result = Object.assign({}, this.emptyInput);
+
+    for (let key in this.emptyInput) {
+      const value = getQuerystringVar(this.routeInfo, key);
+      if (value !== undefined) {
+        Object.defineProperty(result, value, {value});
+      }
+    }
+
+    return result;
+  }
+}
+
 /**
  * A React component which ensures that, whenever the user
  * navigates through their browser history, the given form fields

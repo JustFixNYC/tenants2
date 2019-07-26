@@ -9,7 +9,7 @@ import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output
 import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { FormContext } from '../form-context';
-import { getInitialQueryInputFromQs, useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields } from '../http-get-query-util';
+import { useLatestQueryOutput, SyncQuerystringToFields, QuerystringConverter } from '../http-get-query-util';
 import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
@@ -214,14 +214,15 @@ function Results(props: {
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyState = {address: '', borough: ''};
-  const initialState = getInitialQueryInputFromQs(props, emptyState);
+  const qs = new QuerystringConverter(props.location.search, emptyState);
+  const initialState = qs.toFormInput();
   const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, DataDrivenOnboardingSuggestions, initialState);
   const [autoSubmit, setAutoSubmit] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, {
     cache: [[emptyState, null]],
     onSubmit(input) {
       setAutoSubmit(false);
-      maybePushQueryInputToHistory(props, input);
+      qs.maybePushToHistory(input, props);
     }
   });
 
@@ -243,10 +244,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           onChange={() => setAutoSubmit(true)}
         />
         <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-        <SyncQuerystringToFields routeInfo={props} fields={[
-          ctx.fieldPropsFor('address'),
-          ctx.fieldPropsFor('borough'),
-        ]} ctx={ctx} />
+        <SyncQuerystringToFields qs={qs} ctx={ctx} />
         <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
         {!ctx.isLoading && latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
       </>}

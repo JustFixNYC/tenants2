@@ -8,7 +8,7 @@ import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } f
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../http-get-query-util';
+import { useLatestQueryOutput, SyncQuerystringToFields, QuerystringConverter } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
 
 type SearchResultsProps = {
@@ -75,7 +75,8 @@ function SearchResults({ output, query }: SearchResultsProps) {
 function MultiLandlordPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyState = { landlords: '' };
-  const initialState = getInitialQueryInputFromQs(props, emptyState);
+  const qs = new QuerystringConverter(props.location.search, emptyState);
+  const initialState = qs.toFormInput();
   const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
   const [latestQuery, setLatestQuery] = useState(initialState.landlords);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, {
@@ -83,7 +84,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
     onSubmit(input) {
       setLatestResults(null);
       setLatestQuery(input.landlords);
-      maybePushQueryInputToHistory(props, input);
+      qs.maybePushToHistory(input, props);
     }
   });
 
@@ -95,9 +96,7 @@ function MultiLandlordPage(props: RouteComponentProps) {
       onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
     >
       {ctx => <>
-        <SyncQuerystringToFields routeInfo={props} fields={[
-          ctx.fieldPropsFor('landlords'),
-        ]} ctx={ctx} />
+        <SyncQuerystringToFields qs={qs} ctx={ctx} />
         <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
         {!ctx.isLoading && latestResults !== undefined && <SearchResults output={latestResults} query={latestQuery} />}

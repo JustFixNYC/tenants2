@@ -115,21 +115,53 @@ describe('QuerystringConverter.applyToFormFields()', () => {
 describe('SyncQuerystringToFields', () => {
   afterEach(ReactTestingLibraryPal.cleanup);
 
-  it('works', () => {
-    const empty = {a: ''};
-    const currentState = {a: ''};
-    let {qs, ctx, submit, setField} = makeQsAndCtx('', empty, currentState);
-    const pal = new ReactTestingLibraryPal(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
-    expect(setField).not.toHaveBeenCalled();
-    expect(submit).not.toHaveBeenCalled();
+  function makeHarness<T>(search: string, emptyInput: SupportedQsTypes<T>, initialInput: T) {
+    const currentInput = Object.assign({}, initialInput);
+    let {qs, ctx, submit, setField} = makeQsAndCtx(search, emptyInput, currentInput);
+    const makeJsx = () => <SyncQuerystringToFields qs={qs} ctx={ctx as any} />;
+    const pal = new ReactTestingLibraryPal(makeJsx());
+    const rerender = () => pal.rr.rerender(makeJsx());
+    return {
+      submit,
+      setField,
+      changeSearch(search: string) {
+        qs = new QuerystringConverter(search, emptyInput);
+        rerender();
+      },
+      updateInput(input: Partial<T>) {
+        Object.assign(currentInput, input);
+        rerender();
+      }
+    };
+  }
 
-    qs = new QuerystringConverter('?a=blah', empty);
-    pal.rr.rerender(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
-    expect(setField.mock.calls).toEqual([['a', 'blah']]);
-    expect(submit).not.toHaveBeenCalled();
+  it('submits form once all fields are synced', () => {
+    const h = makeHarness('?a=blah&b=goop', {a: '', b: ''}, {a: '', b: ''});
+    expect(h.setField.mock.calls).toEqual([['a', 'blah'], ['b', 'goop']]);
+    expect(h.submit).not.toHaveBeenCalled();
 
-    currentState.a = 'blah';
-    pal.rr.rerender(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
-    expect(submit).toHaveBeenCalled();
+    h.updateInput({a: 'blah'});
+    expect(h.submit).not.toHaveBeenCalled();
+
+    h.updateInput({b: 'goop'});
+    expect(h.submit).toHaveBeenCalled();
+  });
+
+  it('only syncs changed fields', () => {
+    const h = makeHarness('', {a: '', b: ''}, {a: '', b: ''});
+    h.changeSearch('?a=blah');
+    expect(h.setField.mock.calls).toEqual([['a', 'blah']]);
+  });
+
+  it('does nothing when fields are non-empty and synced', () => {
+    const h = makeHarness('?a=b', {a: ''}, {a: 'b'});
+    expect(h.setField).not.toHaveBeenCalled();
+    expect(h.submit).not.toHaveBeenCalled();
+  });
+
+  it('does nothing when fields are empty and synced', () => {
+    const h = makeHarness('', {a: ''}, {a: ''});
+    expect(h.setField).not.toHaveBeenCalled();
+    expect(h.submit).not.toHaveBeenCalled();
   });
 });

@@ -13,7 +13,7 @@ import { AppContext } from "./app-context";
  * have type errors whenever we try representing unsupported data
  * types in the querystring.
  */
-type SupportedQsTypes<T> = {
+export type SupportedQsTypes<T> = {
   [k in keyof T]: T[k] extends string ? T[k] : never
 };
 

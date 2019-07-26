@@ -54,6 +54,11 @@ export class QuerystringConverter<T> {
     return changed;
   }
 
+  /**
+   * Filter the current querystring to only contain
+   * relevant keys with valid values, in alphabetical
+   * order. Return the resulting querystring.
+   */
   toStableQuerystring(): string {
     const values = this.toFormInput();
     const entries = new Map<string, string>();
@@ -75,10 +80,11 @@ export class QuerystringConverter<T> {
     const newQs = new QuerystringConverter('', input).toStableQuerystring();
 
     if (currentQs !== newQs) {
-      router.history.push(router.location.pathname + `?${newQs}`);
+      router.history.push(router.location.pathname + newQs);
     }
   }
 
+  /** Convert the current querystring to form input. */
   toFormInput(): SupportedQsTypes<T> {
     let result = Object.assign({}, this.defaultInput);
 
@@ -134,7 +140,7 @@ export function SyncQuerystringToFields<T>(props: {
  * of the original order of the mapping's entries.
  */
 function stableQuerystring(entries: Map<string, string>): string {
-  return Array.from(entries.entries())
+  return '?' + Array.from(entries.entries())
     .sort((a, b) => a[0] === b[0] ? 0 : (a[0] < b[0] ? -1 : 1))
     .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
     .join('&');

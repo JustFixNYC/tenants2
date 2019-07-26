@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router";
 import { FormContext } from "./form-context";
 import { useState, useEffect, useContext } from "react";
-import { getQuerystringVar, LocationSearchInfo } from "./querystring";
+import { getQuerystringVar } from "./querystring";
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
 import { AppContext } from "./app-context";
 
@@ -18,7 +18,19 @@ type SupportedQsTypes<T> = {
 };
 
 export class QuerystringConverter<T> {
-  constructor(readonly routeInfo: string|LocationSearchInfo, readonly defaultInput: SupportedQsTypes<T>) {
+  /**
+   * A class for manipulating a URL's querystring, converting it
+   * to/from a data structure, and doing other common operations
+   * with it.
+   * 
+   * @param search The URL search string (a.k.a. querystring),
+   *   e.g. `?foo=1&bar=blop`.
+   * 
+   * @param defaultInput The relevant querystring keys that have
+   *   meaning to our application, along with their default values
+   *   if they're missing from the querystring.
+   */
+  constructor(readonly search: string, readonly defaultInput: SupportedQsTypes<T>) {
   }
 
   /**
@@ -27,7 +39,7 @@ export class QuerystringConverter<T> {
    */
   areFormFieldsSameAsRouteInfo(ctx: FormContext<SupportedQsTypes<T>>): boolean {
     for (let key in this.defaultInput) {
-      const qsValue = getQuerystringVar(this.routeInfo, key) || '';
+      const qsValue = getQuerystringVar(this.search, key) || '';
       const fieldProps = ctx.fieldPropsFor(key);
       if (fieldProps.value !== qsValue) {
         return false;
@@ -89,7 +101,7 @@ export class QuerystringConverter<T> {
     let result = Object.assign({}, this.defaultInput);
 
     for (let key in this.defaultInput) {
-      const value = getQuerystringVar(this.routeInfo, key);
+      const value = getQuerystringVar(this.search, key);
       if (value !== undefined) {
         (result as any)[key] = value;
       }

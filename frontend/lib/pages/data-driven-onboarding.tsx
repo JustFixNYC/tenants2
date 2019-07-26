@@ -1,18 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import Routes from "../routes";
 import { RouteComponentProps, Route } from "react-router";
 import Page from "../page";
-import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { AppContext } from '../app-context';
 import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
-import { FormSubmitter } from '../form-submitter';
 import { NextButton } from '../buttons';
 import { FormContext } from '../form-context';
-import { useLatestQueryOutput, SyncQuerystringToFields, QuerystringConverter } from '../http-get-query-util';
 import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
+import { QueryFormSubmitter } from '../query-form-submitter';
 
 const CTA_CLASS_NAME = "button is-primary";
 
@@ -212,44 +209,33 @@ function Results(props: {
 }
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
-  const appCtx = useContext(AppContext);
-  const emptyState = {address: '', borough: ''};
-  const qs = new QuerystringConverter(props.location.search, emptyState);
-  const initialState = qs.toFormInput();
-  const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, DataDrivenOnboardingSuggestions, initialState);
+  const emptyInput = {address: '', borough: ''};
   const [autoSubmit, setAutoSubmit] = useState(false);
-  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataDrivenOnboardingSuggestions.fetch, {
-    cache: [[emptyState, null]],
-    onSubmit(input) {
-      setAutoSubmit(false);
-      qs.maybePushToHistory(input, props);
-    }
-  });
 
-  return <Page title="Data-driven onboarding prototype">
-    <FormSubmitter
-      submitOnMount={latestOutput === undefined}
-      initialState={initialState}
-      onSubmit={onSubmit}
-      onSuccess={output => {
-        setLatestOutput(output.simpleQueryOutput);
-      }}
-    >
-      {ctx => <>
-        <AddressAndBoroughField
-          key={props.location.search}
-          addressLabel="Enter your address and we'll give you some cool info."
-          addressProps={ctx.fieldPropsFor('address')}
-          boroughProps={ctx.fieldPropsFor('borough')}
-          onChange={() => setAutoSubmit(true)}
-        />
-        <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-        <SyncQuerystringToFields qs={qs} ctx={ctx} />
-        <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
-      </>}
-    </FormSubmitter>
-  </Page>;
+  return (
+    <Page title="Data-driven onboarding prototype">
+      <QueryFormSubmitter
+        {...props}
+        emptyInput={emptyInput}
+        emptyOutput={null}
+        query={DataDrivenOnboardingSuggestions}
+        onSubmit={() => setAutoSubmit(false)}
+      >
+        {(ctx, latestOutput) => <>
+          <AddressAndBoroughField
+            key={props.location.search}
+            addressLabel="Enter your address and we'll give you some cool info."
+            addressProps={ctx.fieldPropsFor('address')}
+            boroughProps={ctx.fieldPropsFor('borough')}
+            onChange={() => setAutoSubmit(true)}
+          />
+          <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
+          <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
+          {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
+        </>}
+      </QueryFormSubmitter>
+    </Page>
+  );
 }
 
 export default function DataDrivenOnboardingRoutes(): JSX.Element {

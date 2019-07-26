@@ -159,7 +159,7 @@ function stableQuerystring(entries: Map<string, string>): string {
 }
 
 /** A GraphQL query whose main output is mapped to the key 'output'. */
-type QueryWithOutput<T> = {
+export type QueryWithOutput<T> = {
   output: T
 };
 

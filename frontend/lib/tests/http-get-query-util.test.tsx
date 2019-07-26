@@ -1,5 +1,8 @@
-import { QuerystringConverter, SupportedQsTypes } from "../http-get-query-util";
+import React from 'react';
+
+import { QuerystringConverter, SupportedQsTypes, SyncQuerystringToFields } from "../http-get-query-util";
 import { FormContext } from "../form-context";
+import ReactTestingLibraryPal from "./rtl-pal";
 
 describe('QuerystringConverter.toStableQuerystring()', () => {
   it('removes irrelevant values', () => {
@@ -66,6 +69,7 @@ describe('QuerystringConverter.maybePushToHistory()', () => {
 function makeQsAndCtx<T>(search: string, defaultInput: SupportedQsTypes<T>, currentState: T) {
   const qs = new QuerystringConverter(search, defaultInput);
   const setField = jest.fn();
+  const submit = jest.fn();
   const ctx = new FormContext({
     idPrefix: '',
     isLoading: false,
@@ -73,8 +77,8 @@ function makeQsAndCtx<T>(search: string, defaultInput: SupportedQsTypes<T>, curr
     currentState,
     setField,
     namePrefix: ''
-  }, jest.fn());
-  return {qs, ctx, setField};
+  }, submit);
+  return {qs, ctx, setField, submit};
 }
 
 describe('QuerystringConverter.areFormFieldsSynced()', () => {
@@ -105,5 +109,27 @@ describe('QuerystringConverter.applyToFormFields()', () => {
     const {qs, ctx, setField} = makeQsAndCtx('', {a: '', b: ''}, {a: '', b: ''});
     expect(qs.applyToFormFields(ctx)).toBe(false);
     expect(setField.mock.calls).toEqual([]);
+  });
+});
+
+describe('SyncQuerystringToFields', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  it('works', () => {
+    const empty = {a: ''};
+    const currentState = {a: ''};
+    let {qs, ctx, submit, setField} = makeQsAndCtx('', empty, currentState);
+    const pal = new ReactTestingLibraryPal(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
+    expect(setField).not.toHaveBeenCalled();
+    expect(submit).not.toHaveBeenCalled();
+
+    qs = new QuerystringConverter('?a=blah', empty);
+    pal.rr.rerender(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
+    expect(setField.mock.calls).toEqual([['a', 'blah']]);
+    expect(submit).not.toHaveBeenCalled();
+
+    currentState.a = 'blah';
+    pal.rr.rerender(<SyncQuerystringToFields qs={qs} ctx={ctx} />);
+    expect(submit).toHaveBeenCalled();
   });
 });

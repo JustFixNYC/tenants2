@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryLoaderQuery } from "./query-loader-prefetcher";
 import { QueryWithOutput, QuerystringConverter, useLatestQueryOutput, SyncQuerystringToFields, SupportedQsTypes } from "./http-get-query-util";
 import { RouteComponentProps } from "react-router";
@@ -13,7 +13,7 @@ export type QueryFormSubmitterProps<FormInput, FormOutput> = RouteComponentProps
   emptyOutput: FormOutput,
   query: QueryLoaderQuery<FormInput, QueryWithOutput<FormOutput>>,
   onSubmit?: (input: FormInput) => void,
-  children: (ctx: FormContext<FormInput>, latestOutput?: FormOutput) => JSX.Element,
+  children: (ctx: FormContext<FormInput>, latestInput: FormInput, latestOutput?: FormOutput) => JSX.Element,
 };
 
 export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmitterProps<SupportedQsTypes<FormInput>, FormOutput>) {
@@ -21,10 +21,12 @@ export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmit
   const appCtx = useContext(AppContext);
   const qs = new QuerystringConverter(props.location.search, emptyInput);
   const initialState = qs.toFormInput();
+  const [latestInput, setLatestInput] = useState(initialState);
   const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, query, initialState);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, query.fetch, {
     cache: [[emptyInput, emptyOutput]],
     onSubmit(input) {
+      setLatestInput(input);
       if (props.onSubmit) props.onSubmit(input);
       qs.maybePushToHistory(input, props);
     }
@@ -41,7 +43,7 @@ export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmit
     >
       {ctx => <>
         <SyncQuerystringToFields qs={qs} ctx={ctx} />
-        {children(ctx, ctx.isLoading ? undefined : latestOutput)}
+        {children(ctx, latestInput, ctx.isLoading ? undefined : latestOutput)}
       </>}
     </FormSubmitter>
   );

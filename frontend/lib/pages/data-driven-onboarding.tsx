@@ -221,7 +221,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         query={DataDrivenOnboardingSuggestions}
         onSubmit={() => setAutoSubmit(false)}
       >
-        {(ctx, latestOutput) => <>
+        {(ctx, latestInput, latestOutput) => <>
           <AddressAndBoroughField
             key={props.location.search}
             addressLabel="Enter your address and we'll give you some cool info."

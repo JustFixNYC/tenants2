@@ -37,7 +37,7 @@ export class QuerystringConverter<T> {
    * Return whether the given form fields are in-sync with the current
    * URL's querystring variables.
    */
-  areFormFieldsSameAsRouteInfo(ctx: FormContext<SupportedQsTypes<T>>): boolean {
+  areFormFieldsSynced(ctx: FormContext<SupportedQsTypes<T>>): boolean {
     for (let key in this.defaultInput) {
       const qsValue = getQuerystringVar(this.search, key) || '';
       const fieldProps = ctx.fieldPropsFor(key);
@@ -52,7 +52,7 @@ export class QuerystringConverter<T> {
    * Make the given form fields reflect the current URL's querystring variables,
    * and return whether any field values were changed.
    */
-  applyRouteInfoToFormFields(ctx: FormContext<SupportedQsTypes<T>>): boolean {
+  applyToFormFields(ctx: FormContext<SupportedQsTypes<T>>): boolean {
     const values = this.toFormInput();
     let changed = false;
     for (let key in this.defaultInput) {
@@ -129,7 +129,7 @@ export function SyncQuerystringToFields<T>(props: {
   // This effect detects when the current query in our URL has changed,
   // and matches our search field to sync with it.
   useEffect(() => {
-    if (qs.applyRouteInfoToFormFields(ctx)) {
+    if (qs.applyToFormFields(ctx)) {
       setTriggeredChange(true);
     }
   }, [qs.toStableQuerystring()]);
@@ -137,7 +137,7 @@ export function SyncQuerystringToFields<T>(props: {
   // This effect detects when our search fields have caught up with our
   // URL change, and immediately triggers a form submission.
   useEffect(() => {
-    if (triggeredChange && qs.areFormFieldsSameAsRouteInfo(ctx)) {
+    if (triggeredChange && qs.areFormFieldsSynced(ctx)) {
       ctx.submit(true);
       setTriggeredChange(false);
     }

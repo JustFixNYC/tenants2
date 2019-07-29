@@ -55,7 +55,7 @@ type ActionCardProps = {
   cardClass?: string,
   titleClass?: string,
   title?: string,
-  indicators: (JSX.Element | 0 | false | null)[],
+  indicators: (JSX.Element | 0 | false | null | "")[],
   cta: CallToActionProps
 };
 
@@ -114,7 +114,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: 'Complaints',
       indicators: [
-        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>
+        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
+        data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
       ],
       cta: {
         to: Routes.locale.home,
@@ -126,7 +127,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: 'Violations',
       indicators: [
-        data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>
+        data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>,
+        data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
       ],
       cta: {
         to: Routes.locale.hp.splash,

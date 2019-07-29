@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import Routes from "../routes";
 import { RouteComponentProps, Route } from "react-router";
-import Page from "../page";
+import Page, { PageTitle } from "../page";
 import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { NextButton } from '../buttons';
 import { FormContext } from '../form-context';
@@ -10,6 +10,8 @@ import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter } from '../query-form-submitter';
+
+const BASE_TITLE = "Data-driven onboarding";
 
 const CTA_CLASS_NAME = "button is-primary";
 
@@ -182,6 +184,7 @@ function FoundResults(props: DDOData) {
   });
 
   return <>
+    <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
     {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
     {otherActions.length > 0 && <>
       <h2>Other actions</h2>
@@ -201,6 +204,7 @@ function Results(props: {
     content = <FoundResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
+      <PageTitle title="Unrecognized address" />
       <p>Sorry, we don't recognize the address you entered.</p>
     </>;
   }
@@ -215,7 +219,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const [autoSubmit, setAutoSubmit] = useState(false);
 
   return (
-    <Page title="Data-driven onboarding prototype">
+    <Page title={BASE_TITLE}>
       <QueryFormSubmitter
         {...props}
         emptyInput={emptyInput}

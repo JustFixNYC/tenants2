@@ -12,6 +12,7 @@ describe('Data requests', () => {
     const pal = new AppTesterPal(<DataRequestsRoutes/>, {
       url: Routes.locale.dataRequests.multiLandlord
     });
+    await pal.nextTick();
     pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
     pal.clickButtonOrLink(/request data/i);
 

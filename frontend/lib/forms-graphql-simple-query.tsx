@@ -1,5 +1,6 @@
 import { GraphQLFetch } from "./graphql-client";
 import { WithServerFormFieldErrors } from "./form-errors";
+import { isDeepEqual } from "./util";
 
 export interface FetchSimpleQuery<FormInput, FormOutput> {
   (fetch: GraphQLFetch, args: FormInput): Promise<{ output: FormOutput }>;
@@ -8,6 +9,14 @@ export interface FetchSimpleQuery<FormInput, FormOutput> {
 export interface FetchSimpleQueryInfo<FormInput, FormOutput> {
   graphQL: string;
   fetch: FetchSimpleQuery<FormInput, FormOutput>;
+};
+
+type SimpleQuerySubmitHandlerOptions<FormInput, FormOutput> = {
+  /** A cache to consult that allows us to bypass the network. */
+  cache: [FormInput, FormOutput][],
+
+  /** A callback that's triggered whenever our form is submitted. */
+  onSubmit: (input: FormInput) => void
 };
 
 /**
@@ -22,10 +31,22 @@ export interface FetchSimpleQueryInfo<FormInput, FormOutput> {
 export function createSimpleQuerySubmitHandler<FormInput, FormOutput>(
   fetchImpl: GraphQLFetch,
   fetchQuery: FetchSimpleQuery<FormInput, FormOutput>,
-  onSubmit?: (input: FormInput) => void
+  options?: Partial<SimpleQuerySubmitHandlerOptions<FormInput, FormOutput>>,
 ): (input: FormInput) => Promise<{ simpleQueryOutput: FormOutput } & WithServerFormFieldErrors> {
+  const defaultOptions: SimpleQuerySubmitHandlerOptions<FormInput, FormOutput> = {
+    cache: [],
+    onSubmit: () => {}
+  };
+  const {onSubmit, cache} = Object.assign(defaultOptions, options || {});
   return async (input: FormInput) => {
-    if (onSubmit) onSubmit(input);
+    onSubmit(input);
+
+    for (let [cachedInput, cachedOutput] of cache) {
+      if (isDeepEqual(input, cachedInput)) {
+        return { simpleQueryOutput: cachedOutput, errors: [] };
+      }
+    }
+
     const result = await fetchQuery(fetchImpl, input);
 
     return { simpleQueryOutput: result.output, errors: [] };

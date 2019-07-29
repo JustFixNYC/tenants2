@@ -1,45 +1,114 @@
 import { RouteComponentProps } from "react-router";
-import { BaseFormFieldProps } from "./form-fields";
 import { FormContext } from "./form-context";
 import { useState, useEffect, useContext } from "react";
-import { getQuerystringVar, LocationSearchInfo } from "./querystring";
+import { getQuerystringVar } from "./querystring";
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
 import { AppContext } from "./app-context";
 
 /**
- * Make the given form fields reflect the current URL's querystring variables,
- * and return whether any field values were changed.
+ * These are the data types we currently support being represented
+ * in the querystring.
+ * 
+ * Ensuring any unsupported types map to "never" essentially means we
+ * have type errors whenever we try representing unsupported data
+ * types in the querystring.
  */
-function applyQsToFields(
-  routeInfo: LocationSearchInfo|string,
-  fields: BaseFormFieldProps<string>[]
-): boolean {
-  let changed = false;
-  for (let field of fields) {
-    const qsValue = getQuerystringVar(routeInfo, field.name) || '';
-    if (field.value !== qsValue) {
-      field.onChange(qsValue);
-      changed = true;
-    }
-  }
-  return changed;
-}
+export type SupportedQsTypes<T> = {
+  [k in keyof T]: T[k] extends string ? T[k] : never
+};
 
-/**
- * Return whether the given form fields are in-sync with the current
- * URL's querystring variables.
- */
-function areFieldsSameAsQs(
-  routeInfo: LocationSearchInfo|string,
-  fields: BaseFormFieldProps<string>[]
-): boolean {
-  for (let field of fields) {
-    const qsValue = getQuerystringVar(routeInfo, field.name) || '';
-    if (field.value !== qsValue) {
-      return false;
+export class QuerystringConverter<T> {
+  /**
+   * A class for manipulating a URL's querystring, converting it
+   * to/from a data structure, and doing other common operations
+   * with it.
+   * 
+   * @param search The URL search string (a.k.a. querystring),
+   *   e.g. `?foo=1&bar=blop`.
+   * 
+   * @param defaultInput The relevant querystring keys that have
+   *   meaning to our application, along with their default values
+   *   if they're missing from the querystring.
+   */
+  constructor(readonly search: string, readonly defaultInput: SupportedQsTypes<T>) {
+  }
+
+  /**
+   * Return whether the given form fields are in-sync with the current
+   * URL's querystring variables.
+   */
+  areFormFieldsSynced(ctx: FormContext<SupportedQsTypes<T>>): boolean {
+    for (let key in this.defaultInput) {
+      const qsValue = getQuerystringVar(this.search, key) || '';
+      const fieldProps = ctx.fieldPropsFor(key);
+      if (fieldProps.value !== qsValue) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Make the given form fields reflect the current URL's querystring variables,
+   * and return whether any field values were changed.
+   */
+  applyToFormFields(ctx: FormContext<SupportedQsTypes<T>>): boolean {
+    const values = this.toFormInput();
+    let changed = false;
+    for (let key in this.defaultInput) {
+      const fieldProps = ctx.fieldPropsFor(key);
+      const qsValue = values[key];
+      if (fieldProps.value !== qsValue) {
+        fieldProps.onChange(qsValue);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  /**
+   * Filter the current querystring to only contain
+   * relevant keys with valid values, in alphabetical
+   * order. Return the resulting querystring.
+   */
+  toStableQuerystring(): string {
+    const values = this.toFormInput();
+    const entries = new Map<string, string>();
+
+    for (let key in values) {
+      entries.set(key, values[key]);
+    }
+
+    return stableQuerystring(entries);
+  }
+
+  /**
+   * If the given input doesn't reflect the current querystring,
+   * push a new entry into the browser history which does reflect
+   * it.
+   */
+  maybePushToHistory(input: SupportedQsTypes<T>, router: RouteComponentProps) {
+    const currentQs = this.toStableQuerystring();
+    const newQs = new QuerystringConverter('', input).toStableQuerystring();
+
+    if (currentQs !== newQs) {
+      router.history.push(router.location.pathname + newQs);
     }
   }
-  return true;
+
+  /** Convert the current querystring to form input. */
+  toFormInput(): SupportedQsTypes<T> {
+    let result = Object.assign({}, this.defaultInput);
+
+    for (let key in this.defaultInput) {
+      const value = getQuerystringVar(this.search, key);
+      if (value !== undefined) {
+        (result as any)[key] = value;
+      }
+    }
+
+    return result;
+  }
 }
 
 /**
@@ -50,57 +119,32 @@ function areFieldsSameAsQs(
  * Furthermore, whenever the form fields change due to navigation,
  * their form is re-submitted.
  */
-export function SyncQuerystringToFields(props: {
-  routeInfo: LocationSearchInfo|string,
-  fields: BaseFormFieldProps<string>[],
-  ctx: FormContext<any>
+export function SyncQuerystringToFields<T>(props: {
+  qs: QuerystringConverter<T>,
+  ctx: FormContext<SupportedQsTypes<T>>
 }) {
-  const { routeInfo: router, fields } = props;
+  const { qs, ctx } = props;
   const [triggeredChange, setTriggeredChange] = useState(false);
 
   // This effect detects when the current query in our URL has changed,
   // and matches our search field to sync with it.
   useEffect(() => {
-    if (applyQsToFields(router, fields)) {
+    if (qs.applyToFormFields(ctx)) {
       setTriggeredChange(true);
     }
-  }, props.fields.map(f => getQuerystringVar(router, f.name)));
+  }, [qs.toStableQuerystring()]);
 
   // This effect detects when our search fields have caught up with our
   // URL change, and immediately triggers a form submission.
   useEffect(() => {
-    if (triggeredChange && areFieldsSameAsQs(router, fields)) {
-      props.ctx.submit(true);
+    if (triggeredChange && qs.areFormFieldsSynced(ctx)) {
+      ctx.submit(true);
       setTriggeredChange(false);
     }
-  }, props.fields.map(f => f.value));
+  });
 
   return null;
 }
-
-/**
- * Convert the given input value to a string capable of being reprsented
- * in a querystring.
- */
-function stringifyInputValue(varName: string, value: unknown): string {
-  if (typeof(value) === 'string') {
-    return value;
-  } else {
-    throw new Error(`Cannot convert input "${varName}" value of type "${typeof(value)}"`);
-  }
-}
-
-/**
- * These are the data types we currently support being represented
- * in the querystring.
- * 
- * Ensuring any unsupported types map to "never" essentially means we
- * have type errors whenever we try representing unsupported data
- * types in the querystring.
- */
-type SupportedQsTypes<T> = {
-  [k in keyof T]: T[k] extends string ? T[k] : never
-};
 
 /**
  * Convert the given mapping to a querystring, sorting the
@@ -108,65 +152,14 @@ type SupportedQsTypes<T> = {
  * of the original order of the mapping's entries.
  */
 function stableQuerystring(entries: Map<string, string>): string {
-  return Array.from(entries.entries())
+  return '?' + Array.from(entries.entries())
     .sort((a, b) => a[0] === b[0] ? 0 : (a[0] < b[0] ? -1 : 1))
     .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
     .join('&');
 }
 
-/**
- * If the given input doesn't reflect the current querystring,
- * push a new entry into the browser history which does reflect
- * it.
- */
-export function maybePushQueryInputToHistory<T>(router: RouteComponentProps, input: SupportedQsTypes<T>) {
-  let changed = false;
-  const newQsEntries = new Map<string, string>();
-  for (let entry of Object.entries(input)) {
-    const varName = entry[0];
-    const value = stringifyInputValue(varName, entry[1]);
-    const qsValue = getQuerystringVar(router, varName) || '';
-    newQsEntries.set(varName, value);
-    if (qsValue !== value) {
-      changed = true;
-    }
-  }
-
-  if (changed) {
-    const qs = stableQuerystring(newQsEntries);
-    router.history.push(router.location.pathname + `?${qs}`);
-  }
-}
-
-/** Ensure that the given value is a string and return it. */
-function assertString(value: unknown): string {
-  if (typeof(value) !== 'string') {
-    throw new Error(`Expected value to be string, not ${typeof(value)}`);
-  }
-  return value;
-}
-
-/**
- * Attempt to convert the current URL's querystring into an input
- * value object, replacing any missing fields with a default value.
- */
-export function getInitialQueryInputFromQs<T>(
-  routeInfo: LocationSearchInfo|string,
-  defaultValue: SupportedQsTypes<T>
-): T {
-  const result = {};
-  for (let entry of Object.entries(defaultValue)) {
-    const [varName, defaultVarValue] = entry;
-    const qsValue = getQuerystringVar(routeInfo, varName);
-    const value: string = qsValue === undefined ? assertString(defaultVarValue) : qsValue;
-    (result as any)[varName] = value;
-  }
-
-  return result as any;
-}
-
 /** A GraphQL query whose main output is mapped to the key 'output'. */
-type QueryWithOutput<T> = {
+export type QueryWithOutput<T> = {
   output: T
 };
 
@@ -187,7 +180,7 @@ export function useLatestQueryOutput<Input, Output>(
 ) {
   const appCtx = useContext(AppContext);
   const qlp = new QueryLoaderPrefetcher(router, appCtx, query, initialState);
-  let initialResults: Output|null = null;
+  let initialResults: Output|undefined = undefined;
 
   qlp.maybeQueueForPrefetching();
 

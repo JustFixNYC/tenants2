@@ -64,6 +64,13 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * at least one element; it should *never* be an empty array.
    */
   initialErrors?: FormErrors<FormInput>;
+
+  /**
+   * Whether to automatically submit the form as soon as the
+   * component is mounted. This can be useful for HTTP GET-based
+   * forms that don't have cached/pre-fetched results available.
+   */
+  submitOnMount?: boolean;
 } & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
 
 /**
@@ -192,6 +199,12 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     }).catch(e => {
       this.setState({ isLoading: false });
     });
+  }
+
+  componentDidMount() {
+    if (this.props.submitOnMount) {
+      this.handleSubmit(this.props.initialState);
+    }
   }
 
   componentWillUnmount() {

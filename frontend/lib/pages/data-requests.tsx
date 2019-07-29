@@ -1,15 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page from '../page';
 import Routes from '../routes';
-import { FormSubmitter } from '../form-submitter';
-import { AppContext } from '../app-context';
 import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } from '../queries/DataRequestMultiLandlordQuery';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
-import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { useLatestQueryOutput, SyncQuerystringToFields, QuerystringConverter } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
+import { QueryFormSubmitter } from '../query-form-submitter';
 
 type SearchResultsProps = {
   query: string,
@@ -73,35 +70,21 @@ function SearchResults({ output, query }: SearchResultsProps) {
 }
 
 function MultiLandlordPage(props: RouteComponentProps) {
-  const appCtx = useContext(AppContext);
-  const emptyState = { landlords: '' };
-  const qs = new QuerystringConverter(props.location.search, emptyState);
-  const initialState = qs.toFormInput();
-  const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
-  const [latestQuery, setLatestQuery] = useState(initialState.landlords);
-  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, {
-    cache: [[emptyState, null]],
-    onSubmit(input) {
-      setLatestResults(null);
-      setLatestQuery(input.landlords);
-      qs.maybePushToHistory(input, props);
-    }
-  });
+  const emptyInput = { landlords: '' };
 
   return <Page title="Multi-landlord data request" withHeading>
-    <FormSubmitter
-      submitOnMount={latestResults === undefined}
-      initialState={initialState}
-      onSubmit={onSubmit}
-      onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
+    <QueryFormSubmitter
+      {...props}
+      query={DataRequestMultiLandlordQuery}
+      emptyInput={emptyInput}
+      emptyOutput={null}
     >
-      {ctx => <>
-        <SyncQuerystringToFields qs={qs} ctx={ctx} />
+      {(ctx, latestInput, latestOutput) => <>
         <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && latestResults !== undefined && <SearchResults output={latestResults} query={latestQuery} />}
+        {latestOutput !== undefined && <SearchResults output={latestOutput} query={latestInput.landlords} />}
       </>}
-    </FormSubmitter>
+    </QueryFormSubmitter>
   </Page>;
 }
 

@@ -8,14 +8,42 @@ import { AppContext } from "./app-context";
 import { createSimpleQuerySubmitHandler } from "./forms-graphql-simple-query";
 import { FormSubmitter } from "./form-submitter";
 
+/**
+ * This function type is responsible for rendering the form's fields.
+ * 
+ * @param ctx The form context.
+ * @param latestInput The latest input that was provided when the form was last submitted.
+ * @param latestOutput The output of the last form submission.
+ */
+type QueryFormContextRenderer<FormInput, FormOutput> = 
+  (ctx: FormContext<FormInput>, latestInput: FormInput, latestOutput?: FormOutput) => JSX.Element;
+
 export type QueryFormSubmitterProps<FormInput, FormOutput> = RouteComponentProps & {
+  /** Object representing empty/default input for the form. */
   emptyInput: FormInput,
+
+  /** Object representing what we know will be returned if empty/default input is submitted. */
   emptyOutput: FormOutput,
+
+  /** The query to execute when the user submits the form. */
   query: QueryLoaderQuery<FormInput, QueryWithOutput<FormOutput>>,
+
+  /** An optional callback to call when the user submits the form. */
   onSubmit?: (input: FormInput) => void,
-  children: (ctx: FormContext<FormInput>, latestInput: FormInput, latestOutput?: FormOutput) => JSX.Element,
+
+  /** The function that renders the actual form. */
+  children: QueryFormContextRenderer<FormInput, FormOutput>,
 };
 
+/**
+ * A form submitter for HTTP GET-style requests, where the form input may be
+ * specified in the URL querystring, and where the output is displayed on the
+ * same page as the form.
+ * 
+ * This submitter attempts to pre-fetch the results during server-side rendering,
+ * ensuring both quick initial page loads and baseline functionality that works
+ * without requiring JavaScript.
+ */
 export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmitterProps<SupportedQsTypes<FormInput>, FormOutput>) {
   const { emptyInput, emptyOutput, query, children } = props;
   const appCtx = useContext(AppContext);

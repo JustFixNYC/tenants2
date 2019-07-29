@@ -6,8 +6,7 @@ with Total_Res_Units as(
         UnitsRes,
         bbl -- is this necessary?
     from pluto_18v2
-    where bbl= 
-%(bbl)s
+    where bbl= %(bbl)s
     ),
     
 -- sum of res units in associated portfolio (get_assoc_addrs_from_bbl)
@@ -42,7 +41,7 @@ Count_Open_HPD as (
         bbl,
         count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations
     from public.hpd_violations
-    where bbl= %(bbl)s and currentstatus !='VIOLATION CLOSED'
+    where bbl= %(bbl)s and violationstatus !='Close'
     group by bbl
 ),
 
@@ -89,7 +88,31 @@ Avg_Wait_Time_For_Portfolio as(
         AVG(length_of_violation) as AverageWaitTimeForPortfolio
     from violation_lengths_for_portfolio
     group by Enteredbbl
+),
+
+Major_Complaint as (
+	select
+		majorcategory,
+		count(*) filter (where majorcategory is not null) as NumberOfComplaints
+	from public.hpd_complaint_problems as p
+		left join public.hpd_complaints h on p.complaintid =h.complaintid
+	where bbl= %(bbl)s
+	group by majorcategory
+	order by NumberOfComplaints desc
+	limit 1
+),
+
+Major_Complaint_With_BBL as (
+	select
+		majorcategory,
+		NumberOfComplaints,
+		case 
+			when majorcategory is not null then %(bbl)s
+			else %(bbl)s
+		end as bbl
+	from Major_Complaint
 )
+
 
 select
     -- zipcode for the entered bbl. 
@@ -145,7 +168,13 @@ select
 
     -- average wait time for repairs after a landlord has been notified of a violation. for the the entire associated portfolio
     -- may return null if unknown
-    P.AverageWaitTimeForPortfolio as average_wait_time_for_repairs_for_portfolio
+    P.AverageWaitTimeForPortfolio as average_wait_time_for_repairs_for_portfolio,
+
+    -- the most common category of HPD complaint
+    M.majorcategory as most_common_category_of_hpd_complaint,
+
+    -- the number of complaints of the most common category
+	M.NumberOfComplaints as number_of_complaints_of_most_common_category
 from Total_Res_Units T
     left join Count_HPD HPD on T.bbl=HPD.bbl
     left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl
@@ -153,3 +182,4 @@ from Total_Res_Units T
     left join public.rentstab_summary R on T.bbl= R.ucbbl
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
+    left join Major_Complaint_With_BBL M on T.bbl= M.bbl

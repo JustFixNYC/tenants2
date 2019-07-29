@@ -118,6 +118,21 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
+    most_common_category_of_hpd_complaint = graphene.String(
+        description=(
+            "The most common category of HPD complaint, or null if no complaints exist. "
+            "The full list of categories can be found at: "
+            "https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf"  # NOQA
+        )
+    )
+
+    number_of_complaints_of_most_common_category = graphene.Int(
+        description=(
+            "The number of complaints of the most common category of "
+            "HPD complaint, or null if no complaints exist."
+        )
+    )
+
 
 @schema_registry.register_queries
 class DDOQuery:

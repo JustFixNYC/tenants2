@@ -13,5 +13,7 @@ fragment DDOSuggestionsResult on DDOSuggestionsResult {
   stabilizedUnitCount2017,
   hasStabilizedUnits,
   averageWaitTimeForRepairsAtBbl,
-  averageWaitTimeForRepairsForPortfolio
+  averageWaitTimeForRepairsForPortfolio,
+  mostCommonCategoryOfHpdComplaint,
+  numberOfComplaintsOfMostCommonCategory
 }

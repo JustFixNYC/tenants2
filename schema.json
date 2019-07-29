@@ -408,6 +408,30 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The most common category of HPD complaint, or null if no complaints exist. The full list of categories can be found at: https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf",
+              "isDeprecated": false,
+              "name": "mostCommonCategoryOfHpdComplaint",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of complaints of the most common category of HPD complaint, or null if no complaints exist.",
+              "isDeprecated": false,
+              "name": "numberOfComplaintsOfMostCommonCategory",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

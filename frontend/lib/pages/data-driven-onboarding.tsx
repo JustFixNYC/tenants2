@@ -93,7 +93,7 @@ function ActionCard(props: ActionCardProps) {
 }
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
-  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
+  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps {
     return {
       title: fullAddress,
       titleProps: {
@@ -115,7 +115,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       }
     };
   },
-  function letterOfComplaint(data) {
+  function letterOfComplaint(data): ActionCardProps {
     return {
       title: 'Complaints',
       indicators: [
@@ -128,7 +128,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       }
     };
   },
-  function hpAction(data) {
+  function hpAction(data): ActionCardProps {
     return {
       title: 'Violations',
       indicators: [
@@ -141,7 +141,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       }
     }
   },
-  function rentHistory(data) {
+  function rentHistory(data): ActionCardProps {
     return {
       title: 'Rent history',
       indicators: [
@@ -159,7 +159,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       }
     };
   },
-  function evictionFreeNyc(data) {
+  function evictionFreeNyc(data): ActionCardProps {
     return {
       title: 'Eviction defense',
       indicators: [

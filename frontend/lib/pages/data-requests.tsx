@@ -6,7 +6,7 @@ import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } f
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
-import { QueryFormSubmitter } from '../query-form-submitter';
+import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 
 const BASE_TITLE = "Multi-landlord data request";
 
@@ -38,7 +38,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
 
     content = <>
       {pageTitle}
-      <h3>Query results for {quotedQuery}</h3>
+      <h3 {...useQueryFormResultFocusProps()}>Query results for {quotedQuery}</h3>
       <p><a {...downloadProps} className="button">Download CSV</a></p>
       {mightBeTruncated
         ? <p>Only the first {output.snippetMaxRows} rows are shown. Please <a {...downloadProps}>download the CSV</a> for the full dataset.</p>
@@ -64,7 +64,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
   } else if (query) {
     content = <>
       {pageTitle}
-      <p>No results for {quotedQuery}.</p>
+      <h3 {...useQueryFormResultFocusProps()}>No results for {quotedQuery}.</h3>
     </>;
   }
 

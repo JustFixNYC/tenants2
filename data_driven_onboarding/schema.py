@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from pathlib import Path
 import logging
+from django.core.cache import caches
 from django.db import connections
 from django.conf import settings
 import graphene
@@ -11,6 +12,8 @@ from onboarding.forms import get_geocoding_search_text
 
 
 MY_DIR = Path(__file__).parent.resolve()
+
+DDO_SQL_CACHE = 'default'
 
 DDO_SQL_FILE = MY_DIR / 'data-driven-onboarding.sql'
 
@@ -152,13 +155,20 @@ class DDOQuery:
         if not features:
             return None
         props = features[0].properties
-        row = run_ddo_sql_query(props.pad_bbl)
+        row = cached_run_ddo_sql_query(props.pad_bbl)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
             is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
             **row
         )
+
+
+def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+    sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
+    cache_key = f"{sql_query_mtime}-{bbl}"
+    cache = caches[DDO_SQL_CACHE]
+    return cache.get_or_set(cache_key, lambda: run_ddo_sql_query(bbl))
 
 
 def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:

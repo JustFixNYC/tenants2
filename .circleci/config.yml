@@ -111,3 +111,5 @@ workflows:
               only:
                 - master
                 - production
+                # TODO: REMOVE THE FOLLOWING LINE
+                - git-lfs-in-deploy

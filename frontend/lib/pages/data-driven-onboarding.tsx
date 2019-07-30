@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 import Routes from "../routes";
 import { RouteComponentProps, Route } from "react-router";
@@ -10,6 +10,7 @@ import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
+import { AppContext } from '../app-context';
 
 const BASE_TITLE = "Data-driven onboarding";
 
@@ -218,6 +219,7 @@ function Results(props: {
 }
 
 function DataDrivenOnboardingPage(props: RouteComponentProps) {
+  const appCtx = useContext(AppContext);
   const emptyInput = {address: '', borough: ''};
   const [autoSubmit, setAutoSubmit] = useState(false);
 
@@ -234,6 +236,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
           <AddressAndBoroughField
             key={props.location.search}
             addressLabel="Enter your address and we'll give you some cool info."
+            hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
             addressProps={ctx.fieldPropsFor('address')}
             boroughProps={ctx.fieldPropsFor('borough')}
             onChange={() => setAutoSubmit(true)}

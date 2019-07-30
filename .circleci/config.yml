@@ -80,12 +80,17 @@ jobs:
       #
       #   https://circleci.com/docs/2.0/docker-layer-caching/
       - setup_remote_docker
+      - run:
+          name: Install Git LFS
+          command: |
+            echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports-main.list
+            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+            apt-get install git-lfs
+            git lfs install
       - checkout
       - run:
           name: Deploy
           command: |
-            git lfs pull
-
             # Note that you will need to set HEROKU_API_KEY in the CircleCI
             # settings for this to work. You can generate a Heroku API key
             # from the command-line with `heroku authorizations:create` for

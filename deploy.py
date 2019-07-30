@@ -203,12 +203,26 @@ def heroku_run(args):
     ))
 
 
+def selfcheck(args):
+    from project.tests.test_git_lfs import test_git_lfs_has_checked_out_large_files
+
+    test_git_lfs_has_checked_out_large_files()
+
+    print("Deployment prerequisites satisfied!")
+
+
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(
         title='subcommands',
         description='valid subcommands',
     )
+
+    parser_selfcheck = subparsers.add_parser(
+        'selfcheck',
+        help="Test build environment to make sure we can deploy a working build."
+    )
+    parser_selfcheck.set_defaults(func=selfcheck)
 
     parser_heroku = subparsers.add_parser(
         'heroku',

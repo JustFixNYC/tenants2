@@ -111,12 +111,14 @@ export function useQueryFormResultFocusProps(): {
   ref: (node: HTMLElement|null) => void
 } {
   const ctx = useContext(QueryFormResultsContext);
-  const ref = useCallback((node: HTMLElement|null) => {
-    if (node && ctx.shouldFocus) {
-      node.focus();
-      ctx.onFocus();
-    }
-  }, []);
 
-  return { tabIndex: -1, ref };
+  return {
+    tabIndex: -1,
+    ref: useCallback(node => {
+      if (node && ctx.shouldFocus) {
+        node.focus();
+        ctx.onFocus();
+      }
+    }, [])
+  };
 }

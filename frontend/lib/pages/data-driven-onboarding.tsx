@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import Routes from "../routes";
 import { RouteComponentProps, Route } from "react-router";
-import Page from "../page";
+import Page, { PageTitle } from "../page";
 import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { NextButton } from '../buttons';
 import { FormContext } from '../form-context';
 import { whoOwnsWhatURL } from '../tests/wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
-import { QueryFormSubmitter } from '../query-form-submitter';
+import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
+
+const BASE_TITLE = "Data-driven onboarding";
 
 const CTA_CLASS_NAME = "button is-primary";
 
@@ -53,7 +55,7 @@ type CallToActionProps = {
 
 type ActionCardProps = {
   cardClass?: string,
-  titleClass?: string,
+  titleProps?: JSX.IntrinsicElements["h3"],
   title?: string,
   indicators: (JSX.Element | 0 | false | null | "")[],
   cta: CallToActionProps
@@ -73,7 +75,7 @@ function ActionCard(props: ActionCardProps) {
   return <>
     <div className={classnames('card', 'jf-ddo-card', props.cardClass)}>
       <div className="card-content">
-        {props.title && <p className={props.titleClass || 'title is-spaced is-size-4'}>{props.title}</p>}
+        {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>{props.title}</h3>}
         {props.indicators.map((indicator, i) => (
           indicator ? <p key={i} className="subtitle is-spaced">{indicator}</p> : null
         ))}
@@ -94,7 +96,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}) {
     return {
       title: fullAddress,
-      titleClass: 'title',
+      titleProps: {
+        className: 'title is-spaced is-size-3',
+        ...useQueryFormResultFocusProps()
+      },
       cardClass: 'has-background-light',
       indicators: [
         associatedBuildingCount && portfolioUnitCount && <>
@@ -182,6 +187,7 @@ function FoundResults(props: DDOData) {
   });
 
   return <>
+    <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
     {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
     {otherActions.length > 0 && <>
       <h2>Other actions</h2>
@@ -201,7 +207,8 @@ function Results(props: {
     content = <FoundResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
-      <p>Sorry, we don't recognize the address you entered.</p>
+      <PageTitle title="Unrecognized address" />
+      <h3 {...useQueryFormResultFocusProps()}>Sorry, we don't recognize the address you entered.</h3>
     </>;
   }
   return <div className="content">
@@ -215,7 +222,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const [autoSubmit, setAutoSubmit] = useState(false);
 
   return (
-    <Page title="Data-driven onboarding prototype">
+    <Page title={BASE_TITLE}>
       <QueryFormSubmitter
         {...props}
         emptyInput={emptyInput}

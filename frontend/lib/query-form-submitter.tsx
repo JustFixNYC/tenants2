@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { QueryLoaderQuery } from "./query-loader-prefetcher";
 import { QueryWithOutput, QuerystringConverter, useLatestQueryOutput, SyncQuerystringToFields, SupportedQsTypes } from "./http-get-query-util";
 import { RouteComponentProps } from "react-router";
@@ -51,6 +51,7 @@ export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmit
   const initialState = qs.toFormInput();
   const [latestInput, setLatestInput] = useState(initialState);
   const [latestOutput, setLatestOutput] = useLatestQueryOutput(props, query, initialState);
+  const [shouldFocus, setShouldFocus] = useState(false);
   const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, query.fetch, {
     cache: [[emptyInput, emptyOutput]],
     onSubmit(input) {
@@ -67,12 +68,57 @@ export function QueryFormSubmitter<FormInput, FormOutput>(props: QueryFormSubmit
       onSubmit={onSubmit}
       onSuccess={output => {
         setLatestOutput(output.simpleQueryOutput);
+        setShouldFocus(true);
       }}
     >
       {ctx => <>
         <SyncQuerystringToFields qs={qs} ctx={ctx} />
-        {children(ctx, latestInput, ctx.isLoading ? undefined : latestOutput)}
+        <QueryFormResultsContext.Provider value={{
+          shouldFocus,
+          onFocus() { setShouldFocus(false) }
+        }}>
+          {children(ctx, latestInput, ctx.isLoading ? undefined : latestOutput)}
+        </QueryFormResultsContext.Provider>
       </>}
     </FormSubmitter>
   );
+}
+
+/**
+ * A private context for transferring information about whether query form
+ * results need to be focused for accessibility purposes.
+ */
+const QueryFormResultsContext = React.createContext<QueryFormResultsContextType>({
+  shouldFocus: false,
+  onFocus: () => {}
+});
+
+type QueryFormResultsContextType = {
+  /** Whether the form results need to be focused for accessibilty purposes. */
+  shouldFocus: boolean,
+  
+  /** Callback for the focus target to call once it's focused itself in the DOM. */
+  onFocus: () => void
+};
+
+/**
+ * This React Hook returns props for an HTML element that will ensure that it
+ * is focused in the context of a progressively-enhanced form submission,
+ * improving keyboard and screen reader accessibility.
+ */
+export function useQueryFormResultFocusProps(): {
+  tabIndex: number,
+  ref: (node: HTMLElement|null) => void
+} {
+  const ctx = useContext(QueryFormResultsContext);
+
+  return {
+    tabIndex: -1,
+    ref: useCallback(node => {
+      if (node && ctx.shouldFocus) {
+        node.focus();
+        ctx.onFocus();
+      }
+    }, [])
+  };
 }

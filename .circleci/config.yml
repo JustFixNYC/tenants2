@@ -73,7 +73,7 @@ jobs:
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
-      - image: justfixnyc/tenants2_base:0.6
+      - image: circleci/python:3.7
     steps:
       # Ideally we would use Docker Layer Caching (DLC) here to speed things up,
       # but apparently that's a premium feature:
@@ -84,6 +84,8 @@ jobs:
       - run:
           name: Deploy
           command: |
+            git lfs pull
+
             # Note that you will need to set HEROKU_API_KEY in the CircleCI
             # settings for this to work. You can generate a Heroku API key
             # from the command-line with `heroku authorizations:create` for

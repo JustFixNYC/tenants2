@@ -84,6 +84,8 @@ jobs:
       - run:
           name: Deploy
           command: |
+            git lfs pull
+
             # Note that you will need to set HEROKU_API_KEY in the CircleCI
             # settings for this to work. You can generate a Heroku API key
             # from the command-line with `heroku authorizations:create` for

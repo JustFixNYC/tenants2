@@ -96,6 +96,7 @@ jobs:
               # This should be the Heroku app name of our development instance.
               heroku git:remote -a tenants2-dev
             fi
+            python deploy.py selfcheck
             python deploy.py heroku -r heroku --cache-from-docker-registry
 workflows:
   version: 2

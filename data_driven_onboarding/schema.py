@@ -166,7 +166,7 @@ class DDOQuery:
 
 def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
     sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
-    cache_key = f"{sql_query_mtime}-{bbl}"
+    cache_key = f"ddo-sql-{sql_query_mtime}-{bbl}"
     cache = caches[DDO_SQL_CACHE]
     return cache.get_or_set(cache_key, lambda: run_ddo_sql_query(bbl))
 

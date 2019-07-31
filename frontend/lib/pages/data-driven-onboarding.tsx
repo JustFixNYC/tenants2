@@ -59,7 +59,8 @@ type ActionCardProps = {
   titleProps?: JSX.IntrinsicElements["h3"],
   title?: string,
   indicators: (JSX.Element | 0 | false | null | "")[],
-  cta: CallToActionProps
+  fallbackMessage: JSX.Element,
+  cta?: CallToActionProps
 };
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
@@ -73,43 +74,54 @@ function CallToAction({to, text, className}: CallToActionProps) {
 }
 
 function ActionCard(props: ActionCardProps) {
+  const indicators: JSX.Element[] = [];
+
+  props.indicators.forEach(ind => ind && indicators.push(ind));
+  if (indicators.length === 0) {
+    indicators.push(props.fallbackMessage);
+  }
+
   return <>
     <div className={classnames('card', 'jf-ddo-card', props.cardClass)}>
       <div className="card-content">
         {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>{props.title}</h3>}
-        {props.indicators.map((indicator, i) => (
-          indicator ? <p key={i} className="subtitle is-spaced">{indicator}</p> : null
+        {indicators.map((indicator, i) => (
+          <p key={i} className="subtitle is-spaced">{indicator}</p>
         ))}
-      </div>
-      <div className="card-footer">
-        <p className="card-footer-item">
-          <span>
-            <CallToAction {...props.cta} className={CTA_CLASS_NAME} />
-          </span>
-        </p>
+        {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
       </div>
     </div>
-    <br/>
   </>;
 }
+
+const buildingIntroCard: ActionCardPropsCreator = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps => ({
+  title: fullAddress,
+  titleProps: {
+    className: 'title is-spaced is-size-3',
+    ...useQueryFormResultFocusProps()
+  },
+  cardClass: 'has-background-light',
+  indicators: [
+    associatedBuildingCount && portfolioUnitCount && <>
+      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+    </>,
+    unitCount && <>
+      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+    </>,
+  ],
+  fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
+});
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps {
     return {
-      title: fullAddress,
-      titleProps: {
-        className: 'title is-spaced is-size-3',
-        ...useQueryFormResultFocusProps()
-      },
-      cardClass: 'has-background-light',
+      title: "Owner",
       indicators: [
         associatedBuildingCount && portfolioUnitCount && <>
           Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
         </>,
-        unitCount && <>
-          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
-        </>,  
       ],
+      fallbackMessage: <>Visit <em>Who Owns What</em> to learn more about your building and find other buildings your landlord might own.</>,
       cta: {
         to: whoOwnsWhatURL(bbl),
         text: "Learn more at Who Owns What"
@@ -123,6 +135,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
         data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
       ],
+      fallbackMessage: <>If you need repairs in your apartment and your landlord isn't responding, you can send a free letter of complaint.</>,
       cta: {
         to: Routes.locale.home,
         text: "Send a letter of complaint",
@@ -136,6 +149,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>,
         data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
       ],
+      fallbackMessage: <>If you've sent a letter of complaint and your landlord isn't responding, you can sue them in court through an HP Action proceeding.</>,
       cta: {
         to: Routes.locale.hp.splash,
         text: "Sue your landlord"
@@ -154,6 +168,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
         </>,
       ],
+      fallbackMessage: <>You can learn more about your apartment by requesting its rental history.</>,
       cta: {
         to: "https://www.justfix.nyc/#rental-history",
         text: "Order your rental history"
@@ -166,6 +181,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [
         data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
       ],
+      fallbackMessage: <>If you're facing an eviction, you can learn how to respond and connect with available resources.</>,
       cta: {
         to: "https://www.evictionfreenyc.org/",
         text: "Fight an eviction"
@@ -189,12 +205,14 @@ function FoundResults(props: DDOData) {
 
   return <>
     <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
-    {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    <ActionCard {...buildingIntroCard(props)} />
+    {recommendedActions.length > 0 && <>
+      <h2>Recommended actions</h2>
+      {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    </>}
     {otherActions.length > 0 && <>
-      <h2>Other actions</h2>
-      <ul>
-        {otherActions.map((props, i) => <li key={i}><CallToAction {...props.cta} /></li>)}
-      </ul>
+      <h2>More actions</h2>
+      {otherActions.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
   </>;
 }
@@ -212,8 +230,7 @@ function Results(props: {
       <h3 {...useQueryFormResultFocusProps()}>Sorry, we don't recognize the address you entered.</h3>
     </>;
   }
-  return <div className="content">
-    <br/>
+  return <div className="content jf-ddo-results">
     {content}
   </div>;
 }

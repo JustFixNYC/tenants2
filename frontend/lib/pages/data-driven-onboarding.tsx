@@ -59,7 +59,7 @@ type ActionCardProps = {
   titleProps?: JSX.IntrinsicElements["h3"],
   title?: string,
   indicators: (JSX.Element | 0 | false | null | "")[],
-  cta: CallToActionProps
+  cta?: CallToActionProps
 };
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
@@ -80,35 +80,37 @@ function ActionCard(props: ActionCardProps) {
         {props.indicators.map((indicator, i) => (
           indicator ? <p key={i} className="subtitle is-spaced">{indicator}</p> : null
         ))}
-      </div>
-      <div className="card-footer">
-        <p className="card-footer-item">
-          <span>
-            <CallToAction {...props.cta} className={CTA_CLASS_NAME} />
-          </span>
-        </p>
+        {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
       </div>
     </div>
-    <br/>
   </>;
 }
+
+const buildingIntroCard: ActionCardPropsCreator = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps => ({
+  title: fullAddress,
+  titleProps: {
+    className: 'title is-spaced is-size-3',
+    ...useQueryFormResultFocusProps()
+  },
+  cardClass: 'has-background-light',
+  indicators: [
+    associatedBuildingCount && portfolioUnitCount && <>
+      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+    </>,
+    unitCount && <>
+      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+    </>,
+  ]
+});
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps {
     return {
-      title: fullAddress,
-      titleProps: {
-        className: 'title is-spaced is-size-3',
-        ...useQueryFormResultFocusProps()
-      },
-      cardClass: 'has-background-light',
+      title: "Owner",
       indicators: [
         associatedBuildingCount && portfolioUnitCount && <>
           Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
         </>,
-        unitCount && <>
-          There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
-        </>,  
       ],
       cta: {
         to: whoOwnsWhatURL(bbl),
@@ -189,12 +191,14 @@ function FoundResults(props: DDOData) {
 
   return <>
     <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
-    {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    <ActionCard {...buildingIntroCard(props)} />
+    {recommendedActions.length > 0 && <>
+      <h2>Recommended actions</h2>
+      {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    </>}
     {otherActions.length > 0 && <>
-      <h2>Other actions</h2>
-      <ul>
-        {otherActions.map((props, i) => <li key={i}><CallToAction {...props.cta} /></li>)}
-      </ul>
+      <h2>More actions</h2>
+      {otherActions.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
   </>;
 }
@@ -212,8 +216,7 @@ function Results(props: {
       <h3 {...useQueryFormResultFocusProps()}>Sorry, we don't recognize the address you entered.</h3>
     </>;
   }
-  return <div className="content">
-    <br/>
+  return <div className="content jf-ddo-results">
     {content}
   </div>;
 }

@@ -52,6 +52,9 @@ export interface AppServerInfo {
   /** The letter of complaint URL (PDF format). */
   locPdfURL: string;
 
+  /** The POST endpoint to enable compatibility mode (aka "safe mode"). */
+  enableSafeModeURL: string;
+
   /**
    * The URL that automatically logs-in the current user to the legacy tenant
    * app and redirects them there.

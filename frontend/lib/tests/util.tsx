@@ -65,6 +65,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
   locPdfURL: '/myletter.pdf',
+  enableSafeModeURL: '/mysafemode/enable',
   redirectToLegacyAppURL: '/myredirect-to-legacy-app'
 };
 

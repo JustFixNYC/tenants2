@@ -171,6 +171,9 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
+    /** The help page. */
+    help: `${prefix}/help`,
+
     /** The password reset flow. */
     passwordReset: createPasswordResetRouteInfo(`${prefix}/password-reset`),
 

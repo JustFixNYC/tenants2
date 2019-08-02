@@ -1,7 +1,6 @@
 import React from 'react';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress-routes";
 import Routes from "../routes";
-import { OutboundLink } from '../google-analytics';
 import Page from '../page';
 import { LegacyFormSubmitter } from '../legacy-form-submitter';
 import { PasswordResetMutation, BlankPasswordResetInput } from '../queries/PasswordResetMutation';
@@ -11,6 +10,7 @@ import { PasswordResetVerificationCodeMutation, BlankPasswordResetVerificationCo
 import { TextualFormField } from '../form-fields';
 import { PasswordResetConfirmMutation, BlankPasswordResetConfirmInput } from '../queries/PasswordResetConfirmMutation';
 import { Link } from 'react-router-dom';
+import { CustomerSupportLink } from '../customer-support-link';
 
 function getPasswordResetRoutesProps(): ProgressRoutesProps {
   return {
@@ -60,7 +60,7 @@ function Verify(props: {}) {
         {(ctx) => <>
           <TextualFormField label="Verification code" {...ctx.fieldPropsFor('code')} />
           <br/>
-          <p>If you didn't receive a verification code, please email <OutboundLink href="mailto:support@justfix.nyc">support@justfix.nyc</OutboundLink>.</p>
+          <p>If you didn't receive a verification code, please email <CustomerSupportLink />.</p>
           <ProgressButtons back={Routes.locale.passwordReset.start} isLoading={ctx.isLoading} />
         </>}
       </LegacyFormSubmitter>

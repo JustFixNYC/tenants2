@@ -14,7 +14,7 @@ import { AppContext } from '../app-context';
 
 const BASE_TITLE = "Data-driven onboarding";
 
-const CTA_CLASS_NAME = "button is-primary jf-is-extra-wide";
+const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
 type DDOData = DataDrivenOnboardingSuggestions_output;
 

@@ -232,27 +232,29 @@ fieldset {
     & {
         list-style: none;
         counter-reset: jf-biglist-counter;
-        margin-left: 4em;
+        margin-left: 0;
     }
 
     li {
         counter-increment: jf-biglist-counter;
-        position: relative;
+        display: flex;
+        align-items: center;
         padding-bottom: 2em;
-        min-height: 5em;
     }
 
     li:last-child {
         padding-bottom: 1em;
     }
 
-    li > .jf-biglist-counter::before {
+    li > div.jf-biglist-counter + div {
+        margin-left: 1em;
+    }
+
+    li > div.jf-biglist-counter::before {
         content: counter(jf-biglist-counter);
+        display: block;
         font-size: 30px;
         font-weight: bold;
-        position: absolute;
-        left: -60px;
-        top: 5px;
         padding-left: 15px;
         width: 45px;
         height: 45px;

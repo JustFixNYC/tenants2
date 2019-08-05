@@ -211,7 +211,7 @@ function FoundResults(props: DDOData) {
       {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
     {otherActions.length > 0 && <>
-      <h2>More actions</h2>
+      <h2>{recommendedActions.length > 0 ? "More actions" : "Actions"}</h2>
       {otherActions.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
   </>;

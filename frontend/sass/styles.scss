@@ -246,7 +246,7 @@ fieldset {
         padding-bottom: 1em;
     }
 
-    li::before {
+    li > .jf-biglist-counter::before {
         content: counter(jf-biglist-counter);
         font-size: 30px;
         font-weight: bold;

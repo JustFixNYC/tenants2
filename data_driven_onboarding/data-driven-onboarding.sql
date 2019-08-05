@@ -26,7 +26,7 @@ Count_Of_Assoc_Bldgs as (
 ),
 
 Major_Boro_Of_Assoc_Bldgs as (
-	select    
+    select    
         case 
             when bbl is not null then %(bbl)s
             else %(bbl)s
@@ -107,30 +107,30 @@ Avg_Wait_Time_For_Portfolio as(
     group by Enteredbbl
 ),
 
-Major_Complaint as (
-    select
-		case 
-			when majorcategory = 'UNSANITARY CONDITION' then minorcategory
-			else majorcategory end 
-        as category,
-        count(*) as NumberOfComplaints
-    from public.hpd_complaint_problems as p
-        left join public.hpd_complaints h on p.complaintid =h.complaintid
-    where bbl= %(bbl)s
-    group by category
-    order by NumberOfComplaints desc
-    limit 1
+Major_Complaint as(
+    select
+        case 
+            when majorcategory = 'UNSANITARY CONDITION' then minorcategory
+            else majorcategory end 
+        as category,
+        count(*) as NumberOfComplaints
+    from public.hpd_complaint_problems as p
+        left join public.hpd_complaints h on p.complaintid =h.complaintid
+    where bbl= %(bbl)s
+    group by category
+    order by NumberOfComplaints desc
+    limit 1
 ),
 
 Major_Complaint_With_BBL as (
-    select
-        category as majorcategory,
-        NumberOfComplaints,
-        case 
-            when category is not null then %(bbl)s
-            else %(bbl)s
-        end as bbl
-    from Major_Complaint
+    select
+        category as majorcategory,
+        NumberOfComplaints,
+        case 
+            when category is not null then %(bbl)s
+            else %(bbl)s
+        end as bbl
+    from Major_Complaint
 )
 
 
@@ -209,7 +209,7 @@ select
     MC.majorcategory as most_common_category_of_hpd_complaint,
 
     -- the number of complaints of the most common category
-    MC.NumberOfComplaints as number_of_complaints_of_most_common_category
+    MC.NumberOfComplaints as number_of_complaints_of_most_common_category
 from Total_Res_Units T
     left join Count_HPD HPD on T.bbl=HPD.bbl
     left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl
@@ -219,4 +219,3 @@ from Total_Res_Units T
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Major_Complaint_With_BBL MC on T.bbl= MC.bbl
-

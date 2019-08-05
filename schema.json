@@ -280,13 +280,29 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Number of residential units for the BBL, if available.",
+              "description": "The year that the BBL was built, if available",
               "isDeprecated": false,
-              "name": "unitCount",
+              "name": "yearBuilt",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Number of residential units for the BBL, if available.",
+              "isDeprecated": false,
+              "name": "unitCount",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               }
             },
             {
@@ -328,9 +344,45 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Number of distinct zip codes of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "associatedZipCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The number of residential units in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "portfolioUnitCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The most common borough for buildings in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "portfolioTopBorough",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "the number of associated buildings in the portfolio's most common boroughIf the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "numberOfBldgsInPortfolioTopBorough",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -372,15 +424,15 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Whether this building has ever had rent-stabilized units at any point.",
+              "description": "The maximum number of stabilized units at the BBL on any year between 2007 and 2017.",
               "isDeprecated": false,
-              "name": "hasStabilizedUnits",
+              "name": "stabilizedUnitCountMaximum",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Boolean",
+                  "name": "Int",
                   "ofType": null
                 }
               }

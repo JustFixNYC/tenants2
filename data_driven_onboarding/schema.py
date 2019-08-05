@@ -56,7 +56,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description="The zip code of the location. It may be blank."
     )
 
+    year_built = graphene.Int(
+        description="The year that the BBL was built, if available"
+    )
+
     unit_count = graphene.Int(
+        required=True,
         description="Number of residential units for the BBL, if available."
     )
 
@@ -81,9 +86,31 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
+    associated_zip_count = graphene.Int(
+        description=(
+            "Number of distinct zip codes of associated buildings from the portfolio that the BBL "
+            "is in. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
     portfolio_unit_count = graphene.Int(
         description=(
             "The number of residential units in the portfolio that the BBL belongs to. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    portfolio_top_borough = graphene.String(
+        description=(
+            "The most common borough for buildings in the portfolio that the BBL belongs to. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    number_of_bldgs_in_portfolio_top_borough = graphene.Int(
+        description=(
+            "the number of associated buildings in the portfolio's most common borough"
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
@@ -102,9 +129,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
-    has_stabilized_units = graphene.Boolean(
+    stabilized_unit_count_maximum = graphene.Int(
         required=True,
-        description="Whether this building has ever had rent-stabilized units at any point."
+        description=(
+            "The maximum number of stabilized units at the BBL on any year between 2007 "
+            "and 2017."
+        )
     )
 
     average_wait_time_for_repairs_at_bbl = graphene.Int(

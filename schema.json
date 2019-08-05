@@ -424,7 +424,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The maximum number of stabilized units at the BBL on any year between 2007 and 2017",
+              "description": "The maximum number of stabilized units at the BBL on any year between 2007 and 2017.",
               "isDeprecated": false,
               "name": "stabilizedUnitCountMaximum",
               "type": {

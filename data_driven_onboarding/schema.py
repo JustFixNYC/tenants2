@@ -88,7 +88,8 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     associated_zip_count = graphene.Int(
         description=(
-            "Number of distinct zip codes of associated buildings from the portfolio that the BBL is in. "
+            "Number of distinct zip codes of associated buildings from the portfolio that the BBL "
+            "is in. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
@@ -130,7 +131,10 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     stabilized_unit_count_maximum = graphene.Int(
         required=True,
-        description="The maximum number of stabilized units at the BBL on any year between 2007 and 2017"
+        description=(
+            "The maximum number of stabilized units at the BBL on any year between 2007 "
+            "and 2017."
+        )
     )
 
     average_wait_time_for_repairs_at_bbl = graphene.Int(

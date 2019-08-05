@@ -43,32 +43,12 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         <section className="section">
           <div className="content">
             <h2 className="title is-spaced has-text-centered">How It Works</h2>
-            <div className="how-it-works columns is-multiline">
-              <div className="column is-half">
-                <div className="notification">
-                  <div className="num"><span className="title is-3">1</span></div>
-                  <h5>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</h5>
-                </div>
-              </div>
-              <div className="column is-half">
-                <div className="notification">
-                  <div className="num"><span className="title is-3">2</span></div>
-                  <h5>JustFix.nyc mails your letter via USPS Certified Mail<sup>&reg;</sup> - for free!</h5>
-                </div>
-              </div>
-              <div className="column is-half">
-                <div className="notification">
-                  <div className="num"><span className="title is-3">3</span></div>
-                  <h5>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</h5>
-                </div>
-              </div>
-              <div className="column is-half">
-                <div className="notification">
-                  <div className="num"><span className="title is-3">4</span></div>
-                  <h5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</h5>
-                </div>
-              </div>
-            </div>
+            <ol className="jf-biglist">
+              <li><p className="title is-5">Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</p></li>
+              <li><p className="title is-5">JustFix.nyc mails your letter via USPS Certified Mail<sup>&reg;</sup> - for free!</p></li>
+              <li><p className="title is-5">Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</p></li>
+              <li><p className="title is-5">If repairs aren't made, learn about additional tactics like organizing and legal actions.</p></li>
+            </ol>
             <CenteredPrimaryButtonLink to={onboardingForLOCRoute()} className="is-large">
               Start my free letter
             </CenteredPrimaryButtonLink>

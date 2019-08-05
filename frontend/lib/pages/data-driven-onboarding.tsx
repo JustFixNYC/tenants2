@@ -160,7 +160,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: 'Rent history',
       indicators: [
-        (data.hasStabilizedUnits || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
+        (data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
         ? <>
           Your apartment may be rent stabilized.
         </> : null,

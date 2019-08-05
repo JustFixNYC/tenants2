@@ -86,7 +86,7 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(choice) }
-            /> <span className="jf-radio-symbol" /> <span className="jf-label-text"><h5 className="subtitle is-5">{label}</h5></span>
+            /> <span className="jf-radio-symbol" /> <span className="jf-label-text"><span className="subtitle is-5">{label}</span></span>
           </label>
         ))}
       </div>
@@ -186,7 +186,7 @@ export function CheckboxView(props: CheckboxViewProps) {
     <div className="field">
       <label htmlFor={inputProps.id} className="checkbox jf-single-checkbox">
         <input type="checkbox" {...inputProps} /> <span className="jf-checkbox-symbol"/> <span className="jf-label-text">
-          <h5 className="subtitle is-5">{props.children}</h5>
+          <span className="subtitle is-5">{props.children}</span>
         </span>
       </label>
       {contentAfterLabel}

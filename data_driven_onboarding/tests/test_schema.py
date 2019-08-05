@@ -47,3 +47,8 @@ class TestSchema:
             'bbl': '3002920026',
             'unitCount': 123
         }
+
+    def test_sql_query_contains_no_unexpected_characters(self):
+        sql = schema.DDO_SQL_FILE.read_text()
+        assert "\u00a0" not in sql, "SQL should not contain non-breaking spaces"
+        assert "\t" not in sql, "SQL should not contain tabs (please use spaces instead)"

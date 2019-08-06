@@ -94,36 +94,36 @@ function ActionCard(props: ActionCardProps) {
   </>;
 }
 
-const buildingIntroCard: ActionCardPropsCreator = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps => ({
-  title: fullAddress,
+const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
+  title: data.fullAddress,
   titleProps: {
     className: 'title is-spaced is-size-3',
     ...useQueryFormResultFocusProps()
   },
   cardClass: 'has-background-light',
   indicators: [
-    associatedBuildingCount && portfolioUnitCount && <>
-      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+    data.associatedBuildingCount && data.portfolioUnitCount && <>
+      Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
     </>,
-    unitCount && <>
-      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+    data.unitCount && <>
+      There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
     </>,
   ],
   fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
 });
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
-  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps {
+  function whoOwnsWhat(data): ActionCardProps {
     return {
       title: "Owner",
       indicators: [
-        associatedBuildingCount && portfolioUnitCount && <>
-          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+        data.associatedBuildingCount && data.portfolioUnitCount && <>
+          Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
         </>,
       ],
       fallbackMessage: <>Visit <em>Who Owns What</em> to learn more about your building and find other buildings your landlord might own.</>,
       cta: {
-        to: whoOwnsWhatURL(bbl),
+        to: whoOwnsWhatURL(data.bbl),
         text: "Learn more at Who Owns What"
       }
     };

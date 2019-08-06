@@ -152,7 +152,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>,
         data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
       ],
-      fallbackMessage: <>If you've sent a letter of complaint and your landlord isn't responding, you can sue them in court through an HP Action proceeding.</>,
+      fallbackMessage: <>
+        Violations are grounds for suing your landlord in Housing Court by starting an “HP Action”.
+      </>,
       cta: {
         to: Routes.locale.hp.splash,
         text: "Sue your landlord"

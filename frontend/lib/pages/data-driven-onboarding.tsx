@@ -11,6 +11,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
+import { properNoun } from '../util';
 
 const BASE_TITLE = "Data-driven onboarding";
 
@@ -94,36 +95,47 @@ function ActionCard(props: ActionCardProps) {
   </>;
 }
 
-const buildingIntroCard: ActionCardPropsCreator = ({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps => ({
-  title: fullAddress,
+const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
+  title: data.fullAddress,
   titleProps: {
     className: 'title is-spaced is-size-3',
     ...useQueryFormResultFocusProps()
   },
   cardClass: 'has-background-light',
   indicators: [
-    associatedBuildingCount && portfolioUnitCount && <>
-      Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+    data.associatedBuildingCount && data.portfolioUnitCount && <>
+      Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
     </>,
-    unitCount && <>
-      There <Indicator verb="is/are" value={unitCount} unit="unit" /> in your building.
+    data.unitCount && <>
+      There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
     </>,
+    data.yearBuilt && <>
+      Your building was built in {data.yearBuilt} or earlier.
+    </>
   ],
   fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
 });
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
-  function whoOwnsWhat({fullAddress, bbl, associatedBuildingCount, portfolioUnitCount, unitCount}): ActionCardProps {
+  function whoOwnsWhat(data): ActionCardProps {
+    const hasMoreThanOneBuilding = data.associatedBuildingCount && data.associatedBuildingCount > 1;
+
     return {
       title: "Owner",
       indicators: [
-        associatedBuildingCount && portfolioUnitCount && <>
-          Your landlord owns <Indicator value={associatedBuildingCount} unit="building"/> and <Indicator value={portfolioUnitCount} unit="unit"/>.
+        data.associatedBuildingCount && hasMoreThanOneBuilding && <>
+          Your landlord is associated with <Indicator value={data.associatedBuildingCount} unit="property" pluralUnit="properties" />.
         </>,
+        data.associatedZipCount && hasMoreThanOneBuilding && <>
+          Buildings in your landlord's portfolio are located in <Indicator value={data.associatedZipCount} unit="zip code" />.
+        </>,
+        data.portfolioTopBorough && hasMoreThanOneBuilding && <>
+          The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
+        </>
       ],
       fallbackMessage: <>Visit <em>Who Owns What</em> to learn more about your building and find other buildings your landlord might own.</>,
       cta: {
-        to: whoOwnsWhatURL(bbl),
+        to: whoOwnsWhatURL(data.bbl),
         text: "Learn more at Who Owns What"
       }
     };
@@ -149,7 +161,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>,
         data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
       ],
-      fallbackMessage: <>If you've sent a letter of complaint and your landlord isn't responding, you can sue them in court through an HP Action proceeding.</>,
+      fallbackMessage: <>
+        Violations are grounds for suing your landlord in Housing Court by starting an “HP Action”.
+      </>,
       cta: {
         to: Routes.locale.hp.splash,
         text: "Sue your landlord"
@@ -160,7 +174,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: 'Rent history',
       indicators: [
-        (data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
+        (data.stabilizedUnitCountMaximum > 0 || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
         ? <>
           Your apartment may be rent stabilized.
         </> : null,

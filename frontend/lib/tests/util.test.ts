@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple, isDeepEqual } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple, isDeepEqual, properNoun } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -16,6 +16,12 @@ describe('getElement()', () => {
     } finally {
       document.body.removeChild(div);
     }
+  });
+});
+
+describe('properNoun()', () => {
+  it('works', () => {
+    expect(properNoun('STATEN ISLAND')).toEqual('Staten Island');
   });
 });
 

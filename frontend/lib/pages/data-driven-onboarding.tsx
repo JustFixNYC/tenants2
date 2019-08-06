@@ -108,6 +108,9 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
     data.unitCount && <>
       There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
     </>,
+    data.yearBuilt && <>
+      Your building was built in {data.yearBuilt} or earlier.
+    </>
   ],
   fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
 });

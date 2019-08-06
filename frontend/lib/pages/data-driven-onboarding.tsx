@@ -123,7 +123,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: "Owner",
       indicators: [
-        data.associatedBuildingCount && <>
+        data.associatedBuildingCount && hasMoreThanOneBuilding && <>
           Your landlord is associated with <Indicator value={data.associatedBuildingCount} unit="property" pluralUnit="properties" />.
         </>,
         data.associatedZipCount && hasMoreThanOneBuilding && <>

@@ -184,3 +184,10 @@ export function isDeepEqual<T>(a: T, b: T): boolean {
     return false;
   }
 }
+
+/** Capitalize each word of the given string. */
+export function properNoun(text: string): string {
+  return text.split(' ').map(word =>
+    `${word.slice(0, 1).toUpperCase()}${word.slice(1).toLowerCase()}`
+  ).join(' ');
+}

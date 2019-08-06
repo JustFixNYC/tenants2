@@ -11,6 +11,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
+import { properNoun } from '../util';
 
 const BASE_TITLE = "Data-driven onboarding";
 
@@ -117,12 +118,20 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat(data): ActionCardProps {
+    const hasMoreThanOneBuilding = data.associatedBuildingCount && data.associatedBuildingCount > 1;
+
     return {
       title: "Owner",
       indicators: [
-        data.associatedBuildingCount && data.portfolioUnitCount && <>
-          Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
+        data.associatedBuildingCount && <>
+          Your landlord is associated with <Indicator value={data.associatedBuildingCount} unit="property" pluralUnit="properties" />.
         </>,
+        data.associatedZipCount && hasMoreThanOneBuilding && <>
+          Buildings in your landlord's portfolio are located in <Indicator value={data.associatedZipCount} unit="zip code" />.
+        </>,
+        data.portfolioTopBorough && hasMoreThanOneBuilding && <>
+          The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
+        </>
       ],
       fallbackMessage: <>Visit <em>Who Owns What</em> to learn more about your building and find other buildings your landlord might own.</>,
       cta: {

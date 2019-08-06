@@ -29,6 +29,7 @@ import { HarassmentApartment, HarassmentExplain, HarassmentAllegations1, Harassm
 import { FormContextRenderer } from './form';
 import { HpActionSueMutation } from './queries/HpActionSueMutation';
 import { HarassmentCaseHistory } from './pages/hp-action-case-history';
+import { BigList } from './big-list';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -164,11 +165,11 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
       <p>Here is all of your HP Action paperwork, including instructions for how to navigate the process:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>
-      <ol className="jf-biglist">
+      <BigList>
         <li><strong>Print out this packet and bring it to Housing Court.</strong> Do not sign any of the documents until you bring them to court.</li>
         <li>Once you arrive at court, <strong>go to the clerk’s office to file these papers</strong>. They will assign you an Index Number and various dates.</li>
         <li>After you file your papers, you will need to <strong>serve your landlord and/or management company</strong>. This paperwork is also included in your packet.</li>
-      </ol>
+      </BigList>
       <h2>Want to read more about your rights?</h2>
       <ul>
         <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>

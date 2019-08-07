@@ -8,6 +8,7 @@ from django.core.management.base import CommandError
 import pytest
 
 from project.management.commands import sendtestslack
+from project.management.commands import rollbarsourcemaps
 
 
 def test_envhelp_works():
@@ -103,3 +104,22 @@ class TestExportStats:
         call_command('exportstats', 'userstats-with-bbls', stdout=out)
         assert self.pad_bbl in out.getvalue()
         assert self.redacted not in out.getvalue()
+
+
+class TestRollbarSourceMaps:
+    def test_it_errors_when_aws_is_not_configured(self):
+        with pytest.raises(CommandError, match='currently only works with AWS integration'):
+            call_command('rollbarsourcemaps')
+
+    def test_it_errors_when_rollbar_is_not_configured(self, settings):
+        settings.AWS_STORAGE_STATICFILES_BUCKET_NAME = 'bop'
+        with pytest.raises(CommandError, match='requires Rollbar integration'):
+            call_command('rollbarsourcemaps')
+
+    def test_it_works(self, settings, requests_mock):
+        settings.AWS_STORAGE_STATICFILES_BUCKET_NAME = 'bop'
+        settings.ROLLBAR = {'access_token': 'blarf'}
+        requests_mock.post(rollbarsourcemaps.ROLLBAR_SOURCEMAP_URL)
+        call_command('rollbarsourcemaps')
+        first_req = requests_mock.request_history[0]
+        assert 'access_token=blarf' in first_req.text

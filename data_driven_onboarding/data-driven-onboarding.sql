@@ -7,7 +7,7 @@ with Total_Res_Units as(
         UnitsRes,
         bbl -- is this necessary?
     from pluto_18v2
-    where bbl= '1019260029'
+    where bbl= %(bbl)s
     ),
     
 -- sum of res units in associated portfolio (get_assoc_addrs_from_bbl)
@@ -15,26 +15,26 @@ with Total_Res_Units as(
 Count_Of_Assoc_Bldgs as (
     select    
         case 
-            when bbl is not null then '1019260029'
-            else '1019260029'
+            when bbl is not null then %(bbl)s
+            else %(bbl)s
         end as Enteredbbl,
         count (*) filter (where bbl is not null) as NumberOfAssociatedBuildings,
         count (distinct zip) filter (where bbl is not null) as NumberOfAssociatedZips,
         sum(unitsres) as NumberOfResUnitsinPortfolio,
         sum(evictions) as NumberOfEvictionsinPortfolio
-    from get_assoc_addrs_from_bbl('1019260029') 
+    from get_assoc_addrs_from_bbl(%(bbl)s) 
     group by (Enteredbbl)
 ),
 
 Major_Boro_Of_Assoc_Bldgs as (
     select    
         case 
-            when bbl is not null then '1019260029'
-            else '1019260029'
+            when bbl is not null then %(bbl)s
+            else %(bbl)s
         end as Enteredbbl,
         boro,
         count(*) filter (where bbl is not null) NumberOfAssocBldgs
-    from get_assoc_addrs_from_bbl('1019260029') 
+    from get_assoc_addrs_from_bbl(%(bbl)s) 
     group by (Enteredbbl, boro)
     order by NumberOfAssocBldgs desc
     limit 1
@@ -48,7 +48,7 @@ Count_HPD_Complaints as (
         bbl,
         count(*) filter (where complaintid is not null) as NumberOfHPDcomplaints
     from public.hpd_complaints
-    where bbl= '1019260029' and receiveddate > '2014-01-01'
+    where bbl= %(bbl)s and receiveddate > '2014-01-01'
     group by bbl
     
 ),
@@ -61,7 +61,7 @@ Count_HPD_Violations as (
         count(*) filter (where class ='C') as ClassCTotal,
 		count(*) filter (where currentstatus != 'VIOLATION CLOSED' and class='C') as ClassCOpenViolations
     from public.hpd_violations
-    where bbl= '1019260029' and violationstatus !='Close' and novissueddate >'2010-01-01'
+    where bbl= %(bbl)s and violationstatus !='Close' and novissueddate >'2010-01-01'
     group by bbl
 ),
 
@@ -71,7 +71,7 @@ select
     currentstatus,
     currentstatusdate-novissueddate as NumberOfDays
 from hpd_violations
-where currentstatus='VIOLATION CLOSED' and novissueddate > '2010-01-01'and bbl='1019260029'
+where currentstatus='VIOLATION CLOSED' and novissueddate > '2010-01-01'and bbl=%(bbl)s
 ),
 
 Avg_Wait_Time as (
@@ -85,8 +85,8 @@ group by bbl
 violation_lengths_for_portfolio as(
     select
         case 
-            when bbl is not null then '1019260029'
-            else '1019260029'
+            when bbl is not null then %(bbl)s
+            else %(bbl)s
         end as Enteredbbl,
         hpd_violations.currentstatusdate-hpd_violations.novissueddate as length_of_violation,
         currentstatus
@@ -98,7 +98,7 @@ violation_lengths_for_portfolio as(
             select
                 bbl
             from 
-                get_assoc_addrs_from_bbl('1019260029')
+                get_assoc_addrs_from_bbl(%(bbl)s)
         )
 ),
 
@@ -120,7 +120,7 @@ Complaint_Category as(
         count(*) as NumberOfComplaints
     from public.hpd_complaint_problems as p
         left join public.hpd_complaints h on p.complaintid =h.complaintid
-    where bbl= '1019260029'
+    where bbl= %(bbl)s
     group by category
     order by NumberOfComplaints desc
     limit 1
@@ -131,8 +131,8 @@ Complaint_Category_With_BBL as (
         category,
         NumberOfComplaints,
         case 
-            when category is not null then '1019260029'
-            else '1019260029'
+            when category is not null then %(bbl)s
+            else %(bbl)s
         end as bbl
     from Complaint_Category
 )

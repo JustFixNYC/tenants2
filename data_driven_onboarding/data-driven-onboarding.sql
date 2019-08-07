@@ -58,8 +58,7 @@ Count_HPD_Violations as (
     select
         bbl,
         count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations,
-        count(*) filter (where class ='C') as ClassCTotal,
-		count(*) filter (where currentstatus != 'VIOLATION CLOSED' and class='C') as ClassCOpenViolations
+        count(*) filter (where class ='C') as ClassCTotal
     from public.hpd_violations
     where bbl= %(bbl)s and violationstatus !='Close' and novissueddate >'2010-01-01'
     group by bbl
@@ -160,7 +159,10 @@ select
     -- pulled from hpd violations
     -- if there aren't any listed violations, will return null
     coalesce(HPDV.NumberOfOpenHPDviolations, 0) as hpd_open_violation_count,
-
+	
+    --number of hpd violations associated with entered bbl that are class c violations (since 2010)
+    HPDV.ClassCTotal as hpd_open_class_c_violation_count,
+    
     -- number of associated buildings from portfolio
     -- drawn from function get_assoc_addrs_from_bbl
     -- will return null if value is unknown or if there are no associated buildings 
@@ -215,13 +217,9 @@ select
     MC.category as most_common_category_of_hpd_complaint,
 
     -- the number of complaints of the most common category
-    MC.NumberOfComplaints as number_of_complaints_of_most_common_category,
+    MC.NumberOfComplaints as number_of_complaints_of_most_common_category
     
-    --number of hpd violations associated with entered bbl that are class c violations (since 2010)
-    HPDV.ClassCTotal as number_of_class_c_violations,
     
-    --number of total open violations associated with entered bbl (since 2010)
-    HPDV.ClassCOpenViolations as number_of_open_violations
     
 from Total_Res_Units T
     left join Count_HPD_Complaints HPDC on T.bbl=HPDC.bbl

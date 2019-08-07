@@ -101,7 +101,7 @@ function SquareImage(props: SquareImageProps) {
   );
 }
 
-function ActionCard(props: ActionCardProps) {
+function ActionCardIndicators(props: Pick<ActionCardProps, 'indicators'|'fallbackMessage'>) {
   const indicators: JSX.Element[] = [];
 
   props.indicators.forEach(ind => ind && indicators.push(ind));
@@ -109,6 +109,14 @@ function ActionCard(props: ActionCardProps) {
     indicators.push(props.fallbackMessage);
   }
 
+  return <>
+    {indicators.map((indicator, i) => (
+      <p key={i} className="subtitle is-spaced">{indicator}</p>
+    ))}
+  </>;
+}
+
+function ActionCard(props: ActionCardProps) {
   return <>
     <div className={classnames('card', 'jf-ddo-card', props.cardClass)}>
       <div className="card-content">
@@ -118,9 +126,7 @@ function ActionCard(props: ActionCardProps) {
               {props.imageStaticURL && <SquareImage size={48} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
               {props.title}
             </h3>}
-            {indicators.map((indicator, i) => (
-              <p key={i} className="subtitle is-spaced">{indicator}</p>
-            ))}
+            <ActionCardIndicators {...props} />
             {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
           </div>
           {props.imageStaticURL && <div className="media-right jf-is-hidden-supertiny">

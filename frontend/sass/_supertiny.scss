@@ -1,0 +1,14 @@
+// This is a breakpoint that is smaller than tablet.
+$jf-supertiny: 480px;
+
+@media (min-width: $jf-supertiny) {
+    .jf-is-supertiny-only {
+        display: none;
+    }
+}
+
+@media (max-width: $jf-supertiny) {
+    .jf-is-hidden-supertiny {
+        display: none;
+    }
+}

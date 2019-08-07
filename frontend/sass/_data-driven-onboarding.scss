@@ -15,5 +15,15 @@
         }
 
         margin-bottom: 1.25em;
+
+        @media (max-width: $jf-supertiny) {
+            h3 {
+                min-height: 2em;
+
+                figure {
+                    margin: 0 0 0 1em;
+                }
+            }
+        }
     }
 }

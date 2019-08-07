@@ -17,6 +17,8 @@ const BASE_TITLE = "Data-driven onboarding";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
+const PLACEHOLDER_IMG = 'frontend/img/96x96.png';
+
 type DDOData = DataDrivenOnboardingSuggestions_output;
 
 function AutoSubmitter(props: {
@@ -61,7 +63,8 @@ type ActionCardProps = {
   title?: string,
   indicators: (JSX.Element | 0 | false | null | "")[],
   fallbackMessage: JSX.Element,
-  cta?: CallToActionProps
+  cta?: CallToActionProps,
+  imageStaticURL?: string,
 };
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
@@ -72,6 +75,11 @@ function CallToAction({to, text, className}: CallToActionProps) {
     return <Link to={to} className={className}>{text}</Link>;
   }
   return <a href={to} rel="noopener noreferrer" target="_blank" className={className}>{text}</a>;
+}
+
+function useStaticURL(path: string): string {
+  const { staticURL } = useContext(AppContext).server;
+  return `${staticURL}${path}`;
 }
 
 function ActionCard(props: ActionCardProps) {
@@ -85,11 +93,20 @@ function ActionCard(props: ActionCardProps) {
   return <>
     <div className={classnames('card', 'jf-ddo-card', props.cardClass)}>
       <div className="card-content">
-        {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>{props.title}</h3>}
-        {indicators.map((indicator, i) => (
-          <p key={i} className="subtitle is-spaced">{indicator}</p>
-        ))}
-        {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
+        <div className="media">
+          <div className="media-content">
+            {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>{props.title}</h3>}
+            {indicators.map((indicator, i) => (
+              <p key={i} className="subtitle is-spaced">{indicator}</p>
+            ))}
+            {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
+          </div>
+          {props.imageStaticURL && <div className="media-right">
+            <figure className="image is-96x96">
+              <img src={useStaticURL(props.imageStaticURL)} alt="" />
+            </figure>
+          </div>}
+        </div>
       </div>
     </div>
   </>;
@@ -205,7 +222,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
 ];
 
 function FoundResults(props: DDOData) {
-  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(props));
+  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(props)).map(props => (
+    props.imageStaticURL ? props : {...props, imageStaticURL: PLACEHOLDER_IMG}
+  ));
   const recommendedActions: ActionCardProps[] = [];
   const otherActions: ActionCardProps[] = [];
 

@@ -3,6 +3,7 @@
 with Total_Res_Units as(
     select    
         zipcode,
+        case when yearbuilt = 0 then null else yearbuilt end,
         UnitsRes,
         bbl -- is this necessary?
     from pluto_18v2
@@ -18,10 +19,26 @@ Count_Of_Assoc_Bldgs as (
             else %(bbl)s
         end as Enteredbbl,
         count (*) filter (where bbl is not null) as NumberOfAssociatedBuildings,
+        count (distinct zip) filter (where bbl is not null) as NumberOfAssociatedZips,
         sum(unitsres) as NumberOfResUnitsinPortfolio
-    from get_assoc_addrs_from_bbl(%(bbl)s)
+    from get_assoc_addrs_from_bbl(%(bbl)s) 
     group by (Enteredbbl)
 ),
+
+Major_Boro_Of_Assoc_Bldgs as (
+    select    
+        case 
+            when bbl is not null then %(bbl)s
+            else %(bbl)s
+        end as Enteredbbl,
+        boro,
+        count(*) filter (where bbl is not null) NumberOfAssocBldgs
+    from get_assoc_addrs_from_bbl(%(bbl)s) 
+    group by (Enteredbbl, boro)
+    order by NumberOfAssocBldgs desc
+    limit 1
+),
+
     
 -- count of HPD complaints since 2014 in building (hpd_complaints)
 -- count of all complaints closed and open
@@ -90,27 +107,30 @@ Avg_Wait_Time_For_Portfolio as(
     group by Enteredbbl
 ),
 
-Major_Complaint as (
-	select
-		majorcategory,
-		count(*) filter (where majorcategory is not null) as NumberOfComplaints
-	from public.hpd_complaint_problems as p
-		left join public.hpd_complaints h on p.complaintid =h.complaintid
-	where bbl= %(bbl)s
-	group by majorcategory
-	order by NumberOfComplaints desc
-	limit 1
+Major_Complaint as(
+    select
+        case 
+            when majorcategory = 'UNSANITARY CONDITION' then minorcategory
+            else majorcategory end 
+        as category,
+        count(*) as NumberOfComplaints
+    from public.hpd_complaint_problems as p
+        left join public.hpd_complaints h on p.complaintid =h.complaintid
+    where bbl= %(bbl)s
+    group by category
+    order by NumberOfComplaints desc
+    limit 1
 ),
 
 Major_Complaint_With_BBL as (
-	select
-		majorcategory,
-		NumberOfComplaints,
-		case 
-			when majorcategory is not null then %(bbl)s
-			else %(bbl)s
-		end as bbl
-	from Major_Complaint
+    select
+        category as majorcategory,
+        NumberOfComplaints,
+        case 
+            when category is not null then %(bbl)s
+            else %(bbl)s
+        end as bbl
+    from Major_Complaint
 )
 
 
@@ -118,11 +138,14 @@ select
     -- zipcode for the entered bbl. 
     -- pulled from pluto_18v2. there are no null or instances of '0'. there are blanks?
     T.zipcode as zipcode, 
+    
+    -- year built for the entered bbl. 
+    -- pulled from pluto_18v2. if the year built category is null or is '0', will return null
+    T.yearbuilt as year_built, 
 
-    -- number of residential units for entered bbl. 
-    -- pulled from pluto_18v2. will return null if number of residential units (UnitsRes) is not listed in pluto_18v2
-    -- will return 0 if there are 0 residential units according to pluto_18v2
-    T.UnitsRes as unit_count, 
+    -- number of residential units for entered bbl, from pluto_18v2
+    -- will not return null, will return 0
+    coalesce(T.UnitsRes,0) as unit_count, 
 
     -- number of hpd complaints for the entered bbl
     -- pulled from hpd complaints
@@ -138,11 +161,26 @@ select
     -- drawn from function get_assoc_addrs_from_bbl
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfAssociatedBuildings as associated_building_count,
+    
+    -- number of distinct zip codes of associated buildings from portfolio
+    -- drawn from function get_assoc_addrs_from_bbl
+    -- will return null if value is unknown or if there are no associated buildings 
+    A.NumberOfAssociatedZips as associated_zip_count,
 
     -- number of residential units in portfolio
     -- drawn from function get_assoc_addrs_from_bbl
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfResUnitsinPortfolio as portfolio_unit_count,
+    
+    -- the most common borough for buildings in the portfolio
+    -- drawn from function get_assoc_addrs_from_bbl
+    -- will return null if value is unknown or if there are no associated buildings 
+    MB.boro as portfolio_top_borough,
+    
+    -- the number of buildings in the portfolio's most common borough
+    -- drawn from function get_assoc_addrs_from_bbl
+    -- will return null if value is unknown or if there are no associated buildings 
+    MB.NumberOfAssocBldgs as number_of_bldgs_in_portfolio_top_borough,
 
     -- number of stabilized units at entered bbl in 2007
     -- drawn from rentstab_summary
@@ -154,13 +192,10 @@ select
     -- will not return null, will return 0
     coalesce(R.unitsstab2017,0) as stabilized_unit_count_2017,
 
-    -- boolean, has this bbl ever had rent stabilized units
-    -- true if it has had stabilized units at any point
+    -- maximum number of stabilized units at entered bbl on any year between 2007 and 2017
     -- false if there have been no stabilized units at any point
-    case 
-        when (R.unitsstab2007=0 and R.unitsstab2017=0 and R.unitsstab2007 is null and R.unitsstab2017 is null) then false
-        else true
-    end as has_stabilized_units,
+    -- will not return null, will return 0
+    coalesce(R.unitstotal,0) as stabilized_unit_count_maximum,
 
     -- average wait time for repairs after a landlord has been notified of a violation. for the entered bbl
     -- may return null if unknown
@@ -169,15 +204,18 @@ select
     -- average wait time for repairs after a landlord has been notified of a violation. for the the entire associated portfolio
     -- may return null if unknown
     P.AverageWaitTimeForPortfolio as average_wait_time_for_repairs_for_portfolio,
-    M.majorcategory as most_common_category_of_hpd_complaint,
-    --The list of major categories can be found here: 
-    --https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf
-	M.NumberOfComplaints as number_of_complaints_of_most_common_category
+
+    -- the most common category of HPD complaint
+    MC.majorcategory as most_common_category_of_hpd_complaint,
+
+    -- the number of complaints of the most common category
+    MC.NumberOfComplaints as number_of_complaints_of_most_common_category
 from Total_Res_Units T
     left join Count_HPD HPD on T.bbl=HPD.bbl
     left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl
     left join Count_Of_Assoc_Bldgs A on T.bbl= A.Enteredbbl
-    left join public.rentstab_summary R on T.bbl= R.ucbbl
+    left join Major_Boro_Of_Assoc_Bldgs MB on T.bbl=MB.Enteredbbl
+    left join public.rentstab_summary R on T.bbl=R.ucbbl
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
-    left join Major_Complaint_With_BBL M on T.bbl= M.bbl
+    left join Major_Complaint_With_BBL MC on T.bbl= MC.bbl

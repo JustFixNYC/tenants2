@@ -24,6 +24,9 @@ class TestSchema:
 
         return res
 
+    def test_it_returns_none_when_address_is_blank(self):
+        assert self.request('   ', '') is None
+
     def test_it_returns_none_when_wow_integration_is_disabled(self):
         assert self.request('boop', '') is None
 
@@ -35,9 +38,17 @@ class TestSchema:
         settings.GEOCODING_SEARCH_URL = 'http://bawlabr'
         settings.WOW_DATABASE = 'blah'
         requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
-        monkeypatch.setattr(schema, 'run_ddo_sql_query', lambda bbl: {'unit_count': 123})
+        monkeypatch.setattr(schema, 'run_ddo_sql_query', lambda bbl: {
+            'unit_count': 123,
+            'zipcode': '11201'
+        })
         assert self.request('150 court', '') == {
             'fullAddress': '150 COURT STREET, Brooklyn, New York, NY, USA',
             'bbl': '3002920026',
             'unitCount': 123
         }
+
+    def test_sql_query_contains_no_unexpected_characters(self):
+        sql = schema.DDO_SQL_FILE.read_text()
+        assert "\u00a0" not in sql, "SQL should not contain non-breaking spaces"
+        assert "\t" not in sql, "SQL should not contain tabs (please use spaces instead)"

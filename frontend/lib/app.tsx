@@ -22,6 +22,7 @@ import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
+import HelpPage from './pages/help-page';
 
 
 export interface AppProps {
@@ -246,6 +247,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.home} exact>
           <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
         </Route>
+        <Route path={Routes.locale.help} component={HelpPage} />
         <Route path={Routes.locale.dataDrivenOnboarding} component={LoadableDataDrivenOnboardingRoutes} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />

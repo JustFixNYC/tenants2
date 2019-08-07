@@ -2,15 +2,22 @@
 fragment DDOSuggestionsResult on DDOSuggestionsResult {
   fullAddress,
   bbl,
+  isRtcEligible,
   zipcode,
+  yearBuilt,
   unitCount,
   hpdComplaintCount,
   hpdOpenViolationCount,
   associatedBuildingCount,
+  associatedZipCount,
   portfolioUnitCount,
+  portfolioTopBorough,
+  numberOfBldgsInPortfolioTopBorough,
   stabilizedUnitCount2007,
   stabilizedUnitCount2017,
-  hasStabilizedUnits,
+  stabilizedUnitCountMaximum,
   averageWaitTimeForRepairsAtBbl,
-  averageWaitTimeForRepairsForPortfolio
+  averageWaitTimeForRepairsForPortfolio,
+  mostCommonCategoryOfHpdComplaint,
+  numberOfComplaintsOfMostCommonCategory
 }

@@ -248,6 +248,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether the location is eligible for NYC's Right to Counsel program.",
+              "isDeprecated": false,
+              "name": "isRtcEligible",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The zip code of the location. It may be blank.",
               "isDeprecated": false,
               "name": "zipcode",
@@ -264,13 +280,29 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Number of residential units for the BBL, if available.",
+              "description": "The year that the BBL was built, if available",
               "isDeprecated": false,
-              "name": "unitCount",
+              "name": "yearBuilt",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Number of residential units for the BBL, if available.",
+              "isDeprecated": false,
+              "name": "unitCount",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               }
             },
             {
@@ -312,9 +344,45 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Number of distinct zip codes of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "associatedZipCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The number of residential units in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "portfolioUnitCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The most common borough for buildings in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "portfolioTopBorough",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "the number of associated buildings in the portfolio's most common boroughIf the value is unknown, or if there are no associated buildings, this will be null.",
+              "isDeprecated": false,
+              "name": "numberOfBldgsInPortfolioTopBorough",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -356,15 +424,15 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Whether this building has ever had rent-stabilized units at any point.",
+              "description": "The maximum number of stabilized units at the BBL on any year between 2007 and 2017.",
               "isDeprecated": false,
-              "name": "hasStabilizedUnits",
+              "name": "stabilizedUnitCountMaximum",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Boolean",
+                  "name": "Int",
                   "ofType": null
                 }
               }
@@ -392,6 +460,30 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The most common category of HPD complaint, or null if no complaints exist. The full list of categories can be found at: https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf",
+              "isDeprecated": false,
+              "name": "mostCommonCategoryOfHpdComplaint",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of complaints of the most common category of HPD complaint, or null if no complaints exist.",
+              "isDeprecated": false,
+              "name": "numberOfComplaintsOfMostCommonCategory",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,
@@ -411,16 +503,6 @@
           "possibleTypes": null
         },
         {
-          "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31 - 1) and 2^31 - 1 since represented in JSON as double-precision floating point numbers specifiedby [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "SCALAR",
-          "name": "Int",
-          "possibleTypes": null
-        },
-        {
           "description": "The `Boolean` scalar type represents `true` or `false`.",
           "enumValues": null,
           "fields": null,
@@ -428,6 +510,16 @@
           "interfaces": null,
           "kind": "SCALAR",
           "name": "Boolean",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31 - 1) and 2^31 - 1 since represented in JSON as double-precision floating point numbers specifiedby [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Int",
           "possibleTypes": null
         },
         {

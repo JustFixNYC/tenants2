@@ -14,6 +14,7 @@
 @import "./_progress.scss";
 @import "./_confetti.scss";
 @import "./_currency-form-field.scss";
+@import "./_data-driven-onboarding.scss";
 @import "./_dev.scss";
 
 // We want to give the page a column-based flex layout so we can
@@ -164,16 +165,23 @@ input:focus + .jf-checkbox-symbol {
     height: 300px;
 }
 
+// It's entirely possible that the a button's text
+// may make it too wide for some mobile screens, so
+// this mixin overrides Bulma's default button styling
+// to allow the text to wrap.
+@mixin button-text-wrap() {
+    white-space: normal;
+    height: auto;
+}
+
+.button.jf-text-wrap {
+    @include button-text-wrap();
+}
+
 .button.jf-is-extra-wide {
     padding-left: 2em;
     padding-right: 2em;
-
-    // It's entirely possible that the button's text
-    // may make it too wide for some mobile screens, so
-    // this overrides Bulma's default button styling
-    // to allow the text to wrap.
-    white-space: normal;
-    height: auto;
+    @include button-text-wrap();
 }
 
 // A class used around groups of two buttons to
@@ -224,27 +232,26 @@ fieldset {
     & {
         list-style: none;
         counter-reset: jf-biglist-counter;
-        margin-left: 4em;
+        margin-left: 0;
     }
 
     li {
         counter-increment: jf-biglist-counter;
-        position: relative;
-        padding-bottom: 2em;
-        min-height: 5em;
+        display: flex;
+        align-items: center;
+        padding: 1em;
+        background: $light;
     }
 
-    li:last-child {
-        padding-bottom: 1em;
+    li > div.jf-biglist-counter + div {
+        margin-left: 1em;
     }
 
-    li::before {
+    li > div.jf-biglist-counter::before {
         content: counter(jf-biglist-counter);
+        display: block;
         font-size: 30px;
         font-weight: bold;
-        position: absolute;
-        left: -60px;
-        top: 5px;
         padding-left: 15px;
         width: 45px;
         height: 45px;

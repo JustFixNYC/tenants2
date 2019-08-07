@@ -232,6 +232,7 @@ def react_rendered_view(request):
             'batchGraphQLURL': reverse('batch-graphql'),
             'locHtmlURL': reverse('loc', args=('html',)),
             'locPdfURL': reverse('loc', args=('pdf',)),
+            'enableSafeModeURL': reverse('safe_mode:enable'),
             'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
             'debug': settings.DEBUG
         },

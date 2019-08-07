@@ -17,6 +17,17 @@ function headingClassName(heading: true|'big'|'small') {
   );
 }
 
+export function PageTitle(props: {title: string}): JSX.Element {
+  const title = props.title;
+
+  return <>
+    <Helmet>
+      <title>JustFix.nyc - {title}</title>
+    </Helmet>
+    <AriaAnnouncement text={title} />
+  </>;
+}
+
 export default function Page(props: PageProps): JSX.Element {
   const { title, withHeading } = props;
 
@@ -24,10 +35,7 @@ export default function Page(props: PageProps): JSX.Element {
   // element to make CSS transitions possible.
   return (
     <div className={props.className}>
-      <Helmet>
-        <title>JustFix.nyc - {title}</title>
-      </Helmet>
-      <AriaAnnouncement text={title} />
+      <PageTitle title={title} />
       {withHeading && <h1 className={headingClassName(withHeading)}>{title}</h1>}
       {props.children}
     </div>

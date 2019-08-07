@@ -29,36 +29,4 @@
       padding-right: 0;
     }
   }
-
-  .how-it-works {
-
-    .notification {
-
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 2.5rem;
-      padding-bottom: 2.5rem;
-
-      .num {
-        flex: 0 0 3rem;
-        border-radius: 100%;
-        background-color: hsl(0, 0%, 29%);
-        text-align: center;
-        margin-right: 1rem;
-
-        span {
-          margin-bottom: 0;
-          color: #fff;
-          line-height: 3rem;
-        }
-      }
-
-      h5 {
-        margin-bottom: 0;
-      }
-
-
-    }
-  }
 }

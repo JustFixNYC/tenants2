@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from pathlib import Path
 import logging
+from django.core.cache import caches
 from django.db import connections
 from django.conf import settings
 import graphene
@@ -12,7 +13,22 @@ from onboarding.forms import get_geocoding_search_text
 
 MY_DIR = Path(__file__).parent.resolve()
 
+DDO_SQL_CACHE = 'default'
+
 DDO_SQL_FILE = MY_DIR / 'data-driven-onboarding.sql'
+
+RTC_ZIPCODES = set([
+    # Brooklyn
+    '11216', '11221', '11225', '11226',
+    # Bronx
+    '10457', '10467', '10468' '10462',
+    # Manhattan
+    '10026', '10027', '10025', '10031',
+    # Queens
+    '11433', '11434', '11373' '11385',
+    # Staten Island
+    '10302', '10303', '10314' '10310',
+])
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +39,15 @@ class DDOSuggestionsResult(graphene.ObjectType):
         required=True,
         description='The full address of the location.'
     )
+
     bbl = graphene.String(
         required=True,
         description="The 10-digit Borough-Block-Lot (BBL) of the location."
+    )
+
+    is_rtc_eligible = graphene.Boolean(
+        required=True,
+        description="Whether the location is eligible for NYC's Right to Counsel program."
     )
 
     # This information is obtained from our SQL query.
@@ -34,7 +56,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description="The zip code of the location. It may be blank."
     )
 
+    year_built = graphene.Int(
+        description="The year that the BBL was built, if available"
+    )
+
     unit_count = graphene.Int(
+        required=True,
         description="Number of residential units for the BBL, if available."
     )
 
@@ -59,9 +86,31 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
+    associated_zip_count = graphene.Int(
+        description=(
+            "Number of distinct zip codes of associated buildings from the portfolio that the BBL "
+            "is in. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
     portfolio_unit_count = graphene.Int(
         description=(
             "The number of residential units in the portfolio that the BBL belongs to. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    portfolio_top_borough = graphene.String(
+        description=(
+            "The most common borough for buildings in the portfolio that the BBL belongs to. "
+            "If the value is unknown, or if there are no associated buildings, this will be null."
+        )
+    )
+
+    number_of_bldgs_in_portfolio_top_borough = graphene.Int(
+        description=(
+            "the number of associated buildings in the portfolio's most common borough"
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
@@ -80,9 +129,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
-    has_stabilized_units = graphene.Boolean(
+    stabilized_unit_count_maximum = graphene.Int(
         required=True,
-        description="Whether this building has ever had rent-stabilized units at any point."
+        description=(
+            "The maximum number of stabilized units at the BBL on any year between 2007 "
+            "and 2017."
+        )
     )
 
     average_wait_time_for_repairs_at_bbl = graphene.Int(
@@ -99,6 +151,21 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
+    most_common_category_of_hpd_complaint = graphene.String(
+        description=(
+            "The most common category of HPD complaint, or null if no complaints exist. "
+            "The full list of categories can be found at: "
+            "https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf"  # NOQA
+        )
+    )
+
+    number_of_complaints_of_most_common_category = graphene.Int(
+        description=(
+            "The number of complaints of the most common category of "
+            "HPD complaint, or null if no complaints exist."
+        )
+    )
+
 
 @schema_registry.register_queries
 class DDOQuery:
@@ -109,6 +176,8 @@ class DDOQuery:
     )
 
     def resolve_ddo_suggestions(self, info, address: str, borough: str):
+        if not address.strip():
+            return None
         if not settings.WOW_DATABASE:
             logger.warning("Data-driven onboarding requires WoW integration.")
             return None
@@ -116,12 +185,20 @@ class DDOQuery:
         if not features:
             return None
         props = features[0].properties
-        row = run_ddo_sql_query(props.pad_bbl)
+        row = cached_run_ddo_sql_query(props.pad_bbl)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
+            is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
             **row
         )
+
+
+def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+    sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
+    cache_key = f"ddo-sql-{sql_query_mtime}-{bbl}"
+    cache = caches[DDO_SQL_CACHE]
+    return cache.get_or_set(cache_key, lambda: run_ddo_sql_query(bbl))
 
 
 def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:

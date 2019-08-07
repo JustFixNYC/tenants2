@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
-import Page from '../page';
+import Page, { PageTitle } from '../page';
 import Routes from '../routes';
-import { FormSubmitter } from '../form-submitter';
-import { AppContext } from '../app-context';
 import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } from '../queries/DataRequestMultiLandlordQuery';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
-import { createSimpleQuerySubmitHandler } from '../forms-graphql-simple-query';
-import { useLatestQueryOutput, maybePushQueryInputToHistory, SyncQuerystringToFields, getInitialQueryInputFromQs } from '../http-get-query-util';
 import { WhoOwnsWhatLink } from '../tests/wow-link';
+import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
+
+const BASE_TITLE = "Multi-landlord data request";
 
 type SearchResultsProps = {
   query: string,
@@ -26,7 +25,8 @@ function getColumnValue(name: string, value: string): JSX.Element|string {
 }
 
 function SearchResults({ output, query }: SearchResultsProps) {
-  const queryFrag = <>&ldquo;{query}&rdquo;</>;
+  const quotedQuery = `\u201c${query}\u201d`;
+  const pageTitle = <PageTitle title={`${BASE_TITLE} results for ${quotedQuery}`} />;
   let content = null;
 
   if (query && output) {
@@ -37,7 +37,8 @@ function SearchResults({ output, query }: SearchResultsProps) {
     const downloadProps = {href: output.csvUrl, download: 'multi-landlord.csv'};
 
     content = <>
-      <h3>Query results for {queryFrag}</h3>
+      {pageTitle}
+      <h3 {...useQueryFormResultFocusProps()}>Query results for {quotedQuery}</h3>
       <p><a {...downloadProps} className="button">Download CSV</a></p>
       {mightBeTruncated
         ? <p>Only the first {output.snippetMaxRows} rows are shown. Please <a {...downloadProps}>download the CSV</a> for the full dataset.</p>
@@ -61,7 +62,10 @@ function SearchResults({ output, query }: SearchResultsProps) {
       </div>
     </>;
   } else if (query) {
-    content = <p>No results for {queryFrag}.</p>;
+    content = <>
+      {pageTitle}
+      <h3 {...useQueryFormResultFocusProps()}>No results for {quotedQuery}.</h3>
+    </>;
   }
 
   return (
@@ -73,32 +77,21 @@ function SearchResults({ output, query }: SearchResultsProps) {
 }
 
 function MultiLandlordPage(props: RouteComponentProps) {
-  const appCtx = useContext(AppContext);
-  const defaultState = { landlords: '' };
-  const initialState = getInitialQueryInputFromQs(props, defaultState);
-  const [latestResults, setLatestResults] = useLatestQueryOutput(props, DataRequestMultiLandlordQuery, initialState);
-  const [latestQuery, setLatestQuery] = useState(initialState.landlords);
-  const onSubmit = createSimpleQuerySubmitHandler(appCtx.fetch, DataRequestMultiLandlordQuery.fetch, input => {
-    setLatestResults(null);
-    setLatestQuery(input.landlords);
-    maybePushQueryInputToHistory(props, input);
-  });
+  const emptyInput = { landlords: '' };
 
-  return <Page title="Multi-landlord data request" withHeading>
-    <FormSubmitter
-      initialState={initialState}
-      onSubmit={onSubmit}
-      onSuccess={output => setLatestResults(output && output.simpleQueryOutput) }
+  return <Page title={BASE_TITLE} withHeading>
+    <QueryFormSubmitter
+      {...props}
+      query={DataRequestMultiLandlordQuery}
+      emptyInput={emptyInput}
+      emptyOutput={null}
     >
-      {ctx => <>
-        <SyncQuerystringToFields routeInfo={props} fields={[
-          ctx.fieldPropsFor('landlords'),
-        ]} ctx={ctx} />
+      {(ctx, latestInput, latestOutput) => <>
         <TextualFormField {...ctx.fieldPropsFor('landlords')} label="Landlords (comma-separated)" />
         <NextButton label="Request data" isLoading={ctx.isLoading} />
-        {!ctx.isLoading && <SearchResults output={latestResults} query={latestQuery} />}
+        {latestOutput !== undefined && <SearchResults output={latestOutput} query={latestInput.landlords} />}
       </>}
-    </FormSubmitter>
+    </QueryFormSubmitter>
   </Page>;
 }
 

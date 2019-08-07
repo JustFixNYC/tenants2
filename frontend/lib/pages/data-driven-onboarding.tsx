@@ -82,6 +82,25 @@ function useStaticURL(path: string): string {
   return `${staticURL}${path}`;
 }
 
+type SquareImageProps = {
+  size: 16|24|32|48|64|96|128,
+  src: string,
+  alt: string,
+  className?: string
+};
+
+function SquareImage(props: SquareImageProps) {
+  const { size } = props;
+
+  // https://bulma.io/documentation/elements/image/
+
+  return (
+    <figure className={classnames('image', `is-${size}x${size}`, props.className)}>
+      <img src={useStaticURL(props.src)} alt={props.alt} />
+    </figure>
+  );
+}
+
 function ActionCard(props: ActionCardProps) {
   const indicators: JSX.Element[] = [];
 
@@ -95,16 +114,17 @@ function ActionCard(props: ActionCardProps) {
       <div className="card-content">
         <div className="media">
           <div className="media-content">
-            {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>{props.title}</h3>}
+            {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>
+              {props.imageStaticURL && <SquareImage size={48} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
+              {props.title}
+            </h3>}
             {indicators.map((indicator, i) => (
               <p key={i} className="subtitle is-spaced">{indicator}</p>
             ))}
             {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
           </div>
-          {props.imageStaticURL && <div className="media-right">
-            <figure className="image is-96x96">
-              <img src={useStaticURL(props.imageStaticURL)} alt="" />
-            </figure>
+          {props.imageStaticURL && <div className="media-right jf-is-hidden-supertiny">
+            <SquareImage size={96} className="is-marginless" src={props.imageStaticURL} alt="" />
           </div>}
         </div>
       </div>

@@ -123,6 +123,10 @@ class HerokuDeployer:
     def is_using_cdn(self) -> bool:
         return len(self.config.get('AWS_STORAGE_STATICFILES_BUCKET_NAME', '')) > 0
 
+    @property
+    def is_using_rollbar(self) -> bool:
+        return len(self.config.get('ROLLBAR_SERVER_ACCESS_TOKEN', '')) > 0
+
     def run_in_container(self, args: List[str]) -> None:
         cmdline = ' '.join(args)
         returncode = run_local_container(self.container_tag, args, env=self.config)
@@ -164,6 +168,8 @@ class HerokuDeployer:
         if self.is_using_cdn:
             print("Uploading static assets to CDN...")
             self.run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
+            if self.is_using_rollbar:
+                self.run_in_container(['python', 'manage.py', 'rollbarsourcemaps'])
 
         self.heroku.run('maintenance:on')
 

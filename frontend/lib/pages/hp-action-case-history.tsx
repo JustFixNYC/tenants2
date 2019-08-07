@@ -8,7 +8,7 @@ import { FormsetItem, formsetItemProps } from '../formset-item';
 const stepBuilder = new SessionStepBuilder(sess => sess.priorHpActionCases);
 
 export const HarassmentCaseHistory = stepBuilder.createStep(props => ({
-  title: "Case history",
+  title: "Previous case history (optional)",
   mutation: PriorHpActionCasesMutation,
   toFormInput: pc => ({
     cases: pc.data.map(priorCase => ({...priorCase, DELETE: false}))

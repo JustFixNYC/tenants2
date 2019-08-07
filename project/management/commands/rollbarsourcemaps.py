@@ -46,8 +46,9 @@ class Command(BaseCommand):
             raise CommandError('This command currently only works with AWS integration.')
         if not settings.ROLLBAR:
             raise CommandError('This command requires Rollbar integration.')
-        self.stdout.write('Uploading source maps to Rollbar...\n')
-        for url in get_bundle_urls():
+        urls = get_bundle_urls()
+        self.stdout.write(f'Uploading {len(urls)} source maps to Rollbar...\n')
+        for url in urls:
             trigger_rollbar_sourcemap_download(
                 access_token=settings.ROLLBAR['access_token'],
                 version=settings.GIT_INFO.get_version_str(),

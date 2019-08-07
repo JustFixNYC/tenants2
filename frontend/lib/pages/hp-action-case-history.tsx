@@ -14,7 +14,7 @@ export const HarassmentCaseHistory = stepBuilder.createStep(props => ({
     cases: pc.data.map(priorCase => ({...priorCase, DELETE: false}))
   }),
   renderIntro: () => <>
-    <p>If you have brought any cases in housing court against this landlord for harassment or repairs before this case, please list them below.</p>
+    <p>If you have brought any cases in housing court against this landlord for harassment or repairs before this case, please list them below. If not, you may skip this question.</p>
   </>,
   renderForm: ctx => <>
     <Formset {...ctx.formsetPropsFor('cases')} emptyForm={BlankCasesPriorCaseFormFormSetInput}>

@@ -54,3 +54,4 @@ class Command(BaseCommand):
                 version=settings.GIT_INFO.get_version_str(),
                 minified_url=url
             )
+        self.stdout.write('Done.\n')

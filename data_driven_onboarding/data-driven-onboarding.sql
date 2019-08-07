@@ -20,7 +20,8 @@ Count_Of_Assoc_Bldgs as (
         end as Enteredbbl,
         count (*) filter (where bbl is not null) as NumberOfAssociatedBuildings,
         count (distinct zip) filter (where bbl is not null) as NumberOfAssociatedZips,
-        sum(unitsres) as NumberOfResUnitsinPortfolio
+        sum(unitsres) as NumberOfResUnitsinPortfolio,
+        sum(evictions) as NumberOfEvictionsinPortfolio
     from get_assoc_addrs_from_bbl(%(bbl)s) 
     group by (Enteredbbl)
 ),
@@ -42,7 +43,7 @@ Major_Boro_Of_Assoc_Bldgs as (
     
 -- count of HPD complaints since 2014 in building (hpd_complaints)
 -- count of all complaints closed and open
-Count_HPD as (
+Count_HPD_Complaints as (
     select
         bbl,
         count(*) filter (where complaintid is not null) as NumberOfHPDcomplaints
@@ -53,12 +54,15 @@ Count_HPD as (
 ),
 
 -- count of open HPD violations in building (hpd_violations)
-Count_Open_HPD as (
+Count_HPD_Violations as (
     select
         bbl,
-        count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations
+        count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations,
+        count(*) filter (where class ='C') as ClassCTotal,
+		count(*) filter (where currentstatus != 'VIOLATION CLOSED' and class='C') as ClassCOpenViolations,
+		count(*) filter(where bbl is not null) as NumberOfViolations
     from public.hpd_violations
-    where bbl= %(bbl)s and violationstatus !='Close'
+    where bbl= %(bbl)s and violationstatus !='Close' and novissueddate >'2010-01-01'
     group by bbl
 ),
 
@@ -132,50 +136,7 @@ Complaint_Category_With_BBL as (
             else %(bbl)s
         end as bbl
     from Complaint_Category
-),
-
-Number_Of_2018_Evictions_For_Portfolio_Without_BBL as (
-	select
-		count(*) as NumberOfEvictions
-	from public.marshal_evictions_18
-	where bbl in (
-            select
-                bbl
-            from 
-                get_assoc_addrs_from_bbl(%(bbl)s)
-        )
-		
-),
-
-Number_Of_2018_Evictions_For_Portfolio as (
-	select
-		NumberOfEvictions,
-		case 
-            when NumberOfEvictions is not null then %(bbl)s
-            else %(bbl)s
-        end as bbl
-      from Number_Of_2018_Evictions_For_Portfolio_Without_BBL
-),
-
-Number_Of_Class_C_Violations as (
-	select
-		bbl,
-		count(*) filter (where class ='C') as ClassCTotal,
-		count(*) filter (where currentstatus != 'VIOLATION CLOSED' and class='C') as ClassCOpenViolations
-	from public.hpd_violations
-	where bbl= %(bbl)s and novissueddate > '2010-01-01'
-	group by bbl
-),
-
-Total_HPD_Violations as (
-	select
-		bbl,
-		count(*) filter(where bbl is not null) as NumberOfViolations
-	from public.hpd_violations
-	where bbl= %(bbl)s and novissueddate > '2010-01-01'
-	group by bbl
 )
-
 
 
 select
@@ -194,12 +155,12 @@ select
     -- number of hpd complaints for the entered bbl
     -- pulled from hpd complaints
     -- if there are no listed complaints for the specified bbl, will return null
-    HPD.NumberOfHPDcomplaints as hpd_complaint_count,
+    HPDC.NumberOfHPDcomplaints as hpd_complaint_count,
 
     -- number of open hpd violations 
     -- pulled from hpd violations
     -- if there aren't any listed violations, will return null
-    coalesce(OpenHPD.NumberOfOpenHPDviolations, 0) as hpd_open_violation_count,
+    coalesce(HPDV.NumberOfOpenHPDviolations, 0) as hpd_open_violation_count,
 
     -- number of associated buildings from portfolio
     -- drawn from function get_assoc_addrs_from_bbl
@@ -256,21 +217,20 @@ select
     MC.NumberOfComplaints as number_of_complaints_of_most_common_category,
     
     --number of hpd violations associated with entered bbl that are class c violations (since 2010)
-    NV.ClassCTotal as number_of_class_c_violations,
+    HPDV.ClassCTotal as number_of_class_c_violations,
     
     --number of total open violations associated with entered bbl (since 2010)
-    NV.ClassCOpenViolations as number_of_open_violations,
+    HPDV.ClassCOpenViolations as number_of_open_violations,
     
     --total number of hpd violations for entered bbl (since 2010)
-    THV.NumberOfViolations as number_of_total_hpd_violations
+    HPDV.NumberOfViolations as number_of_total_hpd_violations
 from Total_Res_Units T
-    left join Count_HPD HPD on T.bbl=HPD.bbl
-    left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl
+    left join Count_HPD_Complaints HPDC on T.bbl=HPDC.bbl
+    left join Count_HPD_Violations HPDV on T.bbl=HPDV.bbl
     left join Count_Of_Assoc_Bldgs A on T.bbl= A.Enteredbbl
     left join Major_Boro_Of_Assoc_Bldgs MB on T.bbl=MB.Enteredbbl
     left join public.rentstab_summary R on T.bbl=R.ucbbl
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl
-    left join Number_Of_Class_C_Violations NV on T.bbl = NV.bbl
-	left join Total_HPD_Violations THV on T.bbl =THV.bbl
+    

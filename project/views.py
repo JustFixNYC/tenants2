@@ -192,6 +192,10 @@ def get_legacy_form_submission(request):
     }
 
 
+def get_webpack_public_path_url() -> str:
+    return f'{settings.STATIC_URL}frontend/'
+
+
 def react_rendered_view(request):
     url = request.path
     cur_language = ''
@@ -200,7 +204,7 @@ def react_rendered_view(request):
     querystring = request.GET.urlencode()
     if querystring:
         url += f'?{querystring}'
-    webpack_public_path_url = f'{settings.STATIC_URL}frontend/'
+    webpack_public_path_url = get_webpack_public_path_url()
 
     initial_props: Dict[str, Any] = {}
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Page from "../page";
-import { BlankDDOSuggestionsResult, DDOSuggestionsResult } from '../queries/DDOSuggestionsResult';
+import { BlankDDOSuggestionsResult } from '../queries/DDOSuggestionsResult';
 import { RouteComponentProps } from 'react-router';
 import { getQuerystringVar } from '../querystring';
 import { DataDrivenOnboardingResults } from './data-driven-onboarding';
@@ -22,7 +22,7 @@ function DebugJsonPropsForm(props: {
         <div className="control">
           <textarea style={{
             fontFamily: 'monospace',
-            minHeight: '15em'
+            minHeight: '40em'
           }}
             name={QUERYSTRING_VAR}
             spellCheck={false}

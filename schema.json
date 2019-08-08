@@ -332,6 +332,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "number of hpd violations associated with entered bbl that are class c violations (since 2010)",
+              "isDeprecated": false,
+              "name": "hpdOpenClassCViolationCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Number of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "associatedBuildingCount",
@@ -359,6 +371,18 @@
               "description": "The number of residential units in the portfolio that the BBL belongs to. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "portfolioUnitCount",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "number of evictions from all associated buildings in portfolio",
+              "isDeprecated": false,
+              "name": "numberOfEvictionsFromPortfolio",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",

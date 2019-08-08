@@ -20,13 +20,11 @@ function DebugJsonPropsForm(props: {
     }}>
       <div className="field">
         <div className="control">
-          <textarea style={{
-            fontFamily: 'monospace',
-            minHeight: '40em'
-          }}
+          <textarea
             name={QUERYSTRING_VAR}
             spellCheck={false}
-            className="textarea"
+            className="textarea jf-dev-code"
+            rows={Math.max(props.currentValue.split('\n').length, 10)}
             onChange={(e) => props.onChange(e.target.value) }
             value={props.currentValue}
           />
@@ -75,17 +73,24 @@ function useDebugJsonProps<T>(router: RouteComponentProps, blankValue: T) {
 
 export function ExampleDataDrivenOnboardingResults(props: RouteComponentProps) {
   const dbg = useDebugJsonProps(props, BlankDDOSuggestionsResult);
-  return <Page title="DDO results debug view" withHeading className="content">
-    <p>This page should be used for development only!</p>
-    <DebugJsonPropsForm
-      onSubmit={dbg.pushEditedValue}
-      onChange={dbg.setEditedValue}
-      currentValue={dbg.editedValue}
-    />
-    {dbg.err
-      ? <><br/><pre className="has-text-danger">{dbg.err}</pre></>
-      : <div className="jf-ddo-results">
-          <DataDrivenOnboardingResults {...dbg.viewProps} />
-        </div>}
+  return <Page title="DDO results debug view" className="content">
+    <div className="jf-dev-panels">
+      <div className="jf-dev-panel-left">
+        <h2>DDO Props</h2>
+        <DebugJsonPropsForm
+          onSubmit={dbg.pushEditedValue}
+          onChange={dbg.setEditedValue}
+          currentValue={dbg.editedValue}
+        />
+      </div>
+      <div className="jf-dev-panel-right">
+        <h2>DDO Rendering</h2>
+        {dbg.err
+          ? <><br/><pre className="has-text-danger">{dbg.err}</pre></>
+          : <div className="jf-ddo-results">
+              <DataDrivenOnboardingResults {...dbg.viewProps} />
+            </div>}
+      </div>
+    </div>
   </Page>;
 }

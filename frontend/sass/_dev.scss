@@ -20,3 +20,25 @@
 .jf-dev-code {
     font-family: monospace;
 }
+
+@media (min-width: 1500px) {
+    .jf-dev-panels {
+        display: flex;
+        position: absolute;
+        left: -25%;
+        right: -25%;
+        justify-content: space-between;
+    }
+
+    .jf-dev-panel-left {
+        width: calc(50% - 1em);
+    }
+
+    .jf-dev-panel-right {
+        width: calc(50% - 1em);
+    }
+}
+
+.jf-dev-panel-left {
+    margin-bottom: 1.5em;
+}

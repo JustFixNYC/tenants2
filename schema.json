@@ -512,6 +512,18 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The total number of HPD violations since 2010 for the entered BBL.This value will never be null. If no HPD violations are found, it will be 0",
+              "isDeprecated": false,
+              "name": "numberOfTotalHpdViolations",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

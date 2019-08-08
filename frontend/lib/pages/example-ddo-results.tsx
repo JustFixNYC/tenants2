@@ -22,9 +22,10 @@ export function ExampleDataDrivenOnboardingResults(props: RouteComponentProps) {
 
   const viewProps = Object.assign({}, BlankDDOSuggestionsResult, partialViewProps);
 
-  const [currentValue, setCurrentValue] = useState(JSON.stringify(viewProps, null, 2));
+  const stringifiedViewProps = JSON.stringify(viewProps, null, 2);
+  const [currentValue, setCurrentValue] = useState(stringifiedViewProps);
 
-  useEffect(() => setCurrentValue(getViewPropsStr()), [props.location]);
+  useEffect(() => setCurrentValue(getViewPropsStr() || stringifiedViewProps), [props.location]);
 
   return <Page title="DDO results debug view" withHeading className="content">
     <p>This page should be used for development only!</p>

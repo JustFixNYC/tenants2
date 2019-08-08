@@ -5,6 +5,7 @@ import { BlankDDOSuggestionsResult } from '../queries/DDOSuggestionsResult';
 import { RouteComponentProps } from 'react-router';
 import { getQuerystringVar } from '../querystring';
 import { DataDrivenOnboardingResults } from './data-driven-onboarding';
+import { KEY_ENTER } from '../key-codes';
 
 const QUERYSTRING_VAR = 'props';
 
@@ -13,11 +14,13 @@ function DebugJsonPropsForm(props: {
   onChange: (value: string) => void,
   currentValue: string
 }) {
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    props.onSubmit();
+  };
+
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      props.onSubmit();
-    }}>
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <div className="control">
           <textarea
@@ -25,6 +28,7 @@ function DebugJsonPropsForm(props: {
             spellCheck={false}
             className="textarea jf-dev-code"
             rows={Math.max(props.currentValue.split('\n').length, 10)}
+            onKeyDown={(e) => e.ctrlKey && e.keyCode == KEY_ENTER && handleSubmit(e)}
             onChange={(e) => props.onChange(e.target.value) }
             value={props.currentValue}
           />

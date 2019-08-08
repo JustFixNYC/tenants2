@@ -6,32 +6,17 @@ import { RouteComponentProps } from 'react-router';
 import { getQuerystringVar } from '../querystring';
 import { DataDrivenOnboardingResults } from './data-driven-onboarding';
 
-export function ExampleDataDrivenOnboardingResults(props: RouteComponentProps) {
-  const getViewPropsStr = () => (getQuerystringVar(props, 'props') || '').trim();
-  const viewPropsStr = getViewPropsStr();
-  let partialViewProps: Partial<DDOSuggestionsResult> = {};
-  let err: string|null = null;
+const QUERYSTRING_VAR = 'props';
 
-  if (viewPropsStr) {
-    try {
-      partialViewProps = JSON.parse(viewPropsStr);
-    } catch (e) {
-      err = e.toString();
-    }
-  }
-
-  const viewProps = Object.assign({}, BlankDDOSuggestionsResult, partialViewProps);
-
-  const stringifiedViewProps = JSON.stringify(viewProps, null, 2);
-  const [currentValue, setCurrentValue] = useState(stringifiedViewProps);
-
-  useEffect(() => setCurrentValue(getViewPropsStr() || stringifiedViewProps), [props.location]);
-
-  return <Page title="DDO results debug view" withHeading className="content">
-    <p>This page should be used for development only!</p>
+function DebugJsonPropsForm(props: {
+  onSubmit: () => void,
+  onChange: (value: string) => void,
+  currentValue: string
+}) {
+  return (
     <form onSubmit={(e) => {
       e.preventDefault();
-      props.history.push(props.location.pathname + '?props=' + encodeURIComponent(currentValue));
+      props.onSubmit();
     }}>
       <div className="field">
         <div className="control">
@@ -39,20 +24,68 @@ export function ExampleDataDrivenOnboardingResults(props: RouteComponentProps) {
             fontFamily: 'monospace',
             minHeight: '15em'
           }}
-            name="props"
+            name={QUERYSTRING_VAR}
             spellCheck={false}
             className="textarea"
-            onChange={(e) => setCurrentValue(e.target.value) }
-            value={currentValue}
+            onChange={(e) => props.onChange(e.target.value) }
+            value={props.currentValue}
           />
         </div>
       </div>
       <input type="submit" value="Submit" className="button is-primary is-medium" />
     </form>
-    {err
-      ? <><br/><pre className="has-text-danger">{err}</pre></>
+  );
+}
+
+function safeParseJson(value: string): {value: Object, err: string|null} {
+  const result = {value: {}, err: null};
+
+  if (value && value[0] == '{') {
+    try {
+      return {...result, value: JSON.parse(value)};
+    } catch (e) {
+      return {...result, err: e.toString()};
+    }
+  }
+
+  return result;
+}
+
+function useDebugJsonProps<T>(router: RouteComponentProps, blankValue: T) {
+  const getViewPropsStr = () => (getQuerystringVar(router, QUERYSTRING_VAR) || '').trim();
+  const viewPropsStr = getViewPropsStr();
+  const parsed = safeParseJson(viewPropsStr);
+  const partialViewProps = parsed.value;
+  const viewProps = Object.assign({}, blankValue, partialViewProps);
+  const stringifiedViewProps = JSON.stringify(viewProps, null, 2);
+  const [editedValue, setEditedValue] = useState(stringifiedViewProps);
+
+  useEffect(() => setEditedValue(getViewPropsStr() || stringifiedViewProps), [router.location]);
+
+  return {
+    editedValue,
+    setEditedValue,
+    viewProps,
+    err: parsed.err,
+    pushEditedValue() {
+      router.history.push(router.location.pathname + `?${QUERYSTRING_VAR}=${encodeURIComponent(editedValue)}`)
+    }
+  };
+}
+
+export function ExampleDataDrivenOnboardingResults(props: RouteComponentProps) {
+  const dbg = useDebugJsonProps(props, BlankDDOSuggestionsResult);
+  return <Page title="DDO results debug view" withHeading className="content">
+    <p>This page should be used for development only!</p>
+    <DebugJsonPropsForm
+      onSubmit={dbg.pushEditedValue}
+      onChange={dbg.setEditedValue}
+      currentValue={dbg.editedValue}
+    />
+    {dbg.err
+      ? <><br/><pre className="has-text-danger">{dbg.err}</pre></>
       : <div className="jf-ddo-results">
-          <DataDrivenOnboardingResults {...viewProps} />
+          <DataDrivenOnboardingResults {...dbg.viewProps} />
         </div>}
   </Page>;
 }

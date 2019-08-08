@@ -3,14 +3,20 @@ import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
 import { AppTesterPal } from "./app-tester-pal";
 import DevRoutes from "../dev";
+import Routes from '../routes';
 
-describe("development tools home", () => {
+describe("development pages", () => {
   afterEach(ReactTestingLibraryPal.cleanup);
 
-  it('works', () => {
+  it('shows development tools home', () => {
     const pal = new AppTesterPal(<DevRoutes/>, {
       url: '/dev'
     });
     pal.clickButtonOrLink(/examples\/loading-page/);
+  });
+
+  it('shows DDO dev page', () => {
+    const pal = new AppTesterPal(<DevRoutes/>, {url: Routes.dev.examples.ddo});
+    pal.rr.getByText('Submit');
   });
 });

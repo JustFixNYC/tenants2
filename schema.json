@@ -332,7 +332,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "number of hpd violations associated with entered bbl that are class c violations (since 2010)",
+              "description": "The number of hpd violations associated with entered bbl that are class C violations (since 2010).",
               "isDeprecated": false,
               "name": "hpdOpenClassCViolationCount",
               "type": {
@@ -380,7 +380,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "number of evictions from all associated buildings in portfolio",
+              "description": "The number of evictions from all associated buildings in portfolio.",
               "isDeprecated": false,
               "name": "numberOfEvictionsFromPortfolio",
               "type": {
@@ -404,7 +404,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "the number of associated buildings in the portfolio's most common boroughIf the value is unknown, or if there are no associated buildings, this will be null.",
+              "description": "The number of associated buildings in the portfolio's most common borough. If the value is unknown, or if there are no associated buildings, this will be null.",
               "isDeprecated": false,
               "name": "numberOfBldgsInPortfolioTopBorough",
               "type": {

@@ -79,11 +79,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
-    hpd_open_class_c_violation_count =graphene.Int(
-    	description=(
-    		"number of hpd violations associated with entered bbl that are class c violations (since 2010)"
-    		)
-    	)
+    hpd_open_class_c_violation_count = graphene.Int(
+        description=(
+            "The number of hpd violations associated with entered bbl that are "
+            "class C violations (since 2010)."
+        )
+    )
 
     associated_building_count = graphene.Int(
         description=(
@@ -107,11 +108,11 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
-    number_of_evictions_from_portfolio =graphene.Int (
-    	description=(
-    		"number of evictions from all associated buildings in portfolio"
-    		)
-    	)
+    number_of_evictions_from_portfolio = graphene.Int(
+        description=(
+            "The number of evictions from all associated buildings in portfolio."
+        )
+    )
 
     portfolio_top_borough = graphene.String(
         description=(
@@ -122,7 +123,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     number_of_bldgs_in_portfolio_top_borough = graphene.Int(
         description=(
-            "the number of associated buildings in the portfolio's most common borough"
+            "The number of associated buildings in the portfolio's most common borough. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
@@ -177,7 +178,6 @@ class DDOSuggestionsResult(graphene.ObjectType):
             "HPD complaint, or null if no complaints exist."
         )
     )
-
 
 
 @schema_registry.register_queries

@@ -111,7 +111,6 @@ Avg_Wait_Time_For_Portfolio as(
 
 Complaint_Category as(
     select
-    	
         case 
             when majorcategory = 'UNSANITARY CONDITION' or majorcategory='GENERAL' then minorcategory
             else majorcategory end 
@@ -159,7 +158,7 @@ select
     -- pulled from hpd violations
     -- if there aren't any listed violations, will return null
     coalesce(HPDV.NumberOfOpenHPDviolations, 0) as hpd_open_violation_count,
-	
+
     --number of hpd violations associated with entered bbl that are class c violations (since 2010)
     HPDV.ClassCTotal as hpd_open_class_c_violation_count,
     

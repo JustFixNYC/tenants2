@@ -320,13 +320,17 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Number of open HPD violations for the BBL. If there are no listed violations, this will be null.",
+              "description": "Number of open HPD violations for the BBL.",
               "isDeprecated": false,
               "name": "hpdOpenViolationCount",
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               }
             },
             {

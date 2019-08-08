@@ -73,9 +73,9 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     hpd_open_violation_count = graphene.Int(
+        required=True,
         description=(
-            "Number of open HPD violations for the BBL. If there are no listed violations, "
-            "this will be null."
+            "Number of open HPD violations for the BBL."
         )
     )
 

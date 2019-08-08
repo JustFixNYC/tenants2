@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 import { QueryLoader } from './query-loader';
 import { ExampleQuery } from './queries/ExampleQuery';
 import ExampleRadioPage from './pages/example-radio-page';
+import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results';
 
 const LoadableExamplePage = Loadable({
   loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
@@ -98,6 +99,7 @@ export default function DevRoutes(): JSX.Element {
   return (
     <Switch>
        <Route path={Routes.dev.home} exact component={DevHome} />
+       <Route path={Routes.dev.examples.ddo} exact component={ExampleDataDrivenOnboardingResults} />
        <Route path={Routes.dev.examples.redirect} exact render={() => <Redirect to={Routes.locale.home} />} />
        <Route path={Routes.dev.examples.modal} exact component={LoadableExampleModalPage} />
        <Route path={Routes.dev.examples.loadingPage} exact component={LoadableExampleLoadingPage} />

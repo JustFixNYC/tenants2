@@ -226,6 +226,7 @@ const Routes = {
     home: '/dev/',
     examples: {
       [ROUTE_PREFIX]: '/dev/examples',
+      ddo: '/dev/examples/ddo',
       redirect: '/dev/examples/redirect',
       modal: '/dev/examples/modal',
       loadingPage: '/dev/examples/loading-page',

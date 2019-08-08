@@ -201,7 +201,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return {
       title: 'Violations',
       indicators: [
-        data.hpdOpenViolationCount && <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount || 0} unit="open violation"/> in your building.</>,
+        <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount} unit="open violation"/> in your building.</>,
         data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
       ],
       fallbackMessage: <>

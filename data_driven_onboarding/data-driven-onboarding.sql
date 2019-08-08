@@ -136,12 +136,12 @@ Complaint_Category_With_BBL as (
 ),
 
 Total_HPD_Violations as (
-	select
-		bbl,
-		count(*) filter(where bbl is not null) as NumberOfViolations
-	from public.hpd_violations
-	where bbl= %(bbl)s and novissueddate > '2010-01-01'
-	group by bbl
+    select
+        bbl,
+        count(*) filter(where bbl is not null) as NumberOfViolations
+    from public.hpd_violations
+    where bbl= %(bbl)s and novissueddate > '2010-01-01'
+    group by bbl
 )
 
 
@@ -225,7 +225,7 @@ select
     MC.category as most_common_category_of_hpd_complaint,
 
     -- the number of complaints of the most common category
-    MC.NumberOfComplaints as number_of_complaints_of_most_common_category
+    MC.NumberOfComplaints as number_of_complaints_of_most_common_category,
     
     --total number of hpd violations for the entered bbl
     --will never be null
@@ -240,4 +240,4 @@ from Total_Res_Units T
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl
-	left join Total_HPD_Violations THV on T.bbl =THV.bbl    
+    left join Total_HPD_Violations THV on T.bbl =THV.bbl    

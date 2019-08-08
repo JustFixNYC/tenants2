@@ -36,23 +36,23 @@ logger = logging.getLogger(__name__)
 class DDOSuggestionsResult(graphene.ObjectType):
     # This information is obtained from geocoding.
     full_address = graphene.String(
-        required = True,
+        required=True,
         description='The full address of the location.'
     )
 
     bbl = graphene.String(
-        required = True,
+        required=True,
         description="The 10-digit Borough-Block-Lot (BBL) of the location."
     )
 
     is_rtc_eligible = graphene.Boolean(
-        required = True,
+        required=True,
         description="Whether the location is eligible for NYC's Right to Counsel program."
     )
 
     # This information is obtained from our SQL query.
     zipcode = graphene.String(
-        required = True,
+        required=True,
         description="The zip code of the location. It may be blank."
     )
 
@@ -61,7 +61,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     unit_count = graphene.Int(
-        required = True,
+        required=True,
         description="Number of residential units for the BBL, if available."
     )
 
@@ -73,7 +73,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     hpd_open_violation_count = graphene.Int(
-        required = True,
+        required=True,
         description=(
             "Number of open HPD violations for the BBL."
         )
@@ -129,21 +129,21 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     stabilized_unit_count_2007 = graphene.Int(
-        required = True,
+        required=True,
         description=(
             "The number of rent-stabilized residential units at the BBL in 2007."
         )
     )
 
     stabilized_unit_count_2017 = graphene.Int(
-        required = True,
+        required=True,
         description=(
             "The number of rent-stabilized residential units at the BBL in 2017."
         )
     )
 
     stabilized_unit_count_maximum = graphene.Int(
-        required = True,
+        required=True,
         description=(
             "The maximum number of stabilized units at the BBL on any year between 2007 "
             "and 2017."

@@ -37,36 +37,36 @@ class DDOSuggestionsResult(graphene.ObjectType):
     # This information is obtained from geocoding.
     full_address = graphene.String(
         required = True,
-        description = 'The full address of the location.'
+        description='The full address of the location.'
     )
 
     bbl = graphene.String(
         required = True,
-        description = "The 10-digit Borough-Block-Lot (BBL) of the location."
+        description="The 10-digit Borough-Block-Lot (BBL) of the location."
     )
 
     is_rtc_eligible = graphene.Boolean(
         required = True,
-        description = "Whether the location is eligible for NYC's Right to Counsel program."
+        description="Whether the location is eligible for NYC's Right to Counsel program."
     )
 
     # This information is obtained from our SQL query.
     zipcode = graphene.String(
         required = True,
-        description = "The zip code of the location. It may be blank."
+        description="The zip code of the location. It may be blank."
     )
 
     year_built = graphene.Int(
-        description = "The year that the BBL was built, if available"
+        description="The year that the BBL was built, if available"
     )
 
     unit_count = graphene.Int(
         required = True,
-        description = "Number of residential units for the BBL, if available."
+        description="Number of residential units for the BBL, if available."
     )
 
     hpd_complaint_count = graphene.Int(
-        description = (
+        description=(
             "Number of HPD complaints for the BBL. If there are no listed complaints, "
             "this will be null."
         )
@@ -74,27 +74,27 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     hpd_open_violation_count = graphene.Int(
         required = True,
-        description = (
+        description=(
             "Number of open HPD violations for the BBL."
         )
     )
 
     hpd_open_class_c_violation_count = graphene.Int(
-        description = (
+        description=(
             "The number of hpd violations associated with entered bbl that are "
             "class C violations (since 2010)."
         )
     )
 
     associated_building_count = graphene.Int(
-        description = (
+        description=(
             "Number of associated buildings from the portfolio that the BBL is in. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
 
     associated_zip_count = graphene.Int(
-        description = (
+        description=(
             "Number of distinct zip codes of associated buildings from the portfolio that the BBL "
             "is in. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
@@ -102,27 +102,27 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     portfolio_unit_count = graphene.Int(
-        description = (
+        description=(
             "The number of residential units in the portfolio that the BBL belongs to. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
 
     number_of_evictions_from_portfolio = graphene.Int(
-        description = (
+        description=(
             "The number of evictions from all associated buildings in portfolio."
         )
     )
 
     portfolio_top_borough = graphene.String(
-        description = (
+        description=(
             "The most common borough for buildings in the portfolio that the BBL belongs to. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
     )
 
     number_of_bldgs_in_portfolio_top_borough = graphene.Int(
-        description = (
+        description=(
             "The number of associated buildings in the portfolio's most common borough. "
             "If the value is unknown, or if there are no associated buildings, this will be null."
         )
@@ -130,42 +130,42 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     stabilized_unit_count_2007 = graphene.Int(
         required = True,
-        description = (
+        description=(
             "The number of rent-stabilized residential units at the BBL in 2007."
         )
     )
 
     stabilized_unit_count_2017 = graphene.Int(
         required = True,
-        description = (
+        description=(
             "The number of rent-stabilized residential units at the BBL in 2017."
         )
     )
 
     stabilized_unit_count_maximum = graphene.Int(
         required = True,
-        description = (
+        description=(
             "The maximum number of stabilized units at the BBL on any year between 2007 "
             "and 2017."
         )
     )
 
     average_wait_time_for_repairs_at_bbl = graphene.Int(
-        description = (
+        description=(
             "The average wait time for repairs, in days, after a landlord has been notified "
             "of a violation, if known, for the property."
         )
     )
 
     average_wait_time_for_repairs_for_portfolio = graphene.Int(
-        description = (
+        description=(
             "The average wait time for repairs, in days, after a landlord has been notified "
             "of a violation, if known, for the landlord's entire portfolio."
         )
     )
 
     most_common_category_of_hpd_complaint = graphene.String(
-        description = (
+        description=(
             "The most common category of HPD complaint, or null if no complaints exist. "
             "The full list of categories can be found at: "
             "https://data.cityofnewyork.us/api/views/a2nx-4u46/files/516fa3f1-fff3-4ef4-9ec8-74da856d9cb8?download=true&filename=HPD%20Complaint%20Open%20Data.pdf"  # NOQA
@@ -173,18 +173,18 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     number_of_complaints_of_most_common_category = graphene.Int(
-        description = (
+        description=(
             "The number of complaints of the most common category of "
             "HPD complaint, or null if no complaints exist."
         )
     )
 
     number_of_total_hpd_violations = graphene.Int(
-    	description = (
+        description=(
             "The total number of HPD violations since 2010 for the entered BBL."
-            "This value will never be null. If no HPD violations are found, it will be 0" 
-    		)
-    	)
+            "This value will never be null. If no HPD violations are found, it will be 0"
+            )
+        )
 
 
 @schema_registry.register_queries

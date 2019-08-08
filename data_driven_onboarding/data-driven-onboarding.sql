@@ -20,7 +20,8 @@ Count_Of_Assoc_Bldgs as (
         end as Enteredbbl,
         count (*) filter (where bbl is not null) as NumberOfAssociatedBuildings,
         count (distinct zip) filter (where bbl is not null) as NumberOfAssociatedZips,
-        sum(unitsres) as NumberOfResUnitsinPortfolio
+        sum(unitsres) as NumberOfResUnitsinPortfolio,
+        sum(evictions) as NumberOfEvictionsinPortfolio
     from get_assoc_addrs_from_bbl(%(bbl)s) 
     group by (Enteredbbl)
 ),
@@ -42,7 +43,7 @@ Major_Boro_Of_Assoc_Bldgs as (
     
 -- count of HPD complaints since 2014 in building (hpd_complaints)
 -- count of all complaints closed and open
-Count_HPD as (
+Count_HPD_Complaints as (
     select
         bbl,
         count(*) filter (where complaintid is not null) as NumberOfHPDcomplaints
@@ -53,12 +54,13 @@ Count_HPD as (
 ),
 
 -- count of open HPD violations in building (hpd_violations)
-Count_Open_HPD as (
+Count_HPD_Violations as (
     select
         bbl,
-        count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations
+        count(*) filter (where violationid is not null) as NumberOfOpenHPDviolations,
+        count(*) filter (where class ='C') as ClassCTotal
     from public.hpd_violations
-    where bbl= %(bbl)s and violationstatus !='Close'
+    where bbl= %(bbl)s and violationstatus !='Close' and novissueddate >'2010-01-01'
     group by bbl
 ),
 
@@ -107,10 +109,10 @@ Avg_Wait_Time_For_Portfolio as(
     group by Enteredbbl
 ),
 
-Major_Complaint as(
+Complaint_Category as(
     select
         case 
-            when majorcategory = 'UNSANITARY CONDITION' then minorcategory
+            when majorcategory = 'UNSANITARY CONDITION' or majorcategory='GENERAL' then minorcategory
             else majorcategory end 
         as category,
         count(*) as NumberOfComplaints
@@ -122,15 +124,15 @@ Major_Complaint as(
     limit 1
 ),
 
-Major_Complaint_With_BBL as (
+Complaint_Category_With_BBL as (
     select
-        category as majorcategory,
+        category,
         NumberOfComplaints,
         case 
             when category is not null then %(bbl)s
             else %(bbl)s
         end as bbl
-    from Major_Complaint
+    from Complaint_Category
 )
 
 
@@ -150,13 +152,16 @@ select
     -- number of hpd complaints for the entered bbl
     -- pulled from hpd complaints
     -- if there are no listed complaints for the specified bbl, will return null
-    HPD.NumberOfHPDcomplaints as hpd_complaint_count,
+    HPDC.NumberOfHPDcomplaints as hpd_complaint_count,
 
     -- number of open hpd violations 
     -- pulled from hpd violations
     -- if there aren't any listed violations, will return null
-    OpenHPD.NumberOfOpenHPDviolations as hpd_open_violation_count,
+    coalesce(HPDV.NumberOfOpenHPDviolations, 0) as hpd_open_violation_count,
 
+    --number of hpd violations associated with entered bbl that are class c violations (since 2010)
+    HPDV.ClassCTotal as hpd_open_class_c_violation_count,
+    
     -- number of associated buildings from portfolio
     -- drawn from function get_assoc_addrs_from_bbl
     -- will return null if value is unknown or if there are no associated buildings 
@@ -172,6 +177,8 @@ select
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfResUnitsinPortfolio as portfolio_unit_count,
     
+    --number of evictions from associated buildings in portfolio
+    A.NumberOfEvictionsinPortfolio as number_of_evictions_from_portfolio,
     -- the most common borough for buildings in the portfolio
     -- drawn from function get_assoc_addrs_from_bbl
     -- will return null if value is unknown or if there are no associated buildings 
@@ -206,16 +213,20 @@ select
     P.AverageWaitTimeForPortfolio as average_wait_time_for_repairs_for_portfolio,
 
     -- the most common category of HPD complaint
-    MC.majorcategory as most_common_category_of_hpd_complaint,
+    MC.category as most_common_category_of_hpd_complaint,
 
     -- the number of complaints of the most common category
     MC.NumberOfComplaints as number_of_complaints_of_most_common_category
+    
+    
+    
 from Total_Res_Units T
-    left join Count_HPD HPD on T.bbl=HPD.bbl
-    left join Count_Open_HPD OpenHPD on T.bbl=OpenHPD.bbl
+    left join Count_HPD_Complaints HPDC on T.bbl=HPDC.bbl
+    left join Count_HPD_Violations HPDV on T.bbl=HPDV.bbl
     left join Count_Of_Assoc_Bldgs A on T.bbl= A.Enteredbbl
     left join Major_Boro_Of_Assoc_Bldgs MB on T.bbl=MB.Enteredbbl
     left join public.rentstab_summary R on T.bbl=R.ucbbl
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
-    left join Major_Complaint_With_BBL MC on T.bbl= MC.bbl
+    left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl
+    

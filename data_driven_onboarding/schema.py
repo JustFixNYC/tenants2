@@ -57,7 +57,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     year_built = graphene.Int(
-        description="The year that the BBL was built, if available"
+        description="The year that any buildings on the BBL were built, if available."
     )
 
     unit_count = graphene.Int(
@@ -178,6 +178,14 @@ class DDOSuggestionsResult(graphene.ObjectType):
             "HPD complaint, or null if no complaints exist."
         )
     )
+
+    number_of_total_hpd_violations = graphene.Int(
+        required=True,
+        description=(
+            "The total number of HPD violations since 2010 for the entered BBL."
+            "This value will never be null. If no HPD violations are found, it will be 0."
+            )
+        )
 
 
 @schema_registry.register_queries

@@ -280,7 +280,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The year that the BBL was built, if available",
+              "description": "The year that any buildings on the BBL were built, if available.",
               "isDeprecated": false,
               "name": "yearBuilt",
               "type": {
@@ -511,6 +511,22 @@
                 "kind": "SCALAR",
                 "name": "Int",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The total number of HPD violations since 2010 for the entered BBL.This value will never be null. If no HPD violations are found, it will be 0.",
+              "isDeprecated": false,
+              "name": "numberOfTotalHpdViolations",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               }
             }
           ],

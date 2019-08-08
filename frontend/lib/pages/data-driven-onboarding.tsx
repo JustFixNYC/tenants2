@@ -314,7 +314,7 @@ function getSortedActionCards(data: DDOData): { recommended: ActionCardProps[], 
   return { recommended, other };
 }
 
-function FoundResults(props: DDOData) {
+export function DataDrivenOnboardingResults(props: DDOData) {
   const actions = getSortedActionCards(props);
 
   return <>
@@ -337,7 +337,7 @@ function Results(props: {
 }) {
   let content = null;
   if (props.output) {
-    content = <FoundResults {...props.output} />;
+    content = <DataDrivenOnboardingResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
       <PageTitle title="Unrecognized address" />

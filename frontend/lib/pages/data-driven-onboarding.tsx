@@ -19,6 +19,15 @@ const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
 const PLACEHOLDER_IMG = 'frontend/img/96x96.png';
 
+const MAX_RECOMMENDED_ACTIONS = 3;
+
+const EFNYC_PRIORITY = 50;
+const VIOLATIONS_HIGH_PRIORITY = 35;
+const COMPLAINTS_PRIORITY = 40;
+const VIOLATIONS_PRIORITY = 30;
+const RENT_HISTORY_PRIORITY = 20;
+const WOW_PRIORITY = 10;
+
 type DDOData = DataDrivenOnboardingSuggestions_output;
 
 function AutoSubmitter(props: {
@@ -32,6 +41,15 @@ function AutoSubmitter(props: {
   }, [props.autoSubmit]);
 
   return null;
+}
+
+/**
+ * Calculate the given value per unit, defaulting to zero if the
+ * value isn't available or something else is amiss.
+ */
+function calcPerUnit(value: number|null, data: DDOData): number {
+  if (data.unitCount === 0 || value === null) return 0;
+  return value / data.unitCount;
 }
 
 function Indicator(props: {value: number, unit: string, pluralUnit?: string, verb?: string}) {
@@ -65,6 +83,8 @@ type ActionCardProps = {
   fallbackMessage: JSX.Element,
   cta?: CallToActionProps,
   imageStaticURL?: string,
+  priority?: number,
+  isRecommended?: boolean
 };
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
@@ -161,18 +181,21 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat(data): ActionCardProps {
-    const hasMoreThanOneBuilding = data.associatedBuildingCount && data.associatedBuildingCount > 1;
+    const buildings = data.associatedBuildingCount || 0;
+    const hasMinBuildings = buildings > 1;
 
     return {
       title: "Owner",
+      priority: WOW_PRIORITY,
+      isRecommended: buildings > 25,
       indicators: [
-        data.associatedBuildingCount && hasMoreThanOneBuilding && <>
-          Your landlord is associated with <Indicator value={data.associatedBuildingCount} unit="property" pluralUnit="properties" />.
+        hasMinBuildings && <>
+          Your landlord is associated with <Indicator value={buildings} unit="property" pluralUnit="properties" />.
         </>,
-        data.associatedZipCount && hasMoreThanOneBuilding && <>
+        data.associatedZipCount && hasMinBuildings && <>
           Buildings in your landlord's portfolio are located in <Indicator value={data.associatedZipCount} unit="zip code" />.
         </>,
-        data.portfolioTopBorough && hasMoreThanOneBuilding && <>
+        data.portfolioTopBorough && hasMinBuildings && <>
           The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
         </>
       ],
@@ -186,6 +209,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function letterOfComplaint(data): ActionCardProps {
     return {
       title: 'Complaints',
+      priority: COMPLAINTS_PRIORITY,
+      isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
       indicators: [
         data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
         data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
@@ -200,6 +225,12 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function hpAction(data): ActionCardProps {
     return {
       title: 'Violations',
+      priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
+      isRecommended: (
+        // TODO: We need to add a condition for "total viols > 10 OR total viols per unit > 1.6".
+        (data.hpdOpenViolationCount > 2 || calcPerUnit(data.hpdOpenViolationCount, data) > 0.7) ||
+        ((data.hpdOpenClassCViolationCount || 0) > 0)
+      ),
       indicators: [
         <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount} unit="open violation"/> in your building.</>,
         data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
@@ -216,6 +247,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function rentHistory(data): ActionCardProps {
     return {
       title: 'Rent history',
+      priority: RENT_HISTORY_PRIORITY,
+      isRecommended: data.unitCount > 6 || ((data.yearBuilt || Infinity) < 1974),
       indicators: [
         (data.stabilizedUnitCountMaximum > 0 || data.stabilizedUnitCount2007 || data.stabilizedUnitCount2017)
         ? <>
@@ -235,6 +268,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function evictionFreeNyc(data): ActionCardProps {
     return {
       title: 'Eviction defense',
+      priority: EFNYC_PRIORITY,
+      isRecommended: data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
       indicators: [
         data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
       ],
@@ -247,31 +282,51 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   }
 ];
 
-function FoundResults(props: DDOData) {
-  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(props)).map(props => (
+function compareActionCardProps(a: ActionCardProps, b: ActionCardProps): number {
+  return (b.priority || 0) - (a.priority || 0);
+}
+
+function getSortedActionCards(data: DDOData): { recommended: ActionCardProps[], other: ActionCardProps[] } {
+  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(data)).map(props => (
     props.imageStaticURL ? props : {...props, imageStaticURL: PLACEHOLDER_IMG}
   ));
-  const recommendedActions: ActionCardProps[] = [];
-  const otherActions: ActionCardProps[] = [];
+
+  const recommended: ActionCardProps[] = [];
+  const other: ActionCardProps[] = [];
 
   actionCardProps.forEach(props => {
-    if (props.indicators.some(value => !!value)) {
-      recommendedActions.push(props);
+    if (props.indicators.some(value => !!value) && props.isRecommended !== false) {
+      recommended.push(props);
     } else {
-      otherActions.push(props);
+      other.push(props);
     }
   });
+
+  recommended.sort(compareActionCardProps);
+  other.sort(compareActionCardProps);
+
+  if (recommended.length > MAX_RECOMMENDED_ACTIONS) {
+    const overflow = recommended.splice(MAX_RECOMMENDED_ACTIONS);
+    other.push(...overflow);
+    other.sort(compareActionCardProps);
+  }
+
+  return { recommended, other };
+}
+
+function FoundResults(props: DDOData) {
+  const actions = getSortedActionCards(props);
 
   return <>
     <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
     <ActionCard {...buildingIntroCard(props)} />
-    {recommendedActions.length > 0 && <>
+    {actions.recommended.length > 0 && <>
       <h2>Recommended actions</h2>
-      {recommendedActions.map((props, i) => <ActionCard key={i} {...props} />)}
+      {actions.recommended.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
-    {otherActions.length > 0 && <>
-      <h2>{recommendedActions.length > 0 ? "More actions" : "Actions"}</h2>
-      {otherActions.map((props, i) => <ActionCard key={i} {...props} />)}
+    {actions.other.length > 0 && <>
+      <h2>{actions.recommended.length > 0 ? "More actions" : "Actions"}</h2>
+      {actions.other.map((props, i) => <ActionCard key={i} {...props} />)}
     </>}
   </>;
 }

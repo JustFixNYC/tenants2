@@ -172,7 +172,9 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
     data.unitCount && <>
       There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
     </>,
-    data.yearBuilt && <>
+    // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
+    // just the build date as an indicator, so we'll only show it if we also show other info.
+    data.unitCount && data.yearBuilt && <>
       Your building was built in {data.yearBuilt} or earlier.
     </>
   ],
@@ -185,7 +187,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const hasMinBuildings = buildings > 1;
 
     return {
-      title: "Owner",
+      title: "Research your landlord",
       priority: WOW_PRIORITY,
       isRecommended: buildings > 25,
       indicators: [
@@ -199,23 +201,27 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
         </>
       ],
-      fallbackMessage: <>Visit <em>Who Owns What</em> to learn more about your building and find other buildings your landlord might own.</>,
+      fallbackMessage: <>
+        Your landlord might own other buildings, too.
+      </>,
       cta: {
         to: whoOwnsWhatURL(data.bbl),
-        text: "Learn more at Who Owns What"
+        text: "Visit Who Owns What"
       }
     };
   },
   function letterOfComplaint(data): ActionCardProps {
     return {
-      title: 'Complaints',
+      title: 'Request repairs',
       priority: COMPLAINTS_PRIORITY,
       isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
       indicators: [
         data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
         data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
       ],
-      fallbackMessage: <>If you need repairs in your apartment and your landlord isn't responding, you can send a free letter of complaint.</>,
+      fallbackMessage: <>
+        Landlord not responding? You can take action!
+      </>,
       cta: {
         to: Routes.locale.home,
         text: "Send a letter of complaint",
@@ -224,7 +230,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function hpAction(data): ActionCardProps {
     return {
-      title: 'Violations',
+      title: 'Start a legal case',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
       isRecommended: (
         (data.hpdOpenViolationCount > 2 || calcPerUnit(data.hpdOpenViolationCount, data) > 0.7) ||
@@ -233,10 +239,11 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       ),
       indicators: [
         <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount} unit="open violation"/> in your building.</>,
-        data.averageWaitTimeForRepairsAtBbl && <>Violations in your building take, on average, <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to resolve.</>
+        <>The city has issued <Indicator value={data.numberOfTotalHpdViolations} unit="total violation"/> since 2010.</>,
+        data.averageWaitTimeForRepairsAtBbl && <>The average violation in your building takes <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to be resolved.</>
       ],
       fallbackMessage: <>
-        Violations are grounds for suing your landlord in Housing Court by starting an “HP Action”.
+        Going to court can help you get repairs.
       </>,
       cta: {
         to: Routes.locale.hp.splash,
@@ -246,7 +253,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function rentHistory(data): ActionCardProps {
     return {
-      title: 'Rent history',
+      title: 'Learn about your rent',
       priority: RENT_HISTORY_PRIORITY,
       isRecommended: data.unitCount > 6 || ((data.yearBuilt || Infinity) < 1974),
       indicators: [
@@ -258,25 +265,29 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           Your building had <Indicator value={data.stabilizedUnitCount2017} unit="rent stabilized unit" /> in 2017.
         </>,
       ],
-      fallbackMessage: <>You can learn more about your apartment by requesting its rental history.</>,
+      fallbackMessage: <>
+        Think your apartment may be rent-stabilized? Request its official records.
+      </>,
       cta: {
         to: "https://www.justfix.nyc/#rental-history",
-        text: "Order your rental history"
+        text: "Order rental history"
       }
     };
   },
   function evictionFreeNyc(data): ActionCardProps {
     return {
-      title: 'Eviction defense',
+      title: 'Fight an eviction',
       priority: EFNYC_PRIORITY,
       isRecommended: data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
       indicators: [
         data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
       ],
-      fallbackMessage: <>If you're facing an eviction, you can learn how to respond and connect with available resources.</>,
+      fallbackMessage: <>
+        Are you facing eviction? Learn how to respond and where to find help.
+      </>,
       cta: {
         to: "https://www.evictionfreenyc.org/",
-        text: "Fight an eviction"
+        text: "Visit EvictionFreeNYC"
       }
     }
   }

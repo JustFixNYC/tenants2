@@ -227,8 +227,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       title: 'Violations',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
       isRecommended: (
-        // TODO: We need to add a condition for "total viols > 10 OR total viols per unit > 1.6".
         (data.hpdOpenViolationCount > 2 || calcPerUnit(data.hpdOpenViolationCount, data) > 0.7) ||
+        (data.numberOfTotalHpdViolations > 10 || calcPerUnit(data.numberOfTotalHpdViolations, data) > 1.6) ||
         ((data.hpdOpenClassCViolationCount || 0) > 0)
       ),
       indicators: [

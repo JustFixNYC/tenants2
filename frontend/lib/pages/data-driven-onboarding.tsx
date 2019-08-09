@@ -172,7 +172,9 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
     data.unitCount && <>
       There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
     </>,
-    data.yearBuilt && <>
+    // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
+    // just the build date as an indicator, so we'll only show it if we also show other info.
+    data.unitCount && data.yearBuilt && <>
       Your building was built in {data.yearBuilt} or earlier.
     </>
   ],

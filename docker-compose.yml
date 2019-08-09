@@ -32,3 +32,4 @@ volumes:
   unused-node-modules:
   python-venv:
   pgdata:
+  yarn-cache:

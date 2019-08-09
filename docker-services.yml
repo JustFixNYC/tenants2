@@ -16,6 +16,8 @@ services:
       # root of the container) to store all our things.
       - unused-node-modules:/tenants2/node_modules/
       - node-modules:/node_modules/
+      - .docker-yarnrc:/.yarnrc
+      - yarn-cache:/var/yarn-cache/
     environment:
       # This is used by pipenv, but not really documented anywhere:
       #   https://github.com/pypa/pipenv/blob/master/pipenv/environments.py#L208
@@ -23,7 +25,7 @@ services:
 
       - PYTHONUNBUFFERED=yup
       - DDM_VENV_DIR=/venv
-      - DDM_USER_OWNED_DIRS=/venv:/node_modules
+      - DDM_USER_OWNED_DIRS=/venv:/node_modules:/var/yarn-cache
       - DDM_HOST_USER=justfix
       - DDM_IS_RUNNING_IN_DOCKER=yup
       - CHOKIDAR_USEPOLLING=1

@@ -33,3 +33,4 @@ volumes:
   python-venv:
   pgdata:
   yarn-cache:
+  pipenv-cache:

@@ -11,7 +11,7 @@ pipenv install --dev --keep-outdated
 pip install -r requirements.production.txt
 
 echo "----- Updating Node Dependencies -----"
-yarn install --modules-folder /node_modules --frozen-lockfile
+yarn install --frozen-lockfile
 
 echo "----- Rebuilding GraphQL queries -----"
 yarn querybuilder

@@ -1,0 +1,2 @@
+--modules-folder /node_modules
+--cache-folder /var/yarn-cache

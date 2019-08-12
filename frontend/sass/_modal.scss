@@ -40,18 +40,3 @@
         width: 640px;
     }
 }
-
-.jf-modal-animate {
-    animation-duration: 0.5s;
-    animation-name: jf-fadein;
-}
-
-@keyframes jf-fadein {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1.0;
-    }
-}

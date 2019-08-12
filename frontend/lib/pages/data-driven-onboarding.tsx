@@ -355,7 +355,7 @@ function Results(props: {
       <h3 {...useQueryFormResultFocusProps()}>Sorry, we don't recognize the address you entered.</h3>
     </>;
   }
-  return <div className="content jf-ddo-results">
+  return <div className="content jf-ddo-results jf-fadein-half-second">
     {content}
   </div>;
 }

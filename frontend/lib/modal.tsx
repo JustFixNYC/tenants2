@@ -7,7 +7,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { TransitionContextType, withTransitionContext } from './transition-context';
 
 
-const ANIMATION_CLASS = "jf-modal-animate";
+const ANIMATION_CLASS = "jf-fadein-half-second";
 
 const DIALOG_CLASS = "jf-modal-dialog"
 

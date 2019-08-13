@@ -29,18 +29,6 @@ describe('LoadingPage', () => {
     );
     expect(page.html()).toContain('Loading');
   });
-
-  it('renders error page', async () => {
-    const fakeImportFn = () => Promise.reject(new Error('blah'));
-    const LoadablePage = createLoadablePage(fakeImportFn as any);
-    const page = mount(
-      <MemoryRouter>
-        <LoadablePage />
-      </MemoryRouter>
-    );
-    await nextTick();
-    expect(page.update().html()).toContain('network error');
-  });
 });
 
 describe('LoadingOverlayManager', () => {

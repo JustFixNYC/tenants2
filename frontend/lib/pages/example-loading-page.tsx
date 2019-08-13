@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { LoadingPage } from '../loading-page';
+import { LoadingPage2 } from '../loading-page';
 import Page from '../page';
 
 interface State {
-  error: boolean;
   mount: boolean;
 }
 
@@ -15,7 +14,7 @@ const page = (
 );
 
 export default class ExampleLoadingPage extends React.Component<{}, State> {
-  state: State = { error: false, mount: false };
+  state: State = { mount: false };
 
   renderCheckbox<K extends keyof State>(k: K, disabled?: boolean): JSX.Element {
     return (
@@ -40,15 +39,9 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
   render() {
     return (
       <>
-        {this.state.mount ? <LoadingPage
-          error={this.state.error}
-          retry={() => {
-            this.setState({ mount: true, error: false });
-          }}
-        /> : page}
+        {this.state.mount ? <LoadingPage2 /> : page}
         <div className="jf-loading-page-devtools">
           {this.renderCheckbox('mount')}
-          {this.renderCheckbox('error', !this.state.mount)}
         </div>
       </>
     );

@@ -202,7 +202,7 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   mutation: HpActionUrgentAndDangerousMutation,
   toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
   renderIntro: () => (
-    <p>If the problems in your apartment are urgent and immediately dangerous to you or your family’s health and safety, you can ask the court to go forward without doing a city inspection first. This means that the city will <strong>not</strong> send someone to inspect the apartment and that you will not get an inspection report. You should know that an inspection report is useful evidence in your case, though.</p>
+    <p>Inspection reports are valuable evidence when it comes to building your case, and we strongly suggest completing a city inspection. However, if the issues in your apartment are urgent and immediately dangerous, you can ask the court to go forward without inspection.</p>
   ),
   renderForm: (ctx) => <>
     <YesNoRadiosFormField

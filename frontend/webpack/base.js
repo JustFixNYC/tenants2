@@ -9,7 +9,6 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const { getEnvBoolean } = require('./env-util');
 
@@ -70,7 +69,6 @@ const baseBabelOptions = {
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-syntax-dynamic-import",
     "@loadable/babel-plugin",
-    "react-loadable/babel"
   ]
 };
 
@@ -192,10 +190,6 @@ function createNodeScriptConfig(entry, filename) {
  */
 function getWebPlugins() {
   const plugins = getCommonPlugins();
-
-  plugins.push(new ReactLoadablePlugin({
-    filename: 'react-loadable.json'
-  }));
 
   plugins.push(new LoadablePlugin({
     filename: path.join(BASE_DIR, 'loadable-stats.json'),

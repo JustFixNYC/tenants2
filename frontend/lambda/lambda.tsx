@@ -12,23 +12,16 @@ import 'source-map-support/register'
 // we import are sent to stderr.
 import './redirect-console-to-stderr';
 
-import fs from 'fs';
-import { promisify } from 'util';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import Loadable, { LoadableCaptureProps } from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack';
 import Helmet from 'react-helmet';
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
-
-const readFile = promisify(fs.readFile);
-
-const loadablePreloaded = Loadable.preloadAll();
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -43,14 +36,14 @@ export interface LambdaResponse {
   /** Additional <meta> tags for the initial render of the page. */
   metaTags: string;
 
-  /** The HTTP status code of the page. */
-  status: number;
-
   /**
-   * Names of all JS bundles to include in the HTML output
+   * Script tags for all JS bundles to include in the HTML output
    * (including the main bundle).
    */
-  bundleFiles: string[];
+  scriptTags: string;
+
+  /** The HTTP status code of the page. */
+  status: number;
 
   /** The pre-rendered modal to show, if any. */
   modalHtml: string;
@@ -93,14 +86,14 @@ function ServerRouter(props: { event: AppProps, context: AppStaticContext, child
 function renderAppHtml(
   event: AppProps,
   context: AppStaticContext,
-  loadableProps: LoadableCaptureProps
+  extractor: ChunkExtractor
 ): string {
   return ReactDOMServer.renderToString(
-    <Loadable.Capture {...loadableProps}>
+    <ChunkExtractorManager extractor={extractor}>
       <ServerRouter event={event} context={context}>
         <App {...event} />
       </ServerRouter>
-    </Loadable.Capture>
+    </ChunkExtractorManager>
   );
 }
 
@@ -116,28 +109,19 @@ export function getBundleFiles(files: { file: string }[]): string[] {
  * HTML for the requested URL.
  * 
  * @param event The request.
- * @param bundleStats Statistics on what modules exist in which JS bundles, for
- *   lazy loading purposes.
  */
-function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResponse> {
+function generateResponse(event: AppProps): Promise<LambdaResponse> {
   i18n.initialize(event.locale);
   return new Promise<LambdaResponse>(resolve => {
     const context: AppStaticContext = {
       statusCode: 200,
     };
-    const modules: string[] = [];
-
-    /* istanbul ignore next */
-    const loadableProps: LoadableCaptureProps = {
-      report(moduleName) { modules.push(moduleName) }
-    };
-
-    const html = renderAppHtml(event, context, loadableProps);
+    const extractor = new ChunkExtractor({
+      statsFile: './loadable-stats.json',
+      publicPath: event.server.webpackPublicPathURL
+    });
+    const html = renderAppHtml(event, context, extractor);
     const helmet = Helmet.renderStatic();
-    const bundleFiles = getBundleFiles(getBundles(bundleStats, modules)).concat([
-      // This is the filename of the main bundle.
-      bundleStats['undefined'][0].file
-    ]);
     let modalHtml = '';
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(
@@ -155,8 +139,8 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
       html,
       titleTag: helmet.title.toString(),
       metaTags: helmet.meta.toString(),
+      scriptTags: extractor.getScriptTags(),
       status: context.statusCode,
-      bundleFiles,
       modalHtml,
       location,
       traceback: null,
@@ -164,9 +148,6 @@ function generateResponse(event: AppProps, bundleStats: any): Promise<LambdaResp
     });
   });
 }
-
-const loadableStats = readFile('react-loadable.json', { encoding: 'utf-8' })
-  .then(data => JSON.parse(data));
 
 /**
  * This is a handler for serverless environments that,
@@ -177,15 +158,11 @@ const loadableStats = readFile('react-loadable.json', { encoding: 'utf-8' })
  * @param event The initial properties for our app.
  */
 async function baseHandler(event: EventProps): Promise<LambdaResponse> {
-  await loadablePreloaded;
-
-  const stats = await loadableStats;
-
   if (event.testInternalServerError) {
     throw new Error('Testing internal server error');
   }
 
-  return generateResponse(event, stats);
+  return generateResponse(event);
 }
 
 /**
@@ -206,8 +183,8 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       html,
       titleTag: helmet.title.toString(),
       metaTags: helmet.meta.toString(),
+      scriptTags: '',
       status: 500,
-      bundleFiles: [],
       modalHtml: '',
       location: null,
       traceback: error.stack,

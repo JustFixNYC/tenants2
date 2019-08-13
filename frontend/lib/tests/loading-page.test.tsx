@@ -1,25 +1,19 @@
 import React from 'react';
-import Loadable, { LoadableComponent } from 'react-loadable';
 import { MemoryRouter, Route } from 'react-router';
 
-import { LoadingPage, LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS } from "../loading-page";
+import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage2 } from "../loading-page";
 import { shallow, mount } from 'enzyme';
 import { AppTesterPal } from './app-tester-pal';
 import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
+import loadable from '@loadable/component';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 
-// This used to be actual library code, but it seems react-loadable has some kind of
-// static analysis to determine bundle pre-loading which breaks when we abstract
-// things out like this, so we'll just make it part of the test suite I guess.
 function createLoadablePage<Props>(
   loader: ImportPromiseFunc<Props>
-): React.ComponentType<Props> & LoadableComponent {
-  return Loadable({
-    loader,
-    loading: LoadingPage
-  });
+): React.ComponentType<Props> {
+  return loadable(loader, {fallback: <LoadingPage2/>});
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});

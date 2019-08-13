@@ -1,8 +1,7 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 import Routes, { routeMap } from "./routes";
 import { Switch, Route, Redirect } from "react-router";
-import { friendlyLoad, LoadingPage } from './loading-page';
+import { friendlyLoad, LoadingPage2 } from './loading-page';
 import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
@@ -13,33 +12,28 @@ import ExampleRadioPage from './pages/example-radio-page';
 import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results';
 import loadable from '@loadable/component';
 
-const LoadableExamplePage2 = loadable(() => import('./pages/example-loadable-page-2'), {
-  fallback: <div>LOADING</div>
+const LoadableExamplePage2 = loadable(() => friendlyLoad(import('./pages/example-loadable-page-2')), {
+  fallback: <LoadingPage2 />
 });
 
-const LoadableExamplePage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
-  loading: LoadingPage
+const LoadableExamplePage = loadable(() => friendlyLoad(import('./pages/example-loadable-page')), {
+  fallback: <LoadingPage2 />
 });
 
-const LoadableExampleFormPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
-  loading: LoadingPage
+const LoadableExampleFormPage = loadable(() => friendlyLoad(import('./pages/example-form-page')), {
+  fallback: <LoadingPage2 />
 });
 
-const LoadableExampleModalPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
-  loading: LoadingPage
+const LoadableExampleModalPage = loadable(() => friendlyLoad(import('./pages/example-modal-page')), {
+  fallback: <LoadingPage2 />
 });
 
-const LoadableExampleLoadingPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
-  loading: LoadingPage
+const LoadableExampleLoadingPage = loadable(() => friendlyLoad(import('./pages/example-loading-page')), {
+  fallback: <LoadingPage2 />
 });
 
-const LoadableClientSideErrorPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
-  loading: LoadingPage
+const LoadableClientSideErrorPage = loadable(() => friendlyLoad(import('./pages/example-client-side-error-page')), {
+  fallback: <LoadingPage2 />
 });
 
 const DevHome = withAppContext((props: AppContextType): JSX.Element => {

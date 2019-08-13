@@ -81,6 +81,17 @@ export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
   );
 }
 
+export function LoadingPage2(props: {}): JSX.Element {
+  return (
+    <Page title="Loading...">
+      <h1 className="jf-sr-only">Loading...</h1>
+      <LoadingPageContext.Consumer>
+        {(ctx) => <LoadingPageSignaler {...ctx} />}
+      </LoadingPageContext.Consumer>
+    </Page>
+  );
+}
+
 /**
  * This is a trivial component that just informs us that a
  * resource is being loaded for the duration of the component's

@@ -234,6 +234,7 @@ const Routes = {
       formInModal: '/dev/examples/form/in-modal',
       radio: '/dev/examples/radio',
       loadable: '/dev/examples/loadable-page',
+      loadable2: '/dev/examples/loadable-page-2',
       clientSideError: '/dev/examples/client-side-error',
       metaTag: '/dev/examples/meta-tag',
       query: '/dev/examples/query'

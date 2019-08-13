@@ -20,7 +20,6 @@ staticfiles/
 mediafiles/
 frontend/lib/queries/__generated__/
 frontend/lib/queries/*.ts
-react-loadable.json
 loadable-stats.json
 .DS_Store
 hp-action.pdf

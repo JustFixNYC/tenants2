@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LoadingPage } from '../loading-page';
+import { LoadingPage2 } from '../loading-page';
 import Page from '../page';
 
 interface State {
@@ -39,7 +39,7 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
   render() {
     return (
       <>
-        {this.state.mount ? <LoadingPage /> : page}
+        {this.state.mount ? <LoadingPage2 /> : page}
         <div className="jf-loading-page-devtools">
           {this.renderCheckbox('mount')}
         </div>

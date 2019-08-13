@@ -4,14 +4,14 @@ import { Route } from 'react-router';
 import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
 import { AllSessionInfo_onboardingInfo } from "./queries/AllSessionInfo";
 import { getSignupIntentOnboardingInfo } from './routes';
-import { friendlyLoad, LoadingPage } from './loading-page';
+import { friendlyLoad, LoadingPage2 } from './loading-page';
 import loadable from '@loadable/component';
 
 /** The default assumed intent if none is explicitly provided. */
 export const DEFAULT_SIGNUP_INTENT_CHOICE = OnboardingInfoSignupIntent.LOC;
 
 const LoadableOnboardingRoutes = loadable(() => friendlyLoad(import('./onboarding')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 export function signupIntentFromOnboardingInfo(onboardingInfo: AllSessionInfo_onboardingInfo|null): OnboardingInfoSignupIntent {

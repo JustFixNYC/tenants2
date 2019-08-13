@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
+import { friendlyLoad, LoadingOverlayManager, LoadingPage2 } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -70,31 +70,31 @@ interface AppState {
 }
 
 const LoadableDataDrivenOnboardingRoutes = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 const LoadableIndexPage = loadable(() => friendlyLoad(import('./pages/index-page')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 const LoadablePasswordResetRoutes = loadable(() => friendlyLoad(import('./pages/password-reset')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./letter-of-complaint')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev')), {
-  fallback: <LoadingPage/>
+  fallback: <LoadingPage2/>
 });
 
 const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/data-requests')), {
-  fallback: <LoadingPage />
+  fallback: <LoadingPage2 />
 });
 
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {

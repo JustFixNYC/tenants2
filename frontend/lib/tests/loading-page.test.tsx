@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
 
-import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage } from "../loading-page";
+import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage2 } from "../loading-page";
 import { shallow, mount } from 'enzyme';
 import { AppTesterPal } from './app-tester-pal';
 import { assertNotNull } from '../util';
@@ -13,7 +13,7 @@ type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Pro
 function createLoadablePage<Props>(
   loader: ImportPromiseFunc<Props>
 ): React.ComponentType<Props> {
-  return loadable(loader, {fallback: <LoadingPage/>});
+  return loadable(loader, {fallback: <LoadingPage2/>});
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});

@@ -12,6 +12,7 @@ import 'source-map-support/register'
 // we import are sent to stderr.
 import './redirect-console-to-stderr';
 
+import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
@@ -22,6 +23,8 @@ import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
+
+const MY_DIR = path.resolve(path.join(path.dirname(__filename), '..', '..'));
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -97,13 +100,6 @@ function renderAppHtml(
   );
 }
 
-export function getBundleFiles(files: { file: string }[]): string[] {
-  const SOURCE_MAP_RE = /.+\.js\.map$/;
-  return files
-    .filter(bundle => !SOURCE_MAP_RE.test(bundle.file))
-    .map(bundle => bundle.file);
-}
-
 /**
  * Generate the response for a given handler request, including the initial
  * HTML for the requested URL.
@@ -117,7 +113,7 @@ function generateResponse(event: AppProps): Promise<LambdaResponse> {
       statusCode: 200,
     };
     const extractor = new ChunkExtractor({
-      statsFile: './loadable-stats.json',
+      statsFile: path.join(MY_DIR, 'loadable-stats.json'),
       publicPath: event.server.webpackPublicPathURL
     });
     const html = renderAppHtml(event, context, extractor);
@@ -171,6 +167,7 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  */
 export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
+    console.log("ARGHHHETRWHER", error);
     const html = ReactDOMServer.renderToStaticMarkup(
       <ErrorDisplay
         debug={event.server.debug}

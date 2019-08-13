@@ -10,6 +10,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 const { getEnvBoolean } = require('./env-util');
 
 /** Are we in watch mode, or are we being run as a one-off process? */
@@ -193,6 +194,11 @@ function getWebPlugins() {
 
   plugins.push(new ReactLoadablePlugin({
     filename: 'react-loadable.json'
+  }));
+
+  plugins.push(new LoadablePlugin({
+    filename: path.join(BASE_DIR, 'loadable-stats.json'),
+    writeToDisk: true
   }));
 
   if (!DISABLE_WEBPACK_ANALYZER) {

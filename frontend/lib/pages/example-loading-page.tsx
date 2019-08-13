@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LoadingPage } from '../loading-page';
+import { LoadingPageWithRetry } from '../loading-page';
 import Page from '../page';
 
 interface State {
@@ -40,7 +40,7 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
   render() {
     return (
       <>
-        {this.state.mount ? <LoadingPage
+        {this.state.mount ? <LoadingPageWithRetry
           error={this.state.error}
           retry={() => {
             this.setState({ mount: true, error: false });

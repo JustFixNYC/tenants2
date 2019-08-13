@@ -1,7 +1,7 @@
 import React from 'react';
 import Routes, { routeMap } from "./routes";
 import { Switch, Route, Redirect } from "react-router";
-import { friendlyLoad, LoadingPage2 } from './loading-page';
+import { friendlyLoad, LoadingPage } from './loading-page';
 import { Link } from 'react-router-dom';
 import Page from './page';
 import { withAppContext, AppContextType } from './app-context';
@@ -13,27 +13,27 @@ import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results'
 import loadable from '@loadable/component';
 
 const LoadableExamplePage2 = loadable(() => friendlyLoad(import('./pages/example-loadable-page-2')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const LoadableExamplePage = loadable(() => friendlyLoad(import('./pages/example-loadable-page')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const LoadableExampleFormPage = loadable(() => friendlyLoad(import('./pages/example-form-page')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const LoadableExampleModalPage = loadable(() => friendlyLoad(import('./pages/example-modal-page')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const LoadableExampleLoadingPage = loadable(() => friendlyLoad(import('./pages/example-loading-page')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const LoadableClientSideErrorPage = loadable(() => friendlyLoad(import('./pages/example-client-side-error-page')), {
-  fallback: <LoadingPage2 />
+  fallback: <LoadingPage />
 });
 
 const DevHome = withAppContext((props: AppContextType): JSX.Element => {

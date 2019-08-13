@@ -63,7 +63,7 @@ export const LoadingPageContext = React.createContext<LoadingPageContextType>(Nu
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
+export function LoadingPageWithRetry(props: MinimalLoadingComponentProps): JSX.Element {
   if (props.error) {
     return (<Page title="Network error">
       <p>Unfortunately, a network error occurred.</p>
@@ -71,17 +71,13 @@ export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
       <button className="button" onClick={props.retry}>Retry</button>
     </Page>);
   }
-  return (
-    <Page title="Loading...">
-      <h1 className="jf-sr-only">Loading...</h1>
-      <LoadingPageContext.Consumer>
-        {(ctx) => <LoadingPageSignaler {...ctx} />}
-      </LoadingPageContext.Consumer>
-    </Page>
-  );
+  return <LoadingPage />;
 }
 
-export function LoadingPage2(props: {}): JSX.Element {
+/**
+ * A loading page interstitial.
+ */
+export function LoadingPage(props: {}): JSX.Element {
   return (
     <Page title="Loading...">
       <h1 className="jf-sr-only">Loading...</h1>

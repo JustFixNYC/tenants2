@@ -61,7 +61,7 @@ export const LoadingPageContext = React.createContext<LoadingPageContextType>(Nu
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage2(props: {}): JSX.Element {
+export function LoadingPage(props: {}): JSX.Element {
   return (
     <Page title="Loading...">
       <h1 className="jf-sr-only">Loading...</h1>

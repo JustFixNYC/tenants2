@@ -24,8 +24,6 @@ import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
 
-const MY_DIR = path.resolve(path.join(path.dirname(__filename), '..', '..'));
-
 /**
  * This is the structure that our lambda returns to clients.
  */
@@ -113,7 +111,7 @@ function generateResponse(event: AppProps): Promise<LambdaResponse> {
       statusCode: 200,
     };
     const extractor = new ChunkExtractor({
-      statsFile: path.join(MY_DIR, 'loadable-stats.json'),
+      statsFile: path.join(process.cwd(), 'loadable-stats.json'),
       publicPath: event.server.webpackPublicPathURL
     });
     const html = renderAppHtml(event, context, extractor);
@@ -167,7 +165,6 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  */
 export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
-    console.log("ARGHHHETRWHER", error);
     const html = ReactDOMServer.renderToStaticMarkup(
       <ErrorDisplay
         debug={event.server.debug}

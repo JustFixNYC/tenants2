@@ -261,8 +261,10 @@ def react_rendered_view(request):
         lambda_response = run_react_lambda(initial_props)
         render_time += lambda_response.render_time
 
+    script_tags = lambda_response.script_tags
     if lambda_response.status == 500:
         logger.error(lambda_response.traceback)
+        script_tags = ''
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
@@ -273,7 +275,7 @@ def react_rendered_view(request):
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
         'meta_tags': lambda_response.meta_tags,
-        'script_tags': lambda_response.script_tags,
+        'script_tags': script_tags,
         'initial_props': initial_props,
     }, status=lambda_response.status)
 

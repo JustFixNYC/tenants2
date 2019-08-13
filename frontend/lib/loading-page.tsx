@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { smoothlyScrollToTopOfPage } from './scrolling';
+import { MinimalLoadingComponentProps } from './loading-component-props';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -56,11 +57,30 @@ const NullLoadingPageContext: LoadingPageContextType = {
 export const LoadingPageContext = React.createContext<LoadingPageContextType>(NullLoadingPageContext);
 
 /**
- * A loading page interstitial.
+ * A loading page interstitial, which also presents a retry UI in the case
+ * of network errors.
  * 
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
+export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
+  if (props.error) {
+    return (<Page title="Network error">
+      <p>Unfortunately, a network error occurred.</p>
+      <br />
+      <button className="button" onClick={props.retry}>Retry</button>
+    </Page>);
+  }
+  return (
+    <Page title="Loading...">
+      <h1 className="jf-sr-only">Loading...</h1>
+      <LoadingPageContext.Consumer>
+        {(ctx) => <LoadingPageSignaler {...ctx} />}
+      </LoadingPageContext.Consumer>
+    </Page>
+  );
+}
+
 export function LoadingPage2(props: {}): JSX.Element {
   return (
     <Page title="Loading...">

@@ -52,8 +52,18 @@ export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper, ro
   return { wrapper, routerContext };
 }
 
+/** Wait for the given number of milliseconds. */
 export function pause(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Waits for a few milliseconds as a workaround to a bug in react-aria-modal:
+ * 
+ * https://github.com/davidtheclark/focus-trap-react/issues/24#issuecomment-431424268
+ */
+export function pauseForModalFocus(): Promise<void> {
+  return pause(10);
 }
 
 export const FakeServerInfo: Readonly<AppServerInfo> = {

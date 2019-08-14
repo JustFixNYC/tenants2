@@ -4,7 +4,7 @@ import { AppTesterPal } from '../../tests/app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
 import { LetterRequestMailChoice, LetterRequestInput } from '../../queries/globalTypes';
-import { pause } from '../../tests/util';
+import { pauseForModalFocus } from '../../tests/util';
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
@@ -45,8 +45,7 @@ describe('landlord details page', () => {
     pal.clickButtonOrLink(/looks good to me/i);
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
 
-    // This is a workaround for https://github.com/davidtheclark/focus-trap-react/issues/24.
-    await pause(10);
+    await pauseForModalFocus();
 
     clickButtonAndExpectChoice(pal, /mail my letter/i, LetterRequestMailChoice.WE_WILL_MAIL);
   });

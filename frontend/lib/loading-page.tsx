@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { smoothlyScrollToTopOfPage } from './scrolling';
-import { MinimalLoadingComponentProps } from './loading-component-props';
+import { RetryableLoadingComponentProps } from './loading-component-props';
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -63,7 +63,7 @@ export const LoadingPageContext = React.createContext<LoadingPageContextType>(Nu
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
+export function LoadingPageWithRetry(props: RetryableLoadingComponentProps): JSX.Element {
   if (props.error) {
     return (<Page title="Network error">
       <p>Unfortunately, a network error occurred.</p>
@@ -71,6 +71,13 @@ export function LoadingPage(props: MinimalLoadingComponentProps): JSX.Element {
       <button className="button" onClick={props.retry}>Retry</button>
     </Page>);
   }
+  return <LoadingPage />;
+}
+
+/**
+ * A loading page interstitial.
+ */
+export function LoadingPage(props: {}): JSX.Element {
   return (
     <Page title="Loading...">
       <h1 className="jf-sr-only">Loading...</h1>
@@ -132,7 +139,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
   }
 
   /**
-   * This is really tricky: because of the way react-router and react-loadable work,
+   * This is really tricky: because of the way react-router and loadable-components work,
    * it's very hard to know when we'll need a loading transition to occur. By
    * the time we do know, the old page that we want to transition from has
    * actually disappeared!

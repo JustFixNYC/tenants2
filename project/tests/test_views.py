@@ -1,4 +1,3 @@
-import re
 from unittest.mock import patch
 import pytest
 from django.urls import reverse
@@ -73,7 +72,7 @@ def test_invalid_post_returns_400(client):
 
 # HTML we know will appear in pages only when safe mode is enabled/disabled.
 SAFE_MODE_ENABLED_SENTINEL = "navbar-menu is-active"
-SAFE_MODE_DISABLED_SENTINEL = '<script src="/static/frontend/main'
+SAFE_MODE_DISABLED_SENTINEL = 'src="/static/frontend/main'
 
 
 def test_index_works_when_not_in_safe_mode(client):
@@ -117,15 +116,10 @@ def test_pages_with_redirects_work(client):
 def test_pages_with_extra_bundles_work(client):
     response = client.get('/dev/examples/loadable-page')
     assert response.status_code == 200
-    unhashed_bundle_urls = [
-        re.sub(r'\.([0-9a-f]+)\.bundle\.js', '.bundle.js', url)
-        for url in response.context['bundle_urls']
-    ]
-    assert unhashed_bundle_urls == [
-        '/static/frontend/dev.bundle.js',
-        '/static/frontend/example-loadable-page.bundle.js',
-        '/static/frontend/main.bundle.js'
-    ]
+    script_tags = response.context['script_tags']
+    assert 'src="/static/frontend/dev.' in script_tags
+    assert 'src="/static/frontend/pages-example-loadable-page.' in script_tags
+    assert 'src="/static/frontend/main.' in script_tags
 
 
 def test_pages_with_meta_tags_work(client):
@@ -163,7 +157,7 @@ def test_404_works(client):
 def test_500_works(client):
     response = client.get(react_url('/'))
     assert response.status_code == 500
-    assert response.context['bundle_urls'] == []
+    assert response.context['script_tags'] == ''
 
 
 def test_fix_newlines_works():

@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import List
 import json
 import requests
 from django.core.management.base import BaseCommand, CommandError
@@ -7,7 +7,7 @@ from django.conf import settings
 from project.justfix_environment import BASE_DIR
 from project.views import get_webpack_public_path_url
 
-REACT_LOADABLE_JSON = BASE_DIR / 'react-loadable.json'
+LOADABLE_STATS_JSON = BASE_DIR / 'loadable-stats.json'
 
 # https://docs.rollbar.com/docs/source-maps/#section-alternative-method-automatic-download
 ROLLBAR_SOURCEMAP_URL = "https://api.rollbar.com/api/1/sourcemap/download"
@@ -15,14 +15,10 @@ ROLLBAR_SOURCEMAP_URL = "https://api.rollbar.com/api/1/sourcemap/download"
 
 def get_bundle_urls() -> List[str]:
     webpack_public_path_url = get_webpack_public_path_url()
-    react_loadable = json.loads(REACT_LOADABLE_JSON.read_text())
-    filenames: Set[str] = set()
-    for info_list in react_loadable.values():
-        for info in info_list:
-            filenames.add(info['publicPath'])
+    loadable_stats = json.loads(LOADABLE_STATS_JSON.read_text())
     return [
         f"{webpack_public_path_url}{filename}"
-        for filename in filenames
+        for filename in loadable_stats["assetsByChunkName"].values()
     ]
 
 

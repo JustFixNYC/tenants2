@@ -1,5 +1,4 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 import Routes, { routeMap } from "./routes";
 import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from './loading-page';
@@ -11,30 +10,26 @@ import { QueryLoader } from './query-loader';
 import { ExampleQuery } from './queries/ExampleQuery';
 import ExampleRadioPage from './pages/example-radio-page';
 import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results';
+import loadable from '@loadable/component';
 
-const LoadableExamplePage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loadable-page" */ './pages/example-loadable-page')),
-  loading: LoadingPage
+const LoadableExamplePage = loadable(() => friendlyLoad(import('./pages/example-loadable-page')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableExampleFormPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-form-page" */ './pages/example-form-page')),
-  loading: LoadingPage
+const LoadableExampleFormPage = loadable(() => friendlyLoad(import('./pages/example-form-page')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableExampleModalPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-modal-page" */ './pages/example-modal-page')),
-  loading: LoadingPage
+const LoadableExampleModalPage = loadable(() => friendlyLoad(import('./pages/example-modal-page')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableExampleLoadingPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-loading-page" */ './pages/example-loading-page')),
-  loading: LoadingPage
+const LoadableExampleLoadingPage = loadable(() => friendlyLoad(import('./pages/example-loading-page')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableClientSideErrorPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "example-client-side-error-page" */ './pages/example-client-side-error-page')),
-  loading: LoadingPage
+const LoadableClientSideErrorPage = loadable(() => friendlyLoad(import('./pages/example-client-side-error-page')), {
+  fallback: <LoadingPage />
 });
 
 const DevHome = withAppContext((props: AppContextType): JSX.Element => {

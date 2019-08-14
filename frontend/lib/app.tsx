@@ -2,14 +2,14 @@ import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
 import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
-import Loadable from 'react-loadable';
+import loadable, { loadableReady } from '@loadable/component';
 
 import GraphQlClient from './graphql-client';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { NotFound } from './pages/not-found';
-import { LoadingPage, friendlyLoad, LoadingOverlayManager } from "./loading-page";
+import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
@@ -69,39 +69,32 @@ interface AppState {
   session: AllSessionInfo;
 }
 
-const LoadableDataDrivenOnboardingRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "data-driven-onbarding" */ './pages/data-driven-onboarding')),
-  loading: LoadingPage
+const LoadableDataDrivenOnboardingRoutes = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableIndexPage = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "index-page" */ './pages/index-page')),
-  loading: LoadingPage
+const LoadableIndexPage = loadable(() => friendlyLoad(import('./pages/index-page')), {
+  fallback: <LoadingPage />
 });
 
-const LoadablePasswordResetRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "password-reset" */ './pages/password-reset')),
-  loading: LoadingPage
+const LoadablePasswordResetRoutes = loadable(() => friendlyLoad(import('./pages/password-reset')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableLetterOfComplaintRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "letter-of-complaint" */ './letter-of-complaint')),
-  loading: LoadingPage
+const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./letter-of-complaint')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableHPActionRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "hp-action" */ './hp-action')),
-  loading: LoadingPage
+const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')), {
+  fallback: <LoadingPage />
 });
 
-const LoadableDevRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "dev" */ './dev')),
-  loading: LoadingPage
+const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev')), {
+  fallback: <LoadingPage/>
 });
 
-const LoadableDataRequestsRoutes = Loadable({
-  loader: () => friendlyLoad(import(/* webpackChunkName: "data-requests" */ './pages/data-requests')),
-  loading: LoadingPage
+const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/data-requests')), {
+  fallback: <LoadingPage />
 });
 
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
@@ -310,10 +303,8 @@ export function startApp(container: Element, initialProps: AppProps) {
   if (container.children.length) {
     // Initial content has been generated server-side, so preload any
     // necessary JS bundles and bind to the DOM.
-    Loadable.preloadReady().then(() => {
+    loadableReady(() => {
       ReactDOM.hydrate(el, container);
-    }).catch(e => {
-      window.alert("Loadable.preloadReady() failed!");
     });
   } else {
     // No initial content was provided, so generate a DOM from scratch.

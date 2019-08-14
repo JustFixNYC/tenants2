@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, Route } from 'react-router';
 import { AppContextType, AppContext } from './app-context';
 import autobind from 'autobind-decorator';
-import { MinimalLoadingComponentProps } from './loading-component-props';
+import { RetryableLoadingComponentProps } from './loading-component-props';
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from './query-loader-prefetcher';
 
 export interface QueryLoaderProps<Input, Output> {
@@ -22,7 +22,7 @@ export interface QueryLoaderProps<Input, Output> {
    * The component that will be shown while the query is loading,
    * or if an error occurs.
    */
-  loading: React.ComponentType<MinimalLoadingComponentProps>
+  loading: React.ComponentType<RetryableLoadingComponentProps>
 }
 
 type Props<Input, Output> = QueryLoaderProps<Input, Output> & RouteComponentProps & AppContextType;

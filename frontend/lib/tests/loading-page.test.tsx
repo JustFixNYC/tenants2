@@ -1,29 +1,35 @@
 import React from 'react';
-import Loadable, { LoadableComponent } from 'react-loadable';
 import { MemoryRouter, Route } from 'react-router';
 
-import { LoadingPage, LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS } from "../loading-page";
+import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage, LoadingPageWithRetry } from "../loading-page";
 import { shallow, mount } from 'enzyme';
 import { AppTesterPal } from './app-tester-pal';
 import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
+import loadable from '@loadable/component';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 
-// This used to be actual library code, but it seems react-loadable has some kind of
-// static analysis to determine bundle pre-loading which breaks when we abstract
-// things out like this, so we'll just make it part of the test suite I guess.
 function createLoadablePage<Props>(
   loader: ImportPromiseFunc<Props>
-): React.ComponentType<Props> & LoadableComponent {
-  return Loadable({
-    loader,
-    loading: LoadingPage
-  });
+): React.ComponentType<Props> {
+  return loadable(loader, {fallback: <LoadingPage/>});
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});
 const nextTick = () => new Promise((resolve) => process.nextTick(resolve));
+
+describe('LoadingPageWithRetry', () => {
+  it('renders error page', async () => {
+    const page = mount(
+      <MemoryRouter>
+        <LoadingPageWithRetry error={true} retry={() => {}} />
+      </MemoryRouter>
+    );
+    await nextTick();
+    expect(page.update().html()).toContain('network error');
+  });
+});
 
 describe('LoadingPage', () => {
   it('renders loading screen', () => {
@@ -34,18 +40,6 @@ describe('LoadingPage', () => {
       </MemoryRouter>
     );
     expect(page.html()).toContain('Loading');
-  });
-
-  it('renders error page', async () => {
-    const fakeImportFn = () => Promise.reject(new Error('blah'));
-    const LoadablePage = createLoadablePage(fakeImportFn as any);
-    const page = mount(
-      <MemoryRouter>
-        <LoadablePage />
-      </MemoryRouter>
-    );
-    await nextTick();
-    expect(page.update().html()).toContain('network error');
   });
 });
 

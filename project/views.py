@@ -61,8 +61,8 @@ class LambdaResponse(NamedTuple):
     html: SafeString
     title_tag: SafeString
     meta_tags: SafeString
+    script_tags: SafeString
     status: int
-    bundle_files: List[str]
     modal_html: SafeString
     location: Optional[str]
     traceback: Optional[str]
@@ -115,8 +115,8 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         modal_html=SafeString(response['modalHtml']),
         title_tag=SafeString(response['titleTag']),
         meta_tags=SafeString(response['metaTags']),
+        script_tags=SafeString(response['scriptTags']),
         status=response['status'],
-        bundle_files=response['bundleFiles'],
         location=response['location'],
         traceback=response['traceback'],
         graphql_query_to_prefetch=pf,
@@ -261,15 +261,10 @@ def react_rendered_view(request):
         lambda_response = run_react_lambda(initial_props)
         render_time += lambda_response.render_time
 
-    bundle_files = lambda_response.bundle_files
-    bundle_urls = [
-        f'{webpack_public_path_url}{bundle_file}'
-        for bundle_file in bundle_files
-    ]
+    script_tags = lambda_response.script_tags
     if lambda_response.status == 500:
-        # It's a 500 error page, don't include any client-side JS.
-        bundle_urls = []
         logger.error(lambda_response.traceback)
+        script_tags = ''
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
@@ -280,7 +275,7 @@ def react_rendered_view(request):
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
         'meta_tags': lambda_response.meta_tags,
-        'bundle_urls': bundle_urls,
+        'script_tags': script_tags,
         'initial_props': initial_props,
     }, status=lambda_response.status)
 

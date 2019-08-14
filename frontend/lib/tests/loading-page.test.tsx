@@ -7,12 +7,13 @@ import { AppTesterPal } from './app-tester-pal';
 import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
 import loadable from '@loadable/component';
+import { HelmetProvider } from 'react-helmet-async';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 
 function createLoadablePage<Props>(
   loader: ImportPromiseFunc<Props>
-): React.ComponentType<Props> {
+) {
   return loadable(loader, {fallback: <LoadingPage/>});
 }
 
@@ -22,9 +23,11 @@ const nextTick = () => new Promise((resolve) => process.nextTick(resolve));
 describe('LoadingPageWithRetry', () => {
   it('renders error page', async () => {
     const page = mount(
-      <MemoryRouter>
-        <LoadingPageWithRetry error={true} retry={() => {}} />
-      </MemoryRouter>
+      <HelmetProvider>
+        <MemoryRouter>
+          <LoadingPageWithRetry error={true} retry={() => {}} />
+        </MemoryRouter>
+      </HelmetProvider>
     );
     await nextTick();
     expect(page.update().html()).toContain('network error');
@@ -35,9 +38,11 @@ describe('LoadingPage', () => {
   it('renders loading screen', () => {
     const LoadablePage = createLoadablePage(fakeForeverImportFn as any);
     const page = shallow(
-      <MemoryRouter>
-        <LoadablePage />
-      </MemoryRouter>
+      <HelmetProvider>
+        <MemoryRouter>
+          <LoadablePage />
+        </MemoryRouter>
+      </HelmetProvider>
     );
     expect(page.html()).toContain('Loading');
   });

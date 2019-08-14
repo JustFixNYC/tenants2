@@ -8,6 +8,7 @@ import { WithServerFormFieldErrors } from '../form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { History } from 'history';
 import { assertNotNull } from '../util';
+import { HelmetProvider } from 'react-helmet-async';
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -96,12 +97,14 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     onRouteComponentProps: (ctx: RouteComponentProps<any>) => void = () => {},
   ): JSX.Element {
     return (
-      <MemoryRouter initialEntries={[options.url]} initialIndex={0} {...options.router}>
-        <AppContext.Provider value={appContext}>
-          <Route render={(ctx) => { onRouteComponentProps(ctx); return null; }} />
-          {el}
-        </AppContext.Provider>
-      </MemoryRouter>
+      <HelmetProvider>
+        <MemoryRouter initialEntries={[options.url]} initialIndex={0} {...options.router}>
+          <AppContext.Provider value={appContext}>
+            <Route render={(ctx) => { onRouteComponentProps(ctx); return null; }} />
+            {el}
+          </AppContext.Provider>
+        </MemoryRouter>
+      </HelmetProvider>
     );
   }
 

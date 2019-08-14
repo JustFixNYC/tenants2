@@ -23,6 +23,7 @@ import { HistoryBlockerManager, getNavigationConfirmation } from './history-bloc
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
 import HelpPage from './pages/help-page';
+import { HelmetProvider } from 'react-helmet-async';
 
 
 export interface AppProps {
@@ -296,9 +297,11 @@ export const App = withRouter(AppWithoutRouter);
 
 export function startApp(container: Element, initialProps: AppProps) {
   const el = (
-    <BrowserRouter getUserConfirmation={getNavigationConfirmation}>
-      <App {...initialProps}/>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter getUserConfirmation={getNavigationConfirmation}>
+        <App {...initialProps}/>
+      </BrowserRouter>
+    </HelmetProvider>
   );
   if (container.children.length) {
     // Initial content has been generated server-side, so preload any

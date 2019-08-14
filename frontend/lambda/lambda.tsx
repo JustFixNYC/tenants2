@@ -16,13 +16,15 @@ import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import Helmet from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
+import { HelmetData } from 'react-helmet';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
 import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
+import { assertNotUndefined } from '../lib/util';
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -65,6 +67,10 @@ export interface LambdaResponse {
   }|null;
 }
 
+type HelmetContext = {
+  helmet?: HelmetData;
+};
+
 /** Our event handler props are a superset of our app props. */
 type EventProps = AppProps & {
   /**
@@ -87,14 +93,17 @@ function ServerRouter(props: { event: AppProps, context: AppStaticContext, child
 function renderAppHtml(
   event: AppProps,
   context: AppStaticContext,
-  extractor: ChunkExtractor
+  extractor: ChunkExtractor,
+  helmetContext: any
 ): string {
   return ReactDOMServer.renderToString(
-    <ChunkExtractorManager extractor={extractor}>
-      <ServerRouter event={event} context={context}>
-        <App {...event} />
-      </ServerRouter>
-    </ChunkExtractorManager>
+    <HelmetProvider context={helmetContext}>
+      <ChunkExtractorManager extractor={extractor}>
+        <ServerRouter event={event} context={context}>
+          <App {...event} />
+        </ServerRouter>
+      </ChunkExtractorManager>
+    </HelmetProvider>
   );
 }
 
@@ -114,8 +123,9 @@ function generateResponse(event: AppProps): Promise<LambdaResponse> {
       statsFile: path.join(process.cwd(), 'loadable-stats.json'),
       publicPath: event.server.webpackPublicPathURL
     });
-    const html = renderAppHtml(event, context, extractor);
-    const helmet = Helmet.renderStatic();
+    const helmetContext: HelmetContext = {};
+    const html = renderAppHtml(event, context, extractor, helmetContext);
+    const helmet = assertNotUndefined(helmetContext.helmet);
     let modalHtml = '';
     if (context.modal) {
       modalHtml = ReactDOMServer.renderToStaticMarkup(
@@ -165,14 +175,17 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  */
 export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
   return baseHandler(event).catch(error => {
+    const helmetContext: HelmetContext = {};
     const html = ReactDOMServer.renderToStaticMarkup(
-      <ErrorDisplay
-        debug={event.server.debug}
-        error={getErrorString(error)}
-        isServerSide={true}
-      />
+      <HelmetProvider context={helmetContext}>
+        <ErrorDisplay
+          debug={event.server.debug}
+          error={getErrorString(error)}
+          isServerSide={true}
+        />
+      </HelmetProvider>
     );
-    const helmet = Helmet.renderStatic();
+    const helmet = assertNotUndefined(helmetContext.helmet);
     return {
       html,
       titleTag: helmet.title.toString(),

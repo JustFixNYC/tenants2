@@ -33,8 +33,8 @@
   },
   "homepage": "https://github.com/justfixnyc/tenants2#readme",
   "devDependencies": {
-    "@testing-library/dom": "5.4.0",
-    "@testing-library/react": "8.0.4",
+    "@testing-library/dom": "6.0.0",
+    "@testing-library/react": "9.1.1",
     "@types/chokidar": "1.7.5",
     "@types/dotenv": "4.0.3",
     "@types/enzyme": "3.1.14",
@@ -52,6 +52,9 @@
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "24.8.0",
     "webpack-bundle-analyzer": "3.3.2"
+  },
+  "resolutions": {
+    "@types/react": "16.8.22"
   },
   "dependencies": {
     "@babel/core": "7.5.0",
@@ -77,9 +80,9 @@
     "@types/loadable__server": "5.9.1",
     "@types/node": "10.12.2",
     "@types/react": "16.8.22",
-    "@types/react-aria-modal": "2.12.1",
-    "@types/react-dom": "16.8.4",
-    "@types/react-helmet": "5.0.7",
+    "@types/react-aria-modal": "2.12.2",
+    "@types/react-dom": "16.8.5",
+    "@types/react-helmet": "5.0.9",
     "@types/react-router-dom": "4.3.3",
     "@types/react-transition-group": "2.0.14",
     "@types/smoothscroll-polyfill": "0.3.0",
@@ -97,9 +100,9 @@
     "isomorphic-fetch": "2.2.1",
     "node-sass": "4.12.0",
     "react": "16.8.6",
-    "react-aria-modal": "3.0.1",
+    "react-aria-modal": "4.0.0",
     "react-dom": "16.8.6",
-    "react-helmet": "5.2.1",
+    "react-helmet-async": "1.0.2",
     "react-router-dom": "5.0.0",
     "react-transition-group": "2.5.0",
     "regenerator-runtime": "0.13.2",

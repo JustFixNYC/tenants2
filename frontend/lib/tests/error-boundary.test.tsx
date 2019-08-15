@@ -1,8 +1,18 @@
 import React from 'react';
-import { mount } from 'enzyme';
 
 import { getErrorString, ErrorBoundary } from '../error-boundary';
+import ReactTestingLibraryPal from './rtl-pal';
+import { HelmetProvider } from 'react-helmet-async';
 
+const ERR_MSG = 'KABOOOOOM';
+
+function KaboomComponent(props: {throwError: boolean}) {
+  if (props.throwError) {
+    throw new Error(ERR_MSG);
+  }
+
+  return null;
+}
 
 test('getErrorString() works', () => {
   expect(getErrorString(null)).toBe('Unknown error');
@@ -12,38 +22,44 @@ test('getErrorString() works', () => {
 });
 
 describe('ErrorBoundary', () => {
-  const ERR_MSG = 'my error';
-  const COMPONENT_STACK = 'my component stack';
+  afterEach(ReactTestingLibraryPal.cleanup);
 
   const simulateError = (props: { debug: boolean }) => {
-    // We can't easily test the exception-catching ability of this right now:
-    // https://github.com/airbnb/enzyme/issues/1255
+    const oldError = window.console.error;
 
-    const boundary = mount(<ErrorBoundary {...props}>boop</ErrorBoundary>);
-    const instance = boundary.instance();
-    if (!instance.componentDidCatch) {
-      throw new Error('expected error boundary to have componentDidCatch method');
-    }
-    instance.componentDidCatch(new Error(ERR_MSG), {
-      componentStack: COMPONENT_STACK
-    });
-    return boundary;
+    window.console.error = (...args: any[]) => {
+      const firstArg = args[0];
+      if (typeof(firstArg) === 'string' && (firstArg.includes(ERR_MSG) || firstArg.includes(KaboomComponent.name))) {
+        return;
+      }
+      oldError(...args);
+    };
+
+    const pal = new ReactTestingLibraryPal(
+      <HelmetProvider>
+        <ErrorBoundary {...props}><KaboomComponent throwError /></ErrorBoundary>
+      </HelmetProvider>
+    );
+
+    window.console.error = oldError;
+
+    return pal.rr.baseElement.innerHTML;
   };
 
   it('renders children', () => {
-    const boundary = mount(<ErrorBoundary debug={false}><p>hi</p></ErrorBoundary>);
-    expect(boundary.html()).toContain('hi');
+    const pal = new ReactTestingLibraryPal(<ErrorBoundary debug={false}><p>hi</p></ErrorBoundary>);
+    pal.rr.getByText('hi');
   });
 
   it('shows error details when debug is true', () => {
-    const html = simulateError({ debug: true }).html();
+    const html = simulateError({ debug: true });
     expect(html).toContain(ERR_MSG);
-    expect(html).toContain(COMPONENT_STACK);
+    expect(html).toContain(KaboomComponent.name);
   });
 
   it('does not show error details when debug is false', () => {
-    const html = simulateError({ debug: false }).html();
+    const html = simulateError({ debug: false });
     expect(html).not.toContain(ERR_MSG);
-    expect(html).not.toContain(COMPONENT_STACK);
+    expect(html).not.toContain(KaboomComponent.name);
   });
 });

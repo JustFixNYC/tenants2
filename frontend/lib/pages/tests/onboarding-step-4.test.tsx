@@ -5,6 +5,7 @@ import { AppTesterPal } from '../../tests/app-tester-pal';
 import { Switch, Route } from 'react-router';
 import Routes from '../../routes';
 import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
+import { pauseForModalFocus } from '../../tests/util';
 
 const PROPS = {
   routes: Routes.locale.onboarding,
@@ -34,5 +35,6 @@ describe('onboarding step 4 page', () => {
 
     pal.clickButtonOrLink(/terms/i);
     pal.getDialogWithLabel(/Your privacy is very/i);
+    await pauseForModalFocus();
   });
 });

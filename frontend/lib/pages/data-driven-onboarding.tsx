@@ -17,6 +17,8 @@ const BASE_TITLE = "Data-driven onboarding";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
+const SHOW_PLACEHOLDER_IMG = process.env.NODE_ENV !== 'production';
+
 const PLACEHOLDER_IMG = 'frontend/img/96x96.png';
 
 const MAX_RECOMMENDED_ACTIONS = 3;
@@ -299,7 +301,7 @@ function compareActionCardProps(a: ActionCardProps, b: ActionCardProps): number 
 
 function getSortedActionCards(data: DDOData): { recommended: ActionCardProps[], other: ActionCardProps[] } {
   const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(data)).map(props => (
-    props.imageStaticURL ? props : {...props, imageStaticURL: PLACEHOLDER_IMG}
+    props.imageStaticURL ? props : {...props, imageStaticURL: SHOW_PLACEHOLDER_IMG ? PLACEHOLDER_IMG : undefined}
   ));
 
   const recommended: ActionCardProps[] = [];

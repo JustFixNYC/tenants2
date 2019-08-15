@@ -40,7 +40,7 @@ const DISABLE_WEBPACK_ANALYZER = !DEV_DEPS_AVAIL || getEnvBoolean('DISABLE_WEBPA
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 
 /** @type WebpackConfig["devtool"] */
-const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'inline-source-map';
+const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'cheap-module-eval-source-map';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 

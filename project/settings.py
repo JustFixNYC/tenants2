@@ -430,6 +430,11 @@ if MAPBOX_ACCESS_TOKEN:
     CSP_IMG_SRC.append(MAPBOX_TILES_ORIGIN)
 
 if DEBUG:
+    if not env.DISABLE_DEV_SOURCE_MAPS:
+        # Our development source maps use eval(), so allow its use during
+        # development.
+        CSP_SCRIPT_SRC.append("'unsafe-eval'")
+
     CSP_EXCLUDE_URL_PREFIXES = (
         # The webpack-bundle-analyzer report contains inline JS
         # that we need to permit if we want to use it, so

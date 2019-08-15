@@ -222,6 +222,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   `window['_fs_org'] = 'ABC'`.
     FULLSTORY_ORG_ID: str = ''
 
+    # Whether or not to disable source maps in development mode.
+    #
+    # Setting this to true can speed up builds.
+    DISABLE_DEV_SOURCE_MAPS: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -17,7 +17,7 @@
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
     "build": "yarn querybuilder && yarn sass && yarn webpack && yarn safe_mode_snippet",
-    "start": "yarn querybuilder && yarn sass && concurrently --kill-others \"yarn webpack:watch\" \"yarn lint:watch\" \"yarn sass:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\""
+    "start": "yarn querybuilder && yarn sass && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\""
   },
   "repository": {
     "type": "git",

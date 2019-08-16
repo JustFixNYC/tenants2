@@ -34,6 +34,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/JustFixNYC/who-owns-what
     WOW_DATABASE_URL: str = ''
 
+    # The Celery broker URL, e.g. 'redis://localhost:6379/0'.
+    CELERY_BROKER_URL: str
+
     # This is a large random value corresponding to Django's
     # SECRET_KEY setting.
     SECRET_KEY: str

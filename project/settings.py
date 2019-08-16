@@ -419,6 +419,8 @@ CSP_CONNECT_SRC = [
     "https://geosearch.planninglabs.nyc"
 ]
 
+CELERY_BROKER_URL = env.CELERY_BROKER_URL
+
 if AWS_STORAGE_STATICFILES_BUCKET_NAME:
     STATICFILES_STORAGE = 'project.storage.S3StaticFilesStorage'
     STATIC_URL = f'{AWS_STORAGE_STATICFILES_ORIGIN}/'

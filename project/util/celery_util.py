@@ -1,6 +1,7 @@
 from typing import TypeVar, Callable
 from functools import wraps
 from django.conf import settings
+from django.utils.module_loading import autodiscover_modules
 
 
 T = TypeVar('T', bound=Callable)
@@ -27,6 +28,11 @@ def fire_and_forget_task(fun: T) -> T:
         # as possible between both branches.
 
         task_name = f"{fun.__module__}.{fun.__name__}"
+        if task_name not in app.tasks:
+            # You'd think Celery would have already autodiscovered these,
+            # but apparently it only does that when running workers or
+            # something. Whatever.
+            autodiscover_modules('tasks')
         task = app.tasks[task_name]
         assert task.ignore_result is True
 

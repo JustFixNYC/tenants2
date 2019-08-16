@@ -37,7 +37,7 @@ services:
     links:
         - db
         - redis
-    command: celery -A project worker -l info
+    command: python manage.py runcelery
 volumes:
   node-modules:
   unused-node-modules:

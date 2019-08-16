@@ -403,3 +403,16 @@ and has the following provenance:
 [Heroku Postgres]: https://www.heroku.com/postgres
 [Container Registry and Runtime]: https://devcenter.heroku.com/articles/container-registry-and-runtime
 [dev/prod parity]: https://12factor.net/dev-prod-parity
+
+### Celery
+
+You can optionally integrate the app with Celery to ensure that some long-running
+tasks will not cause web requests to time out.
+
+If you're using Docker, Celery isn't enabled by default because it makes the
+logging output very spammy. To enable it, add the following to your
+`.justfix-env`:
+
+```
+CELERY_BROKER_URL=redis://redis
+```

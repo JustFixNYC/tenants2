@@ -1,7 +1,6 @@
 from typing import TypeVar, Callable
 from functools import wraps
 from django.conf import settings
-from celery import shared_task
 
 
 T = TypeVar('T', bound=Callable)
@@ -9,20 +8,25 @@ T = TypeVar('T', bound=Callable)
 
 def fire_and_forget_task(fun: T) -> T:
     '''
-    If Celery integration is enabled, this will return
-    a proxy for the function that takes the same arguments
-    but calls it asynchronously and returns None.
+    Returns a function whose signature matches the
+    arguments of the given function, but always returns
+    None.
 
-    If Celery integration is disabled, this will just return
-    the function.
+    When called, if Celery integration is enabled, this will
+    proxy the function's arguments to a Celery worker.
+    Otherwise, the function will be called synchronously.
     '''
 
-    if settings.CELERY_BROKER_URL:
-        task = shared_task(ignore_result=True)(fun)
+    @wraps(fun)
+    def wrapper(*args, **kwargs):
+        from project.celery import app
 
-        @wraps(fun)
-        def wrapper(*args, **kwargs):
+        task_name = f"{fun.__module__}.{fun.__name__}"
+        task = app.tasks[task_name]
+
+        if settings.CELERY_BROKER_URL:
             task.delay(*args, **kwargs)
+        else:
+            fun(*args, **kwargs)
 
-        return wrapper  # type: ignore
-    return fun
+    return wrapper  # type: ignore

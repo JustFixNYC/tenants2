@@ -4,6 +4,8 @@ import logging
 from typing import Dict, Any
 from django.conf import settings
 
+from project.util.celery_util import fire_and_forget_task
+
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +83,4 @@ def hyperlink(href: str, text: str) -> str:
     return f'<{escape(href)}|{escape(text)}>'
 
 
-from project.tasks import send_slack_sendmsg  # NOQA
-
-sendmsg_async = send_slack_sendmsg
+sendmsg_async = fire_and_forget_task(sendmsg)

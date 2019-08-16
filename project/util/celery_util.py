@@ -21,6 +21,11 @@ def fire_and_forget_task(fun: T) -> T:
     def wrapper(*args, **kwargs):
         from project.celery import app
 
+        # We actually just use the function to look up
+        # its task defintion; we don't actually call it,
+        # because we want to maintain as much parity
+        # as possible between both branches.
+
         task_name = f"{fun.__module__}.{fun.__name__}"
         task = app.tasks[task_name]
         assert task.ignore_result is True
@@ -28,6 +33,6 @@ def fire_and_forget_task(fun: T) -> T:
         if settings.CELERY_BROKER_URL:
             task.delay(*args, **kwargs)
         else:
-            fun(*args, **kwargs)
+            task(*args, **kwargs)
 
     return wrapper  # type: ignore

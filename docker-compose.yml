@@ -9,6 +9,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     links:
       - db
+      - redis
     ports:
       - "8000:8000"
   frontend:
@@ -33,6 +34,9 @@ services:
       service: base_app
     volumes:
       - .:/tenants2:delegated
+    links:
+        - db
+        - redis
     command: celery -A project worker -l info
 volumes:
   node-modules:

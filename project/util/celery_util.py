@@ -23,6 +23,7 @@ def fire_and_forget_task(fun: T) -> T:
 
         task_name = f"{fun.__module__}.{fun.__name__}"
         task = app.tasks[task_name]
+        assert task.ignore_result is True
 
         if settings.CELERY_BROKER_URL:
             task.delay(*args, **kwargs)

@@ -63,7 +63,7 @@ def create_verification_code(request: HttpRequest, phone_number: str):
         f"JustFix.nyc here! Your verification code is {vcode}.",
         fail_silently=True
     )
-    slack.sendmsg(
+    slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"has started the password reset process.",
         is_safe=True
@@ -123,7 +123,7 @@ def set_password(request: HttpRequest, password: str) -> Optional[str]:
     user.set_password(password)
     user.save()
     logger.info(f'User {user.username} has changed their password.')
-    slack.sendmsg(
+    slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"has changed their password.",
         is_safe=True

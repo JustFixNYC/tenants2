@@ -79,3 +79,8 @@ def hyperlink(href: str, text: str) -> str:
     '''
 
     return f'<{escape(href)}|{escape(text)}>'
+
+
+from project.tasks import async_slack_sendmsg  # NOQA
+
+sendmsg_async = async_slack_sendmsg

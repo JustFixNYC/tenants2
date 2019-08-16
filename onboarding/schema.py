@@ -161,7 +161,7 @@ class OnboardingStep4(SessionFormMutation):
             f"We'll be sending you notifications from this phone number.",
             fail_silently=True
         )
-        slack.sendmsg(
+        slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
             f"from {slack.escape(oi.borough_label)} has signed up!",
             is_safe=True

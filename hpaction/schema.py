@@ -50,7 +50,7 @@ class GetAnswersAndDocumentsThread(Thread):
                 f"{absolute_reverse('hpaction:latest_pdf')}",
                 fail_silently=True
             )
-            slack.sendmsg(
+            slack.sendmsg_async(
                 f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
                 f"has generated HP Action legal forms!",
                 is_safe=True

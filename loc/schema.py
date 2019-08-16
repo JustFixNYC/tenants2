@@ -55,7 +55,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
                 f"Please allow for 1-2 business days to process.",
                 fail_silently=True
             )
-        slack.sendmsg(
+        slack.sendmsg_async(
             f"{slack.hyperlink(text=lr.user.first_name, href=lr.user.admin_url)} "
             f"has completed a letter of complaint with the mail choice "
             f"*{slack.escape(models.LOC_MAILING_CHOICES.get_label(lr.mail_choice))}*!",

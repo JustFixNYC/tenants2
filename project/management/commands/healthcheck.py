@@ -59,5 +59,5 @@ class Command(BaseCommand):
             self.run_check()
         except Exception:
             self.stdout.write('Health check FAILED! Traceback follows.')
-            slack.sendmsg(f'Health check for {link} FAILED!', is_safe=True)
+            slack.sendmsg_async(f'Health check for {link} FAILED!', is_safe=True)
             raise

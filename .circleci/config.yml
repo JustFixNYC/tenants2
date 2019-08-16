@@ -7,6 +7,7 @@ jobs:
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgis://justfix@localhost/justfix
+          CELERY_BROKER_URL: redis://localhost:6379/0
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
           ENABLE_FINDHELP: yup
@@ -16,6 +17,7 @@ jobs:
         environment:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
+      - image: redis:5.0.5
     steps:
       - checkout
       - restore_cache:

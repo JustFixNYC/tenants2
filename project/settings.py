@@ -419,7 +419,19 @@ CSP_CONNECT_SRC = [
     "https://geosearch.planninglabs.nyc"
 ]
 
+# All settings starting with "CELERY_" are Celery
+# settings. See the following documentation for more information,
+# but prepend "CELERY_" to all the documented settings before
+# adding them here:
+#
+#   https://docs.celeryproject.org/en/latest/userguide/configuration.html
+
 CELERY_BROKER_URL = env.CELERY_BROKER_URL
+CELERY_WORKER_HIJACK_ROOT_LOGGER = False
+CELERY_TASK_EAGER_PROPAGATES = True
+
+if not env.CELERY_BROKER_URL:
+    CELERY_TASK_ALWAYS_EAGER = True
 
 if AWS_STORAGE_STATICFILES_BUCKET_NAME:
     STATICFILES_STORAGE = 'project.storage.S3StaticFilesStorage'

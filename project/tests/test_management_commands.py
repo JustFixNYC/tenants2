@@ -123,3 +123,17 @@ class TestRollbarSourceMaps:
         call_command('rollbarsourcemaps')
         first_req = requests_mock.request_history[0]
         assert 'access_token=blarf' in first_req.text
+
+
+class TestRaiseCeleryTestError:
+    def test_it_raises_error_if_celery_is_disabled(self):
+        with pytest.raises(CommandError, match='Celery integration is disabled'):
+            call_command('raisecelerytesterror', 'blarf')
+
+    def test_it_works(self, settings):
+        settings.CELERY_BROKER_URL = 'blarrrf'
+        # The task will be executed eagerly and its exception will be propagated.
+        # Not an ideal test, but better than nothing--at least we're exercising
+        # the task's code.
+        with pytest.raises(Exception, match="example Celery task exception with id 'blarf'"):
+            call_command('raisecelerytesterror', 'blarf')

@@ -20,12 +20,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: gitlfs
+          key: gitlfs-build
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
-          key: gitlfs
+          key: gitlfs-build
           paths:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.

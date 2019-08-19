@@ -83,7 +83,7 @@ jobs:
           path: test-results
           destination: tr1
   deploy:
-    working_directory: ~/tenants2_deploy
+    working_directory: ~/tenants2
     docker:
       - image: circleci/python:3.7
         environment:

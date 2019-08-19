@@ -12,12 +12,24 @@ jobs:
           ENABLE_FINDHELP: yup
           ENABLE_I18N: yup
           CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
+          GIT_LFS_SKIP_SMUDGE: 1
       - image: mdillon/postgis:10-alpine
         environment:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
     steps:
       - checkout
+      - restore_cache:
+          key: gitlfs
+      - shell:
+          name: Pull Git LFS files
+          command: git lfs pull
+      - save_cache:
+          key: gitlfs
+          paths:
+            # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
+            # allows for 1 GB download of anything stored in Git LFS per month.
+            - .git/lfs
       - restore_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
       - run:
@@ -74,6 +86,8 @@ jobs:
     working_directory: ~/tenants2_deploy
     docker:
       - image: circleci/python:3.7
+      - environment:
+          GIT_LFS_SKIP_SMUDGE: 1
     steps:
       # Ideally we would use Docker Layer Caching (DLC) here to speed things up,
       # but apparently that's a premium feature:
@@ -87,6 +101,12 @@ jobs:
             sudo apt-get install git-lfs
             git lfs install
       - checkout
+      - restore_cache:
+          key: gitlfs
+      - shell:
+          name: Pull Git LFS files
+          command: git lfs pull
+      # We won't bother saving the Git LFS cache, as it should have been saved by the previous "build" job.
       - run:
           name: Deploy
           command: |

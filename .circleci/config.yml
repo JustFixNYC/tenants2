@@ -86,7 +86,7 @@ jobs:
     working_directory: ~/tenants2_deploy
     docker:
       - image: circleci/python:3.7
-      - environment:
+        environment:
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
       # Ideally we would use Docker Layer Caching (DLC) here to speed things up,

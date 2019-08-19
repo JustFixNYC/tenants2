@@ -1,5 +1,4 @@
 import os
-import rollbar
 from celery import Celery
 from celery.signals import worker_init, task_failure
 
@@ -14,29 +13,16 @@ app.autodiscover_tasks()
 
 @worker_init.connect
 def init_rollbar(*args, **kwargs):
-    from django.conf import settings
+    from . import celery_rollbar
 
-    if settings.ROLLBAR is None:
-        return
-
-    print("Configuring Rollbar for Celery.")
-
-    rollbar.init(**settings.ROLLBAR, handler='blocking')
-
-    def celery_base_data_hook(request, data):
-        data['framework'] = 'celery'
-
-    rollbar.BASE_DATA_HOOK = celery_base_data_hook
+    celery_rollbar.init()
 
 
 @task_failure.connect
 def handle_task_failure(**kwargs):
-    from django.conf import settings
+    from . import celery_rollbar
 
-    if settings.ROLLBAR is None:
-        return
-
-    rollbar.report_exc_info(extra_data=kwargs)
+    celery_rollbar.report_exc_info()
 
 
 @app.task(bind=True)

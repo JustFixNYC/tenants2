@@ -21,7 +21,7 @@ def init_rollbar(*args, **kwargs):
 
     print("Configuring Rollbar for Celery.")
 
-    rollbar.init(**settings.ROLLBAR)
+    rollbar.init(**settings.ROLLBAR, handler='blocking')
 
     def celery_base_data_hook(request, data):
         data['framework'] = 'celery'
@@ -37,7 +37,6 @@ def handle_task_failure(**kwargs):
         return
 
     rollbar.report_exc_info(extra_data=kwargs)
-    rollbar.wait()
 
 
 @app.task(bind=True)

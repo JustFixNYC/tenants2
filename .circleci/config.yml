@@ -83,7 +83,7 @@ jobs:
           path: test-results
           destination: tr1
   deploy:
-    working_directory: ~/tenants2
+    working_directory: ~/tenants2_deploy
     docker:
       - image: circleci/python:3.7
         environment:
@@ -102,11 +102,16 @@ jobs:
             git lfs install
       - checkout
       - restore_cache:
-          key: gitlfs
+          key: gitlfs-deploy
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
-      # We won't bother saving the Git LFS cache, as it should have been saved by the previous "build" job.
+      - save_cache:
+          key: gitlfs-deploy
+          paths:
+            # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
+            # allows for 1 GB download of anything stored in Git LFS per month.
+            - .git/lfs
       - run:
           name: Deploy
           command: |

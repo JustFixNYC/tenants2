@@ -427,6 +427,7 @@ CSP_CONNECT_SRC = [
 #   https://docs.celeryproject.org/en/latest/userguide/configuration.html
 
 CELERY_BROKER_URL = env.CELERY_BROKER_URL
+CELERY_RESULT_BACKEND = env.CELERY_BROKER_URL
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 CELERY_TASK_EAGER_PROPAGATES = True
 

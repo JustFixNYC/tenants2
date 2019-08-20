@@ -4,36 +4,65 @@ import sys
 import subprocess
 import json
 import re
+import tempfile
 from dataclasses import dataclass
-from typing import ItemsView, List, Optional, Dict
+from typing import List, Optional, Dict
 from pathlib import Path
 
 from project.justfix_environment import BASE_DIR
 from project.util.git import GitInfo
 
 
-def get_git_info_env_items() -> ItemsView[str, str]:
-    return GitInfo.create_env_dict(BASE_DIR).items()
-
-
-def build_local_container(container_name: str, cache_from: Optional[str] = None):
+def build_container(
+    dockerfile: str,
+    build_context: str,
+    container_name: str,
+    cache_from: Optional[str] = None,
+    build_args: Optional[Dict[str, str]] = None
+):
     args = [
         'docker',
         'build',
         *(['--cache-from', cache_from] if cache_from else []),
         '-f',
-        'Dockerfile.web',
+        dockerfile,
         '-t',
         container_name
     ]
 
-    for name, value in get_git_info_env_items():
+    for name, value in (build_args or {}).items():
         args.append('--build-arg')
         args.append(f'{name}={value}')
-    args.append('.')
+
+    args.append(build_context)
 
     subprocess.check_call(
         args, cwd=BASE_DIR
+    )
+
+
+def build_worker_container(container_name: str, dockerfile_web: str):
+    # It's completely ridiculous that we're creating a temporary directory
+    # just so we don't need to send a build context, but I'm not sure how
+    # else to do this.
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        build_container(
+            dockerfile='Dockerfile.worker',
+            build_context=tmpdirname,
+            container_name=container_name,
+            build_args={
+                'DOCKERFILE_WEB': dockerfile_web
+            }
+        )
+
+
+def build_local_container(container_name: str, cache_from: Optional[str] = None):
+    build_container(
+        dockerfile='Dockerfile.web',
+        build_context='.',
+        container_name=container_name,
+        cache_from=cache_from,
+        build_args=GitInfo.create_env_dict(BASE_DIR)
     )
 
 
@@ -101,6 +130,7 @@ class HerokuDeployer:
         self.remote = remote
         self.app_name = self.get_heroku_app_name_from_git_remote(self.remote)
         self.process_type = 'web'
+        self.worker_process_type = 'worker'
         self.heroku = HerokuCLI(self.remote)
         self.config = self.heroku.get_full_config()
         self.is_logged_into_docker_registry = False
@@ -118,6 +148,10 @@ class HerokuDeployer:
     @property
     def container_tag(self) -> str:
         return f'registry.heroku.com/{self.app_name}/{self.process_type}'
+
+    @property
+    def worker_container_tag(self) -> str:
+        return f'registry.heroku.com/{self.app_name}/{self.worker_process_type}'
 
     @property
     def is_using_cdn(self) -> bool:
@@ -146,12 +180,13 @@ class HerokuDeployer:
     def push_to_docker_registry(self) -> None:
         self.login_to_docker_registry()
         subprocess.check_call(['docker', 'push', self.container_tag])
+        subprocess.check_call(['docker', 'push', self.worker_container_tag])
 
     def pull_from_docker_registry(self) -> None:
         self.login_to_docker_registry()
         subprocess.check_call(['docker', 'pull', self.container_tag])
 
-    def build_and_deploy(self, cache_from_docker_registry: bool) -> None:
+    def build_and_deploy(self, cache_from_docker_registry: bool, build_only: bool) -> None:
         if cache_from_docker_registry:
             self.pull_from_docker_registry()
             build_local_container(
@@ -159,7 +194,12 @@ class HerokuDeployer:
         else:
             build_local_container(self.container_tag)
 
-        print("Pushing container to Docker registry...")
+        build_worker_container(self.worker_container_tag, dockerfile_web=self.container_tag)
+
+        if build_only:
+            return
+
+        print("Pushing containers to Docker registry...")
         self.push_to_docker_registry()
 
         # We can upload static assets to the CDN without enabling
@@ -182,6 +222,7 @@ class HerokuDeployer:
 
         print("Initiating Heroku release phase...")
         self.heroku.run('container:release', self.process_type)
+        self.heroku.run('container:release', self.worker_process_type)
 
         self.heroku.run('maintenance:off')
 
@@ -189,7 +230,9 @@ class HerokuDeployer:
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
     deployer.build_and_deploy(
-        cache_from_docker_registry=args.cache_from_docker_registry)
+        cache_from_docker_registry=args.cache_from_docker_registry,
+        build_only=args.build_only
+    )
 
 
 def heroku_run(args):
@@ -232,13 +275,18 @@ def main():
 
     parser_heroku = subparsers.add_parser(
         'heroku',
-        help="Build container and deploy to Heroku.",
+        help="Build containers and deploy to Heroku.",
     )
     parser_heroku.add_argument(
         '-r',
         '--remote',
         default='',
         help="The git remote of the app to use."
+    )
+    parser_heroku.add_argument(
+        '--build-only',
+        action='store_true',
+        help="Build containers only (don't deploy)."
     )
     parser_heroku.add_argument(
         '--cache-from-docker-registry',

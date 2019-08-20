@@ -2,21 +2,21 @@ version: '2'
 services:
   app:
     environment:
-      - CELERY_BROKER_URL=redis://redis
+      - CELERY_BROKER_URL=amqp://rabbitmq
     links:
       - db
-      - redis
-  redis:
-    image: redis:5.0.5
+      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3.7.17-alpine
   celery:
     extends:
       file: docker-services.yml
       service: base_app
     environment:
-      - CELERY_BROKER_URL=redis://redis
+      - CELERY_BROKER_URL=amqp://rabbitmq
     volumes:
       - .:/tenants2:delegated
     links:
         - db
-        - redis
+        - rabbitmq
     command: python manage.py runcelery

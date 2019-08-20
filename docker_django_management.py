@@ -92,11 +92,13 @@ import signal
 import subprocess
 
 if sys.platform != 'win32':
-    # If the Docker host is running on Windows, we don't need this
-    # module, so it's OK to not import it.
+    # If the Docker host is running on Windows, we don't need these
+    # modules, so it's OK to not import them.
     import pwd
+    import grp
 else:
     pwd = None
+    grp = None
 
 if False:
     # This is just needed so mypy will work; it's never executed.
@@ -317,6 +319,8 @@ def entrypoint(argv):  # type: (List[str]) -> None
             'This should only be called from within a '
             'unix-flavored Docker container!')
 
+    gid = HOST_UID
+
     if HOST_UID != os.geteuid():
         user_owned_dirs = []  # type: List[str]
 
@@ -342,6 +346,7 @@ def entrypoint(argv):  # type: (List[str]) -> None
                 username,
                 '-u', str(HOST_UID)
             ] + extra_useradd_options)
+            gid = grp.getgrnam(username).gr_gid
 
         if USER_OWNED_DIRS:
             user_owned_dirs += USER_OWNED_DIRS.split(os.path.pathsep)
@@ -349,12 +354,13 @@ def entrypoint(argv):  # type: (List[str]) -> None
         for dirname in user_owned_dirs:
             subprocess.check_call([
                 'chown',
-                '{}:{}'.format(HOST_UID, HOST_UID),
+                '{}:{}'.format(HOST_UID, gid),
                 dirname
             ])
 
         if pwd is not None:
             os.environ['HOME'] = '/home/%s' % pwd.getpwuid(HOST_UID).pw_name
+        os.setgid(gid)
         os.setuid(HOST_UID)
 
     if VENV_DIR:

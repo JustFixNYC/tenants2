@@ -409,10 +409,12 @@ and has the following provenance:
 You can optionally integrate the app with Celery to ensure that some long-running
 tasks will not cause web requests to time out.
 
-If you're using Docker, Celery isn't enabled by default because it makes the
-logging output very spammy. To enable it, add the following to your
-`.justfix-env`:
+If you're using Docker, Celery isn't enabled by default. To enable it, you need
+to extend the default Docker Compose configuration with `docker-compose.celery.yml`.
+For details on this, see Docker's documentation on [Multiple Compose files][].
+
+For example, to start up all services with Celery integration enabled, you can run:
 
 ```
-CELERY_BROKER_URL=redis://redis
+docker-compose -f docker-compose.yml -f docker-compose.celery.yml up
 ```

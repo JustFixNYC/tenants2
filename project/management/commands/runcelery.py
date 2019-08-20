@@ -4,7 +4,6 @@ import shlex
 import subprocess
 from django.core.management.base import BaseCommand
 from django.utils import autoreload
-from django.conf import settings
 
 import project
 
@@ -18,8 +17,5 @@ def restart_celery():
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        if not settings.CELERY_BROKER_URL:
-            print('Celery is disabled, exiting.')
-            return
         print('Starting celery worker with autoreload...')
         autoreload.run_with_reloader(restart_celery)

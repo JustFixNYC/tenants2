@@ -27,6 +27,7 @@ hp-action.xml
 .babel-cache.json
 debug-data/
 *.log
+docker-compose.override.yml
 
 # Here we begin to deviate from our .gitignore.
 Dockerfile*

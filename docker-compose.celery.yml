@@ -1,0 +1,22 @@
+version: '2'
+services:
+  app:
+    environment:
+      - CELERY_BROKER_URL=redis://redis
+    links:
+      - db
+      - redis
+  redis:
+    image: redis:5.0.5
+  celery:
+    extends:
+      file: docker-services.yml
+      service: base_app
+    environment:
+      - CELERY_BROKER_URL=redis://redis
+    volumes:
+      - .:/tenants2:delegated
+    links:
+        - db
+        - redis
+    command: python manage.py runcelery

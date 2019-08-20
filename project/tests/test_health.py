@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from project import health
-from project.health import CheckGeocoding, CheckNycdb
+from project.health import CheckGeocoding, CheckNycdb, CheckCelery
 from nycdb.tests import fixtures as nycdb_fixtures
 from . import test_geocoding
 
@@ -76,5 +76,16 @@ class TestCheckNycdb:
     def test_it_works(self, nycdb):
         nycdb_fixtures.load_hpd_registration('tiny-landlord.json')
         check = CheckNycdb()
+        assert check.is_enabled is True
+        assert check.is_healthy() is True
+
+
+class TestCheckCelery:
+    def test_it_is_disabled_when_celery_is_disabled(self):
+        assert CheckCelery().is_enabled is False
+
+    def test_it_works(self, settings):
+        settings.CELERY_BROKER_URL = 'blargh'
+        check = CheckCelery()
         assert check.is_enabled is True
         assert check.is_healthy() is True

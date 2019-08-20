@@ -7,8 +7,6 @@ services:
     volumes:
       - .:/tenants2:delegated
     command: python manage.py runserver 0.0.0.0:8000
-    environment:
-      - DATABASE_URL=postgis://justfix@db/justfix
     links:
       - db
     ports:

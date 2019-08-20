@@ -26,3 +26,4 @@ hp-action.xml
 .babel-cache.json
 debug-data/
 *.log
+docker-compose.override.yml

@@ -11,11 +11,18 @@ def fire_and_forget_task(fun: T) -> T:
     '''
     Returns a function whose signature matches the
     arguments of the given function, but always returns
-    None.
+    None. (Ideally we would modify the type signature to
+    return None, but that doesn't seem possible with mypy.)
 
-    When called, if Celery integration is enabled, this will
-    proxy the function's arguments to a Celery worker.
-    Otherwise, the function will be called synchronously.
+    When called, this will proxy the function's arguments
+    to a Celery worker.
+
+    In order for this to work, the original function must
+    have been registered as a Celery task that ignores its
+    result.
+
+    Note that if Celery has been configured with
+    `TASK_ALWAYS_EAGER`, the task will run synchronously.
     '''
 
     @wraps(fun)
@@ -36,9 +43,6 @@ def fire_and_forget_task(fun: T) -> T:
         task = app.tasks[task_name]
         assert task.ignore_result is True
 
-        if settings.CELERY_BROKER_URL:
-            task.delay(*args, **kwargs)
-        else:
-            task(*args, **kwargs)
+        task.delay(*args, **kwargs)
 
     return wrapper  # type: ignore

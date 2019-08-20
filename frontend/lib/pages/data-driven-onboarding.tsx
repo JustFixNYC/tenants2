@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
 import { properNoun } from '../util';
+import { OutboundLink } from '../google-analytics';
 
 const BASE_TITLE = "Data-driven onboarding";
 
@@ -96,7 +97,9 @@ function CallToAction({to, text, className}: CallToActionProps) {
   if (isInternal) {
     return <Link to={to} className={className}>{text}</Link>;
   }
-  return <a href={to} rel="noopener noreferrer" target="_blank" className={className}>{text}</a>;
+  return <OutboundLink href={to} rel="noopener noreferrer" target="_blank" className={className}>
+    {text}
+  </OutboundLink>;
 }
 
 function useStaticURL(path: string): string {

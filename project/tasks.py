@@ -1,5 +1,6 @@
 import logging
 from celery import shared_task
+from django.conf import settings
 
 from project import slack
 
@@ -8,6 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 shared_task(ignore_result=True)(slack.sendmsg)
+
+
+@shared_task
+def get_git_revision():
+    return settings.GIT_INFO.get_version_str()
 
 
 @shared_task

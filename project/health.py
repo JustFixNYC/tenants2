@@ -51,6 +51,18 @@ class CheckGeocoding(HealthCheck):
         return features[0].properties.pad_bbl == '3002920026'
 
 
+class CheckCelery(HealthCheck):
+    @property
+    def is_enabled(self) -> bool:
+        return bool(settings.CELERY_BROKER_URL)
+
+    def run_check(self) -> bool:
+        from project import tasks
+
+        result = tasks.get_git_revision.apply_async()
+        return result.get() == settings.GIT_INFO.get_version_str()
+
+
 class CheckNycdb(HealthCheck):
     @property
     def is_enabled(self) -> bool:
@@ -89,6 +101,7 @@ def get_healthchecks() -> List[HealthCheck]:
     return [
         CheckDatabase(),
         CheckGeocoding(),
+        CheckCelery(),
         CheckNycdb()
     ]
 

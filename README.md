@@ -418,3 +418,5 @@ For example, to start up all services with Celery integration enabled, you can r
 ```
 docker-compose -f docker-compose.yml -f docker-compose.celery.yml up
 ```
+
+[Multiple Compose files]: https://docs.docker.com/compose/extends/

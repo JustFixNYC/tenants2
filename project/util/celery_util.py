@@ -1,6 +1,5 @@
 from typing import TypeVar, Callable
 from functools import wraps
-from django.conf import settings
 from django.utils.module_loading import autodiscover_modules
 
 

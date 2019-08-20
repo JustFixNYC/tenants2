@@ -186,7 +186,7 @@ class HerokuDeployer:
         self.login_to_docker_registry()
         subprocess.check_call(['docker', 'pull', self.container_tag])
 
-    def build_and_deploy(self, cache_from_docker_registry: bool, build_only: bool) -> None:
+    def build(self, cache_from_docker_registry: bool):
         if cache_from_docker_registry:
             self.pull_from_docker_registry()
             build_local_container(
@@ -196,9 +196,7 @@ class HerokuDeployer:
 
         build_worker_container(self.worker_container_tag, dockerfile_web=self.container_tag)
 
-        if build_only:
-            return
-
+    def deploy(self) -> None:
         print("Pushing containers to Docker registry...")
         self.push_to_docker_registry()
 
@@ -228,10 +226,9 @@ class HerokuDeployer:
 
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
-    deployer.build_and_deploy(
-        cache_from_docker_registry=args.cache_from_docker_registry,
-        build_only=args.build_only
-    )
+    deployer.build(cache_from_docker_registry=args.cache_from_docker_registry)
+    if not args.build_only:
+        deployer.deploy()
 
 
 def heroku_run(args):

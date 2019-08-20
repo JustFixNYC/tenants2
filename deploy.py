@@ -221,8 +221,7 @@ class HerokuDeployer:
         self.run_in_container(['python', 'manage.py', 'initgroups'])
 
         print("Initiating Heroku release phase...")
-        self.heroku.run('container:release', self.process_type)
-        self.heroku.run('container:release', self.worker_process_type)
+        self.heroku.run('container:release', self.process_type, self.worker_process_type)
 
         self.heroku.run('maintenance:off')
 

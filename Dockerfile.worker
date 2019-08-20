@@ -4,4 +4,4 @@ ARG DOCKERFILE_WEB
 
 FROM $DOCKERFILE_WEB
 
-CMD celery worker -l info -A project
+CMD celery worker -l warning -A project

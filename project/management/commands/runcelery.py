@@ -12,7 +12,7 @@ import project
 def restart_celery():
     cmd = 'pkill -9 celery'
     subprocess.call(shlex.split(cmd))
-    cmd = f'celery worker -l info -A {project.__name__}'
+    cmd = f'celery worker -l info --quiet -A {project.__name__}'
     subprocess.call(shlex.split(cmd))
 
 

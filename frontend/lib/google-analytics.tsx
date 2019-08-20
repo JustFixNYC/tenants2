@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DetailedHTMLProps, AnchorHTMLAttributes, MouseEvent } from "react";
 import { callOnceWithinMs, getFunctionProperty } from "./util";
-import hardRedirect from './tests/hard-redirect';
+import hardRedirect from './hard-redirect';
 
 /**
  * The analytics.js API is provided by Google Analytics:

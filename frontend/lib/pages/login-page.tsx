@@ -9,7 +9,7 @@ import { NextButton } from '../buttons';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType } from '../app-context';
 import { History } from 'history';
-import hardRedirect from '../tests/hard-redirect';
+import hardRedirect from '../hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
 import { getPostOrQuerystringVar } from '../querystring';

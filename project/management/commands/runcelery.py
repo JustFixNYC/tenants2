@@ -6,11 +6,13 @@ from django.core.management.base import BaseCommand
 from django.utils import autoreload
 from django.conf import settings
 
+import project
+
 
 def restart_celery():
     cmd = 'pkill -9 celery'
     subprocess.call(shlex.split(cmd))
-    cmd = 'celery worker -l info -A project'
+    cmd = f'celery worker -l info -A {project.__name__}'
     subprocess.call(shlex.split(cmd))
 
 

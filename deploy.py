@@ -16,16 +16,17 @@ def get_git_info_env_items() -> ItemsView[str, str]:
     return GitInfo.create_env_dict(BASE_DIR).items()
 
 
-def build_local_container(container_name: str, cache_from: Optional[str] = None):
+def build_local_container(container_names: List[str], cache_from: Optional[str] = None):
     args = [
         'docker',
         'build',
         *(['--cache-from', cache_from] if cache_from else []),
         '-f',
         'Dockerfile.web',
-        '-t',
-        container_name
     ]
+
+    for container_name in container_names:
+        args.extend(['-t', container_name])
 
     for name, value in get_git_info_env_items():
         args.append('--build-arg')
@@ -100,7 +101,8 @@ class HerokuDeployer:
             raise ValueError("Please specify a git remote corresponding to a Heroku app.")
         self.remote = remote
         self.app_name = self.get_heroku_app_name_from_git_remote(self.remote)
-        self.process_type = 'web'
+        self.process_types = ['web', 'worker']
+        self.primary_process_type = self.process_types[0]
         self.heroku = HerokuCLI(self.remote)
         self.config = self.heroku.get_full_config()
         self.is_logged_into_docker_registry = False
@@ -115,9 +117,17 @@ class HerokuDeployer:
             raise ValueError(f"Invalid Heroku remote: {remote}")
         return match[1]
 
+    def get_container_tag(self, process_type: str) -> str:
+        assert process_type in self.process_types
+        return f'registry.heroku.com/{self.app_name}/{process_type}'
+
     @property
-    def container_tag(self) -> str:
-        return f'registry.heroku.com/{self.app_name}/{self.process_type}'
+    def container_tags(self) -> List[str]:
+        return [self.get_container_tag(pt) for pt in self.process_types]
+
+    @property
+    def primary_container_tag(self) -> str:
+        return self.get_container_tag(self.primary_process_type)
 
     @property
     def is_using_cdn(self) -> bool:
@@ -128,8 +138,14 @@ class HerokuDeployer:
         return len(self.config.get('ROLLBAR_SERVER_ACCESS_TOKEN', '')) > 0
 
     def run_in_container(self, args: List[str]) -> None:
+        '''
+        Run a command in our container.
+
+        Note that this assumes the container has already been built.
+        '''
+
         cmdline = ' '.join(args)
-        returncode = run_local_container(self.container_tag, args, env=self.config)
+        returncode = run_local_container(self.primary_container_tag, args, env=self.config)
         if returncode:
             raise Exception(f'Command failed: {cmdline}')
 
@@ -145,19 +161,20 @@ class HerokuDeployer:
 
     def push_to_docker_registry(self) -> None:
         self.login_to_docker_registry()
-        subprocess.check_call(['docker', 'push', self.container_tag])
+        for container_tag in self.container_tags:
+            subprocess.check_call(['docker', 'push', container_tag])
 
     def pull_from_docker_registry(self) -> None:
         self.login_to_docker_registry()
-        subprocess.check_call(['docker', 'pull', self.container_tag])
+        subprocess.check_call(['docker', 'pull', self.primary_container_tag])
 
     def build_and_deploy(self, cache_from_docker_registry: bool) -> None:
+        cache_from = None
         if cache_from_docker_registry:
             self.pull_from_docker_registry()
-            build_local_container(
-                self.container_tag, cache_from=f"{self.container_tag}:latest")
-        else:
-            build_local_container(self.container_tag)
+            cache_from = f"{self.primary_container_tag}:latest"
+
+        build_local_container(self.container_tags, cache_from=cache_from)
 
         print("Pushing container to Docker registry...")
         self.push_to_docker_registry()
@@ -181,7 +198,7 @@ class HerokuDeployer:
         self.run_in_container(['python', 'manage.py', 'initgroups'])
 
         print("Initiating Heroku release phase...")
-        self.heroku.run('container:release', self.process_type)
+        self.heroku.run('container:release', *self.process_types)
 
         self.heroku.run('maintenance:off')
 
@@ -199,7 +216,7 @@ def heroku_run(args):
         container_name = 'app'
     else:
         container_name = 'tenants2'
-        build_local_container(container_name)
+        build_local_container([container_name])
 
     sys.exit(run_local_container(
         container_name,

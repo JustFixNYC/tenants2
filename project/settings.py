@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 from typing import List, Dict, Optional
+import urllib.parse
 import dj_database_url
 
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
+    parse_celery_broker_url,
     parse_secure_proxy_ssl_header, LazilyImportedFunction)
 from .util import git
 
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'graphene_django',
+    'django_celery_results',
     'project.apps.DefaultConfig',
     'project.apps.JustfixAdminConfig',
     'frontend',
@@ -426,12 +429,17 @@ CSP_CONNECT_SRC = [
 #
 #   https://docs.celeryproject.org/en/latest/userguide/configuration.html
 
-CELERY_BROKER_URL = env.CELERY_BROKER_URL
-CELERY_RESULT_BACKEND = env.CELERY_BROKER_URL
+CELERY_BROKER_URL, CELERY_BROKER_TRANSPORT_OPTIONS = parse_celery_broker_url(
+    env.JUSTFIX_CELERY_BROKER_URL,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+    default_queue_name_prefix="tenants2-"
+)
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 CELERY_TASK_EAGER_PROPAGATES = True
 
-if not env.CELERY_BROKER_URL:
+if not CELERY_BROKER_URL:
     CELERY_TASK_ALWAYS_EAGER = True
 
 if AWS_STORAGE_STATICFILES_BUCKET_NAME:

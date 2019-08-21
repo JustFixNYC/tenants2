@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 from typing import List, Dict, Optional
-import urllib.parse
 import dj_database_url
 
 from . import justfix_environment

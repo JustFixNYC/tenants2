@@ -13,6 +13,11 @@ logger = logging.getLogger(__name__)
 
 
 class HealthCheck(abc.ABC):
+    # Whether te health check is an "extended" health check, meaning
+    # it will take non-trivial resources to perform and therefore
+    # shouldn't be run too frequently.
+    is_extended: bool = False
+
     @property
     def is_enabled(self) -> bool:
         return True
@@ -52,6 +57,8 @@ class CheckGeocoding(HealthCheck):
 
 
 class CheckCelery(HealthCheck):
+    is_extended = True
+
     @property
     def is_enabled(self) -> bool:
         return bool(settings.CELERY_BROKER_URL)
@@ -74,11 +81,12 @@ class CheckNycdb(HealthCheck):
 
 
 class HealthInfo:
-    def __init__(self, healthchecks: List[HealthCheck]) -> None:
+    def __init__(self, healthchecks: List[HealthCheck], is_extended: bool = False) -> None:
+        self.is_extended = is_extended
         self.check_results = {
             hc.name: hc.is_healthy()
             for hc in healthchecks
-            if hc.is_enabled
+            if hc.is_enabled and (True if is_extended else not hc.is_extended)
         }
         unhealthy = [
             name
@@ -90,6 +98,7 @@ class HealthInfo:
     def to_json(self) -> Dict[str, Any]:
         return {
             'status': self.status,
+            'is_extended': self.is_extended,
             'check_results': self.check_results
         }
 
@@ -106,5 +115,5 @@ def get_healthchecks() -> List[HealthCheck]:
     ]
 
 
-def check() -> HealthInfo:
-    return HealthInfo(get_healthchecks())
+def check(is_extended: bool) -> HealthInfo:
+    return HealthInfo(get_healthchecks(), is_extended)

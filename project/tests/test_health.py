@@ -19,11 +19,25 @@ class TrivialCheck(health.HealthCheck):
         return self._result
 
 
+class TrivialExtendedCheck(TrivialCheck):
+    is_extended = True
+
+
 def test_check_works(db):
-    info = health.check()
+    info = health.check(True)
     assert info.status == 200
     assert info.check_results == {
         'CheckDatabase': True
+    }
+
+
+def test_extended_checks_work():
+    info = health.HealthInfo([TrivialExtendedCheck()])
+    assert info.check_results == {}
+
+    info = health.HealthInfo([TrivialExtendedCheck()], is_extended=True)
+    assert info.check_results == {
+        'TrivialExtendedCheck': True
     }
 
 

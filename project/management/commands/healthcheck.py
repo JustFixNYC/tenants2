@@ -1,8 +1,9 @@
 import datetime
 import re
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote
 from django.core.management.base import BaseCommand
 from django.contrib.sites.models import Site
+from django.conf import settings
 import requests
 
 from project import slack
@@ -46,9 +47,12 @@ class Command(BaseCommand):
         css_url = urljoin(homepage_url, css_url)
         check_url(css_url, 'text/css')
 
-        health_url = absolute_reverse('health')
+        health_url = (f"{absolute_reverse('health')}?"
+                      f"extended={quote(settings.EXTENDED_HEALTHCHECK_KEY)}")
         r = check_url(health_url, 'application/json')
-        assert_equal(r.json()['status'], 200)
+        health = r.json()
+        assert_equal(health['status'], 200)
+        assert_equal(health['is_extended'], True)
 
         total_time = datetime.datetime.now() - start_time
         self.stdout.write(f'Health check for {name} successful! Completed in {total_time}.')

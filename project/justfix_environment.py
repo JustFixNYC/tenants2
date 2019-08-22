@@ -243,6 +243,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Setting this to true can speed up builds.
     DISABLE_DEV_SOURCE_MAPS: bool = False
 
+    # The value of the 'extended' querystring argument on the /health
+    # endpoint that will trigger an extended healthcheck. Because an
+    # extended healthcheck can consume valuable resources, this can
+    # be set to a secret value to deter DoS attacks.
+    EXTENDED_HEALTHCHECK_KEY: str = 'on'
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

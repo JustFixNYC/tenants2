@@ -462,7 +462,7 @@ if CELERY_BROKER_URL.startswith('amqp://'):
 
 # Our tasks are generally network-bound rather than CPU-bound, so we'll
 # increase concurrency substantially.
-CELERY_WORKER_CONCURRENCY = 50
+CELERY_WORKER_CONCURRENCY = 5
 
 # We want to use Django logging.
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False

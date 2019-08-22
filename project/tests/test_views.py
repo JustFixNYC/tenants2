@@ -326,9 +326,15 @@ def test_favicon_works(client, staticfiles):
 def test_health_works(db, client):
     res = client.get('/health')
     assert res.status_code == 200
-    assert res.json() == {
-        'status': 200,
-        'check_results': {
-            'CheckDatabase': True
-        }
-    }
+    health = res.json()
+    assert health['status'] == 200
+    assert health['is_extended'] is False
+
+
+def test_extended_health_works(db, client, settings):
+    settings.EXTENDED_HEALTHCHECK_KEY = 'bloop'
+    res = client.get('/health?extended=bloop')
+    assert res.status_code == 200
+    health = res.json()
+    assert health['status'] == 200
+    assert health['is_extended'] is True

@@ -305,5 +305,5 @@ def redirect_favicon(request):
 
 
 def health(request):
-    is_extended = request.GET.get('is_extended') == 'on'
+    is_extended = request.GET.get('extended') == settings.EXTENDED_HEALTHCHECK_KEY
     return project.health.check(is_extended).to_json_response()

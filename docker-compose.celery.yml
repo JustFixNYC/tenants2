@@ -1,13 +1,22 @@
-# Remember to set JUSTFIX_CELERY_BROKER_URL in your .justfix-env
-# when using this file!
 version: '2'
 services:
+  app:
+    environment:
+      - JUSTFIX_CELERY_BROKER_URL=amqp://rabbitmq
+    links:
+      - db
+      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3.7.17-alpine
   celery:
     extends:
       file: docker-services.yml
       service: base_app
+    environment:
+      - JUSTFIX_CELERY_BROKER_URL=amqp://rabbitmq
     volumes:
       - .:/tenants2:delegated
     links:
         - db
+        - rabbitmq
     command: python manage.py runcelery

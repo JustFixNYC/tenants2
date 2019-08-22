@@ -419,15 +419,4 @@ For example, to start up all services with Celery integration enabled, you can r
 docker-compose -f docker-compose.yml -f docker-compose.celery.yml up
 ```
 
-You will also need to add the following to your `.justfix-env`:
-
-```
-AWS_ACCESS_KEY_ID=<your access key ID>
-AWS_SECRET_ACCESS_KEY=<your secret access key>
-JUSTFIX_CELERY_BROKER_URL=justfix-sqs:///?queue_name_prefix=throwaway-dev-prefix-
-```
-
-You should change `throwaway-dev-prefix-` to something like your name, as it
-will be used as the prefix for the SQS queue used by your development instance.
-
 [Multiple Compose files]: https://docs.docker.com/compose/extends/

@@ -4,4 +4,7 @@ ARG DOCKERFILE_WEB
 
 FROM $DOCKERFILE_WEB
 
-CMD celery worker -l warning -A project
+# Note that we are running Celery without a heartbeat as
+# per https://www.cloudamqp.com/docs/celery.html, to reduce
+# messaging costs when using AMQP.
+CMD celery worker -l warning -A project --without-heartbeat

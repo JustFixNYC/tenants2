@@ -437,10 +437,41 @@ CELERY_BROKER_URL, CELERY_BROKER_TRANSPORT_OPTIONS = parse_celery_broker_url(
     default_queue_name_prefix="tenants2-"
 )
 CELERY_RESULT_BACKEND = 'django-db'
+
+if CELERY_BROKER_URL.startswith('amqp://'):
+    # By default, using Celery with AMQP consumes *tons* of messages,
+    # which quickly becomes expensive with services like CloudAMQP
+    # that charge based on message usage. The following settings are
+    # taken from https://www.cloudamqp.com/docs/celery.html to reduce
+    # message usage and increase efficiency.
+
+    # This will decrease connection usage.
+    CELERY_BROKER_POOL_LIMIT = 1
+
+    # We're using TCP keep-alive instead.
+    CELERY_BROKER_HEARTBEAT = None
+
+    # This may require a long timeout due to Linux DNS timeouts etc.
+    CELERY_BROKER_CONNECTION_TIMEOUT = 30
+
+    # This will delete all celeryev. queues without consumers after 1 minute.
+    CELERY_EVENT_QUEUE_EXPIRES = 60
+
+    # Disable prefetching, it causes problems and doesn't help performance.
+    CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+
+# Our tasks are generally network-bound rather than CPU-bound, so we'll
+# increase concurrency substantially.
+CELERY_WORKER_CONCURRENCY = 50
+
+# We want to use Django logging.
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
+
+# When executing tasks synchronously, make sure exceptions propagate.
 CELERY_TASK_EAGER_PROPAGATES = True
 
 if not CELERY_BROKER_URL:
+    # If Celery integration is disabled, just execute tasks synchronously.
     CELERY_TASK_ALWAYS_EAGER = True
 
 if AWS_STORAGE_STATICFILES_BUCKET_NAME:

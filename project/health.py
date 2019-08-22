@@ -99,6 +99,7 @@ class HealthInfo:
         return {
             'status': self.status,
             'is_extended': self.is_extended,
+            'version': settings.GIT_INFO.get_version_str(),
             'check_results': self.check_results
         }
 

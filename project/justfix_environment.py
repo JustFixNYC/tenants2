@@ -34,20 +34,14 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/JustFixNYC/who-owns-what
     WOW_DATABASE_URL: str = ''
 
-    # The Celery broker URL. In addition to the documented URL protocols,
-    # we also support 'justfix-sqs:///?queue_name_prefix=myprefix-', which
-    # will configure Celery to use Amazon SQS via the AWS credentials
-    # specified by AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, along with
-    # the given queue name prefix.
-    #
-    # If not provided, Celery integration will be disabled.
+    # The Celery broker URL, e.g. 'amqp://'. If not provided, Celery integration
+    # will be disabled.
     #
     # Note that we're prefixing this with "JUSTFIX_" because "CELERY_BROKER_URL"
     # is actually a Celery-specific environment variable that will be
-    # interpreted by Celery; because we support custom schemes and want to be
-    # able to override the value for tests and so forth, we don't want
-    # Celery to interpret this environment variable directly, hence the
-    # namespacing.
+    # interpreted by Celery; because we want to be able to override the value
+    # for tests and so forth, we don't want Celery to interpret this environment
+    # variable directly, hence the namespacing.
     JUSTFIX_CELERY_BROKER_URL: str = ''
 
     # This is a large random value corresponding to Django's

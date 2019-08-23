@@ -39,7 +39,7 @@ rapidpro-python = "==2.5.1"
 lob = "==4.0.0"
 # https://github.com/graphql-python/graphql-relay-py/issues/23
 graphql-relay = {editable = true,git = "https://github.com/graphql-python/graphql-relay-py.git",ref = "48856fb3cf9e6c122535076a82d862bac3c21779"}
-celery = {extras = ["sqs"],version = "==4.3.0"}
+celery = "==4.3.0"
 django-celery-results = "==1.1.2"
 
 [requires]

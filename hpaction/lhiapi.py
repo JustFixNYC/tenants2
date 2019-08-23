@@ -3,8 +3,12 @@ import logging
 from django.conf import settings
 import zeep
 
+from project.util.celery_util import threaded_fire_and_forget_task
+from project.util.site_util import absolute_reverse
+from project import slack
 from .models import UploadToken, HPActionDocuments
 from .hpactionvars import HPActionVariables
+from .build_hpactionvars import user_to_hpactionvars
 from .views import SUCCESSFUL_UPLOAD_TEXT
 
 
@@ -64,3 +68,33 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
         return None
 
     return HPActionDocuments.objects.get(id=token_id)
+
+
+def get_answers_and_documents_and_notify(token_id: str) -> None:
+    '''
+    Attempt to generate a user's HP Action packet, and send related notifications
+    to interested parties.
+    '''
+
+    token = UploadToken.objects.find_unexpired(token_id)
+    assert token is not None
+    user = token.user
+    hdinfo = user_to_hpactionvars(user)
+    docs = get_answers_and_documents(token, hdinfo)
+    if docs is not None:
+        user.send_sms(
+            f"JustFix.nyc here! Follow this link to your completed "
+            f"HP Action legal forms. You will need to print these "
+            f"papers before bringing them to court! "
+            f"{absolute_reverse('hpaction:latest_pdf')}",
+            fail_silently=True
+        )
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has generated HP Action legal forms!",
+            is_safe=True
+        )
+
+
+async_get_answers_and_documents_and_notify = threaded_fire_and_forget_task(
+    get_answers_and_documents_and_notify)

@@ -7,9 +7,7 @@ from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
-from project.util.site_util import absolute_reverse
-from project import slack, schema_registry
-from project.util.celery_util import threaded_fire_and_forget_task
+from project import schema_registry
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
@@ -17,35 +15,7 @@ from project.util.model_form_util import (
     create_models_for_user_resolver
 )
 from .models import HPUploadStatus, COMMON_DATA
-from . import models, forms
-from .build_hpactionvars import user_to_hpactionvars
-from .hpactionvars import HPActionVariables
-from . import lhiapi
-
-
-@threaded_fire_and_forget_task
-def async_get_answers_and_documents(token_id: str, hdinfo: HPActionVariables) -> None:
-    '''
-    Attempt to generate a user's HP Action packet.
-    '''
-
-    token = models.UploadToken.objects.find_unexpired(token_id)
-    assert token is not None
-    user = token.user
-    docs = lhiapi.get_answers_and_documents(token, hdinfo)
-    if docs is not None:
-        user.send_sms(
-            f"JustFix.nyc here! Follow this link to your completed "
-            f"HP Action legal forms. You will need to print these "
-            f"papers before bringing them to court! "
-            f"{absolute_reverse('hpaction:latest_pdf')}",
-            fail_silently=True
-        )
-        slack.sendmsg_async(
-            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-            f"has generated HP Action legal forms!",
-            is_safe=True
-        )
+from . import models, forms, lhiapi
 
 
 @schema_registry.register_mutation
@@ -58,9 +28,8 @@ class GenerateHpActionPdf(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
-        hdinfo = user_to_hpactionvars(user)
         token = models.UploadToken.objects.create_for_user(user)
-        async_get_answers_and_documents(token.id, hdinfo)
+        lhiapi.async_get_answers_and_documents_and_notify(token.id)
         return cls.mutation_success()
 
 

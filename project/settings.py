@@ -16,7 +16,6 @@ import dj_database_url
 from . import justfix_environment
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
-    parse_celery_broker_url,
     parse_secure_proxy_ssl_header, LazilyImportedFunction)
 from .util import git
 
@@ -430,12 +429,7 @@ CSP_CONNECT_SRC = [
 #
 #   https://docs.celeryproject.org/en/latest/userguide/configuration.html
 
-CELERY_BROKER_URL, CELERY_BROKER_TRANSPORT_OPTIONS = parse_celery_broker_url(
-    env.JUSTFIX_CELERY_BROKER_URL,
-    AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY,
-    default_queue_name_prefix="tenants2-"
-)
+CELERY_BROKER_URL = env.JUSTFIX_CELERY_BROKER_URL
 CELERY_RESULT_BACKEND = 'django-db'
 
 if CELERY_BROKER_URL.startswith('amqp://'):

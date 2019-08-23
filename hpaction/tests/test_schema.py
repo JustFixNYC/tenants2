@@ -5,7 +5,6 @@ import pytest
 from users.tests.factories import UserFactory
 from .factories import UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory
 from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
-import hpaction.schema
 
 
 def execute_tenant_children_mutation(graphql_client, children):
@@ -136,13 +135,6 @@ def execute_genpdf_mutation(graphql_client, **input):
 
 
 class TestGenerateHPActionPDF:
-    def setup(self):
-        self._orig_async = hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC
-        hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC = False
-
-    def teardown(self):
-        hpaction.schema.GET_ANSWERS_AND_DOCUMENTS_ASYNC = self._orig_async
-
     def test_it_requires_auth(self, graphql_client):
         result = execute_genpdf_mutation(graphql_client)
         assert result['errors'] == [{'field': '__all__', 'messages': [

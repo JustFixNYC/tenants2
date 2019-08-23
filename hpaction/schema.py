@@ -1,5 +1,4 @@
 from typing import Optional
-from threading import Thread
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
@@ -10,6 +9,7 @@ from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse
 from project import slack, schema_registry
+from project.util.celery_util import threaded_fire_and_forget_task
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
@@ -23,41 +23,29 @@ from .hpactionvars import HPActionVariables
 from . import lhiapi
 
 
-class GetAnswersAndDocumentsThread(Thread):
+@threaded_fire_and_forget_task
+def async_get_answers_and_documents(token_id: str, hdinfo: HPActionVariables) -> None:
     '''
-    A separate thread that attempts to generate the user's HP Action packet.
-    Ideally this should be done in a worker queue but we don't have
-    time to set one up right now, and this should take about a minute
-    anyways, so it's unlikely that Heroku (or whatever else is running us)
-    will kill us before we're done.
+    Attempt to generate a user's HP Action packet.
     '''
 
-    def __init__(self, token_id: str, hdinfo: HPActionVariables) -> None:
-        super().__init__()
-        self.token_id = token_id
-        self.hdinfo = hdinfo
-
-    def run(self) -> None:
-        token = models.UploadToken.objects.find_unexpired(self.token_id)
-        assert token is not None
-        user = token.user
-        docs = lhiapi.get_answers_and_documents(token, self.hdinfo)
-        if docs is not None:
-            user.send_sms(
-                f"JustFix.nyc here! Follow this link to your completed "
-                f"HP Action legal forms. You will need to print these "
-                f"papers before bringing them to court! "
-                f"{absolute_reverse('hpaction:latest_pdf')}",
-                fail_silently=True
-            )
-            slack.sendmsg_async(
-                f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-                f"has generated HP Action legal forms!",
-                is_safe=True
-            )
-
-
-GET_ANSWERS_AND_DOCUMENTS_ASYNC = True
+    token = models.UploadToken.objects.find_unexpired(token_id)
+    assert token is not None
+    user = token.user
+    docs = lhiapi.get_answers_and_documents(token, hdinfo)
+    if docs is not None:
+        user.send_sms(
+            f"JustFix.nyc here! Follow this link to your completed "
+            f"HP Action legal forms. You will need to print these "
+            f"papers before bringing them to court! "
+            f"{absolute_reverse('hpaction:latest_pdf')}",
+            fail_silently=True
+        )
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has generated HP Action legal forms!",
+            is_safe=True
+        )
 
 
 @schema_registry.register_mutation
@@ -72,11 +60,7 @@ class GenerateHpActionPdf(SessionFormMutation):
         user = info.context.user
         hdinfo = user_to_hpactionvars(user)
         token = models.UploadToken.objects.create_for_user(user)
-        thread = GetAnswersAndDocumentsThread(token.id, hdinfo)
-        if GET_ANSWERS_AND_DOCUMENTS_ASYNC:
-            thread.start()
-        else:
-            thread.run()
+        async_get_answers_and_documents(token.id, hdinfo)
         return cls.mutation_success()
 
 

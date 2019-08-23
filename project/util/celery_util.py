@@ -1,6 +1,10 @@
 from typing import TypeVar, Callable
 from functools import wraps
+from threading import Thread
+from django.conf import settings
 from django.utils.module_loading import autodiscover_modules
+
+from .. import justfix_environment
 
 
 T = TypeVar('T', bound=Callable)
@@ -45,3 +49,26 @@ def fire_and_forget_task(fun: T) -> T:
         task.delay(*args, **kwargs)
 
     return wrapper  # type: ignore
+
+
+def threaded_fire_and_forget_task(fun: T) -> T:
+    '''
+    Like fire_and_forget_task(), but if Celery support is disabled, the
+    function is run asynchronously in a separate thread.
+
+    Note that ideally, in production, Celery support should actually
+    be enabled, as spawning a worker thread in a process that serves
+    web requests isn't recommended.
+    '''
+
+    celery_wrapper = fire_and_forget_task(fun)
+
+    @wraps(fun)
+    def threaded_wrapper(*args, **kwargs):
+        if settings.CELERY_BROKER_URL or justfix_environment.IS_RUNNING_TESTS:
+            celery_wrapper(*args, **kwargs)
+        else:
+            thread = Thread(target=celery_wrapper, args=args, kwargs=kwargs)
+            thread.start()
+
+    return threaded_wrapper  # type: ignore

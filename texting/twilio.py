@@ -7,6 +7,7 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest.lookups.v1.phone_number import PhoneNumberInstance
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
+from project.util.celery_util import fire_and_forget_task
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +81,9 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
             f'with the body {repr(body)}.'
         )
         return ''
+
+
+send_sms_async = fire_and_forget_task(send_sms)
 
 
 def _lookup_phone_number(phone_number: str, type: str = '') -> Optional[PhoneNumberInstance]:

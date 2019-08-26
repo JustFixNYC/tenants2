@@ -156,10 +156,9 @@ class OnboardingStep4(SessionFormMutation):
             oi.full_clean()
             oi.save()
 
-        user.send_sms(
+        user.send_sms_async(
             f"Welcome to JustFix.nyc, {user.first_name}! "
             f"We'll be sending you notifications from this phone number.",
-            fail_silently=True
         )
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

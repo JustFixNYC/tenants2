@@ -82,12 +82,11 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
     hdinfo = user_to_hpactionvars(user)
     docs = get_answers_and_documents(token, hdinfo)
     if docs is not None:
-        user.send_sms(
+        user.send_sms_async(
             f"JustFix.nyc here! Follow this link to your completed "
             f"HP Action legal forms. You will need to print these "
             f"papers before bringing them to court! "
             f"{absolute_reverse('hpaction:latest_pdf')}",
-            fail_silently=True
         )
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

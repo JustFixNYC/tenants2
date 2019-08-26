@@ -88,6 +88,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
           const initialErrors = output && output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
             ...newProps,
+            latestOutput: output || undefined,
             initialState: sub.input,
             initialErrors
           };
@@ -98,7 +99,6 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
               appStaticCtx.url = redirect;
               return null;
             }
-            newProps.wasSubmittedSuccessfully = true;
           }
           return (
             <LegacyFormSubmissionContext.Provider value={appCtx.legacyFormSubmission}>

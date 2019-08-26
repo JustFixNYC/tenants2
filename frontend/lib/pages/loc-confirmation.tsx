@@ -67,8 +67,8 @@ function EmailLetterForm(props: {}) {
       mutation={EmailLetterMutation}
       initialState={BlankEmailLetterInput}
     >
-      {(ctx) => <>
-        {ctx.wasSubmittedSuccessfully ? 'OH COOL BUDDY' : null}
+      {(ctx, latestOutput) => <>
+        {latestOutput && latestOutput.recipients && <p>Email sent to {latestOutput.recipients.join(',')}.</p>}
         <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
         <NextButton isLoading={ctx.isLoading} label="Send" />
       </>}

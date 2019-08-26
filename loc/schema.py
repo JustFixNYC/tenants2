@@ -17,11 +17,13 @@ class EmailLetter(DjangoFormMutation):
 
     login_required = True
 
+    recipients = graphene.List(graphene.NonNull(graphene.String))
+
     @classmethod
     def perform_mutate(cls, form: forms.EmailForm, info: ResolveInfo):
         # request = info.context
         print("TODO PERFORM MUTATE YO")
-        return cls(errors=[])
+        return cls(errors=[], recipients=[form.cleaned_data['email']])
 
 
 @schema_registry.register_mutation

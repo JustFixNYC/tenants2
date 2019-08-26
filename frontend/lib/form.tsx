@@ -11,7 +11,7 @@ export type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormE
  * This function type is responsible for rendering a form's fields,
  * including its submit button.
  */
-export type FormContextRenderer<FormInput> = (context: FormContext<FormInput>) => JSX.Element;
+export type FormContextRenderer<FormInput, FormOutput> = (context: FormContext<FormInput>, latestOutput?: FormOutput) => JSX.Element;
 
 export interface BaseFormProps<FormInput> {
   /**
@@ -28,7 +28,7 @@ export interface BaseFormProps<FormInput> {
   errors?: FormErrors<FormInput>;
 }
 
-export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
+export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInput> {
   /**
    * This function is called when the user submits the form.
    */
@@ -58,7 +58,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
    * The child render prop for the form, which is responsible
    * for rendering the form's fields and any other content.
    */
-  children: FormContextRenderer<FormInput>;
+  children: FormContextRenderer<FormInput, FormOutput>;
 
   /**
    * Any extra form fields to include in the form, apart from
@@ -74,7 +74,7 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
    */
   extraFormAttributes?: HTMLFormAttrs;
 
-  wasSubmittedSuccessfully?: boolean;
+  latestOutput?: FormOutput;
 }
 
 /**
@@ -95,8 +95,8 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
  * It is *not* responsible for actually submitting the form to a
  * server.
  */
-export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormInput> {
-  constructor(props: FormProps<FormInput>) {
+export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormInput, FormOutput>, FormInput> {
+  constructor(props: FormProps<FormInput, FormOutput>) {
     super(props);
     this.state = props.initialState;
   }
@@ -114,7 +114,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
     this.submit();
   }
 
-  componentDidUpdate(prevProps: FormProps<FormInput>, prevState: FormInput) {
+  componentDidUpdate(prevProps: FormProps<FormInput, FormOutput>, prevState: FormInput) {
     if (prevState !== this.state && this.props.onChange) {
       this.props.onChange(this.state);
     }
@@ -127,7 +127,6 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
       errors: this.props.errors,
       namePrefix: '',
       currentState: this.state,
-      wasSubmittedSuccessfully: this.props.wasSubmittedSuccessfully,
       setField: (field, value) => {
         // I'm not sure why Typescript dislikes this, but it seems
         // like the only way to get around it is to cast to "any". :(
@@ -141,7 +140,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
         {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
         <NonFieldErrors errors={this.props.errors} />
-        {this.props.children(ctx)}
+        {this.props.children(ctx, this.props.latestOutput)}
         {ctx.logWarnings()}
       </form>
     );

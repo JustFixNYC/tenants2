@@ -68,7 +68,7 @@ function EmailLetterForm(props: {}) {
       initialState={BlankEmailLetterInput}
     >
       {(ctx, latestOutput) => <>
-        {latestOutput && latestOutput.recipients && <p>Email sent to {latestOutput.recipients.join(',')}.</p>}
+        {latestOutput && latestOutput.recipients && <div className="notification is-success">Email sent to {latestOutput.recipients.join(',')}.</div>}
         <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
         <NextButton isLoading={ctx.isLoading} label="Send" />
       </>}

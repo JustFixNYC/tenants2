@@ -3,7 +3,7 @@ import React from 'react';
 import { withAppContext, AppContextType } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
 import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
-import Page from '../page';
+import Page, { PageTitle } from '../page';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
@@ -61,6 +61,15 @@ const knowYourRightsList = (
   </ul>
 );
 
+function SuccessMessage(props: {text: string}) {
+  return (
+    <div className="notification is-success">
+      {props.text}
+      <PageTitle title={props.text} />
+    </div>
+  );
+}
+
 function EmailLetterForm(props: {}) {
   return (
     <LegacyFormSubmitter
@@ -68,7 +77,7 @@ function EmailLetterForm(props: {}) {
       initialState={BlankEmailLetterInput}
     >
       {(ctx, latestOutput) => <>
-        {latestOutput && latestOutput.recipients && <div className="notification is-success">Email sent to {latestOutput.recipients.join(',')}.</div>}
+        {latestOutput && latestOutput.recipients && <SuccessMessage text={`Email sent to ${latestOutput.recipients.join(',')}.`} />}
         <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
         <NextButton isLoading={ctx.isLoading} label="Send" />
       </>}

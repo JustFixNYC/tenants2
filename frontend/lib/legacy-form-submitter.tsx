@@ -98,6 +98,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
               appStaticCtx.url = redirect;
               return null;
             }
+            newProps.wasSubmittedSuccessfully = true;
           }
           return (
             <LegacyFormSubmissionContext.Provider value={appCtx.legacyFormSubmission}>

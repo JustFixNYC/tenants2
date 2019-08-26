@@ -45,6 +45,8 @@ createBlankLiteral = true
 
 [mutations."example.*"]
 
+[mutations.emailLetter]
+
 [mutations.login]
 
 [mutations.logout]

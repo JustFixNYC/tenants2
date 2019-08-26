@@ -4,9 +4,24 @@ from graphene_django.types import DjangoObjectType
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation
 from project import slack, schema_registry
 from . import forms, models
 from airtable.sync import sync_user as sync_user_with_airtable
+
+
+@schema_registry.register_mutation
+class EmailLetter(DjangoFormMutation):
+    class Meta:
+        form_class = forms.EmailForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form: forms.EmailForm, info: ResolveInfo):
+        # request = info.context
+        print("TODO PERFORM MUTATE YO")
+        return cls(errors=[])
 
 
 @schema_registry.register_mutation

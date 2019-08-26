@@ -8,6 +8,10 @@ import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
 import { ProgressiveLoadableConfetti } from '../confetti-loadable';
+import { LegacyFormSubmitter } from '../legacy-form-submitter';
+import { EmailLetterMutation, BlankEmailLetterInput } from '../queries/EmailLetterMutation';
+import { TextualFormField } from '../form-fields';
+import { NextButton } from '../buttons';
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
@@ -57,6 +61,21 @@ const knowYourRightsList = (
   </ul>
 );
 
+function EmailLetterForm(props: {}) {
+  return (
+    <LegacyFormSubmitter
+      mutation={EmailLetterMutation}
+      initialState={BlankEmailLetterInput}
+    >
+      {(ctx) => <>
+        {ctx.wasSubmittedSuccessfully ? 'OH COOL BUDDY' : null}
+        <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
+        <NextButton isLoading={ctx.isLoading} label="Send" />
+      </>}
+    </LegacyFormSubmitter>
+  );
+}
+
 const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element => {
   const { letterRequest } = props.session;
   const letterStatusProps = { locPdfURL: props.server.locPdfURL };
@@ -76,6 +95,9 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <div className="content">
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
+        <h2>Email your letter</h2>
+        <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
+        <EmailLetterForm />
         <h2>Want to read more about your rights?</h2>
         {knowYourRightsList}
       </div>

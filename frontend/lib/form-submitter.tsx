@@ -71,7 +71,7 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * forms that don't have cached/pre-fetched results available.
    */
   submitOnMount?: boolean;
-} & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
+} & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'|'wasSubmittedSuccessfully'>;
 
 /**
  * This class encapsulates common logic for form submission. It's
@@ -135,7 +135,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       errors: props.initialErrors,
       currentSubmissionId: 0,
       isDirty: false,
-      wasSubmittedSuccessfully: false
+      wasSubmittedSuccessfully: typeof(props.wasSubmittedSuccessfully) === 'undefined' ? false : props.wasSubmittedSuccessfully
     };
   }
 
@@ -249,6 +249,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         idPrefix={this.props.idPrefix}
         extraFields={this.props.extraFields}
         extraFormAttributes={this.props.extraFormAttributes}
+        wasSubmittedSuccessfully={this.state.wasSubmittedSuccessfully}
       >
         {this.props.children}
       </Form>

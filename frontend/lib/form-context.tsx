@@ -17,6 +17,7 @@ export interface BaseFormContextOptions<FormInput> {
   currentState: FormInput;
   setField: FieldSetter<FormInput>;
   namePrefix: string;
+  wasSubmittedSuccessfully?: boolean;
 }
 
 /**
@@ -34,6 +35,8 @@ export class BaseFormContext<FormInput> {
    */
   readonly isLoading: boolean;
 
+  readonly wasSubmittedSuccessfully?: boolean;
+
   /**
    * Book-keeping that is meant to track what fields have
    * been rendered so far.
@@ -42,6 +45,7 @@ export class BaseFormContext<FormInput> {
 
   constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
+    this.wasSubmittedSuccessfully = options.wasSubmittedSuccessfully;
   }
 
   /**

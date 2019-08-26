@@ -73,6 +73,8 @@ export interface FormProps<FormInput> extends BaseFormProps<FormInput> {
    * rendered by the component.
    */
   extraFormAttributes?: HTMLFormAttrs;
+
+  wasSubmittedSuccessfully?: boolean;
 }
 
 /**
@@ -125,6 +127,7 @@ export class Form<FormInput> extends React.Component<FormProps<FormInput>, FormI
       errors: this.props.errors,
       namePrefix: '',
       currentState: this.state,
+      wasSubmittedSuccessfully: this.props.wasSubmittedSuccessfully,
       setField: (field, value) => {
         // I'm not sure why Typescript dislikes this, but it seems
         // like the only way to get around it is to cast to "any". :(

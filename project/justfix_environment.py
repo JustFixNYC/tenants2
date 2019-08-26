@@ -256,7 +256,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Default email address to use for various automated correspondence
     # from the site manager(s).
-    DEFAULT_FROM_EMAIL: str = ''
+    DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
 
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
@@ -281,8 +281,6 @@ class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
     DEBUG = True
 
     EMAIL_URL = 'console:'
-
-    DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
 
 
 class JustfixTestingEnvironment(JustfixEnvironment):

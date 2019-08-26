@@ -243,6 +243,21 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # be set to a secret value to deter DoS attacks.
     EXTENDED_HEALTHCHECK_KEY: str = 'on'
 
+    # This is the URL for the service to use when sending email, as
+    # per the dj-email-url schema:
+    #
+    #   https://github.com/migonzalvar/dj-email-url#supported-backends
+    #
+    # When DEBUG is true, this defaults to `console:`. If it is set to
+    # `dummy:` then no emails will be sent and messages about email
+    # notifications will not be shown to users. The setting can be
+    # manually tested via the manage.py `sendtestemail` command.
+    EMAIL_URL: str = 'dummy:'
+
+    # Default email address to use for various automated correspondence
+    # from the site manager(s).
+    DEFAULT_FROM_EMAIL: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''
@@ -264,6 +279,10 @@ class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
     '''
 
     DEBUG = True
+
+    EMAIL_URL = 'console:'
+
+    DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
 
 
 class JustfixTestingEnvironment(JustfixEnvironment):

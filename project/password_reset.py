@@ -58,10 +58,9 @@ def create_verification_code(request: HttpRequest, phone_number: str):
     request.session[USER_ID_SESSION_KEY] = user.pk
     request.session[VCODE_SESSION_KEY] = vcode
     request.session[TIMESTAMP_SESSION_KEY] = time.time()
-    twilio.send_sms(
+    twilio.send_sms_async(
         phone_number,
         f"JustFix.nyc here! Your verification code is {vcode}.",
-        fail_silently=True
     )
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

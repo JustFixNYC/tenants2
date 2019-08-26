@@ -109,10 +109,18 @@ class JustfixUser(AbstractUser):
         last_digits = self.phone_number[6:]
         return f"({area_code}) {first_three_digits}-{last_digits}"
 
+    @property
+    def can_we_sms(self) -> bool:
+        return hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms
+
     def send_sms(self, body: str, fail_silently=True) -> str:
-        if hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms:
+        if self.can_we_sms:
             return twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
         return ''
+
+    def send_sms_async(self, body: str) -> None:
+        if self.can_we_sms:
+            twilio.send_sms_async(self.phone_number, body)
 
     @property
     def admin_url(self):

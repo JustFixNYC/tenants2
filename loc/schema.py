@@ -49,11 +49,10 @@ class LetterRequest(OneToOneUserModelFormMutation):
         lr = form.save()
         if lr.mail_choice == 'WE_WILL_MAIL':
             sync_user_with_airtable(request.user)
-            lr.user.send_sms(
+            lr.user.send_sms_async(
                 f"JustFix.nyc here - we've received your request and will "
                 f"update you once the letter has been sent. "
                 f"Please allow for 1-2 business days to process.",
-                fail_silently=True
             )
         slack.sendmsg_async(
             f"{slack.hyperlink(text=lr.user.first_name, href=lr.user.admin_url)} "

@@ -4,6 +4,7 @@ import pytest
 from django.core.exceptions import ImproperlyConfigured
 
 from texting.twilio import (
+    send_sms_async,
     send_sms, validate_settings, logger, is_phone_number_valid, get_carrier_info
 )
 
@@ -12,6 +13,16 @@ def test_send_sms_works(settings, smsoutbox):
     settings.TWILIO_PHONE_NUMBER = '9990001234'
 
     send_sms('5551234567', 'boop')
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == '+15551234567'
+    assert smsoutbox[0].from_ == '+19990001234'
+    assert smsoutbox[0].body == 'boop'
+
+
+def test_send_sms_async_works(settings, smsoutbox):
+    settings.TWILIO_PHONE_NUMBER = '9990001234'
+
+    send_sms_async('5551234567', 'boop')
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == '+15551234567'
     assert smsoutbox[0].from_ == '+19990001234'

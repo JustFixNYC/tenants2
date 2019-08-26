@@ -1,3 +1,4 @@
+import dj_email_url
 from . import justfix_environment  # noqa
 
 justfix_environment.IS_RUNNING_TESTS = True
@@ -39,6 +40,9 @@ CELERY_BROKER_URL = ''
 CELERY_TASK_ALWAYS_EAGER = True
 
 DEBUG_DATA_DIR = ''
+
+email_config = dj_email_url.parse('dummy:')
+vars().update(email_config)
 
 DEFAULT_FILE_STORAGE = 'project.settings_pytest.NotActuallyFileStorage'
 

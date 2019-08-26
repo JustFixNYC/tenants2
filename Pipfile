@@ -41,6 +41,7 @@ lob = "==4.0.0"
 graphql-relay = {editable = true,git = "https://github.com/graphql-python/graphql-relay-py.git",ref = "48856fb3cf9e6c122535076a82d862bac3c21779"}
 celery = "==4.3.0"
 django-celery-results = "==1.1.2"
+dj-email-url = "==0.2.0"
 
 [requires]
 python_version = "3.7"

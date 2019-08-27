@@ -93,7 +93,7 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
   </>
 );
 
-const GeneratePDFForm = (props: { children: FormContextRenderer<{}> }) => (
+const GeneratePDFForm = (props: { children: FormContextRenderer<{}, any> }) => (
   <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
    onSuccessRedirect={Routes.locale.hp.waitForUpload} {...props} />
 );

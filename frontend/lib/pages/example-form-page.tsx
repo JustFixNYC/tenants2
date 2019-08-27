@@ -11,6 +11,7 @@ import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { Formset } from '../formset';
 import { CurrencyFormField } from '../currency-form-field';
 import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
+import { Link } from 'react-router-dom';
 
 const INITIAL_STATE: ExampleInput = {
   ...BlankExampleInput,
@@ -18,17 +19,17 @@ const INITIAL_STATE: ExampleInput = {
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
-function FormInModal(): JSX.Element {
+function FormInModal(props: { onSuccessRedirect?: string }): JSX.Element {
   return (
     <Modal title="Example form in a modal" onCloseGoTo={BackOrUpOneDirLevel} render={() => <>
       <p>Here's the same form, but in a modal!</p>
-      <ExampleForm onSuccessRedirect={Routes.dev.examples.form} id="in_modal" />
+      <ExampleForm onSuccessRedirect={props.onSuccessRedirect} id="in_modal" />
     </>}/>
   );
 }
 
 /* istanbul ignore next: this is tested by integration tests. */
-function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Element {
+function ExampleForm(props: { id: string, onSuccessRedirect?: string }): JSX.Element {
   return (
     <LegacyFormSubmitter
       mutation={ExampleMutation}
@@ -36,8 +37,11 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
       onSuccessRedirect={props.onSuccessRedirect}
       formId={props.id}
     >
-      {(ctx) => (
+      {(ctx, latestOutput) => (
         <React.Fragment>
+          {latestOutput && latestOutput.response && <div className="notification is-success">
+            Hooray, the form was submitted successfully and the response is "{latestOutput.response}"!
+          </div>}
           {ctx.nonFieldErrors &&
            ctx.nonFieldErrors.some(nfe => nfe.code === 'CODE_NFOER') &&
            <p className="has-grey-light">
@@ -67,16 +71,31 @@ function ExampleForm(props: { id: string, onSuccessRedirect: string }): JSX.Elem
 }
 
 /* istanbul ignore next: this is tested by integration tests. */
-export default function ExampleFormPage(): JSX.Element {
+export function ExampleFormPage(): JSX.Element {
   return (
     <Page title="Example form page">
       <div className="content">
-        <p>This is an example form page.</p>
-        <ModalLink to={Routes.dev.examples.formInModal} component={FormInModal} className="button is-light">
+        <p>This is an example form page. It will redirect to the homepage on success; use the <Link to={Routes.dev.examples.formWithoutRedirect}>form without redirect</Link> if you want different behavior.</p>
+        <ModalLink to={Routes.dev.examples.formInModal} render={() => <FormInModal onSuccessRedirect={Routes.dev.examples.form} />} className="button is-light">
           Use the form in a modal
         </ModalLink>
       </div>
       <ExampleForm onSuccessRedirect={Routes.locale.home} id="not_in_modal" />
+    </Page>
+  );
+}
+
+/* istanbul ignore next: this is tested by integration tests. */
+export function ExampleFormWithoutRedirectPage(): JSX.Element {
+  return (
+    <Page title="Example form page (without redirect on success)">
+      <div className="content">
+        <p>This is an example form page. It will not redirect anywhere on success; ; use the <Link to={Routes.dev.examples.form}>form with redirect</Link> if you want different behavior.</p>
+        <ModalLink to={Routes.dev.examples.formInModalWithoutRedirect} render={() => <FormInModal />} className="button is-light">
+          Use the form in a modal
+        </ModalLink>
+      </div>
+      <ExampleForm id="not_in_modal" />
     </Page>
   );
 }

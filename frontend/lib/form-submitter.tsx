@@ -66,12 +66,19 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
   initialErrors?: FormErrors<FormInput>;
 
   /**
+   * The latest server response to the most recent form submission,
+   * if any. This can be used by the form's children to e.g.
+   * show a success message upon initial display of the form.
+   */
+  initialLatestOutput?: FormOutput;
+
+  /**
    * Whether to automatically submit the form as soon as the
    * component is mounted. This can be useful for HTTP GET-based
    * forms that don't have cached/pre-fetched results available.
    */
   submitOnMount?: boolean;
-} & Pick<FormProps<FormInput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
+} & Pick<FormProps<FormInput, FormOutput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
 
 /**
  * This class encapsulates common logic for form submission. It's
@@ -97,10 +104,11 @@ export class FormSubmitter<FormInput, FormOutput extends WithServerFormFieldErro
 
 export type FormSubmitterPropsWithRouter<FormInput, FormOutput extends WithServerFormFieldErrors> = FormSubmitterProps<FormInput, FormOutput> & RouteComponentProps<any>;
 
-interface FormSubmitterState<FormInput> extends BaseFormProps<FormInput> {
+interface FormSubmitterState<FormInput, FormOutput> extends BaseFormProps<FormInput> {
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
   currentSubmissionId: number;
+  latestOutput?: FormOutput;
   lastSuccessRedirect?: {
     from: string,
     to: string
@@ -125,7 +133,7 @@ export function defaultPerformRedirect(redirect: string, history: History) {
   history.push(redirect);
 }
 
-export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput>> {
+export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServerFormFieldErrors> extends React.Component<FormSubmitterPropsWithRouter<FormInput, FormOutput>, FormSubmitterState<FormInput, FormOutput>> {
   willUnmount = false;
 
   constructor(props: FormSubmitterPropsWithRouter<FormInput, FormOutput>) {
@@ -133,6 +141,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     this.state = {
       isLoading: false,
       errors: props.initialErrors,
+      latestOutput: this.props.initialLatestOutput,
       currentSubmissionId: 0,
       isDirty: false,
       wasSubmittedSuccessfully: false
@@ -152,7 +161,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
       isLoading: true,
       errors: undefined,
       currentSubmissionId: submissionId,
-      wasSubmittedSuccessfully: false
+      wasSubmittedSuccessfully: false,
+      latestOutput: undefined
     });
     return this.props.onSubmit(input).then(output => {
       if (this.willUnmount) return;
@@ -161,11 +171,13 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         trackFormErrors(output.errors);
         this.setState({
           isLoading: false,
+          latestOutput: output,
           errors: getFormErrors<FormInput>(output.errors)
         });
       } else {
         this.setState({
-          wasSubmittedSuccessfully: true
+          wasSubmittedSuccessfully: true,
+          latestOutput: output
         });
         if (this.props.onSuccess) {
           this.props.onSuccess(output);
@@ -249,6 +261,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         idPrefix={this.props.idPrefix}
         extraFields={this.props.extraFields}
         extraFormAttributes={this.props.extraFormAttributes}
+        latestOutput={this.state.latestOutput}
       >
         {this.props.children}
       </Form>

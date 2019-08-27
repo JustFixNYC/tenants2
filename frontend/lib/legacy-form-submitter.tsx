@@ -88,6 +88,7 @@ function LegacyFormSubmissionWrapper<FormInput, FormOutput extends WithServerFor
           const initialErrors = output && output.errors.length ? getFormErrors<FormInput>(output.errors) : undefined;
           newProps = {
             ...newProps,
+            initialLatestOutput: output || undefined,
             initialState: sub.input,
             initialErrors
           };

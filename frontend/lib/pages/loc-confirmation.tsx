@@ -9,9 +9,11 @@ import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
 import { ProgressiveLoadableConfetti } from '../confetti-loadable';
 import { LegacyFormSubmitter } from '../legacy-form-submitter';
-import { EmailLetterMutation, BlankEmailLetterInput } from '../queries/EmailLetterMutation';
+import { EmailLetterMutation, BlankEmailLetterInput, BlankRecipientsEmailFormFormSetInput } from '../queries/EmailLetterMutation';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
+import { Formset } from '../formset';
+import { maxRecipients } from '../../../common-data/email-attachment-validation.json';
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
@@ -70,6 +72,11 @@ function SuccessMessage(props: {text: string}) {
   );
 }
 
+function labelForRecipient(i: number): string {
+  const label = `Email address for recipient #${i + 1}`;
+  return (i === 0) ? label : `${label} (optional)`;
+}
+
 function EmailLetterForm(props: {}) {
   return (
     <LegacyFormSubmitter
@@ -77,8 +84,14 @@ function EmailLetterForm(props: {}) {
       initialState={BlankEmailLetterInput}
     >
       {(ctx, latestOutput) => <>
-        {latestOutput && latestOutput.recipients && <SuccessMessage text={`Email sent to ${latestOutput.recipients.join(',')}.`} />}
-        <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
+        {latestOutput && latestOutput.recipients &&
+          /* Ideally we'd use Intl.ListFormat() here but browser support is very spotty. */
+          <SuccessMessage text={`Got it! We're sending your letter to ${latestOutput.recipients.join(', ')}.`} />}
+        <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={BlankRecipientsEmailFormFormSetInput} extra={maxRecipients}>
+          {(formsetCtx, i) => <>
+            <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="text" label={labelForRecipient(i)} />
+          </>}
+        </Formset>
         <NextButton isLoading={ctx.isLoading} label="Send" />
       </>}
     </LegacyFormSubmitter>

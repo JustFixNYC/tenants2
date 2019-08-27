@@ -4636,15 +4636,23 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "",
-              "name": "email",
+              "description": null,
+              "name": "recipients",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "RecipientsEmailFormFormSetInput",
+                      "ofType": null
+                    }
+                  }
                 }
               }
             },
@@ -4662,6 +4670,31 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "EmailLetterInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "email",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "RecipientsEmailFormFormSetInput",
           "possibleTypes": null
         },
         {

@@ -80,21 +80,20 @@ function labelForRecipient(i: number): string {
 function EmailLetterForm(props: {}) {
   return (
     <LegacyFormSubmitter
+      /* Browser validation of email addresses is unfriendly, but we want email-specific
+       * keyboards on mobile devices, so we'll use type="email" but disable validation. */
+      extraFormAttributes={{noValidate: true}}
       mutation={EmailLetterMutation}
       initialState={BlankEmailLetterInput}
     >
       {(ctx, latestOutput) => {
         const wasSentTo = latestOutput && latestOutput.recipients;
         return <>
-          {wasSentTo &&
-            /* Ideally we'd use Intl.ListFormat() here but browser support is very spotty. */
-            <SuccessMessage text={`Got it! We're sending your letter to ${wasSentTo.join(', ')}.`} />}
+          {wasSentTo && <SuccessMessage text={`Got it! We're sending your letter to ${wasSentTo.join(', ')}.`} />}
           <div className={wasSentTo ? "is-hidden" : ""}>
             <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
             <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={BlankRecipientsEmailFormFormSetInput} extra={maxRecipients}>
-              {(formsetCtx, i) => <>
-                <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="email" label={labelForRecipient(i)} />
-              </>}
+              {(formsetCtx, i) => <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="email" label={labelForRecipient(i)} />}
             </Formset>
             <NextButton isLoading={ctx.isLoading} label="Email letter" buttonClass="is-light" />
           </div>

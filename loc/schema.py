@@ -6,7 +6,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from project.util.django_graphql_forms import DjangoFormMutation
 from project import slack, schema_registry
-from . import forms, models
+from . import forms, models, email_letter
 from airtable.sync import sync_user as sync_user_with_airtable
 
 
@@ -24,21 +24,7 @@ class EmailLetter(DjangoFormMutation):
         request = info.context
         user = request.user
         recipients = [form.cleaned_data['email']]
-
-        from .views import render_letter_of_complaint
-        response = render_letter_of_complaint(request, user, 'pdf')
-        pdf_filename = response.filename
-        pdf_bytes = response.getvalue()
-
-        from django.core.mail import EmailMessage
-        msg = EmailMessage(
-            subject='Here is your PDF',
-            body='Hi pal, here is your PDF.',
-            to=recipients,
-        )
-        msg.attach(pdf_filename, pdf_bytes)
-        msg.send()
-
+        email_letter.email_letter_async(user.pk, recipients)
         return cls(errors=[], recipients=recipients)
 
 

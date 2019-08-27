@@ -232,6 +232,8 @@ const Routes = {
       loadingPage: '/dev/examples/loading-page',
       form: '/dev/examples/form',
       formInModal: '/dev/examples/form/in-modal',
+      formWithoutRedirect: '/dev/examples/form2',
+      formInModalWithoutRedirect: '/dev/examples/form2/in-modal',
       radio: '/dev/examples/radio',
       loadable: '/dev/examples/loadable-page',
       clientSideError: '/dev/examples/client-side-error',

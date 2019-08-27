@@ -11,12 +11,9 @@ import { ExampleQuery } from './queries/ExampleQuery';
 import ExampleRadioPage from './pages/example-radio-page';
 import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results';
 import loadable from '@loadable/component';
+import { ExampleFormPage, ExampleFormWithoutRedirectPage } from './pages/example-form-page';
 
 const LoadableExamplePage = loadable(() => friendlyLoad(import('./pages/example-loadable-page')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableExampleFormPage = loadable(() => friendlyLoad(import('./pages/example-form-page')), {
   fallback: <LoadingPage />
 });
 
@@ -98,7 +95,8 @@ export default function DevRoutes(): JSX.Element {
        <Route path={Routes.dev.examples.redirect} exact render={() => <Redirect to={Routes.locale.home} />} />
        <Route path={Routes.dev.examples.modal} exact component={LoadableExampleModalPage} />
        <Route path={Routes.dev.examples.loadingPage} exact component={LoadableExampleLoadingPage} />
-       <Route path={Routes.dev.examples.form} component={LoadableExampleFormPage} />
+       <Route path={Routes.dev.examples.form} component={ExampleFormPage} />
+       <Route path={Routes.dev.examples.formWithoutRedirect} component={ExampleFormWithoutRedirectPage} />
        <Route path={Routes.dev.examples.radio} component={ExampleRadioPage} />
        <Route path={Routes.dev.examples.loadable} exact component={LoadableExamplePage} />
        <Route path={Routes.dev.examples.clientSideError} exact component={LoadableClientSideErrorPage} />

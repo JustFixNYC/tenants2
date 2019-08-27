@@ -193,6 +193,28 @@ def test_form_submission_redirects_on_success(django_app):
     assert response['Location'] == react_url('/')
 
 
+def test_form_submission_in_modal_shows_success_message(django_app):
+    form = django_app.get('/dev/examples/form2/in-modal').forms[0]
+
+    unmunge_form_graphql(form)
+    form['exampleField'] = 'zzz'
+    response = form.submit()
+    assert response.status == '200 OK'
+    assert 'the form was submitted successfully' in response
+    assert 'hello there zzz' in response
+
+
+def test_form_submission_shows_success_message(django_app):
+    form = django_app.get('/dev/examples/form2').forms[0]
+
+    unmunge_form_graphql(form)
+    form['exampleField'] = 'yyy'
+    response = form.submit()
+    assert response.status == '200 OK'
+    assert 'the form was submitted successfully' in response
+    assert 'hello there yyy' in response
+
+
 def test_form_submission_shows_errors(django_app):
     response = django_app.get('/dev/examples/form')
     assert response.status == '200 OK'

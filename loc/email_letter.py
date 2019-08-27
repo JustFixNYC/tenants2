@@ -17,8 +17,11 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
     pdf_bytes = response.getvalue()
 
     msg = EmailMessage(
-        subject='Here is your PDF',
-        body='Hi pal, here is your PDF.',
+        subject=f"{user.full_name}'s letter of complaint",
+        body=(
+            f"JustFix.nyc here! Attached is a copy of {user.full_name}'s letter of complaint, "
+            f"which {user.first_name} requested we send you."
+        ),
         to=recipients,
     )
     msg.attach(pdf_filename, pdf_bytes)

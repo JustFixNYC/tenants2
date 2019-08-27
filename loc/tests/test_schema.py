@@ -221,3 +221,19 @@ def test_letter_request_is_null_when_user_has_not_yet_requested_letter(graphql_c
     graphql_client.request.user = UserFactory.create()
     result = graphql_client.execute('query { session { letterRequest { updatedAt } } }')
     assert result['data']['session']['letterRequest'] is None
+
+
+def test_email_letter_works(db, graphql_client, mailoutbox):
+    graphql_client.request.user = UserFactory.create()
+    result = graphql_client.execute(
+        """
+        mutation {
+            emailLetter(input: {recipients: [{email: "boop@jones.com"}]}) {
+                errors { field, messages }
+                recipients
+            }
+        }
+        """
+    )['data']['emailLetter']
+    assert result == {'errors': [], 'recipients': ['boop@jones.com']}
+    assert len(mailoutbox) == 1

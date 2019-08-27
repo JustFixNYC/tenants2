@@ -21,9 +21,25 @@ class EmailLetter(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form: forms.EmailForm, info: ResolveInfo):
-        # request = info.context
-        print("TODO PERFORM MUTATE YO")
-        return cls(errors=[], recipients=[form.cleaned_data['email']])
+        request = info.context
+        user = request.user
+        recipients = [form.cleaned_data['email']]
+
+        from .views import render_letter_of_complaint
+        response = render_letter_of_complaint(request, user, 'pdf')
+        pdf_filename = response.filename
+        pdf_bytes = response.getvalue()
+
+        from django.core.mail import EmailMessage
+        msg = EmailMessage(
+            subject='Here is your PDF',
+            body='Hi pal, here is your PDF.',
+            to=recipients,
+        )
+        msg.attach(pdf_filename, pdf_bytes)
+        msg.send()
+
+        return cls(errors=[], recipients=recipients)
 
 
 @schema_registry.register_mutation

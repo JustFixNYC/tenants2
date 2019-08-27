@@ -3,15 +3,11 @@ import React from 'react';
 import { withAppContext, AppContextType } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
 import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
-import Page, { PageTitle } from '../page';
+import Page from '../page';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
 import { ProgressiveLoadableConfetti } from '../confetti-loadable';
-import { LegacyFormSubmitter } from '../legacy-form-submitter';
-import { EmailLetterMutation, BlankEmailLetterInput } from '../queries/EmailLetterMutation';
-import { TextualFormField } from '../form-fields';
-import { NextButton } from '../buttons';
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
@@ -61,30 +57,6 @@ const knowYourRightsList = (
   </ul>
 );
 
-function SuccessMessage(props: {text: string}) {
-  return (
-    <div className="notification is-success">
-      {props.text}
-      <PageTitle title={props.text} />
-    </div>
-  );
-}
-
-function EmailLetterForm(props: {}) {
-  return (
-    <LegacyFormSubmitter
-      mutation={EmailLetterMutation}
-      initialState={BlankEmailLetterInput}
-    >
-      {(ctx, latestOutput) => <>
-        {latestOutput && latestOutput.recipients && <SuccessMessage text={`Email sent to ${latestOutput.recipients.join(',')}.`} />}
-        <TextualFormField {...ctx.fieldPropsFor('email')} type="text" label="Email address" />
-        <NextButton isLoading={ctx.isLoading} label="Send" />
-      </>}
-    </LegacyFormSubmitter>
-  );
-}
-
 const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element => {
   const { letterRequest } = props.session;
   const letterStatusProps = { locPdfURL: props.server.locPdfURL };
@@ -104,9 +76,6 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <div className="content">
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
-        <h2>Email your letter</h2>
-        <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
-        <EmailLetterForm />
         <h2>Want to read more about your rights?</h2>
         {knowYourRightsList}
       </div>

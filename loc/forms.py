@@ -67,7 +67,3 @@ class LetterRequestForm(forms.ModelForm):
     def clean(self):
         super().clean()
         self.instance.regenerate_html_content(author='the user')
-
-
-class EmailForm(forms.Form):
-    email = forms.EmailField()

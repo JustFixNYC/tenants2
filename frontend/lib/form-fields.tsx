@@ -233,7 +233,7 @@ export function HiddenFormField(props: HiddenFormFieldProps): JSX.Element {
 /**
  * Valid types of textual form field input.
  */
-export type TextualInputType = 'text'|'password'|'date'|'tel'|'number';
+export type TextualInputType = 'text'|'password'|'date'|'tel'|'number'|'email';
 
 /**
  * Properties for textual form field input.

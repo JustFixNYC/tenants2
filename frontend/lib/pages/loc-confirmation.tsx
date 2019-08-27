@@ -93,7 +93,7 @@ function EmailLetterForm(props: {}) {
             <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
             <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={BlankRecipientsEmailFormFormSetInput} extra={maxRecipients}>
               {(formsetCtx, i) => <>
-                <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="text" label={labelForRecipient(i)} />
+                <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="email" label={labelForRecipient(i)} />
               </>}
             </Formset>
             <NextButton isLoading={ctx.isLoading} label="Email letter" buttonClass="is-light" />

@@ -92,7 +92,7 @@ function EmailLetterForm(props: {}) {
             <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="text" label={labelForRecipient(i)} />
           </>}
         </Formset>
-        <NextButton isLoading={ctx.isLoading} label="Send" />
+        <NextButton isLoading={ctx.isLoading} label="Email letter" />
       </>}
     </LegacyFormSubmitter>
   );

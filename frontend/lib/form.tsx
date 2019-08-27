@@ -74,6 +74,11 @@ export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInpu
    */
   extraFormAttributes?: HTMLFormAttrs;
 
+  /**
+   * The latest server response to the most recent form submission, if any.
+   * This is passed on to the child render prop so it can e.g. display
+   * a success message if needed.
+   */
   latestOutput?: FormOutput;
 }
 

@@ -65,7 +65,7 @@ const knowYourRightsList = (
 
 function SuccessMessage(props: {text: string}) {
   return (
-    <div className="notification is-success">
+    <div className="notification is-success jf-fadein-half-second">
       {props.text}
       <PageTitle title={props.text} />
     </div>
@@ -83,17 +83,23 @@ function EmailLetterForm(props: {}) {
       mutation={EmailLetterMutation}
       initialState={BlankEmailLetterInput}
     >
-      {(ctx, latestOutput) => <>
-        {latestOutput && latestOutput.recipients &&
-          /* Ideally we'd use Intl.ListFormat() here but browser support is very spotty. */
-          <SuccessMessage text={`Got it! We're sending your letter to ${latestOutput.recipients.join(', ')}.`} />}
-        <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={BlankRecipientsEmailFormFormSetInput} extra={maxRecipients}>
-          {(formsetCtx, i) => <>
-            <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="text" label={labelForRecipient(i)} />
-          </>}
-        </Formset>
-        <NextButton isLoading={ctx.isLoading} label="Email letter" buttonClass="is-light" />
-      </>}
+      {(ctx, latestOutput) => {
+        const wasSentTo = latestOutput && latestOutput.recipients;
+        return <>
+          {wasSentTo &&
+            /* Ideally we'd use Intl.ListFormat() here but browser support is very spotty. */
+            <SuccessMessage text={`Got it! We're sending your letter to ${wasSentTo.join(', ')}.`} />}
+          <div className={wasSentTo ? "is-hidden" : ""}>
+            <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
+            <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={BlankRecipientsEmailFormFormSetInput} extra={maxRecipients}>
+              {(formsetCtx, i) => <>
+                <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="text" label={labelForRecipient(i)} />
+              </>}
+            </Formset>
+            <NextButton isLoading={ctx.isLoading} label="Email letter" buttonClass="is-light" />
+          </div>
+        </>;
+      }}
     </LegacyFormSubmitter>
   );
 }
@@ -118,7 +124,6 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
         <h2>Email your letter</h2>
-        <p>You can use the form below if you'd like us to email the PDF of your letter.</p>
         <EmailLetterForm />
         <h2>Want to read more about your rights?</h2>
         {knowYourRightsList}

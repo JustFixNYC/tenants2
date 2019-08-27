@@ -16,16 +16,17 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
     pdf_filename = response.filename
     pdf_bytes = response.getvalue()
 
-    msg = EmailMessage(
-        subject=f"{user.full_name}'s letter of complaint",
-        body=(
-            f"JustFix.nyc here! Attached is a copy of {user.full_name}'s letter of complaint, "
-            f"which {user.first_name} requested we send you."
-        ),
-        to=recipients,
-    )
-    msg.attach(pdf_filename, pdf_bytes)
-    msg.send()
+    for recipient in recipients:
+        msg = EmailMessage(
+            subject=f"{user.full_name}'s letter of complaint",
+            body=(
+                f"JustFix.nyc here! Attached is a copy of {user.full_name}'s letter of complaint, "
+                f"which {user.first_name} requested we send you."
+            ),
+            to=[recipient],
+        )
+        msg.attach(pdf_filename, pdf_bytes)
+        msg.send()
 
 
 email_letter_async = fire_and_forget_task(email_letter)

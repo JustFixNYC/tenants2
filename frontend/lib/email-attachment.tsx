@@ -57,7 +57,7 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
         return <>
           {wasSentTo && <SuccessMessage text={`Got it! We're sending your ${noun} to ${wasSentTo.join(', ')}.`} />}
           <div className={wasSentTo ? "is-hidden" : ""}>
-            <p>You can use the form below if you'd like us to email your {noun} to anyone.</p>
+            <p>You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses.</p>
             <Formset {...ctx.formsetPropsFor('recipients')} maxNum={maxRecipients} emptyForm={{email: ''}} extra={maxRecipients}>
               {(formsetCtx, i) => <TextualFormField {...formsetCtx.fieldPropsFor('email')} type="email" label={labelForRecipient(i)} />}
             </Formset>

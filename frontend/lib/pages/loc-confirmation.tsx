@@ -78,7 +78,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <div className="content">
         <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
-        <h2>Email your letter</h2>
+        <h2>Email a copy of your letter to yourself or someone you trust</h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
         <h2>Want to read more about your rights?</h2>
         {knowYourRightsList}

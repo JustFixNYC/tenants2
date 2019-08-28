@@ -183,7 +183,7 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
       Your building was built in {data.yearBuilt} or earlier.
     </>
   ],
-  fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
+  fallbackMessage: <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), so we don't know much about it.</>
 });
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [

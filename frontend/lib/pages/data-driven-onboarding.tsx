@@ -292,7 +292,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       cta: {
         to: "https://www.evictionfreenyc.org/",
-        text: "Visit EvictionFreeNYC"
+        text: "Visit Eviction Free NYC"
       }
     }
   }

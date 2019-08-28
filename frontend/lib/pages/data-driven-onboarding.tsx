@@ -183,7 +183,7 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
       Your building was built in {data.yearBuilt} or earlier.
     </>
   ],
-  fallbackMessage: <>This building isn't registered with <abbr title="Housing Preservation &amp; Development">HPD</abbr>, so we don't know much about it.</>
+  fallbackMessage: <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), so we don't know much about it.</>
 });
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
@@ -217,7 +217,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function letterOfComplaint(data): ActionCardProps {
     return {
-      title: 'Request repairs',
+      title: 'Request repairs from your landlord',
       priority: COMPLAINTS_PRIORITY,
       isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
       indicators: [
@@ -225,7 +225,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
       ],
       fallbackMessage: <>
-        Landlord not responding? You can take action!
+        Landlord not responding? You can take action for free!
       </>,
       cta: {
         to: Routes.locale.home,
@@ -235,7 +235,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function hpAction(data): ActionCardProps {
     return {
-      title: 'Start a legal case',
+      title: 'Start a legal case for repairs and/or harassment',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
       isRecommended: (
         (data.hpdOpenViolationCount > 2 || calcPerUnit(data.hpdOpenViolationCount, data) > 0.7) ||
@@ -292,7 +292,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       cta: {
         to: "https://www.evictionfreenyc.org/",
-        text: "Visit EvictionFreeNYC"
+        text: "Visit Eviction Free NYC"
       }
     }
   }

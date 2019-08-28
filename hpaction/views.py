@@ -48,7 +48,11 @@ def upload(request, token_str: str):
 
 @login_required
 def latest_pdf(request):
-    latest = HPActionDocuments.objects.get_latest_for_user(request.user)
+    return get_latest_pdf_for_user(request.user)
+
+
+def get_latest_pdf_for_user(user) -> FileResponse:
+    latest = HPActionDocuments.objects.get_latest_for_user(user)
     if latest is None:
         raise Http404("User has no generated HP Action documents")
     return FileResponse(latest.pdf_file.open(), filename='hp-action-forms.pdf')

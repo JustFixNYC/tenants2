@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
@@ -7,6 +7,7 @@ from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
+from project.util.email_attachment import EmailAttachmentMutation
 from project import schema_registry
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
@@ -15,7 +16,14 @@ from project.util.model_form_util import (
     create_models_for_user_resolver
 )
 from .models import HPUploadStatus, COMMON_DATA
-from . import models, forms, lhiapi
+from . import models, forms, lhiapi, email_packet
+
+
+@schema_registry.register_mutation
+class EmailHpActionPdf(EmailAttachmentMutation):
+    @classmethod
+    def send_email(cls, user_id: int, recipients: List[str]):
+        email_packet.email_packet_async(user_id, recipients)
 
 
 @schema_registry.register_mutation

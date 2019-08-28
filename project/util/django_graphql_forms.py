@@ -419,6 +419,8 @@ class GrapheneDjangoFormMixin:
     _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
         WeakValueDictionary()
 
+    _input_type_registry: MutableMapping[Any, Type[InputObjectType]] = WeakValueDictionary()
+
     # Subclasses can change this if they can only be used by authenticated users.
     #
     # Note that we'd ideally like this to be a Meta property, but we also want
@@ -455,11 +457,12 @@ class GrapheneDjangoFormMixin:
         for (formset_name, formset_class) in formset_classes.items():
             formset_form = get_formset_form(formset_class())
             formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
-            formset_form_type = type(
+            type_key = (formset_form.__class__, tuple(only_fields), tuple(exclude_fields))
+            formset_form_type = cls._register_input_type(type_key, type(
                 f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
                 (graphene.InputObjectType,),
                 yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
-            )
+            ))
             if formset_name in input_fields:
                 raise AssertionError(f'multiple definitions for "{formset_name}" exist')
             input_field_for_form = yank_fields_from_attrs({
@@ -477,6 +480,16 @@ class GrapheneDjangoFormMixin:
         input_fields = yank_fields_from_attrs(input_fields, _as=graphene.InputField)
 
         return input_fields
+
+    @classmethod
+    def _register_input_type(
+        cls,
+        key: Any,
+        input_type: Type[InputObjectType]
+    ) -> Type[InputObjectType]:
+        if key not in cls._input_type_registry:
+            cls._input_type_registry[key] = input_type
+        return cls._input_type_registry[key]
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:

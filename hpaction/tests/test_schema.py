@@ -3,7 +3,9 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
-from .factories import UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory
+from .factories import (
+    UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
+    HPActionDocumentsFactory)
 from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
 
 
@@ -209,3 +211,19 @@ class TestSessionFeeWaiverInfo:
                 'incomeAmountMonthly': 3.15
             }
         }
+
+
+def test_email_packet_works(db, graphql_client, mailoutbox, django_file_storage):
+    graphql_client.request.user = HPActionDocumentsFactory().user
+    result = graphql_client.execute(
+        """
+        mutation {
+            emailHpActionPdf(input: {recipients: [{email: "boop@jones.com"}]}) {
+                errors { field, messages }
+                recipients
+            }
+        }
+        """
+    )['data']['emailHpActionPdf']
+    assert result == {'errors': [], 'recipients': ['boop@jones.com']}
+    assert len(mailoutbox) == 1

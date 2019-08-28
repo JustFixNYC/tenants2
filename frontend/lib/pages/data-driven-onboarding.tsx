@@ -235,7 +235,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function hpAction(data): ActionCardProps {
     return {
-      title: 'Start a legal case',
+      title: 'Start a legal case for repairs and/or harassment',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
       isRecommended: (
         (data.hpdOpenViolationCount > 2 || calcPerUnit(data.hpdOpenViolationCount, data) > 0.7) ||

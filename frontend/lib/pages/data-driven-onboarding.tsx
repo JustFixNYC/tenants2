@@ -217,7 +217,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function letterOfComplaint(data): ActionCardProps {
     return {
-      title: 'Request repairs',
+      title: 'Request repairs from your landlord',
       priority: COMPLAINTS_PRIORITY,
       isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
       indicators: [
@@ -225,7 +225,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
       ],
       fallbackMessage: <>
-        Landlord not responding? You can take action!
+        Landlord not responding? You can take action for free!
       </>,
       cta: {
         to: Routes.locale.home,

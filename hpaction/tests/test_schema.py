@@ -213,17 +213,24 @@ class TestSessionFeeWaiverInfo:
         }
 
 
+EMAIL_PACKET_GRAPHQL = """
+mutation {
+    emailHpActionPdf(input: {recipients: [{email: "boop@jones.com"}]}) {
+        errors { field, messages }
+        recipients
+    }
+}
+"""
+
+
 def test_email_packet_works(db, graphql_client, mailoutbox, django_file_storage):
     graphql_client.request.user = HPActionDocumentsFactory().user
-    result = graphql_client.execute(
-        """
-        mutation {
-            emailHpActionPdf(input: {recipients: [{email: "boop@jones.com"}]}) {
-                errors { field, messages }
-                recipients
-            }
-        }
-        """
-    )['data']['emailHpActionPdf']
+    result = graphql_client.execute(EMAIL_PACKET_GRAPHQL)['data']['emailHpActionPdf']
     assert result == {'errors': [], 'recipients': ['boop@jones.com']}
     assert len(mailoutbox) == 1
+
+
+def test_email_packet_errors_if_no_packet_exists(db, graphql_client):
+    graphql_client.request.user = UserFactory()
+    result = graphql_client.execute(EMAIL_PACKET_GRAPHQL)['data']['emailHpActionPdf']
+    assert result['errors'][0]['messages'] == ['You do not have an HP Action packet to send!']

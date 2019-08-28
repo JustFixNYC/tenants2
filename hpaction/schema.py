@@ -15,7 +15,7 @@ from project.util.model_form_util import (
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from .models import HPUploadStatus, COMMON_DATA
+from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
 from . import models, forms, lhiapi, email_packet
 
 
@@ -24,6 +24,13 @@ class EmailHpActionPdf(EmailAttachmentMutation):
     @classmethod
     def send_email(cls, user_id: int, recipients: List[str]):
         email_packet.email_packet_async(user_id, recipients)
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        latest = HPActionDocuments.objects.get_latest_for_user(info.context.user)
+        if latest is None:
+            return cls.make_error("You do not have an HP Action packet to send!")
+        return super().perform_mutate(form, info)
 
 
 @schema_registry.register_mutation

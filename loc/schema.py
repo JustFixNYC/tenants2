@@ -1,11 +1,11 @@
+from typing import List
 from graphql import ResolveInfo
 import graphene
 from graphene_django.types import DjangoObjectType
-from django.forms import formset_factory
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
-from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.email_attachment import EmailAttachmentMutation
 from project import slack, schema_registry, common_data
 from . import forms, models, email_letter
 from airtable.sync import sync_user as sync_user_with_airtable
@@ -14,29 +14,10 @@ MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxR
 
 
 @schema_registry.register_mutation
-class EmailLetter(DjangoFormMutation):
-    class Meta:
-        formset_classes = {
-            'recipients': formset_factory(
-                forms.EmailForm,
-                max_num=MAX_RECIPIENTS,
-                validate_max=True,
-                min_num=1,
-                validate_min=True
-            )
-        }
-
-    login_required = True
-
-    recipients = graphene.List(graphene.NonNull(graphene.String))
-
+class EmailLetter(EmailAttachmentMutation):
     @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        user = request.user
-        recipients = [f.cleaned_data['email'] for f in form.formsets['recipients']]
-        email_letter.email_letter_async(user.pk, recipients)
-        return cls(errors=[], recipients=recipients)
+    def send_email(cls, user_id: int, recipients: List[str]):
+        email_letter.email_letter_async(user_id, recipients)
 
 
 @schema_registry.register_mutation

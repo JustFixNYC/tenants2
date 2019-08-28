@@ -47,6 +47,8 @@ createBlankLiteral = true
 
 [mutations.emailLetter]
 
+[mutations.emailHpActionPdf]
+
 [mutations.login]
 
 [mutations.logout]

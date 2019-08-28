@@ -30,6 +30,8 @@ import { FormContextRenderer } from './form';
 import { HpActionSueMutation } from './queries/HpActionSueMutation';
 import { HarassmentCaseHistory } from './pages/hp-action-case-history';
 import { BigList } from './big-list';
+import { EmailAttachmentForm } from './email-attachment';
+import { EmailHpActionPdfMutation } from './queries/EmailHpActionPdfMutation';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -170,6 +172,8 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
         <li>Once you arrive at court, <strong>go to the clerk’s office to file these papers</strong>. They will assign you an Index Number and various dates.</li>
         <li>After you file your papers, you will need to <strong>serve your landlord and/or management company</strong>. This paperwork is also included in your packet.</li>
       </BigList>
+      <h2>Email your HP Action packet</h2>
+      <EmailAttachmentForm mutation={EmailHpActionPdfMutation} noun="HP Action packet" />
       <h2>Want to read more about your rights?</h2>
       <ul>
         <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>

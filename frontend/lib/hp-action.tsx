@@ -59,7 +59,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
       <ol className="has-text-left">
         <li>You answer a few questions here about your housing situation.</li>
         <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
-        <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong> and <strong>serving your landlord</strong>.
+        <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong>.
 </li>
       </ol>
       <CenteredPrimaryButtonLink to={Routes.locale.hp.sue}>

@@ -9,10 +9,12 @@
         {{ ROLLBAR_SNIPPET }}
         {{ FULLSTORY_SNIPPET }}
         {{ GA_SNIPPET }}
+        {{ GTM_SNIPPET }}
         {{ FACEBOOK_PIXEL_SNIPPET }}
         {{ title_tag }}
     </head>
     <body class="{% if not is_safe_mode_enabled %}has-navbar-fixed-top{% endif %}">
+        {{ GTM_NOSCRIPT_SNIPPET }}
         {% if modal_html %}<div id="prerendered-modal">{{ modal_html }}</div>{% endif %}
         <div id="main" {% if modal_html %}hidden{% endif %}>{{ initial_render }}</div>
         {% if not is_safe_mode_enabled %}

@@ -4,33 +4,32 @@ from django.template import RequestContext
 from django.template import Template
 from django.http import HttpResponse
 
-from project.context_processors import ga_snippet, rollbar_snippet, facebook_pixel_snippet
+from project.context_processors import (
+    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet
+)
 
 
-def show_ga_snippet(request):
-    template = Template('{{ GA_SNIPPET }}')
-    return HttpResponse(template.render(RequestContext(request)))
-
-
-def show_facebook_pixel_snippet(request):
-    template = Template('{{ FACEBOOK_PIXEL_SNIPPET }}')
-    return HttpResponse(template.render(RequestContext(request)))
-
-
-def show_rollbar_snippet(request):
-    template = Template('{{ ROLLBAR_SNIPPET }}')
-    return HttpResponse(template.render(RequestContext(request)))
+def make_snippet_view(var_name):
+    def view(request):
+        template = Template('{{ ' + var_name + ' }}')
+        return HttpResponse(template.render(RequestContext(request)))
+    return view
 
 
 urlpatterns = [
-    path('ga', show_ga_snippet),
-    path('facebook-pixel', show_facebook_pixel_snippet),
-    path('rollbar', show_rollbar_snippet),
+    path('ga', make_snippet_view('GA_SNIPPET')),
+    path('gtm', make_snippet_view('GTM_SNIPPET')),
+    path('gtm-noscript', make_snippet_view('GTM_NOSCRIPT_SNIPPET')),
+    path('facebook-pixel', make_snippet_view('FACEBOOK_PIXEL_SNIPPET')),
+    path('rollbar', make_snippet_view('ROLLBAR_SNIPPET')),
 ]
 
 
-def test_ga_snippet_is_empty_when_tracking_id_is_not_set(settings):
-    assert ga_snippet(None) == {}
+@pytest.mark.parametrize('context_processor', [
+    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet
+])
+def test_contexts_are_empty_when_associated_setting_is_empty(context_processor):
+    assert context_processor(None) == {}
 
 
 def ensure_response_sets_csp(res, *args):
@@ -50,8 +49,19 @@ def test_ga_snippet_works(client, settings):
     ensure_response_sets_csp(res, 'google-analytics.com')
 
 
-def test_facebook_pixel_snippet_is_empty_when_tracking_id_is_not_set(settings):
-    assert facebook_pixel_snippet(None) == {}
+@pytest.mark.urls(__name__)
+def test_gtm_snippets_work(client, settings):
+    settings.GTM_CONTAINER_ID = 'GTM-1234567'
+    res = client.get('/gtm')
+    assert res.status_code == 200
+    html = res.content.decode('utf-8')
+    assert 'GTM-1234567' in html
+    ensure_response_sets_csp(res, 'googletagmanager.com')
+
+    res = client.get('/gtm-noscript')
+    assert res.status_code == 200
+    html = res.content.decode('utf-8')
+    assert 'GTM-1234567' in html
 
 
 @pytest.mark.urls(__name__)
@@ -63,10 +73,6 @@ def test_facebook_pixel_snippet_works(client, settings):
     assert '1234567' in html
     ensure_response_sets_csp(res, 'connect.facebook.net')
     ensure_response_sets_csp(res, 'www.facebook.com')
-
-
-def test_rollbar_snippet_is_empty_when_access_token_is_not_set(settings):
-    assert rollbar_snippet(None) == {}
 
 
 @pytest.mark.urls(__name__)

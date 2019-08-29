@@ -1,5 +1,8 @@
+from typing import Dict
 from pathlib import Path
+from textwrap import dedent
 from django.conf import settings
+from django.utils.safestring import SafeString
 
 from project.util.js_snippet import JsSnippetContextProcessor
 
@@ -111,6 +114,50 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
 
 
 ga_snippet = GoogleAnalyticsSnippet()
+
+
+class GoogleTagManagerSnippet(JsSnippetContextProcessor):
+    template = '''
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','%(GTM_CONTAINER_ID)s');
+    '''
+
+    var_name = 'GTM_SNIPPET'
+
+    GTM_ORIGIN = 'https://www.googletagmanager.com'
+
+    csp_updates = {
+        'IMG_SRC': GTM_ORIGIN,
+        'SCRIPT_SRC': GTM_ORIGIN,
+    }
+
+    def is_enabled(self):
+        return settings.GTM_CONTAINER_ID
+
+    def get_context(self):
+        return {
+            'GTM_CONTAINER_ID': settings.GTM_CONTAINER_ID
+        }
+
+
+gtm_snippet = GoogleTagManagerSnippet()
+
+
+def gtm_noscript_snippet(request) -> Dict[str, str]:
+    if not settings.GTM_CONTAINER_ID:
+        return {}
+    snippet = dedent(
+        f'''
+        <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id={settings.GTM_CONTAINER_ID}"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        '''
+    )
+    return {'GTM_NOSCRIPT_SNIPPET': SafeString(snippet)}
 
 
 class RollbarSnippet(JsSnippetContextProcessor):

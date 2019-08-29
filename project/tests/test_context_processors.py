@@ -25,8 +25,11 @@ urlpatterns = [
 ]
 
 
-def test_ga_snippet_is_empty_when_tracking_id_is_not_set(settings):
-    assert ga_snippet(None) == {}
+@pytest.mark.parametrize('context_processor', [
+    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet
+])
+def test_contexts_are_empty_when_associated_setting_is_empty(context_processor):
+    assert context_processor(None) == {}
 
 
 def ensure_response_sets_csp(res, *args):
@@ -46,11 +49,6 @@ def test_ga_snippet_works(client, settings):
     ensure_response_sets_csp(res, 'google-analytics.com')
 
 
-def test_gtm_snippets_are_empty_when_container_id_is_not_set(settings):
-    assert gtm_snippet(None) == {}
-    assert gtm_noscript_snippet(None) == {}
-
-
 @pytest.mark.urls(__name__)
 def test_gtm_snippets_work(client, settings):
     settings.GTM_CONTAINER_ID = 'GTM-1234567'
@@ -66,10 +64,6 @@ def test_gtm_snippets_work(client, settings):
     assert 'GTM-1234567' in html
 
 
-def test_facebook_pixel_snippet_is_empty_when_tracking_id_is_not_set(settings):
-    assert facebook_pixel_snippet(None) == {}
-
-
 @pytest.mark.urls(__name__)
 def test_facebook_pixel_snippet_works(client, settings):
     settings.FACEBOOK_PIXEL_ID = '1234567'
@@ -79,10 +73,6 @@ def test_facebook_pixel_snippet_works(client, settings):
     assert '1234567' in html
     ensure_response_sets_csp(res, 'connect.facebook.net')
     ensure_response_sets_csp(res, 'www.facebook.com')
-
-
-def test_rollbar_snippet_is_empty_when_access_token_is_not_set(settings):
-    assert rollbar_snippet(None) == {}
 
 
 @pytest.mark.urls(__name__)

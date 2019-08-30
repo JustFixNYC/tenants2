@@ -9,6 +9,8 @@ import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
 import { ga } from './google-analytics';
 import { StaticImage } from './static-image';
+import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
+import { inputToQuerystring } from './http-get-query-util';
 
 type Dropdown = 'developer'|'all';
 
@@ -150,6 +152,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
           {this.renderNavbarBrand()}
           <div className={bulmaClasses('navbar-menu', state.isHamburgerOpen && 'is-active')}>
             <div className="navbar-end">
+              {session.onboardingInfo && <Link className="navbar-item" to={ddoRoute(session.onboardingInfo)}>Take action</Link>}
               {session.isStaff && <a className="navbar-item" href={server.adminIndexURL}>Admin</a>}
               {session.phoneNumber
                 ? <Link className="navbar-item" to={Routes.locale.logout}>Sign out</Link>
@@ -161,6 +164,11 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
       </nav>
     );
   }
+}
+
+function ddoRoute(options: DataDrivenOnboardingSuggestionsVariables): string {
+  const { address, borough } = options;
+  return `${Routes.locale.dataDrivenOnboarding}${inputToQuerystring({address, borough})}`;
 }
 
 const Navbar = withAppContext(NavbarWithoutAppContext);

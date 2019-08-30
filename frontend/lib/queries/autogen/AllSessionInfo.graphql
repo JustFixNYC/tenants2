@@ -25,6 +25,8 @@ fragment AllSessionInfo on SessionInfo {
   },
   onboardingInfo {
     signupIntent,
+    address,
+    borough,
     floorNumber
   },
   accessDates,

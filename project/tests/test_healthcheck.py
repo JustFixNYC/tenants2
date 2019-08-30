@@ -47,7 +47,7 @@ def test_it_prints_msg_on_failure(monkeypatch, db):
     assert out.getvalue() == 'Health check FAILED! Traceback follows.\n'
 
 
-def test_it_works(live_server, monkeypatch):
+def test_it_works(live_server, monkeypatch, allow_lambda_http):
     urls = []
 
     def fake_absolutify_url(url):

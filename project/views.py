@@ -13,7 +13,7 @@ from django.conf import settings
 
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
-from project.util.lambda_pool import LambdaPool
+from project.util.lambda_pool import LambdaPool, LambdaRunner
 from project.schema import schema
 from project import common_data
 import project.health
@@ -29,14 +29,29 @@ FORMS_COMMON_DATA = common_data.load_json("forms.json")
 
 NS_PER_MS = 1e+6
 
+LAMBDA_SCRIPT = BASE_DIR / 'lambda.js'
+
 logger = logging.getLogger(__name__)
 
-lambda_pool = LambdaPool(
-    'React',
-    BASE_DIR / 'lambda.js',
-    cwd=BASE_DIR,
-    restart_on_script_change=settings.DEBUG
-)
+lambda_pool: LambdaRunner
+
+if settings.USE_LAMBDA_HTTP_SERVER:
+    from project.util.lambda_http_client import LambdaHttpClient
+
+    lambda_pool = LambdaHttpClient(
+        'ReactHttp',
+        LAMBDA_SCRIPT,
+        script_args=['--serve-http'],
+        cwd=BASE_DIR,
+        restart_on_script_change=settings.DEBUG
+    )
+else:
+    lambda_pool = LambdaPool(
+        'React',
+        LAMBDA_SCRIPT,
+        cwd=BASE_DIR,
+        restart_on_script_change=settings.DEBUG
+    )
 
 
 class GraphQLQueryPrefetchInfo(NamedTuple):

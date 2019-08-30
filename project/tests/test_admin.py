@@ -9,7 +9,7 @@ def test_download_data_link_is_visible(admin_client):
     assert b'Download data</a>' in res.content
 
 
-def test_admin_login_is_ours(client):
+def test_admin_login_is_ours(client, allow_lambda_http):
     url = reverse('admin:login')
     assert url == '/admin/login/'
 

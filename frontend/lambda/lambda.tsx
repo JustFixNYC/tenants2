@@ -12,6 +12,7 @@ import 'source-map-support/register'
 // we import are sent to stderr.
 import './redirect-console-to-stderr';
 
+import http from 'http';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -242,13 +243,52 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
   });
 }
 
+function serveHttp() {
+  const server = http.createServer((req, res) => {
+    const fail = (statusCode: number) => {
+      res.statusCode = statusCode;
+      res.end();
+    };
+    if (req.method !== 'POST') {
+      return fail(405);
+    }
+    if (req.headers['content-type'] !== 'application/json') {
+      return fail(400);
+    }
+    handleFromJSONStream(req).then(buf => {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(buf);
+    }).catch(e => {
+      console.error(e);
+      fail(500);
+    });
+  });
+  server.listen(() => {
+    const addr = server.address();
+    if (typeof(addr) === 'string') {
+      throw new Error(`Expected address to be an object but it is "${addr}"!`);
+    } else {
+      process.stdin.setEncoding('utf-8');
+      process.stdin.on('readable', () => {});
+      process.stdin.on('end', () => {
+        server.close();
+      });
+      process.stdout.write(`LISTENING ON PORT ${addr.port}\n`);
+    }
+  });
+}
+
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
-  handleFromJSONStream(process.stdin).then(buf => {
-    process.stdout.write(buf);
-    process.exit(0);
-  }).catch(e => {
-    console.error(e);
-    process.exit(1);
-  });
+  if (process.argv.includes('--serve-http')) {
+    serveHttp();
+  } else {
+    handleFromJSONStream(process.stdin).then(buf => {
+      process.stdout.write(buf);
+      process.exit(0);
+    }).catch(e => {
+      console.error(e);
+      process.exit(1);
+    });
+  }
 }

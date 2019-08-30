@@ -13,8 +13,13 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
+class LambdaRunner:
+    def run_handler(self, event: Any) -> Any:
+        raise NotImplementedError()
+
+
 @dataclass
-class LambdaPool:
+class LambdaPool(LambdaRunner):
     '''
     This class maintains a pool of "warmed up" lambda processes that are
     ready to receive events, and handles communication with them.

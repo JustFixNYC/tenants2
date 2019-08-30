@@ -266,6 +266,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # distinguish a production deployment from a staging one.
     NAVBAR_LABEL: str = ''
 
+    # Whether to use the experimental lambda HTTP server.
+    USE_LAMBDA_HTTP_SERVER: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -123,6 +123,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
       <div className="navbar-brand">
         <Link className="navbar-item" to={Routes.locale.home}>
           <StaticImage src="frontend/img/logo.png" alt="Home" />
+          <span className="tag is-warning" style={{marginLeft: '1em'}}>DEMO SITE</span>
         </Link>
         <AriaExpandableButton
           className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}

@@ -67,6 +67,8 @@ EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
 
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 
+NAVBAR_LABEL = env.NAVBAR_LABEL
+
 # Application definition
 
 INSTALLED_APPS = [

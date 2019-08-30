@@ -238,6 +238,7 @@ def react_rendered_view(request):
             'locPdfURL': reverse('loc', args=('pdf',)),
             'enableSafeModeURL': reverse('safe_mode:enable'),
             'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
+            'navbarLabel': settings.NAVBAR_LABEL,
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

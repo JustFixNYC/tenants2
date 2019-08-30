@@ -89,7 +89,7 @@ export class QuerystringConverter<T> {
    */
   maybePushToHistory(input: SupportedQsTypes<T>, router: RouteComponentProps) {
     const currentQs = this.toStableQuerystring();
-    const newQs = new QuerystringConverter('', input).toStableQuerystring();
+    const newQs = inputToQuerystring(input);
 
     if (currentQs !== newQs) {
       router.history.push(router.location.pathname + newQs);
@@ -156,6 +156,11 @@ function stableQuerystring(entries: Map<string, string>): string {
     .sort((a, b) => a[0] === b[0] ? 0 : (a[0] < b[0] ? -1 : 1))
     .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
     .join('&');
+}
+
+/** Convert the given input object to a querystring. */
+export function inputToQuerystring<T>(input: SupportedQsTypes<T>): string {
+  return new QuerystringConverter('', input).toStableQuerystring();
 }
 
 /** A GraphQL query whose main output is mapped to the key 'output'. */

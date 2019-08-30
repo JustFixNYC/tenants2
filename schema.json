@@ -1448,6 +1448,38 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The user's address. Only street name and number are required.",
+              "isDeprecated": false,
+              "name": "address",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The New York City borough the user's address is in.",
+              "isDeprecated": false,
+              "name": "borough",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OnboardingInfoBorough",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The floor number the user's apartment is on.",
               "isDeprecated": false,
               "name": "floorNumber",
@@ -1485,6 +1517,47 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "OnboardingInfoSignupIntent",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Brooklyn",
+              "isDeprecated": false,
+              "name": "BROOKLYN"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Queens",
+              "isDeprecated": false,
+              "name": "QUEENS"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Bronx",
+              "isDeprecated": false,
+              "name": "BRONX"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Manhattan",
+              "isDeprecated": false,
+              "name": "MANHATTAN"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Staten Island",
+              "isDeprecated": false,
+              "name": "STATEN_ISLAND"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "OnboardingInfoBorough",
           "possibleTypes": null
         },
         {

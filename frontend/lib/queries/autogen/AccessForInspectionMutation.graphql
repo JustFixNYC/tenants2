@@ -5,6 +5,8 @@ mutation AccessForInspectionMutation($input: AccessForInspectionInput!) {
     session {
       onboardingInfo {
         signupIntent,
+        address,
+        borough,
         floorNumber
       }
     }

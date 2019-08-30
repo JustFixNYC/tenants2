@@ -117,13 +117,14 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
   }
 
   renderNavbarBrand(): JSX.Element {
+    const { navbarLabel } = this.props.server;
     const { state } = this;
 
     return (
       <div className="navbar-brand">
         <Link className="navbar-item" to={Routes.locale.home}>
           <StaticImage src="frontend/img/logo.png" alt="Home" />
-          <span className="tag is-warning" style={{marginLeft: '1em'}}>DEMO SITE</span>
+          {navbarLabel && <span className="tag is-warning" style={{marginLeft: '1em'}}>{navbarLabel}</span>}
         </Link>
         <AriaExpandableButton
           className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}

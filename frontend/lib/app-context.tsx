@@ -62,6 +62,11 @@ export interface AppServerInfo {
   redirectToLegacyAppURL: string;
 
   /**
+   * An optional label to show the site's navbar.
+   */
+  navbarLabel?: string;
+
+  /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in
    * the Django app).
    */

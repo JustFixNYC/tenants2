@@ -243,26 +243,28 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
   });
 }
 
-function serveHttp() {
-  const server = http.createServer((req, res) => {
-    const fail = (statusCode: number) => {
-      res.statusCode = statusCode;
-      res.end();
-    };
-    if (req.method !== 'POST') {
-      return fail(405);
-    }
-    if (req.headers['content-type'] !== 'application/json') {
-      return fail(400);
-    }
-    handleFromJSONStream(req).then(buf => {
-      res.setHeader('Content-Type', 'application/json');
-      res.end(buf);
-    }).catch(e => {
-      console.error(e);
-      fail(500);
-    });
+function httpHandler(req: http.IncomingMessage, res: http.ServerResponse) {
+  const fail = (statusCode: number) => {
+    res.statusCode = statusCode;
+    res.end();
+  };
+  if (req.method !== 'POST') {
+    return fail(405);
+  }
+  if (req.headers['content-type'] !== 'application/json') {
+    return fail(400);
+  }
+  handleFromJSONStream(req).then(buf => {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(buf);
+  }).catch(e => {
+    console.error(e);
+    fail(500);
   });
+}
+
+function serveHttp() {
+  const server = http.createServer(httpHandler);
   server.listen(() => {
     const addr = server.address();
     if (typeof(addr) === 'string') {

@@ -4,7 +4,7 @@ import logging
 import atexit
 import re
 from dataclasses import dataclass, field
-from threading import RLock
+from threading import RLock, Thread
 from pathlib import Path
 import requests
 
@@ -45,6 +45,7 @@ class LambdaHttpClient(LambdaRunner):
 
     def __post_init__(self) -> None:
         self.__process: Optional[subprocess.Popen] = None
+        self.__process_output: Optional[bytes] = None
         self.__port: Optional[int] = None
         self.__lock = RLock()
         self.__script_path_mtime = 0.0
@@ -86,23 +87,34 @@ class LambdaHttpClient(LambdaRunner):
         log(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
+    def __read_process_output(self) -> None:
+        assert self.__process is not None
+        self.__process_output = self.__process.stdout.readline()
+
     def __get_port(self) -> int:
         with self.__lock:
             if self.restart_on_script_change:
                 self.__kill_process_if_script_changed()
             if self.__port is None:
                 self.__process = self.__create_process()
+                self.__process_output = None
                 atexit.register(self.shutdown)
 
-                # TODO: Throw if timeout expires!
-                line = self.__process.stdout.readline()
+                stdout_thread = Thread(target=self.__read_process_output)
+                stdout_thread.daemon = True
+                stdout_thread.start()
+                stdout_thread.join(timeout=self.timeout_secs)
+
+                line = self.__process_output
+                if line is None:
+                    raise Exception("Failed to read output from subprocess!")
 
                 match = re.match(r'LISTENING ON PORT ([0-9]+)', line.decode('utf-8'))
-                if match:
-                    port = int(match.group(1))
-                    self.__port = port
-                else:
+                if not match:
                     raise Exception(f"Could not parse port from line: {repr(line)}")
+
+                port = int(match.group(1))
+                self.__port = port
             return self.__port
 
     def get_url(self) -> str:

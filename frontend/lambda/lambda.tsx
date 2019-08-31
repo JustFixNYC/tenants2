@@ -114,44 +114,43 @@ function renderAppHtml(
  * 
  * @param event The request.
  */
-function generateResponse(event: AppProps): Promise<LambdaResponse> {
+function generateResponse(event: AppProps): LambdaResponse {
   i18n.initialize(event.locale);
-  return new Promise<LambdaResponse>(resolve => {
-    const context: AppStaticContext = {
-      statusCode: 200,
-    };
-    const extractor = new ChunkExtractor({
-      statsFile: path.join(process.cwd(), 'loadable-stats.json'),
-      publicPath: event.server.webpackPublicPathURL
-    });
-    const helmetContext: HelmetContext = {};
-    const html = renderAppHtml(event, context, extractor, helmetContext);
-    const helmet = assertNotUndefined(helmetContext.helmet);
-    let modalHtml = '';
-    if (context.modal) {
-      modalHtml = ReactDOMServer.renderToStaticMarkup(
-        <ServerRouter event={event} context={context}>
-          <App {...event} modal={context.modal} />
-        </ServerRouter>
-      );
-    }
-    let location = null;
-    if (context.url) {
-      context.statusCode = 302;
-      location = context.url;
-    }
-    resolve({
-      html,
-      titleTag: helmet.title.toString(),
-      metaTags: helmet.meta.toString(),
-      scriptTags: extractor.getScriptTags(),
-      status: context.statusCode,
-      modalHtml,
-      location,
-      traceback: null,
-      graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null
-    });
+
+  const context: AppStaticContext = {
+    statusCode: 200,
+  };
+  const extractor = new ChunkExtractor({
+    statsFile: path.join(process.cwd(), 'loadable-stats.json'),
+    publicPath: event.server.webpackPublicPathURL
   });
+  const helmetContext: HelmetContext = {};
+  const html = renderAppHtml(event, context, extractor, helmetContext);
+  const helmet = assertNotUndefined(helmetContext.helmet);
+  let modalHtml = '';
+  if (context.modal) {
+    modalHtml = ReactDOMServer.renderToStaticMarkup(
+      <ServerRouter event={event} context={context}>
+        <App {...event} modal={context.modal} />
+      </ServerRouter>
+    );
+  }
+  let location = null;
+  if (context.url) {
+    context.statusCode = 302;
+    location = context.url;
+  }
+  return {
+    html,
+    titleTag: helmet.title.toString(),
+    metaTags: helmet.meta.toString(),
+    scriptTags: extractor.getScriptTags(),
+    status: context.statusCode,
+    modalHtml,
+    location,
+    traceback: null,
+    graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null
+  };
 }
 
 /**
@@ -162,7 +161,7 @@ function generateResponse(event: AppProps): Promise<LambdaResponse> {
  * 
  * @param event The initial properties for our app.
  */
-async function baseHandler(event: EventProps): Promise<LambdaResponse> {
+function baseHandler(event: EventProps): LambdaResponse {
   if (event.testInternalServerError) {
     throw new Error('Testing internal server error');
   }
@@ -174,8 +173,10 @@ async function baseHandler(event: EventProps): Promise<LambdaResponse> {
  * This just wraps our base handler in logic that wraps any errors in
  * a response that shows an error page with a 500 response.
  */
-export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse> {
-  return baseHandler(event).catch(error => {
+export function errorCatchingHandler(event: EventProps): LambdaResponse {
+  try {
+    return baseHandler(event);
+  } catch (error) {
     const helmetContext: HelmetContext = {};
     const html = ReactDOMServer.renderToStaticMarkup(
       <HelmetProvider context={helmetContext}>
@@ -198,7 +199,7 @@ export function errorCatchingHandler(event: EventProps): Promise<LambdaResponse>
       traceback: error.stack,
       graphQLQueryToPrefetch: null
     };
-  });
+  };
 }
 
 exports.handler = errorCatchingHandler;
@@ -232,13 +233,12 @@ export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buff
         if (!isPlainJsObject(obj)) {
           throw new Error("Expected input to be a JS object!");
         }
+        const response = errorCatchingHandler(obj as EventProps);
+        resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
       } catch (e) {
         /* istanbul ignore next: we are covering this but istanbul is weird. */
         return reject(e);
       }
-      errorCatchingHandler(obj as EventProps).then(response => {
-        resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
-      }).catch(reject);
     });
   });
 }

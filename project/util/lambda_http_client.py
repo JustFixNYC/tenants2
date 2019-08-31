@@ -13,8 +13,6 @@ from .lambda_pool import get_latest_mtime_for_bundle, LambdaRunner
 
 logger = logging.getLogger(__name__)
 
-log = logger.info
-
 
 @dataclass
 class LambdaHttpClient(LambdaRunner):
@@ -58,7 +56,7 @@ class LambdaHttpClient(LambdaRunner):
                 child = self.__process
                 self.__process = None
                 child.kill()
-                log(f"Destroyed {self.name} lambda process with pid {child.pid}.")
+                logger.debug(f"Destroyed {self.name} lambda process with pid {child.pid}.")
             atexit.unregister(self.shutdown)
 
     def __kill_process_if_script_changed(self):
@@ -67,7 +65,7 @@ class LambdaHttpClient(LambdaRunner):
             if mtime != self.__script_path_mtime:
                 self.__script_path_mtime = mtime
                 if self.__process:
-                    log(
+                    logger.info(
                         f"Change detected in {self.script_path.name}, "
                         f"restarting {self.name} lambda process."
                     )
@@ -84,7 +82,7 @@ class LambdaHttpClient(LambdaRunner):
             stdout=subprocess.PIPE,
             cwd=self.cwd
         )
-        log(f"Created {self.name} lambda process with pid {child.pid}.")
+        logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
     def __read_process_output(self) -> None:
@@ -121,6 +119,11 @@ class LambdaHttpClient(LambdaRunner):
         return f"http://127.0.0.1:{self.__get_port()}/"
 
     def run_handler(self, event: Any) -> Any:
-        res = requests.post(self.get_url(), json=event, timeout=self.timeout_secs)
-        res.raise_for_status()
-        return res.json()
+        try:
+            res = requests.post(self.get_url(), json=event, timeout=self.timeout_secs)
+            res.raise_for_status()
+            return res.json()
+        except Exception:
+            logger.warn("Lambda process is misbehaving, shutting it down.")
+            self.shutdown()
+            raise

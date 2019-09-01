@@ -2,5 +2,5 @@
 
 require('@babel/register')({
   ...require('./base').nodeBabelOptions,
-  extensions: ['.ts']
+  extensions: ['.ts', '.tsx']
 });

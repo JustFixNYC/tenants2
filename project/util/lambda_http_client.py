@@ -31,7 +31,7 @@ class LambdaHttpClient(LambdaRunner):
     # The number of seconds we'll give a lambda process to handle its
     # event and return a response before we consider it a runaway and
     # terminate it.
-    timeout_secs: int = 5
+    timeout_secs: float = 5.0
 
     # Whether to restart the pool of warmed-up processes whenever
     # we detect that the lambda process' script has changed. This is
@@ -41,9 +41,12 @@ class LambdaHttpClient(LambdaRunner):
     # Extra arguments to pass to the script.
     script_args: List[str] = field(default_factory=list)
 
+    # Extra arguments to pass to the interpreter.
+    interpreter_args: List[str] = field(default_factory=list)
+
     def __post_init__(self) -> None:
         self.__process: Optional[subprocess.Popen] = None
-        self.__process_output: Optional[bytes] = None
+        self.__process_output = b""
         self.__port: Optional[int] = None
         self.__lock = RLock()
         self.__script_path_mtime = 0.0
@@ -76,12 +79,12 @@ class LambdaHttpClient(LambdaRunner):
         Create a lambda process and return it if needed.
         '''
 
-        child = subprocess.Popen(
-            [str(self.interpreter_path), str(self.script_path), *self.script_args],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            cwd=self.cwd
-        )
+        child = subprocess.Popen([
+            str(self.interpreter_path),
+            *self.interpreter_args,
+            str(self.script_path),
+            *self.script_args
+        ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd=self.cwd)
         logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
@@ -89,23 +92,33 @@ class LambdaHttpClient(LambdaRunner):
         assert self.__process is not None
         self.__process_output = self.__process.stdout.readline()
 
-    def __spawn_process_and_get_port(self) -> int:
-        self.__process = self.__create_process()
-        self.__process_output = None
-        atexit.register(self.shutdown)
+    def __wait_for_process_output(self):
+        assert self.__process is not None
 
         stdout_thread = Thread(target=self.__read_process_output)
         stdout_thread.daemon = True
         stdout_thread.start()
         stdout_thread.join(timeout=self.timeout_secs)
 
-        line = self.__process_output
-        if line is None:
-            raise Exception("Failed to read output from subprocess!")
+        if stdout_thread.is_alive():
+            self.__process.kill()
+            self.__process = None
+            stdout_thread.join()
+            raise Exception(f"Subprocess produced no output within {self.timeout_secs}s")
 
-        match = re.match(r'LISTENING ON PORT ([0-9]+)', line.decode('utf-8'))
+        if not self.__process_output:
+            self.__process.wait(timeout=self.timeout_secs)
+            raise Exception(f"Subprocess failed with exit code {self.__process.returncode}")
+
+    def __spawn_process_and_get_port(self) -> int:
+        self.__process = self.__create_process()
+        self.__process_output = b""
+        atexit.register(self.shutdown)
+        self.__wait_for_process_output()
+
+        match = re.match(r'LISTENING ON PORT ([0-9]+)', self.__process_output.decode('utf-8'))
         if not match:
-            raise Exception(f"Could not parse port from line: {repr(line)}")
+            raise Exception(f"Could not parse port from line: {repr(self.__process_output)}")
 
         return int(match.group(1))
 
@@ -117,15 +130,21 @@ class LambdaHttpClient(LambdaRunner):
                 self.__port = self.__spawn_process_and_get_port()
             return self.__port
 
+    @property
+    def is_running(self) -> bool:
+        with self.__lock:
+            return self.__port is not None and self.__process is not None
+
     def get_url(self) -> str:
         return f"http://127.0.0.1:{self.__get_port()}/"
 
-    def run_handler(self, event: Any) -> Any:
+    def run_handler(self, event: Any, timeout: Optional[float] = None) -> Any:
         try:
-            res = requests.post(self.get_url(), json=event, timeout=self.timeout_secs)
+            res = requests.post(
+                self.get_url(), json=event, timeout=timeout or self.timeout_secs)
             res.raise_for_status()
             return res.json()
         except Exception:
-            logger.warn("Lambda process is misbehaving, shutting it down.")
+            logger.warning("Lambda process is misbehaving, shutting it down.")
             self.shutdown()
             raise

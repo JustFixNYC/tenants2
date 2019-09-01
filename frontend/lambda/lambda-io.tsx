@@ -77,6 +77,7 @@ export function getServerAddress(server: http.Server): AddressInfo {
   return addr;
 }
 
+/* istanbul ignore next: this is tested by integration tests. */
 export function serveLambdaOverHttp(handler: LambdaHandler) {
   const server = http.createServer(lambdaHttpHandler.bind(null, handler));
   server.listen(() => {
@@ -90,6 +91,7 @@ export function serveLambdaOverHttp(handler: LambdaHandler) {
   });
 }
 
+/* istanbul ignore next: this is tested by integration tests. */
 export function serveLambdaOverStdio(handler: LambdaHandler) {
   handleFromJSONStream(handler, process.stdin).then(buf => {
     process.stdout.write(buf);

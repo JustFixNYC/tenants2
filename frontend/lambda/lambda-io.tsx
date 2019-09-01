@@ -1,4 +1,5 @@
 import http from 'http';
+import { AddressInfo } from 'net';
 
 export type LambdaHandler = (event: any) => any;
 
@@ -42,40 +43,50 @@ export function handleFromJSONStream(handler: LambdaHandler, input: NodeJS.Reada
   });
 }
 
-function httpHandler(handler: LambdaHandler, req: http.IncomingMessage, res: http.ServerResponse) {
+export function lambdaHttpHandler(handler: LambdaHandler, req: http.IncomingMessage, res: http.ServerResponse) {
   const fail = (statusCode: number) => {
     res.statusCode = statusCode;
     res.end();
   };
+  if (req.url !== '/') {
+    return fail(404);
+  }
   if (req.method !== 'POST') {
     return fail(405);
   }
   if (req.headers['content-type'] !== 'application/json') {
-    return fail(400);
+    return fail(415);
   }
   handleFromJSONStream(handler, req).then(buf => {
     res.setHeader('Content-Type', 'application/json');
     res.end(buf);
   }).catch(e => {
+    if (e instanceof SyntaxError) {
+      return fail(400);
+    }
     console.error(e);
     fail(500);
   });
 }
 
+export function getServerAddress(server: http.Server): AddressInfo {
+  const addr = server.address();
+  if (typeof(addr) === 'string') {
+    throw new Error(`Expected address to be an object but it is "${addr}"!`);
+  }
+  return addr;
+}
+
 export function serveLambdaOverHttp(handler: LambdaHandler) {
-  const server = http.createServer(httpHandler.bind(null, handler));
+  const server = http.createServer(lambdaHttpHandler.bind(null, handler));
   server.listen(() => {
-    const addr = server.address();
-    if (typeof(addr) === 'string') {
-      throw new Error(`Expected address to be an object but it is "${addr}"!`);
-    } else {
-      process.stdin.setEncoding('utf-8');
-      process.stdin.on('readable', () => {});
-      process.stdin.on('end', () => {
-        server.close();
-      });
-      process.stdout.write(`LISTENING ON PORT ${addr.port}\n`);
-    }
+    const addr = getServerAddress(server);
+    process.stdin.setEncoding('utf-8');
+    process.stdin.on('readable', () => {});
+    process.stdin.on('end', () => {
+      server.close();
+    });
+    process.stdout.write(`LISTENING ON PORT ${addr.port}\n`);
   });
 }
 

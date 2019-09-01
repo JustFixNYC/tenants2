@@ -12,7 +12,6 @@ import 'source-map-support/register'
 // we import are sent to stderr.
 import './redirect-console-to-stderr';
 
-import http from 'http';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -26,6 +25,7 @@ import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
 import { assertNotUndefined } from '../lib/util';
+import { serveLambdaOverHttp, serveLambdaOverStdio } from './lambda-io';
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -204,93 +204,11 @@ export function errorCatchingHandler(event: EventProps): LambdaResponse {
 
 exports.handler = errorCatchingHandler;
 
-/** Return whether the argument is a plain ol' JS object (not an array). */
-export function isPlainJsObject(obj: any): boolean {
-  return (typeof(obj) === "object" && obj !== null && !Array.isArray(obj));
-}
-
-/**
- * This takes an input stream, decodes it as JSON, passes it
- * to the serverless handler, and returns the handler's response
- * encoded as UTF-8.
- * 
- * @param input An input stream with UTF-8 encoded JSON content.
- */
-export function handleFromJSONStream(input: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const buffers: Buffer[] = [];
-
-    input.on('data', data => {
-      buffers.push(data);
-    });
-
-    input.on('end', () => {
-      const buffer = Buffer.concat(buffers);
-      let obj: any;
-      try {
-        obj = JSON.parse(buffer.toString('utf-8'));
-        /* istanbul ignore next: we are covering this but istanbul is weird. */
-        if (!isPlainJsObject(obj)) {
-          throw new Error("Expected input to be a JS object!");
-        }
-        const response = errorCatchingHandler(obj as EventProps);
-        resolve(Buffer.from(JSON.stringify(response), 'utf-8'));
-      } catch (e) {
-        /* istanbul ignore next: we are covering this but istanbul is weird. */
-        return reject(e);
-      }
-    });
-  });
-}
-
-function httpHandler(req: http.IncomingMessage, res: http.ServerResponse) {
-  const fail = (statusCode: number) => {
-    res.statusCode = statusCode;
-    res.end();
-  };
-  if (req.method !== 'POST') {
-    return fail(405);
-  }
-  if (req.headers['content-type'] !== 'application/json') {
-    return fail(400);
-  }
-  handleFromJSONStream(req).then(buf => {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(buf);
-  }).catch(e => {
-    console.error(e);
-    fail(500);
-  });
-}
-
-function serveHttp() {
-  const server = http.createServer(httpHandler);
-  server.listen(() => {
-    const addr = server.address();
-    if (typeof(addr) === 'string') {
-      throw new Error(`Expected address to be an object but it is "${addr}"!`);
-    } else {
-      process.stdin.setEncoding('utf-8');
-      process.stdin.on('readable', () => {});
-      process.stdin.on('end', () => {
-        server.close();
-      });
-      process.stdout.write(`LISTENING ON PORT ${addr.port}\n`);
-    }
-  });
-}
-
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
   if (process.argv.includes('--serve-http')) {
-    serveHttp();
+    serveLambdaOverHttp(errorCatchingHandler);
   } else {
-    handleFromJSONStream(process.stdin).then(buf => {
-      process.stdout.write(buf);
-      process.exit(0);
-    }).catch(e => {
-      console.error(e);
-      process.exit(1);
-    });
+    serveLambdaOverStdio(errorCatchingHandler);
   }
 }

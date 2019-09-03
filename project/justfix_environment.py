@@ -293,6 +293,8 @@ class JustfixDebugEnvironment(JustfixDevelopmentDefaults):
 
     EMAIL_URL = 'console:'
 
+    NAVBAR_LABEL = 'LOCAL DEV'
+
 
 class JustfixTestingEnvironment(JustfixEnvironment):
     '''

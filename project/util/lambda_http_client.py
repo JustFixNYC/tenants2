@@ -16,29 +16,46 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class LambdaHttpClient(LambdaRunner):
-    # A descriptive name for the lambda process, used in logging messages.
+    '''
+    This class runs a subprocess that is expected to immediately start
+    an HTTP server that listens on localhost.  The server should adhere
+    to the following protocol:
+
+    1. Once it is ready to listen for requests, it prints a line to stdout
+       in the form of "LISTENING ON PORT XYZ", where "XYZ" is the port
+       number. This should be its very first line of output to stdio.
+
+    2. Its HTTP server should accept any POST requests to the root of
+       the server with a Content-Type of application/json, and return
+       a 200 OK response of the same Content-Type. The POST body is
+       sometimes called the "event".
+
+    This class is also responsible for shutting down the server when
+    the host process terminates.
+    '''
+
+    # A descriptive name for the server, used in logging messages.
     name: str
 
-    # A path to the lambda process' script.
+    # A path to the server's script.
     script_path: Path
 
-    # The current working directory to run the lambda process in.
+    # The current working directory to run the server in.
     cwd: Path
 
-    # The path to the interpreter for the lambda process' script.
+    # The path to the interpreter for the server's script.
     interpreter_path: Path = Path('node')
 
-    # The number of seconds we'll give a lambda process to handle its
-    # event and return a response before we consider it a runaway and
-    # terminate it.
+    # The number of seconds we'll give a server to start up, and to
+    # handle its event and return a response before we consider it a
+    # runaway and terminate it.
     timeout_secs: float = 5.0
 
-    # Whether to restart the pool of warmed-up processes whenever
-    # we detect that the lambda process' script has changed. This is
-    # useful for development.
+    # Whether to restart the server whenever we detect that its script has
+    # changed. This is useful for development.
     restart_on_script_change: bool = False
 
-    # Extra arguments to pass to the script.
+    # Extra arguments to pass to the server's script.
     script_args: List[str] = field(default_factory=list)
 
     # Extra arguments to pass to the interpreter.
@@ -52,6 +69,10 @@ class LambdaHttpClient(LambdaRunner):
         self.__script_path_mtime = 0.0
 
     def shutdown(self):
+        '''
+        Shutdown the server, if it's running.
+        '''
+
         with self.__lock:
             if self.__port:
                 self.__port = None
@@ -132,13 +153,29 @@ class LambdaHttpClient(LambdaRunner):
 
     @property
     def is_running(self) -> bool:
+        '''
+        Return whether the server is running.
+        '''
+
         with self.__lock:
             return self.__port is not None and self.__process is not None
 
     def get_url(self) -> str:
+        '''
+        Returns the URL to the server's root, starting up the server if it's
+        not already running.
+        '''
+
         return f"http://127.0.0.1:{self.__get_port()}/"
 
     def run_handler(self, event: Any, timeout: Optional[float] = None) -> Any:
+        '''
+        Make a request to the server, passing it the given JSON-serializable
+        event as input, and returning the server's response as deserialized JSON.
+
+        If the server misbehaves in any way, it is shut down.
+        '''
+
         try:
             res = requests.post(
                 self.get_url(), json=event, timeout=timeout or self.timeout_secs)

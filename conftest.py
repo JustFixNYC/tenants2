@@ -266,12 +266,12 @@ def disable_locale_middleware(settings):
 @pytest.fixture
 def allow_lambda_http(requests_mock):
     '''
-    If we're using the experimental lambda HTTP server, pass-through requests
+    If we're using the lambda HTTP server, pass-through requests
     to it, instead of doing any mocking.
     '''
 
-    from project.views import lambda_pool
+    from project.views import lambda_service
     from project.util.lambda_http_client import LambdaHttpClient
 
-    if isinstance(lambda_pool, LambdaHttpClient):
-        requests_mock.register_uri('POST', lambda_pool.get_url(), real_http=True)
+    if isinstance(lambda_service, LambdaHttpClient):
+        requests_mock.register_uri('POST', lambda_service.get_url(), real_http=True)

@@ -43,6 +43,9 @@ export function handleFromJSONStream(handler: LambdaHandler, input: NodeJS.Reada
   });
 }
 
+/**
+ * Respond to the given HTTP request with the given event handler.
+ */
 export function lambdaHttpHandler(handler: LambdaHandler, req: http.IncomingMessage, res: http.ServerResponse) {
   const fail = (statusCode: number) => {
     res.statusCode = statusCode;
@@ -69,6 +72,7 @@ export function lambdaHttpHandler(handler: LambdaHandler, req: http.IncomingMess
   });
 }
 
+/** Return the address of the given HTTP server. */
 export function getServerAddress(server: http.Server): AddressInfo {
   const addr = server.address();
   if (typeof(addr) === 'string') {

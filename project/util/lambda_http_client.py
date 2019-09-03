@@ -8,14 +8,14 @@ from threading import RLock, Thread
 from pathlib import Path
 import requests
 
-from .lambda_pool import get_latest_mtime_for_bundle, LambdaRunner
+from .lambda_service import get_latest_mtime_for_bundle, LambdaService
 
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class LambdaHttpClient(LambdaRunner):
+class LambdaHttpClient(LambdaService):
     '''
     This class runs a subprocess that is expected to immediately start
     an HTTP server that listens on localhost.  The server should adhere

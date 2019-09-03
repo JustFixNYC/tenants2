@@ -13,7 +13,7 @@ from django.conf import settings
 
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
-from project.util.lambda_pool import LambdaPool, LambdaRunner
+from project.util.lambda_service import LambdaService
 from project.schema import schema
 from project import common_data
 import project.health
@@ -33,12 +33,12 @@ LAMBDA_SCRIPT = BASE_DIR / 'lambda.js'
 
 logger = logging.getLogger(__name__)
 
-lambda_pool: LambdaRunner
+lambda_service: LambdaService
 
 if settings.USE_LAMBDA_HTTP_SERVER:
     from project.util.lambda_http_client import LambdaHttpClient
 
-    lambda_pool = LambdaHttpClient(
+    lambda_service = LambdaHttpClient(
         'ReactHttp',
         LAMBDA_SCRIPT,
         script_args=['--serve-http'],
@@ -46,7 +46,9 @@ if settings.USE_LAMBDA_HTTP_SERVER:
         restart_on_script_change=settings.DEBUG
     )
 else:
-    lambda_pool = LambdaPool(
+    from project.util.lambda_pool import LambdaPool
+
+    lambda_service = LambdaPool(
         'React',
         LAMBDA_SCRIPT,
         cwd=BASE_DIR,
@@ -115,7 +117,7 @@ def add_graphql_fragments(query: str) -> str:
 
 def run_react_lambda(initial_props) -> LambdaResponse:
     start_time = time.time_ns()
-    response = lambda_pool.run_handler(initial_props)
+    response = lambda_service.run_handler(initial_props)
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 
     pf = response['graphQLQueryToPrefetch']

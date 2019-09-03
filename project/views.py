@@ -13,7 +13,7 @@ from django.conf import settings
 
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
-from project.util.lambda_pool import LambdaPool
+from project.util.lambda_service import LambdaService
 from project.schema import schema
 from project import common_data
 import project.health
@@ -29,14 +29,31 @@ FORMS_COMMON_DATA = common_data.load_json("forms.json")
 
 NS_PER_MS = 1e+6
 
+LAMBDA_SCRIPT = BASE_DIR / 'lambda.js'
+
 logger = logging.getLogger(__name__)
 
-lambda_pool = LambdaPool(
-    'React',
-    BASE_DIR / 'lambda.js',
-    cwd=BASE_DIR,
-    restart_on_script_change=settings.DEBUG
-)
+lambda_service: LambdaService
+
+if settings.USE_LAMBDA_HTTP_SERVER:
+    from project.util.lambda_http_client import LambdaHttpClient
+
+    lambda_service = LambdaHttpClient(
+        'ReactHttp',
+        LAMBDA_SCRIPT,
+        script_args=['--serve-http'],
+        cwd=BASE_DIR,
+        restart_on_script_change=settings.DEBUG
+    )
+else:
+    from project.util.lambda_pool import LambdaPool
+
+    lambda_service = LambdaPool(
+        'React',
+        LAMBDA_SCRIPT,
+        cwd=BASE_DIR,
+        restart_on_script_change=settings.DEBUG
+    )
 
 
 class GraphQLQueryPrefetchInfo(NamedTuple):
@@ -100,7 +117,7 @@ def add_graphql_fragments(query: str) -> str:
 
 def run_react_lambda(initial_props) -> LambdaResponse:
     start_time = time.time_ns()
-    response = lambda_pool.run_handler(initial_props)
+    response = lambda_service.run_handler(initial_props)
     render_time = int((time.time_ns() - start_time) / NS_PER_MS)
 
     pf = response['graphQLQueryToPrefetch']

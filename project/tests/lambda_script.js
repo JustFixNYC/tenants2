@@ -1,4 +1,6 @@
 //@ts-check
+
+/** @type Buffer[] */
 const buffers = [];
 
 process.stdin.on('data', data => {

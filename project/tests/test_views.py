@@ -15,6 +15,11 @@ from .util import qdict
 from frontend.tests import test_safe_mode
 
 
+@pytest.fixture(autouse=True)
+def setup_fixtures(allow_lambda_http):
+    pass
+
+
 def react_url(path: str) -> str:
     base_url = reverse('react')
     if base_url.endswith('/'):

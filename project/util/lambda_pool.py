@@ -3,18 +3,19 @@ import atexit
 import logging
 import subprocess
 import json
-import glob
 from dataclasses import dataclass
 from typing import List, Any, BinaryIO, Optional
 from threading import RLock
 from pathlib import Path
+
+from .lambda_service import LambdaService, get_latest_mtime_for_bundle
 
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class LambdaPool:
+class LambdaPool(LambdaService):
     '''
     This class maintains a pool of "warmed up" lambda processes that are
     ready to receive events, and handles communication with them.
@@ -185,20 +186,6 @@ class LambdaPool:
                 output=stdout,
                 stderr=stderr
             )
-
-
-def get_latest_mtime_for_bundle(path: Path) -> float:
-    '''
-    Get the most recent modified time for the given source
-    bundle and any of its loadable sub-bundles. It is assumed
-    the sub-bundles all end with the name of the original source
-    bundle, e.g. if the source bundle is called "foo.js",
-    a source bundle would be "bar.foo.js".
-    '''
-
-    filenames = [str(path)] + glob.glob(str(path.with_name(f"*.{path.name}")))
-    latest_mtime = max(Path(filename).stat().st_mtime for filename in filenames)
-    return latest_mtime
 
 
 class MalformedResponseError(Exception):

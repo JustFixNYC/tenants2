@@ -60,6 +60,17 @@ Then visit http://localhost:8000/ in your browser.
 
 [Database URL schema]: https://github.com/kennethreitz/dj-database-url#url-schema
 
+### Creating an Admin User
+
+You'll want to create an admin user account to access the App's "Admin Site." Django has this functionality preset, so just navigate to the root directory and use the Django command for creating a super user:
+
+```
+python manage.py createsuperuser
+```
+
+The following prompts on your terminal window will set up the account for you. Once created, visit http://localhost:8000/admin and log in with your new credentials to access the Admin Site.
+
+
 ### Production dependencies
 
 Some of this project's dependencies are cumbersome
@@ -281,7 +292,8 @@ docker-compose run app bash
 This will run an interactive bash session inside the main app container.
 In this container, the `/tenants2` directory is mapped to the root of
 the repository on your host; you can run any command, like `python manage.py`
-or `pytest`, from there.
+or `pytest`, from there. Specifically, within this bash session is where you can [create an Admin User](#creating-an-admin-user) to access the App's Admin Site. 
+
 
 ### A `manage.py` shortcut
 

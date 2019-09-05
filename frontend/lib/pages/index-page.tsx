@@ -25,7 +25,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
           <div className="hero-body">
             <div className="has-text-centered">
               <div className="jf-loc-image">
-                <StaticImage src="frontend/img/letter-of-complaint.svg" alt="" />
+                <StaticImage dimensions={[400,150]} src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
                 Is your landlord not responding? Take action today!
@@ -73,7 +73,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <div className="tile is-child box">
                   <div className="media-content">
                     <p className="image container is-128x128">
-                      <StaticImage className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
+                      <StaticImage dimensions={[128,128]} className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
                     </p>
                     <p className="subtitle has-text-centered is-spaced">
                       They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.
@@ -88,7 +88,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
               <div className="tile is-child box">
                   <div className="media-content">
                   <p className="image container is-128x128">
-                      <StaticImage className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
+                      <StaticImage dimensions={[128,128]} className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
                     </p>
                     <p className="subtitle has-text-centered is-spaced">
                       I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.

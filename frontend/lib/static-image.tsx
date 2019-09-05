@@ -6,13 +6,14 @@ type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImage
 export type StaticImageProps = ImgProps & {
   src: string;
   alt: string;
+  dimensions: [number,number];
 };
 
 export function StaticImage(props: StaticImageProps): JSX.Element {
   return (
     <AppContext.Consumer>
       {(appCtx) => (
-        <img {...props} src={`${appCtx.server.staticURL}${props.src}`} />
+        <img {...props} width={props.dimensions[0]} height={props.dimensions[1]} src={`${appCtx.server.staticURL}${props.src}`} />
       )}
     </AppContext.Consumer>
   );

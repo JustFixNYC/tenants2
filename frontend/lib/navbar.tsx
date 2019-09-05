@@ -123,7 +123,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
     return (
       <div className="navbar-brand">
         <Link className="navbar-item" to={Routes.locale.home}>
-          <StaticImage src="frontend/img/logo.png" alt="Home" />
+          <StaticImage dimensions={[128,128]} src="frontend/img/logo.png" alt="Home" />
           {navbarLabel && <span className="tag is-warning" style={{marginLeft: '1em'}}>{navbarLabel}</span>}
         </Link>
         <AriaExpandableButton

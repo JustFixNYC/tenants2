@@ -213,7 +213,7 @@ LANGUAGES = [
     ('en', 'English'),
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = env.ENABLE_I18N
 

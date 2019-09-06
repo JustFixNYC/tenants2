@@ -10,16 +10,6 @@
       }
     }
   }
-  
-  .jf-loc-image {
-    img {
-      height: 150px;
-
-      @include until($tablet){
-        height: 120px;
-      }
-    }
-  }
 
   .section {
     border-bottom: 1px solid $grey-lighter;

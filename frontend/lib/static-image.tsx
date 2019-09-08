@@ -7,14 +7,14 @@ type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImage
 export type StaticImageProps = ImgProps & {
   src: string;
   alt: string;
-  imageRatio: BulmaImageClass;
+  ratio: BulmaImageClass;
 };
 
 export function StaticImage(props: StaticImageProps): JSX.Element {
   return (
     <AppContext.Consumer>
       {(appCtx) => (
-        <figure className={"image " + props.imageRatio}>
+        <figure className={"image " + props.ratio}>
           <img {...props} src={`${appCtx.server.staticURL}${props.src}`} />
         </figure>
       )}

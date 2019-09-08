@@ -25,7 +25,7 @@ export default class IndexPage extends React.Component<IndexPageProps> {
           <div className="hero-body">
             <div className="has-text-centered">
               <div className="jf-loc-image">
-                  <StaticImage imageRatio="is-2by1" src="frontend/img/letter-of-complaint.svg" alt="" />
+                  <StaticImage ratio="is-2by1" src="frontend/img/letter-of-complaint.svg" alt="" />
               </div>
               <h1 className="title is-spaced">
                 Is your landlord not responding? Take action today!
@@ -72,9 +72,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
             <div className="tile is-parent is-6">
               <div className="tile is-child box">
                   <div className="media-content">
-                    <p className="image container is-128x128">
-                      <StaticImage imageRatio="is-square" className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
-                    </p>
+                    <div className="image container is-128x128">
+                      <StaticImage ratio="is-square" className="is-rounded" src="frontend/img/veronica.jpg" alt="Veronica photo" />
+                    </div>
                     <p className="subtitle has-text-centered is-spaced">
                       They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.
                     </p>
@@ -87,9 +87,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
             <div className="tile is-parent is-6">
               <div className="tile is-child box">
                   <div className="media-content">
-                  <p className="image container is-128x128">
-                      <StaticImage imageRatio="is-square" className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
-                    </p>
+                  <div className="image container is-128x128">
+                      <StaticImage ratio="is-square" className="is-rounded" src="frontend/img/steven.png" alt="Steven photo" />
+                    </div>
                     <p className="subtitle has-text-centered is-spaced">
                       I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.
                     </p>

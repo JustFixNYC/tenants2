@@ -11,11 +11,12 @@ export type StaticImageProps = ImgProps & {
 };
 
 export function StaticImage(props: StaticImageProps): JSX.Element {
+  const {ratio, ...relevantProps} = props;
   return (
     <AppContext.Consumer>
       {(appCtx) => (
         <figure className={"image " + props.ratio}>
-          <img {...props} src={`${appCtx.server.staticURL}${props.src}`} />
+          <img {...relevantProps} src={`${appCtx.server.staticURL}${props.src}`} />
         </figure>
       )}
     </AppContext.Consumer>

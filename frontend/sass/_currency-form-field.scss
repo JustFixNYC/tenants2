@@ -3,7 +3,8 @@
 }
 
 .jf-currency input {
-    padding-left: calc(#{$control-padding-horizontal} + 1em);
+    $padding: uncalc($control-padding-horizontal);
+    padding-left: calc(#{$padding} + 1em);
     max-width: 10em;
 }
 

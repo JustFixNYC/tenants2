@@ -1,0 +1,29 @@
+/// Replace `$search` with `$replace` in `$string`
+///
+/// Taken from: https://css-tricks.com/snippets/sass/str-replace-function/
+/// 
+/// @author Hugo Giraudel
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+// If we put a calc() expression in a variable but then put that variable in
+// another calc() expression, we end up with nested calc() expressions, which
+// older browsers don't support: https://stackoverflow.com/a/36414853
+//
+// This removes the leading "calc" from a string, effectively just making
+// it a parenthesized expression. If the string doesn't start with "calc" though,
+// it just returns the original string.
+@function uncalc($expr) {
+    @return str-replace($expr, 'calc', '');
+}

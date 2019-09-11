@@ -444,6 +444,11 @@ CSP_CONNECT_SRC = [
     "https://geosearch.planninglabs.nyc"
 ]
 
+CSP_FRAME_SRC = [
+    "'self'",
+    "https://www.youtube.com"
+]
+
 # All settings starting with "CELERY_" are Celery
 # settings. See the following documentation for more information,
 # but prepend "CELERY_" to all the documented settings before

@@ -91,7 +91,7 @@
     "autobind-decorator": "2.1.0",
     "babel-loader": "8.0.5",
     "babel-plugin-dynamic-import-node": "2.2.0",
-    "bulma": "0.7.2",
+    "bulma": "0.7.4",
     "cheerio": "1.0.0-rc.2",
     "classnames": "2.2.6",
     "core-js": "3.1.4",

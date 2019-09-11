@@ -44,6 +44,9 @@ export default class IndexPage extends React.Component<IndexPageProps> {
         <section className="section">
           <div className="content">
             <h2 className="title is-spaced has-text-centered">How It Works</h2>
+            <figure className="image is-16by9">
+              <iframe className="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/hg64IsJl0O4" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+            </figure>
             <BigList itemClassName="title is-5">
               <li>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</li>
               <li>JustFix.nyc mails your letter via USPS Certified Mail<sup>&reg;</sup> - for free!</li>

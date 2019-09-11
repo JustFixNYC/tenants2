@@ -251,7 +251,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         Going to court can help you get repairs.
       </>,
       cta: {
-        to: Routes.locale.hp.splash,
+        to: Routes.locale.hp.latestStep,
         text: "Sue your landlord"
       }
     }

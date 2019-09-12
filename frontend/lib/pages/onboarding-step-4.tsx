@@ -12,6 +12,7 @@ import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../faceboox-pixel';
 import { FormContext } from '../form-context';
+import { getDataLayer } from '../google-tag-manager';
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -60,7 +61,13 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
             mutation={OnboardingStep4Mutation}
             initialState={this.blankInitialState}
             onSuccessRedirect={this.props.toSuccess}
-            onSuccess={() => fbq('track','CompleteRegistration')}
+            onSuccess={(output) => {
+              fbq('track','CompleteRegistration');
+              getDataLayer().push({
+                event: 'jf.signup',
+                'jf.signupIntent': output.session && output.session.onboardingInfo && output.session.onboardingInfo.signupIntent
+              });
+            }}
           >{this.renderForm}</SessionUpdatingFormSubmitter>
         </div>
       </Page>

@@ -64,7 +64,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
             onSuccess={(output) => {
               fbq('track','CompleteRegistration');
               getDataLayer().push({
-                event: 'signup',
+                event: 'justfix.signup',
                 signupIntent: output.session && output.session.onboardingInfo && output.session.onboardingInfo.signupIntent
               });
             }}

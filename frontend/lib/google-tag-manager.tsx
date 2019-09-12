@@ -17,7 +17,7 @@ declare global {
 
 /** Data layer event to send when a user signs up. */
 type GTMSignupEvent = {
-  event: 'signup',
+  event: 'justfix.signup',
   signupIntent: OnboardingInfoSignupIntent|null
 };
 

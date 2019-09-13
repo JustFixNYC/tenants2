@@ -14,8 +14,6 @@ import { AppContext } from '../app-context';
 import { properNoun } from '../util';
 import { OutboundLink } from '../google-analytics';
 
-const BASE_TITLE = "Data-driven onboarding";
-
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
 const SHOW_PLACEHOLDER_IMG = process.env.NODE_ENV !== 'production';
@@ -334,7 +332,7 @@ export function DataDrivenOnboardingResults(props: DDOData) {
   const actions = getSortedActionCards(props);
 
   return <>
-    <PageTitle title={`${BASE_TITLE} results for ${props.fullAddress}`} />
+    <PageTitle title={`Results for ${props.fullAddress}`} />
     <ActionCard {...buildingIntroCard(props)} />
     {actions.recommended.length > 0 && <>
       <h2>Recommended actions</h2>
@@ -371,7 +369,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const [autoSubmit, setAutoSubmit] = useState(false);
 
   return (
-    <Page title={BASE_TITLE}>
+    <Page title="">
       <QueryFormSubmitter
         {...props}
         emptyInput={emptyInput}

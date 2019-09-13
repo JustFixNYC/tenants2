@@ -10,6 +10,7 @@ from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
+from project.util.site_util import get_site_name
 from project import slack, schema_registry
 from users.models import JustfixUser
 from onboarding import forms
@@ -157,7 +158,7 @@ class OnboardingStep4(SessionFormMutation):
             oi.save()
 
         user.send_sms_async(
-            f"Welcome to JustFix.nyc, {user.first_name}! "
+            f"Welcome to {get_site_name()}, {user.first_name}! "
             f"We'll be sending you notifications from this phone number.",
         )
         slack.sendmsg_async(

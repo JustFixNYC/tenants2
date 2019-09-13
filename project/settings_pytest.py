@@ -65,6 +65,8 @@ if 'nycdb' in DATABASES:  # noqa
 if 'wow' in DATABASES:  # noqa
     del DATABASES['wow']  # noqa
 
+NAVBAR_LABEL = ''
+
 
 class NotActuallyFileStorage:
     def __init__(self):

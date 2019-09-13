@@ -6,6 +6,7 @@ from graphene_django.types import DjangoObjectType
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
+from project.util.site_util import get_site_name
 from project import slack, schema_registry, common_data
 from . import forms, models, email_letter
 from airtable.sync import sync_user as sync_user_with_airtable
@@ -61,7 +62,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
         if lr.mail_choice == 'WE_WILL_MAIL':
             sync_user_with_airtable(request.user)
             lr.user.send_sms_async(
-                f"JustFix.nyc here - we've received your request and will "
+                f"{get_site_name()} here - we've received your request and will "
                 f"update you once the letter has been sent. "
                 f"Please allow for 1-2 business days to process.",
             )

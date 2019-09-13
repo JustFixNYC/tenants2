@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Helmet } from "react-helmet-async";
 import { AriaAnnouncement } from './aria';
 import classNames from 'classnames';
+import { AppContext } from './app-context';
 
 interface PageProps {
   title: string;
@@ -17,12 +18,25 @@ function headingClassName(heading: true|'big'|'small') {
   );
 }
 
+export function useSiteName(): string {
+  const { navbarLabel } = useContext(AppContext).server;
+  let siteName = 'JustFix.nyc';
+
+  if (navbarLabel) {
+    siteName += ' ' + navbarLabel;
+  }
+
+  return siteName;
+}
+
 export function PageTitle(props: {title: string}): JSX.Element {
   const title = props.title;
+  const siteName = useSiteName();
+  const fullTitle = title ? `${siteName} - ${title}` : siteName;
 
   return <>
     <Helmet>
-      <title>JustFix.nyc - {title}</title>
+      <title>{fullTitle}</title>
     </Helmet>
     <AriaAnnouncement text={title} />
   </>;

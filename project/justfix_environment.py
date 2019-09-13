@@ -262,7 +262,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # from the site manager(s).
     DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
 
-    # An optional label to show the site's navbar and other communications,
+    # An optional label to show in the site's navbar and other communications,
     # next to "JustFix.nyc". This can be useful to e.g. distinguish a production
     # deployment from a staging one.
     NAVBAR_LABEL: str = ''

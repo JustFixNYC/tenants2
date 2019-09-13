@@ -30,6 +30,22 @@ RTC_ZIPCODES = set([
     '10302', '10303', '10314' '10310',
 ])
 
+COMPLAINT_CATEGORY_ALIASES = {
+    'DOOR/WINDOW': 'DOORS/WINDOWS',
+    'WATER LEAK': 'WATER LEAKS',
+    'ELECTRIC': 'ELECTRICAL',
+    'GENERAL': 'GENERAL DISREPAIR',
+    'APPLIANCE': 'BROKEN APPLIANCES',
+    'OUTSIDE BUILDING': 'PUBLIC SPACES',
+    'ELEVATOR': 'THE ELEVATOR',
+    'NONCONST': 'NON-CONSTRUCTION',
+    'CABINET': 'CABINETS',
+    'VENTILATION SYSTEM': 'THE VENTILATION SYSTEM',
+    'MAILBOX': 'MAILBOXES',
+    'JANITOR/SUPER': 'JANITOR/SUPER SERVICES',
+    'SIGNAGE MISSING': 'MISSING SIGNAGE',
+}
+
 logger = logging.getLogger(__name__)
 
 
@@ -207,12 +223,21 @@ class DDOQuery:
             return None
         props = features[0].properties
         row = cached_run_ddo_sql_query(props.pad_bbl)
+        row = normalize_complaint_category(row)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
             is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
             **row
         )
+
+
+def normalize_complaint_category(ddo_query: Dict[str, Any]):
+    key = 'most_common_category_of_hpd_complaint'
+    cat = ddo_query[key]
+    if cat and cat in COMPLAINT_CATEGORY_ALIASES:
+        return {**ddo_query, key: COMPLAINT_CATEGORY_ALIASES[cat]}
+    return ddo_query
 
 
 def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:

@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.contrib.sessions.middleware import SessionMiddleware
 
 from users.models import JustfixUser
+from project.util.site_util import get_site_name
 from project.util.celery_util import fire_and_forget_task
 from project.util.email_attachment import email_file_response_as_attachment
 from .views import render_letter_of_complaint
@@ -15,8 +16,8 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
     email_file_response_as_attachment(
         subject=f"{user.full_name}'s letter of complaint",
         body=(
-            f"JustFix.nyc here! Attached is a copy of {user.full_name}'s letter of complaint, "
-            f"which {user.first_name} requested we send you."
+            f"{get_site_name()} here! Attached is a copy of {user.full_name}'s letter of "
+            f"complaint, which {user.first_name} requested we send you."
         ),
         recipients=recipients,
         attachment=render_letter_of_complaint(request, user, 'pdf')

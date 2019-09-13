@@ -8,7 +8,7 @@ from django.utils import timezone
 from users.models import JustfixUser, PHONE_NUMBER_LEN
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.common_data import Choices
-from project.util.site_util import absolutify_url
+from project.util.site_util import absolutify_url, get_site_name
 
 # https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
 TWILIO_SID_LENGTH = 34
@@ -223,7 +223,7 @@ def remind_user_about_loc(user):
     url = absolutify_url('/')
     sid = user.send_sms(
         f'Hey {user.first_name}! '
-        f'Don\'t forget that you can use JustFix.nyc to address '
+        f'Don\'t forget that you can use {get_site_name()} to address '
         f'repair issues in your apartment. '
         f'Follow this link to continue: {url}'
     )

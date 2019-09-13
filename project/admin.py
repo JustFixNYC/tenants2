@@ -4,13 +4,14 @@ from django.urls import path
 from .views import react_rendered_view
 from .admin_download_data import DownloadDataViews
 from .admin_dashboard import DashboardViews
+from project.util.site_util import get_site_name
 from loc.admin_views import LocAdminViews
 
 
 class JustfixAdminSite(admin.AdminSite):
-    site_header = "JustFix.nyc Tenant App"
-    site_title = "Tenant App admin"
-    index_title = "Justfix.nyc Tenant App administration"
+    site_header = f"{get_site_name()} Tenant Platform"
+    site_title = f"Tenant App admin"
+    index_title = f"{get_site_name()} Tenant Platform administration"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

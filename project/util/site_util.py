@@ -39,3 +39,19 @@ def get_canonical_url(request):
     '''
 
     return absolutify_url(request.get_full_path())
+
+
+def get_site_name() -> str:
+    '''
+    Returns the site name. Note that this doesn't actually look at
+    Django's current Site object, but rather assumes that we're
+    JustFix.nyc and appends any optional deployment information
+    to it, to ensure that people don't confuse it with production.
+    '''
+
+    words = ["JustFix.nyc"]
+
+    if settings.NAVBAR_LABEL:
+        words.append(settings.NAVBAR_LABEL)
+
+    return ' '.join(words)

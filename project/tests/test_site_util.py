@@ -1,7 +1,7 @@
 from django.test import override_settings, TestCase
 from django.conf import settings
 
-from ..util.site_util import absolute_reverse, absolutify_url
+from ..util.site_util import absolute_reverse, absolutify_url, get_site_name
 
 
 class SiteUtilsTests(TestCase):
@@ -39,3 +39,12 @@ class SiteUtilsTests(TestCase):
             absolutify_url('/blap'),
             'http://example.com/blap'
         )
+
+
+class TestGetSiteName:
+    def test_it_works_when_deployment_name_is_undefined(self):
+        assert get_site_name() == "JustFix.nyc"
+
+    @override_settings(NAVBAR_LABEL="DEMO SITE")
+    def test_it_works_when_deployment_name_is_defined(self):
+        assert get_site_name() == "JustFix.nyc DEMO SITE"

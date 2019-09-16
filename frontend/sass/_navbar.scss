@@ -46,6 +46,15 @@ nav.navbar {
         border-color: $primary-invert;
     }
 
+    .navbar-item.jf-navbar-label {
+        padding-left: 0;
+        
+        .tag.is-warning {
+            border-radius: 0;
+            font-style: italic;
+        }
+    }
+
     .is-active {
         .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
             outline: 2px dashed $primary;

@@ -9,6 +9,7 @@ import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { CenteredPrimaryButtonLink } from './buttons';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
+import { LocSplash } from './letter-of-complaint-splash';
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -52,6 +53,9 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.loc.latestStep,
   label: "Letter of Complaint",
   welcomeSteps: [{
+    path: Routes.locale.loc.splash, exact: true, component: LocSplash,
+    isComplete: (s) => !!s.phoneNumber
+  },{
     path: Routes.locale.loc.home, exact: true, component: Welcome
   }],
   stepsToFillOut: [

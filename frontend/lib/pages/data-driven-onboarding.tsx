@@ -226,7 +226,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         Landlord not responding? You can take action for free!
       </>,
       cta: {
-        to: Routes.locale.home,
+        to: Routes.locale.loc.latestStep,
         text: "Send a letter of complaint",
       }
     };

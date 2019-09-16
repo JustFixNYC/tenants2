@@ -146,14 +146,14 @@ function ActionCard(props: ActionCardProps) {
         <div className="media">
           <div className="media-content">
             {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>
-              {props.imageStaticURL && <SquareImage size={48} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
+              {props.imageStaticURL && <SquareImage size={96} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
               {props.title}
             </h3>}
             <ActionCardIndicators {...props} />
             {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
           </div>
           {props.imageStaticURL && <div className="media-right jf-is-hidden-supertiny">
-            <SquareImage size={96} className="is-marginless" src={props.imageStaticURL} alt="" />
+            <SquareImage size={128} className="is-marginless" src={props.imageStaticURL} alt="" />
           </div>}
         </div>
       </div>
@@ -207,6 +207,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Your landlord might own other buildings, too.
       </>,
+      imageStaticURL: "frontend/img/network.png",
       cta: {
         to: whoOwnsWhatURL(data.bbl),
         text: "Visit Who Owns What"
@@ -225,6 +226,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Landlord not responding? You can take action for free!
       </>,
+      imageStaticURL: "frontend/img/letter.png",
       cta: {
         to: Routes.locale.home,
         text: "Send a letter of complaint",
@@ -248,6 +250,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Going to court can help you get repairs.
       </>,
+      imageStaticURL: "frontend/img/judge.png",
       cta: {
         to: Routes.locale.hp.latestStep,
         text: "Sue your landlord"
@@ -271,6 +274,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Think your apartment may be rent-stabilized? Request its official records.
       </>,
+      imageStaticURL: "frontend/img/rent.png",
       cta: {
         to: "https://www.justfix.nyc/#rental-history",
         text: "Order rental history"
@@ -288,6 +292,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Are you facing eviction? Learn how to respond and where to find help.
       </>,
+      imageStaticURL: "frontend/img/legal.png",
       cta: {
         to: "https://www.evictionfreenyc.org/",
         text: "Visit Eviction Free NYC"

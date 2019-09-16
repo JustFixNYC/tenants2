@@ -127,11 +127,8 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
         </Link>
         {navbarLabel && 
         <div className="navbar-item jf-navbar-label">
-          <span className="tag is-warning">
-            {navbarLabel}
-          </span>
-        </div>
-        }
+          <span className="tag is-warning">{navbarLabel}</span>
+        </div>}
         <AriaExpandableButton
           className={bulmaClasses('navbar-burger', state.isHamburgerOpen && 'is-active')}
           isExpanded={state.isHamburgerOpen}

@@ -278,3 +278,16 @@ fieldset {
         opacity: 1.0;
     }
 }
+
+.jf-beta-tag:before {
+    content: 'BETA';
+}
+
+.jf-beta-tag {
+    display: inline-block;
+    padding: 0 4px;
+    margin-left: 0.5em;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: black;
+    font-size: 0.66rem;
+}

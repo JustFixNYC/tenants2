@@ -23,7 +23,7 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
     pal.fillFormFields([[/address/i, '150 cou']]);
     await fetch.resolvePromisesAndTimers();
     pal.clickListItem(/150 COURT STREET/);
-    pal.clickButtonOrLink(/search address/i);
+    pal.clickButtonOrLink(/gimme some info/i);
     pal.expectGraphQL(/ddoSuggestions/);
     pal.getFirstRequest().resolve({output});
     await pal.nextTick();

@@ -204,9 +204,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
         </>
       ],
-      fallbackMessage: <>
-        Your landlord might own other buildings, too.
-      </>,
+      fallbackMessage: <> Your landlord might own other buildings, too. </>,
       imageStaticURL: "frontend/img/ddo/network.svg",
       cta: {
         to: whoOwnsWhatURL(data.bbl),

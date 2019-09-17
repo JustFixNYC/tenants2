@@ -47,11 +47,11 @@ nav.navbar {
     }
 
     .navbar-item.jf-navbar-label {
-        padding-left: 0;
+        padding-left: 0.5rem;
         
         .tag.is-warning {
             border-radius: 0;
-            font-style: italic;
+            transform: rotate(-4deg);
         }
     }
 

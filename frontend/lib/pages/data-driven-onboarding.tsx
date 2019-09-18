@@ -378,7 +378,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         onSubmit={() => setAutoSubmit(false)}
       >
         {(ctx, latestInput, latestOutput) => <>
-          <div className="level">
+          <div className="level jf-ddo-searchbar">
             <AddressAndBoroughField
               key={props.location.search}
               addressLabel="Enter your address to see some recommended actions."

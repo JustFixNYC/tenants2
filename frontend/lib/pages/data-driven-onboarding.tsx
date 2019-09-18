@@ -73,6 +73,7 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
 type CallToActionProps = {
   to: string,
   text: string,
+  isBeta?: boolean,
   className?: string
 };
 
@@ -90,13 +91,15 @@ type ActionCardProps = {
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
 
-function CallToAction({to, text, className}: CallToActionProps) {
+function CallToAction({to, text, isBeta, className}: CallToActionProps) {
   const isInternal = to[0] === '/';
+  const betaTag = isBeta ? <span className="jf-beta-tag"/> : null;
+  const content = <>{text}{betaTag}</>;
   if (isInternal) {
-    return <Link to={to} className={className}>{text}</Link>;
+    return <Link to={to} className={className}>{content}</Link>;
   }
   return <OutboundLink href={to} rel="noopener noreferrer" target="_blank" className={className}>
-    {text}
+    {content}
   </OutboundLink>;
 }
 
@@ -251,7 +254,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
-        text: "Sue your landlord"
+        text: "Sue your landlord",
+        isBeta: true
       }
     }
   },

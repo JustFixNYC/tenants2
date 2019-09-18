@@ -278,3 +278,18 @@ fieldset {
         opacity: 1.0;
     }
 }
+
+.jf-beta-tag:before {
+    // We're assuming "beta" might be too jargony for our users, so we'll
+    // use the word "new" instead.
+    content: 'NEW';
+}
+
+.jf-beta-tag {
+    display: inline-block;
+    padding: 0 4px;
+    margin-left: 0.5em;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: black;
+    font-size: 0.66rem;
+}

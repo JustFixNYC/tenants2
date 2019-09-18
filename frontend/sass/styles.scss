@@ -280,7 +280,9 @@ fieldset {
 }
 
 .jf-beta-tag:before {
-    content: 'BETA';
+    // We're assuming "beta" might be too jargony for our users, so we'll
+    // use the word "new" instead.
+    content: 'NEW';
 }
 
 .jf-beta-tag {

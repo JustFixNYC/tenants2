@@ -158,6 +158,17 @@ function createDataRequestsRouteInfo(prefix: string) {
   };
 }
 
+function createRentalHistoryRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    splash: `${prefix}/splash`,
+    form: `${prefix}/form`,
+    preview: `${prefix}/preview`,
+    confirmation: `${prefix}/confirmation`
+  };
+}
+
 export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
 
 function createLocalizedRouteInfo(prefix: string) {
@@ -185,6 +196,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The HP Action flow. */
     hp: createHPActionRouteInfo(`${prefix}/hp`),
+
+    /** The Rental History flow. */   
+    rh: createRentalHistoryRouteInfo(`${prefix}/rh`),
 
     /** The data requests portal.  */
     dataRequests: createDataRequestsRouteInfo(`${prefix}/data-requests`),

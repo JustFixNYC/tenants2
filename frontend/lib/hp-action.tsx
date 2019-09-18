@@ -40,8 +40,7 @@ function Disclaimer(): JSX.Element {
   return (
     <div className="notification is-warning">
       <p>
-        Please note that this service is currently in a <strong>beta test phase</strong> and is
-still undergoing final testing before its official release.
+        Please note that this is a new service. It is still <strong>undergoing final testing</strong> before its official release.
       </p>
       <p>
         Should you encounter any bugs, glitches, lack of functionality or

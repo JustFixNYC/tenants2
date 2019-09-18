@@ -251,7 +251,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Going to court can help you get repairs.
       </>,
-      imageStaticURL: "frontend/img/ddo/judge.svg",
+      imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
         text: "Sue your landlord",
@@ -294,7 +294,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Are you facing eviction? Learn how to respond and where to find help.
       </>,
-      imageStaticURL: "frontend/img/ddo/legal.svg",
+      imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
         to: "https://www.evictionfreenyc.org/",
         text: "Visit Eviction Free NYC"

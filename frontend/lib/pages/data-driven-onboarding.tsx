@@ -388,7 +388,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
               onChange={() => setAutoSubmit(true)}
             />
             <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-            <NextButton label="Search address" isLoading={ctx.isLoading} />
+            <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
           </div>
           {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
         </>}

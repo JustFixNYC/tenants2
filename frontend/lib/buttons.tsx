@@ -49,12 +49,13 @@ export function BackButton(props: {
 /** A next button that submits a form and takes the user to the next step in a flow. */
 export function NextButton(props: {
   buttonClass?: BulmaClassName;
+  buttonSizeClass?: BulmaClassName;
   isFullWidth?: boolean;
   isLoading: boolean;
   label?: string;
 }): JSX.Element {
   return (
-    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', 'is-medium', {
+    <button type="submit" className={bulmaClasses('button', props.buttonClass || 'is-primary', props.buttonSizeClass || 'is-medium', {
       'is-loading': props.isLoading,
       'is-fullwidth': props.isFullWidth
     })}>{props.label || 'Next'}</button>

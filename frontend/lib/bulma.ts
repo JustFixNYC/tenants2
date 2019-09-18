@@ -40,6 +40,7 @@ export type BulmaClassName =
   'is-danger' |
   'is-text' |
   'is-light' |
+  'is-normal' |
   'is-medium' |
   'is-large' |
   'is-fullwidth' |

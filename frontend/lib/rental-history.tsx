@@ -83,6 +83,7 @@ function RentalHistoryPreview(): JSX.Element {
     <Page title="Preview your email to the DHCR:">
       <h1 className="title is-4">Review your email to the DHCR</h1>
       <p>Here is a preview of your email to request your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
+        <br />
       <article className="message">
         <div className="message-header">
           <p className="has-text-weight-normal">To: New York DHCR &#60;rentinfo@nyshcr.org&#62;</p>

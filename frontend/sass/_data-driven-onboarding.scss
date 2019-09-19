@@ -2,7 +2,10 @@
 html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
     .field {
         flex: 1;
-        padding-right: 1rem;
+        
+        @media screen and (min-width: $tablet) {
+            padding-right: 1rem;
+        }
     }
 
     .button {

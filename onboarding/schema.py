@@ -12,6 +12,7 @@ from django.db import transaction
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name
+from project.util.django_graphql_forms import DjangoFormMutationOptions
 from project import slack, schema_registry
 from users.models import JustfixUser
 from onboarding import forms
@@ -132,47 +133,64 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
         session_key = session_key_for_step(3)
 
 
+class StoreToSessionFormOptions(DjangoFormMutationOptions):
+    session_key: str = ''
+
+
 class StoreToSessionForm(SessionFormMutation):
     '''
     Abstract base class that just stores the form's cleaned data to
     the current request's session.
 
-    Concrete subclasses must define a SESSION_KEY property that
-    specifies the session key to use.
+    Concrete subclasses must define a Meta.source property that
+    points to a concrete DjangoSessionFormObjectType subclass.
     '''
 
     class Meta:
         abstract = True
 
     @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        source=None,
+        _meta=None,
+        **options
+    ):
+        if not _meta:
+            _meta = StoreToSessionFormOptions(cls)
+
+        assert issubclass(
+            source,
+            DjangoSessionFormObjectType
+        ), f'{cls.__name__} must define Meta.source.'
+        _meta.session_key = source._meta.session_key
+        options['form_class'] = source._meta.form_class
+
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
+
+    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        request.session[cls.SESSION_KEY] = form.cleaned_data
+        request.session[cls._meta.session_key] = form.cleaned_data
         return cls.mutation_success()
 
 
 @schema_registry.register_mutation
 class OnboardingStep1(StoreToSessionForm):
     class Meta:
-        form_class = forms.OnboardingStep1Form
-
-    SESSION_KEY = session_key_for_step(1)
+        source = OnboardingStep1Info
 
 
 @schema_registry.register_mutation
 class OnboardingStep2(StoreToSessionForm):
     class Meta:
-        form_class = forms.OnboardingStep2Form
-
-    SESSION_KEY = session_key_for_step(2)
+        source = OnboardingStep2Info
 
 
 @schema_registry.register_mutation
 class OnboardingStep3(StoreToSessionForm):
     class Meta:
-        form_class = forms.OnboardingStep3Form
-
-    SESSION_KEY = session_key_for_step(3)
+        source = OnboardingStep3Info
 
 
 def pick_model_fields(model, **kwargs):

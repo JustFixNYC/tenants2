@@ -699,11 +699,14 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
     @classmethod
     def __init_subclass_with_meta__(
         cls,
+        _meta=None,
         form_class: Type[forms.Form] = forms.Form,
         formset_classes: Optional[FormsetClasses] = None,
         only_fields=(), exclude_fields=(), **options
     ):
-        _meta = DjangoFormMutationOptions(cls)
+        if not _meta:
+            _meta = DjangoFormMutationOptions(cls)
+
         input_fields = cls.populate_meta_options_and_get_input_fields(
             _meta=_meta,
             form_class=form_class,

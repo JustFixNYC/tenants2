@@ -4,6 +4,8 @@ from graphql import ResolveInfo
 import graphene
 from graphene.types.objecttype import ObjectTypeOptions
 from graphene_django.forms.mutation import fields_for_form
+from graphene.types.utils import yank_fields_from_attrs
+from graphene.types.field import Field
 from django.http import HttpRequest
 
 from project.util.session_mutation import SessionFormMutation
@@ -45,9 +47,6 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         assert form_class is not None, f'{cls.__name__} must define Meta.form_class.'
         _meta.form_class = form_class
         form = form_class()
-
-        from graphene.types.utils import yank_fields_from_attrs
-        from graphene.types.field import Field
 
         fields = yank_fields_from_attrs(fields_for_form(form, [], []), _as=Field)
 

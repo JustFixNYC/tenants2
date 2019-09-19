@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
+from graphene.types.objecttype import ObjectTypeOptions
 from graphene_django.forms.mutation import fields_for_form
 from graphene_django.types import DjangoObjectType
 from django.db import transaction
@@ -35,8 +36,44 @@ def session_key_for_step(step: int) -> str:
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
-class OnboardingStep1Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep1Form(), [], []))
+class DjangoFormObjectType(graphene.ObjectType):
+    '''
+    An abstract class for defining a GraphQL object type based on the
+    fields of a Django Form.
+    '''
+
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        form_class=None,
+        _meta=None,
+        **options
+    ):
+        if not _meta:
+            _meta = ObjectTypeOptions(cls)
+
+        assert form_class is not None, f'{cls.__name__} must define Meta.form_class.'
+        form = form_class()
+
+        from graphene.types.utils import yank_fields_from_attrs
+        from graphene.types.field import Field
+
+        fields = yank_fields_from_attrs(fields_for_form(form, [], []), _as=Field)
+
+        if _meta.fields:
+            _meta.fields.update(fields)
+        else:
+            _meta.fields = fields
+
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
+
+
+class OnboardingStep1Info(DjangoFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep1Form
 
     address_verified = graphene.Boolean(
         required=True,
@@ -48,12 +85,14 @@ class OnboardingStep1Info(graphene.ObjectType):
     )
 
 
-class OnboardingStep2Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep2Form(), [], []))
+class OnboardingStep2Info(DjangoFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep2Form
 
 
-class OnboardingStep3Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep3Form(), [], []))
+class OnboardingStep3Info(DjangoFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep3Form
 
 
 class StoreToSessionForm(SessionFormMutation):

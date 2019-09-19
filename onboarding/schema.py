@@ -5,14 +5,15 @@ from django.conf import settings
 from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
-from graphene.types.objecttype import ObjectTypeOptions
-from graphene_django.forms.mutation import fields_for_form
 from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
+from project.util.django_graphql_session_forms import (
+    DjangoSessionFormObjectType,
+    DjangoSessionFormMutation
+)
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name
-from project.util.django_graphql_forms import DjangoFormMutationOptions
 from project import slack, schema_registry
 from users.models import JustfixUser
 from onboarding import forms
@@ -35,75 +36,6 @@ def session_key_for_step(step: int) -> str:
 
     assert step in SESSION_STEPS
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
-
-
-class SessionObjectTypeOptions(ObjectTypeOptions):
-    form_class = None
-    session_key: str = ''
-
-
-class DjangoSessionFormObjectType(graphene.ObjectType):
-    '''
-    An abstract class for defining a GraphQL object type based on the
-    fields of a Django Form, along with a resolver for retrieving them
-    from a request session.
-    '''
-
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def __init_subclass_with_meta__(
-        cls,
-        form_class=None,
-        session_key='',
-        _meta=None,
-        **options
-    ):
-        if not _meta:
-            _meta = SessionObjectTypeOptions(cls)
-
-        assert session_key, f'{cls.__name__} must define Meta.session_key.'
-        _meta.session_key = session_key
-
-        assert form_class is not None, f'{cls.__name__} must define Meta.form_class.'
-        _meta.form_class = form_class
-        form = form_class()
-
-        from graphene.types.utils import yank_fields_from_attrs
-        from graphene.types.field import Field
-
-        fields = yank_fields_from_attrs(fields_for_form(form, [], []), _as=Field)
-
-        if _meta.fields:
-            _meta.fields.update(fields)
-        else:
-            _meta.fields = fields
-
-        super().__init_subclass_with_meta__(_meta=_meta, **options)
-
-    @classmethod
-    def _resolve_from_session(cls, parent, info: ResolveInfo):
-        key = cls._meta.session_key
-        request = info.context
-        obinfo = request.session.get(key)
-        if obinfo:
-            try:
-                return cls(**obinfo)
-            except TypeError:
-                # This can happen when we change the "schema" of an onboarding
-                # step while a user's session contains data in the old schema.
-                #
-                # This should technically never happen if we remember to tie
-                # the session key name to a version, e.g. "user_v1", but it's possible we
-                # might forget to do that.
-                logger.exception(f'Error deserializing {key} from session')
-                request.session.pop(key)
-        return None
-
-    @classmethod
-    def field(cls):
-        return graphene.Field(cls, resolver=cls._resolve_from_session)
 
 
 class OnboardingStep1Info(DjangoSessionFormObjectType):
@@ -133,62 +65,20 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
         session_key = session_key_for_step(3)
 
 
-class StoreToSessionFormOptions(DjangoFormMutationOptions):
-    session_key: str = ''
-
-
-class StoreToSessionForm(SessionFormMutation):
-    '''
-    Abstract base class that just stores the form's cleaned data to
-    the current request's session.
-
-    Concrete subclasses must define a Meta.source property that
-    points to a concrete DjangoSessionFormObjectType subclass.
-    '''
-
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def __init_subclass_with_meta__(
-        cls,
-        source=None,
-        _meta=None,
-        **options
-    ):
-        if not _meta:
-            _meta = StoreToSessionFormOptions(cls)
-
-        assert issubclass(
-            source,
-            DjangoSessionFormObjectType
-        ), f'{cls.__name__} must define Meta.source.'
-        _meta.session_key = source._meta.session_key
-        options['form_class'] = source._meta.form_class
-
-        super().__init_subclass_with_meta__(_meta=_meta, **options)
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        request.session[cls._meta.session_key] = form.cleaned_data
-        return cls.mutation_success()
-
-
 @schema_registry.register_mutation
-class OnboardingStep1(StoreToSessionForm):
+class OnboardingStep1(DjangoSessionFormMutation):
     class Meta:
         source = OnboardingStep1Info
 
 
 @schema_registry.register_mutation
-class OnboardingStep2(StoreToSessionForm):
+class OnboardingStep2(DjangoSessionFormMutation):
     class Meta:
         source = OnboardingStep2Info
 
 
 @schema_registry.register_mutation
-class OnboardingStep3(StoreToSessionForm):
+class OnboardingStep3(DjangoSessionFormMutation):
     class Meta:
         source = OnboardingStep3Info
 

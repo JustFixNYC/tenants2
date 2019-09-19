@@ -36,10 +36,16 @@ def session_key_for_step(step: int) -> str:
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
-class DjangoFormObjectType(graphene.ObjectType):
+class SessionObjectTypeOptions(ObjectTypeOptions):
+    form_class = None
+    session_key: str = ''
+
+
+class DjangoSessionFormObjectType(graphene.ObjectType):
     '''
     An abstract class for defining a GraphQL object type based on the
-    fields of a Django Form.
+    fields of a Django Form, along with a resolver for retrieving them
+    from a request session.
     '''
 
     class Meta:
@@ -49,13 +55,18 @@ class DjangoFormObjectType(graphene.ObjectType):
     def __init_subclass_with_meta__(
         cls,
         form_class=None,
+        session_key='',
         _meta=None,
         **options
     ):
         if not _meta:
-            _meta = ObjectTypeOptions(cls)
+            _meta = SessionObjectTypeOptions(cls)
+
+        assert session_key, f'{cls.__name__} must define Meta.session_key.'
+        _meta.session_key = session_key
 
         assert form_class is not None, f'{cls.__name__} must define Meta.form_class.'
+        _meta.form_class = form_class
         form = form_class()
 
         from graphene.types.utils import yank_fields_from_attrs
@@ -70,10 +81,34 @@ class DjangoFormObjectType(graphene.ObjectType):
 
         super().__init_subclass_with_meta__(_meta=_meta, **options)
 
+    @classmethod
+    def _resolve_from_session(cls, parent, info: ResolveInfo):
+        key = cls._meta.session_key
+        request = info.context
+        obinfo = request.session.get(key)
+        if obinfo:
+            try:
+                return cls(**obinfo)
+            except TypeError:
+                # This can happen when we change the "schema" of an onboarding
+                # step while a user's session contains data in the old schema.
+                #
+                # This should technically never happen if we remember to tie
+                # the session key name to a version, e.g. "user_v1", but it's possible we
+                # might forget to do that.
+                logger.exception(f'Error deserializing {key} from session')
+                request.session.pop(key)
+        return None
 
-class OnboardingStep1Info(DjangoFormObjectType):
+    @classmethod
+    def field(cls):
+        return graphene.Field(cls, resolver=cls._resolve_from_session)
+
+
+class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1Form
+        session_key = session_key_for_step(1)
 
     address_verified = graphene.Boolean(
         required=True,
@@ -85,14 +120,16 @@ class OnboardingStep1Info(DjangoFormObjectType):
     )
 
 
-class OnboardingStep2Info(DjangoFormObjectType):
+class OnboardingStep2Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep2Form
+        session_key = session_key_for_step(2)
 
 
-class OnboardingStep3Info(DjangoFormObjectType):
+class OnboardingStep3Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep3Form
+        session_key = session_key_for_step(3)
 
 
 class StoreToSessionForm(SessionFormMutation):
@@ -223,9 +260,9 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     '''
 
-    onboarding_step_1 = graphene.Field(OnboardingStep1Info)
-    onboarding_step_2 = graphene.Field(OnboardingStep2Info)
-    onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+    onboarding_step_1 = OnboardingStep1Info.field()
+    onboarding_step_2 = OnboardingStep2Info.field()
+    onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,
         description=(
@@ -236,32 +273,6 @@ class OnboardingSessionInfo(object):
             "a full-fledged user."
         )
     )
-
-    def __get(self, info: ResolveInfo, key: str, field_class):
-        request = info.context
-        obinfo = request.session.get(key)
-        if obinfo:
-            try:
-                return field_class(**obinfo)
-            except TypeError:
-                # This can happen when we change the "schema" of an onboarding
-                # step while a user's session contains data in the old schema.
-                #
-                # This should technically never happen if we remember to keep
-                # forms.FIELD_SCHEMA_VERSION updated, but it's possible we
-                # might forget to do that.
-                logger.exception(f'Error deserializing {key} from session')
-                request.session.pop(key)
-        return None
-
-    def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
-        return self.__get(info, session_key_for_step(1), OnboardingStep1Info)
-
-    def resolve_onboarding_step_2(self, info: ResolveInfo) -> Optional[OnboardingStep2Info]:
-        return self.__get(info, session_key_for_step(2), OnboardingStep2Info)
-
-    def resolve_onboarding_step_3(self, info: ResolveInfo) -> Optional[OnboardingStep3Info]:
-        return self.__get(info, session_key_for_step(3), OnboardingStep3Info)
 
     def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
         user = info.context.user

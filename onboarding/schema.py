@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpRequest
@@ -20,10 +20,6 @@ from onboarding import forms
 from onboarding.models import OnboardingInfo
 
 
-# The onboarding steps we store in the request session.
-SESSION_STEPS = [1, 2, 3]
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -34,7 +30,6 @@ def session_key_for_step(step: int) -> str:
     store the data for a particular step in.
     '''
 
-    assert step in SESSION_STEPS
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
@@ -63,6 +58,11 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep3Form
         session_key = session_key_for_step(3)
+
+
+# The onboarding steps we store in the request session.
+SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
+    OnboardingStep1Info, OnboardingStep2Info, OnboardingStep3Info]
 
 
 @schema_registry.register_mutation
@@ -110,12 +110,10 @@ class OnboardingStep4(SessionFormMutation):
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
         result: Dict[str, Any] = {}
         for step in SESSION_STEPS:
-            if session_key_for_step(step) not in request.session:
+            value = step.get_dict_from_request(request)
+            if not value:
                 return None
-        for step in SESSION_STEPS:
-            key = session_key_for_step(step)
-            result.update(request.session[key])
-            del request.session[key]
+            result.update(value)
         return result
 
     @classmethod
@@ -153,6 +151,10 @@ class OnboardingStep4(SessionFormMutation):
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
+
+        for step in SESSION_STEPS:
+            step.clear_from_request(request)
+
         return cls.mutation_success()
 
 

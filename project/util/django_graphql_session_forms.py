@@ -1,8 +1,10 @@
 import logging
+from typing import Dict, Any, Optional
 from graphql import ResolveInfo
 import graphene
 from graphene.types.objecttype import ObjectTypeOptions
 from graphene_django.forms.mutation import fields_for_form
+from django.http import HttpRequest
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.django_graphql_forms import DjangoFormMutationOptions
@@ -55,6 +57,22 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
             _meta.fields = fields
 
         super().__init_subclass_with_meta__(_meta=_meta, **options)
+
+    @classmethod
+    def get_dict_from_request(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
+        '''
+        If the object data exists in the given request's session, return it.
+        '''
+
+        return request.session.get(cls._meta.session_key)
+
+    @classmethod
+    def clear_from_request(cls, request: HttpRequest):
+        '''
+        If the object data exists in the given request's session, remove it.
+        '''
+
+        request.session.pop(cls._meta.session_key)
 
     @classmethod
     def _resolve_from_session(cls, parent, info: ResolveInfo):

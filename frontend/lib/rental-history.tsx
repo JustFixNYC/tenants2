@@ -21,7 +21,7 @@ function RentalHistoryWelcome(): JSX.Element {
         <div className="content">
           <StaticImage src={RH_ICON} alt="rent-icon" ratio="is-128x128" />
         </div>
-        <p>Let's help you request your <b>rental history</b>from the NY Division of Housing & Community Renewal (DHCR)! This document helps you find out if you're being overcharged.</p>
+        <p>Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing & Community Renewal (DHCR), helps you find out if you're being overcharged.</p>
         <p><em>This service is free, secure, and confidential.</em></p>
       </Page>
     );
@@ -69,8 +69,8 @@ const mockSubmit = () => console.log("boop!");
 function RentalHistoryForm(): JSX.Element {
   
   return (
-    <Page title="Request the rental history for your apartment.">
-      <h1 className="title is-4">Request the rental history for your apartment.</h1>
+    <Page title="Request the rental history for your apartment">
+      <h1 className="title is-4">Request the rental history for your apartment</h1>
       <Form onSubmit={mockSubmit} isLoading={false} initialState={rhFormInitialState}>
         {renderRhFormFields}
       </Form>
@@ -80,7 +80,7 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   return (
-    <Page title="Preview your email to the DHCR:">
+    <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your email to the DHCR</h1>
       <p>Here is a preview of your email to request your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />

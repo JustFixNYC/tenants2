@@ -1,3 +1,23 @@
+
+html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
+    .field {
+        flex: 1;
+        
+        @media screen and (min-width: $tablet) {
+            padding-right: 1rem;
+        }
+    }
+
+    .button {
+        margin-top: auto;
+        margin-bottom: 0.75rem;
+    }
+}
+
+html[data-safe-mode-no-js] .level.jf-ddo-searchbar {
+    align-items: start;
+}
+
 .button + .jf-ddo-results {
     margin-top: 2.25em;
 }

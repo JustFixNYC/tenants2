@@ -385,16 +385,18 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         onSubmit={() => setAutoSubmit(false)}
       >
         {(ctx, latestInput, latestOutput) => <>
-          <AddressAndBoroughField
-            key={props.location.search}
-            addressLabel="Enter your address and we'll give you some cool info."
-            hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
-            addressProps={ctx.fieldPropsFor('address')}
-            boroughProps={ctx.fieldPropsFor('borough')}
-            onChange={() => setAutoSubmit(true)}
-          />
-          <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-          <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
+          <div className="level jf-ddo-searchbar">
+            <AddressAndBoroughField
+              key={props.location.search}
+              addressLabel="Enter your address to see some recommended actions."
+              hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
+              addressProps={ctx.fieldPropsFor('address')}
+              boroughProps={ctx.fieldPropsFor('borough')}
+              onChange={() => setAutoSubmit(true)}
+            />
+            <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
+            <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
+          </div>
           {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
         </>}
       </QueryFormSubmitter>

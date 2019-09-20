@@ -142,8 +142,16 @@ class GoogleTagManagerSnippet(JsSnippetContextProcessor):
     GTM_ORIGIN = 'https://www.googletagmanager.com'
 
     csp_updates = {
-        'IMG_SRC': GTM_ORIGIN,
-        'SCRIPT_SRC': GTM_ORIGIN,
+        'IMG_SRC': [
+            GTM_ORIGIN,
+            'https://stats.g.doubleclick.net',
+        ],
+        'SCRIPT_SRC': [
+            GTM_ORIGIN,
+            # Our GTM injects YouTube's iframe API: https://stackoverflow.com/q/37384775
+            'https://www.youtube.com',
+            'https://s.ytimg.com',
+        ],
     }
 
     def is_enabled(self):

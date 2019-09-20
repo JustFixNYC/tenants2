@@ -1,5 +1,5 @@
 
-html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
+.level.jf-ddo-searchbar {
     .field {
         flex: 1;
         
@@ -7,19 +7,27 @@ html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
             padding-right: 1rem;
         }
     }
+}
 
+.jf-ddo-searchbar:not(.level) {
+    margin-bottom: 1.5rem;
+}
+
+.jf-ddo-searchbar {
     .button {
         margin-top: auto;
         margin-bottom: 0.75rem;
     }
 }
 
-html[data-safe-mode-no-js] .level.jf-ddo-searchbar {
-    align-items: start;
-}
+.hero .jf-ddo-searchbar div[role="group"] {
+    .label {
+        font-weight: normal;
+    }
 
-.button + .jf-ddo-results {
-    margin-top: 2.25em;
+    .control {
+        display: inline-block;
+    }
 }
 
 .jf-ddo-results {

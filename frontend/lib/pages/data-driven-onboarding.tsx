@@ -384,21 +384,40 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         query={DataDrivenOnboardingSuggestions}
         onSubmit={() => setAutoSubmit(false)}
       >
-        {(ctx, latestInput, latestOutput) => <>
-          <div className="level jf-ddo-searchbar">
-            <AddressAndBoroughField
-              key={props.location.search}
-              addressLabel="Enter your address to see some recommended actions."
-              hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
-              addressProps={ctx.fieldPropsFor('address')}
-              boroughProps={ctx.fieldPropsFor('borough')}
-              onChange={() => setAutoSubmit(true)}
-            />
-            <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-            <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
-          </div>
-          {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
-        </>}
+        {(ctx, latestInput, latestOutput) => {
+          const showHero = !latestInput.address;
+          const { isSafeModeEnabled } = appCtx.session;
+
+          return (
+            <section className={showHero ? "hero" : ""}>
+              <div className={showHero ? "hero-body has-text-centered" : ""}>
+                {showHero && <>
+                  <h1 className="title is-spaced">
+                    JustFix.nyc builds tools to help you fight displacement.
+                  </h1>
+                  <p className="subtitle">
+                    Enter your address to learn more.
+                  </p>
+                </>}
+                <div className={classnames("jf-ddo-searchbar", !isSafeModeEnabled && "level")}>
+                  <AddressAndBoroughField
+                    key={props.location.search}
+                    addressLabel="Enter your address to learn how you can fight displacement."
+                    renderAddressLabel={(label, props) =>
+                      <label {...props} className={showHero ? "jf-sr-only" : "label"}>{label}</label>}
+                    hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
+                    addressProps={ctx.fieldPropsFor('address')}
+                    boroughProps={ctx.fieldPropsFor('borough')}
+                    onChange={() => setAutoSubmit(true)}
+                  />
+                  <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
+                  <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
+                </div>
+                {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
+              </div>
+            </section>
+          );
+        }}
       </QueryFormSubmitter>
     </Page>
   );

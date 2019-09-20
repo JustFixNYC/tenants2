@@ -5,7 +5,8 @@ from django.template import Template
 from django.http import HttpResponse
 
 from project.context_processors import (
-    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet
+    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet,
+    facebook_pixel_noscript_snippet
 )
 
 
@@ -21,12 +22,14 @@ urlpatterns = [
     path('gtm', make_snippet_view('GTM_SNIPPET')),
     path('gtm-noscript', make_snippet_view('GTM_NOSCRIPT_SNIPPET')),
     path('facebook-pixel', make_snippet_view('FACEBOOK_PIXEL_SNIPPET')),
+    path('facebook-pixel-noscript', make_snippet_view('FACEBOOK_PIXEL_NOSCRIPT_SNIPPET')),
     path('rollbar', make_snippet_view('ROLLBAR_SNIPPET')),
 ]
 
 
 @pytest.mark.parametrize('context_processor', [
-    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet
+    ga_snippet, gtm_snippet, gtm_noscript_snippet, rollbar_snippet, facebook_pixel_snippet,
+    facebook_pixel_noscript_snippet
 ])
 def test_contexts_are_empty_when_associated_setting_is_empty(context_processor):
     assert context_processor(None) == {}
@@ -65,7 +68,7 @@ def test_gtm_snippets_work(client, settings):
 
 
 @pytest.mark.urls(__name__)
-def test_facebook_pixel_snippet_works(client, settings):
+def test_facebook_pixel_snippets_work(client, settings):
     settings.FACEBOOK_PIXEL_ID = '1234567'
     res = client.get('/facebook-pixel')
     assert res.status_code == 200
@@ -73,6 +76,11 @@ def test_facebook_pixel_snippet_works(client, settings):
     assert '1234567' in html
     ensure_response_sets_csp(res, 'connect.facebook.net')
     ensure_response_sets_csp(res, 'www.facebook.com')
+
+    res = client.get('/facebook-pixel-noscript')
+    assert res.status_code == 200
+    html = res.content.decode('utf-8')
+    assert 'tr?id=1234567' in html
 
 
 @pytest.mark.urls(__name__)

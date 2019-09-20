@@ -156,7 +156,7 @@ def test_onboarding_session_info_is_fault_tolerant(graphql_client):
     key = session_key_for_step(1)
     graphql_client.request.session[key] = {'lol': 1}
 
-    with patch('onboarding.schema.logger') as m:
+    with patch('project.util.django_graphql_session_forms.logger') as m:
         assert _get_step_1_info(graphql_client) is None
         m.exception.assert_called_once_with(f'Error deserializing {key} from session')
         assert key not in graphql_client.request.session

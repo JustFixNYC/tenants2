@@ -1,4 +1,4 @@
-import { fbq } from "../faceboox-pixel";
+import { fbq } from "../facebook-pixel";
 
 describe('fbq()', () => {
   describe('if window.fbq is undefined', () => {
@@ -7,16 +7,16 @@ describe('fbq()', () => {
     });
 
     it('does not explode', () => {
-      fbq('track', 'CompleteRegistration');
+      fbq('trackCustom', 'NewUserSignup');
     });
   });
 
   it('calls window.fbq if it is defined', () => {
     const mockFbq = jest.fn();
     window.fbq = mockFbq;
-    fbq('track', 'CompleteRegistration');
+    fbq('trackCustom', 'NewUserSignup');
     expect(mockFbq.mock.calls).toHaveLength(1);
-    expect(mockFbq.mock.calls[0]).toEqual(['track', 'CompleteRegistration']);
+    expect(mockFbq.mock.calls[0]).toEqual(['trackCustom', 'NewUserSignup']);
     delete window.ga;
   });
 });

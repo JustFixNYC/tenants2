@@ -135,6 +135,7 @@ TEMPLATES = [
                 'project.context_processors.gtm_snippet',
                 'project.context_processors.gtm_noscript_snippet',
                 'project.context_processors.facebook_pixel_snippet',
+                'project.context_processors.facebook_pixel_noscript_snippet',
                 'project.context_processors.fullstory_snippet',
                 'project.context_processors.rollbar_snippet',
             ],

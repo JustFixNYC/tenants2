@@ -10,7 +10,7 @@ import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fi
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
-import { fbq } from '../faceboox-pixel';
+import { fbq } from '../facebook-pixel';
 import { FormContext } from '../form-context';
 import { getDataLayer } from '../google-tag-manager';
 
@@ -62,7 +62,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
             initialState={this.blankInitialState}
             onSuccessRedirect={this.props.toSuccess}
             onSuccess={(output) => {
-              fbq('track','CompleteRegistration');
+              fbq('trackCustom','NewUserSignup');
               getDataLayer().push({
                 event: 'jf.signup',
                 'jf.signupIntent': output.session && output.session.onboardingInfo && output.session.onboardingInfo.signupIntent

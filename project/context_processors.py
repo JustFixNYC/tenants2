@@ -144,7 +144,11 @@ class GoogleTagManagerSnippet(JsSnippetContextProcessor):
     csp_updates = {
         'IMG_SRC': [
             GTM_ORIGIN,
+            # https://www.quora.com/What-is-stats-g-doubleclick-net
             'https://stats.g.doubleclick.net',
+            # It looks like this is likely for Google Remarketing:
+            # https://support.google.com/analytics/answer/2611268?hl=en
+            'https://www.google.com',
         ],
         'SCRIPT_SRC': [
             GTM_ORIGIN,

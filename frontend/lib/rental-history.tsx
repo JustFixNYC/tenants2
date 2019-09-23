@@ -64,12 +64,12 @@ function RentalHistoryForm(): JSX.Element {
 function RentalHistoryPreview(): JSX.Element {
   return (
     <Page title="Review your email to the DHCR">
-      <h1 className="title is-4">Review your email to the DHCR</h1>
-      <p>Here is a preview of your email to request your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
+      <h1 className="title is-4">Review your request to the DHCR</h1>
+      <p>Here is a preview of the request for your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />
       <article className="message">
         <div className="message-header">
-          <p className="has-text-weight-normal">To: New York DHCR &#60;rentinfo@nyshcr.org&#62;</p>
+          <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
         </div>
         <div className="message-body">
           <h4 className="is-italic">Subject: Requesting my Rental History</h4>

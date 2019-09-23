@@ -2,7 +2,10 @@
 fragment AllSessionInfo on SessionInfo {
   rentalHistoryInfo {
     firstName,
-    lastName
+    lastName,
+    address,
+    apartmentNumber,
+    phoneNumber
   },
   issues,
   customIssues {

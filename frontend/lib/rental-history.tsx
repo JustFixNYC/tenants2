@@ -4,16 +4,12 @@ import { ProgressRoutesProps, buildProgressRoutesComponent } from "./progress-ro
 import Routes from "./routes";
 import Page from "./page";
 import { StaticImage } from './static-image';
-import { Form } from './form';
-import { FormContext } from './form-context';
 import { TextualFormField } from './form-fields';
-import { Route } from 'react-router';
-import { PrivacyInfoModal } from './pages/onboarding-step-1';
-import { Link } from 'react-router-dom';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
 import { exactSubsetOrDefault } from './util';
-import { NextButton } from './buttons';
+import { NextButton, BackButton } from './buttons';
+import { PhoneNumberFormField } from './phone-number-form-field';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -42,31 +38,23 @@ function RentalHistoryForm(): JSX.Element {
         onSuccessRedirect={Routes.locale.rh.preview}
       >
       {(ctx) => 
-      <>
-        <div className="columns is-mobile">
-          <div className="column">
-            <TextualFormField label="First name" {...ctx.fieldPropsFor('firstName')} />
+        <>
+          <div className="columns is-mobile">
+            <div className="column">
+              <TextualFormField label="First name" {...ctx.fieldPropsFor('firstName')} />
+            </div>
+            <div className="column">
+              <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
+            </div>
           </div>
-          <div className="column">
-            <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
-          </div>
-        </div>
-        {/* <AddressAndBoroughField
-          disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
-          renderAddressLabel={this.renderAddressLabel}
-          addressProps={ctx.fieldPropsFor('address')}
-          boroughProps={ctx.fieldPropsFor('borough')}
-        />
-        <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
-        <Route path={routes.step1AddressModal} exact component={PrivacyInfoModal} />
-        <p>
-          Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
-          <Link to={routes.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
-        </p>
-        <br/> */}
-        <NextButton isLoading={ctx.isLoading} />
-      </>
-
+          <TextualFormField label="Address" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('address')} />
+          <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('apartmentNumber')} />
+          <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
+          <div className="field is-grouped jf-two-buttons">
+            <BackButton label="Cancel request" to={Routes.locale.rh.splash} />
+            <NextButton isLoading={ctx.isLoading} />
+          </div> 
+        </>
       }
       </SessionUpdatingFormSubmitter>
     </Page>

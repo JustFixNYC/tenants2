@@ -5,7 +5,10 @@ mutation RhFormMutation($input: RhFormInput!) {
     session {
       rentalHistoryInfo {
         firstName,
-        lastName
+        lastName,
+        address,
+        apartmentNumber,
+        phoneNumber
       }
     }
   }

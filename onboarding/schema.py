@@ -1,24 +1,23 @@
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpRequest
 import graphene
 from graphql import ResolveInfo
-from graphene_django.forms.mutation import fields_for_form
 from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
+from project.util.django_graphql_session_forms import (
+    DjangoSessionFormObjectType,
+    DjangoSessionFormMutation
+)
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name
 from project import slack, schema_registry
 from users.models import JustfixUser
 from onboarding import forms
 from onboarding.models import OnboardingInfo
-
-
-# The onboarding steps we store in the request session.
-SESSION_STEPS = [1, 2, 3]
 
 
 logger = logging.getLogger(__name__)
@@ -31,12 +30,13 @@ def session_key_for_step(step: int) -> str:
     store the data for a particular step in.
     '''
 
-    assert step in SESSION_STEPS
     return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
 
 
-class OnboardingStep1Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep1Form(), [], []))
+class OnboardingStep1Info(DjangoSessionFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep1Form
+        session_key = session_key_for_step(1)
 
     address_verified = graphene.Boolean(
         required=True,
@@ -48,55 +48,39 @@ class OnboardingStep1Info(graphene.ObjectType):
     )
 
 
-class OnboardingStep2Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep2Form(), [], []))
-
-
-class OnboardingStep3Info(graphene.ObjectType):
-    locals().update(fields_for_form(forms.OnboardingStep3Form(), [], []))
-
-
-class StoreToSessionForm(SessionFormMutation):
-    '''
-    Abstract base class that just stores the form's cleaned data to
-    the current request's session.
-
-    Concrete subclasses must define a SESSION_KEY property that
-    specifies the session key to use.
-    '''
-
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        request.session[cls.SESSION_KEY] = form.cleaned_data
-        return cls.mutation_success()
-
-
-@schema_registry.register_mutation
-class OnboardingStep1(StoreToSessionForm):
-    class Meta:
-        form_class = forms.OnboardingStep1Form
-
-    SESSION_KEY = session_key_for_step(1)
-
-
-@schema_registry.register_mutation
-class OnboardingStep2(StoreToSessionForm):
+class OnboardingStep2Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep2Form
+        session_key = session_key_for_step(2)
 
-    SESSION_KEY = session_key_for_step(2)
+
+class OnboardingStep3Info(DjangoSessionFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep3Form
+        session_key = session_key_for_step(3)
+
+
+# The onboarding steps we store in the request session.
+SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
+    OnboardingStep1Info, OnboardingStep2Info, OnboardingStep3Info]
 
 
 @schema_registry.register_mutation
-class OnboardingStep3(StoreToSessionForm):
+class OnboardingStep1(DjangoSessionFormMutation):
     class Meta:
-        form_class = forms.OnboardingStep3Form
+        source = OnboardingStep1Info
 
-    SESSION_KEY = session_key_for_step(3)
+
+@schema_registry.register_mutation
+class OnboardingStep2(DjangoSessionFormMutation):
+    class Meta:
+        source = OnboardingStep2Info
+
+
+@schema_registry.register_mutation
+class OnboardingStep3(DjangoSessionFormMutation):
+    class Meta:
+        source = OnboardingStep3Info
 
 
 def pick_model_fields(model, **kwargs):
@@ -126,12 +110,10 @@ class OnboardingStep4(SessionFormMutation):
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
         result: Dict[str, Any] = {}
         for step in SESSION_STEPS:
-            if session_key_for_step(step) not in request.session:
+            value = step.get_dict_from_request(request)
+            if not value:
                 return None
-        for step in SESSION_STEPS:
-            key = session_key_for_step(step)
-            result.update(request.session[key])
-            del request.session[key]
+            result.update(value)
         return result
 
     @classmethod
@@ -169,6 +151,10 @@ class OnboardingStep4(SessionFormMutation):
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
+
+        for step in SESSION_STEPS:
+            step.clear_from_request(request)
+
         return cls.mutation_success()
 
 
@@ -184,9 +170,9 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     '''
 
-    onboarding_step_1 = graphene.Field(OnboardingStep1Info)
-    onboarding_step_2 = graphene.Field(OnboardingStep2Info)
-    onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+    onboarding_step_1 = OnboardingStep1Info.field()
+    onboarding_step_2 = OnboardingStep2Info.field()
+    onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,
         description=(
@@ -197,32 +183,6 @@ class OnboardingSessionInfo(object):
             "a full-fledged user."
         )
     )
-
-    def __get(self, info: ResolveInfo, key: str, field_class):
-        request = info.context
-        obinfo = request.session.get(key)
-        if obinfo:
-            try:
-                return field_class(**obinfo)
-            except TypeError:
-                # This can happen when we change the "schema" of an onboarding
-                # step while a user's session contains data in the old schema.
-                #
-                # This should technically never happen if we remember to keep
-                # forms.FIELD_SCHEMA_VERSION updated, but it's possible we
-                # might forget to do that.
-                logger.exception(f'Error deserializing {key} from session')
-                request.session.pop(key)
-        return None
-
-    def resolve_onboarding_step_1(self, info: ResolveInfo) -> Optional[OnboardingStep1Info]:
-        return self.__get(info, session_key_for_step(1), OnboardingStep1Info)
-
-    def resolve_onboarding_step_2(self, info: ResolveInfo) -> Optional[OnboardingStep2Info]:
-        return self.__get(info, session_key_for_step(2), OnboardingStep2Info)
-
-    def resolve_onboarding_step_3(self, info: ResolveInfo) -> Optional[OnboardingStep3Info]:
-        return self.__get(info, session_key_for_step(3), OnboardingStep3Info)
 
     def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
         user = info.context.user

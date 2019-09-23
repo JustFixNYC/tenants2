@@ -101,6 +101,7 @@ INSTALLED_APPS = [
     'findhelp.apps.FindhelpConfig',
     'data_requests.apps.DataRequestsConfig',
     'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
+    'rh.apps.RhConfig',
 ]
 
 MIDDLEWARE = [

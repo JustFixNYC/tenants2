@@ -10,6 +10,10 @@ import { TextualFormField } from './form-fields';
 import { Route } from 'react-router';
 import { PrivacyInfoModal } from './pages/onboarding-step-1';
 import { Link } from 'react-router-dom';
+import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
+import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
+import { exactSubsetOrDefault } from './util';
+import { NextButton } from './buttons';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -27,53 +31,44 @@ function RentalHistoryWelcome(): JSX.Element {
     );
   }
 
-/* Rental history form page */
-
-type RhFormInput = {
-  firstName: string,
-  lastName: string,
-  address: string,
-  apartmentNumber: string
-};
-
-const rhFormInitialState: RhFormInput = { 
-  firstName: '',
-  lastName: '',
-  address: '',
-  apartmentNumber: ''
-};
-
-const renderRhFormFields = (ctx: FormContext<RhFormInput>) => <>
-  <div className= "columns is-mobile">
-    <div className="column">
-      <TextualFormField label="First name" {...ctx.fieldPropsFor('firstName')} />
-    </div>
-    <div className="column">
-      <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
-    </div>
-  </div>
-
-  {/* To replace with <AddressAndBoroughField /> */}
-  <TextualFormField label="Address" {...ctx.fieldPropsFor('address')} /> 
-  <TextualFormField label="Apartment number" {...ctx.fieldPropsFor('apartmentNumber')} />
-  <Route path="/address-modal" exact component={PrivacyInfoModal} />
-  <p>
-    Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
-    <Link to="/address-modal">Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
-  </p>
-</>;
-
-const mockSubmit = () => console.log("boop!");
-
-
 function RentalHistoryForm(): JSX.Element {
   
   return (
     <Page title="Request the rental history for your apartment">
       <h1 className="title is-4">Request the rental history for your apartment</h1>
-      <Form onSubmit={mockSubmit} isLoading={false} initialState={rhFormInitialState}>
-        {renderRhFormFields}
-      </Form>
+      <SessionUpdatingFormSubmitter
+        mutation={RhFormMutation}
+        initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, BlankRhFormInput)}
+        onSuccessRedirect={Routes.locale.rh.preview}
+      >
+      {(ctx) => 
+      <>
+        <div className="columns is-mobile">
+          <div className="column">
+            <TextualFormField label="First name" {...ctx.fieldPropsFor('firstName')} />
+          </div>
+          <div className="column">
+            <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
+          </div>
+        </div>
+        {/* <AddressAndBoroughField
+          disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
+          renderAddressLabel={this.renderAddressLabel}
+          addressProps={ctx.fieldPropsFor('address')}
+          boroughProps={ctx.fieldPropsFor('borough')}
+        />
+        <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
+        <Route path={routes.step1AddressModal} exact component={PrivacyInfoModal} />
+        <p>
+          Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
+          <Link to={routes.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
+        </p>
+        <br/> */}
+        <NextButton isLoading={ctx.isLoading} />
+      </>
+
+      }
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 }

@@ -9,6 +9,7 @@ from project.forms import USPhoneNumberField
 # we won't have to do this often.
 FIELD_SCHEMA_VERSION = 4
 
+
 class RhForm(forms.Form):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=150)

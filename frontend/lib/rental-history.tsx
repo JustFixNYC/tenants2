@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "./progress-routes";
 import Routes from "./routes";
@@ -10,6 +10,7 @@ import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
 import { exactSubsetOrDefault } from './util';
 import { NextButton, BackButton } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
+import { AppContext } from './app-context';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -62,27 +63,36 @@ function RentalHistoryForm(): JSX.Element {
 }
 
 function RentalHistoryPreview(): JSX.Element {
+  const appContext = useContext(AppContext);
+  const userData = appContext.session.rentalHistoryInfo;
+
   return (
     <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your request to the DHCR</h1>
       <p>Here is a preview of the request for your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />
-      <article className="message">
-        <div className="message-header">
-          <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
-        </div>
-        <div className="message-body">
-          <h4 className="is-italic">Subject: Requesting my Rental History</h4>
-            <div className="is-divider jf-divider-narrow" />
-          <p>DHCR administrator,</p>
-            <br />
-          <p>I, @contact.name, am currently living at @extra.features.0.properties.label in apartment @flow.contact_apt.text and would like to request the complete rent history for this apartment back to the year 1984.</p>
-            <br />
-          <p>Thank you,</p>
-            <br />
-          <p>- YOUR NAME HERE</p>
-        </div>
-      </article>
+      {userData &&
+        <article className="message">
+          <div className="message-header">
+            <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
+          </div>
+          <div className="message-body">
+            <h4 className="is-italic">Subject: Requesting my Rental History</h4>
+              <div className="is-divider jf-divider-narrow" />
+            <p>DHCR administrator,</p>
+              <br />
+            <p>I, {userData.firstName + ' ' + userData.lastName}, am currently living at {userData.address} in apartment {userData.apartmentNumber} and would like to request the complete rent history for this apartment back to the year 1984.</p>
+              <br />
+            <p>Thank you,</p>
+              <br />
+            <p>- {userData.firstName + ' ' + userData.lastName}</p>
+          </div>
+        </article>
+      }
+      <div className="field is-grouped jf-two-buttons">
+        <BackButton label="Back" to={Routes.locale.rh.form} />
+        <NextButton label="Submit request" isLoading={false} />
+      </div> 
     </Page>
   );
 }
@@ -100,7 +110,6 @@ function RentalHistoryConfirmation(): JSX.Element {
     </Page>
   );
 }
-
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
     toLatestStep: Routes.locale.rh.latestStep,

@@ -11,6 +11,7 @@ import { exactSubsetOrDefault } from './util';
 import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
+import { Link } from 'react-router-dom';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -118,6 +119,7 @@ function RentalHistoryConfirmation(): JSX.Element {
     <Page title="Your rental history has been requested!" withHeading="big" className="content">
       <h1 className="title is-4">What happens next?</h1>
       <p>You should receive your rental history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
+      <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore other tools</Link>
       <h1 className="title is-4">Want to read more about your rights?</h1>
       <ul>
         <li><a href="http://metcouncilonhousing.org/help_and_answers" target="_blank">MetCouncil on Housing</a></li>

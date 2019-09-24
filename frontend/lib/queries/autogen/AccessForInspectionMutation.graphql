@@ -7,7 +7,6 @@ mutation AccessForInspectionMutation($input: AccessForInspectionInput!) {
         signupIntent,
         address,
         borough,
-        aptNumber,
         floorNumber
       }
     }

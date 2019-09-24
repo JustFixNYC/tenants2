@@ -1583,22 +1583,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "",
-              "isDeprecated": false,
-              "name": "aptNumber",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": "The floor number the user's apartment is on.",
               "isDeprecated": false,
               "name": "floorNumber",

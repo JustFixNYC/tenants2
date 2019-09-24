@@ -161,7 +161,7 @@ class OnboardingStep4(SessionFormMutation):
 class OnboardingInfoType(DjangoObjectType):
     class Meta:
         model = OnboardingInfo
-        only_fields = ('signup_intent', 'floor_number', 'address', 'borough', 'apt_number')
+        only_fields = ('signup_intent', 'floor_number', 'address', 'borough')
 
 
 @schema_registry.register_session_info

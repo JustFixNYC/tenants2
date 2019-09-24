@@ -38,7 +38,7 @@ function RentalHistoryForm(): JSX.Element {
       "firstName": ( userData.firstName || "" ),
       "lastName": ( userData.lastName || "" ),
       "address": ( (userData.onboardingInfo && userData.onboardingInfo.address) || "" ) + ", " + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
-      "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber) ,
+      "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
       "phoneNumber": (userData.phoneNumber || "")
     } :
     BlankRhFormInput);

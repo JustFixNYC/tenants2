@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 from django.core.management.base import BaseCommand
 from django import forms
 
-from onboarding.forms import verify_address
+from project.util.address_form_fields import verify_address
 from onboarding.models import OnboardingInfo
 
 

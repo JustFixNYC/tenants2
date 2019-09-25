@@ -4,7 +4,6 @@ from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
     DjangoSessionFormMutation
 )
-from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from project import schema_registry
 

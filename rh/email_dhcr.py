@@ -10,7 +10,7 @@ DHCR_EMAIL_RECIPIENT_ADDRESSES = ['rentinfo@nyyshcr.org', 'e8x9f4k1h2i3e6p3@just
 
 def send_email_to_dhcr(first_name, last_name, address, apartment_number):
     full_name = first_name + ' ' + last_name
-    new_line = "%0A"
+    new_line = "\n"
     send_mail(
         RH_EMAIL_TEXT['DHCR_EMAIL_SUBJECT'],
 

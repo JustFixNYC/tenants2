@@ -8,9 +8,10 @@ import { TextualFormField } from './form-fields';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
 import { exactSubsetOrDefault } from './util';
-import { NextButton, BackButton } from './buttons';
+import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
+import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
@@ -19,12 +20,28 @@ const RH_ICON = "frontend/img/ddo/rent.svg";
 
 function RentalHistoryWelcome(): JSX.Element {
     return (
-      <Page title="Request your rental history through our online form" withHeading="big" className="content">
-        <div className="content">
-          <StaticImage src={RH_ICON} alt="rent-icon" ratio="is-128x128" />
-        </div>
-        <p>Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing & Community Renewal (DHCR), helps you find out if you're being overcharged.</p>
-        <p><em>This service is free, secure, and confidential.</em></p>
+      <Page title="Request your rental history">
+         <section className="hero is-light">
+          <div className="hero-body">
+            <div className="has-text-centered">
+              <div className="is-inline-block jf-rh-icon">
+                <StaticImage ratio="is-square" src={RH_ICON} alt="" />
+              </div>
+              <h1 className="title is-spaced">
+                Request your rental history in two simple steps!
+              </h1>
+              <p className="subtitle">
+                Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing &amp; Community Renewal (DHCR), helps you find out if you're being overcharged.
+              </p>
+              <p className="subtitle is-italic">
+                This service is free, secure, and confidential.
+              </p>
+              <CenteredPrimaryButtonLink to={Routes.locale.rh.form} className="is-large">
+                Start my request
+              </CenteredPrimaryButtonLink>
+            </div>
+          </div>
+        </section>
       </Page>
     );
   }
@@ -113,9 +130,10 @@ function RentalHistoryPreview(): JSX.Element {
 function RentalHistoryConfirmation(): JSX.Element {
   return (
     <Page title="Your rental history has been requested!" withHeading="big" className="content">
-      <h1 className="title is-4">What happens next?</h1>
+      <h2>What happens next?</h2>
       <p>You should receive your rental history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
-      <h1 className="title is-4">Want to read more about your rights?</h1>
+      <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore other tools</Link>
+      <h2>Want to read more about your rights?</h2>
       <ul>
         <li><a href="http://metcouncilonhousing.org/help_and_answers" target="_blank">MetCouncil on Housing</a></li>
         <li><a href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</a></li>

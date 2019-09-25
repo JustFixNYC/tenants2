@@ -180,7 +180,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
 
   return (
-    <Page title="Your HP Action packet is ready!" withHeading className="content">
+    <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
       <p>Here is all of your HP Action paperwork, including instructions for how to navigate the process:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>

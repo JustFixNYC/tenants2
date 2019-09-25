@@ -66,12 +66,39 @@ def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
     return address, borough, address_verified
 
 
-class AddressAndBoroughFormMixin:
+class AddressAndBoroughFormMixin(forms.Form):
+    '''
+    This mixin class adds address and borough fields to a form, and attempts to
+    verify their validity, potentially changing/normalizing them based on
+    geocoding.
+
+    The clean() method adds an additional entry to the cleaned data dictionary,
+    `address_verified`, which is a boolean indicating whether the address was
+    verified or not.
+    '''
+
+    address = forms.CharField(
+        **ADDRESS_FIELD_KWARGS,
+        help_text='A New York City address. Only street name and number are required.'
+    )
+
+    # For details on why this isn't a required field, see:
+    # https://github.com/JustFixNYC/tenants2/issues/533
+    borough = forms.ChoiceField(
+        choices=BOROUGH_CHOICES.choices,
+        required=False,
+        help_text='A New York City borough.'
+    )
+
     def clean(self):
-        cleaned_data = super().clean()  # type: ignore
+        cleaned_data = super().clean()
         address = cleaned_data.get('address')
         borough = cleaned_data.get('borough')
         if address and not borough:
+            # Ick, this import is nasty because we don't want to depend on
+            # the onboarding package; however, this code was originally in
+            # the onboarding package and later factored out, and there's no
+            # easy way to move the model itself.
             from onboarding.models import AddressWithoutBoroughDiagnostic
             AddressWithoutBoroughDiagnostic(address=address).save()
         if address:

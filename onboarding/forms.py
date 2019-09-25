@@ -20,15 +20,11 @@ FIELD_SCHEMA_VERSION = 3
 class OnboardingStep1Form(AddressAndBoroughFormMixin, forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('address', 'borough', 'apt_number')
+        fields = ('apt_number',)
 
     first_name = forms.CharField(max_length=30)
 
     last_name = forms.CharField(max_length=150)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['borough'].required = False
 
 
 class OnboardingStep2Form(forms.ModelForm):

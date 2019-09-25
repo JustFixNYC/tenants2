@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import Page from '../page';
 import { OnboardingRouteInfo } from '../routes';
@@ -11,14 +11,15 @@ import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
-import { withAppContext, AppContextType } from '../app-context';
+import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { bulmaClasses } from '../bulma';
-import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
+import { isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
 import { ProgressiveEnhancement } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
+import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -40,10 +41,6 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
       </div>
     </div>
   );  
-}
-
-export function areAddressesTheSame(a: string, b: string): boolean {
-  return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
 
 export function PrivacyInfoModal(): JSX.Element {
@@ -71,22 +68,10 @@ export function PrivacyInfoModal(): JSX.Element {
   );
 }
 
-export const ConfirmAddressModal = withAppContext((props: AppContextType & { toStep2: string }): JSX.Element => {
-  const onboardingStep1 = props.session.onboardingStep1 || BlankOnboardingStep1Input;
-  let borough = '';
-
-  if (isBoroughChoice(onboardingStep1.borough)) {
-    borough = getBoroughChoiceLabels()[onboardingStep1.borough];
-  }
-
-  return (
-    <Modal title="Is this your address?" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
-      <p>{onboardingStep1.address}, {borough}</p>
-      <Link to={props.toStep2} className="button is-primary is-fullwidth">Yes!</Link>
-      <Link {...ctx.getLinkCloseProps()} className="button is-text is-fullwidth">No, go back.</Link>
-    </>} />
-  );
-});
+function Step1ConfirmAddressModal(props: { toStep2: string }): JSX.Element {
+  const addrInfo = useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
+  return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
+}
 
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
@@ -186,15 +171,12 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={s => exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)}
-            onSuccessRedirect={(output, input) => {
-              const successSession = assertNotNull(output.session);
-              const successInfo = assertNotNull(successSession.onboardingStep1);
-              if (areAddressesTheSame(successInfo.address, input.address) &&
-                  successInfo.borough === input.borough) {
-                return routes.step2;
-              }
-              return routes.step1ConfirmAddressModal;
-            }}
+            onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
+              input,
+              resolved: assertNotNull(assertNotNull(output.session).onboardingStep1),
+              nextStep: routes.step2,
+              confirmation: routes.step1ConfirmAddressModal
+            })}
           >
             {this.renderForm}
           </SessionUpdatingFormSubmitter>
@@ -202,7 +184,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
 
         {this.renderHiddenLogoutForm(this.props.toCancel)}
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
-          <ConfirmAddressModal toStep2={routes.step2} />
+          <Step1ConfirmAddressModal toStep2={routes.step2} />
         )} />
       </Page>
     );

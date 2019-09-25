@@ -30,7 +30,7 @@ function RentalHistoryWelcome(): JSX.Element {
                 Request your rental history in two simple steps!
               </h1>
               <p className="subtitle">
-                Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing & Community Renewal (DHCR), helps you find out if you're being overcharged.
+                Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing &amp; Community Renewal (DHCR), helps you find out if you're being overcharged.
               </p>
               <p className="subtitle is-italic">
                 This service is free, secure, and confidential.

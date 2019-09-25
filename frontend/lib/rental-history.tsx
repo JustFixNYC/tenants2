@@ -111,7 +111,7 @@ function RentalHistoryPreview(): JSX.Element {
             <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
           </div>
           <div className="message-body">
-            <h4 className="is-italic">Subject: Requesting my Rental History</h4>
+            <h4 className="is-italic">Subject: {rhEmailText.DHCR_EMAIL_SUBJECT}</h4>
               <div className="is-divider jf-divider-narrow" />
             <p>DHCR administrator,</p>
               <br />

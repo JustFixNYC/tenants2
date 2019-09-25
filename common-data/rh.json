@@ -1,4 +1,5 @@
 {
+    "DHCR_EMAIL_SUBJECT": "Request for Rental History",
     "DHCR_EMAIL_BODY_PART_1": "I, ",
     "DHCR_EMAIL_BODY_PART_2": ", am currently living at ",
     "DHCR_EMAIL_BODY_PART_3": " in apartment ",

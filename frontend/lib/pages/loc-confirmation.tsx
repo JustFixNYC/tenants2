@@ -73,10 +73,9 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
   }
 
   return (
-    <Page title={letterConfirmationPageTitle}>
+    <Page title={letterConfirmationPageTitle} withHeading="big" >
       <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <div className="content">
-        <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
         <h2>Email a copy of your letter to yourself or someone you trust</h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />

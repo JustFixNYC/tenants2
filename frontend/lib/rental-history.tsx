@@ -126,8 +126,7 @@ function RentalHistoryPreview(): JSX.Element {
             </p>
               <br />
             <p>{rhEmailText.DHCR_EMAIL_SIGNATURE} </p>
-              <br />
-            <p>- {formData.firstName + ' ' + formData.lastName}</p>
+            <p>{formData.firstName + ' ' + formData.lastName}</p>
           </div>
         </article>
       }

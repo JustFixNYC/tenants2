@@ -16,3 +16,7 @@ class RhForm(forms.Form):
     address = forms.CharField(max_length=150)
     apartment_number = forms.CharField(max_length=15)
     phone_number = USPhoneNumberField()
+
+
+class RhSendEmail(forms.Form):
+    pass

@@ -13,6 +13,7 @@ import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
 import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
+import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -45,6 +46,8 @@ function RentalHistoryWelcome(): JSX.Element {
       </Page>
     );
   }
+
+
 
 function RentalHistoryForm(): JSX.Element {
   const appContext = useContext(AppContext);
@@ -121,7 +124,14 @@ function RentalHistoryPreview(): JSX.Element {
       }
       <div className="field is-grouped jf-two-buttons">
         <BackButton label="Back" to={Routes.locale.rh.form} />
-        <NextButton label="Submit request" isLoading={false} />
+        <SessionUpdatingFormSubmitter
+          mutation={RhSendEmailMutation}
+          initialState={{}}
+          onSuccessRedirect={Routes.locale.rh.confirmation}
+        >
+          {(ctx) => 
+          <NextButton label="Submit request" isLoading={ctx.isLoading} /> }
+        </SessionUpdatingFormSubmitter>
       </div> 
     </Page>
   );

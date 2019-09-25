@@ -38,15 +38,6 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
         form_class = forms.OnboardingStep1Form
         session_key = session_key_for_step(1)
 
-    address_verified = graphene.Boolean(
-        required=True,
-        description=(
-            "Whether the user's address was verified by a geocoder. "
-            "If False, it is because the geocoder service was unavailable, "
-            "not because the address is invalid."
-        )
-    )
-
 
 class OnboardingStep2Info(DjangoSessionFormObjectType):
     class Meta:

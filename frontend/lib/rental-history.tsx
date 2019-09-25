@@ -12,6 +12,7 @@ import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
 import { Link } from 'react-router-dom';
+import { RhFormInput } from './queries/globalTypes';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -46,13 +47,25 @@ function RentalHistoryWelcome(): JSX.Element {
   }
 
 function RentalHistoryForm(): JSX.Element {
+  const appContext = useContext(AppContext);
+  const userData = appContext.session;
+
+  const UserRhFormInput: RhFormInput = (userData && userData.userId ?
+    {
+      "firstName": ( userData.firstName || "" ),
+      "lastName": ( userData.lastName || "" ),
+      "address": ( (userData.onboardingInfo && userData.onboardingInfo.address) || "" ) + ", " + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
+      "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
+      "phoneNumber": (userData.phoneNumber || "")
+    } :
+    BlankRhFormInput);
   
   return (
     <Page title="Request the rental history for your apartment">
       <h1 className="title is-4">Request the rental history for your apartment</h1>
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
-        initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, BlankRhFormInput)}
+        initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)}
         onSuccessRedirect={Routes.locale.rh.preview}
       >
       {(ctx) => 
@@ -81,14 +94,14 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   const appContext = useContext(AppContext);
-  const userData = appContext.session.rentalHistoryInfo;
+  const formData = appContext.session.rentalHistoryInfo;
 
   return (
     <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your request to the DHCR</h1>
       <p>Here is a preview of the request for your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />
-      {userData &&
+      {formData &&
         <article className="message">
           <div className="message-header">
             <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
@@ -98,11 +111,11 @@ function RentalHistoryPreview(): JSX.Element {
               <div className="is-divider jf-divider-narrow" />
             <p>DHCR administrator,</p>
               <br />
-            <p>I, {userData.firstName + ' ' + userData.lastName}, am currently living at {userData.address} in apartment {userData.apartmentNumber} and would like to request the complete rent history for this apartment back to the year 1984.</p>
+            <p>I, {formData.firstName + ' ' + formData.lastName}, am currently living at {formData.address} in apartment {formData.apartmentNumber} and would like to request the complete rent history for this apartment back to the year 1984.</p>
               <br />
             <p>Thank you,</p>
               <br />
-            <p>- {userData.firstName + ' ' + userData.lastName}</p>
+            <p>- {formData.firstName + ' ' + formData.lastName}</p>
           </div>
         </article>
       }

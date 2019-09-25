@@ -48,6 +48,7 @@ class Command(BaseCommand):
         '.sbx',
         '.shp',
         '.shx',
+        '.sketch',
     ]
 
     def add_arguments(self, parser):
@@ -66,7 +67,11 @@ class Command(BaseCommand):
         try:
             contents = byte_contents.decode('utf-8')
         except UnicodeDecodeError:
-            self.stderr.write(f"WARNING: Unable to decode {p} as UTF-8.\n")
+            self.stderr.write(
+                f"WARNING: Unable to decode {p} as UTF-8.\n"
+                f"If it is not a text file, consider adding its extension to IGNORE_EXTENSIONS\n"
+                f"in {__file__}.\n"
+            )
             return False
         crlfs = contents.count('\r\n')
         if crlfs == 0:

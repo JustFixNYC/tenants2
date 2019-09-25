@@ -25,6 +25,14 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
     An abstract class for defining a GraphQL object type based on the
     fields of a Django Form, along with a GraphQL resolver for retrieving them
     from a request session.
+
+    The inner Meta class must define a `form_class` that points to a Django Form
+    class, and a `session_key` that specifies the request session key the object's
+    data can be retrieved from.
+
+    If a Django form's cleaned data includes keys that don't correspond to form
+    fields, the form can describe these keys via an 'extra_graphql_output_fields'
+    dict attribute that maps the keys to GraphQL scalars.
     '''
 
     class Meta:
@@ -49,6 +57,8 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         form = form_class()
 
         fields = yank_fields_from_attrs(fields_for_form(form, [], []), _as=Field)
+        if hasattr(form, 'extra_graphql_output_fields'):
+            fields.update(yank_fields_from_attrs(form.extra_graphql_output_fields, _as=Field))
 
         if _meta.fields:
             _meta.fields.update(fields)

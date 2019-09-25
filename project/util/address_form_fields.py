@@ -1,5 +1,6 @@
 from typing import Tuple
 from django import forms
+import graphene
 
 from project import geocoding
 from project.common_data import Choices
@@ -89,6 +90,17 @@ class AddressAndBoroughFormMixin(forms.Form):
         required=False,
         help_text='A New York City borough.'
     )
+
+    extra_graphql_output_fields = {
+        'address_verified': graphene.Boolean(
+            required=True,
+            description=(
+                "Whether the user's address was verified by a geocoder. "
+                "If False, it is because the geocoder service was unavailable, "
+                "not because the address is invalid."
+            )
+        )
+    }
 
     def clean(self):
         cleaned_data = super().clean()

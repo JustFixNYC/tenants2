@@ -14,6 +14,7 @@ import { AppContext } from './app-context';
 import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
+import * as rhEmailText from '../../common-data/rh.json';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -57,7 +58,7 @@ function RentalHistoryForm(): JSX.Element {
     {
       "firstName": ( userData.firstName || "" ),
       "lastName": ( userData.lastName || "" ),
-      "address": ( (userData.onboardingInfo && userData.onboardingInfo.address) || "" ) + ", " + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
+      "address": ( (userData.onboardingInfo && (userData.onboardingInfo.address + ", ")) || "" ) + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
       "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
       "phoneNumber": (userData.phoneNumber || "")
     } :
@@ -114,9 +115,17 @@ function RentalHistoryPreview(): JSX.Element {
               <div className="is-divider jf-divider-narrow" />
             <p>DHCR administrator,</p>
               <br />
-            <p>I, {formData.firstName + ' ' + formData.lastName}, am currently living at {formData.address} in apartment {formData.apartmentNumber} and would like to request the complete rent history for this apartment back to the year 1984.</p>
+            <p>
+              {rhEmailText.DHCR_EMAIL_BODY_PART_1}
+                {formData.firstName + ' ' + formData.lastName}
+              {rhEmailText.DHCR_EMAIL_BODY_PART_2}
+                {formData.address}
+              {rhEmailText.DHCR_EMAIL_BODY_PART_3}
+                {formData.apartmentNumber}
+              {rhEmailText.DHCR_EMAIL_BODY_PART_4}
+            </p>
               <br />
-            <p>Thank you,</p>
+            <p>{rhEmailText.DHCR_EMAIL_SIGNATURE} </p>
               <br />
             <p>- {formData.firstName + ' ' + formData.lastName}</p>
           </div>

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import ReactDOM from 'react-dom';
 import Page from '../page';
 import { OnboardingRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -12,14 +11,12 @@ import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
-import { LogoutMutation } from '../queries/LogoutMutation';
-import { bulmaClasses } from '../bulma';
 import { isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
-import { ProgressiveEnhancement } from '../progressive-enhancement';
 import { OutboundLink } from '../google-analytics';
 import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
+import { ClearSessionButton } from '../clear-session-button';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -126,41 +123,6 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
     );
   }
 
-  renderHiddenLogoutForm(onSuccessRedirect: string) {
-    return (
-      <SessionUpdatingFormSubmitter
-        mutation={LogoutMutation}
-        initialState={{}}
-        onSuccessRedirect={onSuccessRedirect}
-      >{(ctx) => (
-        // If onboarding is explicitly cancelled, we want to flush the
-        // user's session to preserve their privacy, so that any
-        // sensitive data they've entered is removed from their browser.
-        // Since it's assumed they're not logged in anyways, we can do
-        // this by "logging out", which also clears all session data.
-        //
-        // This is complicated by the fact that we want the cancel
-        // button to appear as though it's in the main form, while
-        // actually submitting a completely different form. HTML5
-        // supports this via the <button> element's "form" attribute,
-        // but not all browsers support that, so we'll do something
-        // a bit clever/kludgy here to work around that.
-        <ProgressiveEnhancement
-          disabled={this.props.disableProgressiveEnhancement}
-          renderBaseline={() => <button type="submit" className="button is-light">Cancel signup</button>}
-          renderEnhanced={() => {
-            if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
-            return ReactDOM.createPortal(
-              <button type="button" onClick={() => ctx.submit()} className={bulmaClasses('button', 'is-light', 'is-medium', {
-                'is-loading': ctx.isLoading
-              })}>Cancel signup</button>,
-              this.cancelControlRef.current
-            )
-          }} />
-      )}</SessionUpdatingFormSubmitter>
-    );
-  }
-
   render() {
     const { routes } = this.props;
 
@@ -182,7 +144,12 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           </SessionUpdatingFormSubmitter>
         </div>
 
-        {this.renderHiddenLogoutForm(this.props.toCancel)}
+        <ClearSessionButton
+          to={this.props.toCancel}
+          portalRef={this.cancelControlRef}
+          disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
+          label="Cancel signup"
+        />
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
           <Step1ConfirmAddressModal toStep2={routes.step2} />
         )} />

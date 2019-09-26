@@ -1294,7 +1294,23 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The user's address. Only street name and number are required.",
+              "description": "",
+              "isDeprecated": false,
+              "name": "aptNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A New York City address. Only street name and number are required.",
               "isDeprecated": false,
               "name": "address",
               "type": {
@@ -1310,25 +1326,9 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The New York City borough the user's address is in.",
+              "description": "A New York City borough.",
               "isDeprecated": false,
               "name": "borough",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "",
-              "isDeprecated": false,
-              "name": "aptNumber",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4669,7 +4669,21 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "The user's address. Only street name and number are required.",
+              "description": "",
+              "name": "aptNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "A New York City address. Only street name and number are required.",
               "name": "address",
               "type": {
                 "kind": "NON_NULL",
@@ -4683,22 +4697,8 @@
             },
             {
               "defaultValue": null,
-              "description": "The New York City borough the user's address is in.",
+              "description": "A New York City borough.",
               "name": "borough",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "aptNumber",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

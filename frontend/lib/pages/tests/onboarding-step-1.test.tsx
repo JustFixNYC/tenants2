@@ -1,6 +1,6 @@
 import React from 'react';
 
-import OnboardingStep1, { areAddressesTheSame } from '../onboarding-step-1';
+import OnboardingStep1 from '../onboarding-step-1';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
 import { createMockFetch } from '../../tests/mock-fetch';
@@ -102,9 +102,4 @@ describe('onboarding step 1 page', () => {
     });
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/Is this your address/i));
   });
-});
-
-test('areAddressesTheSame() works', () => {
-  expect(areAddressesTheSame('150 court street   ', '150 COURT STREET')).toBe(true);
-  expect(areAddressesTheSame('150 court st   ', '150 COURT STREET')).toBe(false);
 });

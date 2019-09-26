@@ -13,9 +13,9 @@ fragment AllSessionInfo on SessionInfo {
     description
   },
   onboardingStep1 {
+    aptNumber,
     address,
     borough,
-    aptNumber,
     firstName,
     lastName
   },

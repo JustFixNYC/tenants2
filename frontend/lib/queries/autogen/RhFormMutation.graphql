@@ -10,7 +10,8 @@ mutation RhFormMutation($input: RhFormInput!) {
         lastName,
         apartmentNumber,
         phoneNumber,
-        addressVerified
+        addressVerified,
+        boroughLabel
       }
     }
   }

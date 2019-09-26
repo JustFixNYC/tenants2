@@ -4,11 +4,13 @@ mutation RhFormMutation($input: RhFormInput!) {
     errors { ...ExtendedFormFieldErrors },
     session {
       rentalHistoryInfo {
+        address,
+        borough,
         firstName,
         lastName,
-        address,
         apartmentNumber,
-        phoneNumber
+        phoneNumber,
+        addressVerified
       }
     }
   }

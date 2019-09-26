@@ -1,5 +1,7 @@
 from django import forms
 from project.forms import USPhoneNumberField
+from project.util.address_form_fields import AddressAndBoroughFormMixin
+
 
 # Whenever we change the fields in any of the rental history
 # forms, we should change this number to ensure that we
@@ -10,10 +12,9 @@ from project.forms import USPhoneNumberField
 FIELD_SCHEMA_VERSION = 4
 
 
-class RhForm(forms.Form):
+class RhForm(AddressAndBoroughFormMixin, forms.Form):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=150)
-    address = forms.CharField(max_length=150)
     apartment_number = forms.CharField(max_length=15)
     phone_number = USPhoneNumberField()
 

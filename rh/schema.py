@@ -36,7 +36,7 @@ class RhSendEmail(SessionFormMutation):
             form_data["first_name"],
             form_data["last_name"],
             form_data["address"],
-            form_data["borough_label"],
+            form_data["borough"],
             form_data["apartment_number"]
         )
         RhFormInfo.clear_from_request(request)

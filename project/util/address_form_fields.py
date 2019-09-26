@@ -99,12 +99,6 @@ class AddressAndBoroughFormMixin(forms.Form):
                 "If False, it is because the geocoder service was unavailable, "
                 "not because the address is invalid."
             )
-        ),
-        'borough_label': graphene.String(
-            required=True,
-            description=(
-                "A human readable text version of the user's borough"
-            )
         )
     }
 
@@ -120,9 +114,7 @@ class AddressAndBoroughFormMixin(forms.Form):
             from onboarding.models import AddressWithoutBoroughDiagnostic
             AddressWithoutBoroughDiagnostic(address=address).save()
         if address:
-            address, borough,
-            address_verified = verify_address(address, borough)
-            borough_label = BOROUGH_CHOICES.get_label(borough)
+            address, borough, address_verified = verify_address(address, borough)
             if not borough and not address_verified:
                 # The address verification service isn't working, so we should
                 # make the borough field required since we can't infer it from
@@ -131,6 +123,5 @@ class AddressAndBoroughFormMixin(forms.Form):
                 return cleaned_data
             cleaned_data['address'] = address
             cleaned_data['borough'] = borough
-            cleaned_data['borough_label'] = borough_label
             cleaned_data['address_verified'] = address_verified
         return cleaned_data

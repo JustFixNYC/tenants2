@@ -7,8 +7,7 @@ fragment AllSessionInfo on SessionInfo {
     lastName,
     apartmentNumber,
     phoneNumber,
-    addressVerified,
-    boroughLabel
+    addressVerified
   },
   issues,
   customIssues {
@@ -20,8 +19,7 @@ fragment AllSessionInfo on SessionInfo {
     address,
     borough,
     firstName,
-    lastName,
-    boroughLabel
+    lastName
   },
   onboardingStep2 {
     isInEviction,

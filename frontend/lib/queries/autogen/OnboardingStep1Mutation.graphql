@@ -8,8 +8,7 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
         address,
         borough,
         firstName,
-        lastName,
-        boroughLabel
+        lastName
       }
     }
   }

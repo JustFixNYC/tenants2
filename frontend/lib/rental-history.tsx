@@ -135,7 +135,7 @@ function RentalHistoryPreview(): JSX.Element {
             <p>
               {rhEmailText.DHCR_EMAIL_BODY
                 .replace('FULL_NAME', formData.firstName + ' ' + formData.lastName)
-                .replace('FULL_ADDRESS', formData.address + ', ' + formData.boroughLabel)
+                .replace('FULL_ADDRESS', formData.address + ', ' + formData.borough)
                 .replace('APARTMENT_NUMBER', formData.apartmentNumber)}
             </p>
               <br />

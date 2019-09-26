@@ -185,7 +185,8 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
       { path: Routes.locale.rh.preview, exact: true, component: RentalHistoryPreview},
     ],
     confirmationSteps: [
-      { path: Routes.locale.rh.confirmation, exact: true, component: RentalHistoryConfirmation
+      { path: Routes.locale.rh.confirmation, exact: true, component: RentalHistoryConfirmation},
+      { path: Routes.locale.rh.formAddressModal, exact: true, component: RentalHistoryForm
     }]
   });
 

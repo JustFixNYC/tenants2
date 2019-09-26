@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
 import * as rhEmailText from '../../common-data/rh.json';
+import { AddressAndBoroughField } from './address-and-borough-form-field';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -58,7 +59,8 @@ function RentalHistoryForm(): JSX.Element {
     {
       "firstName": ( userData.firstName || "" ),
       "lastName": ( userData.lastName || "" ),
-      "address": ( (userData.onboardingInfo && (userData.onboardingInfo.address + ", ")) || "" ) + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
+      "address": ( (userData.onboardingInfo && userData.onboardingInfo.address) || "" ),
+      "borough": ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
       "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
       "phoneNumber": (userData.phoneNumber || "")
     } :
@@ -82,7 +84,10 @@ function RentalHistoryForm(): JSX.Element {
               <TextualFormField label="Last name" {...ctx.fieldPropsFor('lastName')} />
             </div>
           </div>
-          <TextualFormField label="Address" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('address')} />
+            <AddressAndBoroughField
+              addressProps={ctx.fieldPropsFor('address')}
+              boroughProps={ctx.fieldPropsFor('borough')}
+            />
           <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('apartmentNumber')} />
           <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
           <div className="field is-grouped jf-two-buttons">

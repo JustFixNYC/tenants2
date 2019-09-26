@@ -7,10 +7,10 @@ from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
 from project.util.hyperlink import Hyperlink
 from project.util.admin_util import admin_field
+from project.util.address_form_fields import (
+    ADDRESS_FIELD_KWARGS, BOROUGH_FIELD_KWARGS, BOROUGH_CHOICES)
 from users.models import JustfixUser
 
-
-BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
 
 LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
@@ -20,8 +20,6 @@ ADDR_META_HELP = (
     "This field is automatically updated when you change the address or "
     "borough, so you generally shouldn't have to change it manually."
 )
-
-ADDRESS_MAX_LENGTH = 200
 
 
 class AddressWithoutBoroughDiagnostic(models.Model):
@@ -38,7 +36,7 @@ class AddressWithoutBoroughDiagnostic(models.Model):
     address can be PII.
     '''
 
-    address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+    address = models.CharField(**ADDRESS_FIELD_KWARGS)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -72,7 +70,7 @@ class OnboardingInfo(models.Model):
     )
 
     address = models.CharField(
-        max_length=ADDRESS_MAX_LENGTH,
+        **ADDRESS_FIELD_KWARGS,
         help_text="The user's address. Only street name and number are required."
     )
 
@@ -84,7 +82,7 @@ class OnboardingInfo(models.Model):
     )
 
     borough = models.CharField(
-        max_length=20, choices=BOROUGH_CHOICES.choices,
+        **BOROUGH_FIELD_KWARGS,
         help_text="The New York City borough the user's address is in."
     )
 

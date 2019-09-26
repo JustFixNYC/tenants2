@@ -1,5 +1,22 @@
+// Some of the CSS for the search bar can be confusing because of how we
+// want the DDO search UI to look like a splash page when there is an empty
+// search query, and like a standard form at the top of the page when there
+// are search results.
+//
+// This is further complicated by the fact that the page looks different
+// when on mobile vs. desktop, and also when the address field is being
+// progressively enhanced (it will actually be a text field and a set
+// of radio buttons when not progressively enhanced).
+//
+// In short, make sure you try out the page in all possible combinations
+// of the above criteria when making changes to this CSS.
 
-html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
+// The `level` class is only applied to the search bar when the address
+// field is being progressively enhanced; otherwise, there will be an
+// additional set of radio buttons for the boroughs and it'll look
+// weird if they're on the same horizontal level as the other form
+// controls.
+.level.jf-ddo-searchbar {
     .field {
         flex: 1;
         
@@ -7,19 +24,36 @@ html:not([data-safe-mode-no-js]) .level.jf-ddo-searchbar {
             padding-right: 1rem;
         }
     }
+}
 
+.jf-ddo-searchbar:not(.level) {
+    margin-bottom: 1.5rem;
+}
+
+.jf-ddo-searchbar {
     .button {
         margin-top: auto;
         margin-bottom: 0.75rem;
     }
 }
 
-html[data-safe-mode-no-js] .level.jf-ddo-searchbar {
-    align-items: start;
-}
+// The search bar is in a `hero` when there is no search query (i.e.,
+// when we look like a splash page rather than search results).
+//
+// On the splash page, when the search bar isn't progressively enhanced,
+// we want the set of radio buttons for the borough to look slightly
+// different from normal form controls.
+.hero .jf-ddo-searchbar div[role="group"] {
+    .label {
+        // Don't make the "What is your borough?" label bold, it
+        // sticks out too much on the splash page.
+        font-weight: normal;
+    }
 
-.button + .jf-ddo-results {
-    margin-top: 2.25em;
+    .control {
+        // This will ensure the radio buttons are centered on the page.
+        display: inline-block;
+    }
 }
 
 .jf-ddo-results {

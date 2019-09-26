@@ -13,6 +13,8 @@ import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
 import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
+import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
+import * as rhEmailText from '../../common-data/rh.json';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -46,6 +48,8 @@ function RentalHistoryWelcome(): JSX.Element {
     );
   }
 
+
+
 function RentalHistoryForm(): JSX.Element {
   const appContext = useContext(AppContext);
   const userData = appContext.session;
@@ -54,7 +58,7 @@ function RentalHistoryForm(): JSX.Element {
     {
       "firstName": ( userData.firstName || "" ),
       "lastName": ( userData.lastName || "" ),
-      "address": ( (userData.onboardingInfo && userData.onboardingInfo.address) || "" ) + ", " + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
+      "address": ( (userData.onboardingInfo && (userData.onboardingInfo.address + ", ")) || "" ) + ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
       "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
       "phoneNumber": (userData.phoneNumber || "")
     } :
@@ -107,21 +111,32 @@ function RentalHistoryPreview(): JSX.Element {
             <p className="has-text-weight-normal">To: New York Division of Housing and Community Renewal (DHCR)</p>
           </div>
           <div className="message-body">
-            <h4 className="is-italic">Subject: Requesting my Rental History</h4>
+            <h4 className="is-italic">Subject: {rhEmailText.DHCR_EMAIL_SUBJECT}</h4>
               <div className="is-divider jf-divider-narrow" />
             <p>DHCR administrator,</p>
               <br />
-            <p>I, {formData.firstName + ' ' + formData.lastName}, am currently living at {formData.address} in apartment {formData.apartmentNumber} and would like to request the complete rent history for this apartment back to the year 1984.</p>
+            <p>
+              {rhEmailText.DHCR_EMAIL_BODY
+                .replace('FULL_NAME', formData.firstName + ' ' + formData.lastName)
+                .replace('FULL_ADDRESS', formData.address)
+                .replace('APARTMENT_NUMBER', formData.apartmentNumber)}
+            </p>
               <br />
-            <p>Thank you,</p>
-              <br />
-            <p>- {formData.firstName + ' ' + formData.lastName}</p>
+            <p>{rhEmailText.DHCR_EMAIL_SIGNATURE} </p>
+            <p>{formData.firstName + ' ' + formData.lastName}</p>
           </div>
         </article>
       }
       <div className="field is-grouped jf-two-buttons">
         <BackButton label="Back" to={Routes.locale.rh.form} />
-        <NextButton label="Submit request" isLoading={false} />
+        <SessionUpdatingFormSubmitter
+          mutation={RhSendEmailMutation}
+          initialState={{}}
+          onSuccessRedirect={Routes.locale.rh.confirmation}
+        >
+          {(ctx) => 
+          <NextButton label="Submit request" isLoading={ctx.isLoading} /> }
+        </SessionUpdatingFormSubmitter>
       </div> 
     </Page>
   );

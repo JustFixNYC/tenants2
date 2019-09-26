@@ -91,7 +91,7 @@ sessionFields = ["hpActionDetails"]
 [mutations."harassment.*"]
 sessionFields = ["harassmentDetails"]
 
-[mutations.rhForm]
+[mutations."rh.*"]
 sessionFields = ["rentalHistoryInfo"]
 
 [mutations.tenantChildren]

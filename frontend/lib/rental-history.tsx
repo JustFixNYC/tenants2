@@ -7,15 +7,16 @@ import { StaticImage } from './static-image';
 import { TextualFormField } from './form-fields';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
-import { exactSubsetOrDefault } from './util';
+import { exactSubsetOrDefault, assertNotNull } from './util';
 import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext } from './app-context';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
 import * as rhEmailText from '../../common-data/rh.json';
 import { AddressAndBoroughField } from './address-and-borough-form-field';
+import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from './address-confirmation';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -49,7 +50,10 @@ function RentalHistoryWelcome(): JSX.Element {
     );
   }
 
-
+function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
+  const addrInfo = useContext(AppContext).session.rentalHistoryInfo || BlankRhFormInput;
+  return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
+}
 
 function RentalHistoryForm(): JSX.Element {
   const appContext = useContext(AppContext);
@@ -72,7 +76,12 @@ function RentalHistoryForm(): JSX.Element {
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
         initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)}
-        onSuccessRedirect={Routes.locale.rh.preview}
+        onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
+          input,
+          resolved: assertNotNull(assertNotNull(output.session).rentalHistoryInfo),
+          nextStep: Routes.locale.rh.preview,
+          confirmation: Routes.locale.rh.formAddressModal
+        })}
       >
       {(ctx) => 
         <>
@@ -97,6 +106,9 @@ function RentalHistoryForm(): JSX.Element {
         </>
       }
       </SessionUpdatingFormSubmitter>
+      <Route path={Routes.locale.rh.formAddressModal} exact render={() => (
+        <FormConfirmAddressModal toStep2={Routes.locale.rh.preview} />
+      )} />
     </Page>
   );
 }

@@ -164,6 +164,7 @@ function createRentalHistoryRouteInfo(prefix: string) {
     latestStep: prefix,
     splash: `${prefix}/splash`,
     form: `${prefix}/form`,
+    formAddressModal: `${prefix}/form/address-modal`,
     preview: `${prefix}/preview`,
     confirmation: `${prefix}/confirmation`
   };

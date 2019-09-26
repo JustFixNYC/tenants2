@@ -14,11 +14,12 @@ def send_email_to_dhcr(first_name, last_name, address, apartment_number):
     send_mail(
         RH_EMAIL_TEXT['DHCR_EMAIL_SUBJECT'],
 
-        RH_EMAIL_TEXT['DHCR_EMAIL_BODY_PART_1'] + full_name +
-        RH_EMAIL_TEXT['DHCR_EMAIL_BODY_PART_2'] + address +
-        RH_EMAIL_TEXT['DHCR_EMAIL_BODY_PART_3'] + apartment_number +
-        RH_EMAIL_TEXT['DHCR_EMAIL_BODY_PART_4'] + new_line + new_line +
-
+        RH_EMAIL_TEXT['DHCR_EMAIL_BODY']
+        .replace('FULL_NAME', full_name)
+        .replace('FULL_ADDRESS', address)
+        .replace('APARTMENT_NUMBER', apartment_number) +
+        new_line +
+        new_line +
         RH_EMAIL_TEXT['DHCR_EMAIL_SIGNATURE'] + new_line + full_name,
 
         DHCR_EMAIL_SENDER_ADDRESS,

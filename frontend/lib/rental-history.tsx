@@ -116,13 +116,10 @@ function RentalHistoryPreview(): JSX.Element {
             <p>DHCR administrator,</p>
               <br />
             <p>
-              {rhEmailText.DHCR_EMAIL_BODY_PART_1}
-                {formData.firstName + ' ' + formData.lastName}
-              {rhEmailText.DHCR_EMAIL_BODY_PART_2}
-                {formData.address}
-              {rhEmailText.DHCR_EMAIL_BODY_PART_3}
-                {formData.apartmentNumber}
-              {rhEmailText.DHCR_EMAIL_BODY_PART_4}
+              {rhEmailText.DHCR_EMAIL_BODY
+                .replace('FULL_NAME', formData.firstName + ' ' + formData.lastName)
+                .replace('FULL_ADDRESS', formData.address)
+                .replace('APARTMENT_NUMBER', formData.apartmentNumber)}
             </p>
               <br />
             <p>{rhEmailText.DHCR_EMAIL_SIGNATURE} </p>

@@ -17,6 +17,7 @@ import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
 import * as rhEmailText from '../../common-data/rh.json';
 import { AddressAndBoroughField } from './address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from './address-confirmation';
+import { getBoroughChoiceLabels, BoroughChoice } from '../../common-data/borough-choices';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -135,7 +136,7 @@ function RentalHistoryPreview(): JSX.Element {
             <p>
               {rhEmailText.DHCR_EMAIL_BODY
                 .replace('FULL_NAME', formData.firstName + ' ' + formData.lastName)
-                .replace('FULL_ADDRESS', formData.address + ', ' + formData.borough)
+                .replace('FULL_ADDRESS', formData.address + ', ' + getBoroughChoiceLabels()[formData.borough as BoroughChoice])
                 .replace('APARTMENT_NUMBER', formData.apartmentNumber)}
             </p>
               <br />

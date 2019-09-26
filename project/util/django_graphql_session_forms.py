@@ -81,7 +81,8 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         If the object data exists in the given request's session, remove it.
         '''
 
-        request.session.pop(cls._meta.session_key)
+        if cls._meta.session_key in request.session:
+            request.session.pop(cls._meta.session_key)
 
     @classmethod
     def _resolve_from_session(cls, parent, info: ResolveInfo):

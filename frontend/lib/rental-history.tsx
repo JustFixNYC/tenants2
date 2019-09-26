@@ -147,7 +147,7 @@ function RentalHistoryConfirmation(): JSX.Element {
     <Page title="Your rental history has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
       <p>You should receive your rental history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
-      <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore other tools</Link>
+      <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
         <li><a href="http://metcouncilonhousing.org/help_and_answers" target="_blank">MetCouncil on Housing</a></li>

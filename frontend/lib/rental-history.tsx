@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "./progress-routes";
 import Routes from "./routes";
@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
 import * as rhEmailText from '../../common-data/rh.json';
+import { ClearSessionButton } from './clear-session-button';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -54,6 +55,8 @@ function RentalHistoryForm(): JSX.Element {
   const appContext = useContext(AppContext);
   const userData = appContext.session;
 
+  const cancelControlRef = useRef(null);
+
   const UserRhFormInput: RhFormInput = (userData && userData.userId ?
     {
       "firstName": ( userData.firstName || "" ),
@@ -86,12 +89,17 @@ function RentalHistoryForm(): JSX.Element {
           <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('apartmentNumber')} />
           <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
           <div className="field is-grouped jf-two-buttons">
-            <BackButton label="Cancel request" to={Routes.locale.rh.splash} />
+            <div className="control" ref={cancelControlRef} />
             <NextButton isLoading={ctx.isLoading} />
           </div> 
         </>
       }
       </SessionUpdatingFormSubmitter>
+      <ClearSessionButton
+          to={Routes.locale.rh.splash}
+          portalRef={cancelControlRef}
+          label="Cancel request"
+        />
     </Page>
   );
 }

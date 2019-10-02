@@ -8,15 +8,16 @@ DHCR_EMAIL_SENDER_ADDRESS = 'support@justfix.nyc'
 DHCR_EMAIL_RECIPIENT_ADDRESSES = ['rentinfo@nyyshcr.org', 'e8x9f4k1h2i3e6p3@justfixnyc.slack.com']
 
 
-def send_email_to_dhcr(first_name, last_name, address, apartment_number):
+def send_email_to_dhcr(first_name, last_name, address, borough, apartment_number):
     full_name = first_name + ' ' + last_name
+    full_address = address + ', ' + borough
     new_line = "\n"
     send_mail(
         RH_EMAIL_TEXT['DHCR_EMAIL_SUBJECT'],
 
         RH_EMAIL_TEXT['DHCR_EMAIL_BODY']
         .replace('FULL_NAME', full_name)
-        .replace('FULL_ADDRESS', address)
+        .replace('FULL_ADDRESS', full_address)
         .replace('APARTMENT_NUMBER', apartment_number) +
         new_line +
         new_line +

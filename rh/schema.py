@@ -6,9 +6,7 @@ from project.util.django_graphql_session_forms import (
 )
 from project.util.session_mutation import SessionFormMutation
 from project import schema_registry
-from project.common_data import Choices
-
-c = Choices.from_file('borough-choices.json')
+from project.util.address_form_fields import BOROUGH_CHOICES
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -39,7 +37,7 @@ class RhSendEmail(SessionFormMutation):
             form_data["first_name"],
             form_data["last_name"],
             form_data["address"],
-            c.get_label(form_data["borough"]),
+            BOROUGH_CHOICES.get_label(form_data["borough"]),
             form_data["apartment_number"]
         )
         RhFormInfo.clear_from_request(request)

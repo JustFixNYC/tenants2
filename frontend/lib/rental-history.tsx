@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "./progress-routes";
 import Routes from "./routes";
@@ -18,6 +18,7 @@ import * as rhEmailText from '../../common-data/rh.json';
 import { AddressAndBoroughField } from './address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from './address-confirmation';
 import { getBoroughChoiceLabels, BoroughChoice } from '../../common-data/borough-choices';
+import { ClearSessionButton } from './clear-session-button';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -70,6 +71,8 @@ function RentalHistoryForm(): JSX.Element {
       "phoneNumber": (userData.phoneNumber || "")
     } :
     BlankRhFormInput);
+
+    const cancelControlRef = useRef(null);
   
   return (
     <Page title="Request the rental history for your apartment">
@@ -101,12 +104,17 @@ function RentalHistoryForm(): JSX.Element {
           <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('apartmentNumber')} />
           <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
           <div className="field is-grouped jf-two-buttons">
-            <BackButton label="Cancel request" to={Routes.locale.rh.splash} />
+          <div className="control" ref={cancelControlRef} />
             <NextButton isLoading={ctx.isLoading} />
           </div> 
         </>
       }
       </SessionUpdatingFormSubmitter>
+      <ClearSessionButton
+          to={Routes.locale.rh.splash}
+          portalRef={cancelControlRef}
+          label="Cancel request"
+        />
       <Route path={Routes.locale.rh.formAddressModal} exact render={() => (
         <FormConfirmAddressModal toStep2={Routes.locale.rh.preview} />
       )} />

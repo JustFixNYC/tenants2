@@ -22,11 +22,11 @@ import { ClearSessionButton } from './clear-session-button';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
-/* Rental history welcome page */
+/* Rent history welcome page */
 
 function RentalHistoryWelcome(): JSX.Element {
     return (
-      <Page title="Request your rental history">
+      <Page title="Request your rent history">
          <section className="hero is-light">
           <div className="hero-body">
             <div className="has-text-centered">
@@ -34,10 +34,10 @@ function RentalHistoryWelcome(): JSX.Element {
                 <StaticImage ratio="is-square" src={RH_ICON} alt="" />
               </div>
               <h1 className="title is-spaced">
-                Request your rental history in two simple steps!
+                Request your rent history in two simple steps!
               </h1>
               <p className="subtitle">
-                Let's help you request your <b>rental history</b>! This document, kept by the NY Division of Housing &amp; Community Renewal (DHCR), helps you find out if you're being overcharged.
+                Let's help you request your <b>rent history</b>! This document, kept by the NY Division of Housing &amp; Community Renewal (DHCR), helps you find out if you're being overcharged.
               </p>
               <p className="subtitle is-italic">
                 This service is free, secure, and confidential.
@@ -75,8 +75,8 @@ function RentalHistoryForm(): JSX.Element {
     const cancelControlRef = useRef(null);
   
   return (
-    <Page title="Request the rental history for your apartment">
-      <h1 className="title is-4">Request the rental history for your apartment</h1>
+    <Page title="Request the rent history for your apartment">
+      <h1 className="title is-4">Request the rent history for your apartment</h1>
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
         initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)}
@@ -129,7 +129,7 @@ function RentalHistoryPreview(): JSX.Element {
   return (
     <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your request to the DHCR</h1>
-      <p>Here is a preview of the request for your rental history. It includes your address and apartment number so that the DHCR can mail you.</p>
+      <p>Here is a preview of the request for your rent history. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />
       {formData &&
         <article className="message">
@@ -170,9 +170,9 @@ function RentalHistoryPreview(): JSX.Element {
 
 function RentalHistoryConfirmation(): JSX.Element {
   return (
-    <Page title="Your rental history has been requested!" withHeading="big" className="content">
+    <Page title="Your rent history has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
-      <p>You should receive your rental history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
+      <p>You should receive your rent history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
       <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
@@ -185,7 +185,7 @@ function RentalHistoryConfirmation(): JSX.Element {
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
     toLatestStep: Routes.locale.rh.latestStep,
-    label: "Rental History",
+    label: "Rent History",
     welcomeSteps: [{
       path: Routes.locale.rh.splash, exact: true, component: RentalHistoryWelcome
     }],

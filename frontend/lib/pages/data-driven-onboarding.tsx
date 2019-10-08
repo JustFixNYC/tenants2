@@ -11,7 +11,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
-import { properNoun } from '../util';
+import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink } from '../google-analytics';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
@@ -54,7 +54,6 @@ function calcPerUnit(value: number|null, data: DDOData): number {
 }
 
 function Indicator(props: {value: number, unit: string, pluralUnit?: string, verb?: string}) {
-  const num = new Intl.NumberFormat('en-US');
   const { value, unit } = props;
   const isSingular = value === 1;
   let pluralUnit = props.pluralUnit || `${unit}s`;
@@ -66,7 +65,7 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   }
 
   return <>
-    {verb}{num.format(value)} {isSingular ? unit : pluralUnit}
+    {verb}{numberWithCommas(value)} {isSingular ? unit : pluralUnit}
   </>;
 }
 

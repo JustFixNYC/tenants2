@@ -1,4 +1,4 @@
-import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple, isDeepEqual, properNoun } from '../util';
+import { getElement, assertNotNull, dateAsISO, addDays, friendlyDate, callOnceWithinMs, getFunctionProperty, exactSubsetOrDefault, assertNotUndefined, twoTuple, isDeepEqual, properNoun, numberWithCommas } from '../util';
 
 describe('getElement()', () => {
   it('throws error when element not found', () => {
@@ -141,4 +141,9 @@ test('twoTuple() works', () => {
 test('isDeepEqual() works', () => {
   expect(isDeepEqual({a: 1}, {a: 1})).toBe(true);
   expect(isDeepEqual({a: 1}, {a: 2})).toBe(false);
+});
+
+describe('numberWithCommas() works', () => {
+  expect(numberWithCommas(1234)).toBe('1,234');
+  expect(numberWithCommas(5.2341)).toBe('5.2341');
 });

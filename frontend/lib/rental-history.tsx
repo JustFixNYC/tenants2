@@ -19,6 +19,7 @@ import { AddressAndBoroughField } from './address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from './address-confirmation';
 import { getBoroughChoiceLabels, BoroughChoice } from '../../common-data/borough-choices';
 import { ClearSessionButton } from './clear-session-button';
+import { OutboundLink } from './google-analytics';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -176,8 +177,9 @@ function RentalHistoryConfirmation(): JSX.Element {
       <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
-        <li><a href="http://metcouncilonhousing.org/help_and_answers" target="_blank">MetCouncil on Housing</a></li>
-        <li><a href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</a></li>
+      <li><OutboundLink href="http://metcouncilonhousing.org/campaigns_pages/rent_history_0" target="_blank">Met Council on Housing</OutboundLink>
+          {' '}(<OutboundLink href="http://metcouncilonhousing.org/Rent_History_Spanish" target="_blank">en español</OutboundLink>)</li>
+        <li><OutboundLink href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</OutboundLink></li>
       </ul>
     </Page>
   );

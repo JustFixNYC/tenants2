@@ -27,7 +27,7 @@ export function createMockFetch(): MockFetch {
   window.fetch = mock;
   return Object.assign(mock, {
     mockReturnJson(this: jest.Mock, result: any) {
-      this.mockResolvedValue({ json: () => Promise.resolve(result) });
+      this.mockResolvedValue({ status: 200, json: () => Promise.resolve(result) });
     },
     resolvePromises(): Promise<void> {
       return new Promise((resolve) => {

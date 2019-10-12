@@ -12,6 +12,9 @@ module.exports = {
     "webpack-defined-globals.d.ts",
     "/frontend/vendor/",
   ],
+  "transformIgnorePatterns": [
+    "/node_modules/(?!@justfixnyc).+\\.js$"
+  ],
   "watchPathIgnorePatterns": [
     "<rootDir>/frontend/lib/queries/__generated__/",
   ],

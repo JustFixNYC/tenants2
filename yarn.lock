@@ -1032,6 +1032,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
+"@justfixnyc/geosearch-requester@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-0.0.4.tgz#1d31d52af1e06df2de27a38068dc146fe3e3ee27"
+  integrity sha512-hJ/yt8kEzt0c7W28HIlzIXbTjlF9DYAAnYzYCh78EejVglGVcSruYa6BjUQFaD87jlb/ldBdg6UJRi9i19+CBw==
+
 "@loadable/babel-plugin@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.10.0.tgz#9d2b83649c910404214ae0da4c4a84a2a3f583ed"

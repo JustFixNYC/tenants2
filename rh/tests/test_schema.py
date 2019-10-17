@@ -61,12 +61,17 @@ def test_rh_form_validates_data(db, graphql_client):
     assert _get_rh_info(graphql_client) is None
 
 
-def test_rh_form_with_email_works(db, graphql_client, mailoutbox):
+def test_rh_form_saves_data_to_session(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
     assert ob['session']['rentalHistoryInfo'] == {
         **VALID_RH_DATA,  # type:ignore
         "addressVerified": False}
+
+
+def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox):
+    ob = _exec_rh_form(graphql_client)
+    assert ob['errors'] == []
     result = json.loads(json.dumps(graphql_client.execute(
         RH_EMAIL_MUTATION)['data']['rhSendEmail']))
     assert result == {'errors': [], 'session': {'rentalHistoryInfo': None}}

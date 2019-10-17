@@ -27,6 +27,19 @@ query {
 }
 '''
 
+RH_EMAIL_MUTATION = """
+mutation {
+    rhSendEmail(input: {}) {
+        errors { field, messages }
+        session {
+            rentalHistoryInfo {
+                firstName
+            }
+        }
+    }
+}
+"""
+
 
 def _get_rh_info(graphql_client):
     return graphql_client.execute(RH_DATA_QUERY)['data']['session']['rentalHistoryInfo']
@@ -48,29 +61,21 @@ def test_rh_form_validates_data(db, graphql_client):
     assert _get_rh_info(graphql_client) is None
 
 
-def test_rh_form_works(db, graphql_client):
+def test_rh_form_with_email_works(db, graphql_client, mailoutbox):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
     assert ob['session']['rentalHistoryInfo'] == {
         **VALID_RH_DATA,  # type:ignore
         "addressVerified": False}
+    result = json.loads(json.dumps(graphql_client.execute(
+        RH_EMAIL_MUTATION)['data']['rhSendEmail']))
+    assert result == {'errors': [], 'session': {'rentalHistoryInfo': None}}
+    assert len(mailoutbox) == 1
 
 
 def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):
     result = json.loads(json.dumps(graphql_client.execute(
-        """
-        mutation {
-            rhSendEmail(input: {}) {
-                errors { field, messages }
-                session {
-                    rentalHistoryInfo {
-                        firstName
-                    }
-                }
-            }
-        }
-        """
-    )['data']['rhSendEmail']))
+        RH_EMAIL_MUTATION)['data']['rhSendEmail']))
     assert result == {'errors': [
         {
           "field": "__all__",

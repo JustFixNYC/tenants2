@@ -1,3 +1,5 @@
+import json
+
 from project.tests.util import get_frontend_query
 
 
@@ -5,7 +7,7 @@ VALID_RH_DATA = {
     "firstName": "Boop",
     "lastName": "Jones",
     "address": "123 Boop Way",
-    "borough": "Staten Island",
+    "borough": "STATEN_ISLAND",
     "apartmentNumber": "36C",
     "phoneNumber": "2120000000"
 }
@@ -31,39 +33,48 @@ def _get_rh_info(graphql_client):
 
 
 def _exec_rh_form(graphql_client, **input_kwargs):
-    return graphql_client.execute(
+    return json.loads(json.dumps(graphql_client.execute(
         get_frontend_query(f'RhFormMutation.graphql'),
         variables={'input': {
             **VALID_RH_DATA,
             **input_kwargs
         }}
-    )['data'][f'output']
+    )['data'][f'output']))
 
 
-def test_rh_form_validates_data(graphql_client):
+def test_rh_form_validates_data(db, graphql_client):
     ob = _exec_rh_form(graphql_client, firstName='')
     assert len(ob['errors']) > 0
-    assert _get_rh_info is None
+    assert _get_rh_info(graphql_client) is None
 
 
-def test_rh_form_works(graphql_client):
+def test_rh_form_works(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
-    assert ob['session']['rentalHistoryInfo'] == VALID_RH_DATA
-    assert _get_rh_info(graphql_client)['aptNumber'] == '36C'
-    assert _get_rh_info(graphql_client)['addressVerified'] is False
+    assert ob['session']['rentalHistoryInfo'] == {**VALID_RH_DATA, "addressVerified": False}
 
 
-def test_email_letter_works(db, graphql_client, mailoutbox):
-    result = graphql_client.execute(
+def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):
+    result = json.loads(json.dumps(graphql_client.execute(
         """
         mutation {
-            rhSendEmail(input: {recipients: [{email: "boop@jones.com"}]}) {
+            rhSendEmail(input: {}) {
                 errors { field, messages }
-                recipients
+                session {
+                    rentalHistoryInfo {
+                        firstName
+                    }
+                }
             }
         }
         """
-    )['data']['emailLetter']
-    assert result == {'errors': [], 'recipients': ['boop@jones.com']}
-    assert len(mailoutbox) == 1
+    )['data']['rhSendEmail']))
+    assert result == {'errors': [
+        {
+          "field": "__all__",
+          "messages": [
+            "You haven't completed all the previous steps yet."
+          ]
+        }
+      ], 'session': None}
+    assert len(mailoutbox) == 0

@@ -51,7 +51,9 @@ def test_rh_form_validates_data(db, graphql_client):
 def test_rh_form_works(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
-    assert ob['session']['rentalHistoryInfo'] == {**VALID_RH_DATA, "addressVerified": False}
+    assert ob['session']['rentalHistoryInfo'] == {
+        **VALID_RH_DATA,  # type:ignore
+        "addressVerified": False}
 
 
 def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):

@@ -10,7 +10,7 @@ export interface FacebookPixelAPI {
    * Track a custom event indicating that the user has completed our
    * onboarding process and signed up for an account.
    */
-  (cmd: 'track', event: 'CompleteRegistration'): void;
+  (cmd: 'trackCustom', event: 'NewUserSignup'): void;
 }
 
 declare global {

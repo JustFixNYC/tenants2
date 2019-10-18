@@ -11,7 +11,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
-import { properNoun } from '../util';
+import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink } from '../google-analytics';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
@@ -54,7 +54,6 @@ function calcPerUnit(value: number|null, data: DDOData): number {
 }
 
 function Indicator(props: {value: number, unit: string, pluralUnit?: string, verb?: string}) {
-  const num = new Intl.NumberFormat('en-US');
   const { value, unit } = props;
   const isSingular = value === 1;
   let pluralUnit = props.pluralUnit || `${unit}s`;
@@ -66,13 +65,14 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
   }
 
   return <>
-    {verb}{num.format(value)} {isSingular ? unit : pluralUnit}
+    {verb}{numberWithCommas(value)} {isSingular ? unit : pluralUnit}
   </>;
 }
 
 type CallToActionProps = {
   to: string,
   text: string,
+  isBeta?: boolean,
   className?: string
 };
 
@@ -90,13 +90,15 @@ type ActionCardProps = {
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
 
-function CallToAction({to, text, className}: CallToActionProps) {
+function CallToAction({to, text, isBeta, className}: CallToActionProps) {
   const isInternal = to[0] === '/';
+  const betaTag = isBeta ? <span className="jf-beta-tag"/> : null;
+  const content = <>{text}{betaTag}</>;
   if (isInternal) {
-    return <Link to={to} className={className}>{text}</Link>;
+    return <Link to={to} className={className}>{content}</Link>;
   }
   return <OutboundLink href={to} rel="noopener noreferrer" target="_blank" className={className}>
-    {text}
+    {content}
   </OutboundLink>;
 }
 
@@ -146,14 +148,14 @@ function ActionCard(props: ActionCardProps) {
         <div className="media">
           <div className="media-content">
             {props.title && <h3 className="title is-spaced is-size-4" {...props.titleProps}>
-              {props.imageStaticURL && <SquareImage size={48} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
+              {props.imageStaticURL && <SquareImage size={64} src={props.imageStaticURL} alt="" className="is-pulled-right jf-is-supertiny-only"/>}
               {props.title}
             </h3>}
             <ActionCardIndicators {...props} />
             {props.cta && <CallToAction {...props.cta} className={CTA_CLASS_NAME} />}
           </div>
           {props.imageStaticURL && <div className="media-right jf-is-hidden-supertiny">
-            <SquareImage size={96} className="is-marginless" src={props.imageStaticURL} alt="" />
+            <SquareImage size={128} className="is-marginless" src={props.imageStaticURL} alt="" />
           </div>}
         </div>
       </div>
@@ -204,9 +206,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           The majority of your landlord's properties are concentrated in {properNoun(data.portfolioTopBorough)}.
         </>
       ],
-      fallbackMessage: <>
-        Your landlord might own other buildings, too.
-      </>,
+      fallbackMessage: <> Your landlord might own other buildings, too. </>,
+      imageStaticURL: "frontend/img/ddo/network.svg",
       cta: {
         to: whoOwnsWhatURL(data.bbl),
         text: "Visit Who Owns What"
@@ -225,6 +226,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Landlord not responding? You can take action for free!
       </>,
+      imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
         to: Routes.locale.loc.latestStep,
         text: "Send a letter of complaint",
@@ -248,9 +250,11 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Going to court can help you get repairs.
       </>,
+      imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
-        text: "Sue your landlord"
+        text: "Sue your landlord",
+        isBeta: true
       }
     }
   },
@@ -271,6 +275,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Think your apartment may be rent-stabilized? Request its official records.
       </>,
+      imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
         to: "https://www.justfix.nyc/#rental-history",
         text: "Order rental history"
@@ -288,6 +293,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: <>
         Are you facing eviction? Learn how to respond and where to find help.
       </>,
+      imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
         to: "https://www.evictionfreenyc.org/",
         text: "Visit Eviction Free NYC"
@@ -377,19 +383,40 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
         query={DataDrivenOnboardingSuggestions}
         onSubmit={() => setAutoSubmit(false)}
       >
-        {(ctx, latestInput, latestOutput) => <>
-          <AddressAndBoroughField
-            key={props.location.search}
-            addressLabel="Enter your address and we'll give you some cool info."
-            hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
-            addressProps={ctx.fieldPropsFor('address')}
-            boroughProps={ctx.fieldPropsFor('borough')}
-            onChange={() => setAutoSubmit(true)}
-          />
-          <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
-          <NextButton label="Gimme some info" isLoading={ctx.isLoading} />
-          {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
-        </>}
+        {(ctx, latestInput, latestOutput) => {
+          const showHero = !latestInput.address;
+          const { isSafeModeEnabled } = appCtx.session;
+
+          return (
+            <section className={showHero ? "hero" : ""}>
+              <div className={showHero ? "hero-body has-text-centered" : ""}>
+                {showHero && <>
+                  <h1 className="title is-spaced">
+                    JustFix.nyc builds tools to help you fight displacement.
+                  </h1>
+                  <p className="subtitle">
+                    Enter your address to learn more.
+                  </p>
+                </>}
+                <div className={classnames("jf-ddo-searchbar", !isSafeModeEnabled && "level")}>
+                  <AddressAndBoroughField
+                    key={props.location.search}
+                    addressLabel="Enter your address to learn how you can fight displacement."
+                    renderAddressLabel={(label, props) =>
+                      <label {...props} className={showHero ? "jf-sr-only" : "label"}>{label}</label>}
+                    hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}
+                    addressProps={ctx.fieldPropsFor('address')}
+                    boroughProps={ctx.fieldPropsFor('borough')}
+                    onChange={() => setAutoSubmit(true)}
+                  />
+                  <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
+                  <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
+                </div>
+                {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
+              </div>
+            </section>
+          );
+        }}
       </QueryFormSubmitter>
     </Page>
   );

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.2 (81672) - https://sketch.com -->
+    <title>Legal Scales Icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Legal-Scales-Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M100.75,146 L100.75,36.5457612" id="Line-2" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="square"></path>
+        <polyline id="Line-3" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round" points="113.596154 17.5 138.183714 11.1830378 140.552204 10.5745325 162.25 5"></polyline>
+        <polyline id="Line-3-Copy" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round" points="35.75 37.5 62.3045655 30.6776808 64.8625345 30.0204951 88.2961538 24"></polyline>
+        <path d="M35.75,39.5 L50.25,94" id="Line-4" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round"></path>
+        <path d="M19.75,39.5 L34.25,94" id="Line-4-Copy" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round" transform="translate(27.250000, 67.000000) scale(-1, 1) translate(-27.250000, -67.000000) "></path>
+        <path d="M36.75,133.222222 C50.5571187,133.222222 61.75,120.403561 61.75,108.222222 C61.75,107.722222 11.75,108.222222 11.75,108.222222 C11.75,120.363008 22.9428813,133.222222 36.75,133.222222 Z" id="Oval" stroke="#363636" stroke-width="8"></path>
+        <path d="M162.75,6 L177.25,60.5" id="Line-4" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round"></path>
+        <path d="M146.75,6 L161.25,60.5" id="Line-4-Copy" stroke="#363636" stroke-width="8" fill="#D8D8D8" stroke-linecap="round" transform="translate(154.250000, 33.500000) scale(-1, 1) translate(-154.250000, -33.500000) "></path>
+        <path d="M163.75,99.7222222 C177.557119,99.7222222 188.75,86.9035614 188.75,74.7222222 C188.75,74.2222222 138.75,74.7222222 138.75,74.7222222 C138.75,86.863008 149.942881,99.7222222 163.75,99.7222222 Z" id="Oval" stroke="#363636" stroke-width="8"></path>
+        <path d="" id="Path" stroke="#363636" stroke-width="8" fill="#D8D8D8"></path>
+        <path d="" id="Path-2" stroke="#363636" stroke-width="8" fill="#D8D8D8"></path>
+        <path d="" id="Path-3" stroke="#363636" stroke-width="8" fill="#D8D8D8"></path>
+        <circle id="Oval" stroke="#363636" stroke-width="8" cx="100.75" cy="21.25" r="12.5"></circle>
+        <path d="M47.875,151 L47.875,168 L153.625,168 L153.625,151 L47.875,151 Z" id="Rectangle" stroke="#363636" stroke-width="8"></path>
+    </g>
+</svg>

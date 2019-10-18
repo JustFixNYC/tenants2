@@ -191,3 +191,18 @@ export function properNoun(text: string): string {
     `${word.slice(0, 1).toUpperCase()}${word.slice(1).toLowerCase()}`
   ).join(' ');
 }
+
+/**
+ * Return the given number with comma separators for improved readability.
+ * 
+ * The implementation was taken from https://stackoverflow.com/a/2901298.
+ * 
+ * Note that `Intl.NumberFormat` can do the same thing, but it's not
+ * available in older browsers, and polyfilling all of `Intl` would
+ * potentially add a lot of weight to our JS bundle.
+ */
+export function numberWithCommas(x: number): string {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}

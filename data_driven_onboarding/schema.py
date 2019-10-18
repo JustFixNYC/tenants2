@@ -8,7 +8,7 @@ import graphene
 
 from project import schema_registry, geocoding
 from project.util.streaming_json import generate_json_rows
-from onboarding.forms import get_geocoding_search_text
+from project.util.address_form_fields import get_geocoding_search_text
 
 
 MY_DIR = Path(__file__).parent.resolve()

@@ -49,7 +49,7 @@ query {
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
-        'query { session { onboardingStep1 { aptNumber } } }'
+        'query { session { onboardingStep1 { aptNumber, addressVerified } } }'
     )['data']['session']['onboardingStep1']
 
 
@@ -76,6 +76,7 @@ def test_onboarding_step_1_works(graphql_client):
     assert ob['session']['onboardingStep1'] == VALID_STEP_DATA[1]
     assert graphql_client.request.session[session_key_for_step(1)]['apt_number'] == '3B'
     assert _get_step_1_info(graphql_client)['aptNumber'] == '3B'
+    assert _get_step_1_info(graphql_client)['addressVerified'] is False
 
 
 @pytest.mark.django_db
@@ -156,7 +157,7 @@ def test_onboarding_session_info_is_fault_tolerant(graphql_client):
     key = session_key_for_step(1)
     graphql_client.request.session[key] = {'lol': 1}
 
-    with patch('onboarding.schema.logger') as m:
+    with patch('project.util.django_graphql_session_forms.logger') as m:
         assert _get_step_1_info(graphql_client) is None
         m.exception.assert_called_once_with(f'Error deserializing {key} from session')
         assert key not in graphql_client.request.session

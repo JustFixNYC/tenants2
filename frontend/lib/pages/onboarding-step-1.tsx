@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useContext } from 'react';
 import Page from '../page';
 import { OnboardingRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -11,14 +10,13 @@ import { assertNotNull, exactSubsetOrDefault } from '../util';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
-import { withAppContext, AppContextType } from '../app-context';
-import { LogoutMutation } from '../queries/LogoutMutation';
-import { bulmaClasses } from '../bulma';
-import { getBoroughChoiceLabels, isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
-import { ProgressiveEnhancement } from '../progressive-enhancement';
+import { withAppContext, AppContextType, AppContext } from '../app-context';
+import { isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
 import { OutboundLink } from '../google-analytics';
 import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
+import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
+import { ClearSessionButton } from '../clear-session-button';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -40,10 +38,6 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
       </div>
     </div>
   );  
-}
-
-export function areAddressesTheSame(a: string, b: string): boolean {
-  return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
 
 export function PrivacyInfoModal(): JSX.Element {
@@ -71,22 +65,10 @@ export function PrivacyInfoModal(): JSX.Element {
   );
 }
 
-export const ConfirmAddressModal = withAppContext((props: AppContextType & { toStep2: string }): JSX.Element => {
-  const onboardingStep1 = props.session.onboardingStep1 || BlankOnboardingStep1Input;
-  let borough = '';
-
-  if (isBoroughChoice(onboardingStep1.borough)) {
-    borough = getBoroughChoiceLabels()[onboardingStep1.borough];
-  }
-
-  return (
-    <Modal title="Is this your address?" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
-      <p>{onboardingStep1.address}, {borough}</p>
-      <Link to={props.toStep2} className="button is-primary is-fullwidth">Yes!</Link>
-      <Link {...ctx.getLinkCloseProps()} className="button is-text is-fullwidth">No, go back.</Link>
-    </>} />
-  );
-});
+function Step1ConfirmAddressModal(props: { toStep2: string }): JSX.Element {
+  const addrInfo = useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
+  return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
+}
 
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
@@ -141,41 +123,6 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
     );
   }
 
-  renderHiddenLogoutForm(onSuccessRedirect: string) {
-    return (
-      <SessionUpdatingFormSubmitter
-        mutation={LogoutMutation}
-        initialState={{}}
-        onSuccessRedirect={onSuccessRedirect}
-      >{(ctx) => (
-        // If onboarding is explicitly cancelled, we want to flush the
-        // user's session to preserve their privacy, so that any
-        // sensitive data they've entered is removed from their browser.
-        // Since it's assumed they're not logged in anyways, we can do
-        // this by "logging out", which also clears all session data.
-        //
-        // This is complicated by the fact that we want the cancel
-        // button to appear as though it's in the main form, while
-        // actually submitting a completely different form. HTML5
-        // supports this via the <button> element's "form" attribute,
-        // but not all browsers support that, so we'll do something
-        // a bit clever/kludgy here to work around that.
-        <ProgressiveEnhancement
-          disabled={this.props.disableProgressiveEnhancement}
-          renderBaseline={() => <button type="submit" className="button is-light">Cancel signup</button>}
-          renderEnhanced={() => {
-            if (!this.cancelControlRef.current) throw new Error('cancelControlRef must exist!');
-            return ReactDOM.createPortal(
-              <button type="button" onClick={() => ctx.submit()} className={bulmaClasses('button', 'is-light', 'is-medium', {
-                'is-loading': ctx.isLoading
-              })}>Cancel signup</button>,
-              this.cancelControlRef.current
-            )
-          }} />
-      )}</SessionUpdatingFormSubmitter>
-    );
-  }
-
   render() {
     const { routes } = this.props;
 
@@ -186,23 +133,25 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={s => exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)}
-            onSuccessRedirect={(output, input) => {
-              const successSession = assertNotNull(output.session);
-              const successInfo = assertNotNull(successSession.onboardingStep1);
-              if (areAddressesTheSame(successInfo.address, input.address) &&
-                  successInfo.borough === input.borough) {
-                return routes.step2;
-              }
-              return routes.step1ConfirmAddressModal;
-            }}
+            onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
+              input,
+              resolved: assertNotNull(assertNotNull(output.session).onboardingStep1),
+              nextStep: routes.step2,
+              confirmation: routes.step1ConfirmAddressModal
+            })}
           >
             {this.renderForm}
           </SessionUpdatingFormSubmitter>
         </div>
 
-        {this.renderHiddenLogoutForm(this.props.toCancel)}
+        <ClearSessionButton
+          to={this.props.toCancel}
+          portalRef={this.cancelControlRef}
+          disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
+          label="Cancel signup"
+        />
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
-          <ConfirmAddressModal toStep2={routes.step2} />
+          <Step1ConfirmAddressModal toStep2={routes.step2} />
         )} />
       </Page>
     );

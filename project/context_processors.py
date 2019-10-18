@@ -52,16 +52,14 @@ fullstory_snippet = FullstorySnippet()
 
 class FacebookPixelSnippet(JsSnippetContextProcessor):
     template = '''
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window,document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '%(FACEBOOK_PIXEL_ID)s');
-    fbq('track', 'PageView');
+    fbq('set','agent','tmgoogletagmanager', '%(FACEBOOK_PIXEL_ID)s');
+    fbq('track', "PageView");
     '''
 
     var_name = 'FACEBOOK_PIXEL_SNIPPET'
@@ -81,6 +79,20 @@ class FacebookPixelSnippet(JsSnippetContextProcessor):
 
 
 facebook_pixel_snippet = FacebookPixelSnippet()
+
+
+def facebook_pixel_noscript_snippet(request) -> Dict[str, str]:
+    if not settings.FACEBOOK_PIXEL_ID:
+        return {}
+    url = f'https://www.facebook.com/tr?id={settings.FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1'
+    snippet = dedent(
+        f'''
+        <noscript>
+        <img height="1" width="1" style="display:none" src="{url}" />
+        </noscript>
+        '''
+    )
+    return {'FACEBOOK_PIXEL_NOSCRIPT_SNIPPET': SafeString(snippet)}
 
 
 class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
@@ -130,8 +142,20 @@ class GoogleTagManagerSnippet(JsSnippetContextProcessor):
     GTM_ORIGIN = 'https://www.googletagmanager.com'
 
     csp_updates = {
-        'IMG_SRC': GTM_ORIGIN,
-        'SCRIPT_SRC': GTM_ORIGIN,
+        'IMG_SRC': [
+            GTM_ORIGIN,
+            # https://www.quora.com/What-is-stats-g-doubleclick-net
+            'https://stats.g.doubleclick.net',
+            # It looks like this is likely for Google Remarketing:
+            # https://support.google.com/analytics/answer/2611268?hl=en
+            'https://www.google.com',
+        ],
+        'SCRIPT_SRC': [
+            GTM_ORIGIN,
+            # Our GTM injects YouTube's iframe API: https://stackoverflow.com/q/37384775
+            'https://www.youtube.com',
+            'https://s.ytimg.com',
+        ],
     }
 
     def is_enabled(self):

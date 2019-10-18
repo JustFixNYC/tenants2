@@ -94,9 +94,14 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
         <h1 className="title">Sign in</h1>
         <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
         <br/>
-        <p>
-          If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
-        </p>
+        <div className="content">
+          <p>
+            If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
+          </p>
+          <p>
+            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.home}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
+          </p>
+        </div>
       </div>
     </Page>
   );

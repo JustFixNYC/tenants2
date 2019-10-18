@@ -32,12 +32,28 @@ import { HarassmentCaseHistory } from './pages/hp-action-case-history';
 import { BigList } from './big-list';
 import { EmailAttachmentForm } from './email-attachment';
 import { EmailHpActionPdfMutation } from './queries/EmailHpActionPdfMutation';
+import { CustomerSupportLink } from './customer-support-link';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
+
+function Disclaimer(): JSX.Element {
+  return (
+    <div className="notification is-warning">
+      <p>
+        Please note that this is a new service. It is still <strong>undergoing final testing</strong> before its official release.
+      </p>
+      <p>
+        Should you encounter any bugs, glitches, lack of functionality or
+other problems, please let us know at <CustomerSupportLink /> so we can fix them.
+      </p>
+    </div>
+  );
+}
 
 function HPActionSplash(): JSX.Element {
   return (
     <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding" withHeading="big" className="content">
+      <Disclaimer/>
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free, secure, and confidential.</em></p>
@@ -53,6 +69,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
 
   return (
     <Page title={title} withHeading="big" className="content">
+      <Disclaimer/>
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>

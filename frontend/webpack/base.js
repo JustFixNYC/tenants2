@@ -53,6 +53,8 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
                                  ? '[name].[contenthash].bundle.js'
                                  : '[name].bundle.js';
 
+const excludeMostOfNodeModules = /node_modules[\/\\](?!@justfixnyc)/;
+
 /** These options are specific to babel-loader. */
 const babelLoaderOptions = {
   cacheDirectory: true,
@@ -155,7 +157,9 @@ function createNodeScriptConfig(entry, filename) {
     entry,
     devtool: IS_PRODUCTION ? 'source-map' : DEV_SOURCE_MAP,
     mode: MODE,
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+      whitelist: /^@justfixnyc/
+    })],
     output: {
       filename,
       path: path.resolve(BASE_DIR),
@@ -165,8 +169,8 @@ function createNodeScriptConfig(entry, filename) {
       rules: [
         convertSVGsToReactComponents,
         {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
+          test: /\.[jt]sx?$/,
+          exclude: excludeMostOfNodeModules,
           use: [
             { loader: 'babel-loader', options: {...nodeBabelOptions, ...babelLoaderOptions} },
           ]
@@ -229,8 +233,8 @@ const webConfig = {
     rules: [
       convertSVGsToReactComponents,
       {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
+        test: /\.[jt]sx?$/,
+        exclude: excludeMostOfNodeModules,
         use: [
           { loader: 'babel-loader', options: {...webBabelOptions, ...babelLoaderOptions} },
         ]

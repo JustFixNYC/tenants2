@@ -8,7 +8,7 @@ import { bulmaClasses } from './bulma';
 import { awesomeFetch, createAbortController } from './fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from './key-codes';
-import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from './geo-autocomplete-base';
+import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from '@justfixnyc/geosearch-requester';
 
 // https://stackoverflow.com/a/4565120
 function isChrome(): boolean {

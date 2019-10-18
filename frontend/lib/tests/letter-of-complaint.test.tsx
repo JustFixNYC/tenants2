@@ -14,7 +14,7 @@ describe('latest step redirector', () => {
   it('returns welcome if user is logged in', () => {
     expect(tester.getLatestStep({
       phoneNumber: '5551234567'
-    })).toBe(Routes.locale.loc.home);
+    })).toBe(Routes.locale.loc.welcome);
   });
 
   it('returns confirmation page if letter request has been submitted', () => {

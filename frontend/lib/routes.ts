@@ -109,7 +109,7 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
     splash: `${prefix}/splash`,
-    home: `${prefix}/welcome`,
+    welcome: `${prefix}/welcome`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     yourLandlord: `${prefix}/your-landlord`,

@@ -44,7 +44,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
 const LetterOfComplaintIssuesRoutes = () => (
   <IssuesRoutes
     routes={Routes.locale.loc.issues}
-    toBack={Routes.locale.loc.home}
+    toBack={Routes.locale.loc.welcome}
     toNext={Routes.locale.loc.accessDates}
   />
 );
@@ -56,7 +56,7 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
     path: Routes.locale.loc.splash, exact: true, component: LocSplash,
     isComplete: (s) => !!s.phoneNumber
   },{
-    path: Routes.locale.loc.home, exact: true, component: Welcome
+    path: Routes.locale.loc.welcome, exact: true, component: Welcome
   }],
   stepsToFillOut: [
     { path: Routes.locale.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },

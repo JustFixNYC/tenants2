@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
 import loadable, { loadableReady } from '@loadable/component';
 
 import GraphQlClient from './graphql-client';
@@ -24,6 +24,7 @@ import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
 import HelpPage from './pages/help-page';
 import { HelmetProvider } from 'react-helmet-async';
+import { createRedirectWithSearch } from './redirect-util';
 
 
 export interface AppProps {
@@ -236,7 +237,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       <Switch location={location}>
         <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
         <Route path={Routes.locale.help} component={HelpPage} />
-        <Route path={Routes.locale.legacyDataDrivenOnboarding} render={props => <p>TODO REDIRECT TO HOME</p>} />
+        <Route path={Routes.locale.legacyDataDrivenOnboarding} exact component={createRedirectWithSearch(Routes.locale.home)} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.locale.logout} exact component={LogoutPage} />

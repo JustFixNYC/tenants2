@@ -99,7 +99,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
             If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
           </p>
           <p>
-            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.home}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
+            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.loc.splash}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
           </p>
         </div>
       </div>

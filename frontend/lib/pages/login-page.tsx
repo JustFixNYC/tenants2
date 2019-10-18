@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Page from '../page';
 import Routes, { routeMap } from '../routes';
@@ -7,13 +7,14 @@ import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { RouteComponentProps } from 'react-router';
-import { withAppContext, AppContextType } from '../app-context';
+import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
 import { getPostOrQuerystringVar } from '../querystring';
 import { Link } from 'react-router-dom';
+import { getPostOnboardingURL } from '../signup-intent';
 
 const NEXT = 'next';
 
@@ -83,8 +84,9 @@ export function absolutifyURLToOurOrigin(url: string, origin: string): string {
 }
 
 const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
+  const appContext = useContext(AppContext);
   let next = absolutifyURLToOurOrigin(
-    getPostOrQuerystringVar(props, NEXT) || Routes.locale.home,
+    getPostOrQuerystringVar(props, NEXT) || getPostOnboardingURL(appContext.session.onboardingInfo),
     props.server.originURL
   );
 

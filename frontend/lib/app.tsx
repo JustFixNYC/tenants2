@@ -70,11 +70,7 @@ interface AppState {
   session: AllSessionInfo;
 }
 
-const LoadableDataDrivenOnboardingRoutes = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableIndexPage = loadable(() => friendlyLoad(import('./pages/index-page')), {
+const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
   fallback: <LoadingPage />
 });
 
@@ -238,11 +234,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   renderRoutes(location: Location<any>): JSX.Element {
     return (
       <Switch location={location}>
-        <Route path={Routes.locale.home} exact>
-          <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
-        </Route>
+        <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
         <Route path={Routes.locale.help} component={HelpPage} />
-        <Route path={Routes.locale.dataDrivenOnboarding} component={LoadableDataDrivenOnboardingRoutes} />
+        <Route path={Routes.locale.legacyDataDrivenOnboarding} render={props => <p>TODO REDIRECT TO HOME</p>} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.locale.logout} exact component={LogoutPage} />

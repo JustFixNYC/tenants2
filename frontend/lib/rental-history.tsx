@@ -10,7 +10,7 @@ import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
 import { exactSubsetOrDefault, assertNotNull } from './util';
 import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
-import { AppContext } from './app-context';
+import { AppContext, AppContextType} from './app-context';
 import { Link, Route } from 'react-router-dom';
 import { RhFormInput } from './queries/globalTypes';
 import { RhSendEmailMutation } from './queries/RhSendEmailMutation';
@@ -59,10 +59,8 @@ function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
   return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
 }
 
-function RentalHistoryForm(): JSX.Element {
-  const appContext = useContext(AppContext);
+function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
   const userData = appContext.session;
-
   const UserRhFormInput: RhFormInput = (userData && userData.userId ?
     {
       "firstName": ( userData.firstName || "" ),
@@ -73,6 +71,13 @@ function RentalHistoryForm(): JSX.Element {
       "phoneNumber": (userData.phoneNumber || "")
     } :
     BlankRhFormInput);
+
+  return UserRhFormInput;
+}
+
+function RentalHistoryForm(): JSX.Element {
+
+    const UserRhFormInput = GenerateUserRhFormInput(useContext(AppContext));
 
     const cancelControlRef = useRef(null);
   
@@ -88,8 +93,7 @@ function RentalHistoryForm(): JSX.Element {
           nextStep: Routes.locale.rh.preview,
           confirmation: Routes.locale.rh.formAddressModal
         })}
-      >
-      {(ctx) => 
+      >{(ctx) => 
         <>
           <div className="columns is-mobile">
             <div className="column">

@@ -20,6 +20,7 @@ import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from './
 import { getBoroughChoiceLabels, BoroughChoice } from '../../common-data/borough-choices';
 import { ClearSessionButton } from './clear-session-button';
 import { OutboundLink } from './google-analytics';
+import { CustomerSupportLink } from './customer-support-link';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -173,7 +174,7 @@ function RentalHistoryConfirmation(): JSX.Element {
   return (
     <Page title="Your rent history has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
-      <p>You should receive your rent history in the mail in about a week. If you have more questions, please email us at <a href="mailto:support@justfix.nyc" target="_blank" rel="noopener noreferrer">support@justfix.nyc</a>.</p>
+      <p>You should receive your rent history in the mail in about a week. If you have more questions, please email us at <CustomerSupportLink />.</p>
       <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>

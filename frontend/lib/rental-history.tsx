@@ -66,7 +66,12 @@ function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
 
 function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
   const userData = appContext.session;
-  const UserRhFormInput: RhFormInput = (userData && userData.userId ?
+  
+  if (!userData || !userData.userId) {
+    return BlankRhFormInput;
+  }
+
+  const UserRhFormInput: RhFormInput = 
     {
       "firstName": ( userData.firstName || "" ),
       "lastName": ( userData.lastName || "" ),
@@ -74,8 +79,7 @@ function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
       "borough": ( (userData.onboardingInfo && userData.onboardingInfo.borough) || "" ),
       "apartmentNumber": (userData.onboardingInfo && userData.onboardingInfo.aptNumber || "") ,
       "phoneNumber": (userData.phoneNumber || "")
-    } :
-    BlankRhFormInput);
+    };
 
   return UserRhFormInput;
 }

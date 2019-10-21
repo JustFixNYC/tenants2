@@ -1,11 +1,9 @@
 from django.core.mail import send_mail
 from project import common_data
 
+from project.settings import env
+
 RH_EMAIL_TEXT = common_data.load_json("rh.json")
-
-DHCR_EMAIL_SENDER_ADDRESS = 'support@justfix.nyc'
-
-DHCR_EMAIL_RECIPIENT_ADDRESSES = ['rentinfo@nyyshcr.org', 'e8x9f4k1h2i3e6p3@justfixnyc.slack.com']
 
 
 def send_email_to_dhcr(first_name, last_name, address, borough, apartment_number):
@@ -23,9 +21,9 @@ def send_email_to_dhcr(first_name, last_name, address, borough, apartment_number
         new_line +
         RH_EMAIL_TEXT['DHCR_EMAIL_SIGNATURE'] + new_line + full_name,
 
-        DHCR_EMAIL_SENDER_ADDRESS,
+        env.DHCR_EMAIL_SENDER_ADDRESS,
 
-        DHCR_EMAIL_RECIPIENT_ADDRESSES,
+        env.DHCR_EMAIL_RECIPIENT_ADDRESSES.split(","),
 
         fail_silently=False,
     )

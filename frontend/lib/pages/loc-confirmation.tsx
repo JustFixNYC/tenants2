@@ -10,6 +10,7 @@ import { PdfLink } from '../pdf-link';
 import { ProgressiveLoadableConfetti } from '../confetti-loadable';
 import { EmailAttachmentForm } from '../email-attachment';
 import { EmailLetterMutation } from '../queries/EmailLetterMutation';
+import { BigList } from '../big-list';
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
@@ -26,12 +27,12 @@ function WeWillMailLetterStatus(props: {
       <p>We've received your request to mail a letter of complaint on <strong>{dateStr}</strong>. We'll text you a link to your <b>USPS Certified Mail<sup>&reg;</sup></b> tracking number once we have it!</p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
-      <ol>
+      <BigList>
         <li>We’ll mail your letter via <b>USPS Certified Mail<sup>&reg;</sup></b> and provide a tracking number via text message.</li>
         <li>Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided.</li>
         <li>While you wait, you should <strong>document your issues with photos</strong> and <strong>call 311 to request an HPD inspection.</strong></li>
         <li>We will continue to follow up with you via text message. If your landlord does not follow through, you now have better legal standing to sue your landlord. <strong>This is called an HP Action proceeding.</strong></li>
-      </ol>
+      </BigList>
     </>
   );
 }
@@ -42,19 +43,20 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
       <p>Here is a link to a PDF of your saved letter:</p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
-      <ol>
+      <BigList>
         <li>Print out your letter and <strong>mail it via Certified Mail</strong> - this allows you to prove that it was sent to your landlord.</li>
         <li>Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided.</li>
         <li>While you wait, you should <strong>document your issues with photos</strong> and <strong>call 311 to request an HPD inspection.</strong></li>
         <li>If your landlord does not follow through, you now have better legal standing to sue your landlord. <strong>This is called an HP Action proceeding.</strong></li>
-      </ol>
+      </BigList>
     </>
   );
 }
 
 const knowYourRightsList = (
   <ul>
-    <li><OutboundLink href="http://metcouncilonhousing.org/help_and_answers" target="_blank">MetCouncil on Housing</OutboundLink></li>
+    <li><OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs" target="_blank">Met Council on Housing</OutboundLink>
+      {' '}(<OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs_spanish" target="_blank">en español</OutboundLink>)</li>
     <li><OutboundLink href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</OutboundLink></li>
   </ul>
 );
@@ -73,10 +75,9 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
   }
 
   return (
-    <Page title={letterConfirmationPageTitle}>
+    <Page title={letterConfirmationPageTitle} withHeading="big" >
       <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <div className="content">
-        <h1 className="title">{letterConfirmationPageTitle}</h1>
         {letterStatus}
         <h2>Email a copy of your letter to yourself or someone you trust</h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />

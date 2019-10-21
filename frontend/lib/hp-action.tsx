@@ -180,7 +180,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
 
   return (
-    <Page title="Your HP Action packet is ready!" withHeading className="content">
+    <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
       <p>Here is all of your HP Action paperwork, including instructions for how to navigate the process:</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
       <h2>What happens next?</h2>
@@ -193,10 +193,10 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
       <EmailAttachmentForm mutation={EmailHpActionPdfMutation} noun="HP Action packet" />
       <h2>Want to read more about your rights?</h2>
       <ul>
-        <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>
-        <li><OutboundLink href="https://www.lawhelpny.org/nyc-housing-repairs" target="_blank">LawHelpNY</OutboundLink></li>
         <li><OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs" target="_blank">Met Council on Housing</OutboundLink>
           {' '}(<OutboundLink href="http://metcouncilonhousing.org/help_and_answers/how_to_get_repairs_spanish" target="_blank">en español</OutboundLink>)</li>
+        <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>
+        <li><OutboundLink href="https://www.lawhelpny.org/nyc-housing-repairs" target="_blank">LawHelpNY</OutboundLink></li>
       </ul>
     </Page>
   );

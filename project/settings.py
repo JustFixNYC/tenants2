@@ -67,6 +67,9 @@ EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
 
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 
+DHCR_EMAIL_SENDER_ADDRESS = env.DHCR_EMAIL_SENDER_ADDRESS
+DHCR_EMAIL_RECIPIENT_ADDRESSES = env.DHCR_EMAIL_RECIPIENT_ADDRESSES
+
 NAVBAR_LABEL = env.NAVBAR_LABEL
 
 USE_LAMBDA_HTTP_SERVER = env.USE_LAMBDA_HTTP_SERVER
@@ -101,6 +104,7 @@ INSTALLED_APPS = [
     'findhelp.apps.FindhelpConfig',
     'data_requests.apps.DataRequestsConfig',
     'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
+    'rh.apps.RhConfig',
 ]
 
 MIDDLEWARE = [

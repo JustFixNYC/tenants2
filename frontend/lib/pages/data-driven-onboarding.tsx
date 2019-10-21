@@ -277,7 +277,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
-        to: "https://www.justfix.nyc/#rental-history",
+        to: Routes.locale.rh.splash,
         text: "Order rental history"
       }
     };

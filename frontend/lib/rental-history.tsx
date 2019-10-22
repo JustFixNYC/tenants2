@@ -52,7 +52,7 @@ function RentalHistoryWelcome(): JSX.Element {
     );
   }
 
-/** A confirmation modal for when a user's inputted address isn't verified by our geocoder */
+/** This function renders a confirmation modal for when a user's inputted address isn't verified by our geocoder. */
 
 function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
   const addrInfo = useContext(AppContext).session.rentalHistoryInfo || BlankRhFormInput;
@@ -60,8 +60,8 @@ function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
 }
 
 /** 
- * Generates a RhFormInput object based on any data that a logged-in user may have already inputted
- * If there is no pre-existing user data, we return a blank RhFormInput object 
+ * This function generates a RhFormInput object based on any data that a logged-in user may have already inputted.
+ * If there is no pre-existing user data, we return a blank RhFormInput object. 
  */
 
 function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {

@@ -24,7 +24,6 @@ import { CustomerSupportLink } from './customer-support-link';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
-/* Rent history welcome page */
 function RentalHistoryWelcome(): JSX.Element {
     return (
       <Page title="Request your rent history">
@@ -60,7 +59,8 @@ function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
   return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
 }
 
-/** Generates a RhFormInput object based on any data that a logged-in user may have already inputted
+/** 
+ * Generates a RhFormInput object based on any data that a logged-in user may have already inputted
  * If there is no pre-existing user data, we return a blank RhFormInput object 
  */
 
@@ -83,8 +83,6 @@ function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
 
   return UserRhFormInput;
 }
-
-/* Rent history form page */
 
 function RentalHistoryForm(): JSX.Element {
 
@@ -139,8 +137,6 @@ function RentalHistoryForm(): JSX.Element {
   );
 }
 
-/* Rent history preview page */
-
 function RentalHistoryPreview(): JSX.Element {
   const appContext = useContext(AppContext);
   const formData = appContext.session.rentalHistoryInfo;
@@ -186,8 +182,6 @@ function RentalHistoryPreview(): JSX.Element {
     </Page>
   );
 }
-
-/* Rent history confirmation page */
 
 function RentalHistoryConfirmation(): JSX.Element {
   return (

@@ -266,8 +266,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     DHCR_EMAIL_SENDER_ADDRESS: str = 'support@justfix.nyc'
 
     # Recipient email addresses that we send a user's rental history request to.
-    DHCR_EMAIL_RECIPIENT_ADDRESSES: str = ('rentinfo@nyshcr.org,'
-                                           'e8x9f4k1h2i3e6p3@justfixnyc.slack.com')
+    DHCR_EMAIL_RECIPIENT_ADDRESSES: str = 'rentinfo@nyshcr.org'
 
     # An optional label to show in the site's navbar and other communications,
     # next to "JustFix.nyc". This can be useful to e.g. distinguish a production

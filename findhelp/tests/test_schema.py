@@ -1,4 +1,3 @@
-import json
 import pytest
 
 from .test_models import create_sample_tenant_resources
@@ -10,7 +9,7 @@ class TestTenantResources:
         self.graphql_client = graphql_client
 
     def query(self, latitude, longitude):
-        return json.loads(json.dumps(self.graphql_client.execute(
+        return self.graphql_client.execute(
             """
             query MyQuery($latitude: Float!, $longitude: Float!) {
                 tenantResources(latitude: $latitude, longitude: $longitude) {
@@ -22,7 +21,7 @@ class TestTenantResources:
             }
             """,
             variables={'latitude': latitude, 'longitude': longitude}
-        )))['data']['tenantResources']
+        )['data']['tenantResources']
 
     def test_it_works(self, db, fake_geocoder):
         create_sample_tenant_resources(db, fake_geocoder)

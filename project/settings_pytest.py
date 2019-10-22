@@ -43,7 +43,7 @@ CELERY_TASK_ALWAYS_EAGER = True
 DEBUG_DATA_DIR = ''
 
 DHCR_EMAIL_SENDER_ADDRESS = 'support@justfix.nyc'
-DHCR_EMAIL_RECIPIENT_ADDRESSES = ''
+DHCR_EMAIL_RECIPIENT_ADDRESSES = ['boop@fakedhcr.org']
 
 email_config = dj_email_url.parse('dummy:')
 vars().update(email_config)

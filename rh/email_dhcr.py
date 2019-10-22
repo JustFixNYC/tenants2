@@ -23,7 +23,7 @@ def send_email_to_dhcr(first_name, last_name, address, borough, apartment_number
 
         env.DHCR_EMAIL_SENDER_ADDRESS,
 
-        env.DHCR_EMAIL_RECIPIENT_ADDRESSES.split(","),
+        env.DHCR_EMAIL_RECIPIENT_ADDRESSES,
 
         fail_silently=False,
     )

@@ -1,4 +1,5 @@
 import re
+import json
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Iterator
@@ -81,6 +82,14 @@ class TestGraphQLClient(Client):
 
     def execute(self, *args, **kwargs):
         result = super().execute(*args, **kwargs)
+
+        # By default, Graphene returns OrderedDict instances, which
+        # pytest provides very hard-to-read diffs for if assertions fail.
+        # Since we never rely on the ordered nature of the dicts anyways,
+        # we'll just convert them to standard dicts to make test failure
+        # output easier to read.
+        result = json.loads(json.dumps(result))
+
         assert 'errors' not in result
         return result
 
@@ -99,6 +108,7 @@ def http_request(rf) -> HttpRequest:
 
 
 @pytest.fixture
+@pytest.mark.django_db
 def graphql_client(http_request) -> TestGraphQLClient:
     '''
     This test fixture returns a Graphene test client that can be
@@ -106,6 +116,14 @@ def graphql_client(http_request) -> TestGraphQLClient:
     test client API, see:
 
         http://docs.graphene-python.org/en/latest/testing/
+
+    Note that this fixture requires the Django database fixture; strictly
+    speaking, it actually doesn't require a db, but in practice
+    almost all our GraphQL endpoints *do* rely on the db, and for
+    some reason testing those endpoints without the database
+    fixture unhelpfully hangs the test client (instead of throwing a helpful
+    exception, which is what usually happens). So we're just going to
+    *always* use the db fixture to prevent unhelpful hanging.
     '''
 
     # The following was helpful in writing this:

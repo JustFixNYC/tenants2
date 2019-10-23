@@ -121,7 +121,7 @@ function generateResponse(event: AppProps): LambdaResponse {
     statusCode: 200,
   };
   const extractor = new ChunkExtractor({
-    statsFile: path.join(process.cwd(), 'loadable-stats.json'),
+    statsFile: path.join(process.cwd(), 'frontend', 'static', 'frontend', 'loadable-stats.json'),
     publicPath: event.server.webpackPublicPathURL
   });
   const helmetContext: HelmetContext = {};

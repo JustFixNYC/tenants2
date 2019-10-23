@@ -196,7 +196,7 @@ function getWebPlugins() {
   const plugins = getCommonPlugins();
 
   plugins.push(new LoadablePlugin({
-    filename: path.join(BASE_DIR, 'loadable-stats.json'),
+    filename: 'loadable-stats.json',
     writeToDisk: true
   }));
 

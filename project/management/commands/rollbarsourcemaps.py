@@ -7,7 +7,7 @@ from django.conf import settings
 from project.justfix_environment import BASE_DIR
 from project.views import get_webpack_public_path_url
 
-LOADABLE_STATS_JSON = BASE_DIR / 'loadable-stats.json'
+LOADABLE_STATS_JSON = BASE_DIR / 'frontend' / 'static' / 'frontend' / 'loadable-stats.json'
 
 # https://docs.rollbar.com/docs/source-maps/#section-alternative-method-automatic-download
 ROLLBAR_SOURCEMAP_URL = "https://api.rollbar.com/api/1/sourcemap/download"

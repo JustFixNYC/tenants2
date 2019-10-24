@@ -401,7 +401,7 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
                 <div className={classnames("jf-ddo-searchbar", !isSafeModeEnabled && "level")}>
                   <AddressAndBoroughField
                     key={props.location.search}
-                    addressLabel="Enter your address to learn how you can fight displacement."
+                    addressLabel="Enter your address to see some recommended actions."
                     renderAddressLabel={(label, props) =>
                       <label {...props} className={showHero ? "jf-sr-only" : "label"}>{label}</label>}
                     hideBoroughField={appCtx.session.isSafeModeEnabled ? false : true}

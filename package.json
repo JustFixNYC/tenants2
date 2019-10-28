@@ -84,6 +84,7 @@
     "@types/react-aria-modal": "2.12.2",
     "@types/react-dom": "16.8.5",
     "@types/react-helmet": "5.0.9",
+    "@types/react-motion": "^0.0.29",
     "@types/react-router-dom": "4.3.3",
     "@types/react-transition-group": "2.0.14",
     "@types/smoothscroll-polyfill": "0.3.0",

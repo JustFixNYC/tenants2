@@ -9,6 +9,7 @@ import { FormContext } from '../form-context';
 import { whoOwnsWhatURL } from '../wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
+import TextLoop from "react-text-loop";
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
@@ -389,10 +390,23 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
           return (
             <section className={showHero ? "hero" : ""}>
-              <div className={showHero ? "hero-body has-text-centered" : ""}>
+              <div className={showHero ? "hero-body" : ""}>
                 {showHero && <>
-                  <h1 className="title is-spaced">
-                    JustFix.nyc builds tools to help you fight displacement.
+                  <h1 className="title is-size-1 is-size-3-mobile is-spaced">
+                    Free tools for you to
+                  
+                    <div className={isSafeModeEnabled ? "is-hidden" : "is-hidden-mobile"} >
+                      <TextLoop
+                      springConfig={{ stiffness: 70, damping: 31 }}>
+                        <span>get repairs in your apartment</span>
+                        <span>file a case against your landlord</span>
+                        <span>request your rent history</span>
+                        <span>research your property owner</span>
+                        <span>navigate an eviction notice</span>
+                      </TextLoop>
+                    </div>
+                    <span className={isSafeModeEnabled ? "is-inline" : "is-hidden-tablet"}> fight for a safe and healthy home</span>
+
                   </h1>
                   <p className="subtitle">
                     Enter your address to learn more.

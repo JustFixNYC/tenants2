@@ -399,10 +399,10 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
                       <TextLoop
                       springConfig={{ stiffness: 70, damping: 31 }}>
                         <span>get repairs in your apartment</span>
-                        <span>file a case against your landlord</span>
+                        <span>take your landlord to court</span>
                         <span>request your rent history</span>
                         <span>research your property owner</span>
-                        <span>navigate an eviction notice</span>
+                        <span>respond to an eviction notice</span>
                       </TextLoop>
                     </div>
                     <span className={isSafeModeEnabled ? "is-inline" : "is-hidden-tablet"}> fight for a safe and healthy home</span>

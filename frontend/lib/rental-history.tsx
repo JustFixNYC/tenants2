@@ -188,7 +188,7 @@ function RentalHistoryConfirmation(): JSX.Element {
     <Page title="Your rent history has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
       <p>You should receive your rent history in the mail in about a week. If you have more questions, please email us at <CustomerSupportLink />.</p>
-      <Link to={Routes.locale.dataDrivenOnboarding} className="button is-primary is-medium">Explore our other tools</Link>
+      <Link to={Routes.locale.home} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
       <li><OutboundLink href="http://metcouncilonhousing.org/campaigns_pages/rent_history_0" target="_blank">Met Council on Housing</OutboundLink>

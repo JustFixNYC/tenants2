@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.6
+      - image: justfixnyc/tenants2_base:0.7
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgis://justfix@localhost/justfix
@@ -86,7 +86,7 @@ jobs:
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:3.8
         environment:
           GIT_LFS_SKIP_SMUDGE: 1
     steps:

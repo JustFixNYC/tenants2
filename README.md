@@ -11,7 +11,7 @@ This is an attempt at creating a new Tenants app for JustFix.
 makes development much easier. But if you'd really rather set
 everything up without Docker, read on!
 
-You'll need Python 3.7.0 and [pipenv][], as well as Node 10, yarn, and
+You'll need Python 3.8.0 and [pipenv][], as well as Node 10, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
 set up Postgres version 10 or later.
 
@@ -40,7 +40,7 @@ Then, in a separate terminal, you'll want to instantiate
 your Python virtual environment and enter it:
 
 ```
-pipenv install --dev --python 3.7
+pipenv install --dev --python 3.8
 pipenv shell
 ```
 

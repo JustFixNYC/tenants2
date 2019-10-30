@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Page from '../page';
 import Routes, { routeMap } from '../routes';
@@ -7,13 +7,14 @@ import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
 import { NextButton } from '../buttons';
 import { RouteComponentProps } from 'react-router';
-import { withAppContext, AppContextType } from '../app-context';
+import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../hard-redirect';
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
 import { getPostOrQuerystringVar } from '../querystring';
 import { Link } from 'react-router-dom';
+import { getPostOnboardingURL } from '../signup-intent';
 
 const NEXT = 'next';
 
@@ -83,8 +84,9 @@ export function absolutifyURLToOurOrigin(url: string, origin: string): string {
 }
 
 const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
+  const appContext = useContext(AppContext);
   let next = absolutifyURLToOurOrigin(
-    getPostOrQuerystringVar(props, NEXT) || Routes.locale.home,
+    getPostOrQuerystringVar(props, NEXT) || getPostOnboardingURL(appContext.session.onboardingInfo),
     props.server.originURL
   );
 
@@ -99,7 +101,7 @@ const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextTy
             If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
           </p>
           <p>
-            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.home}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
+            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.loc.splash}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 import Routes from "../routes";
-import { RouteComponentProps, Route } from "react-router";
+import { RouteComponentProps } from "react-router";
 import Page, { PageTitle } from "../page";
 import { DataDrivenOnboardingSuggestions, DataDrivenOnboardingSuggestions_output } from '../queries/DataDrivenOnboardingSuggestions';
 import { NextButton } from '../buttons';
@@ -228,7 +228,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
-        to: Routes.locale.home,
+        to: Routes.locale.loc.latestStep,
         text: "Send a letter of complaint",
       }
     };
@@ -369,7 +369,7 @@ function Results(props: {
   </div>;
 }
 
-function DataDrivenOnboardingPage(props: RouteComponentProps) {
+export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyInput = {address: '', borough: ''};
   const [autoSubmit, setAutoSubmit] = useState(false);
@@ -420,8 +420,4 @@ function DataDrivenOnboardingPage(props: RouteComponentProps) {
       </QueryFormSubmitter>
     </Page>
   );
-}
-
-export default function DataDrivenOnboardingRoutes(): JSX.Element {
-  return <Route path={Routes.locale.dataDrivenOnboarding} exact component={DataDrivenOnboardingPage} />;
 }

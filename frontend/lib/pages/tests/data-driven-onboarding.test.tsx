@@ -1,12 +1,13 @@
 import React from 'react';
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import DataDrivenOnboardingRoutes from '../data-driven-onboarding';
 import Routes from '../../routes';
 import { BlankDDOSuggestionsResult } from '../../queries/DDOSuggestionsResult';
 import { DataDrivenOnboardingSuggestions_output } from '../../queries/DataDrivenOnboardingSuggestions';
 import { createMockFetch } from '../../tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
 import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
+import DataDrivenOnboardingPage from '../data-driven-onboarding';
+import { Route } from 'react-router';
 
 async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestions_output>|null) {
   const output: DataDrivenOnboardingSuggestions_output|null =
@@ -14,8 +15,8 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
 
   jest.useFakeTimers();
   const fetch = createMockFetch();
-  const pal = new AppTesterPal(<DataDrivenOnboardingRoutes/>, {
-    url: Routes.locale.dataDrivenOnboarding
+  const pal = new AppTesterPal(<Route path={Routes.locale.home} exact component={DataDrivenOnboardingPage} />, {
+    url: Routes.locale.home
   });
   await suppressSpuriousActErrors(async () => {
     await pal.nextTick();

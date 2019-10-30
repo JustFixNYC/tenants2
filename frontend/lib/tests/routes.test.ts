@@ -57,3 +57,12 @@ describe('RouteMap', () => {
     expect(map.exists('/blah/9/zorp')).toBe(false);
   });
 });
+
+describe("Routes.locale.homeWithSearch()", () => {
+  it("works", () => {
+    expect(Routes.locale.homeWithSearch({
+      address: '654 park place',
+      borough: 'BROOKLYN'
+    })).toBe('/?address=654%20park%20place&borough=BROOKLYN');
+  });
+});

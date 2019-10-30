@@ -1,5 +1,5 @@
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { signupIntentFromOnboardingInfo, DEFAULT_SIGNUP_INTENT_CHOICE, getOnboardingRouteForIntent } from "../signup-intent";
+import { signupIntentFromOnboardingInfo, DEFAULT_SIGNUP_INTENT_CHOICE, getOnboardingRouteForIntent, getPostOnboardingURL } from "../signup-intent";
 import { AppTesterPal } from "./app-tester-pal";
 
 test('signupIntentFromOnboardingInfo() works', () => {
@@ -18,5 +18,15 @@ describe('getOnboardingRouteForIntent()', () => {
       pal.getElement('input', '[name="signupIntent"]')
     );
     expect(input && input.value).toBe('LOC');
+  });
+});
+
+describe("getPostOnboardingURL()", () => {
+  it("returns a default if no onboarding information is available", () => {
+    expect(getPostOnboardingURL(null)).toBe('/loc');
+  });
+
+  it("returns the current signup intent's post-onboarding URL if possible", () => {
+    expect(getPostOnboardingURL({signupIntent: OnboardingInfoSignupIntent.HP})).toBe('/hp');
   });
 });

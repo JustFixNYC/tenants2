@@ -7,8 +7,14 @@ const tester = new ProgressRoutesTester(getLOCProgressRoutesProps(), 'letter of 
 tester.defineSmokeTests();
 
 describe('latest step redirector', () => {
-  it('returns welcome page by default', () => {
-    expect(tester.getLatestStep()).toBe(Routes.locale.loc.home);
+  it('returns splash page by default', () => {
+    expect(tester.getLatestStep()).toBe(Routes.locale.loc.splash);
+  });
+
+  it('returns welcome if user is logged in', () => {
+    expect(tester.getLatestStep({
+      phoneNumber: '5551234567'
+    })).toBe(Routes.locale.loc.welcome);
   });
 
   it('returns confirmation page if letter request has been submitted', () => {

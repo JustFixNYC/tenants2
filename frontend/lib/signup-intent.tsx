@@ -10,13 +10,19 @@ import loadable from '@loadable/component';
 /** The default assumed intent if none is explicitly provided. */
 export const DEFAULT_SIGNUP_INTENT_CHOICE = OnboardingInfoSignupIntent.LOC;
 
+export type WithSignupIntent = Pick<AllSessionInfo_onboardingInfo, 'signupIntent'>;
+
 const LoadableOnboardingRoutes = loadable(() => friendlyLoad(import('./onboarding')), {
   fallback: <LoadingPage />
 });
 
-export function signupIntentFromOnboardingInfo(onboardingInfo: AllSessionInfo_onboardingInfo|null): OnboardingInfoSignupIntent {
+export function signupIntentFromOnboardingInfo(onboardingInfo: WithSignupIntent|null): OnboardingInfoSignupIntent {
   if (!onboardingInfo) return DEFAULT_SIGNUP_INTENT_CHOICE;
   return onboardingInfo.signupIntent;
+}
+
+export function getPostOnboardingURL(onboardingInfo: WithSignupIntent|null): string {
+  return getSignupIntentOnboardingInfo(signupIntentFromOnboardingInfo(onboardingInfo)).postOnboarding;
 }
 
 /**

@@ -389,10 +389,10 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
           return (
             <section className={showHero ? "hero" : ""}>
-              <div className={showHero ? "hero-body has-text-centered" : ""}>
+              <div className={showHero ? "hero-body" : ""}>
                 {showHero && <>
-                  <h1 className="title is-spaced">
-                    JustFix.nyc builds tools to help you fight displacement.
+                  <h1 className="title is-size-1 is-size-3-mobile is-spaced">
+                    Free tools for you to fight for a safe and healthy home
                   </h1>
                   <p className="subtitle">
                     Enter your address to learn more.

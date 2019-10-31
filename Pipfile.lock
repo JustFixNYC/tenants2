@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9870f7b375109c5baa3860888bd3e086bf97eccf9b7e8d6c05248181c315838b"
+            "sha256": "cb52906a8716c83a7c6600d3771f325203f08d14dbe78cec91fa313b89350677"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -183,9 +183,11 @@
             "version": "==2.2.1"
         },
         "graphql-relay": {
-            "editable": true,
-            "git": "https://github.com/graphql-python/graphql-relay-py.git",
-            "ref": "48856fb3cf9e6c122535076a82d862bac3c21779"
+            "hashes": [
+                "sha256:2716b7245d97091af21abf096fabafac576905096d21ba7118fba722596f65db"
+            ],
+            "index": "pypi",
+            "version": "==0.4.5"
         },
         "gunicorn": {
             "hashes": [

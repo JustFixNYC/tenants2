@@ -2,7 +2,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/de475123649c132f858b/maintainability)](https://codeclimate.com/github/JustFixNYC/tenants2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/de475123649c132f858b/test_coverage)](https://codeclimate.com/github/JustFixNYC/tenants2/test_coverage)
 
-This is an attempt at creating a new Tenants app for JustFix.
+This is the JustFix.nyc Tenant Platform.
+
+In addition to this README, please feel free to consult the
+[project wiki][], which contains details on the project's
+principles and architecture, development tips, and more.
+
+[project wiki]: https://github.com/JustFixNYC/tenants2/wiki
 
 ## Getting started
 

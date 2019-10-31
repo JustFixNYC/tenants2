@@ -295,13 +295,6 @@ the repository on your host; you can run any command, like `python manage.py`
 or `pytest`, from there. Specifically, within this bash session is where you can [create an Admin User](#creating-an-admin-user) to access the App's Admin Site. 
 
 
-### A `manage.py` shortcut
-
-Note that if you don't have Django installed on your host system, you
-can just run `python manage.py` directly from outside the container--the
-`manage.py` script has been modified to run itself in a Docker container
-if it detects that Django isn't installed.
-
 ## Changing the Dockerfile
 
 Development, production, and our continuous integration

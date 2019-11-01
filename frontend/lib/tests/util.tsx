@@ -1,9 +1,6 @@
-import React from 'react';
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
-import { mount, ReactWrapper } from "enzyme";
-import { MemoryRouter, Route, RouteComponentProps } from "react-router";
 import { FormError, strToFormError } from '../form-errors';
 
 interface TestClient {
@@ -28,28 +25,9 @@ export function createTestGraphQlClient(enableTimeout: boolean = false): TestCli
   return { client, mockFetch };
 }
 
-const childWithRouterCtx = (child: JSX.Element) => {
-  let routerContext: RouteComponentProps<any> = {} as any;
-  const route = (
-    <Route render={(ctx) => {
-      routerContext.history = ctx.history;
-      routerContext.location = ctx.location;
-      routerContext.match = ctx.match;
-      return child;
-    }} />
-  );
-  return { routerContext, route };
-};
-
 // https://stackoverflow.com/a/6969486
 export function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-export function mountWithRouter(child: JSX.Element): { wrapper: ReactWrapper, routerContext: RouteComponentProps<any> } {
-  const { routerContext, route } = childWithRouterCtx(child);
-  const wrapper = mount(<MemoryRouter>{route}</MemoryRouter>);
-  return { wrapper, routerContext };
 }
 
 /** Wait for the given number of milliseconds. */

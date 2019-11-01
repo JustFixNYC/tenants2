@@ -47,7 +47,7 @@ export default class ReactTestingLibraryPal {
    */
   getElement<K extends keyof HTMLElementTagNameMap>(
     tagName: K,
-    selector: string
+    selector: string = ''
   ): HTMLElementTagNameMap[K] {
     return getElement(tagName, selector, this.rr.baseElement);
   }

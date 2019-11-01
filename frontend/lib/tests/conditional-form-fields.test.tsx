@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ReactTestingLibraryPal from "./rtl-pal";
-import { fakeBaseFieldProps } from "./form-fields.test";
 import { hideByDefault, ConditionalYesNoRadiosFormField } from "../conditional-form-fields";
 import { BaseFormFieldProps } from '../form-fields';
 import { FormError } from '../form-errors';
+import { fakeBaseFieldProps } from './fake-base-field-props';
 
 test("hideByDefault() works", () => {
   expect(hideByDefault(fakeBaseFieldProps({ value: '' })).hidden).toBe(true);

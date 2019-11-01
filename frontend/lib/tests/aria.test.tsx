@@ -1,6 +1,7 @@
 import React from 'react';
 import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps, AriaAnnouncer, AriaAnnouncement, AriaAnnouncementWithoutContext } from '../aria';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
+import ReactTestingLibraryPal from './rtl-pal';
 
 
 test('ariaBool() works', () => {
@@ -26,54 +27,55 @@ function getKeyCode(name: string): number {
 describe('AriaExpandableButton', () => {
   let props: AriaExpandableButtonProps;
   let onToggle: jest.Mock;
-  let preventDefault: jest.Mock;
+
+  afterEach(ReactTestingLibraryPal.cleanup);
 
   beforeEach(() => {
-    preventDefault = jest.fn();
     onToggle = jest.fn();
     props = {
       isExpanded: false,
+      children: 'boop',
       onToggle
     };
   });
 
-  it('toggles on click', () => {
-    const btn = shallow(<AriaExpandableButton {...props} />);
-    btn.simulate('click');
+  it('renders children and toggles on click', () => {
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} />);
+    pal.clickButtonOrLink('boop');
     expect(onToggle.mock.calls.length).toBe(1);
   });
 
+  const makeAndClickBtn = (keyName: string) => {
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} />);
+    const btn = pal.getElement('a', '[role="button"]');
+    const wasDefaultPrevented = !pal.rt.fireEvent.keyDown(btn, { keyCode: getKeyCode(keyName) });
+    return wasDefaultPrevented;
+  };
+
   ['enter', 'space'].forEach(name => {
     it(`toggles on key press of ${name}`, () => {
-      const btn = shallow(<AriaExpandableButton {...props} />);
-      btn.simulate('keydown', { which: getKeyCode(name), preventDefault });
+      const wasDefaultPrevented = makeAndClickBtn(name);
       expect(onToggle.mock.calls.length).toBe(1);
-      expect(preventDefault.mock.calls.length).toBe(1);
+      expect(wasDefaultPrevented).toBe(true);
     });
   });
 
   ['esc', 'a'].forEach(name => {
     it(`does not toggle on key press of ${name}`, () => {
-      const btn = shallow(<AriaExpandableButton {...props} />);
-      btn.simulate('keydown', { which: getKeyCode(name), preventDefault });
+      const wasDefaultPrevented = makeAndClickBtn(name);
       expect(onToggle.mock.calls.length).toBe(0);
-      expect(preventDefault.mock.calls.length).toBe(0);
+      expect(wasDefaultPrevented).toBe(false);
     });
   });
 
   it('sets aria-expanded="false"', () => {
-    const btn = shallow(<AriaExpandableButton {...props} isExpanded={false} />);
-    expect(btn.html()).toContain('aria-expanded="false"');
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} isExpanded={false} />);
+    expect(pal.getElement('a').getAttribute('aria-expanded')).toBe('false');
   });
 
   it('sets aria-expanded="true"', () => {
-    const btn = shallow(<AriaExpandableButton {...props} isExpanded={true} />);
-    expect(btn.html()).toContain('aria-expanded="true"');
-  });
-
-  it('renders children', () => {
-    const btn = shallow(<AriaExpandableButton {...props}>Blarg</AriaExpandableButton>);
-    expect(btn.html()).toContain('Blarg');
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} isExpanded={true} />);
+    expect(pal.getElement('a').getAttribute('aria-expanded')).toBe('true');
   });
 });
 

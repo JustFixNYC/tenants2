@@ -1,6 +1,5 @@
 import React from 'react';
 import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps, AriaAnnouncer, AriaAnnouncement, AriaAnnouncementWithoutContext } from '../aria';
-import { mount } from 'enzyme';
 import ReactTestingLibraryPal from './rtl-pal';
 
 
@@ -81,13 +80,13 @@ describe('AriaExpandableButton', () => {
 
 describe('AriaAnnouncer', () => {
   it('sets its text to the text of descendant announcements', () => {
-    const wrapper = mount(
+    const pal = new ReactTestingLibraryPal(
       <AriaAnnouncer>
         <AriaAnnouncement text="oh hai" />
       </AriaAnnouncer>
     );
 
-    expect(wrapper.find('[aria-live="polite"]').html()).toContain("oh hai");
+    expect(pal.getElement('div', '[aria-live="polite"]').innerHTML).toContain("oh hai");
   });
 });
 
@@ -96,13 +95,13 @@ describe('AriaAnnouncement', () => {
 
   it('calls announce on mount and again when text changes', () => {
     const announce = jest.fn();
-    const wrapper = mount(<AriaAnnouncement announce={announce} text="boop" />);
+    const pal = new ReactTestingLibraryPal(<AriaAnnouncement announce={announce} text="boop" />);
     expect(announce.mock.calls).toHaveLength(1);
 
-    wrapper.setProps({ text: 'boop' });
+    pal.rr.rerender(<AriaAnnouncement announce={announce} text="boop" />);
     expect(announce.mock.calls).toHaveLength(1);
 
-    wrapper.setProps({ text: 'blop' });
+    pal.rr.rerender(<AriaAnnouncement announce={announce} text="blop" />);
     expect(announce.mock.calls).toHaveLength(2);
   });
 });

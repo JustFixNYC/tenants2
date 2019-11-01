@@ -79,6 +79,8 @@ describe('AriaExpandableButton', () => {
 });
 
 describe('AriaAnnouncer', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('sets its text to the text of descendant announcements', () => {
     const pal = new ReactTestingLibraryPal(
       <AriaAnnouncer>
@@ -92,6 +94,8 @@ describe('AriaAnnouncer', () => {
 
 describe('AriaAnnouncement', () => {
   const AriaAnnouncement = AriaAnnouncementWithoutContext;
+
+  afterEach(ReactTestingLibraryPal.cleanup);
 
   it('calls announce on mount and again when text changes', () => {
     const announce = jest.fn();

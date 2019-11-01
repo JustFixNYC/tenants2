@@ -10,7 +10,7 @@ import { defaultContext, AppContext } from '../app-context';
 describe('App', () => {
   let appContext = defaultContext;
 
-  const TestComponent = (props: RouteComponentProps) => {
+  const AppContextCapturer = (props: RouteComponentProps) => {
     appContext = useContext(AppContext);
     return <p>HAI</p>;
   };
@@ -21,7 +21,7 @@ describe('App', () => {
       locale: '',
       initialSession,
       server: FakeServerInfo,
-      renderRoute: props => <TestComponent {...props}/>
+      renderRoute: props => <AppContextCapturer {...props}/>
     };
     const pal = new ReactTestingLibraryPal(
       <HelmetProvider>

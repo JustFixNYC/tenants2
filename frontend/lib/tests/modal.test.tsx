@@ -1,8 +1,14 @@
 import React from 'react';
 
 import { ModalWithoutRouter, Modal, getOneDirLevelUp } from "../modal";
-import { mountWithRouter } from "./util";
-import { Route, Switch } from 'react-router';
+import { Route, Switch, MemoryRouter } from 'react-router';
+import ReactTestingLibraryPal from './rtl-pal';
+
+function mountPalWithRouter(child: JSX.Element) {
+  const route = <Route render={() => child} />;
+  const pal = new ReactTestingLibraryPal(<MemoryRouter>{route}</MemoryRouter>);
+  return pal;
+}
 
 describe('ModalWithoutRouter', () => {
   it('pre-renders modal when on server-side', () => {
@@ -19,17 +25,19 @@ describe('ModalWithoutRouter', () => {
 });
 
 describe('Modal', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('removes pre-rendered modal on mount', () => {
     const div = document.createElement('div');
     div.id = 'prerendered-modal';
     document.body.appendChild(div);
     expect(div.parentNode).toBe(document.body);
-    mountWithRouter(<Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>);
+    mountPalWithRouter(<Modal title="blah" onCloseGoTo="/"><p>hello</p></Modal>);
     expect(div.parentNode).toBeNull();
   });
 
   it('renders body when mounted, renders nothing when closed', () => {
-    const { wrapper } = mountWithRouter(
+    const pal = mountPalWithRouter(
       <Switch>
         <Route path="/goodbye" render={() => <p>goodbye</p>} />
         <Route render={() => (
@@ -37,10 +45,13 @@ describe('Modal', () => {
         )} />
       </Switch>
     );
-    expect(wrapper.html()).toContain("hello");
+    expect(pal.rr.container.innerHTML).toBe('');
+    expect(document.body.innerHTML).toContain("hello");
 
-    wrapper.find('a[aria-label="close"]').simulate('click');
-    expect(wrapper.html()).toContain("goodbye");
+    const close = pal.getElement('a', '[aria-label="close"]');
+    pal.rt.fireEvent.click(close);
+    expect(document.body.innerHTML).not.toContain("hello");
+    expect(pal.rr.container.innerHTML).toContain("goodbye");
   });
 });
 

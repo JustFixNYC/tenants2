@@ -1,19 +1,21 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 
 import Page from '../page';
 import { HelmetProvider } from 'react-helmet-async';
+import ReactTestingLibraryPal from './rtl-pal';
 
 describe('Page', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('Renders children', () => {
-    const page = shallow(
+    const pal = new ReactTestingLibraryPal(
       <HelmetProvider>
         <MemoryRouter>
-          <Page title="boop">hello there</Page>
+          <Page title="boop" className="goop">hello there</Page>
         </MemoryRouter>
       </HelmetProvider>
     );
-    expect(page.html()).toContain('hello there');
+    expect(pal.getElement('div', '.goop').innerHTML).toContain('hello there');
   });
 });

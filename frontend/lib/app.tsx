@@ -58,6 +58,12 @@ export interface AppProps {
    * be populated with the content of the modal.
    */
   modal?: JSX.Element;
+
+  /**
+   * A render prop to render the current route. This is intended primarily
+   * for testing purposes.
+   */
+  renderRoute?: (props: RouteComponentProps<any>) => JSX.Element;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -267,6 +273,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   render() {
+    const renderRoute = this.props.renderRoute || this.renderRoute.bind(this);
+
     if (this.props.modal) {
       return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
     }
@@ -281,7 +289,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
-                      <Route render={(props) => this.renderRoute(props)}/>
+                      <Route render={renderRoute}/>
                     </LoadingOverlayManager>
                   </div>
                 </section>

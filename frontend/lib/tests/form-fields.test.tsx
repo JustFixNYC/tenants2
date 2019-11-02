@@ -1,24 +1,14 @@
 import React from 'react';
 import { BaseFormFieldProps, TextualFormFieldProps, TextualFormField, ChoiceFormFieldProps, SelectFormField, BooleanFormFieldProps, CheckboxFormField, RadiosFormField, MultiChoiceFormFieldProps, MultiCheckboxFormField, toggleChoice, TextareaFormField, HiddenFormField, renderLabel } from "../form-fields";
-import { shallow } from "enzyme";
 import { DjangoChoices } from '../common-data';
 import ReactTestingLibraryPal from './rtl-pal';
 import { simpleFormErrors } from './util';
+import { fakeBaseFieldProps } from './fake-base-field-props';
 
 const CHOICES: DjangoChoices = [
   ['BAR', 'Bar'],
   ['BAZ', 'Baz']
 ];
-
-export function fakeBaseFieldProps<T>(props: Partial<BaseFormFieldProps<T>> & { value: T }): BaseFormFieldProps<T> {
-  return {
-    onChange: jest.fn(),
-    name: 'foo',
-    id: 'foo',
-    isDisabled: false,
-    ...props
-  };
-}
 
 function choiceFieldProps(props: Partial<ChoiceFormFieldProps> = {}): ChoiceFormFieldProps {
   return {
@@ -35,7 +25,7 @@ describe('TextualFormField', () => {
       ...fakeBaseFieldProps({ value: '' }),
       label: 'Foo'
     };
-    return shallow(
+    return new ReactTestingLibraryPal(
       <TextualFormField
         {...defaultProps}
         {...props}
@@ -43,14 +33,16 @@ describe('TextualFormField', () => {
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders properly when it has no errors', () => {
-    const html = makeField().html();
+    const html = makeField().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
     expect(html).not.toContain('is-danger');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).html();
+    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -79,7 +71,7 @@ describe('HiddenFormField', () => {
     const defaultProps: BaseFormFieldProps<string> = {
       ...fakeBaseFieldProps({ value: '' }),
     };
-    return shallow(
+    return new ReactTestingLibraryPal(
       <HiddenFormField
         {...defaultProps}
         {...props}
@@ -87,32 +79,37 @@ describe('HiddenFormField', () => {
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders name and value attrs', () => {
     for (let value of ['', 'blah']) {
-      const html = makeField({ name: 'boop', value }).html();
+      const html = makeField({ name: 'boop', value }).rr.container.innerHTML;
       expect(html).toContain('name="boop"');
       expect(html).toContain(`value="${value}"`);
     }
   });
 
   it('renders value attr as "on" if it is true', () => {
-    const html = makeField({ name: 'boop', value: true }).html();
+    const html = makeField({ name: 'boop', value: true }).rr.container.innerHTML;
     expect(html).toContain('name="boop"');
     expect(html).toContain('value="on"');
   });
 
-  it('does not render value attr if it is undefined, null, or false', () => {
-    for (let value of [undefined, false, null]) {
-      const html = makeField({ name: 'boop', value }).html();
+  [undefined, false, null].forEach(value => {
+    it(`renders empty value attr if it is ${value}`, () => {
+      const html = makeField({ name: 'boop', value }).rr.container.innerHTML;
       expect(html).toContain('name="boop"');
-      expect(html).not.toContain('value');
-    }
+      expect(html).toContain('value=""');
+    });
   });
 
   it('throws an exception when it has errors', () => {
+    const originalError = console.error;
+    console.error = () => {};
     expect(() =>
-      makeField({ errors: simpleFormErrors('this cannot be blank') }).html()
+      makeField({ errors: simpleFormErrors('this cannot be blank') })
     ).toThrow(/Hidden fields should have no errors, but "foo" does/);
+    console.error = originalError;
   });
 });
 
@@ -122,7 +119,7 @@ describe('TextareaFormField', () => {
       ...fakeBaseFieldProps({ value: '' }),
       label: 'Foo'
     };
-    return shallow(
+    return new ReactTestingLibraryPal(
       <TextareaFormField
         {...defaultProps}
         {...props}
@@ -130,20 +127,22 @@ describe('TextareaFormField', () => {
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders name attr and sets value', () => {
-    const html = makeField({ name: 'blarg', value: 'boof'}).html();
+    const html = makeField({ name: 'blarg', value: 'boof'}).rr.container.innerHTML;
     expect(html).toContain('name="blarg"');
     expect(html).toContain('>boof</textarea>');
   });
 
   it('renders properly when it has no errors', () => {
-    const html = makeField().html();
+    const html = makeField().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
     expect(html).not.toContain('is-danger');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).html();
+    const html = makeField({ errors: simpleFormErrors('this cannot be blank') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -152,29 +151,31 @@ describe('TextareaFormField', () => {
 
 describe('SelectFormField', () => {
   const makeSelect = (props: Partial<ChoiceFormFieldProps> = {}) => {
-    return shallow(
+    return new ReactTestingLibraryPal(
       <SelectFormField {...choiceFieldProps(props)} />
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders option values', () => {
-    const html = makeSelect().html();
+    const html = makeSelect().rr.container.innerHTML;
     expect(html).toContain('<option value="BAR">Bar</option>');
   });
 
   it('assigns name attr', () => {
-    const html = makeSelect().html();
+    const html = makeSelect().rr.container.innerHTML;
     expect(html).toContain('name="foo"');
   });
 
   it('renders properly when it has no errors', () => {
-    const html = makeSelect().html();
+    const html = makeSelect().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
     expect(html).not.toContain('is-danger');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeSelect({ errors: simpleFormErrors('this cannot be blank') }).html();
+    const html = makeSelect({ errors: simpleFormErrors('this cannot be blank') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -183,25 +184,27 @@ describe('SelectFormField', () => {
 
 describe('RadiosFormField', () => {
   const makeRadios = (props: Partial<ChoiceFormFieldProps> = {}) => {
-    return shallow(
+    return new ReactTestingLibraryPal(
       <RadiosFormField {...choiceFieldProps(props)} />
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders name and value attrs', () => {
-    const html = makeRadios().html();
+    const html = makeRadios().rr.container.innerHTML;
     expect(html).toContain('name="foo"');
     expect(html).toContain('value="BAR"');
   });
 
   it('renders properly when it has no errors', () => {
-    const html = makeRadios().html();
+    const html = makeRadios().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
     expect(html).not.toContain('is-danger');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeRadios({ errors: simpleFormErrors('this cannot be blank') }).html();
+    const html = makeRadios({ errors: simpleFormErrors('this cannot be blank') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('aria-label="Foo, this cannot be blank"');
     expect(html).toContain('is-danger');
@@ -220,7 +223,7 @@ describe('MultiCheckboxFormField', () => {
       choices: CHOICES,
       label: 'Foo',  
     };
-    return shallow(
+    return new ReactTestingLibraryPal(
       <MultiCheckboxFormField
         {...defaultProps}
         {...props}
@@ -228,27 +231,29 @@ describe('MultiCheckboxFormField', () => {
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('toggles choice on click', () => {
     const onChange = jest.fn();
-    const wrapper = makeMultiCheckbox({ onChange });
-    wrapper.find('input').first().simulate('change', { target: { checked: true } });
+    const pal = makeMultiCheckbox({ onChange });
+    pal.clickRadioOrCheckbox('Bar');
     expect(onChange.mock.calls).toHaveLength(1);
     expect(onChange.mock.calls[0][0]).toEqual(['BAR']);
   });
 
   it('renders name and value attrs', () => {
-    const html = makeMultiCheckbox().html();
+    const html = makeMultiCheckbox().rr.container.innerHTML;
     expect(html).toContain('name="foo"');
     expect(html).toContain('value="BAR"');
   });
 
   it('renders properly when it has no errors', () => {
-    const html = makeMultiCheckbox().html();
+    const html = makeMultiCheckbox().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeMultiCheckbox({ errors: simpleFormErrors('this must be checked') }).html();
+    const html = makeMultiCheckbox({ errors: simpleFormErrors('this must be checked') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
   });
 });
@@ -259,7 +264,7 @@ describe('CheckboxFormField', () => {
       ...fakeBaseFieldProps<boolean>({ value: false }),
       children: 'Foo'
     };
-    return shallow(
+    return new ReactTestingLibraryPal(
       <CheckboxFormField
         {...defaultProps}
         {...props}
@@ -267,18 +272,20 @@ describe('CheckboxFormField', () => {
     );
   }
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders name attr', () => {
-    const html = makeCheckbox().html();
+    const html = makeCheckbox().rr.container.innerHTML;
     expect(html).toContain('name="foo"');
   });
 
   it('renders properly when it has no errors', () => {
-    const html = makeCheckbox().html();
+    const html = makeCheckbox().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
   });
 
   it('renders properly when it has errors', () => {
-    const html = makeCheckbox({ errors: simpleFormErrors('this must be checked') }).html();
+    const html = makeCheckbox({ errors: simpleFormErrors('this must be checked') }).rr.container.innerHTML;
     expect(html).toContain('aria-invalid="true"');
   });
 });

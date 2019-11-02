@@ -1,13 +1,8 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
 import { defaultContext } from '../app-context';
 import { FakeAppContext } from './util';
 import chalk from 'chalk';
 import './confetti.setup';
 import i18n from '../i18n';
-
-configure({ adapter: new Adapter() });
 
 i18n.initialize('');
 

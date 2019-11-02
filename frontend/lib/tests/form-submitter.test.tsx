@@ -1,12 +1,46 @@
 import React from 'react';
 import { MyFormInput, MyFormOutput, myInitialState, renderMyFormFields } from './my-form';
 import { createTestGraphQlClient, simpleFormErrors } from './util';
-import { shallow } from 'enzyme';
 import { FormSubmitterWithoutRouter, FormSubmitter } from '../form-submitter';
 import { MemoryRouter, Switch, Route } from 'react-router';
 import ReactTestingLibraryPal from './rtl-pal';
+import { FormContext } from '../form-context';
 
-describe('FormSubmitter (RTL)', () => {
+const nextTick = () => new Promise(resolve => process.nextTick(resolve));
+
+describe('FormSubmitter', () => {
+  const buildForm = () => {
+    let formContext: FormContext<MyFormInput> = null as any;
+    const { client } = createTestGraphQlClient();
+    const onSuccess = jest.fn();
+
+    const pal = new ReactTestingLibraryPal(
+      <FormSubmitterWithoutRouter
+        history={null as any}
+        location={null as any}
+        match={null as any}
+        onSubmit={(input: MyFormInput) => client.fetch('blah', { input }).then(r => r.login) }
+        onSuccess={(output: MyFormOutput) => { onSuccess(output); }}
+        initialState={myInitialState}
+      >
+        {(ctx) => {
+          formContext = ctx;
+          return renderMyFormFields(ctx);
+        }}
+      </FormSubmitterWithoutRouter>
+    );
+    const getCtx = () => formContext;
+    const fillAndSubmit = () => {
+      pal.fillFormFields([
+        ['Phone number', '1'],
+        ['Password', '2']
+      ]);
+      pal.rt.fireEvent.submit(pal.getElement('form'));
+    };
+
+    return { pal, client, onSuccess, getCtx, fillAndSubmit };
+  };
+
   afterEach(ReactTestingLibraryPal.cleanup);
 
   it('optionally uses performRedirect() for redirection', async () => {
@@ -56,53 +90,32 @@ describe('FormSubmitter (RTL)', () => {
     await promise;
     expect(pal.rr.container.innerHTML).toBe('<p>This is blah.</p>');
   });
-});
-
-describe('FormSubmitter', () => {
-  const payload: MyFormInput = { phoneNumber: '1', password: '2' };
-
-  const buildForm = () => {
-    const { client } = createTestGraphQlClient();
-    const onSuccess = jest.fn();
-
-    const wrapper = shallow(
-      <FormSubmitterWithoutRouter
-        history={null as any}
-        location={null as any}
-        match={null as any}
-        onSubmit={(input: MyFormInput) => client.fetch('blah', { input }).then(r => r.login) }
-        onSuccess={(output: MyFormOutput) => { onSuccess(output); }}
-        initialState={myInitialState}
-      >
-        {renderMyFormFields}
-      </FormSubmitterWithoutRouter>
-    );
-    const form = wrapper.instance() as FormSubmitterWithoutRouter<MyFormInput, MyFormOutput>;
-    return { form, client, onSuccess };
-  };
 
   it('sets state when successful', async () => {
-    const { form, client, onSuccess } = buildForm();
-    const login = form.handleSubmit(payload);
-
-    expect(form.state.isLoading).toBe(true);
+    const { client, onSuccess, getCtx, fillAndSubmit } = buildForm();
+    expect(getCtx().isLoading).toBe(false);
+    fillAndSubmit();
+    expect(getCtx().isLoading).toBe(true);
     client.getRequestQueue()[0].resolve({
       login: {
         errors: [],
         session: 'blehhh'
       }
     });
-    await login;
-    expect(form.state.isLoading).toBe(false);
+    await nextTick();
+    expect(getCtx().isLoading).toBe(false);
+    expect(getCtx().nonFieldErrors).toBe(undefined);
+    expect(getCtx().fieldPropsFor('phoneNumber').errors).toBe(undefined);
+    expect(getCtx().fieldPropsFor('password').errors).toBe(undefined);
     expect(onSuccess.mock.calls).toHaveLength(1);
     expect(onSuccess.mock.calls[0][0]).toEqual({ errors: [], session: 'blehhh' });
   });
 
   it('sets state when validation errors occur', async () => {
-    const { form, client, onSuccess } = buildForm();
-    const login = form.handleSubmit(payload);
+    const { client, onSuccess, fillAndSubmit, getCtx } = buildForm();
+    fillAndSubmit();
 
-    expect(form.state.isLoading).toBe(true);
+    expect(getCtx().isLoading).toBe(true);
     client.getRequestQueue()[0].resolve({
       login: {
         errors: [{
@@ -111,22 +124,19 @@ describe('FormSubmitter', () => {
         }]
       }
     });
-    await login;
-    expect(form.state.isLoading).toBe(false);
-    expect(form.state.errors).toEqual({
-      nonFieldErrors: simpleFormErrors('nope.'),
-      fieldErrors: {}
-    });
+    await nextTick();
+    expect(getCtx().isLoading).toBe(false);
+    expect(getCtx().nonFieldErrors).toEqual(simpleFormErrors('nope.'));
     expect(onSuccess.mock.calls).toHaveLength(0);
   });
 
   it('sets state when network error occurs', async () => {
-    const { form, client, onSuccess } = buildForm();
-    const login = form.handleSubmit(payload);
+    const { client, onSuccess, fillAndSubmit, getCtx } = buildForm();
+    fillAndSubmit();
 
     client.getRequestQueue()[0].reject(new Error('kaboom'));
-    await login;
-    expect(form.state.isLoading).toBe(false);
+    await nextTick();
+    expect(getCtx().isLoading).toBe(false);
     expect(onSuccess.mock.calls).toHaveLength(0);
   });
 });

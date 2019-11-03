@@ -18,6 +18,8 @@ services:
     volumes:
       - .:/tenants2:delegated
     command: yarn start
+    environment:
+      - LAMBDA_POST_BUILD_NOTIFY_URL=http://app:8000/
   db:
     image: mdillon/postgis:10-alpine
     volumes:

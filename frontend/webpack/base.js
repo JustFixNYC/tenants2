@@ -10,6 +10,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const NotifyServerOfNewBuildPlugin = require('./notify-server-of-new-build');
 const { getEnvBoolean } = require('./env-util');
 
 /** Are we in watch mode, or are we being run as a one-off process? */
@@ -148,9 +149,10 @@ function getCommonPlugins() {
  * 
  * @param {String} entry The entrypoint of the node script.
  * @param {String} filename The JS filename to output to.
+ * @param {WebpackPlugin[]} extraPlugins Any extra plugins to include.
  * @returns {WebpackConfig}
  */
-function createNodeScriptConfig(entry, filename) {
+function createNodeScriptConfig(entry, filename, extraPlugins) {
   return {
     target: 'node',
     stats: IN_WATCH_MODE ? 'minimal' : 'normal',
@@ -177,7 +179,7 @@ function createNodeScriptConfig(entry, filename) {
         },
       ]
     },
-    plugins: getCommonPlugins(),
+    plugins: getCommonPlugins().concat(extraPlugins),
     resolve: {
       extensions: [ '.tsx', '.ts', '.js' ]
     },
@@ -249,7 +251,9 @@ const webConfig = {
 
 exports.webConfig = webConfig;
 
-exports.lambdaConfig = createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js');
+exports.lambdaConfig = createNodeScriptConfig('./frontend/lambda/lambda.tsx', 'lambda.js', [
+  new NotifyServerOfNewBuildPlugin(process.env.LAMBDA_POST_BUILD_NOTIFY_URL)
+]);
 
 const webpackConfigs = [
   exports.lambdaConfig,

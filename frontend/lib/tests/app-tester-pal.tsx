@@ -156,12 +156,4 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     const actual = this.getFirstRequest().variables['input'];
     expect(actual).toEqual(expected);
   }
-
-  /**
-   * Spin the event loop so any promises that have been
-   * resolved will be processed, etc.
-   */
-  nextTick(): Promise<any> {
-    return new Promise(resolve => process.nextTick(resolve));
-  }
 }

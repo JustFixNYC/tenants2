@@ -35,6 +35,11 @@ export function pause(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** This is a promisified version of `process.nextTick()`. */
+export function nextTick(): Promise<void> {
+  return new Promise((resolve) => process.nextTick(resolve));
+}
+
 /**
  * Waits for a few milliseconds as a workaround to a bug in react-aria-modal:
  * 

@@ -4,6 +4,7 @@ import DataRequestsRoutes from "../data-requests";
 import Routes from '../../routes';
 import { DataRequestMultiLandlordQuery } from '../../queries/DataRequestMultiLandlordQuery';
 import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
+import { nextTick } from '../../tests/util';
 
 describe('Data requests', () => {
   afterEach(AppTesterPal.cleanup);
@@ -14,7 +15,7 @@ describe('Data requests', () => {
     });
 
     await suppressSpuriousActErrors(async () => {
-      await pal.nextTick();
+      await nextTick();
       pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
       pal.clickButtonOrLink(/request data/i);
   
@@ -28,7 +29,7 @@ describe('Data requests', () => {
       };
   
       pal.getFirstRequest().resolve(response);
-      await pal.nextTick();
+      await nextTick();
     });
 
     pal.rr.getByText(/blargh/);

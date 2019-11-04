@@ -1,3 +1,5 @@
+import { nextTick } from "./util";
+
 /**
  * This is an API for a mock window.fetch, which provides
  * some convenience methods for network communications.
@@ -30,9 +32,7 @@ export function createMockFetch(): MockFetch {
       this.mockResolvedValue({ status: 200, json: () => Promise.resolve(result) });
     },
     resolvePromises(): Promise<void> {
-      return new Promise((resolve) => {
-        process.nextTick(resolve);
-      });
+      return nextTick();
     },
     resolvePromisesAndTimers(): Promise<void> {
       jest.runAllTimers();

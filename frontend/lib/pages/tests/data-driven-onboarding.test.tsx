@@ -4,7 +4,7 @@ import Routes from '../../routes';
 import { BlankDDOSuggestionsResult } from '../../queries/DDOSuggestionsResult';
 import { DataDrivenOnboardingSuggestions_output } from '../../queries/DataDrivenOnboardingSuggestions';
 import { createMockFetch } from '../../tests/mock-fetch';
-import { FakeGeoResults } from '../../tests/util';
+import { FakeGeoResults, nextTick } from '../../tests/util';
 import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
 import DataDrivenOnboardingPage from '../data-driven-onboarding';
 import { Route } from 'react-router';
@@ -19,7 +19,7 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
     url: Routes.locale.home
   });
   await suppressSpuriousActErrors(async () => {
-    await pal.nextTick();
+    await nextTick();
     fetch.mockReturnJson(FakeGeoResults);
     pal.fillFormFields([[/address/i, '150 cou']]);
     await fetch.resolvePromisesAndTimers();
@@ -27,7 +27,7 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
     pal.clickButtonOrLink(/search address/i);
     pal.expectGraphQL(/ddoSuggestions/);
     pal.getFirstRequest().resolve({output});
-    await pal.nextTick();
+    await nextTick();
   });
   return pal;
 }

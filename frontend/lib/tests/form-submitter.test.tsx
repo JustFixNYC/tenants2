@@ -1,12 +1,10 @@
 import React from 'react';
 import { MyFormInput, MyFormOutput, myInitialState, renderMyFormFields } from './my-form';
-import { createTestGraphQlClient, simpleFormErrors } from './util';
+import { createTestGraphQlClient, simpleFormErrors, nextTick } from './util';
 import { FormSubmitterWithoutRouter, FormSubmitter } from '../form-submitter';
 import { MemoryRouter, Switch, Route } from 'react-router';
 import ReactTestingLibraryPal from './rtl-pal';
 import { FormContext } from '../form-context';
-
-const nextTick = () => new Promise(resolve => process.nextTick(resolve));
 
 describe('FormSubmitter', () => {
   const buildForm = () => {

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
 import ReactTestingLibraryPal from './rtl-pal';
+import { nextTick } from './util';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 
@@ -18,7 +19,6 @@ function createLoadablePage<Props>(
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});
-const nextTick = () => new Promise((resolve) => process.nextTick(resolve));
 
 describe('LoadingPageWithRetry', () => {
   afterEach(ReactTestingLibraryPal.cleanup);

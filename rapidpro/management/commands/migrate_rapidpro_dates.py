@@ -87,8 +87,9 @@ class Command(BaseCommand):
                     assert isinstance(contact.created_on, datetime.datetime)
                     run = get_run(client, contact, flow_uuid)
                     assert isinstance(run.exited_on, datetime.datetime)
-                    print(f"User {contact.name} joined {contact.created_on} and exited {flow_uuid} "
-                          f"on {run.exited_on}.")
+                    if run.exited_on - contact.created_on > datetime.timedelta(days=2):
+                        print(f"User {contact.name} joined on {contact.created_on} and was "
+                              f"added to '{group_name}' on {run.exited_on}.")
                     update = {field_key: format_iso8601(run.exited_on)}
                     if dry_run:
                         print(f"DRY RUN, UPDATE {repr(contact.name)} FIELDS: {update}")

@@ -1,6 +1,8 @@
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import i18n from './i18n';
+import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
+import { inputToQuerystring } from './http-get-query-util';
 
 /**
  * Metadata about signup intents.
@@ -24,7 +26,7 @@ type SignupIntentOnboardingInfo = {
 export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.LOC: return {
-      preOnboarding: Routes.locale.home,
+      preOnboarding: Routes.locale.loc.splash,
       postOnboarding: Routes.locale.loc.latestStep,
       onboarding: Routes.locale.onboarding
     };
@@ -106,7 +108,8 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
-    home: `${prefix}/welcome`,
+    splash: `${prefix}/splash`,
+    welcome: `${prefix}/welcome`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     yourLandlord: `${prefix}/your-landlord`,
@@ -183,6 +186,12 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
+    /** The home page with a pre-filled search address. */
+    homeWithSearch(options: DataDrivenOnboardingSuggestionsVariables) {
+      const { address, borough } = options;
+      return `${this.home}${inputToQuerystring({address, borough})}`;    
+    },
+
     /** The help page. */
     help: `${prefix}/help`,
 
@@ -204,8 +213,8 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The data requests portal.  */
     dataRequests: createDataRequestsRouteInfo(`${prefix}/data-requests`),
 
-    /** Experimental data-driven onboarding. */
-    dataDrivenOnboarding: `${prefix}/ddo`,
+    /** Legacy experimental data-driven onboarding. */
+    legacyDataDrivenOnboarding: `${prefix}/ddo`,
   }
 }
 

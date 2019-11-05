@@ -9,6 +9,7 @@ import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { CenteredPrimaryButtonLink } from './buttons';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
+import { LocSplash } from './letter-of-complaint-splash';
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -43,7 +44,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
 const LetterOfComplaintIssuesRoutes = () => (
   <IssuesRoutes
     routes={Routes.locale.loc.issues}
-    toBack={Routes.locale.loc.home}
+    toBack={Routes.locale.loc.welcome}
     toNext={Routes.locale.loc.accessDates}
   />
 );
@@ -52,7 +53,10 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.loc.latestStep,
   label: "Letter of Complaint",
   welcomeSteps: [{
-    path: Routes.locale.loc.home, exact: true, component: Welcome
+    path: Routes.locale.loc.splash, exact: true, component: LocSplash,
+    isComplete: (s) => !!s.phoneNumber
+  },{
+    path: Routes.locale.loc.welcome, exact: true, component: Welcome
   }],
   stepsToFillOut: [
     { path: Routes.locale.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },

@@ -24,6 +24,7 @@ import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
 import HelpPage from './pages/help-page';
 import { HelmetProvider } from 'react-helmet-async';
+import { createRedirectWithSearch } from './redirect-util';
 
 
 export interface AppProps {
@@ -57,6 +58,12 @@ export interface AppProps {
    * be populated with the content of the modal.
    */
   modal?: JSX.Element;
+
+  /**
+   * A render prop to render the current route. This is intended primarily
+   * for testing purposes.
+   */
+  renderRoute?: (props: RouteComponentProps<any>) => JSX.Element;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -70,11 +77,7 @@ interface AppState {
   session: AllSessionInfo;
 }
 
-const LoadableDataDrivenOnboardingRoutes = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableIndexPage = loadable(() => friendlyLoad(import('./pages/index-page')), {
+const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
   fallback: <LoadingPage />
 });
 
@@ -242,11 +245,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   renderRoutes(location: Location<any>): JSX.Element {
     return (
       <Switch location={location}>
-        <Route path={Routes.locale.home} exact>
-          <LoadableIndexPage isLoggedIn={this.isLoggedIn} />
-        </Route>
+        <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
         <Route path={Routes.locale.help} component={HelpPage} />
-        <Route path={Routes.locale.dataDrivenOnboarding} component={LoadableDataDrivenOnboardingRoutes} />
+        <Route path={Routes.locale.legacyDataDrivenOnboarding} exact component={createRedirectWithSearch(Routes.locale.home)} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
         <Route path={Routes.locale.logout} exact component={LogoutPage} />
@@ -272,6 +273,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   render() {
+    const renderRoute = this.props.renderRoute || this.renderRoute.bind(this);
+
     if (this.props.modal) {
       return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
     }
@@ -286,7 +289,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>
                     <LoadingOverlayManager>
-                      <Route render={(props) => this.renderRoute(props)}/>
+                      <Route render={renderRoute}/>
                     </LoadingOverlayManager>
                   </div>
                 </section>

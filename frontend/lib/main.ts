@@ -1,7 +1,7 @@
 /// <reference path="main-globals.d.ts" />
 
 import { startApp, AppProps } from './app';
-import { getElement } from './util';
+import { getHTMLElement } from '@justfixnyc/util';
 import { ga } from './google-analytics';
 import i18n from './i18n';
 
@@ -31,8 +31,8 @@ function showSafeModeUiOnShake() {
 }
 
 window.addEventListener('load', () => {
-  const div = getElement('div', '#main');
-  const initialPropsEl = getElement('script', '#initial-props');
+  const div = getHTMLElement('div', '#main');
+  const initialPropsEl = getHTMLElement('script', '#initial-props');
   if (!initialPropsEl.textContent) {
     throw new Error('Assertion failure, #initial-props must contain text');
   }

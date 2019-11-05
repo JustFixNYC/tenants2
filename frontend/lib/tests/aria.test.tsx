@@ -1,6 +1,6 @@
 import React from 'react';
 import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps, AriaAnnouncer, AriaAnnouncement, AriaAnnouncementWithoutContext } from '../aria';
-import { shallow, mount } from 'enzyme';
+import ReactTestingLibraryPal from './rtl-pal';
 
 
 test('ariaBool() works', () => {
@@ -26,81 +26,86 @@ function getKeyCode(name: string): number {
 describe('AriaExpandableButton', () => {
   let props: AriaExpandableButtonProps;
   let onToggle: jest.Mock;
-  let preventDefault: jest.Mock;
+
+  afterEach(ReactTestingLibraryPal.cleanup);
 
   beforeEach(() => {
-    preventDefault = jest.fn();
     onToggle = jest.fn();
     props = {
       isExpanded: false,
+      children: 'boop',
       onToggle
     };
   });
 
-  it('toggles on click', () => {
-    const btn = shallow(<AriaExpandableButton {...props} />);
-    btn.simulate('click');
+  it('renders children and toggles on click', () => {
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} />);
+    pal.clickButtonOrLink('boop');
     expect(onToggle.mock.calls.length).toBe(1);
   });
 
+  const makeAndClickBtn = (keyName: string) => {
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} />);
+    const btn = pal.getElement('a', '[role="button"]');
+    const wasDefaultPrevented = !pal.rt.fireEvent.keyDown(btn, { keyCode: getKeyCode(keyName) });
+    return wasDefaultPrevented;
+  };
+
   ['enter', 'space'].forEach(name => {
     it(`toggles on key press of ${name}`, () => {
-      const btn = shallow(<AriaExpandableButton {...props} />);
-      btn.simulate('keydown', { which: getKeyCode(name), preventDefault });
+      const wasDefaultPrevented = makeAndClickBtn(name);
       expect(onToggle.mock.calls.length).toBe(1);
-      expect(preventDefault.mock.calls.length).toBe(1);
+      expect(wasDefaultPrevented).toBe(true);
     });
   });
 
   ['esc', 'a'].forEach(name => {
     it(`does not toggle on key press of ${name}`, () => {
-      const btn = shallow(<AriaExpandableButton {...props} />);
-      btn.simulate('keydown', { which: getKeyCode(name), preventDefault });
+      const wasDefaultPrevented = makeAndClickBtn(name);
       expect(onToggle.mock.calls.length).toBe(0);
-      expect(preventDefault.mock.calls.length).toBe(0);
+      expect(wasDefaultPrevented).toBe(false);
     });
   });
 
   it('sets aria-expanded="false"', () => {
-    const btn = shallow(<AriaExpandableButton {...props} isExpanded={false} />);
-    expect(btn.html()).toContain('aria-expanded="false"');
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} isExpanded={false} />);
+    expect(pal.getElement('a').getAttribute('aria-expanded')).toBe('false');
   });
 
   it('sets aria-expanded="true"', () => {
-    const btn = shallow(<AriaExpandableButton {...props} isExpanded={true} />);
-    expect(btn.html()).toContain('aria-expanded="true"');
-  });
-
-  it('renders children', () => {
-    const btn = shallow(<AriaExpandableButton {...props}>Blarg</AriaExpandableButton>);
-    expect(btn.html()).toContain('Blarg');
+    const pal = new ReactTestingLibraryPal(<AriaExpandableButton {...props} isExpanded={true} />);
+    expect(pal.getElement('a').getAttribute('aria-expanded')).toBe('true');
   });
 });
 
 describe('AriaAnnouncer', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('sets its text to the text of descendant announcements', () => {
-    const wrapper = mount(
+    const pal = new ReactTestingLibraryPal(
       <AriaAnnouncer>
         <AriaAnnouncement text="oh hai" />
       </AriaAnnouncer>
     );
 
-    expect(wrapper.find('[aria-live="polite"]').html()).toContain("oh hai");
+    expect(pal.getElement('div', '[aria-live="polite"]').innerHTML).toContain("oh hai");
   });
 });
 
 describe('AriaAnnouncement', () => {
   const AriaAnnouncement = AriaAnnouncementWithoutContext;
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('calls announce on mount and again when text changes', () => {
     const announce = jest.fn();
-    const wrapper = mount(<AriaAnnouncement announce={announce} text="boop" />);
+    const pal = new ReactTestingLibraryPal(<AriaAnnouncement announce={announce} text="boop" />);
     expect(announce.mock.calls).toHaveLength(1);
 
-    wrapper.setProps({ text: 'boop' });
+    pal.rr.rerender(<AriaAnnouncement announce={announce} text="boop" />);
     expect(announce.mock.calls).toHaveLength(1);
 
-    wrapper.setProps({ text: 'blop' });
+    pal.rr.rerender(<AriaAnnouncement announce={announce} text="blop" />);
     expect(announce.mock.calls).toHaveLength(2);
   });
 });

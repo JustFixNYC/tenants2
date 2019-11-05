@@ -2,6 +2,7 @@ import React from 'react';
 
 import { AppTesterPal } from "./app-tester-pal";
 import { SessionPoller } from "../session-poller";
+import { nextTick } from './util';
 
 describe('session poller', () => {
   afterEach(AppTesterPal.cleanup);
@@ -26,7 +27,7 @@ describe('session poller', () => {
     expect(req.query).toBe("here is a graphql query");
     req.resolve({ session: { blarg: 1 } });
 
-    await pal.nextTick();
+    await nextTick();
 
     expect(updateSession.mock.calls).toHaveLength(1);
     expect(updateSession.mock.calls[0][0]).toEqual({ blarg: 1 });

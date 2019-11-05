@@ -2,12 +2,13 @@ import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
 
 import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage, LoadingPageWithRetry } from "../loading-page";
-import { shallow, mount } from 'enzyme';
 import { AppTesterPal } from './app-tester-pal';
 import { assertNotNull } from '../util';
 import { Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
+import ReactTestingLibraryPal from './rtl-pal';
+import { nextTick } from './util';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 
@@ -18,11 +19,12 @@ function createLoadablePage<Props>(
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});
-const nextTick = () => new Promise((resolve) => process.nextTick(resolve));
 
 describe('LoadingPageWithRetry', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders error page', async () => {
-    const page = mount(
+    const pal = new ReactTestingLibraryPal(
       <HelmetProvider>
         <MemoryRouter>
           <LoadingPageWithRetry error={true} retry={() => {}} />
@@ -30,21 +32,23 @@ describe('LoadingPageWithRetry', () => {
       </HelmetProvider>
     );
     await nextTick();
-    expect(page.update().html()).toContain('network error');
+    expect(pal.rr.container.innerHTML).toContain('network error');
   });
 });
 
 describe('LoadingPage', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('renders loading screen', () => {
     const LoadablePage = createLoadablePage(fakeForeverImportFn as any);
-    const page = shallow(
+    const pal = new ReactTestingLibraryPal(
       <HelmetProvider>
         <MemoryRouter>
           <LoadablePage />
         </MemoryRouter>
       </HelmetProvider>
     );
-    expect(page.html()).toContain('Loading');
+    expect(pal.rr.container.innerHTML).toContain('Loading');
   });
 });
 

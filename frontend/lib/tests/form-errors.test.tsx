@@ -1,7 +1,7 @@
 import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap, ServerFormFieldError } from "../form-errors";
-import { shallow } from "enzyme";
 import { assertNotNull } from "../util";
 import { simpleFormErrors } from "./util";
+import ReactTestingLibraryPal from "./rtl-pal";
 
 function extMsgs(...messages: string[]): ServerFormFieldError['extendedMessages'] {
   return messages.map(message => ({
@@ -28,11 +28,14 @@ test("FormsetErrorMap type makes sense", () => {
 });
 
 describe('formatErrors()', () => {
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   it('concatenates errors', () => {
     const { errorHelp } = formatErrors({
       errors: simpleFormErrors('foo', 'bar')
     });
-    expect(shallow(assertNotNull(errorHelp)).html())
+    const pal = new ReactTestingLibraryPal(assertNotNull(errorHelp));
+    expect(pal.rr.container.innerHTML)
       .toBe('<p class="help is-danger">foo bar</p>');
   });
 

@@ -1,8 +1,68 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useContext } from 'react';
 
-import { AppWithoutRouter, AppPropsWithRouter } from '../app';
+import { AppWithoutRouter, AppPropsWithRouter, App, AppProps } from '../app';
 import { createTestGraphQlClient, FakeSessionInfo, FakeServerInfo } from './util';
+import ReactTestingLibraryPal from './rtl-pal';
+import { HelmetProvider } from 'react-helmet-async';
+import { MemoryRouter, RouteComponentProps } from 'react-router';
+import { defaultContext, AppContext } from '../app-context';
+
+describe('App', () => {
+  let appContext = defaultContext;
+
+  const AppContextCapturer = (props: RouteComponentProps) => {
+    appContext = useContext(AppContext);
+    return <p>HAI</p>;
+  };
+
+  const buildPal = (initialSession = FakeSessionInfo) => {
+    const props: AppProps = {
+      initialURL: '/',
+      locale: '',
+      initialSession,
+      server: FakeServerInfo,
+      renderRoute: props => <AppContextCapturer {...props}/>
+    };
+    const pal = new ReactTestingLibraryPal(
+      <HelmetProvider>
+        <MemoryRouter>
+          <App {...props} />
+        </MemoryRouter>
+      </HelmetProvider>
+    );
+    return pal;
+  };
+
+  afterEach(ReactTestingLibraryPal.cleanup);
+
+  it('notifies FullStory when user logs in', () => {
+    const identify = jest.fn();
+    window.FS = { identify };
+    buildPal();
+    expect(identify.mock.calls).toHaveLength(0);
+    appContext.updateSession({
+      userId: 1,
+      firstName: 'Boop'
+    });
+    expect(identify.mock.calls).toHaveLength(1);
+    expect(identify.mock.calls).toEqual([
+      ["user:1", { displayName: "Boop (#1)" }]
+    ]);
+  });
+
+  it('notifies FullStory on mount if user is already logged in', () => {
+    const identify = jest.fn();
+    window.FS = { identify };
+    buildPal({ ...FakeSessionInfo, userId: 5, firstName: 'blah' });
+    expect(identify.mock.calls).toHaveLength(1);
+  });
+
+  it('handles session updates', () => {
+    buildPal();
+    appContext.updateSession({ csrfToken: 'blug' });
+    expect(appContext.session.csrfToken).toBe('blug');
+  });
+});
 
 describe('AppWithoutRouter', () => {
   const buildApp = (initialSession = FakeSessionInfo) => {
@@ -17,8 +77,7 @@ describe('AppWithoutRouter', () => {
       match: null as any
     };
 
-    const wrapper = shallow(<AppWithoutRouter {...props} />);
-    const app = wrapper.instance() as AppWithoutRouter;
+    const app = new AppWithoutRouter(props);
 
     app.gqlClient = client;
     return { client, app };
@@ -37,34 +96,6 @@ describe('AppWithoutRouter', () => {
     expect(consoleError.mock.calls[0][0]).toBe(err);
     expect(windowAlert.mock.calls).toHaveLength(1);
     expect(windowAlert.mock.calls[0][0]).toContain('network error');
-  });
-
-  it('notifies FullStory when user logs in', () => {
-    const identify = jest.fn();
-    window.FS = { identify };
-    const { app } = buildApp();
-    expect(identify.mock.calls).toHaveLength(0);
-    app.handleSessionChange({
-      userId: 1,
-      firstName: 'Boop'
-    });
-    expect(identify.mock.calls).toHaveLength(1);
-    expect(identify.mock.calls).toEqual([
-      ["user:1", { displayName: "Boop (#1)" }]
-    ]);
-  });
-
-  it('notifies FullStory on mount if user is already logged in', () => {
-    const identify = jest.fn();
-    window.FS = { identify };
-    buildApp({ ...FakeSessionInfo, userId: 5, firstName: 'blah' });
-    expect(identify.mock.calls).toHaveLength(1);
-  });
-
-  it('handles session updates', () => {
-    const { app } = buildApp();
-    app.handleSessionChange({ csrfToken: 'blug' });
-    expect(app.state.session.csrfToken).toBe('blug');
   });
 
   it('tracks pathname changes in google analytics', () => {

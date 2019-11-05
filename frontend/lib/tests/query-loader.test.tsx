@@ -3,6 +3,7 @@ import React from 'react';
 import { AppTesterPal } from "./app-tester-pal";
 import { QueryLoader } from "../query-loader";
 import { ExampleQuery } from "../queries/ExampleQuery";
+import { nextTick } from './util';
 
 describe('QueryLoader', () => {
   afterEach(AppTesterPal.cleanup);
@@ -26,7 +27,7 @@ describe('QueryLoader', () => {
     pal.expectGraphQL(/exampleQuery/);
     pal.rr.getByText('loading');
     pal.getFirstRequest().resolve({ exampleQuery: { hello: "FOO" } });
-    await pal.nextTick();
+    await nextTick();
     pal.rr.getByText('render FOO');
   });
 
@@ -34,7 +35,7 @@ describe('QueryLoader', () => {
     const pal = makePal();
     expect(pal.client.getRequestQueue()).toHaveLength(1);
     pal.getFirstRequest().reject(new Error('kaboom'));
-    await pal.nextTick();
+    await nextTick();
     pal.rr.getByText('error');
     pal.rr.getByText('retry').click();
     pal.rr.getByText('loading');

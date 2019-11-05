@@ -2,7 +2,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/de475123649c132f858b/maintainability)](https://codeclimate.com/github/JustFixNYC/tenants2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/de475123649c132f858b/test_coverage)](https://codeclimate.com/github/JustFixNYC/tenants2/test_coverage)
 
-This is an attempt at creating a new Tenants app for JustFix.
+This is the JustFix.nyc Tenant Platform.
+
+In addition to this README, please feel free to consult the
+[project wiki][], which contains details on the project's
+principles and architecture, development tips, and more.
+
+[project wiki]: https://github.com/JustFixNYC/tenants2/wiki
 
 ## Getting started
 
@@ -11,7 +17,7 @@ This is an attempt at creating a new Tenants app for JustFix.
 makes development much easier. But if you'd really rather set
 everything up without Docker, read on!
 
-You'll need Python 3.7.0 and [pipenv][], as well as Node 10, yarn, and
+You'll need Python 3.8.0 and [pipenv][], as well as Node 10, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
 set up Postgres version 10 or later.
 
@@ -40,7 +46,7 @@ Then, in a separate terminal, you'll want to instantiate
 your Python virtual environment and enter it:
 
 ```
-pipenv install --dev --python 3.7
+pipenv install --dev --python 3.8
 pipenv shell
 ```
 
@@ -294,13 +300,6 @@ In this container, the `/tenants2` directory is mapped to the root of
 the repository on your host; you can run any command, like `python manage.py`
 or `pytest`, from there. Specifically, within this bash session is where you can [create an Admin User](#creating-an-admin-user) to access the App's Admin Site. 
 
-
-### A `manage.py` shortcut
-
-Note that if you don't have Django installed on your host system, you
-can just run `python manage.py` directly from outside the container--the
-`manage.py` script has been modified to run itself in a Docker container
-if it detects that Django isn't installed.
 
 ## Changing the Dockerfile
 

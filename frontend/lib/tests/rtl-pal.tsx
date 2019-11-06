@@ -1,5 +1,5 @@
 import * as rt from '@testing-library/react'
-import { getElement } from '../util';
+import { getHTMLElement } from '@justfixnyc/util';
 import { queryHelpers } from '@testing-library/react';
 
 /**
@@ -49,7 +49,7 @@ export default class ReactTestingLibraryPal {
     tagName: K,
     selector: string = ''
   ): HTMLElementTagNameMap[K] {
-    return getElement(tagName, selector, this.rr.baseElement);
+    return getHTMLElement(tagName, selector, this.rr.baseElement);
   }
 
   /** Click anything with the given text and selector. */

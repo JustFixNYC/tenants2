@@ -65,6 +65,7 @@
     "@babel/preset-typescript": "7.3.3",
     "@babel/register": "7.4.4",
     "@justfixnyc/geosearch-requester": "0.0.4",
+    "@justfixnyc/util": "^0.0.1",
     "@loadable/babel-plugin": "5.10.0",
     "@loadable/component": "5.10.2",
     "@loadable/server": "5.10.2",

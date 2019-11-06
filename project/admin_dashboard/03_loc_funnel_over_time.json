@@ -7,6 +7,8 @@
     },
     "mark": "area",
     "transform": [{
+        "filter": "datum.signup_intent == 'LOC'"
+    }, {
         "calculate": "datum.letter_mail_choice !== null ? '4 - completed' : (datum.access_date_count > 0 ? '3 - provided access dates' : (datum.issue_count > 0 ? '2 - filed issues' : '1 - onboarded'))",
         "as": "latest step completed"
     }],

@@ -91,9 +91,9 @@ class Command(BaseCommand):
                         print(f"User {contact.name} joined on {contact.created_on} and was "
                               f"added to '{group_name}' on {run.exited_on}.")
                     update = {field_key: format_iso8601(run.exited_on)}
-                    if dry_run:
-                        print(f"DRY RUN, UPDATE {repr(contact.name)} FIELDS: {update}")
-                    else:
+                    prefix = "[DRY RUN] " if dry_run else ""
+                    print(f"{prefix}Updating {repr(contact.name)} fields {update}")
+                    if not dry_run:
                         client.update_contact(contact, fields={
                             **contact.fields,
                             **update

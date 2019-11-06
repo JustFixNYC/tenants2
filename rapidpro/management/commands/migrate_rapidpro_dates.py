@@ -72,15 +72,19 @@ def get_run(client: TembaClient, contact: Contact, flow_uuid: str) -> Run:
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
+        parser.add_argument('--only-contact-uuid', help="limit migration to one contact UUID")
         parser.add_argument('--dry-run', help="don't actually update records",
                             action='store_true')
 
     def migrate_dates(self, client: TembaClient, group_name: str, field_key: str, flow_uuid: str,
-                      dry_run: bool):
+                      dry_run: bool, only_contact_uuid: str):
         group = get_group(client, group_name)
         assert get_field(client, field_key) is not None
         print(f"Setting {field_key} for all users in RapidPro group '{group_name}'.")
-        contacts = client.get_contacts(group=group).iterfetches(retry_on_rate_exceed=True)
+        kwargs = {'group': group}
+        if only_contact_uuid:
+            kwargs['uuid'] = only_contact_uuid
+        contacts = client.get_contacts(**kwargs).iterfetches(retry_on_rate_exceed=True)
         for contact_batch in contacts:
             for contact in contact_batch:
                 if not contact.fields[field_key]:
@@ -104,13 +108,15 @@ class Command(BaseCommand):
             raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
         client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
         dry_run: bool = options['dry_run']
+        only_contact_uuid: str = options['only_contact_uuid'] or ""
 
         self.migrate_dates(
             client,
             'LOC Sent Letter',
             'date_of_loc_sent_letter',
             '7f5fc188-8e6a-4fbb-bd55-ee85d38ffb08',  # 'LOC #1: Mailing Confirmation'
-            dry_run
+            dry_run,
+            only_contact_uuid
         )
 
         self.migrate_dates(
@@ -118,5 +124,6 @@ class Command(BaseCommand):
             'DHCR Requested Rental History',
             'date_of_dhcr_req_rental_history',
             '367fb415-29bd-4d98-8e42-40cba0dc8a97',  # 'DHCR flow'
-            dry_run
+            dry_run,
+            only_contact_uuid
         )

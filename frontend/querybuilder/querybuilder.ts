@@ -40,6 +40,10 @@ export function runApolloCodegen(): number {
   if (child.error) {
     throw child.error;
   }
+  if (child.status === null) {
+    // The child terminated due to a signal, just represent it as an error.
+    return 1;
+  }
   if (child.status !== 0) {
     return child.status;
   }

@@ -45,7 +45,7 @@ export function appStaticContextAsStaticRouterContext(obj: AppStaticContext): St
  * typings.
  */
 export function getAppStaticContext(props: RouteComponentProps<any>): AppStaticContext|null {
-  if (props && props.staticContext) {
+  if (props?.staticContext) {
     return props.staticContext as AppStaticContext;
   }
   return null;

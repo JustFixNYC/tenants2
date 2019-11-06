@@ -40,10 +40,7 @@ function assertNullOrBool(key: string|number|symbol, value: unknown): null|boole
  * Convert the given value to a boolean, assigning a default if it's `null`.
  */
 function nullToBool(value: boolean|null, defaultValue: boolean): boolean {
-  if (value === null) {
-    return defaultValue;
-  }
-  return value;
+  return value ?? defaultValue;
 }
 
 /**

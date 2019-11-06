@@ -9,6 +9,7 @@ SELECT
     ) AS is_nycha_bbl,
     onb.borough AS borough,
     onb.created_at AS onboarding_date,
+    onb.signup_intent AS signup_intent,
     onb.is_in_eviction AS is_in_eviction,
     onb.needs_repairs AS needs_repairs,
     onb.has_no_services AS has_no_services,

@@ -58,14 +58,18 @@ def iter_archived_runs(client: TembaClient) -> Iterable[Run]:
                 yield run
 
 
-def get_run(client: TembaClient, contact: Contact, flow_uuid: str) -> Run:
+def is_completed_run(run: Run, flow_uuid: str) -> bool:
+    return run.flow.uuid == flow_uuid and run.exit_type == "completed"
+
+
+def get_completed_run(client: TembaClient, contact: Contact, flow_uuid: str) -> Run:
     runs = client.get_runs(contact=contact).iterfetches(retry_on_rate_exceed=True)
     for run_batch in runs:
         for run in run_batch:
-            if run.flow.uuid == flow_uuid:
+            if is_completed_run(run, flow_uuid):
                 return run
     for run in iter_archived_runs(client):
-        if run.contact.uuid == contact.uuid and run.flow.uuid == flow_uuid:
+        if run.contact.uuid == contact.uuid and is_completed_run(run, flow_uuid):
             return run
     raise ValueError(f"Unable to find RapidPro flow '{flow_uuid}' for contact '{contact.name}'")
 
@@ -89,7 +93,7 @@ class Command(BaseCommand):
             for contact in contact_batch:
                 if not contact.fields[field_key]:
                     assert isinstance(contact.created_on, datetime.datetime)
-                    run = get_run(client, contact, flow_uuid)
+                    run = get_completed_run(client, contact, flow_uuid)
                     assert isinstance(run.exited_on, datetime.datetime)
                     if run.exited_on - contact.created_on > datetime.timedelta(days=2):
                         print(f"User {contact.name} joined on {contact.created_on} and was "

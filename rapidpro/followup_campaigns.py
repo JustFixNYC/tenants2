@@ -1,8 +1,36 @@
 import datetime
-from typing import NamedTuple, Optional
+from typing import NamedTuple, Optional, List, Iterable
+from django.conf import settings
 from temba_client.v2 import TembaClient
 from temba_client.v2.types import Group, Contact, Field
 from temba_client.utils import format_iso8601
+
+
+class DjangoSettingsFollowupCampaigns:
+    CAMPAIGN_SETTING_PREFIX = "RAPIDPRO_FOLLOWUP_CAMPAIGN_"
+
+    @classmethod
+    def get_names(cls) -> List[str]:
+        return [
+            name[len(cls.CAMPAIGN_SETTING_PREFIX):] for name in dir(settings)
+            if name.startswith(cls.CAMPAIGN_SETTING_PREFIX)
+        ]
+
+    @classmethod
+    def get_setting_name(cls, name: str) -> str:
+        return cls.CAMPAIGN_SETTING_PREFIX + name
+
+    @classmethod
+    def get_campaign(cls, name: str) -> Optional['FollowupCampaign']:
+        campaign_str = getattr(settings, cls.get_setting_name(name))
+        return FollowupCampaign.from_string(campaign_str)
+
+    @classmethod
+    def get_configured_campaigns(cls) -> Iterable['FollowupCampaign']:
+        for name in cls.get_names():
+            campaign = cls.get_campaign(name)
+            if campaign is not None:
+                yield campaign
 
 
 class FollowupCampaign(NamedTuple):

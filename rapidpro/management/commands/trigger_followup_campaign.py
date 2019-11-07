@@ -1,20 +1,9 @@
-from typing import List
 from django.core.management.base import CommandError, BaseCommand
 from django.conf import settings
 from temba_client.v2 import TembaClient
 
 from users.models import validate_phone_number
-from rapidpro.followup_campaigns import FollowupCampaign
-
-
-CAMPAIGN_SETTING_PREFIX = "RAPIDPRO_FOLLOWUP_CAMPAIGN_"
-
-
-def get_campaigns() -> List[str]:
-    return [
-        name[len(CAMPAIGN_SETTING_PREFIX):] for name in dir(settings)
-        if name.startswith(CAMPAIGN_SETTING_PREFIX)
-    ]
+from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
 
 
 class Command(BaseCommand):
@@ -29,7 +18,7 @@ class Command(BaseCommand):
         full_name: str = options['full_name']
         phone_number: str = options['phone_number']
         campaign_name: str = options['campaign'].upper()
-        campaigns = get_campaigns()
+        campaigns = DjangoSettingsFollowupCampaigns.get_names()
 
         validate_phone_number(phone_number)
 
@@ -37,14 +26,12 @@ class Command(BaseCommand):
             raise CommandError(f"Please choose a valid follow-up campaign "
                                f"from: {', '.join(campaigns)}")
 
-        setting_name = CAMPAIGN_SETTING_PREFIX + campaign_name
-        campaign_str = getattr(settings, setting_name)
-        campaign = FollowupCampaign.from_string(campaign_str)
+        campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
 
         if campaign is None:
             raise CommandError(
                 f"The {campaign_name} campaign must be configured via the "
-                f"{setting_name} setting."
+                f"{DjangoSettingsFollowupCampaigns.get_setting_name(campaign_name)} setting."
             )
 
         client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)

@@ -7,6 +7,8 @@ from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
 
 
 class Command(BaseCommand):
+    help = "Put someone on a RapidPro follow-up campaign."
+
     def add_arguments(self, parser):
         parser.add_argument('full_name')
         parser.add_argument('phone_number')

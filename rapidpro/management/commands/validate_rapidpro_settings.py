@@ -6,6 +6,8 @@ from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
 
 
 class Command(BaseCommand):
+    help = "Validate all RapidPro settings with the RapidPro server."
+
     def handle(self, *args, **options):
         if not settings.RAPIDPRO_API_TOKEN:
             raise CommandError("RAPIDPRO_API_TOKEN must be configured.")

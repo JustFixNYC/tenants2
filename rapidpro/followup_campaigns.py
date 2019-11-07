@@ -1,5 +1,5 @@
 import datetime
-from typing import NamedTuple, Optional, List, Iterable
+from typing import NamedTuple, Optional, List
 from django.conf import settings
 from temba_client.v2 import TembaClient
 from temba_client.v2.types import Group, Contact, Field
@@ -7,10 +7,24 @@ from temba_client.utils import format_iso8601
 
 
 class DjangoSettingsFollowupCampaigns:
+    '''
+    RapidPro follow-up campaigns are defined by Django settings that start
+    with the prefix "RAPIDPRO_FOLLOWUP_CAMPAIGN_".  This class provides
+    tools for querying them.
+
+    The name of a follow-up campaign is everything after the prefix, so
+    e.g. the "BOOP" campaign is configured via the Django setting
+    "RAPIDPRO_FOLLOWUP_CAMPAIGN_BOOP".
+    '''
+
     CAMPAIGN_SETTING_PREFIX = "RAPIDPRO_FOLLOWUP_CAMPAIGN_"
 
     @classmethod
     def get_names(cls) -> List[str]:
+        """
+        Get the names of all follow-up campaigns defined in Django settings.
+        """
+
         return [
             name[len(cls.CAMPAIGN_SETTING_PREFIX):] for name in dir(settings)
             if name.startswith(cls.CAMPAIGN_SETTING_PREFIX)
@@ -18,19 +32,24 @@ class DjangoSettingsFollowupCampaigns:
 
     @classmethod
     def get_setting_name(cls, name: str) -> str:
+        """
+        Get the full setting name of the given follow-up campaign, e.g.:
+
+            >>> DjangoSettingsFollowupCampaigns.get_setting_name("BOOP")
+            'RAPIDPRO_FOLLOWUP_CAMPAIGN_BOOP'
+        """
+
         return cls.CAMPAIGN_SETTING_PREFIX + name
 
     @classmethod
     def get_campaign(cls, name: str) -> Optional['FollowupCampaign']:
+        """
+        Return the campaign with the given name, or None if it hasn't
+        been configured.
+        """
+
         campaign_str = getattr(settings, cls.get_setting_name(name))
         return FollowupCampaign.from_string(campaign_str)
-
-    @classmethod
-    def get_configured_campaigns(cls) -> Iterable['FollowupCampaign']:
-        for name in cls.get_names():
-            campaign = cls.get_campaign(name)
-            if campaign is not None:
-                yield campaign
 
 
 class FollowupCampaign(NamedTuple):
@@ -96,6 +115,11 @@ class FollowupCampaign(NamedTuple):
 
 
 def get_group(client: TembaClient, name: str) -> Group:
+    '''
+    Return the RapidPro group with the given name, raising an exception
+    if it doesn't exist.
+    '''
+
     group = client.get_groups(name=name).first(retry_on_rate_exceed=True)
     if group is None:
         raise ValueError(f"Unable to find RapidPro group '{name}'")
@@ -103,6 +127,11 @@ def get_group(client: TembaClient, name: str) -> Group:
 
 
 def get_field(client: TembaClient, key: str) -> Field:
+    '''
+    Return the RapidPro field with the given key, raising an exception
+    if it doesn't exist.
+    '''
+
     field = client.get_fields(key=key).first(retry_on_rate_exceed=True)
     if field is None:
         raise ValueError(f"Unable to find RapidPro field with key '{key}'")

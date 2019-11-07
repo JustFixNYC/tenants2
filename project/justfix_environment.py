@@ -276,6 +276,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Whether to use the experimental lambda HTTP server.
     USE_LAMBDA_HTTP_SERVER: bool = False
 
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for rent history. If empty, this follow-up
+    # campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_RH: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

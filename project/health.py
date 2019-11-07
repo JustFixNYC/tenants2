@@ -67,7 +67,9 @@ class CheckCelery(HealthCheck):
         from project import tasks
 
         result = tasks.get_git_revision.apply_async()
-        return result.get() == settings.GIT_INFO.get_version_str()
+        result_str = result.get()
+        result.forget()
+        return result_str == settings.GIT_INFO.get_version_str()
 
 
 class CheckNycdb(HealthCheck):

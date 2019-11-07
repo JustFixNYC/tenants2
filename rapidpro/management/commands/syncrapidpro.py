@@ -8,6 +8,7 @@ from django.utils import timezone
 from temba_client.v2 import TembaClient
 
 from rapidpro.models import Metadata, ContactGroup, UserContactGroup
+from rapidpro import rapidpro_util
 from users.models import JustfixUser
 
 URN_TEL_REGEX = re.compile(r'^tel:\+1(\d+)$')
@@ -45,13 +46,15 @@ def get_contact_batches(after: Optional[datetime]):
 
 
 def ensure_rapidpro_is_configured():
-    if not settings.RAPIDPRO_API_TOKEN:
-        raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+    # This will throw if RapidPro isn't configured.
+    get_rapidpro_client()
 
 
 def get_rapidpro_client() -> TembaClient:
-    ensure_rapidpro_is_configured()
-    return TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
+    client = rapidpro_util.get_client_from_settings()
+    if client is None:
+        raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+    return client
 
 
 class Command(BaseCommand):

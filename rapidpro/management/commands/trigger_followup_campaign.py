@@ -3,7 +3,7 @@ from django.core.management.base import CommandError, BaseCommand
 from django.conf import settings
 from temba_client.v2 import TembaClient
 
-from users.models import JustfixUser
+from users.models import validate_phone_number
 from rapidpro.followup_campaigns import FollowupCampaign
 
 
@@ -19,15 +19,19 @@ def get_campaigns() -> List[str]:
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('username')
+        parser.add_argument('full_name')
+        parser.add_argument('phone_number')
         parser.add_argument('campaign')
 
     def handle(self, *args, **options):
         if not settings.RAPIDPRO_API_TOKEN:
             raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
-        username: str = options['username']
+        full_name: str = options['full_name']
+        phone_number: str = options['phone_number']
         campaign_name: str = options['campaign'].upper()
         campaigns = get_campaigns()
+
+        validate_phone_number(phone_number)
 
         if campaign_name not in campaigns:
             raise CommandError(f"Please choose a valid follow-up campaign "
@@ -47,8 +51,7 @@ class Command(BaseCommand):
         print(f"Validating {campaign}...")
         campaign.validate(client)
 
-        user = JustfixUser.objects.get(username=username)
-
-        print(f"Adding {user} to {campaign_name} follow-up campaign...")
-        campaign.add_user(client, user)
+        print(f"Adding {full_name} ({phone_number}) to "
+              f"{campaign_name} follow-up campaign...")
+        campaign.add_contact(client, full_name, phone_number)
         print("Done.")

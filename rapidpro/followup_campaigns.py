@@ -4,8 +4,6 @@ from temba_client.v2 import TembaClient
 from temba_client.v2.types import Group, Contact, Field
 from temba_client.utils import format_iso8601
 
-from users.models import JustfixUser
-
 
 class FollowupCampaign(NamedTuple):
     # The group name that the follow-up campaign is triggered on, e.g.
@@ -42,13 +40,13 @@ class FollowupCampaign(NamedTuple):
             }
         )
 
-    def add_user(self, client: TembaClient, user: JustfixUser):
+    def add_contact(self, client: TembaClient, full_name: str, phone_number: str):
         """
-        Add the given user to the follow-up campaign, creating a new RapidPro contact
+        Add the given contact to the follow-up campaign, creating a new RapidPro contact
         if needed.
         """
 
-        contact = get_or_create_contact(client, user.full_name, user.phone_number)
+        contact = get_or_create_contact(client, full_name, phone_number)
         self.add_to_group_and_update_date_field(client, contact)
 
     @classmethod

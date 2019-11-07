@@ -1,17 +1,14 @@
-from django.core.management.base import CommandError, BaseCommand
-from django.conf import settings
-from temba_client.v2 import TembaClient
+from django.core.management.base import BaseCommand
 
 from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
+from .syncrapidpro import get_rapidpro_client
 
 
 class Command(BaseCommand):
     help = "Validate all RapidPro settings with the RapidPro server."
 
     def handle(self, *args, **options):
-        if not settings.RAPIDPRO_API_TOKEN:
-            raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
-        client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
+        client = get_rapidpro_client()
         for name in DjangoSettingsFollowupCampaigns.get_names():
             campaign = DjangoSettingsFollowupCampaigns.get_campaign(name)
             if campaign is None:

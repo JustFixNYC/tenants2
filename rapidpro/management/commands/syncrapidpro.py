@@ -38,10 +38,20 @@ def find_user_from_urns(urns: List[str]) -> Optional[JustfixUser]:
 
 
 def get_contact_batches(after: Optional[datetime]):
-    client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
+    client = get_rapidpro_client()
     return client.get_contacts(
         after=after
     ).iterfetches(retry_on_rate_exceed=True)
+
+
+def ensure_rapidpro_is_configured():
+    if not settings.RAPIDPRO_API_TOKEN:
+        raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+
+
+def get_rapidpro_client() -> TembaClient:
+    ensure_rapidpro_is_configured()
+    return TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
 
 
 class Command(BaseCommand):
@@ -107,6 +117,5 @@ class Command(BaseCommand):
         self.stdout.write(f"Done syncing with {hostname}.\n")
 
     def handle(self, *args, **options):
-        if not settings.RAPIDPRO_API_TOKEN:
-            raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+        ensure_rapidpro_is_configured()
         self.sync(full_resync=options['full_resync'])

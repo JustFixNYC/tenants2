@@ -1,9 +1,8 @@
 from django.core.management.base import CommandError, BaseCommand
-from django.conf import settings
-from temba_client.v2 import TembaClient
 
 from users.models import validate_phone_number
 from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
+from .syncrapidpro import get_rapidpro_client
 
 
 class Command(BaseCommand):
@@ -15,8 +14,7 @@ class Command(BaseCommand):
         parser.add_argument('campaign')
 
     def handle(self, *args, **options):
-        if not settings.RAPIDPRO_API_TOKEN:
-            raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+        client = get_rapidpro_client()
         full_name: str = options['full_name']
         phone_number: str = options['phone_number']
         campaign_name: str = options['campaign'].upper()
@@ -36,7 +34,6 @@ class Command(BaseCommand):
                 f"{DjangoSettingsFollowupCampaigns.get_setting_name(campaign_name)} setting."
             )
 
-        client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
         print(f"Validating {campaign}...")
         campaign.validate(client)
 

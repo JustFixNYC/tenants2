@@ -14,12 +14,17 @@ class TestGetClientFromSettings:
         assert isinstance(rapidpro_util.get_client_from_settings(), TembaClient)
 
 
-def make_client_mocks(query_method_name, first_result):
-    client = MagicMock()
+def mock_query(client, query_method_name, first_result):
     query = MagicMock()
     query_method = getattr(client, query_method_name)
     query_method.return_value = query
     query.first.return_value = first_result
+    return query
+
+
+def make_client_mocks(query_method_name, first_result):
+    client = MagicMock()
+    query = mock_query(client, query_method_name, first_result)
     return (client, query)
 
 

@@ -8,6 +8,7 @@ from django.utils import timezone
 from temba_client.v2 import TembaClient
 
 from rapidpro.models import Metadata, ContactGroup, UserContactGroup
+from rapidpro import rapidpro_util
 from users.models import JustfixUser
 
 URN_TEL_REGEX = re.compile(r'^tel:\+1(\d+)$')
@@ -38,10 +39,22 @@ def find_user_from_urns(urns: List[str]) -> Optional[JustfixUser]:
 
 
 def get_contact_batches(after: Optional[datetime]):
-    client = TembaClient(settings.RAPIDPRO_HOSTNAME, settings.RAPIDPRO_API_TOKEN)
+    client = get_rapidpro_client()
     return client.get_contacts(
         after=after
     ).iterfetches(retry_on_rate_exceed=True)
+
+
+def ensure_rapidpro_is_configured():
+    # This will throw if RapidPro isn't configured.
+    get_rapidpro_client()
+
+
+def get_rapidpro_client() -> TembaClient:
+    client = rapidpro_util.get_client_from_settings()
+    if client is None:
+        raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+    return client
 
 
 class Command(BaseCommand):
@@ -107,6 +120,5 @@ class Command(BaseCommand):
         self.stdout.write(f"Done syncing with {hostname}.\n")
 
     def handle(self, *args, **options):
-        if not settings.RAPIDPRO_API_TOKEN:
-            raise CommandError("RAPIDPRO_API_TOKEN must be configured.")
+        ensure_rapidpro_is_configured()
         self.sync(full_resync=options['full_resync'])

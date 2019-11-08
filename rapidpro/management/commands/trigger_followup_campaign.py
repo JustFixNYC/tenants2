@@ -34,9 +34,6 @@ class Command(BaseCommand):
                 f"{DjangoSettingsFollowupCampaigns.get_setting_name(campaign_name)} setting."
             )
 
-        print(f"Validating {campaign}...")
-        campaign.validate(client)
-
         print(f"Adding {full_name} ({phone_number}) to "
               f"{campaign_name} follow-up campaign...")
         campaign.add_contact(client, full_name, phone_number)

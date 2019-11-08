@@ -1,7 +1,9 @@
 import re
+import sys
 from difflib import unified_diff
 import pytest
 
+from project.health import get_python_version
 from project.justfix_environment import BASE_DIR
 
 README = BASE_DIR / 'README.md'
@@ -69,6 +71,7 @@ def test_everything_uses_the_same_version_of_python():
     version = get_match(r'FROM python:(.+)', BASE_DOCKERFILE)
     ensure_file_contains(README, f'Python {version}')
     ensure_file_contains(PIPFILE, f'python_version = "{version}"')
+    assert get_python_version() == version
 
 
 def test_everything_uses_the_same_version_of_node():

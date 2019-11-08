@@ -1,5 +1,4 @@
 import re
-import sys
 from difflib import unified_diff
 import pytest
 

@@ -51,7 +51,7 @@ class TestGetField:
         with pytest.raises(ValueError, match="Unable to find RapidPro field with key 'foo_a'"):
             rapidpro_util.get_field(client, 'foo_a')
 
-    def it_returns_field_if_found(self):
+    def test_it_returns_field_if_found(self):
         client, _ = make_client_mocks('get_fields', first_result="BOOP")
         assert rapidpro_util.get_field(client, 'date_of_boop') == "BOOP"
         client.get_fields.assert_called_once_with(key="date_of_boop")
@@ -63,7 +63,7 @@ class TestGetGroup:
         with pytest.raises(ValueError, match="Unable to find RapidPro group 'Foo Group'"):
             rapidpro_util.get_group(client, 'Foo Group')
 
-    def it_returns_group_if_found(self):
+    def test_it_returns_group_if_found(self):
         client, _ = make_client_mocks('get_groups', first_result="BOOP")
         assert rapidpro_util.get_group(client, 'Boop Group') == "BOOP"
         client.get_groups.assert_called_once_with(name="Boop Group")

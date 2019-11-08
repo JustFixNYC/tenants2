@@ -7,6 +7,7 @@ from project.util.django_graphql_session_forms import (
 from project.util.session_mutation import SessionFormMutation
 from project import schema_registry
 from project.util.address_form_fields import BOROUGH_CHOICES
+from rapidpro.followup_campaigns import trigger_followup_campaign_async
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -33,12 +34,19 @@ class RhSendEmail(SessionFormMutation):
         if form_data is None:
             cls.log(info, "User has not completed the rental history form, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
+        first_name: str = form_data["first_name"]
+        last_name: str = form_data["last_name"]
         email_dhcr.send_email_to_dhcr(
-            form_data["first_name"],
-            form_data["last_name"],
+            first_name,
+            last_name,
             form_data["address"],
             BOROUGH_CHOICES.get_label(form_data["borough"]),
             form_data["apartment_number"]
+        )
+        trigger_followup_campaign_async(
+            f"{first_name} {last_name}",
+            form_data["phone_number"],
+            "RH"
         )
         RhFormInfo.clear_from_request(request)
         return cls.mutation_success()

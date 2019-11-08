@@ -5,7 +5,7 @@ from temba_client.v2 import TembaClient
 from temba_client.v2.types import Contact
 from temba_client.utils import format_iso8601
 
-from .rapidpro_util import get_field, get_group, get_or_create_contact
+from .rapidpro_util import get_field, get_group, get_or_create_contact, get_client_from_settings
 
 
 class DjangoSettingsFollowupCampaigns:
@@ -114,3 +114,19 @@ class FollowupCampaign(NamedTuple):
         if not value:
             return None
         return FollowupCampaign(*value.split(',', 1))
+
+
+def trigger_followup_campaign_async(full_name: str, phone_number: str, campaign_name: str):
+    '''
+    Add the given contact to the given follow-up campaign from Django settings, e.g.:
+
+        >>> trigger_followup_campaign_async("Boop Jones", "5551234567", "RH")
+
+    If RapidPro or the follow-up campaign isn't configured, nothing is done.
+    '''
+
+    client = get_client_from_settings()
+    campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
+    if client and campaign:
+        from . import tasks
+        tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name)

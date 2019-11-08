@@ -356,9 +356,12 @@ class FormWithFormsets:
         return self._errors
 
     def full_clean(self):
-        self._errors = forms.utils.ErrorDict()
         self.base_form.full_clean()
-        self._errors.update(self.base_form.errors)
+
+        errors = forms.utils.ErrorDict()
+        errors.update(self.base_form.errors)
+        self._errors = errors
+
         for name in self.formsets:
             self._full_clean_formset(name)
 
@@ -520,8 +523,8 @@ class GrapheneDjangoFormMixin:
     @classmethod
     def get_form(cls, root, info, **input):
         form_kwargs = cls.get_form_kwargs(root, info, **input)
-        form = cls._meta.form_class(**form_kwargs)
-        if not cls._meta.formset_classes:
+        form = cls._meta.form_class(**form_kwargs)  # type: ignore
+        if not cls._meta.formset_classes:  # type: ignore
             return form
         return FormWithFormsets(form, cls._get_formsets(root, info, **input))
 

@@ -12,8 +12,8 @@ class Command(BaseCommand):
         for name in DjangoSettingsFollowupCampaigns.get_names():
             campaign = DjangoSettingsFollowupCampaigns.get_campaign(name)
             if campaign is None:
-                print(f"Follow-up campaign {name} is not configured.")
+                self.stdout.write(f"Follow-up campaign {name} is not configured.\n")
             else:
-                print(f"Validating {name} {campaign}.")
+                self.stdout.write(f"Validating {name} {campaign}.\n")
                 campaign.validate(client)
-        print("Done.")
+        self.stdout.write("Done.\n")

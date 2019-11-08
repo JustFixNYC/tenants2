@@ -27,8 +27,13 @@ class DjangoSettingsFollowupCampaigns:
         Get the names of all follow-up campaigns defined in Django settings.
         """
 
+        # Note that we're calling set() to ensure all the entries are unique;
+        # For some reason, during test runs at least, there are liable to be
+        # multiple entries for the same setting, which is super weird.
+        settings_attrs = set(dir(settings))
+
         return [
-            name[len(cls.CAMPAIGN_SETTING_PREFIX):] for name in dir(settings)
+            name[len(cls.CAMPAIGN_SETTING_PREFIX):] for name in settings_attrs
             if name.startswith(cls.CAMPAIGN_SETTING_PREFIX)
         ]
 

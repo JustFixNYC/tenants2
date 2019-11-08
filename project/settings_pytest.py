@@ -28,7 +28,7 @@ ROLLBAR_ACCESS_TOKEN = ''
 MAPBOX_ACCESS_TOKEN = ''
 NYCDB_DATABASE = None
 WOW_DATABASE = None
-ROLLBAR = {}  # type: ignore
+ROLLBAR = {}
 LOGGING['handlers']['rollbar'] = {  # type: ignore  # noqa
     'class': 'logging.NullHandler'
 }

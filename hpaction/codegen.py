@@ -98,7 +98,7 @@ class PythonCodeGenerator:
             ))
 
     def coalesce_duplicate_enums(self):
-        choices: Set[List[PythonEnumOption]] = set()
+        choices: Set[Tuple[PythonEnumOption, ...]] = set()
         enums = tuple(self.enums)
         for enum in enums:
             if enum.options in choices:

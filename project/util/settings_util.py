@@ -45,5 +45,5 @@ class LazilyImportedFunction:
         self.func: Optional[Callable] = None
 
     def __call__(self, *args, **kwargs):
-        self.__call__ = import_string(self.dotted_path)
+        self.__call__ = import_string(self.dotted_path)  # type: ignore
         return self.__call__(*args, **kwargs)

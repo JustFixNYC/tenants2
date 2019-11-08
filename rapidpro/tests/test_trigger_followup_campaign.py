@@ -29,6 +29,4 @@ def test_it_works(settings, monkeypatch):
     call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'RH')
     assert get_campaign.called_once_with('RH')
     assert campaign.add_contact.called_once()
-
-    # TODO: Uncomment this when we fix https://github.com/JustFixNYC/tenants2/issues/922.
-    # assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567')
+    assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567')

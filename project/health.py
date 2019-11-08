@@ -1,3 +1,4 @@
+import sys
 import abc
 from typing import List, Dict, Any
 import logging
@@ -101,12 +102,18 @@ class HealthInfo:
         return {
             'status': self.status,
             'is_extended': self.is_extended,
+            'python_version': get_python_version(),
             'version': settings.GIT_INFO.get_version_str(),
             'check_results': self.check_results
         }
 
     def to_json_response(self) -> JsonResponse:
         return JsonResponse(self.to_json(), status=self.status)
+
+
+def get_python_version() -> str:
+    v = sys.version_info
+    return f"{v.major}.{v.minor}.{v.micro}"
 
 
 def get_healthchecks() -> List[HealthCheck]:

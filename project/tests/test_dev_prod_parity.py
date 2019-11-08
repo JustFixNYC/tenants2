@@ -2,10 +2,12 @@ import re
 from difflib import unified_diff
 import pytest
 
+from project.health import get_python_version
 from project.justfix_environment import BASE_DIR
 
 README = BASE_DIR / 'README.md'
 BASE_DOCKERFILE = BASE_DIR / 'Dockerfile'
+PIPFILE = BASE_DIR / 'Pipfile'
 
 GITIGNORE = BASE_DIR / '.gitignore'
 DOCKERIGNORE = BASE_DIR / '.dockerignore'
@@ -67,6 +69,8 @@ def test_helper_function_failure_conditions():
 def test_everything_uses_the_same_version_of_python():
     version = get_match(r'FROM python:(.+)', BASE_DOCKERFILE)
     ensure_file_contains(README, f'Python {version}')
+    ensure_file_contains(PIPFILE, f'python_version = "{version}"')
+    assert get_python_version() == version
 
 
 def test_everything_uses_the_same_version_of_node():

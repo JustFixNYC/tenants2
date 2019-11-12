@@ -277,6 +277,12 @@ class LetterRequest(models.Model):
         )
     )
 
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="The tracking number for the letter.",
+    )
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])

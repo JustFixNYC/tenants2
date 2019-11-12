@@ -157,9 +157,10 @@ class TestMailViaLob:
             user_verification=test_lob_api.get_sample_verification(),
             is_manually_overridden=False
         )['signed_verifications']
+        sample_letter = test_lob_api.get_sample_letter()
         requests_mock.post(
             test_lob_api.LOB_LETTERS_URL,
-            json=test_lob_api.get_sample_letter()
+            json=sample_letter
         )
         res = admin_client.post(
             self.url,
@@ -168,6 +169,7 @@ class TestMailViaLob:
         assert res.status_code == 200
         assert b'Hooray, the letter was sent via Lob' in res.content
         self.lr.refresh_from_db()
+        assert self.lr.tracking_number == sample_letter['tracking_number']
         assert self.lr.lob_letter_object['carrier'] == 'USPS'
 
 

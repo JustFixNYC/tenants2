@@ -129,6 +129,7 @@ class LocAdminViews:
                 verifications = signing.loads(request.POST['signed_verifications'])
                 response = self._create_letter(request, letter, verifications)
                 letter.lob_letter_object = response
+                letter.tracking_number = response['tracking_number']
                 letter.save()
             else:
                 ctx.update({

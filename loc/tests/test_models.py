@@ -10,7 +10,7 @@ from loc.models import (
     AddressDetails, AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES)
 from .test_landlord_lookup import (
     mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
-from .factories import create_user_with_all_info
+from .factories import create_user_with_all_info, LetterRequestFactory
 
 WE_WILL_MAIL = LOC_MAILING_CHOICES.WE_WILL_MAIL
 USER_WILL_MAIL = LOC_MAILING_CHOICES.USER_WILL_MAIL
@@ -194,3 +194,35 @@ class TestAddressDetails:
 
     def test_str_works(self):
         assert str(AddressDetails(address='hi\nthere')) == 'hi / there'
+
+
+class TestUspsTrackingUrl:
+    def test_it_is_empty_if_tracking_number_not_set(self):
+        assert LetterRequest().usps_tracking_url == ''
+
+    def test_it_is_nonempty_if_tracking_number_set(self):
+        url = "https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+        assert LetterRequest(tracking_number='1234').usps_tracking_url == url
+
+
+class TestTrackingNumberChanged:
+    def make(self, **kwargs):
+        onb = OnboardingInfoFactory()
+        return LetterRequestFactory(user=onb.user, **kwargs)
+
+    def test_nothing_is_done_when_cleared(self, db, smsoutbox):
+        lr = self.make(tracking_number='1234')
+        lr.tracking_number = ''
+        lr.save()
+        assert len(smsoutbox) == 0
+
+    def test_message_sent_when_set(self, db, smsoutbox):
+        lr = self.make()
+        lr.tracking_number = '1234'
+        lr.save()
+        messages_sent = len(smsoutbox)
+        assert messages_sent > 0
+
+        # Make sure we don't send *again* when saving again.
+        lr.save()
+        assert len(smsoutbox) == messages_sent

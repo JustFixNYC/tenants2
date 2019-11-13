@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from django.core.exceptions import ValidationError
 import pytest
 
@@ -98,3 +98,19 @@ def test_validate_phone_number_raises_validation_errors(value, excmsg):
 
 def test_validate_phone_number_works_with_valid_phone_numbers():
     validate_phone_number('4151234567')
+
+
+class TestTriggerFollowupCampaign:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, monkeypatch):
+        from rapidpro import followup_campaigns
+        self.trigger = MagicMock()
+        monkeypatch.setattr(followup_campaigns, 'trigger_followup_campaign_async', self.trigger)
+
+    def test_it_does_nothing_if_user_prohibits_sms(self, db):
+        OnboardingInfoFactory(can_we_sms=False).user.trigger_followup_campaign_async("LOC")
+        self.trigger.assert_not_called()
+
+    def test_it_triggers_followup_campaign_if_user_allows_sms(self, db):
+        OnboardingInfoFactory(can_we_sms=True).user.trigger_followup_campaign_async("LOC")
+        self.trigger.assert_called_once_with('Boop Jones', '5551234567', 'LOC')

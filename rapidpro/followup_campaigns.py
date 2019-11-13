@@ -135,3 +135,19 @@ def trigger_followup_campaign_async(full_name: str, phone_number: str, campaign_
     if client and campaign:
         from . import tasks
         tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name)
+
+
+def ensure_followup_campaign_exists(campaign_name: str) -> None:
+    '''
+    Raises an exception if the given follow-up campaign name doesn't exist, e.g.:
+
+        >>> ensure_followup_campaign_exists('BOOP')
+        Traceback (most recent call last):
+        ...
+        AttributeError: 'Settings' object has no attribute 'RAPIDPRO_FOLLOWUP_CAMPAIGN_BOOP'
+
+    Note that this will *not* raise anything if the campaign exists but
+    has not been configured.
+    '''
+
+    DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)

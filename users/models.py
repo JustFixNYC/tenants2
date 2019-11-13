@@ -123,9 +123,12 @@ class JustfixUser(AbstractUser):
             twilio.send_sms_async(self.phone_number, body)
 
     def trigger_followup_campaign_async(self, campaign_name: str) -> None:
+        from rapidpro import followup_campaigns as fc
+
+        fc.ensure_followup_campaign_exists(campaign_name)
+
         if self.can_we_sms:
-            from rapidpro.followup_campaigns import trigger_followup_campaign_async
-            trigger_followup_campaign_async(
+            fc.trigger_followup_campaign_async(
                 self.full_name,
                 self.phone_number,
                 campaign_name

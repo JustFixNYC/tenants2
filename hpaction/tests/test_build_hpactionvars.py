@@ -228,7 +228,10 @@ def test_problem_is_urgent_tf_works():
     h = HPActionDetailsFactory.build(urgent_and_dangerous=True)
     v = hp.HPActionVariables()
     fill_hp_action_details(v, h)
-    assert v.problem_is_urgent_tf is True
+
+    # In practice, the city *always* wants this to be false, so we're
+    # testing to make sure our code disregards what the user answered.
+    assert v.problem_is_urgent_tf is False
 
     h.urgent_and_dangerous = False
     fill_hp_action_details(v, h)
@@ -244,7 +247,7 @@ def test_sue_for_harassment_works():
     h.sue_for_harassment = None
     v = hp.HPActionVariables()
     fill_hp_action_details(v, h)
-    assert v.problem_is_urgent_tf is None
+    assert v.sue_for_harassment_tf is None
 
 
 def test_fill_harassment_details_works():

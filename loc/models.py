@@ -287,6 +287,12 @@ class LetterRequest(models.Model):
         ),
     )
 
+    letter_sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the letter was mailed through the postal service."
+    )
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])

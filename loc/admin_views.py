@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from django.template.response import TemplateResponse
+from django.utils import timezone
 from django.urls import path, reverse
 from django.shortcuts import get_object_or_404
 from django.core import signing
@@ -130,6 +131,7 @@ class LocAdminViews:
                 response = self._create_letter(request, letter, verifications)
                 letter.lob_letter_object = response
                 letter.tracking_number = response['tracking_number']
+                letter.letter_sent_at = timezone.now()
                 letter.save()
             else:
                 ctx.update({

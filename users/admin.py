@@ -149,7 +149,10 @@ class JustfixUserAdmin(UserAdmin):
             MAILING_NEEDED: Count(
                 'letter_request',
                 distinct=True,
-                filter=Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL)
+                filter=(
+                    Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL) &
+                    Q(letter_request__tracking_number__exact='')
+                )
             )
         })
         return queryset

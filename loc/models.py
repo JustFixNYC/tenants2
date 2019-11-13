@@ -8,7 +8,7 @@ from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 from project.common_data import Choices
-from project.util.site_util import absolute_reverse
+from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
@@ -286,6 +286,7 @@ class LetterRequest(models.Model):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])
+        self.__tracking_number_tracker = InstanceChangeTracker(self, ['tracking_number'])
 
     @property
     def will_we_mail(self) -> bool:
@@ -352,6 +353,20 @@ class LetterRequest(models.Model):
         # it's better than nothing!
         return f"https://dashboard.lob.com/#/letters/{ltr_id}"
 
+    @property
+    def usps_tracking_url(self) -> str:
+        '''
+        Return the URL on the USPS website where more information about
+        the mailed letter can be found.
+
+        If the letter has not been sent, return an empty string.
+        '''
+
+        if not self.tracking_number:
+            return ''
+
+        return f"https://tools.usps.com/go/TrackConfirmAction?tLabels={self.tracking_number}"
+
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:
             return True
@@ -390,6 +405,25 @@ class LetterRequest(models.Model):
         )
         self.html_content = header + render_letter_body(self.user)
 
+    def _on_tracking_number_changed(self):
+        if not self.tracking_number:
+            return
+        self.user.send_sms_async(
+            f"{get_site_name()} here - "
+            f"We've mailed the letter of complaint to your landlord. "
+            f"You can track its progress here: {self.usps_tracking_url} "
+            f"(link may take a day to update)"
+        )
+        self.user.send_sms_async(
+            f"We'll follow up in about a week to see how things are going."
+        )
+        self.user.trigger_followup_campaign_async("LOC")
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.__tracker.set_to_unchanged()
+
+        if self.__tracking_number_tracker.has_changed():
+            self._on_tracking_number_changed()
+
+        self.__tracking_number_tracker.set_to_unchanged()

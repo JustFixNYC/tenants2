@@ -122,6 +122,15 @@ class JustfixUser(AbstractUser):
         if self.can_we_sms:
             twilio.send_sms_async(self.phone_number, body)
 
+    def trigger_followup_campaign_async(self, campaign_name: str) -> None:
+        if self.can_we_sms:
+            from rapidpro.followup_campaigns import trigger_followup_campaign_async
+            trigger_followup_campaign_async(
+                self.full_name,
+                self.phone_number,
+                campaign_name
+            )
+
     @property
     def admin_url(self):
         return absolute_reverse('admin:users_justfixuser_change', args=[self.pk])

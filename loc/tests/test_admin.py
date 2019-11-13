@@ -180,6 +180,10 @@ class TestGetLobNomailReason:
     def test_it_works_when_letter_has_no_pk(self, enable_lob):
         assert get_lob_nomail_reason(LetterRequest()) == 'the letter has not yet been created'
 
+    def test_it_works_when_letter_has_been_sent_manually(self, enable_lob, db):
+        lr = LetterRequestFactory(tracking_number='boop')
+        assert get_lob_nomail_reason(lr) == 'the letter has already been mailed manually'
+
     def test_it_works_when_letter_has_already_been_sent(self, enable_lob, db):
         lr = LetterRequestFactory(lob_letter_object={'blah': 1})
         assert get_lob_nomail_reason(lr) == 'the letter has already been sent via Lob'

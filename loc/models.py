@@ -357,6 +357,8 @@ class LetterRequest(models.Model):
             return True
         if self.lob_letter_object is not None:
             return False
+        if self.tracking_number:
+            return False
         if self.created_at is None:
             return True
         return timezone.now() - self.created_at < LOC_CHANGE_LEEWAY

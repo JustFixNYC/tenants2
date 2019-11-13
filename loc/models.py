@@ -280,7 +280,11 @@ class LetterRequest(models.Model):
     tracking_number = models.CharField(
         max_length=100,
         blank=True,
-        help_text="The tracking number for the letter.",
+        help_text=(
+            "The tracking number for the letter. Note that when this is changed, "
+            "the user will be notified via SMS and added to a LOC follow-up campaign, "
+            "if one has been configured."
+        ),
     )
 
     def __init__(self, *args, **kwargs) -> None:

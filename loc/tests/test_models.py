@@ -135,6 +135,10 @@ class TestLetterRequestClean:
         with pytest.raises(ValidationError, match='at least one access date'):
             self.make(create_user_with_all_info(access_dates=False)).clean()
 
+    def test_it_raises_error_when_letter_is_rejected_and_mailed(self):
+        with pytest.raises(ValidationError, match='both rejected and mailed'):
+            self.make(UserFactory(), rejection_reason="blah", tracking_number="123").clean()
+
     def test_it_works_when_nothing_has_changed(self):
         lr = self.make_ancient()
         lr.clean()

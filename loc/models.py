@@ -293,6 +293,12 @@ class LetterRequest(models.Model):
         help_text="When the letter was mailed through the postal service."
     )
 
+    rejection_reason = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="The reason we didn't mail the letter, if applicable."
+    )
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])
@@ -391,6 +397,10 @@ class LetterRequest(models.Model):
     def clean(self):
         super().clean()
         user = self.user
+
+        if self.rejection_reason and self.tracking_number:
+            raise ValidationError('Letter cannot be both rejected and mailed!')
+
         if user and self.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL:
             if user.issues.count() == 0 and user.custom_issues.count() == 0:
                 raise ValidationError(

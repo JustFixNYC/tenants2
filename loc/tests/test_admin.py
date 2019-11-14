@@ -188,6 +188,10 @@ class TestGetLobNomailReason:
         lr = LetterRequestFactory(lob_letter_object={'blah': 1})
         assert get_lob_nomail_reason(lr) == 'the letter has already been sent via Lob'
 
+    def test_it_works_when_we_rejected_the_letter(self, enable_lob, db):
+        lr = LetterRequestFactory(rejection_reason="letter contains gibberish")
+        assert get_lob_nomail_reason(lr) == 'we have rejected the letter'
+
     def test_it_works_when_user_mails_letter_themselves(self, enable_lob, db):
         lr = LetterRequestFactory(mail_choice=LOC_MAILING_CHOICES.USER_WILL_MAIL)
         assert get_lob_nomail_reason(lr) == \

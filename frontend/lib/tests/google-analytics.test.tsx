@@ -59,11 +59,12 @@ describe('OutboundLink', () => {
     const pal = new ReactTestingLibraryPal(
       <OutboundLink href="https://boop.com/">boop</OutboundLink>
     );
-    pal.clickButtonOrLink('boop');
+    const wasDefaultPrevented = !pal.clickButtonOrLink('boop');
     expect(gaMock.mock.calls).toHaveLength(1);
     expect(gaMock.mock.calls[0].slice(0, 5)).toEqual([
       'send', 'event', 'outbound', 'click', 'https://boop.com/'
     ]);
+    expect(wasDefaultPrevented).toBe(true);
 
     jest.advanceTimersByTime(400);
     expect(hardRedirect.mock.calls).toHaveLength(0);
@@ -71,16 +72,14 @@ describe('OutboundLink', () => {
     expect(hardRedirect.mock.calls).toEqual([['https://boop.com/']]);
   });
 
-  it('opens link in a new window if "target" prop is set', () => {
-    const mockOpen = jest.fn();
-    window.open = mockOpen;
+  it('does not prevent default if "target" prop is set', () => {
     const pal = new ReactTestingLibraryPal(
       <OutboundLink href="https://bap.com/" target="_blank">bap</OutboundLink>
     );
-    pal.clickButtonOrLink('bap');
-    callHitCallback();
+    const wasDefaultPrevented = !pal.clickButtonOrLink('bap');
+    expect(gaMock.mock.calls).toEqual([["send", "event", "outbound", "click", "https://bap.com/"]]);
     expect(hardRedirect.mock.calls).toHaveLength(0);
-    expect(mockOpen.mock.calls).toEqual([['https://bap.com/', '_blank']]);
+    expect(wasDefaultPrevented).toBe(false);
   });
 
   it('redirects after a timeout if GA has not responded', () => {
@@ -100,11 +99,11 @@ describe('OutboundLink', () => {
     expect(preventDefault.mock.calls).toHaveLength(1);
   });
 
-  it('does nothing when a modifier key is pressed', () => {
+  it('sends GA event but does not prevent default when a modifier key is pressed', () => {
     const preventDefault = jest.fn();
-    const e = { shiftKey: true, preventDefault } as any;
+    const e = { shiftKey: true, preventDefault, currentTarget: { href: "http://boop" } } as any;
     handleOutboundLinkClick(e);
-    expect(gaMock.mock.calls).toHaveLength(0);
+    expect(gaMock.mock.calls).toEqual([["send", "event", "outbound", "click", "http://boop"]]);
     expect(preventDefault.mock.calls).toHaveLength(0);
   });
 });

@@ -47,6 +47,8 @@ describe('OutboundLink', () => {
     gaMock.mock.calls[0][5].hitCallback();
   };
 
+  afterEach(ReactTestingLibraryPal.cleanup);
+
   beforeEach(() => {
     jest.useFakeTimers();
     window.ga = gaMock;
@@ -105,5 +107,14 @@ describe('OutboundLink', () => {
     handleOutboundLinkClick(e);
     expect(gaMock.mock.calls).toEqual([["send", "event", "outbound", "click", "http://boop"]]);
     expect(preventDefault.mock.calls).toHaveLength(0);
+  });
+
+  it('calls onClick prop if passed', () => {
+    const onClick = jest.fn();
+    const pal = new ReactTestingLibraryPal(
+      <OutboundLink href="https://boop.com/" onClick={onClick}>boop</OutboundLink>
+    );
+    pal.clickButtonOrLink('boop');
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

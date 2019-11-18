@@ -53,6 +53,15 @@ export interface GoogleAnalyticsAPI {
   (cmd: 'send', hitType: 'event', eventCategory: 'outbound', eventAction: 'click', url: string): void;
 
   /**
+   * A custom event for when the user clicks on a data-driven onboarding (DDO)
+   * action.
+   * 
+   * @param urlOrPath Either the absolute URL the action led to (if off-site), or
+   *   the local path the action led to (if on-site).
+   */
+  (cmd: 'send', hitType: 'event', eventCategory: 'ddo-action', eventAction: 'click', urlOrPath: string): void;
+
+  /**
    * A custom event for when the user tries to unload a page that has
    * unsaved content on it, and we ask them to confirm the action
    * because they may lose data.
@@ -210,15 +219,19 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   }
 }
 
-type OutboundLinkProps = Omit<DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> & {
+type OutboundLinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> & {
   /** The "href" prop is required on outbound links, not optional. */
   href: string;
-}, 'onClick'>;
+};
 
 /**
  * A react component that encapsulates a link to an external website,
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
-  return <a {...props} onClick={handleOutboundLinkClick}>{props.children}</a>;
+  const {onClick, ...otherProps} = props;
+  return <a {...otherProps} onClick={e => {
+    handleOutboundLinkClick(e);
+    if (onClick) onClick(e);
+  }}>{props.children}</a>;
 }

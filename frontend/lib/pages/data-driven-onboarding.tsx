@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink, ga } from '../google-analytics';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -94,10 +94,11 @@ function CallToAction({to, text, isBeta, className}: CallToActionProps) {
   const isInternal = to[0] === '/';
   const betaTag = isBeta ? <span className="jf-beta-tag"/> : null;
   const content = <>{text}{betaTag}</>;
+  const onClick = () => ga('send', 'event', 'ddo-action', 'click', to);
   if (isInternal) {
-    return <Link to={to} className={className}>{content}</Link>;
+    return <Link to={to} className={className} onClick={onClick}>{content}</Link>;
   }
-  return <OutboundLink href={to} rel="noopener noreferrer" target="_blank" className={className}>
+  return <OutboundLink href={to} rel="noopener noreferrer" target="_blank" className={className} onClick={onClick}>
     {content}
   </OutboundLink>;
 }

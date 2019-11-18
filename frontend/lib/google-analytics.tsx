@@ -56,10 +56,9 @@ export interface GoogleAnalyticsAPI {
    * A custom event for when the user clicks on a data-driven onboarding (DDO)
    * action.
    * 
-   * @param urlOrPath Either the absolute URL the action led to (if off-site), or
-   *   the local path the action led to (if on-site).
+   * @param label The label for the DDO action that was clicked.
    */
-  (cmd: 'send', hitType: 'event', eventCategory: 'ddo-action', eventAction: 'click', urlOrPath: string): void;
+  (cmd: 'send', hitType: 'event', eventCategory: 'ddo-action', eventAction: 'click', label: string): void;
 
   /**
    * A custom event for when the user tries to unload a page that has

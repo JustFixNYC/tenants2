@@ -72,6 +72,7 @@ function Indicator(props: {value: number, unit: string, pluralUnit?: string, ver
 type CallToActionProps = {
   to: string,
   text: string,
+  gaLabel: string,
   isBeta?: boolean,
   className?: string
 };
@@ -90,11 +91,11 @@ type ActionCardProps = {
 
 type ActionCardPropsCreator = (data: DDOData) => ActionCardProps;
 
-function CallToAction({to, text, isBeta, className}: CallToActionProps) {
+function CallToAction({to, text, isBeta, className, gaLabel}: CallToActionProps) {
   const isInternal = to[0] === '/';
   const betaTag = isBeta ? <span className="jf-beta-tag"/> : null;
   const content = <>{text}{betaTag}</>;
-  const onClick = () => ga('send', 'event', 'ddo-action', 'click', to);
+  const onClick = () => ga('send', 'event', 'ddo-action', 'click', gaLabel);
   if (isInternal) {
     return <Link to={to} className={className} onClick={onClick}>{content}</Link>;
   }
@@ -211,6 +212,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/network.svg",
       cta: {
         to: whoOwnsWhatURL(data.bbl),
+        gaLabel: 'wow',
         text: "Visit Who Owns What"
       }
     };
@@ -230,6 +232,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
         to: Routes.locale.loc.latestStep,
+        gaLabel: 'loc',
         text: "Send a letter of complaint",
       }
     };
@@ -254,6 +257,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
+        gaLabel: 'hp',
         text: "Sue your landlord",
         isBeta: true
       }
@@ -279,6 +283,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
         to: Routes.locale.rh.splash,
+        gaLabel: 'rh',
         text: "Order rental history"
       }
     };
@@ -297,6 +302,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
         to: "https://www.evictionfreenyc.org/",
+        gaLabel: 'efnyc',
         text: "Visit Eviction Free NYC"
       }
     }

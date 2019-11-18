@@ -19,6 +19,8 @@ LOB_STRICTNESS_HELP_URL = \
 
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
+LOC_REJECTION_CHOICES = Choices.from_file('loc-rejection-choices.json')
+
 # The amount of time a user has to change their letter of request
 # content after originally submitting it.
 LOC_CHANGE_LEEWAY = datetime.timedelta(hours=1)
@@ -296,6 +298,7 @@ class LetterRequest(models.Model):
     rejection_reason = models.CharField(
         max_length=100,
         blank=True,
+        choices=LOC_REJECTION_CHOICES.choices,
         help_text="The reason we didn't mail the letter, if applicable."
     )
 

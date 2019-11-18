@@ -1,0 +1,5 @@
+[
+    ["INCRIMINATION", "Letter is potentially incriminating"],
+    ["CHANGED_MIND", "Tenant changed their mind"],
+    ["OTHER", "Other"]
+]

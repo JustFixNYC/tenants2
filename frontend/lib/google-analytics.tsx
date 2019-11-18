@@ -50,6 +50,7 @@ export interface GoogleAnalyticsAPI {
     transport: 'beacon',
     hitCallback: () => void
   }): void;
+  (cmd: 'send', hitType: 'event', eventCategory: 'outbound', eventAction: 'click', url: string): void;
 
   /**
    * A custom event for when the user tries to unload a page that has
@@ -188,30 +189,24 @@ export function trackPageView(pathname: string) {
  */
 const OUTBOUND_LINK_TIMEOUT_MS = 1000;
 
-/** Follow the given link. */
-function follow(href: string, target: string) {
-  if (target) {
-    window.open(href, target);
-  } else {
-    hardRedirect(href);
-  }
-}
-
 /** An event handler executed when a user clicks on an outbound link. */
 export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // If any modifier key is pressed, odds are that the user is trying to
   // invoke some browser-specific behavior to e.g. open the link in a
   // new window or tab. We don't want to break that.
   const isModifierPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+  const { href, target } = e.currentTarget;
 
-  if (!isModifierPressed) {
-    const { href, target } = e.currentTarget;
+  const willOpenInNewWindow = target && target !== window.name;
 
+  if (!isModifierPressed && !willOpenInNewWindow) {
     ga('send', 'event', 'outbound', 'click', href, {
       transport: 'beacon',
-      hitCallback: callOnceWithinMs(() => follow(href, target), OUTBOUND_LINK_TIMEOUT_MS)
+      hitCallback: callOnceWithinMs(() => hardRedirect(href), OUTBOUND_LINK_TIMEOUT_MS)
     });
     e.preventDefault();
+  } else {
+    ga('send', 'event', 'outbound', 'click', href);
   }
 }
 

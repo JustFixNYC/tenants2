@@ -54,22 +54,22 @@ export default class ReactTestingLibraryPal {
 
   /** Click anything with the given text and selector. */
   click(matcher: RegExp|string, selector: string) {
-    rt.fireEvent.click(this.getByTextAndSelector(matcher, selector));
+    return rt.fireEvent.click(this.getByTextAndSelector(matcher, selector));
   }
 
   /** Click a list item in the render result. */
   clickListItem(matcher: RegExp|string) {
-    this.click(matcher, 'li');
+    return this.click(matcher, 'li');
   }
 
   /** Click a button or link in the render result. */
   clickButtonOrLink(matcher: RegExp|string) {
-    this.click(matcher, 'a, button, a > .jf-sr-only, button > .jf-sr-only');
+    return this.click(matcher, 'a, button, a > .jf-sr-only, button > .jf-sr-only');
   }
 
   /** Click a radio button or checkbox in the render result. */
   clickRadioOrCheckbox(matcher: RegExp|string) {
-    rt.fireEvent.click(this.getByLabelTextAndSelector(matcher, 'input'));
+    return rt.fireEvent.click(this.getByLabelTextAndSelector(matcher, 'input'));
   }
 
   /**
@@ -82,7 +82,7 @@ export default class ReactTestingLibraryPal {
 
   /** Send a keyDown event to the given form field with the give key code. */
   keyDownOnFormField(label: string|RegExp, keyCode: number) {
-    rt.fireEvent.keyDown(this.getFormField(label), { keyCode });
+    return rt.fireEvent.keyDown(this.getFormField(label), { keyCode });
   }
 
   /** Fill out multiple form fields in the render result. */

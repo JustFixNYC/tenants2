@@ -157,9 +157,10 @@ class TestMailViaLob:
             user_verification=test_lob_api.get_sample_verification(),
             is_manually_overridden=False
         )['signed_verifications']
+        sample_letter = test_lob_api.get_sample_letter()
         requests_mock.post(
             test_lob_api.LOB_LETTERS_URL,
-            json=test_lob_api.get_sample_letter()
+            json=sample_letter
         )
         res = admin_client.post(
             self.url,
@@ -168,6 +169,7 @@ class TestMailViaLob:
         assert res.status_code == 200
         assert b'Hooray, the letter was sent via Lob' in res.content
         self.lr.refresh_from_db()
+        assert self.lr.tracking_number == sample_letter['tracking_number']
         assert self.lr.lob_letter_object['carrier'] == 'USPS'
 
 
@@ -178,9 +180,17 @@ class TestGetLobNomailReason:
     def test_it_works_when_letter_has_no_pk(self, enable_lob):
         assert get_lob_nomail_reason(LetterRequest()) == 'the letter has not yet been created'
 
+    def test_it_works_when_letter_has_been_sent_manually(self, enable_lob, db):
+        lr = LetterRequestFactory(tracking_number='boop')
+        assert get_lob_nomail_reason(lr) == 'the letter has already been mailed manually'
+
     def test_it_works_when_letter_has_already_been_sent(self, enable_lob, db):
         lr = LetterRequestFactory(lob_letter_object={'blah': 1})
         assert get_lob_nomail_reason(lr) == 'the letter has already been sent via Lob'
+
+    def test_it_works_when_we_rejected_the_letter(self, enable_lob, db):
+        lr = LetterRequestFactory(rejection_reason="letter contains gibberish")
+        assert get_lob_nomail_reason(lr) == 'we have rejected the letter'
 
     def test_it_works_when_user_mails_letter_themselves(self, enable_lob, db):
         lr = LetterRequestFactory(mail_choice=LOC_MAILING_CHOICES.USER_WILL_MAIL)

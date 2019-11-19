@@ -10,7 +10,7 @@ from loc.models import (
     AddressDetails, AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES)
 from .test_landlord_lookup import (
     mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
-from .factories import create_user_with_all_info
+from .factories import create_user_with_all_info, LetterRequestFactory
 
 WE_WILL_MAIL = LOC_MAILING_CHOICES.WE_WILL_MAIL
 USER_WILL_MAIL = LOC_MAILING_CHOICES.USER_WILL_MAIL
@@ -82,6 +82,12 @@ class TestCanChangeContent:
             lob_letter_object={'blah': 1},
         ).can_change_content() is False
 
+    def test_it_is_false_when_it_has_been_mailed_manually(self):
+        assert LetterRequest(
+            html_content='boop',
+            tracking_number='1234'
+        ).can_change_content() is False
+
     def test_it_is_true_when_within_leeway_window(self):
         assert LetterRequest(
             created_at=timezone.now(),
@@ -128,6 +134,10 @@ class TestLetterRequestClean:
     def test_it_raises_error_when_no_access_dates_exist(self):
         with pytest.raises(ValidationError, match='at least one access date'):
             self.make(create_user_with_all_info(access_dates=False)).clean()
+
+    def test_it_raises_error_when_letter_is_rejected_and_mailed(self):
+        with pytest.raises(ValidationError, match='both rejected and mailed'):
+            self.make(UserFactory(), rejection_reason="blah", tracking_number="123").clean()
 
     def test_it_works_when_nothing_has_changed(self):
         lr = self.make_ancient()
@@ -188,3 +198,35 @@ class TestAddressDetails:
 
     def test_str_works(self):
         assert str(AddressDetails(address='hi\nthere')) == 'hi / there'
+
+
+class TestUspsTrackingUrl:
+    def test_it_is_empty_if_tracking_number_not_set(self):
+        assert LetterRequest().usps_tracking_url == ''
+
+    def test_it_is_nonempty_if_tracking_number_set(self):
+        url = "https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+        assert LetterRequest(tracking_number='1234').usps_tracking_url == url
+
+
+class TestTrackingNumberChanged:
+    def make(self, **kwargs):
+        onb = OnboardingInfoFactory()
+        return LetterRequestFactory(user=onb.user, **kwargs)
+
+    def test_nothing_is_done_when_cleared(self, db, smsoutbox):
+        lr = self.make(tracking_number='1234')
+        lr.tracking_number = ''
+        lr.save()
+        assert len(smsoutbox) == 0
+
+    def test_message_sent_when_set(self, db, smsoutbox):
+        lr = self.make()
+        lr.tracking_number = '1234'
+        lr.save()
+        messages_sent = len(smsoutbox)
+        assert messages_sent > 0
+
+        # Make sure we don't send *again* when saving again.
+        lr.save()
+        assert len(smsoutbox) == messages_sent

@@ -8,7 +8,7 @@ from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 from project.common_data import Choices
-from project.util.site_util import absolute_reverse
+from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
@@ -18,6 +18,8 @@ LOB_STRICTNESS_HELP_URL = \
     "https://lob.com/resources/guides/general/verification-of-mailing-addresses"
 
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
+
+LOC_REJECTION_CHOICES = Choices.from_file('loc-rejection-choices.json')
 
 # The amount of time a user has to change their letter of request
 # content after originally submitting it.
@@ -277,9 +279,33 @@ class LetterRequest(models.Model):
         )
     )
 
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text=(
+            "The tracking number for the letter. Note that when this is changed, "
+            "the user will be notified via SMS and added to a LOC follow-up campaign, "
+            "if one has been configured."
+        ),
+    )
+
+    letter_sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the letter was mailed through the postal service."
+    )
+
+    rejection_reason = models.CharField(
+        max_length=100,
+        blank=True,
+        choices=LOC_REJECTION_CHOICES.choices,
+        help_text="The reason we didn't mail the letter, if applicable."
+    )
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ['mail_choice', 'html_content'])
+        self.__tracking_number_tracker = InstanceChangeTracker(self, ['tracking_number'])
 
     @property
     def will_we_mail(self) -> bool:
@@ -346,10 +372,26 @@ class LetterRequest(models.Model):
         # it's better than nothing!
         return f"https://dashboard.lob.com/#/letters/{ltr_id}"
 
+    @property
+    def usps_tracking_url(self) -> str:
+        '''
+        Return the URL on the USPS website where more information about
+        the mailed letter can be found.
+
+        If the letter has not been sent, return an empty string.
+        '''
+
+        if not self.tracking_number:
+            return ''
+
+        return f"https://tools.usps.com/go/TrackConfirmAction?tLabels={self.tracking_number}"
+
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:
             return True
         if self.lob_letter_object is not None:
+            return False
+        if self.tracking_number:
             return False
         if self.created_at is None:
             return True
@@ -358,6 +400,10 @@ class LetterRequest(models.Model):
     def clean(self):
         super().clean()
         user = self.user
+
+        if self.rejection_reason and self.tracking_number:
+            raise ValidationError('Letter cannot be both rejected and mailed!')
+
         if user and self.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL:
             if user.issues.count() == 0 and user.custom_issues.count() == 0:
                 raise ValidationError(
@@ -382,6 +428,25 @@ class LetterRequest(models.Model):
         )
         self.html_content = header + render_letter_body(self.user)
 
+    def _on_tracking_number_changed(self):
+        if not self.tracking_number:
+            return
+        self.user.send_sms_async(
+            f"{get_site_name()} here - "
+            f"We've mailed the letter of complaint to your landlord. "
+            f"You can track its progress here: {self.usps_tracking_url} "
+            f"(link may take a day to update)"
+        )
+        self.user.send_sms_async(
+            f"We'll follow up in about a week to see how things are going."
+        )
+        self.user.trigger_followup_campaign_async("LOC")
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.__tracker.set_to_unchanged()
+
+        if self.__tracking_number_tracker.has_changed():
+            self._on_tracking_number_changed()
+
+        self.__tracking_number_tracker.set_to_unchanged()

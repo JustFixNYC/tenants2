@@ -22,6 +22,15 @@ def test_choices_have_no_duplicates():
         values.add(value)
 
 
+def test_choices_are_short_enough_for_hp_action_forms():
+    # Currently LHI's HP Action Form PDF generator will create
+    # an addendum if issue names are too long, which clerks sometimes
+    # reject, so for now we're making sure that the issue lengths
+    # are short enough to not trigger an addendum.
+    for _, label in models.ISSUE_CHOICES.choices:
+        assert len(label) <= 30
+
+
 def test_choices_have_valid_chars():
     pattern = re.compile(r'[A-Z_]+')
     violations = []

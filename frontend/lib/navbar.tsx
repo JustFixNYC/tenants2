@@ -161,6 +161,7 @@ class NavbarWithoutAppContext extends React.Component<NavbarProps, NavbarState> 
               {session.phoneNumber
                 ? <Link className="navbar-item" to={Routes.locale.logout}>Sign out</Link>
                 : <Link className="navbar-item" to={Routes.locale.login}>Sign in</Link> }
+              <Link className="navbar-item" to={Routes.locale.help}>Help</Link>
               {this.renderDevMenu()}
             </div>
           </div>

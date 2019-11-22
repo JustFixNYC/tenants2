@@ -25,7 +25,7 @@ describe('onboarding step 4 page', () => {
       </Switch>
     );
 
-    pal.clickButtonOrLink(/create my account/i);
+    pal.clickButtonOrLink(/continue/i);
     pal.respondWithFormOutput({ errors: [], session: {} });
     await pal.rt.waitForElement(() => pal.rr.getByText('HOORAY'));
   });

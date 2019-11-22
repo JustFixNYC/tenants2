@@ -38,6 +38,15 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
 
+    # In Airtable, this should be a "Date" field.
+    'letter_sent_date': '2018-01-03',
+
+    # In Airtable, this should be a "Single line text" field.
+    'letter_rejection_reason': 'INCRIMINATION',
+
+    # In Airtable, this should be a "Single line text" field.
+    'letter_tracking_number': 'EA999999999US',
+
     # In Airtable, this should be a "Long text" field.
     'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
 
@@ -134,6 +143,18 @@ class Fields(pydantic.BaseModel):
         # exist, as Airtable will complain that it can't parse the value if we give it
         # an empty string.
         default=None, alias='letter_request_date')
+
+    # When we sent the user's letter of complaint.
+    letter_request__letter_sent_at: Optional[str] = pydantic.Schema(
+        default=None, alias='letter_sent_date')
+
+    # The reason we didn't mail the letter, if applicable.
+    letter_request__rejection_reason: str = pydantic.Schema(
+        default='', alias='letter_rejection_reason')
+
+    # The tracking number for the letter, if we sent it.
+    letter_request__tracking_number: str = pydantic.Schema(
+        default='', alias='letter_tracking_number')
 
     # The tenant's full mailing address.
     onboarding_info__address_for_mailing: str = pydantic.Schema(default='', alias='address')

@@ -47,7 +47,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
             JustFix.nyc terms and conditions
           </ModalLink>.
         </CheckboxFormField>
-        <ProgressButtons back={routes.step3} isLoading={ctx.isLoading} nextLabel="Create my account" />
+        <ProgressButtons back={routes.step3} isLoading={ctx.isLoading} nextLabel="Continue" />
       </React.Fragment>
     );
   }

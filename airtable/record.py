@@ -63,7 +63,16 @@ EXAMPLE_FIELDS = {
     'landlord_address': '1 Cloud City',
 
     # In Airtable, this should be a "Checkbox" field.
-    'will_we_mail_letter': True
+    'will_we_mail_letter': True,
+
+    # In Airtable, this should be a "Date" field.
+    'hp_latest_documents_date': '2018-02-03',
+
+    # In Airtable, this should be a "Checkbox" field.
+    'hp_sue_for_repairs': True,
+
+    # In Airtable, this should be a "Checkbox" field.
+    'hp_sue_for_harassment': True,
 }
 
 
@@ -174,6 +183,18 @@ class Fields(pydantic.BaseModel):
     # Whether or not the user wants us to mail the letter for them.
     letter_request__will_we_mail: bool = pydantic.Schema(
         default=False, alias='will_we_mail_letter')
+
+    # The most recent date the user's HP action documents were generated.
+    hp_action_details__latest_documents__created_at: Optional[str] = pydantic.Schema(
+        default=None, alias='hp_latest_documents_date')
+
+    # Whether the user wants to sue for repairs.
+    hp_action_details__sue_for_repairs: bool = pydantic.Schema(
+        default=False, alias='hp_sue_for_repairs')
+
+    # Whether the user wants to sue for harassment.
+    hp_action_details__sue_for_harassment: bool = pydantic.Schema(
+        default=False, alias='hp_sue_for_harassment')
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:

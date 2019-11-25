@@ -93,6 +93,8 @@ def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field)
             return field.default
         obj = getattr(obj, attr)
 
+    if obj is None:
+        return field.default
     value = getattr(obj, final_attr)
 
     if isinstance(value, datetime.datetime):

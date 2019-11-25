@@ -86,3 +86,12 @@ def test_from_user_works_with_hp_action(django_file_storage):
     assert fields.hp_action_details__latest_documents__created_at == '2018-03-04'
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_partial_hp_action():
+    details = HPActionDetailsFactory(sue_for_repairs=True, sue_for_harassment=True)
+    fields = Fields.from_user(details.user)
+    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.hp_action_details__sue_for_repairs is True
+    assert fields.hp_action_details__sue_for_harassment is True

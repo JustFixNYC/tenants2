@@ -1,10 +1,13 @@
 import pytest
 import datetime
+from freezegun import freeze_time
+from django.utils.timezone import make_aware
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
+from hpaction.tests.factories import HPActionDocumentsFactory, HPActionDetailsFactory
 from airtable.record import Fields
 
 
@@ -26,6 +29,12 @@ def test_from_user_works_with_minimal_user():
     assert fields.landlord_details__name == ''
     assert fields.landlord_details__address == ''
     assert fields.letter_request__will_we_mail is False
+    assert fields.letter_request__letter_sent_at is None
+    assert fields.letter_request__rejection_reason == ''
+    assert fields.letter_request__tracking_number == ''
+    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.hp_action_details__sue_for_repairs is False
+    assert fields.hp_action_details__sue_for_harassment is False
 
 
 @pytest.mark.django_db
@@ -45,12 +54,19 @@ def test_from_user_works_with_onboarded_user():
 
 @pytest.mark.django_db
 def test_from_user_works_with_letter_request():
-    lr = LetterRequestFactory()
+    lr = LetterRequestFactory(
+        letter_sent_at=make_aware(datetime.datetime(2018, 5, 6)),
+        rejection_reason='INCRIMINATING',
+        tracking_number='boop'
+    )
     fields = Fields.from_user(lr.user)
     assert fields.letter_request__will_we_mail is True
     assert fields.letter_request__created_at == datetime.datetime.utcnow().date().isoformat()
     assert strip_locale(fields.letter_request__admin_pdf_url) == \
         f'https://example.com/loc/admin/{lr.user.pk}/letter.pdf'
+    assert fields.letter_request__letter_sent_at == '2018-05-06'
+    assert fields.letter_request__rejection_reason == 'INCRIMINATING'
+    assert fields.letter_request__tracking_number == 'boop'
 
 
 @pytest.mark.django_db
@@ -59,3 +75,23 @@ def test_from_user_works_with_landlord_details():
     fields = Fields.from_user(ld.user)
     assert fields.landlord_details__name == 'Landlordo Calrissian'
     assert fields.landlord_details__address == '1 Cloud City'
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_hp_action(django_file_storage):
+    details = HPActionDetailsFactory(sue_for_repairs=True, sue_for_harassment=True)
+    with freeze_time('2018-03-04'):
+        HPActionDocumentsFactory(user=details.user)
+    fields = Fields.from_user(details.user)
+    assert fields.hp_action_details__latest_documents__created_at == '2018-03-04'
+    assert fields.hp_action_details__sue_for_repairs is True
+    assert fields.hp_action_details__sue_for_harassment is True
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_partial_hp_action():
+    details = HPActionDetailsFactory(sue_for_repairs=True, sue_for_harassment=True)
+    fields = Fields.from_user(details.user)
+    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.hp_action_details__sue_for_repairs is True
+    assert fields.hp_action_details__sue_for_harassment is True

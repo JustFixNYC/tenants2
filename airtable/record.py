@@ -104,6 +104,16 @@ def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field)
     return value
 
 
+# These are all the related models we want to fetch when we retrieve
+# users from the database, which massively speeds up synchronization.
+FIELDS_RELATED_MODELS = [
+    'onboarding_info',
+    'letter_request',
+    'landlord_details',
+    'hp_action_details',
+]
+
+
 class Fields(pydantic.BaseModel):
     '''
     The fields in a row of our Airtable table. Note that these are

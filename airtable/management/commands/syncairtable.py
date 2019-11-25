@@ -11,11 +11,12 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+        verbosity = int(options['verbosity'])
         if not settings.AIRTABLE_API_KEY:
             raise CommandError("AIRTABLE_API_KEY must be configured.")
 
         self.stdout.write("Retrieving current Airtable...\n")
         syncer = AirtableSynchronizer(Airtable(max_retries=99))
-        syncer.sync_users(stdout=self.stdout)
+        syncer.sync_users(stdout=self.stdout, verbose=verbosity >= 2)
 
         self.stdout.write("Finished synchronizing with Airtable!\n")

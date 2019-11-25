@@ -5,7 +5,7 @@ from django.conf import settings
 
 from users.models import JustfixUser
 from .api import Airtable
-from .record import Record, Fields
+from .record import Record, Fields, FIELDS_RELATED_MODELS
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,8 @@ class AirtableSynchronizer:
 
         return records
 
-    def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO):
+    def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO,
+                   verbose: bool = True):
         '''
         Synchronize a single user with Airtable.  If the user is already synchronized
         with Airtable, nothing is done.
@@ -57,22 +58,24 @@ class AirtableSynchronizer:
             stdout.write(f"{user} does not exist in Airtable, adding them.\n")
             self.airtable.create(our_fields)
         elif record.fields_ == our_fields:
-            stdout.write(f"{user} is already synced.\n")
+            if verbose:
+                stdout.write(f"{user} is already synced.\n")
         else:
             stdout.write(f"Updating {user}.\n")
             self.airtable.update(record, our_fields)
 
-    def sync_users(self, queryset=None, stdout: TextIO = sys.stdout):
+    def sync_users(self, queryset=None, stdout: TextIO = sys.stdout, verbose: bool = True):
         '''
         Synchronize the users in the given queryset with Airtable. If no
         queryset is provided, all users are synchronized.
         '''
 
         if queryset is None:
-            queryset = JustfixUser.objects.all()
+            queryset = JustfixUser.objects.all().select_related(*FIELDS_RELATED_MODELS)
         records = self._get_record_dict()
+        stdout.write("Synchronizing users...\n")
         for user in queryset:
-            self._sync_user(user, records, stdout)
+            self._sync_user(user, records, stdout, verbose)
 
 
 def sync_user(user: JustfixUser):

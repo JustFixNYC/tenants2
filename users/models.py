@@ -40,6 +40,7 @@ ROLES['Outreach Coordinators'] = set([
     'hpaction.view_hpuser',
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
+    'rh.view_rentalhistoryrequest',
 ])
 
 ROLES['Tenant Resource Editors'] = set([

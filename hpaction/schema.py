@@ -21,6 +21,8 @@ from . import models, forms, lhiapi, email_packet
 
 @schema_registry.register_mutation
 class EmailHpActionPdf(EmailAttachmentMutation):
+    attachment_name = "an HP Action packet"
+
     @classmethod
     def send_email(cls, user_id: int, recipients: List[str]):
         email_packet.email_packet_async(user_id, recipients)

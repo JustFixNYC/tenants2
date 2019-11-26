@@ -1,6 +1,8 @@
 from django import forms
+
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
+from .models import RentalHistoryRequest
 
 
 # Whenever we change the fields in any of the rental history
@@ -12,10 +14,11 @@ from project.util.address_form_fields import AddressAndBoroughFormMixin
 FIELD_SCHEMA_VERSION = 4
 
 
-class RhForm(AddressAndBoroughFormMixin, forms.Form):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=150)
-    apartment_number = forms.CharField(max_length=15)
+class RhForm(AddressAndBoroughFormMixin, forms.ModelForm):
+    class Meta:
+        model = RentalHistoryRequest
+        fields = ('first_name', 'last_name', 'apartment_number',)
+
     phone_number = USPhoneNumberField()
 
 

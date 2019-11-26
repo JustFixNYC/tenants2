@@ -1,4 +1,4 @@
-from . import forms, email_dhcr
+from . import models, forms, email_dhcr
 
 from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
@@ -34,6 +34,12 @@ class RhSendEmail(SessionFormMutation):
         if form_data is None:
             cls.log(info, "User has not completed the rental history form, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
+
+        rhr = models.RentalHistoryRequest(**form_data)
+        rhr.set_user(request.user)
+        rhr.full_clean()
+        rhr.save()
+
         first_name: str = form_data["first_name"]
         last_name: str = form_data["last_name"]
         email_dhcr.send_email_to_dhcr(

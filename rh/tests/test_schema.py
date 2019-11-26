@@ -1,4 +1,5 @@
 from project.tests.util import get_frontend_query
+from rh.models import RentalHistoryRequest
 
 
 VALID_RH_DATA = {
@@ -65,6 +66,18 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
     assert ob['session']['rentalHistoryInfo'] == {
         **VALID_RH_DATA,  # type:ignore
         "addressVerified": False}
+
+
+def test_rh_form_saves_info_to_db(db, graphql_client):
+    _exec_rh_form(graphql_client)
+    graphql_client.execute(RH_EMAIL_MUTATION)
+    rhrs = list(RentalHistoryRequest.objects.all())
+    assert len(rhrs) == 1
+    rhr = rhrs[0]
+    assert rhr.first_name == 'Boop'
+    assert rhr.last_name == 'Jones'
+    assert rhr.phone_number == '2120000000'
+    assert rhr.address == '123 Boop Way'
 
 
 def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox):

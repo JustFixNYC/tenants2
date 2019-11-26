@@ -5,7 +5,8 @@ from django import forms
 from django.http import FileResponse
 from django.core.mail import EmailMessage
 
-from project import common_data
+from users.models import JustfixUser
+from project import common_data, slack
 from project.util.django_graphql_forms import DjangoFormMutation
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
@@ -25,6 +26,14 @@ def email_file_response_as_attachment(
         msg.send()
 
 
+def get_slack_notify_text(user: JustfixUser, attachment_name: str, num_recipients: int) -> str:
+    return (
+        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"emailed {slack.escape(attachment_name)} to {num_recipients} "
+        f"recipient{'s' if num_recipients > 1 else ''}!"
+    )
+
+
 class EmailForm(forms.Form):
     email = forms.EmailField()
 
@@ -32,6 +41,8 @@ class EmailForm(forms.Form):
 class EmailAttachmentMutation(DjangoFormMutation):
     class Meta:
         abstract = True
+
+    attachment_name = "an attachment"
 
     login_required = True
 
@@ -61,4 +72,6 @@ class EmailAttachmentMutation(DjangoFormMutation):
         user = request.user
         recipients = [f.cleaned_data['email'] for f in form.formsets['recipients']]
         cls.send_email(user.pk, recipients)
+        slack.sendmsg_async(get_slack_notify_text(user, cls.attachment_name, len(recipients)),
+                            is_safe=True)
         return cls(errors=[], recipients=recipients)

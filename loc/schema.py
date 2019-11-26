@@ -16,6 +16,8 @@ MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxR
 
 @schema_registry.register_mutation
 class EmailLetter(EmailAttachmentMutation):
+    attachment_name = "a letter of complaint"
+
     @classmethod
     def send_email(cls, user_id: int, recipients: List[str]):
         email_letter.email_letter_async(user_id, recipients)

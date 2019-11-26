@@ -14,7 +14,18 @@ class RentalHistoryRequest(models.Model):
     address = models.CharField(**ADDRESS_FIELD_KWARGS)
     address_verified = models.BooleanField()
     borough = models.CharField(**BOROUGH_FIELD_KWARGS)
-    user = models.ForeignKey(JustfixUser, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text=(
+            "User who was logged in when the rental history request was made. "
+            "This may or may not be different from the actual name/address of the "
+            "request, e.g. if the user is making a request on someone else's "
+            "behalf."
+        )
+    )
 
     def set_user(self, user: JustfixUser):
         self.user = user if user.is_authenticated else None

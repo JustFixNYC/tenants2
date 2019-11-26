@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import ValidationError
 
-from project.forms import (
-    USPhoneNumberField, OptionalSetPasswordForm, YesNoRadiosField)
+from project.forms import OptionalSetPasswordForm, YesNoRadiosField
+from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from users.models import JustfixUser
 from .models import OnboardingInfo

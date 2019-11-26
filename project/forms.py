@@ -4,7 +4,8 @@ from django.forms import ValidationError
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 
-from users.models import PHONE_NUMBER_LEN, JustfixUser, validate_phone_number
+from users.models import JustfixUser
+from project.util.phone_number import USPhoneNumberField
 from . import password_reset
 
 
@@ -24,33 +25,6 @@ class YesNoRadiosField(forms.ChoiceField):
         if value == 'False':
             return False
         raise ValueError(f'Invalid YesNoRadiosField value: {value}')
-
-
-class USPhoneNumberField(forms.CharField):
-    '''
-    A field for a United States phone number.
-    '''
-
-    def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 15  # Allow for extra characters, we'll remove them.
-        super().__init__(*args, **kwargs)
-
-    def clean(self, value: str) -> str:
-        cleaned = super().clean(value)
-        cleaned = ''.join([
-            ch for ch in cleaned
-            if ch in '1234567890'
-        ])
-        if len(cleaned) == PHONE_NUMBER_LEN + 1 and cleaned.startswith('1'):
-            # The user specified the country calling code, remove it.
-            cleaned = cleaned[1:]
-        if len(cleaned) != PHONE_NUMBER_LEN:
-            raise ValidationError(
-                'This does not look like a U.S. phone number. '
-                'Please include the area code, e.g. (555) 123-4567.'
-            )
-        validate_phone_number(cleaned)
-        return cleaned
 
 
 class LoginForm(forms.Form):

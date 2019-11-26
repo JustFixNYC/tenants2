@@ -1,6 +1,6 @@
 from django.core.management.base import CommandError, BaseCommand
 
-from users.models import validate_phone_number
+from project.util.phone_number import validate_phone_number
 from rapidpro.followup_campaigns import DjangoSettingsFollowupCampaigns
 from .syncrapidpro import get_rapidpro_client
 

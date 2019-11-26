@@ -1,11 +1,9 @@
 import pytest
 from unittest.mock import patch
-from django.forms import ValidationError
 
 from project.forms import (
     LoginForm,
     YesNoRadiosField,
-    USPhoneNumberField
 )
 
 
@@ -32,37 +30,6 @@ def test_login_form_is_valid_if_auth_succeeded():
         form = LoginForm(data={'phone_number': '5551234567', 'password': 'boop'})
         assert form.is_valid() is True
         assert form.authenticated_user is fake_user
-
-
-@pytest.mark.parametrize("phone_number", [
-    '5551234567',
-    '555-123-4567',
-    '+1 555 123-4567'
-])
-def test_phone_number_field_works(phone_number):
-    assert USPhoneNumberField().clean(phone_number) == '5551234567'
-
-
-def test_phone_number_field_errors_on_really_long_input():
-    with pytest.raises(ValidationError) as exc_info:
-        USPhoneNumberField().clean('5551234567' * 30)
-    assert 'Ensure this value has at most ' in str(exc_info.value)
-
-
-@pytest.mark.parametrize("bad_phone_number", [
-    '555123456',
-    '555-123-456',
-    '+2 555 123-4567'
-])
-def test_phone_number_field_raises_errors(bad_phone_number):
-    with pytest.raises(ValidationError) as exc_info:
-        USPhoneNumberField().clean(bad_phone_number)
-    assert 'This does not look like a U.S. phone number.' in str(exc_info.value)
-
-
-def test_phone_number_field_raises_error_on_bad_area_code():
-    with pytest.raises(ValidationError, match="area code"):
-        USPhoneNumberField().clean("1912311234")
 
 
 class TestYesNoRadiosField:

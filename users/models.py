@@ -1,18 +1,13 @@
-import re
 import logging
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.crypto import get_random_string
 
 from texting import twilio
 from project.util.site_util import absolute_reverse
+from project.util import phone_number as pn
 from .permission_util import ModelPermissions
 
-
-PHONE_NUMBER_LEN = 10
-
-ALL_DIGITS_RE = re.compile(r'[0-9]+')
 
 FULL_NAME_MAXLEN = 150
 
@@ -59,17 +54,6 @@ ROLES['Tenant Resource Editors'] = set([
 logger = logging.getLogger(__name__)
 
 
-def validate_phone_number(value: str) -> None:
-    if len(value) != PHONE_NUMBER_LEN:
-        raise ValidationError(f'U.S. phone numbers must be {PHONE_NUMBER_LEN} digits.')
-    if not ALL_DIGITS_RE.fullmatch(value):
-        raise ValidationError(f'Phone numbers can only contain digits.')
-    if value[0] in ('0', '1'):
-        # 0 and 1 are invalid leading digits of area codes:
-        # https://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
-        raise ValidationError(f'{value[0:3]} is an invalid area code.')
-
-
 class JustfixUserManager(UserManager):
     def generate_random_username(self, prefix='') -> str:
         while True:
@@ -84,10 +68,8 @@ class JustfixUserManager(UserManager):
 class JustfixUser(AbstractUser):
     phone_number = models.CharField(
         'Phone number',
-        max_length=PHONE_NUMBER_LEN,
         unique=True,
-        validators=[validate_phone_number],
-        help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
+        **pn.get_model_field_kwargs()
     )
 
     objects = JustfixUserManager()
@@ -102,12 +84,7 @@ class JustfixUser(AbstractUser):
         return ''
 
     def formatted_phone_number(self) -> str:
-        if len(self.phone_number) != PHONE_NUMBER_LEN:
-            return self.phone_number
-        area_code = self.phone_number[0:3]
-        first_three_digits = self.phone_number[3:6]
-        last_digits = self.phone_number[6:]
-        return f"({area_code}) {first_three_digits}-{last_digits}"
+        return pn.humanize(self.phone_number)
 
     @property
     def can_we_sms(self) -> bool:

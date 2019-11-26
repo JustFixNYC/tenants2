@@ -6,7 +6,7 @@ from django.contrib.gis.db.models.functions import Distance
 
 from project import geocoding
 from project.common_data import Choices
-from users.models import PHONE_NUMBER_LEN, validate_phone_number
+from project.util import phone_number as pn
 
 
 ORG_TYPE_CHOICES = Choices.from_file('findhelp-org-type-choices.json')
@@ -148,10 +148,8 @@ class TenantResource(models.Model):
     )
     phone_number = models.CharField(
         'Phone number',
-        max_length=PHONE_NUMBER_LEN,
         blank=True,
-        validators=[validate_phone_number],
-        help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
+        **pn.get_model_field_kwargs(),
     )
     description = models.TextField(
         blank=True,

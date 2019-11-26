@@ -5,9 +5,10 @@ from django.db import models
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
-from users.models import JustfixUser, PHONE_NUMBER_LEN
+from users.models import JustfixUser
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.common_data import Choices
+from project.util import phone_number as pn
 from project.util.site_util import absolutify_url, get_site_name
 
 # https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
@@ -60,9 +61,8 @@ class PhoneNumberLookup(models.Model):
     '''
 
     phone_number = models.CharField(
-        max_length=PHONE_NUMBER_LEN,
         unique=True,
-        help_text="A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\"."
+        **pn.get_model_field_kwargs()
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

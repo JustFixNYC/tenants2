@@ -1,5 +1,5 @@
 from django import forms
-from project.forms import USPhoneNumberField
+from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 
 

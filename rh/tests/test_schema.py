@@ -1,5 +1,3 @@
-from unittest.mock import MagicMock
-
 from project.tests.util import get_frontend_query
 from rh.tests.factories import RentalHistoryRequestFactory
 from rh.schema import get_slack_notify_text

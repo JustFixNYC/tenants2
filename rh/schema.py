@@ -1,13 +1,27 @@
 from . import models, forms, email_dhcr
 
+from project import slack
 from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
     DjangoSessionFormMutation
 )
 from project.util.session_mutation import SessionFormMutation
+from project.util.site_util import absolute_reverse
 from project import schema_registry
 from project.util.address_form_fields import BOROUGH_CHOICES
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
+
+
+def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
+    rh_link = slack.hyperlink(
+        text="rental history",
+        href=absolute_reverse('admin:rh_rentalhistoryrequest_change', args=[rhr.pk])
+    )
+    if rhr.user:
+        user_text = slack.hyperlink(text=rhr.user.first_name, href=rhr.user.admin_url)
+    else:
+        user_text = slack.escape(rhr.first_name)
+    return f"{user_text} has requested {rh_link}!"
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -39,6 +53,7 @@ class RhSendEmail(SessionFormMutation):
         rhr.set_user(request.user)
         rhr.full_clean()
         rhr.save()
+        slack.sendmsg_async(get_slack_notify_text(rhr), is_safe=True)
 
         first_name: str = form_data["first_name"]
         last_name: str = form_data["last_name"]

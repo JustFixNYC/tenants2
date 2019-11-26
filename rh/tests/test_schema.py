@@ -1,4 +1,6 @@
 from project.tests.util import get_frontend_query
+from rh.tests.factories import RentalHistoryRequestFactory
+from rh.schema import get_slack_notify_text
 from rh.models import RentalHistoryRequest
 
 
@@ -101,3 +103,20 @@ def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):
         }
       ], 'session': None}
     assert len(mailoutbox) == 0
+
+
+class TestGetSlackNotifyText:
+    def test_it_works_for_logged_in_users(self, db):
+        rhr = RentalHistoryRequestFactory(user__first_name='Blarf', first_name='Glorp')
+        assert get_slack_notify_text(rhr) == (
+            f"<https://example.com/admin/users/justfixuser/{rhr.user.pk}/change/|Blarf> has "
+            f"requested "
+            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rental history>!"
+        )
+
+    def test_it_works_for_anonymous_users(self, db):
+        rhr = RentalHistoryRequestFactory(user=None, first_name='Glorp & Blorp')
+        assert get_slack_notify_text(rhr) == (
+            f"Glorp &amp; Blorp has requested "
+            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rental history>!"
+        )

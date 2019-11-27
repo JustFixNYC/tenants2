@@ -8,6 +8,7 @@ from django.utils.timezone import make_aware, utc
 import requests
 
 from users.models import JustfixUser
+from rapidpro.models import UserContactGroup
 from onboarding.models import OnboardingInfo
 
 
@@ -133,6 +134,19 @@ class Command(BaseCommand):
         parser.add_argument('--dry-run', help="don't actually send anything to Amplitude.",
                             action='store_true')
 
+    def upload_rapidpro_events(self, user: JustfixUser, uploader: AmpEventUploader):
+        for ucg in UserContactGroup.objects.filter(user=user).select_related('group'):
+            uploader.queue(AmpEvent(
+                user_id=user.pk,
+                event_type="joined_rapidpro_group",
+                event_properties={
+                    'uuid': ucg.group.uuid,
+                    'name': ucg.group.name,
+                },
+                time=ucg.earliest_known_date,
+                insert_id_suffix=ucg.pk,
+            ))
+
     def upload_letter_request_events(self, user: JustfixUser, uploader: AmpEventUploader):
         lr = user.letter_request if hasattr(user, 'letter_request') else None
         if lr:
@@ -175,6 +189,7 @@ class Command(BaseCommand):
             time=onb.created_at
         ))
         self.upload_letter_request_events(user, uploader)
+        self.upload_rapidpro_events(user, uploader)
 
     def handle(self, *args, **options):
         self.dry_run = options['dry_run']

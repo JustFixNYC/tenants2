@@ -286,6 +286,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_LOC: str = ''
 
+    # The Amplitude API key. If empty, Amplitude integration will be disabled.
+    AMPLITUDE_API_KEY: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

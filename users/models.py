@@ -24,6 +24,8 @@ ROLES['Outreach Coordinators'] = set([
     CHANGE_USER_PERMISSION,
     'legacy_tenants.change_legacyuserinfo',
     *ModelPermissions('loc', 'accessdate').all,
+    *ModelPermissions('issues', 'issue').all,
+    *ModelPermissions('issues', 'customissue').all,
     'loc.add_landlorddetails',
     'loc.change_landlorddetails',
     'loc.add_letterrequest',

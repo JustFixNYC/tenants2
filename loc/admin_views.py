@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.core import signing
 
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
+import airtable.sync
 from . import models, views, lob_api
 
 
@@ -133,6 +134,7 @@ class LocAdminViews:
                 letter.tracking_number = response['tracking_number']
                 letter.letter_sent_at = timezone.now()
                 letter.save()
+                airtable.sync.sync_user(user)
             else:
                 ctx.update({
                     **self._get_mail_confirmation_context(user),

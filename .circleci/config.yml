@@ -34,8 +34,9 @@ jobs:
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
       - restore_cache:
+          # https://circleci.com/docs/2.0/caching/#pip-python
           name: Restoring Pipenv cache
-          key:
+          keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}

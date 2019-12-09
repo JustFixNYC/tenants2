@@ -32,6 +32,12 @@ jobs:
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
       - restore_cache:
+          # https://circleci.com/docs/2.0/caching/#yarn-node
+          keys:
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - restore_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
       - run:
           name: Install dependencies
@@ -44,6 +50,13 @@ jobs:
              yarn config set unsafe-perm true
 
              yarn install --frozen-lockfile
+
+             # TODO: Remove this next line, we're just making sure the directory exists and has stuff in it.
+             ls -al ~/.cache/yarn
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - save_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:

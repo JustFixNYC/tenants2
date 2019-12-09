@@ -94,9 +94,21 @@ def sync_user(user: JustfixUser):
     if not settings.AIRTABLE_API_KEY:
         return
 
+    logger.info(f"Syncing user {user.username} with Airtable.")
     fields = Fields.from_user(user)
     airtable = Airtable(max_retries=0)
     try:
         airtable.create_or_update(fields)
     except Exception:
         logger.exception('Error while communicating with Airtable')
+
+
+class SyncUserOnSaveMixin:
+    '''
+    Mixin class for ModelAdmin subclasses, whose related model is JustfixUser
+    (or a proxy model based off it), that syncs the user with Airtable on save.
+    '''
+
+    def save_model(self, request, obj: JustfixUser, form, change):
+        super().save_model(request, obj, form, change)  # type: ignore
+        sync_user(obj)

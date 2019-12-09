@@ -93,12 +93,20 @@ class JustfixUser(AbstractUser):
     def can_we_sms(self) -> bool:
         return hasattr(self, 'onboarding_info') and self.onboarding_info.can_we_sms
 
+    def _log_sms(self):
+        if self.can_we_sms:
+            logging.info(f"Sending a SMS to user {self.username}.")
+        else:
+            logging.info(f"Not sending a SMS to user {self.username} because they opted out.")
+
     def send_sms(self, body: str, fail_silently=True) -> str:
+        self._log_sms()
         if self.can_we_sms:
             return twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
         return ''
 
     def send_sms_async(self, body: str) -> None:
+        self._log_sms()
         if self.can_we_sms:
             twilio.send_sms_async(self.phone_number, body)
 
@@ -108,10 +116,17 @@ class JustfixUser(AbstractUser):
         fc.ensure_followup_campaign_exists(campaign_name)
 
         if self.can_we_sms:
+            logging.info(f"Triggering rapidpro campaign '{campaign_name}' on user "
+                         f"{self.username}.")
             fc.trigger_followup_campaign_async(
                 self.full_name,
                 self.phone_number,
                 campaign_name
+            )
+        else:
+            logging.info(
+                f"Not triggering rapidpro campaign '{campaign_name}' on user "
+                f"{self.username} because they opted out."
             )
 
     @property

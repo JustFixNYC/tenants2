@@ -25,7 +25,7 @@ PERMISSIONS_LABEL = _('Permissions')
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
-class JustfixUserAdmin(UserAdmin):
+class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser

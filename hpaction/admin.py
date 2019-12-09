@@ -3,6 +3,7 @@ from django.utils.html import format_html
 
 from users.models import JustfixUser
 from project.util.admin_util import admin_field, admin_action, never_has_permission
+import airtable.sync
 from . import models
 
 
@@ -67,7 +68,7 @@ class PriorCaseInline(admin.TabularInline):
 
 
 @admin.register(HPUser)
-class HPUserAdmin(admin.ModelAdmin):
+class HPUserAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     list_display = ['username', 'first_name', 'last_name']
 
     fields = ['username', 'first_name', 'last_name', 'phone_number', 'email', 'edit_user']

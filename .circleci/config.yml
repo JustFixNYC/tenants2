@@ -21,13 +21,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          name: Restoring Git LFS cache
+          name: Restore Git LFS cache
           key: gitlfs-build
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
-          name: Saving Git LFS cache
+          name: Save Git LFS cache
           key: gitlfs-build
           paths:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
@@ -35,7 +35,7 @@ jobs:
             - .git/lfs
       - restore_cache:
           # https://circleci.com/docs/2.0/caching/#pip-python
-          name: Restoring Pipenv cache
+          name: Restore Pipenv cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
@@ -48,13 +48,13 @@ jobs:
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
       - save_cache:
-          name: Saving Pipenv cache
+          name: Save Pipenv cache
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
       - restore_cache:
           # https://circleci.com/docs/2.0/caching/#yarn-node
-          name: Restoring Yarn cache
+          name: Restore Yarn cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -72,7 +72,7 @@ jobs:
 
              yarn install --frozen-lockfile
       - save_cache:
-          name: Saving Yarn cache
+          name: Save Yarn cache
           paths:
             - /usr/local/share/.cache/yarn
           key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}

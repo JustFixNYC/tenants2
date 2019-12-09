@@ -42,9 +42,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-             # TODO: Remove this next line, we're just making sure we're using the right cache dir.
+             # Print out yarn's cache dir for debugging purposes.
              yarn cache dir
-             KABOOM  # go no further
 
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
@@ -56,7 +55,7 @@ jobs:
              yarn install --frozen-lockfile
       - save_cache:
           paths:
-            - ~/.cache/yarn
+            - /usr/local/share/.cache/yarn
           key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - save_cache:
           key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}

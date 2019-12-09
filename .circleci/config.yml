@@ -42,6 +42,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+             # TODO: Remove this next line, we're just making sure we're using the right cache dir.
+             yarn cache dir
+             KABOOM  # go no further
+
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
 
@@ -50,9 +54,6 @@ jobs:
              yarn config set unsafe-perm true
 
              yarn install --frozen-lockfile
-
-             # TODO: Remove this next line, we're just making sure the directory exists and has stuff in it.
-             ls -al ~/.cache/yarn
       - save_cache:
           paths:
             - ~/.cache/yarn

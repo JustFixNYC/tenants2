@@ -21,23 +21,50 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          name: Restore Git LFS cache
           key: gitlfs-build
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
+          name: Save Git LFS cache
           key: gitlfs-build
           paths:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
       - restore_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
+          # https://circleci.com/docs/2.0/caching/#pip-python
+          name: Restore Pipenv cache
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - pip-packages-v1-{{ .Branch }}-
+            - pip-packages-v1-
       - run:
-          name: Install dependencies
+          name: Install Python dependencies
           command: |
              pipenv sync --dev
              pipenv run pip install -r requirements.production.txt
+      - save_cache:
+          name: Save Pipenv cache
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
+          paths:
+            - ".venv"
+      - restore_cache:
+          # https://circleci.com/docs/2.0/caching/#yarn-node
+          name: Restore Yarn cache
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - run:
+          name: Install Node dependencies
+          command: |
+             # Print out yarn's cache dir for debugging purposes.
+             yarn cache dir
 
              # This will ensure that 'npm prepare' scripts on dependencies are run.
              # For more details, see: https://stackoverflow.com/a/52767310
@@ -45,10 +72,10 @@ jobs:
 
              yarn install --frozen-lockfile
       - save_cache:
-          key: tenants2-take2-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "yarn.lock" }}-{{ checksum "requirements.production.txt" }}
+          name: Save Yarn cache
           paths:
-            - ".venv"
-            - "node_modules"
+            - /usr/local/share/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: CodeClimate before-build
           command: |

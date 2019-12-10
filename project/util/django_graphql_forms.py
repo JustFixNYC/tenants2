@@ -533,7 +533,7 @@ class GrapheneDjangoFormMixin:
         formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
             formset_kwargs = cls.get_formset_kwargs(
-                root, info, formset_name, input[formset_name])
+                root, info, formset_name, input[formset_name], input)
             formsets[formset_name] = formset_class(**formset_kwargs)
         return formsets
 
@@ -559,7 +559,7 @@ class GrapheneDjangoFormMixin:
         return kwargs
 
     @classmethod
-    def get_formset_kwargs(cls, root, info, formset_name, input):
+    def get_formset_kwargs(cls, root, info, formset_name, input, all_input):
         kwargs = {"data": cls.get_data_for_formset(input)}
         return kwargs
 

@@ -109,9 +109,6 @@ class CustomIssueManager(models.Manager):
 
 
 class CustomIssue(models.Model):
-    class Meta:
-        unique_together = ('user', 'area')
-
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     updated_at = models.DateTimeField(auto_now=True)

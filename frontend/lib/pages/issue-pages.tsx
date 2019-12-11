@@ -7,21 +7,22 @@ import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
-import { IssueAreaInput } from '../queries/globalTypes';
-import { IssueAreaMutation } from '../queries/IssueAreaMutation';
+import { IssueAreaV2Input } from '../queries/globalTypes';
+import { IssueAreaV2Mutation, BlankCustomIssuesCustomIssueFormFormSetInput } from '../queries/IssueAreaV2Mutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, HiddenFormField } from '../form-fields';
+import { MultiCheckboxFormField, HiddenFormField, TextualFormField } from '../form-fields';
 import { NextButton, BackButton, ProgressButtons } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { issueChoicesForArea, issuesForArea, customIssueForArea, areaIssueCount } from '../issues';
+import { issueChoicesForArea, issuesForArea, areaIssueCount, customIssuesForArea } from '../issues';
 import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
 import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
-import { TextareaWithCharsRemaining } from '../chars-remaining';
 import { FormContext } from '../form-context';
+import { Formset } from '../formset';
+import { FormsetItem, formsetItemProps } from '../formset-item';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -31,7 +32,7 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
 
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
-  renderForm(ctx: FormContext<IssueAreaInput>, area: IssueAreaChoice): JSX.Element {
+  renderForm(ctx: FormContext<IssueAreaV2Input>, area: IssueAreaChoice): JSX.Element {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor('area')} />
@@ -40,11 +41,18 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <TextareaWithCharsRemaining
-          {...ctx.fieldPropsFor('other')}
-          maxLength={CUSTOM_ISSUE_MAX_LENGTH}
-          label={`Don't see your issues listed? You can add additional issues below (${CUSTOM_ISSUE_MAX_LENGTH} characters max).`}
-        />
+        <p>Don't see your issues listed? You can add additional issues below ({CUSTOM_ISSUE_MAX_LENGTH} characters max per issue).</p>
+        <br/>
+        <Formset {...ctx.formsetPropsFor('customIssues')}
+                 maxNum={5}
+                 extra={5}
+                 emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
+          {(ciCtx, i) =>
+            <FormsetItem {...formsetItemProps(ciCtx)}>
+              <TextualFormField {...ciCtx.fieldPropsFor('description')} label={`Custom issue #${i + 1} (optional)`} />
+            </FormsetItem>
+          }
+        </Formset>
         {this.renderFormButtons(ctx.isLoading)}
       </React.Fragment>
     );
@@ -65,10 +73,14 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
       return <NotFound {...this.props} />;
     }
     const label = getIssueAreaChoiceLabels()[area];
-    const getInitialState = (session: AllSessionInfo): IssueAreaInput => ({
+    const getInitialState = (session: AllSessionInfo): IssueAreaV2Input => ({
       area,
       issues: issuesForArea(area, session.issues as IssueChoice[]),
-      other: customIssueForArea(area, session.customIssues)
+      customIssues: customIssuesForArea(area, session.customIssuesV2 || []).map(ci => ({
+        description: ci.description,
+        id: ci.id,
+        DELETE: false,
+      })),
     });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
@@ -77,7 +89,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           <h1 className="title is-4 jf-issue-area">{svg} {label} issues</h1>
           <SessionUpdatingFormSubmitter
             confirmNavIfChanged
-            mutation={IssueAreaMutation}
+            mutation={IssueAreaV2Mutation}
             initialState={getInitialState}
             onSuccessRedirect={this.props.toHome}
           >
@@ -107,7 +119,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   return (
     <AppContext.Consumer>
       {(ctx) => {
-        const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssues);
+        const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssuesV2 || []);
         const url = props.routes.area.create(allCapsToSlug(area));
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;

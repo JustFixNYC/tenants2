@@ -26,7 +26,7 @@ const RH_ICON = "frontend/img/ddo/rent.svg";
 
 function RentalHistoryWelcome(): JSX.Element {
     return (
-      <Page title="Request your rent history">
+      <Page title="Request your Rent History">
          <section className="hero is-light">
           <div className="hero-body">
             <div className="has-text-centered">
@@ -34,10 +34,10 @@ function RentalHistoryWelcome(): JSX.Element {
                 <StaticImage ratio="is-square" src={RH_ICON} alt="" />
               </div>
               <h1 className="title is-spaced">
-                Request your rent history in two simple steps!
+                Request your <span className="is-italic">Rent History</span> in two simple steps!
               </h1>
               <p className="subtitle">
-                Let's help you request your <b>rent history</b>! This document, kept by the NY Division of Housing &amp; Community Renewal (DHCR), helps you find out if you're being overcharged.
+                This document helps you find out if your apartment is <b>rent stabilized</b> and if you're being <b>overcharged</b>. It shows the registered rents in your apartment since 1984.
               </p>
               <p className="subtitle is-italic">
                 This service is free, secure, and confidential.
@@ -91,8 +91,8 @@ function RentalHistoryForm(): JSX.Element {
     const cancelControlRef = useRef(null);
   
   return (
-    <Page title="Request the rent history for your apartment">
-      <h1 className="title is-4">Request the rent history for your apartment</h1>
+    <Page title="Request the Rent History for your apartment">
+      <h1 className="title is-4">Request the Rent History for your apartment</h1>
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
         initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)}
@@ -144,7 +144,7 @@ function RentalHistoryPreview(): JSX.Element {
   return (
     <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your request to the DHCR</h1>
-      <p>Here is a preview of the request for your rent history. It includes your address and apartment number so that the DHCR can mail you.</p>
+      <p>Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you.</p>
         <br />
       {formData &&
         <article className="message">
@@ -185,14 +185,16 @@ function RentalHistoryPreview(): JSX.Element {
 
 function RentalHistoryConfirmation(): JSX.Element {
   return (
-    <Page title="Your rent history has been requested!" withHeading="big" className="content">
+    <Page title="Your Rent History has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
-      <p>You should receive your rent history in the mail in about a week. If you have more questions, please email us at <CustomerSupportLink />.</p>
+      <p>You should receive your Rent History in the mail in about a week. 
+        Your Rent History is an important document— it shows the registered rents in your apartment since 1984. 
+        You can learn more about it and how it can help you figure out if you’re being overcharged on rent: <OutboundLink href="https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges" target="_blank">https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges</OutboundLink>.</p>
+      <p>If you have more questions, please email us at <CustomerSupportLink />.</p>
       <Link to={Routes.locale.home} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
-      <li><OutboundLink href="http://metcouncilonhousing.org/campaigns_pages/rent_history_0" target="_blank">Met Council on Housing</OutboundLink>
-          {' '}(<OutboundLink href="http://metcouncilonhousing.org/Rent_History_Spanish" target="_blank">en español</OutboundLink>)</li>
+      <li><OutboundLink href="https://www.metcouncilonhousing.org/help-answers/" target="_blank">Met Council on Housing</OutboundLink></li>
         <li><OutboundLink href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</OutboundLink></li>
       </ul>
     </Page>

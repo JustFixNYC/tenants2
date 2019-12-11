@@ -19,7 +19,7 @@ import ISSUE_AREA_SVGS from '../svg/issues';
 import { assertNotUndefined } from '../util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
-import { CUSTOM_ISSUE_MAX_LENGTH } from '../../../common-data/issue-validation.json';
+import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../../common-data/issue-validation.json';
 import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
@@ -41,7 +41,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
-        <p>Don't see your issues listed? You can add additional issues below ({CUSTOM_ISSUE_MAX_LENGTH} characters max per issue).</p>
+        <p>Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.</p>
         <br/>
         <Formset {...ctx.formsetPropsFor('customIssues')}
                  maxNum={5}
@@ -49,7 +49,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                  emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
           {(ciCtx, i) =>
             <FormsetItem {...formsetItemProps(ciCtx)}>
-              <TextualFormField {...ciCtx.fieldPropsFor('description')} label={`Custom issue #${i + 1} (optional)`} />
+              <TextualFormField {...ciCtx.fieldPropsFor('description')} label={`Custom issue #${i + 1} (optional, ${CUSTOM_ISSUE_MAX_LENGTH} characters max)`} />
             </FormsetItem>
           }
         </Formset>

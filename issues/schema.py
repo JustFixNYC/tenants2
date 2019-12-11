@@ -44,7 +44,7 @@ class IssueAreaV2(ManyToOneUserModelFormMutation):
                 models.CustomIssue,
                 forms.CustomIssueForm,
                 can_delete=True,
-                max_num=5,
+                max_num=forms.MAX_CUSTOM_ISSUES_PER_AREA,
                 validate_max=True,
             )
         }

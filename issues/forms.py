@@ -4,8 +4,10 @@ from project import common_data
 from . import models
 
 
-CUSTOM_ISSUE_MAX_LENGTH: int = common_data.load_json("issue-validation.json")[
-    'CUSTOM_ISSUE_MAX_LENGTH']
+ISSUE_VALIDATION = common_data.load_json("issue-validation.json")
+
+CUSTOM_ISSUE_MAX_LENGTH: int = ISSUE_VALIDATION['CUSTOM_ISSUE_MAX_LENGTH']
+MAX_CUSTOM_ISSUES_PER_AREA: int = ISSUE_VALIDATION['MAX_CUSTOM_ISSUES_PER_AREA']
 
 
 class IssueAreaForm(forms.Form):

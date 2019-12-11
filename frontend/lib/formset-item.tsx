@@ -21,7 +21,7 @@ export type FormsetItemProps = {
   /** Properties from the formset item's 'DELETE' field. */
   deleteProps: BaseFormFieldProps<boolean>,
   /** The label for the formset item as a whole (e.g. "Todo item #1"). */
-  label: string|JSX.Element,
+  label?: string|JSX.Element,
   /** The children that render the rest of the formset item's fields. */
   children: any
 };
@@ -44,9 +44,9 @@ export function formsetItemProps<T extends FormsetItemInput>(ctx: BaseFormContex
  */
 export function FormsetItem(props: FormsetItemProps) {
   return <>
-    <h2 className="subtitle is-5 is-marginless">
+    {props.label && <h2 className="subtitle is-5 is-marginless">
       {props.label}
-    </h2>
+    </h2>}
     <HiddenFormField {...props.idProps} />
     {props.children}
     {props.idProps.value

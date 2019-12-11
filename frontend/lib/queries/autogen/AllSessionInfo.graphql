@@ -14,6 +14,11 @@ fragment AllSessionInfo on SessionInfo {
     area,
     description
   },
+  customIssuesV2 {
+    id,
+    area,
+    description
+  },
   onboardingStep1 {
     aptNumber,
     address,

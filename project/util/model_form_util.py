@@ -84,7 +84,7 @@ class ManyToOneUserModelFormMutation(SessionFormMutation):
         return cls.mutation_success()
 
     @classmethod
-    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input):
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
         initial_forms = len([form for form in input if form.get('id')])
         kwargs = {
             "data": cls.get_data_for_formset(input, initial_forms),

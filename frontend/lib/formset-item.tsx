@@ -22,6 +22,8 @@ export type FormsetItemProps = {
   deleteProps: BaseFormFieldProps<boolean>,
   /** The label for the formset item as a whole (e.g. "Todo item #1"). */
   label?: string|JSX.Element,
+  /** Whether to put all the formset's controls on a single row. */
+  singleRow?: boolean,
   /** The children that render the rest of the formset item's fields. */
   children: any
 };
@@ -43,14 +45,22 @@ export function formsetItemProps<T extends FormsetItemInput>(ctx: BaseFormContex
  * 'id' as a hidden field.
  */
 export function FormsetItem(props: FormsetItemProps) {
-  return <>
-    {props.label && <h2 className="subtitle is-5 is-marginless">
-      {props.label}
-    </h2>}
+  let fields = <>
     <HiddenFormField {...props.idProps} />
     {props.children}
     {props.idProps.value
       ? <CheckboxFormField {...props.deleteProps}>Delete</CheckboxFormField>
       : <HiddenFormField {...props.deleteProps} />}
+  </>;
+  if (props.singleRow) {
+    // Note that the final <span/> is to ensure that the last field has
+    // the correct amount of bottom margin.
+    fields = <div className="jf-formset-item-single-row">{fields}<span/></div>;
+  }
+  return <>
+    {props.label && <h2 className="subtitle is-5 is-marginless">
+      {props.label}
+    </h2>}
+    {fields}
   </>
 }

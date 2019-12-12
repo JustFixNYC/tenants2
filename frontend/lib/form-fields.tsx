@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoices } from "./common-data";
@@ -247,6 +247,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   help?: string|JSX.Element;
   min?: string | number | undefined;
   maxLength?: number | undefined;
+  fieldProps?: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 };
 
 /**
@@ -279,7 +280,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
 
   return (
-    <div className="field">
+    <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <input
@@ -310,7 +311,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
 
   return (
-    <div className="field">
+    <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea

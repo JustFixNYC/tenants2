@@ -294,3 +294,14 @@ fieldset {
     color: black;
     font-size: 0.66rem;
 }
+
+@media (min-width: $jf-supertiny) {
+    .jf-formset-item-single-row {
+        display: flex;
+        align-items: flex-end;
+
+        > div.field:nth-of-type(1) {
+            flex: 1;
+        }
+    }
+}

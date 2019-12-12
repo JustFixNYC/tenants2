@@ -41,6 +41,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           label="Select your issues"
           choices={issueChoicesForArea(area)}
         />
+        <br/>
         <p>Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.</p>
         <br/>
         <Formset {...ctx.formsetPropsFor('customIssues')}

@@ -146,7 +146,7 @@ function LinkToNextStep(props: {toNext: string}): JSX.Element {
   return (
     <AppContext.Consumer>
       {(ctx) => {
-        if (ctx.session.issues.length || ctx.session.customIssues.length) {
+        if (ctx.session.issues.length || ctx.session.customIssuesV2?.length) {
           return <Link to={props.toNext} className="button is-primary is-medium">Next</Link>
         } else {
           return null;

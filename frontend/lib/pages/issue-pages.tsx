@@ -44,8 +44,8 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
         <p>Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.</p>
         <br/>
         <Formset {...ctx.formsetPropsFor('customIssues')}
-                 maxNum={5}
-                 extra={5}
+                 maxNum={MAX_CUSTOM_ISSUES_PER_AREA}
+                 extra={MAX_CUSTOM_ISSUES_PER_AREA}
                  emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
           {(ciCtx, i) =>
             <FormsetItem {...formsetItemProps(ciCtx)}>

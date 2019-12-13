@@ -1,3 +1,5 @@
+import { isDeepEqual } from "./util";
+
 /**
  * Returns whether or not the two arrays have the same items,
  * even if they're not in the same order.
@@ -15,10 +17,23 @@ export function areArraysEqualIgnoringOrder(a: any[], b: any[]): boolean {
 }
 
 /**
+ * If the two arrays contain objects, returns whether they have
+ * deep equality; otherwise, returns whether or not the two
+ * arrays have the same items, even if they're not in the same
+ * order.
+ */
+function areFormInputArraysEqual(a: any[], b: any[]): boolean {
+  if (a[0] && typeof(a[0]) === 'object') {
+    return isDeepEqual(a, b);
+  }
+  return areArraysEqualIgnoringOrder(a, b);
+}
+
+/**
  * Returns whether or not the two sets of form fields have the
  * same values.
  * 
- * Note that we currently treat arrays of items as being
+ * Note that we currently treat arrays of non-object items as being
  * order-indepenedent, e.g. a field with the value ["A", "B"] is,
  * for our purposes, the same as a field with the value ["B", "A"].
  */
@@ -28,7 +43,7 @@ export function areFieldsEqual<FormInput>(initial: FormInput, current: FormInput
     const currentValue = current[key];
     if (initialValue !== currentValue) {
       if (Array.isArray(initialValue) && Array.isArray(currentValue)) {
-        if (!areArraysEqualIgnoringOrder(initialValue, currentValue)) {
+        if (!areFormInputArraysEqual(initialValue, currentValue)) {
           return false;
         }
       } else {

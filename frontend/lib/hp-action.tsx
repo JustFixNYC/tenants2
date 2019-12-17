@@ -223,7 +223,7 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   mutation: HpActionUrgentAndDangerousMutation,
   toFormInput: hp => hp.yesNoRadios('urgentAndDangerous').finish(),
   renderIntro: () => (
-    <p>Inspection reports are valuable evidence when it comes to building your case, and we strongly suggest completing a city inspection. However, if the issues in your apartment are urgent and immediately dangerous, you can ask the court to go forward without inspection.</p>
+    <p>We strongly suggest completing a city inspection because inspection reports are valuable evidence when it comes to building your case. However, if the issues in your apartment are urgent and immediately dangerous, you can ask the court to go forward without inspection.</p>
   ),
   renderForm: (ctx) => <>
     <YesNoRadiosFormField

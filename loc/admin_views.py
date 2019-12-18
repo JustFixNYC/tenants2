@@ -10,16 +10,6 @@ import airtable.sync
 from . import models, views, lob_api
 
 
-def get_ll_addr_details(landlord_details: models.LandlordDetails) -> models.AddressDetails:
-    return models.AddressDetails.objects.get_or_create(
-        address=landlord_details.address)[0]
-
-
-def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
-    ad = get_ll_addr_details(landlord_details)
-    return reverse('admin:loc_addressdetails_change', args=(ad.pk,))
-
-
 class LocAdminViews:
     def __init__(self, site):
         self.site = site
@@ -37,7 +27,7 @@ class LocAdminViews:
     def _get_mail_confirmation_context(self, user):
         landlord_details = user.landlord_details
         onboarding_info = user.onboarding_info
-        ll_addr_details = get_ll_addr_details(landlord_details)
+        ll_addr_details = landlord_details.get_or_create_address_details()
 
         landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
         user_verification = lob_api.verify_address(
@@ -136,9 +126,10 @@ class LocAdminViews:
                 letter.save()
                 airtable.sync.sync_user(user)
             else:
+                ad = user.landlord_details.get_or_create_address_details()
                 ctx.update({
                     **self._get_mail_confirmation_context(user),
-                    'landlord_address_details_url': get_ll_addr_details_url(user.landlord_details)
+                    'landlord_address_details_url': ad.admin_url,
                 })
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)

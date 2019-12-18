@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
+from django.urls import reverse
 from django.conf import settings
 
 from project.common_data import Choices
@@ -96,6 +97,9 @@ class LandlordDetails(models.Model):
         if not self.address:
             return []
         return self.address.split('\n')
+
+    def get_or_create_address_details(self) -> 'AddressDetails':
+        return AddressDetails.objects.get_or_create(address=self.address)[0]
 
     @classmethod
     def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
@@ -220,6 +224,10 @@ class AddressDetails(models.Model):
 
     # Attributes that map to keys used by Lob's verifications API:
     LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
+
+    @property
+    def admin_url(self) -> str:
+        return reverse('admin:loc_addressdetails_change', args=(self.pk,))
 
     def is_populated(self) -> bool:
         '''

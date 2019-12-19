@@ -56,4 +56,17 @@ describe('Form', () => {
     expect(wasDefaultPrevented).toBe(true);
     expect(mockSubmit.mock.calls.length).toBe(0);
   });
+
+  it('updates initial state in browser', () => {
+    const pal = new ReactTestingLibraryPal(
+      <Form onSubmit={() => {}}
+            isLoading={false}
+            initialState={{input: ""}}
+            updateInitialStateInBrowser={s => ({input: s.input ? s.input : 'fake cached value'})}
+      >
+        {(ctx) => <p>input is {ctx.fieldPropsFor('input').value}</p>}
+      </Form>
+    );
+    expect(pal.getElement('p').textContent).toBe('input is fake cached value');
+  });
 });

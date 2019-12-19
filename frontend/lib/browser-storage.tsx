@@ -1,21 +1,34 @@
 import { useEffect } from "react";
 
-const SCHEMA_VERSION = 1;
+const TENANTS2_SCHEMA_VERSION = 1;
 
-const SESSION_STORAGE_KEY = `tenants2_v${SCHEMA_VERSION}`;
+const TENANTS2_SESSION_STORAGE_KEY = `tenants2_v${TENANTS2_SCHEMA_VERSION}`;
 
-type BrowserStorageSchema = {
+export type BaseBrowserStorageSchema = {
   _version: number,
+};
+
+export type TenantsBrowserStorageSchema = BaseBrowserStorageSchema & {
   latestAddress?: string,
   latestBorough?: string,
 };
 
-const DEFAULT_BROWSER_STORAGE: BrowserStorageSchema = {
-  _version: SCHEMA_VERSION,
+const TENANTS2_DEFAULT_BROWSER_STORAGE: TenantsBrowserStorageSchema = {
+  _version: TENANTS2_SCHEMA_VERSION,
 };
 
-class BrowserStorage {
-  private _cachedValue?: BrowserStorageSchema;
+function getSessionStorage(): Pick<Storage, 'getItem'|'setItem'>|null {
+  if (typeof(window) === 'undefined') return null;
+  return window.sessionStorage || null;
+};
+
+export class BrowserStorage<T extends BaseBrowserStorageSchema> {
+  private _cachedValue?: T;
+  private readonly schemaVersion: number;
+
+  constructor(readonly defaultValue: T, readonly storageKey: string, readonly storage = getSessionStorage()) {
+    this.schemaVersion = defaultValue._version;
+  }
 
   private logWarning(msg: string, e: Error) {
     if (process.env.NODE_ENV !== 'production') {
@@ -23,47 +36,47 @@ class BrowserStorage {
     }
   }
 
-  private deserializeAndValidateCachedValue(value: string): BrowserStorageSchema {
-    let obj = JSON.parse(value) as BrowserStorageSchema;
-    if (obj && obj._version === SCHEMA_VERSION) {
+  private deserializeAndValidateCachedValue(value: string): T {
+    let obj = JSON.parse(value) as T;
+    if (obj && obj._version === this.schemaVersion) {
       return obj;
     }
-    throw new Error(`Stored schema is not version ${SCHEMA_VERSION}`);
+    throw new Error(`Stored schema is not version ${this.schemaVersion}`);
   }
 
-  private getCachedValueOrDefault(): BrowserStorageSchema {
+  private getCachedValueOrDefault(): T {
     try {
-      let value = window.sessionStorage && window.sessionStorage.getItem(SESSION_STORAGE_KEY);
+      let value = this.storage && this.storage.getItem(this.storageKey);
       if (value) {
         return this.deserializeAndValidateCachedValue(value);
       }
     } catch (e) {
       this.logWarning('Error deserializing', e);
     }
-    return DEFAULT_BROWSER_STORAGE;
+    return this.defaultValue;
   }
 
-  private set cachedValue(value: BrowserStorageSchema) {
+  private set cachedValue(value: T) {
     this._cachedValue = value;
     try {
-      window.sessionStorage && window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(value));
+      this.storage && this.storage.setItem(this.storageKey, JSON.stringify(value));
     } catch (e) {
       this.logWarning('Error serializing', e);
     }
   }
 
-  private get cachedValue(): BrowserStorageSchema {
+  private get cachedValue(): T {
     if (!this._cachedValue) {
       this._cachedValue = this.getCachedValueOrDefault();
     }
     return this._cachedValue;
   }
 
-  get<K extends keyof BrowserStorageSchema>(key: K): BrowserStorageSchema[K] {
+  get<K extends keyof T>(key: K): T[K] {
     return this.cachedValue[key];
   }
 
-  update(updates: Partial<BrowserStorageSchema>) {
+  update(updates: Partial<T>) {
     this.cachedValue = {
       ...this.cachedValue,
       ...updates,
@@ -71,13 +84,13 @@ class BrowserStorage {
   }
 
   clear() {
-    this.cachedValue = DEFAULT_BROWSER_STORAGE;
+    this.cachedValue = this.defaultValue;
   }
 }
 
-export const browserStorage = new BrowserStorage();
+export const browserStorage = new BrowserStorage(TENANTS2_DEFAULT_BROWSER_STORAGE, TENANTS2_SESSION_STORAGE_KEY);
 
-export const UpdateBrowserStorage: React.FC<Partial<BrowserStorageSchema>> = (props) => {
+export const UpdateBrowserStorage: React.FC<Partial<TenantsBrowserStorageSchema>> = (props) => {
   useEffect(() => {
     browserStorage.update(props);
   }, Object.values(props));

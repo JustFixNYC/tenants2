@@ -23,14 +23,19 @@ class BrowserStorage {
     }
   }
 
-  private deserializeAndValidateCachedValue(): BrowserStorageSchema {
+  private deserializeAndValidateCachedValue(value: string): BrowserStorageSchema {
+    let obj = JSON.parse(value) as BrowserStorageSchema;
+    if (obj && obj._version === SCHEMA_VERSION) {
+      return obj;
+    }
+    throw new Error(`Stored schema is not version ${SCHEMA_VERSION}`);
+  }
+
+  private getCachedValueOrDefault(): BrowserStorageSchema {
     try {
       let value = window.sessionStorage && window.sessionStorage.getItem(SESSION_STORAGE_KEY);
       if (value) {
-        let obj = JSON.parse(value) as BrowserStorageSchema;
-        if (obj && obj._version === SCHEMA_VERSION) {
-          return obj;
-        }
+        return this.deserializeAndValidateCachedValue(value);
       }
     } catch (e) {
       this.logWarning('Error deserializing', e);
@@ -49,7 +54,7 @@ class BrowserStorage {
 
   private get cachedValue(): BrowserStorageSchema {
     if (!this._cachedValue) {
-      this._cachedValue = this.deserializeAndValidateCachedValue();
+      this._cachedValue = this.getCachedValueOrDefault();
     }
     return this._cachedValue;
   }

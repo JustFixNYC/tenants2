@@ -63,7 +63,7 @@ describe("BrowserStorage", () => {
       const bs = new BrowserStorage({_version: 2, boop: "hi"}, 'blarg', fs);
       expect(bs.get('boop')).toBe('hi');
     });
-    const [msg, err] = warn.mock.calls[0];
+    const [[msg, err]] = warn.mock.calls;
     expect(msg).toBe('Error deserializing BrowserStorage');
     expect(err.message).toBe('Stored schema is not version 2');
   });
@@ -75,8 +75,21 @@ describe("BrowserStorage", () => {
       const bs = new BrowserStorage({_version: 1, boop: "hi"}, 'blarg', fs);
       expect(bs.get('boop')).toBe('hi');
     });
-    const [msg, err] = warn.mock.calls[0];
+    const [[msg, err]] = warn.mock.calls;
     expect(msg).toBe('Error deserializing BrowserStorage');
     expect(err.message).toMatch(/JSON/);
+  });
+
+  it('ignores storage backend exceptions on set', () => {
+    const warn = captureConsoleWarn(() => {
+      const fs = new FakeStorage();
+      fs.setItem = () => { throw new Error("BOOP"); };
+      const bs = new BrowserStorage({_version: 1, boop: "hi"}, 'blarg', fs);
+      bs.update({boop: 'blargg'});
+      expect(bs.get('boop')).toBe('blargg');
+    });
+    const [[msg, err]] = warn.mock.calls;
+    expect(msg).toBe('Error serializing BrowserStorage');
+    expect(err.message).toBe("BOOP");
   });
 });

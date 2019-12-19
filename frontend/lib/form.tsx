@@ -28,6 +28,11 @@ export interface BaseFormProps<FormInput> {
   errors?: FormErrors<FormInput>;
 }
 
+type State<FormInput> = {
+  current: FormInput,
+  initial: FormInput,
+};
+
 export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInput> {
   /**
    * This function is called when the user submits the form.
@@ -53,6 +58,21 @@ export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInpu
    * are initially populated with).
    */
   initialState: FormInput;
+
+  /**
+   * If provided, this will be called when the component mounts to
+   * update the initial state on the browser-side. It can be used to
+   * e.g. pre-fill the default value of a form field from local
+   * browser storage without causing hydration mismatches due to
+   * conflicts between initial renders on the server and client.
+   */
+  updateInitialStateInBrowser?: (initialState: FormInput) => FormInput;
+
+  /**
+   * Optional callback to call when we update the initial state on
+   * the browser-side.
+   */
+  onUpdateInitialState?: (initialState: FormInput) => void;
 
   /**
    * The child render prop for the form, which is responsible
@@ -100,16 +120,19 @@ export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInpu
  * It is *not* responsible for actually submitting the form to a
  * server.
  */
-export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormInput, FormOutput>, FormInput> {
+export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormInput, FormOutput>, State<FormInput>> {
   constructor(props: FormProps<FormInput, FormOutput>) {
     super(props);
-    this.state = props.initialState;
+    this.state = {
+      current: props.initialState,
+      initial: props.initialState
+    };
   }
 
   @autobind
   submit(force: boolean = false) {
     if (!this.props.isLoading || force === true) {
-      this.props.onSubmit(this.state);
+      this.props.onSubmit(this.state.current);
     }
   }
 
@@ -119,9 +142,20 @@ export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormI
     this.submit();
   }
 
-  componentDidUpdate(prevProps: FormProps<FormInput, FormOutput>, prevState: FormInput) {
-    if (prevState !== this.state && this.props.onChange) {
-      this.props.onChange(this.state);
+  componentDidMount() {
+    let { updateInitialStateInBrowser } = this.props;
+    if (updateInitialStateInBrowser) {
+      const newState = updateInitialStateInBrowser(this.state.initial);
+      this.setState({
+        current: newState,
+        initial: newState
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps: FormProps<FormInput, FormOutput>, prevState: State<FormInput>) {
+    if (prevState.current !== this.state.current && this.props.onChange) {
+      this.props.onChange(this.state.current);
     }
   }
 
@@ -131,12 +165,14 @@ export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormI
       isLoading: this.props.isLoading,
       errors: this.props.errors,
       namePrefix: '',
-      currentState: this.state,
-      setField: (field, value) => {
-        // I'm not sure why Typescript dislikes this, but it seems
-        // like the only way to get around it is to cast to "any". :(
-        this.setState({ [field]: value } as any);
-      }
+      currentState: this.state.current,
+      setField: (field, value) => this.setState(s => ({
+        ...s,
+        current: {
+          ...s.current,
+          [field]: value,
+        }
+      })),
     }, this.submit);
 
     return (

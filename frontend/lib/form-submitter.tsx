@@ -78,7 +78,7 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * forms that don't have cached/pre-fetched results available.
    */
   submitOnMount?: boolean;
-} & Pick<FormProps<FormInput, FormOutput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'>;
+} & Pick<FormProps<FormInput, FormOutput>, 'idPrefix'|'initialState'|'children'|'extraFields'|'extraFormAttributes'|'updateInitialStateInBrowser'>;
 
 /**
  * This class encapsulates common logic for form submission. It's
@@ -108,6 +108,7 @@ interface FormSubmitterState<FormInput, FormOutput> extends BaseFormProps<FormIn
   isDirty: boolean;
   wasSubmittedSuccessfully: boolean;
   currentSubmissionId: number;
+  initialInput: FormInput;
   latestOutput?: FormOutput;
   lastSuccessRedirect?: {
     from: string,
@@ -141,6 +142,7 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
     this.state = {
       isLoading: false,
       errors: props.initialErrors,
+      initialInput: props.initialState,
       latestOutput: this.props.initialLatestOutput,
       currentSubmissionId: 0,
       isDirty: false,
@@ -152,6 +154,11 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
   handleChange(input: FormInput) {
     const isDirty = !areFieldsEqual(this.props.initialState, input);
     this.setState({ isDirty });
+  }
+
+  @autobind
+  handleUpdateInitialState(initialInput: FormInput) {
+    this.setState({ initialInput });
   }
 
   @autobind
@@ -256,6 +263,8 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
         isLoading={this.state.isLoading}
         errors={this.state.errors}
         initialState={this.props.initialState}
+        updateInitialStateInBrowser={this.props.updateInitialStateInBrowser}
+        onUpdateInitialState={this.handleUpdateInitialState}
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
         idPrefix={this.props.idPrefix}

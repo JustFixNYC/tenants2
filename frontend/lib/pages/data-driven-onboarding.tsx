@@ -13,6 +13,7 @@ import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-
 import { AppContext } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink, ga } from '../google-analytics';
+import { UpdateBrowserStorage } from '../browser-storage';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -393,6 +394,8 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
         {(ctx, latestInput, latestOutput) => {
           const showHero = !latestInput.address;
           const { isSafeModeEnabled } = appCtx.session;
+          const address = ctx.fieldPropsFor('address').value;
+          const borough = ctx.fieldPropsFor('borough').value;
 
           return (
             <section className={showHero ? "hero" : ""}>
@@ -419,7 +422,10 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
                   <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
                   <NextButton label="Search address" buttonSizeClass="is-normal" isLoading={ctx.isLoading} />
                 </div>
-                {latestOutput !== undefined && <Results address={ctx.fieldPropsFor('address').value} output={latestOutput} />}
+                {latestOutput !== undefined && <>
+                  <UpdateBrowserStorage latestAddress={address} latestBorough={borough} />
+                  <Results address={address} output={latestOutput} />
+                </>}
               </div>
             </section>
           );

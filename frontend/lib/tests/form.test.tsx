@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { MyFormInput, myInitialState, renderMyFormFields } from "./my-form";
 import { BaseFormProps, Form } from "../form";
 import { FormErrors } from "../form-errors";
@@ -55,5 +56,25 @@ describe('Form', () => {
     const wasDefaultPrevented = !pal.rt.fireEvent.submit(pal.getElement('form'));
     expect(wasDefaultPrevented).toBe(true);
     expect(mockSubmit.mock.calls.length).toBe(0);
+  });
+
+  let renderBrowserCachedForm = () => (
+    <Form onSubmit={() => {}}
+          isLoading={false}
+          initialState={{input: ""}}
+          updateInitialStateInBrowser={s => ({input: s.input ? s.input : 'fake cached value'})}
+    >
+      {(ctx) => <p>input is {ctx.fieldPropsFor('input').value}</p>}
+    </Form>
+  );
+
+  it('renders initial state w/o browser cache on server side', () => {
+    const str = ReactDOMServer.renderToStaticMarkup(renderBrowserCachedForm());
+    expect(str).toBe('<form><p>input is </p></form>');
+  });
+
+  it('updates initial state from browser cache on mount', () => {
+    const pal = new ReactTestingLibraryPal(renderBrowserCachedForm());
+    expect(pal.getElement('p').textContent).toBe('input is fake cached value');
   });
 });

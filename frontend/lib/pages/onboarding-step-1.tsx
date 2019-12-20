@@ -17,6 +17,7 @@ import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
 import { ClearSessionButton } from '../clear-session-button';
+import { updateAddressFromBrowserStorage } from '../browser-storage';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -133,6 +134,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={s => exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)}
+            updateInitialStateInBrowser={updateAddressFromBrowserStorage}
             onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
               input,
               resolved: assertNotNull(assertNotNull(output.session).onboardingStep1),

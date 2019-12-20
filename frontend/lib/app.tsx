@@ -25,6 +25,7 @@ import { getOnboardingRouteForIntent } from './signup-intent';
 import HelpPage from './pages/help-page';
 import { HelmetProvider } from 'react-helmet-async';
 import { createRedirectWithSearch } from './redirect-util';
+import { browserStorage } from './browser-storage';
 
 
 export interface AppProps {
@@ -222,6 +223,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     }
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;
+      browserStorage.clear();
     }
     this.handlePathnameChange(prevProps.location.pathname,
                               this.props.location.pathname,

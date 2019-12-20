@@ -1,4 +1,4 @@
-import { BrowserStorage } from "../browser-storage";
+import { BrowserStorage } from "../browser-storage-base";
 
 class FakeStorage {
   constructor(readonly data: any = {}) {

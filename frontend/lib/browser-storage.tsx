@@ -1,99 +1,34 @@
-import { useEffect } from "react";
+import { BaseBrowserStorageSchema, BrowserStorage, createUpdateBrowserStorage } from "./browser-storage-base";
 
-const TENANTS2_SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 1;
 
-const TENANTS2_SESSION_STORAGE_KEY = `tenants2_v${TENANTS2_SCHEMA_VERSION}`;
+const SESSION_STORAGE_KEY = `tenants2_v${SCHEMA_VERSION}`;
 
-export type BaseBrowserStorageSchema = {
-  _version: number,
-};
-
-export type TenantsBrowserStorageSchema = BaseBrowserStorageSchema & {
+export type BrowserStorageSchema = BaseBrowserStorageSchema & {
+  /** The latest street address a user entered in the app.*/
   latestAddress?: string,
+
+  /** The latest borough a user entered in the app. */
   latestBorough?: string,
 };
 
-const TENANTS2_DEFAULT_BROWSER_STORAGE: TenantsBrowserStorageSchema = {
-  _version: TENANTS2_SCHEMA_VERSION,
+const DEFAULT_BROWSER_STORAGE: BrowserStorageSchema = {
+  _version: SCHEMA_VERSION,
 };
 
-function getSessionStorage(): Pick<Storage, 'getItem'|'setItem'>|null {
-  if (typeof(window) === 'undefined') return null;
-  return window.sessionStorage || null;
-};
+/**
+ * Stores data browser-side using `window.sessionStorage`.
+ * The data won't be available server-side and this functionality shouldn't
+ * be relied upon for mission-critical tasks, since the user may be in
+ * compatibility mode or not have JS enabled in their browser.
+ * 
+ * That said, it can be used for progressively enhancing a site to make
+ * it a bit easier to use. It's also more privacy-preserving than using
+ * a session cookie, as even the most transient session cookies expire on
+ * browser close, while `window.sessionStorage` expires on the closing of
+ * a browser *tab*, reducing the likelihood that someone on a public/shared
+ * computer accidentally leaks personal data.
+ */
+export const browserStorage = new BrowserStorage(DEFAULT_BROWSER_STORAGE, SESSION_STORAGE_KEY);
 
-export class BrowserStorage<T extends BaseBrowserStorageSchema> {
-  private _cachedValue?: T;
-  private readonly schemaVersion: number;
-
-  constructor(readonly defaultValue: T, readonly storageKey: string, readonly storage = getSessionStorage()) {
-    this.schemaVersion = defaultValue._version;
-  }
-
-  private logWarning(msg: string, e: Error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn(`${msg} ${this.constructor.name}`, e);
-    }
-  }
-
-  private deserializeAndValidateCachedValue(value: string): T {
-    let obj = JSON.parse(value) as T;
-    if (obj && obj._version === this.schemaVersion) {
-      return obj;
-    }
-    throw new Error(`Stored schema is not version ${this.schemaVersion}`);
-  }
-
-  private getCachedValueOrDefault(): T {
-    try {
-      let value = this.storage && this.storage.getItem(this.storageKey);
-      if (value) {
-        return this.deserializeAndValidateCachedValue(value);
-      }
-    } catch (e) {
-      this.logWarning('Error deserializing', e);
-    }
-    return this.defaultValue;
-  }
-
-  private set cachedValue(value: T) {
-    this._cachedValue = value;
-    try {
-      this.storage && this.storage.setItem(this.storageKey, JSON.stringify(value));
-    } catch (e) {
-      this.logWarning('Error serializing', e);
-    }
-  }
-
-  private get cachedValue(): T {
-    if (!this._cachedValue) {
-      this._cachedValue = this.getCachedValueOrDefault();
-    }
-    return this._cachedValue;
-  }
-
-  get<K extends keyof T>(key: K): T[K] {
-    return this.cachedValue[key];
-  }
-
-  update(updates: Partial<T>) {
-    this.cachedValue = {
-      ...this.cachedValue,
-      ...updates,
-    };
-  }
-
-  clear() {
-    this.cachedValue = this.defaultValue;
-  }
-}
-
-export const browserStorage = new BrowserStorage(TENANTS2_DEFAULT_BROWSER_STORAGE, TENANTS2_SESSION_STORAGE_KEY);
-
-export const UpdateBrowserStorage: React.FC<Partial<TenantsBrowserStorageSchema>> = (props) => {
-  useEffect(() => {
-    browserStorage.update(props);
-  }, Object.values(props));
-
-  return null;
-};
+export const UpdateBrowserStorage = createUpdateBrowserStorage(browserStorage);

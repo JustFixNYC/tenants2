@@ -32,3 +32,12 @@ const DEFAULT_BROWSER_STORAGE: BrowserStorageSchema = {
 export const browserStorage = new BrowserStorage(DEFAULT_BROWSER_STORAGE, SESSION_STORAGE_KEY);
 
 export const UpdateBrowserStorage = createUpdateBrowserStorage(browserStorage);
+
+export function updateAddressFromBrowserStorage<T extends {address: string, borough: string}>(value: T): T {
+  let address = browserStorage.get('latestAddress') || '';
+  let borough = browserStorage.get('latestBorough') || '';
+  if (!value.address && address && !value.borough && borough) {
+    value = {...value, address, borough};
+  }
+  return value;
+}

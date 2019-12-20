@@ -21,6 +21,7 @@ import { getBoroughChoiceLabels, BoroughChoice } from '../../common-data/borough
 import { ClearSessionButton } from './clear-session-button';
 import { OutboundLink } from './google-analytics';
 import { CustomerSupportLink } from './customer-support-link';
+import { updateAddressFromBrowserStorage } from './browser-storage';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -96,6 +97,7 @@ function RentalHistoryForm(): JSX.Element {
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
         initialState={s => exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)}
+        updateInitialStateInBrowser={updateAddressFromBrowserStorage}
         onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
           input,
           resolved: assertNotNull(assertNotNull(output.session).rentalHistoryInfo),

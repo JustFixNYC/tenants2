@@ -17,7 +17,7 @@ import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
 import { ClearSessionButton } from '../clear-session-button';
-import { browserStorage, updateAddressFromBrowserStorage } from '../browser-storage';
+import { updateAddressFromBrowserStorage } from '../browser-storage';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;

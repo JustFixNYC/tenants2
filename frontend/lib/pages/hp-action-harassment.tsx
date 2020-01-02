@@ -13,12 +13,12 @@ import { TextareaWithCharsRemaining } from '../chars-remaining';
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
 
 export const HarassmentApartment = stepBuilder.createStep(props => ({
-  title: "Your apartment",
+  title: "Your building",
   mutation: HarassmentApartmentMutation,
   toFormInput: h => h.yesNoRadios(
     'moreThanOneFamilyPerApartment', 'twoOrLessApartmentsInBuilding').finish(),
   renderIntro: () => <>
-    To sue your landlord for harassment, we need to know a few details about your apartment.
+    To sue your landlord for harassment, we need to know a few details about your building.
   </>,
   renderForm: ctx => <>
     <YesNoRadiosFormField {...ctx.fieldPropsFor('twoOrLessApartmentsInBuilding')}

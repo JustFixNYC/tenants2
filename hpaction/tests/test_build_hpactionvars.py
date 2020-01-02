@@ -73,11 +73,10 @@ def test_user_to_hpactionvars_populates_issues(db):
         ISSUE_AREA_CHOICES.KITCHEN,
         [ISSUE_CHOICES.KITCHEN__MOLD]
     )
-    CustomIssue.objects.set_for_user(
-        user,
-        ISSUE_AREA_CHOICES.PUBLIC_AREAS,
-        'Lobby is consumed by darkness'
-    )
+    user.custom_issues.add(CustomIssue(
+        area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
+        description='Lobby is consumed by darkness'
+    ), bulk=False)
     v = user_to_hpactionvars(user)
     assert len(v.tenant_complaints_list) == 2
     first, second = v.tenant_complaints_list

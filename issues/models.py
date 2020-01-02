@@ -85,29 +85,6 @@ class Issue(models.Model):
         ensure_issue_matches_area(self.value, self.area)
 
 
-class CustomIssueManager(models.Manager):
-    @transaction.atomic
-    def set_for_user(self, user: JustfixUser, area: str, description: str):
-        description = description.strip()
-        issue = self.filter(user=user, area=area).first()
-        if description:
-            if issue is None:
-                issue = CustomIssue(user=user, area=area)
-            elif issue.description == description:
-                return
-            issue.description = description
-            issue.full_clean()
-            issue.save()
-        elif issue:
-            issue.delete()
-
-    def get_for_user(self, user: JustfixUser, area: str) -> str:
-        issues = self.filter(user=user, area=area).all()
-        if len(issues) == 0:
-            return ''
-        return issues[0].description
-
-
 class CustomIssue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -124,5 +101,3 @@ class CustomIssue(models.Model):
     description = models.TextField(
         help_text="The description of this custom issue."
         )
-
-    objects = CustomIssueManager()

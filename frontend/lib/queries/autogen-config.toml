@@ -66,9 +66,6 @@ sessionFields = ["onboardingStep3"]
 
 [mutations.onboardingStep4]
 
-[mutations.issueArea]
-sessionFields = ["issues", "customIssues"]
-
 [mutations.issueAreaV2]
 sessionFields = ["issues", "customIssuesV2"]
 

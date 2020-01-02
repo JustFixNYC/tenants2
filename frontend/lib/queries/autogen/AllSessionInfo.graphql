@@ -10,10 +10,6 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified
   },
   issues,
-  customIssues {
-    area,
-    description
-  },
   customIssuesV2 {
     id,
     area,

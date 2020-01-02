@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 
 from users.tests.factories import UserFactory, SecondUserFactory
 from issues import models
-from issues.models import CustomIssue
 
 
 def test_issue_choice_areas_are_valid():
@@ -108,42 +107,3 @@ class TestSetAreaIssuesForUser(BaseTest):
         models.Issue.objects.set_area_issues_for_user(user2, 'HOME', ['HOME__RATS'])
         assert self.get_area_issues('HOME') == ['HOME__MICE']
         assert models.Issue.objects.get_area_issues_for_user(user2, 'HOME') == ['HOME__RATS']
-
-
-class TestSetCustomIssueForUser(BaseTest):
-    def set_for_user(self, *args, **kwargs):
-        CustomIssue.objects.set_for_user(self.user, *args, **kwargs)
-
-    def get_for_user(self, *args, **kwargs):
-        return CustomIssue.objects.get_for_user(self.user, *args, **kwargs)
-
-    def test_it_returns_empty_string_on_nonexistence(self):
-        assert self.get_for_user('HOME') == ''
-
-    def test_models_are_created_and_persist(self):
-        with freezegun.freeze_time('2018-01-02'):
-            self.set_for_user('HOME', 'blarg')
-        model = CustomIssue.objects.get(area='HOME')
-        assert model.description == 'blarg'
-        assert str(model.updated_at.date()) == '2018-01-02'
-        with freezegun.freeze_time('2020-01-03'):
-            self.set_for_user('HOME', 'blarg')
-            model.refresh_from_db()
-            assert str(model.updated_at.date()) == '2018-01-02'
-            self.set_for_user('HOME', 'blarg!!')
-            model.refresh_from_db()
-            assert model.description == 'blarg!!'
-            assert str(model.updated_at.date()) == '2020-01-03'
-
-    def test_models_are_deleted(self):
-        self.set_for_user('HOME', 'blarg')
-        model = CustomIssue.objects.get(area='HOME')
-        self.set_for_user('HOME', '')
-        with pytest.raises(CustomIssue.DoesNotExist):
-            model.refresh_from_db()
-
-    def test_custom_issues_from_other_areas_are_not_clobbered(self):
-        self.set_for_user('HOME', 'boof')
-        self.set_for_user('BEDROOMS', 'doof')
-        assert self.get_for_user('HOME') == 'boof'
-        assert self.get_for_user('BEDROOMS') == 'doof'

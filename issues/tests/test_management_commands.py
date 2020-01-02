@@ -16,7 +16,8 @@ class TestIssueStats:
         Issue.objects.set_area_issues_for_user(user2, 'HOME', [
             'HOME__MICE'
         ])
-        CustomIssue.objects.set_for_user(user1, 'HOME', 'blah')
+        user1.custom_issues.add(
+            CustomIssue(area='HOME', description='blah'), bulk=False)
 
         out = StringIO()
         call_command('exportstats', 'issuestats', stdout=out)

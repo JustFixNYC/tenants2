@@ -58,7 +58,7 @@ def test_get_landlord_details_works():
 def test_get_issues_works():
     user = UserFactory()
     Issue.objects.set_area_issues_for_user(user, 'HOME', ['HOME__MICE'])
-    CustomIssue.objects.set_for_user(user, 'BEDROOMS', 'Bleh.')
+    user.custom_issues.add(CustomIssue(area='BEDROOMS', description='Bleh.'), bulk=False)
 
     assert get_issues(user) == [
         ('Entire home and hallways', ['Mice']),

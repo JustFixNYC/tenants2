@@ -1,0 +1,3 @@
+{
+    "USPS_TRACKING_URL_PREFIX": "https://tools.usps.com/go/TrackConfirmAction?tLabels="
+}

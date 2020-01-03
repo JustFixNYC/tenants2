@@ -5,7 +5,9 @@ mutation LetterRequestMutation($input: LetterRequestInput!) {
     session {
       letterRequest {
         updatedAt,
-        mailChoice
+        mailChoice,
+        trackingNumber,
+        letterSentAt
       }
     }
   }

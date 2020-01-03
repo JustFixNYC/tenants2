@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 from project.common_data import Choices
+from project import common_data
 from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
@@ -20,6 +21,8 @@ LOB_STRICTNESS_HELP_URL = \
 LOC_MAILING_CHOICES = Choices.from_file('loc-mailing-choices.json')
 
 LOC_REJECTION_CHOICES = Choices.from_file('loc-rejection-choices.json')
+
+USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
 
 # The amount of time a user has to change their letter of request
 # content after originally submitting it.
@@ -384,7 +387,7 @@ class LetterRequest(models.Model):
         if not self.tracking_number:
             return ''
 
-        return f"https://tools.usps.com/go/TrackConfirmAction?tLabels={self.tracking_number}"
+        return f"{USPS_TRACKING_URL_PREFIX}{self.tracking_number}"
 
     def can_change_content(self) -> bool:
         if self.__tracker.original_values['mail_choice'] == LOC_MAILING_CHOICES.USER_WILL_MAIL:

@@ -86,7 +86,7 @@ class LandlordDetailsType(DjangoObjectType):
 class LetterRequestType(DjangoObjectType):
     class Meta:
         model = models.LetterRequest
-        only_fields = ('mail_choice', 'updated_at')
+        only_fields = ('mail_choice', 'updated_at', 'tracking_number', 'letter_sent_at')
 
 
 @schema_registry.register_session_info

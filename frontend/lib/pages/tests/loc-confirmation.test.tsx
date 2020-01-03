@@ -8,16 +8,24 @@ import LetterOfComplaintRoutes from '../../letter-of-complaint';
 describe('letter of complaint confirmation', () => {
   afterEach(AppTesterPal.cleanup);
 
-  const createPal = (mailChoice: LetterRequestMailChoice) =>
+  const createPal = (mailChoice: LetterRequestMailChoice, trackingNumber: string = '') =>
     new AppTesterPal(<LetterOfComplaintRoutes/>, {
       url: Routes.locale.loc.confirmation,
       session: {
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",
-          mailChoice
+          mailChoice,
+          trackingNumber,
+          letterSentAt: trackingNumber ? "2018-09-15T01:42:12.829983+00:00" : null,
         }
       }
     });
+
+  it('mentions date of sending when we already mailed', async () => {
+    const pal = createPal(LetterRequestMailChoice.WE_WILL_MAIL, '1234');
+
+    pal.rr.getByText(/Friday, September 14, 2018/i);
+  });
 
   it('mentions date of reception when we will mail', async () => {
     const pal = createPal(LetterRequestMailChoice.WE_WILL_MAIL);

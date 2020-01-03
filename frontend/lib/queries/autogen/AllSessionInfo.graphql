@@ -48,7 +48,9 @@ fragment AllSessionInfo on SessionInfo {
   },
   letterRequest {
     updatedAt,
-    mailChoice
+    mailChoice,
+    trackingNumber,
+    letterSentAt
   },
   feeWaiver { ...FeeWaiverDetails },
   hpActionDetails { ...HPActionDetails },

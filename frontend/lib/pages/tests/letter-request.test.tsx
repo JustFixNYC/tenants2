@@ -8,7 +8,9 @@ import { pauseForModalFocus } from '../../tests/util';
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
-  updatedAt: 'blahh'
+  updatedAt: 'blahh',
+  trackingNumber: '',
+  letterSentAt: null,
 };
 
 describe('landlord details page', () => {
@@ -20,7 +22,7 @@ describe('landlord details page', () => {
     const updatedAt = "2018-01-01Tblahtime";
     pal.respondWithFormOutput<LetterRequestMutation_output>({
       errors: [],
-      session: { letterRequest: { updatedAt, mailChoice } }
+      session: { letterRequest: { updatedAt, mailChoice, trackingNumber: '', letterSentAt: null } }
     });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/your letter of complaint .*/i));

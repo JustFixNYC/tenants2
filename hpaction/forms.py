@@ -109,7 +109,21 @@ class SueForm(forms.ModelForm):
         return cleaned_data
 
 
-class PreviousAttemptsForm(forms.ModelForm):
+class DynamicallyRequiredBoolMixin:
+    def add_dynamically_required_error(self, field: str):
+        msg = forms.Field.default_error_messages['required']
+        self.add_error(field, ValidationError(msg, code='required'))  # type: ignore
+
+    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
+        value = YesNoRadiosField.coerce(cleaned_data.get(field))
+        if value is None:
+            self.add_dynamically_required_error(field)
+        else:
+            assert isinstance(value, bool)
+        return value
+
+
+class PreviousAttemptsForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
@@ -123,18 +137,6 @@ class PreviousAttemptsForm(forms.ModelForm):
     thirty_days_since_311 = YesNoRadiosField(required=False)
     hpd_issued_violations = YesNoRadiosField(required=False)
     thirty_days_since_violations = YesNoRadiosField(required=False)
-
-    def add_dynamically_required_error(self, field: str):
-        msg = forms.Field.default_error_messages['required']
-        self.add_error(field, ValidationError(msg, code='required'))
-
-    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
-        value = YesNoRadiosField.coerce(cleaned_data.get(field))
-        if value is None:
-            self.add_dynamically_required_error(field)
-        else:
-            assert isinstance(value, bool)
-        return value
 
     def clean(self):
         cleaned_data = super().clean()
@@ -157,16 +159,31 @@ class PreviousAttemptsForm(forms.ModelForm):
         return cleaned_data
 
 
-class HarassmentApartmentForm(forms.ModelForm):
+TWO_OR_LESS_APARTMENTS_IN_BUILDING = 'two_or_less_apartments_in_building'
+MORE_THAN_ONE_FAMILY_PER_APARTMENT = 'more_than_one_family_per_apartment'
+
+
+class HarassmentApartmentForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
-            'two_or_less_apartments_in_building',
-            'more_than_one_family_per_apartment',
+            TWO_OR_LESS_APARTMENTS_IN_BUILDING,
+            MORE_THAN_ONE_FAMILY_PER_APARTMENT,
         ]
 
     two_or_less_apartments_in_building = YesNoRadiosField()
-    more_than_one_family_per_apartment = YesNoRadiosField()
+    more_than_one_family_per_apartment = YesNoRadiosField(required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        two_or_less = YesNoRadiosField.coerce(cleaned_data.get(TWO_OR_LESS_APARTMENTS_IN_BUILDING))
+
+        if two_or_less is True:
+            self.require_bool_field(MORE_THAN_ONE_FAMILY_PER_APARTMENT, cleaned_data)
+        elif two_or_less is False:
+            cleaned_data[MORE_THAN_ONE_FAMILY_PER_APARTMENT] = ''
+
+        return cleaned_data
 
 
 class HarassmentAllegations1Form(forms.ModelForm):

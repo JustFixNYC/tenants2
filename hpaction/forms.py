@@ -109,7 +109,21 @@ class SueForm(forms.ModelForm):
         return cleaned_data
 
 
-class PreviousAttemptsForm(forms.ModelForm):
+class DynamicallyRequiredBoolMixin:
+    def add_dynamically_required_error(self, field: str):
+        msg = forms.Field.default_error_messages['required']
+        self.add_error(field, ValidationError(msg, code='required'))  # type: ignore
+
+    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
+        value = YesNoRadiosField.coerce(cleaned_data.get(field))
+        if value is None:
+            self.add_dynamically_required_error(field)
+        else:
+            assert isinstance(value, bool)
+        return value
+
+
+class PreviousAttemptsForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
@@ -123,18 +137,6 @@ class PreviousAttemptsForm(forms.ModelForm):
     thirty_days_since_311 = YesNoRadiosField(required=False)
     hpd_issued_violations = YesNoRadiosField(required=False)
     thirty_days_since_violations = YesNoRadiosField(required=False)
-
-    def add_dynamically_required_error(self, field: str):
-        msg = forms.Field.default_error_messages['required']
-        self.add_error(field, ValidationError(msg, code='required'))
-
-    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
-        value = YesNoRadiosField.coerce(cleaned_data.get(field))
-        if value is None:
-            self.add_dynamically_required_error(field)
-        else:
-            assert isinstance(value, bool)
-        return value
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SessionStepBuilder } from "../session-step-builder";
-import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
+import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE } from '../yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';
 import { CheckboxFormField } from '../form-fields';
@@ -9,6 +9,7 @@ import { HarassmentAllegations1Mutation } from '../queries/HarassmentAllegations
 import { HarassmentAllegations2Mutation } from '../queries/HarassmentAllegations2Mutation';
 import { HARASSMENT_DETAILS_MAX_LENGTH } from '../../../common-data/hp-action.json';
 import { TextareaWithCharsRemaining } from '../chars-remaining';
+import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
 
@@ -20,12 +21,21 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
   renderIntro: () => <>
     To sue your landlord for harassment, we need to know a few details about your building.
   </>,
-  renderForm: ctx => <>
-    <YesNoRadiosFormField {...ctx.fieldPropsFor('twoOrLessApartmentsInBuilding')}
-      label="Does your building have 2 apartments or less?" />
-    <YesNoRadiosFormField {...ctx.fieldPropsFor('moreThanOneFamilyPerApartment')}
-      label="Is there more than one family living in each apartment?" />
-  </>
+  renderForm: ctx => {
+    const twoOrLessApts = ctx.fieldPropsFor('twoOrLessApartmentsInBuilding');
+    const moreThanOneFam = hideByDefault(ctx.fieldPropsFor('moreThanOneFamilyPerApartment'));
+
+    if (twoOrLessApts.value === YES_NO_RADIOS_TRUE) {
+      moreThanOneFam.hidden = false;
+    }
+
+    return <>
+      <YesNoRadiosFormField {...twoOrLessApts}
+        label="Does your building have 2 apartments or less?" />
+      <ConditionalYesNoRadiosFormField {...moreThanOneFam}
+        label="Is there more than one family living in each apartment?" />
+    </>;
+  }
 }));
 
 const TOTAL_ALLEGATIONS_PAGES = 2;

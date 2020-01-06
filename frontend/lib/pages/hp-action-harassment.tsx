@@ -31,7 +31,9 @@ export const HarassmentApartment = stepBuilder.createStep(props => ({
 
     return <>
       <YesNoRadiosFormField {...twoOrLessApts}
-        label="Does your building have 2 apartments or less?" />
+        // We are "flipping" this question to make it easier to read.
+        label="Does your building have more than 2 apartments?"
+        flipLabels />
       <ConditionalYesNoRadiosFormField {...moreThanOneFam}
         label="Is there more than one family living in each apartment?" />
     </>;

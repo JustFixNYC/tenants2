@@ -62,7 +62,7 @@ def test_get_issues_works():
 
     assert get_issues(user) == [
         ('Entire home and hallways', ['Mice']),
-        ('Bedrooms', ['Other: Bleh.']),
+        ('Bedrooms', ['Bleh.']),
     ]
 
 

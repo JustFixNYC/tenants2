@@ -83,7 +83,7 @@ def get_issues(user):
         append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
 
     for issue in user.custom_issues.all():
-        append_to_area(issue.area, f"Other: {issue.description}")
+        append_to_area(issue.area, issue.description)
 
     return [
         (area, issue_areas[area]) for area in issue_areas

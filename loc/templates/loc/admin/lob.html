@@ -122,6 +122,7 @@
     If this information isn't copacetic, you should <a href="{{ go_back_href }}">go back</a> and
     change anything that needs changing.
   </p>
+  {% endif %}
 
   <p>
     You should also examine the user's <a href="{{ pdf_url }}" target="_blank">letter of complaint PDF</a>
@@ -130,6 +131,7 @@
 
   <embed src="{{ pdf_url }}" style="width: 100%" height="600" type="application/pdf">
 
+  {% if is_deliverable %}
   <form action="." method="POST">
     {% csrf_token %}
     <input type="hidden" name="signed_verifications" value="{{ signed_verifications }}" >

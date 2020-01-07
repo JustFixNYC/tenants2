@@ -160,16 +160,10 @@ def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
 
 
 def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
-    landlord_found = False
-
     pad_bbl = get_user_pad_bbl(user)
     pad_bin = get_user_pad_bin(user)
     if pad_bbl or pad_bin:
-        landlord_found = fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
-
-    if not landlord_found and hasattr(user, 'landlord_details'):
-        ld = user.landlord_details
-        v.landlord_entity_name_te = ld.name
+        fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
 
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:

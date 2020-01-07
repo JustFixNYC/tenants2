@@ -91,13 +91,6 @@ def test_user_to_hpactionvars_populates_issues(db):
     v.to_answer_set()
 
 
-def test_user_to_hpactionvars_populates_basic_landlord_info(db):
-    ld = LandlordDetailsFactory(name="Landlordo Calrissian")
-    v = user_to_hpactionvars(ld.user)
-    assert v.landlord_entity_name_te == "Landlordo Calrissian"
-    v.to_answer_set()
-
-
 @pytest.mark.parametrize('use_bin', [True, False])
 def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bin):
     med = nycdb.load_hpd_registration('medium-landlord.json')

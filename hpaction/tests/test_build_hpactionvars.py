@@ -3,7 +3,6 @@ import pytest
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from loc.tests.factories import LandlordDetailsFactory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (

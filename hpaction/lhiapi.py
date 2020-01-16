@@ -5,6 +5,7 @@ import zeep
 
 from project.util.celery_util import threaded_fire_and_forget_task
 from project.util.site_util import absolute_reverse, get_site_name
+import airtable.sync
 from project import slack
 from .models import UploadToken, HPActionDocuments
 from .hpactionvars import HPActionVariables
@@ -82,6 +83,7 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
     hdinfo = user_to_hpactionvars(user)
     docs = get_answers_and_documents(token, hdinfo)
     if docs is not None:
+        airtable.sync.sync_user(user)
         user.send_sms_async(
             f"{get_site_name()} here! Follow this link to your completed "
             f"HP Action legal forms. You will need to print these "

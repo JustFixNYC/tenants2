@@ -56,7 +56,7 @@ function HPActionSplash(): JSX.Element {
       <Disclaimer/>
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
-      <p><em>This service is free, secure, and confidential.</em></p>
+      <p><em>This service is free and secure.</em></p>
       <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute()}>
         Start my case
       </CenteredPrimaryButtonLink>

@@ -22,7 +22,7 @@ export function LocSplash(): JSX.Element {
               Is your landlord not responding? Take action today!
             </h1>
             <p className="subtitle">
-              JustFix.nyc is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. Everything is documented, confidential, and secure.
+              This is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. This service is free and secure.
             </p>
             <CenteredPrimaryButtonLink to={Routes.locale.onboarding.latestStep} className="is-large">
               Start my free letter

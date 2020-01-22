@@ -115,7 +115,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
         <TextualFormField label="Apartment number" autoComplete="address-line2 street-address" {...ctx.fieldPropsFor('aptNumber')} />
         <Route path={routes.step1AddressModal} exact component={PrivacyInfoModal} />
         <p>
-          Your privacy is very important to us! Everything on JustFix.nyc is kept confidential and secure. {" "}
+          Your privacy is very important to us! Everything on JustFix.nyc is secure. {" "}
           <Link to={routes.step1AddressModal}>Click here to learn more<span className="jf-sr-only"> about our privacy policy</span></Link>.
         </p>
         <br/>

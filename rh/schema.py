@@ -14,7 +14,7 @@ from rapidpro.followup_campaigns import trigger_followup_campaign_async
 
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
     rh_link = slack.hyperlink(
-        text="rental history",
+        text="rent history",
         href=absolute_reverse('admin:rh_rentalhistoryrequest_change', args=[rhr.pk])
     )
     if rhr.user:

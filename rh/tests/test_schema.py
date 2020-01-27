@@ -111,12 +111,12 @@ class TestGetSlackNotifyText:
         assert get_slack_notify_text(rhr) == (
             f"<https://example.com/admin/users/justfixuser/{rhr.user.pk}/change/|Blarf> has "
             f"requested "
-            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rental history>!"
+            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rent history>!"
         )
 
     def test_it_works_for_anonymous_users(self, db):
         rhr = RentalHistoryRequestFactory(user=None, first_name='Glorp & Blorp')
         assert get_slack_notify_text(rhr) == (
             f"Glorp &amp; Blorp has requested "
-            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rental history>!"
+            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rent history>!"
         )

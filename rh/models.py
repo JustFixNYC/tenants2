@@ -20,7 +20,7 @@ class RentalHistoryRequest(models.Model):
         blank=True,
         null=True,
         help_text=(
-            "User who was logged in when the rental history request was made. "
+            "User who was logged in when the rent history request was made. "
             "This may or may not be different from the actual name/address of the "
             "request, e.g. if the user is making a request on someone else's "
             "behalf."

@@ -14,4 +14,11 @@ describe('getYesNoChoices', () => {
       ["True", 'No'],
     ]);
   });
+
+  it('provides custom labels if provided', () => {
+    expect(getYesNoChoices({yesLabel: 'YUP', noLabel: 'NOPE'})).toEqual([
+      ["True", 'YUP'],
+      ["False", 'NOPE'],
+    ]);
+  });
 });

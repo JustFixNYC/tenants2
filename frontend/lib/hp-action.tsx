@@ -229,6 +229,7 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
     <YesNoRadiosFormField
       {...ctx.fieldPropsFor('urgentAndDangerous')}
       label="Are the conditions urgent and dangerous, and do you want to skip the inspection?"
+      noLabel="No, I do not want to skip the inspection"
     />
   </>
 });

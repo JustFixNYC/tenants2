@@ -19,6 +19,12 @@ type ChoiceOptions = {
    * to change a bunch of underlying logic.
    */
   flipLabels?: boolean;
+
+  /** The label for the affirmative option, if different from "Yes". */
+  yesLabel?: string;
+
+  /** The label for the negative option, if different from "No". */
+  noLabel?: string;
 };
 
 export interface YesNoRadiosFormFieldProps extends BaseFormFieldProps<string>, ChoiceOptions {
@@ -33,8 +39,8 @@ export function getYesNoChoices(options: ChoiceOptions): ReactDjangoChoices {
   }
 
   return [
-    [yesChoice, 'Yes'],
-    [noChoice, 'No']
+    [yesChoice, options.yesLabel || 'Yes'],
+    [noChoice, options.noLabel || 'No']
   ];
 }
 

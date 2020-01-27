@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('address', models.CharField(max_length=200)),
                 ('address_verified', models.BooleanField()),
                 ('borough', models.CharField(choices=[('BROOKLYN', 'Brooklyn'), ('QUEENS', 'Queens'), ('BRONX', 'Bronx'), ('MANHATTAN', 'Manhattan'), ('STATEN_ISLAND', 'Staten Island')], max_length=20)),
-                ('user', models.ForeignKey(blank=True, help_text="User who was logged in when the rental history request was made. This may or may not be different from the actual name/address of the request, e.g. if the user is making a request on someone else's behalf.", null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(blank=True, help_text="User who was logged in when the rent history request was made. This may or may not be different from the actual name/address of the request, e.g. if the user is making a request on someone else's behalf.", null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

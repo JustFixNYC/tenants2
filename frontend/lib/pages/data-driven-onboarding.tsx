@@ -285,7 +285,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: Routes.locale.rh.splash,
         gaLabel: 'rh',
-        text: "Order rental history"
+        text: "Order rent history"
       }
     };
   },

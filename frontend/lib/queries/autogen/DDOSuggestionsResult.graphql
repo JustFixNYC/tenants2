@@ -5,6 +5,7 @@ fragment DDOSuggestionsResult on DDOSuggestionsResult {
   isRtcEligible,
   zipcode,
   yearBuilt,
+  buildingClass,
   unitCount,
   hpdComplaintCount,
   hpdOpenViolationCount,

@@ -77,7 +77,8 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     building_class = graphene.String(
-        description="The 2-character building class of the BBL, as defined by the Dept. of City Planning."
+        description="The 2-character building class of the BBL, as defined by the "
+                    "Dept. of City Planning."
     )
 
     unit_count = graphene.Int(

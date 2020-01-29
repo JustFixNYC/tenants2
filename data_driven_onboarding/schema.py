@@ -109,7 +109,9 @@ class DDOSuggestionsResult(graphene.ObjectType):
     associated_building_count = graphene.Int(
         description=(
             "Number of associated buildings from the portfolio that the BBL is in. "
-            "If the value is unknown, or if there are no associated buildings, this will be null."
+            "If the value is unknown, or if there are no associated buildings, this will be null. "
+            "Also, if the value is unknown, or if there are no associated buildings, this means "
+            "that the search BBL does not have any HPD registration on file."
         )
     )
 

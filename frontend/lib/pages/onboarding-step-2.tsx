@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { FormContext } from '../form-context';
+import { CenteredButtons } from '../centered-buttons';
 
 
 export function Step2EvictionModal(): JSX.Element {
@@ -25,8 +26,10 @@ export function Step2EvictionModal(): JSX.Element {
       <p>
         Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
       </p>
-      <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-fullwidth">Go to Eviction Free NYC</OutboundLink>
-      <Link className="button is-text is-fullwidth" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
+      <CenteredButtons>
+        <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-medium">Go to Eviction Free NYC</OutboundLink>
+        <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
+      </CenteredButtons>
     </>} />
   );
 }

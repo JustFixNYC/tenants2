@@ -68,6 +68,14 @@ body > #prerendered-modal ~ .safe-mode-disable {
     margin: 0.3em 0.6em 0.3em 0.3em;
 }
 
+.jf-centered-button:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.jf-centered-button {
+  text-align: center;
+}
+
 input:checked + .jf-radio-symbol {
     background-color: $primary;
 }

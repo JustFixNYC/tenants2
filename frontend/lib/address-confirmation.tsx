@@ -33,11 +33,19 @@ export function ConfirmAddressModal(props: ConfirmAddressModalProps): JSX.Elemen
   return (
     <Modal title="Is this your address?" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
       <p>{props.address}, {borough}</p>
-      <Link to={props.nextStep} className="button is-primary is-fullwidth">Yes!</Link>
-      <Link {...ctx.getLinkCloseProps()} className="button is-text is-fullwidth">No, go back.</Link>
+      <CenteredButtons>
+        <Link to={props.nextStep} className="button is-primary is-medium">Yes!</Link>
+        <Link {...ctx.getLinkCloseProps()} className="button is-medium is-light">No, go back.</Link>
+      </CenteredButtons>
     </>} />
   );
 }
+
+const CenteredButtons: React.FC<{children: JSX.Element[]}> = ({children}) => {
+  return <div>
+    {React.Children.map(children, (child, i) => <div key={i} className="jf-centered-button">{child}</div>)}
+  </div>;
+};
 
 export type RedirectToAddressConfirmationOrNextStepOptions = {
   /** The address the user input. */

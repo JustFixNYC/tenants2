@@ -197,7 +197,8 @@ function RentalHistoryConfirmation(): JSX.Element {
       <h2>Want to read more about your rights?</h2>
       <ul>
       <li><OutboundLink href="https://www.metcouncilonhousing.org/help-answers/" target="_blank">Met Council on Housing</OutboundLink></li>
-        <li><OutboundLink href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</OutboundLink></li>
+      <li><OutboundLink href="http://housingcourtanswers.org/glossary/" target="_blank">Housing Court Answers</OutboundLink></li>
+      <li><OutboundLink href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh" target="_blank">JustFix.nyc's Learning Center</OutboundLink></li>
       </ul>
     </Page>
   );

@@ -292,6 +292,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The 2-character building class of the BBL, as defined by the Dept. of City Planning.",
+              "isDeprecated": false,
+              "name": "buildingClass",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Number of residential units for the BBL, if available.",
               "isDeprecated": false,
               "name": "unitCount",
@@ -348,7 +360,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Number of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null.",
+              "description": "Number of associated buildings from the portfolio that the BBL is in. If the value is unknown, or if there are no associated buildings, this will be null. Also, if the value is unknown, or if there are no associated buildings, this means that the search BBL does not have any HPD registration on file.",
               "isDeprecated": false,
               "name": "associatedBuildingCount",
               "type": {

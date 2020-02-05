@@ -76,6 +76,11 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description="The year that any buildings on the BBL were built, if available."
     )
 
+    building_class = graphene.String(
+        description="The 2-character building class of the BBL, as defined by the "
+                    "Dept. of City Planning."
+    )
+
     unit_count = graphene.Int(
         required=True,
         description="Number of residential units for the BBL, if available."
@@ -105,7 +110,9 @@ class DDOSuggestionsResult(graphene.ObjectType):
     associated_building_count = graphene.Int(
         description=(
             "Number of associated buildings from the portfolio that the BBL is in. "
-            "If the value is unknown, or if there are no associated buildings, this will be null."
+            "If the value is unknown, or if there are no associated buildings, this will be null. "
+            "Also, if the value is unknown, or if there are no associated buildings, this means "
+            "that the search BBL does not have any HPD registration on file."
         )
     )
 

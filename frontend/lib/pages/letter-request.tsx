@@ -28,13 +28,14 @@ export const SendConfirmModal = withAppContext((props: AppContextType & { nextSt
         {landlord.address || 'UNKNOWN ADDRESS'}
       </address>
       <br/>
-      <FormAsButton
-        mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-        label="Mail my letter"
-        buttonClass="is-success"
-        isFullWidth
-        nextStep={props.nextStep}
-      />
+      <div className="has-text-centered">
+        <FormAsButton
+          mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
+          label="Mail my letter"
+          buttonClass="is-success"
+          nextStep={props.nextStep}
+        />
+      </div>
     </>}/>
   );
 });
@@ -43,7 +44,6 @@ interface FormAsButtonProps {
   mailChoice: LetterRequestMailChoice;
   label: string;
   buttonClass?: BulmaClassName;
-  isFullWidth?: boolean;
   nextStep: string;
 }
 
@@ -59,7 +59,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
     >
       {(ctx) => <>
         <HiddenFormField {...ctx.fieldPropsFor('mailChoice')} />
-        <NextButton isLoading={ctx.isLoading} isFullWidth={props.isFullWidth} buttonClass={props.buttonClass} label={props.label} />
+        <NextButton isLoading={ctx.isLoading} buttonClass={props.buttonClass} label={props.label} />
       </>}
     </SessionUpdatingFormSubmitter>
   );

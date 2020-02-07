@@ -21,7 +21,30 @@ type GTMSignupEvent = {
   'jf.signupIntent': OnboardingInfoSignupIntent|null
 };
 
-export type GTMDataLayerObject = GTMSignupEvent;
+/**
+ * "get started" buttons are associated with actions that users sign up
+ * for, but also for some other actions that don't require login.
+ */
+export type GetStartedIntent = OnboardingInfoSignupIntent | "RH";
+
+/**
+ * We generally have two pages with "get started" buttons: splash pages,
+ * which typically require no login, and welcome pages, which are
+ * shown to users after they have completed onboarding.
+ */
+export type GetStartedPageType = "splash" | "welcome";
+
+/**
+ * Data layer event to send when a user starts an action,
+ * usually by clicking a big button with text similar to "get started".
+ */
+type GTMGetStartedEvent = {
+  event: 'jf.getStarted',
+  'jf.getStartedIntent': GetStartedIntent,
+  'jf.getStartedPageType': GetStartedPageType,
+};
+
+export type GTMDataLayerObject = GTMSignupEvent | GTMGetStartedEvent;
 
 export function getDataLayer(): GTMDataLayer {
   return window.dataLayer || [];

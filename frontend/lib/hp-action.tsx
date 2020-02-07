@@ -2,7 +2,7 @@ import React from 'react';
 
 import Routes from "./routes";
 import Page from "./page";
-import { CenteredPrimaryButtonLink, NextButton, ProgressButtons } from './buttons';
+import { NextButton, ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
 import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
@@ -11,7 +11,7 @@ import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutati
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
-import { HPUploadStatus } from './queries/globalTypes';
+import { HPUploadStatus, OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router';
 import { SessionPoller } from './session-poller';
@@ -33,6 +33,7 @@ import { BigList } from './big-list';
 import { EmailAttachmentForm } from './email-attachment';
 import { EmailHpActionPdfMutation } from './queries/EmailHpActionPdfMutation';
 import { CustomerSupportLink } from './customer-support-link';
+import { GetStartedButton } from './get-started-button';
 
 const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
 
@@ -57,9 +58,9 @@ function HPActionSplash(): JSX.Element {
       <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
       <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
       <p><em>This service is free and secure.</em></p>
-      <CenteredPrimaryButtonLink className="is-large" to={onboardingForHPActionRoute()}>
+      <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
         Start my case
-      </CenteredPrimaryButtonLink>
+      </GetStartedButton>
     </Page>
   );
 }
@@ -79,9 +80,9 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
         <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong>.
 </li>
       </ol>
-      <CenteredPrimaryButtonLink to={Routes.locale.hp.sue}>
+      <GetStartedButton to={Routes.locale.hp.sue} intent={OnboardingInfoSignupIntent.HP} pageType="welcome">
         Get started
-      </CenteredPrimaryButtonLink>
+      </GetStartedButton>
       <br/>
       <p>
         <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed, what those repairs are, and, if you are suing for harassment, you must provide proof of the harassing behavior. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.

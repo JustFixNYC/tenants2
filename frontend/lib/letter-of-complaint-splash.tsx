@@ -1,11 +1,12 @@
 import React from 'react';
 import Page from './page';
 import { StaticImage } from './static-image';
-import { CenteredPrimaryButtonLink } from './buttons';
 import { Link } from 'react-router-dom';
 import Routes from './routes';
 import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
+import { GetStartedButton } from './get-started-button';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
 
 export function LocSplash(): JSX.Element {
@@ -24,9 +25,9 @@ export function LocSplash(): JSX.Element {
             <p className="subtitle">
               This is a free tool that notifies your landlord of repair issues via <b>USPS Certified Mail<sup>&reg;</sup></b>. This service is free and secure.
             </p>
-            <CenteredPrimaryButtonLink to={Routes.locale.onboarding.latestStep} className="is-large">
+            <GetStartedButton to={Routes.locale.onboarding.latestStep} intent={OnboardingInfoSignupIntent.LOC} pageType="splash">
               Start my free letter
-            </CenteredPrimaryButtonLink>
+            </GetStartedButton>
             <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
           </div>
         </div>
@@ -44,9 +45,9 @@ export function LocSplash(): JSX.Element {
             <li>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</li>
             <li>If repairs aren't made, learn about additional tactics like organizing and legal actions.</li>
           </BigList>
-          <CenteredPrimaryButtonLink to={Routes.locale.onboarding.latestStep} className="is-large">
+          <GetStartedButton to={Routes.locale.onboarding.latestStep} intent={OnboardingInfoSignupIntent.LOC} pageType="splash">
             Start my free letter
-          </CenteredPrimaryButtonLink>
+          </GetStartedButton>
         </div>
       </section>
 

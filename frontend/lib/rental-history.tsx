@@ -8,7 +8,7 @@ import { TextualFormField } from './form-fields';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { RhFormMutation, BlankRhFormInput } from './queries/RhFormMutation';
 import { exactSubsetOrDefault, assertNotNull } from './util';
-import { NextButton, BackButton, CenteredPrimaryButtonLink } from './buttons';
+import { NextButton, BackButton } from './buttons';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { AppContext, AppContextType} from './app-context';
 import { Link, Route } from 'react-router-dom';
@@ -22,10 +22,11 @@ import { ClearSessionButton } from './clear-session-button';
 import { OutboundLink } from './google-analytics';
 import { CustomerSupportLink } from './customer-support-link';
 import { updateAddressFromBrowserStorage } from './browser-storage';
+import { GetStartedButton } from './get-started-button';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
-function RentalHistoryWelcome(): JSX.Element {
+function RentalHistorySplash(): JSX.Element {
     return (
       <Page title="Request your Rent History">
          <section className="hero is-light">
@@ -43,9 +44,9 @@ function RentalHistoryWelcome(): JSX.Element {
               <p className="subtitle is-italic">
                 This service is free, secure, and confidential.
               </p>
-              <CenteredPrimaryButtonLink to={Routes.locale.rh.form} className="is-large">
+              <GetStartedButton to={Routes.locale.rh.form} intent="RH" pageType="splash">
                 Start my request
-              </CenteredPrimaryButtonLink>
+              </GetStartedButton>
             </div>
           </div>
         </section>
@@ -208,7 +209,7 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
     toLatestStep: Routes.locale.rh.latestStep,
     label: "Rent History",
     welcomeSteps: [{
-      path: Routes.locale.rh.splash, exact: true, component: RentalHistoryWelcome
+      path: Routes.locale.rh.splash, exact: true, component: RentalHistorySplash
     }],
     stepsToFillOut: [
       { path: Routes.locale.rh.form, exact: true, component: RentalHistoryForm},

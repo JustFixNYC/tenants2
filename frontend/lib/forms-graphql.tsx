@@ -17,6 +17,9 @@ export interface FetchMutationInfo<FormInput, FormOutput extends WithServerFormF
   /** The literal GraphQL of the form submission. */
   graphQL: string;
 
+  /** A name for the mutation, for analytics/debugging purposes. */
+  name: string;
+
   /**
    * The callable that can perform the form submission, given a
    * GraphQL implementation.

@@ -34,6 +34,7 @@ export class LegacyFormSubmitter<FormInput, FormOutput extends WithServerFormFie
                 sub.POST['graphql'] === mutation.graphQL &&
                 sub.POST['legacyFormId'] === formId;
               const props: FormSubmitterProps<FormInput, FormOutput> = {
+                formKind: mutation.name,
                 ...otherProps,
                 onSubmit: createMutationSubmitHandler(appCtx.fetch, mutation.fetch),
                 extraFields: (

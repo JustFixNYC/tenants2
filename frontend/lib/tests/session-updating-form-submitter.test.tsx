@@ -6,6 +6,7 @@ import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter
 describe('SessionUpdatingFormSubmitter', () => {
   const SomeFormMutation = {
     graphQL: 'blah',
+    name: 'SomeFormMutation',
     fetch(fetchImpl: any, input: any) { return fetchImpl('blah', input); }
   };
 

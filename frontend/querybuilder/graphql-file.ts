@@ -159,6 +159,7 @@ export class GraphQlFile {
       `export const ${this.basename} = {`,
       `  // The following query was taken from ${this.graphQlFilename}.`,
       `  graphQL: ${this.getGraphQlTemplateLiteral()},`,
+      `  name: ${JSON.stringify(this.basename)},`,
       `  fetch(${fetchGraphQL}, ${args}): Promise<${this.basename}> {`,
       `    return fetchGraphQL(${this.basename}.graphQL${args ? ', args' : ''});`,
       `  },`,

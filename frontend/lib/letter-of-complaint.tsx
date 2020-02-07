@@ -7,9 +7,10 @@ import AccessDatesPage from './pages/access-dates';
 import LandlordDetailsPage from './pages/landlord-details';
 import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
-import { CenteredPrimaryButtonLink } from './buttons';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { LocSplash } from './letter-of-complaint-splash';
+import { GetStartedButton } from './get-started-button';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -25,9 +26,9 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
           <li>First, conduct a <strong>self-inspection of your apartment</strong> to document all the issues that need repair.</li>
           <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS Certified Mail<sup>&reg;</sup>.</li>
         </ol>
-        <CenteredPrimaryButtonLink to={Routes.locale.loc.issues.home}>
+        <GetStartedButton to={Routes.locale.loc.issues.home} intent={OnboardingInfoSignupIntent.LOC} pageType="welcome">
           Start my free letter
-        </CenteredPrimaryButtonLink>
+        </GetStartedButton>
         <br/>
         <h2>Why mail a Letter of Complaint?</h2>
         <p>

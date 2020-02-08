@@ -2,6 +2,7 @@ import React from 'react';
 import { BackOrUpOneDirLevel, Modal } from './modal';
 import { Link } from 'react-router-dom';
 import { isBoroughChoice, getBoroughChoiceLabels } from '../../common-data/borough-choices';
+import { CenteredButtons } from './centered-buttons';
 
 type AddressAndBorough = {
   /** A NYC street name and number, e.g. "150 court st". */
@@ -33,8 +34,10 @@ export function ConfirmAddressModal(props: ConfirmAddressModalProps): JSX.Elemen
   return (
     <Modal title="Is this your address?" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
       <p>{props.address}, {borough}</p>
-      <Link to={props.nextStep} className="button is-primary is-fullwidth">Yes!</Link>
-      <Link {...ctx.getLinkCloseProps()} className="button is-text is-fullwidth">No, go back.</Link>
+      <CenteredButtons>
+        <Link to={props.nextStep} className="button is-primary is-medium">Yes!</Link>
+        <Link {...ctx.getLinkCloseProps()} className="button is-text">No, go back.</Link>
+      </CenteredButtons>
     </>} />
   );
 }

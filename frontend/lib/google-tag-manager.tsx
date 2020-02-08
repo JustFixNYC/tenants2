@@ -44,7 +44,17 @@ type GTMGetStartedEvent = {
   'jf.getStartedPageType': GetStartedPageType,
 };
 
-export type GTMDataLayerObject = GTMSignupEvent | GTMGetStartedEvent;
+/**
+ * Data layer event to send when the user successfully submits a form.
+ */
+type GTMFormSuccessEvent = {
+  event: 'jf.formSuccess',
+  'jf.formKind': string,
+  'jf.formId'?: string,
+  'jf.redirect'?: string,
+};
+
+export type GTMDataLayerObject = GTMSignupEvent | GTMGetStartedEvent | GTMFormSuccessEvent;
 
 export function getDataLayer(): GTMDataLayer {
   return window.dataLayer || [];

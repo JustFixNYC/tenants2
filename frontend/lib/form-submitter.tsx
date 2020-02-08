@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from './google-analytics';
 import { HistoryBlocker } from './history-blocker';
+import { getDataLayer } from './google-tag-manager';
 
 export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {
   /**
@@ -57,6 +58,14 @@ export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormField
    * on other forms in the same page.
    */
   formId?: string;
+
+  /**
+   * A name for the kind of form this represents; for instance, if this form
+   * triggers a GraphQL mutation, it could be the name of the mutation.
+   * 
+   * If non-empty, this value is sent to analytics services.
+   */
+  formKind?: string;
 
   /**
    * Any validation errors to show upon initial display of the form.
@@ -213,7 +222,15 @@ export class FormSubmitterWithoutRouter<FormInput, FormOutput extends WithServer
           this.setState({ isLoading: false });
         }
         ga('send', 'event', 'form-success',
-           this.props.formId || 'default', redirect || undefined);
+           this.props.formId || this.props.formKind || 'default', redirect || undefined);
+        if (this.props.formKind) {
+          getDataLayer().push({
+            event: 'jf.formSuccess',
+            'jf.formKind': this.props.formKind,
+            'jf.formId': this.props.formId,
+            'jf.redirect': redirect || undefined
+          });
+        }
       }
     }).catch(e => {
       this.setState({ isLoading: false });

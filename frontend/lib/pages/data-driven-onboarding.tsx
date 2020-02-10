@@ -166,6 +166,10 @@ function ActionCard(props: ActionCardProps) {
   </>;
 }
 
+export function isBuildingClassBorC(buildingClass: string|null): boolean {
+  return /^(B|C).*/i.test(buildingClass || '');
+}
+
 const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
   title: data.fullAddress,
   titleProps: {
@@ -184,9 +188,14 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
     // just the build date as an indicator, so we'll only show it if we also show other info.
     data.unitCount && data.yearBuilt && <>
       Your building was built in {data.yearBuilt} or earlier.
-    </>
+    </>,
+    !data.associatedBuildingCount && (isBuildingClassBorC(data.buildingClass)
+      ? <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), but it is possible that it should be. You can find more information on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>
+      : <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), so we don't know much about it.</>)
   ],
-  fallbackMessage: <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), so we don't know much about it.</>
+  // This fallback message should never actually appear, as the indicators have been constructed
+  // in such a way that there should be at least one non-falsy one.
+  fallbackMessage: <></>
 });
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [

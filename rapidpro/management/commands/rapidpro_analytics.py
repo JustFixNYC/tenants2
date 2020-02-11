@@ -13,58 +13,63 @@ RH_FOLLOWUP_1_UUID = "be922331-eb0b-4823-86d2-647dc5a014e3"
 
 RH_FOLLOWUP_2_UUID = "52c3d0fc-d198-45d1-86be-c6fed577ad3a"
 
-Flow = Dict[str, Any]
 
+class Flow:
+    _f: Dict[str, Any]
+    uuid: str
+    name: str
 
-def get_flow_defns(client: TembaClient, uuids: List[str]) -> List[Flow]:
-    flows_by_uuid: Dict[str, Any] = {}
-    defns = client.get_definitions(flows=uuids).flows
-    for flow in defns:
-        flows_by_uuid[flow['metadata']['uuid']] = flow
-    result: List[Flow] = []
-    for uuid in uuids:
-        result.append(flows_by_uuid[uuid])
-    return result
+    def __init__(self, flow: Dict[str, Any]):
+        self._f = flow
+        self.uuid = flow['metadata']['uuid']
+        self.name = flow['metadata']['name']
 
+    @staticmethod
+    def from_uuids(client: TembaClient, uuids: List[str]) -> List['Flow']:
+        flows_by_uuid: Dict[str, Flow] = {}
+        defns = client.get_definitions(flows=uuids).flows
+        for flow_defn in defns:
+            flow = Flow(flow_defn)
+            flows_by_uuid[flow.uuid] = flow
+        result: List[Flow] = []
+        for uuid in uuids:
+            result.append(flows_by_uuid[uuid])
+        return result
 
-def find_flow_node_uuids(flow: Flow, regex: str, expected: int) -> List[str]:
-    pattern = re.compile(regex)
-    uuids: List[str] = []
-    for action_set in flow['action_sets']:
-        uuid = action_set['uuid']
-        for action in action_set['actions']:
-            if action['type'] != 'reply':
-                continue
-            msg = action['msg']
-            if pattern.match(msg['base']):
-                uuids.append(uuid)
-                break
-    flow_uuid = flow['metadata']['uuid']
-    if len(uuids) != expected:
-        raise ValueError(
-            f'Expected to find {expected} node(s) matching pattern {pattern} '
-            f'in flow https://textit.in/flow/editor/{flow_uuid}/, but found {len(uuids)}!'
-        )
-    return uuids
+    def find_node_uuids(self, regex: str, expected: int) -> List[str]:
+        pattern = re.compile(regex)
+        uuids: List[str] = []
+        for action_set in self._f['action_sets']:
+            uuid = action_set['uuid']
+            for action in action_set['actions']:
+                if action['type'] != 'reply':
+                    continue
+                msg = action['msg']
+                if pattern.match(msg['base']):
+                    uuids.append(uuid)
+                    break
+        if len(uuids) != expected:
+            raise ValueError(
+                f'Expected to find {expected} node(s) matching pattern {pattern} '
+                f'in flow https://textit.in/flow/editor/{self.uuid}/, but found {len(uuids)}!'
+            )
+        return uuids
 
-
-def iter_runs(client: TembaClient, flow: Flow) -> Iterator[Run]:
-    uuid = flow['metadata']['uuid']
-    run_batches = client.get_runs(flow=uuid).iterfetches(retry_on_rate_exceed=True)
-    for run_batch in run_batches:
-        for run in run_batch:
-            yield run
+    def iter_runs(self, client: TembaClient) -> Iterator[Run]:
+        run_batches = client.get_runs(flow=self.uuid).iterfetches(retry_on_rate_exceed=True)
+        for run_batch in run_batches:
+            for run in run_batch:
+                yield run
 
 
 def process_rh_followups(
     client: TembaClient,
-    number: int,
     flow: Flow,
     yes_uuids=List[str],
     no_uuids=List[str]
 ):
-    name = f"RH FOLLOWUP #{number}"
-    for run in iter_runs(client, flow):
+    name = flow.name
+    for run in flow.iter_runs(client):
         exited = False
         for step in run.path:
             date = step.time.date()
@@ -85,23 +90,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
         client = get_rapidpro_client()
-        rhf1, rhf2 = get_flow_defns(client, [
+        rhf1, rhf2 = Flow.from_uuids(client, [
             RH_FOLLOWUP_1_UUID,
             RH_FOLLOWUP_2_UUID
         ])
 
         process_rh_followups(
             client,
-            1,
             rhf1,
-            yes_uuids=find_flow_node_uuids(rhf1, r"^That’s great", 1),
-            no_uuids=find_flow_node_uuids(rhf1, r"^No worries", 1),
+            yes_uuids=rhf1.find_node_uuids(r"^That’s great", 1),
+            no_uuids=rhf1.find_node_uuids(r"^No worries", 1),
         )
 
         process_rh_followups(
             client,
-            2,
             rhf2,
-            yes_uuids=find_flow_node_uuids(rhf2, r"^That’s great", 1),
-            no_uuids=find_flow_node_uuids(rhf2, r"^We're sorry to hear", 1),
+            yes_uuids=rhf2.find_node_uuids(r"^That’s great", 1),
+            no_uuids=rhf2.find_node_uuids(r"^We're sorry to hear", 1),
         )

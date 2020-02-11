@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Pattern, Iterator
+from typing import List, Dict, Any, Iterator
 import re
 from django.core.management.base import BaseCommand
 from temba_client.v2 import TembaClient, Run
@@ -12,13 +12,6 @@ from .syncrapidpro import (
 RH_FOLLOWUP_1_UUID = "be922331-eb0b-4823-86d2-647dc5a014e3"
 
 RH_FOLLOWUP_2_UUID = "52c3d0fc-d198-45d1-86be-c6fed577ad3a"
-
-# ERROR_RE = re.compile(r'^Sorry, we didn\'t understand that')
-RH_RECEIVED_RE = re.compile(r"^That’s great")
-
-RH1_NOT_RECEIVED_RE = re.compile(r"^No worries")
-
-RH2_NOT_RECEIVED_RE = re.compile(r"^We're sorry to hear")
 
 Flow = Dict[str, Any]
 
@@ -34,7 +27,8 @@ def get_flow_defns(client: TembaClient, uuids: List[str]) -> List[Flow]:
     return result
 
 
-def find_flow_node_uuids(flow: Flow, pattern: Pattern, expected: int) -> List[str]:
+def find_flow_node_uuids(flow: Flow, regex: str, expected: int) -> List[str]:
+    pattern = re.compile(regex)
     uuids: List[str] = []
     for action_set in flow['action_sets']:
         uuid = action_set['uuid']
@@ -100,14 +94,14 @@ class Command(BaseCommand):
             client,
             1,
             rhf1,
-            yes_uuids=find_flow_node_uuids(rhf1, RH_RECEIVED_RE, 1),
-            no_uuids=find_flow_node_uuids(rhf1, RH1_NOT_RECEIVED_RE, 1),
+            yes_uuids=find_flow_node_uuids(rhf1, r"^That’s great", 1),
+            no_uuids=find_flow_node_uuids(rhf1, r"^No worries", 1),
         )
 
         process_rh_followups(
             client,
             2,
             rhf2,
-            yes_uuids=find_flow_node_uuids(rhf2, RH_RECEIVED_RE, 1),
-            no_uuids=find_flow_node_uuids(rhf2, RH2_NOT_RECEIVED_RE, 1),
+            yes_uuids=find_flow_node_uuids(rhf2, r"^That’s great", 1),
+            no_uuids=find_flow_node_uuids(rhf2, r"^We're sorry to hear", 1),
         )

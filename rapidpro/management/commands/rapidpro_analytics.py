@@ -9,6 +9,8 @@ from .syncrapidpro import (
 )
 
 
+RH_UUID = "367fb415-29bd-4d98-8e42-40cba0dc8a97"
+
 RH_FOLLOWUP_1_UUID = "be922331-eb0b-4823-86d2-647dc5a014e3"
 
 RH_FOLLOWUP_2_UUID = "52c3d0fc-d198-45d1-86be-c6fed577ad3a"
@@ -95,7 +97,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
         client = get_rapidpro_client()
-        rhf1, rhf2 = Flow.from_uuids(client, [
+        rh, rhf1, rhf2 = Flow.from_uuids(client, [
+            RH_UUID,
             RH_FOLLOWUP_1_UUID,
             RH_FOLLOWUP_2_UUID
         ])

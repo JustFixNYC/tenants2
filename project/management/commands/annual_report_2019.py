@@ -26,7 +26,8 @@ class Command(BaseCommand):
             created_at__lte=end,
             mail_choice=LOC_MAILING_CHOICES.USER_WILL_MAIL,
         )
-        print(f"Total letters sent by other users in {start.year}: {user_will_mail_loc_requests.count()}")
+        print(f"Total letters sent by other users in {start.year}: "
+              f"{user_will_mail_loc_requests.count()}")
 
         hp_packets_created = HPActionDocuments.objects.filter(
             created_at__gte=start,

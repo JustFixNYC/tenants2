@@ -37,7 +37,7 @@ describe('Data driven onboarding', () => {
 
   it('shows suggestions when they exist', async () => {
     const pal = await simulateResponse({unitCount: 5});
-    pal.rr.getByText(/5 units/i);
+    pal.rr.getByText(/No registration found./i);
   });
 
   it('apologizes when we could not find anything', async () => {

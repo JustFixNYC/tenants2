@@ -11,11 +11,11 @@ from rapidpro.management.commands.syncrapidpro import (
 from rapidpro_analytics import models
 
 
-RH_UUID = "367fb415-29bd-4d98-8e42-40cba0dc8a97"
+RH_URL = "https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/"
 
-RH_FOLLOWUP_1_UUID = "be922331-eb0b-4823-86d2-647dc5a014e3"
+RH_FOLLOWUP_1_URL = "https://textit.in/flow/editor/be922331-eb0b-4823-86d2-647dc5a014e3/"
 
-RH_FOLLOWUP_2_UUID = "52c3d0fc-d198-45d1-86be-c6fed577ad3a"
+RH_FOLLOWUP_2_URL = "https://textit.in/flow/editor/52c3d0fc-d198-45d1-86be-c6fed577ad3a/"
 
 
 class NodeDesc(NamedTuple):
@@ -23,22 +23,30 @@ class NodeDesc(NamedTuple):
     expected: int = 1
 
 
-class Flow:
-    _f: Dict[str, Any]
-    uuid: str
-    name: str
+def uuid_from_url(url: str) -> str:
+    '''
+    >>> uuid_from_url('https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/')
+    '367fb415-29bd-4d98-8e42-40cba0dc8a97'
+    '''
 
-    def __init__(self, flow: Dict[str, Any]):
+    return url.split('/')[-2]
+
+
+class Flow:
+    def __init__(self, flow: Dict[str, Any], url: str):
         self._f = flow
         self.uuid = flow['metadata']['uuid']
         self.name = flow['metadata']['name']
+        self.url = url
 
     @staticmethod
-    def from_uuids(client: TembaClient, uuids: List[str]) -> List['Flow']:
+    def from_urls(client: TembaClient, urls: List[str]) -> List['Flow']:
+        uuids = [uuid_from_url(url) for url in urls]
         flows_by_uuid: Dict[str, Flow] = {}
-        defns = client.get_definitions(flows=uuids).flows
+        defns = client.get_definitions(flows=uuids, dependencies="none").flows
         for flow_defn in defns:
-            flow = Flow(flow_defn)
+            url = [url for url in urls if uuid_from_url(url) == flow_defn['metadata']['uuid']][0]
+            flow = Flow(flow_defn, url)
             flows_by_uuid[flow.uuid] = flow
         result: List[Flow] = []
         for uuid in uuids:
@@ -69,10 +77,6 @@ class Flow:
                 f'in flow {self.url}, but found {len(uuids)}!'
             )
         return uuids
-
-    @property
-    def url(self) -> str:
-        return f"https://textit.in/flow/editor/{self.uuid}/"
 
     def iter_exited_runs(self, client: TembaClient) -> Iterator[Run]:
         print(f"Processing exited runs of flow '{self.name}'.")
@@ -140,10 +144,10 @@ class Command(BaseCommand):
 
         client = get_rapidpro_client()
         analytics = AnalyticsLogger(client)
-        rh, rhf1, rhf2 = Flow.from_uuids(client, [
-            RH_UUID,
-            RH_FOLLOWUP_1_UUID,
-            RH_FOLLOWUP_2_UUID
+        rh, rhf1, rhf2 = Flow.from_urls(client, [
+            RH_URL,
+            RH_FOLLOWUP_1_URL,
+            RH_FOLLOWUP_2_URL,
         ])
 
         with transaction.atomic():

@@ -139,7 +139,7 @@ function ActionCardIndicators(props: Pick<ActionCardProps, 'indicators'|'fallbac
 
   return <>
     {indicators.map((indicator, i) => (
-      <p key={i} className="subtitle is-spaced">{indicator}</p>
+      <div key={i} className="subtitle is-spaced">{indicator}</div>
     ))}
   </>;
 }

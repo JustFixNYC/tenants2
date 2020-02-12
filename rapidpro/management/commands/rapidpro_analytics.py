@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Iterator, NamedTuple
+from typing import List, Dict, Any, Iterator, NamedTuple, Optional
 import datetime
 import re
 from django.core.management.base import BaseCommand
@@ -78,24 +78,33 @@ class AnalyticsLogger:
     def __init__(self, client: TembaClient):
         self.client = client
 
-    def log(self, flow: Flow, timestamp: datetime.datetime, event_name: str, **extra):
-        print(f"{timestamp.date()} {flow.name}: {event_name} {extra}")
+    def log(
+        self,
+        flow: Flow,
+        run: Run,
+        timestamp: datetime.datetime,
+        event_name: str,
+        **extra
+    ):
+        user_id = run.contact.uuid
+        print(f"{timestamp.date()} user={user_id} {flow.name}: {event_name} {extra}")
 
     def process_rh_followups(self, flow: Flow, yes_nodes=NodeDesc, no_nodes=NodeDesc):
         yes_uuids = flow.find_node_uuids(yes_nodes)
         no_uuids = flow.find_node_uuids(no_nodes)
         for run in flow.iter_runs(self.client):
-            exited = False
+            exit_type: Optional[str] = None
             for step in run.path:
                 timestamp = step.time
                 if step.node in yes_uuids:
-                    self.log(flow, timestamp, "rh_received")
-                    exited = True
+                    exit_type = "rh_received"
+                    break
                 elif step.node in no_uuids:
-                    self.log(flow, timestamp, "rh_not_received")
-                    exited = True
-            if not exited:
-                self.log(flow, timestamp, "rh_followup_failed", exit_type=run.exit_type)
+                    exit_type = "rh_not_received"
+                    break
+            if exit_type is None:
+                exit_type = "rh_followup_failed"
+            self.log(flow, run, timestamp, "rh_followup", exit_type=exit_type)
 
 
 class Command(BaseCommand):

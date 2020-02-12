@@ -170,33 +170,37 @@ export function isBuildingClassBorC(buildingClass: string|null): boolean {
   return /^(B|C).*/i.test(buildingClass || '');
 }
 
-const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => ({
-  title: data.fullAddress,
-  titleProps: {
-    className: 'title is-spaced is-size-3',
-    ...useQueryFormResultFocusProps()
-  },
-  cardClass: 'has-background-light',
-  indicators: [
-    data.associatedBuildingCount && data.portfolioUnitCount && <>
-      Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
-    </>,
-    data.unitCount && <>
-      There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
-    </>,
-    // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
-    // just the build date as an indicator, so we'll only show it if we also show other info.
-    data.unitCount && data.yearBuilt && <>
-      Your building was built in {data.yearBuilt} or earlier.
-    </>,
-    !data.associatedBuildingCount && (isBuildingClassBorC(data.buildingClass)
-      ? <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), but it is possible that it should be. You can find more information on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>
-      : <>This building isn't registered with the NYC Department of Housing Preservation and Development (HPD), so we don't know much about it.</>)
-  ],
-  // This fallback message should never actually appear, as the indicators have been constructed
-  // in such a way that there should be at least one non-falsy one.
-  fallbackMessage: <></>
-});
+const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
+  const hasHpdRegistration = data.associatedBuildingCount && data.associatedBuildingCount > 0;
+  
+  return ({
+    title: data.fullAddress,
+    titleProps: {
+      className: 'title is-spaced is-size-3',
+      ...useQueryFormResultFocusProps()
+    },
+    cardClass: 'has-background-light',
+    indicators: [
+      data.associatedBuildingCount && data.portfolioUnitCount && hasHpdRegistration && <>
+        Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
+      </>,
+      data.unitCount && hasHpdRegistration && <>
+        There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
+      </>,
+      // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
+      // just the build date as an indicator, so we'll only show it if we also show other info.
+      data.unitCount && data.yearBuilt && hasHpdRegistration && <>
+        Your building was built in {data.yearBuilt} or earlier.
+      </>,
+      !hasHpdRegistration && (isBuildingClassBorC(data.buildingClass)
+        ? <><p><span className="has-text-danger has-text-weight-semibold">No registration found.</span> Your landlord may be breaking the law! </p> It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>
+        : <><p className="has-text-danger has-text-weight-semibold">No registration found.</p> It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>)
+    ],
+    // This fallback message should never actually appear, as the indicators have been constructed
+    // in such a way that there should be at least one non-falsy one.
+    fallbackMessage: <></>
+  });
+}
 
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat(data): ActionCardProps {

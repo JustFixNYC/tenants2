@@ -1,12 +1,14 @@
 from typing import List, Dict, Any, Iterator, NamedTuple, Optional
 import re
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from temba_client.v2 import TembaClient, Run
 
 from rapidpro.management.commands.syncrapidpro import (
     ensure_rapidpro_is_configured,
     get_rapidpro_client
 )
+from rapidpro_analytics import models
 
 
 RH_UUID = "367fb415-29bd-4d98-8e42-40cba0dc8a97"
@@ -83,13 +85,26 @@ class AnalyticsLogger:
     def __init__(self, client: TembaClient):
         self.client = client
 
-    def log_run(self, flow: Flow, run: Run, **extra):
-        user_id = run.contact.uuid
-        timestamp = run.created_on
-        num_steps = len(run.path)
-        exit_type = run.exit_type
-        print(f"{timestamp.date()} user={user_id[:8]} steps={num_steps} exit={exit_type} "
-              f" {flow.name} {extra}")
+    def log_run(
+        self,
+        flow: Flow,
+        run: Run,
+        num_error_steps: Optional[int] = None,
+        was_rent_history_received: Optional[bool] = None,
+    ):
+        run = models.Run(
+            flow_uuid=flow.uuid,
+            flow_name=flow.name,
+            user_uuid=run.contact.uuid,
+            start_time=run.created_on,
+            end_time=run.exited_on,
+            num_steps=len(run.path),
+            exit_type=run.exit_type,
+            num_error_steps=num_error_steps,
+            was_rent_history_received=was_rent_history_received,
+        )
+        print(f"Logging run of flow '{run.flow_name}' on {run.start_time.date()}.")
+        run.save()
 
     def process_rh_requests(self, flow: Flow, error_nodes=List[NodeDesc]):
         error_uuids = flow.find_all_node_uuids(error_nodes)
@@ -98,7 +113,7 @@ class AnalyticsLogger:
             for step in run.path:
                 if step.node in error_uuids:
                     errors += 1
-            self.log_run(flow, run, num_errors=errors)
+            self.log_run(flow, run, num_error_steps=errors)
 
     def process_rh_followups(self, flow: Flow, yes_nodes=NodeDesc, no_nodes=NodeDesc):
         yes_uuids = flow.find_node_uuids(yes_nodes)
@@ -112,7 +127,7 @@ class AnalyticsLogger:
                 elif step.node in no_uuids:
                     assert rh_received is None or rh_received is False
                     rh_received = False
-            self.log_run(flow, run, rh_received=rh_received)
+            self.log_run(flow, run, was_rent_history_received=rh_received)
 
 
 class Command(BaseCommand):
@@ -129,22 +144,25 @@ class Command(BaseCommand):
             RH_FOLLOWUP_2_UUID
         ])
 
-        analytics.process_rh_requests(
-            rh,
-            error_nodes=[
-                NodeDesc(r"^Sorry", expected=2),
-                NodeDesc(r"^Oops", expected=1),
-            ]
-        )
+        with transaction.atomic():
+            models.Run.objects.all().delete()
 
-        analytics.process_rh_followups(
-            rhf1,
-            yes_nodes=NodeDesc(r"^That’s great"),
-            no_nodes=NodeDesc(r"^No worries"),
-        )
+            analytics.process_rh_requests(
+                rh,
+                error_nodes=[
+                    NodeDesc(r"^Sorry", expected=2),
+                    NodeDesc(r"^Oops", expected=1),
+                ]
+            )
 
-        analytics.process_rh_followups(
-            rhf2,
-            yes_nodes=NodeDesc(r"^That’s great", 1),
-            no_nodes=NodeDesc(r"^We're sorry to hear", 1),
-        )
+            analytics.process_rh_followups(
+                rhf1,
+                yes_nodes=NodeDesc(r"^That’s great"),
+                no_nodes=NodeDesc(r"^No worries"),
+            )
+
+            analytics.process_rh_followups(
+                rhf2,
+                yes_nodes=NodeDesc(r"^That’s great", 1),
+                no_nodes=NodeDesc(r"^We're sorry to hear", 1),
+            )

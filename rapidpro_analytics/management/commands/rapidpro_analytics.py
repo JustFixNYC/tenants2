@@ -144,8 +144,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
 
-        call_command(
-            "migrate", "rapidpro_analytics", f"--database={settings.RAPIDPRO_ANALYTICS_DATABASE}")
+        if settings.RAPIDPRO_ANALYTICS_DATABASE != 'default':
+            call_command(
+                "migrate", "rapidpro_analytics",
+                f"--database={settings.RAPIDPRO_ANALYTICS_DATABASE}")
+
         client = get_rapidpro_client()
         analytics = AnalyticsLogger(client)
         rh, rhf1, rhf2 = Flow.from_urls(client, [

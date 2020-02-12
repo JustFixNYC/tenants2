@@ -1,6 +1,8 @@
 from typing import List, Dict, Any, Iterator, NamedTuple, Optional
 import re
 from django.core.management.base import BaseCommand
+from django.core.management import call_command
+from django.conf import settings
 from django.db import transaction
 from temba_client.v2 import TembaClient, Run
 
@@ -142,6 +144,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
 
+        call_command(
+            "migrate", "rapidpro_analytics", f"--database={settings.RAPIDPRO_ANALYTICS_DATABASE}")
         client = get_rapidpro_client()
         analytics = AnalyticsLogger(client)
         rh, rhf1, rhf2 = Flow.from_urls(client, [

@@ -186,6 +186,7 @@ if env.RAPIDPRO_ANALYTICS_DATABASE_URL:
             env.RAPIDPRO_ANALYTICS_DATABASE_URL)
         RAPIDPRO_ANALYTICS_DATABASE = 'rapidpro_analytics'
     INSTALLED_APPS.append('rapidpro_analytics.apps.RapidproAnalyticsConfig')
+    DATABASE_ROUTERS.append('rapidpro_analytics.dbrouter.RapidproAnalyticsRouter')
 
 MIGRATION_MODULES = {
     # The NYCDB is an external database that we read from, so we don't

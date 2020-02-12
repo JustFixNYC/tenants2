@@ -74,11 +74,12 @@ class Flow:
     def url(self) -> str:
         return f"https://textit.in/flow/editor/{self.uuid}/"
 
-    def iter_runs(self, client: TembaClient) -> Iterator[Run]:
+    def iter_exited_runs(self, client: TembaClient) -> Iterator[Run]:
         run_batches = client.get_runs(flow=self.uuid).iterfetches(retry_on_rate_exceed=True)
         for run_batch in run_batches:
             for run in run_batch:
-                yield run
+                if run.exit_type:
+                    yield run
 
 
 class AnalyticsLogger:
@@ -108,7 +109,7 @@ class AnalyticsLogger:
 
     def process_rh_requests(self, flow: Flow, error_nodes=List[NodeDesc]):
         error_uuids = flow.find_all_node_uuids(error_nodes)
-        for run in flow.iter_runs(self.client):
+        for run in flow.iter_exited_runs(self.client):
             errors = 0
             for step in run.path:
                 if step.node in error_uuids:
@@ -118,7 +119,7 @@ class AnalyticsLogger:
     def process_rh_followups(self, flow: Flow, yes_nodes=NodeDesc, no_nodes=NodeDesc):
         yes_uuids = flow.find_node_uuids(yes_nodes)
         no_uuids = flow.find_node_uuids(no_nodes)
-        for run in flow.iter_runs(self.client):
+        for run in flow.iter_exited_runs(self.client):
             rh_received: Optional[bool] = None
             for step in run.path:
                 if step.node in yes_uuids:

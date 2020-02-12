@@ -176,6 +176,17 @@ if env.WOW_DATABASE_URL:
     DATABASES['wow'] = dj_database_url.parse(env.WOW_DATABASE_URL)
     WOW_DATABASE = 'wow'
 
+RAPIDPRO_ANALYTICS_DATABASE = None
+
+if env.RAPIDPRO_ANALYTICS_DATABASE_URL:
+    if env.RAPIDPRO_ANALYTICS_DATABASE_URL == 'default':
+        RAPIDPRO_ANALYTICS_DATABASE = 'default'
+    else:
+        DATABASES['rapidpro_analytics'] = dj_database_url.parse(
+            env.RAPIDPRO_ANALYTICS_DATABASE_URL)
+        RAPIDPRO_ANALYTICS_DATABASE = 'rapidpro_analytics'
+    INSTALLED_APPS.append('rapidpro_analytics.apps.RapidproAnalyticsConfig')
+
 MIGRATION_MODULES = {
     # The NYCDB is an external database that we read from, so we don't
     # want to modify its schema in any way.

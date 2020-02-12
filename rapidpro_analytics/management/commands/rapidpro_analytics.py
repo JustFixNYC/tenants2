@@ -3,7 +3,7 @@ import re
 from django.core.management.base import BaseCommand
 from temba_client.v2 import TembaClient, Run
 
-from .syncrapidpro import (
+from rapidpro.management.commands.syncrapidpro import (
     ensure_rapidpro_is_configured,
     get_rapidpro_client
 )

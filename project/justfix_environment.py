@@ -207,6 +207,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The hostname of the RapidPro server to access.
     RAPIDPRO_HOSTNAME: str = 'api.textit.in'
 
+    # The database URL to store RapidPro analytics. You can also use
+    # 'default' to store the analytics in the default database.
+    #
+    # Leaving this empty disables RapidPro analytics.
+    RAPIDPRO_ANALYTICS_DATABASE_URL: str = ''
+
     # Your secret Lob API key. Leaving this empty disables the sending
     # of letters via Lob. You can get this key from
     # https://dashboard.lob.com/#/settings/keys.

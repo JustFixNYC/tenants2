@@ -1,4 +1,5 @@
 from typing import List, Dict, Any, Iterator, NamedTuple
+import datetime
 import re
 from django.core.management.base import BaseCommand
 from temba_client.v2 import TembaClient, Run
@@ -73,22 +74,28 @@ class Flow:
                 yield run
 
 
-def process_rh_followups(client: TembaClient, flow: Flow, yes_nodes=NodeDesc, no_nodes=NodeDesc):
-    yes_uuids = flow.find_node_uuids(yes_nodes)
-    no_uuids = flow.find_node_uuids(no_nodes)
-    for run in flow.iter_runs(client):
-        exited = False
-        for step in run.path:
-            date = step.time.date()
-            preamble = f"{date} {flow.name}:"
-            if step.node in yes_uuids:
-                print(f"{preamble} RH RECEIVED")
-                exited = True
-            elif step.node in no_uuids:
-                print(f"{preamble} RH NOT RECEIVED")
-                exited = True
-        if not exited:
-            print(f"{date} {flow.name}: {run.exit_type}")
+class AnalyticsLogger:
+    def __init__(self, client: TembaClient):
+        self.client = client
+
+    def log(self, flow: Flow, timestamp: datetime.datetime, event_name: str, **extra):
+        print(f"{timestamp.date()} {flow.name}: {event_name} {extra}")
+
+    def process_rh_followups(self, flow: Flow, yes_nodes=NodeDesc, no_nodes=NodeDesc):
+        yes_uuids = flow.find_node_uuids(yes_nodes)
+        no_uuids = flow.find_node_uuids(no_nodes)
+        for run in flow.iter_runs(self.client):
+            exited = False
+            for step in run.path:
+                timestamp = step.time
+                if step.node in yes_uuids:
+                    self.log(flow, timestamp, "rh_received")
+                    exited = True
+                elif step.node in no_uuids:
+                    self.log(flow, timestamp, "rh_not_received")
+                    exited = True
+            if not exited:
+                self.log(flow, timestamp, "rh_followup_failed", exit_type=run.exit_type)
 
 
 class Command(BaseCommand):
@@ -96,22 +103,22 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
+
         client = get_rapidpro_client()
+        analytics = AnalyticsLogger(client)
         rh, rhf1, rhf2 = Flow.from_uuids(client, [
             RH_UUID,
             RH_FOLLOWUP_1_UUID,
             RH_FOLLOWUP_2_UUID
         ])
 
-        process_rh_followups(
-            client,
+        analytics.process_rh_followups(
             rhf1,
             yes_nodes=NodeDesc(r"^That’s great"),
             no_nodes=NodeDesc(r"^No worries"),
         )
 
-        process_rh_followups(
-            client,
+        analytics.process_rh_followups(
             rhf2,
             yes_nodes=NodeDesc(r"^That’s great", 1),
             no_nodes=NodeDesc(r"^We're sorry to hear", 1),

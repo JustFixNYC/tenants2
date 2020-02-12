@@ -75,6 +75,7 @@ class Flow:
         return f"https://textit.in/flow/editor/{self.uuid}/"
 
     def iter_exited_runs(self, client: TembaClient) -> Iterator[Run]:
+        print(f"Processing exited runs of flow '{self.name}'.")
         run_batches = client.get_runs(flow=self.uuid).iterfetches(retry_on_rate_exceed=True)
         for run_batch in run_batches:
             for run in run_batch:
@@ -104,7 +105,7 @@ class AnalyticsLogger:
             num_error_steps=num_error_steps,
             was_rent_history_received=was_rent_history_received,
         )
-        print(f"Logging run of flow '{run.flow_name}' on {run.start_time.date()}.")
+        # print(f"Logging run of flow '{run.flow_name}' on {run.start_time.date()}.")
         run.save()
 
     def process_rh_requests(self, flow: Flow, error_nodes=List[NodeDesc]):
@@ -152,7 +153,7 @@ class Command(BaseCommand):
                 rh,
                 error_nodes=[
                     NodeDesc(r"^Sorry", expected=2),
-                    NodeDesc(r"^Oops", expected=1),
+                    NodeDesc(r"^Oops"),
                 ]
             )
 
@@ -164,6 +165,6 @@ class Command(BaseCommand):
 
             analytics.process_rh_followups(
                 rhf2,
-                yes_nodes=NodeDesc(r"^That’s great", 1),
-                no_nodes=NodeDesc(r"^We're sorry to hear", 1),
+                yes_nodes=NodeDesc(r"^That’s great"),
+                no_nodes=NodeDesc(r"^We're sorry to hear"),
             )

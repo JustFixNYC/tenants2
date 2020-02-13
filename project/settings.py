@@ -105,7 +105,7 @@ INSTALLED_APPS = [
     'data_requests.apps.DataRequestsConfig',
     'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
     'rh.apps.RhConfig',
-    'rapidpro_analytics.apps.RapidproAnalyticsConfig',
+    'dwh.apps.DwhConfig',
 ]
 
 MIDDLEWARE = [
@@ -177,13 +177,12 @@ if env.WOW_DATABASE_URL:
     DATABASES['wow'] = dj_database_url.parse(env.WOW_DATABASE_URL)
     WOW_DATABASE = 'wow'
 
-RAPIDPRO_ANALYTICS_DATABASE = 'default'
+DWH_DATABASE = 'default'
 
-if env.RAPIDPRO_ANALYTICS_DATABASE_URL:
-    DATABASES['rapidpro_analytics'] = dj_database_url.parse(
-        env.RAPIDPRO_ANALYTICS_DATABASE_URL)
-    RAPIDPRO_ANALYTICS_DATABASE = 'rapidpro_analytics'
-    DATABASE_ROUTERS.append('rapidpro_analytics.dbrouter.ReadAndWriteToRapidproAnalyticsDb')
+if env.DWH_DATABASE_URL:
+    DATABASES['dwh'] = dj_database_url.parse(env.DWH_DATABASE_URL)
+    DWH_DATABASE = 'dwh'
+    DATABASE_ROUTERS.append('dwh.dbrouter.ReadAndWriteToDataWarehouseDb')
 
 MIGRATION_MODULES = {
     # The NYCDB is an external database that we read from, so we don't

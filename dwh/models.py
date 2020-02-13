@@ -4,7 +4,7 @@ from django.db import models
 UUID_LEN = 36
 
 
-class Run(models.Model):
+class RapidproRun(models.Model):
     '''
     Represents a run of a RapidPro flow that was exited (i.e., is no longer in-progress).
     '''

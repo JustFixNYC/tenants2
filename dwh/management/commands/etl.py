@@ -10,7 +10,7 @@ from rapidpro.management.commands.syncrapidpro import (
     ensure_rapidpro_is_configured,
     get_rapidpro_client
 )
-from rapidpro_analytics import models
+from dwh import models
 
 
 RH_URL = "https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/"
@@ -100,7 +100,7 @@ class AnalyticsLogger:
         num_error_steps: Optional[int] = None,
         was_rent_history_received: Optional[bool] = None,
     ):
-        run = models.Run(
+        run = models.RapidproRun(
             flow_uuid=flow.uuid,
             flow_name=flow.name,
             user_uuid=run.contact.uuid,
@@ -139,15 +139,13 @@ class AnalyticsLogger:
 
 
 class Command(BaseCommand):
-    help = "Get RapidPro analytics."
+    help = "Extract, Transform and Load (ETL) data into the data warehouse db."
 
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
 
-        if settings.RAPIDPRO_ANALYTICS_DATABASE != 'default':
-            call_command(
-                "migrate", "rapidpro_analytics",
-                f"--database={settings.RAPIDPRO_ANALYTICS_DATABASE}")
+        if settings.DWH_DATABASE != 'default':
+            call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
 
         client = get_rapidpro_client()
         analytics = AnalyticsLogger(client)
@@ -158,7 +156,7 @@ class Command(BaseCommand):
         ])
 
         with transaction.atomic():
-            models.Run.objects.all().delete()
+            models.RapidproRun.objects.all().delete()
 
             analytics.process_rh_requests(
                 rh,

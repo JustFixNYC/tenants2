@@ -1,23 +1,31 @@
 from typing import List, Dict, Any, Iterator, NamedTuple, Optional
+from pathlib import Path
 import re
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.conf import settings
-from django.db import transaction
+from django.db import transaction, connections
 from temba_client.v2 import TembaClient, Run
 
-from rapidpro.management.commands.syncrapidpro import (
-    ensure_rapidpro_is_configured,
-    get_rapidpro_client
-)
+from rapidpro import rapidpro_util
 from dwh import models
 
-
+# The rent history request flow.
 RH_URL = "https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/"
 
+# The first rent history follow-up.
 RH_FOLLOWUP_1_URL = "https://textit.in/flow/editor/be922331-eb0b-4823-86d2-647dc5a014e3/"
 
+# The second rent history follow-up.
 RH_FOLLOWUP_2_URL = "https://textit.in/flow/editor/52c3d0fc-d198-45d1-86be-c6fed577ad3a/"
+
+# The maximum amount of days that can pass between when a user requests their
+# rent history, and when we follow-up with them.
+RH_MAX_FOLLOWUP_DAYS = 25
+
+MY_DIR = Path(__file__).parent.resolve()
+
+RHBOT_SQLFILE = MY_DIR / ".." / ".." / "rhbot.sql"
 
 
 class NodeDesc(NamedTuple):
@@ -27,6 +35,8 @@ class NodeDesc(NamedTuple):
 
 def uuid_from_url(url: str) -> str:
     '''
+    Given a RapidPro URL for editing a flow, return the UUID of the flow.
+
     >>> uuid_from_url('https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/')
     '367fb415-29bd-4d98-8e42-40cba0dc8a97'
     '''
@@ -141,13 +151,29 @@ class AnalyticsLogger:
 class Command(BaseCommand):
     help = "Extract, Transform and Load (ETL) data into the data warehouse db."
 
-    def handle(self, *args, **options):
-        ensure_rapidpro_is_configured()
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--views-only',
+            help="Only create views, don't load any data.",
+            action='store_true'
+        )
 
-        if settings.DWH_DATABASE != 'default':
-            call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
+    def create_views(self):
+        with connections[settings.DWH_DATABASE].cursor() as cursor:
+            cursor.execute(RHBOT_SQLFILE.read_text(), {
+                'rh_uuid': uuid_from_url(RH_URL),
+                'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
+                'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
+                'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+            })
 
-        client = get_rapidpro_client()
+    def load_rapidpro_runs(self):
+        client = rapidpro_util.get_client_from_settings()
+
+        if client is None:
+            print("RapidPro is not configured, skipping RapidproRun ETL.")
+            return
+
         analytics = AnalyticsLogger(client)
         rh, rhf1, rhf2 = Flow.from_urls(client, [
             RH_URL,
@@ -177,3 +203,16 @@ class Command(BaseCommand):
                 yes_nodes=NodeDesc(r"^That’s great"),
                 no_nodes=NodeDesc(r"^We're sorry to hear"),
             )
+
+    def handle(self, *args, **options):
+        create_views_only: bool = options['views_only']
+
+        if settings.DWH_DATABASE != 'default':
+            call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
+
+        self.create_views()
+
+        if create_views_only:
+            return
+
+        self.load_rapidpro_runs()

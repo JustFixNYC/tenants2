@@ -206,8 +206,13 @@ class HerokuDeployer:
         if self.is_using_cdn:
             print("Uploading static assets to CDN...")
             self.run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
-            if self.is_using_rollbar:
-                self.run_in_container(['python', 'manage.py', 'rollbarsourcemaps'])
+
+            # We're disabling rollbar sourcemap integration for now because (A) rollbar
+            # seems to ignore them and (B) their sourcemap upload endpoint isn't very
+            # reliable, and we don't want that to block deploys. -AV
+
+            # if self.is_using_rollbar:
+            #     self.run_in_container(['python', 'manage.py', 'rollbarsourcemaps'])
 
         self.heroku.run('maintenance:on')
 

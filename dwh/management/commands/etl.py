@@ -100,8 +100,17 @@ class Flow:
 
 
 class AnalyticsLogger:
+    BATCH_SIZE = 1000
+
     def __init__(self, client: TembaClient):
         self.client = client
+        self.runs: List[models.RapidproRun] = []
+
+    def flush(self):
+        if self.runs:
+            print(f"Writing {len(self.runs)} records.")
+            models.RapidproRun.objects.bulk_create(self.runs)
+            self.runs = []
 
     def log_run(
         self,
@@ -122,7 +131,9 @@ class AnalyticsLogger:
             was_rent_history_received=was_rent_history_received,
         )
         # print(f"Logging run of flow '{run.flow_name}' on {run.start_time.date()}.")
-        run.save()
+        self.runs.append(run)
+        if len(self.runs) >= self.BATCH_SIZE:
+            self.flush()
 
     def process_rh_requests(self, flow: Flow, error_nodes=List[NodeDesc]):
         error_uuids = flow.find_all_node_uuids(error_nodes)
@@ -203,6 +214,8 @@ class Command(BaseCommand):
                 yes_nodes=NodeDesc(r"^That’s great"),
                 no_nodes=NodeDesc(r"^We're sorry to hear"),
             )
+
+            analytics.flush()
 
     def handle(self, *args, **options):
         create_views_only: bool = options['views_only']

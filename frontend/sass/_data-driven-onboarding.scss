@@ -60,6 +60,10 @@
     .jf-ddo-card {
         p.subtitle {
             margin-bottom: 0.25em;
+            .jf-registration-warning {
+                display: block;
+                margin-bottom: 1rem;
+            }
         }
 
         .button.is-primary {

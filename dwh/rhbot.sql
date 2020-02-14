@@ -12,7 +12,14 @@ CREATE VIEW dwh_rhbot AS (
         COALESCE(
             followup_2.was_rent_history_received,
             followup_1.was_rent_history_received
-        ) AS was_rh_received
+        ) AS was_rh_received,
+        -- This isn't strictly necessary because we could just see if was_rh_received is NULL,
+        -- but Google Data Studio's PostgreSQL connector doesn't seem very good at dealing
+        -- with booleans that could be NULL, so we'll add this for convenience.
+        (COALESCE(
+            followup_2.was_rent_history_received,
+            followup_1.was_rent_history_received
+        ) is not null) as was_followup_successful
     FROM
         dwh_rapidprorun AS request
     LEFT OUTER JOIN

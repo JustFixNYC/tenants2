@@ -18,3 +18,8 @@ checks:
     # 3 made it even *more* sensitive, so I'm just disabling
     # it entirely now.
     enabled: false
+  argument-count:
+    # This isn't a very useful check for Python code because
+    # it's perfectly fine to have functions that take lots
+    # of arguments, as long as most of them are passed as kwargs.
+    enabled: false

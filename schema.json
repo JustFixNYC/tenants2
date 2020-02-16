@@ -248,6 +248,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether the location's BBL is a NYCHA property.",
+              "isDeprecated": false,
+              "name": "isNychaBbl",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Whether the location is eligible for NYC's Right to Counsel program.",
               "isDeprecated": false,
               "name": "isRtcEligible",

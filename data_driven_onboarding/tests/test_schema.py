@@ -6,7 +6,7 @@ from data_driven_onboarding import schema
 
 class TestSchema:
     @pytest.fixture(autouse=True)
-    def setup_fixture(self, graphql_client):
+    def setup_fixture(self, graphql_client, db):
         self.graphql_client = graphql_client
 
     def request(self, address: str, borough: str):

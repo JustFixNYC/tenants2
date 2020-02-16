@@ -2,6 +2,7 @@
 fragment DDOSuggestionsResult on DDOSuggestionsResult {
   fullAddress,
   bbl,
+  isNychaBbl,
   isRtcEligible,
   zipcode,
   yearBuilt,

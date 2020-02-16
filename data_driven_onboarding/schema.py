@@ -7,6 +7,7 @@ from django.conf import settings
 import graphene
 
 from project import schema_registry, geocoding
+from nycha.models import is_nycha_bbl
 from project.util.streaming_json import generate_json_rows
 from project.util.address_form_fields import get_geocoding_search_text
 
@@ -59,6 +60,11 @@ class DDOSuggestionsResult(graphene.ObjectType):
     bbl = graphene.String(
         required=True,
         description="The 10-digit Borough-Block-Lot (BBL) of the location."
+    )
+
+    is_nycha_bbl = graphene.Boolean(
+        required=True,
+        description="Whether the location's BBL is a NYCHA property.",
     )
 
     is_rtc_eligible = graphene.Boolean(
@@ -235,6 +241,7 @@ class DDOQuery:
             full_address=props.label,
             bbl=props.pad_bbl,
             is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
+            is_nycha_bbl=is_nycha_bbl(props.pad_bbl),
             **row
         )
 

@@ -78,11 +78,13 @@ type CallToActionProps = {
   className?: string
 };
 
+type PossibleIndicator = (JSX.Element | 0 | false | null | "");
+
 type ActionCardProps = {
   cardClass?: string,
   titleProps?: JSX.IntrinsicElements["h3"],
   title?: string,
-  indicators: (JSX.Element | 0 | false | null | "")[],
+  indicators: PossibleIndicator[],
   fallbackMessage: JSX.Element,
   cta?: CallToActionProps,
   imageStaticURL?: string,
@@ -170,6 +172,19 @@ export function isBuildingClassBorC(buildingClass: string|null): boolean {
   return /^(B|C).*/i.test(buildingClass || '');
 }
 
+function getUnitsAndDateBuilt(data: DataDrivenOnboardingSuggestions_output): PossibleIndicator[] {
+  return [
+    data.unitCount && <>
+      There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
+    </>,
+    // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
+    // just the build date as an indicator, so we'll only show it if we also show other info.
+    data.unitCount && data.yearBuilt && <>
+      Your building was built in {data.yearBuilt} or earlier.
+    </>,
+  ];
+}
+
 const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
   const hasHpdRegistration = data.associatedBuildingCount && data.associatedBuildingCount > 0;
   return ({
@@ -178,24 +193,22 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
       className: 'title is-spaced is-size-3', ...useQueryFormResultFocusProps()
     },
     cardClass: 'has-background-light',
-    indicators: [
-      !data.isNychaBbl && data.associatedBuildingCount && data.portfolioUnitCount && hasHpdRegistration && <>
+    indicators: data.isNychaBbl ? [
+      // Note that this might be a RAD conversion, but since the owner is still technically NYCHA,
+      // it is indeed still best to show the following info.
+      <>This building is owned by the <strong>NYC Housing Authority (NYCHA)</strong>.</>,
+      ...getUnitsAndDateBuilt(data),
+    ] : hasHpdRegistration ? [
+      data.associatedBuildingCount && data.portfolioUnitCount && <>
         Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
       </>,
-      data.isNychaBbl && <>This building is owned by the NYC Housing Authority (NYCHA).</>,
-      data.unitCount && (hasHpdRegistration || data.isNychaBbl) && <>
-        There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in your building.
-      </>,
-      // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
-      // just the build date as an indicator, so we'll only show it if we also show other info.
-      data.unitCount && data.yearBuilt && (hasHpdRegistration || data.isNychaBbl) && <>
-        Your building was built in {data.yearBuilt} or earlier.
-      </>,
-      !hasHpdRegistration && !data.isNychaBbl && (isBuildingClassBorC(data.buildingClass) 
-        ? <><span className="jf-registration-warning"><span className="has-text-danger has-text-weight-semibold">No registration found.</span> Your landlord may be breaking the law!</span>
-          <>It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</></> 
-        : <><span className="jf-registration-warning has-text-danger has-text-weight-semibold">No registration found.</span>
-          It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>)
+      ...getUnitsAndDateBuilt(data),
+    ] : isBuildingClassBorC(data.buildingClass) ? [
+      <><span className="jf-registration-warning"><span className="has-text-danger has-text-weight-semibold">No registration found.</span> Your landlord may be breaking the law!</span>
+      It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>,
+    ] : [
+      <><span className="jf-registration-warning has-text-danger has-text-weight-semibold">No registration found.</span>
+      It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <OutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page" target="_blank">HPD's Property Management page</OutboundLink>.</>,
     ],
     // This fallback message should never actually appear, as the indicators have been constructed
     // in such a way that there should be at least one non-falsy one.

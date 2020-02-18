@@ -193,13 +193,15 @@ const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
       className: 'title is-spaced is-size-3', ...useQueryFormResultFocusProps()
     },
     cardClass: 'has-background-light',
-    indicators: hasHpdRegistration ? [
+    indicators: data.isNychaBbl ? [
+      // Note that this might be a RAD conversion, but since the owner is still technically NYCHA,
+      // it is indeed still best to show the following info.
+      <>This building is owned by the <strong>NYC Housing Authority (NYCHA)</strong>.</>,
+      ...getUnitsAndDateBuilt(data),
+    ] : hasHpdRegistration ? [
       data.associatedBuildingCount && data.portfolioUnitCount && <>
         Your landlord owns <Indicator value={data.associatedBuildingCount} unit="building"/> and <Indicator value={data.portfolioUnitCount} unit="unit"/>.
       </>,
-      ...getUnitsAndDateBuilt(data),
-    ] : data.isNychaBbl ? [
-      <>This building is owned by the NYC Housing Authority (NYCHA).</>,
       ...getUnitsAndDateBuilt(data),
     ] : isBuildingClassBorC(data.buildingClass) ? [
       <><span className="jf-registration-warning"><span className="has-text-danger has-text-weight-semibold">No registration found.</span> Your landlord may be breaking the law!</span>

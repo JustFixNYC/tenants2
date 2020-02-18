@@ -66,7 +66,8 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
     assert ob['session']['rentalHistoryInfo'] == {
-        **VALID_RH_DATA,  # type:ignore
+        **VALID_RH_DATA,
+        'zipcode': '',
         "addressVerified": False}
 
 

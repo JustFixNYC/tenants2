@@ -11,14 +11,14 @@ class Command(BaseCommand):
 
     def get_verified_address(self, address: str, borough: str) -> Optional[Tuple[str, str]]:
         try:
-            v_address, v_borough, verified = verify_address(address, borough)
+            vinfo = verify_address(address, borough)
         except forms.ValidationError:
             self.stdout.write("Geocoding failed; the address appears to be invalid.")
             return None
-        if verified is False:
+        if vinfo.is_verified is False:
             self.stdout.write("Unable to verify address, the geocoding service may be down.")
             return None
-        return (v_address, v_borough)
+        return (vinfo.address, vinfo.borough)
 
     def confirm(self) -> bool:
         result = input('Is the geocoded address correct [y/N]? ')

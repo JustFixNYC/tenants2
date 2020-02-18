@@ -1296,7 +1296,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The zip code associated with the user's address, according to our geocoder service",
+              "description": "The zip code associated with the user's address, according to our geocoder service. If the geocoder service was unavailable, this will be an empty string.",
               "isDeprecated": false,
               "name": "zipcode",
               "type": {
@@ -1541,7 +1541,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The zip code associated with the user's address, according to our geocoder service",
+              "description": "The zip code associated with the user's address, according to our geocoder service. If the geocoder service was unavailable, this will be an empty string.",
               "isDeprecated": false,
               "name": "zipcode",
               "type": {

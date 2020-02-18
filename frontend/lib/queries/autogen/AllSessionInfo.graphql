@@ -21,8 +21,7 @@ fragment AllSessionInfo on SessionInfo {
     address,
     borough,
     firstName,
-    lastName,
-    zipcode
+    lastName
   },
   onboardingStep2 {
     isInEviction,

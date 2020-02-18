@@ -46,6 +46,7 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
+          zipcode: "11010",
           borough: "MANHATTAN"
         }
       }
@@ -96,6 +97,7 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
+          zipcode: '12345',
           aptNumber: '2'
         }  
       }

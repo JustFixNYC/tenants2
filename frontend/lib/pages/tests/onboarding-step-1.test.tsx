@@ -46,7 +46,8 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           aptNumber: '2',
           address: "150 DOOMBRINGER STREET",
-          borough: "MANHATTAN"
+          borough: "MANHATTAN",
+          zipcode: "10000"
         }
       }
     });
@@ -73,7 +74,8 @@ describe('onboarding step 1 page', () => {
       lastName: "jones",
       aptNumber: "2",
       address: "150 COURT STREET",
-      borough: "MANHATTAN"
+      borough: "MANHATTAN",
+      zipcode: "11201"
     });
   });
 
@@ -96,7 +98,8 @@ describe('onboarding step 1 page', () => {
           lastName: 'jones',
           address: '150 COURT STREET',
           borough: 'BROOKLYN',
-          aptNumber: '2'
+          aptNumber: '2',
+          zipcode: '11201'
         }  
       }
     });

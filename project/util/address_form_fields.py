@@ -40,7 +40,7 @@ def get_geocoding_search_text(address: str, borough: str) -> str:
     return address
 
 
-def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
+def verify_address(address: str, borough: str) -> Tuple[str, str, str, bool]:
     '''
     Attempt to verify the given address, returning the address, and whether it
     was actually verified. If the address was verified, the returned address
@@ -49,6 +49,7 @@ def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
 
     search_text = get_geocoding_search_text(address, borough)
     features = geocoding.search(search_text)
+    zipcode = ''
     if features is None:
         # Hmm, the geocoding service is unavailable. This
         # is unfortunate, but we don't want it to block
@@ -63,8 +64,9 @@ def verify_address(address: str, borough: str) -> Tuple[str, str, bool]:
         address_verified = True
         props = features[0].properties
         address = props.name
+        zipcode = props.postalcode
         borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
-    return address, borough, address_verified
+    return address, borough, zipcode, address_verified
 
 
 class AddressAndBoroughFormMixin(forms.Form):
@@ -99,6 +101,13 @@ class AddressAndBoroughFormMixin(forms.Form):
                 "If False, it is because the geocoder service was unavailable, "
                 "not because the address is invalid."
             )
+        ),
+        'zipcode': graphene.String(
+            required=True,
+            description=(
+                "The zip code associated with the user's address, according to "
+                "our geocoder service"
+            )
         )
     }
 
@@ -114,7 +123,7 @@ class AddressAndBoroughFormMixin(forms.Form):
             from onboarding.models import AddressWithoutBoroughDiagnostic
             AddressWithoutBoroughDiagnostic(address=address).save()
         if address:
-            address, borough, address_verified = verify_address(address, borough)
+            address, borough, zipcode, address_verified = verify_address(address, borough)
             if not borough and not address_verified:
                 # The address verification service isn't working, so we should
                 # make the borough field required since we can't infer it from
@@ -123,5 +132,6 @@ class AddressAndBoroughFormMixin(forms.Form):
                 return cleaned_data
             cleaned_data['address'] = address
             cleaned_data['borough'] = borough
+            cleaned_data['zipcode'] = zipcode
             cleaned_data['address_verified'] = address_verified
         return cleaned_data

@@ -14,7 +14,7 @@ from .models import OnboardingInfo
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 3
+FIELD_SCHEMA_VERSION = 4
 
 
 class OnboardingStep1Form(AddressAndBoroughFormMixin, forms.ModelForm):

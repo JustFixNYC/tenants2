@@ -186,6 +186,13 @@ class AnalyticsLogger:
             self.log_run(flow, run, was_rent_history_received=rh_received)
 
 
+def iter_cursor_dicts(cursor):
+    columns = [column.name for column in cursor.description]
+
+    for row in cursor.fetchall():
+        yield dict(zip(columns, row))
+
+
 class Command(BaseCommand):
     help = "Extract, Transform and Load (ETL) data into the data warehouse db."
 
@@ -250,10 +257,8 @@ class Command(BaseCommand):
                 LEFT JOIN rapidpro_contact ON rh.phone_number = rapidpro_contact.phone_number
                 """
             )
-            columns = [column.name for column in cursor.description]
             with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
-                for row in cursor.fetchall():
-                    row_dict = dict(zip(columns, row))
+                for row_dict in iter_cursor_dicts(cursor):
                     req = models.OnlineRentHistoryRequest(**row_dict)
                     writer.write(req)
 

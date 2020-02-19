@@ -48,4 +48,4 @@ class OnlineRentHistoryRequest(models.Model):
     created_at = models.DateTimeField()
 
     # The UUID of the RapidPro user for whom the request was made.
-    user_uuid = models.CharField(max_length=UUID_LEN, blank=True)
+    user_uuid = models.CharField(max_length=UUID_LEN, blank=True, null=True)

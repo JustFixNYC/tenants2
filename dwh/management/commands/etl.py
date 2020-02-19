@@ -1,16 +1,16 @@
 from typing import List, Dict, Any, Iterator, NamedTuple, Optional
-from contextlib import contextmanager
 from pathlib import Path
 import re
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.conf import settings
-from django.db import transaction, connections, connection
+from django.db import connections, connection
 from temba_client.v2 import TembaClient, Run
 
 from rapidpro import rapidpro_util
 from dwh import models
-# from rh.models import RentalHistoryRequest
+from dwh.util import uuid_from_url, BatchWriter, iter_cursor_dicts
+
 
 # The rent history request flow.
 RH_URL = "https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/"
@@ -48,21 +48,6 @@ LOC_SQLFILE = APP_DIR / "loc.sql"
 class NodeDesc(NamedTuple):
     regex: str
     expected: int = 1
-
-
-def uuid_from_url(url: str) -> str:
-    '''
-    Given a RapidPro URL for editing a flow or filtering for a group, return the UUID of
-    the flow or group.
-
-    >>> uuid_from_url('https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/')
-    '367fb415-29bd-4d98-8e42-40cba0dc8a97'
-
-    >>> uuid_from_url('https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/')
-    '846c2eb8-45e8-48c5-b130-02c53be1aece'
-    '''
-
-    return url.split('/')[-2]
 
 
 class Flow:
@@ -120,40 +105,6 @@ class Flow:
                     yield run
 
 
-class BatchWriter:
-    def __init__(self, model_class, batch_size=1000):
-        self.model_class = model_class
-        self.models: List[Any] = []
-        self.batch_size = batch_size
-
-    @contextmanager
-    def atomic_transaction(self, using=None, wipe=False):
-        with transaction.atomic(using=using):
-            if wipe:
-                self.model_class.objects.all().delete()
-            with self:
-                yield self
-
-    def write(self, model):
-        assert isinstance(model, self.model_class)
-        self.models.append(model)
-        if len(self.models) >= self.batch_size:
-            self.flush()
-
-    def flush(self):
-        if self.models:
-            print(f"Writing {len(self.models)} records.")
-            self.model_class.objects.bulk_create(self.models)
-            self.models = []
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type is None:
-            self.flush()
-
-
 class AnalyticsLogger:
     BATCH_SIZE = 1000
 
@@ -203,13 +154,6 @@ class AnalyticsLogger:
                     assert rh_received is None or rh_received is False
                     rh_received = False
             self.log_run(flow, run, was_rent_history_received=rh_received)
-
-
-def iter_cursor_dicts(cursor):
-    columns = [column.name for column in cursor.description]
-
-    for row in cursor.fetchall():
-        yield dict(zip(columns, row))
 
 
 class Command(BaseCommand):

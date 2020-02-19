@@ -137,8 +137,8 @@ function getCommonPlugins() {
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,
-      WOW_BASE_URL: WOW_BASE_URL || `https://whoownswhat.justfix.nyc`,
-      EFNYC_URL: EFNYC_URL || `https://www.evictionfreenyc.org/`
+      WOW_BASE_URL: process.env.WOW_BASE_URL || `https://whoownswhat.justfix.nyc`,
+      EFNYC_URL: process.env.EFNYC_URL || `https://www.evictionfreenyc.org/`
     }),
     // https://github.com/webpack/webpack/issues/3078
     new webpack.IgnorePlugin(/\/iconv-loader$/)

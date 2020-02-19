@@ -329,7 +329,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: EFNYC_URL,
+        to: EFNYC_ORIGIN,
         gaLabel: 'efnyc',
         text: "Visit Eviction Free NYC"
       }

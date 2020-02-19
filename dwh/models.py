@@ -49,3 +49,19 @@ class OnlineRentHistoryRequest(models.Model):
 
     # The UUID of the RapidPro user for whom the request was made.
     user_uuid = models.CharField(max_length=UUID_LEN, blank=True, null=True)
+
+
+class LetterOfComplaintRequest(models.Model):
+    '''
+    Represents a letter of complaint request.
+    '''
+
+    created_at = models.DateTimeField()
+
+    mail_choice = models.CharField(max_length=30)
+
+    letter_sent_at = models.DateTimeField(null=True, blank=True)
+
+    repairs_made_by = models.DateTimeField(null=True, blank=True)
+
+    interested_in_hp_action_by = models.DateTimeField(null=True, blank=True)

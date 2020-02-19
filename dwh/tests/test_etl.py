@@ -1,10 +1,16 @@
 from django.core.management import call_command
 
 from rh.tests.factories import RentalHistoryRequestFactory
-from dwh.models import OnlineRentHistoryRequest
+from loc.tests.factories import LetterRequestFactory
+from dwh.models import (
+    OnlineRentHistoryRequest,
+    LetterOfComplaintRequest
+)
 
 
-def test_online_rent_history_loads(db):
-    RentalHistoryRequestFactory.create()
+def test_it_does_not_explode(db):
+    rhr = RentalHistoryRequestFactory.create()
+    LetterRequestFactory.create(user=rhr.user)
     call_command('etl', '--skip-rapidpro-runs')
     assert OnlineRentHistoryRequest.objects.all().count() == 1
+    assert LetterOfComplaintRequest.objects.all().count() == 1

@@ -211,6 +211,11 @@ class Command(BaseCommand):
             help="Don't process online rent history requests.",
             action='store_true'
         )
+        parser.add_argument(
+            '--skip-loc',
+            help="Don't process Letter of Complaint requests.",
+            action="store_true",
+        )
 
     def create_views(self):
         base_args: Dict[str, Any] = {
@@ -276,14 +281,33 @@ class Command(BaseCommand):
                     req = models.OnlineRentHistoryRequest(**row_dict)
                     writer.write(req)
 
+    def load_loc_requests(self):
+        print("Processing letter of complaint requests.")
+        writer = BatchWriter(models.LetterOfComplaintRequest)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT loc.created_at, loc.mail_choice, loc.letter_sent_at
+                FROM loc_letterrequest AS loc
+                """
+            )
+            with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
+                for row_dict in iter_cursor_dicts(cursor):
+                    req = models.LetterOfComplaintRequest(**row_dict)
+                    writer.write(req)
+
     def handle(self, *args, **options):
         skip_online_rent_history: bool = options['skip_online_rent_history']
         skip_rapidpro_runs: bool = options['skip_rapidpro_runs']
+        skip_loc: bool = options['skip_loc']
 
         if settings.DWH_DATABASE != 'default':
             call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
 
         self.create_views()
+
+        if not skip_loc:
+            self.load_loc_requests()
 
         if not skip_online_rent_history:
             self.load_online_rent_history_requests()

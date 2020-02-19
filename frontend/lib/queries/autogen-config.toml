@@ -36,7 +36,8 @@ ignoreFields = [
     # This is defined by our GraphQL schema because it's easier than
     # not including it in the schema, but we don't need it in the
     # front-end.
-    "addressVerified"
+    "addressVerified",
+    "zipcode"
 ]
 
 [types.DDOSuggestionsResult]

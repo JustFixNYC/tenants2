@@ -14,6 +14,7 @@ class RentalHistoryRequest(models.Model):
     address = models.CharField(**ADDRESS_FIELD_KWARGS)
     address_verified = models.BooleanField()
     borough = models.CharField(**BOROUGH_FIELD_KWARGS)
+    zipcode = models.CharField(max_length=5, blank=True)
     user = models.ForeignKey(
         JustfixUser,
         on_delete=models.SET_NULL,

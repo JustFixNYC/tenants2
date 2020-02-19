@@ -9,7 +9,7 @@ import freezegun
 
 from users.tests.factories import UserFactory
 from rapidpro.management.commands import syncrapidpro
-from rapidpro.models import Metadata, ContactGroup, UserContactGroup
+from rapidpro.models import Metadata, ContactGroup, UserContactGroup, Contact as ContactModel
 
 SYNCING_USER_SENTINEL = 'Syncing user'
 
@@ -24,11 +24,16 @@ def make_group(uuid='funky', name='Funky Group'):
     return Group.create(uuid=uuid, name=name)
 
 
-def make_contact(phone_number='5551234567', groups=None):
+def make_phone_number_urn(phone_number: str) -> str:
+    return f'tel:+1{phone_number}'
+
+
+def make_contact(phone_number='5551234567', groups=None, uuid="blarg"):
     if groups is None:
         groups = []
     return Contact.create(
-        urns=[f'tel:+1{phone_number}'],
+        uuid=uuid,
+        urns=[make_phone_number_urn(phone_number)],
         groups=groups,
         modified_on=make_aware(datetime(2018, 1, 2, 3, 4, 5))
     )
@@ -40,6 +45,18 @@ class TestSyncrapidpro:
         settings.RAPIDPRO_API_TOKEN = 'boop'
         self.get_contact_batches = MagicMock(return_value=[[]])
         monkeypatch.setattr(syncrapidpro, 'get_contact_batches', self.get_contact_batches)
+
+    def test_it_syncs_contacts(self):
+        contact = make_contact('5551234567', uuid="blarg")
+        self.get_contact_batches.return_value = [[contact]]
+        call()
+        cm = ContactModel.objects.get(uuid="blarg")
+        assert cm.phone_number == '5551234567'
+
+        contact.urns = [make_phone_number_urn('5552221111')]
+        call()
+        cm = ContactModel.objects.get(uuid="blarg")
+        assert cm.phone_number == '5552221111'
 
     def test_it_syncs_contact_groups(self):
         cmd = syncrapidpro.Command()

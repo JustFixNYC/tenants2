@@ -62,6 +62,7 @@ class RhSendEmail(SessionFormMutation):
             last_name,
             form_data["address"],
             BOROUGH_CHOICES.get_label(form_data["borough"]),
+            form_data["zipcode"],
             form_data["apartment_number"]
         )
         trigger_followup_campaign_async(

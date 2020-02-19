@@ -2,6 +2,13 @@ from typing import List
 from django.db import models
 
 from users.models import JustfixUser
+from project.util.phone_number import PHONE_NUMBER_LEN
+
+
+# The maximum length here is clearly more than it really needs to
+# be, but I'm not sure what the technical maximum length of the
+# field is, so I'm just playing it safe. -AV
+UUID_LEN = 255
 
 
 class Metadata(models.Model):
@@ -18,15 +25,26 @@ class Metadata(models.Model):
     )
 
 
+class Contact(models.Model):
+    """
+    A RapidPro Contact.
+
+    Note that at the time of this writing, this model is only intended to
+    facilitate mappings between phone numbers and RapidPro UUIDs for
+    analytics purposes.
+    """
+
+    uuid = models.CharField(max_length=UUID_LEN, primary_key=True)
+
+    phone_number = models.CharField(max_length=PHONE_NUMBER_LEN)
+
+
 class ContactGroup(models.Model):
     """
     A RapidPro Contact Group.
     """
 
-    # The maximum length here is clearly more than it really needs to
-    # be, but I'm not sure what the technical maximum length of the
-    # field is, so I'm just playing it safe. -AV
-    uuid = models.CharField(max_length=255, primary_key=True)
+    uuid = models.CharField(max_length=UUID_LEN, primary_key=True)
 
     name = models.CharField(max_length=255)
 

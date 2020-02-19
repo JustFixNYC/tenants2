@@ -329,7 +329,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: "https://www.evictionfreenyc.org/",
+        to: (CONFIGURE_LINKS_TO_DEMO_SITES 
+          ? `https://demo-efnyc.netlify.com/` 
+          : `https://www.evictionfreenyc.org/`),
         gaLabel: 'efnyc',
         text: "Visit Eviction Free NYC"
       }

@@ -31,3 +31,10 @@ declare const DISABLE_DEV_SOURCE_MAPS: boolean;
  * otherwise it defaults to false.
  */
 declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;
+
+/**
+ * Whether or not outbound links to other products 
+ * should link to a "demo" version of that product, instead of the 
+ * default page. 
+ */
+declare const CONFIGURE_LINKS_TO_DEMO_SITES: boolean;

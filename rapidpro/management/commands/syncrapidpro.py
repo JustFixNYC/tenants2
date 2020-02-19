@@ -7,7 +7,7 @@ from django.core.management.base import CommandError, BaseCommand
 from django.utils import timezone
 from temba_client.v2 import TembaClient
 
-from rapidpro.models import Metadata, ContactGroup, UserContactGroup
+from rapidpro.models import Metadata, ContactGroup, UserContactGroup, Contact
 from rapidpro import rapidpro_util
 from users.models import JustfixUser
 
@@ -76,10 +76,19 @@ class Command(BaseCommand):
             cg.save()
         return cg
 
+    def _sync_contact_model(self, temba_contact):
+        phone_number = find_phone_number_from_urns(temba_contact.urns)
+        if phone_number is None:
+            return
+        contact, created = Contact.objects.get_or_create(uuid=temba_contact.uuid)
+        contact.phone_number = phone_number
+        contact.save()
+
     def sync_contact(self, contact):
+        self._sync_contact_model(contact)
         user = find_user_from_urns(contact.urns)
         if user is None:
-            # NOTE: Because we ignore contacts that don't map to existing users,
+            # NOTE: Because we ignore contact groups that don't map to existing users,
             # new app users who have been RapidPro contacts for a long time won't
             # necessarily be perfectly in-sync (any RapidPro contact information
             # will only show up on the Django side when the RapidPro contact is

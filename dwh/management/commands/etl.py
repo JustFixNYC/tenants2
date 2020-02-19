@@ -27,7 +27,11 @@ RH_MAX_FOLLOWUP_DAYS = 25
 
 MY_DIR = Path(__file__).parent.resolve()
 
-RHBOT_SQLFILE = MY_DIR / ".." / ".." / "rhbot.sql"
+APP_DIR = MY_DIR / ".." / ".."
+
+RHBOT_SQLFILE = APP_DIR / "rhbot.sql"
+
+RHONLINE_SQLFILE = APP_DIR / "rhonline.sql"
 
 
 class NodeDesc(NamedTuple):
@@ -104,7 +108,7 @@ class Flow:
 class BatchWriter:
     def __init__(self, model_class, batch_size=1000):
         self.model_class = model_class
-        self.models = []
+        self.models: List[Any] = []
         self.batch_size = batch_size
 
     @contextmanager
@@ -209,13 +213,17 @@ class Command(BaseCommand):
         )
 
     def create_views(self):
+        base_args: Dict[str, Any] = {
+            'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
+            'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
+            'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+        }
         with connections[settings.DWH_DATABASE].cursor() as cursor:
             cursor.execute(RHBOT_SQLFILE.read_text(), {
                 'rh_uuid': uuid_from_url(RH_URL),
-                'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
-                'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
-                'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+                **base_args,
             })
+            cursor.execute(RHONLINE_SQLFILE.read_text(), base_args)
 
     def load_rapidpro_runs(self):
         client = rapidpro_util.get_client_from_settings()

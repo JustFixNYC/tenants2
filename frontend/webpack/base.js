@@ -40,7 +40,7 @@ const DISABLE_WEBPACK_ANALYZER = !DEV_DEPS_AVAIL || getEnvBoolean('DISABLE_WEBPA
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 
-const CONFIGURE_LINKS_TO_DEMO_SITES = getEnvBoolean('CONFIGURE_LINKS_TO_DEMO_SITES', false);
+const REROUTE_LINKS_TO_DEMO_SITES = getEnvBoolean('REROUTE_LINKS_TO_DEMO_SITES', false);
 
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'cheap-module-eval-source-map';
@@ -139,7 +139,7 @@ function getCommonPlugins() {
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,
-      CONFIGURE_LINKS_TO_DEMO_SITES
+      REROUTE_LINKS_TO_DEMO_SITES
     }),
     // https://github.com/webpack/webpack/issues/3078
     new webpack.IgnorePlugin(/\/iconv-loader$/)

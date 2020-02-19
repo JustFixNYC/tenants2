@@ -37,4 +37,4 @@ declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;
  * should link to a "demo" version of that product, instead of the 
  * default page. 
  */
-declare const CONFIGURE_LINKS_TO_DEMO_SITES: boolean;
+declare const REROUTE_LINKS_TO_DEMO_SITES: boolean;

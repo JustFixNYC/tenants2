@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function whoOwnsWhatURL(bbl: string): string {
-  return `https://whoownswhat.justfix.nyc/bbl/${bbl}`;
+  return WOW_ORIGIN + `/bbl/${bbl}`;
 }
 
 export function WhoOwnsWhatLink(props: {bbl: string, className?: string, children: any}): JSX.Element {

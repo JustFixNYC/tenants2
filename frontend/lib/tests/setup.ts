@@ -41,3 +41,5 @@ console.log = function(message?: any, ...optionalParams: any[]) {
 };
 
 (global as any).DISABLE_WEBPACK_ANALYZER = false;
+(global as any).WOW_ORIGIN = 'https://whoownswhat.justfix.nyc';
+(global as any).EFNYC_ORIGIN = 'https://www.evictionfreenyc.org';

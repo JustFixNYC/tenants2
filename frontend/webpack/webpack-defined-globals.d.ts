@@ -31,3 +31,13 @@ declare const DISABLE_DEV_SOURCE_MAPS: boolean;
  * otherwise it defaults to false.
  */
 declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;
+
+/**
+ * The base url for outbound links to Who Owns What. 
+ */
+declare const WOW_ORIGIN: string;
+
+/**
+ * The base url for outbound links to Eviction Free NYC. 
+ */
+declare const EFNYC_ORIGIN: string;

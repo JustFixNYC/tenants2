@@ -246,11 +246,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Setting this to true can speed up builds.
     DISABLE_DEV_SOURCE_MAPS: bool = False
 
-    # Whether or not outbound links to other products
-    # should link to a "demo" version of that product, instead of the
-    # default page.
-    REROUTE_LINKS_TO_DEMO_SITES: bool = False
-
     # The value of the 'extended' querystring argument on the /health
     # endpoint that will trigger an extended healthcheck. Because an
     # extended healthcheck can consume valuable resources, this can

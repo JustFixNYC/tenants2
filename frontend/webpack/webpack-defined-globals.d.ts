@@ -33,8 +33,11 @@ declare const DISABLE_DEV_SOURCE_MAPS: boolean;
 declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;
 
 /**
- * Whether or not outbound links to other products 
- * should link to a "demo" version of that product, instead of the 
- * default page. 
+ * The base url for outbound links to Who Owns What. 
  */
-declare const REROUTE_LINKS_TO_DEMO_SITES: boolean;
+declare const WOW_BASE_URL: string;
+
+/**
+ * The base url for outbound links to Eviction Free NYC. 
+ */
+declare const EFNYC_URL: string;

@@ -40,8 +40,6 @@ const DISABLE_WEBPACK_ANALYZER = !DEV_DEPS_AVAIL || getEnvBoolean('DISABLE_WEBPA
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
 
-const REROUTE_LINKS_TO_DEMO_SITES = getEnvBoolean('REROUTE_LINKS_TO_DEMO_SITES', false);
-
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'cheap-module-eval-source-map';
 
@@ -139,7 +137,8 @@ function getCommonPlugins() {
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,
-      REROUTE_LINKS_TO_DEMO_SITES
+      WOW_BASE_URL: WOW_BASE_URL || `https://whoownswhat.justfix.nyc`,
+      EFNYC_URL: EFNYC_URL || `https://www.evictionfreenyc.org/`
     }),
     // https://github.com/webpack/webpack/issues/3078
     new webpack.IgnorePlugin(/\/iconv-loader$/)

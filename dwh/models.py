@@ -38,3 +38,14 @@ class RapidproRun(models.Model):
     # If this represents a rent history followup, did the user
     # confirm that their rent history was received or not?
     was_rent_history_received = models.BooleanField(null=True)
+
+
+class OnlineRentHistoryRequest(models.Model):
+    '''
+    Represents an *online* (not SMS-based) rental history request.
+    '''
+
+    created_at = models.DateTimeField()
+
+    # The UUID of the RapidPro user for whom the request was made.
+    user_uuid = models.CharField(max_length=UUID_LEN, blank=True)

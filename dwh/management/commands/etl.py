@@ -1,14 +1,16 @@
 from typing import List, Dict, Any, Iterator, NamedTuple, Optional
+from contextlib import contextmanager
 from pathlib import Path
 import re
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.conf import settings
-from django.db import transaction, connections
+from django.db import transaction, connections, connection
 from temba_client.v2 import TembaClient, Run
 
 from rapidpro import rapidpro_util
 from dwh import models
+# from rh.models import RentalHistoryRequest
 
 # The rent history request flow.
 RH_URL = "https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/"
@@ -25,7 +27,11 @@ RH_MAX_FOLLOWUP_DAYS = 25
 
 MY_DIR = Path(__file__).parent.resolve()
 
-RHBOT_SQLFILE = MY_DIR / ".." / ".." / "rhbot.sql"
+APP_DIR = MY_DIR / ".." / ".."
+
+RHBOT_SQLFILE = APP_DIR / "rhbot.sql"
+
+RHONLINE_SQLFILE = APP_DIR / "rhonline.sql"
 
 
 class NodeDesc(NamedTuple):
@@ -99,18 +105,46 @@ class Flow:
                     yield run
 
 
+class BatchWriter:
+    def __init__(self, model_class, batch_size=1000):
+        self.model_class = model_class
+        self.models: List[Any] = []
+        self.batch_size = batch_size
+
+    @contextmanager
+    def atomic_transaction(self, using=None, wipe=False):
+        with transaction.atomic(using=using):
+            if wipe:
+                self.model_class.objects.all().delete()
+            with self:
+                yield self
+
+    def write(self, model):
+        assert isinstance(model, self.model_class)
+        self.models.append(model)
+        if len(self.models) >= self.batch_size:
+            self.flush()
+
+    def flush(self):
+        if self.models:
+            print(f"Writing {len(self.models)} records.")
+            self.model_class.objects.bulk_create(self.models)
+            self.models = []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is None:
+            self.flush()
+
+
 class AnalyticsLogger:
     BATCH_SIZE = 1000
 
     def __init__(self, client: TembaClient):
         self.client = client
-        self.runs: List[models.RapidproRun] = []
-
-    def flush(self):
-        if self.runs:
-            print(f"Writing {len(self.runs)} records.")
-            models.RapidproRun.objects.bulk_create(self.runs)
-            self.runs = []
+        self.writer = BatchWriter(models.RapidproRun)
 
     def log_run(
         self,
@@ -130,10 +164,7 @@ class AnalyticsLogger:
             num_error_steps=num_error_steps,
             was_rent_history_received=was_rent_history_received,
         )
-        # print(f"Logging run of flow '{run.flow_name}' on {run.start_time.date()}.")
-        self.runs.append(run)
-        if len(self.runs) >= self.BATCH_SIZE:
-            self.flush()
+        self.writer.write(run)
 
     def process_rh_requests(self, flow: Flow, error_nodes=List[NodeDesc]):
         error_uuids = flow.find_all_node_uuids(error_nodes)
@@ -159,24 +190,40 @@ class AnalyticsLogger:
             self.log_run(flow, run, was_rent_history_received=rh_received)
 
 
+def iter_cursor_dicts(cursor):
+    columns = [column.name for column in cursor.description]
+
+    for row in cursor.fetchall():
+        yield dict(zip(columns, row))
+
+
 class Command(BaseCommand):
     help = "Extract, Transform and Load (ETL) data into the data warehouse db."
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--views-only',
-            help="Only create views, don't load any data.",
+            '--skip-rapidpro-runs',
+            help="Don't process RapidPro runs.",
+            action='store_true'
+        )
+        parser.add_argument(
+            '--skip-online-rent-history',
+            help="Don't process online rent history requests.",
             action='store_true'
         )
 
     def create_views(self):
+        base_args: Dict[str, Any] = {
+            'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
+            'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
+            'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+        }
         with connections[settings.DWH_DATABASE].cursor() as cursor:
             cursor.execute(RHBOT_SQLFILE.read_text(), {
                 'rh_uuid': uuid_from_url(RH_URL),
-                'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
-                'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
-                'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+                **base_args,
             })
+            cursor.execute(RHONLINE_SQLFILE.read_text(), base_args)
 
     def load_rapidpro_runs(self):
         client = rapidpro_util.get_client_from_settings()
@@ -192,9 +239,7 @@ class Command(BaseCommand):
             RH_FOLLOWUP_2_URL,
         ])
 
-        with transaction.atomic():
-            models.RapidproRun.objects.all().delete()
-
+        with analytics.writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
             analytics.process_rh_requests(
                 rh,
                 error_nodes=[
@@ -215,17 +260,33 @@ class Command(BaseCommand):
                 no_nodes=NodeDesc(r"^We're sorry to hear"),
             )
 
-            analytics.flush()
+    def load_online_rent_history_requests(self):
+        print("Processing online rent history requests.")
+        writer = BatchWriter(models.OnlineRentHistoryRequest)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT rh.created_at, rapidpro_contact.uuid AS user_uuid
+                FROM rh_rentalhistoryrequest AS rh
+                LEFT JOIN rapidpro_contact ON rh.phone_number = rapidpro_contact.phone_number
+                """
+            )
+            with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
+                for row_dict in iter_cursor_dicts(cursor):
+                    req = models.OnlineRentHistoryRequest(**row_dict)
+                    writer.write(req)
 
     def handle(self, *args, **options):
-        create_views_only: bool = options['views_only']
+        skip_online_rent_history: bool = options['skip_online_rent_history']
+        skip_rapidpro_runs: bool = options['skip_rapidpro_runs']
 
         if settings.DWH_DATABASE != 'default':
             call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
 
         self.create_views()
 
-        if create_views_only:
-            return
+        if not skip_online_rent_history:
+            self.load_online_rent_history_requests()
 
-        self.load_rapidpro_runs()
+        if not skip_rapidpro_runs:
+            self.load_rapidpro_runs()

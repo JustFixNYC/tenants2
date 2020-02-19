@@ -198,8 +198,13 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--views-only',
-            help="Only create views, don't load any data.",
+            '--skip-rapidpro-runs',
+            help="Don't process RapidPro runs.",
+            action='store_true'
+        )
+        parser.add_argument(
+            '--skip-online-rent-history',
+            help="Don't process online rent history requests.",
             action='store_true'
         )
 
@@ -248,6 +253,7 @@ class Command(BaseCommand):
             )
 
     def load_online_rent_history_requests(self):
+        print("Processing online rent history requests.")
         writer = BatchWriter(models.OnlineRentHistoryRequest)
         with connection.cursor() as cursor:
             cursor.execute(
@@ -263,15 +269,16 @@ class Command(BaseCommand):
                     writer.write(req)
 
     def handle(self, *args, **options):
-        create_views_only: bool = options['views_only']
+        skip_online_rent_history: bool = options['skip_online_rent_history']
+        skip_rapidpro_runs: bool = options['skip_rapidpro_runs']
 
         if settings.DWH_DATABASE != 'default':
             call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
 
         self.create_views()
 
-        if create_views_only:
-            return
+        if not skip_online_rent_history:
+            self.load_online_rent_history_requests()
 
-        self.load_online_rent_history_requests()
-        self.load_rapidpro_runs()
+        if not skip_rapidpro_runs:
+            self.load_rapidpro_runs()

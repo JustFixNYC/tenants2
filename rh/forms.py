@@ -11,7 +11,7 @@ from .models import RentalHistoryRequest
 # new validation logic. The downside is that the old
 # session's rental history data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 4
+FIELD_SCHEMA_VERSION = 5
 
 
 class RhForm(AddressAndBoroughFormMixin, forms.ModelForm):

@@ -10,7 +10,8 @@ mutation RhSendEmailMutation($input: RhSendEmailInput!) {
         address,
         borough,
         phoneNumber,
-        addressVerified
+        addressVerified,
+        zipcode
       }
     }
   }

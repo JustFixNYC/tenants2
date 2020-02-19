@@ -1292,6 +1292,22 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The zip code associated with the user's address, according to our geocoder service. If the geocoder service was unavailable, this will be an empty string.",
+              "isDeprecated": false,
+              "name": "zipcode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
@@ -1518,6 +1534,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The zip code associated with the user's address, according to our geocoder service. If the geocoder service was unavailable, this will be an empty string.",
+              "isDeprecated": false,
+              "name": "zipcode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               }

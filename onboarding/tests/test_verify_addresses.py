@@ -4,6 +4,7 @@ from django.forms import ValidationError
 from django.core.management import call_command
 import pytest
 
+from project.util.address_form_fields import AddressVerificationResult
 from onboarding.management.commands import verify_addresses
 from .factories import OnboardingInfoFactory
 
@@ -15,7 +16,7 @@ def make_cmd():
 class TestGetVerifiedAddress:
     @patch.object(verify_addresses, 'verify_address')
     def test_it_returns_tuple_on_success(self, m):
-        m.return_value = ('some address', 'some borough', True)
+        m.return_value = AddressVerificationResult('some address', 'some borough', True)
         cmd = make_cmd()
         result = cmd.get_verified_address('foo', 'bar')
         m.assert_called_once_with('foo', 'bar')
@@ -24,7 +25,7 @@ class TestGetVerifiedAddress:
 
     @patch.object(verify_addresses, 'verify_address')
     def test_it_returns_none_when_geocoding_is_down(self, m):
-        m.return_value = ('', '', False)
+        m.return_value = AddressVerificationResult('', '', False)
         cmd = make_cmd()
         result = cmd.get_verified_address('foo', 'bar')
         assert result is None

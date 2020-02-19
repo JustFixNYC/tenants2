@@ -11,7 +11,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const NotifyServerOfNewBuildPlugin = require('./notify-server-of-new-build');
-const { getEnvBoolean } = require('./env-util');
+const { getEnvBoolean, getEnvString } = require('./env-util');
 
 /** Are we in watch mode, or are we being run as a one-off process? */
 const IN_WATCH_MODE = process.argv.includes('--watch');
@@ -39,6 +39,9 @@ if (DEV_DEPS_AVAIL) {
 const DISABLE_WEBPACK_ANALYZER = !DEV_DEPS_AVAIL || getEnvBoolean('DISABLE_WEBPACK_ANALYZER', true);
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean('DISABLE_DEV_SOURCE_MAPS', false);
+
+const WOW_BASE_URL = getEnvString('WOW_BASE_URL','https://whoownswhat.justfix.nyc');
+const EFNYC_URL= getEnvString('EFNYC_URL','https://www.evictionfreenyc.org/');
 
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS ? false : 'cheap-module-eval-source-map';
@@ -137,8 +140,8 @@ function getCommonPlugins() {
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,
-      WOW_BASE_URL: process.env.WOW_BASE_URL || `https://whoownswhat.justfix.nyc`,
-      EFNYC_URL: process.env.EFNYC_URL || `https://www.evictionfreenyc.org/`
+      WOW_BASE_URL,
+      EFNYC_URL
     }),
     // https://github.com/webpack/webpack/issues/3078
     new webpack.IgnorePlugin(/\/iconv-loader$/)

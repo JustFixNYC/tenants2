@@ -62,6 +62,12 @@ class LetterOfComplaintRequest(models.Model):
 
     letter_sent_at = models.DateTimeField(null=True, blank=True)
 
+    landlord_responded_by = models.DateTimeField(null=True, blank=True)
+
+    landlord_did_not_respond_by = models.DateTimeField(null=True, blank=True)
+
+    landlord_retaliated_by = models.DateTimeField(null=True, blank=True)
+
     repairs_made_by = models.DateTimeField(null=True, blank=True)
 
     interested_in_hp_action_by = models.DateTimeField(null=True, blank=True)

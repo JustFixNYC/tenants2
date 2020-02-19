@@ -21,6 +21,15 @@ RH_FOLLOWUP_1_URL = "https://textit.in/flow/editor/be922331-eb0b-4823-86d2-647dc
 # The second rent history follow-up.
 RH_FOLLOWUP_2_URL = "https://textit.in/flow/editor/52c3d0fc-d198-45d1-86be-c6fed577ad3a/"
 
+# URLs for individual groups that users are put in based on their responses to LOC follow-up flows.
+LOC_GROUP_URLS = {
+    'll_responding': 'https://textit.in/contact/filter/0bec29ac-14e2-4a9f-a928-fe1a9392924d/',
+    'll_not_responding': 'https://textit.in/contact/filter/0f362cdc-53f6-41d0-b534-252f099c3695/', # noqa
+    'll_retaliation': 'https://textit.in/contact/filter/6c53aaad-24d6-4c35-98ab-fe8db55e93aa/',
+    'got_results': "https://textit.in/contact/filter/80302300-7dd8-49bd-9f72-e4d481ed83b5/",
+    'interested_in_hp': "https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/",
+}
+
 # The maximum amount of days that can pass between when a user requests their
 # rent history, and when we follow-up with them.
 RH_MAX_FOLLOWUP_DAYS = 25
@@ -33,6 +42,8 @@ RHBOT_SQLFILE = APP_DIR / "rhbot.sql"
 
 RHONLINE_SQLFILE = APP_DIR / "rhonline.sql"
 
+LOC_SQLFILE = APP_DIR / "loc.sql"
+
 
 class NodeDesc(NamedTuple):
     regex: str
@@ -41,10 +52,14 @@ class NodeDesc(NamedTuple):
 
 def uuid_from_url(url: str) -> str:
     '''
-    Given a RapidPro URL for editing a flow, return the UUID of the flow.
+    Given a RapidPro URL for editing a flow or filtering for a group, return the UUID of
+    the flow or group.
 
     >>> uuid_from_url('https://textit.in/flow/editor/367fb415-29bd-4d98-8e42-40cba0dc8a97/')
     '367fb415-29bd-4d98-8e42-40cba0dc8a97'
+
+    >>> uuid_from_url('https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/')
+    '846c2eb8-45e8-48c5-b130-02c53be1aece'
     '''
 
     return url.split('/')[-2]
@@ -284,13 +299,11 @@ class Command(BaseCommand):
     def load_loc_requests(self):
         print("Processing letter of complaint requests.")
         writer = BatchWriter(models.LetterOfComplaintRequest)
+        kwargs = {
+            f"{name}_uuid": uuid_from_url(url) for (name, url) in LOC_GROUP_URLS.items()
+        }
         with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT loc.created_at, loc.mail_choice, loc.letter_sent_at
-                FROM loc_letterrequest AS loc
-                """
-            )
+            cursor.execute(LOC_SQLFILE.read_text(), kwargs)
             with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
                 for row_dict in iter_cursor_dicts(cursor):
                     req = models.LetterOfComplaintRequest(**row_dict)

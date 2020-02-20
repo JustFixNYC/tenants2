@@ -32,7 +32,7 @@ if (!fs.existsSync('package.json')) {
   throw new Error(`Assertion failure, ${BASE_DIR} should contain package.json`);
 }
 
-if (DEV_DEPS_AVAIL) {
+if (DEV_DEPS_AVAIL && process.env['IGNORE_JUSTFIX_ENV_FILE'] !== '1') {
   require('dotenv').config({ path: path.join(BASE_DIR, '.justfix-env') });
 }
 

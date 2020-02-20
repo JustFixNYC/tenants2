@@ -81,7 +81,12 @@ def run_local_container(
         'run',
         '--rm',
     ]
-    if not use_docker_compose:
+    if use_docker_compose:
+        # We don't want the user's .justfix-env file defining any
+        # variables that *aren't* defined in the existing environment,
+        # so explicitly tell the app to *not* load it.
+        final_args.extend(['-e', 'IGNORE_JUSTFIX_ENV_FILE=1'])
+    else:
         final_args.append('-it')
     env = env.copy()
     final_env = os.environ.copy()

@@ -257,7 +257,7 @@ def react_rendered_view(request):
             'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
             'navbarLabel': settings.NAVBAR_LABEL,
             'wowOrigin': settings.WOW_ORIGIN,
-            'efnycOrign': settings.EFNYC_ORIGIN,
+            'efnycOrigin': settings.EFNYC_ORIGIN,
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

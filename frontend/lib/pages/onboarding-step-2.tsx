@@ -15,6 +15,7 @@ import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { FormContext } from '../form-context';
 import { CenteredButtons } from '../centered-buttons';
+import { getGlobalAppServerInfo } from '../app-context';
 
 
 export function Step2EvictionModal(): JSX.Element {
@@ -27,7 +28,7 @@ export function Step2EvictionModal(): JSX.Element {
         Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
       </p>
       <CenteredButtons>
-        <OutboundLink href="https://www.evictionfreenyc.org/en-US/" className="button is-primary is-medium">Go to Eviction Free NYC</OutboundLink>
+        <OutboundLink href={`${getGlobalAppServerInfo().efnycOrigin}/en-US/`} className="button is-primary is-medium">Go to Eviction Free NYC</OutboundLink>
         <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
       </CenteredButtons>
     </>} />

@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import Type
 
@@ -337,7 +338,8 @@ class JustfixTestingEnvironment(JustfixEnvironment):
 def get() -> JustfixEnvironment:
     try:
         import dotenv
-        dotenv.load_dotenv(BASE_DIR / '.justfix-env')
+        if os.environ.get('IGNORE_JUSTFIX_ENV_FILE') != '1':
+            dotenv.load_dotenv(BASE_DIR / '.justfix-env')
     except ModuleNotFoundError:
         # dotenv is a dev dependency, so no biggie if it can't be found.
         pass

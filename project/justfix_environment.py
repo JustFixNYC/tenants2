@@ -278,6 +278,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # deployment from a staging one.
     NAVBAR_LABEL: str = ''
 
+    # The base url for outbound links to Who Owns What.
+    WOW_ORIGIN: str = 'https://whoownswhat.justfix.nyc'
+
+    # The base url for outbound links to Eviction Free NYC.
+    EFNYC_ORIGIN: str = 'https://www.evictionfreenyc.org'
+
     # Whether to use the experimental lambda HTTP server.
     USE_LAMBDA_HTTP_SERVER: bool = False
 

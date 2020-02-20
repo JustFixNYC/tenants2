@@ -67,6 +67,16 @@ export interface AppServerInfo {
   navbarLabel?: string;
 
   /**
+   * The base url for outbound links to Who Owns What. 
+   */
+  wowOrigin: string;
+
+  /**
+   * The base url for outbound links to Eviction Free NYC. 
+   */
+  efnycOrigin: string;
+
+  /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in
    * the Django app).
    */

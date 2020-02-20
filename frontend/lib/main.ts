@@ -4,6 +4,7 @@ import { startApp, AppProps } from './app';
 import { getHTMLElement } from '@justfixnyc/util';
 import { ga } from './google-analytics';
 import i18n from './i18n';
+import { setGlobalAppServerInfo } from './app-context';
 
 
 function polyfillSmoothScroll() {
@@ -48,6 +49,7 @@ window.addEventListener('load', () => {
   div.removeAttribute('hidden');
 
   i18n.initialize(initialProps.locale);
+  setGlobalAppServerInfo(initialProps.server);
   startApp(div, initialProps);
   polyfillSmoothScroll();
   showSafeModeUiOnShake();

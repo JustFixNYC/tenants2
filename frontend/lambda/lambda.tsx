@@ -26,6 +26,7 @@ import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/
 import i18n from '../lib/i18n';
 import { assertNotUndefined } from '../lib/util';
 import { serveLambdaOverHttp, serveLambdaOverStdio } from './lambda-io';
+import { setGlobalAppServerInfo } from '../lib/app-context';
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -116,6 +117,7 @@ function renderAppHtml(
  */
 function generateResponse(event: AppProps): LambdaResponse {
   i18n.initialize(event.locale);
+  setGlobalAppServerInfo(event.server);
 
   const context: AppStaticContext = {
     statusCode: 200,

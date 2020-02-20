@@ -58,6 +58,8 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',
   locPdfURL: '/myletter.pdf',
+  wowOrigin: 'https://wow.test',
+  efnycOrigin: 'https://efnyc.test',
   enableSafeModeURL: '/mysafemode/enable',
   redirectToLegacyAppURL: '/myredirect-to-legacy-app'
 };

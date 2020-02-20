@@ -54,23 +54,8 @@ function getEnvBoolean(name, defaultValue) {
   return boolVal;
 }
 
-/**
- * Interpret the given environment variable as a string and return it.
- * If the environment variable isn't defined or is empty, the default
- * value is returned.
- * 
- * @param {string} name
- * @param {string} defaultValue
- * @returns {string}
- */
-function getEnvString(name, defaultValue) {
-  const val = process.env[name] || defaultValue;
-  return JSON.stringify(val);
-}
-
 module.exports = {
   strToBoolean,
   quoteStrings,
-  getEnvBoolean,
-  getEnvString
+  getEnvBoolean
 };

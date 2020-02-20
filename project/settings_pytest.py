@@ -73,6 +73,9 @@ if 'wow' in DATABASES:  # noqa
 
 NAVBAR_LABEL = ''
 
+WOW_ORIGIN = 'https://demo-whoownswhat.herokuapp.com'
+EFNYC_ORIGIN = 'https://demo-efnyc.netlify.com'
+
 
 class NotActuallyFileStorage:
     def __init__(self):

@@ -23,6 +23,35 @@ export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
   POST: Partial<{ [key: string]: string }>;
 }
 
+/**
+ * Since the app server info doesn't change through the app's lifetime,
+ * we're just going to make it a global so we don't have to constantly
+ * access it via a potentially cumbersome React Context.
+ */
+let globalAppServerInfo: AppServerInfo|null = null;
+
+/**
+ * This sets the global app server info. It should only be called once
+ * on the client side; on the server side, it should be called before
+ * each render.
+ */
+export function setGlobalAppServerInfo(info: AppServerInfo) {
+  globalAppServerInfo = info;
+}
+
+/**
+ * Retrieves the global app server info. This will be the exact same
+ * server info that is part of the AppContext, it's just accessible
+ * via a function, which can be useful if obtaining the AppContext is
+ * cumbersome.
+ */
+export function getGlobalAppServerInfo(): AppServerInfo {
+  if (!globalAppServerInfo) {
+    throw new Error('Assertion failure, global app server info should be set!');
+  }
+  return globalAppServerInfo;
+}
+
 /** Details about the server that don't change through the app's lifetime. */
 export interface AppServerInfo {
   /** The server's origin URL, e.g. "http://boop.com". */
@@ -65,6 +94,16 @@ export interface AppServerInfo {
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;
+
+  /**
+   * The base url for outbound links to Who Owns What. 
+   */
+  wowOrigin: string;
+
+  /**
+   * The base url for outbound links to Eviction Free NYC. 
+   */
+  efnycOrigin: string;
 
   /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in

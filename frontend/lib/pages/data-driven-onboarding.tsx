@@ -10,7 +10,7 @@ import { whoOwnsWhatURL } from '../wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
-import { AppContext } from '../app-context';
+import { AppContext, getGlobalAppServerInfo } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink, ga } from '../google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
@@ -329,7 +329,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: EFNYC_ORIGIN,
+        to: `${getGlobalAppServerInfo().efnycOrigin}/`,
         gaLabel: 'efnyc',
         text: "Visit Eviction Free NYC"
       }

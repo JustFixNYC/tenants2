@@ -90,6 +90,7 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
             f"papers before bringing them to court! "
             f"{absolute_reverse('hpaction:latest_pdf')}",
         )
+        user.trigger_followup_campaign_async("HP")
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
             f"has generated HP Action legal forms!",

@@ -298,6 +298,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_LOC: str = ''
 
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for HP Action. If empty, this follow-up
+    # campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_HP: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

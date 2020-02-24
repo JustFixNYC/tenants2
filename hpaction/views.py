@@ -41,6 +41,7 @@ def upload(request, token_str: str):
     pdf_data = decode_lhi_b64_data(request.POST['binary_file'])
     xml_data = decode_lhi_b64_data(request.POST['answer_file'])
 
+    token.user.trigger_followup_campaign_async("HP")
     token.create_documents_from(xml_data=xml_data, pdf_data=pdf_data)
 
     return HttpResponse(SUCCESSFUL_UPLOAD_TEXT)

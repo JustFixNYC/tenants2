@@ -21,6 +21,10 @@
 @import "./_dev.scss";
 @import "./_footer.scss";
 
+// This variable defines how much of the page footer we want to 
+// appear above the fold on all pages
+$footer-offset: 12px;
+
 // We want to give the page a column-based flex layout so we can
 // have our safe mode UI be a sticky footer if needed.
 body {
@@ -29,6 +33,10 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
+
+    div#main {
+        min-height: calc(100vh - #{$navbar-height} - #{$footer-offset});
+    }
 }
 
 // Don't let any pre-rendered modal mess with our flex layout.

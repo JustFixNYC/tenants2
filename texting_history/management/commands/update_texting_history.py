@@ -22,6 +22,8 @@ def get_min_max_date_sent(queryset) -> Tuple[Optional[datetime.datetime],
 
 
 def stop_when_older_than(msgs: MessageIterator, when: datetime.datetime) -> MessageIterator:
+    # This relies on the fact that Twilio's REST API always returns messages in
+    # reverse chronological order.
     for msg in msgs:
         if msg.date_sent < when:
             break
@@ -50,12 +52,23 @@ class Command(BaseCommand):
         earliest_to_us, latest_to_us = get_min_max_date_sent(Message.objects.filter(
             to_number=our_number))
         max_age_date = now() - datetime.timedelta(days=max_age)
+
+        # The way Twilio's Python client retrieves messages is a bit confusing at first,
+        # but the documentation on their underlying REST API helps a bit:
+        #
+        #   https://www.twilio.com/docs/sms/api/message-resource
+        #
+        # In short, it's not possible to provide *both* a maximum and a minimum date,
+        # and the results are always sorted in reverse chronological order, so we need
+        # to deal with that.
+
         if backfill:
             to_us_kwargs = {'date_sent_before': earliest_to_us}
             from_us_kwargs = {'date_sent_before': earliest_from_us}
         else:
             to_us_kwargs = {'date_sent_after': latest_to_us}
             from_us_kwargs = {'date_sent_after': latest_from_us}
+
         all_messages = itertools.chain(
             stop_when_older_than(
                 client.messages.stream(to=our_number, **to_us_kwargs),
@@ -66,6 +79,7 @@ class Command(BaseCommand):
                 max_age_date,
             )
         )
+
         with BatchWriter(Message, ignore_conflicts=True) as writer:
             for sms in all_messages:
                 model = Message(

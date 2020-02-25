@@ -188,7 +188,6 @@ function RentalHistoryPreview(): JSX.Element {
 
 function RentalHistoryConfirmation(): JSX.Element {
   const appContext = useContext(AppContext);
-  // console.log(appContext);
   const { onboardingInfo } = appContext.session;
   return (
     <Page title="Your Rent History has been requested!" withHeading="big" className="content">

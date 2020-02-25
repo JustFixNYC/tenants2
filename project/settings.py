@@ -108,6 +108,7 @@ INSTALLED_APPS = [
     'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
     'rh.apps.RhConfig',
     'dwh.apps.DwhConfig',
+    'texting_history.apps.TextingHistoryConfig',
 ]
 
 MIDDLEWARE = [

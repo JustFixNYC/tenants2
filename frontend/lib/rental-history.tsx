@@ -187,6 +187,9 @@ function RentalHistoryPreview(): JSX.Element {
 }
 
 function RentalHistoryConfirmation(): JSX.Element {
+  const appContext = useContext(AppContext);
+  // console.log(appContext);
+  const { onboardingInfo } = appContext.session;
   return (
     <Page title="Your Rent History has been requested!" withHeading="big" className="content">
       <h2>What happens next?</h2>
@@ -194,7 +197,7 @@ function RentalHistoryConfirmation(): JSX.Element {
         Your Rent History is an important document— it shows the registered rents in your apartment since 1984. 
         You can learn more about it and how it can help you figure out if you’re being overcharged on rent: <OutboundLink href="https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges" target="_blank">https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges</OutboundLink>.</p>
       <p>If you have more questions, please email us at <CustomerSupportLink />.</p>
-      <Link to={Routes.locale.home} className="button is-primary is-medium">Explore our other tools</Link>
+      <Link to={onboardingInfo ? Routes.locale.homeWithSearch(onboardingInfo) : Routes.locale.home} className="button is-primary is-medium">Explore our other tools</Link>
       <h2>Want to read more about your rights?</h2>
       <ul>
       <li><OutboundLink href="https://www.metcouncilonhousing.org/help-answers/" target="_blank">Met Council on Housing</OutboundLink></li>

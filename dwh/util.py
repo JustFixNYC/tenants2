@@ -35,10 +35,11 @@ class BatchWriter:
     speed up database writes.
     '''
 
-    def __init__(self, model_class, batch_size=1000):
+    def __init__(self, model_class, batch_size=1000, ignore_conflicts=False):
         self.model_class = model_class
         self.models: List[Any] = []
         self.batch_size = batch_size
+        self.ignore_conflicts = ignore_conflicts
 
     @contextmanager
     def atomic_transaction(self, using=None, wipe=False):
@@ -57,7 +58,10 @@ class BatchWriter:
     def flush(self):
         if self.models:
             print(f"Writing {len(self.models)} records.")
-            self.model_class.objects.bulk_create(self.models)
+            self.model_class.objects.bulk_create(
+                self.models,
+                ignore_conflicts=self.ignore_conflicts,
+            )
             self.models = []
 
     def __enter__(self):

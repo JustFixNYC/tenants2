@@ -1,0 +1,24 @@
+.jf-admin-conversations-wrapper {
+    display: flex;
+    font-size: 12px;
+    height: 85vh;
+    border: 1px solid lightgray;
+
+    .jf-conversation-sidebar {
+        width: 30em;
+        overflow-y: scroll;
+
+        > div:not(:last-child) {
+            border-bottom: 1px solid lightgray;
+        }
+
+        > div {
+            padding: 8px;
+            overflow-x: hidden;
+        }
+    }
+
+    .jf-current-conversation {
+        padding: 8px;
+    }
+}

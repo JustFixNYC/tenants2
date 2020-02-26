@@ -40,6 +40,12 @@ ignoreFields = [
     "zipcode"
 ]
 
+[types.TextMessage]
+fragmentName = "TextMessage"
+
+[types.LatestTextMessage]
+fragmentName = "LatestTextMessage"
+
 [types.DDOSuggestionsResult]
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true

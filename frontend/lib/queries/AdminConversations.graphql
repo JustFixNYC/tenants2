@@ -1,0 +1,5 @@
+query AdminConversations($query: String!, $page: Int!) {
+    output: conversations(query: $query, page: $page) {
+        ...LatestTextMessage
+    }
+}

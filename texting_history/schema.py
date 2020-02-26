@@ -1,11 +1,12 @@
 from typing import List
-from project import schema_registry
+from functools import wraps
 from pathlib import Path
 from django.db import connection
 from django.conf import settings
-from graphql import GraphQLError
+from graphql import GraphQLError, ResolveInfo
 import graphene
 
+from project import schema_registry
 from users.models import VIEW_TEXT_MESSAGE_PERMISSION
 from twofactor.util import is_request_user_verified
 from project.util.phone_number import ALL_DIGITS_RE
@@ -33,15 +34,9 @@ class TextMessage(graphene.ObjectType):
     user_id = graphene.Int()
 
 
-@schema_registry.register_queries
-class TextingHistory:
-    conversations = graphene.List(
-        graphene.NonNull(TextMessage),
-        query=graphene.String(),
-        page=graphene.Int(),
-    )
-
-    def resolve_conversations(self, info, query: str, page: int) -> List[TextMessage]:
+def ensure_request_has_verified_user_with_permission(fn):
+    @wraps(fn)
+    def wrapper(parent, info: ResolveInfo, *args, **kwargs):
         request = info.context
         user = request.user
 
@@ -54,26 +49,43 @@ class TextingHistory:
         if not user.has_perm(VIEW_TEXT_MESSAGE_PERMISSION):
             raise GraphQLError("User does not have permission to view text messages!")
 
-        where_clause = ''
-        if ALL_DIGITS_RE.fullmatch(query):
-            where_clause = "WHERE user_phone_number LIKE '+1' || %(query)s || '%%'"
-        elif query:
-            where_clause = (
-                "WHERE (usr.first_name || ' ' || usr.last_name) "
-                "ILIKE '%%' || %(query)s || '%%'"
-            )
+        return fn(parent, info, *args, **kwargs)
 
-        with connection.cursor() as cursor:
-            sql = '\n'.join([
-                CONVERSATIONS_SQL_FILE.read_text(),
-                where_clause,
-                "ORDER BY date_sent DESC",
-                "LIMIT %(page_size)s OFFSET %(offset)s"
-            ])
-            cursor.execute(sql, {
-                'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-                'offset': (page - 1) * PAGE_SIZE,
-                'page_size': PAGE_SIZE,
-                'query': query,
-            })
-            return [TextMessage(**row) for row in generate_json_rows(cursor)]
+    return wrapper
+
+
+@ensure_request_has_verified_user_with_permission
+def resolve_conversations(parent, info, query: str, page: int) -> List[TextMessage]:
+    where_clause = ''
+    if ALL_DIGITS_RE.fullmatch(query):
+        where_clause = "WHERE user_phone_number LIKE '+1' || %(query)s || '%%'"
+    elif query:
+        where_clause = (
+            "WHERE (usr.first_name || ' ' || usr.last_name) "
+            "ILIKE '%%' || %(query)s || '%%'"
+        )
+
+    with connection.cursor() as cursor:
+        sql = '\n'.join([
+            CONVERSATIONS_SQL_FILE.read_text(),
+            where_clause,
+            "ORDER BY date_sent DESC",
+            "LIMIT %(page_size)s OFFSET %(offset)s"
+        ])
+        cursor.execute(sql, {
+            'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
+            'offset': (page - 1) * PAGE_SIZE,
+            'page_size': PAGE_SIZE,
+            'query': query,
+        })
+        return [TextMessage(**row) for row in generate_json_rows(cursor)]
+
+
+@schema_registry.register_queries
+class TextingHistory:
+    conversations = graphene.List(
+        graphene.NonNull(TextMessage),
+        query=graphene.String(),
+        page=graphene.Int(),
+        resolver=resolve_conversations,
+    )

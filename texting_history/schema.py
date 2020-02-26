@@ -26,6 +26,10 @@ class TextMessage(graphene.ObjectType):
 
     user_phone_number = graphene.String(required=True)
 
+    user_full_name = graphene.String()
+
+    user_id = graphene.Int()
+
 
 @schema_registry.register_queries
 class TextingHistory:

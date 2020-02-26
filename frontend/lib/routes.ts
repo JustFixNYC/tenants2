@@ -241,6 +241,8 @@ const Routes = {
    */
   adminLogin: '/admin/login/',
 
+  adminConversations: '/admin/conversations/',
+
   /**
    * Example pages used in integration tests, and other
    * development-related pages.

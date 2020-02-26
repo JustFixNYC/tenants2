@@ -17,6 +17,8 @@ CHANGE_LETTER_REQUEST_PERMISSION = 'loc.change_letterrequest'
 
 CHANGE_USER_PERMISSION = 'users.change_justfixuser'
 
+VIEW_TEXT_MESSAGE_PERMISSION = 'texting_history.view_message'
+
 ROLES = {}
 
 ROLES['Outreach Coordinators'] = set([
@@ -43,6 +45,7 @@ ROLES['Outreach Coordinators'] = set([
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
     'rh.view_rentalhistoryrequest',
+    VIEW_TEXT_MESSAGE_PERMISSION,
 ])
 
 ROLES['Tenant Resource Editors'] = set([

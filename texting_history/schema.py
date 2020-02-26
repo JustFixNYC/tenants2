@@ -17,6 +17,8 @@ MY_DIR = Path(__file__).parent.resolve()
 
 CONVERSATIONS_SQL_FILE = MY_DIR / 'conversations.sql'
 
+CONVERSATION_SQL_FILE = MY_DIR / 'conversation.sql'
+
 PAGE_SIZE = 50
 
 
@@ -27,6 +29,8 @@ class TextMessage(graphene.ObjectType):
 
     body = graphene.String(required=True)
 
+
+class LatestTextMessage(TextMessage):
     user_phone_number = graphene.String(required=True)
 
     user_full_name = graphene.String()
@@ -54,8 +58,28 @@ def ensure_request_has_verified_user_with_permission(fn):
     return wrapper
 
 
+def get_sql_limit_clause_for_page(page: int, page_size: int = PAGE_SIZE) -> str:
+    assert isinstance(page, int)
+    offset = (page - 1) * page_size
+    return f"LIMIT {page_size} OFFSET {offset}"
+
+
 @ensure_request_has_verified_user_with_permission
-def resolve_conversations(parent, info, query: str, page: int) -> List[TextMessage]:
+def resolve_conversation(parent, info, phone_number: str, page: int) -> List[TextMessage]:
+    with connection.cursor() as cursor:
+        sql = '\n'.join([
+            CONVERSATION_SQL_FILE.read_text(),
+            get_sql_limit_clause_for_page(page)
+        ])
+        cursor.execute(sql, {
+            'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
+            'their_number': phone_number,
+        })
+        return [TextMessage(**row) for row in generate_json_rows(cursor)]
+
+
+@ensure_request_has_verified_user_with_permission
+def resolve_conversations(parent, info, query: str, page: int) -> List[LatestTextMessage]:
     where_clause = ''
     if ALL_DIGITS_RE.fullmatch(query):
         where_clause = "WHERE user_phone_number LIKE '+1' || %(query)s || '%%'"
@@ -69,23 +93,28 @@ def resolve_conversations(parent, info, query: str, page: int) -> List[TextMessa
         sql = '\n'.join([
             CONVERSATIONS_SQL_FILE.read_text(),
             where_clause,
-            "ORDER BY date_sent DESC",
-            "LIMIT %(page_size)s OFFSET %(offset)s"
+            "ORDER BY date_sent DESC, is_from_us DESC",
+            get_sql_limit_clause_for_page(page),
         ])
         cursor.execute(sql, {
             'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-            'offset': (page - 1) * PAGE_SIZE,
-            'page_size': PAGE_SIZE,
             'query': query,
         })
-        return [TextMessage(**row) for row in generate_json_rows(cursor)]
+        return [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
 
 
 @schema_registry.register_queries
 class TextingHistory:
     conversations = graphene.List(
-        graphene.NonNull(TextMessage),
+        graphene.NonNull(LatestTextMessage),
         query=graphene.String(),
         page=graphene.Int(),
         resolver=resolve_conversations,
+    )
+
+    conversation = graphene.List(
+        graphene.NonNull(TextMessage),
+        phone_number=graphene.String(),
+        page=graphene.Int(),
+        resolver=resolve_conversation,
     )

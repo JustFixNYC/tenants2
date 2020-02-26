@@ -30,6 +30,11 @@ function makeConversationURL(phoneNumber: string): string {
   return Routes.adminConversations + `?${PHONE_QS_VAR}=${encodeURIComponent(phoneNumber)}`;
 }
 
+function friendlyPhoneNumber(phoneNumber: string): string {
+  const match = phoneNumber.match(/^\+1(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
+  return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
+}
+
 const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
@@ -48,8 +53,8 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
       {conversations?.output?.map(conv => {
         return <Link key={conv.userPhoneNumber}
                      to={makeConversationURL(conv.userPhoneNumber)}>
-          <div>{conv.userPhoneNumber}</div>
-          <div>{conv.body}</div>
+          <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
+          <div className="jf-body">{conv.body}</div>
         </Link>
       }) || <p>Loading...</p>}
     </div>

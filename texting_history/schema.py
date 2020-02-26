@@ -23,6 +23,8 @@ PAGE_SIZE = 50
 
 
 class TextMessage(graphene.ObjectType):
+    sid = graphene.String(required=True)
+
     date_sent = graphene.DateTime(required=True)
 
     is_from_us = graphene.Boolean(required=True)

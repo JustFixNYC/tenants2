@@ -1,5 +1,6 @@
 WITH conversation_msg AS (
     SELECT
+        sid,
         date_sent,
         from_number = %(our_number)s AS is_from_us,
         body

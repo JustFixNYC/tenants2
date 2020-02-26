@@ -5,8 +5,9 @@
     border: 1px solid lightgray;
 
     .jf-conversation-sidebar {
+        min-width: 30em;
         width: 30em;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         > div:not(:last-child) {
             border-bottom: 1px solid lightgray;
@@ -15,10 +16,44 @@
         > div {
             padding: 8px;
             overflow-x: hidden;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        > div:hover {
+            background-color: #f0f0f0;
         }
     }
 
     .jf-current-conversation {
-        padding: 8px;
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 1em;
+        overflow-y: auto;
+
+        > div {
+            padding: 1em 0;
+            max-width: 80%;
+        }
+
+        > div > div {
+            display: inline-block;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .jf-from-us > div {
+            background: $primary;
+            color: $primary-invert;
+        }
+
+        .jf-to-us {
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .jf-to-us > div {
+            background: #f0f0f0;
+        }
     }
 }

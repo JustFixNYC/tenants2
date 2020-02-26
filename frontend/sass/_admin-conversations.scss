@@ -1,7 +1,8 @@
 .jf-admin-conversations-wrapper {
     display: flex;
     font-size: 12px;
-    height: 85vh;
+    height: calc(100vh - 3.5rem - 2px);
+    margin-top: 2px;
     border: 1px solid lightgray;
 
     .jf-conversation-sidebar {

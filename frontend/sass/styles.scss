@@ -315,3 +315,22 @@ fieldset {
         }
     }
 }
+
+html.jf-is-fullscreen-admin-page {
+    #main > section {
+        padding: 0;
+    }
+
+    // The following can be used to make the page have no left/right margins.
+    // Right now this is overkill though and makes things hard to read on
+    // really wide screens, so we're not going to use it.
+    //.container {
+    //    margin: 0;
+    //    width: 100%;
+    //    max-width: 100%;
+    //}
+
+    footer {
+        display: none;
+    }
+}

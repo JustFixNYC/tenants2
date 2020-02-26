@@ -6,6 +6,7 @@ import { AdminConversations, AdminConversationsVariables } from './queries/Admin
 import { QueryLoaderQuery } from './query-loader-prefetcher';
 import { AdminConversationVariables, AdminConversation } from './queries/AdminConversation';
 import { getQuerystringVar } from './querystring';
+import { Helmet } from 'react-helmet-async';
 
 const PHONE_QS_VAR = 'phone';
 
@@ -49,6 +50,9 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const conversation = useQuery(AdminConversation, conversationInput);
 
   return <div className="jf-admin-conversations-wrapper">
+    <Helmet>
+      <html className="jf-is-fullscreen-admin-page"/>
+    </Helmet>
     <div className="jf-conversation-sidebar">
       {conversations?.output?.map(conv => {
         return <Link key={conv.userPhoneNumber}

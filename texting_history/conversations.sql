@@ -34,5 +34,3 @@ FROM
     latest_conversation_msg AS msg
 LEFT JOIN
     users_justfixuser AS usr ON '+1' || usr.phone_number = msg.user_phone_number
-ORDER BY date_sent DESC
-LIMIT %(page_size)s OFFSET %(offset)s

@@ -5,6 +5,7 @@ from django.db import connection
 from django.conf import settings
 import graphene
 
+from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
 from texting.twilio import tendigit_to_e164
 
@@ -33,14 +34,31 @@ class TextMessage(graphene.ObjectType):
 class TextingHistory:
     conversations = graphene.List(
         graphene.NonNull(TextMessage),
+        query=graphene.String(),
         page=graphene.Int(),
     )
 
-    def resolve_conversations(self, info, page: int) -> List[TextMessage]:
+    def resolve_conversations(self, info, query: str, page: int) -> List[TextMessage]:
+        where_clause = ''
+        if ALL_DIGITS_RE.fullmatch(query):
+            where_clause = "WHERE user_phone_number LIKE '+1' || %(query)s || '%%'"
+        elif query:
+            where_clause = (
+                "WHERE (usr.first_name || ' ' || usr.last_name) "
+                "ILIKE '%%' || %(query)s || '%%'"
+            )
+
         with connection.cursor() as cursor:
-            cursor.execute(CONVERSATIONS_SQL_FILE.read_text(), {
+            sql = '\n'.join([
+                CONVERSATIONS_SQL_FILE.read_text(),
+                where_clause,
+                "ORDER BY date_sent DESC",
+                "LIMIT %(page_size)s OFFSET %(offset)s"
+            ])
+            cursor.execute(sql, {
                 'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
                 'offset': (page - 1) * PAGE_SIZE,
                 'page_size': PAGE_SIZE,
+                'query': query,
             })
             return [TextMessage(**row) for row in generate_json_rows(cursor)]

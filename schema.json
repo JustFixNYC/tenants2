@@ -70,6 +70,16 @@
                 {
                   "defaultValue": null,
                   "description": null,
+                  "name": "query",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
                   "name": "page",
                   "type": {
                     "kind": "SCALAR",

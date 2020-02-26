@@ -37,7 +37,6 @@ class TextingHistory:
     )
 
     def resolve_conversations(self, info, page: int) -> List[TextMessage]:
-        # queryset = models.Message.objects.filter().order_by('-date_sent')
         with connection.cursor() as cursor:
             cursor.execute(CONVERSATIONS_SQL_FILE.read_text(), {
                 'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
@@ -45,19 +44,3 @@ class TextingHistory:
                 'page_size': PAGE_SIZE,
             })
             return [TextMessage(**row) for row in generate_json_rows(cursor)]
-
-        # queryset = models.Message.objects.raw()
-        # paginator = Paginator(queryset, per_page=PAGE_SIZE)
-        # messages = paginator.get_page(page).object_list
-        # our_number = tendigit_to_e164(settings.TWILIO_PHONE_NUMBER)
-        # result: List[TextMessage] = []
-        # for msg in messages:
-        #     is_from_us = msg.from_number == our_number
-        #     result.append(TextMessage(
-        #         sid=msg.sid,
-        #         date_sent=msg.date_sent,
-        #         is_from_us=is_from_us,
-        #         body=msg.body,
-        #         user_phone_number=msg.to_number if is_from_us else msg.from_number,
-        #     ))
-        # return result

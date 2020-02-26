@@ -23,6 +23,7 @@ class JustfixAdminSite(admin.AdminSite):
         urls = super().get_urls()
         my_urls = [
             path('login/', react_rendered_view),
+            path('conversations/', react_rendered_view),
             *self.dashboard_views.get_urls(),
             *self.download_data_views.get_urls(),
             *self.loc_views.get_urls(),

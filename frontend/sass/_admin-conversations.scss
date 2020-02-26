@@ -9,18 +9,18 @@
         width: 30em;
         overflow-y: auto;
 
-        > div:not(:last-child) {
+        > a:not(:last-child) {
             border-bottom: 1px solid lightgray;
         }
 
-        > div {
+        > a {
+            display: block;
+            color: inherit;
             padding: 8px;
             overflow-x: hidden;
-            user-select: none;
-            cursor: pointer;
         }
 
-        > div:hover {
+        > a:hover {
             background-color: #f0f0f0;
         }
     }

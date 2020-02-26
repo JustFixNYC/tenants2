@@ -1,10 +1,13 @@
 import React, { useEffect, useContext, useState, useMemo } from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
 import Routes from "./routes";
 import { AppContext } from './app-context';
 import { AdminConversations, AdminConversationsVariables } from './queries/AdminConversations';
 import { QueryLoaderQuery } from './query-loader-prefetcher';
 import { AdminConversationVariables, AdminConversation } from './queries/AdminConversation';
+import { getQuerystringVar } from './querystring';
+
+const PHONE_QS_VAR = 'phone';
 
 function useQuery<Input, Output>(query: QueryLoaderQuery<Input, Output>, input: Input|null): Output|null {
   const [value, setValue] = useState<Output|null>(null);
@@ -23,13 +26,17 @@ function useQuery<Input, Output>(query: QueryLoaderQuery<Input, Output>, input: 
   return value;
 }
 
-const AdminConversationsPage: React.FC<{}> = (props) => {
+function makeConversationURL(phoneNumber: string): string {
+  return Routes.adminConversations + `?${PHONE_QS_VAR}=${encodeURIComponent(phoneNumber)}`;
+}
+
+const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
+  const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
     query: '',
     page: 1,
   }), []);
   const conversations = useQuery(AdminConversations, conversationsInput);
-  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<string|null>(null);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
     page: 1,
@@ -39,11 +46,11 @@ const AdminConversationsPage: React.FC<{}> = (props) => {
   return <div className="jf-admin-conversations-wrapper">
     <div className="jf-conversation-sidebar">
       {conversations?.output?.map(conv => {
-        return <div key={conv.userPhoneNumber}
-                    onClick={() => setSelectedPhoneNumber(conv.userPhoneNumber)}>
+        return <Link key={conv.userPhoneNumber}
+                     to={makeConversationURL(conv.userPhoneNumber)}>
           <div>{conv.userPhoneNumber}</div>
           <div>{conv.body}</div>
-        </div>
+        </Link>
       }) || <p>Loading...</p>}
     </div>
     <div className="jf-current-conversation">

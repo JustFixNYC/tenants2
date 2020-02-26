@@ -32,6 +32,15 @@
         .jf-body {
             color: gray;
         }
+
+        > a.jf-selected {
+            color: $primary-invert;
+            background: $primary;
+
+            .jf-body {
+                color: inherit;
+            }
+        }
     }
 
     .jf-current-conversation {

@@ -52,6 +52,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     <div className="jf-conversation-sidebar">
       {conversations?.output?.map(conv => {
         return <Link key={conv.userPhoneNumber}
+                     className={conv.userPhoneNumber === selectedPhoneNumber ? 'jf-selected' : ''}
                      to={makeConversationURL(conv.userPhoneNumber)}>
           <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
           <div className="jf-body">{conv.body}</div>

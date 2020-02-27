@@ -12,10 +12,6 @@ import classnames from 'classnames';
 
 const PHONE_QS_VAR = 'phone';
 
-type UseQueryOptions = Partial<{
-  resetOnChange: boolean
-}>;
-
 type UseQueryResult<Output> = {
   value: Output|null,
   isLoading: boolean
@@ -24,7 +20,6 @@ type UseQueryResult<Output> = {
 function useQuery<Input, Output>(
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
-  options: UseQueryOptions = {}
 ): UseQueryResult<Output> {
   const [value, setValue] = useState<Output|null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -33,9 +28,6 @@ function useQuery<Input, Output>(
 
   useEffect(() => {
     let isMounted = true;
-    if (options.resetOnChange) {
-      setValue(null);
-    }
     if (input !== null) {
       setIsLoading(true);
       const result = query.fetch(fetch, input);

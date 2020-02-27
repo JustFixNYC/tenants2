@@ -82,9 +82,10 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     phoneNumber: selectedPhoneNumber,
     page: 1,
   } : null, [selectedPhoneNumber]);
-  const conversation = useQuery(AdminConversation, conversationInput, {resetOnChange: true}).value;
-  const convMsgs = conversation?.output || [];
-  const user = conversation?.userDetails;
+  const conversation = useQuery(AdminConversation, conversationInput);
+  const convStalenessClasses = {'jf-is-stale-result': conversation.isLoading, 'jf-can-be-stale': true};
+  const convMsgs = conversation.value?.output || [];
+  const user = conversation.value?.userDetails;
   const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
 
   return <div className="jf-admin-conversations-wrapper">
@@ -99,7 +100,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
           conversations.value.output.length > 0 ?
             conversations.value.output.map(conv => {
               return <Link key={conv.userPhoneNumber}
-                          className={classnames({
+                          className={classnames('jf-can-be-stale', {
                             'jf-selected': conv.userPhoneNumber === selectedPhoneNumber,
                             'jf-is-stale-result': conversations.isLoading,
                           })}
@@ -120,8 +121,8 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     </div>
     <div className="jf-current-conversation">
       {selectedPhoneNumber ? <>
-        {conversation ? <>
-          <div className="jf-user-details content">
+        {conversation.value ? <>
+          <div className={classnames("jf-user-details content", convStalenessClasses)}>
             <h1>Conversation with {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}</h1>
             {user ? <>
               {userFullName && <p>This user's phone number is {friendlyPhoneNumber(selectedPhoneNumber)}.</p>}
@@ -132,7 +133,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
                 <a href={whoOwnsWhatURL(user.onboardingInfo.padBbl)} className="button is-small" target="_blank" rel="noopener noreferrer">View user's building in WoW</a>}
             </> : <p>This phone number does not seem to have an account with us.</p>}
           </div>
-          <div className="jf-messages">
+          <div className={classnames("jf-messages", convStalenessClasses)} >
             {convMsgs.length ? convMsgs.map(msg => {
               return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
                 <div title={`This message was sent on ${msg.dateSent}.`}>

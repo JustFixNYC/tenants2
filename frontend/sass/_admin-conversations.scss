@@ -13,6 +13,14 @@
         justify-content: center;
     }
 
+    .jf-can-be-stale {
+        transition: opacity 0.5s;
+    }
+
+    .jf-is-stale-result {
+        opacity: 0.5;
+    }
+
     .jf-conversation-sidebar {
         display: flex;
         flex-direction: column;
@@ -41,11 +49,6 @@
             color: inherit;
             padding: 8px;
             background: white;
-            transition: opacity 1s;
-        }
-
-        > a.jf-is-stale-result {
-            opacity: 0.5;
         }
 
         > a:hover {

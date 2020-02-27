@@ -15,6 +15,8 @@ const PHONE_QS_VAR = 'phone';
 
 const REFRESH_INTERVAL_MS = 3000;
 
+const DEBOUNCE_MS = 250;
+
 type UseQueryResult<Output> = {
   value: Output|null,
   isLoading: boolean
@@ -80,24 +82,31 @@ function useQuery<Input, Output>(
 
   useEffect(() => {
     let isMounted = true;
+    let debounceTimeout: null|number = null;
     if (input !== null) {
       if (input !== prevInput) {
         setIsLoading(true);
       }
+
       if (latestTimestamp !== undefined) {
-        const result = query.fetch(fetch, input);
-        console.log("LOAD!", latestTimestamp, JSON.stringify(input), JSON.stringify(prevInput));
-        result.then(v => {
-          if (isMounted) {
-            setValue(v);
-            setIsLoading(false);
-          }
-        });
+        debounceTimeout = window.setTimeout(() => {
+          const result = query.fetch(fetch, input);
+          // console.log("LOAD!", latestTimestamp, JSON.stringify(input), JSON.stringify(prevInput));
+          result.then(v => {
+            if (isMounted) {
+              setValue(v);
+              setIsLoading(false);
+            }
+          });
+          // TODO: Deal w/ exceptions.
+        }, DEBOUNCE_MS);
       }
-      // TODO: Deal w/ exceptions.
     }
     return () => {
       isMounted = false;
+      if (debounceTimeout !== null) {
+        window.clearTimeout(debounceTimeout);
+      }
     };
   }, [fetch, input, prevInput, latestTimestamp]);
 

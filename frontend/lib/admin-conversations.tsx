@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useMemo } from 'react';
+import React, { useEffect, useContext, useState, useMemo, useRef } from 'react';
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
 import Routes from "./routes";
 import { AppContext } from './app-context';
@@ -9,10 +9,11 @@ import { getQuerystringVar } from './querystring';
 import { Helmet } from 'react-helmet-async';
 import { whoOwnsWhatURL } from './wow-link';
 import classnames from 'classnames';
+import { UpdateTextingHistoryMutation } from './queries/UpdateTextingHistoryMutation';
 
 const PHONE_QS_VAR = 'phone';
 
-const REFRESH_INTERVAL_MS = 10000;
+const REFRESH_INTERVAL_MS = 3000;
 
 type UseQueryResult<Output> = {
   value: Output|null,
@@ -25,45 +26,80 @@ function niceTimestamp(isoDate: string): string {
   return localeDate.replace(/(\:\d\d) /, ' ');
 }
 
-function useQuery<Input, Output>(
-  query: QueryLoaderQuery<Input, Output>,
-  input: Input|null,
-): UseQueryResult<Output> {
-  const [value, setValue] = useState<Output|null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const appCtx = useContext(AppContext);
-  const { fetch } = appCtx;
+function useLatestMessageTimestamp(): string|null|undefined {
+  const [value, setValue] = useState<string|undefined>(undefined);
+  const { fetch } = useContext(AppContext);
 
   useEffect(() => {
     let isMounted = true;
     let refreshTimeout: number|null = null;
-    if (input !== null) {
-      setIsLoading(true);
 
-      const refreshData = () => {
-        const result = query.fetch(fetch, input);
-        result.then(v => {
-          if (isMounted) {
-            setValue(v);
-            setIsLoading(false);
-          }
-        }).finally(() => {
-          if (isMounted) {
-            refreshTimeout = window.setTimeout(refreshData, REFRESH_INTERVAL_MS);
-          }
-        });
-        // TODO: Deal w/ exceptions.
-      };
+    const refreshData = async () => {
+      try {
+        const result = await UpdateTextingHistoryMutation.fetch(fetch);
+        isMounted && setValue(result.output.latestMessage);
+      } finally {
+        if (isMounted) {
+          refreshTimeout = window.setTimeout(refreshData, REFRESH_INTERVAL_MS);
+        }
+      }
+    };
 
-      refreshData();
-    }
+    // TODO: Do something if this throws?
+    refreshData();
+
     return () => {
       isMounted = false;
       if (refreshTimeout !== null) {
         window.clearTimeout(refreshTimeout);
       }
     };
-  }, [fetch, input]);
+  }, [fetch]);
+
+  return value;
+}
+
+// https://blog.logrocket.com/how-to-get-previous-props-state-with-react-hooks/
+function usePrevious<T>(value: T): T|undefined {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+function useQuery<Input, Output>(
+  query: QueryLoaderQuery<Input, Output>,
+  input: Input|null,
+  latestTimestamp: string|null|undefined,
+): UseQueryResult<Output> {
+  const [value, setValue] = useState<Output|null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const prevInput = usePrevious(input);
+  const { fetch } = useContext(AppContext);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (input !== null) {
+      if (input !== prevInput) {
+        setIsLoading(true);
+      }
+      if (latestTimestamp !== undefined) {
+        const result = query.fetch(fetch, input);
+        console.log("LOAD!", latestTimestamp, JSON.stringify(input), JSON.stringify(prevInput));
+        result.then(v => {
+          if (isMounted) {
+            setValue(v);
+            setIsLoading(false);
+          }
+        });
+      }
+      // TODO: Deal w/ exceptions.
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [fetch, input, prevInput, latestTimestamp]);
 
   return {value, isLoading};
 }
@@ -93,12 +129,13 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     query,
     page: 1,
   }), [query]);
-  const conversations = useQuery(AdminConversations, conversationsInput);
+  const latestMsgTimestamp = useLatestMessageTimestamp();
+  const conversations = useQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
     page: 1,
   } : null, [selectedPhoneNumber]);
-  const conversation = useQuery(AdminConversation, conversationInput);
+  const conversation = useQuery(AdminConversation, conversationInput, latestMsgTimestamp);
   const convStalenessClasses = {'jf-is-stale-result': conversation.isLoading, 'jf-can-be-stale': true};
   const convMsgs = conversation.value?.output || [];
   const user = conversation.value?.userDetails;

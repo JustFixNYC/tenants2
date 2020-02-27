@@ -19,6 +19,12 @@ type UseQueryResult<Output> = {
   isLoading: boolean
 };
 
+function niceTimestamp(isoDate: string): string {
+  const date = new Date(Date.parse(isoDate));
+  const localeDate = date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+  return localeDate.replace(/(\:\d\d) /, ' ');
+}
+
 function useQuery<Input, Output>(
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
@@ -115,7 +121,10 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
                             'jf-is-stale-result': conversations.isLoading,
                           })}
                           to={makeConversationURL(conv.userPhoneNumber)}>
-                <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
+                <div className="jf-heading">
+                  <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
+                  <div className="jf-date">{niceTimestamp(conv.dateSent)}</div>
+                </div>
                 <div className="jf-body">{conv.body}</div>
               </Link>
             })
@@ -137,7 +146,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
             {user ? <>
               {userFullName && <p>This user's phone number is {friendlyPhoneNumber(selectedPhoneNumber)}.</p>}
               {user.onboardingInfo && <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>}
-              {user.letterRequest && <p>The user completed a letter of complaint on {user.letterRequest.updatedAt}.</p>}
+              {user.letterRequest && <p>The user completed a letter of complaint on {niceTimestamp(user.letterRequest.updatedAt)}.</p>}
               <a href={user.adminUrl} className="button is-small" target="_blank">Edit user</a>
               {user.onboardingInfo?.padBbl &&
                 <a href={whoOwnsWhatURL(user.onboardingInfo.padBbl)} className="button is-small" target="_blank" rel="noopener noreferrer">View user's building in WoW</a>}
@@ -146,7 +155,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
           <div className={classnames("jf-messages", convStalenessClasses)} >
             {convMsgs.length ? convMsgs.map(msg => {
               return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
-                <div title={`This message was sent on ${msg.dateSent}.`}>
+                <div title={`This message was sent on ${niceTimestamp(msg.dateSent)}.`}>
                   {msg.body}
                 </div>
               </div>

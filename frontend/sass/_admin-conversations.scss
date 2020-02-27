@@ -55,9 +55,14 @@
             background-color: #f0f0f0;
         }
 
+        .jf-heading {
+            display: flex;
+            margin-bottom: 0.5em;
+            justify-content: space-between;
+        }
+
         .jf-tenant {
             font-weight: bold;
-            margin-bottom: 0.5em;
         }
 
         .jf-body {

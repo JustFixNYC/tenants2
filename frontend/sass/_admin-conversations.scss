@@ -5,10 +5,24 @@
     margin-top: 20px;
     border: 1px solid lightgray;
 
+    .jf-loading-message {
+        padding: 8px;
+    }
+
     .jf-conversation-sidebar {
         min-width: 30em;
         width: 30em;
         overflow-y: auto;
+
+        .jf-search {
+            display: block;
+            width: 100%;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid lightgray;
+            padding: 8px;
+        }
 
         > a:not(:last-child) {
             border-bottom: 1px solid lightgray;

@@ -37,12 +37,22 @@ function friendlyPhoneNumber(phoneNumber: string): string {
   return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
 }
 
+function normalizeQuery(query: string): string {
+  if (/^[ ()\-\d]+$/.test(query)) {
+    // It's a phone number, remove all the non-digit characters.
+    query = query.replace(/[^\d]/g, '');
+  }
+  return query.trim();
+}
+
 const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
+  const [rawQuery, setRawQuery] = useState('');
+  const query = normalizeQuery(rawQuery);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
-    query: '',
+    query,
     page: 1,
-  }), []);
+  }), [query]);
   const conversations = useQuery(AdminConversations, conversationsInput);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
@@ -58,6 +68,8 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
       <html className="jf-is-fullscreen-admin-page"/>
     </Helmet>
     <div className="jf-conversation-sidebar">
+      <input className="jf-search" type="text" placeholder="🔎 Search by name or phone number"
+             value={rawQuery} onChange={e => setRawQuery(e.target.value)} />
       {conversations?.output?.map(conv => {
         return <Link key={conv.userPhoneNumber}
                      className={conv.userPhoneNumber === selectedPhoneNumber ? 'jf-selected' : ''}
@@ -65,7 +77,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
           <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
           <div className="jf-body">{conv.body}</div>
         </Link>
-      }) || <p>Loading...</p>}
+      }) || <div className="jf-loading-message">Loading conversations...</div>}
     </div>
     <div className="jf-current-conversation">
       {selectedPhoneNumber && <>

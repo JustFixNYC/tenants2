@@ -3274,6 +3274,22 @@
           "enumValues": null,
           "fields": [
             {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "updateTextingHistory",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UpdateTextingHistory",
+                  "ofType": null
+                }
+              }
+            },
+            {
               "args": [
                 {
                   "defaultValue": null,
@@ -4332,6 +4348,29 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "Mutations",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "latestMessage",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UpdateTextingHistory",
           "possibleTypes": null
         },
         {

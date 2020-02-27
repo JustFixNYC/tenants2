@@ -5,6 +5,7 @@ from django.db import connection
 from django.conf import settings
 from graphql import GraphQLError, ResolveInfo
 import graphene
+from graphene import Mutation
 from graphene_django.types import DjangoObjectType
 
 from project import schema_registry
@@ -13,6 +14,7 @@ from twofactor.util import is_request_user_verified
 from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
 from texting.twilio import tendigit_to_e164
+from .management.commands.update_texting_history import update_texting_history
 
 MY_DIR = Path(__file__).parent.resolve()
 
@@ -168,3 +170,12 @@ class TextingHistory:
         phone_number=graphene.String(),
         resolver=resolve_user_admin_details,
     )
+
+
+@schema_registry.register_mutation
+class UpdateTextingHistory(Mutation):
+    latest_message = graphene.DateTime()
+
+    def mutate(root, info):
+        latest_message = update_texting_history(silent=True)
+        return UpdateTextingHistory(latest_message=latest_message)

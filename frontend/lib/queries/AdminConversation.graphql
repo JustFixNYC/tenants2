@@ -2,4 +2,8 @@ query AdminConversation($phoneNumber: String!, $page: Int!) {
     output: conversation(phoneNumber: $phoneNumber, page: $page) {
         ...TextMessage
     }
+
+    userDetails(phoneNumber: $phoneNumber) {
+        ...JustfixUserType
+    }
 }

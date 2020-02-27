@@ -1,13 +1,14 @@
-from typing import List
+from typing import List, Optional
 from functools import wraps
 from pathlib import Path
 from django.db import connection
 from django.conf import settings
 from graphql import GraphQLError, ResolveInfo
 import graphene
+from graphene_django.types import DjangoObjectType
 
 from project import schema_registry
-from users.models import VIEW_TEXT_MESSAGE_PERMISSION
+from users.models import VIEW_TEXT_MESSAGE_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
 from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
@@ -38,6 +39,25 @@ class LatestTextMessage(TextMessage):
     user_full_name = graphene.String()
 
     user_id = graphene.Int()
+
+
+class JustfixUserType(DjangoObjectType):
+    class Meta:
+        model = JustfixUser
+        only_fields = (
+            'id',
+            'username',
+            'phone_number',
+            'first_name',
+            'last_name',
+            'onboarding_info',
+            'letter_request',
+        )
+
+    admin_url = graphene.String(required=True)
+
+    def resolve_admin_url(self, info):
+        return self.admin_url
 
 
 def ensure_request_has_verified_user_with_permission(fn):
@@ -105,6 +125,28 @@ def resolve_conversations(parent, info, query: str, page: int) -> List[LatestTex
         return [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
 
 
+@ensure_request_has_verified_user_with_permission
+def resolve_user_admin_details(parent, info, phone_number: str) -> Optional[JustfixUser]:
+    phone_number = normalize_phone_number(phone_number)
+    return JustfixUser.objects.filter(phone_number=phone_number).first()
+
+
+def normalize_phone_number(phone_number: str) -> str:
+    '''
+    Given either a 10-digit phone number or a U.S. phone number in E.164 format,
+    returns its 10-digit representation.
+
+    >>> normalize_phone_number('5551234567')
+    '5551234567'
+    >>> normalize_phone_number('+15551234567')
+    '5551234567'
+    '''
+
+    if phone_number.startswith('+1'):
+        phone_number = phone_number[2:]
+    return phone_number
+
+
 @schema_registry.register_queries
 class TextingHistory:
     conversations = graphene.List(
@@ -119,4 +161,10 @@ class TextingHistory:
         phone_number=graphene.String(),
         page=graphene.Int(),
         resolver=resolve_conversation,
+    )
+
+    user_details = graphene.Field(
+        JustfixUserType,
+        phone_number=graphene.String(),
+        resolver=resolve_user_admin_details,
     )

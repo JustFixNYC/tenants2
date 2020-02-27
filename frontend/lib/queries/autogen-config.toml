@@ -46,6 +46,9 @@ fragmentName = "TextMessage"
 [types.LatestTextMessage]
 fragmentName = "LatestTextMessage"
 
+[types.JustfixUserType]
+fragmentName = "JustfixUserType"
+
 [types.DDOSuggestionsResult]
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true

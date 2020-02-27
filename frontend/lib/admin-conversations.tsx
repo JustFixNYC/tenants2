@@ -12,6 +12,8 @@ import classnames from 'classnames';
 
 const PHONE_QS_VAR = 'phone';
 
+const REFRESH_INTERVAL_MS = 10000;
+
 type UseQueryResult<Output> = {
   value: Output|null,
   isLoading: boolean
@@ -28,17 +30,33 @@ function useQuery<Input, Output>(
 
   useEffect(() => {
     let isMounted = true;
+    let refreshTimeout: number|null = null;
     if (input !== null) {
       setIsLoading(true);
-      const result = query.fetch(fetch, input);
-      result.then(v => {
-        if (isMounted) {
-          setValue(v);
-          setIsLoading(false);
-        }
-      });
+
+      const refreshData = () => {
+        const result = query.fetch(fetch, input);
+        result.then(v => {
+          if (isMounted) {
+            setValue(v);
+            setIsLoading(false);
+          }
+        }).finally(() => {
+          if (isMounted) {
+            refreshTimeout = window.setTimeout(refreshData, REFRESH_INTERVAL_MS);
+          }
+        });
+        // TODO: Deal w/ exceptions.
+      };
+
+      refreshData();
     }
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+      if (refreshTimeout !== null) {
+        window.clearTimeout(refreshTimeout);
+      }
+    };
   }, [fetch, input]);
 
   return {value, isLoading};

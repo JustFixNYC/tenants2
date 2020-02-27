@@ -5,14 +5,22 @@
     margin-top: 20px;
     border: 1px solid lightgray;
 
-    .jf-loading-message {
-        padding: 8px;
+    .jf-empty-panel {
+        background: #f0f0f0;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .jf-conversation-sidebar {
+        display: flex;
+        flex-direction: column;
         min-width: 30em;
         width: 30em;
+        overflow-x: hidden;
         overflow-y: auto;
+        background: #f0f0f0;
 
         .jf-search {
             display: block;
@@ -32,7 +40,12 @@
             display: block;
             color: inherit;
             padding: 8px;
-            overflow-x: hidden;
+            background: white;
+            transition: opacity 1s;
+        }
+
+        > a.jf-is-stale-result {
+            opacity: 0.5;
         }
 
         > a:hover {
@@ -62,6 +75,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
+        border-left: 1px solid darkgray;
 
         .jf-user-details {
             padding: 1em;

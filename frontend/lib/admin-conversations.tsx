@@ -8,24 +8,48 @@ import { AdminConversationVariables, AdminConversation } from './queries/AdminCo
 import { getQuerystringVar } from './querystring';
 import { Helmet } from 'react-helmet-async';
 import { whoOwnsWhatURL } from './wow-link';
+import classnames from 'classnames';
 
 const PHONE_QS_VAR = 'phone';
 
-function useQuery<Input, Output>(query: QueryLoaderQuery<Input, Output>, input: Input|null): Output|null {
+type UseQueryOptions = Partial<{
+  resetOnChange: boolean
+}>;
+
+type UseQueryResult<Output> = {
+  value: Output|null,
+  isLoading: boolean
+};
+
+function useQuery<Input, Output>(
+  query: QueryLoaderQuery<Input, Output>,
+  input: Input|null,
+  options: UseQueryOptions = {}
+): UseQueryResult<Output> {
   const [value, setValue] = useState<Output|null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const appCtx = useContext(AppContext);
   const { fetch } = appCtx;
 
   useEffect(() => {
     let isMounted = true;
+    if (options.resetOnChange) {
+      setValue(null);
+    }
     if (input !== null) {
+      setIsLoading(true);
       const result = query.fetch(fetch, input);
-      result.then(v => isMounted && setValue(v));
+      result.then(v => {
+        if (isMounted) {
+          setValue(v);
+          setIsLoading(false);
+        }
+      });
     }
     return () => { isMounted = false; };
   }, [fetch, input]);
 
-  return value;
+  return {value, isLoading};
 }
 
 function makeConversationURL(phoneNumber: string): string {
@@ -58,7 +82,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     phoneNumber: selectedPhoneNumber,
     page: 1,
   } : null, [selectedPhoneNumber]);
-  const conversation = useQuery(AdminConversation, conversationInput);
+  const conversation = useQuery(AdminConversation, conversationInput, {resetOnChange: true}).value;
   const convMsgs = conversation?.output || [];
   const user = conversation?.userDetails;
   const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
@@ -70,38 +94,57 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     <div className="jf-conversation-sidebar">
       <input className="jf-search" type="text" placeholder="🔎 Search by name or phone number"
              value={rawQuery} onChange={e => setRawQuery(e.target.value)} />
-      {conversations?.output?.map(conv => {
-        return <Link key={conv.userPhoneNumber}
-                     className={conv.userPhoneNumber === selectedPhoneNumber ? 'jf-selected' : ''}
-                     to={makeConversationURL(conv.userPhoneNumber)}>
-          <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
-          <div className="jf-body">{conv.body}</div>
-        </Link>
-      }) || <div className="jf-loading-message">Loading conversations...</div>}
+      {conversations.value ?
+        conversations.value.output ?
+          conversations.value.output.length > 0 ?
+            conversations.value.output.map(conv => {
+              return <Link key={conv.userPhoneNumber}
+                          className={classnames({
+                            'jf-selected': conv.userPhoneNumber === selectedPhoneNumber,
+                            'jf-is-stale-result': conversations.isLoading,
+                          })}
+                          to={makeConversationURL(conv.userPhoneNumber)}>
+                <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
+                <div className="jf-body">{conv.body}</div>
+              </Link>
+            })
+          : <div className="jf-empty-panel"><p>{
+              conversations.isLoading ?
+                "Loading conversations..."
+              : query ?
+                "Alas, your search criteria yielded no results."
+              : "Alas, there are no conversations."
+            }</p></div>
+        : <div className="jf-empty-panel"><p>An error occurred when retrieving conversations.</p></div>
+      : <div className="jf-empty-panel"><p>Loading conversations...</p></div>}
     </div>
     <div className="jf-current-conversation">
-      {selectedPhoneNumber && <>
-        <div className="jf-user-details content">
-          <h1>Conversation with {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}</h1>
-          {user ? <>
-            {userFullName && <p>This user's phone number is {friendlyPhoneNumber(selectedPhoneNumber)}.</p>}
-            {user.onboardingInfo && <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>}
-            {user.letterRequest && <p>The user completed a letter of complaint on {user.letterRequest.updatedAt}.</p>}
-            <a href={user.adminUrl} className="button is-small" target="_blank">Edit user</a>
-            {user.onboardingInfo?.padBbl &&
-              <a href={whoOwnsWhatURL(user.onboardingInfo.padBbl)} className="button is-small" target="_blank" rel="noopener noreferrer">View user's building in WoW</a>}
-          </> : <p>This phone number does not seem to have an account with us.</p>}
-        </div>
-        <div className="jf-messages">
-          {convMsgs.length ? convMsgs.map(msg => {
-            return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
-              <div title={`This message was sent on ${msg.dateSent}.`}>
-                {msg.body}
+      {selectedPhoneNumber ? <>
+        {conversation ? <>
+          <div className="jf-user-details content">
+            <h1>Conversation with {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}</h1>
+            {user ? <>
+              {userFullName && <p>This user's phone number is {friendlyPhoneNumber(selectedPhoneNumber)}.</p>}
+              {user.onboardingInfo && <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>}
+              {user.letterRequest && <p>The user completed a letter of complaint on {user.letterRequest.updatedAt}.</p>}
+              <a href={user.adminUrl} className="button is-small" target="_blank">Edit user</a>
+              {user.onboardingInfo?.padBbl &&
+                <a href={whoOwnsWhatURL(user.onboardingInfo.padBbl)} className="button is-small" target="_blank" rel="noopener noreferrer">View user's building in WoW</a>}
+            </> : <p>This phone number does not seem to have an account with us.</p>}
+          </div>
+          <div className="jf-messages">
+            {convMsgs.length ? convMsgs.map(msg => {
+              return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
+                <div title={`This message was sent on ${msg.dateSent}.`}>
+                  {msg.body}
+                </div>
               </div>
-            </div>
-          }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
-        </div>
-      </>}
+            }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
+          </div>
+        </> : <div className="jf-empty-panel"><p>Loading conversation for {friendlyPhoneNumber(selectedPhoneNumber)}...</p></div>}
+      </> : <div className="jf-empty-panel"><p>{
+        (conversations?.value?.output?.length || 0) > 0 && "Please choose a conversation on the sidebar to the left."
+      }</p></div>}
     </div>
   </div>;
 };

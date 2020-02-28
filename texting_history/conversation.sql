@@ -3,7 +3,8 @@ SELECT
     ordering,
     date_sent,
     is_from_us,
-    body
+    body,
+    error_message
 FROM
     texting_history_message
 WHERE

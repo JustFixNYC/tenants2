@@ -5,6 +5,7 @@ WITH latest_conversation_msg AS (
         last_value(date_sent) OVER wnd AS date_sent,
         last_value(is_from_us) OVER wnd AS is_from_us,
         last_value(body) OVER wnd AS body,
+        last_value(error_message) OVER wnd AS error_message,
         user_phone_number
     FROM
         texting_history_message

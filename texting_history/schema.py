@@ -34,6 +34,8 @@ class TextMessage(graphene.ObjectType):
 
     body = graphene.String(required=True)
 
+    error_message = graphene.String()
+
 
 class LatestTextMessage(TextMessage):
     user_phone_number = graphene.String(required=True)

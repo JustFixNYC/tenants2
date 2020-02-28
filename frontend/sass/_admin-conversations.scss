@@ -99,29 +99,33 @@
             overflow-y: auto;
             flex: 1;
 
-            > div {
+            > .jf-sms {
                 padding: 1em 0;
                 max-width: 80%;
             }
 
-            > div > div {
+            > .jf-sms > .jf-sms-body {
                 display: inline-block;
                 padding: 8px;
                 border-radius: 8px;
             }
 
-            .jf-from-us > div {
+            .jf-sms.jf-from-us > .jf-sms-body {
                 background: $primary;
                 color: $primary-invert;
             }
 
-            .jf-to-us {
+            .jf-sms.jf-to-us {
                 align-self: flex-end;
                 text-align: right;
             }
 
-            .jf-to-us > div {
+            .jf-to-us > .jf-sms-body {
                 background: #f0f0f0;
+            }
+
+            .jf-sms-error {
+                color: red;
             }
         }
     }

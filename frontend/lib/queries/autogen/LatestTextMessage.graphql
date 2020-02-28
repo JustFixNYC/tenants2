@@ -5,6 +5,7 @@ fragment LatestTextMessage on LatestTextMessage {
   ordering,
   isFromUs,
   body,
+  errorMessage,
   userPhoneNumber,
   userFullName,
   userId

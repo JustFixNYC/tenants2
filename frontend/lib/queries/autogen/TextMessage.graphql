@@ -4,5 +4,6 @@ fragment TextMessage on TextMessage {
   dateSent,
   ordering,
   isFromUs,
-  body
+  body,
+  errorMessage
 }

@@ -172,7 +172,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
                           })}
                           to={makeConversationURL(conv.userPhoneNumber)}>
                 <div className="jf-heading">
-                  <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)}</div>
+                  <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)} {conv.errorMessage && '❌'}</div>
                   <div className="jf-date">{niceTimestamp(conv.dateSent)}</div>
                 </div>
                 <div className="jf-body">{conv.body}</div>
@@ -204,10 +204,12 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
           </div>
           <div className={classnames("jf-messages", convStalenessClasses)} >
             {convMsgs.length ? convMsgs.map(msg => {
-              return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
-                <div title={`This message was sent on ${niceTimestamp(msg.dateSent, {seconds: true})}.`}>
+              return <div key={msg.sid} className={classnames(msg.isFromUs ? 'jf-from-us' : 'jf-to-us', 'jf-sms')}>
+                <div className="jf-sms-body"
+                     title={`This message was sent on ${niceTimestamp(msg.dateSent, {seconds: true})}.`}>
                   {msg.body}
                 </div>
+                {msg.errorMessage && <div className="jf-sms-error">Error sending SMS: {msg.errorMessage}</div>}
               </div>
             }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
           </div>

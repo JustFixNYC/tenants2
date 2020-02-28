@@ -403,6 +403,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "errorMessage",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "userPhoneNumber",
               "type": {
                 "kind": "NON_NULL",
@@ -577,6 +589,18 @@
                   "name": "String",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errorMessage",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               }
             }
           ],

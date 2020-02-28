@@ -134,30 +134,14 @@ function normalizeQuery(query: string): string {
   return query.trim();
 }
 
-const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
-  const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
-  const [rawQuery, setRawQuery] = useState('');
-  const query = normalizeQuery(rawQuery);
-  const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
-    query,
-    page: 1,
-  }), [query]);
-  const latestMsgTimestamp = useLatestMessageTimestamp();
-  const conversations = useQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
-  const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
-    phoneNumber: selectedPhoneNumber,
-    page: 1,
-  } : null, [selectedPhoneNumber]);
-  const conversation = useQuery(AdminConversation, conversationInput, latestMsgTimestamp);
-  const convStalenessClasses = {'jf-is-stale-result': conversation.isLoading, 'jf-can-be-stale': true};
-  const convMsgs = conversation.value?.output || [];
-  const user = conversation.value?.userDetails;
-  const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
-
-  return <div className="jf-admin-conversations-wrapper">
-    <Helmet>
-      <html className="jf-is-fullscreen-admin-page"/>
-    </Helmet>
+const ConversationsSidebar: React.FC<{
+  rawQuery: string,
+  setRawQuery: (value: string) => void,
+  selectedPhoneNumber: string|undefined,
+  query: string,
+  conversations: UseQueryResult<AdminConversations>,
+}> = ({rawQuery, setRawQuery, query, conversations, selectedPhoneNumber}) => {
+  return (
     <div className="jf-conversation-sidebar">
       <input className="jf-search" type="text" placeholder="🔎 Search by name or phone number"
              value={rawQuery} onChange={e => setRawQuery(e.target.value)} />
@@ -188,6 +172,20 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
         : <div className="jf-empty-panel"><p>An error occurred when retrieving conversations.</p></div>
       : <div className="jf-empty-panel"><p>Loading conversations...</p></div>}
     </div>
+  );
+};
+
+const ConversationPanel: React.FC<{
+  selectedPhoneNumber: string|undefined,
+  conversation: UseQueryResult<AdminConversation>,
+  noSelectionMsg: string,
+}> = ({selectedPhoneNumber, conversation, noSelectionMsg}) => {
+  const convStalenessClasses = {'jf-is-stale-result': conversation.isLoading, 'jf-can-be-stale': true};
+  const convMsgs = conversation.value?.output || [];
+  const user = conversation.value?.userDetails;
+  const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
+
+  return (
     <div className="jf-current-conversation">
       {selectedPhoneNumber ? <>
         {conversation.value ? <>
@@ -214,10 +212,35 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
             }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
           </div>
         </> : <div className="jf-empty-panel"><p>Loading conversation for {friendlyPhoneNumber(selectedPhoneNumber)}...</p></div>}
-      </> : <div className="jf-empty-panel"><p>{
-        (conversations?.value?.output?.length || 0) > 0 && "Please choose a conversation on the sidebar to the left."
-      }</p></div>}
+      </> : <div className="jf-empty-panel"><p>{noSelectionMsg}</p></div>}
     </div>
+  );
+};
+
+const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
+  const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
+  const [rawQuery, setRawQuery] = useState('');
+  const query = normalizeQuery(rawQuery);
+  const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
+    query,
+    page: 1,
+  }), [query]);
+  const latestMsgTimestamp = useLatestMessageTimestamp();
+  const conversations = useQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
+  const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
+    phoneNumber: selectedPhoneNumber,
+    page: 1,
+  } : null, [selectedPhoneNumber]);
+  const conversation = useQuery(AdminConversation, conversationInput, latestMsgTimestamp);
+  const noSelectionMsg = (conversations?.value?.output?.length || 0) > 0
+    ? "Please choose a conversation on the sidebar to the left." : "";
+
+  return <div className="jf-admin-conversations-wrapper">
+    <Helmet>
+      <html className="jf-is-fullscreen-admin-page"/>
+    </Helmet>
+    <ConversationsSidebar {...{rawQuery, setRawQuery, query, conversations, selectedPhoneNumber}} />
+    <ConversationPanel {...{selectedPhoneNumber, conversation, noSelectionMsg}} />
   </div>;
 };
 

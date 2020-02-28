@@ -176,6 +176,7 @@ class TextingHistory:
 class UpdateTextingHistory(Mutation):
     latest_message = graphene.DateTime()
 
+    @ensure_request_has_verified_user_with_permission
     def mutate(root, info):
         latest_message = update_texting_history(silent=True)
         return UpdateTextingHistory(latest_message=latest_message)

@@ -22,10 +22,14 @@ type UseQueryResult<Output> = {
   isLoading: boolean
 };
 
-function niceTimestamp(isoDate: string): string {
+type NiceTimestampOptions = Partial<{
+  seconds: boolean,
+}>;
+
+function niceTimestamp(isoDate: string, options: NiceTimestampOptions = {}): string {
   const date = new Date(Date.parse(isoDate));
   const localeDate = date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-  return localeDate.replace(/(\:\d\d) /, ' ');
+  return options.seconds ? localeDate : localeDate.replace(/(\:\d\d) /, ' ');
 }
 
 function useLatestMessageTimestamp(): string|null|undefined {
@@ -201,7 +205,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
           <div className={classnames("jf-messages", convStalenessClasses)} >
             {convMsgs.length ? convMsgs.map(msg => {
               return <div key={msg.sid} className={msg.isFromUs ? 'jf-from-us' : 'jf-to-us'}>
-                <div title={`This message was sent on ${niceTimestamp(msg.dateSent)}.`}>
+                <div title={`This message was sent on ${niceTimestamp(msg.dateSent, {seconds: true})}.`}>
                   {msg.body}
                 </div>
               </div>

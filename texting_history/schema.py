@@ -2,7 +2,6 @@ from typing import List, Optional
 from functools import wraps
 from pathlib import Path
 from django.db import connection
-from django.conf import settings
 from graphql import GraphQLError, ResolveInfo
 import graphene
 from graphene import Mutation
@@ -13,7 +12,6 @@ from users.models import VIEW_TEXT_MESSAGE_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
 from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
-from texting.twilio import tendigit_to_e164
 from .management.commands.update_texting_history import update_texting_history
 
 MY_DIR = Path(__file__).parent.resolve()

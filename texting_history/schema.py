@@ -30,6 +30,8 @@ class TextMessage(graphene.ObjectType):
 
     date_sent = graphene.DateTime(required=True)
 
+    ordering = graphene.Float(required=True)
+
     is_from_us = graphene.Boolean(required=True)
 
     body = graphene.String(required=True)
@@ -96,7 +98,6 @@ def resolve_conversation(parent, info, phone_number: str, page: int) -> List[Tex
             get_sql_limit_clause_for_page(page)
         ])
         cursor.execute(sql, {
-            'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
             'their_number': phone_number,
         })
         return [TextMessage(**row) for row in generate_json_rows(cursor)]
@@ -117,11 +118,10 @@ def resolve_conversations(parent, info, query: str, page: int) -> List[LatestTex
         sql = '\n'.join([
             CONVERSATIONS_SQL_FILE.read_text(),
             where_clause,
-            "ORDER BY date_sent DESC, is_from_us DESC",
+            "ORDER BY ordering DESC",
             get_sql_limit_clause_for_page(page),
         ])
         cursor.execute(sql, {
-            'our_number': tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
             'query': query,
         })
         return [LatestTextMessage(**row) for row in generate_json_rows(cursor)]

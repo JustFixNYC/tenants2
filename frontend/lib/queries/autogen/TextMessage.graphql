@@ -2,6 +2,7 @@
 fragment TextMessage on TextMessage {
   sid,
   dateSent,
+  ordering,
   isFromUs,
   body
 }

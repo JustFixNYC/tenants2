@@ -1,6 +1,6 @@
 from typing import Optional, Tuple, Iterator
 from django.core.management.base import BaseCommand
-from django.db.models import Max, Min, Q
+from django.db.models import Max, Min
 import datetime
 import itertools
 from twilio.rest.api.v2010.account.message import MessageInstance
@@ -30,6 +30,18 @@ def stop_when_older_than(msgs: MessageIterator, when: datetime.datetime) -> Mess
         yield msg
 
 
+def get_ordering_for_sms(sms, is_from_us: bool) -> float:
+    ordering = sms.date_sent.timestamp()
+    if is_from_us:
+        # `date_sent` only has second-precision and our automated replies are often sent
+        # during the same second that Twilio made the HTTP request to us for incoming
+        # messages (which is how the `date_sent` field is defined). So we're going
+        # to increment the ordering if this message is from us, to indicate that it
+        # most likely was sent less than a second after the user's last reply.
+        ordering += 0.1
+    return ordering
+
+
 def update_texting_history(
     backfill: bool = False,
     max_age: Optional[int] = None,
@@ -39,9 +51,9 @@ def update_texting_history(
     client = twilio.get_client()
     our_number = tendigit_to_e164(settings.TWILIO_PHONE_NUMBER)
     earliest_from_us, latest_from_us = get_min_max_date_sent(Message.objects.filter(
-        from_number=our_number))
+        is_from_us=True))
     earliest_to_us, latest_to_us = get_min_max_date_sent(Message.objects.filter(
-        to_number=our_number))
+        is_from_us=False))
     max_age_date = now() - datetime.timedelta(days=max_age)
 
     # The way Twilio's Python client retrieves messages is a bit confusing at first,
@@ -73,11 +85,13 @@ def update_texting_history(
 
     with BatchWriter(Message, ignore_conflicts=True, silent=silent) as writer:
         for sms in all_messages:
+            is_from_us = sms.from_ == our_number
             model = Message(
                 sid=sms.sid,
+                ordering=get_ordering_for_sms(sms, is_from_us),
                 direction=sms.direction,
-                to_number=sms.to,
-                from_number=sms.from_,
+                is_from_us=is_from_us,
+                user_phone_number=sms.to if is_from_us else sms.from_,
                 body=sms.body,
                 status=sms.status,
                 date_created=sms.date_created,
@@ -91,9 +105,7 @@ def update_texting_history(
             model.clean_fields()
             writer.write(model)
 
-    return Message.objects.filter(
-        Q(from_number=our_number) | Q(to_number=our_number)
-    ).aggregate(Max('date_sent'))['date_sent__max']
+    return Message.objects.all().aggregate(Max('date_sent'))['date_sent__max']
 
 
 class Command(BaseCommand):

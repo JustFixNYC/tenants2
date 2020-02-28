@@ -7,24 +7,42 @@ MAX_E164_LEN = 15
 
 
 class Message(models.Model):
+    # Note that most of these fields are taken directly from the Twilio Message
+    # resource, defined in https://www.twilio.com/docs/sms/api/message-resource.
+
     sid = models.CharField(max_length=TWILIO_SID_LENGTH, primary_key=True)
+
+    # This allows us to easily order the text messages chronologically, without
+    # having to deal with the fact that `date_sent` only has second-precision
+    # and our automated replies are often sent during the same second that
+    # Twilio made the HTTP request to us for incoming messages (which is how the
+    # `date_sent` field is defined).
+    ordering = models.FloatField()
+
     body = models.TextField()
 
     # Longest status is "partially_delivered" (19 characters)
     status = models.CharField(max_length=20)
 
     date_created = models.DateTimeField()
-    date_sent = models.DateTimeField(null=True, blank=True)
+
+    # I thought this might be null if the message wasn't actually sent
+    # successfully, but this isn't actually the case; it is indeed *always*
+    # defined.
+    date_sent = models.DateTimeField()
+
     date_updated = models.DateTimeField()
 
     # Longest direction is "outbound-reply" (14 characters)
     direction = models.CharField(max_length=15)
 
-    # Note that these numbers are in E.164 format, e.g. '+14155552671'.
-    from_number = models.CharField(max_length=MAX_E164_LEN)
-    to_number = models.CharField(max_length=MAX_E164_LEN)
+    # Note that this number is in E.164 format, e.g. '+14155552671'.
+    user_phone_number = models.CharField(max_length=MAX_E164_LEN)
 
-    # No idea how long these will actually be but odds are they are pretty short.
-    error_code = models.CharField(max_length=20, blank=True, null=True)
+    is_from_us = models.BooleanField()
+
+    # The Twilio python docs claim this is unicode but it's actually
+    # an integer.
+    error_code = models.IntegerField(blank=True, null=True)
 
     error_message = models.TextField(blank=True, null=True)

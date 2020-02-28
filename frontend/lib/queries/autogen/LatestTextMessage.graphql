@@ -2,6 +2,7 @@
 fragment LatestTextMessage on LatestTextMessage {
   sid,
   dateSent,
+  ordering,
   isFromUs,
   body,
   userPhoneNumber,

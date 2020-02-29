@@ -9,6 +9,6 @@ export function niceAdminTimestamp(isoDate: string, options: NiceTimestampOption
 }
 
 export function friendlyAdminPhoneNumber(phoneNumber: string): string {
-  const match = phoneNumber.match(/^\+1(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
+  const match = phoneNumber.match(/^(?:\+1)?(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
   return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
 }

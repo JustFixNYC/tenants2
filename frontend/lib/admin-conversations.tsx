@@ -32,37 +32,48 @@ function niceTimestamp(isoDate: string, options: NiceTimestampOptions = {}): str
   return options.seconds ? localeDate : localeDate.replace(/(\:\d\d) /, ' ');
 }
 
-function useLatestMessageTimestamp(): string|null|undefined {
-  const [value, setValue] = useState<string|undefined>(undefined);
-  const { fetch } = useContext(AppContext);
+function useRepeatedPromise<T>(factory: () => Promise<T>, msInterval: number): T|undefined {
+  const [value, setValue] = useState<T|undefined>(undefined);
 
   useEffect(() => {
-    let isMounted = true;
+    let isActive = true;
     let refreshTimeout: number|null = null;
 
-    const refreshData = async () => {
+    const refreshValue = async () => {
+      refreshTimeout = null;
       try {
-        const result = await UpdateTextingHistoryMutation.fetch(fetch);
-        isMounted && setValue(result.output.latestMessage);
+        const result = await factory();
+        isActive && setValue(result);
       } finally {
-        if (isMounted) {
-          refreshTimeout = window.setTimeout(refreshData, REFRESH_INTERVAL_MS);
+        if (isActive) {
+          refreshTimeout = window.setTimeout(refreshValue, msInterval);
         }
       }
     };
 
     // TODO: Do something if this throws?
-    refreshData();
+    refreshValue();
 
     return () => {
-      isMounted = false;
+      isActive = false;
       if (refreshTimeout !== null) {
         window.clearTimeout(refreshTimeout);
       }
     };
-  }, [fetch]);
+  }, [factory, msInterval]);
 
   return value;
+}
+
+function useLatestMessageTimestamp(): string|null|undefined {
+  const { fetch } = useContext(AppContext);
+  return useRepeatedPromise(
+    useMemo(
+      () => async () => (await UpdateTextingHistoryMutation.fetch(fetch)).output.latestMessage,
+      [fetch]
+    ),
+    REFRESH_INTERVAL_MS
+  );
 }
 
 type FetchState<Output> = 

@@ -106,7 +106,7 @@ const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/d
   fallback: <LoadingPage />
 });
 
-const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./admin-conversations')), {
+const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./admin/admin-conversations')), {
   fallback: <LoadingPage/>
 });
 

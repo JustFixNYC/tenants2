@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState, useMemo, useRef } from 'react';
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
-import Routes from "./routes";
-import { AppContext } from './app-context';
-import { AdminConversations, AdminConversationsVariables } from './queries/AdminConversations';
-import { QueryLoaderQuery } from './query-loader-prefetcher';
-import { AdminConversationVariables, AdminConversation } from './queries/AdminConversation';
-import { getQuerystringVar } from './querystring';
+import Routes from "../routes";
+import { AppContext } from '../app-context';
+import { AdminConversations, AdminConversationsVariables } from '../queries/AdminConversations';
+import { QueryLoaderQuery } from '../query-loader-prefetcher';
+import { AdminConversationVariables, AdminConversation } from '../queries/AdminConversation';
+import { getQuerystringVar } from '../querystring';
 import { Helmet } from 'react-helmet-async';
-import { whoOwnsWhatURL } from './wow-link';
+import { whoOwnsWhatURL } from '../wow-link';
 import classnames from 'classnames';
-import { UpdateTextingHistoryMutation } from './queries/UpdateTextingHistoryMutation';
+import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMutation';
 
 const PHONE_QS_VAR = 'phone';
 

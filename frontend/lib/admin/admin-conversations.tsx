@@ -61,11 +61,11 @@ function useQuery<Input, Output>(
   };
 }
 
-function makeConversationURL(phoneNumber: string): string {
+export function makeConversationURL(phoneNumber: string): string {
   return Routes.adminConversations + `?${PHONE_QS_VAR}=${encodeURIComponent(phoneNumber)}`;
 }
 
-function normalizeQuery(query: string): string {
+export function normalizeConversationQuery(query: string): string {
   if (/^[ ()\-\d]+$/.test(query)) {
     // It's a phone number, remove all the non-digit characters.
     query = query.replace(/[^\d]/g, '');
@@ -159,7 +159,7 @@ const ConversationPanel: React.FC<{
 const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const [rawQuery, setRawQuery] = useState('');
-  const query = useDebouncedValue(normalizeQuery(rawQuery), DEBOUNCE_MS);
+  const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
     query,
     page: 1,

@@ -65,6 +65,65 @@ function useLatestMessageTimestamp(): string|null|undefined {
   return value;
 }
 
+type FetchState<Output> = 
+  {type: 'idle'} |
+  {type: 'loading'} |
+  {type: 'loaded', output: Output} |
+  {type: 'errored', error: Error};
+
+const FETCH_STATE_IDLE: FetchState<any> = {type: 'idle'};
+
+function useFetch<Input, Output>(
+  query: QueryLoaderQuery<Input, Output>,
+  input: Input|null,
+  refreshToken: any,
+): FetchState<Output> {
+  const [state, setState] = useState<FetchState<Output>>(FETCH_STATE_IDLE);
+  const { fetch } = useContext(AppContext);
+
+  useEffect(() => {
+    if (input === null || !refreshToken) {
+      setState(FETCH_STATE_IDLE);
+      return;
+    }
+    let isActive = true;
+
+    // console.log("FETCH", input);
+    setState({type: 'loading'});
+    query.fetch(fetch, input).then(output => {
+      isActive && setState({type: 'loaded', output});
+    }).catch(error => {
+      isActive && setState({type: 'errored', error});
+    });
+    return () => {
+      isActive = false;
+    };
+  }, [fetch, query, input, refreshToken]);
+
+  return state;
+};
+
+function useDebouncedValue<T>(value: T, ms: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    let timeout: number|null = null;
+
+    if (value !== debouncedValue) {
+      timeout = window.setTimeout(() => {
+        timeout = null;
+        setDebouncedValue(value);
+      }, ms);
+    }
+
+    return () => {
+      timeout !== null && clearTimeout(timeout);
+    };
+  }, [debouncedValue, ms, value]);
+
+  return debouncedValue;
+}
+
 // https://blog.logrocket.com/how-to-get-previous-props-state-with-react-hooks/
 function usePrevious<T>(value: T): T|undefined {
   const ref = useRef<T>();
@@ -79,42 +138,25 @@ function useQuery<Input, Output>(
   input: Input|null,
   latestTimestamp: string|null|undefined,
 ): UseQueryResult<Output> {
-  const [value, setValue] = useState<Output|null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const prevInput = usePrevious(input);
-  const { fetch } = useContext(AppContext);
+  const fetchState = useFetch(query, input, latestTimestamp);
+  const [latestInput, setLatestInput] = useState<Input|null>(null);
+  const [latestOutput, setLatestOutput] = useState<Output|null>(null);
+  const prevFetchState = usePrevious(fetchState);
 
   useEffect(() => {
-    let isMounted = true;
-    let debounceTimeout: null|number = null;
-    if (input !== null) {
-      if (input !== prevInput) {
-        setIsLoading(true);
-      }
-
-      if (latestTimestamp !== undefined) {
-        debounceTimeout = window.setTimeout(() => {
-          const result = query.fetch(fetch, input);
-          // console.log("LOAD!", latestTimestamp, JSON.stringify(input), JSON.stringify(prevInput));
-          result.then(v => {
-            if (isMounted) {
-              setValue(v);
-              setIsLoading(false);
-            }
-          });
-          // TODO: Deal w/ exceptions.
-        }, DEBOUNCE_MS);
-      }
+    if ((prevFetchState && prevFetchState.type === 'loading') && fetchState.type === 'loaded') {
+      setLatestOutput(fetchState.output);
+      setLatestInput(input);
     }
-    return () => {
-      isMounted = false;
-      if (debounceTimeout !== null) {
-        window.clearTimeout(debounceTimeout);
-      }
-    };
-  }, [fetch, input, prevInput, latestTimestamp]);
+  });
 
-  return {value, isLoading};
+  const isRefreshing = input === latestInput;
+  const isLoading = fetchState.type === 'loading' && !isRefreshing;
+
+  return {
+    value: latestOutput,
+    isLoading,
+  };
 }
 
 function makeConversationURL(phoneNumber: string): string {
@@ -220,7 +262,7 @@ const ConversationPanel: React.FC<{
 const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const [rawQuery, setRawQuery] = useState('');
-  const query = normalizeQuery(rawQuery);
+  const query = useDebouncedValue(normalizeQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
     query,
     page: 1,

@@ -10,6 +10,8 @@ import { Helmet } from 'react-helmet-async';
 import { whoOwnsWhatURL } from '../wow-link';
 import classnames from 'classnames';
 import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMutation';
+import { niceAdminTimestamp, friendlyAdminPhoneNumber } from './admin-util';
+import { useRepeatedPromise, useAdminFetch, usePrevious, useDebouncedValue } from './admin-hooks';
 
 const PHONE_QS_VAR = 'phone';
 
@@ -22,49 +24,6 @@ type UseQueryResult<Output> = {
   isLoading: boolean
 };
 
-type NiceTimestampOptions = Partial<{
-  seconds: boolean,
-}>;
-
-function niceTimestamp(isoDate: string, options: NiceTimestampOptions = {}): string {
-  const date = new Date(Date.parse(isoDate));
-  const localeDate = date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-  return options.seconds ? localeDate : localeDate.replace(/(\:\d\d) /, ' ');
-}
-
-function useRepeatedPromise<T>(factory: () => Promise<T>, msInterval: number): T|undefined {
-  const [value, setValue] = useState<T|undefined>(undefined);
-
-  useEffect(() => {
-    let isActive = true;
-    let refreshTimeout: number|null = null;
-
-    const refreshValue = async () => {
-      refreshTimeout = null;
-      try {
-        const result = await factory();
-        isActive && setValue(result);
-      } finally {
-        if (isActive) {
-          refreshTimeout = window.setTimeout(refreshValue, msInterval);
-        }
-      }
-    };
-
-    // TODO: Do something if this throws?
-    refreshValue();
-
-    return () => {
-      isActive = false;
-      if (refreshTimeout !== null) {
-        window.clearTimeout(refreshTimeout);
-      }
-    };
-  }, [factory, msInterval]);
-
-  return value;
-}
-
 function useLatestMessageTimestamp(): string|null|undefined {
   const { fetch } = useContext(AppContext);
   return useRepeatedPromise(
@@ -76,80 +35,12 @@ function useLatestMessageTimestamp(): string|null|undefined {
   );
 }
 
-type FetchState<Output> = 
-  {type: 'idle'} |
-  {type: 'loading'} |
-  {type: 'loaded', output: Output} |
-  {type: 'errored', error: Error};
-
-const FETCH_STATE_IDLE: FetchState<any> = {type: 'idle'};
-
-function useFetch<Input, Output>(
-  query: QueryLoaderQuery<Input, Output>,
-  input: Input|null,
-  refreshToken: any,
-): FetchState<Output> {
-  const [state, setState] = useState<FetchState<Output>>(FETCH_STATE_IDLE);
-  const { fetch } = useContext(AppContext);
-
-  useEffect(() => {
-    if (input === null || !refreshToken) {
-      setState(FETCH_STATE_IDLE);
-      return;
-    }
-    let isActive = true;
-
-    // console.log("FETCH", input);
-    setState({type: 'loading'});
-    query.fetch(fetch, input).then(output => {
-      isActive && setState({type: 'loaded', output});
-    }).catch(error => {
-      isActive && setState({type: 'errored', error});
-    });
-    return () => {
-      isActive = false;
-    };
-  }, [fetch, query, input, refreshToken]);
-
-  return state;
-};
-
-function useDebouncedValue<T>(value: T, ms: number): T {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    let timeout: number|null = null;
-
-    if (value !== debouncedValue) {
-      timeout = window.setTimeout(() => {
-        timeout = null;
-        setDebouncedValue(value);
-      }, ms);
-    }
-
-    return () => {
-      timeout !== null && clearTimeout(timeout);
-    };
-  }, [debouncedValue, ms, value]);
-
-  return debouncedValue;
-}
-
-// https://blog.logrocket.com/how-to-get-previous-props-state-with-react-hooks/
-function usePrevious<T>(value: T): T|undefined {
-  const ref = useRef<T>();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
 function useQuery<Input, Output>(
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
   latestTimestamp: string|null|undefined,
 ): UseQueryResult<Output> {
-  const fetchState = useFetch(query, input, latestTimestamp);
+  const fetchState = useAdminFetch(query, input, latestTimestamp);
   const [latestInput, setLatestInput] = useState<Input|null>(null);
   const [latestOutput, setLatestOutput] = useState<Output|null>(null);
   const prevFetchState = usePrevious(fetchState);
@@ -172,11 +63,6 @@ function useQuery<Input, Output>(
 
 function makeConversationURL(phoneNumber: string): string {
   return Routes.adminConversations + `?${PHONE_QS_VAR}=${encodeURIComponent(phoneNumber)}`;
-}
-
-function friendlyPhoneNumber(phoneNumber: string): string {
-  const match = phoneNumber.match(/^\+1(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
-  return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
 }
 
 function normalizeQuery(query: string): string {
@@ -209,8 +95,8 @@ const ConversationsSidebar: React.FC<{
                           })}
                           to={makeConversationURL(conv.userPhoneNumber)}>
                 <div className="jf-heading">
-                  <div className="jf-tenant">{conv.userFullName || friendlyPhoneNumber(conv.userPhoneNumber)} {conv.errorMessage && '❌'}</div>
-                  <div className="jf-date">{niceTimestamp(conv.dateSent)}</div>
+                  <div className="jf-tenant">{conv.userFullName || friendlyAdminPhoneNumber(conv.userPhoneNumber)} {conv.errorMessage && '❌'}</div>
+                  <div className="jf-date">{niceAdminTimestamp(conv.dateSent)}</div>
                 </div>
                 <div className="jf-body">{conv.body}</div>
               </Link>
@@ -243,11 +129,11 @@ const ConversationPanel: React.FC<{
       {selectedPhoneNumber ? <>
         {conversation.value ? <>
           <div className={classnames("jf-user-details content", convStalenessClasses)}>
-            <h1>Conversation with {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}</h1>
+            <h1>Conversation with {userFullName || friendlyAdminPhoneNumber(selectedPhoneNumber)}</h1>
             {user ? <>
-              {userFullName && <p>This user's phone number is {friendlyPhoneNumber(selectedPhoneNumber)}.</p>}
+              {userFullName && <p>This user's phone number is {friendlyAdminPhoneNumber(selectedPhoneNumber)}.</p>}
               {user.onboardingInfo && <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>}
-              {user.letterRequest && <p>The user completed a letter of complaint on {niceTimestamp(user.letterRequest.updatedAt)}.</p>}
+              {user.letterRequest && <p>The user completed a letter of complaint on {niceAdminTimestamp(user.letterRequest.updatedAt)}.</p>}
               <a href={user.adminUrl} className="button is-small" target="_blank">Edit user</a>
               {user.onboardingInfo?.padBbl &&
                 <a href={whoOwnsWhatURL(user.onboardingInfo.padBbl)} className="button is-small" target="_blank" rel="noopener noreferrer">View user's building in WoW</a>}
@@ -257,14 +143,14 @@ const ConversationPanel: React.FC<{
             {convMsgs.length ? convMsgs.map(msg => {
               return <div key={msg.sid} className={classnames(msg.isFromUs ? 'jf-from-us' : 'jf-to-us', 'jf-sms')}>
                 <div className="jf-sms-body"
-                     title={`This message was sent on ${niceTimestamp(msg.dateSent, {seconds: true})}.`}>
+                     title={`This message was sent on ${niceAdminTimestamp(msg.dateSent, {seconds: true})}.`}>
                   {msg.body}
                 </div>
                 {msg.errorMessage && <div className="jf-sms-error">Error sending SMS: {msg.errorMessage}</div>}
               </div>
             }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
           </div>
-        </> : <div className="jf-empty-panel"><p>Loading conversation for {friendlyPhoneNumber(selectedPhoneNumber)}...</p></div>}
+        </> : <div className="jf-empty-panel"><p>Loading conversation for {friendlyAdminPhoneNumber(selectedPhoneNumber)}...</p></div>}
       </> : <div className="jf-empty-panel"><p>{noSelectionMsg}</p></div>}
     </div>
   );

@@ -24,7 +24,7 @@ type UseQueryResult<Output> = {
   isLoading: boolean
 };
 
-type BaseConversationMessage = {
+export type BaseConversationMessage = {
   sid: string,
   ordering: number,
 };

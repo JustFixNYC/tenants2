@@ -24,6 +24,39 @@ type UseQueryResult<Output> = {
   isLoading: boolean
 };
 
+type BaseConversationMessage = {
+  sid: string,
+  ordering: number,
+};
+
+/**
+ * Add the second list of messages to the first list, updating any existing entries
+ * (rather than creating duplicates).
+ * 
+ * Returns the merged list, sorted by their ordering.
+ * 
+ * This function is non-destructive (it doesn't modify either list).
+ */
+function mergeMessages<T extends BaseConversationMessage>(current: T[], toMerge: T[]): T[] {
+  const allMessages = new Map<string, T>();
+
+  for (let msg of current) {
+    allMessages.set(msg.sid, msg);
+  }
+
+  for (let msg of toMerge) {
+    allMessages.set(msg.sid, msg);
+  }
+
+  const merged = [...allMessages.values()];
+
+  merged.sort((a, b) => b.ordering - a.ordering);
+
+  return merged;
+}
+
+export const mergeConversationMessages = mergeMessages;
+
 function useLatestMessageTimestamp(): string|null|undefined {
   const { fetch } = useContext(AppContext);
   return useRepeatedPromise(

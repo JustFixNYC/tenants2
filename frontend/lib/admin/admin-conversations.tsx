@@ -193,15 +193,11 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const [rawQuery, setRawQuery] = useState('');
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
-  const conversationsInput = useMemo<AdminConversationsVariables>(() => ({
-    query,
-    page: 1,
-  }), [query]);
+  const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
   const latestMsgTimestamp = useLatestMessageTimestamp();
   const conversations = useQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
-    page: 1,
   } : null, [selectedPhoneNumber]);
   const conversation = useQuery(AdminConversation, conversationInput, latestMsgTimestamp);
   const noSelectionMsg = (conversations?.value?.output?.length || 0) > 0

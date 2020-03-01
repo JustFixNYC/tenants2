@@ -1,5 +1,5 @@
-query AdminConversation($phoneNumber: String!, $page: Int!) {
-    output: conversation(phoneNumber: $phoneNumber, page: $page) {
+query AdminConversation($phoneNumber: String!, $afterOrAt: Float = 0) {
+    output: conversation(phoneNumber: $phoneNumber, afterOrAt: $afterOrAt) {
         ...TextMessage
     }
 

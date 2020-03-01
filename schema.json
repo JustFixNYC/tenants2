@@ -68,7 +68,7 @@
             {
               "args": [
                 {
-                  "defaultValue": null,
+                  "defaultValue": "\"\"",
                   "description": null,
                   "name": "query",
                   "type": {
@@ -78,12 +78,22 @@
                   }
                 },
                 {
-                  "defaultValue": null,
+                  "defaultValue": "50",
                   "description": null,
-                  "name": "page",
+                  "name": "first",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": "0",
+                  "description": null,
+                  "name": "afterOrAt",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
                     "ofType": null
                   }
                 }
@@ -119,12 +129,22 @@
                   }
                 },
                 {
-                  "defaultValue": null,
+                  "defaultValue": "50",
                   "description": null,
-                  "name": "page",
+                  "name": "first",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": "0",
+                  "description": null,
+                  "name": "afterOrAt",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
                     "ofType": null
                   }
                 }

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from functools import wraps
 from pathlib import Path
 from django.db import connection
@@ -13,14 +13,13 @@ from twofactor.util import is_request_user_verified
 from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
 from .management.commands.update_texting_history import update_texting_history
+from .models import Message
 
 MY_DIR = Path(__file__).parent.resolve()
 
 CONVERSATIONS_SQL_FILE = MY_DIR / 'conversations.sql'
 
-CONVERSATION_SQL_FILE = MY_DIR / 'conversation.sql'
-
-PAGE_SIZE = 50
+DEFAULT_PAGE_SIZE = 50
 
 
 class TextMessage(graphene.ObjectType):
@@ -84,44 +83,51 @@ def ensure_request_has_verified_user_with_permission(fn):
     return wrapper
 
 
-def get_sql_limit_clause_for_page(page: int, page_size: int = PAGE_SIZE) -> str:
-    assert isinstance(page, int)
-    offset = (page - 1) * page_size
-    return f"LIMIT {page_size} OFFSET {offset}"
+@ensure_request_has_verified_user_with_permission
+def resolve_conversation(
+    parent,
+    info,
+    phone_number: str,
+    first: int,
+    after_or_at: float,
+) -> List[Message]:
+    kwargs: Dict[str, Any] = {'user_phone_number': phone_number}
+    if after_or_at:
+        kwargs['ordering__lte'] = after_or_at
+    return Message.objects.filter(**kwargs).order_by('-ordering')[:first]
 
 
 @ensure_request_has_verified_user_with_permission
-def resolve_conversation(parent, info, phone_number: str, page: int) -> List[TextMessage]:
-    with connection.cursor() as cursor:
-        sql = '\n'.join([
-            CONVERSATION_SQL_FILE.read_text(),
-            get_sql_limit_clause_for_page(page)
-        ])
-        cursor.execute(sql, {
-            'their_number': phone_number,
-        })
-        return [TextMessage(**row) for row in generate_json_rows(cursor)]
+def resolve_conversations(
+    parent,
+    info,
+    query: str,
+    first: int,
+    after_or_at: float,
+) -> List[LatestTextMessage]:
+    where_clauses: List[str] = []
 
-
-@ensure_request_has_verified_user_with_permission
-def resolve_conversations(parent, info, query: str, page: int) -> List[LatestTextMessage]:
-    where_clause = ''
+    if after_or_at:
+        where_clauses.append("(ordering <= %(after_or_at)s)")
     if ALL_DIGITS_RE.fullmatch(query):
-        where_clause = "WHERE user_phone_number LIKE '+1' || %(query)s || '%%'"
+        where_clauses.append("(user_phone_number LIKE '+1' || %(query)s || '%%')")
     elif query:
-        where_clause = (
-            "WHERE (usr.first_name || ' ' || usr.last_name) "
-            "ILIKE '%%' || %(query)s || '%%'"
+        where_clauses.append(
+            "((usr.first_name || ' ' || usr.last_name) ILIKE '%%' || %(query)s || '%%')"
         )
+
+    where_clause = ('WHERE ' + ' AND '.join(where_clauses)) if where_clauses else ''
 
     with connection.cursor() as cursor:
         sql = '\n'.join([
             CONVERSATIONS_SQL_FILE.read_text(),
             where_clause,
             "ORDER BY ordering DESC",
-            get_sql_limit_clause_for_page(page),
+            f"LIMIT %(first)s",
         ])
         cursor.execute(sql, {
+            'first': first,
+            'after_or_at': after_or_at,
             'query': query,
         })
         return [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
@@ -153,15 +159,17 @@ def normalize_phone_number(phone_number: str) -> str:
 class TextingHistory:
     conversations = graphene.List(
         graphene.NonNull(LatestTextMessage),
-        query=graphene.String(),
-        page=graphene.Int(),
+        query=graphene.String(default_value=""),
+        first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
+        after_or_at=graphene.Float(default_value=0),
         resolver=resolve_conversations,
     )
 
     conversation = graphene.List(
         graphene.NonNull(TextMessage),
         phone_number=graphene.String(),
-        page=graphene.Int(),
+        first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
+        after_or_at=graphene.Float(default_value=0),
         resolver=resolve_conversation,
     )
 

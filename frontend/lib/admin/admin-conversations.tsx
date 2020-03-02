@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useMemo } from 'react';
+import React, { useEffect, useContext, useState, useMemo, useCallback } from 'react';
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
 import Routes from "../routes";
 import { AppContext } from '../app-context';
@@ -18,11 +18,6 @@ const PHONE_QS_VAR = 'phone';
 const REFRESH_INTERVAL_MS = 3000;
 
 const DEBOUNCE_MS = 250;
-
-type UseQueryResult<Output> = {
-  value: Output|null,
-  isLoading: boolean
-};
 
 export type BaseConversationMessage = {
   sid: string,
@@ -68,29 +63,79 @@ function useLatestMessageTimestamp(): string|null|undefined {
   );
 }
 
-function useQuery<Input, Output>(
+type BaseConversationInput = {
+  afterOrAt?: number|null,
+};
+
+type BaseConversationOutput = {
+  output: BaseConversationMessage[] | null,
+};
+
+type UseMergedQueryResult<Output> = {
+  loadMore: () => void,
+  value: Output|null,
+  isLoadingNewInput: boolean,
+  isLoadingMore: boolean,
+};
+
+function useMergedQuery<Input extends BaseConversationInput, Output extends BaseConversationOutput>(
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
   latestTimestamp: string|null|undefined,
-): UseQueryResult<Output> {
-  const fetchState = useAdminFetch(query, input, latestTimestamp);
-  const [latestInput, setLatestInput] = useState<Input|null>(null);
-  const [latestOutput, setLatestOutput] = useState<Output|null>(null);
-  const prevFetchState = usePrevious(fetchState);
+): UseMergedQueryResult<Output> {
+  const firstResults = useAdminFetch(query, input, latestTimestamp);
+  const prevFirstResults = usePrevious(firstResults);
+  const [prevLatestTimestamp, setPrevLatestTimestamp] = useState<string|null|undefined>(undefined);
+  const [afterOrAt, setAfterOrAt] = useState<number|null>(null);
+  const moreResultsInput = useMemo<Input|null>(() => {
+    return afterOrAt && input ? {...input, afterOrAt} : null
+  }, [input, afterOrAt]);
+  const moreResults = useAdminFetch(query, moreResultsInput, 'fake refresh token');
+  const prevMoreResults = usePrevious(moreResults);
+  const [mergedOutput, setMergedOutput] = useState<Output|null>(null);
+  const [staleMergedOutput, setStaleMergedOutput] = useState<Output|null>(null);
+  const loadMore = useCallback(() => {
+    if (mergedOutput?.output?.length) {
+      setAfterOrAt(mergedOutput.output[mergedOutput.output.length - 1].ordering);
+    }
+  }, [mergedOutput]);
 
   useEffect(() => {
-    if ((prevFetchState && prevFetchState.type === 'loading') && fetchState.type === 'loaded') {
-      setLatestOutput(fetchState.output);
-      setLatestInput(input);
+    if (prevFirstResults?.type === firstResults.type) return;
+    if (firstResults.type === 'loading') {
+      setStaleMergedOutput(mergedOutput);
+      setMergedOutput(null);
+      setAfterOrAt(null);
+    } else if (firstResults.type === 'loaded' && firstResults.output.output) {
+      if (!mergedOutput?.output) {
+        setMergedOutput(firstResults.output);
+      } else if (prevLatestTimestamp !== latestTimestamp) {
+        setMergedOutput({
+          ...mergedOutput,
+          output: mergeMessages(mergedOutput.output, firstResults.output.output)
+        });
+      }
+      setPrevLatestTimestamp(latestTimestamp);
     }
-  });
+  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp]);
 
-  const isRefreshing = input === latestInput;
-  const isLoading = fetchState.type === 'loading' && !isRefreshing;
+  useEffect(() => {
+    if (afterOrAt && moreResults.type === 'loaded' &&
+        moreResults.type !== prevMoreResults?.type &&
+        moreResults.output.output && mergedOutput?.output) {
+      setMergedOutput({
+        ...mergedOutput,
+        output: mergeMessages(mergedOutput.output, moreResults.output.output),
+      });
+      setAfterOrAt(null);
+    }
+  }, [afterOrAt, prevMoreResults, moreResults, mergedOutput]);
 
   return {
-    value: latestOutput,
-    isLoading,
+    value: mergedOutput || staleMergedOutput,
+    isLoadingNewInput: firstResults.type === 'loading' && mergedOutput == null,
+    loadMore,
+    isLoadingMore: moreResults.type === 'loading',
   };
 }
 
@@ -111,7 +156,7 @@ const ConversationsSidebar: React.FC<{
   setRawQuery: (value: string) => void,
   selectedPhoneNumber: string|undefined,
   query: string,
-  conversations: UseQueryResult<AdminConversations>,
+  conversations: UseMergedQueryResult<AdminConversations>,
 }> = ({rawQuery, setRawQuery, query, conversations, selectedPhoneNumber}) => {
   return (
     <div className="jf-conversation-sidebar">
@@ -119,12 +164,12 @@ const ConversationsSidebar: React.FC<{
              value={rawQuery} onChange={e => setRawQuery(e.target.value)} />
       {conversations.value ?
         conversations.value.output ?
-          conversations.value.output.length > 0 ?
-            conversations.value.output.map(conv => {
+          conversations.value.output.length > 0 ? <>
+            {conversations.value.output.map(conv => {
               return <Link key={conv.userPhoneNumber}
                           className={classnames('jf-can-be-stale', {
                             'jf-selected': conv.userPhoneNumber === selectedPhoneNumber,
-                            'jf-is-stale-result': conversations.isLoading,
+                            'jf-is-stale-result': conversations.isLoadingNewInput,
                           })}
                           to={makeConversationURL(conv.userPhoneNumber)}>
                 <div className="jf-heading">
@@ -133,9 +178,10 @@ const ConversationsSidebar: React.FC<{
                 </div>
                 <div className="jf-body">{conv.body}</div>
               </Link>
-            })
-          : <div className="jf-empty-panel"><p>{
-              conversations.isLoading ?
+            })}
+            {!conversations.isLoadingMore && <button onClick={conversations.loadMore}>Load more</button>}
+          </> : <div className="jf-empty-panel"><p>{
+              conversations.isLoadingNewInput ?
                 "Loading conversations..."
               : query ?
                 "Alas, your search criteria yielded no results."
@@ -149,10 +195,10 @@ const ConversationsSidebar: React.FC<{
 
 const ConversationPanel: React.FC<{
   selectedPhoneNumber: string|undefined,
-  conversation: UseQueryResult<AdminConversation>,
+  conversation: UseMergedQueryResult<AdminConversation>,
   noSelectionMsg: string,
 }> = ({selectedPhoneNumber, conversation, noSelectionMsg}) => {
-  const convStalenessClasses = {'jf-is-stale-result': conversation.isLoading, 'jf-can-be-stale': true};
+  const convStalenessClasses = {'jf-is-stale-result': conversation.isLoadingNewInput, 'jf-can-be-stale': true};
   const convMsgs = conversation.value?.output || [];
   const user = conversation.value?.userDetails;
   const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
@@ -195,11 +241,11 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
   const latestMsgTimestamp = useLatestMessageTimestamp();
-  const conversations = useQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
+  const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
   } : null, [selectedPhoneNumber]);
-  const conversation = useQuery(AdminConversation, conversationInput, latestMsgTimestamp);
+  const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp);
   const noSelectionMsg = (conversations?.value?.output?.length || 0) > 0
     ? "Please choose a conversation on the sidebar to the left." : "";
 

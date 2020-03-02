@@ -44,6 +44,16 @@ class LatestTextMessage(TextMessage):
     user_id = graphene.Int()
 
 
+class TextMessagesResult(graphene.ObjectType):
+    messages = graphene.List(graphene.NonNull(TextMessage), required=True)
+    has_next_page = graphene.Boolean(required=True)
+
+
+class LatestTextMessagesResult(graphene.ObjectType):
+    messages = graphene.List(graphene.NonNull(LatestTextMessage), required=True)
+    has_next_page = graphene.Boolean(required=True)
+
+
 class JustfixUserType(DjangoObjectType):
     class Meta:
         model = JustfixUser
@@ -90,16 +100,16 @@ def resolve_conversation(
     phone_number: str,
     first: int,
     after_or_at: float,
-) -> List[Message]:
+) -> TextMessagesResult:
     kwargs: Dict[str, Any] = {'user_phone_number': phone_number}
     if after_or_at:
         kwargs['ordering__lte'] = after_or_at
     qs = Message.objects.filter(**kwargs).order_by('-ordering')
     messages = list(qs[:first])
-    count = qs.count()
-    has_more_pages = count == len(messages)
-    print("conversation count", count, has_more_pages)
-    return messages
+    return TextMessagesResult(
+        messages=messages,
+        has_next_page=qs.count() > len(messages)
+    )
 
 
 @ensure_request_has_verified_user_with_permission
@@ -109,7 +119,7 @@ def resolve_conversations(
     query: str,
     first: int,
     after_or_at: float,
-) -> List[LatestTextMessage]:
+) -> LatestTextMessagesResult:
     where_clauses: List[str] = []
 
     with_clause = f"WITH latest_conversation_msg AS ({CONVERSATIONS_SQL_FILE.read_text()})"
@@ -158,9 +168,10 @@ def resolve_conversations(
             where_clause,
         ]), sql_args)
         count = cursor.fetchone()[0]
-        has_more_pages = count == len(messages)
-        print("conversations count", count, has_more_pages)
-        return messages
+        return LatestTextMessagesResult(
+            messages=messages,
+            has_next_page=count > len(messages)
+        )
 
 
 @ensure_request_has_verified_user_with_permission
@@ -187,16 +198,16 @@ def normalize_phone_number(phone_number: str) -> str:
 
 @schema_registry.register_queries
 class TextingHistory:
-    conversations = graphene.List(
-        graphene.NonNull(LatestTextMessage),
+    conversations = graphene.NonNull(
+        LatestTextMessagesResult,
         query=graphene.String(default_value=""),
         first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
         after_or_at=graphene.Float(default_value=0),
         resolver=resolve_conversations,
     )
 
-    conversation = graphene.List(
-        graphene.NonNull(TextMessage),
+    conversation = graphene.NonNull(
+        TextMessagesResult,
         phone_number=graphene.String(),
         first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
         after_or_at=graphene.Float(default_value=0),

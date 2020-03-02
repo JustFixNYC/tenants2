@@ -40,11 +40,11 @@ ignoreFields = [
     "zipcode"
 ]
 
-[types.TextMessage]
-fragmentName = "TextMessage"
+[types.TextMessagesResult]
+fragmentName = "TextMessagesResult"
 
-[types.LatestTextMessage]
-fragmentName = "LatestTextMessage"
+[types.LatestTextMessagesResult]
+fragmentName = "LatestTextMessagesResult"
 
 [types.JustfixUserType]
 fragmentName = "JustfixUserType"

@@ -68,7 +68,10 @@ type BaseConversationInput = {
 };
 
 type BaseConversationOutput = {
-  output: BaseConversationMessage[] | null,
+  output: {
+    messages: BaseConversationMessage[],
+    hasNextPage: boolean,
+  } | null,
 };
 
 type UseMergedQueryResult<Output> = {
@@ -76,6 +79,7 @@ type UseMergedQueryResult<Output> = {
   value: Output|null,
   isLoadingNewInput: boolean,
   isLoadingMore: boolean,
+  hasNextPage: boolean|undefined,
 };
 
 function useMergedQuery<Input extends BaseConversationInput, Output extends BaseConversationOutput>(
@@ -94,9 +98,10 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   const prevMoreResults = usePrevious(moreResults);
   const [mergedOutput, setMergedOutput] = useState<Output|null>(null);
   const [staleMergedOutput, setStaleMergedOutput] = useState<Output|null>(null);
+  const [hasNextPage, setHasNextPage] = useState<boolean|undefined>(undefined);
   const loadMore = useCallback(() => {
-    if (mergedOutput?.output?.length) {
-      setAfterOrAt(mergedOutput.output[mergedOutput.output.length - 1].ordering);
+    if (mergedOutput?.output?.messages.length) {
+      setAfterOrAt(mergedOutput.output.messages[mergedOutput.output.messages.length - 1].ordering);
     }
   }, [mergedOutput]);
 
@@ -106,18 +111,24 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
       setStaleMergedOutput(mergedOutput);
       setMergedOutput(null);
       setAfterOrAt(null);
+      setHasNextPage(undefined);
     } else if (firstResults.type === 'loaded' && firstResults.output.output) {
       if (!mergedOutput?.output) {
         setMergedOutput(firstResults.output);
       } else if (prevLatestTimestamp !== latestTimestamp) {
         setMergedOutput({
           ...mergedOutput,
-          output: mergeMessages(mergedOutput.output, firstResults.output.output)
+          output: {
+            messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages),
+          },
         });
+      }
+      if (hasNextPage === undefined) {
+        setHasNextPage(firstResults.output.output.hasNextPage);
       }
       setPrevLatestTimestamp(latestTimestamp);
     }
-  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp]);
+  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp, hasNextPage]);
 
   useEffect(() => {
     if (afterOrAt && moreResults.type === 'loaded' &&
@@ -125,8 +136,11 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
         moreResults.output.output && mergedOutput?.output) {
       setMergedOutput({
         ...mergedOutput,
-        output: mergeMessages(mergedOutput.output, moreResults.output.output),
+        output: {
+          messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages),
+        },
       });
+      setHasNextPage(moreResults.output.output.hasNextPage);
       setAfterOrAt(null);
     }
   }, [afterOrAt, prevMoreResults, moreResults, mergedOutput]);
@@ -136,6 +150,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
     isLoadingNewInput: firstResults.type === 'loading' && mergedOutput == null,
     loadMore,
     isLoadingMore: moreResults.type === 'loading',
+    hasNextPage,
   };
 }
 
@@ -164,8 +179,8 @@ const ConversationsSidebar: React.FC<{
              value={rawQuery} onChange={e => setRawQuery(e.target.value)} />
       {conversations.value ?
         conversations.value.output ?
-          conversations.value.output.length > 0 ? <>
-            {conversations.value.output.map(conv => {
+          conversations.value.output.messages.length > 0 ? <>
+            {conversations.value.output.messages.map(conv => {
               return <Link key={conv.userPhoneNumber}
                           className={classnames('jf-can-be-stale', {
                             'jf-selected': conv.userPhoneNumber === selectedPhoneNumber,
@@ -179,7 +194,7 @@ const ConversationsSidebar: React.FC<{
                 <div className="jf-body">{conv.body}</div>
               </Link>
             })}
-            {!conversations.isLoadingMore && <button onClick={conversations.loadMore}>Load more</button>}
+            {conversations.hasNextPage && <button onClick={conversations.loadMore}>Load more</button>}
           </> : <div className="jf-empty-panel"><p>{
               conversations.isLoadingNewInput ?
                 "Loading conversations..."
@@ -199,7 +214,7 @@ const ConversationPanel: React.FC<{
   noSelectionMsg: string,
 }> = ({selectedPhoneNumber, conversation, noSelectionMsg}) => {
   const convStalenessClasses = {'jf-is-stale-result': conversation.isLoadingNewInput, 'jf-can-be-stale': true};
-  const convMsgs = conversation.value?.output || [];
+  const convMsgs = conversation.value?.output.messages || [];
   const user = conversation.value?.userDetails;
   const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
 
@@ -246,7 +261,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     phoneNumber: selectedPhoneNumber,
   } : null, [selectedPhoneNumber]);
   const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp);
-  const noSelectionMsg = (conversations?.value?.output?.length || 0) > 0
+  const noSelectionMsg = (conversations?.value?.output?.messages.length || 0) > 0
     ? "Please choose a conversation on the sidebar to the left." : "";
 
   return <div className="jf-admin-conversations-wrapper">

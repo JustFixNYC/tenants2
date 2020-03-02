@@ -12,6 +12,7 @@ import classnames from 'classnames';
 import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMutation';
 import { niceAdminTimestamp, friendlyAdminPhoneNumber } from './admin-util';
 import { useRepeatedPromise, useAdminFetch, usePrevious, useDebouncedValue } from './admin-hooks';
+import { staffOnlyView } from './staff-only-view';
 
 const PHONE_QS_VAR = 'phone';
 
@@ -259,7 +260,7 @@ const ConversationPanel: React.FC<{
   );
 };
 
-const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
+const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((props) => {
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const [rawQuery, setRawQuery] = useState('');
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
@@ -280,7 +281,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = (props) => {
     <ConversationsSidebar {...{rawQuery, setRawQuery, query, conversations, selectedPhoneNumber}} />
     <ConversationPanel {...{selectedPhoneNumber, conversation, noSelectionMsg}} />
   </div>;
-};
+});
 
 export default function AdminConversationsRoutes(): JSX.Element {
   return (

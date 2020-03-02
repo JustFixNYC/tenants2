@@ -6,6 +6,11 @@ from users.models import JustfixUser
 from texting.models import PhoneNumberLookup
 
 
+def verify_twilio_is_enabled():
+    if not settings.TWILIO_ACCOUNT_SID:
+        raise CommandError('Twilio integration is not enabled!')
+
+
 def find_users_without_lookups():
     '''
     Return a QuerySet of users that we don't have phone number lookups for.
@@ -25,8 +30,7 @@ class Command(BaseCommand):
     help = 'Find information about user phone numbers via the Twilio Lookup API.'
 
     def handle(self, *args, **options):
-        if not settings.TWILIO_ACCOUNT_SID:
-            raise CommandError('Twilio integration is not enabled!')
+        verify_twilio_is_enabled()
         users = find_users_without_lookups()
         for user in users:
             self.stdout.write(f"Looking up phone number for {user}.\n")

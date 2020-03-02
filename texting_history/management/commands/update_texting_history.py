@@ -8,6 +8,7 @@ from django.utils.timezone import now
 from django.conf import settings
 
 from dwh.util import BatchWriter
+from texting.management.commands.syncphonenumberlookups import verify_twilio_is_enabled
 from texting import twilio
 from texting.twilio import tendigit_to_e164
 from texting_history.models import Message
@@ -121,6 +122,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        verify_twilio_is_enabled()
         latest = update_texting_history(
             backfill=options['backfill'],
             max_age=options['max_age']

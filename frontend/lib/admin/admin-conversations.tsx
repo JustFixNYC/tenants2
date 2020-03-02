@@ -163,6 +163,15 @@ export function normalizeConversationQuery(query: string): string {
   return query.trim();
 }
 
+const LoadMoreButton: React.FC<{
+  queryResult: UseMergedQueryResult<any>
+}> = ({queryResult}) => {
+  return queryResult.isLoadingMore
+    ? <button disabled>Loading...</button>
+    : queryResult.hasNextPage ? <button onClick={queryResult.loadMore}>Load more</button>
+      : null;
+};
+
 const ConversationsSidebar: React.FC<{
   rawQuery: string,
   setRawQuery: (value: string) => void,
@@ -191,11 +200,7 @@ const ConversationsSidebar: React.FC<{
                 <div className="jf-body">{conv.body}</div>
               </Link>
             })}
-            {
-              conversations.isLoadingMore
-              ? <button disabled>Loading...</button>
-              : conversations.hasNextPage && <button onClick={conversations.loadMore}>Load more</button>
-            }
+            <LoadMoreButton queryResult={conversations} />
           </> : <div className="jf-empty-panel"><p>{
               conversations.isLoadingNewInput ?
                 "Loading conversations..."
@@ -244,6 +249,7 @@ const ConversationPanel: React.FC<{
                 {msg.errorMessage && <div className="jf-sms-error">Error sending SMS: {msg.errorMessage}</div>}
               </div>
             }) : <p>We have no record of any SMS messages exchanged with this phone number.</p>}
+            <LoadMoreButton queryResult={conversation} />
           </div>
         </> : <div className="jf-empty-panel"><p>Loading conversation for {friendlyAdminPhoneNumber(selectedPhoneNumber)}...</p></div>}
       </> : <div className="jf-empty-panel"><p>{noSelectionMsg}</p></div>}

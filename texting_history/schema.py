@@ -107,6 +107,19 @@ def resolve_conversations(
 ) -> List[LatestTextMessage]:
     where_clauses: List[str] = []
 
+    with_clause = f"WITH latest_conversation_msg AS ({CONVERSATIONS_SQL_FILE.read_text()})"
+
+    select_with_user_info_statement = """
+    SELECT
+        msg.*,
+        usr.id as user_id,
+        usr.first_name || ' ' || usr.last_name as user_full_name
+    FROM
+        latest_conversation_msg AS msg
+    LEFT JOIN
+        users_justfixuser AS usr ON '+1' || usr.phone_number = msg.user_phone_number
+    """
+
     if after_or_at:
         where_clauses.append("(ordering <= %(after_or_at)s)")
     if ALL_DIGITS_RE.fullmatch(query):
@@ -120,7 +133,8 @@ def resolve_conversations(
 
     with connection.cursor() as cursor:
         sql = '\n'.join([
-            CONVERSATIONS_SQL_FILE.read_text(),
+            with_clause,
+            select_with_user_info_statement,
             where_clause,
             "ORDER BY ordering DESC",
             f"LIMIT %(first)s",

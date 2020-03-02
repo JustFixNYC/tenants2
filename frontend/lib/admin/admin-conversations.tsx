@@ -98,7 +98,6 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   const prevMoreResults = usePrevious(moreResults);
   const [mergedOutput, setMergedOutput] = useState<Output|null>(null);
   const [staleMergedOutput, setStaleMergedOutput] = useState<Output|null>(null);
-  const [hasNextPage, setHasNextPage] = useState<boolean|undefined>(undefined);
   const loadMore = useCallback(() => {
     if (mergedOutput?.output?.messages.length) {
       setAfterOrAt(mergedOutput.output.messages[mergedOutput.output.messages.length - 1].ordering);
@@ -111,7 +110,6 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
       setStaleMergedOutput(mergedOutput);
       setMergedOutput(null);
       setAfterOrAt(null);
-      setHasNextPage(undefined);
     } else if (firstResults.type === 'loaded' && firstResults.output.output) {
       if (!mergedOutput?.output) {
         setMergedOutput(firstResults.output);
@@ -119,16 +117,14 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
         setMergedOutput({
           ...mergedOutput,
           output: {
+            ...mergedOutput.output,
             messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages),
           },
         });
       }
-      if (hasNextPage === undefined) {
-        setHasNextPage(firstResults.output.output.hasNextPage);
-      }
       setPrevLatestTimestamp(latestTimestamp);
     }
-  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp, hasNextPage]);
+  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp]);
 
   useEffect(() => {
     if (afterOrAt && moreResults.type === 'loaded' &&
@@ -137,10 +133,11 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
       setMergedOutput({
         ...mergedOutput,
         output: {
+          ...mergedOutput.output,
           messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages),
+          hasNextPage: moreResults.output.output.hasNextPage,
         },
       });
-      setHasNextPage(moreResults.output.output.hasNextPage);
       setAfterOrAt(null);
     }
   }, [afterOrAt, prevMoreResults, moreResults, mergedOutput]);
@@ -150,7 +147,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
     isLoadingNewInput: firstResults.type === 'loading' && mergedOutput == null,
     loadMore,
     isLoadingMore: moreResults.type === 'loading',
-    hasNextPage,
+    hasNextPage: moreResults.type === 'loading' ? undefined : mergedOutput?.output?.hasNextPage,
   };
 }
 
@@ -194,7 +191,11 @@ const ConversationsSidebar: React.FC<{
                 <div className="jf-body">{conv.body}</div>
               </Link>
             })}
-            {conversations.hasNextPage && <button onClick={conversations.loadMore}>Load more</button>}
+            {
+              conversations.isLoadingMore
+              ? <button disabled>Loading...</button>
+              : conversations.hasNextPage && <button onClick={conversations.loadMore}>Load more</button>
+            }
           </> : <div className="jf-empty-panel"><p>{
               conversations.isLoadingNewInput ?
                 "Loading conversations..."

@@ -427,6 +427,9 @@ class HPActionVariables:
     # property. (You can list several items in the same answer.)
     tenant_property_owned_te: Optional[str] = None
 
+    # not asked
+    inspection_request_copy_number_nu: Optional[Union[int, float, Decimal]] = None
+
     # What floor do you live on?
     tenant_address_floor_nu: Optional[Union[int, float, Decimal]] = None
 
@@ -665,6 +668,8 @@ class HPActionVariables:
                        self.tenant_phone_work_te)
         result.add_opt('Tenant property owned TE',
                        self.tenant_property_owned_te)
+        result.add_opt('Inspection request copy number NU',
+                       self.inspection_request_copy_number_nu)
         result.add_opt('Tenant address floor NU',
                        self.tenant_address_floor_nu)
         result.add_opt('Tenant children under 6 NU',

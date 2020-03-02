@@ -132,6 +132,7 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:fieldWidth widthType="calculated"/>
 		</hd:text>
 		<hd:text name="Tenant child name TE">
+			<hd:title>Child&apos;s full name</hd:title>
 			<hd:prompt>Child&apos;s full name</hd:prompt>
 		</hd:text>
 		<hd:text name="Tenant income source TE">
@@ -157,6 +158,9 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		<hd:text name="Tenant property owned TE">
 			<hd:prompt>List any major property that you own, like a car or a valuable item, and the value of that property. (You can list several items in the same answer.)</hd:prompt>
 		</hd:text>
+		<hd:number name="Inspection request copy number NU">
+			<hd:prompt>not asked</hd:prompt>
+		</hd:number>
 		<hd:number name="Tenant address floor NU">
 			<hd:prompt>What floor do you live on?</hd:prompt>
 		</hd:number>
@@ -738,20 +742,20 @@ END IF
 		</hd:computation>
 		<hd:computation name="Cashier location CO" resultType="text">
 			<hd:script>IF Tenant borough MC = &quot;Manhattan&quot;
-	&quot;«.u»on Floor 2, Window 8«.ue»&quot;
+	&quot;«.u»Floor 2, Window 8«.ue»&quot;
 ELSE IF Tenant borough MC = &quot;Bronx&quot;
 	IF VALUE(user_is_NYCHA_tf)
-		&quot;«.u»[on Floor ___, Room ___, Window ___]«.ue»&quot;
+		&quot;«.u»[Floor ___, Room ___, Window ___]«.ue»&quot;
 	ELSE
-		&quot;«.u»on the Ground Floor, Window 8«.ue»&quot;
+		&quot;«.u»the Ground Floor, Window 8«.ue»&quot;
 	END IF
 ELSE IF Tenant borough MC = &quot;Brooklyn&quot;
-	&quot;«.u»on Floor 2, Room 205, Window “Cashier”«.ue»&quot;
+	&quot;«.u»Floor 2, Room 205, Window “Cashier”«.ue»&quot;
 END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 1 or addendum note CO" resultType="text">
 			<hd:script>IF COUNT(Tenant Complaints) &lt; 10
-	Which room MC[1] + &quot;, &quot; + Conditions complained of TE[1]
+	Conditions complained of TE[1]
 ELSE
 	&quot;See Addendum A&quot;
 END IF</hd:script>
@@ -771,28 +775,28 @@ ELSE
 END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 2 CO" resultType="text">
-			<hd:script>Which room MC[2] + &quot;, &quot; + Conditions complained of TE[2]</hd:script>
+			<hd:script>Conditions complained of TE[2]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 3 CO" resultType="text">
-			<hd:script>Which room MC[3] + &quot;, &quot; + Conditions complained of TE[3]</hd:script>
+			<hd:script>Conditions complained of TE[3]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 4 CO" resultType="text">
-			<hd:script>Which room MC[4] + &quot;, &quot; + Conditions complained of TE[4]</hd:script>
+			<hd:script>Conditions complained of TE[4]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 5 CO" resultType="text">
-			<hd:script>Which room MC[5] + &quot;, &quot; + Conditions complained of TE[5]</hd:script>
+			<hd:script>Conditions complained of TE[5]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 6 CO" resultType="text">
-			<hd:script>Which room MC[6] + &quot;, &quot; + Conditions complained of TE[6]</hd:script>
+			<hd:script>Conditions complained of TE[6]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 7 CO" resultType="text">
-			<hd:script>Which room MC[7] + &quot;, &quot; + Conditions complained of TE[7]</hd:script>
+			<hd:script>Conditions complained of TE[7]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 8 CO" resultType="text">
-			<hd:script>Which room MC[8] + &quot;, &quot; + Conditions complained of TE[8]</hd:script>
+			<hd:script>Conditions complained of TE[8]</hd:script>
 		</hd:computation>
 		<hd:computation name="Condition 9 CO" resultType="text">
-			<hd:script>Which room MC[9] + &quot;, &quot; + Conditions complained of TE[9]</hd:script>
+			<hd:script>Conditions complained of TE[9]</hd:script>
 		</hd:computation>
 		<hd:computation name="Conditions addendum block CO" resultType="text">
 			<hd:localVariables>
@@ -800,12 +804,16 @@ END IF</hd:script>
 			</hd:localVariables>
 			<hd:script>&quot;&quot;
 REPEAT Tenant Complaints
-	RESULT + &quot;«COUNTER». &quot; + Which room MC + &quot;, &quot; +Conditions complained of TE + &quot;«.pm»&quot;
+	RESULT + &quot;«COUNTER».  «VALUE(Which room MC)::Like This», «VALUE(Conditions complained of TE)»«.pm»&quot;
 END REPEAT</hd:script>
 		</hd:computation>
 		<hd:computation name="Court location CO" resultType="text">
 			<hd:script>IF Tenant borough MC = &quot;Manhattan&quot;
-	&quot;111 Centre St, New York, NY 10013&quot;
+	IF Tenant address zip TE = &quot;10035&quot; OR Tenant address zip TE = &quot;10037&quot; OR (Tenant address zip TE = &quot;10029&quot; AND VALUE(user_is_NYCHA_tf)) // Harlem CJC
+		&quot;170 E 121st St, New York, NY 10035&quot;
+	ELSE
+		&quot;111 Centre St, New York, NY 10013&quot;
+	END IF
 ELSE IF Tenant borough MC = &quot;Bronx&quot;
 	IF VALUE(user_is_NYCHA_tf)
 		&quot;851 Grand Concourse, Bronx, NY 10451&quot;
@@ -813,7 +821,11 @@ ELSE IF Tenant borough MC = &quot;Bronx&quot;
 		&quot; 1118 Grand Concourse, Bronx, NY 10456&quot;
 	END IF
 ELSE IF Tenant borough MC = &quot;Brooklyn&quot;
-	&quot;141 Livingston St, Brooklyn, NY 11201&quot;
+	IF VALUE(Tenant address zip TE) = &quot;11231&quot; AND VALUE(user_is_NYCHA_tf) // Red Hook CJC
+		&quot;88 Visitation Pl, Brooklyn, NY 11231&quot;
+	ELSE
+		&quot;141 Livingston St, Brooklyn, NY 11201&quot;
+	END IF
 ELSE IF Tenant borough MC = &quot;Queens&quot;
 	&quot;89-17 Sutphin Boulevard, Jamaica, NY 11435&quot;
 END IF</hd:script>
@@ -835,6 +847,14 @@ ELSE IF Sue for harassment TF
 	&quot;“ORDER TO SHOW CAUSE FOR A FINDING OF HARASSMENT and FOR A RESTRAINING ORDER”&quot;
 END IF</hd:script>
 		</hd:computation>
+		<hd:computation name="Filter inspection report CO" resultType="trueFalse">
+			<hd:script>COUNTER &lt;= 20</hd:script>
+		</hd:computation>
+		<hd:computation name="Filter inspection report additional page CO" resultType="trueFalse">
+			<hd:script>COUNTER &gt; (20 * (Inspection request copy number NU - 1))
+AND COUNTER &lt;= (20 * Inspection request copy number NU)
+</hd:script>
+		</hd:computation>
 		<hd:computation name="HP clerk location 2 CO" resultType="text">
 			<hd:script>IF Tenant borough MC = &quot;Manhattan&quot;
 	&quot;HP Clerk «.u»on Floor 2, Window 5«.ue»&quot;
@@ -853,6 +873,9 @@ END IF</hd:script>
 		<hd:computation name="HP clerk location CO" resultType="text">
 			<hd:script>IF Tenant borough MC = &quot;Manhattan&quot;
 	&quot;HP Clerk on Floor 2, Window 5&quot;
+	IF Court location MC = &quot;Harlem Community Justice Center&quot;
+		&quot;elevator to the 3rd floor&quot;
+	END IF
 ELSE IF Tenant borough MC = &quot;Bronx&quot;
 	IF VALUE(user_is_NYCHA_tf)
 		&quot;HP Clerk [on Floor ___, Room ___, Window ___]&quot;
@@ -911,6 +934,18 @@ END IF
 //ASK Service Information for HPD
 </hd:script>
 		</hd:computation>
+		<hd:computation name="Insert inspection requestion additional page CO" resultType="text">
+			<hd:script>IF COUNT(Tenant Complaints) &gt; (20 * Inspection request copy number NU)
+	INCREMENT Inspection request copy number NU
+END IF</hd:script>
+		</hd:computation>
+		<hd:computation name="Inspection addendum copy label CO" resultType="text">
+			<hd:script>&quot;(Page «Inspection request copy number NU» of «Inspection request total pages CO»)&quot;</hd:script>
+		</hd:computation>
+		<hd:computation name="Inspection addendum copy number CO" resultType="number">
+			<hd:script>2
+</hd:script>
+		</hd:computation>
 		<hd:computation name="Inspection request addendum block CO" resultType="text">
 			<hd:localVariables>
 				<hd:localVariable name="counter" type="number"/>
@@ -922,37 +957,66 @@ REPEAT Tenant Complaints
 	END IF
 END REPEAT</hd:script>
 		</hd:computation>
+		<hd:computation name="Inspection request total pages CO" resultType="number">
+			<hd:script>TRUNCATE((COUNT(Tenant Complaints) - 1) / 20) +1</hd:script>
+		</hd:computation>
 		<hd:computation name="Instructions borough specific 1 bold CO" resultType="text">
-			<hd:script>&quot;INSTRUCTIONS #2: STEP BY STEP GUIDE TO FILE IN COURT - «Tenant borough MC::LIKE THIS»&quot;</hd:script>
+			<hd:script>&quot;INSTRUCTIONS #2: STEP BY STEP GUIDE TO FILE IN COURT - «Tenant borough MC::LIKE THIS»&quot;
+IF Court location MC = &quot;Harlem Community Justice Center&quot;
+	&quot;INSTRUCTIONS #2: STEP BY STEP GUIDE TO FILE IN COURT - HARLEM&quot;
+ELSE IF Court location MC = &quot;Red Hook Community Justice Center&quot;
+	&quot;INSTRUCTIONS #2: STEP BY STEP GUIDE TO FILE IN COURT - RED HOOK&quot;
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 10 CO" resultType="text">
 			<hd:script>&quot;     1.   &quot;
 IF Tenant borough MC = &quot;Brooklyn&quot;
 	IF VALUE(user_is_NYCHA_tf)
-		RESULT + &quot;Go to the NYCHA Part: Take what the Clerk gives you to the Judge on Floor 9, Room 904 so they can sign «.lb»              the “Order to Show Cause”.&quot; 
+		RESULT + &quot;Go to the NYCHA Part: Take what the Clerk gives you to the Judge on Floor 9, Room 904 so they can sign «.lb»              the “Order to Show Cause”.&quot;
 	ELSE
 		RESULT + &quot;Take what the Clerk gives you to the Judge on Floor 4, Room 409 so they can sign the “Order to Show «.lb»          Cause”.&quot; 
 	END IF
 ELSE IF Tenant borough MC = &quot;Queens&quot;
 	RESULT + &quot;The clerk will send the papers to the judge for them to sign. 
-     2.   Wait for the Clerk to call you name and go up to Window 5.
+     2.   Wait for the Clerk to call your name and go up to Window 5.
      3.   The Clerk will hand you back the signed papers. 
      4.   Go to the Cashier on Floor 3, Room 357
             a.   The Cashier will assign you an Index Number. This is how you can identify your case.
             b.   If you got the fee waiver you will give them that paperwork.
             c.   If you did not get a fee waiver, this is where you will pay the $45 filing fee.&quot;
-ELSE IF Tenant borough MC = &quot;Manhattan&quot;
+ELSE IF Tenant borough MC = &quot;Manhattan&quot; AND Court location MC != &quot;Harlem Community Justice Center&quot;
 	RESULT + &quot;Take what the Clerk gives you to the Judge on Floor 5, Room 583 so they can sign the “Order to Show «.lb»          Cause”.&quot;
+ELSE IF Court location MC = &quot;Harlem Community Justice Center&quot;
+	RESULT + &quot;Wait for the Clerk to call you back up to the window.
+     2.   The Clerk will assign you a date by which you need to send a copy to your landlord«IF VALUE(Management company to be sued TF)», management company«END IF» and HPD.
+     3.   «IF Sue for repairs TF AND VALUE(Problem is urgent TF) = FALSE»The Clerk will assign you a date for the HPD Inspection. Pro tip: Can be evenings or weekends. 
+     4.   The Clerk will keep some of the copies of the Forms for the court’s records.
+     5.   You will get a copy to keep for your records. Make sure to keep it safe. 
+     6.   «ELSE»The Clerk will keep some of the copies of the Forms for the court’s records.
+     4.   You will get a copy to keep for your records. Make sure to keep it safe. 
+     5.   «END IF»&quot;
+     RESULT + &quot;The Clerk will give you a copy for you to send to your landlord«IF VALUE(Management company to be sued TF)» and management company«END IF» and another copy for you to«IF VALUE(Management company to be sued TF)»«.pm»          «END IF» send to HPD.
+             a.  The Clerk will give you instructions on how to serve the papers to your landlord«IF VALUE(Management company to be sued TF)» and management company«END IF».
+             b.  You have to send the papers exactly how the Clerk tells you to: by “USPS Certified Mail Return Receipt”&quot;
 ELSE //Bronx
 IF VALUE(user_is_NYCHA_tf)
 	RESULT + &quot;Take what the Clerk gives you to the Judge [on Floor __, Room ____, Window ____] so they can sign the«.lb»          “Order to Show Cause”.&quot;
 	ELSE
-	RESULT + &quot;Take what the Clerk gives you to the Judge on Floor 5, Room 560 so they can sign the “Order to Show «.lb»          Cause”.&quot;
+	RESULT + &quot;Take what the Clerk gives you to the Judge on Floor 5, Room 590 so they can sign the “Order to Show «.lb»          Cause”.&quot;
 	END IF
+END IF
+IF Court location MC = &quot;Red Hook Community Justice Center&quot;
+&quot;     1.   Staff at the Help Center will assist you with filing at the Clerk&apos;s window.
+     2.   «IF Sue for repairs TF AND VALUE(Problem is urgent TF) = FALSE»The Clerk will assign you a date for your HPD Inspection based on your preference and based on HPD’s
+            availability. Note: inspections are usually one week from filing.
+     3.   The Clerk will give you a court date.
+     4.   «ELSE»The Clerk will give you a court date.
+     3.   «END IF»Once the filing is completed, the Clerk will give you instructions on where to send copies of each form. You
+            have to send the papers exactly how the Clerk tells you to: by “USPS Certified Mail Return Receipt”&quot;
 END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 11 bold CO" resultType="text">
-			<hd:script>&quot;Part 3.&quot;</hd:script>
+			<hd:script>&quot;Step 3&quot;</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 12 CO" resultType="text">
 			<hd:script>IF Tenant borough MC != &quot;Queens&quot;
@@ -968,12 +1032,12 @@ ELSE
 END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 13 bold CO" resultType="text">
-			<hd:script>&quot;Part 4.&quot;</hd:script>
+			<hd:script>&quot;Step 4&quot;</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 14 CO" resultType="text">
 			<hd:script>IF Tenant borough MC = &quot;Queens&quot;
 &quot;       1.	  Once you have all of the papers that you need to send and you know where to send them, you will head to
-             the post office by the date that the Clerk assigns you and mail the paperwork.&quot;
+              the post office by the date that the Clerk assigns you and mail the paperwork. ***&quot;
 ELSE
 &quot;     1.	  Go back to the «HP clerk location 2 CO» and give the Clerk what you have.
      2.	  The Clerk will keep some of the copies of the Forms.
@@ -987,7 +1051,7 @@ END IF
 			<hd:script>IF Tenant borough MC = &quot;Queens&quot;
 &quot;&quot;
 ELSE
-&quot;Part 5.&quot;
+&quot;Step 5&quot;
 END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 16 CO" resultType="text">
@@ -995,7 +1059,7 @@ END IF</hd:script>
 &quot;&quot;
 ELSE
 &quot;     1.	  Once you have all of the papers that you need to send and you know where to send them, you will head to
-             the post office by the date that the Clerk assigns you and mail the paperwork.&quot;
+           the post office by the date that the Clerk assigns you and mail the paperwork. ***&quot;
 END IF
 </hd:script>
 		</hd:computation>
@@ -1004,7 +1068,12 @@ END IF
 </hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 3 CO" resultType="text">
-			<hd:script>&quot;«Tenant borough MC» County Housing Court: «Court location CO»&quot;</hd:script>
+			<hd:script>&quot;«Tenant borough MC» County Housing Court: «Court location CO»&quot;
+IF Court location MC = &quot;Harlem Community Justice Center&quot;
+	&quot;Harlem Community Justice Center: 170 E 121st St, New York, NY 10035&quot;
+ELSE IF Court location MC = &quot;Red Hook Community Justice Center&quot;
+	&quot;Red Hook Community Justice Center: 88 Visitation Place, Brooklyn, NY 11231&quot;
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 4 bold CO" resultType="text">
 			<hd:script>&quot;WHAT TO TAKE WITH YOU&quot;</hd:script>
@@ -1013,39 +1082,55 @@ END IF
 			<hd:script>&quot;     1.   Photo I.D.
      2.   This entire packet of forms.
      3.   If you can, fee of $45 in cash or money order. Be ready with the fee even if you plan to ask for a fee waiver,«.lb»            just in case you don’t get it.&quot;
-</hd:script>
+IF Court location MC = &quot;Red Hook Community Justice Center&quot;
+	&quot;     1.   Photo I.D.
+     2.   This entire packet of forms.&quot;
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 6 bold CO" resultType="text">
 			<hd:script>&quot;STEPS AT THE COURTHOUSE&quot;
 </hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 7 bold CO" resultType="text">
-			<hd:script>&quot;Part 1&quot;</hd:script>
+			<hd:script>&quot;Step 1&quot;</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 8 CO" resultType="text">
 			<hd:script>&quot;     1.   Take all of these papers to the courthouse on the day you want to file your case.
-     2.   Go to the courthouse.  After the metal detectors, go to the «HP clerk location CO»
+&quot;
+IF Court location MC = &quot;Red Hook Community Justice Center&quot;
+	RESULT + &quot;     2.   Go to the courthouse. 
+     3.    From the metal detectors, go the Help Center and Clerk’s window on the Floor 1, Room 102.&quot;
+ELSE
+	RESULT + &quot;     2.   Go to the courthouse.  After the metal detectors, go to the «HP clerk location CO»
      3.   &quot;
-IF Tenant borough MC = &quot;Brooklyn&quot;
-	RESULT + &quot;Ask for a Ticket for Window 10. 
+	IF Court location MC = &quot;Harlem Community Justice Center&quot;
+		RESULT + &quot;Take a left and wait in line to be called up to one of the two Landlord and Tenant (L&amp;T) Clerk windows.  You«.lb»           can show them that you already have the printed paperwork.
+	    4.   Give you packet to the Clerk for them to review.
+	    5.   The Clerk will show you where to sign the papers when they are done.
+	    6.   The Clerk will send the papers to the judge for them to sign.
+	    7.   If the judge has questions for you, the Clerk will ask you to step into the courtroom (Room 308).&quot;
+	ELSE
+		IF Tenant borough MC = &quot;Brooklyn&quot;
+			RESULT + &quot;Ask for a Ticket for Window 10. 
      4.   Wait for your number to be called.
      5.   When your number is called, go up to Window 10 give your packet to the HP Clerk. They will:
 &quot;
-ELSE IF Tenant borough MC = &quot;Queens&quot;
-	RESULT + &quot;Take a left and wait in line to get a number to see the HP Clerk. You can show them that you already have «.lb»            the paperwork.
+		ELSE IF Tenant borough MC = &quot;Queens&quot;
+			RESULT + &quot;Take a left and wait in line to get a number to see the HP Clerk. You can show them that you already have «.lb»            the paperwork.
      4.	  Wait in line or inside 209 to speak to the HP Clerk Floor 2, Room 209, Window 5.
      5.	  The HP Clerk will call you number when it’s your turn, give your packet to the HP Clerk. They will: 
 &quot;
-ELSE
-	RESULT + &quot;Wait in line. and when it&apos;s your turn, give your packet to the HP clerk.  They will:«.lb»&quot;
-END IF
-RESULT + &quot;           a.	  Separate each copy to send it to the right place. 
-           b.	 Assign you a date by which you need to send a copy to your landlord«IF Management company to be sued TF» and management company«.lb»                 «END IF» and HPD.
-           c.	 Assign you a date for the HPD Inspection. Pro tip: Can be evenings or weekends.
-           d.	 The Clerk will show you where to sign the papers when they are done.&quot;</hd:script>
+		ELSE
+			RESULT + &quot;Wait in line and, when it&apos;s your turn, give your packet to the HP clerk.  They will:«.lb»&quot;
+		END IF
+		RESULT + &quot;           a.	 Assign you a date by which you need to send a copy to your landlord«IF VALUE(Management company to be sued TF)» and management company«END IF».
+           b.	 «IF Sue for repairs TF»Assign you a date for the HPD Inspection. Pro tip: Can be evenings or weekends.
+           c.	 «END IF»The Clerk will show you where to sign the papers when they are done.&quot;
+	END IF
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions borough specific 9 bold CO" resultType="text">
-			<hd:script>&quot;Part 2&quot;</hd:script>
+			<hd:script>&quot;Step 2&quot;</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions general 1 bold CO" resultType="text">
 			<hd:script>&quot;INSTRUCTIONS #1: GENERAL           &quot;
@@ -1053,9 +1138,8 @@ RESULT + &quot;           a.	  Separate each copy to send it to the right place.
 		</hd:computation>
 		<hd:computation name="Instructions general 10 CO" resultType="text">
 			<hd:script>IF Request fee waiver TF
-&quot;     1.	   INSTRUCTIONS #3: Requesting Not to Pay the $45 Filing Fee
-     2.	   “EX PARTE ORDER GRANTING LEAVE TO PROCEED AS A POOR PERSON AND TO WAIVE COURT FEES”
-     3.	   “AFFIDAVIT IN SUPPORT OF AN APPLICATION TO PROCEED AS A POOR PERSON AND TO WAIVE
+&quot;     1.	   “EX PARTE ORDER GRANTING LEAVE TO PROCEED AS A POOR PERSON AND TO WAIVE COURT FEES”
+     2.	   “AFFIDAVIT IN SUPPORT OF AN APPLICATION TO PROCEED AS A POOR PERSON AND TO WAIVE
               COURT FEES” 
   &quot;
 END IF</hd:script>
@@ -1089,9 +1173,13 @@ E.	  If you win your case but the landlord does not «Landlord does not text CO�
 		</hd:computation>
 		<hd:computation name="Instructions general 6 CO" resultType="text">
 			<hd:script>&quot;     1.	   INSTRUCTIONS #1: General
-     2.	   INSTRUCTIONS #2: Step by Step Guide to File in Court
-     
-&quot;</hd:script>
+     2.	   INSTRUCTIONS #2: Step by Step Guide to File in Court&quot;
+IF Redhook or Harlem CJC CO
+	RESULT + &quot; (not included if filing in RedHook or Harlem CJC)&quot;
+END IF
+IF Request fee waiver TF
+	RESULT + &quot; «.pm»     3.   INSTRUCTIONS #3: Requesting Not to Pay the $45 Filing Fee&quot;
+END IF</hd:script>
 		</hd:computation>
 		<hd:computation name="Instructions general 7 bold CO" resultType="text">
 			<hd:script>&quot;           Section 2: &quot;
@@ -1153,13 +1241,20 @@ END IF</hd:script>
 		<hd:computation name="Management company address one line CO" resultType="text">
 			<hd:script>&quot;«Management company address street TE», «Management company address city TE», «Management company address state MC:State abbreviations» «Management company address zip TE»&quot;</hd:script>
 		</hd:computation>
+		<hd:computation name="Redhook or Harlem CJC CO" resultType="trueFalse">
+			<hd:script>Tenant borough MC = &quot;Manhattan&quot; AND (Tenant address zip TE = &quot;10035&quot; OR Tenant address zip TE = &quot;10037&quot; OR (Tenant address zip TE = &quot;10029&quot; AND VALUE(user_is_NYCHA_tf)))
+OR Tenant borough MC = &quot;Brooklyn&quot; AND Tenant address zip TE = &quot;11231&quot; AND VALUE(user_is_NYCHA_tf)</hd:script>
+		</hd:computation>
 		<hd:computation name="Respondents CO" resultType="text">
 			<hd:script>Landlord name CO
-IF Management company to be sued TF
+IF Management company to be sued TF AND ANSWERED(Management company name TE)
 	RESULT + &quot; and &quot; + Management company name TE
 END IF 
 
 // note that DHPD is hardcoded into the forms as a respondent</hd:script>
+		</hd:computation>
+		<hd:computation name="Set inspection request copy number CO" resultType="text">
+			<hd:script>SET Inspection request copy number NU TO 1</hd:script>
 		</hd:computation>
 		<hd:computation name="Tenant address CO" resultType="text">
 			<hd:script>Tenant address street TE
@@ -1265,7 +1360,7 @@ FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 			<hd:caption>«.i»The City housing department will send an inspector to examine the problems in your apartment.  Someone will need to be at home for that inspection and to let the inspector into the building and apartment.«.ie»</hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Intro to conditions list">
-			<hd:caption>«.b»Now list all the conditions that need repair.«.be» «.i» Be specific, list everything that needs repair, and write each condition on a separate line.  Use as many lines as you need.  (A new blank line will appear each time you finish a line).«.ie» </hd:caption>
+			<hd:caption>«.b»Now list all the conditions that need repair.«.be»  «.i» Be specific, list everything that needs repair, and write each condition on a separate line.  Use as many lines as you need.  (A new blank line will appear each time you finish a line).«.ie» </hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Intro to fee waiver info">
 			<hd:caption>«.i»Since you would like the court to let you file your case without paying the $45 fee, we will create a petition for you to take to court to ask for this.«.ie»</hd:caption>
@@ -1286,7 +1381,7 @@ FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 			<hd:caption></hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Version">
-			<hd:horizontalDivider caption="07/03/19 Version" justification="center"/>
+			<hd:horizontalDivider caption="07/27/19 Version" justification="center"/>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Vertical space 100">
 			<hd:verticalSpacing/>
@@ -1305,6 +1400,9 @@ FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 
 6.      We will give you instructions about how to &quot;file&quot; them in court and how to &quot;serve&quot; them.</hd:caption>
 		</hd:dialogElement>
+		<hd:dialogElement name="TEST">
+			<hd:caption>«Redhook or Harlem CJC CO»</hd:caption>
+		</hd:dialogElement>
 		<hd:dialog name="Court Information">
 			<hd:title>Court Information</hd:title>
 			<hd:contents>
@@ -1317,10 +1415,14 @@ FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 	DEFAULT Court location MC TO &quot;Bronx County&quot;
 END IF
 IF Tenant borough MC = &quot;Brooklyn&quot;
-	DEFAULT Court location MC TO &quot;Kings County&quot;
+	IF Tenant address zip TE = &quot;11231&quot; // AND NYCHA
+		DEFAULT Court location MC TO &quot;Red Hook Community Justice Center&quot;
+	ELSE
+		DEFAULT Court location MC TO &quot;Kings County&quot;
+	END IF
 END IF
 IF Tenant borough MC = &quot;Manhattan&quot;
-	IF Tenant address zip TE = &quot;01035&quot; OR Tenant address zip TE = &quot;01037&quot; 
+	IF Tenant address zip TE = &quot;10035&quot; OR Tenant address zip TE = &quot;10037&quot; OR (Tenant address zip TE = &quot;10037&quot;) //AND NYCHA
 		DEFAULT Court location MC TO &quot;Harlem Community Justice Center&quot;
 	ELSE
 		DEFAULT Court location MC TO &quot;New York County&quot;
@@ -1567,27 +1669,8 @@ END IF
 				<hd:item name="Which room MC"/>
 				<hd:item name="Conditions complained of TE"/>
 			</hd:contents>
-			<hd:script>LIMIT 45
-//Following logic didn&apos;t work
-//CLEAR Which room MC
-//IF Area complained of MC = &quot;My apartment&quot;
-//	ADD &quot;Master bedroom&quot; TO Which room MC
-//	ADD &quot;Bedroom 2&quot; TO Which room MC
-//	ADD &quot;Bedroom 3&quot; TO Which room MC
-//	ADD &quot;Bedroom 4&quot; TO Which room MC
-//	ADD &quot;Kitchen&quot; TO Which room MC
-//	ADD &quot;Master bathroom&quot; TO Which room MC
-//	ADD &quot;Bathroom 2&quot; TO Which room MC
-//	ADD &quot;Living room&quot; TO Which room MC
-//	ADD &quot;Family room&quot; TO Which room MC
-//	ADD &quot;Dining room&quot; TO Which room MC
-//	ADD &quot;Laundry room&quot; TO Which room MC
-//ELSE
-//	ADD &quot;Lobby&quot; TO Which room MC
-//	ADD &quot;Front stairwell&quot; TO Which room MC
-//	ADD &quot;Back stairwell&quot; TO Which room MC
-//	ADD &quot;Laundry room&quot; TO Which room MC
-//END IF</hd:script>
+			<hd:script>//LIMIT 161
+</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Tenant Information">
 			<hd:title>Tenant Information</hd:title>
@@ -1607,26 +1690,13 @@ END IF
 				<hd:item name="Tenant children under 6 NU"/>
 				<hd:item name="DE Children"/>
 				<hd:item name="Tenant Child"/>
+				<hd:item name="TEST"/>
 			</hd:contents>
-			<hd:script>//HIDE Tenant involved address street TE 
-//HIDE Tenant involved address apt no TE
-//HIDE Tenant involved address city TE
-//HIDE Tenant involved address state MC
-//HIDE Tenant involved address zip TE
-//HIDE Tenant involved borough MC
+			<hd:script>//SET user_is_NYCHA_tf TO TRUE
+HIDE TEST
 GRAY DE Children
 GRAY Tenant Child
 DEFAULT Tenant address state MC TO &quot;New York&quot;
-//DEFAULT Tenant involved address state MC TO &quot;New York&quot;
-
-//IF VALUE(Tenant different address TF)
-//	SHOW Tenant involved address street TE 
-//	SHOW Tenant involved address apt no TE
-//	SHOW Tenant involved address city TE
-//	SHOW Tenant involved address state MC
-//	SHOW Tenant involved address zip TE
-//	SHOW Tenant involved borough MC
-//END IF
 
 IF VALUE( Tenant children under 6 NU) &gt; 0
 	UNGRAY DE Children

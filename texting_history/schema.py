@@ -154,18 +154,20 @@ def resolve_conversations(
     }
 
     with connection.cursor() as cursor:
-        cursor.execute('\n'.join([
-            with_clause,
+        base_select = '\n'.join([
             select_with_user_info_statement,
             where_clause,
+        ])
+        cursor.execute('\n'.join([
+            with_clause,
+            base_select,
             order_clause,
             limit_clause,
         ]), sql_args)
         messages = [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
         cursor.execute('\n'.join([
-            with_clause,
-            'SELECT COUNT(*) FROM latest_conversation_msg',
-            where_clause,
+            f"{with_clause}, filtered_messages AS ({base_select})",
+            'SELECT COUNT(*) FROM filtered_messages',
         ]), sql_args)
         count = cursor.fetchone()[0]
         return LatestTextMessagesResult(

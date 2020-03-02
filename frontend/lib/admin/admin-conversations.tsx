@@ -53,9 +53,10 @@ function mergeMessages<T extends BaseConversationMessage>(current: T[], toMerge:
 export const mergeConversationMessages = mergeMessages;
 
 function useLatestMessageTimestamp(): string|null|undefined {
-  const { fetch } = useContext(AppContext);
+  const { fetchWithoutErrorHandling: fetch } = useContext(AppContext);
   return useRepeatedPromise(
     useMemo(
+      // TODO: On error, inform the user *non-intrusively* that something is amiss.
       () => async () => (await UpdateTextingHistoryMutation.fetch(fetch)).output.latestMessage,
       [fetch]
     ),

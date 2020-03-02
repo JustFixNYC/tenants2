@@ -127,6 +127,11 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   @autobind
+  fetchWithoutErrorHandling(query: string, variables?: any): Promise<any> {
+    return this.gqlClient.fetch(query, variables);
+  }
+
+  @autobind
   fetch(query: string, variables?: any): Promise<any> {
     return this.gqlClient.fetch(query, variables).catch(e => {
       this.handleFetchError(e);
@@ -239,6 +244,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       server: this.props.server,
       session: this.state.session,
       fetch: this.fetch,
+      fetchWithoutErrorHandling: this.fetchWithoutErrorHandling,
       updateSession: this.handleSessionChange,
       legacyFormSubmission: this.props.legacyFormSubmission
     };

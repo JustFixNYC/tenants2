@@ -1,6 +1,6 @@
 import { normalizeConversationQuery, makeConversationURL, mergeConversationMessages, BaseConversationMessage } from "../admin-conversations";
-import { AdminConversation_output } from "../../queries/AdminConversation";
-import { AdminConversations_output } from "../../queries/AdminConversations";
+import { AdminConversation_output_messages } from "../../queries/AdminConversation";
+import { AdminConversations_output_messages } from "../../queries/AdminConversations";
 
 test("normalizeConversationQuery() works", () => {
   [
@@ -29,8 +29,8 @@ describe("mergeConversationMessages()", () => {
 
     // These are really just checks to make sure expectations are met re: our GraphQL API
     // conforming to this function's type signature.
-    expect(mergeConversationMessages<AdminConversation_output>([], [])).toEqual([]);
-    expect(mergeConversationMessages<AdminConversations_output>([], [])).toEqual([]);
+    expect(mergeConversationMessages<AdminConversation_output_messages>([], [])).toEqual([]);
+    expect(mergeConversationMessages<AdminConversations_output_messages>([], [])).toEqual([]);
   });
 
   it("orders lists in descending order", () => {

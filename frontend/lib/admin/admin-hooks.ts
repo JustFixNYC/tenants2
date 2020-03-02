@@ -3,9 +3,13 @@ import { QueryLoaderQuery } from "../query-loader-prefetcher";
 import { AppContext } from "../app-context";
 
 /**
- * A React Hook to repeatedly call the given promise, waiting the
- * given number of milliseconds once it has returned to call
- * it again.
+ * A React Hook to repeatedly call a function and wait for its returned
+ * promise to complete, waiting the given number of milliseconds once
+ * it has returned to call the function again. The Hook's return value is
+ * the result of the most recent *successful* completion of the promise.
+ * 
+ * NOTE: The promise is expected to succeed, and any exception
+ * it throws goes uncaught.
  */
 export function useRepeatedPromise<T>(factory: () => Promise<T>, msInterval: number): T|undefined {
   const [value, setValue] = useState<T|undefined>(undefined);
@@ -26,7 +30,6 @@ export function useRepeatedPromise<T>(factory: () => Promise<T>, msInterval: num
       }
     };
 
-    // TODO: Do something if this throws?
     refreshValue();
 
     return () => {

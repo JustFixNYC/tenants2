@@ -94,7 +94,12 @@ def resolve_conversation(
     kwargs: Dict[str, Any] = {'user_phone_number': phone_number}
     if after_or_at:
         kwargs['ordering__lte'] = after_or_at
-    return Message.objects.filter(**kwargs).order_by('-ordering')[:first]
+    qs = Message.objects.filter(**kwargs).order_by('-ordering')
+    messages = list(qs[:first])
+    count = qs.count()
+    has_more_pages = count == len(messages)
+    print("conversation count", count, has_more_pages)
+    return messages
 
 
 @ensure_request_has_verified_user_with_permission
@@ -130,21 +135,32 @@ def resolve_conversations(
         )
 
     where_clause = ('WHERE ' + ' AND '.join(where_clauses)) if where_clauses else ''
+    order_clause = "ORDER BY ordering DESC"
+    limit_clause = f"LIMIT %(first)s"
+    sql_args = {
+        'first': first,
+        'after_or_at': after_or_at,
+        'query': query,
+    }
 
     with connection.cursor() as cursor:
-        sql = '\n'.join([
+        cursor.execute('\n'.join([
             with_clause,
             select_with_user_info_statement,
             where_clause,
-            "ORDER BY ordering DESC",
-            f"LIMIT %(first)s",
-        ])
-        cursor.execute(sql, {
-            'first': first,
-            'after_or_at': after_or_at,
-            'query': query,
-        })
-        return [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
+            order_clause,
+            limit_clause,
+        ]), sql_args)
+        messages = [LatestTextMessage(**row) for row in generate_json_rows(cursor)]
+        cursor.execute('\n'.join([
+            with_clause,
+            'SELECT COUNT(*) FROM latest_conversation_msg',
+            where_clause,
+        ]), sql_args)
+        count = cursor.fetchone()[0]
+        has_more_pages = count == len(messages)
+        print("conversations count", count, has_more_pages)
+        return messages
 
 
 @ensure_request_has_verified_user_with_permission

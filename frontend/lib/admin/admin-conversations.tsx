@@ -166,9 +166,10 @@ export function normalizeConversationQuery(query: string): string {
 const LoadMoreButton: React.FC<{
   queryResult: UseMergedQueryResult<any>
 }> = ({queryResult}) => {
+  const className = "button is-text is-small";
   return queryResult.isLoadingMore
-    ? <button disabled>Loading...</button>
-    : queryResult.hasNextPage ? <button onClick={queryResult.loadMore}>Load more</button>
+    ? <button disabled className={className}>Loading...</button>
+    : queryResult.hasNextPage ? <button className={className} onClick={queryResult.loadMore}>Load more</button>
       : null;
 };
 

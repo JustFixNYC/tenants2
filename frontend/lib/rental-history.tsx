@@ -66,7 +66,7 @@ function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
  * If there is no pre-existing user data, we return a blank RhFormInput object. 
  */
 
-function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
+export function GenerateUserRhFormInput(appContext: AppContextType): RhFormInput {
   const userData = appContext.session;
   
   if (!userData || !userData.userId) {

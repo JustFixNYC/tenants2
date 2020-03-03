@@ -19,7 +19,8 @@ class Message(models.Model):
     # `date_sent` field is defined).
     ordering = models.FloatField()
 
-    body = models.TextField()
+    # Bizzarely, in practice, it is possible for this field to be blank.
+    body = models.TextField(blank=True)
 
     # Longest status is "partially_delivered" (19 characters)
     status = models.CharField(max_length=20)

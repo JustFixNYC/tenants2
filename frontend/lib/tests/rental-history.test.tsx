@@ -4,13 +4,16 @@ import { ProgressRoutesTester } from './progress-routes-tester';
 import RentalHistoryRoutes, { getRentalHistoryRoutesProps } from '../rental-history';
 import Routes from '../routes';
 import { AppTesterPal } from './app-tester-pal';
-import  {OnboardingInfoBorough, OnboardingInfoSignupIntent }  from '../queries/globalTypes';
+import  { OnboardingInfoBorough, OnboardingInfoSignupIntent }  from '../queries/globalTypes';
+import { browserStorage } from '../browser-storage';
 
 const tester = new ProgressRoutesTester(getRentalHistoryRoutesProps(), 'Rental History');
 
 tester.defineSmokeTests();
 
 describe('Rental history frontend', () => {
+    afterEach(AppTesterPal.cleanup);
+
     it('returns splash page by default', () => {
       expect(tester.getLatestStep()).toBe(Routes.locale.rh.splash);
     });
@@ -51,35 +54,71 @@ describe('Rental history frontend', () => {
 
       });
 
-    //   it('deletes user details on clicking cancel button', () => {
-    //     const pal = new AppTesterPal(<RentalHistoryRoutes />, {
-    //       url: Routes.locale.rh.form,
-    //       session: {
-    //         rentalHistoryInfo: {
-    //           firstName: 'boop',
-    //           lastName: 'jones',
-    //           address: "150 DOOMBRINGER STREET",
-    //           apartmentNumber: '2',
-    //           phoneNumber: '2120000000',
-    //           borough: 'MANHATTAN',
-    //           zipcode: '10001',
-    //           addressVerified: true,
-    //         },
-    //       }
-    //     });
-    //     const inputAddress = pal.rr.getAllByLabelText(/address/i)[0] as HTMLInputElement;
-    //     expect(inputAddress.value).toEqual('150 DOOMBRINGER STREET, Manhattan');
-    //     const inputPhone = pal.rr.getAllByLabelText('Phone number')[0] as HTMLInputElement;
-    //     expect(inputPhone.value).toEqual('(212) 000-0000');
+      it('shows blank form if no user is logged in and no form data saved to session', () => {
+        const pal = new AppTesterPal(<RentalHistoryRoutes />, {
+          url: Routes.locale.rh.form,
+          session: {
+            userId: null,
+            rentalHistoryInfo: null
+          }
+        });
 
-    //     pal.clickButtonOrLink('Cancel request');
-    //     pal.expectFormInput({});
+        const inputFirstName = pal.rr.getByLabelText('First name') as HTMLInputElement;
+        expect(inputFirstName.value).toEqual('');
+        const inputLastName = pal.rr.getByLabelText('Last name') as HTMLInputElement;
+        expect(inputLastName.value).toEqual('');
+        const inputAddress = pal.rr.getAllByLabelText(/address/i)[0] as HTMLInputElement;
+        expect(inputAddress.value).toEqual('');
+        const inputApt = pal.rr.getByLabelText('Apartment number') as HTMLInputElement;
+        expect(inputApt.value).toEqual('');
+        const inputPhone = pal.rr.getByLabelText('Phone number') as HTMLInputElement;
+        expect(inputPhone.value).toEqual('');
 
-    //   });
+      });
 
-    /* GIVES ERROR: 
-    Found at least one element with label text "Cancel request" 
-    (<button>, <button>), but more than one matches the selector "a, button, a > 
-    .jf-sr-only, button > .jf-sr-only" */
+      it('deletes user details on clicking cancel button', () => {
+        const pal = new AppTesterPal(<RentalHistoryRoutes />, {
+          url: Routes.locale.rh.form,
+          session: {
+            rentalHistoryInfo: {
+              firstName: 'boop',
+              lastName: 'jones',
+              address: "150 DOOMBRINGER STREET",
+              apartmentNumber: '2',
+              phoneNumber: '2120000000',
+              borough: 'MANHATTAN',
+              zipcode: '10001',
+              addressVerified: true,
+            },
+          }
+        });
+        const inputAddress = pal.rr.getAllByLabelText(/address/i)[0] as HTMLInputElement;
+        expect(inputAddress.value).toEqual('150 DOOMBRINGER STREET, Manhattan');
+        const inputPhone = pal.rr.getByLabelText('Phone number') as HTMLInputElement;
+        expect(inputPhone.value).toEqual('(212) 000-0000');
+
+        pal.clickButtonOrLink('Cancel request');
+        pal.expectFormInput({});
+
+      });
+
+      it('shows an anonymous users address from DDO in form', () => {
+        browserStorage.update({latestAddress: "150 DOOMBRINGER STREET"});
+        browserStorage.update({latestBorough: "MANHATTAN"});
+
+        const pal = new AppTesterPal(<RentalHistoryRoutes />, {
+          url: Routes.locale.rh.form,
+          session: {
+            userId: null,
+            rentalHistoryInfo: null
+          }
+        });
+
+        const inputAddress = pal.rr.getAllByLabelText(/address/i)[0] as HTMLInputElement;
+        expect(inputAddress.value).toEqual('150 DOOMBRINGER STREET, Manhattan');
+
+        browserStorage.clear();
+
+      });
 
   });

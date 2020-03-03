@@ -40,6 +40,7 @@ describe('Rental history frontend', () => {
               address: "150 DOOMBRINGER STREET",
               signupIntent: OnboardingInfoSignupIntent.LOC,
               borough: OnboardingInfoBorough.MANHATTAN,
+              padBbl: '1234567890',
               aptNumber: "1",
               floorNumber: null
             }

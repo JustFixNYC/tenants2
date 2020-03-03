@@ -1,0 +1,5 @@
+query AdminConversations($query: String!, $afterOrAt: Float = 0) {
+    output: conversations(query: $query, afterOrAt: $afterOrAt) {
+        ...LatestTextMessagesResult
+    }
+}

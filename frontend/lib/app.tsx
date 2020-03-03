@@ -106,6 +106,10 @@ const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/d
   fallback: <LoadingPage />
 });
 
+const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./admin/admin-conversations')), {
+  fallback: <LoadingPage/>
+});
+
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
@@ -120,6 +124,11 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       session: props.initialSession
     };
     this.pageBodyRef = React.createRef();
+  }
+
+  @autobind
+  fetchWithoutErrorHandling(query: string, variables?: any): Promise<any> {
+    return this.gqlClient.fetch(query, variables);
   }
 
   @autobind
@@ -235,6 +244,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
       server: this.props.server,
       session: this.state.session,
       fetch: this.fetch,
+      fetchWithoutErrorHandling: this.fetchWithoutErrorHandling,
       updateSession: this.handleSessionChange,
       legacyFormSubmission: this.props.legacyFormSubmission
     };
@@ -252,6 +262,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.legacyDataDrivenOnboarding} exact component={createRedirectWithSearch(Routes.locale.home)} />
         <Route path={Routes.locale.login} exact component={LoginPage} />
         <Route path={Routes.adminLogin} exact component={LoginPage} />
+        <Route path={Routes.adminConversations} exact component={LoadableAdminConversationsRoutes} />
         <Route path={Routes.locale.logout} exact component={LogoutPage} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
         <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />

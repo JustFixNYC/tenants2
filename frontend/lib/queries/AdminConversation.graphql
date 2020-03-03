@@ -1,0 +1,9 @@
+query AdminConversation($phoneNumber: String!, $afterOrAt: Float = 0) {
+    output: conversation(phoneNumber: $phoneNumber, afterOrAt: $afterOrAt) {
+        ...TextMessagesResult
+    }
+
+    userDetails(phoneNumber: $phoneNumber) {
+        ...JustfixUserType
+    }
+}

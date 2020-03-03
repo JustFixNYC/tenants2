@@ -16,7 +16,7 @@ import { getPostOrQuerystringVar } from '../querystring';
 import { Link } from 'react-router-dom';
 import { getPostOnboardingURL } from '../signup-intent';
 
-const NEXT = 'next';
+export const NEXT = 'next';
 
 export interface LoginFormProps {
   next: string;

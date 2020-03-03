@@ -49,7 +49,7 @@ export function addDays(date: Date, days: number): Date {
 }
 
 /** Our preferred time zone, which we assume most/all users are in. */
-const PREFERRED_TIME_ZONE = 'America/New_York';
+export const PREFERRED_TIME_ZONE = 'America/New_York';
 
 /**
  * Return the given date formatted in a friendly way, like

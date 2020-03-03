@@ -140,9 +140,20 @@ export interface AppContextType {
   session: AllSessionInfo;
 
   /**
-   * A reference to the app's GraphQL interface, for network requets.
+   * A reference to the app's GraphQL interface, for network requests.
+   * 
+   * Includes automatic error handling that advises the user to try
+   * again later.
    */
   fetch: GraphQLFetch;
+
+  /**
+   * A reference to the app's GraphQL interface, for network requests.
+   * 
+   * It does not include any error handing by default, so the caller
+   * is responsible for informing the user about any errors that occur.
+   */
+  fetchWithoutErrorHandling: GraphQLFetch;
 
   /**
    * Currently, we often update the app's state by having network
@@ -182,6 +193,9 @@ export const defaultContext: AppContextType = {
     throw new UnimplementedError();
   },
   fetch(query: string, variables?: any): Promise<any> {
+    throw new UnimplementedError();
+  },
+  fetchWithoutErrorHandling(query: string, variables?: any): Promise<any> {
     throw new UnimplementedError();
   },
   updateSession(session: Partial<AllSessionInfo>) {

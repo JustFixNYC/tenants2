@@ -38,6 +38,7 @@ fragment AllSessionInfo on SessionInfo {
     signupIntent,
     address,
     borough,
+    padBbl,
     aptNumber,
     floorNumber
   },

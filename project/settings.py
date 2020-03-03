@@ -108,6 +108,7 @@ INSTALLED_APPS = [
     'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
     'rh.apps.RhConfig',
     'dwh.apps.DwhConfig',
+    'texting_history.apps.TextingHistoryConfig',
 ]
 
 MIDDLEWARE = [
@@ -382,7 +383,7 @@ TWILIO_AUTH_TOKEN = env.TWILIO_AUTH_TOKEN
 
 TWILIO_PHONE_NUMBER = env.TWILIO_PHONE_NUMBER
 
-TWILIO_TIMEOUT = 3
+TWILIO_TIMEOUT = 10
 
 SLACK_WEBHOOK_URL = env.SLACK_WEBHOOK_URL
 

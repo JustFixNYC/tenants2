@@ -70,6 +70,7 @@ export const FakeAppContext: AppContextType = {
   server: FakeServerInfo,
   session: FakeSessionInfo,
   fetch: jest.fn(),
+  fetchWithoutErrorHandling: jest.fn(),
   updateSession: jest.fn()
 };
 

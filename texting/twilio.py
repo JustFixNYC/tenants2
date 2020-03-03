@@ -47,6 +47,17 @@ def get_client() -> Client:
                   http_client=JustfixHttpClient())
 
 
+def tendigit_to_e164(phone_number: str) -> str:
+    '''
+    Convert a ten-digit phone number to an E.164 one.
+
+    >>> tendigit_to_e164('5551234567')
+    '+15551234567'
+    '''
+
+    return f"+1{phone_number}"
+
+
 def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
     '''
     Send an SMS message to the given phone number, with the given body.
@@ -62,8 +73,8 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
         client = get_client()
         try:
             msg = client.messages.create(
-                to=f"+1{phone_number}",
-                from_=f"+1{settings.TWILIO_PHONE_NUMBER}",
+                to=tendigit_to_e164(phone_number),
+                from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
                 body=body
             )
             logger.info(f'Sent Twilio message with sid {msg.sid}.')

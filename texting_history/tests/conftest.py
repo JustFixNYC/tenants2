@@ -16,6 +16,7 @@ EMPTY_MESSAGE_RESPONSE['messages'] = []
 @pytest.fixture
 def mock_twilio_api(requests_mock, settings):
     settings.TWILIO_ACCOUNT_SID = 'boop'
+    settings.TWILIO_AUTH_TOKEN = 'sekret'
     settings.TWILIO_PHONE_NUMBER = '5551234567'
     requests_mock.get(
         'https://api.twilio.com/2010-04-01/Accounts/boop/Messages.json?To=%2B15551234567',

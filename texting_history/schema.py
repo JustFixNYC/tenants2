@@ -82,6 +82,9 @@ def ensure_request_has_verified_user_with_permission(fn):
         if not user.is_authenticated:
             raise GraphQLError("User must be authenticated!")
 
+        if not user.is_staff:
+            raise GraphQLError("User must be staff!")
+
         if not is_request_user_verified(request):
             raise GraphQLError("User must be verified via two-factor authentication!")
 

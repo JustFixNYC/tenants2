@@ -43,6 +43,21 @@ def get_ordering_for_sms(sms, is_from_us: bool) -> float:
     return ordering
 
 
+def clean_body(body: str) -> str:
+    '''
+    Clean the given string so it can be passed into Postgres.
+
+    For example, Django's Postgres backend will raise a "A string literal
+    cannot contain NUL (0x00) characters" error if a string ever
+    contains such characters, so this function strips them out:
+
+        >>> clean_body('please email link \\x00 boop\\x00msn.com')
+        'please email link \uFFFD boop\uFFFDmsn.com'
+    '''
+
+    return body.replace("\x00", "\uFFFD")
+
+
 def update_texting_history(
     backfill: bool = False,
     max_age: Optional[int] = None,
@@ -93,7 +108,7 @@ def update_texting_history(
                 direction=sms.direction,
                 is_from_us=is_from_us,
                 user_phone_number=sms.to if is_from_us else sms.from_,
-                body=sms.body,
+                body=clean_body(sms.body),
                 status=sms.status,
                 date_created=sms.date_created,
                 date_sent=sms.date_sent,

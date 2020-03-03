@@ -47,3 +47,9 @@ class Message(models.Model):
     error_code = models.IntegerField(blank=True, null=True)
 
     error_message = models.TextField(blank=True, null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user_phone_number']),
+            models.Index(fields=['date_sent']),
+        ]

@@ -1,5 +1,9 @@
 SELECT DISTINCT ON (user_phone_number)
-    last_value(sid) OVER wnd AS sid,
+    -- This is intentional: within the context of this dataset,
+    -- the user's phone number is actually a unique string identifier
+    -- for this row.
+    user_phone_number AS sid,
+
     last_value(ordering) OVER wnd as ordering,
     last_value(date_sent) OVER wnd AS date_sent,
     last_value(is_from_us) OVER wnd AS is_from_us,

@@ -33,15 +33,15 @@ export type BaseConversationMessage = {
  * 
  * This function is non-destructive (it doesn't modify either list).
  */
-function mergeMessages<T extends BaseConversationMessage, K extends keyof T>(current: T[], toMerge: T[], mergeKey: K): T[] {
-  const allMessages = new Map<T[K], T>();
+function mergeMessages<T extends BaseConversationMessage>(current: T[], toMerge: T[]): T[] {
+  const allMessages = new Map<string, T>();
 
   for (let msg of current) {
-    allMessages.set(msg[mergeKey], msg);
+    allMessages.set(msg.sid, msg);
   }
 
   for (let msg of toMerge) {
-    allMessages.set(msg[mergeKey], msg);
+    allMessages.set(msg.sid, msg);
   }
 
   const merged = [...allMessages.values()];
@@ -69,20 +69,12 @@ type BaseConversationInput = {
   afterOrAt?: number|null,
 };
 
-type BaseConversationOutputResult = {
-  messages: BaseConversationMessage[],
-  hasNextPage: boolean,
-};
-
 type BaseConversationOutput = {
-  output: BaseConversationOutputResult | null,
+  output: {
+    messages: BaseConversationMessage[],
+    hasNextPage: boolean,
+  } | null,
 };
-
-type Unpacked<T> = T extends (infer U)[] ? U : never;
-
-type ConversationMessageKey<T extends BaseConversationOutput> =
-  T["output"] extends BaseConversationOutputResult
-    ? keyof Unpacked<T["output"]["messages"]> : never;
 
 type UseMergedQueryResult<Output> = {
   loadMore: () => void,
@@ -96,7 +88,6 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
   latestTimestamp: string|null|undefined,
-  mergeKey: ConversationMessageKey<Output>
 ): UseMergedQueryResult<Output> {
   const firstResults = useAdminFetch(query, input, latestTimestamp);
   const prevFirstResults = usePrevious(firstResults);
@@ -128,7 +119,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
           ...mergedOutput,
           output: {
             ...mergedOutput.output,
-            messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages, mergeKey as any),
+            messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages),
           },
         });
       }
@@ -143,7 +134,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
         ...mergedOutput,
         output: {
           ...mergedOutput.output,
-          messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages, mergeKey as any),
+          messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages),
           hasNextPage: moreResults.output.output.hasNextPage,
         },
       });
@@ -273,11 +264,11 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((pro
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
   const latestMsgTimestamp = useLatestMessageTimestamp();
-  const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp, 'userPhoneNumber');
+  const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
   } : null, [selectedPhoneNumber]);
-  const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp, 'sid');
+  const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp);
   const noSelectionMsg = (conversations?.value?.output?.messages.length || 0) > 0
     ? "Please choose a conversation on the sidebar to the left." : "";
 

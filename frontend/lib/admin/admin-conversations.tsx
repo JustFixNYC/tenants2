@@ -33,15 +33,15 @@ export type BaseConversationMessage = {
  * 
  * This function is non-destructive (it doesn't modify either list).
  */
-function mergeMessages<T extends BaseConversationMessage>(current: T[], toMerge: T[]): T[] {
-  const allMessages = new Map<string, T>();
+function mergeMessages<T extends BaseConversationMessage, K extends keyof T>(current: T[], toMerge: T[], mergeKey: K): T[] {
+  const allMessages = new Map<T[K], T>();
 
   for (let msg of current) {
-    allMessages.set(msg.sid, msg);
+    allMessages.set(msg[mergeKey], msg);
   }
 
   for (let msg of toMerge) {
-    allMessages.set(msg.sid, msg);
+    allMessages.set(msg[mergeKey], msg);
   }
 
   const merged = [...allMessages.values()];
@@ -69,12 +69,20 @@ type BaseConversationInput = {
   afterOrAt?: number|null,
 };
 
-type BaseConversationOutput = {
-  output: {
-    messages: BaseConversationMessage[],
-    hasNextPage: boolean,
-  } | null,
+type BaseConversationOutputResult = {
+  messages: BaseConversationMessage[],
+  hasNextPage: boolean,
 };
+
+type BaseConversationOutput = {
+  output: BaseConversationOutputResult | null,
+};
+
+type Unpacked<T> = T extends (infer U)[] ? U : never;
+
+type ConversationMessageKey<T extends BaseConversationOutput> =
+  T["output"] extends BaseConversationOutputResult
+    ? keyof Unpacked<T["output"]["messages"]> : never;
 
 type UseMergedQueryResult<Output> = {
   loadMore: () => void,
@@ -88,10 +96,11 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   query: QueryLoaderQuery<Input, Output>,
   input: Input|null,
   latestTimestamp: string|null|undefined,
+  mergeKey: ConversationMessageKey<Output>
 ): UseMergedQueryResult<Output> {
   const firstResults = useAdminFetch(query, input, latestTimestamp);
   const prevFirstResults = usePrevious(firstResults);
-  const [prevLatestTimestamp, setPrevLatestTimestamp] = useState<string|null|undefined>(undefined);
+  const [loadedInput, setLoadedInput] = useState<Input|null>(null);
   const [afterOrAt, setAfterOrAt] = useState<number|null>(null);
   const moreResultsInput = useMemo<Input|null>(() => {
     return afterOrAt && input ? {...input, afterOrAt} : null
@@ -99,7 +108,6 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   const moreResults = useAdminFetch(query, moreResultsInput, 'fake refresh token');
   const prevMoreResults = usePrevious(moreResults);
   const [mergedOutput, setMergedOutput] = useState<Output|null>(null);
-  const [staleMergedOutput, setStaleMergedOutput] = useState<Output|null>(null);
   const loadMore = useCallback(() => {
     if (mergedOutput?.output?.messages.length) {
       setAfterOrAt(mergedOutput.output.messages[mergedOutput.output.messages.length - 1].ordering);
@@ -109,24 +117,23 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   useEffect(() => {
     if (prevFirstResults?.type === firstResults.type) return;
     if (firstResults.type === 'loading') {
-      setStaleMergedOutput(mergedOutput);
-      setMergedOutput(null);
       setAfterOrAt(null);
     } else if (firstResults.type === 'loaded' && firstResults.output.output) {
-      if (!mergedOutput?.output) {
+      const isNewInput = input !== loadedInput;
+      setLoadedInput(input);
+      if (isNewInput || !mergedOutput?.output) {
         setMergedOutput(firstResults.output);
-      } else if (prevLatestTimestamp !== latestTimestamp) {
+      } else {
         setMergedOutput({
           ...mergedOutput,
           output: {
             ...mergedOutput.output,
-            messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages),
+            messages: mergeMessages(mergedOutput.output.messages, firstResults.output.output.messages, mergeKey as any),
           },
         });
       }
-      setPrevLatestTimestamp(latestTimestamp);
     }
-  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp]);
+  }, [firstResults, prevFirstResults, mergedOutput, input, loadedInput]);
 
   useEffect(() => {
     if (afterOrAt && moreResults.type === 'loaded' &&
@@ -136,7 +143,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
         ...mergedOutput,
         output: {
           ...mergedOutput.output,
-          messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages),
+          messages: mergeMessages(mergedOutput.output.messages, moreResults.output.output.messages, mergeKey as any),
           hasNextPage: moreResults.output.output.hasNextPage,
         },
       });
@@ -145,8 +152,8 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   }, [afterOrAt, prevMoreResults, moreResults, mergedOutput]);
 
   return {
-    value: mergedOutput || staleMergedOutput,
-    isLoadingNewInput: firstResults.type === 'loading' && mergedOutput == null,
+    value: mergedOutput,
+    isLoadingNewInput: firstResults.type === 'loading' && (loadedInput !== input),
     loadMore,
     isLoadingMore: moreResults.type === 'loading',
     hasNextPage: moreResults.type === 'loading' ? undefined : mergedOutput?.output?.hasNextPage,
@@ -266,11 +273,11 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((pro
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
   const latestMsgTimestamp = useLatestMessageTimestamp();
-  const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
+  const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp, 'userPhoneNumber');
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
   } : null, [selectedPhoneNumber]);
-  const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp);
+  const conversation = useMergedQuery(AdminConversation, conversationInput, latestMsgTimestamp, 'sid');
   const noSelectionMsg = (conversations?.value?.output?.messages.length || 0) > 0
     ? "Please choose a conversation on the sidebar to the left." : "";
 

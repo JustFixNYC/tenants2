@@ -23,19 +23,19 @@ describe("mergeConversationMessages()", () => {
   const c: MyMsg = {sid: 'c', ordering: 3, body: 'dude'};
 
   it("works with empty lists", () => {
-    expect(mergeConversationMessages([], [])).toEqual([]);
+    expect(mergeConversationMessages([], [], 'sid')).toEqual([]);
   });
 
   it("orders lists in descending order", () => {
-    expect(mergeConversationMessages([a, b, c], [])).toEqual([c, b, a]);
+    expect(mergeConversationMessages([a, b, c], [], 'sid')).toEqual([c, b, a]);
   });
 
   it("doesn't duplicate messages", () => {
-    expect(mergeConversationMessages([c, b], [b, a])).toEqual([c, b, a]);
+    expect(mergeConversationMessages([c, b], [b, a], 'sid')).toEqual([c, b, a]);
   });
 
   it("updates entries", () => {
     const newC: MyMsg = {...c, body: 'dawg'};
-    expect(mergeConversationMessages([a, b, c], [newC])).toEqual([newC, b, a]);
+    expect(mergeConversationMessages([a, b, c], [newC], 'sid')).toEqual([newC, b, a]);
   });
 });

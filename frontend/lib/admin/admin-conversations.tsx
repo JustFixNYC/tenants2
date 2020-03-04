@@ -91,7 +91,7 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
 ): UseMergedQueryResult<Output> {
   const firstResults = useAdminFetch(query, input, latestTimestamp);
   const prevFirstResults = usePrevious(firstResults);
-  const [prevLatestTimestamp, setPrevLatestTimestamp] = useState<string|null|undefined>(undefined);
+  const [loadedInput, setLoadedInput] = useState<Input|null>(null);
   const [afterOrAt, setAfterOrAt] = useState<number|null>(null);
   const moreResultsInput = useMemo<Input|null>(() => {
     return afterOrAt && input ? {...input, afterOrAt} : null
@@ -99,7 +99,6 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   const moreResults = useAdminFetch(query, moreResultsInput, 'fake refresh token');
   const prevMoreResults = usePrevious(moreResults);
   const [mergedOutput, setMergedOutput] = useState<Output|null>(null);
-  const [staleMergedOutput, setStaleMergedOutput] = useState<Output|null>(null);
   const loadMore = useCallback(() => {
     if (mergedOutput?.output?.messages.length) {
       setAfterOrAt(mergedOutput.output.messages[mergedOutput.output.messages.length - 1].ordering);
@@ -109,13 +108,13 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   useEffect(() => {
     if (prevFirstResults?.type === firstResults.type) return;
     if (firstResults.type === 'loading') {
-      setStaleMergedOutput(mergedOutput);
-      setMergedOutput(null);
       setAfterOrAt(null);
     } else if (firstResults.type === 'loaded' && firstResults.output.output) {
-      if (!mergedOutput?.output) {
+      const isNewInput = input !== loadedInput;
+      setLoadedInput(input);
+      if (isNewInput || !mergedOutput?.output) {
         setMergedOutput(firstResults.output);
-      } else if (prevLatestTimestamp !== latestTimestamp) {
+      } else {
         setMergedOutput({
           ...mergedOutput,
           output: {
@@ -124,9 +123,8 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
           },
         });
       }
-      setPrevLatestTimestamp(latestTimestamp);
     }
-  }, [firstResults, prevFirstResults, mergedOutput, latestTimestamp, prevLatestTimestamp]);
+  }, [firstResults, prevFirstResults, mergedOutput, input, loadedInput]);
 
   useEffect(() => {
     if (afterOrAt && moreResults.type === 'loaded' &&
@@ -145,8 +143,8 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   }, [afterOrAt, prevMoreResults, moreResults, mergedOutput]);
 
   return {
-    value: mergedOutput || staleMergedOutput,
-    isLoadingNewInput: firstResults.type === 'loading' && mergedOutput == null,
+    value: mergedOutput,
+    isLoadingNewInput: firstResults.type === 'loading' && (loadedInput !== input),
     loadMore,
     isLoadingMore: moreResults.type === 'loading',
     hasNextPage: moreResults.type === 'loading' ? undefined : mergedOutput?.output?.hasNextPage,

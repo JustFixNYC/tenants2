@@ -129,7 +129,7 @@ def test_conversations_query_works(auth_graphql_client):
             'errorMessage': None,
             'isFromUs': False,
             'ordering': 0.0,
-            'sid': 'SMded05904ccb347238880ca9264e8fe1c',
+            'sid': '+15551234567',
             'userFullName': 'Boop Jones',
             'userPhoneNumber': '+15551234567',
         }]

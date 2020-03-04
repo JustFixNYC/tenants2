@@ -23,6 +23,9 @@ DEFAULT_PAGE_SIZE = 50
 
 
 class TextMessage(graphene.ObjectType):
+    # Note that by 'sid' we just mean a generic 'string identifier', not
+    # necessarily the Twilio sid of the message.  It is guaranteed to be
+    # unique within the context of the dataset it's associated with.
     sid = graphene.String(required=True)
 
     date_sent = graphene.DateTime(required=True)

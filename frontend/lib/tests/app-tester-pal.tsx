@@ -77,6 +77,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       session: { ...FakeSessionInfo, ...o.session },
       server: { ...FakeServerInfo, ...o.server },
       fetch: client.fetch,
+      fetchWithoutErrorHandling: client.fetch,
       updateSession: jest.fn()
     };
     let history: History|null = null;

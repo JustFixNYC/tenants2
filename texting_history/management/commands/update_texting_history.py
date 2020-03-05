@@ -67,9 +67,9 @@ def update_texting_history(
     client = twilio.get_client()
     our_number = tendigit_to_e164(settings.TWILIO_PHONE_NUMBER)
     earliest_from_us, latest_from_us = get_min_max_date_sent(Message.objects.filter(
-        is_from_us=True))
+        is_from_us=True, our_phone_number=our_number))
     earliest_to_us, latest_to_us = get_min_max_date_sent(Message.objects.filter(
-        is_from_us=False))
+        is_from_us=False, our_phone_number=our_number))
     max_age_date = now() - datetime.timedelta(days=max_age)
 
     # The way Twilio's Python client retrieves messages is a bit confusing at first,
@@ -115,6 +115,7 @@ def update_texting_history(
                 date_updated=sms.date_updated,
                 error_code=sms.error_code,
                 error_message=sms.error_message,
+                our_phone_number=our_number,
             )
             if not silent:
                 print(sms.sid, sms.date_sent, sms.direction, sms.status)

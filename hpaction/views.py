@@ -1,8 +1,10 @@
 import base64
+import logging
+import json
 from django.http import FileResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 
 from .models import UploadToken, HPActionDocuments
@@ -11,6 +13,8 @@ from .models import UploadToken, HPActionDocuments
 LHI_B64_ALTCHARS = b' /'
 
 SUCCESSFUL_UPLOAD_TEXT = "HP Action documents created."
+
+logger = logging.getLogger(__name__)
 
 
 def decode_lhi_b64_data(data: str) -> bytes:
@@ -38,8 +42,13 @@ def upload(request, token_str: str):
     if token is None:
         raise Http404("Token does not exist")
 
-    pdf_data = decode_lhi_b64_data(request.POST['binary_file'])
-    xml_data = decode_lhi_b64_data(request.POST['answer_file'])
+    try:
+        pdf_data = decode_lhi_b64_data(request.POST['binary_file'])
+        xml_data = decode_lhi_b64_data(request.POST['answer_file'])
+    except Exception as e:
+        post = json.dumps(request.POST, indent=2, sort_keys=True)
+        logger.error(f'Invalid POST on upload endpoint ({repr(e)}) received with data: {post}')
+        return HttpResponseBadRequest("Invalid POST data")
 
     token.create_documents_from(xml_data=xml_data, pdf_data=pdf_data)
 

@@ -29,6 +29,12 @@ class TestUpload:
         res = client.post(url)
         assert res.status_code == 404
 
+    def test_it_returns_400_when_post_data_is_invalid(self, db, client):
+        token = UploadTokenFactory()
+        url = reverse('hpaction:upload', kwargs={'token_str': token.id})
+        res = client.post(url, data={'blarg': 1})
+        assert res.content == b'Invalid POST data'
+
     def test_it_works(self, db, client, django_file_storage):
         token = UploadTokenFactory()
         token_id = token.id

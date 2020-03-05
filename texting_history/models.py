@@ -48,8 +48,15 @@ class Message(models.Model):
 
     error_message = models.TextField(blank=True, null=True)
 
+    # Note that this number is in E.164 format, e.g. '+14155552671'.
+    # We didn't originally store this information, but then we
+    # discovered that we actually sent messages from more than
+    # one number for a period of time.
+    our_phone_number = models.CharField(max_length=MAX_E164_LEN)
+
     class Meta:
         indexes = [
             models.Index(fields=['user_phone_number']),
             models.Index(fields=['date_sent']),
+            models.Index(fields=['our_phone_number']),
         ]

@@ -124,7 +124,7 @@
     ["PUBLIC_AREAS__FUMES", "Fumes/smoke entering apartment"],
     ["PUBLIC_AREAS__SMOKE_DETECTORS", "Broken/no smoke/Co2 detector"],
     ["PUBLIC_AREAS__WINDOW_GUARDS", "Window guards missing"],
-    ["PUBLIC_AREAS__ILLEGAL_APARTMENTS", "Illegal apartments in basement"],
+    ["PUBLIC_AREAS__ILLEGAL_APARTMENTS", "Illegal apartments in basement (not shown in app)"],
     ["PUBLIC_AREAS__NO_SUPER", "Inadequate / no super service"],
     ["PUBLIC_AREAS__RENT_RECEIPTS", "No rent receipts given"],
     ["PUBLIC_AREAS__INCOMPLETE_RENT_RECEIPTS", "Rent receipts incomplete"], 

@@ -7,7 +7,7 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: 'issue-choices.json',
       typeName: 'IssueChoice',
       exportLabels: true,
-      filterOut: /^LANDLORD__/
+      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS)/,
     },
     {
       jsonFilename: 'issue-area-choices.json',

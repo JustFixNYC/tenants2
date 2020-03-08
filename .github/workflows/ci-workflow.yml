@@ -31,6 +31,8 @@ jobs:
       - name: Install dependencies
         env:
           REQUIREMENTS_BASENAME: .tenants2-${{ hashFiles('Pipfile.lock') }}-requirements.txt
+        # Here we only install pipenv so we can generate a requirements.txt; we want
+        # to avoid pipenv if possible because it is absurdly slow.
         run: |
           export REQUIREMENTS_FILENAME=${HOME}/.cache/pip/${REQUIREMENTS_BASENAME}
           if test -f "$REQUIREMENTS_FILENAME"; then

@@ -30,9 +30,8 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         env:
-          REQUIREMENTS_FILENAME: ${HOME}/.cache/pip/.tenants2-${{ hashFiles('Pipfile.lock') }}-requirements.txt
+          REQUIREMENTS_FILENAME: ${{ env.HOME }}/.cache/pip/.tenants2-${{ hashFiles('Pipfile.lock') }}-requirements.txt
         run: |
-          ls -al ${HOME}
           if test -f "$REQUIREMENTS_FILENAME"; then
             echo "$REQUIREMENTS_FILENAME exists, hooray!"
           else

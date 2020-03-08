@@ -1,0 +1,10 @@
+name: Boop
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/Checkout@v2
+      - name: Booooop
+        run: echo "BOOP"

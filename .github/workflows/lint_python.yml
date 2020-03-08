@@ -1,4 +1,4 @@
-name: Link Python
+name: Lint Python
 
 on:
   push:

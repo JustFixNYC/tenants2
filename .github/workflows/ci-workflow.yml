@@ -18,11 +18,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8.2
-      - name: Install pipenv
+      - name: Install pip
         run: |
           python -m pip install --upgrade pip
-          pip install pipenv
-          python --version
       - name: Cache pip
         uses: actions/cache@v1
         with:
@@ -31,9 +29,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies
+        env:
+          REQUIREMENTS_FILENAME: ~/.cache/pip/.tenants2-${{ hashFiles('Pipfile.lock') }}-requirements.txt
         run: |
-          pipenv lock -r --dev > requirements.txt
-          pip install -r requirements.txt
+          if test -f "$REQUIREMENTS_FILENAME"; then
+            echo "$REQUIREMENTS_FILENAME exists, hooray!"
+          else
+            pip install pipenv && pipenv lock -r --dev > requirements.txt
+          fi
+          pip install -r $REQUIREMENTS_FILENAME
       - name: Run flake8
         run: |
           pipenv run flake8

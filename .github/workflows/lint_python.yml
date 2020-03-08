@@ -1,13 +1,10 @@
-name: Boop
+name: Link Python
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-env:
-  PIPENV_VENV_IN_PROJECT: true
 
 jobs:
   build:
@@ -25,7 +22,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/pip # This path is specific to Ubuntu
-          key: ${{ runner.os }}-pip-with-requirements-${{ hashFiles('Pipfile.lock') }}
+          key: ${{ runner.os }}-pip-with-requirements2-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies

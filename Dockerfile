@@ -1,6 +1,6 @@
 # This Dockerfile is common to both production and development.
 
-FROM python:3.8.0
+FROM python:3.8.2
 
 ENV NODE_VERSION=10
 

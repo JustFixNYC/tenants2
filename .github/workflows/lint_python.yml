@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Note that the Checkout action disables LFS by default, which is good
+      # in our case, since we don't want to exceed GitHub's 1 GB/month
+      # bandwidth quota for LFS content.
       - uses: actions/Checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v1

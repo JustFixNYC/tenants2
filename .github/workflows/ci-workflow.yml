@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/pip # This path is specific to Ubuntu
-          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          key: ${{ runner.os }}-pip-with-requirements-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies
@@ -33,7 +33,6 @@ jobs:
           REQUIREMENTS_BASENAME: .tenants2-${{ hashFiles('Pipfile.lock') }}-requirements.txt
         run: |
           export REQUIREMENTS_FILENAME=${HOME}/.cache/pip/${REQUIREMENTS_BASENAME}
-          echo "AGGH $REQUIREMENTS_FILENAME"
           if test -f "$REQUIREMENTS_FILENAME"; then
             echo "$REQUIREMENTS_FILENAME exists, hooray!"
           else

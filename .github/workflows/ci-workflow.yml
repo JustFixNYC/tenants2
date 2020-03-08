@@ -35,7 +35,7 @@ jobs:
           if test -f "$REQUIREMENTS_FILENAME"; then
             echo "$REQUIREMENTS_FILENAME exists, hooray!"
           else
-            pip install pipenv && pipenv lock -r --dev > requirements.txt
+            pip install pipenv && pipenv lock -r --dev > $REQUIREMENTS_FILENAME
           fi
           pip install -r $REQUIREMENTS_FILENAME
       - name: Run flake8

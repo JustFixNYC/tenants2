@@ -43,7 +43,7 @@ jobs:
           pip install -r $REQUIREMENTS_FILENAME
       - name: Run flake8
         run: |
-          pipenv run flake8
+          flake8
       - name: Run mypy
         run: |
-          pipenv run mypy .
+          mypy .

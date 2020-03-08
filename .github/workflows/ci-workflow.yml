@@ -26,10 +26,10 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v1
         with:
-          path: .venv
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          path: ~/.cache/pipenv
+          key: ${{ runner.os }}-pipenv_cache-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pipenv-
+            ${{ runner.os }}-pipenv_cache-
             ${{ runner.os }}-
       - name: Install dependencies
         run: |

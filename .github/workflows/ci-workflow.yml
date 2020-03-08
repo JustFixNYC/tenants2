@@ -23,17 +23,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install pipenv
           python --version
-      - name: Cache dependencies
+      - name: Cache pip
         uses: actions/cache@v1
         with:
-          path: ~/.cache/pipenv
-          key: ${{ runner.os }}-pipenv_cache-${{ hashFiles('Pipfile.lock') }}
+          path: ~/.cache/pip # This path is specific to Ubuntu
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pipenv_cache-
-            ${{ runner.os }}-
+            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          pipenv sync --dev
+          pipenv lock -r --dev > requirements.txt
+          pip install -r requirements.txt
       - name: Run flake8
         run: |
           pipenv run flake8

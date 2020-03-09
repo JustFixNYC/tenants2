@@ -434,15 +434,13 @@ class LetterRequest(models.Model):
     def _on_tracking_number_changed(self):
         if not self.tracking_number:
             return
-        self.user.send_sms_async(
-            f"{get_site_name()} here - "
-            f"We've mailed the letter of complaint to your landlord. "
-            f"You can track its progress here: {self.usps_tracking_url} "
-            f"(link may take a day to update)"
-        )
-        self.user.send_sms_async(
+        self.user.chain_sms_async([
+            (f"{get_site_name()} here - "
+             f"We've mailed the letter of complaint to your landlord. "
+             f"You can track its progress here: {self.usps_tracking_url} "
+             f"(link may take a day to update)"),
             f"We'll follow up in about a week to see how things are going."
-        )
+        ])
         self.user.trigger_followup_campaign_async("LOC")
 
     def save(self, *args, **kwargs):

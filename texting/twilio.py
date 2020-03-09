@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
@@ -7,7 +7,7 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest.lookups.v1.phone_number import PhoneNumberInstance
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
-from project.util.celery_util import fire_and_forget_task
+from project.util.celery_util import fire_and_forget_task, get_task_for_function
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +95,29 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
 
 
 send_sms_async = fire_and_forget_task(send_sms)
+
+
+def chain_sms_async(
+    phone_number: str,
+    bodies: List[str],
+    seconds_between_messages: int = 10
+) -> None:
+    '''
+    Sends multiple SMS messages, waiting the given number
+    of seconds between them, to ensure that the recipient
+    doesn't receive them out of order.
+    '''
+
+    import celery
+
+    task = get_task_for_function(send_sms)
+    tasks: List[Any] = []
+    for body in bodies:
+        sig = task.si(phone_number, body)
+        if tasks:
+            sig = sig.set(countdown=seconds_between_messages)
+        tasks.append(sig)
+    celery.chain(*tasks)()
 
 
 def _lookup_phone_number(phone_number: str, type: str = '') -> Optional[PhoneNumberInstance]:

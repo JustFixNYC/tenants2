@@ -1,4 +1,5 @@
 import logging
+from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.crypto import get_random_string
@@ -112,6 +113,11 @@ class JustfixUser(AbstractUser):
         self._log_sms()
         if self.can_we_sms:
             twilio.send_sms_async(self.phone_number, body)
+
+    def chain_sms_async(self, bodies: List[str]) -> None:
+        self._log_sms()
+        if self.can_we_sms:
+            twilio.chain_sms_async(self.phone_number, bodies)
 
     def trigger_followup_campaign_async(self, campaign_name: str) -> None:
         from rapidpro import followup_campaigns as fc

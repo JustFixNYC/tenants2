@@ -1,4 +1,4 @@
-from typing import TypeVar, Callable
+from typing import TypeVar, Callable, Any
 from functools import wraps
 from threading import Thread
 from django.conf import settings
@@ -8,6 +8,23 @@ from .. import justfix_environment
 
 
 T = TypeVar('T', bound=Callable)
+
+
+def get_task_for_function(fun: Callable) -> Any:
+    from project.celery import app
+
+    # We actually just use the function to look up
+    # its task defintion; we don't actually call it,
+    # because we want to maintain as much parity
+    # as possible between both branches.
+
+    task_name = f"{fun.__module__}.{fun.__name__}"
+    if task_name not in app.tasks:
+        # You'd think Celery would have already autodiscovered these,
+        # but apparently it only does that when running workers or
+        # something. Whatever.
+        autodiscover_modules('tasks')
+    return app.tasks[task_name]
 
 
 def fire_and_forget_task(fun: T) -> T:
@@ -30,20 +47,7 @@ def fire_and_forget_task(fun: T) -> T:
 
     @wraps(fun)
     def wrapper(*args, **kwargs):
-        from project.celery import app
-
-        # We actually just use the function to look up
-        # its task defintion; we don't actually call it,
-        # because we want to maintain as much parity
-        # as possible between both branches.
-
-        task_name = f"{fun.__module__}.{fun.__name__}"
-        if task_name not in app.tasks:
-            # You'd think Celery would have already autodiscovered these,
-            # but apparently it only does that when running workers or
-            # something. Whatever.
-            autodiscover_modules('tasks')
-        task = app.tasks[task_name]
+        task = get_task_for_function(fun)
         assert task.ignore_result is True
 
         task.delay(*args, **kwargs)

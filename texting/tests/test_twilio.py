@@ -4,7 +4,7 @@ import pytest
 from django.core.exceptions import ImproperlyConfigured
 
 from texting.twilio import (
-    send_sms_async,
+    send_sms_async, chain_sms_async,
     send_sms, validate_settings, logger, is_phone_number_valid, get_carrier_info
 )
 
@@ -27,6 +27,29 @@ def test_send_sms_async_works(settings, smsoutbox):
     assert smsoutbox[0].to == '+15551234567'
     assert smsoutbox[0].from_ == '+19990001234'
     assert smsoutbox[0].body == 'boop'
+
+
+def test_chain_sms_async_adds_countdown_between_sends():
+    with patch('celery.chain') as mock:
+        chain_sms_async('5551234567', ['boop', 'jones', 'blarg'])
+        (args, kwargs) = mock.call_args_list[0]
+        (first, second, third) = args
+        assert first.options == {}
+        assert second.options == {'countdown': 10}
+        assert third.options == {'countdown': 10}
+
+
+def test_chain_sms_async_works(settings, smsoutbox):
+    settings.TWILIO_PHONE_NUMBER = '9990001234'
+
+    chain_sms_async('5551234567', ['boop', 'jones'])
+    assert len(smsoutbox) == 2
+    for msg in smsoutbox:
+        assert msg.to == '+15551234567'
+        assert msg.from_ == '+19990001234'
+
+    assert smsoutbox[0].body == 'boop'
+    assert smsoutbox[1].body == 'jones'
 
 
 def apply_twilio_settings(settings):

@@ -23,6 +23,7 @@ import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../../co
 import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
+import { TextualFieldWithCharsRemaining } from '../chars-remaining';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -50,7 +51,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                  emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
           {(ciCtx, i) =>
             <FormsetItem {...formsetItemProps(ciCtx)} singleRow>
-              <TextualFormField {...ciCtx.fieldPropsFor('description')} maxLength={CUSTOM_ISSUE_MAX_LENGTH} fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}} label={`Custom issue #${i + 1} (optional, ${CUSTOM_ISSUE_MAX_LENGTH} characters max)`} />
+              <TextualFieldWithCharsRemaining {...ciCtx.fieldPropsFor('description')} maxLength={CUSTOM_ISSUE_MAX_LENGTH} fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}} label={`Custom issue #${i + 1} (optional)`} />
             </FormsetItem>
           }
         </Formset>

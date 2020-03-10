@@ -63,25 +63,37 @@ def test_full_name_only_renders_if_both_first_and_last_are_present():
 
 def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):
     user = JustfixUser(phone_number='5551234500')
-    user.send_sms('hello there')
+    assert user.send_sms('hello there') == ''
+    user.send_sms_async('hello there')
+    user.chain_sms_async(['hello there'])
     assert len(smsoutbox) == 0
 
 
 @pytest.mark.django_db
 def test_send_sms_does_nothing_if_user_does_not_allow_it(smsoutbox):
     user = OnboardingInfoFactory(can_we_sms=False).user
-    user.send_sms('hello there')
+    assert user.send_sms('hello there') == ''
+    user.send_sms_async('hello there')
+    user.chain_sms_async(['hello there'])
     assert len(smsoutbox) == 0
 
 
 @pytest.mark.django_db
 def test_send_sms_works_if_user_allows_it(smsoutbox):
+    def assert_sms_was_sent():
+        assert len(smsoutbox) == 1
+        assert smsoutbox[0].to == '+15551234500'
+        assert smsoutbox[0].body == 'hello there'
+        smsoutbox[:] = []
+
     user = OnboardingInfoFactory(
         can_we_sms=True, user__phone_number='5551234500').user
-    user.send_sms('hello there')
-    assert len(smsoutbox) == 1
-    assert smsoutbox[0].to == '+15551234500'
-    assert smsoutbox[0].body == 'hello there'
+    assert user.send_sms('hello there') != ''
+    assert_sms_was_sent()
+    user.send_sms_async('hello there')
+    assert_sms_was_sent()
+    user.chain_sms_async(['hello there'])
+    assert_sms_was_sent()
 
 
 class TestTriggerFollowupCampaign:

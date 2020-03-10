@@ -50,7 +50,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                  extra={MAX_CUSTOM_ISSUES_PER_AREA}
                  emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
           {(ciCtx, i) =>
-            <FormsetItem {...formsetItemProps(ciCtx)} singleRow>
+            <FormsetItem {...formsetItemProps(ciCtx)}>
               <TextualFieldWithCharsRemaining {...ciCtx.fieldPropsFor('description')} maxLength={CUSTOM_ISSUE_MAX_LENGTH} fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}} label={`Custom issue #${i + 1} (optional)`} />
             </FormsetItem>
           }

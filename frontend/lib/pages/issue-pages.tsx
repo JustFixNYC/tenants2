@@ -11,7 +11,7 @@ import { IssueAreaV2Input } from '../queries/globalTypes';
 import { IssueAreaV2Mutation, BlankCustomIssuesCustomIssueFormFormSetInput } from '../queries/IssueAreaV2Mutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, HiddenFormField, TextualFormField } from '../form-fields';
+import { MultiCheckboxFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton, ProgressButtons } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, areaIssueCount, customIssuesForArea } from '../issues';

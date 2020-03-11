@@ -11,7 +11,7 @@ import { IssueAreaV2Input } from '../queries/globalTypes';
 import { IssueAreaV2Mutation, BlankCustomIssuesCustomIssueFormFormSetInput } from '../queries/IssueAreaV2Mutation';
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
-import { MultiCheckboxFormField, HiddenFormField, TextualFormField } from '../form-fields';
+import { MultiCheckboxFormField, HiddenFormField } from '../form-fields';
 import { NextButton, BackButton, ProgressButtons } from "../buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, areaIssueCount, customIssuesForArea } from '../issues';
@@ -23,6 +23,7 @@ import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../../co
 import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
+import { TextualFieldWithCharsRemaining } from '../chars-remaining';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -49,8 +50,8 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                  extra={MAX_CUSTOM_ISSUES_PER_AREA}
                  emptyForm={BlankCustomIssuesCustomIssueFormFormSetInput}>
           {(ciCtx, i) =>
-            <FormsetItem {...formsetItemProps(ciCtx)} singleRow>
-              <TextualFormField {...ciCtx.fieldPropsFor('description')} maxLength={CUSTOM_ISSUE_MAX_LENGTH} fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}} label={`Custom issue #${i + 1} (optional, ${CUSTOM_ISSUE_MAX_LENGTH} characters max)`} />
+            <FormsetItem {...formsetItemProps(ciCtx)}>
+              <TextualFieldWithCharsRemaining {...ciCtx.fieldPropsFor('description')} maxLength={CUSTOM_ISSUE_MAX_LENGTH} fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}} label={`Custom issue #${i + 1} (optional)`} />
             </FormsetItem>
           }
         </Formset>

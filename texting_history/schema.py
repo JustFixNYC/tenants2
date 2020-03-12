@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Union
 from functools import wraps
 from pathlib import Path
 from django.db import connection
@@ -10,10 +10,10 @@ from graphene_django.types import DjangoObjectType
 from project import schema_registry
 from users.models import VIEW_TEXT_MESSAGE_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
-from project.util.phone_number import ALL_DIGITS_RE
 from project.util.streaming_json import generate_json_rows
 from .management.commands.update_texting_history import update_texting_history
 from .models import Message
+from .query_parser import Query
 
 MY_DIR = Path(__file__).parent.resolve()
 
@@ -127,6 +127,8 @@ def resolve_conversations(
     after_or_at: float,
 ) -> LatestTextMessagesResult:
     where_clauses: List[str] = []
+    extra_joins: List[str] = []
+    sql_args: Dict[str, Union[int, str, float]] = {}
 
     with_clause = f"WITH latest_conversation_msg AS ({CONVERSATIONS_SQL_FILE.read_text()})"
 
@@ -141,28 +143,34 @@ def resolve_conversations(
         users_justfixuser AS usr ON '+1' || usr.phone_number = msg.user_phone_number
     """
 
+    parsed = Query.parse(query)
+
     if after_or_at:
         where_clauses.append("(ordering <= %(after_or_at)s)")
-    if ALL_DIGITS_RE.fullmatch(query):
-        where_clauses.append("(user_phone_number LIKE '+1' || %(query)s || '%%')")
-    elif query:
+        sql_args['after_or_at'] = after_or_at
+    if parsed.phone_number:
+        where_clauses.append("(user_phone_number LIKE '+1' || %(phone_number)s || '%%')")
+        sql_args['phone_number'] = parsed.phone_number
+    if parsed.full_name:
         where_clauses.append(
-            "((usr.first_name || ' ' || usr.last_name) ILIKE '%%' || %(query)s || '%%')"
+            "((usr.first_name || ' ' || usr.last_name) ILIKE '%%' || %(full_name)s || '%%')"
+        )
+        sql_args['full_name'] = parsed.full_name
+    if parsed.has_hpa_packet:
+        extra_joins.append(
+            'INNER JOIN hpaction_hpactiondocuments AS hpadocs ON usr.id = hpadocs.user_id'
         )
 
     where_clause = ('WHERE ' + ' AND '.join(where_clauses)) if where_clauses else ''
     order_clause = "ORDER BY ordering DESC"
     limit_clause = f"LIMIT %(first)s"
-    sql_args = {
-        'first': first,
-        'after_or_at': after_or_at,
-        'query': query,
-    }
+    sql_args['first'] = first
 
     with connection.cursor() as cursor:
         base_select = '\n'.join([
             select_with_user_info_statement,
             where_clause,
+            *extra_joins,
         ])
         cursor.execute('\n'.join([
             with_clause,

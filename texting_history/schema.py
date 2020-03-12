@@ -118,6 +118,16 @@ def resolve_conversation(
     )
 
 
+def insert_before(source: str, find: str, insert: str):
+    '''
+    >>> insert_before('bloop troop', 'troop', 'hello ')
+    'bloop hello troop'
+    '''
+
+    assert find in source
+    return source.replace(find, f"{insert}{find}")
+
+
 @ensure_request_has_verified_user_with_permission
 def resolve_conversations(
     parent,
@@ -130,7 +140,19 @@ def resolve_conversations(
     extra_joins: List[str] = []
     sql_args: Dict[str, Union[int, str, float]] = {}
 
-    with_clause = f"WITH latest_conversation_msg AS ({CONVERSATIONS_SQL_FILE.read_text()})"
+    parsed = Query.parse(query)
+
+    latest_conversation_sql = CONVERSATIONS_SQL_FILE.read_text()
+
+    if parsed.message_body:
+        latest_conversation_sql = insert_before(
+            source=latest_conversation_sql,
+            find='WINDOW',
+            insert="WHERE BODY ILIKE '%%' || %(message_body)s || '%%'\n"
+        )
+        sql_args['message_body'] = parsed.message_body
+
+    with_clause = f"WITH latest_conversation_msg AS ({latest_conversation_sql})"
 
     select_with_user_info_statement = """
     SELECT
@@ -142,8 +164,6 @@ def resolve_conversations(
     LEFT JOIN
         users_justfixuser AS usr ON '+1' || usr.phone_number = msg.user_phone_number
     """
-
-    parsed = Query.parse(query)
 
     if after_or_at:
         where_clauses.append("(ordering <= %(after_or_at)s)")

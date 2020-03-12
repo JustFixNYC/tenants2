@@ -141,6 +141,7 @@ def test_conversations_query_works(auth_graphql_client):
     ["5551234567", 1],
     ["blarg", 0],
     ["has:hpa", 0],
+    ['\\"some text in the message body\\"', 0],
 ])
 def test_conversations_queries_produce_expected_results(auth_graphql_client, query, num_results):
     MessageFactory.create()

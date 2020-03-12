@@ -16,6 +16,8 @@ import { staffOnlyView } from './staff-only-view';
 
 const PHONE_QS_VAR = 'phone';
 
+const QUERY_QS_VAR = 'q';
+
 const REFRESH_INTERVAL_MS = 3000;
 
 const DEBOUNCE_MS = 250;
@@ -151,8 +153,12 @@ function useMergedQuery<Input extends BaseConversationInput, Output extends Base
   };
 }
 
-export function makeConversationURL(phoneNumber: string): string {
-  return Routes.adminConversations + `?${PHONE_QS_VAR}=${encodeURIComponent(phoneNumber)}`;
+export function makeConversationsURL(rawQuery?: string, phoneNumber?: string): string {
+  const params = new URLSearchParams();
+  rawQuery && params.set(QUERY_QS_VAR, rawQuery);
+  phoneNumber && params.set(PHONE_QS_VAR, phoneNumber);
+  const qs = params.toString();
+  return Routes.adminConversations + (qs ? `?${qs}` : '');
 }
 
 export function normalizeConversationQuery(query: string): string {
@@ -193,7 +199,7 @@ const ConversationsSidebar: React.FC<{
                             'jf-selected': conv.userPhoneNumber === selectedPhoneNumber,
                             'jf-is-stale-result': conversations.isLoadingNewInput,
                           })}
-                          to={makeConversationURL(conv.userPhoneNumber)}>
+                          to={makeConversationsURL(rawQuery, conv.userPhoneNumber)}>
                 <div className="jf-heading">
                   <div className="jf-tenant">{conv.userFullName || friendlyAdminPhoneNumber(conv.userPhoneNumber)} {conv.errorMessage && '❌'}</div>
                   <div className="jf-date">{niceAdminTimestamp(conv.dateSent)}</div>
@@ -259,8 +265,12 @@ const ConversationPanel: React.FC<{
 };
 
 const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((props) => {
+  const { history } = props;
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
-  const [rawQuery, setRawQuery] = useState('');
+  const rawQuery = getQuerystringVar(props.location.search, QUERY_QS_VAR) || '';
+  const setRawQuery = useCallback((value: string) => {
+    history.replace(makeConversationsURL(value, selectedPhoneNumber));
+  }, [history, selectedPhoneNumber]);
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
   const latestMsgTimestamp = useLatestMessageTimestamp();

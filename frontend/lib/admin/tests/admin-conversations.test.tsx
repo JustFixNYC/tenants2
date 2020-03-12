@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminConversationsRoutes, { normalizeConversationQuery, makeConversationURL, mergeConversationMessages, BaseConversationMessage } from "../admin-conversations";
+import AdminConversationsRoutes, { normalizeConversationQuery, makeConversationsURL, mergeConversationMessages, BaseConversationMessage } from "../admin-conversations";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { UpdateTextingHistoryMutation_output } from '../../queries/UpdateTextingHistoryMutation';
 import { nextTick } from '../../tests/util';
@@ -18,7 +18,10 @@ test("normalizeConversationQuery() works", () => {
 });
 
 test("makeConversationURL() works", () => {
-  expect(makeConversationURL("+15551234567")).toBe("/admin/conversations/?phone=%2B15551234567");
+  expect(makeConversationsURL('', "+15551234567")).toBe("/admin/conversations/?phone=%2B15551234567");
+  expect(makeConversationsURL('boop', "+15551234567")).toBe("/admin/conversations/?q=boop&phone=%2B15551234567");
+  expect(makeConversationsURL('boop')).toBe("/admin/conversations/?q=boop");
+  expect(makeConversationsURL()).toBe("/admin/conversations/");
 });
 
 describe("mergeConversationMessages()", () => {

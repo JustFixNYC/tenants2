@@ -79,6 +79,24 @@ def test_invalid_post_returns_400(client):
 SAFE_MODE_ENABLED_SENTINEL = "navbar-menu is-active"
 SAFE_MODE_DISABLED_SENTINEL = 'src="/static/frontend/main'
 
+# HTML we know will appear in pages only when analytics is enabled/disabled.
+ENABLE_ANALYTICS_SENTINEL = '<meta name="enable-analytics" content="1">'
+DISABLE_ANALYTICS_SENTINEL = '<meta name="enable-analytics" content="0">'
+
+
+def test_analytics_are_enabled_by_default(client):
+    response = client.get(react_url('/'))
+    html = response.content.decode('utf-8')
+    assert ENABLE_ANALYTICS_SENTINEL in html
+    assert DISABLE_ANALYTICS_SENTINEL not in html
+
+
+def test_analytics_are_disabled_for_staff(admin_client):
+    response = admin_client.get(react_url('/'))
+    html = response.content.decode('utf-8')
+    assert ENABLE_ANALYTICS_SENTINEL not in html
+    assert DISABLE_ANALYTICS_SENTINEL in html
+
 
 def test_index_works_when_not_in_safe_mode(client):
     response = client.get(react_url('/'))

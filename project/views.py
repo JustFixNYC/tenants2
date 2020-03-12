@@ -292,6 +292,7 @@ def react_rendered_view(request):
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,
+        'enable_analytics': not request.user.is_staff,
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
         'meta_tags': lambda_response.meta_tags,

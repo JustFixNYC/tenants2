@@ -26,6 +26,7 @@ import HelpPage from './pages/help-page';
 import { HelmetProvider } from 'react-helmet-async';
 import { createRedirectWithSearch } from './redirect-util';
 import { browserStorage } from './browser-storage';
+import { areAnalyticsEnabled } from './analytics';
 
 
 export interface AppProps {
@@ -198,7 +199,12 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   handleLogin() {
-    const { userId, firstName } = this.state.session;
+    const { userId, firstName, isStaff } = this.state.session;
+    if (isStaff && areAnalyticsEnabled()) {
+      // There's no way to disable analytics without reloading the page,
+      // so just reload it.
+      window.location.reload();
+    }
     if (window.FS && userId !== null) {
       // FullStory ignores '1' as a user ID because it might be unintentional,
       // but that's actually a valid user ID for our purposes, so we'll munge

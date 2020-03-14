@@ -1,8 +1,9 @@
 from typing import List, Optional, Dict, Any, Union
+import logging
 from functools import wraps
 from pathlib import Path
 from django.db import connection
-from graphql import GraphQLError, ResolveInfo
+from graphql import ResolveInfo
 import graphene
 from graphene import Mutation
 from graphene_django.types import DjangoObjectType
@@ -20,6 +21,8 @@ MY_DIR = Path(__file__).parent.resolve()
 CONVERSATIONS_SQL_FILE = MY_DIR / 'conversations.sql'
 
 DEFAULT_PAGE_SIZE = 50
+
+logger = logging.getLogger(__name__)
 
 
 class TextMessage(graphene.ObjectType):
@@ -76,23 +79,33 @@ class JustfixUserType(DjangoObjectType):
         return self.admin_url
 
 
+def is_request_verified_user_with_permission(request):
+    user = request.user
+
+    if not user.is_authenticated:
+        logger.info("User must be authenticated!")
+        return False
+
+    if not user.is_staff:
+        logger.info("User must be staff!")
+        return False
+
+    if not is_request_user_verified(request):
+        logger.info("User must be verified via two-factor authentication!")
+        return False
+
+    if not user.has_perm(VIEW_TEXT_MESSAGE_PERMISSION):
+        logger.info("User does not have permission to view text messages!")
+        return False
+
+    return True
+
+
 def ensure_request_has_verified_user_with_permission(fn):
     @wraps(fn)
     def wrapper(parent, info: ResolveInfo, *args, **kwargs):
-        request = info.context
-        user = request.user
-
-        if not user.is_authenticated:
-            raise GraphQLError("User must be authenticated!")
-
-        if not user.is_staff:
-            raise GraphQLError("User must be staff!")
-
-        if not is_request_user_verified(request):
-            raise GraphQLError("User must be verified via two-factor authentication!")
-
-        if not user.has_perm(VIEW_TEXT_MESSAGE_PERMISSION):
-            raise GraphQLError("User does not have permission to view text messages!")
+        if not is_request_verified_user_with_permission(info.context):
+            return None
 
         return fn(parent, info, *args, **kwargs)
 
@@ -234,7 +247,7 @@ def normalize_phone_number(phone_number: str) -> str:
 
 @schema_registry.register_queries
 class TextingHistory:
-    conversations = graphene.NonNull(
+    conversations = graphene.Field(
         LatestTextMessagesResult,
         query=graphene.String(default_value=""),
         first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
@@ -242,7 +255,7 @@ class TextingHistory:
         resolver=resolve_conversations,
     )
 
-    conversation = graphene.NonNull(
+    conversation = graphene.Field(
         TextMessagesResult,
         phone_number=graphene.String(),
         first=graphene.Int(default_value=DEFAULT_PAGE_SIZE),
@@ -259,9 +272,12 @@ class TextingHistory:
 
 @schema_registry.register_mutation
 class UpdateTextingHistory(Mutation):
+    auth_error = graphene.Boolean(default_value=False)
+
     latest_message = graphene.DateTime()
 
-    @ensure_request_has_verified_user_with_permission
     def mutate(root, info):
+        if not is_request_verified_user_with_permission(info.context):
+            return UpdateTextingHistory(auth_error=True)
         latest_message = update_texting_history(silent=True)
         return UpdateTextingHistory(latest_message=latest_message)

@@ -1,6 +1,5 @@
 """Utilities for verifying git integrity."""
 
-import os
 from typing import Dict, Type, TypeVar
 from pathlib import Path
 import subprocess

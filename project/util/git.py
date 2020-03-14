@@ -1,5 +1,6 @@
 """Utilities for verifying git integrity."""
 
+import os
 from typing import Dict, Type, TypeVar
 from pathlib import Path
 import subprocess
@@ -34,7 +35,17 @@ def git_revision(dir: Path) -> bytes:
 
 def is_dirty(dir: Path) -> bool:
     """Check whether a git repository has uncommitted changes."""
-    output = subprocess.check_output(["git", "status", "-uno", "--porcelain"], cwd=dir)
+    try:
+        output = subprocess.check_output(["git", "status", "-uno", "--porcelain"], cwd=dir)
+    except subprocess.CalledProcessError:
+        # No fucking clue why I am getting
+        # 'fatal: failed to read object xyz: Operation not permitted'
+        # on my system right now but I need to write code, not deal with this shit. -AV
+        print(
+            f"Warning: Checking repository for uncommitted changes failed, "
+            f"reporting git repo as being dirty."
+        )
+        return True
     return output.strip() != b""
 
 

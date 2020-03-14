@@ -1,3 +1,4 @@
+from unittest.mock import MagicMock
 import pytest
 
 from users.tests.factories import UserFactory
@@ -68,6 +69,13 @@ ALL_QUERIES = [
 
 
 @pytest.fixture
+def mocklog(monkeypatch):
+    mock = MagicMock()
+    monkeypatch.setattr('texting_history.schema.logger', mock)
+    return mock
+
+
+@pytest.fixture
 def auth_graphql_client(db, graphql_client):
     user = UserFactory(is_staff=True)
     perm = get_permissions_from_ns_codenames([VIEW_TEXT_MESSAGE_PERMISSION])[0]
@@ -77,35 +85,37 @@ def auth_graphql_client(db, graphql_client):
 
 
 @pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_auth(db, graphql_client, query, is_denied):
+def test_endpoints_require_auth(db, graphql_client, query, is_denied, mocklog):
     result = graphql_client.execute(query)
     assert is_denied(result['data'])
-    # assert result['errors'][0]['message'] == 'User must be authenticated!'
+    mocklog.info.assert_called_once_with('User must be authenticated!')
 
 
 @pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_staff(db, graphql_client, query, is_denied):
+def test_endpoints_require_staff(db, graphql_client, query, is_denied, mocklog):
     graphql_client.request.user = UserFactory()
     result = graphql_client.execute(query)
     assert is_denied(result['data'])
-    # assert result['errors'][0]['message'] == 'User must be staff!'
+    mocklog.info.assert_called_once_with('User must be staff!')
 
 
 @pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_permission(db, graphql_client, query, is_denied):
+def test_endpoints_require_permission(db, graphql_client, query, is_denied, mocklog):
     graphql_client.request.user = UserFactory(is_staff=True)
     result = graphql_client.execute(query)
     assert is_denied(result['data'])
-    # assert result['errors'][0]['message'] == 'User does not have permission to view text messages!'  # noqa
+    mocklog.info.assert_called_once_with('User does not have permission to view text messages!')
 
 
 @pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_twofactor_when_enabled(db, graphql_client, query, settings, is_denied):
+def test_endpoints_require_twofactor_when_enabled(
+    db, graphql_client, query, settings, is_denied, mocklog
+):
     settings.TWOFACTOR_VERIFY_DURATION = 60
     graphql_client.request.user = UserFactory(is_staff=True)
     result = graphql_client.execute(query)
     assert is_denied(result['data'])
-    # assert result['errors'][0]['message'] == 'User must be verified via two-factor authentication!'  # noqa
+    mocklog.info.assert_called_once_with('User must be verified via two-factor authentication!')
 
 
 def test_conversation_query_works(auth_graphql_client):

@@ -78,14 +78,9 @@ class TestGraphQLClient(Client):
 
     If exceptions were thrown, they will have been logged, and py.test will
     show them.
-
-    If you are actually expecting errors to be returned, pass
-    `expect_errors=True` as a keyword argument.
     '''
 
     def execute(self, *args, **kwargs):
-        expect_errors = kwargs.pop('expect_errors', False)
-
         result = super().execute(*args, **kwargs)
 
         # By default, Graphene returns OrderedDict instances, which
@@ -95,14 +90,7 @@ class TestGraphQLClient(Client):
         # output easier to read.
         result = json.loads(json.dumps(result))
 
-        if expect_errors:
-            assert 'errors' in result, (
-                "GraphQL query did not return errors, but expect_errors=True!"
-            )
-        else:
-            assert 'errors' not in result, (
-                "GraphQL query returned errors (pass expect_errors=True if they are expected)!"
-            )
+        assert 'errors' not in result
         return result
 
 

@@ -90,6 +90,7 @@ describe("<AdminConversationsPage>", () => {
     pal.rr.getByText(/Loading conversations/);
     pal.expectGraphQL(/UpdateTextingHistoryMutation/);
     const output: UpdateTextingHistoryMutation_output = {
+      authError: false,
       latestMessage: '2019-05-24T17:44:50+00:00',
     };
     pal.getFirstRequest().resolve({output});

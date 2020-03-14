@@ -52,16 +52,18 @@ query {
 UPDATE_TEXTING_HISTORY_MUTATION = '''
 mutation {
     updateTextingHistory {
+        authError,
         latestMessage
     }
 }
 '''
 
 ALL_QUERIES = [
-    CONVERSATION_QUERY,
-    CONVERSATIONS_QUERY,
-    USER_DETAILS_QUERY,
-    UPDATE_TEXTING_HISTORY_MUTATION,
+    (CONVERSATION_QUERY, lambda data: data['conversation'] is None),
+    (CONVERSATIONS_QUERY, lambda data: data['conversations'] is None),
+    (USER_DETAILS_QUERY, lambda data: data['userDetails'] is None),
+    (UPDATE_TEXTING_HISTORY_MUTATION,
+     lambda data: data['updateTextingHistory']['authError'] is True),
 ]
 
 
@@ -74,32 +76,36 @@ def auth_graphql_client(db, graphql_client):
     return graphql_client
 
 
-@pytest.mark.parametrize("query", ALL_QUERIES)
-def test_endpoints_require_auth(db, graphql_client, query):
-    result = graphql_client.execute(query, expect_errors=True)
-    assert result['errors'][0]['message'] == 'User must be authenticated!'
+@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
+def test_endpoints_require_auth(db, graphql_client, query, is_denied):
+    result = graphql_client.execute(query)
+    assert is_denied(result['data'])
+    # assert result['errors'][0]['message'] == 'User must be authenticated!'
 
 
-@pytest.mark.parametrize("query", ALL_QUERIES)
-def test_endpoints_require_staff(db, graphql_client, query):
+@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
+def test_endpoints_require_staff(db, graphql_client, query, is_denied):
     graphql_client.request.user = UserFactory()
-    result = graphql_client.execute(query, expect_errors=True)
-    assert result['errors'][0]['message'] == 'User must be staff!'
+    result = graphql_client.execute(query)
+    assert is_denied(result['data'])
+    # assert result['errors'][0]['message'] == 'User must be staff!'
 
 
-@pytest.mark.parametrize("query", ALL_QUERIES)
-def test_endpoints_require_permission(db, graphql_client, query):
+@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
+def test_endpoints_require_permission(db, graphql_client, query, is_denied):
     graphql_client.request.user = UserFactory(is_staff=True)
-    result = graphql_client.execute(query, expect_errors=True)
-    assert result['errors'][0]['message'] == 'User does not have permission to view text messages!'
+    result = graphql_client.execute(query)
+    assert is_denied(result['data'])
+    # assert result['errors'][0]['message'] == 'User does not have permission to view text messages!'  # noqa
 
 
-@pytest.mark.parametrize("query", ALL_QUERIES)
-def test_endpoints_require_twofactor_when_enabled(db, graphql_client, query, settings):
+@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
+def test_endpoints_require_twofactor_when_enabled(db, graphql_client, query, settings, is_denied):
     settings.TWOFACTOR_VERIFY_DURATION = 60
     graphql_client.request.user = UserFactory(is_staff=True)
-    result = graphql_client.execute(query, expect_errors=True)
-    assert result['errors'][0]['message'] == 'User must be verified via two-factor authentication!'
+    result = graphql_client.execute(query)
+    assert is_denied(result['data'])
+    # assert result['errors'][0]['message'] == 'User must be verified via two-factor authentication!'  # noqa
 
 
 def test_conversation_query_works(auth_graphql_client):
@@ -170,4 +176,7 @@ def test_update_texting_history_mutation_works(auth_graphql_client, mock_twilio_
     result = auth_graphql_client.execute(
         UPDATE_TEXTING_HISTORY_MUTATION
     )['data']['updateTextingHistory']
-    assert result == {'latestMessage': '2019-05-24T17:44:50+00:00'}
+    assert result == {
+        'authError': False,
+        'latestMessage': '2019-05-24T17:44:50+00:00'
+    }

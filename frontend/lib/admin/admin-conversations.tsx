@@ -22,6 +22,8 @@ const REFRESH_INTERVAL_MS = 3000;
 
 const DEBOUNCE_MS = 250;
 
+const AUTH_ERROR = Symbol('authentication error');
+
 export type BaseConversationMessage = {
   sid: string,
   ordering: number,
@@ -55,12 +57,16 @@ function mergeMessages<T extends BaseConversationMessage>(current: T[], toMerge:
 
 export const mergeConversationMessages = mergeMessages;
 
-function useLatestMessageTimestamp(): string|null|undefined {
+function useLatestMessageTimestamp(): string|null|undefined|typeof AUTH_ERROR {
   const { fetchWithoutErrorHandling: fetch } = useContext(AppContext);
   return useRepeatedPromise(
     useMemo(
       // TODO: On error, inform the user *non-intrusively* that something is amiss.
-      () => async () => (await UpdateTextingHistoryMutation.fetch(fetch)).output.latestMessage,
+      () => async () => {
+        const res = await UpdateTextingHistoryMutation.fetch(fetch);
+        if (res.output.authError) return AUTH_ERROR;
+        return res.output.latestMessage;
+      },
       [fetch]
     ),
     REFRESH_INTERVAL_MS
@@ -227,7 +233,7 @@ const ConversationPanel: React.FC<{
   noSelectionMsg: string,
 }> = ({selectedPhoneNumber, conversation, noSelectionMsg}) => {
   const convStalenessClasses = {'jf-is-stale-result': conversation.isLoadingNewInput, 'jf-can-be-stale': true};
-  const convMsgs = conversation.value?.output.messages || [];
+  const convMsgs = conversation.value?.output?.messages || [];
   const user = conversation.value?.userDetails;
   const userFullName = [user?.firstName || '', user?.lastName || ''].join(' ').trim();
 
@@ -264,8 +270,31 @@ const ConversationPanel: React.FC<{
   );
 };
 
-const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((props) => {
-  const { history } = props;
+const AdminAuthExpiredPage: React.FC<{}> = () => (
+  <div className="content">
+    <p>
+      Your administrative authentication has expired! Please reload the page.
+    </p>
+    <button className="button is-primary" onClick={() => window.location.reload()}>
+      Reload
+    </button>
+  </div>
+);
+
+const AdminConversationsPageWrapper: React.FC<RouteComponentProps> = staffOnlyView((props) => {
+  const latestMsgTimestamp = useLatestMessageTimestamp();
+
+  if (latestMsgTimestamp === AUTH_ERROR) {
+    return <AdminAuthExpiredPage />;
+  }
+
+  return <AdminConversationsPage latestMsgTimestamp={latestMsgTimestamp} {...props} />
+});
+
+const AdminConversationsPage: React.FC<RouteComponentProps & {
+  latestMsgTimestamp: string|null|undefined,
+}> = staffOnlyView((props) => {
+  const { history, latestMsgTimestamp } = props;
   const selectedPhoneNumber = getQuerystringVar(props.location.search, PHONE_QS_VAR);
   const rawQuery = getQuerystringVar(props.location.search, QUERY_QS_VAR) || '';
   const setRawQuery = useCallback((value: string) => {
@@ -273,7 +302,6 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((pro
   }, [history, selectedPhoneNumber]);
   const query = useDebouncedValue(normalizeConversationQuery(rawQuery), DEBOUNCE_MS);
   const conversationsInput = useMemo<AdminConversationsVariables>(() => ({query}), [query]);
-  const latestMsgTimestamp = useLatestMessageTimestamp();
   const conversations = useMergedQuery(AdminConversations, conversationsInput, latestMsgTimestamp);
   const conversationInput = useMemo<AdminConversationVariables|null>(() => selectedPhoneNumber ? {
     phoneNumber: selectedPhoneNumber,
@@ -294,7 +322,7 @@ const AdminConversationsPage: React.FC<RouteComponentProps> = staffOnlyView((pro
 export default function AdminConversationsRoutes(): JSX.Element {
   return (
     <Switch>
-      <Route path={Routes.adminConversations} exact component={AdminConversationsPage} />
+      <Route path={Routes.adminConversations} exact component={AdminConversationsPageWrapper} />
     </Switch>
   );
 }

@@ -103,13 +103,9 @@
               "isDeprecated": false,
               "name": "conversations",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "LatestTextMessagesResult",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "LatestTextMessagesResult",
+                "ofType": null
               }
             },
             {
@@ -150,13 +146,9 @@
               "isDeprecated": false,
               "name": "conversation",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "TextMessagesResult",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "TextMessagesResult",
+                "ofType": null
               }
             },
             {
@@ -4524,6 +4516,18 @@
           "description": null,
           "enumValues": null,
           "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "authError",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
             {
               "args": [],
               "deprecationReason": null,

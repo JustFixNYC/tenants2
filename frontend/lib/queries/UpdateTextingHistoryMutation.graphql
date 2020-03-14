@@ -1,5 +1,6 @@
 mutation UpdateTextingHistoryMutation {
   output: updateTextingHistory {
+    authError,
     latestMessage
   }
 }

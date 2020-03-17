@@ -20,15 +20,16 @@ describe('landlord details page', () => {
     pal.clickButtonOrLink(matcher);
     pal.expectFormInput<LetterRequestInput>({ mailChoice });
     const updatedAt = "2018-01-01Tblahtime";
+    const extra = {trackingNumber: '', letterSentAt: null};
     pal.respondWithFormOutput<LetterRequestMutation_output>({
       errors: [],
-      session: { letterRequest: { updatedAt, mailChoice, trackingNumber: '', letterSentAt: null } }
+      session: { letterRequest: { updatedAt, mailChoice, ...extra } }
     });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/your letter of complaint .*/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
-    expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice } });
+    expect(mock.calls[0][0]).toEqual({ letterRequest: { updatedAt, mailChoice, ...extra } });
   }
 
   it('works when user chooses to mail the letter themselves', async () => {

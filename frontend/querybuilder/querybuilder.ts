@@ -32,6 +32,8 @@ export function runApolloCodegen(): number {
     '--localSchemaFile', GRAPHQL_SCHEMA_PATH,
     '--target', 'typescript',
     '--no-addTypename',
+    '--customScalarsPrefix=GraphQL',
+    '--passthroughCustomScalars',
     '--outputFlat',
     APOLLO_GEN_PATH,
   ], {

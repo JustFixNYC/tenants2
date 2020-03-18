@@ -1,5 +1,5 @@
 import React from 'react';
-import AriaModal from 'react-aria-modal';
+import AriaModal from './modal/react-aria-modal';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
 import { getAppStaticContext } from './app-static-context';

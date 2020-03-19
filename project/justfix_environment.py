@@ -303,6 +303,15 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_HP: str = ''
 
+    # The API key for HelloSign.
+    HELLOSIGN_API_KEY: str = ''
+
+    # The client ID for HelloSign.
+    HELLOSIGN_CLIENT_ID: str = ''
+
+    # The HelloSign Template ID for HP Action.
+    HELLOSIGN_HPA_TEMPLATE_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

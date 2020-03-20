@@ -303,6 +303,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_HP: str = ''
 
+    # The DocuSign account ID to use.
+    DOCUSIGN_ACCOUNT_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

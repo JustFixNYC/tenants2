@@ -82,7 +82,7 @@ class Command(BaseCommand):
             client_user_id=client_user_id,
         )
 
-        sign_here = docusign.SignHere(
+        sign_here_petition = docusign.SignHere(
             document_id='1',
             page_number='4',
             recipient_id='1',
@@ -91,12 +91,34 @@ class Command(BaseCommand):
             y_position='556',
         )
 
+        sign_here_verification = docusign.SignHere(
+            document_id='1',
+            page_number='4',
+            recipient_id='1',
+            tab_label='SignHereTab',
+            x_position='419',
+            y_position='667',
+        )
+
+        sign_here_hpd_inspection = docusign.SignHere(
+            document_id='1',
+            page_number='5',
+            recipient_id='1',
+            tab_label='SignHereTab',
+            x_position='446',
+            y_position='625',
+        )
+
         signer.tabs = docusign.Tabs(
-            sign_here_tabs=[sign_here],
+            sign_here_tabs=[
+                sign_here_petition,
+                sign_here_verification,
+                sign_here_hpd_inspection
+            ],
         )
 
         envelope_definition = docusign.EnvelopeDefinition(
-            email_subject="Please sign these HP Action forms",
+            email_subject=f"{user.full_name}, please sign these HP Action forms",
             documents=[document],
             recipients=docusign.Recipients(signers=[signer]),
             status="sent",

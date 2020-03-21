@@ -309,6 +309,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The DocuSign integration key to use.
     DOCUSIGN_INTEGRATION_KEY: str = ''
 
+    # The DocuSign user ID of the user to impersonate.
+    DOCUSIGN_USER_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -1,6 +1,5 @@
 import os
 from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
 
 from hpaction import docusign
 from users.models import JustfixUser
@@ -15,8 +14,6 @@ ACCESS_TOKEN_ARG = f"--{ACCESS_TOKEN_ARG_VAR}"
 ACCESS_TOKEN_ENV = 'DOCUSIGN_ACCESS_TOKEN'
 
 ACCESS_TOKEN_URL = 'https://developers.docusign.com/oauth-token-generator'
-
-API_BASE_PATH = 'https://demo.docusign.net/restapi'
 
 
 class Command(BaseCommand):
@@ -39,8 +36,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options) -> None:
-        if not settings.DOCUSIGN_ACCOUNT_ID:
-            raise CommandError('DocuSign is not configured!')
+        docusign.ensure_valid_configuration()
 
         access_token = options.get(ACCESS_TOKEN_ARG_VAR) or os.environ.get(ACCESS_TOKEN_ENV)
         if not access_token:
@@ -68,7 +64,6 @@ class Command(BaseCommand):
             user=user,
             envelope_definition=envelope_definition,
             access_token=access_token,
-            api_base_path=API_BASE_PATH,
             return_url=return_url,
         )
 

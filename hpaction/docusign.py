@@ -2,8 +2,10 @@ from typing import Tuple
 import urllib.parse
 import base64
 import docusign_esign as docusign
+from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
+from project.justfix_environment import BASE_DIR
 from users.models import JustfixUser
 from .models import HPActionDocuments
 
@@ -15,6 +17,55 @@ TENANT_RECIPIENT_ID = '1'
 # to be a number local to a specific signing, rather than a globally unique
 # identifier.
 HPA_DOCUMENT_ID = '1'
+
+# Number of seconds our JWT lasts.
+JWT_EXPIRATION = 3600
+
+# The location of the private key.
+PRIVATE_KEY_FILENAME = BASE_DIR / 'docusign_private_key.pem'
+
+# Settings that are required for DocuSign integration to work properly.
+REQUIRED_SETTINGS = [
+    'DOCUSIGN_ACCOUNT_ID',
+    'DOCUSIGN_INTEGRATION_KEY',
+    'DOCUSIGN_USER_ID',
+]
+
+
+def ensure_valid_configuration():
+    for setting in REQUIRED_SETTINGS:
+        if not getattr(settings, setting):
+            raise ImproperlyConfigured(f"The {setting} setting is not configured!")
+
+    if not PRIVATE_KEY_FILENAME.exists():
+        raise ImproperlyConfigured(
+            f"{PRIVATE_KEY_FILENAME} must exist and contain a private key!")
+
+
+def get_api_base_path() -> str:
+    '''
+    Returns the base path for the DocuSign REST API.
+    '''
+
+    # TODO: We should return the production one if needed.
+    return 'https://demo.docusign.net/restapi'
+
+
+def get_auth_server_domain() -> str:
+    '''
+    Returns the domain name for the DocuSign authentication server.
+    '''
+
+    # TODO: We should return the production one if needed.
+    return 'account-d.docusign.com'
+
+
+def get_auth_server_url() -> str:
+    return f'https://{get_auth_server_domain()}'
+
+
+def get_private_key_bytes() -> bytes:
+    return PRIVATE_KEY_FILENAME.read_bytes()
 
 
 def docusign_client_user_id(user: JustfixUser) -> str:
@@ -110,7 +161,6 @@ def create_envelope_and_recipient_view_for_hpa(
     user: JustfixUser,
     envelope_definition: docusign.EnvelopeDefinition,
     access_token: str,
-    api_base_path: str,
     return_url: str,
 ) -> Tuple[docusign.EnvelopeSummary, str]:
     '''
@@ -119,7 +169,7 @@ def create_envelope_and_recipient_view_for_hpa(
     '''
 
     api_client = docusign.ApiClient()
-    api_client.host = api_base_path
+    api_client.host = get_api_base_path()
     api_client.set_default_header('Authorization', f'Bearer {access_token}')
 
     envelope_api = docusign.EnvelopesApi(api_client)
@@ -153,7 +203,6 @@ def create_oauth_consent_url(
     return_url: str,
     state: str = '',
 ) -> str:
-    base_url = 'https://account-d.docusign.com'  # TODO: Change this for production.
     qs = urllib.parse.urlencode({
         'response_type': 'code',
         'scope': 'signature impersonation',
@@ -161,4 +210,18 @@ def create_oauth_consent_url(
         'state': state,
         'redirect_uri': return_url,
     })
-    return f'{base_url}/oauth/auth?{qs}'
+    return f'{get_auth_server_url()}/oauth/auth?{qs}'
+
+
+def request_jwt_user_token(code: str) -> docusign.OAuthToken:
+    api_client = docusign.ApiClient()
+    api_client.host = get_api_base_path()
+    token = api_client.request_jwt_user_token(
+        client_id=settings.DOCUSIGN_INTEGRATION_KEY,
+        user_id=settings.DOCUSIGN_USER_ID,
+        oauth_host_name=get_auth_server_domain(),
+        private_key_bytes=get_private_key_bytes(),
+        expires_in=JWT_EXPIRATION,
+    )
+    assert isinstance(token, docusign.OAuthToken)
+    return token

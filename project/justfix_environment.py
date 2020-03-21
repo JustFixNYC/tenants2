@@ -306,6 +306,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The DocuSign account ID to use.
     DOCUSIGN_ACCOUNT_ID: str = ''
 
+    # The DocuSign integration key to use.
+    DOCUSIGN_INTEGRATION_KEY: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

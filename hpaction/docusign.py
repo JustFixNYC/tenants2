@@ -1,4 +1,5 @@
 from typing import Tuple
+import urllib.parse
 import base64
 import docusign_esign as docusign
 from django.conf import settings
@@ -146,3 +147,18 @@ def create_envelope_and_recipient_view_for_hpa(
     )
 
     return (envelope, results.url)
+
+
+def create_oauth_consent_url(
+    return_url: str,
+    state: str = '',
+) -> str:
+    base_url = 'https://account-d.docusign.com'  # TODO: Change this for production.
+    qs = urllib.parse.urlencode({
+        'response_type': 'code',
+        'scope': 'signature impersonation',
+        'client_id': settings.DOCUSIGN_INTEGRATION_KEY,
+        'state': state,
+        'redirect_uri': return_url,
+    })
+    return f'{base_url}/oauth/auth?{qs}'

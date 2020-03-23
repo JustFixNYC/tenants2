@@ -5,9 +5,8 @@ import docusign_esign as docusign
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
-from project.justfix_environment import BASE_DIR
 from users.models import JustfixUser
-from .models import HPActionDocuments
+from .models import HPActionDocuments, DocusignConfig
 
 # The recipient ID for the tenant in the signing flow. This appears to be a
 # number local to a specific signing, rather than a globally unique identifier.
@@ -20,9 +19,6 @@ HPA_DOCUMENT_ID = '1'
 
 # Number of seconds our JWT lasts.
 JWT_EXPIRATION = 3600
-
-# The location of the private key.
-PRIVATE_KEY_FILENAME = BASE_DIR / 'docusign_private_key.pem'
 
 # Settings that are required for DocuSign integration to work properly.
 REQUIRED_SETTINGS = [
@@ -37,9 +33,10 @@ def ensure_valid_configuration():
         if not getattr(settings, setting):
             raise ImproperlyConfigured(f"The {setting} setting is not configured!")
 
-    if not PRIVATE_KEY_FILENAME.exists():
-        raise ImproperlyConfigured(
-            f"{PRIVATE_KEY_FILENAME} must exist and contain a private key!")
+    config = DocusignConfig.objects.get()
+
+    if not config.private_key:
+        raise ImproperlyConfigured("DocuSign private key is not configured!")
 
 
 def get_api_base_path() -> str:
@@ -65,7 +62,7 @@ def get_auth_server_url() -> str:
 
 
 def get_private_key_bytes() -> bytes:
-    return PRIVATE_KEY_FILENAME.read_bytes()
+    return DocusignConfig.objects.get().private_key.encode('ascii')
 
 
 def docusign_client_user_id(user: JustfixUser) -> str:

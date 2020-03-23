@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Tuple, Union, Optional
 import urllib.parse
 import base64
 import docusign_esign as docusign
@@ -30,8 +30,14 @@ REQUIRED_SETTINGS = [
 ]
 
 
-def validate_and_set_consent_code(code: str) -> bool:
-    token = request_jwt_user_token(code)
+def get_account_base_uri(token: Union[str, docusign.OAuthToken]) -> Optional[str]:
+    '''
+    Validate that the given OAuth token has access to the DocuSign
+    account we need, and return the account's base URI.
+
+    If the token doesn't have access to our DocuSign account, return None.
+    '''
+
     api_client = create_api_client(get_auth_server_url(), token)
 
     # https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints
@@ -43,23 +49,52 @@ def validate_and_set_consent_code(code: str) -> bool:
         if acct['account_id'] == settings.DOCUSIGN_ACCOUNT_ID
     ]
     if not accounts:
+        return None
+    return accounts[0]['base_uri']
+
+
+def validate_and_set_consent_code(code: str) -> bool:
+    '''
+    Validate that the given consent code has the access permissions we need,
+    and set it as the current consent code for all our e-signing requests
+    with DocuSign.
+
+    Returns False if the consent code doesn't have the correct permissions.
+    '''
+
+    token = request_jwt_user_token(code)
+
+    base_uri = get_account_base_uri(token)
+    if not base_uri:
         return False
 
-    account = accounts[0]
-    cfg = DocusignConfig.objects.get()
+    cfg = get_config()
     cfg.consent_code = code
     cfg.consent_code_updated_at = timezone.now()
-    cfg.base_uri = account['base_uri']
+    cfg.base_uri = base_uri
     cfg.save()
     return True
 
 
+def is_enabled() -> bool:
+    '''
+    Returns whether DocuSign integration is enabled.
+    '''
+
+    return bool(settings.DOCUSIGN_ACCOUNT_ID)
+
+
 def ensure_valid_configuration():
+    '''
+    Ensures that the DocuSign settings are properly defined. It doesn't actually
+    verify that *DocuSign* thinks they're valid, though.
+    '''
+
     for setting in REQUIRED_SETTINGS:
         if not getattr(settings, setting):
             raise ImproperlyConfigured(f"The {setting} setting is not configured!")
 
-    config = DocusignConfig.objects.get()
+    config = get_config()
 
     if not config.private_key:
         raise ImproperlyConfigured(
@@ -70,6 +105,14 @@ def ensure_valid_configuration():
     url = absolute_reverse('hpaction:docusign_consent')
     if not (config.consent_code and config.base_uri):
         raise ImproperlyConfigured(f"Please obtain consent from a DocuSign user at {url}.")
+
+
+def get_config() -> DocusignConfig:
+    '''
+    Return the singleton DocuSign configuration from the database.
+    '''
+
+    return DocusignConfig.objects.get()
 
 
 def get_auth_server_domain() -> str:
@@ -86,7 +129,7 @@ def get_auth_server_url() -> str:
 
 
 def get_private_key_bytes() -> bytes:
-    return DocusignConfig.objects.get().private_key.encode('ascii')
+    return get_config().private_key.encode('ascii')
 
 
 def docusign_client_user_id(user: JustfixUser) -> str:
@@ -199,7 +242,7 @@ def create_api_client(
 
 
 def create_default_api_client() -> docusign.ApiClient:
-    config = DocusignConfig.objects.get()
+    config = get_config()
     token = request_jwt_user_token(config.consent_code)
     return create_api_client(f"{config.base_uri}/restapi", token)
 

@@ -1,10 +1,14 @@
 import base64
 import logging
 import json
-from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
+import functools
+from django.shortcuts import render, reverse
+from django.http import (
+    FileResponse, HttpResponseForbidden, HttpResponseRedirect,
+    Http404)
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
 
@@ -86,7 +90,17 @@ def validate_and_clear_docusign_state(request) -> bool:
     return is_valid
 
 
+def docusign_enabled_only(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        if not docusign.is_enabled():
+            raise Http404("DocuSign integration is disabled")
+        return fn(*args, **kwargs)
+    return wrapper
+
+
 @login_required
+@docusign_enabled_only
 def docusign_callback(request):
     if not validate_and_clear_docusign_state(request):
         return HttpResponseForbidden("Invalid state")
@@ -95,6 +109,9 @@ def docusign_callback(request):
         if docusign.validate_and_set_consent_code(code):
             return HttpResponse("Thank you for your consent. You may close this window.")
         return HttpResponse("Your account does not seem to have the privileges we need.")
+    event = request.GET.get('event')
+    if event:
+        return HttpResponseRedirect(reverse("hpaction:docusign_index") + f"?event={event}")
     return HttpResponse(
         "Thanks for doing whatever you just did on DocuSign, "
         "but I'm not sure what to do now."
@@ -102,9 +119,45 @@ def docusign_callback(request):
 
 
 @login_required
+@docusign_enabled_only
 def docusign_consent(request):
     url = docusign.create_oauth_consent_url(
         return_url=absolute_reverse('hpaction:docusign_callback'),
         state=set_random_docusign_state(request),
     )
     return HttpResponseRedirect(url)
+
+
+@login_required
+@docusign_enabled_only
+@require_POST
+def docusign_sign(request):
+    user = request.user
+    if not user.email:
+        return HttpResponse("You have no email address!")
+
+    docs = HPActionDocuments.objects.get_latest_for_user(user)
+
+    if not docs:
+        return HttpResponse("You have no HP Action documents to sign!")
+
+    state = set_random_docusign_state(request)
+    return_url = absolute_reverse('hpaction:docusign_callback') + "?state=" + state
+    envelope_definition = docusign.create_envelope_definition_for_hpa(docs)
+    api_client = docusign.create_default_api_client()
+    _, url = docusign.create_envelope_and_recipient_view_for_hpa(
+        user=user,
+        envelope_definition=envelope_definition,
+        api_client=api_client,
+        return_url=return_url,
+    )
+
+    return HttpResponseRedirect(url)
+
+
+@login_required
+@docusign_enabled_only
+def docusign_index(request):
+    return render(request, 'hpaction/docusign.html', {
+        'event': request.GET.get('event'),
+    })

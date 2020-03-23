@@ -72,14 +72,6 @@ def ensure_valid_configuration():
         raise ImproperlyConfigured(f"Please obtain consent from a DocuSign user at {url}.")
 
 
-def get_api_base_path() -> str:
-    '''
-    Returns the base path for the DocuSign REST API.
-    '''
-
-    return DocusignConfig.objects.get().base_uri
-
-
 def get_auth_server_domain() -> str:
     '''
     Returns the domain name for the DocuSign authentication server.

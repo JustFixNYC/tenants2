@@ -45,6 +45,9 @@ class DocusignConfig(models.Model):
     # When the consent was given to us.
     consent_code_updated_at = models.DateTimeField(blank=True, null=True)
 
+    # The Base URI of the DocuSign API.
+    base_uri = models.URLField(blank=True)
+
 
 class HarassmentDetails(models.Model):
     '''

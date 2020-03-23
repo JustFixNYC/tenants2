@@ -1,10 +1,10 @@
-from hpaction.models import DocusignConfig
+from io import StringIO
+from django.core.management import call_command
+
 from hpaction import docusign
 
 
-def test_configuration_is_created_after_migrations(db):
+def test_setting_private_key_works(db):
     assert docusign.get_private_key_bytes() == b''
-    cfg = DocusignConfig.objects.get()
-    cfg.private_key = 'boop'
-    cfg.save()
+    call_command('setdocusignkey', stdin=StringIO("boop"))
     assert docusign.get_private_key_bytes() == b'boop'

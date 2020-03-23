@@ -1,10 +1,12 @@
-from typing import Tuple
+from typing import Tuple, Union
 import urllib.parse
 import base64
 import docusign_esign as docusign
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import timezone
 from django.conf import settings
 
+from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 from .models import HPActionDocuments, DocusignConfig
 
@@ -28,6 +30,30 @@ REQUIRED_SETTINGS = [
 ]
 
 
+def validate_and_set_consent_code(code: str) -> bool:
+    token = request_jwt_user_token(code)
+    api_client = create_api_client(get_auth_server_url(), token)
+
+    # https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints
+    response = api_client.call_api("/oauth/userinfo", "GET", response_type="object")
+    if len(response) > 1 and 200 > response[1] > 300:
+        raise Exception(f"Received HTTP {response[1]}")
+    accounts = [
+        acct for acct in response[0]['accounts']
+        if acct['account_id'] == settings.DOCUSIGN_ACCOUNT_ID
+    ]
+    if not accounts:
+        return False
+
+    account = accounts[0]
+    cfg = DocusignConfig.objects.get()
+    cfg.consent_code = code
+    cfg.consent_code_updated_at = timezone.now()
+    cfg.base_uri = account['base_uri']
+    cfg.save()
+    return True
+
+
 def ensure_valid_configuration():
     for setting in REQUIRED_SETTINGS:
         if not getattr(settings, setting):
@@ -36,7 +62,14 @@ def ensure_valid_configuration():
     config = DocusignConfig.objects.get()
 
     if not config.private_key:
-        raise ImproperlyConfigured("DocuSign private key is not configured!")
+        raise ImproperlyConfigured(
+            "DocuSign private key is not configured! Please run the 'manage.py setdocusignkey' "
+            "command."
+        )
+
+    url = absolute_reverse('hpaction:docusign_consent')
+    if not (config.consent_code and config.base_uri):
+        raise ImproperlyConfigured(f"Please obtain consent from a DocuSign user at {url}.")
 
 
 def get_api_base_path() -> str:
@@ -44,8 +77,7 @@ def get_api_base_path() -> str:
     Returns the base path for the DocuSign REST API.
     '''
 
-    # TODO: We should return the production one if needed.
-    return 'https://demo.docusign.net/restapi'
+    return DocusignConfig.objects.get().base_uri
 
 
 def get_auth_server_domain() -> str:
@@ -154,20 +186,35 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> docusign.Enve
     return envelope_definition
 
 
+def create_api_client(
+    host: str,
+    access_token: Union[None, str, docusign.OAuthToken] = None
+) -> docusign.ApiClient:
+    api_client = docusign.ApiClient()
+    api_client.host = host
+    if isinstance(access_token, docusign.OAuthToken):
+        access_token = access_token.access_token
+    if access_token:
+        api_client.set_default_header('Authorization', f'Bearer {access_token}')
+    return api_client
+
+
+def create_default_api_client() -> docusign.ApiClient:
+    config = DocusignConfig.objects.get()
+    token = request_jwt_user_token(config.consent_code)
+    return create_api_client(f"{config.base_uri}/restapi", token)
+
+
 def create_envelope_and_recipient_view_for_hpa(
     user: JustfixUser,
     envelope_definition: docusign.EnvelopeDefinition,
-    access_token: str,
+    api_client: docusign.ApiClient,
     return_url: str,
 ) -> Tuple[docusign.EnvelopeSummary, str]:
     '''
     Create a DocuSign envelope and recipient view request for
     HP Action documents represented by a given envelope definition.
     '''
-
-    api_client = docusign.ApiClient()
-    api_client.host = get_api_base_path()
-    api_client.set_default_header('Authorization', f'Bearer {access_token}')
 
     envelope_api = docusign.EnvelopesApi(api_client)
     envelope = envelope_api.create_envelope(
@@ -211,8 +258,7 @@ def create_oauth_consent_url(
 
 
 def request_jwt_user_token(code: str) -> docusign.OAuthToken:
-    api_client = docusign.ApiClient()
-    api_client.host = get_api_base_path()
+    api_client = create_api_client(get_auth_server_url())
     token = api_client.request_jwt_user_token(
         client_id=settings.DOCUSIGN_INTEGRATION_KEY,
         user_id=settings.DOCUSIGN_USER_ID,

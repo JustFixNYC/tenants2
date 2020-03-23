@@ -166,10 +166,17 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> docusign.Enve
         ],
     )
 
+    user_cc = docusign.CarbonCopy(
+        email=user.email,
+        name=user.full_name,
+        recipient_id="2",
+        routing_order="2",
+    )
+
     envelope_definition = docusign.EnvelopeDefinition(
-        email_subject=f"{user.full_name}, please sign these HP Action forms",
+        email_subject=f"HP Action forms for {user.full_name}",
         documents=[document],
-        recipients=docusign.Recipients(signers=[signer]),
+        recipients=docusign.Recipients(signers=[signer], carbon_copies=[user_cc]),
         status="sent",
     )
 

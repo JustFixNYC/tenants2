@@ -1,5 +1,8 @@
+from io import StringIO
 from django.core import signing
+from django.core.management import call_command, CommandError
 from freezegun import freeze_time
+import pytest
 
 from .factories import UserFactory
 from users import email_verify
@@ -14,6 +17,20 @@ def test_send_verification_email_works(db, mailoutbox):
     assert mail.to == ['boop@jones.com']
     assert 'Hello Boop' in mail.body
     assert 'code=' in mail.body
+
+
+def test_sendverificationemail_works(db, mailoutbox):
+    UserFactory(username='boop', email='boop@jones.com')
+    stdout = StringIO()
+    call_command('sendverificationemail', 'boop', stdout=stdout)
+    assert 'Verification email sent' in stdout.getvalue()
+    assert len(mailoutbox) == 1
+
+
+def test_sendverificationemail_raises_error_if_user_has_no_email(db):
+    UserFactory(username='boop', email='')
+    with pytest.raises(CommandError, match='does not have an email'):
+        call_command('sendverificationemail', 'boop')
 
 
 def sign(value: str) -> str:

@@ -21,7 +21,8 @@ def validate_and_clear_docusign_state(request) -> bool:
     is_valid = False
     if DOCUSIGN_STATE in request.session:
         is_valid = request.GET.get('state') == request.session[DOCUSIGN_STATE]
-        del request.session[DOCUSIGN_STATE]
+        if is_valid:
+            del request.session[DOCUSIGN_STATE]
     return is_valid
 
 

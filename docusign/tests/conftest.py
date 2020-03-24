@@ -11,11 +11,14 @@ def simpleuuid(hexbyte: str) -> str:
 
 
 class FakeApiClient:
-    def __init__(self, host, access_token=None):
-        self.host = host
+    def __init__(self):
+        self.default_headers = {}
+
+    def set_default_header(self, header, value):
+        self.default_headers[header] = value
 
     def request_jwt_user_token(self, **kwargs):
-        return dse.OAuthToken()
+        return dse.OAuthToken(access_token='faketoken')
 
     def call_api(self, path, method, response_type):
         from django.conf import settings
@@ -37,5 +40,5 @@ def mockdocusign(db, settings, monkeypatch):
     cfg.consent_code = 'fake_consent_code'
     cfg.base_uri = 'https://fake-docusign'
     cfg.save()
-    monkeypatch.setattr(core, 'create_api_client', FakeApiClient)
+    monkeypatch.setattr(dse, 'ApiClient', FakeApiClient)
     yield cfg

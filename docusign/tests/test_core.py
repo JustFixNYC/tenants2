@@ -1,5 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
 import pytest
+import docusign_esign as dse
 
 from docusign import core
 from users.models import JustfixUser
@@ -22,6 +23,9 @@ def test_docusign_client_user_id_works():
 def test_api_client_works():
     client = core.create_api_client('blarg', 'foo')
     assert client.default_headers['Authorization'] == 'Bearer foo'
+
+    client = core.create_api_client('blarg', dse.OAuthToken(access_token='bar'))
+    assert client.default_headers['Authorization'] == 'Bearer bar'
 
 
 class TestIsEnabled:

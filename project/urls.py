@@ -21,6 +21,7 @@ from graphene_django.views import GraphQLView
 
 from legacy_tenants.views import redirect_to_legacy_app
 from .views import react_rendered_view, example_server_error, redirect_favicon, health
+from users.views import verify_email
 import twofactor.views
 
 dev_patterns = ([
@@ -30,6 +31,7 @@ dev_patterns = ([
 
 urlpatterns = [
     path('verify', twofactor.views.verify, name='verify'),
+    path('verify-email', verify_email, name='verify_email'),
     path('health', health, name='health'),
     path('admin/', admin.site.urls),
     path('safe-mode/', include('frontend.safe_mode')),

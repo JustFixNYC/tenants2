@@ -7,12 +7,12 @@ class Command(BaseCommand):
     help = 'Test that DocuSign integration works.'
 
     def handle(self, *args, **options) -> None:
-        print("Ensuring DocuSign configuration is valid...")
+        self.stdout.write("Ensuring DocuSign configuration is valid...\n")
         core.ensure_valid_configuration()
         config = core.get_config()
-        print("Requesting JWT user token from DocuSign...")
+        self.stdout.write("Requesting JWT user token from DocuSign...\n")
         token = core.request_jwt_user_token(config.consent_code)
-        print("Validating token permissions...")
+        self.stdout.write("Validating token permissions...\n")
         base_uri = core.get_account_base_uri(token)
         assert config.base_uri == base_uri
-        print("Success! DocuSign integration appears to be working.")
+        self.stdout.write("Success! DocuSign integration appears to be working.\n")

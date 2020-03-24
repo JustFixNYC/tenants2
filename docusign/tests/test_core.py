@@ -1,29 +1,8 @@
-from io import StringIO
-from django.core.management import call_command
 from django.core.exceptions import ImproperlyConfigured
 import pytest
 
 from docusign import core
 from users.models import JustfixUser
-
-
-def simpleuuid(hexbyte: str) -> str:
-    uuid = '-'.join([hexbyte * 4, hexbyte * 2, hexbyte * 2, hexbyte * 2, hexbyte * 6])
-    assert len(uuid) == 36
-    return uuid
-
-
-@pytest.fixture
-def mockdocusign(db, settings):
-    settings.DOCUSIGN_ACCOUNT_ID = simpleuuid('aa')
-    settings.DOCUSIGN_INTEGRATION_KEY = simpleuuid('bb')
-    settings.DOCUSIGN_USER_ID = simpleuuid('cc')
-    cfg = core.get_config()
-    cfg.private_key = 'fake_private_key'
-    cfg.consent_code = 'fake_consent_code'
-    cfg.base_uri = 'https://fake-docusign'
-    cfg.save()
-    yield cfg
 
 
 def test_create_oauth_consent_url_works(settings):
@@ -33,12 +12,6 @@ def test_create_oauth_consent_url_works(settings):
     assert 'my_integration_key' in url
     assert 'boop' in url
     assert 'signature+impersonation' in url
-
-
-def test_setting_private_key_works(db):
-    assert core.get_private_key_bytes() == b''
-    call_command('setdocusignkey', stdin=StringIO("boop"))
-    assert core.get_private_key_bytes() == b'boop'
 
 
 def test_docusign_client_user_id_works():
@@ -78,3 +51,12 @@ class TestEnsureValidConfiguration:
 
     def test_it_works(self, mockdocusign):
         core.ensure_valid_configuration()
+
+
+def test_get_account_base_uri_works(mockdocusign):
+    assert core.get_account_base_uri('blah') == 'https://fake-docusign'
+
+
+def test_create_default_api_client_works(mockdocusign):
+    client = core.create_default_api_client()
+    assert client.host == 'https://fake-docusign/restapi'

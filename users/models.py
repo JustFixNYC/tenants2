@@ -79,6 +79,14 @@ class JustfixUser(AbstractUser):
         **pn.get_model_field_kwargs()
     )
 
+    is_email_verified = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has verified that they 'own' their email "
+            "address by clicking on a link we emailed them."
+        ),
+    )
+
     objects = JustfixUserManager()
 
     USERNAME_FIELD = 'phone_number'

@@ -1,0 +1,7 @@
+Hello {{ user.first_name }}!
+
+You're almost done. To confirm your email address ({{ user.email }}), open this link in your web browser:
+
+  {{ url }}
+
+Confirming your email is the last step in the signup process.

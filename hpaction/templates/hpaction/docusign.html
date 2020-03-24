@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
-    <title>DocuSign configuration</title>
+    <link rel="stylesheet" href="{% static 'frontend/styles.css' %}" />
+    <title>HPA DocuSign proof-of-concept</title>
   </head>
   <body>
     <section class="section">
       <div class="container">
-        <h1 class="title">DocuSign configuration</h1>
+        <h1 class="title">HPA DocuSign proof-of-concept</h1>
 
         {% if event %}
         <div class="notification is-info content is-large">
@@ -19,11 +19,6 @@
 
         <div class="content is-medium">
           <p>You are currently logged in as {{ user.formatted_phone_number }}.</p>
-        </div>
-
-        <h2 class="title is-4">Sign HP Action documents</h2>
-
-        <div class="content is-medium">
           <p>This is experimental functionality that will start the DocuSign signing flow for your HP Action documents.</p>
           <form action="{% url 'hpaction:docusign_sign_hpa' %}" method="POST">
             {% csrf_token %}
@@ -34,14 +29,6 @@
               </div>
             </div>
           </form>
-  
-        </div>
-
-        <h2 class="title is-4">Grant consent via OAuth</h2>
-
-        <div class="content is-medium">
-          <p>You can grant consent for this platform to impersonate you using DocuSign. Note that this won't work if you have insufficient privileges.</p>
-          <p><a href="{% url 'hpaction:docusign_consent' %}" class="button is-large">Grant consent</a></p>
         </div>
       </div>
     </section>

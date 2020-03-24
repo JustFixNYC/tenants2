@@ -15,19 +15,19 @@ def create_default_docusign_config(
     **kwargs
 ):
     try:
-        DocusignConfig = apps.get_model('hpaction', 'DocusignConfig')
+        Config = apps.get_model('docusign', 'Config')
     except LookupError:
         return
 
-    if not router.allow_migrate_model(using, DocusignConfig):
+    if not router.allow_migrate_model(using, Config):
         return
 
-    if not DocusignConfig.objects.using(using).exists():
+    if not Config.objects.using(using).exists():
         # The default settings set SITE_ID = 1, and some tests in Django's test
         # suite rely on this value. However, if database sequences are reused
         # (e.g. in the test suite after flush/syncdb), it isn't guaranteed that
         # the next id will be 1, so we coerce it. See #15573 and #16353. This
         # can also crop up outside of tests - see #15346.
         if verbosity >= 2:
-            print("Creating default DocusignConfig object")
-        DocusignConfig().save(using=using)
+            print("Creating default DocuSign Config object")
+        Config().save(using=using)

@@ -28,27 +28,6 @@ def attr_name_for_harassment_allegation(name: str) -> str:
     return f"alleg_{name.lower()}"
 
 
-class DocusignConfig(models.Model):
-    '''
-    Contains configuration data for DocuSign integration.
-    '''
-
-    private_key = models.TextField(
-        blank=True,
-        help_text="The private key for the DocuSign Service Integration.",
-    )
-
-    # The consent code allowing us to impersonate a DocuSign user and perform
-    # actions on their behalf.
-    consent_code = models.TextField(blank=True)
-
-    # When the consent was given to us.
-    consent_code_updated_at = models.DateTimeField(blank=True, null=True)
-
-    # The Base URI of the DocuSign API.
-    base_uri = models.URLField(blank=True)
-
-
 class HarassmentDetails(models.Model):
     '''
     Represents a user's harassment information.

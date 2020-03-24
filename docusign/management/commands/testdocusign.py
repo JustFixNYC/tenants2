@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from hpaction import docusign
+from docusign import core
 
 
 class Command(BaseCommand):
@@ -8,11 +8,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         print("Ensuring DocuSign configuration is valid...")
-        docusign.ensure_valid_configuration()
-        config = docusign.get_config()
+        core.ensure_valid_configuration()
+        config = core.get_config()
         print("Requesting JWT user token from DocuSign...")
-        token = docusign.request_jwt_user_token(config.consent_code)
+        token = core.request_jwt_user_token(config.consent_code)
         print("Validating token permissions...")
-        base_uri = docusign.get_account_base_uri(token)
+        base_uri = core.get_account_base_uri(token)
         assert config.base_uri == base_uri
         print("Success! DocuSign integration appears to be working.")

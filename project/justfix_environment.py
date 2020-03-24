@@ -303,6 +303,18 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_HP: str = ''
 
+    # The DocuSign account ID to use. Leaving this empty disables DocuSign
+    # integration.
+    DOCUSIGN_ACCOUNT_ID: str = ''
+
+    # The DocuSign integration key to use. Required if DocuSign integration is
+    # enabled.
+    DOCUSIGN_INTEGRATION_KEY: str = ''
+
+    # The DocuSign user ID of the user to impersonate. Required if DocuSign
+    # integration is enabled.
+    DOCUSIGN_USER_ID: str = ''
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -1,10 +1,9 @@
 import base64
 import logging
 import json
-from django.http import FileResponse
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 
 from .models import UploadToken, HPActionDocuments

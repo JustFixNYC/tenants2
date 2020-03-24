@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     'rh.apps.RhConfig',
     'dwh.apps.DwhConfig',
     'texting_history.apps.TextingHistoryConfig',
+    'docusign.apps.DocusignConfig',
 ]
 
 MIDDLEWARE = [
@@ -420,6 +421,10 @@ RAPIDPRO_FOLLOWUP_CAMPAIGN_HP = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_HP
 LOB_SECRET_API_KEY = env.LOB_SECRET_API_KEY
 
 LOB_PUBLISHABLE_API_KEY = env.LOB_PUBLISHABLE_API_KEY
+
+DOCUSIGN_ACCOUNT_ID = env.DOCUSIGN_ACCOUNT_ID
+DOCUSIGN_INTEGRATION_KEY = env.DOCUSIGN_INTEGRATION_KEY
+DOCUSIGN_USER_ID = env.DOCUSIGN_USER_ID
 
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN

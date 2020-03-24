@@ -36,6 +36,7 @@ urlpatterns = [
     path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
     path('dev/', include(dev_patterns, namespace='dev')),
+    path('docusign/', include('docusign.urls')),
     path('data-requests/', include('data_requests.urls')),
 ]
 

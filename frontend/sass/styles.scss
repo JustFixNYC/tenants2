@@ -323,3 +323,19 @@ html.jf-is-fullscreen-admin-page {
         display: none;
     }
 }
+
+.jf-moratorium-banner {
+    .container {
+        .jf-close-button {
+            z-index: 30;
+            cursor: pointer;
+            
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+        p {
+            margin: 0 3rem 0 0;
+        }
+    }
+}

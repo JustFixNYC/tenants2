@@ -15,7 +15,7 @@ URLS = [CALLBACK_URL, CONSENT_URL]
 
 
 @pytest.mark.parametrize('url', URLS)
-def test_views_404_when_docusign_is_disabled(url, client):
+def test_views_404_when_docusign_is_disabled(url, client, disable_locale_middleware):
     assert client.get(url).status_code == 404
 
 

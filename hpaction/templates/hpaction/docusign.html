@@ -25,7 +25,7 @@
 
         <div class="content is-medium">
           <p>This is experimental functionality that will start the DocuSign signing flow for your HP Action documents.</p>
-          <form action="{% url 'hpaction:docusign_sign' %}" method="POST">
+          <form action="{% url 'hpaction:docusign_sign_hpa' %}" method="POST">
             {% csrf_token %}
   
             <div class="field">

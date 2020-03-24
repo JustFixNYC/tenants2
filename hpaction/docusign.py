@@ -102,9 +102,12 @@ def ensure_valid_configuration():
             "command."
         )
 
-    url = absolute_reverse('hpaction:docusign_consent')
     if not (config.consent_code and config.base_uri):
-        raise ImproperlyConfigured(f"Please obtain consent from a DocuSign user at {url}.")
+        url = absolute_reverse('hpaction:docusign_consent')
+        raise ImproperlyConfigured(
+            f"DocuSign consent code is not configured!  "
+            f"Please obtain consent from a DocuSign user at {url}."
+        )
 
 
 def get_config() -> DocusignConfig:
@@ -174,6 +177,10 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> docusign.Enve
         client_user_id=docusign_client_user_id(user),
     )
 
+    # These coordinates were found by manually creating a DocuSign template based on
+    # generated HP Action forms, creating fields using the drag-and-drop UI,
+    # and noting their locations.
+
     sign_here_petition = docusign.SignHere(
         document_id=HPA_DOCUMENT_ID,
         page_number='4',
@@ -242,6 +249,13 @@ def create_api_client(
 
 
 def create_default_api_client() -> docusign.ApiClient:
+    '''
+    Creates a DocuSign API client using the currently-configured settings.
+
+    This requests a JSON Web Token in the process, so it won't return
+    instantaneously.
+    '''
+
     config = get_config()
     token = request_jwt_user_token(config.consent_code)
     return create_api_client(f"{config.base_uri}/restapi", token)
@@ -256,6 +270,9 @@ def create_envelope_and_recipient_view_for_hpa(
     '''
     Create a DocuSign envelope and recipient view request for
     HP Action documents represented by a given envelope definition.
+
+    Returns a tuple containing the envelope summary and the
+    URL to redirect the user to.
     '''
 
     envelope_api = docusign.EnvelopesApi(api_client)
@@ -289,6 +306,11 @@ def create_oauth_consent_url(
     return_url: str,
     state: str = '',
 ) -> str:
+    '''
+    Returns a URL to redirect the user to, which will start the
+    DocuSign OAuth consent flow.
+    '''
+
     qs = urllib.parse.urlencode({
         'response_type': 'code',
         'scope': 'signature impersonation',
@@ -300,6 +322,15 @@ def create_oauth_consent_url(
 
 
 def request_jwt_user_token(code: str) -> docusign.OAuthToken:
+    '''
+    Request a DocuSign JSON Web Token for the given user's consent code,
+    and return it.
+
+    Note tha this JWT will only last a short time (at the time of
+    this writing, it's 5 minutes). It's the consent code that's
+    long-lived, not the JWT.
+    '''
+
     api_client = create_api_client(get_auth_server_url())
     token = api_client.request_jwt_user_token(
         client_id=settings.DOCUSIGN_INTEGRATION_KEY,

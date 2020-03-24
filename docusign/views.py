@@ -55,8 +55,8 @@ def create_callback_url_for_signing_flow(request, next_url: str) -> str:
     })
 
 
-@login_required
 @docusign_enabled_only
+@login_required
 def callback(request):
     '''
     The DocuSign callback view, where users are redirected when they finish a flow
@@ -85,8 +85,8 @@ def callback(request):
     )
 
 
-@login_required
 @docusign_enabled_only
+@login_required
 def consent(request):
     '''
     Initiate the DocuSign consent OAuth flow by redirecting the user.

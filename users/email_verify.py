@@ -3,10 +3,13 @@ import urllib.parse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core import signing
+from django.template.loader import render_to_string
 
 from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 
+# A bunch of the logic in this module was taken from django-registration,
+# specifically its file `django_registration/backends/activation/views.py`.
 
 VERIFICATION_SALT = "verification"
 
@@ -22,22 +25,32 @@ VERIFY_INVALID_USERNAME = "invalid_username"
 
 
 def send_verification_email(user: JustfixUser):
+    '''
+    Sends an email to the given user with a link to follow;
+    when they follow the link, their account will be marked
+    as having a validated email address.
+    '''
+
     assert user.email
     code = signing.dumps(user.username, salt=VERIFICATION_SALT)
     qs = urllib.parse.urlencode({'code': code})
     url = f"{absolute_reverse('verify_email')}?{qs}"
     subject = f"Welcome to JustFix.nyc! Please verify your email"
-    body = f"To verify your email, follow this link: {url}"
+    body = render_to_string("users/verification_email_body.txt", {
+        'user': user,
+        'url': url,
+    })
     from_email = settings.DEFAULT_FROM_EMAIL
     send_mail(subject, body, from_email, [user.email])
 
 
 def verify_code(code: str) -> Tuple[str, Optional[JustfixUser]]:
     '''
-    Attempt to verify the given verification code and apply it
-    to the user that it represents. Returns a tuple containing
-    the response code string and the relevant user object, if
-    applicable.
+    Attempt to verify the given verification code and mark
+    the user's account as having a verified email address.
+
+    Returns a tuple containing the response code string and
+    the relevant user object, if applicable.
     '''
 
     try:

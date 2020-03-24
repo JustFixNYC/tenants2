@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Tuple, Optional
 import urllib.parse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -14,7 +14,9 @@ SECONDS_PER_DAY = 86400
 
 MAX_VERIFICATION_DAYS = 7
 
+VERIFY_OK = "ok"
 VERIFY_EXPIRED = "expired"
+VERIFY_ALREADY_VERIFIED = "already_verified"
 VERIFY_INVALID_CODE = "invalid_code"
 VERIFY_INVALID_USERNAME = "invalid_username"
 
@@ -30,7 +32,14 @@ def send_verification_email(user: JustfixUser):
     send_mail(subject, body, from_email, [user.email])
 
 
-def verify_code(code: str) -> Union[str, JustfixUser]:
+def verify_code(code: str) -> Tuple[str, Optional[JustfixUser]]:
+    '''
+    Attempt to verify the given verification code and apply it
+    to the user that it represents. Returns a tuple containing
+    the response code string and the relevant user object, if
+    applicable.
+    '''
+
     try:
         username = signing.loads(
             code,
@@ -39,11 +48,13 @@ def verify_code(code: str) -> Union[str, JustfixUser]:
         )
         user = JustfixUser.objects.filter(username=username).first()
         if user is None:
-            return VERIFY_INVALID_USERNAME
+            return (VERIFY_INVALID_USERNAME, None)
+        if user.is_email_verified:
+            return (VERIFY_ALREADY_VERIFIED, user)
         user.is_email_verified = True
         user.save()
-        return user
+        return (VERIFY_OK, user)
     except signing.SignatureExpired:
-        return VERIFY_EXPIRED
+        return (VERIFY_EXPIRED, None)
     except signing.BadSignature:
-        return VERIFY_INVALID_CODE
+        return (VERIFY_INVALID_CODE, None)

@@ -5,7 +5,7 @@ from .email_verify import verify_code
 
 def verify_email(request):
     code = request.GET.get("code", "")
-    user = verify_code(code)
-    if isinstance(user, str):
+    result, user = verify_code(code)
+    if not user:
         return HttpResponse(f"ERROR: {user}")
-    return HttpResponse(f"YAY {user.full_name} IS NOW VERIFIED!")
+    return HttpResponse(f"YAY {user.full_name} IS NOW VERIFIED ({result})!")

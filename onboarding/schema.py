@@ -16,6 +16,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name
 from project import slack, schema_registry
 from users.models import JustfixUser
+from users.email_verify import send_verification_email_async
 from onboarding import forms
 from onboarding.models import OnboardingInfo
 
@@ -92,10 +93,9 @@ def pick_model_fields(model, **kwargs):
     }
 
 
-@schema_registry.register_mutation
-class OnboardingStep4(SessionFormMutation):
+class OnboardingStep4Base(SessionFormMutation):
     class Meta:
-        form_class = forms.OnboardingStep4Form
+        abstract = True
 
     @classmethod
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
@@ -108,10 +108,11 @@ class OnboardingStep4(SessionFormMutation):
         return result
 
     @classmethod
-    def perform_mutate(cls, form: forms.OnboardingStep4Form, info: ResolveInfo):
+    def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
         password = form.cleaned_data['password'] or None
+        email = form.cleaned_data.get('email', '')
         prev_steps = cls.__extract_all_step_session_data(request)
         if prev_steps is None:
             cls.log(info, "User has not completed previous steps, aborting mutation.")
@@ -121,6 +122,7 @@ class OnboardingStep4(SessionFormMutation):
                 username=JustfixUser.objects.generate_random_username(),
                 first_name=prev_steps['first_name'],
                 last_name=prev_steps['last_name'],
+                email=email,
                 phone_number=phone_number,
                 password=password,
             )
@@ -139,6 +141,8 @@ class OnboardingStep4(SessionFormMutation):
             f"from {slack.escape(oi.borough_label)} has signed up!",
             is_safe=True
         )
+        if user.email:
+            send_verification_email_async(user.pk)
 
         user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, user)
@@ -147,6 +151,18 @@ class OnboardingStep4(SessionFormMutation):
             step.clear_from_request(request)
 
         return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class OnboardingStep4(OnboardingStep4Base):
+    class Meta:
+        form_class = forms.OnboardingStep4Form
+
+
+@schema_registry.register_mutation
+class OnboardingStep4Version2(OnboardingStep4Base):
+    class Meta:
+        form_class = forms.OnboardingStep4FormVersion2
 
 
 class OnboardingInfoType(DjangoObjectType):

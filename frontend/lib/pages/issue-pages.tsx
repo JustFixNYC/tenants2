@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';
-import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
+import Routes, { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NotFound } from './not-found';
@@ -24,6 +24,7 @@ import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -184,6 +185,24 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
+function CovidRiskModal(): JSX.Element {
+  return (
+    <Modal title="Social distancing and repairs" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+      <p>
+        <strong className="has-text-danger">Warning:</strong> If you do not have a lease,
+        {' '}taking action against your landlord could provoke retaliation and/or an eviction
+        {' '}notice. <strong>Take caution and make sure that this service is right for you.</strong>
+      </p>
+      <div className="has-text-centered">
+        <Link
+          className={`button is-primary is-medium is-danger`} {...ctx.getLinkCloseProps()}>
+          I understand the risk
+        </Link>
+      </div>
+    </>} />
+  );
+}
+
 class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
@@ -209,6 +228,10 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
       <Page title="Apartment self-inspection">
         <div>
           <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
+          <ModalLink to={Routes.locale.loc.issues.modal} className="button is-primary is-medium" render={() => (
+            <CovidRiskModal />)}>
+          Looks good to me!
+        </ModalLink>
           <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. {introContent} <strong>Don't hold back!</strong></p>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
@@ -240,6 +263,9 @@ export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
   return (
     <Switch>
       <Route path={routes.home} exact render={() => (
+        <IssuesHome {...props} />
+      )} />
+      <Route path={routes.modal} exact render={() => (
         <IssuesHome {...props} />
       )} />
       <Route path={routes.area.parameterizedRoute} render={(ctx) => (

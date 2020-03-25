@@ -13,6 +13,8 @@ import { EmailLetterMutation } from '../queries/EmailLetterMutation';
 import { BigList } from '../big-list';
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 
+const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`
+
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
 );
@@ -40,7 +42,12 @@ function WeMailedLetterStatus(props: {
       <p>Your <b>USPS Certified Mail<sup>&reg;</sup></b> tracking number is <a href={url} target="_blank" rel="noopener, noreferrer">{trackingNumber}</a>.</p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
-      <BigList children={getCommonWeMailNextSteps()} />
+      <BigList children={[
+        <li>
+          <p>{LetterViaEmailInstructions}</p>
+        </li>,
+        ...getCommonWeMailNextSteps()
+      ]} />
     </>
   );
 }
@@ -57,7 +64,10 @@ function WeWillMailLetterStatus(props: {
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
       <BigList children={[
-        <li>We’ll mail your letter via <b>USPS Certified Mail<sup>&reg;</sup></b> and provide a tracking number via text message.</li>,
+        <li>
+          <p>We’ll mail your letter via <b>USPS Certified Mail<sup>&reg;</sup></b> and provide a tracking number via text message.</p>
+          <p>{LetterViaEmailInstructions}</p>
+        </li>,
         ...getCommonWeMailNextSteps(),
       ]}/>
     </>
@@ -71,7 +81,10 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
       <BigList children={[
-        <li>Print out your letter and <strong>mail it via Certified Mail</strong> - this allows you to prove that it was sent to your landlord.</li>,
+        <li>
+          <p>Print out your letter and <strong>mail it via Certified Mail</strong> - this allows you to prove that it was sent to your landlord.</p>
+          <p>{LetterViaEmailInstructions}</p>
+        </li>,
         ...getCommonMailNextSteps(),
       ]}/>
     </>
@@ -108,7 +121,7 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
       <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <div className="content">
         {letterStatus}
-        <h2>Email a copy of your letter to yourself or someone you trust</h2>
+        <h2>Email a copy of your letter to yourself, someone you trust, or your landlord.</h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
         <h2>Want to read more about your rights?</h2>
         {knowYourRightsList}

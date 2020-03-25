@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 import classnames from 'classnames';
-  
-type Props = {
-    pathname?: string
-}
 
 const ROUTES_WITH_MORATORIUM_BANNER = [
     "/loc/splash",
@@ -13,13 +9,13 @@ const ROUTES_WITH_MORATORIUM_BANNER = [
     "/"
   ];
 
-const MoratoriumBanner = (props:Props) => {
+const MoratoriumBanner = ( props:{ pathname?: string } ) => {
 
     const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
     
     const [isVisible, setVisibility] = useState(true);
 
-    return (includeBanner &&
+    return (includeBanner ? 
     <section className={classnames("jf-moratorium-banner","hero","is-warning", "is-small", !isVisible && "is-hidden")}>
         <div className="hero-body">
         <div className="container">
@@ -36,7 +32,7 @@ const MoratoriumBanner = (props:Props) => {
             </p>
         </div>
         </div>
-    </section>
+    </section> : <></>
     );
 }
 

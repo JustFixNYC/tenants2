@@ -323,3 +323,22 @@ html.jf-is-fullscreen-admin-page {
         display: none;
     }
 }
+
+.jf-moratorium-banner {
+    .container {
+        button.delete {
+            &::before, &::after {
+                background-color: $dark;
+            }
+        }
+        p {
+            margin: 0 2.5rem 0 0;
+            a {
+                text-decoration: underline;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}

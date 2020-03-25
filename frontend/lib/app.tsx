@@ -27,6 +27,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { createRedirectWithSearch } from './redirect-util';
 import { browserStorage } from './browser-storage';
 import { areAnalyticsEnabled } from './analytics';
+import MoratoriumBanner from './moratorium-banner';
 
 
 export interface AppProps {
@@ -304,6 +305,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
           <AppContext.Provider value={this.getAppContext()}>
             <AriaAnnouncer>
                 <Navbar/>
+                <MoratoriumBanner pathname={this.props.location.pathname} />
                 <section className="section">
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>

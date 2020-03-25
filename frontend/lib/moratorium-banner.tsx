@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 
 type Props = {}
+
 type State = {
     isHidden: boolean
   }
   
-
 class MoratoriumBanner extends Component<Props,State> {
     constructor(Props: Props) {
       super(Props);
@@ -25,7 +25,7 @@ class MoratoriumBanner extends Component<Props,State> {
           <div className="hero-body">
             <div className="container">
                 <SimpleProgressiveEnhancement>
-                    <div className="jf-close-button is-size-5 is-pulled-right" onClick = {this.closeBanner}>✕</div>
+                    <button className="delete is-medium is-pulled-right" onClick = {this.closeBanner} />
                 </SimpleProgressiveEnhancement>
                 <p>
                     <span className="has-text-weight-bold">COVID-19 Update: </span>

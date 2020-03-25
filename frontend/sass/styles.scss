@@ -326,16 +326,19 @@ html.jf-is-fullscreen-admin-page {
 
 .jf-moratorium-banner {
     .container {
-        .jf-close-button {
-            z-index: 30;
-            cursor: pointer;
-            
-            &:hover {
-                opacity: 0.7;
+        button.delete {
+            &::before, &::after {
+                background-color: $dark;
             }
         }
         p {
             margin: 0 2.5rem 0 0;
+            a {
+                text-decoration: underline;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
         }
     }
 }

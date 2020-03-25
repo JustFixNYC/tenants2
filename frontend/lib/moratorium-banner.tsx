@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
+import classnames from 'classnames';
 
 const MoratoriumBanner = () => {
     
     const [isVisible, setVisibility] = useState(true);
 
     return (
-    <section className={"jf-moratorium-banner hero is-warning is-small " + (!isVisible && "is-hidden")}>
+    <section className={classnames("jf-moratorium-banner","hero","is-warning", "is-small", !isVisible && "is-hidden")}>
         <div className="hero-body">
         <div className="container">
             <SimpleProgressiveEnhancement>

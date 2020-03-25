@@ -193,9 +193,12 @@ function CovidRiskModal(): JSX.Element {
   return (
     <Modal title="Social distancing and repairs" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
       <p>
-        <strong className="has-text-danger">Warning:</strong> If you do not have a lease,
-        {' '}taking action against your landlord could provoke retaliation and/or an eviction
-        {' '}notice. <strong>Take caution and make sure that this service is right for you.</strong>
+        <strong className="has-text-danger">Warning: </strong> 
+        Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
+      </p>
+      <p>
+        In order to follow social distancing guidelines and to limit your exposure, we recommend 
+        only asking for repairs <strong>in the case of an emergency</strong> such as if you have no heat, no hot water, or no gas. 
       </p>
       <div className="has-text-centered">
         <Link

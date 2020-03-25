@@ -1,9 +1,8 @@
 import React from 'react';
-import { OnboardingStep4Input, OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { OnboardingInfoSignupIntent, OnboardingStep4Version2Input } from "../queries/globalTypes";
 import Page from '../page';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import autobind from 'autobind-decorator';
-import { OnboardingStep4Mutation, BlankOnboardingStep4Input } from '../queries/OnboardingStep4Mutation';
 import { OnboardingRouteInfo } from '../routes';
 import { ProgressButtons } from "../buttons";
 import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fields';
@@ -13,6 +12,7 @@ import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../facebook-pixel';
 import { FormContext } from '../form-context';
 import { getDataLayer } from '../google-tag-manager';
+import { BlankOnboardingStep4Version2Input, OnboardingStep4Version2Mutation } from '../queries/OnboardingStep4Version2Mutation';
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -21,14 +21,14 @@ type OnboardingStep4Props = {
 };
 
 export default class OnboardingStep4 extends React.Component<OnboardingStep4Props> {
-  private readonly blankInitialState: OnboardingStep4Input = {
-    ...BlankOnboardingStep4Input,
+  private readonly blankInitialState: OnboardingStep4Version2Input = {
+    ...BlankOnboardingStep4Version2Input,
     canWeSms: true,
     signupIntent: this.props.signupIntent,
   };
 
   @autobind
-  renderForm(ctx: FormContext<OnboardingStep4Input>): JSX.Element {
+  renderForm(ctx: FormContext<OnboardingStep4Version2Input>): JSX.Element {
     const { routes } = this.props;
 
     return (
@@ -37,10 +37,11 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
         <CheckboxFormField {...ctx.fieldPropsFor('canWeSms')}>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>
+        <TextualFormField label="Email address" type="email" {...ctx.fieldPropsFor('email')} />
         <HiddenFormField {...ctx.fieldPropsFor('signupIntent')} />
         <br />
-        <TextualFormField label="Create a password (optional)" type="password" {...ctx.fieldPropsFor('password')} />
-        <TextualFormField label="Please confirm your password (optional)" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
+        <TextualFormField label="Create a password" type="password" {...ctx.fieldPropsFor('password')} />
+        <TextualFormField label="Please confirm your password" type="password" {...ctx.fieldPropsFor('confirmPassword')} />
         <CheckboxFormField {...ctx.fieldPropsFor('agreeToTerms')}>
           I agree to the {" "}
           <ModalLink to={routes.step4TermsModal} component={PrivacyInfoModal}>
@@ -58,7 +59,7 @@ export default class OnboardingStep4 extends React.Component<OnboardingStep4Prop
         <div>
           <h1 className="title is-4">Your contact information</h1>
           <SessionUpdatingFormSubmitter
-            mutation={OnboardingStep4Mutation}
+            mutation={OnboardingStep4Version2Mutation}
             initialState={this.blankInitialState}
             onSuccessRedirect={this.props.toSuccess}
             onSuccess={(output) => {

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ValidationError
 
-from project.forms import OptionalSetPasswordForm, YesNoRadiosField
+from project.forms import SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from users.models import JustfixUser
@@ -46,11 +46,7 @@ class OnboardingStep3Form(forms.ModelForm):
     )
 
 
-class OnboardingStep4Form(OptionalSetPasswordForm, forms.ModelForm):
-    class Meta:
-        model = OnboardingInfo
-        fields = ('can_we_sms', 'signup_intent')
-
+class BaseOnboardingStep4Form(forms.Form):
     phone_number = USPhoneNumberField()
 
     agree_to_terms = forms.BooleanField(required=True)
@@ -61,3 +57,17 @@ class OnboardingStep4Form(OptionalSetPasswordForm, forms.ModelForm):
             # TODO: Are we leaking valuable PII here?
             raise ValidationError('A user with that phone number already exists.')
         return phone_number
+
+
+class OnboardingStep4Form(BaseOnboardingStep4Form, OptionalSetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('can_we_sms', 'signup_intent')
+
+
+class OnboardingStep4FormVersion2(BaseOnboardingStep4Form, SetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('can_we_sms', 'signup_intent')
+
+    email = forms.EmailField()

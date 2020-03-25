@@ -23,12 +23,14 @@ const PLACEHOLDER_IMG = 'frontend/img/96x96.png';
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
-const EFNYC_PRIORITY = 50;
-const VIOLATIONS_HIGH_PRIORITY = 45;
+const VIOLATIONS_PRIORITY = 50;
+const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
-const VIOLATIONS_PRIORITY = 30;
-const RENT_HISTORY_PRIORITY = 20;
-const WOW_PRIORITY = 10;
+const EFNYC_PRIORITY = 30;
+const WOW_PRIORITY = 20;
+const RENT_HISTORY_PRIORITY = 10;
+
+const DISABLE_RECOMMENDATIONS = true;
 
 type DDOData = DataDrivenOnboardingSuggestions_output;
 
@@ -342,9 +344,13 @@ function compareActionCardProps(a: ActionCardProps, b: ActionCardProps): number 
 }
 
 function getSortedActionCards(data: DDOData): { recommended: ActionCardProps[], other: ActionCardProps[] } {
-  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(data)).map(props => (
-    props.imageStaticURL ? props : {...props, imageStaticURL: SHOW_PLACEHOLDER_IMG ? PLACEHOLDER_IMG : undefined}
-  ));
+  const actionCardProps = ACTION_CARDS
+    .map(propsCreator => propsCreator(data))
+      .map(props => {
+        if (DISABLE_RECOMMENDATIONS) { props.isRecommended = false; }
+        return (props.imageStaticURL ? props : {...props, imageStaticURL: SHOW_PLACEHOLDER_IMG ? PLACEHOLDER_IMG : undefined});
+      }
+    );
 
   const recommended: ActionCardProps[] = [];
   const other: ActionCardProps[] = [];

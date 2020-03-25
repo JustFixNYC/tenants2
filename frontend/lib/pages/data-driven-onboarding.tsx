@@ -272,7 +272,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const covidMessage = <>
       <p>Due to the Covid-19 health crisis, Housing Courts in New York City are closed. 
         You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open.</p>
-      <p>If you are facing an emergency such as lack of heat and /or hot water, call the Housing Court Answers Hotline at (212) 962-4795 to get assistance Mon-Fri 9am-5pm. 
+      <p>If you are facing an emergency such as lack of heat and/or hot water, call the Housing Court Answers Hotline at (212) 962-4795 to get assistance Mon-Fri, 9am-5pm. 
         Assistance is available in English and Spanish.</p>
     </>;
     return {

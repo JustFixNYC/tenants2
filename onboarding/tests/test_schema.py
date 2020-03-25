@@ -99,7 +99,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client, smsoutbox):
+def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
@@ -119,6 +119,8 @@ def test_onboarding_works(graphql_client, smsoutbox):
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
+    assert len(mailoutbox) == 1
+    assert "verify your email" in mailoutbox[0].subject
 
 
 @pytest.mark.django_db

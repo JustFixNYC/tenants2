@@ -17,5 +17,5 @@ class Command(BaseCommand):
         user = JustfixUser.objects.get(username=options['username'])
         if not user.email:
             raise CommandError('User does not have an email address!')
-        send_verification_email(user)
+        send_verification_email(user.pk)
         self.stdout.write(f"Verification email sent to {user.email}.")

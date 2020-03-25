@@ -30,13 +30,6 @@ import { areAnalyticsEnabled } from './analytics';
 import MoratoriumBanner from './moratorium-banner';
 
 
-const ROUTES_WITH_MORATORIUM_BANNER = [
-  "/loc/splash",
-  "/hp/splash",
-  "/rh/splash",
-  "/"
-];
-
 export interface AppProps {
   /** The initial URL to render on page load. */
   initialURL: string;
@@ -312,8 +305,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
           <AppContext.Provider value={this.getAppContext()}>
             <AriaAnnouncer>
                 <Navbar/>
-                {ROUTES_WITH_MORATORIUM_BANNER.includes(this.props.location.pathname) 
-                  && <MoratoriumBanner />}
+                <MoratoriumBanner pathname={this.props.location.pathname} />
                 <section className="section">
                   <div className="container" ref={this.pageBodyRef}
                       data-jf-is-noninteractive tabIndex={-1}>

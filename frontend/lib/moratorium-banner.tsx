@@ -1,12 +1,25 @@
 import React, { useState } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 import classnames from 'classnames';
+  
+type Props = {
+    pathname?: string
+}
 
-const MoratoriumBanner = () => {
+const ROUTES_WITH_MORATORIUM_BANNER = [
+    "/loc/splash",
+    "/hp/splash",
+    "/rh/splash",
+    "/"
+  ];
+
+const MoratoriumBanner = (props:Props) => {
+
+    const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
     
     const [isVisible, setVisibility] = useState(true);
 
-    return (
+    return (includeBanner &&
     <section className={classnames("jf-moratorium-banner","hero","is-warning", "is-small", !isVisible && "is-hidden")}>
         <div className="hero-body">
         <div className="container">

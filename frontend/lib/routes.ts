@@ -99,6 +99,7 @@ function createOnboardingRouteInfo(prefix: string) {
     },
     step4: `${prefix}/step/4`,
     step4TermsModal: `${prefix}/step/4/terms-modal`,
+    thanks: `${prefix}/thanks`,
   };
 }
 

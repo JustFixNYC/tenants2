@@ -248,17 +248,17 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function letterOfComplaint(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+      Landlord not responding? You can take action for free to request repairs! 
+      Due to the Covid-19 health crisis, we recommend requesting repairs only in the case of an emergency so you can stay safe and healthy by limiting how many people enter your home.
+    </>;
     return {
       title: 'Request repairs from your landlord',
       priority: COMPLAINTS_PRIORITY,
       isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
-      indicators: [
-        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
-        data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
-      ],
-      fallbackMessage: <>
-        Landlord not responding? You can take action for free!
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
         to: Routes.locale.loc.latestStep,
@@ -268,6 +268,17 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function hpAction(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+      <p> 
+        Due to the Covid-19 health crisis, Housing Courts in New York City are closed. 
+        You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open. 
+      </p>
+      <p>
+        If you are facing an emergency such as lack of heat and /or hot water, call the Housing Court Answers Hotline at (212) 962-4795 to get assistance Mon-Fri 9am-5pm. 
+        Assistance is available in English and Spanish. 
+      </p>
+    </>;
     return {
       title: 'Start a legal case for repairs and/or harassment',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
@@ -276,14 +287,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         (data.numberOfTotalHpdViolations > 10 || calcPerUnit(data.numberOfTotalHpdViolations, data) > 1.6) ||
         ((data.hpdOpenClassCViolationCount || 0) > 0)
       ),
-      indicators: [
-        <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount} unit="open violation"/> in your building.</>,
-        <>The city has issued <Indicator value={data.numberOfTotalHpdViolations} unit="total violation"/> since 2010.</>,
-        data.averageWaitTimeForRepairsAtBbl && <>The average violation in your building takes <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to be resolved.</>
-      ],
-      fallbackMessage: <>
-        Going to court can help you get repairs.
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
@@ -319,21 +324,24 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function evictionFreeNyc(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+      An Eviction Moratorium is in place in NY State due to the Covid-19 public health crisis. 
+      All courts that hear eviction cases are closed. This means you <b>cannot be evicted for any reason</b>. 
+    </>
+    const covidCtaText = "Learn more";
+    const covidCtaLink = 'https://www.righttocounselnyc.org/moratorium_faq'
     return {
       title: 'Fight an eviction',
       priority: EFNYC_PRIORITY,
       isRecommended: data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
-      indicators: [
-        data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
-      ],
-      fallbackMessage: <>
-        Are you facing eviction? Learn how to respond and where to find help.
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: `${getGlobalAppServerInfo().efnycOrigin}/`,
+        to: covidCtaLink,
         gaLabel: 'efnyc',
-        text: "Visit Eviction Free NYC"
+        text: covidCtaText
       }
     }
   }

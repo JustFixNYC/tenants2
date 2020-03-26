@@ -9,8 +9,8 @@ import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { Icon } from './icon';
 
-const EvictionMoratoriumWarning = () => (
-<div className="content has-text-centered is-size-6">
+export const MoratoriumWarning = () => (
+<div className="content has-text-centered is-size-7">
 <Icon type="warning" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
   {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><strong>Learn more</strong></OutboundLink>
 </div>
@@ -37,7 +37,7 @@ export function LocSplash(): JSX.Element {
             </GetStartedButton>
             <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
               <br />
-            <EvictionMoratoriumWarning />
+            <MoratoriumWarning />
           </div>
         </div>
       </section>

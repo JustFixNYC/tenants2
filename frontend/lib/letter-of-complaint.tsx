@@ -8,7 +8,7 @@ import LandlordDetailsPage from './pages/landlord-details';
 import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
-import { LocSplash } from './letter-of-complaint-splash';
+import { LocSplash, MoratoriumWarning } from './letter-of-complaint-splash';
 import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
@@ -22,6 +22,7 @@ export const CovidRiskBanner = () => (
     </p>
   </div>
 );
+
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -41,7 +42,7 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
         <GetStartedButton to={Routes.locale.loc.issues.home} intent={OnboardingInfoSignupIntent.LOC} pageType="welcome">
           Start my free letter
         </GetStartedButton>
-        <br/>
+        <MoratoriumWarning />
         <h2>Why mail a Letter of Complaint?</h2>
         <p>
           Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.

@@ -89,6 +89,9 @@ const HPActionConfirmation = () => {
     <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
       <p>Here is all of your HP Action paperwork.</p>
       {href && <PdfLink href={href} label="Download HP Action packet" />}
+      <p>
+        If anything looks amiss, you can <Link to={Routes.locale.ehp.yourLandlord}>go back</Link> and make changes.
+      </p>
       <p>TODO start e-signing process!</p>
     </Page>
   );

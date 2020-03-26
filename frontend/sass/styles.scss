@@ -342,3 +342,28 @@ html.jf-is-fullscreen-admin-page {
         }
     }
 }
+
+.jf-sanitation-guidelines {
+    .button.is-text {
+        font-size: 0.9rem;
+        height: 1.55rem;
+        letter-spacing: 0.8px;
+        &:hover, &:focus, &:active {
+            background-color: transparent;
+            text-decoration: none;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        padding: 0.75rem;
+    }
+    .content {
+        margin-top: 2.5rem;
+        figure {
+            margin: 0 auto;
+        }
+        .columns {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    } 
+}

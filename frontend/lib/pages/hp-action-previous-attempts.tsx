@@ -5,7 +5,6 @@ import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '.
 import { HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
 import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
-import Routes from '../routes';
 import { Route } from 'react-router';
 import { Modal } from '../modal';
 import { Link } from 'react-router-dom';
@@ -52,7 +51,9 @@ function ModalFor311(props: { nextStep: string }) {
 
 const stepBuilder = new SessionStepBuilder(sess => sess.hpActionDetails);
 
-export const HPActionPreviousAttempts = stepBuilder.createStep(props => ({
+export const createHPActionPreviousAttempts = (getModalRoutes: () => {
+  prevAttempts311Modal: string
+}) => stepBuilder.createStep(props => ({
   title: "Previous attempts to get help",
   mutation: HpActionPreviousAttemptsMutation,
   toFormInput: hp => hp.yesNoRadios(
@@ -60,10 +61,10 @@ export const HPActionPreviousAttempts = stepBuilder.createStep(props => ({
     'thirtyDaysSinceViolations', 'urgentAndDangerous'
   ).finish(),
   onSuccessRedirect: (_, input) =>
-    input.filedWith311 === YES_NO_RADIOS_FALSE && Routes.locale.hp.prevAttempts311Modal,
+    input.filedWith311 === YES_NO_RADIOS_FALSE && getModalRoutes().prevAttempts311Modal,
   renderIntro: () => <>
     <p>It is important for the court to know if you have already tried to get help from the city to resolve your issues.</p>
-    <Route path={Routes.locale.hp.prevAttempts311Modal} render={() => <ModalFor311 {...props} />} />
+    <Route path={getModalRoutes().prevAttempts311Modal} render={() => <ModalFor311 {...props} />} />
   </>,
   renderForm: renderQuestions
 }));

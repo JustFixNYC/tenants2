@@ -258,6 +258,7 @@ def react_rendered_view(request):
             'navbarLabel': settings.NAVBAR_LABEL,
             'wowOrigin': settings.WOW_ORIGIN,
             'efnycOrigin': settings.EFNYC_ORIGIN,
+            'enableEmergencyHPAction': bool(settings.DOCUSIGN_ACCOUNT_ID),
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

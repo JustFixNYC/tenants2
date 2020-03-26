@@ -1,6 +1,7 @@
 from typing import Optional
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 from project.forms import YesNoRadiosField
 from onboarding.models import OnboardingInfo
@@ -236,3 +237,10 @@ class EmergencyHPAIssuesForm(forms.Form):
 
     def clean(self):
         return ensure_at_least_one_is_true(super().clean())
+
+
+class BeginDocusignForm(forms.Form):
+    next_url = forms.CharField(validators=[RegexValidator(
+        regex=r"^\/.*",
+        message="The URL must start with '/'."
+    )])

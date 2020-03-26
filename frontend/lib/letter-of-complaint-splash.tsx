@@ -8,10 +8,22 @@ import { OutboundLink } from './google-analytics';
 import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
+const EvictionMoratoriumWarning = () => (
+<div className="container">
+  <p className="is-size-7">
+    Have you been given an eviction notice? <strong>This is illegal. </strong> 
+    An Eviction Moratorium is currently in place across New York State. 
+    {' '}
+    <OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank">
+      <strong>Learn more</strong>
+    </OutboundLink>
+  </p>
+</div>
+)
 
 export function LocSplash(): JSX.Element {
   return (
-    <Page className="landing-page" title="Technology for Housing Justice">
+    <Page className="jf-loc-landing-page" title="Technology for Housing Justice">
 
       <section className="hero is-light">
         <div className="hero-body">
@@ -29,6 +41,8 @@ export function LocSplash(): JSX.Element {
               Start my free letter
             </GetStartedButton>
             <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
+              <br />
+            <EvictionMoratoriumWarning />
           </div>
         </div>
       </section>

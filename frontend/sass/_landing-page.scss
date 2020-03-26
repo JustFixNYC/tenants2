@@ -1,12 +1,15 @@
-.landing-page {
+.jf-loc-landing-page {
   .hero.is-light {
 
-    .secondary-cta {
-
-      margin-top: 1rem;
-
-      a {
-        color: $primary !important;
+    .hero-body {
+      padding-bottom: 0.5rem;
+      
+      .secondary-cta, .container {
+        margin-top: 1rem;
+        a {
+          color: $primary !important;
+          white-space: nowrap;
+        }
       }
     }
   }

@@ -19,7 +19,7 @@ import { PdfLink } from './pdf-link';
 import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 
-const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
+const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
 const Disclaimer: React.FC<{}> = () => (
   <div className="notification is-warning">
@@ -41,7 +41,7 @@ function EmergencyHPActionSplash(): JSX.Element {
       <p>An <strong>Emergency HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs and not providing essential services.</p>
       <p><em>This service is free and secure.</em></p>
       <p>Are you facing an eviction? It is important for you to get help ASAP. Visit <a href={efnycOrigin} target="_blank" rel="noreferrer noopener">EFNYC</a> to see if you qualify for a free lawyer.</p>
-      <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
+      <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.EHP} pageType="splash">
         Start my case
       </GetStartedButton>
     </Page>

@@ -279,6 +279,7 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
+        {this.props.server.enableEmergencyHPAction && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
         {this.props.server.enableEmergencyHPAction && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
         <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />

@@ -67,7 +67,7 @@ const EmergencyHPActionWelcome = () => {
       <div className="notification is-warning">
         <p>Due to the COVID-19 pandemic, Housing Courts in New York City will be conducting hearings via video conferencing. Tenants will not be required to go to Housing Court in person.</p>
       </div>
-      <GetStartedButton to={Routes.locale.ehp.sue} intent={OnboardingInfoSignupIntent.HP} pageType="welcome">
+      <GetStartedButton to={Routes.locale.ehp.sue} intent={OnboardingInfoSignupIntent.EHP} pageType="welcome">
         Get started
       </GetStartedButton>
     </Page>

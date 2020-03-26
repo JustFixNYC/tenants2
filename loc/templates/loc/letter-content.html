@@ -58,8 +58,7 @@
       <p>
       Below are some access dates provided for when repairs can be made.
       Please contact (using the information provided below) in order
-      to make arrangements. <strong>Anyone coming to perform repairs
-      should arrive no later than 12pm during the provided dates.</strong>
+      to make arrangements <strong>at least 24 hours in advance</strong>.
       </p>
       <ul>
       {% for date in access_dates %}
@@ -69,7 +68,28 @@
     </div>
   {% endif %}
 
+  <div class="jf-avoid-page-breaks-within">
+    <h2>Requirements</h2>
+    <p>
+      In order to keep my household safe, I request that anyone 
+      entering my home to make repairs follow sanitation guidelines 
+      from the Center for Disease Control (CDC), including ________.
+    </p>
+    <p>
+      Additionally, I request that you provide the name and contact information 
+      for any repair-worker assigned to my home 24 hours prior to their arrival.
+    </p>
+    {% if has_heat_issues %}
+      <p>
+        Please be advised that the lack of Heat and/or Hot Water constitutes an 
+        emergency under Housing Maintenance Code. Failure to address these repairs 
+        will result in my escalating this issue and filing an Emergency HP Action 
+        through the NYC Housing Court system.
+      </p>
+    {% endif %}
+  </div>
   {% if onboarding_info.has_called_311 %}
+  <h2>Previous Attempts for Relief</h2>
   <p>
     I have already contacted 311 on several occasions, but the issue has not been resolved.
     In the meantime, I have recorded evidence of the violations should legal action be necessary.

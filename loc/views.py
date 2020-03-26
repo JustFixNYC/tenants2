@@ -124,6 +124,7 @@ def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
         'landlord_details': get_landlord_details(user),
         'onboarding_info': get_onboarding_info(user),
         'issues': get_issues(user),
+        'has_heat_issues': any(s in str(get_issues(user)).upper() for s in ('HEAT', 'HOT WATER')),
         'access_dates': [date.date for date in user.access_dates.all()],
         'user': user
     }

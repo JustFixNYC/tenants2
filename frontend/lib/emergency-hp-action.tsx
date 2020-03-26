@@ -19,7 +19,7 @@ import { PdfLink } from './pdf-link';
 import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
-import { EmergencyHpaIssuesMutation, BlankEmergencyHPAIssuesInput } from './queries/EmergencyHpaIssuesMutation';
+import { EmergencyHpaIssuesMutation } from './queries/EmergencyHpaIssuesMutation';
 import { CheckboxFormField } from './form-fields';
 import { IssueChoice } from '../../common-data/issue-choices';
 

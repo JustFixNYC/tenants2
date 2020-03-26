@@ -18,6 +18,10 @@ import { assertNotNull } from './util';
 import { PdfLink } from './pdf-link';
 import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
+import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
+import { EmergencyHpaIssuesMutation, BlankEmergencyHPAIssuesInput } from './queries/EmergencyHpaIssuesMutation';
+import { CheckboxFormField } from './form-fields';
+import { IssueChoice } from '../../common-data/issue-choices';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
@@ -74,13 +78,30 @@ const EmergencyHPActionWelcome = () => {
   );
 };
 
+const NoHeatChoice: IssueChoice = 'HOME__NO_HEAT';
+const NoHotWaterChoice: IssueChoice = 'HOME__NO_HOT_WATER';
+
 const Sue = MiddleProgressStep(props => (
-  <Page title="What type of problems are you experiencing?" withHeading>
-    <p><strong>TODO:</strong> Add checkboxes here!</p>
-    <div className="buttons jf-two-buttons">
-      <BackButton to={props.prevStep} />
-      <Link to={props.nextStep} className="button is-primary is-medium">Next</Link>
-    </div>
+  <Page title="What type of problems are you experiencing?" withHeading className="content">
+    <p>Please select all that apply to your housing situation.</p>
+    <SessionUpdatingFormSubmitter
+      mutation={EmergencyHpaIssuesMutation}
+      initialState={(session) => ({
+        noHeat: session.issues.includes(NoHeatChoice),
+        noHotWater: session.issues.includes(NoHotWaterChoice),
+      })}
+      onSuccessRedirect={props.nextStep}
+    >
+      {(ctx) => <>
+        <CheckboxFormField {...ctx.fieldPropsFor('noHeat')}>
+          No heat
+        </CheckboxFormField>
+        <CheckboxFormField {...ctx.fieldPropsFor('noHotWater')}>
+          No hot water
+        </CheckboxFormField>
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
+      </>}
+    </SessionUpdatingFormSubmitter>
   </Page>
 ));
 

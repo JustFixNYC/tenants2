@@ -92,6 +92,9 @@ sessionFields = ["letterRequest"]
 name = "GenerateHPActionPDFMutation"
 sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
 
+[mutations.emergencyHpaIssues]
+sessionFields = ["hpActionDetails", "issues"]
+
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]
 

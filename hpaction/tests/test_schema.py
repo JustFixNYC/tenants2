@@ -6,7 +6,8 @@ from users.tests.factories import UserFactory
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory)
-from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
+from hpaction.models import (
+    get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails)
 
 
 def execute_tenant_children_mutation(graphql_client, children):
@@ -29,6 +30,25 @@ def test_tenant_children_mutation_requires_login(db, graphql_client):
     assert result['errors'] == [{'field': '__all__', 'messages': [
         'You do not have permission to use this form!'
     ]}]
+
+
+class TestEmergencyHPAIssuesMutation:
+    def test_it_works(self, graphql_client, db):
+        user = UserFactory()
+        graphql_client.request.user = user
+        result = graphql_client.execute(
+            '''
+            mutation {
+                output: emergencyHpaIssues(input: {noHeat: true, noHotWater: false}) {
+                    session { issues }
+                }
+            }
+            '''
+        )
+        assert result['data']['output']['session']['issues'] == ['HOME__NO_HEAT']
+        details = HPActionDetails.objects.get(user=user)
+        assert details.sue_for_repairs is True
+        assert details.sue_for_harassment is False
 
 
 class TestTenantChildrenSession:

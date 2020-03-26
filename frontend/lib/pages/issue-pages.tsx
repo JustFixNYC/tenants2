@@ -24,8 +24,6 @@ import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
-import { Modal, BackOrUpOneDirLevel } from '../modal';
-import { UpdateBrowserStorage, browserStorage } from '../browser-storage';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -125,8 +123,6 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssuesV2 || []);
         const url = props.routes.area.create(allCapsToSlug(area));
-        const modalUrl = props.routes.modal;
-        const hadViewedModal = browserStorage.get('hasViewedCovidRiskModal');
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
@@ -134,7 +130,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
 
         return (
-          <Link to={!hadViewedModal ? modalUrl : url} className={classnames(
+          <Link to={url} className={classnames(
             'jf-issue-area-link', 'notification',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
@@ -188,29 +184,6 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
-function CovidRiskModal(): JSX.Element {
-  
-  return (
-    <Modal title="Social distancing and repairs" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
-      <p>
-        <strong className="has-text-danger">Warning: </strong> 
-        Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
-      </p>
-      <p>
-        In order to follow social distancing guidelines and to limit your exposure, we recommend 
-        only asking for repairs <strong>in the case of an emergency</strong> such as if you have no heat, no hot water, or no gas. 
-      </p>
-      <div className="has-text-centered">
-        <Link
-          className={`button is-primary is-medium is-danger`} {...ctx.getLinkCloseProps()}>
-          I understand the risk
-        </Link>
-      </div>
-      <UpdateBrowserStorage hasViewedCovidRiskModal={true} />
-    </>} />
-  );
-}
-
 class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
@@ -249,7 +222,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <LinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
-        {this.props.withModal && <CovidRiskModal />}
+
       </Page>
     );
   }
@@ -259,8 +232,7 @@ type IssuesRoutesProps = {
   routes: IssuesRouteInfo,
   introContent?: string|JSX.Element,
   toBack: string,
-  toNext: string,
-  withModal?: boolean
+  toNext: string
 };
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
@@ -269,9 +241,6 @@ export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
     <Switch>
       <Route path={routes.home} exact render={() => (
         <IssuesHome {...props} />
-      )} />
-      <Route path={routes.modal} exact render={() => (
-        <IssuesHome {...props} withModal={true} />
       )} />
       <Route path={routes.area.parameterizedRoute} render={(ctx) => (
         <IssuesArea {...ctx} toHome={routes.home} />

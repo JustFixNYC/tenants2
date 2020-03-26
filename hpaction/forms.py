@@ -88,6 +88,13 @@ class UrgentAndDangerousForm(forms.ModelForm):
     urgent_and_dangerous = YesNoRadiosField()
 
 
+def ensure_at_least_one_is_true(cleaned_data):
+    true_fields = [True for value in cleaned_data.values() if value is True]
+    if not true_fields:
+        raise ValidationError("Please choose at least one option.")
+    return cleaned_data
+
+
 class SueForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
@@ -100,13 +107,7 @@ class SueForm(forms.ModelForm):
     sue_for_harassment = forms.BooleanField(required=False)
 
     def clean(self):
-        cleaned_data = super().clean()
-
-        true_fields = [True for value in cleaned_data.values() if value is True]
-        if not true_fields:
-            raise ValidationError("Please choose at least one option.")
-
-        return cleaned_data
+        return ensure_at_least_one_is_true(super().clean())
 
 
 class DynamicallyRequiredBoolMixin:
@@ -227,3 +228,11 @@ class HarassmentExplainForm(forms.ModelForm):
 
 class GeneratePDFForm(forms.Form):
     pass
+
+
+class EmergencyHPAIssuesForm(forms.Form):
+    no_heat = forms.BooleanField(required=False)
+    no_hot_water = forms.BooleanField(required=False)
+
+    def clean(self):
+        return ensure_at_least_one_is_true(super().clean())

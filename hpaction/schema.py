@@ -15,6 +15,7 @@ from project.util.model_form_util import (
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
+from issues.models import Issue, ISSUE_CHOICES
 from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
 from . import models, forms, lhiapi, email_packet
 
@@ -33,6 +34,56 @@ class EmailHpActionPdf(EmailAttachmentMutation):
         if latest is None:
             return cls.make_error("You do not have an HP Action packet to send!")
         return super().perform_mutate(form, info)
+
+
+def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> List[str]:
+    '''
+    Makes sure that the given value either is or isn't in the given list.
+
+    Destructively modifies the list in-place and returns it.
+
+    Examples:
+
+        >>> sync_one_value('boop', False, ['boop', 'jones'])
+        ['jones']
+        >>> sync_one_value('boop', True, ['boop', 'jones'])
+        ['boop', 'jones']
+        >>> sync_one_value('boop', True, ['jones'])
+        ['jones', 'boop']
+        >>> sync_one_value('boop', False, ['jones'])
+        ['jones']
+    '''
+
+    if is_value_present and value not in values:
+        values.append(value)
+    if not is_value_present and value in values:
+        values.remove(value)
+    return values
+
+
+@schema_registry.register_mutation
+class EmergencyHPAIssues(SessionFormMutation):
+    class Meta:
+        form_class = forms.EmergencyHPAIssuesForm
+
+    login_required = True
+
+    @classmethod
+    def _sync_issues(cls, user, form):
+        issues = Issue.objects.get_area_issues_for_user(user, 'HOME')
+        sync_one_value(ISSUE_CHOICES.HOME__NO_HEAT, form.cleaned_data['no_heat'], issues)
+        sync_one_value(ISSUE_CHOICES.HOME__NO_HOT_WATER, form.cleaned_data['no_hot_water'], issues)
+        Issue.objects.set_area_issues_for_user(user, 'HOME', issues)
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        user = info.context.user
+        cls._sync_issues(user, form)
+        details, _ = models.HPActionDetails.objects.get_or_create(user=user)
+        details.sue_for_repairs = True
+        details.sue_for_harassment = False
+        details.save()
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

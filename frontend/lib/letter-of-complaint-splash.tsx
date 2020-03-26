@@ -9,15 +9,9 @@ import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 
 const EvictionMoratoriumWarning = () => (
-<div className="container">
-  <p className="is-size-7">
-    Have you been given an eviction notice? <strong>This is illegal. </strong> 
-    An Eviction Moratorium is currently in place across New York State. 
-    {' '}
-    <OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank">
-      <strong>Learn more</strong>
-    </OutboundLink>
-  </p>
+<div className="content has-text-centered is-size-7">
+  Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
+  {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><strong>Learn more</strong></OutboundLink>
 </div>
 )
 

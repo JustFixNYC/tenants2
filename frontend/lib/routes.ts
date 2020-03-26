@@ -3,6 +3,7 @@ import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import i18n from './i18n';
 import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
 import { inputToQuerystring } from './http-get-query-util';
+import { getGlobalAppServerInfo } from './app-context';
 
 /**
  * Metadata about signup intents.
@@ -31,7 +32,10 @@ export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent
       onboarding: Routes.locale.onboarding
     };
 
-    case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
+    case OnboardingInfoSignupIntent.HP:
+      return getGlobalAppServerInfo().enableEmergencyHPAction
+        ? Routes.locale.ehp
+        : Routes.locale.hp;
   }
 }
 
@@ -138,6 +142,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
     yourLandlord: `${prefix}/your-landlord`,
     waitForUpload: `${prefix}/wait`,
+    reviewForms: `${prefix}/review`,
     confirmation: `${prefix}/confirmation`,
   }
 }

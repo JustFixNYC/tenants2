@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Routes from "./routes";
+import Routes, { getSignupIntentOnboardingInfo } from "./routes";
 import Page from "./page";
 import { ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
@@ -31,7 +31,7 @@ import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
 
-const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
+const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 
 function Disclaimer(): JSX.Element {
   return (

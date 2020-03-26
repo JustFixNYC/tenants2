@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import AlertableCheckbox from '../alertable-checkbox';
 import { ProgressButtons } from "../buttons";
-import { IconLink } from "../icon-link";
+import { IconLink } from "../icon";
 import { CheckboxFormField } from '../form-fields';
 import { OnboardingStep2Mutation, BlankOnboardingStep2Input } from '../queries/OnboardingStep2Mutation';
 import { OutboundLink } from '../google-analytics';

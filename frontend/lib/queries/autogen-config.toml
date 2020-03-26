@@ -63,6 +63,8 @@ createBlankLiteral = true
 
 [mutations.logout]
 
+[mutations.beginDocusign]
+
 [mutations."passwordReset.*"]
 
 [mutations.onboardingStep1]

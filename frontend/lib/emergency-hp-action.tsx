@@ -20,8 +20,11 @@ import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { EmergencyHpaIssuesMutation } from './queries/EmergencyHpaIssuesMutation';
-import { CheckboxFormField } from './form-fields';
+import { CheckboxFormField, HiddenFormField } from './form-fields';
 import { IssueChoice } from '../../common-data/issue-choices';
+import { LegacyFormSubmitter } from './legacy-form-submitter';
+import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
+import { performHardOrSoftRedirect } from './pages/login-page';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
@@ -124,18 +127,31 @@ const UploadStatus = () => (
   />
 );
 
-const ReviewForms = () => {
+const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
   const href = session.latestHpActionPdfUrl;
+  const prevStep = Routes.locale.ehp.yourLandlord;
+  const nextUrl = Routes.locale.ehp.confirmation;
 
   return (
     <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
       <p>The button below will download your Emergency HP Action forms for you to review.</p>
       {href && <PdfLink href={href} label="Download HP Action forms" />}
       <p>
-        If anything looks amiss, you can <Link to={Routes.locale.ehp.yourLandlord}>go back</Link> and make changes.
+        If anything looks amiss, you can <Link to={prevStep}>go back</Link> and make changes.
       </p>
-      <p><strong>TODO:</strong> Start the e-signing process. For now, <Link to={Routes.locale.ehp.confirmation}>here's a link</Link> to what happens after the e-signing is completed.</p>
+      <LegacyFormSubmitter
+        mutation={BeginDocusignMutation}
+        initialState={{nextUrl}}
+        onSuccessRedirect={(output, input) => assertNotNull(output.redirectUrl)}
+        performRedirect={performHardOrSoftRedirect}
+      >
+        {ctx => <>
+          <HiddenFormField {...ctx.fieldPropsFor('nextUrl')} />
+          <ProgressButtons back={prevStep} isLoading={ctx.isLoading}
+                           nextLabel="Sign forms" />
+        </>}
+      </LegacyFormSubmitter>
     </Page>
   );
 };

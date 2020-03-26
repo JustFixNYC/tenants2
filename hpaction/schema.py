@@ -6,18 +6,61 @@ from django.urls import reverse
 from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
+from docusign.views import create_callback_url_for_signing_flow
 from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project import schema_registry
+from project.util.site_util import absolutify_url
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
+from project.util.django_graphql_forms import DjangoFormMutation
 from issues.models import Issue, ISSUE_CHOICES
 from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
-from . import models, forms, lhiapi, email_packet
+import docusign.core
+from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
+
+
+@schema_registry.register_mutation
+class BeginDocusign(DjangoFormMutation):
+    class Meta:
+        form_class = forms.BeginDocusignForm
+
+    login_required = True
+
+    redirect_url = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        if not user.email:
+            return cls.make_error("You have no email address!")
+
+        # TODO: Ensure the user has validated their email address.
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user)
+
+        if not docs:
+            return cls.make_error("You have no HP Action documents to sign!")
+
+        return_url = create_callback_url_for_signing_flow(
+            request,
+            absolutify_url(form.cleaned_data['next_url']),
+        )
+        envelope_definition = hpadocusign.create_envelope_definition_for_hpa(docs)
+        api_client = docusign.core.create_default_api_client()
+        _, url = hpadocusign.create_envelope_and_recipient_view_for_hpa(
+            user=user,
+            envelope_definition=envelope_definition,
+            api_client=api_client,
+            return_url=return_url,
+        )
+
+        return cls(errors=[], redirect_url=url)
 
 
 @schema_registry.register_mutation

@@ -27,7 +27,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { createRedirectWithSearch } from './redirect-util';
 import { browserStorage } from './browser-storage';
 import { areAnalyticsEnabled } from './analytics';
-import MoratoriumBanner from './moratorium-banner';
+import MoratoriumBanner from './covid-banners';
 
 
 export interface AppProps {

@@ -8,20 +8,10 @@ import LandlordDetailsPage from './pages/landlord-details';
 import LetterRequestPage from './pages/letter-request';
 import LetterConfirmation from './pages/loc-confirmation';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
-import { LocSplash, MoratoriumWarning } from './letter-of-complaint-splash';
+import { LocSplash } from './letter-of-complaint-splash';
 import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-
-export const CovidRiskBanner = () => (
-  <div className="notification is-warning has-text-weight-bold">
-    <p>
-      Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
-    </p>
-    <p>
-      In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas.
-    </p>
-  </div>
-);
+import { CovidRiskBanner, MoratoriumWarning } from './covid-banners';
 
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {

@@ -286,6 +286,20 @@ $jf-biglist-counter-margin: 1em;
         background-color: hsl(0, 0%, 29%);
         color: white;
     }
+
+    // Alternate styling, designed by Tahnee Pantig
+    &.is-light {
+        li {
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid $grey-light;
+            margin-bottom: 1rem;
+
+            div.jf-biglist-counter::before {
+                background-color: $grey-light;
+            }
+        }
+    }
 }
 
 .jf-fadein-half-second {

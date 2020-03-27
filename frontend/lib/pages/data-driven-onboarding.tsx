@@ -10,7 +10,7 @@ import { whoOwnsWhatURL } from '../wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
-import { AppContext, getGlobalAppServerInfo } from '../app-context';
+import { AppContext } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink, ga } from '../google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
@@ -23,12 +23,16 @@ const PLACEHOLDER_IMG = 'frontend/img/96x96.png';
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
-const EFNYC_PRIORITY = 50;
-const VIOLATIONS_HIGH_PRIORITY = 45;
+const VIOLATIONS_PRIORITY = 50;
+const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
-const VIOLATIONS_PRIORITY = 30;
-const RENT_HISTORY_PRIORITY = 20;
-const WOW_PRIORITY = 10;
+const EFNYC_PRIORITY = 30;
+const WOW_PRIORITY = 20;
+const RENT_HISTORY_PRIORITY = 10;
+
+// This flag disables any DDO cards from appearing as "Recommended Actions"
+// When "true", all cards show up under a single header called "Actions"
+const DISABLE_RECOMMENDATIONS = true;
 
 type DDOData = DataDrivenOnboardingSuggestions_output;
 
@@ -246,17 +250,17 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function letterOfComplaint(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+      Landlord not responding? You can take action for free to request repairs! 
+      Due to the Covid-19 health crisis, we recommend requesting repairs only in the case of an emergency so you can stay safe and healthy by limiting how many people enter your home.
+    </>;
     return {
       title: 'Request repairs from your landlord',
       priority: COMPLAINTS_PRIORITY,
       isRecommended: (data.hpdComplaintCount || 0) > 5 || calcPerUnit(data.hpdComplaintCount, data) > 0.8,
-      indicators: [
-        data.hpdComplaintCount && <>There <Indicator verb="has been/have been" value={data.hpdComplaintCount || 0} unit="HPD complaint"/> in your building since 2014.</>,
-        data.mostCommonCategoryOfHpdComplaint && data.numberOfComplaintsOfMostCommonCategory && <>The most common category of complaint is <strong>{data.mostCommonCategoryOfHpdComplaint.toLowerCase()}</strong>, with <Indicator value={data.numberOfComplaintsOfMostCommonCategory} unit="complaint" />.</>
-      ],
-      fallbackMessage: <>
-        Landlord not responding? You can take action for free!
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
         to: Routes.locale.loc.latestStep,
@@ -266,6 +270,13 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function hpAction(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+        <span className="subtitle">Due to the Covid-19 health crisis, Housing Courts in New York City are closed. 
+          You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open.</span>
+        <span className="subtitle">If you are facing an emergency such as lack of heat and/or hot water, call the Housing Court Answers Hotline at <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance Mon-Fri, 9am-5pm. 
+          Assistance is available in English and Spanish.</span>
+    </>;
     return {
       title: 'Start a legal case for repairs and/or harassment',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
@@ -274,14 +285,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         (data.numberOfTotalHpdViolations > 10 || calcPerUnit(data.numberOfTotalHpdViolations, data) > 1.6) ||
         ((data.hpdOpenClassCViolationCount || 0) > 0)
       ),
-      indicators: [
-        <>There <Indicator verb="is/are" value={data.hpdOpenViolationCount} unit="open violation"/> in your building.</>,
-        <>The city has issued <Indicator value={data.numberOfTotalHpdViolations} unit="total violation"/> since 2010.</>,
-        data.averageWaitTimeForRepairsAtBbl && <>The average violation in your building takes <Indicator value={data.averageWaitTimeForRepairsAtBbl} unit="day" /> to be resolved.</>
-      ],
-      fallbackMessage: <>
-        Going to court can help you get repairs.
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
@@ -317,21 +322,24 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function evictionFreeNyc(data): ActionCardProps {
+    // Default content temporarily implemented during COVID-19 Outbreak
+    const covidMessage = <>
+      An Eviction Moratorium is in place in NY State due to the Covid-19 public health crisis. 
+      All courts that hear eviction cases are closed. This means you <b>cannot be evicted for any reason</b>. 
+    </>
+    const covidCtaText = "Learn more";
+    const covidCtaLink = 'https://www.righttocounselnyc.org/moratorium_faq'
     return {
       title: 'Fight an eviction',
       priority: EFNYC_PRIORITY,
       isRecommended: data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
-      indicators: [
-        data.isRtcEligible && <>You might be eligible for a free attorney if you are being evicted.</>,
-      ],
-      fallbackMessage: <>
-        Are you facing eviction? Learn how to respond and where to find help.
-      </>,
+      indicators: [covidMessage],
+      fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: `${getGlobalAppServerInfo().efnycOrigin}/`,
+        to: covidCtaLink,
         gaLabel: 'efnyc',
-        text: "Visit Eviction Free NYC"
+        text: covidCtaText
       }
     }
   }
@@ -342,9 +350,13 @@ function compareActionCardProps(a: ActionCardProps, b: ActionCardProps): number 
 }
 
 function getSortedActionCards(data: DDOData): { recommended: ActionCardProps[], other: ActionCardProps[] } {
-  const actionCardProps = ACTION_CARDS.map(propsCreator => propsCreator(data)).map(props => (
-    props.imageStaticURL ? props : {...props, imageStaticURL: SHOW_PLACEHOLDER_IMG ? PLACEHOLDER_IMG : undefined}
-  ));
+  const actionCardProps = ACTION_CARDS
+    .map(propsCreator => propsCreator(data))
+      .map(props => {
+        if (DISABLE_RECOMMENDATIONS) { props.isRecommended = false; }
+        return (props.imageStaticURL ? props : {...props, imageStaticURL: SHOW_PLACEHOLDER_IMG ? PLACEHOLDER_IMG : undefined});
+      }
+    );
 
   const recommended: ActionCardProps[] = [];
   const other: ActionCardProps[] = [];

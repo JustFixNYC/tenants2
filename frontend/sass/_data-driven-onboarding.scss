@@ -58,7 +58,8 @@
 
 .jf-ddo-results {
     .jf-ddo-card {
-        p.subtitle {
+        p.subtitle, span.subtitle {
+            display: block;
             margin-bottom: 0.25em;
             .jf-registration-warning {
                 display: block;

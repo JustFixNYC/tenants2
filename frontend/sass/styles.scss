@@ -241,6 +241,9 @@ fieldset {
     }
 }
 
+$jf-biglist-counter-size: 45px;
+$jf-biglist-counter-margin: 1em; 
+
 .content ol.jf-biglist {
     & {
         list-style: none;
@@ -256,8 +259,18 @@ fieldset {
         background: $light;
     }
 
-    li > div.jf-biglist-counter + div {
-        margin-left: 1em;
+    li > div.jf-biglist-counter {
+        // Align counters to top of their container:
+        margin-bottom: auto;
+        & + div {
+            margin-left: $jf-biglist-counter-margin;
+            // Make guidelines box extend outside of parent div on mobile:
+            @media screen and (max-width: $tablet) {
+                .jf-sanitation-guidelines {
+                    margin-left: calc(0px - #{$jf-biglist-counter-size} - #{$jf-biglist-counter-margin});
+                }
+            }
+        }
     }
 
     li > div.jf-biglist-counter::before {
@@ -266,8 +279,8 @@ fieldset {
         font-size: 30px;
         font-weight: bold;
         padding-left: 15px;
-        width: 45px;
-        height: 45px;
+        width: $jf-biglist-counter-size;
+        height: $jf-biglist-counter-size;
         overflow: hidden;
         border-radius: 100%;
         background-color: hsl(0, 0%, 29%);

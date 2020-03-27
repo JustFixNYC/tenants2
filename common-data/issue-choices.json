@@ -19,6 +19,8 @@
     ["HOME__DOORBELL_BROKEN", "Doorbell Broken"],
     ["HOME__BUZZER_DEFECTIVE", "Buzzer Defective"],
     ["HOME__BUZZER_BROKEN", "Buzzer Broken"],
+    ["HOME__LEAD_BASED_PAINT", "Lead-based Paint"],
+    ["HOME__VACATE_ORDER_ISSUED", "Vacate Order Issued"],
     ["BEDROOMS__PAINT", "Peeling paint"],
     ["BEDROOMS__WALLS", "Cracked walls"],
     ["BEDROOMS__MOLD_ON_WALLS", "Mold on Walls"],

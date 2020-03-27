@@ -29,7 +29,7 @@ export function Step2EvictionModal(): JSX.Element {
       </p>
       <CenteredButtons>
         <OutboundLink href={`${getGlobalAppServerInfo().efnycOrigin}/en-US/`} className="button is-primary is-medium">Go to Eviction Free NYC</OutboundLink>
-        <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
+        <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue anyways</Link>
       </CenteredButtons>
     </>} />
   );

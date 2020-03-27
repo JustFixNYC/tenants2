@@ -39,6 +39,7 @@ class Command(BaseCommand):
     help = 'Ensure the project\'s text files all use Unix-style line endings.'
 
     IGNORE_EXTENSIONS = [
+        '.pdf',
         '.png',
         '.jpg',
         '.ttf',

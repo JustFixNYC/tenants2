@@ -36,14 +36,35 @@ const HP_ICON = "frontend/img/hp-action.svg";
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 
+// HP Cases currently being accepted in Housing Court amidst COVID-19 crisis
+const acceptedCases = [
+  "no heat", 
+  "no hot water", 
+  "no gas", 
+  "mold", 
+  "lead-based paint", 
+  "no working toilet", 
+  "vacate order issued"
+];
+
 function Disclaimer(): JSX.Element {
+  const numCases = acceptedCases.length;
+  const generateCaseList = (start: number, end: number) => 
+    acceptedCases.map((caseType, i) => <li key={i}> {caseType} </li>).slice(start, end);
   return (
     <div className="notification is-warning">
-      Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:
-      <ul>
-        <li> repairs for heat</li>
-        <li> repairs for hot water</li>
-      </ul>
+      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:</p>
+      <div className="is-hidden-tablet">
+        {generateCaseList(0,numCases)}
+      </div>
+      <div className="columns is-mobile is-hidden-mobile">
+        <div className="column">
+          {generateCaseList(0,Math.round(numCases / 2))}
+        </div>
+        <div className="column">
+          {generateCaseList(Math.round(numCases / 2), numCases)}
+        </div>
+      </div>
     </div>
   );
 }

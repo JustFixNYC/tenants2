@@ -14,7 +14,7 @@ const ROUTES_WITH_MORATORIUM_BANNER = [
 
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general 
- * overview of how JustFix.nyc is adapting to the COVID-19 crisis.
+ * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */  
 const MoratoriumBanner = ( props:{ pathname?: string } ) => {
 

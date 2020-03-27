@@ -26,6 +26,7 @@ import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { UpdateBrowserStorage, browserStorage } from '../browser-storage';
+import { NoScriptFallback } from '../progressive-enhancement';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -121,7 +122,9 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
 
   const [hadViewedModal, updateModalStatus] = useState(false);
-  useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ), []);
+  // useEffect here needs to run at any state update as we need to consistently check 
+  // whether the browserStorage has changed
+  useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ));
 
   return (
     <AppContext.Consumer>
@@ -134,9 +137,10 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
         const issueLabel = getIssueLabel(count);
         const ariaLabel = `${title} (${issueLabel})`;
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
+        const inSafeMode = ctx.session.isSafeModeEnabled;
 
         return (
-          <Link to={!hadViewedModal ? modalUrl : url} className={classnames(
+          <Link to={!hadViewedModal && !inSafeMode ? (modalUrl + '?area=' + allCapsToSlug(area)) : url} className={classnames(
             'jf-issue-area-link', 'notification',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
@@ -190,18 +194,23 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
+const CovidRiskMessage = () => (
+  <>
+    <p>
+      <strong className="has-text-danger">Warning: </strong> 
+      Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
+    </p>
+    <p>
+      In order to follow social distancing guidelines and to limit your exposure, we recommend 
+      only asking for repairs <strong>in the case of an emergency</strong> such as if you have no heat, no hot water, or no gas. 
+    </p>
+  </>
+)
+
 function CovidRiskModal(): JSX.Element {
-  
   return (
     <Modal title="Social distancing and repairs" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
-      <p>
-        <strong className="has-text-danger">Warning: </strong> 
-        Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
-      </p>
-      <p>
-        In order to follow social distancing guidelines and to limit your exposure, we recommend 
-        only asking for repairs <strong>in the case of an emergency</strong> such as if you have no heat, no hot water, or no gas. 
-      </p>
+      <CovidRiskMessage />
       <div className="has-text-centered">
         <Link
           className={`button is-primary is-medium is-danger`} {...ctx.getLinkCloseProps()}>
@@ -239,6 +248,9 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         <div>
           <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
           <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. {introContent} <strong>Don't hold back!</strong></p>
+          <NoScriptFallback>
+            <> <CovidRiskMessage /> <br /> </>
+          </NoScriptFallback>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
               {this.renderColumnForArea(...a)}

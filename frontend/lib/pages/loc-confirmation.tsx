@@ -14,6 +14,7 @@ import { EmailLetterMutation } from '../queries/EmailLetterMutation';
 import { BigList } from '../big-list';
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { SquareImage } from './data-driven-onboarding';
+import { ariaBool } from '../aria';
 
 const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`
 
@@ -31,8 +32,8 @@ const SanitationGuidelines = () => {
               Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
               In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible.
               {!inSafeMode && 
-                <>{' '}<button className={classnames("button","is-text","is-paddingless","is-uppercase", isExpanded && "is-hidden")} 
-                    onClick={() => toggleExpansion(true)}>
+                <>{' '}<button className={classnames("button","is-text","is-paddingless","is-uppercase", isExpanded && "is-hidden")} role="button" 
+                    onClick={() => toggleExpansion(true)} aria-label="Show me sanitation guidelines" aria-expanded={ariaBool(isExpanded)}>
                 Learn More
               </button></>}
             </div>
@@ -70,8 +71,8 @@ const SanitationGuidelines = () => {
               </div>
               {!inSafeMode && <div className="hero is-small is-warning">
                 <div className="hero-body has-text-centered">
-                  <button className={classnames("button","is-text","is-paddingless","is-uppercase")} 
-                    onClick={() => toggleExpansion(false)}>
+                  <button className={classnames("button","is-text","is-paddingless","is-uppercase")} role="button"
+                    onClick={() => toggleExpansion(false)} aria-label="Hide sanitation guidelines" aria-expanded={ariaBool(isExpanded)}>
                       Close
                   </button>
                 </div>

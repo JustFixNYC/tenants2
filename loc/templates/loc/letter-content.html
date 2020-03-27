@@ -73,7 +73,9 @@
     <p>
       In order to keep my household safe, I request that anyone 
       entering my home to make repairs follow sanitation guidelines 
-      from the Center for Disease Control (CDC), including ________.
+      from the Center for Disease Control (CDC), including washing their hands before entering, 
+      wearing gloves, a mask, and shoe coverings, and practicing physical distancing 
+      (keeping 6 feet of distance between me and anyone else in my household).
     </p>
     <p>
       Additionally, I request that you provide the name and contact information 
@@ -89,11 +91,13 @@
     {% endif %}
   </div>
   {% if onboarding_info.has_called_311 %}
-  <h2>Previous Attempts for Relief</h2>
-  <p>
-    I have already contacted 311 on several occasions, but the issue has not been resolved.
-    In the meantime, I have recorded evidence of the violations should legal action be necessary.
-  </p>
+  <div class="jf-avoid-page-breaks-within">
+    <h2>Previous Attempts for Relief</h2>
+    <p>
+      I have already contacted 311 on several occasions, but the issue has not been resolved.
+      In the meantime, I have recorded evidence of the violations should legal action be necessary.
+    </p>
+  </div>
   {% endif %}
   <p>
     If these repairs are not made immediately I will have no choice but to use my legal

@@ -73,7 +73,37 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         y_position='625',
     )
 
+    tenant_contact_info = dse.Text(
+        document_id=HPA_DOCUMENT_ID,
+        page_number='4',
+        tab_label="ReadOnlyDataField",
+        value='\n'.join([
+            f"tenant phone: {user.formatted_phone_number()}",
+            f"tenant email: {user.email}",
+        ]),
+        locked="true",
+        x_position="355",
+        y_position="58",
+    )
+
+    inspection_req_note = dse.Text(
+        document_id=HPA_DOCUMENT_ID,
+        page_number='5',
+        tab_label="ReadOnlyDataField",
+        value=(
+            "These conditions are immediately hazardous to the\n"
+            "health and safety of my household."
+        ),
+        locked="true",
+        x_position="16",
+        y_position="103",
+    )
+
     signer.tabs = dse.Tabs(
+        text_tabs=[
+            tenant_contact_info,
+            inspection_req_note,
+        ],
         sign_here_tabs=[
             sign_here_petition,
             sign_here_verification,

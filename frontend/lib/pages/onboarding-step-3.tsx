@@ -5,7 +5,7 @@ import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
 import { ProgressButtons } from "../buttons";
-import { IconLink } from "../icon-link";
+import { IconLink } from "../icon";
 import { RadiosFormField } from '../form-fields';
 import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
 import { ReactDjangoChoices } from '../common-data';

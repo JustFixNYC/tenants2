@@ -2,24 +2,36 @@ import React from 'react';
 import classnames from 'classnames';
 import { Link, LinkProps } from 'react-router-dom';
 
-export type IconLinkType = 'warning' | 'info';
+export type IconType = 'warning' | 'info';
 
 const ICON_CLASSES: {
-  [key in IconLinkType]: string;
+  [key in IconType]: string;
 } = {
   warning: 'jf-warning-icon',
   info: 'jf-info-icon',
 };
 
 const ICON_SVGS: {
-  [key in IconLinkType]: JSX.Element;
+  [key in IconType]: JSX.Element;
 } = {
   warning: require('./svg/exclamation-circle-solid.svg'),
   info: require('./svg/info-circle-solid.svg'),
 };
 
+type IconProps = {
+  type: IconType;
+}
+
+export function Icon({type}: IconProps): JSX.Element {
+  return (
+    <i className={ICON_CLASSES[type]}>
+      {ICON_SVGS[type]}
+    </i>
+  );
+}
+
 type IconLinkProps = {
-  type: IconLinkType;
+  type: IconType;
   title: string;
 } & LinkProps;
 

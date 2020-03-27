@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';
@@ -24,6 +24,10 @@ import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
+import { Modal } from '../modal';
+import { UpdateBrowserStorage, browserStorage } from '../browser-storage';
+import { NoScriptFallback } from '../progressive-enhancement';
+import { getQuerystringVar } from '../querystring';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -118,19 +122,26 @@ type IssueAreaLinkProps = {
 function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
 
+  const [hadViewedModal, updateModalStatus] = useState(false);
+  // useEffect here needs to run at any state update as we need to consistently check 
+  // whether the browserStorage has changed
+  useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ));
+
   return (
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssuesV2 || []);
         const url = props.routes.area.create(allCapsToSlug(area));
+        const modalUrl = props.routes.modal;
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
         const ariaLabel = `${title} (${issueLabel})`;
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
+        const inSafeMode = ctx.session.isSafeModeEnabled;
 
         return (
-          <Link to={url} className={classnames(
+          <Link to={!hadViewedModal && !inSafeMode ? (modalUrl + '?area=' + allCapsToSlug(area)) : url} className={classnames(
             'jf-issue-area-link', 'notification',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>
@@ -184,6 +195,42 @@ export function groupByTwo<T>(arr: T[]): [T, T|null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
+const CovidRiskMessage = () => (
+  <>
+    <p>
+      <strong className="has-text-danger">Warning: </strong> 
+      Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
+    </p>
+    <p>
+      In order to follow social distancing guidelines and to limit your exposure, we recommend 
+      only asking for repairs <strong>in the case of an emergency</strong> such as if you have no heat, no hot water, or no gas. 
+    </p>
+  </>
+)
+
+function CovidRiskModal(props: {routes: IssuesRouteInfo}): JSX.Element {
+  return (
+    <Modal title="Social distancing and repairs" withHeading onCloseGoTo={(loc) => {
+      const slug = getQuerystringVar(loc.search, 'area') || '';
+      let area = slugToAllCaps(slug) as IssueAreaChoice;
+      if (!isIssueAreaChoice(area)) {
+        area = 'HOME';
+      }
+      const url = props.routes.area.create(allCapsToSlug(area));
+      return url;
+    }} render={(ctx) => <>
+      <CovidRiskMessage />
+      <div className="has-text-centered">
+        <Link
+          className={`button is-primary is-medium is-danger`} {...ctx.getLinkCloseProps()}>
+          I understand the risk
+        </Link>
+      </div>
+      <UpdateBrowserStorage hasViewedCovidRiskModal={true} />
+    </>} />
+  );
+}
+
 class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
@@ -210,6 +257,9 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         <div>
           <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
           <p className="subtitle is-6">Please go room-by-room and select all of the issues that you are experiencing. {introContent} <strong>Don't hold back!</strong></p>
+          <NoScriptFallback>
+            <> <CovidRiskMessage /> <br /> </>
+          </NoScriptFallback>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(([a, b], i) => (
             <div className="columns is-tablet" key={i}>
               {this.renderColumnForArea(...a)}
@@ -222,7 +272,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <LinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
-
+        {this.props.withModal && <CovidRiskModal routes={this.props.routes} />}
       </Page>
     );
   }
@@ -232,7 +282,8 @@ type IssuesRoutesProps = {
   routes: IssuesRouteInfo,
   introContent?: string|JSX.Element,
   toBack: string,
-  toNext: string
+  toNext: string,
+  withModal?: boolean
 };
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
@@ -241,6 +292,9 @@ export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
     <Switch>
       <Route path={routes.home} exact render={() => (
         <IssuesHome {...props} />
+      )} />
+      <Route path={routes.modal} exact render={() => (
+        <IssuesHome {...props} withModal={true} />
       )} />
       <Route path={routes.area.parameterizedRoute} render={(ctx) => (
         <IssuesArea {...ctx} toHome={routes.home} />

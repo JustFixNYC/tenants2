@@ -45,6 +45,7 @@ export const ROUTE_PREFIX = 'prefix';
 export type IssuesRouteInfo = {
   [ROUTE_PREFIX]: string,
   home: string,
+  modal: string,
   area: {
     parameterizedRoute: string,
     create: (area: string) => string,
@@ -70,6 +71,7 @@ function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
   return {
     [ROUTE_PREFIX]: prefix,
     home: prefix,
+    modal: `${prefix}/covid-risk-modal`,
     area: {
       parameterizedRoute: `${prefix}/:area`,
       create: (area: string) => `${prefix}/${area}`,
@@ -113,6 +115,7 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
     splash: `${prefix}/splash`,
     welcome: `${prefix}/welcome`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
+    // issuesCovidRiskModal: `${prefix}/issues/covid-risk-modal`,
     accessDates: `${prefix}/access-dates`,
     yourLandlord: `${prefix}/your-landlord`,
     preview: `${prefix}/preview`,

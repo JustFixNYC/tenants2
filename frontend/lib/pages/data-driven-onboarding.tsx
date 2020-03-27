@@ -119,7 +119,7 @@ type SquareImageProps = {
   className?: string
 };
 
-function SquareImage(props: SquareImageProps) {
+export function SquareImage(props: SquareImageProps) {
   const { size } = props;
 
   // https://bulma.io/documentation/elements/image/

@@ -11,6 +11,8 @@ import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-ro
 import { LocSplash } from './letter-of-complaint-splash';
 import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { CovidRiskBanner, MoratoriumWarning } from './covid-banners';
+
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
   const { firstName } = props.session;
@@ -26,10 +28,11 @@ export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
           <li>First, conduct a <strong>self-inspection of your apartment</strong> to document all the issues that need repair.</li>
           <li>Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS Certified Mail<sup>&reg;</sup>.</li>
         </ol>
+        <CovidRiskBanner />
         <GetStartedButton to={Routes.locale.loc.issues.home} intent={OnboardingInfoSignupIntent.LOC} pageType="welcome">
           Start my free letter
         </GetStartedButton>
-        <br/>
+        <MoratoriumWarning />
         <h2>Why mail a Letter of Complaint?</h2>
         <p>
           Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <strong>Warranty of Habitability</strong>.

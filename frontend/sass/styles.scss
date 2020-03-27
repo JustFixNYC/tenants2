@@ -12,7 +12,7 @@
 @import "./_product-icons.scss";
 @import "./_landing-page.scss";
 @import "./_autocomplete.scss";
-@import "./_icon-link.scss";
+@import "./_icon.scss";
 @import "./_loading-overlay.scss";
 @import "./_progress.scss";
 @import "./_confetti.scss";
@@ -241,6 +241,9 @@ fieldset {
     }
 }
 
+$jf-biglist-counter-size: 45px;
+$jf-biglist-counter-margin: 1em; 
+
 .content ol.jf-biglist {
     & {
         list-style: none;
@@ -256,8 +259,18 @@ fieldset {
         background: $light;
     }
 
-    li > div.jf-biglist-counter + div {
-        margin-left: 1em;
+    li > div.jf-biglist-counter {
+        // Align counters to top of their container:
+        margin-bottom: auto;
+        & + div {
+            margin-left: $jf-biglist-counter-margin;
+            // Make guidelines box extend outside of parent div on mobile:
+            @media screen and (max-width: $tablet) {
+                .jf-sanitation-guidelines {
+                    margin-left: calc(0px - #{$jf-biglist-counter-size} - #{$jf-biglist-counter-margin});
+                }
+            }
+        }
     }
 
     li > div.jf-biglist-counter::before {
@@ -266,8 +279,8 @@ fieldset {
         font-size: 30px;
         font-weight: bold;
         padding-left: 15px;
-        width: 45px;
-        height: 45px;
+        width: $jf-biglist-counter-size;
+        height: $jf-biglist-counter-size;
         overflow: hidden;
         border-radius: 100%;
         background-color: hsl(0, 0%, 29%);
@@ -341,4 +354,29 @@ html.jf-is-fullscreen-admin-page {
             }
         }
     }
+}
+
+.jf-sanitation-guidelines {
+    .button.is-text {
+        font-size: 0.9rem;
+        height: 1.55rem;
+        letter-spacing: 0.8px;
+        &:hover, &:focus, &:active {
+            background-color: transparent;
+            text-decoration: none;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        padding: 0.75rem;
+    }
+    .content {
+        margin-top: 2.5rem;
+        figure {
+            margin: 0 auto;
+        }
+        .columns {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    } 
 }

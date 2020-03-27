@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 import classnames from 'classnames';
+import { Icon } from './icon';
+import { OutboundLink } from './google-analytics';
 
 const ROUTES_WITH_MORATORIUM_BANNER = [
     "/loc/splash",
@@ -9,6 +11,11 @@ const ROUTES_WITH_MORATORIUM_BANNER = [
     "/"
   ];
 
+
+/**
+ * This banner is intended to show right below the navbar on certain pages and is a general 
+ * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
+ */  
 const MoratoriumBanner = ( props:{ pathname?: string } ) => {
 
     const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
@@ -36,4 +43,30 @@ const MoratoriumBanner = ( props:{ pathname?: string } ) => {
     );
 }
 
-  export default MoratoriumBanner;
+export default MoratoriumBanner;
+
+/**
+ * This banner is intended to show up within the Letter of Complaint flow
+ * and makes users aware of the potential risks of requesting in-person repairs during the crisis.
+ */ 
+export const CovidRiskBanner = () => (
+    <div className="notification is-warning has-text-weight-bold">
+      <p>
+        Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
+      </p>
+      <p>
+        In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas.
+      </p>
+    </div>
+  );
+
+/**
+ * This small warning is intended to notify folks about the current NY Moratorium on Evictions
+ * in case their landlord is illegally trying evict them.
+ */ 
+export const MoratoriumWarning = () => (
+    <div className="content has-text-centered is-size-7">
+        <Icon type="warning" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
+        {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><strong>Learn more</strong></OutboundLink>
+    </div>
+)

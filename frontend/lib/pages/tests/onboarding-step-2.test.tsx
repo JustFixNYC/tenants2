@@ -11,7 +11,7 @@ describe('onboarding step 2 page', () => {
 
   it('opens eviction modal', async () => {
     const pal = new AppTesterPal(<OnboardingStep2 routes={Routes.locale.onboarding} />);
-    const getDialog = () => pal.getDialogWithLabel(/You need legal help/i);
+    const getDialog = () => pal.getDialogWithLabel(/Eviction cases are currently halted/i);
 
     // When we enable the checkbox, the dialog should show.
     pal.clickRadioOrCheckbox(/I received an eviction notice/i);

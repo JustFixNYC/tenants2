@@ -2,6 +2,7 @@ import React from 'react';
 import AriaModal from 'react-aria-modal';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
+import { Location } from 'history';
 import { getAppStaticContext } from './app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
 import { TransitionContextType, withTransitionContext } from './transition-context';
@@ -29,7 +30,7 @@ interface ModalProps {
   title: string;
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
-  onCloseGoTo: string|BackOrUpOneDirLevel;
+  onCloseGoTo: string|BackOrUpOneDirLevel|((location: Location) => string);
   withHeading?: boolean;
 }
 
@@ -59,6 +60,8 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     const goTo = this.props.onCloseGoTo;
     if (typeof(goTo) === 'string') {
       return goTo;
+    } else if (typeof(goTo) === 'function') {
+      return goTo(this.props.location);
     }
     switch (goTo) {
       case BackOrUpOneDirLevel:

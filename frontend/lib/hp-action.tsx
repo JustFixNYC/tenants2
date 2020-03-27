@@ -112,7 +112,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>
-      <BigList>
+      <BigList listClassName="is-light">
         <li>You answer a few questions here about your housing situation and we email the forms you need to start your case to your email and your Borough’s Housing Court.</li>
         <li>You will be assigned a Lawyer that will help you throughout your case.</li>
         <li>An inspector from the Department of Housing and Preservation (HPD) will come to your house to verify the issue(s). Your Lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>

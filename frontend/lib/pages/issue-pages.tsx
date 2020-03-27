@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';
@@ -120,13 +120,15 @@ type IssueAreaLinkProps = {
 function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
 
+  const [hadViewedModal, updateModalStatus] = useState(false);
+  useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ), []);
+
   return (
     <AppContext.Consumer>
       {(ctx) => {
         const count = areaIssueCount(area, ctx.session.issues as IssueChoice[], ctx.session.customIssuesV2 || []);
         const url = props.routes.area.create(allCapsToSlug(area));
         const modalUrl = props.routes.modal;
-        const hadViewedModal = browserStorage.get('hasViewedCovidRiskModal');
         const actionLabel = count === 0 ? 'Add issues' : 'Add or remove issues';
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);

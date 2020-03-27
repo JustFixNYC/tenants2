@@ -24,9 +24,10 @@ import { FormContext } from '../form-context';
 import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
-import { Modal, BackOrUpOneDirLevel } from '../modal';
+import { Modal } from '../modal';
 import { UpdateBrowserStorage, browserStorage } from '../browser-storage';
 import { NoScriptFallback } from '../progressive-enhancement';
+import { getQuerystringVar } from '../querystring';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 
@@ -207,9 +208,17 @@ const CovidRiskMessage = () => (
   </>
 )
 
-function CovidRiskModal(): JSX.Element {
+function CovidRiskModal(props: {routes: IssuesRouteInfo}): JSX.Element {
   return (
-    <Modal title="Social distancing and repairs" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+    <Modal title="Social distancing and repairs" withHeading onCloseGoTo={(loc) => {
+      const slug = getQuerystringVar(loc.search, 'area') || '';
+      let area = slugToAllCaps(slug) as IssueAreaChoice;
+      if (!isIssueAreaChoice(area)) {
+        area = 'HOME';
+      }
+      const url = props.routes.area.create(allCapsToSlug(area));
+      return url;
+    }} render={(ctx) => <>
       <CovidRiskMessage />
       <div className="has-text-centered">
         <Link
@@ -263,7 +272,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <LinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
-        {this.props.withModal && <CovidRiskModal />}
+        {this.props.withModal && <CovidRiskModal routes={this.props.routes} />}
       </Page>
     );
   }

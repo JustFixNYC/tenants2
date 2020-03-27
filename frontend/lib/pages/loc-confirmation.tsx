@@ -37,7 +37,7 @@ const SanitationGuidelines = () => {
             <SquareImage size={128} src='frontend/img/sanitation-guide/chat.svg' alt="" />
           </div>
           <div className="column">
-            <h3 className="is-size-6 has-text-grey-darker is-uppercase has-text-weight-bold">Before the repair-worker arrives</h3>
+            <h3 className="is-size-6 is-uppercase has-text-weight-bold has-text-grey-dark">Before the repair-worker arrives</h3>
             <p>Talk to anyone that you live with and let them know that a repair-worker is coming to perform the repairs that you requested.</p>
           </div>
         </div>
@@ -46,7 +46,7 @@ const SanitationGuidelines = () => {
             <SquareImage size={128} src='frontend/img/sanitation-guide/hands.svg' alt="" />
           </div>
           <div className="column">
-            <h3 className="is-size-6 is-uppercase has-text-weight-bold">While the repair-worker is inside your home</h3>
+            <h3 className="is-size-6 is-uppercase has-text-weight-bold has-text-grey-dark">While the repair-worker is inside your home</h3>
             <p>Have the repair-worker wash their hands with soap for at least 20 seconds as soon as they come into your house.</p>
             <p>If possible, stay in a different room from where the work is being done. If a separate room is not available, maintain at least a six-foot distance from the repair-worker until the repair is completed.</p>
           </div>
@@ -56,7 +56,7 @@ const SanitationGuidelines = () => {
             <SquareImage size={128} src='frontend/img/sanitation-guide/wipe.svg' alt="" />
           </div>
           <div className="column">
-            <h3 className="is-size-6 is-uppercase has-text-weight-bold">After the repair-worker leaves</h3>
+            <h3 className="is-size-6 is-uppercase has-text-weight-bold has-text-grey-dark">After the repair-worker leaves</h3>
             <p>Immediately sanitize all surfaces in your home, especially doorknobs, the sink where the repair-worker washed their hands, and any surfaces you know they have likely been in contact with.</p>
             <p className="is-size-7">For guidance on how to thoroughly sanitize your home and a list of recommended effective cleaning products visit 
               {' '}<OutboundLink href="https://www.cdc.gov/coronavirus/2019-ncov/prepare/cleaning-disinfection.html" target="_blank">Center for Disease Control (CDC) Guide on How to Clean and Disinfect</OutboundLink>

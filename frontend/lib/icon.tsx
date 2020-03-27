@@ -22,8 +22,7 @@ type IconProps = {
   type: IconType;
 }
 
-export function Icon(props: IconProps): JSX.Element {
-  let { type } = props;
+export function Icon({type}: IconProps): JSX.Element {
   return (
     <i className={ICON_CLASSES[type]}>
       {ICON_SVGS[type]}

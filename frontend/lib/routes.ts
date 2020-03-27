@@ -32,6 +32,7 @@ export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent
     };
 
     case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
+    case OnboardingInfoSignupIntent.EHP: return Routes.locale.ehp;
   }
 }
 
@@ -101,6 +102,7 @@ function createOnboardingRouteInfo(prefix: string) {
     },
     step4: `${prefix}/step/4`,
     step4TermsModal: `${prefix}/step/4/terms-modal`,
+    thanks: `${prefix}/thanks`,
   };
 }
 
@@ -123,6 +125,27 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
 }
 
 export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;
+
+function createEmergencyHPActionRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    preOnboarding: `${prefix}/splash`,
+    splash: `${prefix}/splash`,
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+    postOnboarding: prefix,
+    welcome: `${prefix}/welcome`,
+    sue: `${prefix}/sue`,
+    tenantChildren: `${prefix}/children`,
+    accessForInspection: `${prefix}/access`,
+    prevAttempts: `${prefix}/previous-attempts`,
+    prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
+    yourLandlord: `${prefix}/your-landlord`,
+    waitForUpload: `${prefix}/wait`,
+    reviewForms: `${prefix}/review`,
+    confirmation: `${prefix}/confirmation`,
+  }
+}
 
 function createHPActionRouteInfo(prefix: string) {
   return {
@@ -209,6 +232,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The HP Action flow. */
     hp: createHPActionRouteInfo(`${prefix}/hp`),
+
+    /** The Emergency HP Action flow (COVID-19). */
+    ehp: createEmergencyHPActionRouteInfo(`${prefix}/ehp`),
 
     /** The Rental History flow. */   
     rh: createRentalHistoryRouteInfo(`${prefix}/rh`),

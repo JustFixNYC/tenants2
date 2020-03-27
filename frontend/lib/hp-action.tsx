@@ -1,32 +1,24 @@
 import React from 'react';
 
-import Routes from "./routes";
+import Routes, { getSignupIntentOnboardingInfo } from "./routes";
 import Page from "./page";
-import { NextButton, ProgressButtons } from './buttons';
+import { ProgressButtons } from './buttons';
 import { IssuesRoutes } from './pages/issue-pages';
 import { withAppContext, AppContextType } from './app-context';
-import { AllSessionInfo_landlordDetails, AllSessionInfo, AllSessionInfo_feeWaiver } from './queries/AllSessionInfo';
-import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
-import { GenerateHPActionPDFMutation } from './queries/GenerateHPActionPDFMutation';
 import { PdfLink } from './pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
 import { OutboundLink } from './google-analytics';
 import { HPUploadStatus, OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { GetHPActionUploadStatus } from './queries/GetHPActionUploadStatus';
-import { Redirect } from 'react-router';
-import { SessionPoller } from './session-poller';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
 import { ProgressStepProps, MiddleProgressStep } from './progress-step-route';
 import { assertNotNull } from './util';
 import { TenantChildren } from './pages/hp-action-tenant-children';
-import { HPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
-import { AccessForInspectionMutation } from './queries/AccessForInspectionMutation';
-import { TextualFormField, CheckboxFormField } from './form-fields';
+import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
+import { CheckboxFormField } from './form-fields';
 import { HpActionUrgentAndDangerousMutation } from './queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from './yes-no-radios-form-field';
 import { SessionStepBuilder } from './session-step-builder';
 import { HarassmentApartment, HarassmentExplain, HarassmentAllegations1, HarassmentAllegations2 } from './pages/hp-action-harassment';
-import { FormContextRenderer } from './form';
 import { HpActionSueMutation } from './queries/HpActionSueMutation';
 import { HarassmentCaseHistory } from './pages/hp-action-case-history';
 import { BigList } from './big-list';
@@ -34,8 +26,12 @@ import { EmailAttachmentForm } from './email-attachment';
 import { EmailHpActionPdfMutation } from './queries/EmailHpActionPdfMutation';
 import { CustomerSupportLink } from './customer-support-link';
 import { GetStartedButton } from './get-started-button';
+import { AccessForInspection } from './pages/hp-action-access-for-inspection';
+import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
+import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
+import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
 
-const onboardingForHPActionRoute = () => Routes.locale.hp.onboarding.latestStep;
+const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 
 function Disclaimer(): JSX.Element {
   return (
@@ -100,82 +96,24 @@ const HPActionIssuesRoutes = MiddleProgressStep(props => (
   />
 ));
 
-const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => (
-  <>
-    <p>This is your landlord’s information as registered with the <b>NYC Department of Housing and Preservation (HPD)</b>. This may be different than where you send your rent checks.</p>
-    <dl>
-      <dt>Name</dt>
-      <dd>{props.details.name}</dd>
-      <dt>Address</dt>
-      <dd>{props.details.address}</dd>
-    </dl>
-    <p>We'll use these details to automatically fill out your HP Action forms!</p>
-  </>
-);
-
-const GeneratePDFForm = (props: { children: FormContextRenderer<{}, any> }) => (
-  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
-   onSuccessRedirect={Routes.locale.hp.waitForUpload} {...props} />
-);
-
-const HPActionYourLandlord = withAppContext((props: AppContextType & ProgressStepProps) => {
-  const details = props.session.landlordDetails;
-
-  return (
-    <Page title="Your landlord" withHeading className="content">
-      {details && details.isLookedUp && details.name && details.address
-        ? <LandlordDetails details={details} />
-        : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
-      <GeneratePDFForm>
-        {(ctx) =>
-          <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}
-            nextLabel="Generate forms" />
-        }
-      </GeneratePDFForm>
-    </Page>
-  );
-});
-
-const HPActionUploadError = () => (
-  <Page title="Alas." withHeading className="content">
-    <p>Unfortunately, an error occurred when generating your HP Action packet.</p>
-    <GeneratePDFForm>
-      {(ctx) => <NextButton isLoading={ctx.isLoading} label="Try again"/>}
+const YourLandlord = (props: ProgressStepProps) => (
+  <HPActionYourLandlord {...props} renderProgressButtons={props => (
+    <GeneratePDFForm toWaitForUpload={Routes.locale.hp.waitForUpload}>
+      {(ctx) =>
+        <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}
+          nextLabel="Generate forms" />
+      }
     </GeneratePDFForm>
-  </Page>
+  )} />
 );
 
-const HPActionWaitForUpload = () => (
-  <Page title="Please wait">
-    <p className="has-text-centered">
-      Please wait while your HP action documents are generated&hellip;
-    </p>
-    <SessionPoller query={GetHPActionUploadStatus} />
-    <section className="section" aria-hidden="true">
-      <div className="jf-loading-overlay">
-        <div className="jf-loader"/>
-      </div>
-    </section>
-  </Page>
+const UploadStatus = () => (
+  <ShowHPUploadStatus
+    toWaitForUpload={Routes.locale.hp.waitForUpload}
+    toSuccess={Routes.locale.hp.confirmation}
+    toNotStarted={Routes.locale.hp.latestStep}
+  />
 );
-
-const ShowHPUploadStatus = withAppContext((props: AppContextType) => {
-  let status = props.session.hpActionUploadStatus;
-
-  switch (status) {
-    case HPUploadStatus.STARTED:
-    return <HPActionWaitForUpload />;
-
-    case HPUploadStatus.SUCCEEDED:
-    return <Redirect to={Routes.locale.hp.confirmation} />;
-
-    case HPUploadStatus.ERRORED:
-    return <HPActionUploadError />;
-
-    case HPUploadStatus.NOT_STARTED:
-    return <Redirect to={Routes.locale.hp.latestStep} />;
-  }
-});
 
 const HPActionConfirmation = withAppContext((props: AppContextType) => {
   const href = props.session.latestHpActionPdfUrl;
@@ -202,20 +140,6 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
       </ul>
     </Page>
   );
-});
-
-const onboardingStepBuilder = new SessionStepBuilder(sess => sess.onboardingInfo);
-
-const AccessForInspection = onboardingStepBuilder.createStep({
-  title: "Access for Your HPD Inspection",
-  mutation: AccessForInspectionMutation,
-  toFormInput: onb => onb.finish(),
-  renderIntro: () => <>
-    <p>On the day of your HPD Inspection, the Inspector will need access to your apartment during a window of time that you will choose with the HP Clerk when you submit your paperwork in Court.</p>
-  </>,
-  renderForm: ctx => <>
-    <TextualFormField {...ctx.fieldPropsFor('floorNumber')} type="number" min="0" label="What floor do you live on?" />
-  </>,
 });
 
 const hpActionDetailsStepBuilder = new SessionStepBuilder(sess => sess.hpActionDetails);
@@ -250,23 +174,7 @@ const Sue = hpActionDetailsStepBuilder.createStep({
   </>
 });
 
-/**
- * Returns whether the given session fee waiver info exists, and, if so, whether
- * it satisfies the criteria encapsulated by the given predicate function.
- */
-const hasFeeWaiverAnd = (condition: (fw: AllSessionInfo_feeWaiver) => boolean) => (session: AllSessionInfo) => (
-  session.feeWaiver ? condition(session.feeWaiver) : false
-);
-
-export function isNotSuingForHarassment(session: AllSessionInfo): boolean {
-  if (!session.hpActionDetails) return true;
-  return session.hpActionDetails.sueForHarassment !== true;
-}
-
-export function isNotSuingForRepairs(session: AllSessionInfo): boolean {
-  if (!session.hpActionDetails) return true;
-  return session.hpActionDetails.sueForRepairs !== true;
-}
+const PreviousAttempts = createHPActionPreviousAttempts(() => Routes.locale.hp);
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: Routes.locale.hp.latestStep,
@@ -285,7 +193,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.accessForInspection, component: AccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs },
-    { path: Routes.locale.hp.prevAttempts, component: HPActionPreviousAttempts,
+    { path: Routes.locale.hp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous,
       shouldBeSkipped: isNotSuingForRepairs },
@@ -308,11 +216,11 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
       isComplete: hasFeeWaiverAnd(fw => fw.receivesPublicAssistance !== null) },
     { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses,
       isComplete: hasFeeWaiverAnd(fw => fw.rentAmount !== null) },
-    { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord,
+    { path: Routes.locale.hp.yourLandlord, exact: true, component: YourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
-    { path: Routes.locale.hp.waitForUpload, exact: true, component: ShowHPUploadStatus,
+    { path: Routes.locale.hp.waitForUpload, exact: true, component: UploadStatus,
       isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.hp.confirmation, exact: true, component: HPActionConfirmation}
   ]

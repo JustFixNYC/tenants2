@@ -3,10 +3,13 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
+from issues.models import Issue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory)
-from hpaction.models import get_upload_status_for_user, HPUploadStatus, TenantChild
+from hpaction.models import (
+    get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails)
+from hpaction.schema import sync_emergency_issues
 
 
 def execute_tenant_children_mutation(graphql_client, children):
@@ -29,6 +32,42 @@ def test_tenant_children_mutation_requires_login(db, graphql_client):
     assert result['errors'] == [{'field': '__all__', 'messages': [
         'You do not have permission to use this form!'
     ]}]
+
+
+class TestEmergencyHPAIssuesMutation:
+    def test_sync_emergency_issues_works(self, db):
+        HOME = ISSUE_AREA_CHOICES.HOME
+        MICE = ISSUE_CHOICES.HOME__MICE
+        NO_HEAT = ISSUE_CHOICES.HOME__NO_HEAT
+        NO_GAS = ISSUE_CHOICES.HOME__NO_GAS
+
+        user = UserFactory()
+        Issue.objects.set_area_issues_for_user(user, HOME, [MICE])
+
+        def gethomeissues():
+            return set(Issue.objects.get_area_issues_for_user(user, HOME))
+
+        sync_emergency_issues(user, [NO_HEAT])
+        assert gethomeissues() == {NO_HEAT, MICE}
+        sync_emergency_issues(user, [NO_GAS])
+        assert gethomeissues() == {NO_GAS, MICE}
+
+    def test_it_works(self, graphql_client, db):
+        user = UserFactory()
+        graphql_client.request.user = user
+        result = graphql_client.execute(
+            '''
+            mutation {
+                output: emergencyHpaIssues(input: {issues: ["HOME__NO_HEAT"]}) {
+                    session { issues }
+                }
+            }
+            '''
+        )
+        assert result['data']['output']['session']['issues'] == ['HOME__NO_HEAT']
+        details = HPActionDetails.objects.get(user=user)
+        assert details.sue_for_repairs is True
+        assert details.sue_for_harassment is False
 
 
 class TestTenantChildrenSession:

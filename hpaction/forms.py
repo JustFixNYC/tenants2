@@ -1,10 +1,29 @@
-from typing import Optional
+from typing import Optional, Dict, List
+from collections import defaultdict
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
+from project import common_data
 from project.forms import YesNoRadiosField
+from issues.models import ISSUE_CHOICES, get_issue_area
 from onboarding.models import OnboardingInfo
 from . import models
+
+
+EMERGENCY_HPA_ISSUE_LIST = common_data.load_json('emergency-hpa-issue-list.json')
+
+EMERGENCY_HPA_CHOICES = [
+    (value, ISSUE_CHOICES.get_label(value)) for value in EMERGENCY_HPA_ISSUE_LIST
+]
+
+EMERGENCY_HPA_ISSUES_BY_AREA: Dict[str, List[str]] = defaultdict(list)
+
+for _issue in EMERGENCY_HPA_ISSUE_LIST:
+    EMERGENCY_HPA_ISSUES_BY_AREA[get_issue_area(_issue)].append(_issue)
+del _issue
+
+CHOOSE_ONE_MSG = "Please choose at least one option."
 
 
 class FeeWaiverIncomeForm(forms.ModelForm):
@@ -88,6 +107,13 @@ class UrgentAndDangerousForm(forms.ModelForm):
     urgent_and_dangerous = YesNoRadiosField()
 
 
+def ensure_at_least_one_is_true(cleaned_data):
+    true_fields = [True for value in cleaned_data.values() if value is True]
+    if not true_fields:
+        raise ValidationError(CHOOSE_ONE_MSG)
+    return cleaned_data
+
+
 class SueForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
@@ -100,13 +126,7 @@ class SueForm(forms.ModelForm):
     sue_for_harassment = forms.BooleanField(required=False)
 
     def clean(self):
-        cleaned_data = super().clean()
-
-        true_fields = [True for value in cleaned_data.values() if value is True]
-        if not true_fields:
-            raise ValidationError("Please choose at least one option.")
-
-        return cleaned_data
+        return ensure_at_least_one_is_true(super().clean())
 
 
 class DynamicallyRequiredBoolMixin:
@@ -227,3 +247,23 @@ class HarassmentExplainForm(forms.ModelForm):
 
 class GeneratePDFForm(forms.Form):
     pass
+
+
+class EmergencyHPAIssuesForm(forms.Form):
+    issues = forms.MultipleChoiceField(
+        required=False,
+        choices=EMERGENCY_HPA_CHOICES,
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data.get('issues'):
+            raise ValidationError(CHOOSE_ONE_MSG)
+        return cleaned_data
+
+
+class BeginDocusignForm(forms.Form):
+    next_url = forms.CharField(validators=[RegexValidator(
+        regex=r"^\/.*",
+        message="The URL must start with '/'."
+    )])

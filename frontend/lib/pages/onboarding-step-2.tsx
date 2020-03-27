@@ -26,7 +26,7 @@ export function Step2EvictionModal(): JSX.Element {
       </p>
       <CenteredButtons>
         <OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" className="button is-primary is-medium">Learn more</OutboundLink>
-        <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
+        <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue anyways</Link>
       </CenteredButtons>
     </>} />
   );

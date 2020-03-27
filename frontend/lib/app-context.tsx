@@ -120,6 +120,9 @@ export interface AppServerInfo {
     input: any,
     output: any
   };
+
+  /** Whether to enable emergency HP Action functionality. */
+  enableEmergencyHPAction?: boolean;
 }
 
 /**

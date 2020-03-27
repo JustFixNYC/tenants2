@@ -63,6 +63,8 @@ createBlankLiteral = true
 
 [mutations.logout]
 
+[mutations.beginDocusign]
+
 [mutations."passwordReset.*"]
 
 [mutations.onboardingStep1]
@@ -74,7 +76,7 @@ sessionFields = ["onboardingStep2"]
 [mutations.onboardingStep3]
 sessionFields = ["onboardingStep3"]
 
-[mutations.onboardingStep4]
+[mutations.onboardingStep4Version2]
 
 [mutations.issueAreaV2]
 sessionFields = ["issues", "customIssuesV2"]
@@ -91,6 +93,9 @@ sessionFields = ["letterRequest"]
 [mutations.generateHpActionPdf]
 name = "GenerateHPActionPDFMutation"
 sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
+
+[mutations.emergencyHpaIssues]
+sessionFields = ["hpActionDetails", "issues"]
 
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]

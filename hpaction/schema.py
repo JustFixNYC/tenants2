@@ -6,17 +6,69 @@ from django.urls import reverse
 from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
+from docusign.views import create_callback_url_for_signing_flow
 from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project import schema_registry
+from project.util.site_util import absolutify_url
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
+from project.util.django_graphql_forms import DjangoFormMutation
+from issues.models import Issue
 from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
-from . import models, forms, lhiapi, email_packet
+import docusign.core
+from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
+
+
+def sync_emergency_issues(user, submitted_issues: List[str]):
+    for area, all_area_issues in forms.EMERGENCY_HPA_ISSUES_BY_AREA.items():
+        user_area_issues = Issue.objects.get_area_issues_for_user(user, area)
+        for issue in all_area_issues:
+            sync_one_value(issue, issue in submitted_issues, user_area_issues)
+        Issue.objects.set_area_issues_for_user(user, area, user_area_issues)
+
+
+@schema_registry.register_mutation
+class BeginDocusign(DjangoFormMutation):
+    class Meta:
+        form_class = forms.BeginDocusignForm
+
+    login_required = True
+
+    redirect_url = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        if not user.email:
+            return cls.make_error("You have no email address!")
+
+        # TODO: Ensure the user has validated their email address.
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user)
+
+        if not docs:
+            return cls.make_error("You have no HP Action documents to sign!")
+
+        return_url = create_callback_url_for_signing_flow(
+            request,
+            absolutify_url(form.cleaned_data['next_url']),
+        )
+        envelope_definition = hpadocusign.create_envelope_definition_for_hpa(docs)
+        api_client = docusign.core.create_default_api_client()
+        _, url = hpadocusign.create_envelope_and_recipient_view_for_hpa(
+            user=user,
+            envelope_definition=envelope_definition,
+            api_client=api_client,
+            return_url=return_url,
+        )
+
+        return cls(errors=[], redirect_url=url)
 
 
 @schema_registry.register_mutation
@@ -33,6 +85,49 @@ class EmailHpActionPdf(EmailAttachmentMutation):
         if latest is None:
             return cls.make_error("You do not have an HP Action packet to send!")
         return super().perform_mutate(form, info)
+
+
+def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> List[str]:
+    '''
+    Makes sure that the given value either is or isn't in the given list.
+
+    Destructively modifies the list in-place and returns it.
+
+    Examples:
+
+        >>> sync_one_value('boop', False, ['boop', 'jones'])
+        ['jones']
+        >>> sync_one_value('boop', True, ['boop', 'jones'])
+        ['boop', 'jones']
+        >>> sync_one_value('boop', True, ['jones'])
+        ['jones', 'boop']
+        >>> sync_one_value('boop', False, ['jones'])
+        ['jones']
+    '''
+
+    if is_value_present and value not in values:
+        values.append(value)
+    if not is_value_present and value in values:
+        values.remove(value)
+    return values
+
+
+@schema_registry.register_mutation
+class EmergencyHPAIssues(SessionFormMutation):
+    class Meta:
+        form_class = forms.EmergencyHPAIssuesForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        user = info.context.user
+        sync_emergency_issues(user, form.cleaned_data['issues'])
+        details, _ = models.HPActionDetails.objects.get_or_create(user=user)
+        details.sue_for_repairs = True
+        details.sue_for_harassment = False
+        details.save()
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

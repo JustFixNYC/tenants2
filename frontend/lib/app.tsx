@@ -96,6 +96,10 @@ const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')
   fallback: <LoadingPage />
 });
 
+const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./emergency-hp-action')), {
+  fallback: <LoadingPage />
+});
+
 const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rental-history')), {
   fallback: <LoadingPage />
 });
@@ -275,6 +279,8 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
+        {this.props.server.enableEmergencyHPAction && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
+        {this.props.server.enableEmergencyHPAction && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
         <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />

@@ -9,6 +9,7 @@ import { RouteProgressBar } from './progress-bar';
 import { RedirectToLatestStep } from './progress-redirection';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { ProgressStepRoute } from './progress-step-route';
+import { OnboardingThanks } from './pages/onboarding-thanks';
 
 export type OnboardingRoutesProps = {
   toCancel: string;
@@ -38,9 +39,13 @@ export default class OnboardingRoutes extends React.Component<OnboardingRoutesPr
         isComplete: (s) => !!s.onboardingStep3
       },
       { path: routes.step4,
-        render: () => <OnboardingStep4 routes={routes} toSuccess={props.toSuccess}
+        render: () => <OnboardingStep4 routes={routes} toSuccess={routes.thanks}
                                        signupIntent={props.signupIntent} />
       },
+      {
+        path: routes.thanks,
+        render: () => <OnboardingThanks next={props.toSuccess} />
+      }
     ];
   }
 

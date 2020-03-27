@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core import signing
 from django.template.loader import render_to_string
 
+from project.util.celery_util import fire_and_forget_task
 from project.util.site_util import absolute_reverse
 from users.models import JustfixUser
 
@@ -24,13 +25,14 @@ VERIFY_INVALID_CODE = "invalid_code"
 VERIFY_INVALID_USERNAME = "invalid_username"
 
 
-def send_verification_email(user: JustfixUser):
+def send_verification_email(user_id: int):
     '''
-    Sends an email to the given user with a link to follow;
+    Sends an email to the user with the given ID with a link to follow;
     when they follow the link, their account will be marked
     as having a validated email address.
     '''
 
+    user = JustfixUser.objects.get(pk=user_id)
     assert user.email
     code = signing.dumps(user.username, salt=VERIFICATION_SALT)
     qs = urllib.parse.urlencode({'code': code})
@@ -42,6 +44,9 @@ def send_verification_email(user: JustfixUser):
     })
     from_email = settings.DEFAULT_FROM_EMAIL
     send_mail(subject, body, from_email, [user.email])
+
+
+send_verification_email_async = fire_and_forget_task(send_verification_email)
 
 
 def verify_code(code: str) -> Tuple[str, Optional[JustfixUser]]:

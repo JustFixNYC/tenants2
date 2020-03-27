@@ -6,17 +6,24 @@ import pytest
 
 from .factories import UserFactory
 from users import email_verify
-from users.email_verify import verify_code, send_verification_email
+from users.email_verify import (
+    verify_code, send_verification_email, send_verification_email_async)
 
 
 def test_send_verification_email_works(db, mailoutbox):
     user = UserFactory(email='boop@jones.com')
-    send_verification_email(user)
+    send_verification_email(user.pk)
     assert len(mailoutbox) == 1
     mail = mailoutbox[0]
     assert mail.to == ['boop@jones.com']
     assert 'Hello Boop' in mail.body
     assert 'code=' in mail.body
+
+
+def test_send_verification_email_async_works(db, mailoutbox):
+    user = UserFactory(email='boop@jones.com')
+    send_verification_email_async(user.pk)
+    assert len(mailoutbox) == 1
 
 
 def test_sendverificationemail_works(db, mailoutbox):

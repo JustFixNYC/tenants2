@@ -26,9 +26,10 @@ VALID_STEP_DATA = {
         'leaseType': 'MARKET_RATE',
         'receivesPublicAssistance': 'False'
     },
-    4: {
+    '4Version2': {
         'phoneNumber': '5551234567',
         'canWeSms': True,
+        'email': 'boop@jones.com',
         'signupIntent': 'LOC',
         'password': 'blarg1234',
         'confirmPassword': 'blarg1234',
@@ -81,7 +82,7 @@ def test_onboarding_step_1_works(graphql_client):
 
 @pytest.mark.django_db
 def test_onboarding_step_4_returns_err_if_prev_steps_not_completed(graphql_client):
-    result = _exec_onboarding_step_n(4, graphql_client)
+    result = _exec_onboarding_step_n('4Version2', graphql_client)
     assert result['errors'] == [{
         'field': '__all__',
         'extendedMessages': [
@@ -98,7 +99,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 
 
 @pytest.mark.django_db
-def test_onboarding_works(graphql_client, smsoutbox):
+def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 2, 3]:
@@ -109,6 +110,7 @@ def test_onboarding_works(graphql_client, smsoutbox):
     user = JustfixUser.objects.get(phone_number='5551234567')
     oi = user.onboarding_info
     assert user.full_name == 'boop jones'
+    assert user.email == 'boop@jones.com'
     assert user.pk == request.user.pk
     assert is_password_usable(user.password) is True
     assert oi.address == '123 boop way'
@@ -117,6 +119,8 @@ def test_onboarding_works(graphql_client, smsoutbox):
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
+    assert len(mailoutbox) == 1
+    assert "verify your email" in mailoutbox[0].subject
 
 
 @pytest.mark.django_db
@@ -130,27 +134,6 @@ def test_onboarding_info_is_present_when_it_exists(graphql_client):
     execute_onboarding(graphql_client)
     result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
     assert result['onboardingInfo']['signupIntent'] == 'LOC'
-
-
-@pytest.mark.django_db
-def test_onboarding_works_without_password(graphql_client):
-    result = execute_onboarding(graphql_client, {
-        **VALID_STEP_DATA,
-        4: {
-            **VALID_STEP_DATA[4],
-            'password': '',
-            'confirmPassword': '',
-        }
-    })
-
-    assert result['session']['phoneNumber'] == '5551234567'
-    request = graphql_client.request
-    user = JustfixUser.objects.get(phone_number='5551234567')
-    oi = user.onboarding_info
-    assert user.full_name == 'boop jones'
-    assert user.pk == request.user.pk
-    assert is_password_usable(user.password) is False
-    assert oi.address == '123 boop way'
 
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):

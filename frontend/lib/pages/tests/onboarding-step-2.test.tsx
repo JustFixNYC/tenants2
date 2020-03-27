@@ -17,6 +17,6 @@ describe('onboarding step 2 page', () => {
     pal.clickRadioOrCheckbox(/I received an eviction notice/i);
     getDialog();
     await pauseForModalFocus();
-    pal.clickButtonOrLink("Continue with letter");
+    pal.clickButtonOrLink("Continue anyways");
   });
 });

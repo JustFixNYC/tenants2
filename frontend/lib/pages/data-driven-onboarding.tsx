@@ -30,6 +30,8 @@ const EFNYC_PRIORITY = 30;
 const WOW_PRIORITY = 20;
 const RENT_HISTORY_PRIORITY = 10;
 
+// This flag disables any DDO cards from appearing as "Recommended Actions"
+// When "true", all cards show up under a single header called "Actions"
 const DISABLE_RECOMMENDATIONS = true;
 
 type DDOData = DataDrivenOnboardingSuggestions_output;
@@ -272,7 +274,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const covidMessage = <>
         <span className="subtitle">Due to the Covid-19 health crisis, Housing Courts in New York City are closed. 
           You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open.</span>
-        <span className="subtitle">If you are facing an emergency such as lack of heat and/or hot water, call the <strong>Housing Court Answers Hotline at (212) 962-4795</strong> to get assistance Mon-Fri, 9am-5pm. 
+        <span className="subtitle">If you are facing an emergency such as lack of heat and/or hot water, call the Housing Court Answers Hotline at <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance Mon-Fri, 9am-5pm. 
           Assistance is available in English and Spanish.</span>
     </>;
     return {

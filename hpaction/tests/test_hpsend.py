@@ -44,7 +44,7 @@ def test_it_extracts_files(db, settings, fake_soap_call, django_file_storage):
     assert 'Successfully received HP Action documents' in out.getvalue()
     assert 'Writing test-hp-action.xml.' in out.getvalue()
     assert extract_xml_path.read_text() == 'i am xml'
-    assert extract_pdf_path.read_text() == 'i am pdf'
+    assert len(extract_pdf_path.read_bytes()) > 0
 
 
 def test_it_can_send_an_explicit_file_as_input(db, settings, fake_soap_call, django_file_storage):

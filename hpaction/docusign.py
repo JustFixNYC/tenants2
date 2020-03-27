@@ -24,7 +24,13 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     '''
 
     user = docs.user
-    pdf_bytes = docs.pdf_file.open().read()
+    pdf_file = docs.open_emergency_pdf_file()
+    if not pdf_file:
+        raise Exception(
+            'Unable to open emergency HP Action packet (it may only consist '
+            'of instructions)'
+        )
+    pdf_bytes = pdf_file.read()
     base64_pdf = base64.b64encode(pdf_bytes).decode('ascii')
 
     document = dse.Document(
@@ -48,7 +54,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     sign_here_petition = dse.SignHere(
         document_id=HPA_DOCUMENT_ID,
-        page_number='4',
+        page_number='2',
         recipient_id=TENANT_RECIPIENT_ID,
         tab_label='SignHereTab',
         x_position='419',
@@ -57,7 +63,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     sign_here_verification = dse.SignHere(
         document_id=HPA_DOCUMENT_ID,
-        page_number='4',
+        page_number='2',
         recipient_id=TENANT_RECIPIENT_ID,
         tab_label='SignHereTab',
         x_position='419',
@@ -66,7 +72,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     sign_here_hpd_inspection = dse.SignHere(
         document_id=HPA_DOCUMENT_ID,
-        page_number='5',
+        page_number='3',
         recipient_id=TENANT_RECIPIENT_ID,
         tab_label='SignHereTab',
         x_position='446',
@@ -75,7 +81,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     tenant_contact_info = dse.Text(
         document_id=HPA_DOCUMENT_ID,
-        page_number='4',
+        page_number='2',
         tab_label="ReadOnlyDataField",
         value='\n'.join([
             f"tenant phone: {user.formatted_phone_number()}",
@@ -83,12 +89,12 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         ]),
         locked="true",
         x_position="355",
-        y_position="58",
+        y_position="55",
     )
 
     inspection_req_note = dse.Text(
         document_id=HPA_DOCUMENT_ID,
-        page_number='5',
+        page_number='3',
         tab_label="ReadOnlyDataField",
         value=(
             "These conditions are immediately hazardous to the\n"

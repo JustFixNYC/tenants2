@@ -56,11 +56,18 @@ def upload(request, token_str: str):
 
 @login_required
 def latest_pdf(request):
-    return get_latest_pdf_for_user(request.user)
+    emergency_version = request.GET.get('em') == 'on'
+    return get_latest_pdf_for_user(request.user, emergency_version)
 
 
-def get_latest_pdf_for_user(user) -> FileResponse:
+def get_latest_pdf_for_user(user, emergency_version: bool = False) -> FileResponse:
     latest = HPActionDocuments.objects.get_latest_for_user(user)
     if latest is None:
         raise Http404("User has no generated HP Action documents")
-    return FileResponse(latest.pdf_file.open(), filename='hp-action-forms.pdf')
+    if emergency_version:
+        file_obj = latest.open_emergency_pdf_file()
+        if not file_obj:
+            raise Http404("Generated HP Action packet consists only of instructions")
+    else:
+        file_obj = latest.pdf_file.open()
+    return FileResponse(file_obj, filename='hp-action-forms.pdf')

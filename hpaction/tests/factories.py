@@ -1,8 +1,14 @@
 from datetime import date
+from pathlib import Path
 import factory
 
 from users.tests.factories import UserFactory
 from .. import models
+
+
+MY_DIR = Path(__file__).parent.resolve()
+
+FAKE_HPA_PDF = MY_DIR / 'fake-hp-action-packet.pdf'
 
 
 class TenantChildFactory(factory.django.DjangoModelFactory):
@@ -26,7 +32,7 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
 
     xml_data = b'i am xml'
 
-    pdf_data = b'i am pdf'
+    pdf_data = FAKE_HPA_PDF.read_bytes()
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):

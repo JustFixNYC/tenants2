@@ -1,3 +1,4 @@
+from io import BytesIO
 from decimal import Decimal
 from datetime import timedelta, date
 from typing import Optional, Union, List
@@ -7,6 +8,7 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
+import PyPDF2
 
 from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
@@ -20,6 +22,10 @@ UPLOAD_TOKEN_LENGTH = 40
 
 # How long an upload token is valid.
 UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
+
+# Number of pages of instructions LHI pre-pends to the actual
+# HP Action forms.
+NUM_INSTRUCTION_PAGES = 2
 
 CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
 
@@ -385,6 +391,22 @@ class HPActionDocuments(models.Model):
     )
 
     objects = HPActionDocumentsManager()
+
+    def open_emergency_pdf_file(self) -> Optional[BytesIO]:
+        if not self.pdf_file:
+            return None
+        pdf_bytes = self.pdf_file.open().read()
+        pdf_reader = PyPDF2.PdfFileReader(BytesIO(pdf_bytes))
+        num_pages: int = pdf_reader.numPages
+        if num_pages <= NUM_INSTRUCTION_PAGES:
+            return None
+        pdf_writer = PyPDF2.PdfFileWriter()
+        for i in range(NUM_INSTRUCTION_PAGES, num_pages):
+            pdf_writer.addPage(pdf_reader.getPage(i))
+        new_pdf = BytesIO()
+        pdf_writer.write(new_pdf)
+        new_pdf.seek(0)
+        return new_pdf
 
     def schedule_for_deletion(self):
         self.user = None

@@ -58,7 +58,7 @@ function Disclaimer(): JSX.Element {
         {generateCaseList(0,numCases)}
       </div>
       <div className="columns is-mobile is-hidden-mobile">
-        <div className="column">
+        <div className="column is-one-third">
           {generateCaseList(0,Math.round(numCases / 2))}
         </div>
         <div className="column">

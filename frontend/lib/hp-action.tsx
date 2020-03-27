@@ -61,17 +61,21 @@ function HPActionSplash(): JSX.Element {
                 Sue your landlord for Repairs and/or Harassment through an HP Action proceeding
               </h1>
             </div>
-            <div className="container content">
-              <p className="subtitle">
-                An HP Action is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.
-                This service is free, secure, and confidential.
-              </p>
-              <Disclaimer />
-              <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
-                Start my case
-              </GetStartedButton>
-              <MoratoriumWarning />
+            <div className="columns is-centered">
+              <div className="column is-four-fifths">
+                <div className="content">
+                  <p className="subtitle">
+                    An HP Action is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.
+                    This service is free, secure, and confidential.
+                  </p>
+                  <Disclaimer />
+                  <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
+                    Start my case
+                  </GetStartedButton>
+                </div>
+              </div>
             </div>
+            <MoratoriumWarning />
           </div>
         </section>
     </Page>

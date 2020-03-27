@@ -15,20 +15,17 @@ import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { FormContext } from '../form-context';
 import { CenteredButtons } from '../centered-buttons';
-import { getGlobalAppServerInfo } from '../app-context';
 
 
 export function Step2EvictionModal(): JSX.Element {
   return (
-    <Modal title="You need legal help" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
+    <Modal title="Eviction cases are currently halted" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={(ctx) => <>
       <p>
-        If you're in an eviction, it's important to try to get legal help right away.
-      </p>
-      <p>
-        Eviction Free NYC is a website where you can learn how to respond to an eviction and connect with legal support.
+        If you have been given an eviction notice, that is currently illegal. 
+        An Eviction Moratorium is currently in place across New York State due to the COVID-19 crisis.
       </p>
       <CenteredButtons>
-        <OutboundLink href={`${getGlobalAppServerInfo().efnycOrigin}/en-US/`} className="button is-primary is-medium">Go to Eviction Free NYC</OutboundLink>
+        <OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" className="button is-primary is-medium">Learn more</OutboundLink>
         <Link className="button is-text" {...ctx.getLinkCloseProps()}>Continue with letter</Link>
       </CenteredButtons>
     </>} />

@@ -28,7 +28,7 @@
 
 .jf-hp-icon {
   width: 300px;
-  @media screen and (min-width: $tablet) {
+  @media screen and (max-width: $tablet) {
     width: 200px;
   }
 }

@@ -20,11 +20,15 @@ import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { EmergencyHpaIssuesMutation } from './queries/EmergencyHpaIssuesMutation';
-import { CheckboxFormField, HiddenFormField } from './form-fields';
-import { IssueChoice } from '../../common-data/issue-choices';
+import { HiddenFormField, MultiCheckboxFormField } from './form-fields';
 import { LegacyFormSubmitter } from './legacy-form-submitter';
 import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
 import { performHardOrSoftRedirect } from './pages/login-page';
+import EMERGENCY_HPA_ISSUE_LIST from '../../common-data/emergency-hpa-issue-list.json';
+import { DjangoChoices } from './common-data';
+import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choices';
+
+const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
@@ -81,27 +85,26 @@ const EmergencyHPActionWelcome = () => {
   );
 };
 
-const NoHeatChoice: IssueChoice = 'HOME__NO_HEAT';
-const NoHotWaterChoice: IssueChoice = 'HOME__NO_HOT_WATER';
+function getEmergencyHPAIssueChoices(): DjangoChoices {
+  const labels = getIssueChoiceLabels();
+  return EMERGENCY_HPA_ISSUE_LIST.map(issue => [issue, labels[issue as IssueChoice]]);
+}
 
 const Sue = MiddleProgressStep(props => (
   <Page title="What type of problems are you experiencing?" withHeading className="content">
-    <p>Please select all that apply to your housing situation.</p>
     <SessionUpdatingFormSubmitter
       mutation={EmergencyHpaIssuesMutation}
       initialState={(session) => ({
-        noHeat: session.issues.includes(NoHeatChoice),
-        noHotWater: session.issues.includes(NoHotWaterChoice),
+        issues: session.issues.filter(issue => EMERGENCY_HPA_ISSUE_SET.has(issue)),
       })}
       onSuccessRedirect={props.nextStep}
     >
       {(ctx) => <>
-        <CheckboxFormField {...ctx.fieldPropsFor('noHeat')}>
-          No heat
-        </CheckboxFormField>
-        <CheckboxFormField {...ctx.fieldPropsFor('noHotWater')}>
-          No hot water
-        </CheckboxFormField>
+        <MultiCheckboxFormField
+          {...ctx.fieldPropsFor('issues')}
+          choices={getEmergencyHPAIssueChoices()}
+          label="Select all issues that apply to your housing situation"
+        />
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>

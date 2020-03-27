@@ -18,10 +18,18 @@ from project.util.model_form_util import (
     create_models_for_user_resolver
 )
 from project.util.django_graphql_forms import DjangoFormMutation
-from issues.models import Issue, ISSUE_CHOICES
+from issues.models import Issue
 from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
+
+
+def sync_emergency_issues(user, submitted_issues: List[str]):
+    for area, all_area_issues in forms.EMERGENCY_HPA_ISSUES_BY_AREA.items():
+        user_area_issues = Issue.objects.get_area_issues_for_user(user, area)
+        for issue in all_area_issues:
+            sync_one_value(issue, issue in submitted_issues, user_area_issues)
+        Issue.objects.set_area_issues_for_user(user, area, user_area_issues)
 
 
 @schema_registry.register_mutation
@@ -112,16 +120,9 @@ class EmergencyHPAIssues(SessionFormMutation):
     login_required = True
 
     @classmethod
-    def _sync_issues(cls, user, form):
-        issues = Issue.objects.get_area_issues_for_user(user, 'HOME')
-        sync_one_value(ISSUE_CHOICES.HOME__NO_HEAT, form.cleaned_data['no_heat'], issues)
-        sync_one_value(ISSUE_CHOICES.HOME__NO_HOT_WATER, form.cleaned_data['no_hot_water'], issues)
-        Issue.objects.set_area_issues_for_user(user, 'HOME', issues)
-
-    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         user = info.context.user
-        cls._sync_issues(user, form)
+        sync_emergency_issues(user, form.cleaned_data['issues'])
         details, _ = models.HPActionDetails.objects.get_or_create(user=user)
         details.sue_for_repairs = True
         details.sue_for_harassment = False

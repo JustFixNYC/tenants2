@@ -29,6 +29,7 @@ import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
+import { CustomerSupportLink } from './customer-support-link';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 

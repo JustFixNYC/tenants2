@@ -37,6 +37,7 @@ const HP_ICON = "frontend/img/hp-action.svg";
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
 // HP Cases currently being accepted in Housing Court amidst COVID-19 crisis
+// Eventually, we want to derive this from EMERGENCY_HPA_ISSUE_SET. This is a temporary solution:
 const acceptedCases = [
   "no heat", 
   "no hot water", 

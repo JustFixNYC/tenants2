@@ -11,7 +11,7 @@ import { NEXT } from '../pages/login-page';
  * be redirected to the current page.
  */
 export function staffOnlyView<P extends RouteComponentProps>(Component: React.ComponentType<P>): React.FC<P> {
-  const wrapper: React.FC<P> = (props) => {
+  const StaffOnlyRedirector: React.FC<P> = (props) => {
     const appCtx = useContext(AppContext);
     if (!appCtx.session.isStaff) {
       const search = `?${NEXT}=${encodeURIComponent(props.location.pathname + props.location.search)}`
@@ -20,5 +20,5 @@ export function staffOnlyView<P extends RouteComponentProps>(Component: React.Co
     return <Component {...props} />;
   };
 
-  return wrapper;
+  return StaffOnlyRedirector;
 }

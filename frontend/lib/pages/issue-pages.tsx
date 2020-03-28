@@ -125,6 +125,12 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const [hadViewedModal, updateModalStatus] = useState(false);
   // useEffect here needs to run at any state update as we need to consistently check 
   // whether the browserStorage has changed
+  //
+  // TODO: eslint doesn't like the following line because it can cause an infinite
+  // chain of updates, which is a valid concern. I'm disabling the line for now
+  // because I want to enable eslint going forward, but we should definitely revisit
+  // it! -AV
+  // eslint-disable-next-line
   useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ));
 
   return (

@@ -119,6 +119,9 @@ export function useQueryFormResultFocusProps(): {
         node.focus();
         ctx.onFocus();
       }
+    // The following deps are legacy code that has been working for months;
+    // we don't want to break it by satisfying eslint now.
+    // eslint-disable-next-line
     }, [])
   };
 }

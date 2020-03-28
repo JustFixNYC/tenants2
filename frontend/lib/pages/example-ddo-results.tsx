@@ -62,6 +62,9 @@ function useDebugJsonProps<T>(router: RouteComponentProps, blankValue: T) {
   const stringifiedViewProps = JSON.stringify(viewProps, null, 2);
   const [editedValue, setEditedValue] = useState(stringifiedViewProps);
 
+  // The following deps are legacy code that seems to work okay;
+  // we don't want to break it by satisfying eslint now.
+  // eslint-disable-next-line
   useEffect(() => setEditedValue(getViewPropsStr() || stringifiedViewProps), [router.location]);
 
   return {

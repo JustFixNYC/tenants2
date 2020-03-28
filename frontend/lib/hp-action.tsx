@@ -29,76 +29,34 @@ import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
-import { StaticImage } from './static-image';
-import { MoratoriumWarning } from './covid-banners';
-
-const HP_ICON = "frontend/img/hp-action.svg";
+import { CustomerSupportLink } from './customer-support-link';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 
-// HP Cases currently being accepted in Housing Court amidst COVID-19 crisis
-const acceptedCases = [
-  "no heat", 
-  "no hot water", 
-  "no gas", 
-  "mold", 
-  "lead-based paint", 
-  "no working toilet", 
-  "vacate order issued"
-];
-
 function Disclaimer(): JSX.Element {
-  const numCases = acceptedCases.length;
-  const generateCaseList = (start: number, end: number) => 
-    acceptedCases.map((caseType, i) => <li key={i}> {caseType} </li>).slice(start, end);
   return (
     <div className="notification is-warning">
-      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:</p>
-      <div className="is-hidden-tablet">
-        {generateCaseList(0,numCases)}
-      </div>
-      <div className="columns is-mobile is-hidden-mobile">
-        <div className="column is-one-third">
-          {generateCaseList(0,Math.round(numCases / 2))}
-        </div>
-        <div className="column">
-          {generateCaseList(Math.round(numCases / 2), numCases)}
-        </div>
-      </div>
+      <p>
+        Please note that this is a new service. It is still <strong>undergoing final testing</strong> before its official release.
+      </p>
+      <p>
+        Should you encounter any bugs, glitches, lack of functionality or
+        other problems, please let us know at <CustomerSupportLink /> so we can fix them.
+      </p>
     </div>
   );
 }
 
 function HPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding">
-        <section className="hero is-light">
-          <div className="hero-body">
-            <div className="content has-text-centered">
-              <div className="is-inline-block jf-hp-icon">
-                <StaticImage ratio="is-square" src={HP_ICON} alt="" />
-              </div>
-              <h1 className="title is-spaced">
-                Sue your landlord for Repairs and/or Harassment through an HP Action proceeding
-              </h1>
-            </div>
-            <div className="columns is-centered">
-              <div className="column is-four-fifths">
-                <div className="content">
-                  <p className="subtitle">
-                    An HP Action is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.
-                    This service is free, secure, and confidential.
-                  </p>
-                  <Disclaimer />
-                  <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
-                    Start my case
-                  </GetStartedButton>
-                </div>
-              </div>
-            </div>
-            <MoratoriumWarning />
-          </div>
-        </section>
+    <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding" withHeading="big" className="content">
+      <Disclaimer/>
+        <p>Welcome to JustFix.nyc! This website will guide you through the process of starting an <strong>HP Action</strong> proceeding.</p>
+        <p>An <strong>HP Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.</p>
+        <p><em>This service is free and secure.</em></p>
+      <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
+        Start my case
+      </GetStartedButton>
     </Page>
   );
 }
@@ -112,17 +70,19 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>
-      <BigList listClassName="is-light">
-        <li>You answer a few questions here about your housing situation and we email the forms you need to start your case to your email and your Borough’s Housing Court.</li>
-        <li>You will be assigned a Lawyer that will help you throughout your case.</li>
-        <li>An inspector from the Department of Housing and Preservation (HPD) will come to your house to verify the issue(s). Your Lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
-        <li>The court hearing will happen through a video-call so that <strong>you do not have to go to the Courthouse in-person</strong>. Your Lawyer will give you all of the details and will guide you each step of the way.</li>
-      </BigList>
-        <br />
+      <ol className="has-text-left">
+        <li>You answer a few questions here about your housing situation.</li>
+        <li>We provide you with a pre-filled packet of all the paperwork you’ll need.</li>
+        <li><strong>You print out this packet and bring it to Housing Court.</strong> It will include instructions for <strong>filing in court</strong>.
+        </li>
+      </ol>
       <GetStartedButton to={Routes.locale.hp.sue} intent={OnboardingInfoSignupIntent.HP} pageType="welcome">
         Get started
       </GetStartedButton>
-      <MoratoriumWarning />
+      <br/>
+      <p>
+        <strong>You do not need a lawyer to be successful in an HP Action.</strong> You must be able to show the court that repairs are needed, what those repairs are, and, if you are suing for harassment, you must provide proof of the harassing behavior. This includes photo evidence of the issues, HPD inspection reports, and communication with your landlord.
+      </p>
     </Page>
   );
 });

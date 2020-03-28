@@ -132,10 +132,17 @@ export function SyncQuerystringToFields<T>(props: {
     if (qs.applyToFormFields(ctx)) {
       setTriggeredChange(true);
     }
+  // The following deps are legacy code that has been working for months;
+  // we don't want to break it by satisfying eslint now.
+  // eslint-disable-next-line
   }, [qs.toStableQuerystring()]);
 
   // This effect detects when our search fields have caught up with our
   // URL change, and immediately triggers a form submission.
+  //
+  // The following is also legacy code that has been working for months;
+  // we don't want to break it by satisfying eslint now.
+  // eslint-disable-next-line
   useEffect(() => {
     if (triggeredChange && qs.areFormFieldsSynced(ctx)) {
       ctx.submit(true);

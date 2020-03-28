@@ -116,7 +116,7 @@ export function createUpdateBrowserStorage<T extends BaseBrowserStorageSchema>(
   return props => {
     useEffect(() => {
       browserStorage.update(props);
-    }, Object.values(props));
+    });
 
     return null;
   };

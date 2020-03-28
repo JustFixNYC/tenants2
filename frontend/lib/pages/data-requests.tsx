@@ -25,6 +25,7 @@ function getColumnValue(name: string, value: string): JSX.Element|string {
 }
 
 function SearchResults({ output, query }: SearchResultsProps) {
+  const queryFormResultFocusProps = useQueryFormResultFocusProps();
   const quotedQuery = `\u201c${query}\u201d`;
   const pageTitle = <PageTitle title={`${BASE_TITLE} results for ${quotedQuery}`} />;
   let content = null;
@@ -38,7 +39,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
 
     content = <>
       {pageTitle}
-      <h3 {...useQueryFormResultFocusProps()}>Query results for {quotedQuery}</h3>
+      <h3 {...queryFormResultFocusProps}>Query results for {quotedQuery}</h3>
       <p><a {...downloadProps} className="button">Download CSV</a></p>
       {mightBeTruncated
         ? <p>Only the first {output.snippetMaxRows} rows are shown. Please <a {...downloadProps}>download the CSV</a> for the full dataset.</p>
@@ -64,7 +65,7 @@ function SearchResults({ output, query }: SearchResultsProps) {
   } else if (query) {
     content = <>
       {pageTitle}
-      <h3 {...useQueryFormResultFocusProps()}>No results for {quotedQuery}.</h3>
+      <h3 {...queryFormResultFocusProps}>No results for {quotedQuery}.</h3>
     </>;
   }
 

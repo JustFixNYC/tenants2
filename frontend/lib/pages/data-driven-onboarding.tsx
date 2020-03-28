@@ -44,6 +44,9 @@ function AutoSubmitter(props: {
     if (props.autoSubmit) {
       props.ctx.submit();
     }
+  // The following deps are legacy code that has been working for months;
+  // we don't want to break it by satisfying eslint now.
+  // eslint-disable-next-line
   }, [props.autoSubmit]);
 
   return null;
@@ -189,7 +192,7 @@ function getUnitsAndDateBuilt(data: DataDrivenOnboardingSuggestions_output): Pos
   ];
 }
 
-const buildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
+const useBuildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => {
   const hasHpdRegistration = data.associatedBuildingCount && data.associatedBuildingCount > 0;
   return ({
     title: data.fullAddress,
@@ -386,7 +389,7 @@ export function DataDrivenOnboardingResults(props: DDOData) {
 
   return <>
     <PageTitle title={`Results for ${props.fullAddress}`} />
-    <ActionCard {...buildingIntroCard(props)} />
+    <ActionCard {...useBuildingIntroCard(props)} />
     {actions.recommended.length > 0 && <>
       <h2>Recommended actions</h2>
       {actions.recommended.map((props, i) => <ActionCard key={i} {...props} />)}
@@ -403,12 +406,13 @@ function Results(props: {
   output: DDOData|null,
 }) {
   let content = null;
+  const queryFormResultFocusProps = useQueryFormResultFocusProps();
   if (props.output) {
     content = <DataDrivenOnboardingResults {...props.output} />;
   } else if (props.address.trim()) {
     content = <>
       <PageTitle title="Unrecognized address" />
-      <h3 {...useQueryFormResultFocusProps()}>Sorry, we don't recognize the address you entered.</h3>
+      <h3 {...queryFormResultFocusProps}>Sorry, we don't recognize the address you entered.</h3>
     </>;
   }
   return <div className="content jf-ddo-results jf-fadein-half-second">

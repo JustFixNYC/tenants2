@@ -163,7 +163,7 @@ export function useProgressiveEnhancement(): boolean {
 
   useEffect(() => {
     if (!isMounted) setIsMounted(true);
-  });
+  }, [isMounted]);
 
   return isMounted;
 }

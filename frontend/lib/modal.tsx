@@ -1,5 +1,5 @@
 import React from 'react';
-import AriaModal from 'react-aria-modal';
+import AriaModal from '@justfixnyc/react-aria-modal';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
 import { Location } from 'history';

@@ -91,7 +91,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                     This service is free, secure, and confidential.
                   </p>
                   <Disclaimer />
-                  <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.HP} pageType="splash">
+                  <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.EHP} pageType="splash">
                     Start my case
                   </GetStartedButton>
                 </div>
@@ -121,7 +121,7 @@ const EmergencyHPActionWelcome = () => {
         <li>The court hearing will happen through a video-call so that <strong>you do not have to go to the Courthouse in-person</strong>. Your Lawyer will give you all of the details and will guide you each step of the way.</li>
       </BigList>
         <br />
-      <GetStartedButton to={Routes.locale.hp.sue} intent={OnboardingInfoSignupIntent.HP} pageType="welcome">
+      <GetStartedButton to={Routes.locale.ehp.sue} intent={OnboardingInfoSignupIntent.EHP} pageType="welcome">
         Get started
       </GetStartedButton>
       <MoratoriumWarning />

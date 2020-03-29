@@ -1210,10 +1210,10 @@
   resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-0.0.4.tgz#1d31d52af1e06df2de27a38068dc146fe3e3ee27"
   integrity sha512-hJ/yt8kEzt0c7W28HIlzIXbTjlF9DYAAnYzYCh78EejVglGVcSruYa6BjUQFaD87jlb/ldBdg6UJRi9i19+CBw==
 
-"@justfixnyc/react-aria-modal@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/react-aria-modal/-/react-aria-modal-5.0.0.tgz#fce8cf795b23d9462084520b8d17802daf399912"
-  integrity sha512-d1jOliBP4Lh+q38vxgBTkigwLuux0ohrr1auyoNVFMo2Vpn9ssLt+JeioPxn5Lt11hjenN2b7imBoFoAPSFn2A==
+"@justfixnyc/react-aria-modal@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/react-aria-modal/-/react-aria-modal-5.1.0.tgz#edbd9f8432528d0702ae32a38bedc0e06bb1e30c"
+  integrity sha512-b9YIw7azL273CkRczighjuAb0Qtd7RM4f0NjmYCf3PT7opHkRpAUuhi2KZZAPeVY2Eg0MgzZo+h/ZwsAAF9BQQ==
 
 "@justfixnyc/util@^0.0.1":
   version "0.0.1"

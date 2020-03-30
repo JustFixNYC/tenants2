@@ -167,6 +167,19 @@ def test_first_and_last_name_works(graphql_client):
     assert get() == ("Boop", "Jones")
 
 
+def test_email_fields_work(graphql_client):
+    def get():
+        result = graphql_client.execute('query { session { email, isEmailVerified } }')
+        sess = result['data']['session']
+        return (sess['email'], sess['isEmailVerified'])
+
+    assert get() == (None, None), "anonymous user has no email info"
+
+    graphql_client.request.user = UserFactory.build(
+        email="boop@jones.com", is_email_verified=True)
+    assert get() == ("boop@jones.com", True)
+
+
 def test_user_id_works(graphql_client, db):
     def get():
         result = graphql_client.execute('query { session { userId } }')

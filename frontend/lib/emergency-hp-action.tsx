@@ -176,7 +176,7 @@ const UploadStatus = () => (
 
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
-  const href = `${session.latestHpActionPdfUrl}?em=on`;
+  const href = session.latestHpActionPdfUrl && `${session.latestHpActionPdfUrl}?em=on`;
   const prevStep = Routes.locale.ehp.yourLandlord;
   const nextUrl = Routes.locale.ehp.confirmation;
 

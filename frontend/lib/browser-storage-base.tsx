@@ -178,6 +178,8 @@ export function createUseBrowserStorage<T extends BaseBrowserStorageSchema>(
       browserStorage.update(updates);
     }, []);
 
+    // Listen for changes to browser storage for the lifetime of
+    // the component that's using our hook.
     useEffect(() => {
       setState(browserStorage.getAll());
       return browserStorage.listenForChanges((newState) => {

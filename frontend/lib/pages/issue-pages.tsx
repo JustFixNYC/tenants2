@@ -121,7 +121,7 @@ type IssueAreaLinkProps = {
 
 function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
-  const {hasViewedCovidRiskModal} = useBrowserStorage()[0];
+  const [{hasViewedCovidRiskModal}] = useBrowserStorage();
 
   return (
     <AppContext.Consumer>

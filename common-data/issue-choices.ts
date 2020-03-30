@@ -150,7 +150,7 @@ export type IssueChoiceLabels = {
 
 export function getIssueChoiceLabels(): IssueChoiceLabels {
   return {
-    HOME__COVID_SANITATION_REQUIRED: "COVID-19 Sanitation Required",
+    HOME__COVID_SANITATION_REQUIRED: "Needs cleaning due to COVID-19",
     HOME__MICE: "Mice",
     HOME__RATS: "Rats",
     HOME__COCKROACHES: "Cockroaches",
@@ -265,7 +265,7 @@ export function getIssueChoiceLabels(): IssueChoiceLabels {
     BATHROOMS__SHOWER_FAUCET_LEAKING: "Shower: Low Water pressure",
     BATHROOMS__SHOWER_NO_FAUCET: "Shower: Leaky shower head",
     BATHROOMS__SHOWER_DRAIN: "Shower: Drain Stoppage",
-    PUBLIC_AREAS__COVID_SANITATION_REQUIRED: "COVID-19 Sanitation Required",
+    PUBLIC_AREAS__COVID_SANITATION_REQUIRED: "Needs cleaning due to COVID-19",
     PUBLIC_AREAS__PAINTING_OVERDUE: "Painting overdue (3 years)",
     PUBLIC_AREAS__PAINT: "Peeling/flaking paint",
     PUBLIC_AREAS__NO_HEAT: "No Heat",

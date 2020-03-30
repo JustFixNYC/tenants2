@@ -3,8 +3,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import DataRequestsRoutes from "../data-requests";
 import Routes from '../../routes';
 import { DataRequestMultiLandlordQuery } from '../../queries/DataRequestMultiLandlordQuery';
-import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
-import { nextTick } from '../../tests/util';
+import { wait } from '@testing-library/react';
 
 describe('Data requests', () => {
   afterEach(AppTesterPal.cleanup);
@@ -14,24 +13,21 @@ describe('Data requests', () => {
       url: Routes.locale.dataRequests.multiLandlord
     });
 
-    await suppressSpuriousActErrors(async () => {
-      await nextTick();
-      pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
-      pal.clickButtonOrLink(/request data/i);
-  
-      pal.expectGraphQL(/DataRequestMultiLandlordQuery/);
-      const response: DataRequestMultiLandlordQuery = {
-        output: {
-          snippetRows: JSON.stringify([['blargh'], ['boop']]),
-          snippetMaxRows: 20,
-          csvUrl: 'http://boop'
-        }
-      };
-  
-      pal.getFirstRequest().resolve(response);
-      await nextTick();
-    });
+    await wait(() => pal.rr.getByLabelText(/landlords/i));
+    pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
+    pal.clickButtonOrLink(/request data/i);
 
-    pal.rr.getByText(/blargh/);
+    pal.expectGraphQL(/DataRequestMultiLandlordQuery/);
+ 
+    const response: DataRequestMultiLandlordQuery = {
+      output: {
+        snippetRows: JSON.stringify([['blargh'], ['boop']]),
+        snippetMaxRows: 20,
+        csvUrl: 'http://boop'
+      }
+    };
+
+    pal.getFirstRequest().resolve(response);
+    wait(() => pal.rr.getByText(/blargh/));
   });
 });

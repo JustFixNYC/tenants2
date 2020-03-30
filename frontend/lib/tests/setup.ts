@@ -3,7 +3,6 @@ import { FakeAppContext, FakeServerInfo } from './util';
 import chalk from 'chalk';
 import './confetti.setup';
 import i18n from '../i18n';
-import { globallySuppressSpuriousActErrors } from './react-act-workaround';
 
 i18n.initialize('');
 setGlobalAppServerInfo(FakeServerInfo);
@@ -19,11 +18,6 @@ if (typeof(window) !== 'undefined') {
   // doesn't support it, and throws an exception when
   // it's called. So we'll just stub it out.
   window.scroll = jest.fn();
-
-  // Ugh, right now any code that uses React Hooks raises spurious act()
-  // errors, so we're going to just suppress all of them until we
-  // upgrade to React 16.9.
-  globallySuppressSpuriousActErrors();
 }
 
 const originalLog = console.log;

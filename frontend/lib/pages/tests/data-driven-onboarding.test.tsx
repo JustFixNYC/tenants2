@@ -4,10 +4,10 @@ import Routes from '../../routes';
 import { BlankDDOSuggestionsResult } from '../../queries/DDOSuggestionsResult';
 import { DataDrivenOnboardingSuggestions_output } from '../../queries/DataDrivenOnboardingSuggestions';
 import { createMockFetch } from '../../tests/mock-fetch';
-import { FakeGeoResults, nextTick } from '../../tests/util';
-import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
+import { FakeGeoResults } from '../../tests/util';
 import DataDrivenOnboardingPage, { isBuildingClassBorC } from '../data-driven-onboarding';
 import { Route } from 'react-router';
+import { wait } from '@testing-library/react';
 
 async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestions_output>|null) {
   const output: DataDrivenOnboardingSuggestions_output|null =
@@ -18,17 +18,13 @@ async function simulateResponse(response: Partial<DataDrivenOnboardingSuggestion
   const pal = new AppTesterPal(<Route path={Routes.locale.home} exact component={DataDrivenOnboardingPage} />, {
     url: Routes.locale.home
   });
-  await suppressSpuriousActErrors(async () => {
-    await nextTick();
-    fetch.mockReturnJson(FakeGeoResults);
-    pal.fillFormFields([[/address/i, '150 cou']]);
-    await fetch.resolvePromisesAndTimers();
-    pal.clickListItem(/150 COURT STREET/);
-    pal.clickButtonOrLink(/search address/i);
-    pal.expectGraphQL(/ddoSuggestions/);
-    pal.getFirstRequest().resolve({output});
-    await nextTick();
-  });
+  fetch.mockReturnJson(FakeGeoResults);
+  pal.fillFormFields([[/address/i, '150 cou']]);
+  jest.runAllTimers();
+  await wait(() => pal.clickListItem(/150 COURT STREET/));
+  pal.clickButtonOrLink(/search address/i);
+  pal.expectGraphQL(/ddoSuggestions/);
+  pal.getFirstRequest().resolve({output});
   return pal;
 }
 
@@ -37,12 +33,12 @@ describe('Data driven onboarding', () => {
 
   it('shows suggestions when they exist', async () => {
     const pal = await simulateResponse({unitCount: 5});
-    pal.rr.getByText(/No registration found./i);
+    await wait(() => pal.rr.getByText(/No registration found./i));
   });
 
   it('apologizes when we could not find anything', async () => {
     const pal = await simulateResponse(null);
-    pal.rr.getByText(/sorry, we don't recognize the address/i);
+    await wait(() => pal.rr.getByText(/sorry, we don't recognize the address/i));
   });
 });
 

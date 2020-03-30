@@ -193,7 +193,8 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
 
   return (
     <Page title={letterConfirmationPageTitle} withHeading="big" >
-      <ProgressiveLoadableConfetti regenerateForSecs={1} />
+      {/* Temporarily remove confetti during COVID-19 crisis :( */}
+      {/* <ProgressiveLoadableConfetti regenerateForSecs={1} /> */}
       <div className="content">
         {letterStatus}
         <h2>Email a copy of your letter to yourself, someone you trust, or your landlord.</h2>

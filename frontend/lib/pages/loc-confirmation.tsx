@@ -8,7 +8,6 @@ import classnames from 'classnames';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
-import { ProgressiveLoadableConfetti } from '../confetti-loadable';
 import { EmailAttachmentForm } from '../email-attachment';
 import { EmailLetterMutation } from '../queries/EmailLetterMutation';
 import { BigList } from '../big-list';

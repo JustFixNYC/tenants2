@@ -23,6 +23,7 @@ import { OutboundLink } from './google-analytics';
 import { CustomerSupportLink } from './customer-support-link';
 import { updateAddressFromBrowserStorage } from './browser-storage';
 import { GetStartedButton } from './get-started-button';
+import { ProgressiveLoadableConfetti } from './confetti-loadable';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -191,6 +192,7 @@ function RentalHistoryConfirmation(): JSX.Element {
   const { onboardingInfo } = appContext.session;
   return (
     <Page title="Your Rent History has been requested!" withHeading="big" className="content">
+      <ProgressiveLoadableConfetti regenerateForSecs={1} />
       <h2>What happens next?</h2>
       <p>You should receive your Rent History in the mail in about a week. 
         Your Rent History is an important document— it shows the registered rents in your apartment since 1984. 

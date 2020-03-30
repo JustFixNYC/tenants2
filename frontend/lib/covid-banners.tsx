@@ -66,7 +66,7 @@ export const CovidRiskBanner = () => (
  */ 
 export const MoratoriumWarning = () => (
     <div className="content has-text-centered is-size-7">
-        <Icon type="warning" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
+        <Icon type="notice" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
         {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><u className="has-text-primary">Learn more</u></OutboundLink>
     </div>
 )

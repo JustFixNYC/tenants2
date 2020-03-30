@@ -62,16 +62,28 @@ describe("BrowserStorage", () => {
   it('notifies listeners of changes until they unsubscribe', () => {
     const bs = new BrowserStorage({_version: 1, boop: "hi"}, 'blarg', null);
     let v: any;
-    const unsubscribe = bs.listenForChanges((value) => { v = value; });
+    let counter = 0;
+    const unsubscribe = bs.listenForChanges((value) => { v = value; counter++; });
     expect(v).toBe(undefined);
+    expect(counter).toBe(0);
 
-    bs.update({ boop: 'hi2' });
-    expect(v.boop).toEqual('hi2');
+    for (let i = 0; i < 2; i++) {
+      bs.update({ boop: 'hi2' });
+      expect(v.boop).toEqual('hi2');
+      // The listener should only be called (and counter incremented) on
+      // *changes* to the state, i.e. spurious updates don't count.
+      expect(counter).toBe(1);
+    }
+
+    bs.update({ boop: 'hi3' });
+    expect(v.boop).toEqual('hi3');
+    expect(counter).toBe(2);
 
     unsubscribe();
 
-    bs.update({ boop: 'hi3' });
-    expect(v.boop).toEqual('hi2');
+    bs.update({ boop: 'hi4' });
+    expect(v.boop).toEqual('hi3');
+    expect(counter).toBe(2);
   });
 
   it('ignores storage backend value if schema version is wrong', () => {

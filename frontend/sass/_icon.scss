@@ -16,6 +16,14 @@ a.jf-warning-icon:hover {
     color: darken($orange, 10%);
 }
 
+.jf-notice-icon {
+    color: $warning;
+}
+
+a.jf-notice-icon:hover {
+    color: darken($warning, 10%);
+}
+
 .jf-info-icon {
     color: $justfix-blue;
 }

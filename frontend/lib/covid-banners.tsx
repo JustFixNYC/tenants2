@@ -50,7 +50,7 @@ export default MoratoriumBanner;
  * and makes users aware of the potential risks of requesting in-person repairs during the crisis.
  */ 
 export const CovidRiskBanner = () => (
-    <div className="notification is-warning has-text-weight-bold">
+    <div className="notification is-warning">
       <p>
         Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus. 
       </p>
@@ -66,7 +66,7 @@ export const CovidRiskBanner = () => (
  */ 
 export const MoratoriumWarning = () => (
     <div className="content has-text-centered is-size-7">
-        <Icon type="warning" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
-        {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><strong>Learn more</strong></OutboundLink>
+        <Icon type="notice" />{' '}Have you been given an eviction notice? <strong>This is illegal.</strong> An Eviction Moratorium is currently in place across New York State. 
+        {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><span className="has-text-primary jf-has-text-underline">Learn more</span></OutboundLink>
     </div>
 )

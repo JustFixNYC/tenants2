@@ -351,6 +351,18 @@ html.jf-is-fullscreen-admin-page {
     }
 }
 
+.jf-secondary-cta {
+    margin-top: 1rem;
+    a {
+      color: $primary !important;
+      white-space: nowrap;
+    }
+  }
+
+.jf-has-text-underline {
+    text-decoration: underline;
+}
+
 .jf-moratorium-banner {
     .container {
         button.delete {
@@ -391,6 +403,10 @@ html.jf-is-fullscreen-admin-page {
         .columns {
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
+
+            p {
+                line-height: 1.3;
+            }
         }
     } 
 }

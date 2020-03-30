@@ -28,9 +28,11 @@ export function LocSplash(): JSX.Element {
             <GetStartedButton to={Routes.locale.onboarding.latestStep} intent={OnboardingInfoSignupIntent.LOC} pageType="splash">
               Start my free letter
             </GetStartedButton>
-            <p className="secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
+            <p className="jf-secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
               <br />
-            <MoratoriumWarning />
+            <div className="jf-secondary-cta">
+              <MoratoriumWarning />
+            </div>
           </div>
         </div>
       </section>

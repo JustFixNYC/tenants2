@@ -2000,6 +2000,30 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The email of the currently logged-in user, or null if not logged-in. Note that this can be an empty string if the user hasn't yet given us their email.",
+              "isDeprecated": false,
+              "name": "email",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Whether the user's email address has been verified, or null if not logged-in.",
+              "isDeprecated": false,
+              "name": "isEmailVerified",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The cross-site request forgery (CSRF) token.",
               "isDeprecated": false,
               "name": "csrfToken",

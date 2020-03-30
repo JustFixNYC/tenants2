@@ -40,6 +40,21 @@ class BaseSessionInfo:
         )
     )
 
+    email = graphene.String(
+        description=(
+            "The email of the currently logged-in user, or "
+            "null if not logged-in. Note that this can be an empty "
+            "string if the user hasn't yet given us their email."
+        )
+    )
+
+    is_email_verified = graphene.Boolean(
+        description=(
+            "Whether the user's email address has been verified, or "
+            "null if not logged-in."
+        )
+    )
+
     csrf_token = graphene.String(
         description="The cross-site request forgery (CSRF) token.",
         required=True
@@ -81,6 +96,18 @@ class BaseSessionInfo:
         if not request.user.is_authenticated:
             return None
         return request.user.phone_number
+
+    def resolve_email(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.email
+
+    def resolve_is_email_verified(self, info: ResolveInfo) -> Optional[bool]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.is_email_verified
 
     def resolve_csrf_token(self, info: ResolveInfo) -> str:
         request = info.context

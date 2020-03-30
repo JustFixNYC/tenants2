@@ -40,15 +40,6 @@ export function nextTick(): Promise<void> {
   return new Promise((resolve) => process.nextTick(resolve));
 }
 
-/**
- * Waits for a few milliseconds as a workaround to a bug in react-aria-modal:
- * 
- * https://github.com/davidtheclark/focus-trap-react/issues/24#issuecomment-431424268
- */
-export function pauseForModalFocus(): Promise<void> {
-  return pause(10);
-}
-
 export const FakeServerInfo: Readonly<AppServerInfo> = {
   originURL: 'https://myserver.com',
   staticURL: '/mystatic/',

@@ -4,7 +4,6 @@ import { AppTesterPal } from '../../tests/app-tester-pal';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { LetterRequestMutation_output } from '../../queries/LetterRequestMutation';
 import { LetterRequestMailChoice, LetterRequestInput } from '../../queries/globalTypes';
-import { pauseForModalFocus } from '../../tests/util';
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
@@ -47,8 +46,6 @@ describe('landlord details page', () => {
     });
     pal.clickButtonOrLink(/looks good to me/i);
     await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
-
-    await pauseForModalFocus();
 
     clickButtonAndExpectChoice(pal, /mail my letter/i, LetterRequestMailChoice.WE_WILL_MAIL);
   });

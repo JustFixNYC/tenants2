@@ -54,7 +54,9 @@ export const UpdateBrowserStorage = createUpdateBrowserStorage(browserStorage);
 export const useBrowserStorage = createUseBrowserStorage(browserStorage);
 
 /**
- * Defaults address information to that from browser storage if it's currently empty.
+ * Fills-in the address details in the given object to that from browser storage if
+ * the given object's address details are empty and browser storage's aren't.
+ * 
  * This function assumes that the component calling it has already been mounted.
  */
 export function updateAddressFromBrowserStorage<T extends {address: string, borough: string}>(value: T): T {

@@ -293,3 +293,14 @@ def allow_lambda_http(requests_mock):
 
     if isinstance(lambda_service, LambdaHttpClient):
         requests_mock.register_uri('POST', lambda_service.get_url(), real_http=True)
+
+
+@pytest.fixture
+def mockdocusign(db, settings, monkeypatch):
+    '''
+    Provide a mock DocuSign API.
+    '''
+
+    from docusign.tests.docusign_fixture import mockdocusign
+
+    yield from mockdocusign(db, settings, monkeypatch)

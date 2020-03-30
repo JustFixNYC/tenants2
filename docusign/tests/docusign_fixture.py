@@ -1,4 +1,4 @@
-import pytest
+from typing import Dict
 import docusign_esign as dse
 
 from docusign import core
@@ -12,7 +12,7 @@ def simpleuuid(hexbyte: str) -> str:
 
 class FakeApiClient:
     def __init__(self):
-        self.default_headers = {}
+        self.default_headers: Dict[str, str] = {}
 
     def set_default_header(self, header, value):
         self.default_headers[header] = value
@@ -30,7 +30,6 @@ class FakeApiClient:
         }, 200)
 
 
-@pytest.fixture
 def mockdocusign(db, settings, monkeypatch):
     settings.DOCUSIGN_ACCOUNT_ID = simpleuuid('aa')
     settings.DOCUSIGN_INTEGRATION_KEY = simpleuuid('bb')

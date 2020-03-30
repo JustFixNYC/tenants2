@@ -273,3 +273,32 @@ def test_email_packet_errors_if_no_packet_exists(db, graphql_client):
     graphql_client.request.user = UserFactory()
     result = graphql_client.execute(EMAIL_PACKET_GRAPHQL)['data']['emailHpActionPdf']
     assert result['errors'][0]['messages'] == ['You do not have an HP Action packet to send!']
+
+
+DOCUSIGN_GRAPHQL = """
+mutation {
+    beginDocusign(input: {nextUrl: "/blop"}) {
+        errors { field, messages }
+        redirectUrl
+    }
+}
+"""
+
+
+class TestBeginDocusign:
+    def test_it_works(self, db, graphql_client, mockdocusign, monkeypatch, django_file_storage):
+        import hpaction.docusign
+        from unittest.mock import MagicMock
+
+        mock = MagicMock()
+        monkeypatch.setattr(
+            hpaction.docusign,
+            'create_envelope_and_recipient_view_for_hpa',
+            mock
+        )
+        mock.return_value = (None, 'https://blah')
+        user = UserFactory(email='boop@jones.com')
+        HPActionDocumentsFactory(user=user)
+        graphql_client.request.user = user
+        result = graphql_client.execute(DOCUSIGN_GRAPHQL)['data']['beginDocusign']
+        assert result == {'errors': [], 'redirectUrl': 'https://blah'}

@@ -2,9 +2,7 @@ import React from 'react';
 import AdminConversationsRoutes, { normalizeConversationQuery, makeConversationsURL, mergeConversationMessages, BaseConversationMessage } from "../admin-conversations";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { UpdateTextingHistoryMutation_output } from '../../queries/UpdateTextingHistoryMutation';
-import { nextTick } from '../../tests/util';
-import { suppressSpuriousActErrors } from '../../tests/react-act-workaround';
-import { act } from '@testing-library/react';
+import { wait } from '@testing-library/react';
 import { LatestTextMessagesResult } from '../../queries/LatestTextMessagesResult';
 import { AdminConversation_output, AdminConversation_output_messages } from '../../queries/AdminConversation';
 
@@ -51,15 +49,6 @@ describe("mergeConversationMessages()", () => {
   });
 });
 
-/**
- * Wait for the next tick *and* call React's act() thingy.
- * I have no idea why this makes our tests work, but it does.
- */
-const nextTickAndAct = async () => {
-  await nextTick();
-  act(() => {});
-};
-
 const BASE_MESSAGE: AdminConversation_output_messages = {
   sid: 'SMded05904ccb347238880ca9264e8fe1c',
   dateSent: '2019-05-24T17:44:50+00:00',
@@ -93,14 +82,14 @@ describe("<AdminConversationsPage>", () => {
       authError: false,
       latestMessage: '2019-05-24T17:44:50+00:00',
     };
+
     pal.getFirstRequest().resolve({output});
 
-    // Load fake sidebar data.
-    await suppressSpuriousActErrors(async () => {
-      await nextTickAndAct();
+    await wait(() => {
+      const secondRequest = pal.client.getRequestQueue()[1];
+      expect(secondRequest.query).toMatch(/LatestTextMessagesResult/);
 
-      const req = pal.client.getRequestQueue()[1];
-      expect(req.query).toMatch(/LatestTextMessagesResult/);
+      // Load fake sidebar data.
       const output: LatestTextMessagesResult = {
         messages: [{
           sid: '+15551234567',
@@ -111,22 +100,20 @@ describe("<AdminConversationsPage>", () => {
         }],
         hasNextPage: true
       };
-      req.resolve({output});
+      secondRequest.resolve({output});
     });
 
-    // Now click on the sidebar entry.
-    await nextTickAndAct();
+    await wait(() => pal.rr.getByText('Boop Jones'));
 
-    pal.rr.getByText('Boop Jones').click();
+    // Now click on the sidebar entry.
+    pal.rr.getByText('Boop Jones').click()
     pal.rr.getByText('5/24/2019, 1:44 PM');
     pal.rr.getByText(/Load more/);
 
     // Load fake conversation panel data.
-    await suppressSpuriousActErrors(async () => {
-      await nextTickAndAct();
-
-      const req = pal.client.getRequestQueue()[2];
-      expect(req.query).toMatch(/AdminConversation/);
+    await wait(() => {
+      const thirdRequest = pal.client.getRequestQueue()[2];
+      expect(thirdRequest.query).toMatch(/AdminConversation/);
       const output: AdminConversation_output = {
         messages: [BASE_MESSAGE, {
           ...BASE_MESSAGE,
@@ -136,11 +123,9 @@ describe("<AdminConversationsPage>", () => {
         }],
         hasNextPage: false
       };
-      req.resolve({output});
+      thirdRequest.resolve({output});
     });
 
-    await nextTickAndAct();
-
-    pal.rr.getByText('here is an older message');
+    await wait(() => pal.rr.getByText('here is an older message'));
   });
 });

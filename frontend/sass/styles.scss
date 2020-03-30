@@ -351,6 +351,14 @@ html.jf-is-fullscreen-admin-page {
     }
 }
 
+.jf-secondary-cta {
+    margin-top: 1rem;
+    a {
+      color: $primary !important;
+      white-space: nowrap;
+    }
+  }
+
 .jf-moratorium-banner {
     .container {
         button.delete {

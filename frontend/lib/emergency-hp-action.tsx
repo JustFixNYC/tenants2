@@ -94,9 +94,13 @@ function EmergencyHPActionSplash(): JSX.Element {
                   <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.EHP} pageType="splash">
                     Start my case
                   </GetStartedButton>
+                  <div className="content has-text-centered">
+                    <p className="jf-secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
+                  </div>
                 </div>
               </div>
             </div>
+              <br />
             <MoratoriumWarning />
           </div>
         </section>

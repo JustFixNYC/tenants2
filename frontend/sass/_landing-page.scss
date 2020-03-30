@@ -1,18 +1,15 @@
 .jf-loc-landing-page {
-  .hero.is-light {
-
-    .hero-body {
-      padding-bottom: 0.5rem;
+  .hero.is-light .hero-body {
       
-      .secondary-cta, .content {
-        margin-top: 1rem;
-        a {
-          color: $primary !important;
-          white-space: nowrap;
-        }
+    .secondary-cta, .content {
+      margin-top: 1rem;
+      a {
+        color: $primary !important;
+        white-space: nowrap;
       }
     }
   }
+  
 
   .section {
     border-bottom: 1px solid $grey-lighter;

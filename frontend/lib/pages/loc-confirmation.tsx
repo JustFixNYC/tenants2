@@ -34,7 +34,7 @@ const SanitationGuidelines = () => {
               {!inSafeMode && 
                 <>{' '}<button className={classnames("button","is-text","is-paddingless","is-uppercase", isExpanded && "is-hidden")} role="button" 
                     onClick={() => toggleExpansion(true)} aria-label="Show me sanitation guidelines" aria-expanded={ariaBool(isExpanded)}>
-                Learn More
+                Show More
               </button></>}
             </div>
             <div className={classnames("content", !isExpanded && !inSafeMode && "is-hidden")}>
@@ -73,7 +73,7 @@ const SanitationGuidelines = () => {
                 <div className="hero-body has-text-centered">
                   <button className={classnames("button","is-text","is-paddingless","is-uppercase")} role="button"
                     onClick={() => toggleExpansion(false)} aria-label="Hide sanitation guidelines" aria-expanded={ariaBool(isExpanded)}>
-                      Close
+                      Show Less
                   </button>
                 </div>
               </div> }

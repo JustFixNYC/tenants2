@@ -4,7 +4,7 @@ import OnboardingStep1 from '../onboarding-step-1';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
 import { createMockFetch } from '../../tests/mock-fetch';
-import { FakeGeoResults, pauseForModalFocus } from '../../tests/util';
+import { FakeGeoResults } from '../../tests/util';
 import Routes from '../../routes';
 
 const PROPS = {
@@ -34,7 +34,6 @@ describe('onboarding step 1 page', () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     pal.clickButtonOrLink(/Why do you need/i);
     pal.getDialogWithLabel(/Your privacy is very important/i);
-    await pauseForModalFocus();
     pal.clickButtonOrLink("Got it!");
   });
 

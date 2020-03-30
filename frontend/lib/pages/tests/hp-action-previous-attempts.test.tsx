@@ -2,7 +2,6 @@ import React from 'react';
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import HPActionRoutes from '../../hp-action';
-import { pauseForModalFocus } from '../../tests/util';
 
 describe('HP Action flow', () => {
   afterEach(AppTesterPal.cleanup);
@@ -12,6 +11,5 @@ describe('HP Action flow', () => {
       url: '/hp/previous-attempts/311-modal',
     });
     pal.rr.getByText('311 is an important tool');
-    await pauseForModalFocus();
   });
 });

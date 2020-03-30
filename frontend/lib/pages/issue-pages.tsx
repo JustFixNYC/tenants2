@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from '../page';

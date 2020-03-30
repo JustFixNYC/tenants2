@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { isDeepEqual } from "./util";
 
 /**
  * Any schema we store in the browser should at least contain a
@@ -18,6 +19,8 @@ function getSessionStorage(): Pick<Storage, 'getItem'|'setItem'>|null {
   return window.sessionStorage || null;
 };
 
+type ChangeListener<T> = (value: T) => void;
+
 /**
  * This class is responsible for storing data browser-side using
  * `window.sessionStorage` using a versioned schema. The data is
@@ -34,14 +37,16 @@ function getSessionStorage(): Pick<Storage, 'getItem'|'setItem'>|null {
 export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   private _cachedValue?: T;
   private readonly schemaVersion: number;
+  private changeListeners: ChangeListener<T>[] = [];
 
   constructor(readonly defaultValue: T, readonly storageKey: string, readonly storage = getSessionStorage()) {
     this.schemaVersion = defaultValue._version;
   }
 
-  private logWarning(msg: string, e: Error) {
+  private logWarning(msg: string, e?: Error) {
     if (process.env.NODE_ENV !== 'production') {
-      console.warn(`${msg} ${this.constructor.name}`, e);
+      const finalMsg = `${msg} ${this.constructor.name}`;
+      e ? console.warn(finalMsg, e) : console.warn(finalMsg);
     }
   }
 
@@ -72,6 +77,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
     } catch (e) {
       this.logWarning('Error serializing', e);
     }
+    this.changeListeners.forEach(cb => cb(value));
   }
 
   private get cachedValue(): T {
@@ -82,7 +88,23 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   }
 
   /**
-   * Returns the current stored value, deserializing from browser storage if
+   * Listens for changes to the current stored value, calling the given
+   * callback whenever it happens.  Returns a function that, when called,
+   * will unsubscribe the listener.
+   */
+  listenForChanges(listener: ChangeListener<T>): () => void {
+    this.changeListeners.push(listener);
+    return () => {
+      const idx = this.changeListeners.indexOf(listener);
+      if (idx === -1) {
+        return this.logWarning('Unable to find change listener');
+      }
+      this.changeListeners.splice(idx, 1);
+    };
+  }
+
+  /**
+   * Returns a key of the current stored value, deserializing from browser storage if
    * needed.
    */
   get<K extends keyof T>(key: K): T[K] {
@@ -90,13 +112,30 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   }
 
   /**
+   * Returns the entire current stored value, deserializing from browser storage if
+   * needed.
+   * 
+   * Note that the return value should never be modified in-place--use the
+   * `update()` method instead.
+   */
+  getAll(): T {
+    return this.cachedValue;
+  }
+
+  /**
    * Updates part or all of the current stored value, serializing it to browser
    * storage.
+   * 
+   * If the passed-in updates won't actually modify the current stored value,
+   * nothing is done.
    */
   update(updates: Partial<T>) {
-    this.cachedValue = {
+    const newValue: T = {
       ...this.cachedValue,
       ...updates,
+    };
+    if (!isDeepEqual(newValue, this.cachedValue)) {
+      this.cachedValue = newValue;
     };
   }
 
@@ -121,3 +160,34 @@ export function createUpdateBrowserStorage<T extends BaseBrowserStorageSchema>(
     return null;
   };
 };
+
+/**
+ * Creates a `useBrowserStorage` React Hook that can be used in a way that
+ * is similar to `useState()`, only it returns/updates the value of browser
+ * storage.
+ * 
+ * Before a component is mounted, this will actually return the storage's
+ * default value to ensure that rendering is identical on server and client.
+ */
+export function createUseBrowserStorage<T extends BaseBrowserStorageSchema>(
+  browserStorage: BrowserStorage<T>
+) {
+  const useBrowserStorage = (): [T, (updates: Partial<T>) => void] => {
+    const [state, setState] = useState(browserStorage.defaultValue);
+    const updateState = useCallback((updates: Partial<T>) => {
+      browserStorage.update(updates);
+    }, []);
+
+    // Listen for changes to browser storage for the lifetime of
+    // the component that's using our hook.
+    useEffect(() => {
+      setState(browserStorage.getAll());
+      return browserStorage.listenForChanges((newState) => {
+        setState(newState);
+      });
+    }, []);
+
+    return [state, updateState];
+  };
+  return useBrowserStorage;
+}

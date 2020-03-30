@@ -10,6 +10,7 @@ from .factories import (
 from hpaction.models import (
     get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails)
 from hpaction.schema import sync_emergency_issues
+import hpaction.docusign
 
 
 def execute_tenant_children_mutation(graphql_client, children):
@@ -275,30 +276,47 @@ def test_email_packet_errors_if_no_packet_exists(db, graphql_client):
     assert result['errors'][0]['messages'] == ['You do not have an HP Action packet to send!']
 
 
-DOCUSIGN_GRAPHQL = """
-mutation {
-    beginDocusign(input: {nextUrl: "/blop"}) {
-        errors { field, messages }
-        redirectUrl
-    }
-}
-"""
-
-
 class TestBeginDocusign:
-    def test_it_works(self, db, graphql_client, mockdocusign, monkeypatch, django_file_storage):
-        import hpaction.docusign
-        from unittest.mock import MagicMock
+    GRAPHQL = """
+    mutation {
+        beginDocusign(input: {nextUrl: "/blop"}) {
+            errors { field, messages }
+            redirectUrl
+        }
+    }
+    """
 
-        mock = MagicMock()
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, graphql_client, monkeypatch):
+        self.user = UserFactory(email='boop@jones.com')
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
         monkeypatch.setattr(
             hpaction.docusign,
             'create_envelope_and_recipient_view_for_hpa',
-            mock
+            self._fake_create_env_and_view
         )
-        mock.return_value = (None, 'https://blah')
-        user = UserFactory(email='boop@jones.com')
-        HPActionDocumentsFactory(user=user)
-        graphql_client.request.user = user
-        result = graphql_client.execute(DOCUSIGN_GRAPHQL)['data']['beginDocusign']
-        assert result == {'errors': [], 'redirectUrl': 'https://blah'}
+
+    def execute(self):
+        return self.graphql_client.execute(self.GRAPHQL)['data']['beginDocusign']
+
+    def _fake_create_env_and_view(self, user, envelope_definition, api_client, return_url):
+        assert return_url.startswith('https://example.com/docusign/callback?')
+        assert user.pk == self.user.pk
+        return ('fake envelope defn', f'https://fake-docusign')
+
+    def ensure_error(self, message):
+        assert self.execute()['errors'] == [{'field': '__all__', 'messages': [message]}]
+
+    def test_it_raises_error_on_no_email(self):
+        self.user.email = ''
+        self.user.save()
+        self.ensure_error('You have no email address!')
+
+    def test_it_raises_error_on_no_docs(self):
+        self.ensure_error('You have no HP Action documents to sign!')
+
+    def test_it_works(self, mockdocusign, django_file_storage):
+        HPActionDocumentsFactory(user=self.user)
+        result = self.execute()
+        assert result == {'errors': [], 'redirectUrl': 'https://fake-docusign'}

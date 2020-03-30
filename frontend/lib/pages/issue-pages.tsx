@@ -25,7 +25,7 @@ import { Formset } from '../formset';
 import { FormsetItem, formsetItemProps } from '../formset-item';
 import { TextualFieldWithCharsRemaining } from '../chars-remaining';
 import { Modal } from '../modal';
-import { UpdateBrowserStorage, browserStorage } from '../browser-storage';
+import { UpdateBrowserStorage, useBrowserStorage } from '../browser-storage';
 import { NoScriptFallback } from '../progressive-enhancement';
 import { getQuerystringVar } from '../querystring';
 
@@ -121,17 +121,7 @@ type IssueAreaLinkProps = {
 
 function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
-
-  const [hadViewedModal, updateModalStatus] = useState(false);
-  // useEffect here needs to run at any state update as we need to consistently check 
-  // whether the browserStorage has changed
-  //
-  // TODO: eslint doesn't like the following line because it can cause an infinite
-  // chain of updates, which is a valid concern. I'm disabling the line for now
-  // because I want to enable eslint going forward, but we should definitely revisit
-  // it! -AV
-  // eslint-disable-next-line
-  useEffect( () => updateModalStatus(browserStorage.get('hasViewedCovidRiskModal') || false ));
+  const {hasViewedCovidRiskModal} = useBrowserStorage()[0];
 
   return (
     <AppContext.Consumer>
@@ -147,7 +137,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
         const inSafeMode = ctx.session.isSafeModeEnabled;
 
         return (
-          <Link to={!hadViewedModal && !inSafeMode ? (modalUrl + '?area=' + allCapsToSlug(area)) : url} className={classnames(
+          <Link to={!hasViewedCovidRiskModal && !inSafeMode ? (modalUrl + '?area=' + allCapsToSlug(area)) : url} className={classnames(
             'jf-issue-area-link', 'notification',
             count === 0 && "jf-issue-count-zero"
           )} title={title} aria-label={ariaLabel}>

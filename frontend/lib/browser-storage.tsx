@@ -1,4 +1,4 @@
-import { BaseBrowserStorageSchema, BrowserStorage, createUpdateBrowserStorage } from "./browser-storage-base";
+import { BaseBrowserStorageSchema, BrowserStorage, createUpdateBrowserStorage, createUseBrowserStorage } from "./browser-storage-base";
 
 const SCHEMA_VERSION = 1;
 
@@ -31,11 +31,32 @@ const DEFAULT_BROWSER_STORAGE: BrowserStorageSchema = {
  * browser close, while `window.sessionStorage` expires on the closing of
  * a browser *tab*, reducing the likelihood that someone on a public/shared
  * computer accidentally leaks personal data.
+ * 
+ * This object is relatively low-level and should only be used when you know
+ * that the React component using it has already been mounted. In other
+ * situations, you probably want to use `useBrowserStorage`.
  */
 export const browserStorage = new BrowserStorage(DEFAULT_BROWSER_STORAGE, SESSION_STORAGE_KEY);
 
+/**
+ * A React component that can be used to declaratively update part or all of data
+ * in browser storage.
+ */
 export const UpdateBrowserStorage = createUpdateBrowserStorage(browserStorage);
 
+/**
+ * A React Hook that can be used in a way that is similar to `useState()`, only it
+ * returns/updates the value of browser storage.
+ * 
+ * Before a component is mounted, this will actually return a default
+ * value to ensure that rendering is identical on server and client.
+ */
+export const useBrowserStorage = createUseBrowserStorage(browserStorage);
+
+/**
+ * Defaults address information to that from browser storage if it's currently empty.
+ * This function assumes that the component calling it has already been mounted.
+ */
 export function updateAddressFromBrowserStorage<T extends {address: string, borough: string}>(value: T): T {
   let address = browserStorage.get('latestAddress') || '';
   let borough = browserStorage.get('latestBorough') || '';

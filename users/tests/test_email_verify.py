@@ -1,4 +1,5 @@
 from io import StringIO
+import json
 from django.core import signing
 from django.core.management import call_command, CommandError
 from freezegun import freeze_time
@@ -47,6 +48,24 @@ def sign_str(value: str) -> str:
 
 def sign(value: SigningPayload) -> str:
     return sign_str(value.serialize())
+
+
+class TestSigningPayload:
+    @pytest.mark.parametrize('value', [
+        'zzz',
+        json.dumps(1),
+        json.dumps(None),
+        json.dumps('xy'),
+        json.dumps([1, 2]),
+        json.dumps(['too few']),
+        json.dumps(['one', 'too', 'many']),
+    ])
+    def test_it_returns_none_on_bad_payloads(self, value):
+        assert SigningPayload.deserialize(value) is None
+
+    def test_it_returns_tuple_on_good_payloads(self):
+        value = json.dumps(['myusername', 'boop@jones.com'])
+        assert SigningPayload.deserialize(value) == ('myusername', 'boop@jones.com')
 
 
 class TestVerifyCode:

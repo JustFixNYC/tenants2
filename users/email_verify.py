@@ -47,11 +47,14 @@ class SigningPayload(NamedTuple):
     @staticmethod
     def deserialize(value: str) -> Optional['SigningPayload']:
         try:
-            username, email = json.loads(value)
+            value = json.loads(value)
+            if not isinstance(value, list):
+                raise ValueError('payload should be a list')
+            username, email = value
             if not (isinstance(username, str) and isinstance(email, str)):
                 raise ValueError('both username and email should be strings')
             return SigningPayload(username, email)
-        except (json.decoder.JSONDecodeError, ValueError):
+        except Exception:
             return None
 
     def serialize(self) -> str:

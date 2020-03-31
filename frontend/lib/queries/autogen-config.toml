@@ -94,6 +94,9 @@ sessionFields = ["accessDates"]
 [mutations.landlordDetails]
 sessionFields = ["landlordDetails"]
 
+[mutations.optionalLandlordDetails]
+sessionFields = ["landlordDetails"]
+
 [mutations.letterRequest]
 sessionFields = ["letterRequest"]
 

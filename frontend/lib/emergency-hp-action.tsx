@@ -8,7 +8,7 @@ import { AppContext } from './app-context';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { isNotSuingForRepairs } from './hp-action-util';
 import { MiddleProgressStep, ProgressStepProps } from './progress-step-route';
-import { ProgressButtons } from './buttons';
+import { ProgressButtons, BackButton } from './buttons';
 import { Link } from 'react-router-dom';
 import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
@@ -20,7 +20,7 @@ import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
 import { EmergencyHpaIssuesMutation, BlankCustomHomeIssuesCustomIssueFormFormSetInput } from './queries/EmergencyHpaIssuesMutation';
-import { HiddenFormField, MultiCheckboxFormField } from './form-fields';
+import { HiddenFormField, MultiCheckboxFormField, TextualFormField } from './form-fields';
 import { LegacyFormSubmitter } from './legacy-form-submitter';
 import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
 import { performHardOrSoftRedirect } from './pages/login-page';
@@ -35,6 +35,9 @@ import { Formset } from './formset';
 import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../common-data/issue-validation.json';
 import { FormsetItem, formsetItemProps } from './formset-item';
 import { TextualFieldWithCharsRemaining } from './chars-remaining';
+import { SessionStepBuilder } from './session-step-builder';
+import { OptionalLandlordDetailsMutation } from './queries/OptionalLandlordDetailsMutation';
+import { PhoneNumberFormField } from './phone-number-form-field';
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -153,16 +156,45 @@ const Sue = MiddleProgressStep(props => (
   </Page>
 ));
 
-const YourLandlord = (props: ProgressStepProps) => (
-  <HPActionYourLandlord {...props} renderProgressButtons={props => (
+const PrepareToGeneratePDF = MiddleProgressStep(props => (
+  <Page title="Almost done!" withHeading className="content">
+    <p>You're almost there!  Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
+    <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload}>
       {(ctx) =>
-        <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}
-         nextLabel="Generate forms" />
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading}
+          nextLabel="Prepare forms" />
       }
     </GeneratePDFForm>
+  </Page>
+));
+
+const YourLandlord = MiddleProgressStep(props => (
+  <HPActionYourLandlord {...props} renderProgressButtons={() => (
+    <ProgressButtons>
+      <BackButton to={props.prevStep} />
+      <Link to={props.nextStep} className="button is-primary is-medium" >Next</Link>
+    </ProgressButtons>
   )} />
-);
+));
+
+const stepBuilder = new SessionStepBuilder(sess => sess);
+
+const YourLandlordOptionalDetails = stepBuilder.createStep({
+  title: "Optional landlord contact information",
+  mutation: OptionalLandlordDetailsMutation,
+  toFormInput: sess => ({
+    email: sess.data.landlordDetails?.email || '',
+    phoneNumber: sess.data.landlordDetails?.phoneNumber || '',
+  }),
+  renderIntro: () => <>
+    <p>Do you have your landlord's email or phone number? If so, please provide it below.</p>
+  </>,
+  renderForm: ctx => <>
+    <TextualFormField type="email" {...ctx.fieldPropsFor('email')} label="Landlord email (optional)" />
+    <PhoneNumberFormField {...ctx.fieldPropsFor('phoneNumber')} label="Landlord phone number (optional)" />
+  </>
+});
 
 const UploadStatus = () => (
   <ShowHPUploadStatus
@@ -246,9 +278,11 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.ehp.yourLandlord, exact: true, component: YourLandlord },
+    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
-    { path: Routes.locale.ehp.yourLandlord, exact: true, component: YourLandlord,
+    { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [

@@ -59,6 +59,12 @@ class LandlordDetailsForm(forms.ModelForm):
         fields = ('name', 'address')
 
 
+class OptionalLandlordDetailsForm(forms.ModelForm):
+    class Meta:
+        model = models.LandlordDetails
+        fields = ('email', 'phone_number')
+
+
 class LetterRequestForm(forms.ModelForm):
     class Meta:
         model = models.LetterRequest

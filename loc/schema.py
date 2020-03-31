@@ -53,6 +53,12 @@ class LandlordDetails(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class OptionalLandlordDetails(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.OptionalLandlordDetailsForm
+
+
+@schema_registry.register_mutation
 class LetterRequest(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LetterRequestForm

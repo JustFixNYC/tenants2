@@ -143,6 +143,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     yourLandlord: `${prefix}/your-landlord`,
     waitForUpload: `${prefix}/wait`,
     reviewForms: `${prefix}/review`,
+    verifyEmail: `${prefix}/verify-email`,
     confirmation: `${prefix}/confirmation`,
   }
 }

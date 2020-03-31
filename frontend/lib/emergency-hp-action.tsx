@@ -29,6 +29,7 @@ import { DjangoChoices } from './common-data';
 import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choices';
 import { MoratoriumWarning } from './covid-banners';
 import { StaticImage } from './static-image';
+import { VerifyEmailMiddleProgressStep } from './pages/verify-email';
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -252,6 +253,8 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: isNotSuingForRepairs },
+    { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
+      shouldBeSkipped: (s) => !!s.isEmailVerified },
     { path: Routes.locale.ehp.yourLandlord, exact: true, component: YourLandlord,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],

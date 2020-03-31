@@ -48,7 +48,8 @@ class BeginDocusign(DjangoFormMutation):
         if not user.email:
             return cls.make_error("You have no email address!")
 
-        # TODO: Ensure the user has validated their email address.
+        if not user.is_email_verified:
+            return cls.make_error("Your email address is not verified!")
 
         docs = HPActionDocuments.objects.get_latest_for_user(user)
 

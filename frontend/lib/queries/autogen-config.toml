@@ -63,6 +63,9 @@ createBlankLiteral = true
 
 [mutations.logout]
 
+[mutations.sendVerificationEmail]
+sessionFields = ["email", "isEmailVerified"]
+
 [mutations.beginDocusign]
 
 [mutations."passwordReset.*"]

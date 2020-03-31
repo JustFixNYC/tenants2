@@ -18,6 +18,23 @@ TENANT_RECIPIENT_ID = '1'
 HPA_DOCUMENT_ID = '1'
 
 
+def get_contact_info(user: JustfixUser) -> str:
+    ll_email = "unknown"
+    ll_phone_number = "unknown"
+
+    if hasattr(user, 'landlord_details'):
+        ld = user.landlord_details
+        ll_email = ld.email or ll_email
+        ll_phone_number = ld.formatted_phone_number() or ll_phone_number
+
+    return '\n'.join([
+        f"landlord phone: {ll_phone_number}",
+        f"landlord email: {ll_email}",
+        f"tenant phone: {user.formatted_phone_number()}",
+        f"tenant email: {user.email}",
+    ])
+
+
 def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeDefinition:
     '''
     Create a DocuSign envelope definition for the given HP Action documents.
@@ -79,17 +96,14 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         y_position='625',
     )
 
-    tenant_contact_info = dse.Text(
+    contact_info = dse.Text(
         document_id=HPA_DOCUMENT_ID,
         page_number='2',
         tab_label="ReadOnlyDataField",
-        value='\n'.join([
-            f"tenant phone: {user.formatted_phone_number()}",
-            f"tenant email: {user.email}",
-        ]),
+        value=get_contact_info(user),
         locked="true",
-        x_position="355",
-        y_position="55",
+        x_position="27",
+        y_position="25",
     )
 
     inspection_req_note = dse.Text(
@@ -107,7 +121,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     signer.tabs = dse.Tabs(
         text_tabs=[
-            tenant_contact_info,
+            contact_info,
             inspection_req_note,
         ],
         sign_here_tabs=[

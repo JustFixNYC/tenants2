@@ -8,7 +8,6 @@ import classnames from 'classnames';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../google-analytics';
 import { PdfLink } from '../pdf-link';
-import { ProgressiveLoadableConfetti } from '../confetti-loadable';
 import { EmailAttachmentForm } from '../email-attachment';
 import { EmailLetterMutation } from '../queries/EmailLetterMutation';
 import { BigList } from '../big-list';
@@ -193,7 +192,8 @@ const LetterConfirmation = withAppContext((props: AppContextType): JSX.Element =
 
   return (
     <Page title={letterConfirmationPageTitle} withHeading="big" >
-      <ProgressiveLoadableConfetti regenerateForSecs={1} />
+      {/* Temporarily remove confetti during COVID-19 crisis :( */}
+      {/* <ProgressiveLoadableConfetti regenerateForSecs={1} /> */}
       <div className="content">
         {letterStatus}
         <h2>Email a copy of your letter to yourself, someone you trust, or your landlord.</h2>

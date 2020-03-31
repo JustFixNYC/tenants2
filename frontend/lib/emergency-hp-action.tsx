@@ -180,8 +180,8 @@ const YourLandlord = MiddleProgressStep(props => (
 
 const stepBuilder = new SessionStepBuilder(sess => sess);
 
-const YourLandlordContactInfo = stepBuilder.createStep({
-  title: "Landlord contact information",
+const YourLandlordOptionalDetails = stepBuilder.createStep({
+  title: "Optional landlord contact information",
   mutation: OptionalLandlordDetailsMutation,
   toFormInput: sess => ({
     email: sess.data.landlordDetails?.email || '',
@@ -279,7 +279,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.yourLandlord, exact: true, component: YourLandlord },
-    { path: Routes.locale.ehp.yourLandlordContactInfo, exact: true, component: YourLandlordContactInfo },
+    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
     { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,

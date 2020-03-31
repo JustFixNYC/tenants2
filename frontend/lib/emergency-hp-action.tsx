@@ -40,7 +40,7 @@ const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(Onboardin
 
 function EmergencyHPActionSplash(): JSX.Element {
   return (
-    <Page className="jf-ehp-landing-page" title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding">
+    <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding">
         <section className="hero is-light">
           <div className="hero-body">
             <div className="content has-text-centered">

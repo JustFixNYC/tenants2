@@ -255,12 +255,6 @@ class EmergencyHPAIssuesForm(forms.Form):
         choices=EMERGENCY_HPA_CHOICES,
     )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if not cleaned_data.get('issues'):
-            raise ValidationError(CHOOSE_ONE_MSG)
-        return cleaned_data
-
 
 class BeginDocusignForm(forms.Form):
     next_url = forms.CharField(validators=[RegexValidator(

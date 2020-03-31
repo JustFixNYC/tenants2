@@ -3,7 +3,7 @@ from django.test import override_settings
 import pytest
 
 from users.tests.factories import UserFactory
-from issues.models import Issue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
+from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory)
@@ -11,6 +11,10 @@ from hpaction.models import (
     get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails)
 from hpaction.schema import sync_emergency_issues
 import hpaction.docusign
+
+
+def one_field_err(message: str):
+    return [{'field': '__all__', 'messages': [message]}]
 
 
 def execute_tenant_children_mutation(graphql_client, children):
@@ -30,13 +34,11 @@ def execute_tenant_children_mutation(graphql_client, children):
 
 def test_tenant_children_mutation_requires_login(db, graphql_client):
     result = execute_tenant_children_mutation(graphql_client, [])
-    assert result['errors'] == [{'field': '__all__', 'messages': [
-        'You do not have permission to use this form!'
-    ]}]
+    assert result['errors'] == one_field_err('You do not have permission to use this form!')
 
 
-class TestEmergencyHPAIssuesMutation:
-    def test_sync_emergency_issues_works(self, db):
+class TestSyncEmergencyIssues:
+    def test_it_works(self, db):
         HOME = ISSUE_AREA_CHOICES.HOME
         MICE = ISSUE_CHOICES.HOME__MICE
         NO_HEAT = ISSUE_CHOICES.HOME__NO_HEAT
@@ -53,22 +55,68 @@ class TestEmergencyHPAIssuesMutation:
         sync_emergency_issues(user, [NO_GAS])
         assert gethomeissues() == {NO_GAS, MICE}
 
-    def test_it_works(self, graphql_client, db):
-        user = UserFactory()
-        graphql_client.request.user = user
-        result = graphql_client.execute(
+
+class TestEmergencyHPAIssuesMutation:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory()
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def execute(self, input):
+        return self.graphql_client.execute(
             '''
-            mutation {
-                output: emergencyHpaIssues(input: {issues: ["HOME__NO_HEAT"]}) {
-                    session { issues }
+            mutation MyMutation($input: EmergencyHPAIssuesInput!) {
+                output: emergencyHpaIssues(input: $input) {
+                    errors { field, messages }
+                    session { issues, customIssuesV2 { area, description } }
                 }
             }
-            '''
-        )
-        assert result['data']['output']['session']['issues'] == ['HOME__NO_HEAT']
-        details = HPActionDetails.objects.get(user=user)
+            ''',
+            variables={'input': input}
+        )['data']['output']
+
+    def test_it_works(self):
+        result = self.execute({
+            'issues': ["HOME__NO_HEAT"],
+            'customHomeIssues': []
+        })
+        assert result['session']['issues'] == ['HOME__NO_HEAT']
+        details = HPActionDetails.objects.get(user=self.user)
         assert details.sue_for_repairs is True
         assert details.sue_for_harassment is False
+
+    def test_it_works_when_a_custom_issue_is_selected(self):
+        result = self.execute({
+            'issues': [],
+            'customHomeIssues': [{'description': 'boop', 'DELETE': False}]
+        })
+        assert result['session']['customIssuesV2'] == [{
+            'area': 'HOME',
+            'description': 'boop',
+        }]
+
+    def test_it_raises_error_when_nothing_is_selected_after_deletion(self):
+        ci = CustomIssue(user=self.user, area=ISSUE_AREA_CHOICES.HOME, description='hi')
+        ci.save()
+        input = {
+            'issues': [],
+            'customHomeIssues': [{'description': '', 'DELETE': True, 'id': ci.id}]
+        }
+        result = self.execute(input)
+        assert result['errors'] == one_field_err('Please choose at least one option.')
+
+        # Now add a regular issue, it should work and delete the custom one.
+        input['issues'] = ['HOME__NO_HEAT']
+        assert self.execute(input)['errors'] == []
+        assert CustomIssue.objects.filter(pk=ci.id).first() is None
+
+    def test_it_raises_error_when_nothing_is_selected(self):
+        result = self.execute({
+            'issues': [],
+            'customHomeIssues': []
+        })
+        assert result['errors'] == one_field_err('Please choose at least one option.')
 
 
 class TestTenantChildrenSession:
@@ -179,9 +227,7 @@ def execute_genpdf_mutation(graphql_client, **input):
 class TestGenerateHPActionPDF:
     def test_it_requires_auth(self, graphql_client):
         result = execute_genpdf_mutation(graphql_client)
-        assert result['errors'] == [{'field': '__all__', 'messages': [
-            'You do not have permission to use this form!'
-        ]}]
+        assert result['errors'] == one_field_err('You do not have permission to use this form!')
 
     @pytest.mark.django_db
     def test_it_errors_if_hpaction_is_disabled(self, graphql_client):
@@ -306,7 +352,7 @@ class TestBeginDocusign:
         return ('fake envelope defn', f'https://fake-docusign')
 
     def ensure_error(self, message):
-        assert self.execute()['errors'] == [{'field': '__all__', 'messages': [message]}]
+        assert self.execute()['errors'] == one_field_err(message)
 
     def test_it_raises_error_on_no_email(self):
         self.user.email = ''

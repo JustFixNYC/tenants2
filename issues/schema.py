@@ -14,6 +14,15 @@ from project import schema_registry
 from . import forms, models
 
 
+def save_custom_issues_formset_with_area(formset, area: str):
+    instances = formset.save(commit=False)
+    for instance in formset.deleted_objects:
+        instance.delete()
+    for instance in instances:
+        instance.area = area
+        instance.save()
+
+
 @schema_registry.register_mutation
 class IssueAreaV2(ManyToOneUserModelFormMutation):
     class Meta:
@@ -40,13 +49,7 @@ class IssueAreaV2(ManyToOneUserModelFormMutation):
         user = info.context.user
         area = form.base_form.cleaned_data['area']
         with transaction.atomic():
-            for formset in form.formsets.values():
-                instances = formset.save(commit=False)
-                for instance in formset.deleted_objects:
-                    instance.delete()
-                for instance in instances:
-                    instance.area = area
-                    instance.save()
+            save_custom_issues_formset_with_area(form.formsets['custom_issues'], area)
             models.Issue.objects.set_area_issues_for_user(
                 user, area, form.base_form.cleaned_data['issues'])
         return cls.mutation_success()

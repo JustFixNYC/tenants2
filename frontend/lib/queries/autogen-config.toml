@@ -98,7 +98,7 @@ name = "GenerateHPActionPDFMutation"
 sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
 
 [mutations.emergencyHpaIssues]
-sessionFields = ["hpActionDetails", "issues"]
+sessionFields = ["hpActionDetails", "issues", "customIssuesV2"]
 
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]

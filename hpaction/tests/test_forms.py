@@ -2,8 +2,7 @@ from typing import List
 import pytest
 
 from ..forms import (
-    PreviousAttemptsForm, SueForm, HarassmentApartmentForm,
-    EmergencyHPAIssuesForm)
+    PreviousAttemptsForm, SueForm, HarassmentApartmentForm)
 
 
 def ensure_required_fields_work(form_class, data, expected_required_fields):
@@ -61,13 +60,3 @@ class TestSueForm:
     def test_it_raises_error_when_no_boxes_are_checked(self):
         f = SueForm(data={})
         assert f.is_valid() is False
-
-
-class TestEmergencyHPAIssuesForm:
-    def test_it_raises_error_when_nothing_is_checked(self):
-        f = EmergencyHPAIssuesForm(data={'issues': []})
-        assert f.is_valid() is False
-
-    def test_it_works_when_at_least_one_item_is_checked(self):
-        f = EmergencyHPAIssuesForm(data={'issues': ['HOME__NO_HEAT']})
-        assert f.is_valid() is True

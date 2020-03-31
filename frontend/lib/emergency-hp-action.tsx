@@ -19,7 +19,7 @@ import { PdfLink } from './pdf-link';
 import { BigList } from './big-list';
 import { OutboundLink } from './google-analytics';
 import { SessionUpdatingFormSubmitter } from './session-updating-form-submitter';
-import { EmergencyHpaIssuesMutation } from './queries/EmergencyHpaIssuesMutation';
+import { EmergencyHpaIssuesMutation, BlankCustomHomeIssuesCustomIssueFormFormSetInput } from './queries/EmergencyHpaIssuesMutation';
 import { HiddenFormField, MultiCheckboxFormField } from './form-fields';
 import { LegacyFormSubmitter } from './legacy-form-submitter';
 import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
@@ -30,6 +30,11 @@ import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choic
 import { MoratoriumWarning, CovidEhpDisclaimer } from './covid-banners';
 import { StaticImage } from './static-image';
 import { VerifyEmailMiddleProgressStep } from './pages/verify-email';
+import { customIssuesForArea } from './issues';
+import { Formset } from './formset';
+import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../common-data/issue-validation.json';
+import { FormsetItem, formsetItemProps } from './formset-item';
+import { TextualFieldWithCharsRemaining } from './chars-remaining';
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -112,6 +117,11 @@ const Sue = MiddleProgressStep(props => (
       mutation={EmergencyHpaIssuesMutation}
       initialState={(session) => ({
         issues: session.issues.filter(issue => EMERGENCY_HPA_ISSUE_SET.has(issue)),
+        customHomeIssues: customIssuesForArea('HOME', session.customIssuesV2 || []).map(ci => ({
+          description: ci.description,
+          id: ci.id,
+          DELETE: false
+        }))
       })}
       onSuccessRedirect={props.nextStep}
     >
@@ -121,6 +131,22 @@ const Sue = MiddleProgressStep(props => (
           choices={getEmergencyHPAIssueChoices()}
           label="Select all issues that apply to your housing situation"
         />
+        <br/>
+        <p>Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional emergency home issues below.</p>
+        <br/>
+        <Formset {...ctx.formsetPropsFor('customHomeIssues')}
+                 maxNum={MAX_CUSTOM_ISSUES_PER_AREA}
+                 extra={MAX_CUSTOM_ISSUES_PER_AREA}
+                 emptyForm={BlankCustomHomeIssuesCustomIssueFormFormSetInput}>
+          {(ciCtx, i) => (
+            <FormsetItem {...formsetItemProps(ciCtx)}>
+              <TextualFieldWithCharsRemaining {...ciCtx.fieldPropsFor('description')}
+                maxLength={CUSTOM_ISSUE_MAX_LENGTH}
+                fieldProps={{style: {maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`}}}
+                label={`Custom home issue #${i + 1} (optional)`} />
+            </FormsetItem>
+          )}
+        </Formset>
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>

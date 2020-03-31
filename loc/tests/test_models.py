@@ -44,6 +44,12 @@ def test_landlord_details_address_lines_for_mailing_works():
     assert ld.address_lines_for_mailing == ['1 Cloud City', 'Bespin']
 
 
+def test_landlord_details_formatted_phone_number_works():
+    assert LandlordDetails().formatted_phone_number() == ''
+    assert LandlordDetails(
+        phone_number='5551234567').formatted_phone_number() == '(555) 123-4567'
+
+
 class TestCreateLookupForUser:
     def test_returns_none_if_address_info_is_not_available(self):
         user = UserFactory.build()

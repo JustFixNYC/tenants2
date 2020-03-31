@@ -103,6 +103,9 @@ class LandlordDetails(models.Model):
         )
     )
 
+    def formatted_phone_number(self) -> str:
+        return pn.humanize(self.phone_number)
+
     @property
     def address_lines_for_mailing(self) -> List[str]:
         '''Return the full mailing address as a list of lines.'''

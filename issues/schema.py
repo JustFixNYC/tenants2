@@ -17,7 +17,6 @@ from . import forms, models
 def save_custom_issues_formset_with_area(formset, area: str):
     instances = formset.save(commit=False)
     for instance in formset.deleted_objects:
-        print("DFELELTGWEG")
         instance.delete()
     for instance in instances:
         instance.area = area

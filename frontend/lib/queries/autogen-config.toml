@@ -49,6 +49,10 @@ fragmentName = "LatestTextMessagesResult"
 [types.JustfixUserType]
 fragmentName = "JustfixUserType"
 
+[types.LandlordDetailsType]
+fragmentName = "LandlordDetailsType"
+createBlankLiteral = true
+
 [types.DDOSuggestionsResult]
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true

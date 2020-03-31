@@ -5,15 +5,11 @@ import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { LandlordDetailsMutation_output } from '../../queries/LandlordDetailsMutation';
 import { LandlordDetailsInput } from '../../queries/globalTypes';
+import { BlankLandlordDetailsType } from '../../queries/LandlordDetailsType';
 
-
-const BLANK_LANDLORD_DETAILS = {
-  name: '',
-  address: '',
-  isLookedUp: false
-};
 
 const LOOKED_UP_LANDLORD_DETAILS = {
+  ...BlankLandlordDetailsType,
   name: 'BOBBY DENVER',
   address: '123 DOOMBRINGER STREET 4\nNEW YORK 11299',
   isLookedUp: true
@@ -25,7 +21,7 @@ describe('landlord details page', () => {
   it('works when details are not looked up', () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: Routes.locale.loc.yourLandlord,
-      session: { landlordDetails: BLANK_LANDLORD_DETAILS }
+      session: { landlordDetails: BlankLandlordDetailsType }
     });
     pal.rr.getByText(/Please enter your landlord's name/i);
     pal.rr.getByText(/Back/);
@@ -45,7 +41,7 @@ describe('landlord details page', () => {
   it('redirects to next step after successful submission', async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: Routes.locale.loc.yourLandlord,
-      session: { landlordDetails: BLANK_LANDLORD_DETAILS }
+      session: { landlordDetails: BlankLandlordDetailsType }
     });
     const name = "Boop Jones";
     const address = "123 Boop Way\nBoopville, NY 11299";
@@ -58,12 +54,12 @@ describe('landlord details page', () => {
     pal.expectFormInput<LandlordDetailsInput>({ name, address });
     pal.respondWithFormOutput<LandlordDetailsMutation_output>({
       errors: [],
-      session: { landlordDetails: { name, address, isLookedUp: false } }
+      session: { landlordDetails: { ...BlankLandlordDetailsType, name, address } }
     });
 
     await pal.rt.waitForElement(() => pal.rr.getByText(/Review the letter of complaint/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
-    expect(mock.calls[0][0]).toEqual({ landlordDetails: { name, address, isLookedUp: false } });
+    expect(mock.calls[0][0]).toEqual({ landlordDetails: { ...BlankLandlordDetailsType, name, address } });
   });
 });

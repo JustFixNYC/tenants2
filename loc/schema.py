@@ -80,7 +80,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
 class LandlordDetailsType(DjangoObjectType):
     class Meta:
         model = models.LandlordDetails
-        only_fields = ('name', 'address', 'is_looked_up')
+        only_fields = ('name', 'address', 'is_looked_up', 'email', 'phone_number')
 
 
 class LetterRequestType(DjangoObjectType):

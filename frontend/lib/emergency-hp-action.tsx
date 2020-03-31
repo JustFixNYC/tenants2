@@ -27,7 +27,7 @@ import { performHardOrSoftRedirect } from './pages/login-page';
 import EMERGENCY_HPA_ISSUE_LIST from '../../common-data/emergency-hpa-issue-list.json';
 import { DjangoChoices } from './common-data';
 import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choices';
-import { MoratoriumWarning } from './covid-banners';
+import { MoratoriumWarning, CovidEhpDisclaimer } from './covid-banners';
 import { StaticImage } from './static-image';
 import { VerifyEmailMiddleProgressStep } from './pages/verify-email';
 
@@ -37,39 +37,6 @@ const HP_ICON = "frontend/img/hp-action.svg";
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding.latestStep;
 
-// HP Cases currently being accepted in Housing Court amidst COVID-19 crisis
-// Eventually, we want to derive this from EMERGENCY_HPA_ISSUE_SET. This is a temporary solution:
-const acceptedCases = [
-  "no heat", 
-  "no hot water", 
-  "no gas", 
-  "mold", 
-  "lead-based paint", 
-  "no working toilet", 
-  "vacate order issued"
-];
-
-function Disclaimer(): JSX.Element {
-  const numCases = acceptedCases.length;
-  const generateCaseList = (start: number, end: number) => 
-    acceptedCases.map((caseType, i) => <li key={i}> {caseType} </li>).slice(start, end);
-  return (
-    <div className="notification is-warning">
-      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:</p>
-      <div className="is-hidden-tablet">
-        {generateCaseList(0,numCases)}
-      </div>
-      <div className="columns is-mobile is-hidden-mobile">
-        <div className="column is-one-third">
-          {generateCaseList(0,Math.round(numCases / 2))}
-        </div>
-        <div className="column">
-          {generateCaseList(Math.round(numCases / 2), numCases)}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function EmergencyHPActionSplash(): JSX.Element {
   return (
@@ -91,7 +58,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                     An HP Action is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.
                     This service is free, secure, and confidential.
                   </p>
-                  <Disclaimer />
+                  <CovidEhpDisclaimer />
                   <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.EHP} pageType="splash">
                     Start my case
                   </GetStartedButton>
@@ -115,7 +82,7 @@ const EmergencyHPActionWelcome = () => {
 
   return (
     <Page title={title} withHeading="big" className="content">
-      <Disclaimer/>
+      <CovidEhpDisclaimer />
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
       </p>

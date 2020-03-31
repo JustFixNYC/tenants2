@@ -382,6 +382,13 @@ html.jf-is-fullscreen-admin-page {
     }
 }
 
+.jf-covid-ehp-disclaimer {
+    li {
+        // Fix bullet spacing bug on Firefox:
+        list-style-position: inside;
+      }
+}
+
 .jf-sanitation-guidelines {
     .button.is-text {
         font-size: 0.9rem;

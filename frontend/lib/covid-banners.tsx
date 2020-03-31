@@ -11,6 +11,20 @@ const ROUTES_WITH_MORATORIUM_BANNER = [
     "/"
   ];
 
+/**
+ * HP Cases currently being accepted in Housing Court amidst COVID-19 crisis
+ * Eventually, we want to refactor to derive this from EMERGENCY_HPA_ISSUE_SET.
+ * This is a temporary solution:
+ */
+const acceptedEmergencyHpCases = [
+  "no heat", 
+  "no hot water", 
+  "no gas", 
+  "mold", 
+  "lead-based paint", 
+  "no working toilet", 
+  "vacate order issued"
+];
 
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general 
@@ -70,3 +84,29 @@ export const MoratoriumWarning = () => (
         {' '}<OutboundLink href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank"><span className="has-text-primary jf-has-text-underline">Learn more</span></OutboundLink>
     </div>
 )
+
+/**
+ * This banner is intended to show up in the Emergency HP splash and welcome pages, listing  
+ * out the cases that are currently eligible for Emergency HP actions during the Covid-19 crisis.
+ */  
+export const CovidEhpDisclaimer = () => {
+  const numCases = acceptedEmergencyHpCases.length;
+  const generateCaseList = (start: number, end: number) => 
+    acceptedEmergencyHpCases.map((caseType, i) => <li key={i}> {caseType} </li>).slice(start, end);
+  return (
+    <div className="jf-covid-ehp-disclaimer notification is-warning">
+      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:</p>
+      <div className="is-hidden-tablet">
+        {generateCaseList(0,numCases)}
+      </div>
+      <div className="columns is-mobile is-hidden-mobile">
+        <div className="column is-one-third">
+          {generateCaseList(0,Math.round(numCases / 2))}
+        </div>
+        <div className="column">
+          {generateCaseList(Math.round(numCases / 2), numCases)}
+        </div>
+      </div>
+    </div>
+  );
+}

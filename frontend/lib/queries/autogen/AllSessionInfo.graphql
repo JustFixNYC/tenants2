@@ -37,11 +37,7 @@ fragment AllSessionInfo on SessionInfo {
     floorNumber
   },
   accessDates,
-  landlordDetails {
-    name,
-    address,
-    isLookedUp
-  },
+  landlordDetails { ...LandlordDetailsType },
   letterRequest {
     updatedAt,
     mailChoice,

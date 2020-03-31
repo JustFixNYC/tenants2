@@ -2511,6 +2511,38 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The landlord's email address.",
+              "isDeprecated": false,
+              "name": "email",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A U.S. phone number without parentheses or hyphens, e.g. \"5551234567\".",
+              "isDeprecated": false,
+              "name": "phoneNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Whether the name and address was looked up automatically, or manually entered by the user.",
               "isDeprecated": false,
               "name": "isLookedUp",

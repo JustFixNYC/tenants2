@@ -288,7 +288,7 @@ class TestBeginDocusign:
 
     @pytest.fixture(autouse=True)
     def setup_fixture(self, db, graphql_client, monkeypatch):
-        self.user = UserFactory(email='boop@jones.com')
+        self.user = UserFactory(email='boop@jones.com', is_email_verified=True)
         graphql_client.request.user = self.user
         self.graphql_client = graphql_client
         monkeypatch.setattr(
@@ -312,6 +312,11 @@ class TestBeginDocusign:
         self.user.email = ''
         self.user.save()
         self.ensure_error('You have no email address!')
+
+    def test_it_raises_error_on_unverified_email(self):
+        self.user.is_email_verified = False
+        self.user.save()
+        self.ensure_error('Your email address is not verified!')
 
     def test_it_raises_error_on_no_docs(self):
         self.ensure_error('You have no HP Action documents to sign!')

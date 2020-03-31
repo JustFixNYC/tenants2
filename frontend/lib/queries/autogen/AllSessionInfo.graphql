@@ -10,12 +10,6 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified,
     zipcode
   },
-  issues,
-  customIssuesV2 {
-    id,
-    area,
-    description
-  },
   onboardingStep1 {
     aptNumber,
     address,
@@ -70,6 +64,12 @@ fragment AllSessionInfo on SessionInfo {
     caseDate,
     isHarassment,
     isRepairs
+  },
+  issues,
+  customIssuesV2 {
+    id,
+    area,
+    description
   },
   prefersLegacyApp,
   userId,

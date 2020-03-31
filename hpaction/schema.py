@@ -2,6 +2,7 @@ from typing import Optional, List
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
+from django.db import transaction
 from django.urls import reverse
 from django.forms import inlineformset_factory
 
@@ -18,7 +19,9 @@ from project.util.model_form_util import (
     create_models_for_user_resolver
 )
 from project.util.django_graphql_forms import DjangoFormMutation
-from issues.models import Issue
+from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
+from issues.schema import save_custom_issues_formset_with_area
+import issues.forms
 from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
@@ -114,20 +117,49 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
 
 
 @schema_registry.register_mutation
-class EmergencyHPAIssues(SessionFormMutation):
+class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
     class Meta:
         form_class = forms.EmergencyHPAIssuesForm
+        formset_classes = {
+            'custom_home_issues': inlineformset_factory(
+                JustfixUser,
+                CustomIssue,
+                issues.forms.CustomIssueForm,
+                can_delete=True,
+                max_num=issues.forms.MAX_CUSTOM_ISSUES_PER_AREA,
+                validate_max=True,
+            )
+        }
 
     login_required = True
+
+    CUSTOM_ISSUE_AREA = ISSUE_AREA_CHOICES.HOME
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
+        kwargs = super().get_formset_kwargs(root, info, formset_name, input, all_input)
+        kwargs['queryset'] = CustomIssue.objects.filter(area=cls.CUSTOM_ISSUE_AREA)
+        return kwargs
+
+    @classmethod
+    def get_number_of_custom_issues(cls, formset) -> int:
+        return formset.total_form_count() - len(formset.deleted_forms)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         user = info.context.user
-        sync_emergency_issues(user, form.cleaned_data['issues'])
-        details, _ = models.HPActionDetails.objects.get_or_create(user=user)
-        details.sue_for_repairs = True
-        details.sue_for_harassment = False
-        details.save()
+        issues: List[str] = form.base_form.cleaned_data['issues']
+        formset = form.formsets['custom_home_issues']
+        num_custom_issues = cls.get_number_of_custom_issues(formset)
+        if len(issues) + num_custom_issues == 0:
+            return cls.make_error(forms.CHOOSE_ONE_MSG)
+        with transaction.atomic():
+            save_custom_issues_formset_with_area(formset, cls.CUSTOM_ISSUE_AREA)
+            sync_emergency_issues(user, issues)
+            details, _ = models.HPActionDetails.objects.get_or_create(user=user)
+            details.sue_for_repairs = True
+            details.sue_for_harassment = False
+            details.save()
         return cls.mutation_success()
 
 

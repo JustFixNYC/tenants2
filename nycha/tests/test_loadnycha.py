@@ -30,6 +30,10 @@ def test_command_works(loaded_nycha_csv_data):
     prop = NychaProperty.objects.get(pad_bbl='2022150116', address='5210 BROADWAY')
     assert prop.office.name == 'MARBLE HILL'
     assert prop.office.address == '5220 BROADWAY\nBRONX, NY 10463'
+    assert prop.office.city == 'BRONX'
+    assert prop.office.state == 'NY'
+    assert prop.office.zip_code == '10463'
+    assert prop.office.primary_line == '5220 BROADWAY'
 
 
 class TestRow:

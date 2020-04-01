@@ -37,11 +37,19 @@ class Row(pydantic.BaseModel):
         return to_pad_bbl(boro, int(self.BLOCK), int(self.LOT))
 
     @property
-    def full_address(self) -> str:
+    def city(self) -> str:
         city = self.BOROUGH
         if city == MANHATTAN:
             city = 'NEW YORK'
-        return f'{self.ADDRESS}\n{city}, NY {self.ZIP_CODE}'
+        return city
+
+    @property
+    def state(self) -> str:
+        return 'NY'
+
+    @property
+    def full_address(self) -> str:
+        return f'{self.ADDRESS}\n{self.city}, {self.state} {self.ZIP_CODE}'
 
     def is_main_management_office(self) -> bool:
         return ('DEVELOPMENT MANAGEMENT OFFICE' in self.FACILITY and
@@ -123,7 +131,11 @@ class NychaCsvLoader:
         for office in self.offices.values():
             office_model = NychaOffice(
                 name=office.row.MANAGED_BY,
-                address=office.row.full_address
+                address=office.row.full_address,
+                primary_line=office.row.ADDRESS,
+                city=office.row.city,
+                state=office.row.state,
+                zip_code=office.row.ZIP_CODE,
             )
             office_model.save()
             NychaProperty.objects.bulk_create([

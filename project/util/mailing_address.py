@@ -54,7 +54,7 @@ class MailingAddress(models.Model):
         help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
     )
 
-    def is_populated(self) -> bool:
+    def is_address_populated(self) -> bool:
         '''
         Return whether the model contains enough filled-out fields to be used
         to actually mail something.

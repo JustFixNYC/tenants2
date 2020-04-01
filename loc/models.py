@@ -209,7 +209,7 @@ class AddressDetails(MailingAddress):
         to Lob's verifications API: https://lob.com/docs#us_verifications_create
         '''
 
-        if not self.is_populated():
+        if not self.is_address_populated():
             return {'address': self.address}
         result: Dict[str, str] = {}
         for attr in self.LOB_ATTRS:

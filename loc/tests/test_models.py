@@ -174,18 +174,6 @@ class TestLetterRequestClean:
 
 
 class TestAddressDetails:
-    def test_is_populated_works(self):
-        ad = AddressDetails()
-        assert ad.is_populated() is False
-        ad.primary_line = 'hi'
-        assert ad.is_populated() is False
-        ad.city = 'there'
-        assert ad.is_populated() is False
-        ad.state = 'NY'
-        assert ad.is_populated() is False
-        ad.zip_code = '12345'
-        assert ad.is_populated() is True
-
     def test_as_lob_params_returns_address_string_when_not_populated(self):
         ad = AddressDetails(address="150 Court St. #2\nBrooklyn, NY 11201")
         assert ad.as_lob_params() == {

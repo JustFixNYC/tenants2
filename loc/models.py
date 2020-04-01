@@ -10,6 +10,7 @@ from django.conf import settings
 from project.common_data import Choices
 from project import common_data
 from project.util import phone_number as pn
+from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
@@ -151,7 +152,7 @@ class LandlordDetails(models.Model):
         return None
 
 
-class AddressDetails(models.Model):
+class AddressDetails(MailingAddress):
     '''
     A model that maps address "blobs" of text to individual fields that
     represent the address.
@@ -173,42 +174,6 @@ class AddressDetails(models.Model):
             'it is easier for machines to understand, which is what all '
             'the other fields in this model are for.'
         )
-    )
-
-    primary_line = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text='Usually the first line of the address, e.g. "150 Court Street"'
-    )
-
-    secondary_line = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text='Optional. Usually the second line of the address, e.g. "Suite 2"'
-    )
-
-    urbanization = models.CharField(
-        max_length=80,
-        blank=True,
-        help_text='Optional. Only used for addresses in Puerto Rico.'
-    )
-
-    city = models.CharField(
-        max_length=80,
-        blank=True,
-        help_text='The city of the address, e.g. "Brooklyn".'
-    )
-
-    state = models.CharField(
-        max_length=2,
-        blank=True,
-        help_text='The two-letter state for the address, e.g. "NY".'
-    )
-
-    zip_code = models.CharField(
-        max_length=10,
-        blank=True,
-        help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
     )
 
     is_definitely_deliverable = models.BooleanField(
@@ -237,14 +202,6 @@ class AddressDetails(models.Model):
 
     # Attributes that map to keys used by Lob's verifications API:
     LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
-
-    def is_populated(self) -> bool:
-        '''
-        Return whether the model contains enough filled-out fields to be a useful
-        substitute to the address string.
-        '''
-
-        return bool(self.primary_line and self.city and self.state and self.zip_code)
 
     def as_lob_params(self) -> Dict[str, str]:
         '''

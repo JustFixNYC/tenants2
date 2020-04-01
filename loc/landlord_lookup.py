@@ -1,7 +1,6 @@
-from typing import Optional, Any, Tuple
+from typing import Optional, Tuple
 from dataclasses import dataclass
 import logging
-import pydantic
 
 from project import geocoding
 from nycha.models import NychaOffice
@@ -9,19 +8,6 @@ import nycdb.models
 
 
 logger = logging.getLogger(__name__)
-
-
-class ValidatingLandlordInfo(pydantic.BaseModel):
-    '''
-    This class is used internally to validate the JSON response we
-    receive from the server.
-    '''
-
-    # The name of the landlord/business owner, e.g. "BOBBY DENVER"
-    ownername: Optional[str]
-
-    # The business address, e.g. "123 DOOMBRINGER STREET 4 11299"
-    businessaddr: Optional[str]
 
 
 @dataclass

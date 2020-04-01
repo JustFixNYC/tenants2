@@ -43,6 +43,16 @@ def test_landlord_details_address_lines_for_mailing_works():
     ld.address = '1 Cloud City\nBespin'
     assert ld.address_lines_for_mailing == ['1 Cloud City', 'Bespin']
 
+    # Ensure it prefers granular details.
+    ld.primary_line = '1 Cloud City'
+    ld.city = 'Bespin'
+    ld.state = 'OH'
+    ld.zip_code = '43220'
+    assert ld.address_lines_for_mailing == [
+        '1 Cloud City',
+        'Bespin, OH 43220',
+    ]
+
 
 def test_landlord_details_formatted_phone_number_works():
     assert LandlordDetails().formatted_phone_number() == ''
@@ -74,6 +84,10 @@ class TestCreateLookupForUser:
         info = LandlordDetails.create_lookup_for_user(oi.user)
         assert info.name == 'BOOP JONES'
         assert info.address == "124 99TH STREET\nBrooklyn, NY 11999"
+        assert info.primary_line == "124 99TH STREET"
+        assert info.city == "Brooklyn"
+        assert info.state == "NY"
+        assert info.zip_code == "11999"
         assert info.lookup_date is not None
         assert info.is_looked_up is True
 

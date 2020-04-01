@@ -14,4 +14,9 @@ class Command(BaseCommand):
         if info is None:
             raise CommandError('Landlord lookup failed!')
         self.stdout.write(f"Landlord name: {info.name}")
-        self.stdout.write(f"Landlord address: {info.address}")
+        self.stdout.write(f"Landlord primary address line: {info.primary_line}")
+        self.stdout.write(f"Landlord city / state / zip: "
+                          f"{info.city} / {info.state} / {info.zip_code}")
+        self.stdout.write(f"Landlord full mailing address:\n")
+        for line in info.address.splitlines():
+            self.stdout.write(f"  {line}")

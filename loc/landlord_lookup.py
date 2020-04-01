@@ -19,7 +19,14 @@ class LandlordInfo:
 
     name: str
 
+    # This is the full mailing address.
     address: str
+
+    # These are individual parts of the full mailing address.
+    primary_line: str
+    city: str
+    state: str
+    zip_code: str
 
 
 def _lookup_bbl_and_bin_and_full_address(address: str) -> Tuple[str, str, str]:
@@ -35,7 +42,11 @@ def _lookup_landlord_via_nycdb(pad_bbl: str, pad_bin: str) -> Optional[LandlordI
     if contact:
         return LandlordInfo(
             name=contact.name,
-            address='\n'.join(contact.address.lines_for_mailing)
+            address='\n'.join(contact.address.lines_for_mailing),
+            primary_line=contact.address.first_line,
+            city=contact.address.city,
+            state=contact.address.state,
+            zip_code=contact.address.zipcode,
         )
     return None
 
@@ -44,7 +55,14 @@ def _lookup_landlord_via_nycha(pad_bbl: str, address: str) -> Optional[LandlordI
     office = NychaOffice.objects.find_for_property(pad_bbl, address)
     if not office:
         return None
-    return LandlordInfo(name=f"{office.name} MANAGEMENT", address=office.address)
+    return LandlordInfo(
+        name=f"{office.name} MANAGEMENT",
+        address=office.address,
+        primary_line=office.primary_line,
+        city=office.city,
+        state=office.state,
+        zip_code=office.zip_code,
+    )
 
 
 def lookup_landlord(address: str, pad_bbl: str = '', pad_bin: str = '') -> Optional[LandlordInfo]:

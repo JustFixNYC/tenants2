@@ -67,6 +67,10 @@ def test_lookup_landlord_via_nycdb_works(nycdb):
     assert isinstance(ll, LandlordInfo)
     assert ll.name == "BOOP JONES"
     assert ll.address == "124 99TH STREET\nBrooklyn, NY 11999"
+    assert ll.primary_line == "124 99TH STREET"
+    assert ll.city == "Brooklyn"
+    assert ll.state == "NY"
+    assert ll.zip_code == "11999"
 
 
 @enable_fake_landlord_lookup

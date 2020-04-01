@@ -36,21 +36,6 @@ class LandlordInfo:
     address: str
 
 
-def _extract_landlord_info(json_blob: Any) -> Optional[LandlordInfo]:
-    # https://github.com/JustFixNYC/who-owns-what/pull/40
-    result = json_blob['result']
-    if result:
-        info = ValidatingLandlordInfo(**result[0])
-
-        # I'm not 100% sure, but I *think* it might be possible for both the
-        # owner name and business address to be None, so let's make sure
-        # that at least one of them has content.
-        if info.ownername or info.businessaddr:
-            return LandlordInfo(name=info.ownername or '',
-                                address=info.businessaddr or '')
-    return None
-
-
 def _lookup_bbl_and_bin_and_full_address(address: str) -> Tuple[str, str, str]:
     features = geocoding.search(address)
     if not features:

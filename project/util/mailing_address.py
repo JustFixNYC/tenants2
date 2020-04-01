@@ -1,3 +1,4 @@
+from typing import List, Dict
 from django.db import models
 from project.common_data import Choices
 
@@ -61,3 +62,34 @@ class MailingAddress(models.Model):
         '''
 
         return bool(self.primary_line and self.city and self.state and self.zip_code)
+
+    @property
+    def address_lines_for_mailing(self) -> List[str]:
+        '''
+        Return the full mailing address as a list of lines.  If there aren't
+        enough filled-out fields to create a complete mailing address, this
+        will return an empty list.
+        '''
+
+        if not self.is_address_populated():
+            return []
+        lines = [self.primary_line]
+        if self.secondary_line:
+            lines.append(self.secondary_line)
+        lines.append(f"{self.city}, {self.state} {self.zip_code}")
+        return lines
+
+    def get_address_as_dict(self) -> Dict[str, str]:
+        '''
+        Returns all the address-related properties of this model as a
+        dict.
+        '''
+
+        return {
+            'primary_line': self.primary_line,
+            'secondary_line': self.secondary_line,
+            'urbanization': self.urbanization,
+            'city': self.city,
+            'state': self.state,
+            'zip_code': self.zip_code,
+        }

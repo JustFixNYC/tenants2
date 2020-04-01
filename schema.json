@@ -2495,7 +2495,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The full mailing address for the landlord.",
+              "description": "The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.",
               "isDeprecated": false,
               "name": "address",
               "type": {
@@ -6154,7 +6154,7 @@
             },
             {
               "defaultValue": null,
-              "description": "The full mailing address for the landlord.",
+              "description": "The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.",
               "name": "address",
               "type": {
                 "kind": "NON_NULL",

@@ -61,7 +61,7 @@ class AccessDate(models.Model):
     objects = AccessDateManager()
 
 
-class LandlordDetails(models.Model):
+class LandlordDetails(MailingAddress):
     '''
     This represents the landlord details for a user's address, either
     manually entered by them or automatically looked up by us (or a
@@ -78,7 +78,13 @@ class LandlordDetails(models.Model):
 
     address = models.CharField(
         max_length=ADDR_LENGTH,
-        help_text="The full mailing address for the landlord.")
+        help_text=(
+            "The full mailing address for the landlord. This is a LEGACY "
+            "field that we prefer not to use if possible, e.g. if the "
+            "more granular primary/secondary line and city/state/zip "
+            "details are available on this model."
+        )
+    )
 
     lookup_date = models.DateField(
         null=True,
@@ -109,8 +115,15 @@ class LandlordDetails(models.Model):
 
     @property
     def address_lines_for_mailing(self) -> List[str]:
-        '''Return the full mailing address as a list of lines.'''
+        '''
+        Return the full mailing address as a list of lines, preferring
+        the new granular address information over the legacy "blobby"
+        address information.
+        '''
 
+        value = super().address_lines_for_mailing
+        if value:
+            return value
         if not self.address:
             return []
         return self.address.split('\n')
@@ -146,6 +159,10 @@ class LandlordDetails(models.Model):
             if info:
                 details.name = info.name
                 details.address = info.address
+                details.primary_line = info.primary_line
+                details.city = info.city
+                details.state = info.state
+                details.zip_code = info.zip_code
                 details.is_looked_up = True
             details.save()
             return details

@@ -12,7 +12,9 @@ from . import models, views, lob_api
 
 def get_ll_addr_details(landlord_details: models.LandlordDetails) -> models.AddressDetails:
     return models.AddressDetails.objects.get_or_create(
-        address=landlord_details.address)[0]
+        address=landlord_details.address,
+        defaults=landlord_details.get_address_as_dict(),
+    )[0]
 
 
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:

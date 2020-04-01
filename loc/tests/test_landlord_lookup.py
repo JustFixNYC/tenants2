@@ -9,7 +9,7 @@ from django.core.management.base import CommandError
 from project.tests.test_geocoding import EXAMPLE_SEARCH as EXAMPLE_GEO_SEARCH
 from project.tests.util import simplepatch
 from loc.landlord_lookup import (
-    lookup_landlord, _extract_landlord_info, LandlordInfo, _lookup_landlord_via_nycdb)
+    lookup_landlord, LandlordInfo, _lookup_landlord_via_nycdb)
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -95,22 +95,3 @@ def test_search_returns_none_on_request_exception(requests_mock):
 def test_search_returns_none_on_bad_result(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_GEO_SEARCH)
     assert lookup_landlord("150 court, brooklyn") is None
-
-
-def test_extract_landlord_info_works():
-    assert _extract_landlord_info({'result': []}) is None
-
-    assert _extract_landlord_info({'result': [{
-        'ownername': None,
-        'businessaddr': None
-    }]}) is None
-
-    assert _extract_landlord_info({'result': [{
-        'ownername': 'boof',
-        'businessaddr': None
-    }]}) == LandlordInfo(name='boof', address='')
-
-    assert _extract_landlord_info({'result': [{
-        'ownername': None,
-        'businessaddr': '1234'
-    }]}) == LandlordInfo(name='', address='1234')

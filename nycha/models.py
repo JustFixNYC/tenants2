@@ -2,6 +2,8 @@ from typing import Optional
 import logging
 from django.db import models
 
+from project.util.mailing_address import MailingAddress
+
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +29,7 @@ class NychaOfficeManager(models.Manager):
             return offices_for_bbl.first()
 
 
-class NychaOffice(models.Model):
+class NychaOffice(MailingAddress):
     name = models.CharField(
         max_length=255,
         help_text="The name of the management entity."

@@ -177,6 +177,7 @@ function createHPActionRouteInfo(prefix: string) {
     feeWaiverExpenses: `${prefix}/fee-waiver/expenses`,
     feeWaiverPublicAssistance: `${prefix}/fee-waiver/public-assistance`,
     yourLandlord: `${prefix}/your-landlord`,
+    ready: `${prefix}/ready`,
     waitForUpload: `${prefix}/wait`,
     confirmation: `${prefix}/confirmation`,
   }

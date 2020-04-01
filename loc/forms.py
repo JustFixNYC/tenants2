@@ -59,6 +59,23 @@ class LandlordDetailsForm(forms.ModelForm):
         fields = ('name', 'address')
 
 
+class LandlordDetailsFormV2(forms.ModelForm):
+    class Meta:
+        model = models.LandlordDetails
+        fields = (
+            'name',
+            'primary_line',
+            'city',
+            'state',
+            'zip_code',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in ['primary_line', 'city', 'state', 'zip_code']:
+            self.fields[field].required = True
+
+
 class OptionalLandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails

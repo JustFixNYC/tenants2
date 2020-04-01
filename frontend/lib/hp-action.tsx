@@ -10,8 +10,7 @@ import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-ro
 import { OutboundLink } from './google-analytics';
 import { HPUploadStatus, OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './pages/fee-waiver';
-import { ProgressStepProps, MiddleProgressStep } from './progress-step-route';
-import { assertNotNull } from './util';
+import { MiddleProgressStep } from './progress-step-route';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { CheckboxFormField } from './form-fields';
@@ -96,16 +95,18 @@ const HPActionIssuesRoutes = MiddleProgressStep(props => (
   />
 ));
 
-const YourLandlord = (props: ProgressStepProps) => (
-  <HPActionYourLandlord {...props} renderProgressButtons={props => (
+const PrepareToGeneratePDF = MiddleProgressStep(props => (
+  <Page title="Almost done!" withHeading className="content">
+    <p>Now for the final step: we're going to prepare your Emergency HP Action paperwork for you to review.</p>
+    <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.hp.waitForUpload}>
       {(ctx) =>
-        <ProgressButtons back={assertNotNull(props.prevStep)} isLoading={ctx.isLoading}
-          nextLabel="Generate forms" />
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading}
+         nextLabel="Prepare forms" />
       }
     </GeneratePDFForm>
-  )} />
-);
+  </Page>
+));
 
 const UploadStatus = () => (
   <ShowHPUploadStatus
@@ -216,7 +217,8 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
       isComplete: hasFeeWaiverAnd(fw => fw.receivesPublicAssistance !== null) },
     { path: Routes.locale.hp.feeWaiverExpenses, component: FeeWaiverExpenses,
       isComplete: hasFeeWaiverAnd(fw => fw.rentAmount !== null) },
-    { path: Routes.locale.hp.yourLandlord, exact: true, component: YourLandlord,
+    { path: Routes.locale.hp.yourLandlord, exact: true, component: HPActionYourLandlord },
+    { path: Routes.locale.hp.ready, exact: true, component: PrepareToGeneratePDF,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [

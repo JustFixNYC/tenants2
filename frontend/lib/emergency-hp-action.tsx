@@ -8,7 +8,7 @@ import { AppContext } from './app-context';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { isNotSuingForRepairs } from './hp-action-util';
 import { MiddleProgressStep, ProgressStepProps } from './progress-step-route';
-import { ProgressButtons, BackButton } from './buttons';
+import { ProgressButtons } from './buttons';
 import { Link } from 'react-router-dom';
 import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
@@ -169,15 +169,6 @@ const PrepareToGeneratePDF = MiddleProgressStep(props => (
   </Page>
 ));
 
-const YourLandlord = MiddleProgressStep(props => (
-  <HPActionYourLandlord {...props} renderProgressButtons={() => (
-    <ProgressButtons>
-      <BackButton to={props.prevStep} />
-      <Link to={props.nextStep} className="button is-primary is-medium" >Next</Link>
-    </ProgressButtons>
-  )} />
-));
-
 const stepBuilder = new SessionStepBuilder(sess => sess);
 
 const YourLandlordOptionalDetails = stepBuilder.createStep({
@@ -278,7 +269,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: isNotSuingForRepairs },
-    { path: Routes.locale.ehp.yourLandlord, exact: true, component: YourLandlord },
+    { path: Routes.locale.ehp.yourLandlord, exact: true, component: HPActionYourLandlord },
     { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },

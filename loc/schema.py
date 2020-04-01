@@ -42,6 +42,12 @@ class LandlordDetails(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsForm
 
+
+@schema_registry.register_mutation
+class LandlordDetailsV2(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.LandlordDetailsFormV2
+
     @classmethod
     def resolve(cls, parent, info: ResolveInfo):
         result = super().resolve(parent, info)
@@ -86,7 +92,24 @@ class LetterRequest(OneToOneUserModelFormMutation):
 class LandlordDetailsType(DjangoObjectType):
     class Meta:
         model = models.LandlordDetails
-        only_fields = ('name', 'address', 'is_looked_up', 'email', 'phone_number')
+        only_fields = (
+            'name',
+            'address',
+            'primary_line',
+            'city',
+            'zip_code',
+            'is_looked_up',
+            'email',
+            'phone_number'
+        )
+
+    # If we specify 'state' as a model field, graphene-django will turn
+    # it into an enum where the empty string value is an invalid choice,
+    # so instead we'll just coerce it to a string.
+    state = graphene.String(required=True)
+
+    def resolve_state(self, context: ResolveInfo) -> str:
+        return self.state
 
 
 class LetterRequestType(DjangoObjectType):
@@ -98,7 +121,7 @@ class LetterRequestType(DjangoObjectType):
 @schema_registry.register_session_info
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
-    landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetails.resolve)
+    landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
 
     def resolve_access_dates(self, info: ResolveInfo):

@@ -45,7 +45,7 @@ const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = props => {
         <TextualFormField {...ctx.fieldPropsFor('primaryLine')} label="Street address" />
         <TextualFormField {...ctx.fieldPropsFor('city')} label="City" />
         <SelectFormField {...ctx.fieldPropsFor('state')} choices={US_STATE_CHOICES as DjangoChoices} label="State" />
-        <TextualFormField {...ctx.fieldPropsFor('zipCode')} label="ZIp code" />
+        <TextualFormField {...ctx.fieldPropsFor('zipCode')} label="Zip code" />
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}
     </SessionUpdatingFormSubmitter>

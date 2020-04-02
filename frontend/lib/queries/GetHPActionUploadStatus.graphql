@@ -1,6 +1,8 @@
 query GetHPActionUploadStatus {
     session {
         latestHpActionPdfUrl,
-        hpActionUploadStatus
+        hpActionUploadStatus,
+        latestEhpActionPdfUrl,
+        ehpActionUploadStatus
     }
 }

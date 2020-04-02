@@ -220,7 +220,7 @@ def execute_genpdf_mutation(graphql_client, **input):
             }
         }
         """,
-        variables={'input': input}
+        variables={'input': {'kind': 'NORMAL', **input}}
     )['data']['output']
 
 

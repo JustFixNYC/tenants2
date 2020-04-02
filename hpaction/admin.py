@@ -20,7 +20,7 @@ class NoAddOrDeleteMixin:
 @admin.register(models.HPActionDocuments)
 class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     list_display = [
-        'id', 'user', 'created_at'
+        'id', 'user', 'kind', 'created_at'
     ]
 
     actions = [schedule_for_deletion]

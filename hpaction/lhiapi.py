@@ -88,7 +88,7 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
             f"{get_site_name()} here! Follow this link to your completed "
             f"HP Action legal forms. You will need to print these "
             f"papers before bringing them to court! "
-            f"{absolute_reverse('hpaction:latest_pdf')}",
+            f"{absolute_reverse('hpaction:latest_pdf', kwargs={'kind': docs.kind})}",
         )
         user.trigger_followup_campaign_async("HP")
         slack.sendmsg_async(

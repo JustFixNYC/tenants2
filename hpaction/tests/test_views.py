@@ -53,7 +53,7 @@ class TestUpload:
 
 class TestLatestPDF:
     def setup(self):
-        self.url = reverse('hpaction:latest_pdf')
+        self.url = reverse('hpaction:latest_pdf', kwargs={'kind': "NORMAL"})
 
     def test_it_returns_404_when_no_pdfs_exist(self, admin_client):
         res = admin_client.get(self.url)

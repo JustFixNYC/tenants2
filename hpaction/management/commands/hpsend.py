@@ -11,6 +11,8 @@ from hpaction import lhiapi
 
 DEFAULT_EXTRACT_BASENAME = 'hp-action'
 
+DEFAULT_KIND = HP_ACTION_CHOICES.NORMAL
+
 
 class Command(BaseCommand):
     help = (
@@ -21,6 +23,15 @@ class Command(BaseCommand):
         parser.add_argument(
             'username',
             help='The username to send an HP Action document assembly request for.'
+        )
+        parser.add_argument(
+            '--kind',
+            default=DEFAULT_KIND,
+            help=(
+                f'The kind of HP Action. Choose from '
+                f'{", ".join(HP_ACTION_CHOICES.choices_dict.keys())}. Defaults to '
+                f'{DEFAULT_KIND}.'
+            )
         )
         parser.add_argument(
             '--xml-input-file',
@@ -63,11 +74,16 @@ class Command(BaseCommand):
         return path.read_text()
 
     def handle(self, *args, **options) -> None:
+        kind: str = options['kind']
+        if kind not in HP_ACTION_CHOICES.choices_dict:
+            raise CommandError(f'Invalid kind: {kind}')
+
         if not settings.HP_ACTION_CUSTOMER_KEY:
             raise CommandError('HP_ACTION_CUSTOMER_KEY is not defined!')
 
         user = JustfixUser.objects.get(username=options['username'])
-        token = UploadToken.objects.create_for_user(user, HP_ACTION_CHOICES.NORMAL)
+        token = UploadToken.objects.create_for_user(user, kind)
+        token.full_clean()
 
         self.stdout.write('Created upload token. Sending SOAP request...\n')
 

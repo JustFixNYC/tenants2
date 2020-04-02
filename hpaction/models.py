@@ -1,7 +1,7 @@
 from io import BytesIO
 from decimal import Decimal
 from datetime import timedelta, date
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Dict
 from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -289,8 +289,21 @@ class HPActionDocumentsManager(models.Manager):
         docs.save()
         return docs
 
-    def get_latest_for_user(self, user: JustfixUser, kind: str) -> Optional['HPActionDocuments']:
-        return self.filter(user=user, kind=kind).order_by('-created_at').first()
+    def get_latest_for_user(
+        self,
+        user: JustfixUser,
+        kind: Optional[str]
+    ) -> Optional['HPActionDocuments']:
+        '''
+        Retrieve the latest HP Action documents for the given user, of
+        the given kind.  If kind is None, the most recent of *any* kind of
+        HP Action document is returned.
+        '''
+
+        kwargs: Dict[str, str] = {}
+        if kind:
+            kwargs['kind'] = kind
+        return self.filter(user=user, **kwargs).order_by('-created_at').first()
 
 
 class HPActionDetails(models.Model):
@@ -350,10 +363,11 @@ class HPActionDetails(models.Model):
 
     @property
     def latest_documents(self) -> Optional['HPActionDocuments']:
-        return HPActionDocuments.objects.get_latest_for_user(
-            self.user,
-            kind=HP_ACTION_CHOICES.NORMAL
-        )
+        '''
+        The most recent of *any* kind of HP Action documents, if any exist.
+        '''
+
+        return HPActionDocuments.objects.get_latest_for_user(self.user, kind=None)
 
 
 class HPActionDocuments(models.Model):

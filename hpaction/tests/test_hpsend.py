@@ -23,6 +23,11 @@ def test_it_raises_error_if_customer_key_is_undefined():
         call_command('hpsend', 'blarg')
 
 
+def test_it_raises_error_on_invalid_kind():
+    with pytest.raises(CommandError, match="Invalid kind"):
+        call_command('hpsend', 'blarg', '--kind=FLARG')
+
+
 def test_it_works(db, settings, fake_soap_call, django_file_storage):
     settings.HP_ACTION_CUSTOMER_KEY = 'blarg'
     out = StringIO()

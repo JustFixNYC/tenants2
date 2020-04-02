@@ -55,6 +55,10 @@ class TestLatestPDF:
     def setup(self):
         self.url = reverse('hpaction:latest_pdf', kwargs={'kind': "NORMAL"})
 
+    def test_it_returns_404_for_invalid_kinds(self, admin_client):
+        res = admin_client.get(reverse('hpaction:latest_pdf', kwargs={'kind': "BOOP"}))
+        assert res.status_code == 404
+
     def test_it_returns_404_when_no_pdfs_exist(self, admin_client):
         res = admin_client.get(self.url)
         assert res.status_code == 404
@@ -63,5 +67,10 @@ class TestLatestPDF:
         docs = HPActionDocumentsFactory()
         client.force_login(docs.user)
         res = client.get(self.url)
+        assert res.status_code == 200
+        assert res['Content-Type'] == 'application/pdf'
+
+        # Make sure the legacy URL works too.
+        res = client.get(reverse('hpaction:legacy_latest_pdf'))
         assert res.status_code == 200
         assert res['Content-Type'] == 'application/pdf'

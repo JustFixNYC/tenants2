@@ -32,7 +32,7 @@ class TestUploadToken:
             assert UploadToken.objects.count() == 0
 
     def test_create_documents_from_works(self, db, django_file_storage):
-        token = UploadTokenFactory()
+        token = UploadTokenFactory(kind=HP_ACTION_CHOICES.EMERGENCY)
         user = token.user
         token_id = token.id
         docs = token.create_documents_from(
@@ -43,6 +43,7 @@ class TestUploadToken:
         assert django_file_storage.read(docs.pdf_file) == b'i am pdf'
         assert docs.user == user
         assert docs.id == token_id
+        assert docs.kind == "EMERGENCY"
 
         # Make sure the token was deleted.
         assert token.id is None
@@ -100,6 +101,12 @@ class TestHPActionDocuments:
         docs = HPActionDocuments.objects.get_latest_for_user(user, NORMAL)
         assert docs and docs.id == 'older'
 
+        docs = HPActionDocuments.objects.get_latest_for_user(user, kind=None)
+        assert docs and docs.id == 'older'
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)
+        assert docs is None
+
         with freeze_time('2019-01-01'):
             HPActionDocumentsFactory(user=user, id='newer')
 
@@ -110,6 +117,10 @@ class TestHPActionDocuments:
 class TestGetUploadStatusForUser:
     def test_it_returns_not_started(self, db):
         assert get_upload_status_for_user(UserFactory(), NORMAL) == HPUploadStatus.NOT_STARTED
+
+    def test_it_filters_by_kind(self, db):
+        token = UploadTokenFactory(kind=HP_ACTION_CHOICES.EMERGENCY)
+        assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.NOT_STARTED
 
     def test_it_returns_started(self, db):
         token = UploadTokenFactory()

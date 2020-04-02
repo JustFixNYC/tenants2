@@ -5,6 +5,7 @@ from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
+from loc.models import LandlordDetails
 import nycdb.models
 from .models import (
     FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
@@ -161,27 +162,34 @@ def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
 
 def fill_landlord_info_from_user_landlord_details(
     v: hp.HPActionVariables,
-    user: JustfixUser
+    ld: LandlordDetails
 ) -> None:
-    if hasattr(user, 'landlord_details'):
-        ld = user.landlord_details
-        if ld.name and ld.is_address_populated():
-            v.landlord_entity_name_te = ld.name
-            v.landlord_address_street_te = ld.primary_line
-            v.landlord_address_city_te = ld.city
-            v.landlord_address_zip_te = ld.zip_code
-            v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
-        # TODO: Consider populating the 'individual' vs. 'company' field somehow?
+    v.landlord_entity_name_te = ld.name
+    v.landlord_address_street_te = ld.primary_line
+    v.landlord_address_city_te = ld.city
+    v.landlord_address_zip_te = ld.zip_code
+    v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
+    # TODO: Consider populating the 'individual' vs. 'company' field somehow?
 
 
-def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
+def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser) -> bool:
     pad_bbl = get_user_pad_bbl(user)
     pad_bin = get_user_pad_bin(user)
-    filled = False
     if pad_bbl or pad_bin:
-        filled = fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
-    if not filled:
-        fill_landlord_info_from_user_landlord_details(v, user)
+        return fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
+    return False
+
+
+def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> bool:
+    if hasattr(user, 'landlord_details'):
+        ld = user.landlord_details
+        if not ld.is_looked_up and ld.name and ld.is_address_populated():
+            # The user has manually entered landlord details, use them!
+            fill_landlord_info_from_user_landlord_details(v, ld)
+            return True
+    # The user has not manually entered landlord details; use the latest
+    # open data to fill in both the landlord and management company.
+    return fill_landlord_info_from_open_data(v, user)
 
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:

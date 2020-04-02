@@ -11,7 +11,7 @@ from hpaction.build_hpactionvars import (
     fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
     fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
     fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
-    fill_landlord_info_from_user_landlord_details)
+    fill_landlord_info)
 from .factories import (
     TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory)
 import hpaction.hpactionvars as hp
@@ -309,6 +309,7 @@ def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment
 
 def test_fill_landlord_info_from_user_landlord_details_works(db):
     ld = LandlordDetailsFactory(
+        is_looked_up=False,
         name="Landlordo Calrissian",
         primary_line="123 Cloud City Drive",
         city="Bespin",
@@ -316,7 +317,7 @@ def test_fill_landlord_info_from_user_landlord_details_works(db):
         zip_code="12345"
     )
     v = hp.HPActionVariables()
-    fill_landlord_info_from_user_landlord_details(v, ld.user)
+    assert fill_landlord_info(v, ld.user) is True
     assert v.landlord_entity_name_te == "Landlordo Calrissian"
     assert v.landlord_address_street_te == "123 Cloud City Drive"
     assert v.landlord_address_city_te == "Bespin"

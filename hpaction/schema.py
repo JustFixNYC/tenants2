@@ -22,7 +22,7 @@ from project.util.django_graphql_forms import DjangoFormMutation
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
 from issues.schema import save_custom_issues_formset_with_area
 import issues.forms
-from .models import HPUploadStatus, COMMON_DATA, HPActionDocuments
+from .models import HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
 
@@ -54,7 +54,7 @@ class BeginDocusign(DjangoFormMutation):
         if not user.is_email_verified:
             return cls.make_error("Your email address is not verified!")
 
-        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)
 
         if not docs:
             return cls.make_error("You have no HP Action documents to sign!")
@@ -85,7 +85,8 @@ class EmailHpActionPdf(EmailAttachmentMutation):
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
-        latest = HPActionDocuments.objects.get_latest_for_user(info.context.user)
+        latest = HPActionDocuments.objects.get_latest_for_user(
+            info.context.user, HP_ACTION_CHOICES.NORMAL)
         if latest is None:
             return cls.make_error("You do not have an HP Action packet to send!")
         return super().perform_mutate(form, info)
@@ -173,7 +174,8 @@ class GenerateHpActionPdf(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
-        token = models.UploadToken.objects.create_for_user(user)
+        kind: str = form.cleaned_data['kind']
+        token = models.UploadToken.objects.create_for_user(user, kind)
         lhiapi.async_get_answers_and_documents_and_notify(token.id)
         return cls.mutation_success()
 
@@ -319,6 +321,51 @@ class PriorHPActionCases(ManyToOneUserModelFormMutation):
         }
 
 
+def make_latest_hpa_pdf_field(kind: str):
+    def resolver(root, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        if models.HPActionDocuments.objects.filter(
+            user=request.user,
+            kind=kind,
+        ).exists():
+            return f"{reverse('hpaction:latest_pdf', kwargs={'kind': kind.lower()})}"
+        return None
+
+    label = HP_ACTION_CHOICES.get_label(kind)
+    field = graphene.String(
+        description=(
+            f"The URL of the most recently-generated {label} PDF "
+            f"for the current user."
+        ),
+        resolver=resolver,
+    )
+
+    return field
+
+
+UploadStatusEnum = graphene.Enum.from_enum(HPUploadStatus)
+
+
+def make_hpa_upload_status_field(kind: str):
+    def resolver(root, info: ResolveInfo) -> HPUploadStatus:
+        request = info.context
+        if not request.user.is_authenticated:
+            return HPUploadStatus.NOT_STARTED
+        return models.get_upload_status_for_user(request.user, kind)
+
+    label = HP_ACTION_CHOICES.get_label(kind)
+    field = graphene.Field(
+        UploadStatusEnum,
+        required=True,
+        description=HPUploadStatus.__doc__.replace("HP Action", label),  # type: ignore
+        resolver=resolver,
+    )
+
+    return field
+
+
 @schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
@@ -336,16 +383,11 @@ class HPActionSessionInfo:
         resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
 
-    latest_hp_action_pdf_url = graphene.String(
-        description=(
-            "The URL of the most recently-generated HP Action PDF "
-            "for the current user."
-        )
-    )
+    latest_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.NORMAL)
+    hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.NORMAL)
 
-    hp_action_upload_status = graphene.Field(graphene.Enum.from_enum(HPUploadStatus),
-                                             required=True,
-                                             description=HPUploadStatus.__doc__)
+    latest_emergency_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.EMERGENCY)
+    emergency_hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.EMERGENCY)
 
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),
@@ -356,17 +398,3 @@ class HPActionSessionInfo:
         graphene.NonNull(PriorHPActionCaseType),
         resolver=create_models_for_user_resolver(models.PriorCase)
     )
-
-    def resolve_latest_hp_action_pdf_url(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        if not request.user.is_authenticated:
-            return None
-        if models.HPActionDocuments.objects.filter(user=request.user).exists():
-            return reverse('hpaction:latest_pdf')
-        return None
-
-    def resolve_hp_action_upload_status(self, info: ResolveInfo) -> HPUploadStatus:
-        request = info.context
-        if not request.user.is_authenticated:
-            return HPUploadStatus.NOT_STARTED
-        return models.get_upload_status_for_user(request.user)

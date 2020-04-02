@@ -45,9 +45,11 @@ class UploadTokenFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
+    kind = models.HP_ACTION_CHOICES.NORMAL
+
     @classmethod
-    def _create(self, model_class, user):
-        return models.UploadToken.objects.create_for_user(user)
+    def _create(self, model_class, user, kind):
+        return models.UploadToken.objects.create_for_user(user, kind)
 
 
 class FeeWaiverDetailsFactory(factory.django.DjangoModelFactory):

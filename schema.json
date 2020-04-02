@@ -1828,7 +1828,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The URL of the most recently-generated HP Action PDF for the current user.",
+              "description": "The URL of the most recently-generated Normal HP Action PDF for the current user.",
               "isDeprecated": false,
               "name": "latestHpActionPdfUrl",
               "type": {
@@ -1840,9 +1840,37 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The status of the HP Action upload (document assembly) process for a user.",
+              "description": "The status of the Normal HP Action upload (document assembly) process for a user.",
               "isDeprecated": false,
               "name": "hpActionUploadStatus",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "HPUploadStatus",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The URL of the most recently-generated Emergency HP Action (COVID-19) PDF for the current user.",
+              "isDeprecated": false,
+              "name": "latestEmergencyHpActionPdfUrl",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The status of the Emergency HP Action (COVID-19) upload (document assembly) process for a user.",
+              "isDeprecated": false,
+              "name": "emergencyHpActionUploadStatus",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -8612,6 +8640,20 @@
           "enumValues": null,
           "fields": null,
           "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "kind",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
             {
               "defaultValue": null,
               "description": null,

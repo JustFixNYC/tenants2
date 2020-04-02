@@ -21,6 +21,11 @@ const config: DjangoChoicesTypescriptConfig = {
       exportLabels: true,
     },
     {
+      jsonFilename: 'hp-action-choices.json',
+      typeName: 'HPActionChoice',
+      exportLabels: false,
+    },
+    {
       jsonFilename: 'lease-choices.json',
       typeName: 'LeaseChoice',
       exportLabels: true,

@@ -246,7 +246,7 @@ class HarassmentExplainForm(forms.ModelForm):
 
 
 class GeneratePDFForm(forms.Form):
-    pass
+    kind = forms.ChoiceField(choices=models.HP_ACTION_CHOICES.choices)
 
 
 class EmergencyHPAIssuesForm(forms.Form):

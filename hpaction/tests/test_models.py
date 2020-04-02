@@ -9,7 +9,11 @@ from project.tests.util import strip_locale
 from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFactory
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
-    get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails)
+    get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails,
+    HP_ACTION_CHOICES)
+
+
+NORMAL = HP_ACTION_CHOICES.NORMAL
 
 
 class TestUploadToken:
@@ -28,7 +32,7 @@ class TestUploadToken:
             assert UploadToken.objects.count() == 0
 
     def test_create_documents_from_works(self, db, django_file_storage):
-        token = UploadTokenFactory()
+        token = UploadTokenFactory(kind=HP_ACTION_CHOICES.EMERGENCY)
         user = token.user
         token_id = token.id
         docs = token.create_documents_from(
@@ -39,6 +43,7 @@ class TestUploadToken:
         assert django_file_storage.read(docs.pdf_file) == b'i am pdf'
         assert docs.user == user
         assert docs.id == token_id
+        assert docs.kind == "EMERGENCY"
 
         # Make sure the token was deleted.
         assert token.id is None
@@ -87,59 +92,69 @@ class TestHPActionDocuments:
     def test_get_latest_for_user_works(self, db, django_file_storage):
         user = UserFactory()
 
-        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        docs = HPActionDocuments.objects.get_latest_for_user(user, NORMAL)
         assert docs is None
 
         with freeze_time('2018-01-01'):
             HPActionDocumentsFactory(user=user, id='older')
 
-        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        docs = HPActionDocuments.objects.get_latest_for_user(user, NORMAL)
         assert docs and docs.id == 'older'
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user, kind=None)
+        assert docs and docs.id == 'older'
+
+        docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)
+        assert docs is None
 
         with freeze_time('2019-01-01'):
             HPActionDocumentsFactory(user=user, id='newer')
 
-        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        docs = HPActionDocuments.objects.get_latest_for_user(user, NORMAL)
         assert docs and docs.id == 'newer'
 
 
 class TestGetUploadStatusForUser:
     def test_it_returns_not_started(self, db):
-        assert get_upload_status_for_user(UserFactory()) == HPUploadStatus.NOT_STARTED
+        assert get_upload_status_for_user(UserFactory(), NORMAL) == HPUploadStatus.NOT_STARTED
+
+    def test_it_filters_by_kind(self, db):
+        token = UploadTokenFactory(kind=HP_ACTION_CHOICES.EMERGENCY)
+        assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.NOT_STARTED
 
     def test_it_returns_started(self, db):
         token = UploadTokenFactory()
-        assert get_upload_status_for_user(token.user) == HPUploadStatus.STARTED
+        assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.STARTED
 
     def test_it_returns_errored_when_token_has_errored_set(self, db):
         token = UploadTokenFactory()
         token.errored = True
         token.save()
-        assert get_upload_status_for_user(token.user) == HPUploadStatus.ERRORED
+        assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.ERRORED
 
     def test_it_returns_errored_when_token_is_expired(self, db):
         with freeze_time('2018-01-01') as time:
             token = UploadTokenFactory()
             time.tick(delta=datetime.timedelta(days=1))
-            assert get_upload_status_for_user(token.user) == HPUploadStatus.ERRORED
+            assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.ERRORED
 
     def test_it_returns_succeeded(self, db, django_file_storage):
         docs = HPActionDocumentsFactory()
-        assert get_upload_status_for_user(docs.user) == HPUploadStatus.SUCCEEDED
+        assert get_upload_status_for_user(docs.user, NORMAL) == HPUploadStatus.SUCCEEDED
 
     def test_it_ignores_old_docs(self, db, django_file_storage):
         with freeze_time('2018-01-01') as time:
             docs = HPActionDocumentsFactory()
             time.tick(delta=datetime.timedelta(days=1))
             token = UploadTokenFactory(user=docs.user)
-            assert get_upload_status_for_user(token.user) == HPUploadStatus.STARTED
+            assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.STARTED
 
     def test_it_ignores_old_tokens(self, db, django_file_storage):
         with freeze_time('2018-01-01') as time:
             token = UploadTokenFactory()
             time.tick(delta=datetime.timedelta(days=1))
             HPActionDocumentsFactory(user=token.user)
-            assert get_upload_status_for_user(token.user) == HPUploadStatus.SUCCEEDED
+            assert get_upload_status_for_user(token.user, NORMAL) == HPUploadStatus.SUCCEEDED
 
 
 class TestFeeWaiverDetails:

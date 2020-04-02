@@ -105,7 +105,7 @@ sessionFields = ["letterRequest"]
 
 [mutations.generateHpActionPdf]
 name = "GenerateHPActionPDFMutation"
-sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus"]
+sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus", "latestEmergencyHpActionPdfUrl", "emergencyHpActionUploadStatus"]
 
 [mutations.emergencyHpaIssues]
 sessionFields = ["hpActionDetails", "issues", "customIssuesV2"]

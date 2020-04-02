@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Page from '../page';
-import { HPUploadStatus } from '../queries/globalTypes';
+import { HPUploadStatus, GenerateHpActionPdfInput } from '../queries/globalTypes';
 import { AppContext } from '../app-context';
 import { FormContextRenderer } from '../form';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
@@ -9,26 +9,38 @@ import { NextButton } from '../buttons';
 import { SessionPoller } from '../session-poller';
 import { GetHPActionUploadStatus } from '../queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router-dom';
+import { HiddenFormField } from '../form-fields';
+import { HPActionChoice } from '../../../common-data/hp-action-choices';
 
-type GeneratePDFFormProps = {
-  children: FormContextRenderer<{}, any>,
+type BaseGeneratePDFFormProps = {
+  kind: HPActionChoice,
   toWaitForUpload: string,
 };
 
-export const GeneratePDFForm = (props: GeneratePDFFormProps) => (
-  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation} initialState={{}}
-   onSuccessRedirect={props.toWaitForUpload} {...props} />
+type GeneratePDFFormProps = BaseGeneratePDFFormProps & {
+  children: FormContextRenderer<GenerateHpActionPdfInput, any>,
+};
+
+export const GeneratePDFForm = ({kind, ...props}: GeneratePDFFormProps) => (
+  <SessionUpdatingFormSubmitter mutation={GenerateHPActionPDFMutation}
+   initialState={{kind}}
+   onSuccessRedirect={props.toWaitForUpload}>
+     {ctx => <>
+       <HiddenFormField {...ctx.fieldPropsFor('kind')} />
+       {props.children(ctx)}
+     </>}
+  </SessionUpdatingFormSubmitter>
 );
   
-const HPActionUploadError = (props: {toWaitForUpload: string}) => (
+const HPActionUploadError = (props: BaseGeneratePDFFormProps) => (
   <Page title="Alas." withHeading className="content">
     <p>Unfortunately, an error occurred when generating your HP Action packet.</p>
-    <GeneratePDFForm toWaitForUpload={props.toWaitForUpload}>
+    <GeneratePDFForm {...props}>
       {(ctx) => <NextButton isLoading={ctx.isLoading} label="Try again"/>}
     </GeneratePDFForm>
   </Page>
 );
-  
+
 const HPActionWaitForUpload = () => (
   <Page title="Please wait">
     <p className="has-text-centered">
@@ -43,15 +55,24 @@ const HPActionWaitForUpload = () => (
   </Page>
 );
 
-type ShowHPUploadStatusProps = {
-  toWaitForUpload: string,
+type ShowHPUploadStatusProps = BaseGeneratePDFFormProps & {
   toSuccess: string,
   toNotStarted: string,
 };
 
-export const ShowHPUploadStatus: React.FC<ShowHPUploadStatusProps> = props => {
+function useGetHpaUploadStatus(kind: HPActionChoice): HPUploadStatus {
   const {session} = useContext(AppContext);
-  let status = session.hpActionUploadStatus;
+
+  switch (kind) {
+    case "EMERGENCY":
+      return session.emergencyHpActionUploadStatus;
+    case "NORMAL":
+      return session.hpActionUploadStatus;
+  }
+}
+
+export const ShowHPUploadStatus: React.FC<ShowHPUploadStatusProps> = props => {
+  let status = useGetHpaUploadStatus(props.kind);
 
   switch (status) {
     case HPUploadStatus.STARTED:
@@ -61,7 +82,7 @@ export const ShowHPUploadStatus: React.FC<ShowHPUploadStatusProps> = props => {
     return <Redirect to={props.toSuccess} />;
 
     case HPUploadStatus.ERRORED:
-    return <HPActionUploadError toWaitForUpload={props.toWaitForUpload} />;
+    return <HPActionUploadError {...props} />;
 
     case HPUploadStatus.NOT_STARTED:
     return <Redirect to={props.toNotStarted} />;

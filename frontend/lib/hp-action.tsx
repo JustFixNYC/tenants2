@@ -99,7 +99,7 @@ const PrepareToGeneratePDF = MiddleProgressStep(props => (
   <Page title="Almost done!" withHeading className="content">
     <p>Now for the final step: we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
-    <GeneratePDFForm toWaitForUpload={Routes.locale.hp.waitForUpload}>
+    <GeneratePDFForm toWaitForUpload={Routes.locale.hp.waitForUpload} kind="NORMAL">
       {(ctx) =>
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading}
          nextLabel="Prepare forms" />
@@ -110,6 +110,7 @@ const PrepareToGeneratePDF = MiddleProgressStep(props => (
 
 const UploadStatus = () => (
   <ShowHPUploadStatus
+    kind="NORMAL"
     toWaitForUpload={Routes.locale.hp.waitForUpload}
     toSuccess={Routes.locale.hp.confirmation}
     toNotStarted={Routes.locale.hp.latestStep}

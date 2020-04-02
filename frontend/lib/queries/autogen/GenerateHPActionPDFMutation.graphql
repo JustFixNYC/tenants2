@@ -4,7 +4,9 @@ mutation GenerateHPActionPDFMutation($input: GenerateHpActionPdfInput!) {
     errors { ...ExtendedFormFieldErrors },
     session {
       latestHpActionPdfUrl,
-      hpActionUploadStatus
+      hpActionUploadStatus,
+      latestEmergencyHpActionPdfUrl,
+      emergencyHpActionUploadStatus
     }
   }
 }

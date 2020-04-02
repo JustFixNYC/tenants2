@@ -8,9 +8,13 @@ from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory)
 from hpaction.models import (
-    get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails)
+    get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails,
+    HP_ACTION_CHOICES)
 from hpaction.schema import sync_emergency_issues
 import hpaction.docusign
+
+
+NORMAL = HP_ACTION_CHOICES.NORMAL
 
 
 def one_field_err(message: str):
@@ -220,7 +224,7 @@ def execute_genpdf_mutation(graphql_client, **input):
             }
         }
         """,
-        variables={'input': input}
+        variables={'input': {'kind': 'NORMAL', **input}}
     )['data']['output']
 
 
@@ -235,7 +239,7 @@ class TestGenerateHPActionPDF:
         graphql_client.request.user = user
         result = execute_genpdf_mutation(graphql_client)
         assert result['errors'] == []
-        assert get_upload_status_for_user(user) == HPUploadStatus.ERRORED
+        assert get_upload_status_for_user(user, NORMAL) == HPUploadStatus.ERRORED
 
     @pytest.mark.django_db
     @override_settings(HP_ACTION_CUSTOMER_KEY="boop")
@@ -245,7 +249,7 @@ class TestGenerateHPActionPDF:
         fake_soap_call.simulate_success(user)
         result = execute_genpdf_mutation(graphql_client)
         assert result['errors'] == []
-        assert get_upload_status_for_user(user) == HPUploadStatus.SUCCEEDED
+        assert get_upload_status_for_user(user, NORMAL) == HPUploadStatus.SUCCEEDED
 
 
 class TestSessionPdfInfo:
@@ -368,6 +372,6 @@ class TestBeginDocusign:
         self.ensure_error('You have no HP Action documents to sign!')
 
     def test_it_works(self, mockdocusign, django_file_storage):
-        HPActionDocumentsFactory(user=self.user)
+        HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
         result = self.execute()
         assert result == {'errors': [], 'redirectUrl': 'https://fake-docusign'}

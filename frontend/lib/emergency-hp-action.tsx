@@ -71,7 +71,8 @@ function EmergencyHPActionSplash(): JSX.Element {
                     Start my case
                   </GetStartedButton>
                   <div className="content has-text-centered">
-                    <p className="jf-secondary-cta">Already have an account? <Link to={Routes.locale.login}>Sign in!</Link></p>
+                    <p className="jf-secondary-cta has-text-weight-bold">Are you a tenant that would prefer to work with a lawyer to start your case?
+                     <br />Call the Housing Court Answers hotline at <a href="tel:1-800-234-9874">1-800-234-9874</a>.</p>
                   </div>
                 </div>
               </div>
@@ -160,7 +161,7 @@ const PrepareToGeneratePDF = MiddleProgressStep(props => (
   <Page title="Almost done!" withHeading className="content">
     <p>You're almost there!  Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
-    <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload}>
+    <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
       {(ctx) =>
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading}
           nextLabel="Prepare forms" />
@@ -189,6 +190,7 @@ const YourLandlordOptionalDetails = stepBuilder.createStep({
 
 const UploadStatus = () => (
   <ShowHPUploadStatus
+    kind="EMERGENCY"
     toWaitForUpload={Routes.locale.ehp.waitForUpload}
     toSuccess={Routes.locale.ehp.reviewForms}
     toNotStarted={Routes.locale.ehp.latestStep}
@@ -197,7 +199,7 @@ const UploadStatus = () => (
 
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
-  const href = session.latestHpActionPdfUrl && `${session.latestHpActionPdfUrl}?em=on`;
+  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
   const prevStep = Routes.locale.ehp.yourLandlord;
   const nextUrl = Routes.locale.ehp.confirmation;
 
@@ -274,11 +276,11 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
     { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,
-      isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
+      isComplete: (s) => s.emergencyHpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
-      isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED },
+      isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms},
     { path: Routes.locale.ehp.confirmation, exact: true, component: Confirmation}
   ]

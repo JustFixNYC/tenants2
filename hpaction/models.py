@@ -1,7 +1,7 @@
 from io import BytesIO
 from decimal import Decimal
 from datetime import timedelta, date
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Dict
 from enum import Enum
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -14,6 +14,14 @@ from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
 from project import common_data
 from users.models import JustfixUser
+
+HP_ACTION_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
+
+KIND_KWARGS = dict(
+    max_length=30,
+    choices=HP_ACTION_CHOICES.choices,
+    default=HP_ACTION_CHOICES.NORMAL,
+)
 
 COMMON_DATA = common_data.load_json("hp-action.json")
 
@@ -281,8 +289,21 @@ class HPActionDocumentsManager(models.Manager):
         docs.save()
         return docs
 
-    def get_latest_for_user(self, user: JustfixUser) -> Optional['HPActionDocuments']:
-        return self.filter(user=user).order_by('-created_at').first()
+    def get_latest_for_user(
+        self,
+        user: JustfixUser,
+        kind: Optional[str]
+    ) -> Optional['HPActionDocuments']:
+        '''
+        Retrieve the latest HP Action documents for the given user, of
+        the given kind.  If kind is None, the most recent of *any* kind of
+        HP Action document is returned.
+        '''
+
+        kwargs: Dict[str, str] = {}
+        if kind:
+            kwargs['kind'] = kind
+        return self.filter(user=user, **kwargs).order_by('-created_at').first()
 
 
 class HPActionDetails(models.Model):
@@ -342,7 +363,11 @@ class HPActionDetails(models.Model):
 
     @property
     def latest_documents(self) -> Optional['HPActionDocuments']:
-        return HPActionDocuments.objects.get_latest_for_user(self.user)
+        '''
+        The most recent of *any* kind of HP Action documents, if any exist.
+        '''
+
+        return HPActionDocuments.objects.get_latest_for_user(self.user, kind=None)
 
 
 class HPActionDocuments(models.Model):
@@ -379,6 +404,8 @@ class HPActionDocuments(models.Model):
             "deletion."
         )
     )
+
+    kind = models.CharField(**KIND_KWARGS)
 
     xml_file = models.FileField(
         upload_to='hp-action-docs/',
@@ -422,13 +449,14 @@ class UploadTokenManager(models.Manager):
             token.errored = True
             token.save()
 
-    def create_for_user(self, user: JustfixUser) -> 'UploadToken':
+    def create_for_user(self, user: JustfixUser, kind: str) -> 'UploadToken':
         'Create an upload token bound to the given user.'
 
         # It's so unlikely that this token will collide with another
         # that we're not even going to bother with retry logic.
         token = UploadToken(
             id=get_random_string(length=UPLOAD_TOKEN_LENGTH),
+            kind=kind,
             user=user
         )
         token.save()
@@ -450,8 +478,8 @@ class UploadTokenManager(models.Manager):
 
         self.filter(created_at__lte=timezone.now() - UPLOAD_TOKEN_LIFETIME).delete()
 
-    def get_latest_for_user(self, user: JustfixUser) -> Optional['UploadToken']:
-        return self.filter(user=user).order_by('-created_at').first()
+    def get_latest_for_user(self, user: JustfixUser, kind: str) -> Optional['UploadToken']:
+        return self.filter(user=user, kind=kind).order_by('-created_at').first()
 
 
 class UploadToken(models.Model):
@@ -468,6 +496,8 @@ class UploadToken(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
+
+    kind = models.CharField(**KIND_KWARGS)
 
     # This tracks whether an error occurred at some point during
     # document assembly or the upload process, which can be useful
@@ -493,6 +523,7 @@ class UploadToken(models.Model):
         docs = HPActionDocuments.objects.create_from_file_data(
             xml_data=xml_data,
             pdf_data=pdf_data,
+            kind=self.kind,
             user=self.user,
             id=self.id
         )
@@ -532,9 +563,12 @@ class HPUploadStatus(Enum):
         raise AssertionError()  # pragma: nocover
 
 
-def _get_latest_docs_or_tok(user: JustfixUser) -> Union[HPActionDocuments, HPUploadStatus, None]:
-    docs = HPActionDocuments.objects.get_latest_for_user(user)
-    tok = UploadToken.objects.get_latest_for_user(user)
+def _get_latest_docs_or_tok(
+    user: JustfixUser,
+    kind: str
+) -> Union[HPActionDocuments, HPUploadStatus, None]:
+    docs = HPActionDocuments.objects.get_latest_for_user(user, kind)
+    tok = UploadToken.objects.get_latest_for_user(user, kind)
     if docs and tok:
         if docs.created_at >= tok.created_at:
             return docs
@@ -542,8 +576,8 @@ def _get_latest_docs_or_tok(user: JustfixUser) -> Union[HPActionDocuments, HPUpl
     return docs or tok
 
 
-def get_upload_status_for_user(user: JustfixUser) -> HPUploadStatus:
-    thing = _get_latest_docs_or_tok(user)
+def get_upload_status_for_user(user: JustfixUser, kind: str) -> HPUploadStatus:
+    thing = _get_latest_docs_or_tok(user, kind)
     if isinstance(thing, HPActionDocuments):
         return HPUploadStatus.SUCCEEDED
     elif isinstance(thing, UploadToken):

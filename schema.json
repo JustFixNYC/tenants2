@@ -1858,7 +1858,7 @@
               "deprecationReason": null,
               "description": "The URL of the most recently-generated Emergency HP Action (COVID-19) PDF for the current user.",
               "isDeprecated": false,
-              "name": "latestEhpActionPdfUrl",
+              "name": "latestEmergencyHpActionPdfUrl",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1870,7 +1870,7 @@
               "deprecationReason": null,
               "description": "The status of the Emergency HP Action (COVID-19) upload (document assembly) process for a user.",
               "isDeprecated": false,
-              "name": "ehpActionUploadStatus",
+              "name": "emergencyHpActionUploadStatus",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

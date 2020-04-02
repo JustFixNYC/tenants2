@@ -2,7 +2,7 @@ query GetHPActionUploadStatus {
     session {
         latestHpActionPdfUrl,
         hpActionUploadStatus,
-        latestEhpActionPdfUrl,
-        ehpActionUploadStatus
+        latestEmergencyHpActionPdfUrl,
+        emergencyHpActionUploadStatus
     }
 }

@@ -5,8 +5,8 @@ mutation GenerateHPActionPDFMutation($input: GenerateHpActionPdfInput!) {
     session {
       latestHpActionPdfUrl,
       hpActionUploadStatus,
-      latestEhpActionPdfUrl,
-      ehpActionUploadStatus
+      latestEmergencyHpActionPdfUrl,
+      emergencyHpActionUploadStatus
     }
   }
 }

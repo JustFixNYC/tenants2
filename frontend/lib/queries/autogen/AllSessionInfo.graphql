@@ -49,8 +49,8 @@ fragment AllSessionInfo on SessionInfo {
   harassmentDetails { ...HarassmentDetails },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
-  latestEhpActionPdfUrl,
-  ehpActionUploadStatus,
+  latestEmergencyHpActionPdfUrl,
+  emergencyHpActionUploadStatus,
   tenantChildren {
     id,
     name,

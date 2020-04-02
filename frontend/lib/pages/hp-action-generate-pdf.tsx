@@ -65,7 +65,7 @@ function useGetHpaUploadStatus(kind: HPActionChoice): HPUploadStatus {
 
   switch (kind) {
     case "EMERGENCY":
-      return session.ehpActionUploadStatus;
+      return session.emergencyHpActionUploadStatus;
     case "NORMAL":
       return session.hpActionUploadStatus;
   }

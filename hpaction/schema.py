@@ -386,8 +386,8 @@ class HPActionSessionInfo:
     latest_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.NORMAL)
     hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.NORMAL)
 
-    latest_ehp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.EMERGENCY)
-    ehp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.EMERGENCY)
+    latest_emergency_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.EMERGENCY)
+    emergency_hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.EMERGENCY)
 
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),

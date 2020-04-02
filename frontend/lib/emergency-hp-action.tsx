@@ -198,7 +198,7 @@ const UploadStatus = () => (
 
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
-  const href = session.latestEhpActionPdfUrl && `${session.latestEhpActionPdfUrl}`;
+  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
   const prevStep = Routes.locale.ehp.yourLandlord;
   const nextUrl = Routes.locale.ehp.confirmation;
 
@@ -275,11 +275,11 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
     { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,
-      isComplete: (s) => s.ehpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
+      isComplete: (s) => s.emergencyHpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
-      isComplete: (s) => s.ehpActionUploadStatus === HPUploadStatus.SUCCEEDED },
+      isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms},
     { path: Routes.locale.ehp.confirmation, exact: true, component: Confirmation}
   ]

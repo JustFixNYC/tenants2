@@ -20,7 +20,6 @@ const acceptedEmergencyHpCases = [
   "no heat", 
   "no hot water", 
   "no gas", 
-  "mold", 
   "lead-based paint", 
   "no working toilet", 
   "vacate order issued"

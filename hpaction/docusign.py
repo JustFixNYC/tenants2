@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 import base64
 from django.conf import settings
 
@@ -33,6 +33,29 @@ def get_contact_info(user: JustfixUser) -> str:
         f"tenant phone: {user.formatted_phone_number()}",
         f"tenant email: {user.email}",
     ])
+
+
+def create_stacked_lines(
+    lines: List[str],
+    start_y: int,
+    line_spacing: int = 10,
+    **kwargs
+) -> List[dse.Text]:
+    y = start_y
+    result: List[dse.Text] = []
+
+    # This is weird, originally it seemed like DocuSign respected
+    # newlines, but then it didn't at some point, so we'll play it
+    # safe and manually break up the lines for it.
+    for line in lines:
+        result.append(dse.Text(
+            **kwargs,
+            value=line,
+            y_position=str(y),
+        ))
+        y += line_spacing
+
+    return result
 
 
 def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeDefinition:
@@ -96,14 +119,15 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         y_position='625',
     )
 
-    contact_info = dse.Text(
+    contact_info_lines = create_stacked_lines(
+        lines=get_contact_info(user).splitlines(),
+        start_y=25,
+        line_spacing=10,
         document_id=HPA_DOCUMENT_ID,
         page_number='2',
         tab_label="ReadOnlyDataField",
-        value=get_contact_info(user),
         locked="true",
         x_position="27",
-        y_position="25",
     )
 
     inspection_req_note = dse.Text(
@@ -121,7 +145,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     signer.tabs = dse.Tabs(
         text_tabs=[
-            contact_info,
+            *contact_info_lines,
             inspection_req_note,
         ],
         sign_here_tabs=[

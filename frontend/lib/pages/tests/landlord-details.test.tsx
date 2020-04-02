@@ -3,9 +3,9 @@ import React from 'react';
 import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { AppTesterPal } from '../../tests/app-tester-pal';
-import { LandlordDetailsMutation_output } from '../../queries/LandlordDetailsMutation';
 import { LandlordDetailsV2Input } from '../../queries/globalTypes';
 import { BlankLandlordDetailsType } from '../../queries/LandlordDetailsType';
+import { LandlordDetailsV2Mutation_output } from '../../queries/LandlordDetailsV2Mutation';
 
 
 const LOOKED_UP_LANDLORD_DETAILS = {
@@ -59,7 +59,7 @@ describe('landlord details page', () => {
     ]);
     pal.clickButtonOrLink('Preview letter');
     pal.expectFormInput<LandlordDetailsV2Input>({ name, primaryLine, city, state, zipCode });
-    pal.respondWithFormOutput<LandlordDetailsMutation_output>({
+    pal.respondWithFormOutput<LandlordDetailsV2Mutation_output>({
       errors: [],
       session: { landlordDetails: { ...BlankLandlordDetailsType, name, address } }
     });

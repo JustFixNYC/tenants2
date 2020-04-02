@@ -226,6 +226,15 @@ def test_landlord_details_v2_modifies_existing_details(graphql_client):
     assert ld.is_looked_up is False
 
 
+@pytest.mark.django_db
+def test_landlord_details_address_represents_best_address(graphql_client):
+    ld = LandlordDetailsV2Factory(address='some outdated legacy blob of text')
+    graphql_client.request.user = ld.user
+    res = graphql_client.execute('query { session { landlordDetails { address } } }')
+    assert res['data']['session']['landlordDetails']['address'] == \
+        '123 Cloud City Drive\nBespin, NY 12345'
+
+
 def test_landlord_details_requires_auth(graphql_client):
     result = execute_ld_mutation(graphql_client)
     assert result['errors'] == [{'field': '__all__', 'messages': [

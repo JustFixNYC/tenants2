@@ -4,9 +4,9 @@ fragment LandlordDetailsType on LandlordDetailsType {
   city,
   zipCode,
   name,
-  address,
   email,
   phoneNumber,
   isLookedUp,
+  address,
   state
 }

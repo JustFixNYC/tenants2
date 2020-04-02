@@ -2543,22 +2543,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.",
-              "isDeprecated": false,
-              "name": "address",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": "The landlord's email address.",
               "isDeprecated": false,
               "name": "email",
@@ -2600,6 +2584,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The full mailing address of the user, as a single string. Note that this may actually be populated even if individual address fields are empty; this represents legacy data created before we split up addresses into individual fields.",
+              "isDeprecated": false,
+              "name": "address",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               }

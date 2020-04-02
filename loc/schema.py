@@ -109,7 +109,6 @@ class LandlordDetailsType(DjangoObjectType):
         model = models.LandlordDetails
         only_fields = (
             'name',
-            'address',
             'primary_line',
             'city',
             'zip_code',
@@ -117,6 +116,19 @@ class LandlordDetailsType(DjangoObjectType):
             'email',
             'phone_number'
         )
+
+    address = graphene.String(
+        required=True,
+        description=(
+            "The full mailing address of the user, as a single string. Note "
+            "that this may actually be populated even if individual address "
+            "fields are empty; this represents legacy data created before we "
+            "split up addresses into individual fields."
+        )
+    )
+
+    def resolve_address(self, context: ResolveInfo) -> str:
+        return '\n'.join(self.address_lines_for_mailing)
 
     # If we specify 'state' as a model field, graphene-django will turn
     # it into an enum where the empty string value is an invalid choice,

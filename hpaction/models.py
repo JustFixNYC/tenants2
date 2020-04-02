@@ -17,12 +17,10 @@ from users.models import JustfixUser
 
 HP_ACTION_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
 
-DEFAULT_KIND: str = HP_ACTION_CHOICES.NORMAL
-
 KIND_KWARGS = dict(
     max_length=30,
     choices=HP_ACTION_CHOICES.choices,
-    default=DEFAULT_KIND,
+    default=HP_ACTION_CHOICES.NORMAL,
 )
 
 COMMON_DATA = common_data.load_json("hp-action.json")
@@ -291,11 +289,7 @@ class HPActionDocumentsManager(models.Manager):
         docs.save()
         return docs
 
-    def get_latest_for_user(
-        self,
-        user: JustfixUser,
-        kind: str = DEFAULT_KIND
-    ) -> Optional['HPActionDocuments']:
+    def get_latest_for_user(self, user: JustfixUser, kind: str) -> Optional['HPActionDocuments']:
         return self.filter(user=user, kind=kind).order_by('-created_at').first()
 
 
@@ -356,7 +350,10 @@ class HPActionDetails(models.Model):
 
     @property
     def latest_documents(self) -> Optional['HPActionDocuments']:
-        return HPActionDocuments.objects.get_latest_for_user(self.user)
+        return HPActionDocuments.objects.get_latest_for_user(
+            self.user,
+            kind=HP_ACTION_CHOICES.NORMAL
+        )
 
 
 class HPActionDocuments(models.Model):
@@ -438,7 +435,7 @@ class UploadTokenManager(models.Manager):
             token.errored = True
             token.save()
 
-    def create_for_user(self, user: JustfixUser, kind: str = DEFAULT_KIND) -> 'UploadToken':
+    def create_for_user(self, user: JustfixUser, kind: str) -> 'UploadToken':
         'Create an upload token bound to the given user.'
 
         # It's so unlikely that this token will collide with another
@@ -467,11 +464,7 @@ class UploadTokenManager(models.Manager):
 
         self.filter(created_at__lte=timezone.now() - UPLOAD_TOKEN_LIFETIME).delete()
 
-    def get_latest_for_user(
-        self,
-        user: JustfixUser,
-        kind: str = DEFAULT_KIND
-    ) -> Optional['UploadToken']:
+    def get_latest_for_user(self, user: JustfixUser, kind: str) -> Optional['UploadToken']:
         return self.filter(user=user, kind=kind).order_by('-created_at').first()
 
 
@@ -558,7 +551,7 @@ class HPUploadStatus(Enum):
 
 def _get_latest_docs_or_tok(
     user: JustfixUser,
-    kind: str = DEFAULT_KIND
+    kind: str
 ) -> Union[HPActionDocuments, HPUploadStatus, None]:
     docs = HPActionDocuments.objects.get_latest_for_user(user, kind)
     tok = UploadToken.objects.get_latest_for_user(user, kind)
@@ -569,7 +562,7 @@ def _get_latest_docs_or_tok(
     return docs or tok
 
 
-def get_upload_status_for_user(user: JustfixUser, kind: str = DEFAULT_KIND) -> HPUploadStatus:
+def get_upload_status_for_user(user: JustfixUser, kind: str) -> HPUploadStatus:
     thing = _get_latest_docs_or_tok(user, kind)
     if isinstance(thing, HPActionDocuments):
         return HPUploadStatus.SUCCEEDED

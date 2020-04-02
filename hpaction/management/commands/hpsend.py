@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from users.models import JustfixUser
-from hpaction.models import UploadToken, HPActionDocuments
+from hpaction.models import UploadToken, HPActionDocuments, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import user_to_hpactionvars
 from hpaction import lhiapi
 
@@ -67,7 +67,7 @@ class Command(BaseCommand):
             raise CommandError('HP_ACTION_CUSTOMER_KEY is not defined!')
 
         user = JustfixUser.objects.get(username=options['username'])
-        token = UploadToken.objects.create_for_user(user)
+        token = UploadToken.objects.create_for_user(user, HP_ACTION_CHOICES.NORMAL)
 
         self.stdout.write('Created upload token. Sending SOAP request...\n')
 

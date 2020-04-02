@@ -54,7 +54,7 @@ class BeginDocusign(DjangoFormMutation):
         if not user.is_email_verified:
             return cls.make_error("Your email address is not verified!")
 
-        docs = HPActionDocuments.objects.get_latest_for_user(user)
+        docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)
 
         if not docs:
             return cls.make_error("You have no HP Action documents to sign!")
@@ -85,7 +85,8 @@ class EmailHpActionPdf(EmailAttachmentMutation):
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
-        latest = HPActionDocuments.objects.get_latest_for_user(info.context.user)
+        latest = HPActionDocuments.objects.get_latest_for_user(
+            info.context.user, HP_ACTION_CHOICES.NORMAL)
         if latest is None:
             return cls.make_error("You do not have an HP Action packet to send!")
         return super().perform_mutate(form, info)

@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
-from .models import UploadToken, HPActionDocuments, HP_ACTION_CHOICES, DEFAULT_KIND
+from .models import UploadToken, HPActionDocuments, HP_ACTION_CHOICES
 
 
 LHI_B64_ALTCHARS = b' /'
@@ -66,7 +66,7 @@ def legacy_latest_pdf(request):
     return latest_pdf(request, HP_ACTION_CHOICES.NORMAL)
 
 
-def get_latest_pdf_for_user(user, kind: str = DEFAULT_KIND) -> FileResponse:
+def get_latest_pdf_for_user(user, kind: str) -> FileResponse:
     latest = HPActionDocuments.objects.get_latest_for_user(user, kind)
     if latest is None:
         label = HP_ACTION_CHOICES.get_label(kind)

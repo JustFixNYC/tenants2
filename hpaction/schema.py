@@ -174,7 +174,6 @@ class GenerateHpActionPdf(SessionFormMutation):
     def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
         kind: str = form.cleaned_data['kind']
-        print("HI KIND IS", kind)
         token = models.UploadToken.objects.create_for_user(user, kind)
         lhiapi.async_get_answers_and_documents_and_notify(token.id)
         return cls.mutation_success()
@@ -354,10 +353,7 @@ def make_hpa_upload_status_field(kind: str):
         print("WOO RESOLVER")
         if not request.user.is_authenticated:
             return HPUploadStatus.NOT_STARTED
-        #return models.get_upload_status_for_user(request.user, kind)
-        val = models.get_upload_status_for_user(request.user, kind)
-        print("HMM", val)
-        return val
+        return models.get_upload_status_for_user(request.user, kind)
 
     label = HP_ACTION_CHOICES.get_label(kind)
     field = graphene.Field(

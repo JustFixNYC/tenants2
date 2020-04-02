@@ -94,7 +94,7 @@ export const CovidEhpDisclaimer = () => {
     acceptedEmergencyHpCases.map((caseType, i) => <li key={i}> {caseType} </li>).slice(start, end);
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
-      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following:</p>
+      <p>Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for the following, or other conditions that threaten the health and safety of your household:</p>
       <div className="is-hidden-tablet">
         {generateCaseList(0,numCases)}
       </div>

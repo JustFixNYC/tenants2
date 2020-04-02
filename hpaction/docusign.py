@@ -122,7 +122,6 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     contact_info_lines = create_stacked_lines(
         lines=get_contact_info(user).splitlines(),
         start_y=25,
-        line_spacing=10,
         document_id=HPA_DOCUMENT_ID,
         page_number='2',
         tab_label="ReadOnlyDataField",
@@ -130,23 +129,21 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         x_position="27",
     )
 
-    inspection_req_note = dse.Text(
+    inspection_req_note_lines = create_stacked_lines(
+        lines=["These conditions are immediately hazardous to the",
+               "health and safety of my household."],
+        start_y=103,
         document_id=HPA_DOCUMENT_ID,
         page_number='3',
         tab_label="ReadOnlyDataField",
-        value=(
-            "These conditions are immediately hazardous to the\n"
-            "health and safety of my household."
-        ),
         locked="true",
         x_position="16",
-        y_position="103",
     )
 
     signer.tabs = dse.Tabs(
         text_tabs=[
             *contact_info_lines,
-            inspection_req_note,
+            *inspection_req_note_lines,
         ],
         sign_here_tabs=[
             sign_here_petition,

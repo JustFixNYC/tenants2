@@ -6,12 +6,11 @@ import Page from '../page';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
 import { exactSubsetOrDefault } from '../util';
-import { TextualFormField, SelectFormField } from '../form-fields';
+import { TextualFormField } from '../form-fields';
 import { ProgressButtons, BackButton } from '../buttons';
 import { Link } from 'react-router-dom';
 import { getQuerystringVar } from '../querystring';
-import US_STATE_CHOICES from '../../../common-data/us-state-choices.json';
-import { DjangoChoices } from '../common-data';
+import { USStateFormField } from '../mailing-address-fields';
 
 const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {
   details: AllSessionInfo_landlordDetails
@@ -44,7 +43,7 @@ const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = props => {
         <TextualFormField {...ctx.fieldPropsFor('name')} label="Landlord name" />
         <TextualFormField {...ctx.fieldPropsFor('primaryLine')} label="Street address" />
         <TextualFormField {...ctx.fieldPropsFor('city')} label="City" />
-        <SelectFormField {...ctx.fieldPropsFor('state')} choices={US_STATE_CHOICES as DjangoChoices} label="State" />
+        <USStateFormField {...ctx.fieldPropsFor('state')} />
         <TextualFormField {...ctx.fieldPropsFor('zipCode')} label="Zip code" />
         <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
       </>}

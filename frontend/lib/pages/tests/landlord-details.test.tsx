@@ -4,7 +4,7 @@ import Routes from '../../routes';
 import LetterOfComplaintRoutes from '../../letter-of-complaint';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { LandlordDetailsMutation_output } from '../../queries/LandlordDetailsMutation';
-import { LandlordDetailsInput } from '../../queries/globalTypes';
+import { LandlordDetailsV2Input } from '../../queries/globalTypes';
 import { BlankLandlordDetailsType } from '../../queries/LandlordDetailsType';
 
 
@@ -44,14 +44,21 @@ describe('landlord details page', () => {
       session: { landlordDetails: BlankLandlordDetailsType }
     });
     const name = "Boop Jones";
-    const address = "123 Boop Way\nBoopville, NY 11299";
+    const primaryLine = "123 Boop Way";
+    const city = "Boopville";
+    const state = "NY";
+    const zipCode = "11299";
+    const address = `${primaryLine}\n${city}, ${state} ${zipCode}`;
 
     pal.fillFormFields([
       [/name/i, name],
-      [/address/i, address]
+      [/address/i, primaryLine],
+      [/city/i, city],
+      [/state/i, state],
+      [/zip/i, zipCode],
     ]);
     pal.clickButtonOrLink('Preview letter');
-    pal.expectFormInput<LandlordDetailsInput>({ name, address });
+    pal.expectFormInput<LandlordDetailsV2Input>({ name, primaryLine, city, state, zipCode });
     pal.respondWithFormOutput<LandlordDetailsMutation_output>({
       errors: [],
       session: { landlordDetails: { ...BlankLandlordDetailsType, name, address } }

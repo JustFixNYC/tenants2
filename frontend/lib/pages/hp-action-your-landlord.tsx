@@ -9,7 +9,6 @@ import { exactSubsetOrDefault } from '../util';
 import { TextualFormField } from '../form-fields';
 import { ProgressButtons, BackButton } from '../buttons';
 import { Link } from 'react-router-dom';
-import { getQuerystringVar } from '../querystring';
 import { USStateFormField } from '../mailing-address-fields';
 
 const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {

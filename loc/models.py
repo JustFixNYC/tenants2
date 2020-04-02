@@ -78,6 +78,7 @@ class LandlordDetails(MailingAddress):
 
     address = models.CharField(
         max_length=ADDR_LENGTH,
+        verbose_name="LEGACY address",
         help_text=(
             "The full mailing address for the landlord. This is a LEGACY "
             "field that we prefer not to use if possible, e.g. if the "

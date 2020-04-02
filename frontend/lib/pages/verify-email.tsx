@@ -10,6 +10,7 @@ import { getQuerystringVar } from '../querystring';
 import { SessionPoller } from '../session-poller';
 import { GetEmailVerificationStatus } from '../queries/GetEmailVerificationStatus';
 import { MiddleProgressStep } from '../progress-step-route';
+import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 type VerifyEmailProps = RouteComponentProps<{}> & {
   prevUrl: string,
@@ -28,12 +29,25 @@ function getValidView(value: string|undefined): VerifyEmailView {
   }
 }
 
-const StartView: React.FC<VerifyEmailProps> = props => {
+const StartView: React.FC<VerifyEmailProps & {successUrl: string}> = props => {
   const {session} = useContext(AppContext);
   const userHasEmail = !!session.email;
+  const {isEmailVerified} = useContext(AppContext).session;
+
+  if (isEmailVerified) {
+    return <Redirect to={props.successUrl} />;
+  }
 
   return (
     <Page title="Looks like your account has not been verified" withHeading className="content">
+      {/**
+        * We're adding the following session poller as a progressive enhancement because
+        * this page has a form field on it, and we don't want non-JS browsers to constantly
+        * reload the page while the user may be typing in it.
+        **/}
+      <SimpleProgressiveEnhancement>
+        <SessionPoller query={GetEmailVerificationStatus} />
+      </SimpleProgressiveEnhancement>
       <SessionUpdatingFormSubmitter
         mutation={SendVerificationEmailMutation}
         initialState={s => ({email: s.email || ''})}
@@ -89,7 +103,7 @@ const VerifyEmailWithoutRouter: React.FC<VerifyEmailProps> = props => {
   return (() => {
     switch (view) {
       case 'start':
-        return <StartView {...props} nextUrl={toView('waiting')} />;
+        return <StartView {...props} nextUrl={toView('waiting')} successUrl={toView('success')} />;
 
       case 'waiting':
         return <WaitingView {...props} prevUrl={toView('start')} nextUrl={toView('success')} />;

@@ -12,6 +12,8 @@ describe("VerifyEmail", () => {
     </Switch>
   );
 
+  afterEach(AppTesterPal.cleanup);
+
   it("works if user has no email address", () => {
     const pal = new AppTesterPal(routes, {url: '/verify'});
     pal.rr.getByText(/We don't seem to have an email/i);
@@ -30,9 +32,18 @@ describe("VerifyEmail", () => {
     pal.rr.getByText(/An email to verify your account is on its way/i);
   });
 
-  it("redirects to success page once email is verified", () => {
+  it("redirects to success page from waiting step once email is verified", () => {
     const pal = new AppTesterPal(routes, {
       url: '/verify?v=waiting',
+      session: {isEmailVerified: true},
+    });
+    pal.rr.getByText(/Thank you for verifying/i);
+    expect(pal.history.location.search).toBe('?v=success');
+  });
+
+  it("redirects to success page from start step if email is verified", () => {
+    const pal = new AppTesterPal(routes, {
+      url: '/verify',
       session: {isEmailVerified: true},
     });
     pal.rr.getByText(/Thank you for verifying/i);

@@ -45,7 +45,6 @@ class SessionPollerWithoutContext extends React.Component<Props> {
   @autobind
   handleInterval() {
     this.props.query.fetch(this.props.fetch).then((updates) => {
-      console.log("UPDATES", updates);
       this.props.updateSession(updates.session);
     });
   }

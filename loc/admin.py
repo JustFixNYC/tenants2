@@ -61,7 +61,20 @@ class LandlordDetailsForm(forms.ModelForm):
         widgets = {
             'address': forms.Textarea()
         }
-        fields = '__all__'
+        fields = [
+            'name',
+            'address',
+            'primary_line',
+            'secondary_line',
+            'urbanization',
+            'city',
+            'state',
+            'zip_code',
+            'is_looked_up',
+            'lookup_date',
+            'email',
+            'phone_number',
+        ]
 
 
 class LandlordDetailsInline(admin.StackedInline):

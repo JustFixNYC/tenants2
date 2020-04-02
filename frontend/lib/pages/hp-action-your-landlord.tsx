@@ -1,10 +1,19 @@
 import React, { useContext } from 'react';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 import { AppContext } from '../app-context';
-import { ProgressStepProps } from '../progress-step-route';
+import { MiddleProgressStep, MiddleProgressStepProps } from '../progress-step-route';
 import Page from '../page';
+import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
+import { exactSubsetOrDefault } from '../util';
+import { TextualFormField } from '../form-fields';
+import { ProgressButtons, BackButton } from '../buttons';
+import { Link } from 'react-router-dom';
+import { USStateFormField } from '../mailing-address-fields';
 
-const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => (
+const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {
+  details: AllSessionInfo_landlordDetails
+}> = props => (
   <>
     <p>This is your landlord’s information as registered with the <b>NYC Department of Housing and Preservation (HPD)</b>. This may be different than where you send your rent checks.</p>
     <dl>
@@ -14,23 +23,42 @@ const LandlordDetails = (props: { details: AllSessionInfo_landlordDetails }) => 
       <dd>{props.details.address}</dd>
     </dl>
     <p>We'll use these details to automatically fill out your HP Action forms!</p>
+    <ProgressButtons>
+      <BackButton to={props.prevStep} />
+      <Link to={props.nextStep} className="button is-primary is-medium" >Next</Link>
+    </ProgressButtons>
   </>
 );
 
-type HPActionYourLandlordProps = ProgressStepProps & {
-  renderProgressButtons: (props: ProgressStepProps) => JSX.Element
+const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = props => {
+  return <>
+    <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself below.</p>
+    <SessionUpdatingFormSubmitter
+      mutation={LandlordDetailsV2Mutation}
+      initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BlankLandlordDetailsV2Input)}
+      onSuccessRedirect={props.nextStep}
+    >
+      {ctx => <>
+        <TextualFormField {...ctx.fieldPropsFor('name')} label="Landlord name" />
+        <TextualFormField {...ctx.fieldPropsFor('primaryLine')} label="Street address" />
+        <TextualFormField {...ctx.fieldPropsFor('city')} label="City" />
+        <USStateFormField {...ctx.fieldPropsFor('state')} />
+        <TextualFormField {...ctx.fieldPropsFor('zipCode')} label="Zip code" />
+        <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
+      </>}
+    </SessionUpdatingFormSubmitter>
+  </>;
 };
 
-export const HPActionYourLandlord = (props: HPActionYourLandlordProps) => {
+export const HPActionYourLandlord = MiddleProgressStep(props => {
   const {session} = useContext(AppContext);
   const details = session.landlordDetails;
 
   return (
     <Page title="Your landlord" withHeading className="content">
       {details && details.isLookedUp && details.name && details.address
-        ? <LandlordDetails details={details} />
-        : <p>We were unable to retrieve information from the <b>NYC Department of Housing and Preservation (HPD)</b> about your landlord, so you will need to fill out the information yourself once we give you the forms.</p>}
-      {props.renderProgressButtons(props)}
+        ? <ReadOnlyLandlordDetails {...props} details={details} />
+        : <EditableLandlordDetails {...props} />}
     </Page>
   );
-};
+});

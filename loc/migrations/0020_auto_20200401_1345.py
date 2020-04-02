@@ -43,6 +43,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='landlorddetails',
             name='address',
-            field=models.CharField(help_text='The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.', max_length=1000),
+            field=models.CharField(verbose_name="LEGACY address", help_text='The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.', max_length=1000),
         ),
     ]

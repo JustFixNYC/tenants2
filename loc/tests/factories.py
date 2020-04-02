@@ -27,6 +27,14 @@ class LandlordDetailsFactory(factory.django.DjangoModelFactory):
     address = '1 Cloud City'
 
 
+class LandlordDetailsV2Factory(LandlordDetailsFactory):
+    address = "123 Cloud City Drive\nBespin, NY 12345"
+    primary_line = "123 Cloud City Drive"
+    city = "Bespin"
+    state = "NY"
+    zip_code = "12345"
+
+
 def create_user_with_all_info(issues=True, landlord=True, access_dates=True):
     info = OnboardingInfoFactory(
         user__full_name="Bobby Denver",

@@ -2,28 +2,32 @@ import React from 'react';
 
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
-import { TextualFormField, TextareaFormField } from '../form-fields';
+import { TextualFormField } from '../form-fields';
 
 import { BackButton, ProgressButtons } from "../buttons";
 import Routes from '../routes';
-import { LandlordDetailsInput } from '../queries/globalTypes';
-import { LandlordDetailsMutation, BlankLandlordDetailsInput } from '../queries/LandlordDetailsMutation';
+import { LandlordDetailsV2Input } from '../queries/globalTypes';
 import { AppContextType, withAppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
 import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 import { FormContext } from '../form-context';
+import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
+import { USStateFormField } from '../mailing-address-fields';
 
 
 const PREV_STEP = () => Routes.locale.loc.accessDates;
 
 const NEXT_STEP = () => Routes.locale.loc.preview;
 
-function renderForm(ctx: FormContext<LandlordDetailsInput>): JSX.Element {
+function renderForm(ctx: FormContext<LandlordDetailsV2Input>): JSX.Element {
   return (
     <React.Fragment>
       <TextualFormField label="Landlord's name" type="text" {...ctx.fieldPropsFor('name')} />
-      <TextareaFormField label="Landlord's address" {...ctx.fieldPropsFor('address')} />
+      <TextualFormField {...ctx.fieldPropsFor('primaryLine')} label="Street address" />
+      <TextualFormField {...ctx.fieldPropsFor('city')} label="City" />
+      <USStateFormField {...ctx.fieldPropsFor('state')} />
+      <TextualFormField {...ctx.fieldPropsFor('zipCode')} label="Zip code" />
       <ProgressButtons back={PREV_STEP()} isLoading={ctx.isLoading} nextLabel="Preview letter" />
     </React.Fragment>
   );
@@ -79,8 +83,8 @@ export default withAppContext(function LandlordDetailsPage(props: AppContextType
         {landlordDetails && landlordDetails.isLookedUp
           ? <ReadOnlyLandlordDetails details={landlordDetails} />
           : <SessionUpdatingFormSubmitter
-              mutation={LandlordDetailsMutation}
-              initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BlankLandlordDetailsInput)}
+              mutation={LandlordDetailsV2Mutation}
+              initialState={(session) => exactSubsetOrDefault(session.landlordDetails, BlankLandlordDetailsV2Input)}
               onSuccessRedirect={NEXT_STEP}
             >
               {renderForm}

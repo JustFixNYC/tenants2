@@ -4,7 +4,7 @@ from freezegun import freeze_time
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
-from .factories import create_user_with_all_info
+from .factories import create_user_with_all_info, LandlordDetailsV2Factory
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -20,8 +20,24 @@ DEFAULT_LANDLORD_DETAILS_INPUT = {
 }
 
 
+DEFAULT_LANDLORD_DETAILS_V2_INPUT = {
+    'name': '',
+    'primaryLine': '',
+    'city': '',
+    'state': '',
+    'zipCode': '',
+}
+
 DEFAULT_LETTER_REQUEST_INPUT = {
     'mailChoice': 'WE_WILL_MAIL'
+}
+
+EXAMPLE_LANDLORD_DETAILS_V2_INPUT = {
+    'name': 'Boop Jones',
+    'primaryLine': '123 Boop Way',
+    'city': 'Somewhere',
+    'state': 'NY',
+    'zipCode': '11299',
 }
 
 
@@ -59,6 +75,32 @@ def execute_ld_mutation(graphql_client, **input):
                     landlordDetails {
                         name
                         address
+                    }
+                }
+            }
+        }
+        """,
+        variables={'input': input}
+    )['data']['output']
+
+
+def execute_ld2_mutation(graphql_client, **input):
+    input = {**DEFAULT_LANDLORD_DETAILS_V2_INPUT, **input}
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: LandlordDetailsV2Input!) {
+            output: landlordDetailsV2(input: $input) {
+                errors {
+                    field
+                    messages
+                }
+                session {
+                    landlordDetails {
+                        name
+                        primaryLine
+                        city
+                        state
+                        zipCode
                     }
                 }
             }
@@ -138,6 +180,59 @@ def test_landlord_details_works(graphql_client):
     result = execute_ld_mutation(graphql_client, **ld_2)
     assert result['errors'] == []
     assert result['session']['landlordDetails'] == ld_2
+
+
+@pytest.mark.django_db
+def test_landlord_details_v2_creates_details(graphql_client):
+    graphql_client.request.user = UserFactory()
+    ld_1 = EXAMPLE_LANDLORD_DETAILS_V2_INPUT
+    result = execute_ld2_mutation(graphql_client, **ld_1)
+    assert result['errors'] == []
+    assert result['session']['landlordDetails'] == ld_1
+
+
+@pytest.mark.django_db
+def test_landlord_details_v2_requires_fields(graphql_client):
+    graphql_client.request.user = UserFactory()
+    errors = execute_ld2_mutation(graphql_client)['errors']
+    expected_errors = 5
+    assert len(errors) == expected_errors
+    for i in range(expected_errors):
+        assert errors[0]['messages'] == [
+            'This field is required.'
+        ]
+
+
+@pytest.mark.django_db
+def test_landlord_details_v2_modifies_existing_details(graphql_client):
+    ld = LandlordDetailsV2Factory(is_looked_up=True)
+    graphql_client.request.user = ld.user
+
+    assert execute_ld2_mutation(graphql_client, name="blop")['errors'][0]['messages'] == [
+        'This field is required.'
+    ]
+
+    ld.refresh_from_db()
+    assert ld.is_looked_up is True
+
+    ld_1 = EXAMPLE_LANDLORD_DETAILS_V2_INPUT
+
+    result = execute_ld2_mutation(graphql_client, **ld_1)
+    assert result['errors'] == []
+    assert result['session']['landlordDetails'] == ld_1
+
+    ld.refresh_from_db()
+    assert ld.address == "123 Boop Way\nSomewhere, NY 11299"
+    assert ld.is_looked_up is False
+
+
+@pytest.mark.django_db
+def test_landlord_details_address_represents_best_address(graphql_client):
+    ld = LandlordDetailsV2Factory(address='some outdated legacy blob of text')
+    graphql_client.request.user = ld.user
+    res = graphql_client.execute('query { session { landlordDetails { address } } }')
+    assert res['data']['session']['landlordDetails']['address'] == \
+        '123 Cloud City Drive\nBespin, NY 12345'
 
 
 def test_landlord_details_requires_auth(graphql_client):

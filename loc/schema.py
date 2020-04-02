@@ -42,6 +42,12 @@ class LandlordDetails(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsForm
 
+
+@schema_registry.register_mutation
+class LandlordDetailsV2(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.LandlordDetailsFormV2
+
     @classmethod
     def resolve(cls, parent, info: ResolveInfo):
         result = super().resolve(parent, info)
@@ -50,6 +56,21 @@ class LandlordDetails(OneToOneUserModelFormMutation):
             if user.is_authenticated:
                 return models.LandlordDetails.create_lookup_for_user(user)
         return result
+
+    @classmethod
+    def perform_mutate(cls, form: forms.AccessDatesForm, info: ResolveInfo):
+        ld = form.save(commit=False)
+
+        # Update the legacy address field from all the parts the user just
+        # filled out.
+        ld.address = '\n'.join(ld.address_lines_for_mailing)
+        # Because this has been changed via GraphQL, assume it has been
+        # edited by a user; mark it as being no longer automatically
+        # looked-up via open data.
+        ld.is_looked_up = False
+        ld.save()
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation
@@ -86,7 +107,36 @@ class LetterRequest(OneToOneUserModelFormMutation):
 class LandlordDetailsType(DjangoObjectType):
     class Meta:
         model = models.LandlordDetails
-        only_fields = ('name', 'address', 'is_looked_up', 'email', 'phone_number')
+        only_fields = (
+            'name',
+            'primary_line',
+            'city',
+            'zip_code',
+            'is_looked_up',
+            'email',
+            'phone_number'
+        )
+
+    address = graphene.String(
+        required=True,
+        description=(
+            "The full mailing address of the user, as a single string. Note "
+            "that this may actually be populated even if individual address "
+            "fields are empty; this represents legacy data created before we "
+            "split up addresses into individual fields."
+        )
+    )
+
+    def resolve_address(self, context: ResolveInfo) -> str:
+        return '\n'.join(self.address_lines_for_mailing)
+
+    # If we specify 'state' as a model field, graphene-django will turn
+    # it into an enum where the empty string value is an invalid choice,
+    # so instead we'll just coerce it to a string.
+    state = graphene.String(required=True)
+
+    def resolve_state(self, context: ResolveInfo) -> str:
+        return self.state
 
 
 class LetterRequestType(DjangoObjectType):
@@ -98,7 +148,7 @@ class LetterRequestType(DjangoObjectType):
 @schema_registry.register_session_info
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
-    landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetails.resolve)
+    landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
 
     def resolve_access_dates(self, info: ResolveInfo):

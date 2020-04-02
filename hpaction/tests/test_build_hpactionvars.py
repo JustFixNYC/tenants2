@@ -3,13 +3,15 @@ import pytest
 
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+from loc.tests.factories import LandlordDetailsV2Factory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
     fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
     fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
-    fill_prior_cases, fill_prior_repairs_and_harassment_mcs)
+    fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
+    fill_landlord_info)
 from .factories import (
     TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory)
 import hpaction.hpactionvars as hp
@@ -303,3 +305,15 @@ def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment
     fill_prior_repairs_and_harassment_mcs(v, [pc])
     assert v.prior_repairs_case_mc == getattr(hp.PriorRepairsCaseMC, repairs)
     assert v.prior_harassment_case_mc == getattr(hp.PriorHarassmentCaseMC, harassment)
+
+
+def test_fill_landlord_info_from_user_landlord_details_works(db):
+    ld = LandlordDetailsV2Factory(is_looked_up=False)
+    v = hp.HPActionVariables()
+    assert fill_landlord_info(v, ld.user) is True
+    assert v.landlord_entity_name_te == "Landlordo Calrissian"
+    assert v.landlord_address_street_te == "123 Cloud City Drive"
+    assert v.landlord_address_city_te == "Bespin"
+    llstate = v.landlord_address_state_mc
+    assert llstate and llstate.value == "NY"
+    assert v.landlord_address_zip_te == "12345"

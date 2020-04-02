@@ -78,6 +78,7 @@ class LandlordDetails(MailingAddress):
 
     address = models.CharField(
         max_length=ADDR_LENGTH,
+        verbose_name="LEGACY address",
         help_text=(
             "The full mailing address for the landlord. This is a LEGACY "
             "field that we prefer not to use if possible, e.g. if the "
@@ -173,6 +174,12 @@ class AddressDetails(MailingAddress):
     '''
     A model that maps address "blobs" of text to individual fields that
     represent the address.
+
+    Note that this model isn't as useful as it used to be, since the address
+    blobs are now LEGACY and we try to store the individual fields
+    directly. However, it can still be useful for the purpose of being able
+    to manually override Lob (though this functionality too may eventually
+    be subsumed into the `LandlordDetails` model).
     '''
 
     class Meta:

@@ -77,13 +77,13 @@ def create_complaint(area: str, description: str) -> hp.TenantComplaints:
     )
 
 
-def nycdb_addr_to_hp_state(address: nycdb.models.Address) -> hp.LandlordAddressStateMC:
-    # This is kind of yucky, because NYCDB/HPD provides state information as
+def twoletter_to_hp_state(state: str) -> hp.LandlordAddressStateMC:
+    # This is kind of yucky, because NYCDB/HPD and our db provide state information as
     # all-caps two-letter strings (e.g. "NY") while the HotDocs endpoint wants
     # them fully spelled out (e.g. "New York"). However, in practice it doesn't seem
     # to mind if we give it the two-letter strings, so we'll just do that.
     class OneOffEnum(Enum):
-        VALUE = address.state
+        VALUE = state
 
     return OneOffEnum.VALUE  # type: ignore
 
@@ -95,7 +95,7 @@ def fill_landlord_info_from_contact(
     v.landlord_address_city_te = contact.address.city
     v.landlord_address_street_te = contact.address.first_line
     v.landlord_address_zip_te = contact.address.zipcode
-    v.landlord_address_state_mc = nycdb_addr_to_hp_state(contact.address)
+    v.landlord_address_state_mc = twoletter_to_hp_state(contact.address.state)
     if isinstance(contact, nycdb.models.Company):
         v.landlord_entity_or_individual_mc = hp.LandlordEntityOrIndividualMC.COMPANY
     else:
@@ -114,7 +114,7 @@ def fill_landlord_management_info_from_company(
     v.management_company_address_city_te = mgmtco.address.city
     v.management_company_address_street_te = mgmtco.address.first_line
     v.management_company_address_zip_te = mgmtco.address.zipcode
-    v.management_company_address_state_mc = nycdb_addr_to_hp_state(mgmtco.address)
+    v.management_company_address_state_mc = twoletter_to_hp_state(mgmtco.address.state)
     v.management_company_name_te = mgmtco.name
 
     # TODO: We might actually want to fill this out even if we don't find
@@ -159,11 +159,29 @@ def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
         v.user_is_nycha_tf = is_nycha_bbl(pad_bbl)
 
 
+def fill_landlord_info_from_user_landlord_details(
+    v: hp.HPActionVariables,
+    user: JustfixUser
+) -> None:
+    if hasattr(user, 'landlord_details'):
+        ld = user.landlord_details
+        if ld.name and ld.is_address_populated():
+            v.landlord_entity_name_te = ld.name
+            v.landlord_address_street_te = ld.primary_line
+            v.landlord_address_city_te = ld.city
+            v.landlord_address_zip_te = ld.zip_code
+            v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
+        # TODO: Consider populating the 'individual' vs. 'company' field somehow?
+
+
 def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> None:
     pad_bbl = get_user_pad_bbl(user)
     pad_bin = get_user_pad_bin(user)
+    filled = False
     if pad_bbl or pad_bin:
-        fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
+        filled = fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
+    if not filled:
+        fill_landlord_info_from_user_landlord_details(v, user)
 
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:

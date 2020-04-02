@@ -350,7 +350,6 @@ UploadStatusEnum = graphene.Enum.from_enum(HPUploadStatus)
 def make_hpa_upload_status_field(kind: str):
     def resolver(root, info: ResolveInfo) -> HPUploadStatus:
         request = info.context
-        print("WOO RESOLVER")
         if not request.user.is_authenticated:
             return HPUploadStatus.NOT_STARTED
         return models.get_upload_status_for_user(request.user, kind)

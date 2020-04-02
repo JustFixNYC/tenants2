@@ -54,11 +54,10 @@ const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = props => {
 export const HPActionYourLandlord = MiddleProgressStep(props => {
   const {session} = useContext(AppContext);
   const details = session.landlordDetails;
-  const forceEdit = getQuerystringVar(props, 'edit') === 'on';
 
   return (
     <Page title="Your landlord" withHeading className="content">
-      {!forceEdit && details && details.isLookedUp && details.name && details.address
+      {details && details.isLookedUp && details.name && details.address
         ? <ReadOnlyLandlordDetails {...props} details={details} />
         : <EditableLandlordDetails {...props} />}
     </Page>

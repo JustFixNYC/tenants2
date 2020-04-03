@@ -226,6 +226,11 @@ def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: st
 
 
 def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
+    '''
+    Update the given DocuSign envelope model based on the given
+    event that just occured.
+    '''
+
     # The actual value of 'event' doesn't seem to be documented anywhere on
     # DocuSign's developer docs, except for the SOAP API documentation, which
     # looks semantically equivalent to the REST API but with camel-cased
@@ -270,7 +275,18 @@ def callback_handler(request):
         if not de:
             return HttpResponseBadRequest("Invalid envelope ID")
 
+        # Note that because the callback ultimately passes through the
+        # end-user's system, they technically have the ability to change
+        # it, which means that we can't fully trust 'event' here. That
+        # should be OK though, since it basically means that they're
+        # just altering their experience on our site, *not* altering
+        # the actual signing process. DocuSign knows if they have
+        # definitively signed the document, and will send out the
+        # signed document to relevant stakeholders as needed--the
+        # user "hacking" this callback's event property will do nothing
+        # to change that.
         update_envelope_status(de, event)
+
         next_url = append_querystring_args(next_url, {'event': event})
         return HttpResponseRedirect(next_url)
     return None

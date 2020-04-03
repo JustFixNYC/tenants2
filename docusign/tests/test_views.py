@@ -1,7 +1,6 @@
 import pytest
 import urllib.parse
 from django.urls import reverse_lazy
-import pytest
 
 from users.tests.factories import UserFactory
 from docusign import core

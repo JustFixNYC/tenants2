@@ -52,6 +52,15 @@ class UploadTokenFactory(factory.django.DjangoModelFactory):
         return models.UploadToken.objects.create_for_user(user, kind)
 
 
+class DocusignEnvelopeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.DocusignEnvelope
+
+    id = '3bd24c00-c870-452f-9e6f-68aa07d34fe7'
+
+    docs = factory.SubFactory(HPActionDocumentsFactory)
+
+
 class FeeWaiverDetailsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.FeeWaiverDetails

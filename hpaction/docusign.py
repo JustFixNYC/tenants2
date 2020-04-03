@@ -1,6 +1,10 @@
 from typing import List
 import base64
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import (
+    HttpResponseRedirect,
+    HttpResponseBadRequest,
+    HttpResponseForbidden,
+)
 from django.conf import settings
 
 from users.models import JustfixUser
@@ -269,11 +273,17 @@ def callback_handler(request):
     envelope_id = request.GET.get('envelope')
     next_url = request.GET.get('next')
     if event and next_url and envelope_id and request.GET.get('type') == 'ehpa':
-        # TODO: Validate next_url?
+        # TODO: Validate next_url? It shouldn't really matter much, since
+        # there's no way to forge the request and the user could do it
+        # to themselves, but that doesn't matter much. But it might be
+        # useful to just in case there's something we're not considering.
 
         de = DocusignEnvelope.objects.filter(id=envelope_id).first()
         if not de:
             return HttpResponseBadRequest("Invalid envelope ID")
+
+        if not (de.docs.user and de.docs.user == request.user):
+            return HttpResponseForbidden("Docs do not belong to user")
 
         # Note that because the callback ultimately passes through the
         # end-user's system, they technically have the ability to change

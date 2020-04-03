@@ -343,17 +343,26 @@ class TestBeginDocusign:
         self.graphql_client = graphql_client
         monkeypatch.setattr(
             hpaction.docusign,
-            'create_envelope_and_recipient_view_for_hpa',
-            self._fake_create_env_and_view
+            'create_envelope_for_hpa',
+            self._fake_create_envelope
+        )
+        monkeypatch.setattr(
+            hpaction.docusign,
+            'create_recipient_view_for_hpa',
+            self._fake_create_recipient_view
         )
 
     def execute(self):
         return self.graphql_client.execute(self.GRAPHQL)['data']['beginDocusign']
 
-    def _fake_create_env_and_view(self, user, envelope_definition, api_client, return_url):
+    def _fake_create_envelope(self, envelope_definition, api_client):
+        return 'fake_envelope_id'
+
+    def _fake_create_recipient_view(self, user, envelope_id, api_client, return_url):
         assert return_url.startswith('https://example.com/docusign/callback?')
         assert user.pk == self.user.pk
-        return ('fake envelope defn', f'https://fake-docusign')
+        assert envelope_id == 'fake_envelope_id'
+        return 'https://fake-docusign'
 
     def ensure_error(self, message):
         assert self.execute()['errors'] == one_field_err(message)

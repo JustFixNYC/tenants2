@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from users.tests.factories import UserFactory
 from docusign import core
 from docusign.views import (
-    DOCUSIGN_STATE, callback, create_callback_url_for_signing_flow,
+    DOCUSIGN_STATE, callback, create_callback_url,
     set_random_docusign_state, validate_and_clear_docusign_state)
 
 
@@ -40,15 +40,6 @@ def test_consent_flow_works(admin_client, mockdocusign):
     assert core.get_config().consent_code == code
 
 
-def test_callback_redirects_on_event(http_request, mockdocusign):
-    http_request.user = UserFactory()
-    http_request.session[DOCUSIGN_STATE] = 'blarp'
-    http_request.GET = {'state': 'blarp', 'event': 'signing_complete', 'next': 'https://boop/?a=1'}
-    res = callback(http_request)
-    assert res.status_code == 302
-    assert res['Location'] == 'https://boop/?a=1&event=signing_complete'
-
-
 def test_callback_returns_200_on_unknown_args(http_request, mockdocusign):
     http_request.user = UserFactory()
     http_request.session[DOCUSIGN_STATE] = 'blarp'
@@ -58,10 +49,10 @@ def test_callback_returns_200_on_unknown_args(http_request, mockdocusign):
     assert b"I'm not sure what to do now" in res.content
 
 
-def test_create_callback_url_for_signing_flow_works(db, http_request):
-    url = create_callback_url_for_signing_flow(http_request, 'https://boop/')
+def test_create_callback_url_works(db, http_request):
+    url = create_callback_url(http_request, {'foo': 'bar'})
     assert 'callback' in url
-    assert 'next=https' in url
+    assert 'foo=bar' in url
     assert 'state=' in url
     assert http_request.session[DOCUSIGN_STATE] is not None
 

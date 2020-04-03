@@ -201,7 +201,7 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
   const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
   const prevStep = Routes.locale.ehp.yourLandlord;
-  const nextUrl = Routes.locale.ehp.confirmation;
+  const nextUrl = Routes.locale.ehp.latestStep;
 
   return (
     <Page title="Your HP Action packet is ready!" withHeading="big" className="content">

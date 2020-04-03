@@ -48,7 +48,7 @@ const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(Onboardin
 
 function EmergencyHPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for Repairs and/or Harassment through an HP Action proceeding">
+    <Page title="Sue your landlord for Repairs through an HP Action proceeding">
         <section className="hero is-light">
           <div className="hero-body">
             <div className="content has-text-centered">
@@ -56,14 +56,14 @@ function EmergencyHPActionSplash(): JSX.Element {
                 <StaticImage ratio="is-square" src={HP_ICON} alt="" />
               </div>
               <h1 className="title is-spaced">
-                Sue your landlord for Repairs and/or Harassment through an HP Action proceeding
+                Sue your landlord for Repairs through an HP Action proceeding
               </h1>
             </div>
             <div className="columns is-centered">
               <div className="column is-four-fifths">
                 <div className="content">
                   <p className="subtitle">
-                    An HP Action is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you.
+                    An HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
                     This service is free, secure, and confidential.
                   </p>
                   <CovidEhpDisclaimer />
@@ -93,7 +93,7 @@ const EmergencyHPActionWelcome = () => {
     <Page title={title} withHeading="big" className="content">
       <CovidEhpDisclaimer />
       <p>
-        An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs, not providing essential services, or harassing you. Here is how it works:
+        An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
       </p>
       <BigList listClassName="is-light">
         <li>You answer a few questions here about your housing situation and we email the forms you need to start your case to your email and your Borough’s Housing Court.</li>

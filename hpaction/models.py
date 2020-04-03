@@ -17,6 +17,11 @@ from users.models import JustfixUser
 
 HP_ACTION_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
 
+HP_DOCUSIGN_STATUS_CHOICES = common_data.Choices.from_file(
+    "hp-docusign-status-choices.json",
+    name="HPDocusignStatus",
+)
+
 KIND_KWARGS = dict(
     max_length=30,
     choices=HP_ACTION_CHOICES.choices,
@@ -30,6 +35,9 @@ UPLOAD_TOKEN_LENGTH = 40
 
 # How long an upload token is valid.
 UPLOAD_TOKEN_LIFETIME = timedelta(minutes=5)
+
+# https://support.docusign.com/en/articles/How-to-verify-and-understand-the-structure-of-an-envelope-ID-or-other-System-ID
+DOCUSIGN_ENVELOPE_ID_LENGTH = 36
 
 # Number of pages of instructions LHI pre-pends to the actual
 # HP Action forms.
@@ -561,6 +569,23 @@ class HPUploadStatus(Enum):
         if self == HPUploadStatus.SUCCEEDED:
             return "The document assembly process was successful."
         raise AssertionError()  # pragma: nocover
+
+
+class DocusignEnvelope(models.Model):
+    id = models.CharField(
+        max_length=DOCUSIGN_ENVELOPE_ID_LENGTH,
+        primary_key=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    docs = models.OneToOneField(HPActionDocuments, on_delete=models.CASCADE)
+
+    status = models.CharField(
+        max_length=30,
+        choices=HP_DOCUSIGN_STATUS_CHOICES.choices,
+        default=HP_DOCUSIGN_STATUS_CHOICES.IN_PROGRESS,
+    )
 
 
 def _get_latest_docs_or_tok(

@@ -9,7 +9,7 @@ from django.forms import inlineformset_factory
 from users.models import JustfixUser
 from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
-from project import schema_registry
+from project import schema_registry, slack
 from project.util.site_util import absolutify_url
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
@@ -69,7 +69,10 @@ class BeginDocusign(DjangoFormMutation):
                 envelope_definition=envelope_definition,
                 api_client=api_client
             )
-            print("CREATED ENVELOPE", envelope_id)
+            slack.sendmsg_async(
+                f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+                f"has started the Emergency HP Action signing ceremony!"
+            )
             de = DocusignEnvelope(id=envelope_id, docs=docs)
             de.save()
 

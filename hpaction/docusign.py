@@ -1,12 +1,14 @@
 from typing import List
 import base64
 from django.http import (
+    HttpResponse,
     HttpResponseRedirect,
     HttpResponseBadRequest,
     HttpResponseForbidden,
 )
 from django.conf import settings
 
+from project import slack
 from users.models import JustfixUser
 from docusign.core import docusign_client_user_id
 from docusign.views import create_callback_url, append_querystring_args
@@ -262,10 +264,44 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
 
     if event == 'signing_complete':
         de.status = HP_DOCUSIGN_STATUS_CHOICES.SIGNED
+        user = de.docs.user
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has signed their Emergency HP Action documents!"
+        )
         de.save()
     elif event == 'decline':
         de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED
         de.save()
+
+
+def handle_callback_event(request, event: str, next_url: str, envelope_id: str) -> HttpResponse:
+    # TODO: Validate next_url? It shouldn't really matter much, since
+    # there's no way to forge the request and the user could do it
+    # to themselves, but that doesn't matter much. But it might be
+    # useful to just in case there's something we're not considering.
+
+    de = DocusignEnvelope.objects.filter(id=envelope_id).first()
+    if not de:
+        return HttpResponseBadRequest("Invalid envelope ID")
+
+    if not (de.docs.user and de.docs.user == request.user):
+        return HttpResponseForbidden("Docs do not belong to user")
+
+    # Note that because the callback ultimately passes through the
+    # end-user's system, they technically have the ability to change
+    # it, which means that we can't fully trust 'event' here. That
+    # should be OK though, since it basically means that they're
+    # just altering their experience on our site, *not* altering
+    # the actual signing process. DocuSign knows if they have
+    # definitively signed the document, and will send out the
+    # signed document to relevant stakeholders as needed--the
+    # user "hacking" this callback's event property will do nothing
+    # to change that.
+    update_envelope_status(de, event)
+
+    next_url = append_querystring_args(next_url, {'event': event})
+    return HttpResponseRedirect(next_url)
 
 
 def callback_handler(request):
@@ -273,30 +309,6 @@ def callback_handler(request):
     envelope_id = request.GET.get('envelope')
     next_url = request.GET.get('next')
     if event and next_url and envelope_id and request.GET.get('type') == 'ehpa':
-        # TODO: Validate next_url? It shouldn't really matter much, since
-        # there's no way to forge the request and the user could do it
-        # to themselves, but that doesn't matter much. But it might be
-        # useful to just in case there's something we're not considering.
-
-        de = DocusignEnvelope.objects.filter(id=envelope_id).first()
-        if not de:
-            return HttpResponseBadRequest("Invalid envelope ID")
-
-        if not (de.docs.user and de.docs.user == request.user):
-            return HttpResponseForbidden("Docs do not belong to user")
-
-        # Note that because the callback ultimately passes through the
-        # end-user's system, they technically have the ability to change
-        # it, which means that we can't fully trust 'event' here. That
-        # should be OK though, since it basically means that they're
-        # just altering their experience on our site, *not* altering
-        # the actual signing process. DocuSign knows if they have
-        # definitively signed the document, and will send out the
-        # signed document to relevant stakeholders as needed--the
-        # user "hacking" this callback's event property will do nothing
-        # to change that.
-        update_envelope_status(de, event)
-
-        next_url = append_querystring_args(next_url, {'event': event})
-        return HttpResponseRedirect(next_url)
+        return handle_callback_event(
+            request, event=event, next_url=next_url, envelope_id=envelope_id)
     return None

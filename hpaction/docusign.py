@@ -225,6 +225,40 @@ def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: st
     })
 
 
+def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
+    # The actual value of 'event' doesn't seem to be documented anywhere on
+    # DocuSign's developer docs, except for the SOAP API documentation, which
+    # looks semantically equivalent to the REST API but with camel-cased
+    # event names instead of snake-cased ones, and with 'On' prepended to the
+    # event names:
+    #
+    #   https://developers.docusign.com/esign-soap-api/reference/administrative-group/embedded-callback-event-codes
+    #
+    # Through experimentation this seems to be some of the options:
+    #
+    #   * 'signing_complete' - User completed signing flow successfully.
+    #   * 'viewing_complete' - User viewed the forms. This can be the case if
+    #     the user previously signed or declined the forms and now wants to
+    #     look at them again.
+    #   * 'cancel' - User decided to "finish later". We can create a new recipient
+    #     view URL for the same envelope ID and they will be taken to the
+    #     point at which they left off (e.g. if they signed in only one of 3
+    #     places before clicking "finish later", then that will be the state
+    #     they return to).
+    #   * 'decline' - User chose "decline to sign".
+    #   * 'ttl_expired' - Used if the recipient view URL is visited more than
+    #     once.  This should only happen rarely, if ever, because DocuSign
+    #     immediately redirects from the super-long recipient view URL to
+    #     a shorter, reloadable URL immediately.
+
+    if event == 'signing_complete':
+        de.status = HP_DOCUSIGN_STATUS_CHOICES.SIGNED
+        de.save()
+    elif event == 'decline':
+        de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED
+        de.save()
+
+
 def callback_handler(request):
     event = request.GET.get('event')
     envelope_id = request.GET.get('envelope')
@@ -236,38 +270,7 @@ def callback_handler(request):
         if not de:
             return HttpResponseBadRequest("Invalid envelope ID")
 
-        # The actual value of 'event' doesn't seem to be documented anywhere on
-        # DocuSign's developer docs, except for the SOAP API documentation, which
-        # looks semantically equivalent to the REST API but with camel-cased
-        # event names instead of snake-cased ones, and with 'On' prepended to the
-        # event names:
-        #
-        #   https://developers.docusign.com/esign-soap-api/reference/administrative-group/embedded-callback-event-codes
-        #
-        # Through experimentation this seems to be some of the options:
-        #
-        #   * 'signing_complete' - User completed signing flow successfully.
-        #   * 'viewing_complete' - User viewed the forms. This can be the case if
-        #     the user previously signed or declined the forms and now wants to
-        #     look at them again.
-        #   * 'cancel' - User decided to "finish later". We can create a new recipient
-        #     view URL for the same envelope ID and they will be taken to the
-        #     point at which they left off (e.g. if they signed in only one of 3
-        #     places before clicking "finish later", then that will be the state
-        #     they return to).
-        #   * 'decline' - User chose "decline to sign".
-        #   * 'ttl_expired' - Used if the recipient view URL is visited more than
-        #     once.  This should only happen rarely, if ever, because DocuSign
-        #     immediately redirects from the super-long recipient view URL to
-        #     a shorter, reloadable URL immediately.
-
-        if event == 'signing_complete':
-            de.status = HP_DOCUSIGN_STATUS_CHOICES.SIGNED
-            de.save()
-        elif event == 'decline':
-            de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED
-            de.save()
-
+        update_envelope_status(de, event)
         next_url = append_querystring_args(next_url, {'event': event})
         return HttpResponseRedirect(next_url)
     return None

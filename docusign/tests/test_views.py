@@ -1,12 +1,14 @@
 import pytest
 import urllib.parse
 from django.urls import reverse_lazy
+import pytest
 
 from users.tests.factories import UserFactory
 from docusign import core
 from docusign.views import (
     DOCUSIGN_STATE, callback, create_callback_url,
-    set_random_docusign_state, validate_and_clear_docusign_state)
+    set_random_docusign_state, validate_and_clear_docusign_state,
+    call_callback_handlers)
 
 
 CALLBACK_URL = reverse_lazy('docusign:callback')
@@ -55,6 +57,30 @@ def test_create_callback_url_works(db, http_request):
     assert 'foo=bar' in url
     assert 'state=' in url
     assert http_request.session[DOCUSIGN_STATE] is not None
+
+
+def sample_callback_handler_returns_response(request):
+    return "fake response"
+
+
+def sample_callback_handler_returns_none(request):
+    return None
+
+
+CB_RESPONDS = f"{__name__}.sample_callback_handler_returns_response"
+CB_IGNORES = f"{__name__}.sample_callback_handler_returns_none"
+
+
+@pytest.mark.parametrize('handlers,expected', [
+    ([], None),
+    ([CB_RESPONDS], 'fake response'),
+    ([CB_IGNORES], None),
+    ([CB_IGNORES, CB_RESPONDS], 'fake response'),
+    ([CB_RESPONDS, CB_IGNORES], 'fake response'),
+])
+def test_call_callback_handlers_works(settings, handlers, expected):
+    settings.DOCUSIGN_CALLBACK_HANDLERS = handlers
+    assert call_callback_handlers('fake request') == expected
 
 
 def test_setting_and_validating_docusign_state_works(db, http_request):

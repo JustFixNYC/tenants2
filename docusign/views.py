@@ -1,6 +1,8 @@
-from typing import Dict
+from typing import Dict, Optional
 import functools
 import urllib.parse
+from django.conf import settings
+from django.utils.module_loading import import_string
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
@@ -48,12 +50,21 @@ def append_querystring_args(url: str, args: Dict[str, str]) -> str:
     return f"{url}{appender}{qs}"
 
 
-def create_callback_url_for_signing_flow(request, next_url: str) -> str:
+def create_callback_url(request, querystring_args: Dict[str, str]) -> str:
     state = set_random_docusign_state(request)
     return append_querystring_args(absolute_reverse('docusign:callback'), {
         'state': state,
-        'next': next_url,
+        **querystring_args,
     })
+
+
+def call_callback_handlers(request) -> Optional[HttpResponse]:
+    for dotted_path in settings.DOCUSIGN_CALLBACK_HANDLERS:
+        handler = import_string(dotted_path)
+        response = handler(request)
+        if response:
+            return response
+    return None
 
 
 @docusign_enabled_only
@@ -74,12 +85,10 @@ def callback(request):
         if core.validate_and_set_consent_code(code):
             return HttpResponse("Thank you for your consent. You may close this window.")
         return HttpResponse("Your account does not seem to have the privileges we need.")
-    event = request.GET.get('event')
-    next_url = request.GET.get('next')
-    if event and next_url:
-        # TODO: Validate next_url?
-        next_url = append_querystring_args(next_url, {'event': event})
-        return HttpResponseRedirect(next_url)
+    response = call_callback_handlers(request)
+    if response:
+        return response
+    # TODO: Log an error.
     return HttpResponse(
         "Thanks for doing whatever you just did on DocuSign, "
         "but I'm not sure what to do now."

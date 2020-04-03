@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Routes, { getSignupIntentOnboardingInfo } from "./routes";
 import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
-import { HPUploadStatus, OnboardingInfoSignupIntent } from "./queries/globalTypes";
+import { HPUploadStatus, OnboardingInfoSignupIntent, HPDocusignStatus } from "./queries/globalTypes";
 import Page from './page';
 import { GetStartedButton } from './get-started-button';
 import { AppContext } from './app-context';
@@ -281,7 +281,8 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
       isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
-    { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms},
+    { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms, 
+      isComplete: (s) => s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED },
     { path: Routes.locale.ehp.confirmation, exact: true, component: Confirmation}
   ]
 });

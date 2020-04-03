@@ -1884,6 +1884,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The DocuSign signing status of the user's Emergency HP Action. If the signing process has not yet begun, this will be null.",
+              "isDeprecated": false,
+              "name": "emergencyHpActionSigningStatus",
+              "type": {
+                "kind": "ENUM",
+                "name": "HPDocusignStatus",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "tenantChildren",
@@ -3277,6 +3289,35 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "HPUploadStatus",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "IN_PROGRESS"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "SIGNED"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "DECLINED"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "HPDocusignStatus",
           "possibleTypes": null
         },
         {

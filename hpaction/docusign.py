@@ -1,11 +1,13 @@
-from typing import Tuple, List
+from typing import List
 import base64
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.conf import settings
 
 from users.models import JustfixUser
 from docusign.core import docusign_client_user_id
+from docusign.views import create_callback_url, append_querystring_args
 import docusign_esign as dse
-from .models import HPActionDocuments
+from .models import HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES
 
 
 # The recipient ID for the tenant in the signing flow. This appears to be a
@@ -171,20 +173,10 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     return envelope_definition
 
 
-def create_envelope_and_recipient_view_for_hpa(
-    user: JustfixUser,
+def create_envelope_for_hpa(
     envelope_definition: dse.EnvelopeDefinition,
     api_client: dse.ApiClient,
-    return_url: str,
-) -> Tuple[dse.EnvelopeSummary, str]:
-    '''
-    Create a DocuSign envelope and recipient view request for
-    HP Action documents represented by a given envelope definition.
-
-    Returns a tuple containing the envelope summary and the
-    URL to redirect the user to.
-    '''
-
+) -> str:
     envelope_api = dse.EnvelopesApi(api_client)
     envelope = envelope_api.create_envelope(
         settings.DOCUSIGN_ACCOUNT_ID,
@@ -193,9 +185,22 @@ def create_envelope_and_recipient_view_for_hpa(
 
     assert isinstance(envelope, dse.EnvelopeSummary)
 
-    envelope_id = envelope.envelope_id
+    envelope_id: str = envelope.envelope_id
+
+    assert envelope_id and isinstance(envelope_id, str)
+
+    return envelope_id
+
+
+def create_recipient_view_for_hpa(
+    user: JustfixUser,
+    envelope_id: str,
+    api_client: dse.ApiClient,
+    return_url: str,
+) -> str:
+    envelope_api = dse.EnvelopesApi(api_client)
     recipient_view_request = dse.RecipientViewRequest(
-        authentication_method='None',  # TODO: This should probably change?
+        authentication_method='None',
         client_user_id=docusign_client_user_id(user),
         recipient_id=TENANT_RECIPIENT_ID,
         return_url=return_url,
@@ -209,4 +214,60 @@ def create_envelope_and_recipient_view_for_hpa(
         recipient_view_request=recipient_view_request,
     )
 
-    return (envelope, results.url)
+    return results.url
+
+
+def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: str) -> str:
+    return create_callback_url(request, {
+        'type': 'ehpa',
+        'envelope': envelope_id,
+        'next': next_url
+    })
+
+
+def callback_handler(request):
+    event = request.GET.get('event')
+    envelope_id = request.GET.get('envelope')
+    next_url = request.GET.get('next')
+    if event and next_url and envelope_id and request.GET.get('type') == 'ehpa':
+        # TODO: Validate next_url?
+
+        de = DocusignEnvelope.objects.filter(id=envelope_id).first()
+        if not de:
+            return HttpResponseBadRequest("Invalid envelope ID")
+
+        # The actual value of 'event' doesn't seem to be documented anywhere on
+        # DocuSign's developer docs, except for the SOAP API documentation, which
+        # looks semantically equivalent to the REST API but with camel-cased
+        # event names instead of snake-cased ones, and with 'On' prepended to the
+        # event names:
+        #
+        #   https://developers.docusign.com/esign-soap-api/reference/administrative-group/embedded-callback-event-codes
+        #
+        # Through experimentation this seems to be some of the options:
+        #
+        #   * 'signing_complete' - User completed signing flow successfully.
+        #   * 'viewing_complete' - User viewed the forms. This can be the case if
+        #     the user previously signed or declined the forms and now wants to
+        #     look at them again.
+        #   * 'cancel' - User decided to "finish later". We can create a new recipient
+        #     view URL for the same envelope ID and they will be taken to the
+        #     point at which they left off (e.g. if they signed in only one of 3
+        #     places before clicking "finish later", then that will be the state
+        #     they return to).
+        #   * 'decline' - User chose "decline to sign".
+        #   * 'ttl_expired' - Used if the recipient view URL is visited more than
+        #     once.  This should only happen rarely, if ever, because DocuSign
+        #     immediately redirects from the super-long recipient view URL to
+        #     a shorter, reloadable URL immediately.
+
+        if event == 'signing_complete':
+            de.status = HP_DOCUSIGN_STATUS_CHOICES.SIGNED
+            de.save()
+        elif event == 'decline':
+            de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED
+            de.save()
+
+        next_url = append_querystring_args(next_url, {'event': event})
+        return HttpResponseRedirect(next_url)
+    return None

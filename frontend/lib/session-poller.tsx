@@ -16,6 +16,7 @@ type SessionQuery = {
 export type SessionPollerProps = {
   query: SessionQuery;
   intervalMS?: number;
+  ignoreErrors?: boolean;
 };
 
 type Props = SessionPollerProps & AppContextType;
@@ -44,7 +45,9 @@ class SessionPollerWithoutContext extends React.Component<Props> {
 
   @autobind
   handleInterval() {
-    this.props.query.fetch(this.props.fetch).then((updates) => {
+    const { props } =this;
+    const fetch = props.ignoreErrors ? props.fetchWithoutErrorHandling : props.fetch;
+    props.query.fetch(fetch).then((updates) => {
       this.props.updateSession(updates.session);
     });
   }

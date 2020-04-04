@@ -7,7 +7,7 @@ import { AppContext } from '../app-context';
 import Page from '../page';
 import { RouteComponentProps, withRouter, Redirect, Link } from 'react-router-dom';
 import { getQuerystringVar } from '../querystring';
-import { SessionPoller } from '../session-poller';
+import { SessionPoller, SessionPollerProps } from '../session-poller';
 import { GetEmailVerificationStatus } from '../queries/GetEmailVerificationStatus';
 import { MiddleProgressStep } from '../progress-step-route';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
@@ -18,6 +18,10 @@ type VerifyEmailProps = RouteComponentProps<{}> & {
 };
 
 type VerifyEmailView = 'start'|'waiting'|'success';
+
+const PollEmailVerificationStatus: React.FC<Pick<SessionPollerProps, 'ignoreErrors'>> = props => (
+  <SessionPoller {...props} query={GetEmailVerificationStatus} intervalMS={2500} />
+);
 
 function getValidView(value: string|undefined): VerifyEmailView {
   switch (value) {
@@ -46,7 +50,7 @@ const StartView: React.FC<VerifyEmailProps & {successUrl: string}> = props => {
         * reload the page while the user may be typing in it.
         **/}
       <SimpleProgressiveEnhancement>
-        <SessionPoller query={GetEmailVerificationStatus} />
+        <PollEmailVerificationStatus ignoreErrors />
       </SimpleProgressiveEnhancement>
       <SessionUpdatingFormSubmitter
         mutation={SendVerificationEmailMutation}
@@ -79,7 +83,7 @@ const WaitingView: React.FC<VerifyEmailProps> = props => {
       <p>
         Don't see one in your email inbox? Check your spam folder or go back and try again.
       </p>
-      <SessionPoller query={GetEmailVerificationStatus} />
+      <PollEmailVerificationStatus />
       <BackButton to={props.prevUrl} label="Go back" />
     </Page>
   );

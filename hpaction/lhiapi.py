@@ -80,7 +80,7 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
     token = UploadToken.objects.find_unexpired(token_id)
     assert token is not None
     user = token.user
-    hdinfo = user_to_hpactionvars(user)
+    hdinfo = user_to_hpactionvars(user, token.kind)
     docs = get_answers_and_documents(token, hdinfo)
     if docs is not None:
         airtable.sync.sync_user(user)

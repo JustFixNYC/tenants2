@@ -91,7 +91,7 @@ class Command(BaseCommand):
         if xml_input_file:
             hdinfo: lhiapi.HDInfo = self.load_xml_input_file(xml_input_file)
         else:
-            hdinfo = user_to_hpactionvars(user)
+            hdinfo = user_to_hpactionvars(user, kind)
 
         docs = lhiapi.get_answers_and_documents(token, hdinfo)
 

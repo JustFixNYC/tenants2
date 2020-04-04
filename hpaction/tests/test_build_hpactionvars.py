@@ -5,7 +5,7 @@ from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.tests.factories import LandlordDetailsV2Factory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
-from hpaction.models import FeeWaiverDetails
+from hpaction.models import FeeWaiverDetails, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
     fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
@@ -17,6 +17,10 @@ from .factories import (
 import hpaction.hpactionvars as hp
 
 
+NORMAL = HP_ACTION_CHOICES.NORMAL
+EMERGENCY = HP_ACTION_CHOICES.EMERGENCY
+
+
 def test_justfix_issue_to_hp_room_works():
     assert justfix_issue_area_to_hp_room('HOME') is hp.WhichRoomMC.ALL_ROOMS
     assert justfix_issue_area_to_hp_room('BEDROOMS').value == "Bedrooms"
@@ -24,35 +28,35 @@ def test_justfix_issue_to_hp_room_works():
 
 def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
     user = UserFactory(full_name="Boop Jones")
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.request_fee_waiver_tf is None
 
     FeeWaiverDetails(user=user)
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.request_fee_waiver_tf is True
 
 
 def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
     user = UserFactory(full_name="Boop Jones")
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.sue_for_harassment_tf is None
     assert v.sue_for_repairs_tf is None
 
     hpd = HPActionDetailsFactory(
         user=user, sue_for_harassment=True, sue_for_repairs=False)
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.sue_for_harassment_tf is True
     assert v.sue_for_repairs_tf is False
 
     hpd.sue_for_repairs = True
     hpd.save()
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.sue_for_repairs_tf is True
 
 
 def test_user_to_hpactionvars_populates_basic_info(db):
     user = UserFactory(full_name="Boop Jones")
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert v.tenant_name_first_te == "Boop"
     assert v.tenant_name_last_te == "Jones"
     v.to_answer_set()
@@ -60,10 +64,38 @@ def test_user_to_hpactionvars_populates_basic_info(db):
 
 def test_user_to_hpactionvars_populates_onboarding_info(db):
     oi = OnboardingInfoFactory.create(apt_number='2B', borough='BROOKLYN')
-    v = user_to_hpactionvars(oi.user)
+    v = user_to_hpactionvars(oi.user, NORMAL)
     assert v.tenant_address_apt_no_te == '2B'
     assert v.court_county_mc == hp.CourtCountyMC.KINGS
     assert v.court_location_mc == hp.CourtLocationMC.KINGS_COUNTY
+    v.to_answer_set()
+
+
+def test_emergency_hpa_filters_out_non_emergency_issues(db):
+    user = UserFactory()
+    Issue.objects.set_area_issues_for_user(
+        user,
+        ISSUE_AREA_CHOICES.HOME,
+        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__MICE]
+    )
+    user.custom_issues.add(CustomIssue(
+        area=ISSUE_AREA_CHOICES.HOME,
+        description='supermold'
+    ), CustomIssue(
+        area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
+        description='Lobby is consumed by darkness'
+    ), bulk=False)
+    v = user_to_hpactionvars(user, EMERGENCY)
+    assert len(v.tenant_complaints_list) == 2
+    first, second = v.tenant_complaints_list
+
+    assert first.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
+    assert first.which_room_mc.value == "All Rooms"  # type: ignore
+    assert first.conditions_complained_of_te == "No Heat"
+
+    assert second.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
+    assert second.which_room_mc.value == "All Rooms"  # type: ignore
+    assert second.conditions_complained_of_te == "supermold"
     v.to_answer_set()
 
 
@@ -78,7 +110,7 @@ def test_user_to_hpactionvars_populates_issues(db):
         area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
         description='Lobby is consumed by darkness'
     ), bulk=False)
-    v = user_to_hpactionvars(user)
+    v = user_to_hpactionvars(user, NORMAL)
     assert len(v.tenant_complaints_list) == 2
     first, second = v.tenant_complaints_list
 
@@ -96,7 +128,7 @@ def test_user_to_hpactionvars_populates_issues(db):
 def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bin):
     med = nycdb.load_hpd_registration('medium-landlord.json')
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, use_bin))
-    v = user_to_hpactionvars(oinfo.user)
+    v = user_to_hpactionvars(oinfo.user, NORMAL)
     assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
     assert v.landlord_address_street_te == "9 BEAN CENTER DRIVE #40"
@@ -134,7 +166,7 @@ def onboarding_info_pad_kwarg(hpd_reg, use_bin):
 def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb, use_bin):
     tiny = nycdb.load_hpd_registration('tiny-landlord.json')
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(tiny, use_bin))
-    v = user_to_hpactionvars(oinfo.user)
+    v = user_to_hpactionvars(oinfo.user, NORMAL)
     assert v.landlord_entity_name_te == "BOOP JONES"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.INDIVIDUAL
     v.to_answer_set()
@@ -263,13 +295,13 @@ def test_fill_harassment_details_works():
 def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     har = HarassmentDetailsFactory(two_or_less_apartments_in_building=False)
     PriorCaseFactory(user=har.user)
-    v = user_to_hpactionvars(har.user)
+    v = user_to_hpactionvars(har.user, NORMAL)
     assert v.sue_for_harassment_tf is None
     assert v.more_than_2_apartments_in_building_tf is None
     assert v.prior_repairs_case_mc is None
 
     HPActionDetailsFactory(sue_for_harassment=True, user=har.user)
-    v = user_to_hpactionvars(har.user)
+    v = user_to_hpactionvars(har.user, NORMAL)
     assert v.sue_for_harassment_tf is True
     assert v.more_than_2_apartments_in_building_tf is True
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES

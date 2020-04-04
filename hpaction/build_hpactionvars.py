@@ -9,7 +9,8 @@ from loc.models import LandlordDetails
 import nycdb.models
 from .models import (
     FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
-    attr_name_for_harassment_allegation, PriorCase)
+    attr_name_for_harassment_allegation, PriorCase, HP_ACTION_CHOICES)
+from .forms import EMERGENCY_HPA_ISSUE_LIST
 from . import hpactionvars as hp
 
 
@@ -342,7 +343,23 @@ def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser):
     fill_prior_repairs_and_harassment_mcs(v, cases)
 
 
-def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
+def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
+    issues = user.issues.all()
+    custom_issues = user.custom_issues.all()
+
+    if kind == HP_ACTION_CHOICES.EMERGENCY:
+        issues = issues.filter(value__in=EMERGENCY_HPA_ISSUE_LIST)
+        custom_issues = custom_issues.filter(area=ISSUE_AREA_CHOICES.HOME)
+
+    for issue in issues:
+        desc = ISSUE_CHOICES.get_label(issue.value)
+        v.tenant_complaints_list.append(create_complaint(issue.area, desc))
+
+    for cissue in custom_issues:
+        v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
+
+
+def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
     # TODO: The HP Action form actually has a field for home phone
@@ -391,22 +408,18 @@ def user_to_hpactionvars(user: JustfixUser) -> hp.HPActionVariables:
         v.court_location_mc = COURT_LOCATIONS[oinfo.borough]
         v.court_county_mc = COURT_COUNTIES[oinfo.borough]
 
-    for issue in user.issues.all():
-        desc = ISSUE_CHOICES.get_label(issue.value)
-        v.tenant_complaints_list.append(create_complaint(issue.area, desc))
-
-    for cissue in user.custom_issues.all():
-        v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
+    fill_issues(v, user, kind)
 
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
     fill_if_user_has(fill_hp_action_details, v, user, 'hp_action_details')
 
-    if v.sue_for_harassment_tf:
-        fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
-        fill_prior_cases(v, user)
+    if kind != HP_ACTION_CHOICES.EMERGENCY:
+        if v.sue_for_harassment_tf:
+            fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
+            fill_prior_cases(v, user)
 
-    fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
+        fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
 
     # Assume the tenant always wants to serve the papers themselves.
     v.tenant_wants_to_serve_tf = True

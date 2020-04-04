@@ -1,11 +1,21 @@
 from typing import List, Dict
 from django.db import models
+from django.core.validators import RegexValidator
 from project.common_data import Choices
 
 
 # These were adapted from:
 # https://github.com/django/django-localflavor/blob/master/localflavor/us/us_states.py
 US_STATE_CHOICES = Choices.from_file('us-state-choices.json')
+
+
+class ZipCodeValidator(RegexValidator):
+    def __init__(self):
+        # https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s14.html
+        super().__init__(
+            regex=r"^[0-9]{5}(?:-[0-9]{4})?$",
+            message="Enter a valid U.S. zip code."
+        )
 
 
 class MailingAddress(models.Model):
@@ -52,6 +62,7 @@ class MailingAddress(models.Model):
     zip_code = models.CharField(
         max_length=10,
         blank=True,
+        validators=[ZipCodeValidator()],
         help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
     )
 

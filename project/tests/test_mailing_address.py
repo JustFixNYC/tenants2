@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 import pytest
 
-from project.util.mailing_address import MailingAddress
+from project.util.mailing_address import MailingAddress, ZipCodeValidator
 
 
 def test_is_address_populated_works():
@@ -57,3 +57,23 @@ def test_get_address_as_dict_works():
     )
     ma = MailingAddress(**kwargs)
     assert ma.get_address_as_dict() == kwargs
+
+
+@pytest.mark.parametrize('zip_code', [
+    '11201',
+    '11201-1234',
+])
+def test_zip_code_validator_accepts_valid_zip_codes(zip_code):
+    ZipCodeValidator()(zip_code)
+
+
+@pytest.mark.parametrize('zip_code', [
+    'blarg',
+    '1234',
+    '123456',
+    '123456789',
+    '1234-56789',
+])
+def test_zip_code_validator_rejects_invalid_zip_codes(zip_code):
+    with pytest.raises(ValidationError, match="Enter a valid U.S. zip code"):
+        ZipCodeValidator()(zip_code)

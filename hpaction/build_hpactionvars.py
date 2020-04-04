@@ -219,7 +219,7 @@ def get_tenant_repairs_allegations_mc(
     return None
 
 
-def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
+def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails, kind: str) -> None:
     v.tenant_repairs_allegations_mc = get_tenant_repairs_allegations_mc(h)
 
     # In practice, the city *always* wants this to be false, so we are going to
@@ -227,7 +227,11 @@ def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails) -> None:
     # v.problem_is_urgent_tf = h.urgent_and_dangerous
     v.problem_is_urgent_tf = False
 
-    v.sue_for_harassment_tf = h.sue_for_harassment
+    if kind == HP_ACTION_CHOICES.EMERGENCY:
+        v.sue_for_harassment_tf = False
+    else:
+        v.sue_for_harassment_tf = h.sue_for_harassment
+
     v.sue_for_repairs_tf = h.sue_for_repairs
 
 
@@ -311,6 +315,17 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
         #
         # TODO: Replace with something more appropriate.
         v.reason_for_further_application_te = "economic hardship"
+
+
+def fill_if_user_has_with_kind(
+    fill_func: Callable[[hp.HPActionVariables, Any, str], None],
+    v: hp.HPActionVariables,
+    user: JustfixUser,
+    attr_name: str,
+    kind: str,
+):
+    if hasattr(user, attr_name):
+        fill_func(v, getattr(user, attr_name), kind)
 
 
 def fill_if_user_has(
@@ -412,13 +427,13 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
 
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
-    fill_if_user_has(fill_hp_action_details, v, user, 'hp_action_details')
+    fill_if_user_has_with_kind(fill_hp_action_details, v, user, 'hp_action_details', kind)
+
+    if v.sue_for_harassment_tf:
+        fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
+        fill_prior_cases(v, user)
 
     if kind != HP_ACTION_CHOICES.EMERGENCY:
-        if v.sue_for_harassment_tf:
-            fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
-            fill_prior_cases(v, user)
-
         fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
 
     # Assume the tenant always wants to serve the papers themselves.

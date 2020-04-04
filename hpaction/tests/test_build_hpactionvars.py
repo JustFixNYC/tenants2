@@ -35,6 +35,10 @@ def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
     v = user_to_hpactionvars(user, NORMAL)
     assert v.request_fee_waiver_tf is True
 
+    # If it's an emergency HPA, though, never include it.
+    v = user_to_hpactionvars(user, EMERGENCY)
+    assert v.request_fee_waiver_tf is None
+
 
 def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
     user = UserFactory(full_name="Boop Jones")
@@ -252,26 +256,26 @@ def test_get_tenant_repairs_allegations_mc_works(hp_action_details_kwargs, expec
 def test_problem_is_urgent_tf_works():
     h = HPActionDetailsFactory.build(urgent_and_dangerous=True)
     v = hp.HPActionVariables()
-    fill_hp_action_details(v, h)
+    fill_hp_action_details(v, h, NORMAL)
 
     # In practice, the city *always* wants this to be false, so we're
     # testing to make sure our code disregards what the user answered.
     assert v.problem_is_urgent_tf is False
 
     h.urgent_and_dangerous = False
-    fill_hp_action_details(v, h)
+    fill_hp_action_details(v, h, NORMAL)
     assert v.problem_is_urgent_tf is False
 
 
 def test_sue_for_harassment_works():
     h = HPActionDetailsFactory.build(sue_for_harassment=True)
     v = hp.HPActionVariables()
-    fill_hp_action_details(v, h)
+    fill_hp_action_details(v, h, NORMAL)
     assert v.sue_for_harassment_tf is True
 
     h.sue_for_harassment = None
     v = hp.HPActionVariables()
-    fill_hp_action_details(v, h)
+    fill_hp_action_details(v, h, NORMAL)
     assert v.sue_for_harassment_tf is None
 
 
@@ -305,6 +309,13 @@ def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     assert v.sue_for_harassment_tf is True
     assert v.more_than_2_apartments_in_building_tf is True
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
+
+    # Even if the user "wants" it, if we're generating an emergency form,
+    # it shouldn't have a harassment component in it.
+    v = user_to_hpactionvars(har.user, EMERGENCY)
+    assert v.sue_for_harassment_tf is False
+    assert v.more_than_2_apartments_in_building_tf is None
+    assert v.prior_repairs_case_mc is None
 
 
 @pytest.mark.parametrize("enum_name,attr_name", [

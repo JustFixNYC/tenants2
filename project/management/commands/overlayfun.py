@@ -1,23 +1,29 @@
 from pathlib import Path
 from io import BytesIO
 from django.core.management import BaseCommand
+from django.utils.html import escape
 import weasyprint
 import PyPDF2
+
+
+def text(value: str, x: int, y: int):
+    return (
+        f'<div style="position: absolute; top: {y}px; left: {x}px">'
+        f'{escape(value)}'
+        f'</div>'
+    )
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
         css = weasyprint.CSS(
-            string="""
-            .county { position: absolute; top: 65px; left: 140px; }
-            @page { margin: 0; size: letter; }
-            """
+            string="@page { margin: 0; size: letter; }"
         )
         html = weasyprint.HTML(
-            string="""<!DOCTYPE html>
+            string=f"""<!DOCTYPE html>
             <meta charset="utf-8">
-            <title>boop</title>
-            <div class="county">queens</div>
+            <title>overlay</title>
+            {text("queens", 140, 65)}
             """
         )
         overlay_file = BytesIO(html.write_pdf(

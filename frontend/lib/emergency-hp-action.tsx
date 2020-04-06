@@ -72,7 +72,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   </GetStartedButton>
                   <div className="content has-text-centered">
                     <p className="jf-secondary-cta has-text-weight-bold">Are you a tenant that would prefer to work with a lawyer to start your case?
-                     <br />Call the Housing Court Answers hotline at <a href="tel:1-800-234-9874">1-800-234-9874</a>.</p>
+                     <br />Call the Housing Court Answers hotline at <a href="tel:1-212-962-4795">1-212-962-4795</a>, Monday to Friday from 9am to 5pm.</p>
                   </div>
                 </div>
               </div>

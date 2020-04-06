@@ -1046,6 +1046,22 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The type of lease the user has on their dwelling.",
+              "isDeprecated": false,
+              "name": "leaseType",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OnboardingInfoLeaseType",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
@@ -1122,6 +1138,53 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "OnboardingInfoBorough",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Rent Stabilized/Rent Controlled",
+              "isDeprecated": false,
+              "name": "RENT_STABILIZED"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Market Rate",
+              "isDeprecated": false,
+              "name": "MARKET_RATE"
+            },
+            {
+              "deprecationReason": null,
+              "description": "NYCHA Housing Development",
+              "isDeprecated": false,
+              "name": "NYCHA"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)",
+              "isDeprecated": false,
+              "name": "OTHER"
+            },
+            {
+              "deprecationReason": null,
+              "description": "I'm not sure (currently hidden in app)",
+              "isDeprecated": false,
+              "name": "NOT_SURE"
+            },
+            {
+              "deprecationReason": null,
+              "description": "I don't have a lease",
+              "isDeprecated": false,
+              "name": "NO_LEASE"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "OnboardingInfoLeaseType",
           "possibleTypes": null
         },
         {

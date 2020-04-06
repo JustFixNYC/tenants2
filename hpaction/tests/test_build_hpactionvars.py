@@ -8,7 +8,7 @@ from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from hpaction.models import FeeWaiverDetails, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
-    fill_nycha_info, fill_tenant_children, get_tenant_repairs_allegations_mc,
+    fill_tenant_children, get_tenant_repairs_allegations_mc,
     fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
     fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
     fill_landlord_info)
@@ -141,21 +141,6 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bi
     assert v.management_company_name_te == "FUNKY APARTMENT MANAGEMENT"
     assert v.management_company_address_street_te == "900 EAST 25TH STREET #2"
     v.to_answer_set()
-
-
-def test_fill_nycha_info_works(db, loaded_nycha_csv_data):
-    oinfo = OnboardingInfoFactory(pad_bbl='')
-    v = hp.HPActionVariables()
-    fill_nycha_info(v, oinfo.user)
-    assert v.user_is_nycha_tf is None
-
-    oinfo.pad_bbl = '1234567890'
-    fill_nycha_info(v, oinfo.user)
-    assert v.user_is_nycha_tf is False
-
-    oinfo.pad_bbl = '2022150116'
-    fill_nycha_info(v, oinfo.user)
-    assert v.user_is_nycha_tf is True
 
 
 def onboarding_info_pad_kwarg(hpd_reg, use_bin):
@@ -350,13 +335,32 @@ def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment
     assert v.prior_harassment_case_mc == getattr(hp.PriorHarassmentCaseMC, harassment)
 
 
-def test_fill_landlord_info_from_user_landlord_details_works(db):
-    ld = LandlordDetailsV2Factory(is_looked_up=False)
-    v = hp.HPActionVariables()
-    assert fill_landlord_info(v, ld.user) is True
-    assert v.landlord_entity_name_te == "Landlordo Calrissian"
-    assert v.landlord_address_street_te == "123 Cloud City Drive"
-    assert v.landlord_address_city_te == "Bespin"
-    llstate = v.landlord_address_state_mc
-    assert llstate and llstate.value == "NY"
-    assert v.landlord_address_zip_te == "12345"
+class TestFillLandlordInfo:
+    @pytest.mark.parametrize('onb_kwargs,is_nycha', [
+        ({}, False),
+        ({'pad_bbl': ''}, False),
+        ({'lease_type': 'NYCHA'}, True),
+        ({'pad_bbl': '1234567890'}, False),
+        ({'pad_bbl': '2022150116'}, True),
+    ])
+    def test_it_sets_nycha_info(self, db, loaded_nycha_csv_data, onb_kwargs, is_nycha):
+        oinfo = OnboardingInfoFactory(**onb_kwargs)
+        v = hp.HPActionVariables()
+        was_filled_out = is_nycha
+        assert fill_landlord_info(v, oinfo.user) is was_filled_out
+        assert v.user_is_nycha_tf is is_nycha
+        if is_nycha:
+            assert v.landlord_entity_name_te == "NYC Housing Authority"
+            llstate = v.landlord_address_state_mc
+            assert llstate and llstate.value == "NY"
+
+    def test_it_fills_from_user_landlord_details(self, db):
+        ld = LandlordDetailsV2Factory(is_looked_up=False)
+        v = hp.HPActionVariables()
+        assert fill_landlord_info(v, ld.user) is True
+        assert v.landlord_entity_name_te == "Landlordo Calrissian"
+        assert v.landlord_address_street_te == "123 Cloud City Drive"
+        assert v.landlord_address_city_te == "Bespin"
+        llstate = v.landlord_address_state_mc
+        assert llstate and llstate.value == "NY"
+        assert v.landlord_address_zip_te == "12345"

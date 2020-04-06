@@ -34,7 +34,8 @@ fragment AllSessionInfo on SessionInfo {
     borough,
     padBbl,
     aptNumber,
-    floorNumber
+    floorNumber,
+    leaseType
   },
   accessDates,
   landlordDetails { ...LandlordDetailsType },

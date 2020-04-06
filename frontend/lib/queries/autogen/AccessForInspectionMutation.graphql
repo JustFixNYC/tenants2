@@ -9,7 +9,8 @@ mutation AccessForInspectionMutation($input: AccessForInspectionInput!) {
         borough,
         padBbl,
         aptNumber,
-        floorNumber
+        floorNumber,
+        leaseType
       }
     }
   }

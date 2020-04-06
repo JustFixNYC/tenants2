@@ -20,16 +20,22 @@ class NoAddOrDeleteMixin:
 @admin.register(models.HPActionDocuments)
 class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     list_display = [
-        'id', 'user', 'kind', 'created_at'
+        'id', 'user', 'user_full_name', 'kind', 'created_at'
     ]
 
     actions = [schedule_for_deletion]
+
+    search_fields = ['id', 'user__username', 'user__first_name', 'user__last_name']
+
+    def user_full_name(self, obj):
+        if obj.user:
+            return obj.user.full_name
 
 
 class HPActionDocumentsInline(NoAddOrDeleteMixin, admin.TabularInline):
     model = models.HPActionDocuments
 
-    fields = ['pdf_file', 'created_at']
+    fields = ['pdf_file', 'kind', 'created_at']
 
     readonly_fields = fields
 
@@ -90,3 +96,25 @@ class HPUserAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
         HarassmentDetailsInline,
         HPActionDocumentsInline,
     )
+
+
+@admin.register(models.DocusignEnvelope)
+class DocusignEnvelopeAdmin(admin.ModelAdmin):
+    model = models.DocusignEnvelope
+
+    list_display = ['id', 'created_at', 'user_full_name', 'status']
+
+    ordering = ['-created_at']
+
+    readonly_fields = ['id', 'docs', 'user_full_name']
+
+    has_add_permission = never_has_permission
+
+    search_fields = [
+        'id', 'docs__user__username', 'docs__user__first_name',
+        'docs__user__last_name',
+    ]
+
+    def user_full_name(self, obj):
+        if obj.docs.user:
+            return obj.docs.user.full_name

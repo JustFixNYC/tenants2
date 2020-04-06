@@ -6,10 +6,10 @@ from users.tests.factories import UserFactory
 from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
-    HPActionDocumentsFactory)
+    HPActionDocumentsFactory, DocusignEnvelopeFactory)
 from hpaction.models import (
     get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails,
-    HP_ACTION_CHOICES)
+    HP_ACTION_CHOICES, DocusignEnvelope)
 from hpaction.schema import sync_emergency_issues
 import hpaction.docusign
 
@@ -341,19 +341,31 @@ class TestBeginDocusign:
         self.user = UserFactory(email='boop@jones.com', is_email_verified=True)
         graphql_client.request.user = self.user
         self.graphql_client = graphql_client
+        self.fake_create_envelope_called = False
+        self.fake_create_recipient_view_called = False
         monkeypatch.setattr(
             hpaction.docusign,
-            'create_envelope_and_recipient_view_for_hpa',
-            self._fake_create_env_and_view
+            'create_envelope_for_hpa',
+            self._fake_create_envelope
+        )
+        monkeypatch.setattr(
+            hpaction.docusign,
+            'create_recipient_view_for_hpa',
+            self._fake_create_recipient_view
         )
 
     def execute(self):
         return self.graphql_client.execute(self.GRAPHQL)['data']['beginDocusign']
 
-    def _fake_create_env_and_view(self, user, envelope_definition, api_client, return_url):
+    def _fake_create_envelope(self, envelope_definition, api_client):
+        self.fake_create_envelope_called = True
+        return 'fake_envelope_id'
+
+    def _fake_create_recipient_view(self, user, envelope_id, api_client, return_url):
+        self.fake_create_recipient_view_called = True
         assert return_url.startswith('https://example.com/docusign/callback?')
         assert user.pk == self.user.pk
-        return ('fake envelope defn', f'https://fake-docusign')
+        return 'https://fake-docusign'
 
     def ensure_error(self, message):
         assert self.execute()['errors'] == one_field_err(message)
@@ -375,3 +387,46 @@ class TestBeginDocusign:
         HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
         result = self.execute()
         assert result == {'errors': [], 'redirectUrl': 'https://fake-docusign'}
+        assert self.fake_create_envelope_called is True
+        assert self.fake_create_recipient_view_called is True
+        DocusignEnvelope.objects.get(id='fake_envelope_id')
+
+    def test_it_reuses_existing_envelope(self, mockdocusign, django_file_storage):
+        docs = HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
+        DocusignEnvelopeFactory(docs=docs, id="boop")
+        result = self.execute()
+        assert result == {'errors': [], 'redirectUrl': 'https://fake-docusign'}
+        assert self.fake_create_envelope_called is False
+        assert self.fake_create_recipient_view_called is True
+        DocusignEnvelope.objects.get(id='boop')
+
+
+class TestEmergencyHPActionSigningStatus:
+    GRAPHQL = "query { session { emergencyHpActionSigningStatus } }"
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, graphql_client, monkeypatch):
+        self.user = UserFactory()
+        self.anon = graphql_client.request.user
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def execute(self):
+        return self.graphql_client.execute(self.GRAPHQL)['data']['session'][
+            'emergencyHpActionSigningStatus']
+
+    def test_it_returns_none_on_anon_user(self):
+        self.graphql_client.request.user = self.anon
+        assert self.execute() is None
+
+    def test_it_returns_none_when_no_docs_exist(self):
+        assert self.execute() is None
+
+    def test_it_returns_none_when_no_envelopes_exist(self, django_file_storage):
+        HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
+        assert self.execute() is None
+
+    def test_it_returns_none_when_envelope_exists(self, django_file_storage):
+        docs = HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
+        DocusignEnvelopeFactory(docs=docs)
+        assert self.execute() == "IN_PROGRESS"

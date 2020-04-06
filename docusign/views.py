@@ -1,6 +1,8 @@
-from typing import Dict
+from typing import Dict, Optional
 import functools
 import urllib.parse
+from django.conf import settings
+from django.utils.module_loading import import_string
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
@@ -27,6 +29,11 @@ def validate_and_clear_docusign_state(request) -> bool:
 
 
 def docusign_enabled_only(fn):
+    '''
+    A view decorator that only calls the decorated view if DocuSign integration
+    is enabled; otherwise it 404's.
+    '''
+
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         if not core.is_enabled():
@@ -48,12 +55,38 @@ def append_querystring_args(url: str, args: Dict[str, str]) -> str:
     return f"{url}{appender}{qs}"
 
 
-def create_callback_url_for_signing_flow(request, next_url: str) -> str:
+def create_callback_url(request, querystring_args: Dict[str, str]) -> str:
+    '''
+    Create a DocuSign callback URL with the given querystring arguments.
+    This will set state on the given request to ensure that it
+    isn't vulnerable to CSRF.
+
+    Note, however, that as such, it should be called sparingly, since a
+    subsequent call will obliterate the state set up by the first call.
+    '''
+
     state = set_random_docusign_state(request)
     return append_querystring_args(absolute_reverse('docusign:callback'), {
         'state': state,
-        'next': next_url,
+        **querystring_args,
     })
+
+
+def call_callback_handlers(request) -> Optional[HttpResponse]:
+    '''
+    Call the functions whose dotted names are defined in
+    the `DOCUSIGN_CALLBACK_HANDLERS` setting until one of
+    them returns a response, and return that response.
+
+    Return None if none of them returned a response.
+    '''
+
+    for dotted_path in settings.DOCUSIGN_CALLBACK_HANDLERS:
+        handler = import_string(dotted_path)
+        response = handler(request)
+        if response:
+            return response
+    return None
 
 
 @docusign_enabled_only
@@ -65,21 +98,30 @@ def callback(request):
 
     This is the app's only callback; it needs to be registered with DocuSign or they
     will refuse to redirect the user to it.
+
+    To handle a callback, add the dotted name of a function to the
+    `DOCUSIGN_CALLBACK_HANDLERS` setting; it will be passed a Django HttpRequest,
+    and if it returns a HttpResponse, that will be the response of this view. It
+    can also return None if it doesn't think the request applies to it.
     '''
 
     if not validate_and_clear_docusign_state(request):
         return HttpResponseForbidden("Invalid state")
+
+    # See if this is part of the DocuSign consent flow, in which case we'll handle
+    # it ourselves.
     code = request.GET.get('code')
     if code:
         if core.validate_and_set_consent_code(code):
             return HttpResponse("Thank you for your consent. You may close this window.")
         return HttpResponse("Your account does not seem to have the privileges we need.")
-    event = request.GET.get('event')
-    next_url = request.GET.get('next')
-    if event and next_url:
-        # TODO: Validate next_url?
-        next_url = append_querystring_args(next_url, {'event': event})
-        return HttpResponseRedirect(next_url)
+
+    # Run the response through our call handlers, to see if one of them handles it.
+    response = call_callback_handlers(request)
+    if response:
+        return response
+
+    # TODO: Log an error.
     return HttpResponse(
         "Thanks for doing whatever you just did on DocuSign, "
         "but I'm not sure what to do now."

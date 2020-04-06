@@ -91,9 +91,9 @@ class Choices:
         return getattr(self.enum, value)
 
     @classmethod
-    def from_file(cls, *path: str):
+    def from_file(cls, *path: str, name: str = 'DjangoChoices'):
         obj = load_json(*path)
-        return cls(_ValidatedChoices(choices=obj).choices)
+        return cls(_ValidatedChoices(choices=obj).choices, name=name)
 
 
 def load_json(*path: str):

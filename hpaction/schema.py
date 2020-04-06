@@ -7,10 +7,9 @@ from django.urls import reverse
 from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
-from docusign.views import create_callback_url_for_signing_flow
 from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
-from project import schema_registry
+from project import schema_registry, slack
 from project.util.site_util import absolutify_url
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
@@ -22,7 +21,9 @@ from project.util.django_graphql_forms import DjangoFormMutation
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
 from issues.schema import save_custom_issues_formset_with_area
 import issues.forms
-from .models import HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments
+from .models import (
+    HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
+    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES)
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
 
@@ -59,15 +60,32 @@ class BeginDocusign(DjangoFormMutation):
         if not docs:
             return cls.make_error("You have no HP Action documents to sign!")
 
-        return_url = create_callback_url_for_signing_flow(
-            request,
-            absolutify_url(form.cleaned_data['next_url']),
-        )
-        envelope_definition = hpadocusign.create_envelope_definition_for_hpa(docs)
         api_client = docusign.core.create_default_api_client()
-        _, url = hpadocusign.create_envelope_and_recipient_view_for_hpa(
+        de = DocusignEnvelope.objects.filter(docs=docs).first()
+
+        if de is None:
+            envelope_definition = hpadocusign.create_envelope_definition_for_hpa(docs)
+            envelope_id = hpadocusign.create_envelope_for_hpa(
+                envelope_definition=envelope_definition,
+                api_client=api_client
+            )
+            slack.sendmsg_async(
+                f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+                f"has started the Emergency HP Action signing ceremony!",
+                is_safe=True
+            )
+            de = DocusignEnvelope(id=envelope_id, docs=docs)
+            de.save()
+
+        return_url = hpadocusign.create_callback_url_for_signing_flow(
+            request,
+            envelope_id=de.id,
+            next_url=absolutify_url(form.cleaned_data['next_url']),
+        )
+
+        url = hpadocusign.create_recipient_view_for_hpa(
             user=user,
-            envelope_definition=envelope_definition,
+            envelope_id=de.id,
             api_client=api_client,
             return_url=return_url,
         )
@@ -388,6 +406,13 @@ class HPActionSessionInfo:
 
     latest_emergency_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.EMERGENCY)
     emergency_hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.EMERGENCY)
+    emergency_hp_action_signing_status = graphene.Field(
+        graphene.Enum.from_enum(HP_DOCUSIGN_STATUS_CHOICES.enum),
+        description=(
+            "The DocuSign signing status of the user's Emergency HP Action. If the "
+            "signing process has not yet begun, this will be null."
+        ),
+    )
 
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),
@@ -398,3 +423,15 @@ class HPActionSessionInfo:
         graphene.NonNull(PriorHPActionCaseType),
         resolver=create_models_for_user_resolver(models.PriorCase)
     )
+
+    def resolve_emergency_hp_action_signing_status(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated:
+            return None
+        docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)
+        if docs is None:
+            return None
+        de = DocusignEnvelope.objects.filter(docs=docs).first()
+        if de is None:
+            return None
+        return HP_DOCUSIGN_STATUS_CHOICES.get_enum_member(de.status)

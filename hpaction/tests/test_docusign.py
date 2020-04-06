@@ -2,16 +2,70 @@ from django.contrib.auth.models import AnonymousUser
 import pytest
 
 from .factories import HPActionDocumentsFactory, DocusignEnvelopeFactory
+from onboarding.tests.factories import OnboardingInfoFactory
+from onboarding.models import BOROUGH_CHOICES
 from users.tests.factories import JustfixUser
 from loc.tests.factories import LandlordDetailsFactory
+from hpaction.models import Config
 from hpaction import docusign
 
+ALL_BOROUGHS = BOROUGH_CHOICES.choices_dict.keys()
 
-def test_create_envelope_definition_for_hpa_works(db, django_file_storage):
-    docs = HPActionDocumentsFactory()
-    ed = docusign.create_envelope_definition_for_hpa(docs)
-    assert len(ed.documents) == 1
-    assert len(ed.recipients.signers) == 1
+
+def set_config(**kwargs):
+    config = Config.objects.get()
+    for name, value in kwargs.items():
+        setattr(config, name, value)
+    config.save()
+
+
+class TestGetHousingCourtForBorough:
+    @pytest.mark.parametrize('borough', ALL_BOROUGHS)
+    def test_it_returns_none_when_config_does_not_exist(self, db, borough):
+        assert docusign.get_housing_court_for_borough(borough) is None
+
+    def test_it_returns_borough_court_when_it_exists(self, db):
+        set_config(
+            manhattan_court_email="manhattan@courts.gov",
+            bronx_court_email="bronx@courts.gov",
+            brooklyn_court_email="brooklyn@courts.gov",
+            queens_court_email="queens@courts.gov",
+            staten_island_court_email="si@courts.gov",
+        )
+        assert docusign.get_housing_court_for_borough("MANHATTAN") == (
+            "Manhattan Housing Court", "manhattan@courts.gov",
+        )
+        assert docusign.get_housing_court_for_borough("BRONX") == (
+            "Bronx Housing Court", "bronx@courts.gov",
+        )
+        assert docusign.get_housing_court_for_borough("BROOKLYN") == (
+            "Brooklyn Housing Court", "brooklyn@courts.gov",
+        )
+        assert docusign.get_housing_court_for_borough("QUEENS") == (
+            "Queens Housing Court", "queens@courts.gov",
+        )
+        assert docusign.get_housing_court_for_borough("STATEN_ISLAND") == (
+            "Staten Island Housing Court", "si@courts.gov",
+        )
+
+
+class TestCreateEnvelopeDefinitionForHPA:
+    def test_it_works(self, db, django_file_storage):
+        docs = HPActionDocumentsFactory()
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.documents) == 1
+        assert len(ed.recipients.signers) == 1
+        assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_ccs_housing_court_if_possible(self, db, django_file_storage):
+        onb = OnboardingInfoFactory(borough="BRONX")
+        docs = HPActionDocumentsFactory(user=onb.user)
+        set_config(bronx_court_email="boop@bronx.gov")
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.recipients.carbon_copies) == 2
+        hc = ed.recipients.carbon_copies[1]
+        assert hc.name == "Bronx Housing Court"
+        assert hc.email == "boop@bronx.gov"
 
 
 class TestGetContactInfo:

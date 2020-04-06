@@ -50,6 +50,24 @@ def attr_name_for_harassment_allegation(name: str) -> str:
     return f"alleg_{name.lower()}"
 
 
+class Config(models.Model):
+    '''
+    Contains configuration data for HP actions.
+
+    This model is a singleton.
+    '''
+
+    manhattan_court_email = models.EmailField(blank=True)
+
+    bronx_court_email = models.EmailField(blank=True)
+
+    brooklyn_court_email = models.EmailField(blank=True)
+
+    queens_court_email = models.EmailField(blank=True)
+
+    staten_island_court_email = models.EmailField(blank=True)
+
+
 class HarassmentDetails(models.Model):
     '''
     Represents a user's harassment information.

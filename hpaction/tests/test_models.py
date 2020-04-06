@@ -10,7 +10,7 @@ from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFa
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
     get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails,
-    HP_ACTION_CHOICES)
+    HP_ACTION_CHOICES, Config)
 
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
@@ -201,3 +201,7 @@ class TestPriorCase:
         p = PriorCaseFactory.build(is_harassment=False, is_repairs=False)
         with pytest.raises(ValidationError, match='Please select repairs and/or harassment'):
             p.clean()
+
+
+def test_config_is_created_automatically(db):
+    Config.objects.get()

@@ -1,5 +1,6 @@
-from typing import List
+from typing import List, Optional, NamedTuple
 import base64
+import logging
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
@@ -12,8 +13,9 @@ from project import slack
 from users.models import JustfixUser
 from docusign.core import docusign_client_user_id
 from docusign.views import create_callback_url, append_querystring_args
+from onboarding.models import BOROUGH_CHOICES
 import docusign_esign as dse
-from .models import HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES
+from .models import HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, Config
 
 
 # The recipient ID for the tenant in the signing flow. This appears to be a
@@ -24,6 +26,28 @@ TENANT_RECIPIENT_ID = '1'
 # to be a number local to a specific signing, rather than a globally unique
 # identifier.
 HPA_DOCUMENT_ID = '1'
+
+logger = logging.getLogger(__name__)
+
+
+class HousingCourt(NamedTuple):
+    name: str
+    email: str
+
+
+def get_housing_court_for_borough(borough: str) -> Optional[HousingCourt]:
+    config = Config.objects.get()
+    hc: Optional[HousingCourt] = None
+    email = getattr(config, f'{borough.lower()}_court_email')
+    if email:
+        hc = HousingCourt(f"{BOROUGH_CHOICES.get_label(borough)} Housing Court", email)
+    return hc
+
+
+def get_housing_court_for_user(user: JustfixUser) -> Optional[HousingCourt]:
+    if hasattr(user, 'onboarding_info'):
+        return get_housing_court_for_borough(user.onboarding_info.borough)
+    return None
 
 
 def get_contact_info(user: JustfixUser) -> str:
@@ -160,17 +184,30 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         ],
     )
 
-    user_cc = dse.CarbonCopy(
-        email=user.email,
-        name=user.full_name,
-        recipient_id="2",
-        routing_order="2",
-    )
+    carbon_copies: List[dse.CarbonCopy] = [
+        dse.CarbonCopy(
+            email=user.email,
+            name=user.full_name,
+            recipient_id="2",
+            routing_order="2",
+        )
+    ]
+
+    housing_court = get_housing_court_for_user(user)
+    if housing_court:
+        carbon_copies.append(dse.CarbonCopy(
+            email=housing_court.email,
+            name=housing_court.name,
+            recipient_id="3",
+            routing_order="2",
+        ))
+    else:
+        logger.error(f"No housing court found for user '{user.username}'!")
 
     envelope_definition = dse.EnvelopeDefinition(
         email_subject=f"HP Action forms for {user.full_name}",
         documents=[document],
-        recipients=dse.Recipients(signers=[signer], carbon_copies=[user_cc]),
+        recipients=dse.Recipients(signers=[signer], carbon_copies=carbon_copies),
         status="sent",
     )
 

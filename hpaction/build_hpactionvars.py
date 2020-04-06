@@ -2,16 +2,19 @@ from typing import Dict, Iterable, Optional, Callable, Any, List
 from enum import Enum
 
 from users.models import JustfixUser
-from onboarding.models import BOROUGH_CHOICES
+from onboarding.models import BOROUGH_CHOICES, LEASE_CHOICES
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
-from loc.models import LandlordDetails
 import nycdb.models
+from project import common_data
 from .models import (
     FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
     attr_name_for_harassment_allegation, PriorCase, HP_ACTION_CHOICES)
 from .forms import EMERGENCY_HPA_ISSUE_LIST
 from . import hpactionvars as hp
+
+
+NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
 
 # TODO: There are more court locations than there are
@@ -155,22 +158,22 @@ def get_user_pad_bin(user: JustfixUser) -> str:
     return get_user_onboarding_str_attr(user, 'pad_bin')
 
 
-def fill_nycha_info(v: hp.HPActionVariables, user: JustfixUser):
-    pad_bbl = get_user_pad_bbl(user)
-    if pad_bbl:
-        v.user_is_nycha_tf = is_nycha_bbl(pad_bbl)
-
-
 def fill_landlord_info_from_user_landlord_details(
     v: hp.HPActionVariables,
-    ld: LandlordDetails
-) -> None:
-    v.landlord_entity_name_te = ld.name
-    v.landlord_address_street_te = ld.primary_line
-    v.landlord_address_city_te = ld.city
-    v.landlord_address_zip_te = ld.zip_code
-    v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
-    # TODO: Consider populating the 'individual' vs. 'company' field somehow?
+    user: JustfixUser
+) -> bool:
+    if hasattr(user, 'landlord_details'):
+        ld = user.landlord_details
+        if not ld.is_looked_up and ld.name and ld.is_address_populated():
+            # The user has manually entered landlord details, use them!
+            v.landlord_entity_name_te = ld.name
+            v.landlord_address_street_te = ld.primary_line
+            v.landlord_address_city_te = ld.city
+            v.landlord_address_zip_te = ld.zip_code
+            v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
+            # TODO: Consider populating the 'individual' vs. 'company' field somehow?
+            return True
+    return False
 
 
 def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser) -> bool:
@@ -181,16 +184,36 @@ def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser
     return False
 
 
+def fill_landlord_info_from_nycha(v: hp.HPActionVariables) -> bool:
+    v.user_is_nycha_tf = True
+    v.landlord_entity_name_te = NYCHA_ADDRESS['name']
+    v.landlord_address_street_te = NYCHA_ADDRESS['primaryLine']
+    v.landlord_address_city_te = NYCHA_ADDRESS['city']
+    v.landlord_address_zip_te = NYCHA_ADDRESS['zipCode']
+    v.landlord_address_state_mc = twoletter_to_hp_state(NYCHA_ADDRESS['state'])
+    return True
+
+
+def did_user_self_report_as_nycha(user: JustfixUser) -> bool:
+    return get_user_onboarding_str_attr(user, 'lease_type') == LEASE_CHOICES.NYCHA
+
+
+def does_user_have_a_nycha_bbl(user: JustfixUser) -> bool:
+    return is_nycha_bbl(get_user_pad_bbl(user))
+
+
 def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> bool:
-    if hasattr(user, 'landlord_details'):
-        ld = user.landlord_details
-        if not ld.is_looked_up and ld.name and ld.is_address_populated():
-            # The user has manually entered landlord details, use them!
-            fill_landlord_info_from_user_landlord_details(v, ld)
-            return True
-    # The user has not manually entered landlord details; use the latest
-    # open data to fill in both the landlord and management company.
-    return fill_landlord_info_from_open_data(v, user)
+    v.user_is_nycha_tf = False
+    if did_user_self_report_as_nycha(user):
+        return fill_landlord_info_from_nycha(v)
+    was_filled_out = fill_landlord_info_from_user_landlord_details(v, user)
+    if not was_filled_out:
+        # The user has not manually entered landlord details; use the latest
+        # open data to fill in both the landlord and management company.
+        was_filled_out = fill_landlord_info_from_open_data(v, user)
+        if not was_filled_out and does_user_have_a_nycha_bbl(user):
+            was_filled_out = fill_landlord_info_from_nycha(v)
+    return was_filled_out
 
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:
@@ -411,7 +434,6 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
     v.tenant_address_state_mc = hp.TenantAddressStateMC.NEW_YORK
 
     fill_landlord_info(v, user)
-    fill_nycha_info(v, user)
 
     if hasattr(user, 'onboarding_info'):
         oinfo = user.onboarding_info

@@ -17,7 +17,8 @@ fragment JustfixUserType on JustfixUserType {
     borough,
     padBbl,
     aptNumber,
-    floorNumber
+    floorNumber,
+    leaseType
   },
   adminUrl
 }

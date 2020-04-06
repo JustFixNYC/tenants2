@@ -38,17 +38,7 @@ class HousingCourt(NamedTuple):
 def get_housing_court_for_borough(borough: str) -> Optional[HousingCourt]:
     config = Config.objects.get()
     hc: Optional[HousingCourt] = None
-    email = ''
-    if borough == BOROUGH_CHOICES.MANHATTAN:
-        email = config.manhattan_court_email
-    elif borough == BOROUGH_CHOICES.BRONX:
-        email = config.bronx_court_email
-    elif borough == BOROUGH_CHOICES.BROOKLYN:
-        email = config.brooklyn_court_email
-    elif borough == BOROUGH_CHOICES.QUEENS:
-        email = config.queens_court_email
-    elif borough == BOROUGH_CHOICES.STATEN_ISLAND:
-        email = config.staten_island_court_email
+    email = getattr(config, f'{borough.lower()}_court_email')
     if email:
         hc = HousingCourt(f"{BOROUGH_CHOICES.get_label(borough)} Housing Court", email)
     return hc

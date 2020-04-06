@@ -17,6 +17,11 @@ class NoAddOrDeleteMixin:
     has_delete_permission = never_has_permission
 
 
+@admin.register(models.Config)
+class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.HPActionDocuments)
 class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     list_display = [

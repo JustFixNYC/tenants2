@@ -96,7 +96,7 @@ const EmergencyHPActionWelcome = () => {
       <p>
         An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
       </p>
-      <BigList listClassName="is-light">
+      <BigList>
         <li>Answer a few questions here about your housing situation and we will email the forms to your Borough’s Housing Court. You will also be emailed a copy of the forms.</li>
         <li>You will be assigned a Lawyer that will help you throughout your case.</li>
         <li>An inspector from the Department of Housing and Preservation (HPD) will come to your house to verify the issue(s). Your Lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>

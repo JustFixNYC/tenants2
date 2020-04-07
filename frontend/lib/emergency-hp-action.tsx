@@ -38,6 +38,7 @@ import { TextualFieldWithCharsRemaining } from './chars-remaining';
 import { SessionStepBuilder } from './session-step-builder';
 import { OptionalLandlordDetailsMutation } from './queries/OptionalLandlordDetailsMutation';
 import { PhoneNumberFormField } from './phone-number-form-field';
+import { isUserNycha } from './nycha';
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -270,7 +271,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.accessForInspection, component: AccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
-      shouldBeSkipped: isNotSuingForRepairs },
+      shouldBeSkipped: s => isNotSuingForRepairs(s) || isUserNycha(s) },
     { path: Routes.locale.ehp.yourLandlord, exact: true, component: HPActionYourLandlord },
     { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,

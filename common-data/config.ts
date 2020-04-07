@@ -30,6 +30,11 @@ const config: DjangoChoicesTypescriptConfig = {
       typeName: 'LeaseChoice',
       exportLabels: true,
       filterOut: ['NOT_SURE']
+    },
+    {
+      jsonFilename: 'signup-intent-choices.json',
+      typeName: 'SignupIntent',
+      exportLabels: true,
     }
   ]
 };

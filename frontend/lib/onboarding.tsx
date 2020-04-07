@@ -23,11 +23,11 @@ export default class OnboardingRoutes extends React.Component<OnboardingRoutesPr
   constructor(props: OnboardingRoutesProps) {
     super(props);
 
-    const { routes } = props;
+    const { routes, signupIntent } = props;
 
     this.onboardingSteps = [
       { path: routes.step1,
-        render: () => <OnboardingStep1 routes={routes} toCancel={props.toCancel} />,
+        render: () => <OnboardingStep1 routes={routes} toCancel={props.toCancel} signupIntent={signupIntent} />,
         isComplete: (s) => !!s.onboardingStep1 },
       { path: routes.step3,
         render: () => <OnboardingStep3 routes={routes} />,
@@ -35,7 +35,7 @@ export default class OnboardingRoutes extends React.Component<OnboardingRoutesPr
       },
       { path: routes.step4,
         render: () => <OnboardingStep4 routes={routes} toSuccess={routes.thanks}
-                                       signupIntent={props.signupIntent} />
+                                       signupIntent={signupIntent} />
       },
       {
         path: routes.thanks,

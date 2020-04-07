@@ -1075,19 +1075,19 @@
           "enumValues": [
             {
               "deprecationReason": null,
-              "description": "Letter of complaint",
+              "description": "Letter of Complaint",
               "isDeprecated": false,
               "name": "LOC"
             },
             {
               "deprecationReason": null,
-              "description": "HP action",
+              "description": "HP Action",
               "isDeprecated": false,
               "name": "HP"
             },
             {
               "deprecationReason": null,
-              "description": "Emergency HP action",
+              "description": "Emergency HP Action",
               "isDeprecated": false,
               "name": "EHP"
             }

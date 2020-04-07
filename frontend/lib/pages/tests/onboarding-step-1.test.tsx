@@ -18,14 +18,14 @@ describe('onboarding step 1 page', () => {
 
   it('calls onCancel when cancel is clicked (progressively enhanced experience)', () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
-    pal.clickButtonOrLink('Cancel signup');
+    pal.clickButtonOrLink('Cancel');
     pal.expectGraphQL(/LogoutMutation/);
     pal.expectFormInput({});
   });
 
   it('calls onCancel when cancel is clicked (baseline experience)', () => {
     const pal = new AppTesterPal(<OnboardingStep1  {...PROPS} disableProgressiveEnhancement />);
-    pal.clickButtonOrLink('Cancel signup');
+    pal.clickButtonOrLink('Cancel');
     pal.expectGraphQL(/LogoutMutation/);
     pal.expectFormInput({});
   });

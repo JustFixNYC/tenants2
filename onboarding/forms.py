@@ -27,13 +27,26 @@ class OnboardingStep1Form(AddressAndBoroughFormMixin, forms.ModelForm):
     last_name = forms.CharField(max_length=150)
 
 
-class OnboardingStep2Form(forms.ModelForm):
-    class Meta:
-        model = OnboardingInfo
-        fields = (
-            'is_in_eviction', 'needs_repairs', 'has_no_services',
-            'has_pests', 'has_called_311'
-        )
+def get_boolean_field(name: str):
+    '''
+    Django's ModelForm represents boolean fields w/ nulls as a
+    forms.NullBooleanField, but because some of our fields were
+    originally non-nullable, they were represented as forms.BooleanField.
+
+    This is a helper to allow some of our currently nullable model fields
+    to still be represented in a form as being non-nullable.
+    '''
+
+    field = OnboardingInfo._meta.get_field(name)
+    return forms.BooleanField(help_text=field.help_text, required=False)
+
+
+class OnboardingStep2Form(forms.Form):
+    is_in_eviction = get_boolean_field('is_in_eviction')
+    needs_repairs = get_boolean_field('needs_repairs')
+    has_no_services = get_boolean_field('has_no_services')
+    has_pests = get_boolean_field('has_pests')
+    has_called_311 = get_boolean_field('has_called_311')
 
 
 class OnboardingStep3Form(forms.ModelForm):

@@ -114,18 +114,23 @@ class OnboardingInfo(models.Model):
     )
 
     is_in_eviction = models.BooleanField(
+        null=True, blank=True,
         help_text="Has the user received an eviction notice?")
 
     needs_repairs = models.BooleanField(
+        null=True, blank=True,
         help_text="Does the user need repairs in their apartment?")
 
     has_no_services = models.BooleanField(
+        null=True, blank=True,
         help_text="Is the user missing essential services like water?")
 
     has_pests = models.BooleanField(
+        null=True, blank=True,
         help_text="Does the user have pests like rodents or bed bugs?")
 
     has_called_311 = models.BooleanField(
+        null=True, blank=True,
         help_text="Has the user called 311 before?")
 
     lease_type = models.CharField(

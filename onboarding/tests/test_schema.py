@@ -124,6 +124,24 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
 
 
 @pytest.mark.django_db
+def test_onboarding_without_optional_steps_works(graphql_client):
+    steps = {**VALID_STEP_DATA}
+    del steps[2]
+
+    result = execute_onboarding(graphql_client, step_data=steps)
+
+    for i in [1, 3]:
+        assert result['session'][f'onboardingStep{i}'] is None
+    assert result['session']['phoneNumber'] == '5551234567'
+
+    user = JustfixUser.objects.get(phone_number='5551234567')
+    oi = user.onboarding_info
+    assert user.full_name == 'boop jones'
+    assert oi.needs_repairs is None
+    assert oi.lease_type == 'MARKET_RATE'
+
+
+@pytest.mark.django_db
 def test_onboarding_info_is_none_when_it_does_not_exist(graphql_client):
     result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
     assert result['onboardingInfo'] is None

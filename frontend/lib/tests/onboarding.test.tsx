@@ -25,18 +25,10 @@ describe('latest step redirector', () => {
     expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(Routes.locale.onboarding.step1);
   });
 
-  it('returns step 2 when step 1 is complete', () => {
+  it('returns step 3 when step 1 is complete', () => {
     expect(getLatestOnboardingStep({
       ...FakeSessionInfo,
       onboardingStep1: {} as any
-    })).toBe(Routes.locale.onboarding.step2);
-  });
-
-  it('returns step 3 when step 2 is complete', () => {
-    expect(getLatestOnboardingStep({
-      ...FakeSessionInfo,
-      onboardingStep1: {} as any,
-      onboardingStep2: {} as any
     })).toBe(Routes.locale.onboarding.step3);
   });
 
@@ -44,7 +36,6 @@ describe('latest step redirector', () => {
     expect(getLatestOnboardingStep({
       ...FakeSessionInfo,
       onboardingStep1: {} as any,
-      onboardingStep2: {} as any,
       onboardingStep3: {} as any
     })).toBe(Routes.locale.onboarding.step4);
   });

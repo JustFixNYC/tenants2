@@ -59,7 +59,10 @@ const StartView: React.FC<VerifyEmailProps & {successUrl: string}> = props => {
       >
         {ctx => <>
           {userHasEmail
-            ? <p>To continue, we must verify your email address. Please make sure the address below is correct.</p>
+            ? <>
+                <p>Have you checked your email inbox? Check your spam folder just in case.</p>
+                <p>If you can't find it, make sure your email address below is correct, and re-send the verification email.</p>
+              </>
             : <p>We don't seem to have an email address associated with your account. Please provide a valid email address below.</p>}
           <TextualFormField {...ctx.fieldPropsFor('email')} label="Your email address" />
           <ProgressButtons back={props.prevUrl} isLoading={ctx.isLoading} nextLabel={userHasEmail ? "Re-send verification email" : "Send verification email"} />

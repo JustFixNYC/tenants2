@@ -6,10 +6,12 @@ import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mut
 import { createMockFetch } from '../../tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
 import Routes from '../../routes';
+import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
 
 const PROPS = {
   routes: Routes.locale.onboarding,
-  toCancel: '/cancel'
+  toCancel: '/cancel',
+  signupIntent: OnboardingInfoSignupIntent.LOC,
 };
 
 describe('onboarding step 1 page', () => {
@@ -35,6 +37,11 @@ describe('onboarding step 1 page', () => {
     pal.clickButtonOrLink(/Why do you need/i);
     pal.getDialogWithLabel(/Your privacy is very important/i);
     pal.clickButtonOrLink("Got it!");
+  });
+
+  it('shows signup intent label', () => {
+    const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} signupIntent={OnboardingInfoSignupIntent.HP} />);
+    pal.rr.getByText(/to get started with your HP Action/i);
   });
 
   it('shows initial address and borough in autocomplete field', () => {

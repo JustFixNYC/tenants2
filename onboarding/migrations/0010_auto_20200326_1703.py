@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='onboardinginfo',
             name='signup_intent',
-            field=models.CharField(choices=[('LOC', 'Letter of complaint'), ('HP', 'HP action'), ('EHP', 'Emergency HP action')], help_text='The reason the user originally signed up with us.', max_length=30),
+            field=models.CharField(choices=[('LOC', 'Letter of Complaint'), ('HP', 'HP Action'), ('EHP', 'Emergency HP Action')], help_text='The reason the user originally signed up with us.', max_length=30),
         ),
     ]

@@ -56,6 +56,11 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
 SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
     OnboardingStep1Info, OnboardingStep2Info, OnboardingStep3Info]
 
+# Steps that are actually optional.
+OPTIONAL_STEPS: List[Type[DjangoSessionFormObjectType]] = [
+    OnboardingStep2Info,
+]
+
 
 @schema_registry.register_mutation
 class OnboardingStep1(DjangoSessionFormMutation):
@@ -103,8 +108,10 @@ class OnboardingStep4Base(SessionFormMutation):
         for step in SESSION_STEPS:
             value = step.get_dict_from_request(request)
             if not value:
-                return None
-            result.update(value)
+                if step not in OPTIONAL_STEPS:
+                    return None
+            else:
+                result.update(value)
         return result
 
     @classmethod

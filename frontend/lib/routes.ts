@@ -143,6 +143,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     ready: `${prefix}/ready`,
     waitForUpload: `${prefix}/wait`,
     reviewForms: `${prefix}/review`,
+    reviewFormsSignModal: `${prefix}/review/sign-modal`,
     verifyEmail: `${prefix}/verify-email`,
     confirmation: `${prefix}/confirmation`,
   }

@@ -150,7 +150,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           to={this.props.toCancel}
           portalRef={this.cancelControlRef}
           disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
-          label="Cancel signup"
+          label="Cancel"
         />
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
           <Step1ConfirmAddressModal toStep3={routes.step3} />

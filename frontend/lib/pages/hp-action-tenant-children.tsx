@@ -9,7 +9,7 @@ import { FormsetItem, formsetItemProps } from '../formset-item';
 const stepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);
 
 export const TenantChildren = stepBuilder.createStep({
-  title: "Do any children live on the premises?",
+  title: "Do any children under 6 live on the premises?",
   mutation: TenantChildrenMutation,
   toFormInput: tc => ({
     children: tc.data.map(child => ({...child, DELETE: false}))

@@ -182,10 +182,11 @@ const YourLandlordOptionalDetails = stepBuilder.createStep({
   }),
   renderIntro: () => <>
     <p>Do you have your landlord's email or phone number? If so, please provide it below.</p>
+    <p>Your lawyer will use this information to contact your landlord and move your case along faster.</p>
   </>,
   renderForm: ctx => <>
-    <TextualFormField type="email" {...ctx.fieldPropsFor('email')} label="Landlord email (optional)" />
-    <PhoneNumberFormField {...ctx.fieldPropsFor('phoneNumber')} label="Landlord phone number (optional)" />
+    <TextualFormField type="email" {...ctx.fieldPropsFor('email')} label="Landlord email (highly recommended)" />
+    <PhoneNumberFormField {...ctx.fieldPropsFor('phoneNumber')} label="Landlord phone number (highly recommended)" />
   </>
 });
 
@@ -209,7 +210,7 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
       <p>The button below will download your Emergency HP Action forms for you to review.</p>
       {href && <PdfLink href={href} label="Download HP Action forms" />}
       <p>
-        If anything looks amiss, you can <Link to={prevStep}>go back</Link> and make changes.
+        If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes.
       </p>
       <LegacyFormSubmitter
         mutation={BeginDocusignMutation}

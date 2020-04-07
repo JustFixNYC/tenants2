@@ -24,7 +24,7 @@ describe("VerifyEmail", () => {
       url: '/verify',
       session: {email: 'boop@jones.com'}
     });
-    pal.rr.getByText(/make sure the address below is correct/i);
+    pal.rr.getByText(/make sure your email address below is correct/i);
   });
 
   it("waits for user to verify their email address", () => {

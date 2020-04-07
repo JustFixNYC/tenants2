@@ -11,14 +11,6 @@ fragment JustfixUserType on JustfixUserType {
     trackingNumber,
     letterSentAt
   },
-  onboardingInfo {
-    signupIntent,
-    address,
-    borough,
-    padBbl,
-    aptNumber,
-    floorNumber,
-    leaseType
-  },
+  onboardingInfo { ...OnboardingInfo },
   adminUrl
 }

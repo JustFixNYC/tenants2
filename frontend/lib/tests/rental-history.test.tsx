@@ -8,7 +8,7 @@ import { browserStorage } from '../browser-storage';
 import { FakeAppContext } from './util';
 import { BlankRhFormInput } from '../queries/RhFormMutation';
 import { AppContextType } from '../app-context';
-import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough, OnboardingInfoLeaseType } from '../queries/globalTypes';
+import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough } from '../queries/globalTypes';
 import { BlankOnboardingInfo } from '../queries/OnboardingInfo';
 
 const tester = new ProgressRoutesTester(getRentalHistoryRoutesProps(), 'Rental History');

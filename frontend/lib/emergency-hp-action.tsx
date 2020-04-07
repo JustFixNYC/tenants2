@@ -161,8 +161,8 @@ const Sue = MiddleProgressStep(props => (
 ));
 
 const PrepareToGeneratePDF = MiddleProgressStep(props => (
-  <Page title="Almost done!" withHeading className="content">
-    <p>You're almost there!  Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
+  <Page title="It's time to generate your forms" withHeading className="content">
+    <p>Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
       {(ctx) =>
@@ -230,14 +230,16 @@ const SignModal: React.FC<{
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
   const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
-  const prevStep = Routes.locale.ehp.yourLandlord;
+  const prevStep = Routes.locale.ehp.yourLandlordOptionalDetails;
   const nextUrl = Routes.locale.ehp.latestStep;
 
   return (
-    <Page title="Your Emergency HP Action forms are ready!" withHeading="big" className="content">
-      <p>Please review your forms to make sure everything is correct. If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes now.</p>
+    <Page title="You're almost there!" withHeading="big" className="content">
+      <p>Please review your Emergency HP Action forms to make sure everything is correct. If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes now.</p>
       {href && <PdfLink href={href} label="Preview forms" />}
-      <p>Once you've signed your forms, they will immediately be sent to housing court.</p>
+      <p>
+        From here, you'll sign your forms electronically and we'll immediately send them to the courts for you.
+      </p>
       <div className="buttons jf-two-buttons jf-two-buttons--vertical">
         <BackButton to={prevStep} />
         <ModalLink to={Routes.locale.ehp.reviewFormsSignModal}

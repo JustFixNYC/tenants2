@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../app-context';
 import { MiddleProgressStep, MiddleProgressStepProps } from '../progress-step-route';
-import { OnboardingInfoLeaseType } from '../queries/globalTypes';
 import Page from '../page';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
@@ -10,20 +9,7 @@ import { TextualFormField } from '../form-fields';
 import { ProgressButtons, BackButton } from '../buttons';
 import { Link } from 'react-router-dom';
 import { USStateFormField } from '../mailing-address-fields';
-import NYCHA_ADDRESS from '../../../common-data/nycha-address.json';
-
-type LegacyAddressDetails = {
-  name: string,
-  address: string,
-};
-
-const LEGACY_NYCHA_ADDRESS: LegacyAddressDetails = {
-  name: NYCHA_ADDRESS.name,
-  address: [
-    `${NYCHA_ADDRESS.primaryLine}`,
-    `${NYCHA_ADDRESS.city}, ${NYCHA_ADDRESS.state} ${NYCHA_ADDRESS.zipCode}`
-  ].join('\n'),
-};
+import { LEGACY_NYCHA_ADDRESS, isUserNycha, LegacyAddressDetails } from '../nycha';
 
 const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {
   details: LegacyAddressDetails,
@@ -67,11 +53,10 @@ const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = props => {
 export const HPActionYourLandlord = MiddleProgressStep(props => {
   const {session} = useContext(AppContext);
   const details = session.landlordDetails;
-  const isNycha = session.onboardingInfo && session.onboardingInfo.leaseType === OnboardingInfoLeaseType.NYCHA;
 
   return (
     <Page title="Your landlord" withHeading className="content">
-      {isNycha
+      {isUserNycha(session)
         ? <ReadOnlyLandlordDetails {...props} details={LEGACY_NYCHA_ADDRESS} />
         : details && details.isLookedUp && details.name && details.address
           ? <ReadOnlyLandlordDetails {...props} details={details} />

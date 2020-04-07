@@ -8,7 +8,8 @@ import { browserStorage } from '../browser-storage';
 import { FakeAppContext } from './util';
 import { BlankRhFormInput } from '../queries/RhFormMutation';
 import { AppContextType } from '../app-context';
-import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough, OnboardingInfoLeaseType } from '../queries/globalTypes';
+import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough } from '../queries/globalTypes';
+import { BlankOnboardingInfo } from '../queries/OnboardingInfo';
 
 const tester = new ProgressRoutesTester(getRentalHistoryRoutesProps(), 'Rental History');
 
@@ -37,10 +38,10 @@ describe('Rental history frontend', () => {
             lastName: "jones",
             phoneNumber: "2120000000",
             onboardingInfo: {
+              ...BlankOnboardingInfo,
               address: "150 DOOMBRINGER STREET",
               signupIntent: OnboardingInfoSignupIntent.LOC,
               borough: OnboardingInfoBorough.MANHATTAN,
-              leaseType: OnboardingInfoLeaseType.RENT_STABILIZED,
               padBbl: '1234567890',
               aptNumber: "1",
               floorNumber: null

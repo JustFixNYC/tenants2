@@ -3,15 +3,7 @@ mutation AccessForInspectionMutation($input: AccessForInspectionInput!) {
   output: accessForInspection(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      onboardingInfo {
-        signupIntent,
-        address,
-        borough,
-        padBbl,
-        aptNumber,
-        floorNumber,
-        leaseType
-      }
+      onboardingInfo { ...OnboardingInfo }
     }
   }
 }

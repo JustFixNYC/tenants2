@@ -29,6 +29,7 @@ import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
 import { CustomerSupportLink } from './customer-support-link';
+import { isUserNycha } from './nycha';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 
@@ -196,7 +197,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.hp.accessForInspection, component: AccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.prevAttempts, component: PreviousAttempts,
-      shouldBeSkipped: isNotSuingForRepairs },
+      shouldBeSkipped: s => isNotSuingForRepairs(s) || isUserNycha(s) },
     { path: Routes.locale.hp.urgentAndDangerous, component: UrgentAndDangerous,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.hp.harassmentApartment, component: HarassmentApartment,

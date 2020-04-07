@@ -28,15 +28,7 @@ fragment AllSessionInfo on SessionInfo {
     leaseType,
     receivesPublicAssistance
   },
-  onboardingInfo {
-    signupIntent,
-    address,
-    borough,
-    padBbl,
-    aptNumber,
-    floorNumber,
-    leaseType
-  },
+  onboardingInfo { ...OnboardingInfo },
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {

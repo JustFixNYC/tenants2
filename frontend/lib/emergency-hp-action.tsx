@@ -49,7 +49,7 @@ const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(Onboardin
 
 function EmergencyHPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for Repairs through an HP Action proceeding">
+    <Page title="Sue your landlord for Repairs through an Emergency HP Action proceeding">
         <section className="hero is-light">
           <div className="hero-body">
             <div className="content has-text-centered">
@@ -57,14 +57,14 @@ function EmergencyHPActionSplash(): JSX.Element {
                 <StaticImage ratio="is-square" src={HP_ICON} alt="" />
               </div>
               <h1 className="title is-spaced">
-                Sue your landlord for Repairs through an HP Action proceeding
+                Sue your landlord for Repairs through an Emergency HP Action proceeding
               </h1>
             </div>
             <div className="columns is-centered">
               <div className="column is-four-fifths">
                 <div className="content">
                   <p className="subtitle">
-                    An HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
+                    An Emergency HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
                     This service is free, secure, and confidential.
                   </p>
                   <CovidEhpDisclaimer />
@@ -88,13 +88,13 @@ function EmergencyHPActionSplash(): JSX.Element {
 
 const EmergencyHPActionWelcome = () => {
   const {session} = useContext(AppContext);
-  const title = `Welcome, ${session.firstName}! Let's start your HP Action paperwork.`;
+  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
 
   return (
     <Page title={title} withHeading="big" className="content">
       <CovidEhpDisclaimer />
       <p>
-        An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
+        An <strong>Emergency HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
       </p>
       <BigList>
         <li>Answer a few questions here about your housing situation and we will email the forms to your Borough’s Housing Court. You will also be emailed a copy of the forms.</li>
@@ -206,9 +206,9 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const nextUrl = Routes.locale.ehp.latestStep;
 
   return (
-    <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
+    <Page title="Your Emergency HP Action packet is ready!" withHeading="big" className="content">
       <p>The button below will download your Emergency HP Action forms for you to review.</p>
-      {href && <PdfLink href={href} label="Download HP Action forms" />}
+      {href && <PdfLink href={href} label="Download Emergency HP Action forms" />}
       <p>
         If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes.
       </p>
@@ -230,13 +230,13 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
 
 const Confirmation: React.FC<{}> = () => {
   return (
-    <Page title="Your HP Action forms have been sent to the court!" withHeading="big" className="content">
+    <Page title="Your Emergency HP Action forms have been sent to the court!" withHeading="big" className="content">
       <p>
-        Your completed, signed HP Action paperwork have been emailed to you and your Housing Court.
+        Your completed, signed Emergency HP Action paperwork have been emailed to you and your Housing Court.
       </p>
       <h2>What happens next?</h2>
       <BigList>
-        <li>The Housing Court clerk will review your HP Action forms.</li>
+        <li>The Housing Court clerk will review your Emergency HP Action forms.</li>
         <li>The Housing Court will assign you a lawyer who will call you to coordinate at the phone number you provided.</li>
         <li>An inspector from Housing Preservation and Development (HPD) will come to your house to verify the issue(s). Your lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
         <li>The court hearing will happen through a video call so that you do not have to go to the court house in-person. Your lawyer will give you all of the details and will guide you every step of the way.</li>

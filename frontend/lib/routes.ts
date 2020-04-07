@@ -88,8 +88,6 @@ function createOnboardingRouteInfo(prefix: string) {
     step1: `${prefix}/step/1`,
     step1AddressModal: `${prefix}/step/1/address-modal`,
     step1ConfirmAddressModal: `${prefix}/step/1/confirm-address-modal`,
-    step2: `${prefix}/step/2`,
-    step2EvictionModal: `${prefix}/step/2/eviction-modal`,
     step3: `${prefix}/step/3`,
     step3RentStabilizedModal: `${prefix}/step/3/rent-stabilized-modal`,
     step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,

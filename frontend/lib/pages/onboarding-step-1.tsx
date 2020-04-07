@@ -66,9 +66,9 @@ export function PrivacyInfoModal(): JSX.Element {
   );
 }
 
-function Step1ConfirmAddressModal(props: { toStep2: string }): JSX.Element {
+function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
   const addrInfo = useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
-  return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />
+  return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />
 }
 
 type OnboardingStep1Props = {
@@ -138,7 +138,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
             onSuccessRedirect={(output, input) => redirectToAddressConfirmationOrNextStep({
               input,
               resolved: assertNotNull(assertNotNull(output.session).onboardingStep1),
-              nextStep: routes.step2,
+              nextStep: routes.step3,
               confirmation: routes.step1ConfirmAddressModal
             })}
           >
@@ -153,7 +153,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           label="Cancel signup"
         />
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
-          <Step1ConfirmAddressModal toStep2={routes.step2} />
+          <Step1ConfirmAddressModal toStep3={routes.step3} />
         )} />
       </Page>
     );

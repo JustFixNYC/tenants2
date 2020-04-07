@@ -174,7 +174,7 @@ export default class OnboardingStep3 extends React.Component<OnboardingStep3Prop
           {...ctx.fieldPropsFor('receivesPublicAssistance')}
           label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
         />
-        <ProgressButtons back={this.props.routes.step2} isLoading={ctx.isLoading} />
+        <ProgressButtons back={this.props.routes.step1} isLoading={ctx.isLoading} />
       </React.Fragment>
     );
   }

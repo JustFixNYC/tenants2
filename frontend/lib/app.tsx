@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
 import loadable, { loadableReady } from '@loadable/component';
 
 import GraphQlClient from './graphql-client';
@@ -266,6 +266,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
   }
 
   renderRoutes(location: Location<any>): JSX.Element {
+    const enableEHP = this.props.server.enableEmergencyHPAction;
+    const redirectToEHP = enableEHP && !(this.state.session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
+
     return (
       <Switch location={location}>
         <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
@@ -277,10 +280,12 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
         <Route path={Routes.locale.logout} exact component={LogoutPage} />
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
         <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+        {redirectToEHP && <Route path={Routes.locale.hp.splash} exact render={() => <Redirect to={Routes.locale.ehp.splash} />} />}
+        {redirectToEHP && <Route path={Routes.locale.hp.welcome} exact render={() => <Redirect to={Routes.locale.ehp.welcome} />} />}
         {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
         <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
-        {this.props.server.enableEmergencyHPAction && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
-        {this.props.server.enableEmergencyHPAction && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
+        {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
+        {enableEHP && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
         <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
         <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
         <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />

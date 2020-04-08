@@ -1050,6 +1050,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Has the user called 311 before?",
+              "isDeprecated": false,
+              "name": "hasCalled311",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The type of lease the user has on their dwelling.",
               "isDeprecated": false,
               "name": "leaseType",

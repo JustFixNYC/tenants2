@@ -59,6 +59,12 @@ class OnboardingStep3Form(forms.ModelForm):
     )
 
 
+class ReliefAttemptsForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('has_called_311',)
+
+
 class BaseOnboardingStep4Form(forms.Form):
     phone_number = USPhoneNumberField()
 

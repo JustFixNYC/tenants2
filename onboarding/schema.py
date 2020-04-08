@@ -16,6 +16,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name
 from project import slack, schema_registry
 from users.models import JustfixUser
+from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
 from onboarding.models import OnboardingInfo
@@ -170,6 +171,12 @@ class OnboardingStep4(OnboardingStep4Base):
 class OnboardingStep4Version2(OnboardingStep4Base):
     class Meta:
         form_class = forms.OnboardingStep4FormVersion2
+
+
+@schema_registry.register_mutation
+class ReliefAttempts(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.ReliefAttemptsForm
 
 
 class OnboardingInfoType(DjangoObjectType):

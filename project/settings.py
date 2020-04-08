@@ -429,6 +429,8 @@ DOCUSIGN_CALLBACK_HANDLERS = [
     'hpaction.docusign.callback_handler',
 ]
 
+ENABLE_EMERGENCY_HP_ACTION = env.ENABLE_EMERGENCY_HP_ACTION
+
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 

@@ -315,6 +315,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # integration is enabled.
     DOCUSIGN_USER_ID: str = ''
 
+    # Whether or not the Emergency HP Action (COVID-19) is enabled and
+    # prioritized over normal HP Actions. Note that this also requires
+    # DocuSign integration to be working properly!
+    ENABLE_EMERGENCY_HP_ACTION: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

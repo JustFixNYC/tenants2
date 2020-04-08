@@ -8,7 +8,7 @@ import { AppContext } from './app-context';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { isNotSuingForRepairs } from './hp-action-util';
 import { MiddleProgressStep, ProgressStepProps } from './progress-step-route';
-import { ProgressButtons } from './buttons';
+import { ProgressButtons, BackButton, NextButton } from './buttons';
 import { Link } from 'react-router-dom';
 import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
@@ -39,6 +39,8 @@ import { SessionStepBuilder } from './session-step-builder';
 import { OptionalLandlordDetailsMutation } from './queries/OptionalLandlordDetailsMutation';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { isUserNycha } from './nycha';
+import { ModalLink, Modal, BackOrUpOneDirLevel } from './modal';
+import { CenteredButtons } from './centered-buttons';
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -159,8 +161,8 @@ const Sue = MiddleProgressStep(props => (
 ));
 
 const PrepareToGeneratePDF = MiddleProgressStep(props => (
-  <Page title="Almost done!" withHeading className="content">
-    <p>You're almost there!  Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
+  <Page title="It's time to generate your forms" withHeading className="content">
+    <p>Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
       {(ctx) =>
@@ -199,19 +201,13 @@ const UploadStatus = () => (
   />
 );
 
-const ReviewForms: React.FC<ProgressStepProps> = (props) => {
-  const {session} = useContext(AppContext);
-  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
-  const prevStep = Routes.locale.ehp.yourLandlord;
-  const nextUrl = Routes.locale.ehp.latestStep;
-
+const SignModal: React.FC<{
+  nextUrl: string,
+}> = ({nextUrl}) => {
   return (
-    <Page title="Your Emergency HP Action packet is ready!" withHeading="big" className="content">
-      <p>The button below will download your Emergency HP Action forms for you to review.</p>
-      {href && <PdfLink href={href} label="Download Emergency HP Action forms" />}
-      <p>
-        If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes.
-      </p>
+    <Modal title="Sending you to DocuSign to sign your forms" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={modalCtx => <>
+      <p>You're now going to be taken to the website DocuSign to sign your forms.</p>
+      <p>This is the final step in the process of filing your HP Action paperwork.</p>
       <LegacyFormSubmitter
         mutation={BeginDocusignMutation}
         initialState={{nextUrl}}
@@ -220,10 +216,38 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
       >
         {ctx => <>
           <HiddenFormField {...ctx.fieldPropsFor('nextUrl')} />
-          <ProgressButtons back={prevStep} isLoading={ctx.isLoading}
-                           nextLabel="Sign forms" />
+          <CenteredButtons>
+            <NextButton isLoading={ctx.isLoading} buttonClass="is-success"
+                        label="Sign my forms" />
+            <Link {...modalCtx.getLinkCloseProps()} className="button is-text">Go back</Link>
+          </CenteredButtons>
         </>}
       </LegacyFormSubmitter>
+    </>} />
+  );
+};
+
+const ReviewForms: React.FC<ProgressStepProps> = (props) => {
+  const {session} = useContext(AppContext);
+  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
+  const prevStep = Routes.locale.ehp.yourLandlordOptionalDetails;
+  const nextUrl = Routes.locale.ehp.latestStep;
+
+  return (
+    <Page title="You're almost there!" withHeading="big" className="content">
+      <p>Please review your Emergency HP Action forms to make sure everything is correct. If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes now.</p>
+      {href && <PdfLink href={href} label="Preview forms" />}
+      <p>
+        From here, you'll sign your forms electronically and we'll immediately send them to the courts for you.
+      </p>
+      <div className="buttons jf-two-buttons jf-two-buttons--vertical">
+        <BackButton to={prevStep} />
+        <ModalLink to={Routes.locale.ehp.reviewFormsSignModal}
+                   className="button is-primary is-medium"
+                   render={() => <SignModal nextUrl={nextUrl} />}>
+          My forms look good to me!
+        </ModalLink>
+      </div>
     </Page>
   );
 };
@@ -283,7 +307,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
       isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
-    { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms, 
+    { path: Routes.locale.ehp.reviewForms, component: ReviewForms, 
       isComplete: (s) => s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED },
     { path: Routes.locale.ehp.confirmation, exact: true, component: Confirmation}
   ]

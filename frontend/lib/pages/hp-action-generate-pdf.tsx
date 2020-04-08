@@ -44,7 +44,10 @@ const HPActionUploadError = (props: BaseGeneratePDFFormProps) => (
 const HPActionWaitForUpload = () => (
   <Page title="Please wait">
     <p className="has-text-centered">
-      Please wait while your HP action documents are generated&hellip;
+      Please wait while your HP Action documents are generated&hellip;
+    </p>
+    <p className="has-text-centered">
+      This could take a while, so sit tight.
     </p>
     <SessionPoller query={GetHPActionUploadStatus} />
     <section className="section" aria-hidden="true">

@@ -403,3 +403,19 @@ html.jf-is-fullscreen-admin-page {
         }
     } 
 }
+
+.jf-heading-with-icon {
+    display: flex;
+
+    > i {
+        padding-right: 0.5em;
+        > svg {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+
+    > span {
+        padding-top: 0.1em;
+    }
+}

@@ -24,9 +24,6 @@ import { HiddenFormField, MultiCheckboxFormField, TextualFormField } from './for
 import { LegacyFormSubmitter } from './legacy-form-submitter';
 import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
 import { performHardOrSoftRedirect } from './pages/login-page';
-import EMERGENCY_HPA_ISSUE_LIST from '../../common-data/emergency-hpa-issue-list.json';
-import { DjangoChoices } from './common-data';
-import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choices';
 import { MoratoriumWarning, CovidEhpDisclaimer } from './covid-banners';
 import { StaticImage } from './static-image';
 import { VerifyEmailMiddleProgressStep } from './pages/verify-email';
@@ -41,10 +38,10 @@ import { PhoneNumberFormField } from './phone-number-form-field';
 import { isUserNycha } from './nycha';
 import { ModalLink, Modal, BackOrUpOneDirLevel } from './modal';
 import { CenteredButtons } from './centered-buttons';
+import { EMERGENCY_HPA_ISSUE_SET, getEmergencyHPAIssueChoices } from './emergency-hp-action-issues';
 
 const checkCircleSvg = require('./svg/check-circle-solid.svg') as JSX.Element;
 
-const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -115,10 +112,6 @@ const EmergencyHPActionWelcome = () => {
   );
 };
 
-function getEmergencyHPAIssueChoices(): DjangoChoices {
-  const labels = getIssueChoiceLabels();
-  return EMERGENCY_HPA_ISSUE_LIST.map(issue => [issue, labels[issue as IssueChoice]]);
-}
 
 const Sue = MiddleProgressStep(props => (
   <Page title="What type of problems are you experiencing?" withHeading className="content">

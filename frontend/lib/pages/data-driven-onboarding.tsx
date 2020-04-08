@@ -10,10 +10,11 @@ import { whoOwnsWhatURL } from '../wow-link';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
-import { AppContext } from '../app-context';
+import { AppContext, getGlobalAppServerInfo } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink, ga } from '../google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
+import { getEmergencyHPAIssueLabels } from '../emergency-hp-action-issues';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -223,6 +224,10 @@ const useBuildingIntroCard: ActionCardPropsCreator = (data): ActionCardProps => 
   });
 }
 
+function commaSeparatedConjunction(items: string[]): string {
+  return items.map((item, i) => i === items.length - 1 ? `and ${item}` : item).join(', ');
+}
+
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat(data): ActionCardProps {
     const buildings = data.associatedBuildingCount || 0;
@@ -274,13 +279,17 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function hpAction(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
-    const covidMessage = <>
+    const normalCovidMessage = <>
         <span className="subtitle">Due to the Covid-19 health crisis, Housing Courts in New York City are closed. 
           You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open.</span>
         <span className="subtitle">If you are facing an emergency such as lack of heat and/or hot water, call the Housing Court Answers Hotline at <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance Mon-Fri, 9am-5pm. 
           Assistance is available in English and Spanish.</span>
     </>;
-    return {
+    let issues = commaSeparatedConjunction(getEmergencyHPAIssueLabels().map(v => v.toLowerCase()));
+    const emergencyCovidMessage = <>
+      <span className="subtitle">Due to the covid-19 pandemic, Housing Courts in New York City are only accepting cases for conditions that threaten the health and safety of your household, such as: {issues}.</span>
+    </>;
+    const normalHpAction: ActionCardProps = {
       title: 'Start a legal case for repairs and/or harassment',
       priority: (data.hpdOpenClassCViolationCount || 0) > 2 ? VIOLATIONS_HIGH_PRIORITY : VIOLATIONS_PRIORITY,
       isRecommended: (
@@ -288,8 +297,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         (data.numberOfTotalHpdViolations > 10 || calcPerUnit(data.numberOfTotalHpdViolations, data) > 1.6) ||
         ((data.hpdOpenClassCViolationCount || 0) > 0)
       ),
-      indicators: [covidMessage],
-      fallbackMessage: covidMessage,
+      indicators: [normalCovidMessage],
+      fallbackMessage: normalCovidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
         to: Routes.locale.hp.latestStep,
@@ -297,7 +306,20 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         text: "Sue your landlord",
         isBeta: true
       }
-    }
+    };
+
+    return getGlobalAppServerInfo().enableEmergencyHPAction ? {
+      ...normalHpAction,
+      title: 'Start an emergency legal case for repairs',
+      indicators: [emergencyCovidMessage],
+      fallbackMessage: emergencyCovidMessage,
+      cta: {
+        to: Routes.locale.ehp.latestStep,
+        gaLabel: 'ehp',
+        text: "Sue your landlord",
+        isBeta: true
+      }
+    } : normalHpAction;
   },
   function rentHistory(data): ActionCardProps {
     return {

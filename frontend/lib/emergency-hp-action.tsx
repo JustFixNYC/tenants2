@@ -42,6 +42,8 @@ import { isUserNycha } from './nycha';
 import { ModalLink, Modal, BackOrUpOneDirLevel } from './modal';
 import { CenteredButtons } from './centered-buttons';
 
+const checkCircleSvg = require('./svg/check-circle-solid.svg') as JSX.Element;
+
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
 const HP_ICON = "frontend/img/hp-action.svg";
@@ -253,8 +255,10 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
 };
 
 const Confirmation: React.FC<{}> = () => {
+  const title = "Your Emergency HP Action forms have been sent to the court!";
   return (
-    <Page title="Your Emergency HP Action forms have been sent to the court!" withHeading="big" className="content">
+    <Page title={title} className="content">
+      <h1 className="jf-heading-with-icon"><i className="has-text-success">{checkCircleSvg}</i><span>{title}</span></h1>
       <p>
         Your completed, signed Emergency HP Action paperwork have been emailed to you and your Housing Court.
       </p>

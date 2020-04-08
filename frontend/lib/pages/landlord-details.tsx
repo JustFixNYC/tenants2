@@ -16,7 +16,7 @@ import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queri
 import { USStateFormField } from '../mailing-address-fields';
 
 
-const PREV_STEP = () => Routes.locale.loc.accessDates;
+const PREV_STEP = () => Routes.locale.loc.reliefAttempts;
 
 const NEXT_STEP = () => Routes.locale.loc.preview;
 

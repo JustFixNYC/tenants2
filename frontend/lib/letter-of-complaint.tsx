@@ -12,6 +12,7 @@ import { LocSplash } from './letter-of-complaint-splash';
 import { GetStartedButton } from './get-started-button';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { CovidRiskBanner, MoratoriumWarning } from './covid-banners';
+import ReliefAttemptsPage from './pages/relief-attempts';
 
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {
@@ -65,6 +66,7 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     { path: Routes.locale.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
     { path: Routes.locale.loc.accessDates, exact: true, component: AccessDatesPage },
+    { path: Routes.locale.loc.reliefAttempts, exact: true, component: ReliefAttemptsPage },
     { path: Routes.locale.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
     { path: Routes.locale.loc.preview, component: LetterRequestPage,
       isComplete: sess => !!sess.letterRequest },

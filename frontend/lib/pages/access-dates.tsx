@@ -57,7 +57,7 @@ export default function AccessDatesPage(): JSX.Element {
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}
           initialState={(session) => getInitialState(session.accessDates)}
-          onSuccessRedirect={Routes.locale.loc.yourLandlord}
+          onSuccessRedirect={Routes.locale.loc.reliefAttempts}
         >
           {renderForm}
         </SessionUpdatingFormSubmitter>

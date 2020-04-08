@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import is_password_usable
 from project.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
+from .factories import OnboardingInfoFactory
 
 
 VALID_STEP_DATA = {
@@ -42,6 +43,7 @@ query {
     session {
         onboardingInfo {
             signupIntent
+            hasCalled311
         }
     }
 }
@@ -152,6 +154,21 @@ def test_onboarding_info_is_present_when_it_exists(graphql_client):
     execute_onboarding(graphql_client)
     result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
     assert result['onboardingInfo']['signupIntent'] == 'LOC'
+
+
+@pytest.mark.django_db
+def test_has_called_311_works(graphql_client):
+    def query():
+        result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
+        return result['onboardingInfo']['hasCalled311']
+
+    onb = OnboardingInfoFactory(has_called_311=None)
+    graphql_client.request.user = onb.user
+    assert query() is None
+
+    onb.has_called_311 = True
+    onb.save()
+    assert query() is True
 
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):

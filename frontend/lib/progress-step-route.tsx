@@ -27,6 +27,12 @@ export type BaseProgressStepRoute = {
    * the user answered earlier obviated the need for it.
    */
   shouldBeSkipped?: (session: AllSessionInfo) => boolean;
+
+  /**
+   * This indicates that the step is one that future steps should never
+   * link back to.
+   */
+  neverGoBackTo?: boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -91,7 +97,7 @@ export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps:
   const prev = getRelativeStep(path, 'prev', allSteps);
   if (prev) {
     const pq = new StepQuerier(prev, session);
-    if (pq.isIncomplete || pq.shouldBeSkipped) {
+    if (pq.isIncomplete || pq.shouldBeSkipped || prev.neverGoBackTo) {
       // The previous step either hasn't been completed, so it's possible that
       // an earlier step decided to skip past it, or it explicitly wants to
       // be skipped. Keep searching backwards.

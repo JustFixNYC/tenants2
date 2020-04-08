@@ -225,7 +225,7 @@ const SignModal: React.FC<{
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
   const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
-  const prevStep = Routes.locale.ehp.yourLandlordOptionalDetails;
+  const prevStep = assertNotNull(props.prevStep);
   const nextUrl = Routes.locale.ehp.latestStep;
 
   return (
@@ -295,14 +295,17 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: s => isNotSuingForRepairs(s) || isUserNycha(s) },
     { path: Routes.locale.ehp.yourLandlord, exact: true, component: HPActionYourLandlord },
-    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
+    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails,
+      shouldBeSkipped: isUserNycha },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
     { path: Routes.locale.ehp.prepare, exact: true, component: PrepareToGeneratePDF,
+      neverGoBackTo: true,
       isComplete: (s) => s.emergencyHpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
+      neverGoBackTo: true,
       isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.ehp.reviewForms, component: ReviewForms, 
       isComplete: (s) => s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED },

@@ -140,7 +140,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
     yourLandlord: `${prefix}/your-landlord`,
     yourLandlordOptionalDetails: `${prefix}/your-landlord/optional`,
-    ready: `${prefix}/ready`,
+    prepare: `${prefix}/prepare`,
     waitForUpload: `${prefix}/wait`,
     reviewForms: `${prefix}/review`,
     reviewFormsSignModal: `${prefix}/review/sign-modal`,

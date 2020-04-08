@@ -152,7 +152,7 @@ TEMPLATES = [
     },
 ]
 
-SITE_ID = 1
+SITE_ID = env.SITE_ID
 
 WSGI_APPLICATION = 'project.wsgi.application'
 

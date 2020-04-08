@@ -10,6 +10,7 @@ from django.utils import translation
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
@@ -247,6 +248,7 @@ def react_rendered_view(request):
         'locale': cur_language,
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
+            'siteName': Site.objects.get_current().name,
             'staticURL': settings.STATIC_URL,
             'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),

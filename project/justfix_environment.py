@@ -315,6 +315,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # integration is enabled.
     DOCUSIGN_USER_ID: str = ''
 
+    # The domain of the DocuSign authentication server. Note that this default
+    # is the *development* auth server, so you will want to set this to
+    # a production domain on live production (non-staging) systems.
+    DOCUSIGN_AUTH_SERVER_DOMAIN: str = 'account-d.docusign.com'
+
     # Whether or not the Emergency HP Action (COVID-19) is enabled and
     # prioritized over normal HP Actions. Note that this also requires
     # DocuSign integration to be working properly!

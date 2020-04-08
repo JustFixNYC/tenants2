@@ -156,7 +156,7 @@ const Sue = MiddleProgressStep(props => (
 ));
 
 const PrepareToGeneratePDF = MiddleProgressStep(props => (
-  <Page title="It's time to generate your forms" withHeading className="content">
+  <Page title="It's time to prepare your forms" withHeading className="content">
     <p>Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
@@ -298,7 +298,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
-    { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,
+    { path: Routes.locale.ehp.prepare, exact: true, component: PrepareToGeneratePDF,
       isComplete: (s) => s.emergencyHpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [

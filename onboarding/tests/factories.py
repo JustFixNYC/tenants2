@@ -1,6 +1,7 @@
 import factory
 
-from onboarding.models import OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES
+from onboarding.models import (
+    OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES, SIGNUP_INTENT_CHOICES)
 from users.tests.factories import UserFactory
 
 
@@ -33,3 +34,5 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
     receives_public_assistance = False
 
     can_we_sms = True
+
+    signup_intent = SIGNUP_INTENT_CHOICES.LOC

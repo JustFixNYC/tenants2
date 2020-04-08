@@ -8,7 +8,7 @@ import { AppContext } from './app-context';
 import { TenantChildren } from './pages/hp-action-tenant-children';
 import { isNotSuingForRepairs } from './hp-action-util';
 import { MiddleProgressStep, ProgressStepProps } from './progress-step-route';
-import { ProgressButtons } from './buttons';
+import { ProgressButtons, BackButton, NextButton } from './buttons';
 import { Link } from 'react-router-dom';
 import { AccessForInspection } from './pages/hp-action-access-for-inspection';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
@@ -39,6 +39,10 @@ import { SessionStepBuilder } from './session-step-builder';
 import { OptionalLandlordDetailsMutation } from './queries/OptionalLandlordDetailsMutation';
 import { PhoneNumberFormField } from './phone-number-form-field';
 import { isUserNycha } from './nycha';
+import { ModalLink, Modal, BackOrUpOneDirLevel } from './modal';
+import { CenteredButtons } from './centered-buttons';
+
+const checkCircleSvg = require('./svg/check-circle-solid.svg') as JSX.Element;
 
 const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
@@ -49,7 +53,7 @@ const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(Onboardin
 
 function EmergencyHPActionSplash(): JSX.Element {
   return (
-    <Page title="Sue your landlord for Repairs through an HP Action proceeding">
+    <Page title="Sue your landlord for Repairs through an Emergency HP Action proceeding">
         <section className="hero is-light">
           <div className="hero-body">
             <div className="content has-text-centered">
@@ -57,14 +61,14 @@ function EmergencyHPActionSplash(): JSX.Element {
                 <StaticImage ratio="is-square" src={HP_ICON} alt="" />
               </div>
               <h1 className="title is-spaced">
-                Sue your landlord for Repairs through an HP Action proceeding
+                Sue your landlord for Repairs through an Emergency HP Action proceeding
               </h1>
             </div>
             <div className="columns is-centered">
               <div className="column is-four-fifths">
                 <div className="content">
                   <p className="subtitle">
-                    An HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
+                    An Emergency HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
                     This service is free, secure, and confidential.
                   </p>
                   <CovidEhpDisclaimer />
@@ -88,15 +92,15 @@ function EmergencyHPActionSplash(): JSX.Element {
 
 const EmergencyHPActionWelcome = () => {
   const {session} = useContext(AppContext);
-  const title = `Welcome, ${session.firstName}! Let's start your HP Action paperwork.`;
+  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
 
   return (
     <Page title={title} withHeading="big" className="content">
       <CovidEhpDisclaimer />
       <p>
-        An <strong>HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
+        An <strong>Emergency HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
       </p>
-      <BigList listClassName="is-light">
+      <BigList>
         <li>Answer a few questions here about your housing situation and we will email the forms to your Borough’s Housing Court. You will also be emailed a copy of the forms.</li>
         <li>You will be assigned a Lawyer that will help you throughout your case.</li>
         <li>An inspector from the Department of Housing and Preservation (HPD) will come to your house to verify the issue(s). Your Lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
@@ -159,8 +163,8 @@ const Sue = MiddleProgressStep(props => (
 ));
 
 const PrepareToGeneratePDF = MiddleProgressStep(props => (
-  <Page title="Almost done!" withHeading className="content">
-    <p>You're almost there!  Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
+  <Page title="It's time to generate your forms" withHeading className="content">
+    <p>Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
       {(ctx) =>
@@ -182,10 +186,11 @@ const YourLandlordOptionalDetails = stepBuilder.createStep({
   }),
   renderIntro: () => <>
     <p>Do you have your landlord's email or phone number? If so, please provide it below.</p>
+    <p>Your lawyer will use this information to contact your landlord and move your case along faster.</p>
   </>,
   renderForm: ctx => <>
-    <TextualFormField type="email" {...ctx.fieldPropsFor('email')} label="Landlord email (optional)" />
-    <PhoneNumberFormField {...ctx.fieldPropsFor('phoneNumber')} label="Landlord phone number (optional)" />
+    <TextualFormField type="email" {...ctx.fieldPropsFor('email')} label="Landlord email (highly recommended)" />
+    <PhoneNumberFormField {...ctx.fieldPropsFor('phoneNumber')} label="Landlord phone number (highly recommended)" />
   </>
 });
 
@@ -198,19 +203,13 @@ const UploadStatus = () => (
   />
 );
 
-const ReviewForms: React.FC<ProgressStepProps> = (props) => {
-  const {session} = useContext(AppContext);
-  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
-  const prevStep = Routes.locale.ehp.yourLandlord;
-  const nextUrl = Routes.locale.ehp.latestStep;
-
+const SignModal: React.FC<{
+  nextUrl: string,
+}> = ({nextUrl}) => {
   return (
-    <Page title="Your HP Action packet is ready!" withHeading="big" className="content">
-      <p>The button below will download your Emergency HP Action forms for you to review.</p>
-      {href && <PdfLink href={href} label="Download HP Action forms" />}
-      <p>
-        If anything looks amiss, you can <Link to={prevStep}>go back</Link> and make changes.
-      </p>
+    <Modal title="Sending you to DocuSign to sign your forms" withHeading onCloseGoTo={BackOrUpOneDirLevel} render={modalCtx => <>
+      <p>You're now going to be taken to the website DocuSign to sign your forms.</p>
+      <p>This is the final step in the process of filing your HP Action paperwork.</p>
       <LegacyFormSubmitter
         mutation={BeginDocusignMutation}
         initialState={{nextUrl}}
@@ -219,23 +218,53 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
       >
         {ctx => <>
           <HiddenFormField {...ctx.fieldPropsFor('nextUrl')} />
-          <ProgressButtons back={prevStep} isLoading={ctx.isLoading}
-                           nextLabel="Sign forms" />
+          <CenteredButtons>
+            <NextButton isLoading={ctx.isLoading} buttonClass="is-success"
+                        label="Sign my forms" />
+            <Link {...modalCtx.getLinkCloseProps()} className="button is-text">Go back</Link>
+          </CenteredButtons>
         </>}
       </LegacyFormSubmitter>
+    </>} />
+  );
+};
+
+const ReviewForms: React.FC<ProgressStepProps> = (props) => {
+  const {session} = useContext(AppContext);
+  const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
+  const prevStep = Routes.locale.ehp.yourLandlordOptionalDetails;
+  const nextUrl = Routes.locale.ehp.latestStep;
+
+  return (
+    <Page title="You're almost there!" withHeading="big" className="content">
+      <p>Please review your Emergency HP Action forms to make sure everything is correct. If anything looks wrong, you can <Link to={prevStep}>go back</Link> and make changes now.</p>
+      {href && <PdfLink href={href} label="Preview forms" />}
+      <p>
+        From here, you'll sign your forms electronically and we'll immediately send them to the courts for you.
+      </p>
+      <div className="buttons jf-two-buttons jf-two-buttons--vertical">
+        <BackButton to={prevStep} />
+        <ModalLink to={Routes.locale.ehp.reviewFormsSignModal}
+                   className="button is-primary is-medium"
+                   render={() => <SignModal nextUrl={nextUrl} />}>
+          My forms look good to me!
+        </ModalLink>
+      </div>
     </Page>
   );
 };
 
 const Confirmation: React.FC<{}> = () => {
+  const title = "Your Emergency HP Action forms have been sent to the court!";
   return (
-    <Page title="Your HP Action forms have been sent to the court!" withHeading="big" className="content">
+    <Page title={title} className="content">
+      <h1 className="jf-heading-with-icon"><i className="has-text-success">{checkCircleSvg}</i><span>{title}</span></h1>
       <p>
-        Your completed, signed HP Action paperwork have been emailed to you and your Housing Court.
+        Your completed, signed Emergency HP Action paperwork have been emailed to you and your Housing Court.
       </p>
       <h2>What happens next?</h2>
       <BigList>
-        <li>The Housing Court clerk will review your HP Action forms.</li>
+        <li>The Housing Court clerk will review your Emergency HP Action forms.</li>
         <li>The Housing Court will assign you a lawyer who will call you to coordinate at the phone number you provided.</li>
         <li>An inspector from Housing Preservation and Development (HPD) will come to your house to verify the issue(s). Your lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
         <li>The court hearing will happen through a video call so that you do not have to go to the court house in-person. Your lawyer will give you all of the details and will guide you every step of the way.</li>
@@ -282,7 +311,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
       isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
-    { path: Routes.locale.ehp.reviewForms, exact: true, component: ReviewForms, 
+    { path: Routes.locale.ehp.reviewForms, component: ReviewForms, 
       isComplete: (s) => s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED },
     { path: Routes.locale.ehp.confirmation, exact: true, component: Confirmation}
   ]

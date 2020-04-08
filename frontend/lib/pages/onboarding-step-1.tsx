@@ -3,7 +3,7 @@ import Page from '../page';
 import { OnboardingRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
-import { OnboardingStep1Input } from '../queries/globalTypes';
+import { OnboardingStep1Input, OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull, exactSubsetOrDefault } from '../util';
@@ -18,6 +18,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
 import { ClearSessionButton } from '../clear-session-button';
 import { updateAddressFromBrowserStorage } from '../browser-storage';
+import { getSignupIntentLabels } from '../../../common-data/signup-intent-choices';
 
 export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
   if (isBoroughChoice(choice)) return choice;
@@ -75,6 +76,7 @@ type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
   routes: OnboardingRouteInfo;
   toCancel: string;
+  signupIntent: OnboardingInfoSignupIntent;
 } & RouteComponentProps<any> & AppContextType;
 
 class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Props> {
@@ -126,11 +128,11 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
 
   render() {
     const { routes } = this.props;
+    const actionLabel = getSignupIntentLabels()[this.props.signupIntent];
 
     return (
-      <Page title="Create an account to get started with JustFix.nyc!">
+      <Page title={`Create an account to get started with your ${actionLabel}!`} withHeading>
         <div>
-          <h1 className="title is-4">Create an account to get started with JustFix.nyc!</h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={s => exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)}
@@ -150,7 +152,7 @@ class OnboardingStep1WithoutContexts extends React.Component<OnboardingStep1Prop
           to={this.props.toCancel}
           portalRef={this.cancelControlRef}
           disableProgressiveEnhancement={this.props.disableProgressiveEnhancement}
-          label="Cancel signup"
+          label="Cancel"
         />
         <Route path={routes.step1ConfirmAddressModal} exact render={() => (
           <Step1ConfirmAddressModal toStep3={routes.step3} />

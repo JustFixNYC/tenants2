@@ -286,20 +286,6 @@ $jf-biglist-counter-margin: 1em;
         background-color: hsl(0, 0%, 29%);
         color: white;
     }
-
-    // Alternate styling, designed by Tahnee Pantig
-    &.is-light {
-        li {
-            padding: 1.5rem;
-            background: white;
-            border: 1px solid $grey-light;
-            margin-bottom: 1rem;
-
-            div.jf-biglist-counter::before {
-                background-color: $grey-light;
-            }
-        }
-    }
 }
 
 .jf-fadein-half-second {
@@ -416,4 +402,37 @@ html.jf-is-fullscreen-admin-page {
             }
         }
     } 
+}
+
+.jf-heading-with-icon {
+    display: flex;
+
+    > i > svg {
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    @media (min-width: $jf-supertiny + 1px) {
+        > i {
+            padding-right: 0.5em;
+        }
+
+        > span {
+            padding-top: 0.1em;
+        }
+    }
+
+    @media (max-width: $jf-supertiny) {
+        flex-direction: column;
+
+        margin-top: -0.5em;
+
+        > i {
+            text-align: center;
+        }
+
+        > span {
+            padding-top: 0.5em;
+        }
+    }
 }

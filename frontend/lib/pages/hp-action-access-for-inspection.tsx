@@ -5,7 +5,9 @@ import { TextualFormField } from '../form-fields';
 
 const onboardingStepBuilder = new SessionStepBuilder(sess => sess.onboardingInfo);
 
-const AccessForInspectionGenerator = (type?: string) => onboardingStepBuilder.createStep({
+type HpType = 'hp' | 'ehp';
+
+const AccessForInspectionGenerator = (type?: HpType) => onboardingStepBuilder.createStep({
   title: "Access for Your HPD Inspection",
   mutation: AccessForInspectionMutation,
   toFormInput: onb => onb.finish(),
@@ -19,5 +21,5 @@ const AccessForInspectionGenerator = (type?: string) => onboardingStepBuilder.cr
   </>,
 });
 
-export const AccessForInspection = AccessForInspectionGenerator();
+export const AccessForInspection = AccessForInspectionGenerator('hp');
 export const EhpAccessForInspection = AccessForInspectionGenerator('ehp');

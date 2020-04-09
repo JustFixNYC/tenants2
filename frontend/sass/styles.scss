@@ -185,7 +185,9 @@ input:focus + .jf-checkbox-symbol {
 @mixin button-text-wrap() {
     white-space: normal;
     height: auto;
-    line-height: normal;
+    @media screen and (max-width: 400px) {
+        line-height: normal;
+    }
 }
 
 .button.jf-text-wrap {

@@ -315,11 +315,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # integration is enabled.
     DOCUSIGN_USER_ID: str = ''
 
-    # The Django site ID for the site to serve. This is used so that application
-    # data can hook into specific sites and a single database can manage content
-    # for multiple sites.
-    SITE_ID: int = 1
-
     # The domain of the DocuSign authentication server. Note that this default
     # is the *development* auth server, so you will want to set this to
     # a production domain on live production (non-staging) systems.

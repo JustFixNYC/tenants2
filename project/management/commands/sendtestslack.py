@@ -1,13 +1,12 @@
 from django.conf import settings
 from django.core.management.base import CommandError, BaseCommand
-from django.contrib.sites.models import Site
 
 from project.slack import sendmsg, hyperlink
-from project.util.site_util import absolutify_url
+from project.util.site_util import absolutify_url, get_default_site
 
 
 def get_site_hyperlink() -> str:
-    return hyperlink(text=Site.objects.get_current().name, href=absolutify_url('/'))
+    return hyperlink(text=get_default_site().name, href=absolutify_url('/'))
 
 
 class Command(BaseCommand):

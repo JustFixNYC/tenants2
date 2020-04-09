@@ -152,7 +152,11 @@ TEMPLATES = [
     },
 ]
 
-SITE_ID = env.SITE_ID
+# This is like Django's SITE_ID setting, except it's used as a fallback
+# rather than an authoritative identifer: if a request object isn't
+# available in a particular context, we'll return this site ID, but
+# otherwise we'll prefer the site that a request's domain maps to.
+DEFAULT_SITE_ID = 1
 
 WSGI_APPLICATION = 'project.wsgi.application'
 

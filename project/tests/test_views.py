@@ -16,7 +16,7 @@ from frontend.tests import test_safe_mode
 
 
 @pytest.fixture(autouse=True)
-def setup_fixtures(allow_lambda_http):
+def setup_fixtures(allow_lambda_http, db):
     pass
 
 

@@ -19,8 +19,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import { browserStorage } from './browser-storage';
 import { areAnalyticsEnabled } from './analytics';
 
+// Note that these don't need any special fallback loading screens
+// because they will never need to be dynamically loaded on the
+// client-side, as they represent entirely different websites.
+// We're just using our infrastructure for code splitting here.
 const LoadableJustfixSite = loadable(() => import('./justfix-site'));
-
 const LoadableNorentSite = loadable(() => import('./norent-site'));
 
 export type AppSiteProps = RouteComponentProps & {

@@ -64,6 +64,10 @@ class ReliefAttemptsForm(forms.ModelForm):
         model = OnboardingInfo
         fields = ('has_called_311',)
 
+    has_called_311 = YesNoRadiosField(
+        help_text=OnboardingInfo._meta.get_field('has_called_311').help_text
+    )
+
 
 class BaseOnboardingStep4Form(forms.Form):
     phone_number = USPhoneNumberField()

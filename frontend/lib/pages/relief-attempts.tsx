@@ -8,16 +8,13 @@ import { ReliefAttemptsMutation } from '../queries/ReliefAttemptsMutation';
 import { ReliefAttemptsInput } from "../queries/globalTypes"
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { ProgressButtons } from '../buttons';
-import { FormInputConverter } from '../form-input-converter';
+import { toStringifiedNullBool } from '../form-input-converter';
 
 
 function renderForm(ctx: FormContext<ReliefAttemptsInput>): JSX.Element {
-  var hasCalled311 = ctx.fieldPropsFor('hasCalled311');
-  var conv = new FormInputConverter(hasCalled311);
-  console.log(conv);
   return (
     <React.Fragment>
-      <YesNoRadiosFormField {...hasCalled311} label="Have you previously called 311 with no results?" />
+      <YesNoRadiosFormField {...ctx.fieldPropsFor('hasCalled311')} label="Have you previously called 311 with no results?" />
       <ProgressButtons back={Routes.locale.loc.accessDates} isLoading={ctx.isLoading} />
     </React.Fragment>
   );
@@ -33,7 +30,7 @@ export default function ReliefAttemptsPage(): JSX.Element {
         <SessionUpdatingFormSubmitter
           mutation={ReliefAttemptsMutation}
           initialState={(session) => ({
-              hasCalled311: session.onboardingInfo?.hasCalled311 
+              hasCalled311: toStringifiedNullBool(session.onboardingInfo?.hasCalled311 ?? null ) 
             })}
           onSuccessRedirect={Routes.locale.loc.yourLandlord}
           >

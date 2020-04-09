@@ -10,7 +10,7 @@ import { isNotSuingForRepairs } from './hp-action-util';
 import { MiddleProgressStep, ProgressStepProps } from './progress-step-route';
 import { ProgressButtons, BackButton, NextButton } from './buttons';
 import { Link } from 'react-router-dom';
-import { AccessForInspection } from './pages/hp-action-access-for-inspection';
+import { EhpAccessForInspection } from './pages/hp-action-access-for-inspection';
 import { createHPActionPreviousAttempts } from './pages/hp-action-previous-attempts';
 import { HPActionYourLandlord } from './pages/hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './pages/hp-action-generate-pdf';
@@ -290,7 +290,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.sue, component: Sue },
     { path: Routes.locale.ehp.tenantChildren, component: TenantChildren,
       shouldBeSkipped: isNotSuingForRepairs },
-    { path: Routes.locale.ehp.accessForInspection, component: AccessForInspection,
+    { path: Routes.locale.ehp.accessForInspection, component: EhpAccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs },
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: s => isNotSuingForRepairs(s) || isUserNycha(s) },

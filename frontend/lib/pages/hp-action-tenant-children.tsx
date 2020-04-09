@@ -16,7 +16,7 @@ export const TenantChildren = stepBuilder.createStep({
   }),
   renderIntro: () => <>
     <p>If any children under the age of 6 live in the apartment, please list their names and birthdates here. Otherwise, you can continue to the next page.</p>
-    <p><strong>Note:</strong> This information is important because children are very sensitive to lead, so the city wants to be able to give these cases special attention.</p>
+    <p><strong>Note:</strong> When you provide this, the court is more likely to prioritize your case because children are very sensitive to lead.</p>
     <p>Please list up to {TENANT_CHILDREN_MAX_COUNT} children under the age of 6 who live in the apartment.</p>
   </>,
   renderForm: ctx => <>

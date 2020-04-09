@@ -66,14 +66,14 @@ function EmergencyHPActionSplash(): JSX.Element {
                 <div className="content">
                   <p className="subtitle">
                     An Emergency HP Action is a legal case you can bring against your landlord for failing to make repairs or not providing essential services.
-                    This service is free, secure, and confidential.
+                    This service is free and secure.
                   </p>
                   <CovidEhpDisclaimer />
                   <GetStartedButton to={onboardingForHPActionRoute()} intent={OnboardingInfoSignupIntent.EHP} pageType="splash">
                     Start my case
                   </GetStartedButton>
                   <div className="content has-text-centered">
-                    <p className="jf-secondary-cta has-text-weight-bold">Are you a tenant that would prefer to work with a lawyer to start your case?
+                    <p className="jf-secondary-cta has-text-weight-bold">Would you prefer to work with a lawyer to start your case?
                      <br />Call the Housing Court Answers hotline at <a href="tel:1-212-962-4795">212-962-4795</a> Monday to Friday, 9am to 5pm.</p>
                   </div>
                 </div>
@@ -98,10 +98,10 @@ const EmergencyHPActionWelcome = () => {
         An <strong>Emergency HP (Housing Part) Action</strong> is a legal case you can bring against your landlord for failing to make repairs or not providing essential services. Here is how it works:
       </p>
       <BigList>
-        <li>Answer a few questions here about your housing situation and we will email the forms to your Borough’s Housing Court. You will also be emailed a copy of the forms.</li>
-        <li>You will be assigned a Lawyer that will help you throughout your case.</li>
-        <li>An inspector from the Department of Housing and Preservation (HPD) will come to your house to verify the issue(s). Your Lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
-        <li>The court hearing will happen through a video-call so that <strong>you do not have to go to the Courthouse in-person</strong>. Your Lawyer will give you all of the details and will guide you each step of the way.</li>
+        <li>Answer a few questions here about your housing situation and we will email your answers to your Borough’s Housing Court. You will also be emailed a copy of the forms.</li>
+        <li>The Housing Court will assign you a lawyer who will call you to coordinate at the phone number you provided.</li>
+        <li>An inspector from Housing Preservation and Development (HPD) will come to your apartment to verify the issue(s). Your lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
+        <li>The court hearing will happen through a video call so that <strong>you do not have to go to the Courthouse in-person</strong>. Your lawyer will give you all of the details and will guide you every step of the way.</li>
       </BigList>
         <br />
       <GetStartedButton to={Routes.locale.ehp.sue} intent={OnboardingInfoSignupIntent.EHP} pageType="welcome">
@@ -253,20 +253,20 @@ const Confirmation: React.FC<{}> = () => {
     <Page title={title} className="content">
       <h1 className="jf-heading-with-icon"><i className="has-text-success">{checkCircleSvg}</i><span>{title}</span></h1>
       <p>
-        Your completed, signed Emergency HP Action paperwork have been emailed to you and your Housing Court.
+        Your completed, signed Emergency HP Action forms have been emailed to you and your Housing Court.
       </p>
       <h2>What happens next?</h2>
       <BigList>
         <li>The Housing Court clerk will review your Emergency HP Action forms.</li>
         <li>The Housing Court will assign you a lawyer who will call you to coordinate at the phone number you provided.</li>
-        <li>An inspector from Housing Preservation and Development (HPD) will come to your house to verify the issue(s). Your lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
-        <li>The court hearing will happen through a video call so that you do not have to go to the court house in-person. Your lawyer will give you all of the details and will guide you every step of the way.</li>
+        <li>An inspector from Housing Preservation and Development (HPD) will come to your apartment to verify the issue(s). Your lawyer will help you arrange a time that is convenient for you and give you the details you will need.</li>
+        <li>The court hearing will happen through a video call so that <strong>you do not have to go to the Courthouse in-person</strong>. Your lawyer will give you all of the details and will guide you every step of the way.</li>
       </BigList>
       <h2>Want to read more about your rights?</h2>
       <ul>
         {/* TODO: This is currently duplicated from the HP action flow, we might want to create a reusable component out of it. */}
         <li><OutboundLink href="https://www.metcouncilonhousing.org/help-answers/getting-repairs/" target="_blank">Met Council on Housing</OutboundLink>
-          {' '}(<OutboundLink href="https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/" target="_blank">en español</OutboundLink>)</li>
+          {' '}(<OutboundLink href="https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/" target="_blank">también en español</OutboundLink>)</li>
         <li><OutboundLink href="http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/" target="_blank">Housing Court Answers</OutboundLink></li>
         <li><OutboundLink href="https://www.lawhelpny.org/nyc-housing-repairs" target="_blank">LawHelpNY</OutboundLink></li>
         <li><OutboundLink href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=hp" target="_blank">JustFix.nyc's Learning Center</OutboundLink></li>

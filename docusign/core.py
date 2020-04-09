@@ -19,6 +19,7 @@ REQUIRED_SETTINGS = [
     'DOCUSIGN_ACCOUNT_ID',
     'DOCUSIGN_INTEGRATION_KEY',
     'DOCUSIGN_USER_ID',
+    'DOCUSIGN_AUTH_SERVER_DOMAIN',
 ]
 
 
@@ -118,8 +119,7 @@ def get_auth_server_domain() -> str:
     Returns the domain name for the DocuSign authentication server.
     '''
 
-    # TODO: We should return the production one if needed.
-    return 'account-d.docusign.com'
+    return settings.DOCUSIGN_AUTH_SERVER_DOMAIN
 
 
 def get_auth_server_url() -> str:

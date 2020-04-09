@@ -27,6 +27,16 @@ describe("getBestPrevStep()", () => {
     expect(step && step.path).toBe('/welcome');
   });
 
+  it("skips past steps that don't want to be linked back to", () => {
+    const steps: ProgressStepRoute[] = [
+      { path: '/ask-for-tweet', render },
+      { path: '/send-tweet', render, neverGoBackTo: true },
+      { path: '/tweet-sent', render },
+    ];
+    const step = getBestPrevStep(session, '/tweet-sent', steps);
+    expect(step && step.path).toBe('/ask-for-tweet');
+  });
+
   it("does not skip past completed steps", () => {
     const step = getBestPrevStep({ ...session, firstName: 'bop' }, '/last-name', steps);
     expect(step && step.path).toBe('/first-name');

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { Switch, Route, RouteComponentProps, Redirect } from 'react-router-dom';
 import loadable from '@loadable/component';
 
 import { AppContext } from './app-context';
@@ -54,10 +54,13 @@ const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./a
 
 const JustfixRoute: React.FC<RouteComponentProps> = props => {
   const { location } = props;
-  const { server } = useContext(AppContext);
+  const { server, session } = useContext(AppContext);
   if (!routeMap.exists(location.pathname)) {
     return NotFound(props);
   }
+  const enableEHP = server.enableEmergencyHPAction;
+  const redirectToEHP = enableEHP && !(session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
+
   return (
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
@@ -69,10 +72,12 @@ const JustfixRoute: React.FC<RouteComponentProps> = props => {
       <Route path={Routes.locale.logout} exact component={LogoutPage} />
       {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
       <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+      {redirectToEHP && <Route path={Routes.locale.hp.splash} exact render={() => <Redirect to={Routes.locale.ehp.splash} />} />}
+      {redirectToEHP && <Route path={Routes.locale.hp.welcome} exact render={() => <Redirect to={Routes.locale.ehp.welcome} />} />}
       {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
       <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
-      {server.enableEmergencyHPAction && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
-      {server.enableEmergencyHPAction && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
+      {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
+      {enableEHP && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
       <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />

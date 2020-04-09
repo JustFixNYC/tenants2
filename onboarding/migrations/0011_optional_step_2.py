@@ -13,26 +13,26 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='onboardinginfo',
             name='has_called_311',
-            field=models.BooleanField(blank=True, help_text='Has the user called 311 before?', null=True),
+            field=models.NullBooleanField(help_text='Has the user called 311 before?'),
         ),
         migrations.AlterField(
             model_name='onboardinginfo',
             name='has_no_services',
-            field=models.BooleanField(blank=True, help_text='Is the user missing essential services like water?', null=True),
+            field=models.NullBooleanField(help_text='Is the user missing essential services like water?'),
         ),
         migrations.AlterField(
             model_name='onboardinginfo',
             name='has_pests',
-            field=models.BooleanField(blank=True, help_text='Does the user have pests like rodents or bed bugs?', null=True),
+            field=models.NullBooleanField(help_text='Does the user have pests like rodents or bed bugs?'),
         ),
         migrations.AlterField(
             model_name='onboardinginfo',
             name='is_in_eviction',
-            field=models.BooleanField(blank=True, help_text='Has the user received an eviction notice?', null=True),
+            field=models.NullBooleanField(help_text='Has the user received an eviction notice?'),
         ),
         migrations.AlterField(
             model_name='onboardinginfo',
             name='needs_repairs',
-            field=models.BooleanField(blank=True, help_text='Does the user need repairs in their apartment?', null=True),
+            field=models.NullBooleanField(help_text='Does the user need repairs in their apartment?'),
         ),
     ]

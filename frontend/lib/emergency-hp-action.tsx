@@ -24,9 +24,6 @@ import { HiddenFormField, MultiCheckboxFormField, TextualFormField } from './for
 import { LegacyFormSubmitter } from './legacy-form-submitter';
 import { BeginDocusignMutation } from './queries/BeginDocusignMutation';
 import { performHardOrSoftRedirect } from './pages/login-page';
-import EMERGENCY_HPA_ISSUE_LIST from '../../common-data/emergency-hpa-issue-list.json';
-import { DjangoChoices } from './common-data';
-import { getIssueChoiceLabels, IssueChoice } from '../../common-data/issue-choices';
 import { MoratoriumWarning, CovidEhpDisclaimer } from './covid-banners';
 import { StaticImage } from './static-image';
 import { VerifyEmailMiddleProgressStep } from './pages/verify-email';
@@ -41,10 +38,10 @@ import { PhoneNumberFormField } from './phone-number-form-field';
 import { isUserNycha } from './nycha';
 import { ModalLink, Modal, BackOrUpOneDirLevel } from './modal';
 import { CenteredButtons } from './centered-buttons';
+import { EMERGENCY_HPA_ISSUE_SET, getEmergencyHPAIssueChoices } from './emergency-hp-action-issues';
 
 const checkCircleSvg = require('./svg/check-circle-solid.svg') as JSX.Element;
 
-const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -115,10 +112,6 @@ const EmergencyHPActionWelcome = () => {
   );
 };
 
-function getEmergencyHPAIssueChoices(): DjangoChoices {
-  const labels = getIssueChoiceLabels();
-  return EMERGENCY_HPA_ISSUE_LIST.map(issue => [issue, labels[issue as IssueChoice]]);
-}
 
 const Sue = MiddleProgressStep(props => (
   <Page title="What type of problems are you experiencing?" withHeading className="content">
@@ -163,7 +156,7 @@ const Sue = MiddleProgressStep(props => (
 ));
 
 const PrepareToGeneratePDF = MiddleProgressStep(props => (
-  <Page title="It's time to generate your forms" withHeading className="content">
+  <Page title="It's time to prepare your forms" withHeading className="content">
     <p>Next, we're going to prepare your Emergency HP Action paperwork for you to review.</p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm toWaitForUpload={Routes.locale.ehp.waitForUpload} kind="EMERGENCY">
@@ -232,7 +225,7 @@ const SignModal: React.FC<{
 const ReviewForms: React.FC<ProgressStepProps> = (props) => {
   const {session} = useContext(AppContext);
   const href = session.latestEmergencyHpActionPdfUrl && `${session.latestEmergencyHpActionPdfUrl}`;
-  const prevStep = Routes.locale.ehp.yourLandlordOptionalDetails;
+  const prevStep = assertNotNull(props.prevStep);
   const nextUrl = Routes.locale.ehp.latestStep;
 
   return (
@@ -302,14 +295,17 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     { path: Routes.locale.ehp.prevAttempts, component: PreviousAttempts,
       shouldBeSkipped: s => isNotSuingForRepairs(s) || isUserNycha(s) },
     { path: Routes.locale.ehp.yourLandlord, exact: true, component: HPActionYourLandlord },
-    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails },
+    { path: Routes.locale.ehp.yourLandlordOptionalDetails, exact: true, component: YourLandlordOptionalDetails,
+      shouldBeSkipped: isUserNycha },
     { path: Routes.locale.ehp.verifyEmail, exact: true, component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified },
-    { path: Routes.locale.ehp.ready, exact: true, component: PrepareToGeneratePDF,
+    { path: Routes.locale.ehp.prepare, exact: true, component: PrepareToGeneratePDF,
+      neverGoBackTo: true,
       isComplete: (s) => s.emergencyHpActionUploadStatus !== HPUploadStatus.NOT_STARTED },
   ],
   confirmationSteps: [
     { path: Routes.locale.ehp.waitForUpload, exact: true, component: UploadStatus,
+      neverGoBackTo: true,
       isComplete: (s) => s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED },
     { path: Routes.locale.ehp.reviewForms, component: ReviewForms, 
       isComplete: (s) => s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED },

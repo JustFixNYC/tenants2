@@ -6,5 +6,6 @@ fragment OnboardingInfo on OnboardingInfoType {
   padBbl,
   aptNumber,
   floorNumber,
+  hasCalled311,
   leaseType
 }

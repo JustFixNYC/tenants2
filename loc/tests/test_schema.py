@@ -1,10 +1,8 @@
 import pytest
 from freezegun import freeze_time
 
-from project.tests.util import get_frontend_query
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
-from onboarding.models import OnboardingInfo
 from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
 from .factories import create_user_with_all_info, LandlordDetailsV2Factory
 
@@ -336,67 +334,35 @@ def test_email_letter_works(db, graphql_client, mailoutbox):
     assert len(mailoutbox) == 1
 
 
-RA_DATA_QUERY = '''
-query {
-    session {
-        onboardingInfo {
-            hasCalled311
-        }
-    }
-}
-'''
-
-RA_MUTATION = """
-mutation {
-    reliefAttempts(input: {}) {
-        errors { field, messages }
-        session {
-            onboardingInfo {
-                hasCalled311
+def _exec_relief_attempts_form(graphql_client, input):
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: ReliefAttemptsInput!) {
+            output: reliefAttempts(input: $input) {
+                errors { field, messages }
+                session {
+                    onboardingInfo {
+                        hasCalled311
+                    }
+                }
             }
         }
-    }
-}
-"""
-
-
-def _get_relief_attempts_info(graphql_client):
-    return
-    graphql_client.execute(RA_DATA_QUERY)['data']['session']['onboardingInfo']['hasCalled311']
-
-
-def _exec_relief_attempts_form(graphql_client, **input_kwargs):
-    return graphql_client.execute(
-        RA_MUTATION,
-        variables={'input': {
-            **input_kwargs
-        }}
-    )['data'][f'output']
+        """,
+        variables={'input': input}
+    )['data']['output']
 
 
 def test_relief_attempts_form_validates_data(db, graphql_client):
     oi = OnboardingInfoFactory()
     graphql_client.request.user = oi.user
-    ob = _exec_relief_attempts_form(graphql_client, hasCalled311='Boop')
-    assert len(ob['errors']) > 0
-    assert _get_relief_attempts_info(graphql_client) is None
+    result = _exec_relief_attempts_form(graphql_client, {'hasCalled311': 'Boop'})
+    assert len(result['errors']) > 0
 
 
-def test_relief_attempts_form_saves_data_to_session(db, graphql_client):
+def test_relief_attempts_form_saves_data_to_db(db, graphql_client):
     oi = OnboardingInfoFactory()
     graphql_client.request.user = oi.user
-    ob = _exec_relief_attempts_form(graphql_client, hasCalled311='True')
-    print(ob)
-    assert ob['errors'] == []
-    assert ob['session']['onboardingInfo']['hasCalled311'] is True
-
-
-def test_rh_form_saves_info_to_db(db, graphql_client):
-    oi = OnboardingInfoFactory()
-    graphql_client.request.user = oi.user
-    _exec_relief_attempts_form(graphql_client, hasCalled311='True')
-    graphql_client.execute(RA_MUTATION)
-    ois = list(OnboardingInfo.objects.all())
-    assert len(ois) == 1
-    oi = ois[0]
-    assert oi.hasCalled311 == 'True'
+    result = _exec_relief_attempts_form(graphql_client, {'hasCalled311': 'True'})
+    oi.refresh_from_db()
+    assert result['errors'] == []
+    assert oi.has_called_311 is True

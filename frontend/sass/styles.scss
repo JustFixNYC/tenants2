@@ -185,7 +185,11 @@ input:focus + .jf-checkbox-symbol {
 @mixin button-text-wrap() {
     white-space: normal;
     height: auto;
-    @media screen and (max-width: 400px) {
+    
+    // Ideally, we only want to alter the line height of button text that wraps to two lines
+    // However, this solution should cover all cases where this happens, 
+    // just also alters one-line buttons on mobile as well, which isn't ideal.
+    @media screen and (max-width: $jf-supertiny) {
         line-height: normal;
     }
 }

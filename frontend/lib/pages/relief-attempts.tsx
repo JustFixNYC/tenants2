@@ -2,26 +2,14 @@ import React from 'react';
 
 import Page from "../page";
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
-import Routes from '../routes';
-import { FormContext } from '../form-context';
 import { ReliefAttemptsMutation } from '../queries/ReliefAttemptsMutation';
-import { ReliefAttemptsInput } from "../queries/globalTypes"
 import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
 import { ProgressButtons } from '../buttons';
 import { toStringifiedNullBool } from '../form-input-converter';
+import { MiddleProgressStep } from '../progress-step-route';
 
 
-function renderForm(ctx: FormContext<ReliefAttemptsInput>): JSX.Element {
-  return (
-    <React.Fragment>
-      <YesNoRadiosFormField {...ctx.fieldPropsFor('hasCalled311')} label="Have you previously called 311 with no results?" />
-      <ProgressButtons back={Routes.locale.loc.accessDates} isLoading={ctx.isLoading} />
-    </React.Fragment>
-  );
-}
-
-export default function ReliefAttemptsPage(): JSX.Element {
-  return (
+const ReliefAttemptsPage = MiddleProgressStep(props => (
     <Page title="Previous attempts to get help">
       <div>
         <h1 className="title is-4 is-spaced">Previous attempts to get official help</h1>
@@ -30,13 +18,18 @@ export default function ReliefAttemptsPage(): JSX.Element {
         <SessionUpdatingFormSubmitter
           mutation={ReliefAttemptsMutation}
           initialState={(session) => ({
-              hasCalled311: toStringifiedNullBool(session.onboardingInfo?.hasCalled311 ?? null ) 
-            })}
-          onSuccessRedirect={Routes.locale.loc.yourLandlord}
+            hasCalled311: toStringifiedNullBool(session.onboardingInfo?.hasCalled311 ?? null ) 
+          })}
+          onSuccessRedirect={props.nextStep}
           >
-            {renderForm}
+            {ctx => <>
+              <YesNoRadiosFormField {...ctx.fieldPropsFor('hasCalled311')} label="Have you previously called 311 with no results?" />
+              <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
+            </>}
         </SessionUpdatingFormSubmitter>
       </div>
     </Page>
-  );
-}
+  )
+);
+
+export default ReliefAttemptsPage;

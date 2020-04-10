@@ -340,11 +340,6 @@ def _exec_relief_attempts_form(graphql_client, input):
         mutation MyMutation($input: ReliefAttemptsInput!) {
             output: reliefAttempts(input: $input) {
                 errors { field, messages }
-                session {
-                    onboardingInfo {
-                        hasCalled311
-                    }
-                }
             }
         }
         """,

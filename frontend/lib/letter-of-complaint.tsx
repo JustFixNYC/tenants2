@@ -68,7 +68,7 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
     { path: Routes.locale.loc.issues.prefix, component: LetterOfComplaintIssuesRoutes },
     { path: Routes.locale.loc.accessDates, exact: true, component: AccessDatesPage },
     { path: Routes.locale.loc.reliefAttempts, component: ReliefAttemptsPage,
-      shouldBeSkipped: s => isUserNycha(s) },
+      shouldBeSkipped: isUserNycha },
     { path: Routes.locale.loc.yourLandlord, exact: true, component: LandlordDetailsPage },
     { path: Routes.locale.loc.preview, component: LetterRequestPage,
       isComplete: sess => !!sess.letterRequest },

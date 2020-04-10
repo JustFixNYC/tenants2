@@ -4,6 +4,7 @@ from django.conf import settings
 from onboarding.forms import (
     OnboardingStep1Form,
     OnboardingStep4Form,
+    OnboardingStep4FormVersion2,
 )
 from onboarding.models import AddressWithoutBoroughDiagnostic
 from users.models import JustfixUser
@@ -25,6 +26,12 @@ STEP_4_FORM_DATA = {
     'password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
     'confirm_password': 'iamasuperstrongpassword#@$reowN@#rokeNER',
     'agree_to_terms': True,
+}
+
+
+STEP_4_V2_FORM_DATA = {
+    **STEP_4_FORM_DATA,
+    'email': 'boop@jones.com',
 }
 
 
@@ -76,6 +83,16 @@ def test_onboarding_step_4_form_fails_on_existing_phone_number():
     form.full_clean()
     assert form.errors == {
         'phone_number': ['A user with that phone number already exists.']
+    }
+
+
+@pytest.mark.django_db
+def test_onboarding_step_4_v2_form_fails_on_existing_email():
+    JustfixUser.objects.create_user(username='blah', email='boop@jones.com')
+    form = OnboardingStep4FormVersion2(data=STEP_4_V2_FORM_DATA)
+    form.full_clean()
+    assert form.errors == {
+        'email': ['A user with that email address already exists.']
     }
 
 

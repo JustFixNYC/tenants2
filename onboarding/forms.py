@@ -94,3 +94,10 @@ class OnboardingStep4FormVersion2(BaseOnboardingStep4Form, SetPasswordForm, form
         fields = ('can_we_sms', 'signup_intent')
 
     email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if JustfixUser.objects.filter(email=email).exists():
+            # TODO: Are we leaking valuable PII here?
+            raise ValidationError('A user with that email address already exists.')
+        return email

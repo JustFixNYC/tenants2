@@ -11,8 +11,9 @@ import { whoOwnsWhatURL } from '../wow-link';
 import classnames from 'classnames';
 import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMutation';
 import { niceAdminTimestamp, friendlyAdminPhoneNumber } from './admin-util';
-import { useRepeatedPromise, useAdminFetch, usePrevious, useDebouncedValue } from './admin-hooks';
+import { useRepeatedPromise, useAdminFetch, usePrevious } from './admin-hooks';
 import { staffOnlyView } from './staff-only-view';
+import { useDebouncedValue } from '../use-debounced-value';
 
 const PHONE_QS_VAR = 'phone';
 

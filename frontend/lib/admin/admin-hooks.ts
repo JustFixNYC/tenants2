@@ -90,34 +90,6 @@ export function useAdminFetch<Input, Output>(
 };
 
 /**
- * A React Hook to debounce the given value by the given number of milliseconds.
- * 
- * In other words, if the given value changes, the new value won't actually be
- * returned by this function until it has been "stable" for the given number
- * of milliseconds.
- */
-export function useDebouncedValue<T>(value: T, ms: number): T {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    let timeout: number|null = null;
-
-    if (value !== debouncedValue) {
-      timeout = window.setTimeout(() => {
-        timeout = null;
-        setDebouncedValue(value);
-      }, ms);
-    }
-
-    return () => {
-      timeout !== null && clearTimeout(timeout);
-    };
-  }, [debouncedValue, ms, value]);
-
-  return debouncedValue;
-}
-
-/**
  * A React Hook that returns what a value was the last time the
  * current functional component was called.
  * 

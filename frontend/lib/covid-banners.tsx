@@ -6,6 +6,7 @@ import { OutboundLink } from './google-analytics';
 import { getEmergencyHPAIssueLabels } from './emergency-hp-action-issues';
 import { CSSTransition } from 'react-transition-group';
 import Routes from './routes';
+import { useDebouncedValue } from './use-debounced-value';
 
 const getRoutesWithMoratoriumBanner = () => [
   Routes.locale.loc.splash,
@@ -20,7 +21,13 @@ const getRoutesWithMoratoriumBanner = () => [
  * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */  
 const MoratoriumBanner = ( props:{ pathname?: string } ) => {
-  const includeBanner = props.pathname && (getRoutesWithMoratoriumBanner().includes(props.pathname));
+  // This has to be debounced or it weirdly collides with our loading overlay
+  // that appears when pages need to load JS bundles and such, so we'll add a
+  // short debounce, which seems to obviate this issue.
+  const includeBanner = useDebouncedValue(
+    props.pathname && (getRoutesWithMoratoriumBanner().includes(props.pathname)),
+    10
+  );
 
   const [isVisible, setVisibility] = useState(true);
 

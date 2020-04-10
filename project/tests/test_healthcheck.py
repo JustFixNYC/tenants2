@@ -50,7 +50,8 @@ def test_it_prints_msg_on_failure(monkeypatch, db):
 def test_it_works(live_server, monkeypatch, allow_lambda_http):
     urls = []
 
-    def fake_absolutify_url(url):
+    def fake_absolutify_url(url, request):
+        assert request is None
         urls.append(url)
         return live_server.url + url
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { GraphQLFetch } from './graphql-client';
 import { buildContextHocFactory } from './context-util';
+import { SiteChoice } from '../../common-data/site-choices';
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -56,6 +57,16 @@ export function getGlobalAppServerInfo(): AppServerInfo {
 export interface AppServerInfo {
   /** The server's origin URL, e.g. "http://boop.com". */
   originURL: string;
+
+  /**
+   * The human-readable name of the website.
+   */
+  siteName: string;
+
+  /**
+   * The type of website to render.
+   */
+  siteType: SiteChoice;
 
   /**
    * The URL of the server's static files, e.g. "/static/".

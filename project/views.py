@@ -14,6 +14,7 @@ from django.conf import settings
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_service import LambdaService
+from project.util.site_util import get_site_from_request_or_default, get_site_type
 from project.schema import schema
 from project import common_data
 import project.health
@@ -238,6 +239,8 @@ def react_rendered_view(request):
             return HttpResponseBadRequest(e.args[0])
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
+    site = get_site_from_request_or_default(request)
+
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
@@ -247,6 +250,8 @@ def react_rendered_view(request):
         'locale': cur_language,
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
+            'siteName': site.name,
+            'siteType': get_site_type(site),
             'staticURL': settings.STATIC_URL,
             'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),

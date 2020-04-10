@@ -1,34 +1,34 @@
 import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
-import { BrowserRouter, Switch, Route, RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, RouteComponentProps, withRouter } from 'react-router-dom';
 import loadable, { loadableReady } from '@loadable/component';
 
 import GraphQlClient from './graphql-client';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
-import { NotFound } from './pages/not-found';
-import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
 import { ErrorBoundary } from './error-boundary';
-import LoginPage from './pages/login-page';
-import { LogoutPage } from './pages/logout-page';
-import Routes, { isModalRoute, routeMap } from './routes';
-import Navbar from './navbar';
+import { isModalRoute } from './routes';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
-import { Action, Location } from 'history';
+import { Action } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
-import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { getOnboardingRouteForIntent } from './signup-intent';
-import HelpPage from './pages/help-page';
 import { HelmetProvider } from 'react-helmet-async';
-import { createRedirectWithSearch } from './redirect-util';
 import { browserStorage } from './browser-storage';
 import { areAnalyticsEnabled } from './analytics';
-import MoratoriumBanner from './covid-banners';
 
+// Note that these don't need any special fallback loading screens
+// because they will never need to be dynamically loaded on the
+// client-side, as they represent entirely different websites.
+// We're just using our infrastructure for code splitting here.
+const LoadableJustfixSite = loadable(() => import('./justfix-site'));
+const LoadableNorentSite = loadable(() => import('./norent-site'));
+
+export type AppSiteProps = RouteComponentProps & {
+  ref?: React.Ref<HTMLDivElement>,
+};
 
 export interface AppProps {
   /** The initial URL to render on page load. */
@@ -63,10 +63,9 @@ export interface AppProps {
   modal?: JSX.Element;
 
   /**
-   * A render prop to render the current route. This is intended primarily
-   * for testing purposes.
+   * The site to render. This is intended primarily for testing purposes.
    */
-  renderRoute?: (props: RouteComponentProps<any>) => JSX.Element;
+  siteComponent?: React.ComponentType<AppSiteProps>,
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -79,42 +78,6 @@ interface AppState {
    */
   session: AllSessionInfo;
 }
-
-const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
-  fallback: <LoadingPage />
-});
-
-const LoadablePasswordResetRoutes = loadable(() => friendlyLoad(import('./pages/password-reset')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./letter-of-complaint')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./emergency-hp-action')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rental-history')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev')), {
-  fallback: <LoadingPage/>
-});
-
-const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/data-requests')), {
-  fallback: <LoadingPage />
-});
-
-const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./admin/admin-conversations')), {
-  fallback: <LoadingPage/>
-});
 
 export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppState> {
   gqlClient: GraphQlClient;
@@ -265,66 +228,29 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     return !!this.state.session.phoneNumber;
   }
 
-  renderRoutes(location: Location<any>): JSX.Element {
-    const enableEHP = this.props.server.enableEmergencyHPAction;
-    const redirectToEHP = enableEHP && !(this.state.session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
-
-    return (
-      <Switch location={location}>
-        <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
-        <Route path={Routes.locale.help} component={HelpPage} />
-        <Route path={Routes.locale.legacyDataDrivenOnboarding} exact component={createRedirectWithSearch(Routes.locale.home)} />
-        <Route path={Routes.locale.login} exact component={LoginPage} />
-        <Route path={Routes.adminLogin} exact component={LoginPage} />
-        <Route path={Routes.adminConversations} exact component={LoadableAdminConversationsRoutes} />
-        <Route path={Routes.locale.logout} exact component={LogoutPage} />
-        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
-        <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
-        {redirectToEHP && <Route path={Routes.locale.hp.splash} exact render={() => <Redirect to={Routes.locale.ehp.splash} />} />}
-        {redirectToEHP && <Route path={Routes.locale.hp.welcome} exact render={() => <Redirect to={Routes.locale.ehp.welcome} />} />}
-        {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
-        <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
-        {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
-        {enableEHP && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
-        <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
-        <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
-        <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />
-        <Route path={Routes.locale.passwordReset.prefix} component={LoadablePasswordResetRoutes} />
-        <Route render={NotFound} />
-      </Switch>
-    );
-  }
-
-  renderRoute(props: RouteComponentProps<any>): JSX.Element {
-    const { pathname } = props.location;
-    if (routeMap.exists(pathname)) {
-      return this.renderRoutes(props.location);
+  getSiteComponent(): React.ComponentType<AppSiteProps> {
+    if (this.props.siteComponent) {
+      return this.props.siteComponent;
     }
-    return NotFound(props);
+    switch (this.props.server.siteType) {
+      case 'JUSTFIX': return LoadableJustfixSite;
+      case 'NORENT': return LoadableNorentSite;
+    }
   }
 
   render() {
-    const renderRoute = this.props.renderRoute || this.renderRoute.bind(this);
-
     if (this.props.modal) {
       return <AppContext.Provider value={this.getAppContext()} children={this.props.modal} />
     }
+
+    const Site = this.getSiteComponent();
 
     return (
       <ErrorBoundary debug={this.props.server.debug}>
         <HistoryBlockerManager>
           <AppContext.Provider value={this.getAppContext()}>
             <AriaAnnouncer>
-                <Navbar/>
-                <MoratoriumBanner pathname={this.props.location.pathname} />
-                <section className="section">
-                  <div className="container" ref={this.pageBodyRef}
-                      data-jf-is-noninteractive tabIndex={-1}>
-                    <LoadingOverlayManager>
-                      <Route render={renderRoute}/>
-                    </LoadingOverlayManager>
-                  </div>
-                </section>
+              <Site {...this.props} ref={this.pageBodyRef} />
             </AriaAnnouncer>
           </AppContext.Provider>
         </HistoryBlockerManager>

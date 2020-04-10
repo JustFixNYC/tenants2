@@ -1,7 +1,8 @@
 from users.models import JustfixUser
 from django.db import models
-from django.contrib.sites.models import Site
 import pyotp
+
+from project.util.site_util import get_default_site
 
 
 TOTP_SECRET_LENGTH = 16
@@ -45,5 +46,5 @@ class TwofactorInfo(models.Model):
 
         return self.totp.provisioning_uri(
             self.user.full_name,
-            issuer_name=Site.objects.get_current().name
+            issuer_name=get_default_site().name
         )

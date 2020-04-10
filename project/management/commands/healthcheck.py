@@ -2,12 +2,11 @@ import datetime
 import re
 from urllib.parse import urljoin, quote
 from django.core.management.base import BaseCommand
-from django.contrib.sites.models import Site
 from django.conf import settings
 import requests
 
 from project import slack
-from project.util.site_util import absolute_reverse
+from project.util.site_util import absolute_reverse, get_default_site
 from .sendtestslack import get_site_hyperlink
 
 
@@ -38,7 +37,7 @@ class Command(BaseCommand):
     help = 'Run a health check against the deployment.'
 
     def run_check(self):
-        name = Site.objects.get_current().name
+        name = get_default_site().name
         start_time = datetime.datetime.now()
 
         homepage_url = absolute_reverse('react')

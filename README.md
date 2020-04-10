@@ -431,3 +431,19 @@ docker-compose -f docker-compose.yml -f docker-compose.celery.yml up
 ```
 
 [Multiple Compose files]: https://docs.docker.com/compose/extends/
+
+### NoRent.org website
+
+The codebase can also serve an entirely different website, NoRent.org.
+
+To view this alternate website, you'll need to either add a new
+[Django Site model][] or modify the built-in default one to have
+a name that includes the text "NoRent" somewhere in it (the match is
+case-insensitive, so it can be "norent" or "NORENT", etc).
+
+If you added a new Django Site model, you'll need to make sure it
+has a domain that matches whatever domain you're visiting the
+site at, or else the code won't be able to map your request to
+the new Site you added.
+
+[Django Site model]: https://docs.djangoproject.com/en/3.0/ref/contrib/sites/#django.contrib.sites.models.Site

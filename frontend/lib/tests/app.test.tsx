@@ -4,16 +4,16 @@ import { AppWithoutRouter, AppPropsWithRouter, App, AppProps } from '../app';
 import { createTestGraphQlClient, FakeSessionInfo, FakeServerInfo } from './util';
 import ReactTestingLibraryPal from './rtl-pal';
 import { HelmetProvider } from 'react-helmet-async';
-import { MemoryRouter, RouteComponentProps } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import { defaultContext, AppContext } from '../app-context';
 
 describe('App', () => {
   let appContext = defaultContext;
 
-  const AppContextCapturer = (props: RouteComponentProps) => {
+  const AppContextCapturer = React.forwardRef<HTMLDivElement>((props, ref) => {
     appContext = useContext(AppContext);
     return <p>HAI</p>;
-  };
+  });
 
   const buildPal = (initialSession = FakeSessionInfo) => {
     const props: AppProps = {
@@ -21,7 +21,7 @@ describe('App', () => {
       locale: '',
       initialSession,
       server: FakeServerInfo,
-      renderRoute: props => <AppContextCapturer {...props}/>
+      siteComponent: AppContextCapturer,
     };
     const pal = new ReactTestingLibraryPal(
       <HelmetProvider>

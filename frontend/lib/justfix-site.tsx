@@ -1,0 +1,105 @@
+import React, { useContext } from 'react';
+import { Switch, Route, RouteComponentProps, Redirect } from 'react-router-dom';
+import loadable from '@loadable/component';
+
+import { AppContext } from './app-context';
+import { NotFound } from './pages/not-found';
+import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
+import LoginPage from './pages/login-page';
+import { LogoutPage } from './pages/logout-page';
+import Routes, { routeMap } from './routes';
+import Navbar from './navbar';
+import { OnboardingInfoSignupIntent } from './queries/globalTypes';
+import { getOnboardingRouteForIntent } from './signup-intent';
+import HelpPage from './pages/help-page';
+import { createRedirectWithSearch } from './redirect-util';
+import MoratoriumBanner from './covid-banners';
+import { AppSiteProps } from './app';
+
+const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
+  fallback: <LoadingPage />
+});
+
+const LoadablePasswordResetRoutes = loadable(() => friendlyLoad(import('./pages/password-reset')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./letter-of-complaint')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./emergency-hp-action')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rental-history')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev')), {
+  fallback: <LoadingPage/>
+});
+
+const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/data-requests')), {
+  fallback: <LoadingPage />
+});
+
+const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./admin/admin-conversations')), {
+  fallback: <LoadingPage/>
+});
+
+const JustfixRoute: React.FC<RouteComponentProps> = props => {
+  const { location } = props;
+  const { server, session } = useContext(AppContext);
+  if (!routeMap.exists(location.pathname)) {
+    return NotFound(props);
+  }
+  const enableEHP = server.enableEmergencyHPAction;
+  const redirectToEHP = enableEHP && !(session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
+
+  return (
+    <Switch location={location}>
+      <Route path={Routes.locale.home} exact component={LoadableDataDrivenOnboardingPage} />
+      <Route path={Routes.locale.help} component={HelpPage} />
+      <Route path={Routes.locale.legacyDataDrivenOnboarding} exact component={createRedirectWithSearch(Routes.locale.home)} />
+      <Route path={Routes.locale.login} exact component={LoginPage} />
+      <Route path={Routes.adminLogin} exact component={LoginPage} />
+      <Route path={Routes.adminConversations} exact component={LoadableAdminConversationsRoutes} />
+      <Route path={Routes.locale.logout} exact component={LogoutPage} />
+      {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
+      <Route path={Routes.locale.loc.prefix} component={LoadableLetterOfComplaintRoutes} />
+      {redirectToEHP && <Route path={Routes.locale.hp.splash} exact render={() => <Redirect to={Routes.locale.ehp.splash} />} />}
+      {redirectToEHP && <Route path={Routes.locale.hp.welcome} exact render={() => <Redirect to={Routes.locale.ehp.welcome} />} />}
+      {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
+      <Route path={Routes.locale.hp.prefix} component={LoadableHPActionRoutes} />
+      {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
+      {enableEHP && <Route path={Routes.locale.ehp.prefix} component={LoadableEmergencyHPActionRoutes} />}
+      <Route path={Routes.locale.rh.prefix} component={LoadableRentalHistoryRoutes} />
+      <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+      <Route path={Routes.locale.dataRequests.prefix} component={LoadableDataRequestsRoutes} />
+      <Route path={Routes.locale.passwordReset.prefix} component={LoadablePasswordResetRoutes} />
+      <Route render={NotFound} />
+    </Switch>
+  );
+};
+
+const JustfixSite = React.forwardRef<HTMLDivElement, AppSiteProps>((props, ref) => {
+  return <>
+    <Navbar/>
+    <MoratoriumBanner pathname={props.location.pathname} />
+    <section className="section">
+      <div className="container" ref={ref}
+           data-jf-is-noninteractive tabIndex={-1}>
+        <LoadingOverlayManager>
+          <Route component={JustfixRoute} />
+        </LoadingOverlayManager>
+      </div>
+    </section>
+  </>;
+});
+
+export default JustfixSite;

@@ -357,6 +357,7 @@ html.jf-is-fullscreen-admin-page {
 }
 
 .jf-moratorium-banner {
+    overflow: hidden;
     .container {
         button.delete {
             &::before, &::after {
@@ -373,6 +374,24 @@ html.jf-is-fullscreen-admin-page {
             }
         }
     }
+}
+
+.jf-slide-500px-200ms-enter {
+    max-height: 0;
+}
+
+.jf-slide-500px-200ms-enter-active {
+    max-height: 500px;
+    transition: max-height 200ms;
+}
+
+.jf-slide-500px-200ms-exit {
+    max-height: 500px;
+}
+
+.jf-slide-500px-200ms-exit-active {
+    max-height: 0;
+    transition: max-height 200ms;
 }
 
 .jf-covid-ehp-disclaimer {

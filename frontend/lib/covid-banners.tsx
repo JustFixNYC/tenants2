@@ -4,43 +4,49 @@ import classnames from 'classnames';
 import { Icon } from './icon';
 import { OutboundLink } from './google-analytics';
 import { getEmergencyHPAIssueLabels } from './emergency-hp-action-issues';
-
-const ROUTES_WITH_MORATORIUM_BANNER = [
-    "/loc/splash",
-    "/hp/splash",
-    "/rh/splash",
-    "/"
-  ];
+import { CSSTransition } from 'react-transition-group';
+import Routes from './routes';
 
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general 
  * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */  
 const MoratoriumBanner = ( props:{ pathname?: string } ) => {
+  const ROUTES_WITH_MORATORIUM_BANNER = [
+    Routes.locale.loc.splash,
+    Routes.locale.hp.splash,
+    Routes.locale.ehp.splash,
+    Routes.locale.rh.splash,
+    Routes.locale.home,
+  ];
 
-    const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
-    
-    const [isVisible, setVisibility] = useState(true);
+  const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
 
-    return (includeBanner ? 
-    <section className={classnames("jf-moratorium-banner","hero","is-warning", "is-small", !isVisible && "is-hidden")}>
+  const [isVisible, setVisibility] = useState(true);
+
+  const show = !!includeBanner && isVisible;
+
+  return (
+    <CSSTransition in={show} unmountOnExit classNames="jf-slide-500px-200ms" timeout={200}>
+      <section className={classnames("jf-moratorium-banner","hero","is-warning", "is-small")}>
         <div className="hero-body">
-        <div className="container">
+          <div className="container">
             <SimpleProgressiveEnhancement>
-                <button className="delete is-medium is-pulled-right" onClick = {() => setVisibility(false)} />
+              <button className="delete is-medium is-pulled-right" onClick = {() => setVisibility(false)} />
             </SimpleProgressiveEnhancement>
             <p>
-                <span className="has-text-weight-bold">COVID-19 Update: </span>
-                JustFix.nyc remains in operation, and we are adapting our products to match new rules put in place during the Covid-19 public health crisis. 
-                Thanks to organizing from tenant leaders, renters now have stronger protections during this time, including a full halt on eviction cases. 
-                {' '}<a href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank" rel="noopener noreferrer">
-                    <span className="has-text-weight-bold">Learn more</span>
-                </a>
+              <span className="has-text-weight-bold">COVID-19 Update: </span>
+              JustFix.nyc remains in operation, and we are adapting our products to match new rules put in place during the Covid-19 public health crisis. 
+              Thanks to organizing from tenant leaders, renters now have stronger protections during this time, including a full halt on eviction cases. 
+              {' '}<a href="https://www.righttocounselnyc.org/moratorium_faq" target="_blank" rel="noopener noreferrer">
+                <span className="has-text-weight-bold">Learn more</span>
+              </a>
             </p>
+          </div>
         </div>
-        </div>
-    </section> : <></>
-    );
+      </section>
+    </CSSTransition>
+  );
 }
 
 export default MoratoriumBanner;

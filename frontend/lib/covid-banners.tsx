@@ -7,20 +7,20 @@ import { getEmergencyHPAIssueLabels } from './emergency-hp-action-issues';
 import { CSSTransition } from 'react-transition-group';
 import Routes from './routes';
 
+const getRoutesWithMoratoriumBanner = () => [
+  Routes.locale.loc.splash,
+  Routes.locale.hp.splash,
+  Routes.locale.ehp.splash,
+  Routes.locale.rh.splash,
+  Routes.locale.home,
+];
+
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general 
  * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */  
 const MoratoriumBanner = ( props:{ pathname?: string } ) => {
-  const ROUTES_WITH_MORATORIUM_BANNER = [
-    Routes.locale.loc.splash,
-    Routes.locale.hp.splash,
-    Routes.locale.ehp.splash,
-    Routes.locale.rh.splash,
-    Routes.locale.home,
-  ];
-
-  const includeBanner = props.pathname && (ROUTES_WITH_MORATORIUM_BANNER.includes(props.pathname));
+  const includeBanner = props.pathname && (getRoutesWithMoratoriumBanner().includes(props.pathname));
 
   const [isVisible, setVisibility] = useState(true);
 

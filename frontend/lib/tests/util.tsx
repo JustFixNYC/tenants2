@@ -46,6 +46,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   webpackPublicPathURL: '/mystatic/myfrontend/',
   adminIndexURL: '/myadmin/',
   siteName: 'ExampleJustFix.nyc',
+  siteType: 'JUSTFIX',
   debug: false,
   batchGraphQLURL: '/mygarphql',
   locHtmlURL: '/myletter.html',

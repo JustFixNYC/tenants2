@@ -1,8 +1,14 @@
 from typing import Optional
+import re
 from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.conf import settings
 from django.urls import reverse
+
+from ..common_data import Choices
+
+
+SITE_CHOICES = Choices.from_file("site-choices.json")
 
 
 def get_default_site() -> Site:
@@ -25,6 +31,12 @@ def get_site_from_request_or_default(request: Optional[HttpRequest] = None) -> S
         return Site.objects.get_current(request)
     except Site.DoesNotExist:
         return get_default_site()
+
+
+def get_site_type(site: Site) -> str:
+    if re.match(r'.*norent.*', site.name, re.IGNORECASE):
+        return SITE_CHOICES.NORENT
+    return SITE_CHOICES.JUSTFIX
 
 
 def absolutify_url(url: str, request: Optional[HttpRequest] = None) -> str:

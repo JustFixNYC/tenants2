@@ -1,10 +1,11 @@
+import pytest
 from django.test import override_settings, TestCase
 from django.conf import settings
 from django.contrib.sites.models import Site
 
 from ..util.site_util import (
     absolute_reverse, absolutify_url, get_site_name, get_default_site,
-    get_site_from_request_or_default)
+    get_site_from_request_or_default, get_site_type, SITE_CHOICES)
 
 
 class SiteUtilsTests(TestCase):
@@ -88,3 +89,17 @@ class TestGetSiteName:
     @override_settings(NAVBAR_LABEL="DEMO SITE")
     def test_it_works_when_deployment_name_is_defined(self):
         assert get_site_name() == "JustFix.nyc DEMO SITE"
+
+
+@pytest.mark.parametrize('name,expected', [
+    ['example.com', SITE_CHOICES.JUSTFIX],
+    ['justfix.nyc', SITE_CHOICES.JUSTFIX],
+    ['my funky site', SITE_CHOICES.JUSTFIX],
+    ['', SITE_CHOICES.JUSTFIX],
+    ['norent.org', SITE_CHOICES.NORENT],
+    ['NoRent.org', SITE_CHOICES.NORENT],
+    ['my norent site', SITE_CHOICES.NORENT],
+])
+def test_get_site_type_works(name, expected):
+    site = Site(name=name, domain="example.com")
+    assert get_site_type(site) == expected

@@ -3,8 +3,7 @@ import React from 'react';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { GraphQLFetch } from './graphql-client';
 import { buildContextHocFactory } from './context-util';
-
-export type SiteType = 'JUSTFIX_SITE'|'NORENT_SITE';
+import { SiteChoice } from '../../common-data/site-choices';
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -54,10 +53,6 @@ export function getGlobalAppServerInfo(): AppServerInfo {
   return globalAppServerInfo;
 }
 
-export function getSiteType(appServerInfo = getGlobalAppServerInfo()): SiteType {
-  return /norent/i.test(appServerInfo.siteName) ? 'NORENT_SITE' : 'JUSTFIX_SITE';
-}
-
 /** Details about the server that don't change through the app's lifetime. */
 export interface AppServerInfo {
   /** The server's origin URL, e.g. "http://boop.com". */
@@ -67,6 +62,11 @@ export interface AppServerInfo {
    * The human-readable name of the website.
    */
   siteName: string;
+
+  /**
+   * The type of website to render.
+   */
+  siteType: SiteChoice;
 
   /**
    * The URL of the server's static files, e.g. "/static/".

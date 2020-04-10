@@ -35,6 +35,11 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: 'signup-intent-choices.json',
       typeName: 'SignupIntent',
       exportLabels: true,
+    },
+    {
+      jsonFilename: 'site-choices.json',
+      typeName: 'SiteChoice',
+      exportLabels: false,
     }
   ]
 };

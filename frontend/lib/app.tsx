@@ -7,7 +7,7 @@ import loadable, { loadableReady } from '@loadable/component';
 import GraphQlClient from './graphql-client';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission, getSiteType } from './app-context';
+import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { ErrorBoundary } from './error-boundary';
 import { isModalRoute } from './routes';
 import { AriaAnnouncer } from './aria';
@@ -232,9 +232,9 @@ export class AppWithoutRouter extends React.Component<AppPropsWithRouter, AppSta
     if (this.props.siteComponent) {
       return this.props.siteComponent;
     }
-    switch (getSiteType(this.props.server)) {
-      case 'JUSTFIX_SITE': return LoadableJustfixSite;
-      case 'NORENT_SITE': return LoadableNorentSite;
+    switch (this.props.server.siteType) {
+      case 'JUSTFIX': return LoadableJustfixSite;
+      case 'NORENT': return LoadableNorentSite;
     }
   }
 

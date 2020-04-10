@@ -65,7 +65,7 @@ function withNullAsBool<T, K extends NullBooleanPropertyNames<T>>(
  * Convert the given boolean or null to a string value
  * suitable for a yes/no radio input.
  */
-function toStringifiedNullBool(value: boolean|null): string {
+export function toStringifiedNullBool(value: boolean|null): string {
   if (value === true) {
     return YES_NO_RADIOS_TRUE;
   } else if (value === false) {

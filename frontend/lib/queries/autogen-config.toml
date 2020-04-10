@@ -134,3 +134,6 @@ sessionFields = ["priorHpActionCases"]
 
 [mutations.accessForInspection]
 sessionFields = ["onboardingInfo"]
+
+[mutations.reliefAttempts]
+sessionFields = ["onboardingInfo"]

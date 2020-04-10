@@ -24,7 +24,7 @@ describe('access dates page', () => {
       session: { accessDates: ['2018-01-02'] }
     });
 
-    await pal.rt.waitForElement(() => pal.rr.getByText(/Your landlord/i));
+    await pal.rt.waitForElement(() => pal.rr.getByText(/call 311/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({ accessDates: ['2018-01-02'] });

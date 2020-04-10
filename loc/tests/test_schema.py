@@ -332,3 +332,32 @@ def test_email_letter_works(db, graphql_client, mailoutbox):
     )['data']['emailLetter']
     assert result == {'errors': [], 'recipients': ['boop@jones.com']}
     assert len(mailoutbox) == 1
+
+
+def _exec_relief_attempts_form(graphql_client, input):
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: ReliefAttemptsInput!) {
+            output: reliefAttempts(input: $input) {
+                errors { field, messages }
+            }
+        }
+        """,
+        variables={'input': input}
+    )['data']['output']
+
+
+def test_relief_attempts_form_validates_data(db, graphql_client):
+    oi = OnboardingInfoFactory()
+    graphql_client.request.user = oi.user
+    result = _exec_relief_attempts_form(graphql_client, {'hasCalled311': 'Boop'})
+    assert len(result['errors']) > 0
+
+
+def test_relief_attempts_form_saves_data_to_db(db, graphql_client):
+    oi = OnboardingInfoFactory()
+    graphql_client.request.user = oi.user
+    result = _exec_relief_attempts_form(graphql_client, {'hasCalled311': 'True'})
+    oi.refresh_from_db()
+    assert result['errors'] == []
+    assert oi.has_called_311 is True

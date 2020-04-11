@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prettier": "prettier",
-    "lint": "yarn typecheck && yarn eslint",
+    "prettier:check": "prettier \"**/*.{ts,tsx}\" --check",
+    "prettier:fix": "prettier \"**/*.{ts,tsx}\" --write",
+    "lint": "yarn typecheck && yarn eslint && yarn prettier:check",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "eslint": "eslint frontend/lib --ext .ts,.tsx",

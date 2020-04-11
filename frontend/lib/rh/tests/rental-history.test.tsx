@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { ProgressRoutesTester } from './progress-routes-tester';
+import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
 import RentalHistoryRoutes, { getRentalHistoryRoutesProps, GenerateUserRhFormInput } from '../rental-history';
-import Routes from '../routes';
-import { AppTesterPal } from './app-tester-pal';
-import { browserStorage } from '../browser-storage';
-import { FakeAppContext } from './util';
-import { BlankRhFormInput } from '../queries/RhFormMutation';
-import { AppContextType } from '../app-context';
-import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough } from '../queries/globalTypes';
-import { BlankOnboardingInfo } from '../queries/OnboardingInfo';
+import Routes from '../../routes';
+import { AppTesterPal } from '../../tests/app-tester-pal';
+import { browserStorage } from '../../browser-storage';
+import { FakeAppContext } from '../../tests/util';
+import { BlankRhFormInput } from '../../queries/RhFormMutation';
+import { AppContextType } from '../../app-context';
+import { RhFormInput, OnboardingInfoSignupIntent, OnboardingInfoBorough } from '../../queries/globalTypes';
+import { BlankOnboardingInfo } from '../../queries/OnboardingInfo';
 
 const tester = new ProgressRoutesTester(getRentalHistoryRoutesProps(), 'Rental History');
 

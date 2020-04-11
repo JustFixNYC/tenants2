@@ -37,7 +37,7 @@ const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./hp
   fallback: <LoadingPage />
 });
 
-const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rental-history')), {
+const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rh/rental-history')), {
   fallback: <LoadingPage />
 });
 

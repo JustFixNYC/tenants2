@@ -35,7 +35,7 @@ body {
     justify-content: space-between;
     min-height: 100vh;
 
-    div#main {
+    .jf-above-footer-content {
         min-height: calc(100vh - #{$navbar-height} - #{$footer-offset});
     }
 }

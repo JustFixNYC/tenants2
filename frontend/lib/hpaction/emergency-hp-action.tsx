@@ -40,7 +40,7 @@ import { ModalLink, Modal, BackOrUpOneDirLevel } from '../modal';
 import { CenteredButtons } from '../centered-buttons';
 import { EMERGENCY_HPA_ISSUE_SET, getEmergencyHPAIssueChoices } from './emergency-hp-action-issues';
 
-const checkCircleSvg = require('./svg/check-circle-solid.svg') as JSX.Element;
+const checkCircleSvg = require('../svg/check-circle-solid.svg') as JSX.Element;
 
 
 const HP_ICON = "frontend/img/hp-action.svg";

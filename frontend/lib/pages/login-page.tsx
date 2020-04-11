@@ -14,7 +14,7 @@ import { PhoneNumberFormField } from '../phone-number-form-field';
 import { assertNotNull } from '../util';
 import { getPostOrQuerystringVar } from '../querystring';
 import { Link } from 'react-router-dom';
-import { getPostOnboardingURL } from '../signup-intent';
+import { getPostOnboardingURL } from '../onboarding/signup-intent';
 
 export const NEXT = 'next';
 

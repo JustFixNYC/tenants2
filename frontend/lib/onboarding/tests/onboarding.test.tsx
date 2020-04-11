@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FakeSessionInfo } from "../../tests/util";
-import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding";
+import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding-routes";
 import Routes from "../../routes";
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
 import { getLatestStep } from '../../progress-redirection';

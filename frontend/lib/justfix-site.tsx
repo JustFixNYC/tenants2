@@ -10,7 +10,7 @@ import { LogoutPage } from './pages/logout-page';
 import Routes from './routes';
 import Navbar from './navbar';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { getOnboardingRouteForIntent } from './signup-intent';
+import { getOnboardingRouteForIntent } from './onboarding/signup-intent';
 import HelpPage from './pages/help-page';
 import { createRedirectWithSearch } from './redirect-util';
 import MoratoriumBanner from './covid-banners';

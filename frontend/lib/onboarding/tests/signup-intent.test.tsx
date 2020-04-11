@@ -1,6 +1,6 @@
-import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { signupIntentFromOnboardingInfo, DEFAULT_SIGNUP_INTENT_CHOICE, getOnboardingRouteForIntent, getPostOnboardingURL } from "../signup-intent";
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 
 test('signupIntentFromOnboardingInfo() works', () => {
   expect(signupIntentFromOnboardingInfo(null)).toStrictEqual(DEFAULT_SIGNUP_INTENT_CHOICE);

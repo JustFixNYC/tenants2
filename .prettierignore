@@ -4,6 +4,7 @@ project/static/vendor
 staticfiles
 frontend/vendor
 *.min.js
+.venv
 
 # Don't go in that black hole!
 node_modules

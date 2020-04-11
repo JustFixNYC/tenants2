@@ -9,7 +9,7 @@ import GraphQlClient from './graphql-client';
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { ErrorBoundary } from './error-boundary';
-import { isModalRoute } from './routes';
+import { isModalRoute } from './route-util';
 import { AriaAnnouncer } from './aria';
 import { trackPageView, ga } from './google-analytics';
 import { Action } from 'history';

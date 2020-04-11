@@ -1,3 +1,3 @@
-require('./frontend/webpack/babel-register');
+require("./frontend/webpack/babel-register");
 
-require('./frontend/querybuilder/cli').run();
+require("./frontend/querybuilder/cli").run();

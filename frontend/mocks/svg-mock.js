@@ -1,3 +1,3 @@
-const React = require('react');
+const React = require("react");
 
-module.exports = React.createElement('svg');
+module.exports = React.createElement("svg");

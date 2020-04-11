@@ -5,8 +5,8 @@
 // whether we are building it for execution in Node or the web),
 // so we want to explicitly pass it in whenever possible.
 
-module.exports = api => {
-  return api.env('test')
-    ? require('./frontend/webpack/base').nodeBabelOptions
+module.exports = (api) => {
+  return api.env("test")
+    ? require("./frontend/webpack/base").nodeBabelOptions
     : {};
 };

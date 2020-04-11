@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-require('@babel/register')({
-  ...require('./base').nodeBabelOptions,
-  extensions: ['.ts', '.tsx']
+require("@babel/register")({
+  ...require("./base").nodeBabelOptions,
+  extensions: [".ts", ".tsx"],
 });

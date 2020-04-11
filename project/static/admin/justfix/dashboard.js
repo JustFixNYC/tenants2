@@ -1,24 +1,23 @@
 //@ts-check
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   /**
    * Get the element with the given id, throwing an error on failure.
    *
-   * @param {string} id 
+   * @param {string} id
    * @returns HTMLElement
    */
   function getEl(id) {
     const el = document.getElementById(id);
-    if (!el)
-      throw new Error(`Element #${id} not found!`);
+    if (!el) throw new Error(`Element #${id} not found!`);
     return el;
-  };
+  }
 
   /**
    * Vega-Embed doesn't pool identical data used by multiple embeds, so we'll
    * have to do that ourselves. This maps URLs to promises that resolve to
    * the JSON data in them.
-   * 
+   *
    * @type Map<string, Promise<any>>
    */
   const datasets = new Map();
@@ -27,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
    * This contains a mapping from element/visualization IDs to vega-lite specs,
    * embedded into our page by a Django template.
    */
-  const vizData = JSON.parse(getEl('viz-data').textContent || '');
+  const vizData = JSON.parse(getEl("viz-data").textContent || "");
 
   /**
    * Get the JSON data at the given URL, reusing an in-flight or already
    * completed request if needed.
-   * 
-   * @param {string} url 
+   *
+   * @param {string} url
    * @returns Promise<any>
    */
   function getDataset(url) {
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (promise) {
       return promise;
     }
-    promise = fetch(url).then(res => res.json());
+    promise = fetch(url).then((res) => res.json());
     datasets.set(url, promise);
     return promise;
   }
@@ -55,18 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function patchData(spec) {
     const { url } = spec.data;
-    return getDataset(url).then(values => {
+    return getDataset(url).then((values) => {
       return {
         ...spec,
-        data: { values }
+        data: { values },
       };
     });
   }
 
   let allVizsLoaded = Promise.resolve();
 
-  Object.keys(vizData).forEach(id => {
-    let promise = patchData(vizData[id]).then(spec => {
+  Object.keys(vizData).forEach((id) => {
+    let promise = patchData(vizData[id]).then((spec) => {
       return vegaEmbed(getEl(id), spec);
     });
     allVizsLoaded = allVizsLoaded.then(() => promise);

@@ -2,13 +2,13 @@ import React, { useContext, useRef } from 'react';
 
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress/progress-routes";
 import Routes from "../routes";
-import Page from "../page";
-import { StaticImage } from '../static-image';
+import Page from "../ui/page";
+import { StaticImage } from '../ui/static-image';
 import { TextualFormField } from '../forms/form-fields';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { RhFormMutation, BlankRhFormInput } from '../queries/RhFormMutation';
 import { exactSubsetOrDefault, assertNotNull } from '../util';
-import { NextButton, BackButton } from '../buttons';
+import { NextButton, BackButton } from '../ui/buttons';
 import { PhoneNumberFormField } from '../forms/phone-number-form-field';
 import { AppContext, AppContextType} from '../app-context';
 import { Link, Route } from 'react-router-dom';
@@ -16,14 +16,14 @@ import { RhFormInput } from '../queries/globalTypes';
 import { RhSendEmailMutation } from '../queries/RhSendEmailMutation';
 import * as rhEmailText from '../../../common-data/rh.json';
 import { AddressAndBoroughField } from '../forms/address-and-borough-form-field';
-import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
+import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../ui/address-confirmation';
 import { getBoroughChoiceLabels, BoroughChoice } from '../../../common-data/borough-choices';
 import { ClearSessionButton } from '../forms/clear-session-button';
 import { OutboundLink } from '../analytics/google-analytics';
-import { CustomerSupportLink } from '../customer-support-link';
+import { CustomerSupportLink } from '../ui/customer-support-link';
 import { updateAddressFromBrowserStorage } from '../browser-storage';
-import { GetStartedButton } from '../get-started-button';
-import { ProgressiveLoadableConfetti } from '../confetti-loadable';
+import { GetStartedButton } from '../ui/get-started-button';
+import { ProgressiveLoadableConfetti } from '../ui/confetti-loadable';
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 

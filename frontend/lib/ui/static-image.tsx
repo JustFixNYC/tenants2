@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
-import { AppContext } from './app-context';
+import { AppContext } from '../app-context';
 import { BulmaImageClass } from './bulma';
 
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;

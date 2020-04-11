@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { ReliefAttemptsMutation } from '../queries/ReliefAttemptsMutation';
 import { YesNoRadiosFormField } from '../forms/yes-no-radios-form-field';
-import { ProgressButtons } from '../buttons';
+import { ProgressButtons } from '../ui/buttons';
 import { toStringifiedNullBool } from '../forms/form-input-converter';
 import { MiddleProgressStep } from '../progress/progress-step-route';
 

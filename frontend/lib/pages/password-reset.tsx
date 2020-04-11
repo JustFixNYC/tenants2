@@ -1,16 +1,16 @@
 import React from 'react';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress/progress-routes";
 import Routes from "../routes";
-import Page from '../page';
+import Page from '../ui/page';
 import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';
 import { PasswordResetMutation, BlankPasswordResetInput } from '../queries/PasswordResetMutation';
 import { PhoneNumberFormField } from '../forms/phone-number-form-field';
-import { ProgressButtons } from '../buttons';
+import { ProgressButtons } from '../ui/buttons';
 import { PasswordResetVerificationCodeMutation, BlankPasswordResetVerificationCodeInput } from '../queries/PasswordResetVerificationCodeMutation';
 import { TextualFormField } from '../forms/form-fields';
 import { PasswordResetConfirmMutation, BlankPasswordResetConfirmInput } from '../queries/PasswordResetConfirmMutation';
 import { Link } from 'react-router-dom';
-import { CustomerSupportLink } from '../customer-support-link';
+import { CustomerSupportLink } from '../ui/customer-support-link';
 
 function getPasswordResetRoutesProps(): ProgressRoutesProps {
   return {

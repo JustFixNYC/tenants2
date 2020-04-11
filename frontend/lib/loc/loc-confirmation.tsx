@@ -3,17 +3,17 @@ import React, { useState } from 'react';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { LetterRequestMailChoice } from '../queries/globalTypes';
 import { AllSessionInfo_letterRequest } from '../queries/AllSessionInfo';
-import Page from '../page';
+import Page from '../ui/page';
 import classnames from 'classnames';
 import { friendlyDate } from '../util';
 import { OutboundLink } from '../analytics/google-analytics';
-import { PdfLink } from '../pdf-link';
-import { EmailAttachmentForm } from '../email-attachment';
+import { PdfLink } from '../ui/pdf-link';
+import { EmailAttachmentForm } from '../forms/email-attachment';
 import { EmailLetterMutation } from '../queries/EmailLetterMutation';
-import { BigList } from '../big-list';
+import { BigList } from '../ui/big-list';
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { SquareImage } from '../data-driven-onboarding/data-driven-onboarding';
-import { ariaBool } from '../aria';
+import { ariaBool } from '../ui/aria';
 
 const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from '../util';
-import { bulmaClasses } from '../bulma';
+import { bulmaClasses } from '../ui/bulma';
 
 import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../../common-data/forms.json';
 import { useProgressiveEnhancement } from '../progressive-enhancement';

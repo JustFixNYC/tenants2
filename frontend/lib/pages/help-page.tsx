@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import Page from "../page";
+import Page from "../ui/page";
 import { AppContext } from '../app-context';
-import { CustomerSupportLink } from '../customer-support-link';
-import { bulmaClasses } from '../bulma';
+import { CustomerSupportLink } from '../ui/customer-support-link';
+import { bulmaClasses } from '../ui/bulma';
 
 function EnableSafeModeInfo(props: {}) {
   const { enableSafeModeURL } = useContext(AppContext).server;

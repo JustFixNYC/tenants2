@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ReactTestingLibraryPal from "./rtl-pal";
+import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import Confetti, { CONFETTI_WRAPPER_CLASS, ensurePointerEventsIsNone } from "../confetti";
-import { assertNotNull } from '../util';
-import { responsiveInt } from '../../vendor/confetti';
+import { assertNotNull } from '../../util';
+import { responsiveInt } from '../../../vendor/confetti';
 
 describe('Confetti', () => {
   afterEach(ReactTestingLibraryPal.cleanup);

@@ -4,8 +4,8 @@ import { SessionUpdatingFormOutput, SessionUpdatingFormSubmitter } from "../form
 import { FetchMutationInfo } from "../forms/forms-graphql";
 import { FormInputConverter, getInitialFormInput } from "../forms/form-input-converter";
 import { MiddleProgressStep, MiddleProgressStepProps } from "./progress-step-route";
-import Page from "../page";
-import { ProgressButtons } from '../buttons';
+import Page from "../ui/page";
+import { ProgressButtons } from '../ui/buttons';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { WithServerFormFieldErrors } from '../forms/form-errors';
 import { FormContext } from '../forms/form-context';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getGlobalAppServerInfo } from './app-context';
+import { getGlobalAppServerInfo } from '../app-context';
 
 export function whoOwnsWhatURL(bbl: string): string {
   return `${getGlobalAppServerInfo().wowOrigin}/bbl/${bbl}`;

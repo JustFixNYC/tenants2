@@ -3,9 +3,9 @@ import AriaModal from '@justfixnyc/react-aria-modal';
 import autobind from 'autobind-decorator';
 import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
 import { Location } from 'history';
-import { getAppStaticContext } from './app-static-context';
+import { getAppStaticContext } from '../app-static-context';
 import { Link, LinkProps } from 'react-router-dom';
-import { TransitionContextType, withTransitionContext } from './transition-context';
+import { TransitionContextType, withTransitionContext } from '../transition-context';
 
 
 const ANIMATION_CLASS = "jf-fadein-half-second";

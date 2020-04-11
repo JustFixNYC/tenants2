@@ -1,13 +1,13 @@
 import React from 'react';
 import { OnboardingInfoSignupIntent, OnboardingStep4Version2Input } from "../queries/globalTypes";
-import Page from '../page';
+import Page from '../ui/page';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import autobind from 'autobind-decorator';
 import { OnboardingRouteInfo } from '../routes';
-import { ProgressButtons } from "../buttons";
+import { ProgressButtons } from "../ui/buttons";
 import { CheckboxFormField, TextualFormField, HiddenFormField } from '../forms/form-fields';
 import { PhoneNumberFormField } from '../forms/phone-number-form-field';
-import { ModalLink } from '../modal';
+import { ModalLink } from '../ui/modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
 import { fbq } from '../analytics/facebook-pixel';
 import { FormContext } from '../forms/form-context';

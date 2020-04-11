@@ -1,10 +1,10 @@
 import React from 'react';
 import Navbar from '../navbar';
-import { FakeDebugAppContext } from './util';
+import { FakeDebugAppContext } from '../../tests/util';
 import { MemoryRouter } from 'react-router';
-import { AppContext } from '../app-context';
-import ReactTestingLibraryPal from './rtl-pal';
-import { assertNotNull } from '../util';
+import { AppContext } from '../../app-context';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
+import { assertNotNull } from '../../util';
 
 describe('Navbar', () => {
   afterEach(ReactTestingLibraryPal.cleanup);

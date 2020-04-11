@@ -3,7 +3,7 @@ import Routes from "../routes";
 import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from '../loading-page';
 import { Link } from 'react-router-dom';
-import Page from '../page';
+import Page from '../ui/page';
 import { withAppContext, AppContextType } from '../app-context';
 import { Helmet } from 'react-helmet-async';
 import { QueryLoader } from '../query-loader';

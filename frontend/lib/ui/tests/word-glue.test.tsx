@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { splitLastWord, glueToLastWord } from "../word-glue";
-import ReactTestingLibraryPal from "./rtl-pal";
+import ReactTestingLibraryPal from "../../tests/rtl-pal";
 
 test("splitLastWord() works", () => {
   expect(splitLastWord('boop jones')).toEqual(['boop', 'jones']);

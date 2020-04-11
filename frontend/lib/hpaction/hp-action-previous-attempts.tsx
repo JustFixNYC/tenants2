@@ -6,7 +6,7 @@ import { HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAtt
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
 import { hideByDefault, ConditionalYesNoRadiosFormField } from '../forms/conditional-form-fields';
 import { Route } from 'react-router';
-import { Modal } from '../modal';
+import { Modal } from '../ui/modal';
 import { Link } from 'react-router-dom';
 import { SessionStepBuilder } from '../progress/session-step-builder';
 

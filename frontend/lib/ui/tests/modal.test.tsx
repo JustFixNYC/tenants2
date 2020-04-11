@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ModalWithoutRouter, Modal, getOneDirLevelUp } from "../modal";
 import { Route, Switch, MemoryRouter } from 'react-router';
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 
 function mountPalWithRouter(child: JSX.Element) {
   const route = <Route render={() => child} />;

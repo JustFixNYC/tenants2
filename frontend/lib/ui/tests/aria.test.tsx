@@ -1,6 +1,6 @@
 import React from 'react';
 import { ariaBool, AriaExpandableButton, AriaExpandableButtonProps, AriaAnnouncer, AriaAnnouncement, AriaAnnouncementWithoutContext } from '../aria';
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 
 
 test('ariaBool() works', () => {

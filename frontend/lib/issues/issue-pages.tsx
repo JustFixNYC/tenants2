@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
-import Page from '../page';
+import Page from '../ui/page';
 import { IssuesRouteInfo, IssuesRouteAreaProps } from '../routes';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { IssueAreaV2Mutation, BlankCustomIssuesCustomIssueFormFormSetInput } fro
 import autobind from 'autobind-decorator';
 import { AppContext } from '../app-context';
 import { MultiCheckboxFormField, HiddenFormField } from '../forms/form-fields';
-import { NextButton, BackButton, ProgressButtons } from "../buttons";
+import { NextButton, BackButton, ProgressButtons } from "../ui/buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, areaIssueCount, customIssuesForArea } from './issues';
 import ISSUE_AREA_SVGS from '../svg/issues';
@@ -24,7 +24,7 @@ import { FormContext } from '../forms/form-context';
 import { Formset } from '../forms/formset';
 import { FormsetItem, formsetItemProps } from '../forms/formset-item';
 import { TextualFieldWithCharsRemaining } from '../forms/chars-remaining';
-import { Modal } from '../modal';
+import { Modal } from '../ui/modal';
 import { UpdateBrowserStorage, useBrowserStorage } from '../browser-storage';
 import { NoScriptFallback } from '../progressive-enhancement';
 import { getQuerystringVar } from '../querystring';

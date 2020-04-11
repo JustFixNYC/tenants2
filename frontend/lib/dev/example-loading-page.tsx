@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LoadingPageWithRetry } from '../loading-page';
-import Page from '../page';
+import Page from '../ui/page';
 
 interface State {
   error: boolean;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BackOrUpOneDirLevel, Modal } from './modal';
 import { Link } from 'react-router-dom';
-import { isBoroughChoice, getBoroughChoiceLabels } from '../../common-data/borough-choices';
+import { isBoroughChoice, getBoroughChoiceLabels } from '../../../common-data/borough-choices';
 import { CenteredButtons } from './centered-buttons';
 
 type AddressAndBorough = {

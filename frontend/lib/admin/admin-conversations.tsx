@@ -7,7 +7,7 @@ import { QueryLoaderQuery } from '../query-loader-prefetcher';
 import { AdminConversationVariables, AdminConversation } from '../queries/AdminConversation';
 import { getQuerystringVar } from '../querystring';
 import { Helmet } from 'react-helmet-async';
-import { whoOwnsWhatURL } from '../wow-link';
+import { whoOwnsWhatURL } from '../ui/wow-link';
 import classnames from 'classnames';
 import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMutation';
 import { niceAdminTimestamp, friendlyAdminPhoneNumber } from './admin-util';

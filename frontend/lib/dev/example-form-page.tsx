@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';
 import { ExampleMutation, BlankExampleInput, BlankSubformsExampleSubformFormSetInput } from '../queries/ExampleMutation';
 import { TextualFormField, CheckboxFormField } from '../forms/form-fields';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import Routes from '../routes';
 import { ExampleInput } from '../queries/globalTypes';
-import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../ui/modal';
 import { Formset } from '../forms/formset';
 import { CurrencyFormField } from '../forms/currency-form-field';
 import { ProgressiveOtherCheckboxFormField } from '../forms/other-checkbox-form-field';

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughChoiceLabels } from '../../../common-data/borough-choices';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
-import { bulmaClasses } from '../bulma';
+import { bulmaClasses } from '../ui/bulma';
 import { awesomeFetch, createAbortController } from '../fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
 import { KEY_ENTER, KEY_TAB } from '../key-codes';

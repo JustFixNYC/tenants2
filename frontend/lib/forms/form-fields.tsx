@@ -2,8 +2,8 @@ import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoices } from "../common-data";
-import { bulmaClasses } from '../bulma';
-import { ariaBool } from '../aria';
+import { bulmaClasses } from '../ui/bulma';
+import { ariaBool } from '../ui/aria';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 /**

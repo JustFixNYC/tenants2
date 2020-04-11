@@ -10,7 +10,7 @@ import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { ErrorBoundary } from './error-boundary';
 import { isModalRoute } from './route-util';
-import { AriaAnnouncer } from './aria';
+import { AriaAnnouncer } from './ui/aria';
 import { trackPageView, ga } from './analytics/google-analytics';
 import { Action } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';

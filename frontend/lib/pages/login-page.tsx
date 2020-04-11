@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import Page from '../page';
+import Page from '../ui/page';
 import Routes from '../routes';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../forms/form-fields';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { History } from 'history';

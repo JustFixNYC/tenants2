@@ -1,6 +1,6 @@
 import React from 'react';
-import Page from '../page';
-import { Modal } from '../modal';
+import Page from '../ui/page';
+import { Modal } from '../ui/modal';
 import { Link } from 'react-router-dom';
 
 

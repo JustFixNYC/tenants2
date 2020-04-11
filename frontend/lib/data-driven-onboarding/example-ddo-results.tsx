@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { BlankDDOSuggestionsResult } from '../queries/DDOSuggestionsResult';
 import { RouteComponentProps } from 'react-router';
 import { getQuerystringVar } from '../querystring';

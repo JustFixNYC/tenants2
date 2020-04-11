@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 
 import Page from '../page';
 import { HelmetProvider } from 'react-helmet-async';
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 
 describe('Page', () => {
   afterEach(ReactTestingLibraryPal.cleanup);

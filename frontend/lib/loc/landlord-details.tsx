@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { TextualFormField } from '../forms/form-fields';
 
-import { BackButton, ProgressButtons } from "../buttons";
+import { BackButton, ProgressButtons } from "../ui/buttons";
 import { AppContext } from '../app-context';
 import { exactSubsetOrDefault } from '../util';
 import { Link } from 'react-router-dom';

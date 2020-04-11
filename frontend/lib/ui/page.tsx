@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Helmet } from "react-helmet-async";
 import { AriaAnnouncement } from './aria';
 import classNames from 'classnames';
-import { AppContext } from './app-context';
+import { AppContext } from '../app-context';
 
 interface PageProps {
   title: string;

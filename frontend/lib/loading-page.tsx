@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from './page';
+import Page from './ui/page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 
 /* istanbul ignore next: this is tested by integration tests. */
 export default function ExampleLoadablePage(): JSX.Element {

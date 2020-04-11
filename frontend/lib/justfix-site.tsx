@@ -8,14 +8,14 @@ import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
 import Routes from './routes';
-import Navbar from './navbar';
+import Navbar from './ui/navbar';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './onboarding/signup-intent';
 import HelpPage from './pages/help-page';
 import { createRedirectWithSearch } from './redirect-util';
-import MoratoriumBanner from './covid-banners';
+import MoratoriumBanner from './ui/covid-banners';
 import { AppSiteProps } from './app';
-import { Footer } from './footer';
+import { Footer } from './ui/footer';
 
 const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./data-driven-onboarding/data-driven-onboarding')), {
   fallback: <LoadingPage />

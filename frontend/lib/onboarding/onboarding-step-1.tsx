@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Page from '../page';
+import Page from '../ui/page';
 import { OnboardingRouteInfo } from '../routes';
 import { Link, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
@@ -7,14 +7,14 @@ import { OnboardingStep1Input, OnboardingInfoSignupIntent } from '../queries/glo
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
 import { assertNotNull, exactSubsetOrDefault } from '../util';
-import { Modal, BackOrUpOneDirLevel } from '../modal';
+import { Modal, BackOrUpOneDirLevel } from '../ui/modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../forms/form-fields';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { OutboundLink } from '../analytics/google-analytics';
 import { FormContext } from '../forms/form-context';
 import { AddressAndBoroughField } from '../forms/address-and-borough-form-field';
-import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
+import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../ui/address-confirmation';
 import { ClearSessionButton } from '../forms/clear-session-button';
 import { updateAddressFromBrowserStorage } from '../browser-storage';
 import { getSignupIntentLabels } from '../../../common-data/signup-intent-choices';

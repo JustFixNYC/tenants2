@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from "../page";
+import Page from "../ui/page";
 import { Link } from 'react-router-dom';
 
 export const OnboardingThanks: React.FC<{next: string}> = ({next}) => {

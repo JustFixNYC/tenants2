@@ -7,11 +7,11 @@
  * into "safe mode" (also known as "compatibility mode"), whereby we deliver
  * nearly zero JavaScript to the client browser.
  */
-(function() {
+(function () {
   /**
    * The amount of time from when we receive an error to when we show the
    * opt-in UI for activating safe mode.
-   * 
+   *
    * The reason there is any delay is because in some cases, an error
    * event occurs and our own client-side code later deals with it
    * gracefully on its own, obviating the need for the user to enter
@@ -30,26 +30,26 @@
    * e.g. assistive technologies to hide the element just because
    * it has the 'hidden' attribute.
    */
-  var HIDDEN_ATTR = 'data-safe-mode-hidden';
+  var HIDDEN_ATTR = "data-safe-mode-hidden";
 
   /**
    * A list of error messages that other client-side code has told
    * us to ignore.
-   * 
+   *
    * @type {string[]}
    */
   var errorsToIgnore = [];
 
   /**
    * A list of error messages that we've received so far.
-   * 
+   *
    * @type {string[]}
    */
   var errors = [];
 
   /**
    * Book-keeping used to control the display of the UI.
-   * 
+   *
    * @type {number|null}
    */
   var showUiTimeout = null;
@@ -57,7 +57,7 @@
   /**
    * Check to see if any valid errors have been logged and return
    * true if so.
-   * 
+   *
    * @returns {boolean}
    */
   function validErrorsExist() {
@@ -76,19 +76,19 @@
    */
   function setupUICloseButton(el) {
     /** @type {HTMLButtonElement|null} */
-    var closeBtn = el.querySelector('button.delete');
+    var closeBtn = el.querySelector("button.delete");
 
     if (closeBtn) {
       // We may be called multiple times on the same
       // element over time, but it should only be triggered once
       // when clicked, so we'll bind by setting onclick rather than
       // via addEventListener().
-      closeBtn.onclick = function() {
+      closeBtn.onclick = function () {
         if (el) {
-          el.setAttribute(HIDDEN_ATTR, '');
+          el.setAttribute(HIDDEN_ATTR, "");
         }
         if (window.ga) {
-          window.ga('send', 'event', 'safe-mode', 'hide');
+          window.ga("send", "event", "safe-mode", "hide");
         }
       };
     }
@@ -100,8 +100,8 @@
       window.clearTimeout(showUiTimeout);
       showUiTimeout = null;
     }
-    showUiTimeout = window.setTimeout(function() {
-      var el = document.getElementById('safe-mode-enable');
+    showUiTimeout = window.setTimeout(function () {
+      var el = document.getElementById("safe-mode-enable");
 
       showUiTimeout = null;
 
@@ -110,7 +110,7 @@
         el.focus();
 
         if (window.ga) {
-          window.ga('send', 'event', 'safe-mode', 'show');
+          window.ga("send", "event", "safe-mode", "show");
         }
 
         setupUICloseButton(el);
@@ -124,32 +124,32 @@
   /**
    * Record the given error and show the safe mode opt-in API
    * if needed.
-   * 
+   *
    * @param err {Error}
    */
   function reportError(err) {
     try {
       errors.push(err.toString());
     } catch (e) {
-      errors.push('unknown error');
+      errors.push("unknown error");
     }
     scheduleShowUICheck();
   }
 
   /** Our public API. See safe-mode.d.ts for more documentation. */
   window.SafeMode = {
-    showUI: function() {
-      errors.push('showUI() called');
+    showUI: function () {
+      errors.push("showUI() called");
       scheduleShowUICheck();
     },
     reportError: reportError,
-    ignoreError: function(e) {
+    ignoreError: function (e) {
       errorsToIgnore.push(e.toString());
-    }
+    },
   };
 
   /** Listen for any error events and report them. */
-  window.addEventListener('error', function(e) {
+  window.addEventListener("error", function (e) {
     reportError(e.error);
   });
 
@@ -159,10 +159,10 @@
    * If that was the case, schedule another check to display
    * the UI just in case.
    */
-  window.addEventListener('load', scheduleShowUICheck);
+  window.addEventListener("load", scheduleShowUICheck);
 
-  var htmlEl = document.getElementsByTagName('html')[0];
-  htmlEl.removeAttribute('data-safe-mode-no-js');
+  var htmlEl = document.getElementsByTagName("html")[0];
+  htmlEl.removeAttribute("data-safe-mode-no-js");
 
   /*
    * This isn't specifically related to safe mode per se, but
@@ -171,9 +171,9 @@
    * to enable our :active styles too. It's nice to have it
    * happen ASAP so we'll just do it here, since this snippet
    * loads very early during page load.
-   * 
+   *
    * For more details, see:
    * https://css-tricks.com/snippets/css/remove-gray-highlight-when-tapping-links-in-mobile-safari/
    */
-  document.addEventListener("touchstart", function(){}, true);
+  document.addEventListener("touchstart", function () {}, true);
 })();

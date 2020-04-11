@@ -1,8 +1,18 @@
+coverage
+findhelp/static/findhelp/vendor
+project/static/vendor
+staticfiles
+frontend/vendor
+*.min.js
+.venv
+
 # Don't go in that black hole!
 node_modules
 
 # These files are auto-generated.
 frontend/lib/queries
+lambda.js
+frontend/static
 
 # Almost all of these files are auto-generated.
 common-data/*.ts

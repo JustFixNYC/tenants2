@@ -1,3 +1,3 @@
-require('./frontend/webpack/babel-register');
+require("./frontend/webpack/babel-register");
 
-require('./frontend/commondatabuilder/cli').run();
+require("./frontend/commondatabuilder/cli").run();

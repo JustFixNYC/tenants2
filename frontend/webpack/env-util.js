@@ -1,6 +1,6 @@
-const TRUTHY = ['yes', 'yup', 'true'];
+const TRUTHY = ["yes", "yup", "true"];
 
-const FALSY = ['no', 'nope', 'false'];
+const FALSY = ["no", "nope", "false"];
 
 /**
  * Enclose the given strings in quotes and comma-separate them.
@@ -9,13 +9,13 @@ const FALSY = ['no', 'nope', 'false'];
  * @returns {string}
  */
 function quoteStrings(strings) {
-  return strings.map(string => `'${string}'`).join(', ');
+  return strings.map((string) => `'${string}'`).join(", ");
 }
 
 /**
  * Interpret the given string as a boolean and return its value, or null
  * if it doesn't have a valid value.
- * 
+ *
  * @param {string} value
  * @returns {boolean|null}
  */
@@ -34,7 +34,7 @@ function strToBoolean(value) {
  * Interpret the given environment variable as boolean and return it.
  * If the environment variable isn't defined or is empty, the default
  * value is returned.
- * 
+ *
  * @param {string} name
  * @param {boolean} defaultValue
  * @returns {boolean}
@@ -47,8 +47,10 @@ function getEnvBoolean(name, defaultValue) {
   if (boolVal === null) {
     throw new Error(
       `The value of the environment variable ${name} should be ` +
-      `one of ${quoteStrings(TRUTHY)} for true, or ${quoteStrings(FALSY)} for false, ` +
-      `but it is "${val}"`
+        `one of ${quoteStrings(TRUTHY)} for true, or ${quoteStrings(
+          FALSY
+        )} for false, ` +
+        `but it is "${val}"`
     );
   }
   return boolVal;
@@ -57,5 +59,5 @@ function getEnvBoolean(name, defaultValue) {
 module.exports = {
   strToBoolean,
   quoteStrings,
-  getEnvBoolean
+  getEnvBoolean,
 };

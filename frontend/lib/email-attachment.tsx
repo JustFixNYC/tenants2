@@ -1,12 +1,12 @@
 import React from 'react';
-import { LegacyFormSubmitter } from "./legacy-form-submitter";
+import { LegacyFormSubmitter } from "./forms/legacy-form-submitter";
 import { PageTitle } from './page';
-import { Formset } from './formset';
-import { TextualFormField } from './form-fields';
+import { Formset } from './forms/formset';
+import { TextualFormField } from './forms/form-fields';
 import { NextButton } from './buttons';
 import { maxRecipients } from '../../common-data/email-attachment-validation.json';
-import { FetchMutationInfo } from './forms-graphql';
-import { WithServerFormFieldErrors } from './form-errors';
+import { FetchMutationInfo } from './forms/forms-graphql';
+import { WithServerFormFieldErrors } from './forms/form-errors';
 
 type Recipient = {
   email: string

@@ -3,10 +3,10 @@ import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page, { PageTitle } from '../page';
 import Routes from '../routes';
 import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } from '../queries/DataRequestMultiLandlordQuery';
-import { TextualFormField } from '../form-fields';
+import { TextualFormField } from '../forms/form-fields';
 import { NextButton } from '../buttons';
 import { WhoOwnsWhatLink } from '../wow-link';
-import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
+import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../forms/query-form-submitter';
 
 const BASE_TITLE = "Multi-landlord data request";
 

@@ -1,7 +1,7 @@
 import GraphQlClient from "../graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
-import { FormError, strToFormError } from '../form-errors';
+import { FormError, strToFormError } from '../forms/form-errors';
 
 interface TestClient {
   mockFetch: jest.Mock;

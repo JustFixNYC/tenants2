@@ -13,9 +13,9 @@ import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssis
 import { MiddleProgressStep } from '../progress-step-route';
 import { TenantChildren } from './hp-action-tenant-children';
 import { createHPActionPreviousAttempts } from './hp-action-previous-attempts';
-import { CheckboxFormField } from '../form-fields';
+import { CheckboxFormField } from '../forms/form-fields';
 import { HpActionUrgentAndDangerousMutation } from '../queries/HpActionUrgentAndDangerousMutation';
-import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
+import { YesNoRadiosFormField } from '../forms/yes-no-radios-form-field';
 import { SessionStepBuilder } from '../session-step-builder';
 import { HarassmentApartment, HarassmentExplain, HarassmentAllegations1, HarassmentAllegations2 } from './hp-action-harassment';
 import { HpActionSueMutation } from '../queries/HpActionSueMutation';

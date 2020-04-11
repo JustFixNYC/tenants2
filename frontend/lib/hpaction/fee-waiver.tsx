@@ -2,14 +2,14 @@ import React from 'react';
 
 import { FeeWaiverExpensesInput } from "../queries/globalTypes";
 import Page from "../page";
-import { CheckboxFormField } from '../form-fields';
-import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
+import { CheckboxFormField } from '../forms/form-fields';
+import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
 import { BackButton, CenteredPrimaryButtonLink } from '../buttons';
-import { CurrencyFormField } from '../currency-form-field';
+import { CurrencyFormField } from '../forms/currency-form-field';
 import { FeeWaiverMiscMutation } from '../queries/FeeWaiverMiscMutation';
 import { FeeWaiverIncomeMutation } from '../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation, BlankFeeWaiverExpensesInput } from '../queries/FeeWaiverExpensesMutation';
-import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
+import { ProgressiveOtherCheckboxFormField } from '../forms/other-checkbox-form-field';
 import { MiddleProgressStep } from '../progress-step-route';
 import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAssistanceMutation';
 import { Link } from 'react-router-dom';

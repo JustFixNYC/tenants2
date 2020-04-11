@@ -1,9 +1,9 @@
 import React from 'react';
 import { SessionStepBuilder } from '../session-step-builder';
 import { PriorHpActionCasesMutation, BlankCasesPriorCaseFormFormSetInput } from '../queries/PriorHpActionCasesMutation';
-import { TextualFormField, CheckboxFormField } from '../form-fields';
-import { Formset } from '../formset';
-import { FormsetItem, formsetItemProps } from '../formset-item';
+import { TextualFormField, CheckboxFormField } from '../forms/form-fields';
+import { Formset } from '../forms/formset';
+import { FormsetItem, formsetItemProps } from '../forms/formset-item';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.priorHpActionCases);
 

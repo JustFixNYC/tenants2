@@ -1,16 +1,16 @@
 import React from 'react';
 
 import Page from "../page";
-import { LegacyFormSubmitter } from '../legacy-form-submitter';
+import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';
 import { ExampleMutation, BlankExampleInput, BlankSubformsExampleSubformFormSetInput } from '../queries/ExampleMutation';
-import { TextualFormField, CheckboxFormField } from '../form-fields';
+import { TextualFormField, CheckboxFormField } from '../forms/form-fields';
 import { NextButton } from '../buttons';
 import Routes from '../routes';
 import { ExampleInput } from '../queries/globalTypes';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
-import { Formset } from '../formset';
-import { CurrencyFormField } from '../currency-form-field';
-import { ProgressiveOtherCheckboxFormField } from '../other-checkbox-form-field';
+import { Formset } from '../forms/formset';
+import { CurrencyFormField } from '../forms/currency-form-field';
+import { ProgressiveOtherCheckboxFormField } from '../forms/other-checkbox-form-field';
 import { Link } from 'react-router-dom';
 
 const INITIAL_STATE: ExampleInput = {

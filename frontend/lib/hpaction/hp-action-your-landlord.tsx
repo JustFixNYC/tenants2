@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { AppContext } from '../app-context';
 import { MiddleProgressStep, MiddleProgressStepProps } from '../progress-step-route';
 import Page from '../page';
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
 import { exactSubsetOrDefault } from '../util';
-import { TextualFormField } from '../form-fields';
+import { TextualFormField } from '../forms/form-fields';
 import { ProgressButtons, BackButton } from '../buttons';
 import { Link } from 'react-router-dom';
-import { USStateFormField } from '../mailing-address-fields';
+import { USStateFormField } from '../forms/mailing-address-fields';
 import { LEGACY_NYCHA_ADDRESS, isUserNycha, LegacyAddressDetails } from '../nycha';
 
 const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {

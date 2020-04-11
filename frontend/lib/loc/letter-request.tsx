@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from "../page";
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 
 import { withAppContext, AppContextType } from '../app-context';
 import { NextButton, BackButton } from "../buttons";
@@ -9,7 +9,7 @@ import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
-import { HiddenFormField } from '../form-fields';
+import { HiddenFormField } from '../forms/form-fields';
 import { BulmaClassName } from '../bulma';
 import { MiddleProgressStep } from '../progress-step-route';
 

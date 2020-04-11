@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { SessionStepBuilder } from "../session-step-builder";
-import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE } from '../yes-no-radios-form-field';
+import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE } from '../forms/yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';
-import { CheckboxFormField } from '../form-fields';
+import { CheckboxFormField } from '../forms/form-fields';
 import { HarassmentAllegations1Mutation } from '../queries/HarassmentAllegations1Mutation';
 import { HarassmentAllegations2Mutation } from '../queries/HarassmentAllegations2Mutation';
 import { HARASSMENT_DETAILS_MAX_LENGTH } from '../../../common-data/hp-action.json';
-import { TextareaWithCharsRemaining } from '../chars-remaining';
-import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
+import { TextareaWithCharsRemaining } from '../forms/chars-remaining';
+import { hideByDefault, ConditionalYesNoRadiosFormField } from '../forms/conditional-form-fields';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.harassmentDetails);
 

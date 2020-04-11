@@ -1,7 +1,7 @@
 import React from 'react';
 import { SessionStepBuilder } from "../session-step-builder";
 import { AccessForInspectionMutation } from "../queries/AccessForInspectionMutation";
-import { TextualFormField } from '../form-fields';
+import { TextualFormField } from '../forms/form-fields';
 
 const onboardingStepBuilder = new SessionStepBuilder(sess => sess.onboardingInfo);
 

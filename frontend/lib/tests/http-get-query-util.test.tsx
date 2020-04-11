@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { QuerystringConverter, SupportedQsTypes, SyncQuerystringToFields } from "../http-get-query-util";
-import { FormContext } from "../form-context";
+import { FormContext } from "../forms/form-context";
 import ReactTestingLibraryPal from "./rtl-pal";
 
 describe('QuerystringConverter.toStableQuerystring()', () => {

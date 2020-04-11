@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Page from "../page";
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { ReliefAttemptsMutation } from '../queries/ReliefAttemptsMutation';
-import { YesNoRadiosFormField } from '../yes-no-radios-form-field';
+import { YesNoRadiosFormField } from '../forms/yes-no-radios-form-field';
 import { ProgressButtons } from '../buttons';
-import { toStringifiedNullBool } from '../form-input-converter';
+import { toStringifiedNullBool } from '../forms/form-input-converter';
 import { MiddleProgressStep } from '../progress-step-route';
 
 

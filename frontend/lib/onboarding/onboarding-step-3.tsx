@@ -1,13 +1,13 @@
 import React from 'react';
 import { OnboardingStep3Input } from "../queries/globalTypes";
 import Page from '../page';
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import autobind from 'autobind-decorator';
 import { Link, Route } from 'react-router-dom';
 import { ProgressButtons } from "../buttons";
 import { IconLink } from "../icon";
-import { RadiosFormField } from '../form-fields';
-import { YesNoRadiosFormField } from "../yes-no-radios-form-field";
+import { RadiosFormField } from '../forms/form-fields';
+import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
 import { ReactDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation, BlankOnboardingStep3Input } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../modal';
@@ -15,7 +15,7 @@ import { twoTuple } from '../util';
 import { glueToLastWord } from '../word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';
-import { FormContext } from '../form-context';
+import { FormContext } from '../forms/form-context';
 
 type LeaseInfoModalProps = {
   children: any;

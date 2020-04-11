@@ -4,7 +4,7 @@ import Page from '../page';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { NextButton } from '../buttons';
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { withAppContext, AppContextType } from '../app-context';
 

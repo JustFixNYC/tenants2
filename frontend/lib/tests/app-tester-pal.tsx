@@ -4,7 +4,7 @@ import GraphQlClient, { queuedRequest } from "../graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
 import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
-import { WithServerFormFieldErrors } from '../form-errors';
+import { WithServerFormFieldErrors } from '../forms/form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { History } from 'history';
 import { assertNotNull } from '../util';

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { SendVerificationEmailMutation } from '../queries/SendVerificationEmailMutation';
-import { TextualFormField } from '../form-fields';
+import { TextualFormField } from '../forms/form-fields';
 import { ProgressButtons, BackButton } from '../buttons';
 import { AppContext } from '../app-context';
 import Page from '../page';

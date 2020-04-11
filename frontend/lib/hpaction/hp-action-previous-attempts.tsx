@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { FormContext } from "../form-context";
-import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '../yes-no-radios-form-field';
+import { FormContext } from "../forms/form-context";
+import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from '../forms/yes-no-radios-form-field';
 import { HpActionPreviousAttemptsMutation } from '../queries/HpActionPreviousAttemptsMutation';
 import { HPActionPreviousAttemptsInput } from '../queries/globalTypes';
-import { hideByDefault, ConditionalYesNoRadiosFormField } from '../conditional-form-fields';
+import { hideByDefault, ConditionalYesNoRadiosFormField } from '../forms/conditional-form-fields';
 import { Route } from 'react-router';
 import { Modal } from '../modal';
 import { Link } from 'react-router-dom';

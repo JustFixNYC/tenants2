@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Page from "../page";
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
-import { TextualFormField } from '../form-fields';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
+import { TextualFormField } from '../forms/form-fields';
 import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
 import { ProgressButtons } from "../buttons";

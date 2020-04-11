@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import Page from '../page';
 import { HPUploadStatus, GenerateHpActionPdfInput } from '../queries/globalTypes';
 import { AppContext } from '../app-context';
-import { FormContextRenderer } from '../form';
-import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
+import { FormContextRenderer } from '../forms/form';
+import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { GenerateHPActionPDFMutation } from '../queries/GenerateHPActionPDFMutation';
 import { NextButton } from '../buttons';
 import { SessionPoller } from '../session-poller';
 import { GetHPActionUploadStatus } from '../queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router-dom';
-import { HiddenFormField } from '../form-fields';
+import { HiddenFormField } from '../forms/form-fields';
 import { HPActionChoice } from '../../../common-data/hp-action-choices';
 
 type BaseGeneratePDFFormProps = {

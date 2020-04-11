@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import { UnregisterCallback, Location, Action } from 'history';
 import { assertNotNull } from './util';
 import { isModalRoute } from './route-util';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 
 
 const DEFAULT_PROMPT = (

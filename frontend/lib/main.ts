@@ -2,7 +2,7 @@
 
 import { startApp, AppProps } from './app';
 import { getHTMLElement } from '@justfixnyc/util';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 import i18n from './i18n';
 import { setGlobalAppServerInfo } from './app-context';
 

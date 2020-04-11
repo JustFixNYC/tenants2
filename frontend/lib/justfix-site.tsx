@@ -10,14 +10,14 @@ import { LogoutPage } from './pages/logout-page';
 import Routes from './routes';
 import Navbar from './navbar';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { getOnboardingRouteForIntent } from './signup-intent';
+import { getOnboardingRouteForIntent } from './onboarding/signup-intent';
 import HelpPage from './pages/help-page';
 import { createRedirectWithSearch } from './redirect-util';
 import MoratoriumBanner from './covid-banners';
 import { AppSiteProps } from './app';
 import { Footer } from './footer';
 
-const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
+const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./data-driven-onboarding/data-driven-onboarding')), {
   fallback: <LoadingPage />
 });
 
@@ -25,27 +25,27 @@ const LoadablePasswordResetRoutes = loadable(() => friendlyLoad(import('./pages/
   fallback: <LoadingPage />
 });
 
-const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./letter-of-complaint')), {
+const LoadableLetterOfComplaintRoutes = loadable(() => friendlyLoad(import('./loc/letter-of-complaint')), {
   fallback: <LoadingPage />
 });
 
-const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hp-action')), {
+const LoadableHPActionRoutes = loadable(() => friendlyLoad(import('./hpaction/hp-action')), {
   fallback: <LoadingPage />
 });
 
-const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./emergency-hp-action')), {
+const LoadableEmergencyHPActionRoutes = loadable(() => friendlyLoad(import('./hpaction/emergency-hp-action')), {
   fallback: <LoadingPage />
 });
 
-const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rental-history')), {
+const LoadableRentalHistoryRoutes = loadable(() => friendlyLoad(import('./rh/rental-history')), {
   fallback: <LoadingPage />
 });
 
-const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev')), {
+const LoadableDevRoutes = loadable(() => friendlyLoad(import('./dev/dev')), {
   fallback: <LoadingPage/>
 });
 
-const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./pages/data-requests')), {
+const LoadableDataRequestsRoutes = loadable(() => friendlyLoad(import('./data-requests/data-requests')), {
   fallback: <LoadingPage />
 });
 

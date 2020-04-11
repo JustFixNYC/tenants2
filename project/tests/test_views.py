@@ -140,8 +140,8 @@ def test_pages_with_extra_bundles_work(client):
     response = client.get('/dev/examples/loadable-page')
     assert response.status_code == 200
     script_tags = response.context['script_tags']
-    assert 'src="/static/frontend/dev.' in script_tags
-    assert 'src="/static/frontend/pages-example-loadable-page.' in script_tags
+    assert 'src="/static/frontend/dev-dev.' in script_tags
+    assert 'src="/static/frontend/example-loadable-page.' in script_tags
     assert 'src="/static/frontend/main.' in script_tags
 
 

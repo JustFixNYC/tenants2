@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 
 type ComponentStackInfo = {
   componentStack: string;

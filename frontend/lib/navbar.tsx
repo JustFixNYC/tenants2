@@ -7,7 +7,7 @@ import { AriaExpandableButton } from './aria';
 import { bulmaClasses } from './bulma';
 import { AppContextType, withAppContext } from './app-context';
 import Routes from './routes';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 import { StaticImage } from './static-image';
 
 type Dropdown = 'developer'|'all';

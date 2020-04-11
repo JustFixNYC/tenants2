@@ -11,13 +11,13 @@ import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } fr
 import { ErrorBoundary } from './error-boundary';
 import { isModalRoute } from './route-util';
 import { AriaAnnouncer } from './aria';
-import { trackPageView, ga } from './google-analytics';
+import { trackPageView, ga } from './analytics/google-analytics';
 import { Action } from 'history';
 import { smoothlyScrollToTopOfPage } from './scrolling';
 import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
 import { HelmetProvider } from 'react-helmet-async';
 import { browserStorage } from './browser-storage';
-import { areAnalyticsEnabled } from './analytics';
+import { areAnalyticsEnabled } from './analytics/analytics';
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the

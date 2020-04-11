@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { SessionUpdatingFormOutput, SessionUpdatingFormSubmitter } from "./session-updating-form-submitter";
-import { FetchMutationInfo } from "./forms-graphql";
-import { FormInputConverter, getInitialFormInput } from "./form-input-converter";
+import { SessionUpdatingFormOutput, SessionUpdatingFormSubmitter } from "./forms/session-updating-form-submitter";
+import { FetchMutationInfo } from "./forms/forms-graphql";
+import { FormInputConverter, getInitialFormInput } from "./forms/form-input-converter";
 import { MiddleProgressStep, MiddleProgressStepProps } from "./progress-step-route";
 import Page from "./page";
 import { ProgressButtons } from './buttons';
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { WithServerFormFieldErrors } from './form-errors';
-import { FormContext } from './form-context';
+import { WithServerFormFieldErrors } from './forms/form-errors';
+import { FormContext } from './forms/form-context';
 
 /**
  * A structure, usually created by querybuilder, which contains information

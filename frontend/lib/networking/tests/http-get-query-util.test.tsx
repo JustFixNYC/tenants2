@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { QuerystringConverter, SupportedQsTypes, SyncQuerystringToFields } from "../http-get-query-util";
-import { FormContext } from "../forms/form-context";
-import ReactTestingLibraryPal from "./rtl-pal";
+import { FormContext } from "../../forms/form-context";
+import ReactTestingLibraryPal from "../../tests/rtl-pal";
 
 describe('QuerystringConverter.toStableQuerystring()', () => {
   it('removes irrelevant values', () => {

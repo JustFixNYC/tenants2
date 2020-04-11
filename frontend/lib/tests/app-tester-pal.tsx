@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
-import GraphQlClient, { queuedRequest } from "../graphql-client";
+import GraphQlClient, { queuedRequest } from "../networking/graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
 import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";

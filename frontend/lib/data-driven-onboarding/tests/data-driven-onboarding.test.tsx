@@ -3,7 +3,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import Routes from '../../routes';
 import { BlankDDOSuggestionsResult } from '../../queries/DDOSuggestionsResult';
 import { DataDrivenOnboardingSuggestions_output } from '../../queries/DataDrivenOnboardingSuggestions';
-import { createMockFetch } from '../../tests/mock-fetch';
+import { createMockFetch } from '../../networking/tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
 import DataDrivenOnboardingPage, { isBuildingClassBorC } from '../data-driven-onboarding';
 import { Route } from 'react-router';

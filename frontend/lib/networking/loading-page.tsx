@@ -1,9 +1,9 @@
 import React from 'react';
-import Page from './ui/page';
+import Page from '../ui/page';
 import autobind from 'autobind-decorator';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { smoothlyScrollToTopOfPage } from './scrolling';
+import { smoothlyScrollToTopOfPage } from '../scrolling';
 import { RetryableLoadingComponentProps } from './loading-component-props';
 
 /**

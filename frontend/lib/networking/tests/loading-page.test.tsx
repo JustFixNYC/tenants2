@@ -2,13 +2,13 @@ import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
 
 import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage, LoadingPageWithRetry } from "../loading-page";
-import { AppTesterPal } from './app-tester-pal';
-import { assertNotNull } from '../util';
+import { AppTesterPal } from '../../tests/app-tester-pal';
+import { assertNotNull } from '../../util';
 import { Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
-import ReactTestingLibraryPal from './rtl-pal';
-import { nextTick } from './util';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
+import { nextTick } from '../../tests/util';
 
 type ImportPromiseFunc<Props> = () => Promise<{ default: React.ComponentType<Props>}>;
 

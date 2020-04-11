@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import { QueryLoader } from "../query-loader";
-import { ExampleQuery } from "../queries/ExampleQuery";
-import { nextTick } from './util';
+import { ExampleQuery } from "../../queries/ExampleQuery";
+import { nextTick } from '../../tests/util';
 
 describe('QueryLoader', () => {
   afterEach(AppTesterPal.cleanup);

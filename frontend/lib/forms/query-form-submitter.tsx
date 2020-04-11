@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { QueryLoaderQuery } from "../query-loader-prefetcher";
-import { QueryWithOutput, QuerystringConverter, useLatestQueryOutput, SyncQuerystringToFields, SupportedQsTypes } from "../http-get-query-util";
+import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
+import { QueryWithOutput, QuerystringConverter, useLatestQueryOutput, SyncQuerystringToFields, SupportedQsTypes } from "../networking/http-get-query-util";
 import { RouteComponentProps } from "react-router";
 import { FormContext } from "./form-context";
 import { useContext } from "react";

@@ -1,4 +1,4 @@
-import GraphQlClient from "../graphql-client";
+import GraphQlClient from "../networking/graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from '../forms/form-errors';

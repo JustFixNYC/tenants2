@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestingLibraryPal from '../../tests/rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
-import { createMockFetch } from '../../tests/mock-fetch';
+import { createMockFetch } from '../../networking/tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
 import { KEY_TAB } from '../../key-codes';
 

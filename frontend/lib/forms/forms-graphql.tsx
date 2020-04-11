@@ -1,5 +1,5 @@
 import { WithServerFormFieldErrors } from "./form-errors";
-import { GraphQLFetch } from "../graphql-client";
+import { GraphQLFetch } from "../networking/graphql-client";
 
 /**
  * A callable that takes a GraphQL fetch implementation, some

@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import { BrowserRouter, RouteComponentProps, withRouter } from 'react-router-dom';
 import loadable, { loadableReady } from '@loadable/component';
 
-import GraphQlClient from './graphql-client';
+import GraphQlClient from './networking/graphql-client';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';

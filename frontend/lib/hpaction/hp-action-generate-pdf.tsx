@@ -6,7 +6,7 @@ import { FormContextRenderer } from '../forms/form';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { GenerateHPActionPDFMutation } from '../queries/GenerateHPActionPDFMutation';
 import { NextButton } from '../ui/buttons';
-import { SessionPoller } from '../session-poller';
+import { SessionPoller } from '../networking/session-poller';
 import { GetHPActionUploadStatus } from '../queries/GetHPActionUploadStatus';
 import { Redirect } from 'react-router-dom';
 import { HiddenFormField } from '../forms/form-fields';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { GraphQLFetch } from './graphql-client';
+import { GraphQLFetch } from './networking/graphql-client';
 import { buildContextHocFactory } from './context-util';
 import { SiteChoice } from '../../common-data/site-choices';
 

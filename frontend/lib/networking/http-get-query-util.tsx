@@ -1,9 +1,9 @@
 import { RouteComponentProps } from "react-router";
-import { FormContext } from "./forms/form-context";
+import { FormContext } from "../forms/form-context";
 import { useState, useEffect, useContext } from "react";
-import { getQuerystringVar } from "./querystring";
+import { getQuerystringVar } from "../querystring";
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
-import { AppContext } from "./app-context";
+import { AppContext } from "../app-context";
 
 /**
  * These are the data types we currently support being represented

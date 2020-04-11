@@ -1,7 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
-import { inputToQuerystring } from './http-get-query-util';
+import { inputToQuerystring } from './networking/http-get-query-util';
 import { ROUTE_PREFIX, createRoutesForSite } from './route-util';
 
 /**

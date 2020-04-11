@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import { SessionPoller } from "../session-poller";
-import { nextTick } from './util';
+import { nextTick } from '../../tests/util';
 
 describe('session poller', () => {
   afterEach(AppTesterPal.cleanup);

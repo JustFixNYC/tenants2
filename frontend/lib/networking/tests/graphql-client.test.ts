@@ -1,4 +1,4 @@
-import { createTestGraphQlClient as createClient } from './util';
+import { createTestGraphQlClient as createClient } from '../../tests/util';
 
 describe('GraphQLClient', () => {
   jest.useFakeTimers();

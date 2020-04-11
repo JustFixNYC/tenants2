@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LoadingPageWithRetry } from '../loading-page';
+import { LoadingPageWithRetry } from '../networking/loading-page';
 import Page from '../ui/page';
 
 interface State {

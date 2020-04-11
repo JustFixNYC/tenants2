@@ -4,7 +4,7 @@ import { Route } from 'react-router';
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { AllSessionInfo_onboardingInfo } from "../queries/AllSessionInfo";
 import { getSignupIntentOnboardingInfo } from '../routes';
-import { friendlyLoad, LoadingPage } from '../loading-page';
+import { friendlyLoad, LoadingPage } from '../networking/loading-page';
 import loadable from '@loadable/component';
 
 /** The default assumed intent if none is explicitly provided. */

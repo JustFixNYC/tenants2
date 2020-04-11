@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps, Route } from 'react-router';
-import { AppContextType, AppContext } from './app-context';
+import { AppContextType, AppContext } from '../app-context';
 import autobind from 'autobind-decorator';
 import { RetryableLoadingComponentProps } from './loading-component-props';
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from './query-loader-prefetcher';

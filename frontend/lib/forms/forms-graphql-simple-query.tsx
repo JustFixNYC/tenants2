@@ -1,4 +1,4 @@
-import { GraphQLFetch } from "../graphql-client";
+import { GraphQLFetch } from "../networking/graphql-client";
 import { WithServerFormFieldErrors } from "./form-errors";
 import { isDeepEqual } from "../util";
 

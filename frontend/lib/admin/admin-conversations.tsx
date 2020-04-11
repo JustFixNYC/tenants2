@@ -3,7 +3,7 @@ import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
 import Routes from "../routes";
 import { AppContext } from '../app-context';
 import { AdminConversations, AdminConversationsVariables } from '../queries/AdminConversations';
-import { QueryLoaderQuery } from '../query-loader-prefetcher';
+import { QueryLoaderQuery } from '../networking/query-loader-prefetcher';
 import { AdminConversationVariables, AdminConversation } from '../queries/AdminConversation';
 import { getQuerystringVar } from '../querystring';
 import { Helmet } from 'react-helmet-async';

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { QueryLoaderQuery } from "../query-loader-prefetcher";
+import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import { AppContext } from "../app-context";
 
 /**

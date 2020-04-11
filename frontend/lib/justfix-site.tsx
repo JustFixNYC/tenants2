@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 
 import { AppContext } from './app-context';
 import { NotFound } from './pages/not-found';
-import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
+import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./networking/loading-page";
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
 import Routes from './routes';

@@ -1,4 +1,4 @@
-import { nextTick } from "./util";
+import { nextTick } from "../../tests/util";
 
 /**
  * This is an API for a mock window.fetch, which provides

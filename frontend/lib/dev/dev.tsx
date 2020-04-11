@@ -1,12 +1,12 @@
 import React from 'react';
 import Routes from "../routes";
 import { Switch, Route, Redirect } from "react-router";
-import { friendlyLoad, LoadingPage } from '../loading-page';
+import { friendlyLoad, LoadingPage } from '../networking/loading-page';
 import { Link } from 'react-router-dom';
 import Page from '../ui/page';
 import { withAppContext, AppContextType } from '../app-context';
 import { Helmet } from 'react-helmet-async';
-import { QueryLoader } from '../query-loader';
+import { QueryLoader } from '../networking/query-loader';
 import { ExampleQuery } from '../queries/ExampleQuery';
 import ExampleRadioPage from './example-radio-page';
 import { ExampleDataDrivenOnboardingResults } from '../data-driven-onboarding/example-ddo-results';

@@ -15,6 +15,7 @@ import HelpPage from './pages/help-page';
 import { createRedirectWithSearch } from './redirect-util';
 import MoratoriumBanner from './covid-banners';
 import { AppSiteProps } from './app';
+import { Footer } from './footer';
 
 const LoadableDataDrivenOnboardingPage = loadable(() => friendlyLoad(import('./pages/data-driven-onboarding')), {
   fallback: <LoadingPage />
@@ -89,16 +90,19 @@ const JustfixRoute: React.FC<RouteComponentProps> = props => {
 
 const JustfixSite = React.forwardRef<HTMLDivElement, AppSiteProps>((props, ref) => {
   return <>
-    <Navbar/>
-    <MoratoriumBanner pathname={props.location.pathname} />
-    <section className="section">
-      <div className="container" ref={ref}
-           data-jf-is-noninteractive tabIndex={-1}>
-        <LoadingOverlayManager>
-          <Route component={JustfixRoute} />
-        </LoadingOverlayManager>
-      </div>
-    </section>
+    <div className="jf-above-footer-content">
+      <Navbar/>
+      <MoratoriumBanner pathname={props.location.pathname} />
+      <section className="section">
+        <div className="container" ref={ref}
+            data-jf-is-noninteractive tabIndex={-1}>
+          <LoadingOverlayManager>
+            <Route component={JustfixRoute} />
+          </LoadingOverlayManager>
+        </div>
+      </section>
+    </div>
+    <Footer/>
   </>;
 });
 

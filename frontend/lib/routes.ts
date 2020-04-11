@@ -2,7 +2,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
 import { inputToQuerystring } from './http-get-query-util';
-import { ROUTE_PREFIX, RouteMap, createRoutesForSite } from './route-util';
+import { ROUTE_PREFIX, createRoutesForSite } from './route-util';
 
 /**
  * Metadata about signup intents.
@@ -284,5 +284,3 @@ const Routes = createRoutesForSite(createLocalizedRouteInfo, {
 });
 
 export default Routes;
-
-export const routeMap = new RouteMap(Routes);

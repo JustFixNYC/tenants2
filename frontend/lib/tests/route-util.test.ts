@@ -49,10 +49,26 @@ describe('createRoutesForSite', () => {
 
   it('responds to locale changes', () => {
     expect(Routes.locale.foo).toBe('/foo');
+    expect(Routes.routeMap.exists('/foo')).toBe(true);
+    expect(Routes.routeMap.exists('/en/foo')).toBe(false);
+
     i18n.initialize('en');
     expect(Routes.locale.foo).toBe('/en/foo');
+    expect(Routes.routeMap.exists('/foo')).toBe(false);
+    expect(Routes.routeMap.exists('/en/foo')).toBe(true);
+    expect(new Set(Routes.routeMap.nonParameterizedRoutes())).toEqual(new Set([
+      '/en/foo',
+      '/blarg'
+    ]));
+
     i18n.initialize('');
     expect(Routes.locale.foo).toBe('/foo');
+    expect(Routes.routeMap.exists('/foo')).toBe(true);
+    expect(Routes.routeMap.exists('/en/foo')).toBe(false);
+    expect(new Set(Routes.routeMap.nonParameterizedRoutes())).toEqual(new Set([
+      '/foo',
+      '/blarg'
+    ]));
   });
 
   it('has expected non-localized routes', () => {

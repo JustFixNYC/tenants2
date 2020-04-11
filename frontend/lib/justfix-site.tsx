@@ -7,7 +7,7 @@ import { NotFound } from './pages/not-found';
 import { friendlyLoad, LoadingOverlayManager, LoadingPage } from "./loading-page";
 import LoginPage from './pages/login-page';
 import { LogoutPage } from './pages/logout-page';
-import Routes, { routeMap } from './routes';
+import Routes from './routes';
 import Navbar from './navbar';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './signup-intent';
@@ -56,7 +56,7 @@ const LoadableAdminConversationsRoutes = loadable(() => friendlyLoad(import('./a
 const JustfixRoute: React.FC<RouteComponentProps> = props => {
   const { location } = props;
   const { server, session } = useContext(AppContext);
-  if (!routeMap.exists(location.pathname)) {
+  if (!Routes.routeMap.exists(location.pathname)) {
     return NotFound(props);
   }
   const enableEHP = server.enableEmergencyHPAction;

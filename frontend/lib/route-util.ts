@@ -53,7 +53,7 @@ export class RouteMap {
         } else {
           this.existenceMap.set(value, true);
         }
-      } else if (value && typeof(value) === 'object') {
+      } else if (value && typeof(value) === 'object' && !(value instanceof RouteMap)) {
         this.populate(value);
       }
     });
@@ -62,6 +62,13 @@ export class RouteMap {
   get size(): number {
     this.ensureIsInitialized();
     return this.existenceMap.size + this.parameterizedRoutes.length;
+  }
+
+  /** Clear all cached route information. Useful if the routes change. */
+  clearCache() {
+    this.isInitialized = false;
+    this.existenceMap.clear();
+    this.parameterizedRoutes.splice(0);
   }
 
   /**
@@ -105,7 +112,11 @@ export class RouteMap {
  * that aren't localized.
  */
 type RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = NonLocalizedRoutes & {
+  /** Localized routes for the user's currently-selected locale. */
   locale: LocalizedRoutes,
+
+  /** A utility object for querying information about routes. */
+  routeMap: RouteMap,
 };
 
 /**
@@ -119,12 +130,7 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
 ): RouteInfo<LocalizedRoutes, NonLocalizedRoutes> {
   let currentLocaleRoutes: LocalizedRoutes|null = null;
 
-  // Note that this can technically create a memory leak, but we won't be making
-  // many of these obects and they'll last the lifetime of the application, so it's ok.
-  i18n.addChangeListener(() => { currentLocaleRoutes = null; });
-
-  return {
-    /** Localized routes for the user's currently-selected locale. */
+  const baseRoutes = {
     get locale(): LocalizedRoutes {
       if (currentLocaleRoutes === null) {
         currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
@@ -132,5 +138,16 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
       return currentLocaleRoutes;
     },
     ...nonLocalizedRouteInfo,
-  };
+  } as RouteInfo<LocalizedRoutes, NonLocalizedRoutes>;
+
+  baseRoutes.routeMap = new RouteMap(baseRoutes);
+
+  // Note that this can technically create a memory leak, but we won't be making
+  // many of these obects and they'll last the lifetime of the application, so it's ok.
+  i18n.addChangeListener(() => {
+    currentLocaleRoutes = null;
+    baseRoutes.routeMap.clearCache();
+  });
+
+  return baseRoutes;
 }

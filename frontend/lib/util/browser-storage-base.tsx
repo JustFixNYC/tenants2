@@ -7,17 +7,17 @@ import { isDeepEqual } from "./util";
  * with it.
  */
 export type BaseBrowserStorageSchema = {
-  _version: number,
+  _version: number;
 };
 
 /**
  * Return the browser's `window.sessionStorage`, or null if we're either
  * not running in the browser or `sessionStorage` isn't implemented.
  */
-function getSessionStorage(): Pick<Storage, 'getItem'|'setItem'>|null {
-  if (typeof(window) === 'undefined') return null;
+function getSessionStorage(): Pick<Storage, "getItem" | "setItem"> | null {
+  if (typeof window === "undefined") return null;
   return window.sessionStorage || null;
-};
+}
 
 type ChangeListener<T> = (value: T) => void;
 
@@ -25,9 +25,9 @@ type ChangeListener<T> = (value: T) => void;
  * This class is responsible for storing data browser-side using
  * `window.sessionStorage` using a versioned schema. The data is
  * serialized and deserialized via JSON.
- * 
+ *
  * This class is intended to be used as a progressive
- * enhancement; while it is highly fault-tolerant and won't throw 
+ * enhancement; while it is highly fault-tolerant and won't throw
  * exceptions if the runtime doesn't support session storage, or if
  * session storage is full, the data will only last as long as the
  * lifetime of the `BrowserStorage` instance, rather than the lifetime of the
@@ -39,12 +39,16 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   private readonly schemaVersion: number;
   private changeListeners: ChangeListener<T>[] = [];
 
-  constructor(readonly defaultValue: T, readonly storageKey: string, readonly storage = getSessionStorage()) {
+  constructor(
+    readonly defaultValue: T,
+    readonly storageKey: string,
+    readonly storage = getSessionStorage()
+  ) {
     this.schemaVersion = defaultValue._version;
   }
 
   private logWarning(msg: string, e?: Error) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       const finalMsg = `${msg} ${this.constructor.name}`;
       e ? console.warn(finalMsg, e) : console.warn(finalMsg);
     }
@@ -65,7 +69,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
         return this.deserializeAndValidateCachedValue(value);
       }
     } catch (e) {
-      this.logWarning('Error deserializing', e);
+      this.logWarning("Error deserializing", e);
     }
     return this.defaultValue;
   }
@@ -73,11 +77,12 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   private set cachedValue(value: T) {
     this._cachedValue = value;
     try {
-      this.storage && this.storage.setItem(this.storageKey, JSON.stringify(value));
+      this.storage &&
+        this.storage.setItem(this.storageKey, JSON.stringify(value));
     } catch (e) {
-      this.logWarning('Error serializing', e);
+      this.logWarning("Error serializing", e);
     }
-    this.changeListeners.forEach(cb => cb(value));
+    this.changeListeners.forEach((cb) => cb(value));
   }
 
   private get cachedValue(): T {
@@ -97,7 +102,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
     return () => {
       const idx = this.changeListeners.indexOf(listener);
       if (idx === -1) {
-        return this.logWarning('Unable to find change listener');
+        return this.logWarning("Unable to find change listener");
       }
       this.changeListeners.splice(idx, 1);
     };
@@ -114,7 +119,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   /**
    * Returns the entire current stored value, deserializing from browser storage if
    * needed.
-   * 
+   *
    * Note that the return value should never be modified in-place--use the
    * `update()` method instead.
    */
@@ -125,7 +130,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
   /**
    * Updates part or all of the current stored value, serializing it to browser
    * storage.
-   * 
+   *
    * If the passed-in updates won't actually modify the current stored value,
    * nothing is done.
    */
@@ -136,7 +141,7 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
     };
     if (!isDeepEqual(newValue, this.cachedValue)) {
       this.cachedValue = newValue;
-    };
+    }
   }
 
   /** Clears the current stored value, resetting it to its default. */
@@ -152,20 +157,20 @@ export class BrowserStorage<T extends BaseBrowserStorageSchema> {
 export function createUpdateBrowserStorage<T extends BaseBrowserStorageSchema>(
   browserStorage: BrowserStorage<T>
 ): React.FC<Partial<T>> {
-  return props => {
+  return (props) => {
     useEffect(() => {
       browserStorage.update(props);
     });
 
     return null;
   };
-};
+}
 
 /**
  * Creates a `useBrowserStorage` React Hook that can be used in a way that
  * is similar to `useState()`, only it returns/updates the value of browser
  * storage.
- * 
+ *
  * Before a component is mounted, this will actually return the storage's
  * default value to ensure that rendering is identical on server and client.
  */

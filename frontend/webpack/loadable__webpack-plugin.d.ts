@@ -4,8 +4,8 @@ declare module "@loadable/webpack-plugin" {
   // https://www.smooth-code.com/open-source/loadable-components/docs/api-loadable-webpack-plugin/
   class LoadablePlugin extends Plugin {
     constructor(options?: {
-      filename?: string,
-      writeToDisk?: boolean|{filename: string}
+      filename?: string;
+      writeToDisk?: boolean | { filename: string };
     });
   }
 

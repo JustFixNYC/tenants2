@@ -1,47 +1,47 @@
-import { DjangoChoicesTypescriptConfig } from '../frontend/commondatabuilder/commondatabuilder';
+import { DjangoChoicesTypescriptConfig } from "../frontend/commondatabuilder/commondatabuilder";
 
 const config: DjangoChoicesTypescriptConfig = {
   rootDir: __dirname,
   files: [
     {
-      jsonFilename: 'issue-choices.json',
-      typeName: 'IssueChoice',
+      jsonFilename: "issue-choices.json",
+      typeName: "IssueChoice",
       exportLabels: true,
       filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS)/,
     },
     {
-      jsonFilename: 'issue-area-choices.json',
-      typeName: 'IssueAreaChoice',
+      jsonFilename: "issue-area-choices.json",
+      typeName: "IssueAreaChoice",
       exportLabels: true,
-      filterOut: ['LANDLORD']
+      filterOut: ["LANDLORD"],
     },
     {
-      jsonFilename: 'borough-choices.json',
-      typeName: 'BoroughChoice',
+      jsonFilename: "borough-choices.json",
+      typeName: "BoroughChoice",
       exportLabels: true,
     },
     {
-      jsonFilename: 'hp-action-choices.json',
-      typeName: 'HPActionChoice',
+      jsonFilename: "hp-action-choices.json",
+      typeName: "HPActionChoice",
       exportLabels: false,
     },
     {
-      jsonFilename: 'lease-choices.json',
-      typeName: 'LeaseChoice',
+      jsonFilename: "lease-choices.json",
+      typeName: "LeaseChoice",
       exportLabels: true,
-      filterOut: ['NOT_SURE']
+      filterOut: ["NOT_SURE"],
     },
     {
-      jsonFilename: 'signup-intent-choices.json',
-      typeName: 'SignupIntent',
+      jsonFilename: "signup-intent-choices.json",
+      typeName: "SignupIntent",
       exportLabels: true,
     },
     {
-      jsonFilename: 'site-choices.json',
-      typeName: 'SiteChoice',
+      jsonFilename: "site-choices.json",
+      typeName: "SiteChoice",
       exportLabels: false,
-    }
-  ]
+    },
+  ],
 };
 
 export default config;

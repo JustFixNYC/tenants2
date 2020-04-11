@@ -1,12 +1,12 @@
-import autobind from 'autobind-decorator';
+import autobind from "autobind-decorator";
 
 test("dynamic import works", () => {
-  return import('./build-pipeline-dynamic-import').then(mod => {
+  return import("./build-pipeline-dynamic-import").then((mod) => {
     expect(mod.blah(5)).toEqual(6);
   });
 });
 
-test('autobind decorator works', () => {
+test("autobind decorator works", () => {
   class Blarg {
     constructor(readonly base: number) {}
 
@@ -22,7 +22,7 @@ test('autobind decorator works', () => {
   expect(boop(1)).toEqual(7);
 });
 
-test('super() works', () => {
+test("super() works", () => {
   class Foo {
     thingy: number;
 
@@ -33,7 +33,7 @@ test('super() works', () => {
 
   class Bar extends Foo {
     constructor() {
-      super()
+      super();
       this.thingy += 1;
     }
   }

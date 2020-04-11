@@ -1,8 +1,7 @@
-import React from 'react';
-import Page from '../ui/page';
-import { Modal } from '../ui/modal';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import Page from "../ui/page";
+import { Modal } from "../ui/modal";
+import { Link } from "react-router-dom";
 
 /* istanbul ignore next: this is tested by integration tests. */
 export default function ExampleModalPage(): JSX.Element {

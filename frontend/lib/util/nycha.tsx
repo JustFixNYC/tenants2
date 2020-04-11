@@ -1,6 +1,6 @@
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { OnboardingInfoLeaseType } from '../queries/globalTypes';
-import ADDRESS from '../../../common-data/nycha-address.json';
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { OnboardingInfoLeaseType } from "../queries/globalTypes";
+import ADDRESS from "../../../common-data/nycha-address.json";
 
 /**
  * Our legacy address format. We used to store addresses as a big
@@ -9,8 +9,8 @@ import ADDRESS from '../../../common-data/nycha-address.json';
  * type represents.
  */
 export type LegacyAddressDetails = {
-  name: string,
-  address: string,
+  name: string;
+  address: string;
 };
 
 /** The address of the central NYCHA office, in our legacy address format. */
@@ -18,8 +18,8 @@ export const LEGACY_NYCHA_ADDRESS: LegacyAddressDetails = {
   name: ADDRESS.name,
   address: [
     `${ADDRESS.primaryLine}`,
-    `${ADDRESS.city}, ${ADDRESS.state} ${ADDRESS.zipCode}`
-  ].join('\n'),
+    `${ADDRESS.city}, ${ADDRESS.state} ${ADDRESS.zipCode}`,
+  ].join("\n"),
 };
 
 /** The address of the central NYCHA office. */
@@ -28,10 +28,10 @@ export const NYCHA_ADDRESS = ADDRESS;
 /**
  * Returns whether the given session data represents a user who lives in
  * NYCHA housing.
- * 
+ *
  * If the user is logged out or hasn't completed onboarding, this will
  * return false.
- * 
+ *
  * Note that this algorithm isn't currently ideal; see
  * https://github.com/JustFixNYC/tenants2/issues/1140 for more details.
  */

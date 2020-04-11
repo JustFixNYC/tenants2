@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import HelpPage from "../help-page";
 
-const ACTIVATE_TEXT = 'Activate compatibility mode';
+const ACTIVATE_TEXT = "Activate compatibility mode";
 
 describe("help page", () => {
   afterEach(AppTesterPal.cleanup);
@@ -16,8 +16,8 @@ describe("help page", () => {
   it("does not show 'activate compatibility mode' button when in safe mode", () => {
     const pal = new AppTesterPal(<HelpPage />, {
       session: {
-        isSafeModeEnabled: true
-      }
+        isSafeModeEnabled: true,
+      },
     });
 
     expect(() => pal.rr.getByText(ACTIVATE_TEXT)).toThrow();

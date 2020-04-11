@@ -4,12 +4,15 @@
  */
 declare interface FullStoryInterface {
   /** https://help.fullstory.com/develop-js/identify */
-  identify(uid: string, userVars?: {
-    /** Displays nice-looking user names in the FullStory UI. */
-    displayName?: string,
-    /** Activates "Email this user" option in FullStory UI. */
-    email?: string
-  }): void;
+  identify(
+    uid: string,
+    userVars?: {
+      /** Displays nice-looking user names in the FullStory UI. */
+      displayName?: string;
+      /** Activates "Email this user" option in FullStory UI. */
+      email?: string;
+    }
+  ): void;
 }
 
 interface Window {

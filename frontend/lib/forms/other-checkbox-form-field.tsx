@@ -1,17 +1,25 @@
-import React from 'react';
+import React from "react";
 
-import { TextualFormFieldProps, CheckboxView, TextualFormField, HiddenFormField, BaseFormFieldProps } from "./form-fields";
+import {
+  TextualFormFieldProps,
+  CheckboxView,
+  TextualFormField,
+  HiddenFormField,
+  BaseFormFieldProps,
+} from "./form-fields";
 import { useState } from "react";
 import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
-import classnames from 'classnames';
+import classnames from "classnames";
 
 /**
  * An "other" checkbox with a "please specify" text field. Semantically, the form field
  * is actually represented as text, rather than text and a boolean: if the text is empty, it
  * means the user didn't check the checkbox.
  */
-export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JSX.Element {
-  const [isChecked, setChecked] = useState(props.value !== '');
+export function EnhancedOtherCheckboxFormField(
+  props: TextualFormFieldProps
+): JSX.Element {
+  const [isChecked, setChecked] = useState(props.value !== "");
   const [timesChanged, setTimesChanged] = useState(0);
   const [prevOtherValue, setPrevOtherValue] = useState(props.value);
   const id = `${props.id}_checkbox`;
@@ -20,12 +28,15 @@ export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JS
       props.onChange(prevOtherValue);
     } else {
       setPrevOtherValue(props.value);
-      props.onChange('');
+      props.onChange("");
     }
     setTimesChanged(timesChanged + 1);
     setChecked(value);
   };
-  const classes = classnames('jf-inset-field', timesChanged > 0 && 'jf-slidedown-5em');
+  const classes = classnames(
+    "jf-inset-field",
+    timesChanged > 0 && "jf-slidedown-5em"
+  );
 
   return (
     <CheckboxView
@@ -33,39 +44,59 @@ export function EnhancedOtherCheckboxFormField(props: TextualFormFieldProps): JS
       checked={isChecked}
       disabled={props.isDisabled}
       onChange={(e) => handleChange(e.target.checked)}
-      contentAfterLabel={isChecked
-        ? <div className={classes}><TextualFormField {...props} required /></div>
-        : <HiddenFormField {...props} />
+      contentAfterLabel={
+        isChecked ? (
+          <div className={classes}>
+            <TextualFormField {...props} required />
+          </div>
+        ) : (
+          <HiddenFormField {...props} />
+        )
       }
-    >Other</CheckboxView>
+    >
+      Other
+    </CheckboxView>
   );
 }
 
-export type ProgressiveOtherCheckboxFormFieldProps = BaseFormFieldProps<string> & {
+export type ProgressiveOtherCheckboxFormFieldProps = BaseFormFieldProps<
+  string
+> & {
   /** The label for the text field, if the baseline UI is shown. */
-  baselineLabel: string,
+  baselineLabel: string;
 
   /**
    * The label for the "please specify" text field, if the progressively-enhanced
    * UI is shown.
    */
-  enhancedLabel: string,
+  enhancedLabel: string;
 
   /** Whether to disable progressive enhancement or not (primarily used for testing). */
-  disableProgressiveEnhancement?: boolean
+  disableProgressiveEnhancement?: boolean;
 };
 
 /**
  * A progressively-enhanced "other" checkbox with a "please specify" text field,
  * that simply appears as a text field without a checkbox on clients without JS.
  */
-export function ProgressiveOtherCheckboxFormField(props: ProgressiveOtherCheckboxFormFieldProps): JSX.Element {
-  const { baselineLabel, enhancedLabel, disableProgressiveEnhancement, ...baseProps } = props;
+export function ProgressiveOtherCheckboxFormField(
+  props: ProgressiveOtherCheckboxFormFieldProps
+): JSX.Element {
+  const {
+    baselineLabel,
+    enhancedLabel,
+    disableProgressiveEnhancement,
+    ...baseProps
+  } = props;
   return (
     <ProgressiveEnhancement
       disabled={disableProgressiveEnhancement}
-      renderBaseline={() => <TextualFormField {...baseProps} label={baselineLabel} />}
-      renderEnhanced={() => <EnhancedOtherCheckboxFormField {...baseProps} label={enhancedLabel} />}
+      renderBaseline={() => (
+        <TextualFormField {...baseProps} label={baselineLabel} />
+      )}
+      renderEnhanced={() => (
+        <EnhancedOtherCheckboxFormField {...baseProps} label={enhancedLabel} />
+      )}
     />
   );
 }

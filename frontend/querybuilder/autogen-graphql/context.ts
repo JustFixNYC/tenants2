@@ -1,21 +1,38 @@
-import { GraphQLNamedType, GraphQLField, GraphQLObjectType, GraphQLSchema, GraphQLArgument, GraphQLFieldMap, assertObjectType, GraphQLInputObjectType, assertInputObjectType } from "graphql";
-import { AutogenTypeConfig, AutogenConfig, AutogenMutationConfig } from "./config";
+import {
+  GraphQLNamedType,
+  GraphQLField,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLArgument,
+  GraphQLFieldMap,
+  assertObjectType,
+  GraphQLInputObjectType,
+  assertInputObjectType,
+} from "graphql";
+import {
+  AutogenTypeConfig,
+  AutogenConfig,
+  AutogenMutationConfig,
+} from "./config";
 import { ToolError } from "../util";
 import { ensureObjectType, fullyUnwrapType } from "./graphql-schema-util";
 
-type ExtendedTypeConfig = Omit<AutogenTypeConfig, 'ignoreFields' | 'includeOnlyFields'> & {
-  type: GraphQLNamedType,
-  ignoreFields?: Set<string>,
-  includeOnlyFields?: Set<string>
+type ExtendedTypeConfig = Omit<
+  AutogenTypeConfig,
+  "ignoreFields" | "includeOnlyFields"
+> & {
+  type: GraphQLNamedType;
+  ignoreFields?: Set<string>;
+  includeOnlyFields?: Set<string>;
 };
 
 type ExtendedMutationConfig = AutogenMutationConfig & {
-  name: string,
-  filename: string,
-  fieldName: string,
-  inputArg: GraphQLArgument,
-  inputObjectType: GraphQLInputObjectType,
-  outputType: GraphQLObjectType
+  name: string;
+  filename: string;
+  fieldName: string;
+  inputArg: GraphQLArgument;
+  inputObjectType: GraphQLInputObjectType;
+  outputType: GraphQLObjectType;
 };
 
 /**
@@ -38,14 +55,19 @@ export class AutogenContext {
     this.populateMutationMap();
   }
 
-  withModifiedTypes(types: { [name: string]: AutogenTypeConfig }): AutogenContext {
-    return new AutogenContext({
-      ...this.config,
-      types: {
-        ...this.config.types,
-        ...types
-      }
-    }, this.schema);
+  withModifiedTypes(types: {
+    [name: string]: AutogenTypeConfig;
+  }): AutogenContext {
+    return new AutogenContext(
+      {
+        ...this.config,
+        types: {
+          ...this.config.types,
+          ...types,
+        },
+      },
+      this.schema
+    );
   }
 
   private populateTypeMap() {
@@ -64,18 +86,24 @@ export class AutogenContext {
   private populateMutationMap() {
     for (let entry of Object.entries(this.config.mutations || {})) {
       const [name, info] = entry;
-      
-      this.mutationMap.set(name, getExtendedMutationConfig(this.schema, name, info));
+
+      this.mutationMap.set(
+        name,
+        getExtendedMutationConfig(this.schema, name, info)
+      );
     }
   }
 
-  getFragmentName(type: GraphQLNamedType): string|undefined {
+  getFragmentName(type: GraphQLNamedType): string | undefined {
     const typeInfo = this.typeMap.get(type.name);
     if (!typeInfo) return undefined;
     return typeInfo.fragmentName;
   }
 
-  private doesTypeConfigIgnoreField(type: GraphQLNamedType, field: GraphQLField<any, any>): boolean {
+  private doesTypeConfigIgnoreField(
+    type: GraphQLNamedType,
+    field: GraphQLField<any, any>
+  ): boolean {
     const typeInfo = this.typeMap.get(type.name);
     if (!typeInfo) return false;
 
@@ -85,17 +113,22 @@ export class AutogenContext {
     return false;
   }
 
-  shouldIgnoreField(type: GraphQLNamedType, field: GraphQLField<any, any>): boolean {
+  shouldIgnoreField(
+    type: GraphQLNamedType,
+    field: GraphQLField<any, any>
+  ): boolean {
     return (
       this.globalIgnoreFields.has(field.name) ||
       this.doesTypeConfigIgnoreField(type, field)
     );
   }
 
-  *iterFragmentTypes(): IterableIterator<ExtendedTypeConfig & {
-    fragmentName: string,
-    type: GraphQLObjectType
-  }> {
+  *iterFragmentTypes(): IterableIterator<
+    ExtendedTypeConfig & {
+      fragmentName: string;
+      type: GraphQLObjectType;
+    }
+  > {
     for (let typeInfo of this.typeMap.values()) {
       let { type, fragmentName } = typeInfo;
       if (!fragmentName) continue;
@@ -104,38 +137,55 @@ export class AutogenContext {
   }
 }
 
-function splitBasedOnRegexp(strings: string[], regexp: RegExp): [string[], string[]] {
-  return strings.reduce(([matching, notMatching], string) => {
-    if (regexp.test(string)) {
-      return [[string, ...matching], notMatching];
-    }
-    return [matching, [string, ...notMatching]];
-  }, [[], []] as [string[], string[]]);
+function splitBasedOnRegexp(
+  strings: string[],
+  regexp: RegExp
+): [string[], string[]] {
+  return strings.reduce(
+    ([matching, notMatching], string) => {
+      if (regexp.test(string)) {
+        return [[string, ...matching], notMatching];
+      }
+      return [matching, [string, ...notMatching]];
+    },
+    [[], []] as [string[], string[]]
+  );
 }
 
-function resolveRegexps(config: AutogenConfig, schema: GraphQLSchema): AutogenConfig {
+function resolveRegexps(
+  config: AutogenConfig,
+  schema: GraphQLSchema
+): AutogenConfig {
   const origMutations = config.mutations || {};
   const mutations: typeof origMutations = {};
   const mutationNames = Object.keys(getMutationFields(schema));
-  const [identifiers, regexps] = splitBasedOnRegexp(Object.keys(origMutations || {}), /^\w+$/);
+  const [identifiers, regexps] = splitBasedOnRegexp(
+    Object.keys(origMutations || {}),
+    /^\w+$/
+  );
 
-  identifiers.forEach(id => mutations[id] = origMutations[id]);
-  regexps.forEach(reStr => {
+  identifiers.forEach((id) => (mutations[id] = origMutations[id]));
+  regexps.forEach((reStr) => {
     const re = new RegExp(reStr);
-    const matchingMutations = mutationNames.filter(name => re.test(name));
+    const matchingMutations = mutationNames.filter((name) => re.test(name));
     const config = origMutations[reStr];
     if (matchingMutations.length === 0) {
-      throw new ToolError(`The pattern "${reStr}" does not match any mutation names!`);
+      throw new ToolError(
+        `The pattern "${reStr}" does not match any mutation names!`
+      );
     }
-    matchingMutations.forEach(id => {
+    matchingMutations.forEach((id) => {
       mutations[id] = config;
     });
   });
 
-  return {...config, mutations};
+  return { ...config, mutations };
 }
 
-function toExtendedTypeConfig(info: AutogenTypeConfig, type: GraphQLNamedType): ExtendedTypeConfig {
+function toExtendedTypeConfig(
+  info: AutogenTypeConfig,
+  type: GraphQLNamedType
+): ExtendedTypeConfig {
   validateTypeConfig(type, info);
 
   const { ignoreFields, includeOnlyFields, ...baseValue } = info;
@@ -166,7 +216,11 @@ function getMutationFields(schema: GraphQLSchema): GraphQLFieldMap<any, any> {
   return mutations.getFields();
 }
 
-function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, config: AutogenMutationConfig): ExtendedMutationConfig {
+function getExtendedMutationConfig(
+  schema: GraphQLSchema,
+  fieldName: string,
+  config: AutogenMutationConfig
+): ExtendedMutationConfig {
   const field = getMutationFields(schema)[fieldName];
 
   if (!field) {
@@ -174,7 +228,9 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
   }
 
   if (field.args.length !== 1) {
-    throw new ToolError(`Mutation field "${fieldName}" should have one argument.`);
+    throw new ToolError(
+      `Mutation field "${fieldName}" should have one argument.`
+    );
   }
 
   const inputArg = field.args[0];
@@ -190,8 +246,8 @@ function getExtendedMutationConfig(schema: GraphQLSchema, fieldName: string, con
     fieldName,
     inputArg,
     inputObjectType,
-    outputType
-  }
+    outputType,
+  };
 }
 
 function validateTypeConfig(type: GraphQLNamedType, config: AutogenTypeConfig) {
@@ -199,14 +255,17 @@ function validateTypeConfig(type: GraphQLNamedType, config: AutogenTypeConfig) {
   if (ignoreFields && includeOnlyFields) {
     throw new ToolError(
       `Field "${type.name}" cannot contain both a list of fields to ignore and ` +
-      `a list of fields to exclusively include.`
+        `a list of fields to exclusively include.`
     );
   }
   maybeValidateFieldsExist(type, ignoreFields);
   maybeValidateFieldsExist(type, includeOnlyFields);
 }
 
-function maybeValidateFieldsExist(type: GraphQLNamedType, fieldList?: string[]) {
+function maybeValidateFieldsExist(
+  type: GraphQLNamedType,
+  fieldList?: string[]
+) {
   if (fieldList) {
     validateFieldsExist(ensureObjectType(type), fieldList);
   }
@@ -217,7 +276,9 @@ function validateFieldsExist(type: GraphQLObjectType, fieldList: string[]) {
   for (let fieldName of fieldList) {
     const field = fields[fieldName];
     if (!field) {
-      throw new ToolError(`Field "${fieldName}" does not exist on type "${type.name}".`);
+      throw new ToolError(
+        `Field "${fieldName}" does not exist on type "${type.name}".`
+      );
     }
   }
 }

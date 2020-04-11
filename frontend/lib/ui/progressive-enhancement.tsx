@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import autobind from 'autobind-decorator';
-import { ga } from '../analytics/google-analytics';
+import React, { useEffect, useState } from "react";
+import autobind from "autobind-decorator";
+import { ga } from "../analytics/google-analytics";
 
 export interface ProgressiveEnhancementProps {
   /**
@@ -8,7 +8,9 @@ export interface ProgressiveEnhancementProps {
    * the component. It is guaranteed to only be run in the browser
    * (never on the server-side).
    */
-  renderEnhanced: (ctx: ProgressiveEnhancementContext) => JSX.Element|React.ReactPortal|null;
+  renderEnhanced: (
+    ctx: ProgressiveEnhancementContext
+  ) => JSX.Element | React.ReactPortal | null;
 
   /**
    * A render prop to render the baseline version of the component.
@@ -30,7 +32,7 @@ interface ProgressiveEnhancementState {
   /** Whether or not our component has mounted to the DOM yet. */
   isMounted: boolean;
 
-  /** 
+  /**
    * Whether or not we've caught an error from our underlying enhanced
    * component.
    */
@@ -60,18 +62,21 @@ export interface ProgressiveEnhancementContext {
  * and in older browsers (preferably ones where even the ability to run
  * JS is not assumed) can be dynamically upgraded to an "enhanced" version
  * if certain prerequisites are met.
- * 
+ *
  * By default, those prerequisites are simply "can the browser run JS",
  * as the enhanced version is rendered as soon as the component is
  * mounted into a live DOM.
  */
-export class ProgressiveEnhancement extends React.Component<ProgressiveEnhancementProps, ProgressiveEnhancementState> {
+export class ProgressiveEnhancement extends React.Component<
+  ProgressiveEnhancementProps,
+  ProgressiveEnhancementState
+> {
   constructor(props: ProgressiveEnhancementProps) {
     super(props);
     this.state = {
       isMounted: false,
       hasCaughtError: false,
-      hasFallenback: false
+      hasFallenback: false,
     };
   }
 
@@ -87,9 +92,9 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
           error
         );
       }
-      ga('send', 'exception', {
+      ga("send", "exception", {
         exDescription: error.message,
-        exFatal: false
+        exFatal: false,
       });
     } else {
       throw error;
@@ -104,7 +109,10 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
   fallbackToBaseline(err?: Error) {
     this.setState({ hasFallenback: true });
     if (err) {
-      console.error('Falling back to baseline implementation due to error: ', err);
+      console.error(
+        "Falling back to baseline implementation due to error: ",
+        err
+      );
     }
   }
 
@@ -120,7 +128,7 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
   render() {
     if (this.isEnhanced()) {
       return this.props.renderEnhanced({
-        fallbackToBaseline: this.fallbackToBaseline
+        fallbackToBaseline: this.fallbackToBaseline,
       });
     } else {
       return this.props.renderBaseline ? this.props.renderBaseline() : null;
@@ -133,11 +141,16 @@ export class ProgressiveEnhancement extends React.Component<ProgressiveEnhanceme
  * renders its children when enabled, and doesn't render
  * anything when disabled.
  */
-export function SimpleProgressiveEnhancement(props: { children: JSX.Element, disabled?: boolean }): JSX.Element {
-  return <ProgressiveEnhancement
-    renderEnhanced={() => props.children}
-    disabled={props.disabled}
-  />;
+export function SimpleProgressiveEnhancement(props: {
+  children: JSX.Element;
+  disabled?: boolean;
+}): JSX.Element {
+  return (
+    <ProgressiveEnhancement
+      renderEnhanced={() => props.children}
+      disabled={props.disabled}
+    />
+  );
 }
 
 /**
@@ -146,11 +159,15 @@ export function SimpleProgressiveEnhancement(props: { children: JSX.Element, dis
  * the page, and removes them as soon as it's mounted on the
  * client-side.
  */
-export function NoScriptFallback(props: { children: JSX.Element }): JSX.Element {
-  return <ProgressiveEnhancement
-    renderEnhanced={() => null}
-    renderBaseline={() => props.children}
-  />;
+export function NoScriptFallback(props: {
+  children: JSX.Element;
+}): JSX.Element {
+  return (
+    <ProgressiveEnhancement
+      renderEnhanced={() => null}
+      renderBaseline={() => props.children}
+    />
+  );
 }
 
 /**

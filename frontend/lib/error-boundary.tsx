@@ -1,6 +1,6 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { ga } from './analytics/google-analytics';
+import React from "react";
+import { Helmet } from "react-helmet-async";
+import { ga } from "./analytics/google-analytics";
 
 type ComponentStackInfo = {
   componentStack: string;
@@ -15,18 +15,24 @@ type ErrorInfo = {
   isServerSide?: boolean;
   error: string;
   componentStack?: string;
-}
+};
 
-type ErrorBoundaryState = ({ hasError: true } & ErrorInfo) | { hasError: false };
+type ErrorBoundaryState =
+  | ({ hasError: true } & ErrorInfo)
+  | { hasError: false };
 
 export function ErrorDebugInfo(props: ErrorInfo): JSX.Element {
   return (
     <React.Fragment>
-      <p>The error occurred {props.isServerSide ? 'on the server' : 'in the browser'}.</p>
+      <p>
+        The error occurred{" "}
+        {props.isServerSide ? "on the server" : "in the browser"}.
+      </p>
       <h2>Error</h2>
       {!props.isServerSide && (
         <p>
-          The following traceback may not have useful line numbers. See your browser console for better details.
+          The following traceback may not have useful line numbers. See your
+          browser console for better details.
         </p>
       )}
       <pre>{props.error}</pre>
@@ -42,7 +48,7 @@ export function ErrorDebugInfo(props: ErrorInfo): JSX.Element {
 
 export function getErrorString(error: any): string {
   if (error) {
-    if (typeof(error.stack) === 'string') {
+    if (typeof error.stack === "string") {
       return error.stack;
     }
     try {
@@ -52,7 +58,9 @@ export function getErrorString(error: any): string {
   return "Unknown error";
 }
 
-export function ErrorDisplay(props: { debug: boolean } & ErrorInfo): JSX.Element {
+export function ErrorDisplay(
+  props: { debug: boolean } & ErrorInfo
+): JSX.Element {
   const title = "Alas, a fatal error occurred.";
 
   return (
@@ -68,7 +76,10 @@ export function ErrorDisplay(props: { debug: boolean } & ErrorInfo): JSX.Element
   );
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -79,7 +90,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     this.setState({
       hasError: true,
       error: errorString,
-      componentStack: info.componentStack
+      componentStack: info.componentStack,
     });
     // Unfortunately, it seems like the React error boundary
     // behaves differently in development vs. produciton. In
@@ -93,9 +104,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (window.Rollbar) {
       window.Rollbar.error("ErrorBoundary caught an error!", error);
     }
-    ga('send', 'exception', {
+    ga("send", "exception", {
       exDescription: errorString,
-      exFatal: true
+      exFatal: true,
     });
   }
 

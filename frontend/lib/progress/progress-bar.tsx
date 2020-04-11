@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import autobind from "autobind-decorator";
-import { RouteComponentProps, withRouter, Switch } from 'react-router';
-import { CSSTransition } from 'react-transition-group';
-import { TransitionContextGroup } from '../ui/transition-context';
-import classnames from 'classnames';
-import { getStepIndexForPathname } from './progress-util';
-import { ProgressStepRoute, createStepRoute } from './progress-step-route';
+import { RouteComponentProps, withRouter, Switch } from "react-router";
+import { CSSTransition } from "react-transition-group";
+import { TransitionContextGroup } from "../ui/transition-context";
+import classnames from "classnames";
+import { getStepIndexForPathname } from "./progress-util";
+import { ProgressStepRoute, createStepRoute } from "./progress-step-route";
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -27,8 +27,11 @@ function isInternetExplorer(): boolean {
 }
 
 /** An animated progress bar component. */
-export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
-  animationRequest: number|null = null;
+export class ProgressBar extends React.Component<
+  ProgressBarProps,
+  ProgressBarState
+> {
+  animationRequest: number | null = null;
 
   constructor(props: ProgressBarProps) {
     super(props);
@@ -42,7 +45,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
 
   @autobind
   animate() {
-    this.animationRequest = null
+    this.animationRequest = null;
     if (this.state.pct === this.props.pct) return;
     const increment = this.state.pct < this.props.pct ? 1 : -1;
     this.setState({ pct: this.state.pct + increment });
@@ -70,8 +73,11 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
     return (
       <div className="jf-progress-title-wrapper">
         {this.props.children}
-        <progress className="progress is-primary" value={this.state.pct} max="100">
-        </progress>
+        <progress
+          className="progress is-primary"
+          value={this.state.pct}
+          max="100"
+        ></progress>
       </div>
     );
   }
@@ -100,13 +106,16 @@ interface RouteProgressBarState {
   isTransitionEnabled: boolean;
 }
 
-class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProps, RouteProgressBarState> {
+class RouteProgressBarWithoutRouter extends React.Component<
+  RouteProgressBarProps,
+  RouteProgressBarState
+> {
   constructor(props: RouteProgressBarProps) {
     super(props);
     this.state = {
       currStep: this.getStep(props.location.pathname),
       prevStep: 0,
-      isTransitionEnabled: true
+      isTransitionEnabled: true,
     };
   }
 
@@ -123,7 +132,10 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
     }
   }
 
-  componentDidUpdate(prevProps: RouteProgressBarProps, prevState: RouteProgressBarState) {
+  componentDidUpdate(
+    prevProps: RouteProgressBarProps,
+    prevState: RouteProgressBarState
+  ) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       const currStep = this.getStep(this.props.location.pathname);
       if (this.state.currStep !== currStep) {
@@ -148,24 +160,38 @@ class RouteProgressBarWithoutRouter extends React.Component<RouteProgressBarProp
       prevStep = this.state.currStep;
     }
 
-    let directionClass = currStep >= prevStep ? 'jf-progress-forward' : 'jf-progress-backward';
+    let directionClass =
+      currStep >= prevStep ? "jf-progress-forward" : "jf-progress-backward";
 
     return (
       <React.Fragment>
-        {!this.props.hideBar && <ProgressBar pct={pct}>
-          <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">{props.label}: Step {currStep} of {numSteps}</h6>
-         </ProgressBar>}
-        <TransitionContextGroup className={classnames('jf-progress-step-wrapper', directionClass, {
-          'jf-progress-animation-is-disabled': !isTransitionEnabled
-        })}>
-          <CSSTransition key={currStep} classNames="jf-progress-step"
-           timeout={JF_PROGRESS_TRANSITION_MS} enter={isTransitionEnabled} exit={isTransitionEnabled}>
+        {!this.props.hideBar && (
+          <ProgressBar pct={pct}>
+            <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
+              {props.label}: Step {currStep} of {numSteps}
+            </h6>
+          </ProgressBar>
+        )}
+        <TransitionContextGroup
+          className={classnames("jf-progress-step-wrapper", directionClass, {
+            "jf-progress-animation-is-disabled": !isTransitionEnabled,
+          })}
+        >
+          <CSSTransition
+            key={currStep}
+            classNames="jf-progress-step"
+            timeout={JF_PROGRESS_TRANSITION_MS}
+            enter={isTransitionEnabled}
+            exit={isTransitionEnabled}
+          >
             <Switch location={location}>
-              {props.steps.map(step => createStepRoute({
-                key: step.path,
-                step,
-                allSteps: props.outerSteps || props.steps
-              }))}
+              {props.steps.map((step) =>
+                createStepRoute({
+                  key: step.path,
+                  step,
+                  allSteps: props.outerSteps || props.steps,
+                })
+              )}
             </Switch>
           </CSSTransition>
         </TransitionContextGroup>

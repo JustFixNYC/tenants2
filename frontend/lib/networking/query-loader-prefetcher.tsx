@@ -13,7 +13,7 @@ export interface QueryLoaderQuery<Input, Output> {
   fetch: QueryLoaderFetch<Input, Output>;
 }
 
-/** 
+/**
  * This class encapsulates the plumbing needed to tell the
  * server process to pre-fetch GraphQL queries for us
  * during server-side rendering, and to retrieve
@@ -21,7 +21,7 @@ export interface QueryLoaderQuery<Input, Output> {
  */
 export class QueryLoaderPrefetcher<Input, Output> {
   /** The response of the pre-fetched GraphQL query, if it's available. */
-  readonly prefetchedResponse: Output|undefined;
+  readonly prefetchedResponse: Output | undefined;
 
   constructor(
     readonly router: RouteComponentProps,
@@ -30,7 +30,11 @@ export class QueryLoaderPrefetcher<Input, Output> {
     readonly input: Input
   ) {
     const qr = this.appCtx.server.prefetchedGraphQLQueryResponse;
-    if (qr && qr.graphQL === this.query.graphQL && isDeepEqual(qr.input, this.input)) {
+    if (
+      qr &&
+      qr.graphQL === this.query.graphQL &&
+      isDeepEqual(qr.input, this.input)
+    ) {
       // Our response has been pre-fetched.
       this.prefetchedResponse = qr.output;
     }
@@ -46,7 +50,7 @@ export class QueryLoaderPrefetcher<Input, Output> {
       // We're on the server-side, tell the server to pre-fetch our query.
       appStaticCtx.graphQLQueryToPrefetch = {
         graphQL: this.query.graphQL,
-        input: this.input
+        input: this.input,
       };
     }
   }

@@ -1,17 +1,23 @@
-import React, { FormHTMLAttributes } from 'react';
-import autobind from 'autobind-decorator';
-import { AriaAnnouncement } from '../ui/aria';
-import { FormErrors, NonFieldErrors } from './form-errors';
-import { FormContext } from './form-context';
+import React, { FormHTMLAttributes } from "react";
+import autobind from "autobind-decorator";
+import { AriaAnnouncement } from "../ui/aria";
+import { FormErrors, NonFieldErrors } from "./form-errors";
+import { FormContext } from "./form-context";
 
 /** This is just shorthand for the attributes of a <form> element. */
-export type HTMLFormAttrs = React.DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
+export type HTMLFormAttrs = React.DetailedHTMLProps<
+  FormHTMLAttributes<HTMLFormElement>,
+  HTMLFormElement
+>;
 
 /**
  * This function type is responsible for rendering a form's fields,
  * including its submit button.
  */
-export type FormContextRenderer<FormInput, FormOutput> = (context: FormContext<FormInput>, latestOutput?: FormOutput) => JSX.Element;
+export type FormContextRenderer<FormInput, FormOutput> = (
+  context: FormContext<FormInput>,
+  latestOutput?: FormOutput
+) => JSX.Element;
 
 export interface BaseFormProps<FormInput> {
   /**
@@ -29,11 +35,12 @@ export interface BaseFormProps<FormInput> {
 }
 
 type State<FormInput> = {
-  current: FormInput,
-  initial: FormInput,
+  current: FormInput;
+  initial: FormInput;
 };
 
-export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInput> {
+export interface FormProps<FormInput, FormOutput>
+  extends BaseFormProps<FormInput> {
   /**
    * This function is called when the user submits the form.
    */
@@ -53,7 +60,7 @@ export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInpu
    */
   idPrefix?: string;
 
-  /** 
+  /**
    * The initial state of the form's input (what the form's fields
    * are initially populated with).
    */
@@ -104,28 +111,31 @@ export interface FormProps<FormInput, FormOutput> extends BaseFormProps<FormInpu
 
 /**
  * This class encapsulates view logic for forms.
- * 
+ *
  * It is responsible for:
- * 
+ *
  *   * Maintaining the current state of the form's fields (e.g., what
  *     the user has typed so far).
- * 
+ *
  *   * Rendering any errors that aren't related to specific fields
  *     in the form.
- * 
+ *
  *   * Delegating the rendering of form fields to the child render prop.
- * 
+ *
  *   * Ensuring that the child render prop renders all form fields.
- * 
+ *
  * It is *not* responsible for actually submitting the form to a
  * server.
  */
-export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormInput, FormOutput>, State<FormInput>> {
+export class Form<FormInput, FormOutput> extends React.Component<
+  FormProps<FormInput, FormOutput>,
+  State<FormInput>
+> {
   constructor(props: FormProps<FormInput, FormOutput>) {
     super(props);
     this.state = {
       current: props.initialState,
-      initial: props.initialState
+      initial: props.initialState,
     };
   }
 
@@ -148,38 +158,47 @@ export class Form<FormInput, FormOutput> extends React.Component<FormProps<FormI
       const newState = updateInitialStateInBrowser(this.state.initial);
       this.setState({
         current: newState,
-        initial: newState
+        initial: newState,
       });
     }
   }
 
-  componentDidUpdate(prevProps: FormProps<FormInput, FormOutput>, prevState: State<FormInput>) {
+  componentDidUpdate(
+    prevProps: FormProps<FormInput, FormOutput>,
+    prevState: State<FormInput>
+  ) {
     if (prevState.current !== this.state.current && this.props.onChange) {
       this.props.onChange(this.state.current);
     }
   }
 
   render() {
-    let ctx = new FormContext({
-      idPrefix: this.props.idPrefix || '',
-      isLoading: this.props.isLoading,
-      errors: this.props.errors,
-      namePrefix: '',
-      currentState: this.state.current,
-      setField: (field, value) => this.setState(s => ({
-        ...s,
-        current: {
-          ...s.current,
-          [field]: value,
-        }
-      })),
-    }, this.submit);
+    let ctx = new FormContext(
+      {
+        idPrefix: this.props.idPrefix || "",
+        isLoading: this.props.isLoading,
+        errors: this.props.errors,
+        namePrefix: "",
+        currentState: this.state.current,
+        setField: (field, value) =>
+          this.setState((s) => ({
+            ...s,
+            current: {
+              ...s.current,
+              [field]: value,
+            },
+          })),
+      },
+      this.submit
+    );
 
     return (
       <form {...this.props.extraFormAttributes} onSubmit={this.handleSubmit}>
         {this.props.extraFields}
         {this.props.isLoading && <AriaAnnouncement text="Loading..." />}
-        {this.props.errors && <AriaAnnouncement text="Your form submission had errors." />}
+        {this.props.errors && (
+          <AriaAnnouncement text="Your form submission had errors." />
+        )}
         <NonFieldErrors errors={this.props.errors} />
         {this.props.children(ctx, this.props.latestOutput)}
         {ctx.logWarnings()}

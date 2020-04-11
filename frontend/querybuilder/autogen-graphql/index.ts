@@ -1,25 +1,42 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
-import { GraphQLObjectType, isObjectType, GraphQLField, GraphQLInputObjectType, GraphQLNamedType } from "graphql";
-import { writeFileIfChangedSync, reportChanged, ToolError} from "../util";
+import {
+  GraphQLObjectType,
+  isObjectType,
+  GraphQLField,
+  GraphQLInputObjectType,
+  GraphQLNamedType,
+} from "graphql";
+import { writeFileIfChangedSync, reportChanged, ToolError } from "../util";
 import { GraphQlFile, ExtraTsCodeInfo } from "../graphql-file";
 import { AUTOGEN_PREAMBLE, AUTOGEN_QUERIES_PATH } from "../config";
-import { fullyUnwrapType, ensureObjectType, findContainedInputObjectTypes } from './graphql-schema-util';
-import { AutogenContext } from './context';
-import { createBlankTypeLiteral, CreateBlankTypeLiteralOptions } from './blank-type-literals';
+import {
+  fullyUnwrapType,
+  ensureObjectType,
+  findContainedInputObjectTypes,
+} from "./graphql-schema-util";
+import { AutogenContext } from "./context";
+import {
+  createBlankTypeLiteral,
+  CreateBlankTypeLiteralOptions,
+} from "./blank-type-literals";
 
 /**
  * Return a GraphQL query for just the given field and any sub-fields in it.
  */
-function getQueryField(field: GraphQLField<any, any>, indent: string, ctx: AutogenContext): string {
+function getQueryField(
+  field: GraphQLField<any, any>,
+  indent: string,
+  ctx: AutogenContext
+): string {
   const type = fullyUnwrapType(field.type);
   if (isObjectType(type)) {
     const fragmentName = ctx.getFragmentName(type);
     if (fragmentName) {
       return `${indent}${field.name} { ...${fragmentName} }`;
     } else {
-      const subquery = getQueryForType(type, indent + '  ', ctx);
+      const subquery = getQueryForType(type, indent + "  ", ctx);
       return `${indent}${field.name} {\n${subquery}\n${indent}}`;
     }
   } else {
@@ -30,7 +47,11 @@ function getQueryField(field: GraphQLField<any, any>, indent: string, ctx: Autog
 /**
  * Return a GraphQL query body for all fields in the given type in the schema.
  */
-function getQueryForType(type: GraphQLObjectType, indent: string, ctx: AutogenContext): string {
+function getQueryForType(
+  type: GraphQLObjectType,
+  indent: string,
+  ctx: AutogenContext
+): string {
   const fields = type.getFields();
   const queryKeys: string[] = [];
   for (let field of Object.values(fields)) {
@@ -38,12 +59,12 @@ function getQueryForType(type: GraphQLObjectType, indent: string, ctx: AutogenCo
       queryKeys.push(getQueryField(field, indent, ctx));
     }
   }
-  return queryKeys.join(',\n');
+  return queryKeys.join(",\n");
 }
 
 type OutputFile = {
-  filename: string,
-  contents: string
+  filename: string;
+  contents: string;
 };
 
 function filenameForFragment(fragmentName: string): string {
@@ -53,29 +74,38 @@ function filenameForFragment(fragmentName: string): string {
 /**
  * Auto-generate GraphQL fragments.
  */
-function *generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
+function* generateFragments(ctx: AutogenContext): IterableIterator<OutputFile> {
   for (let typeInfo of ctx.iterFragmentTypes()) {
     const { type, fragmentName } = typeInfo;
     const filename = filenameForFragment(fragmentName);
-    const queryBody = getQueryForType(type, '  ', ctx);
+    const queryBody = getQueryForType(type, "  ", ctx);
     const contents = `fragment ${fragmentName} on ${type.name} {\n${queryBody}\n}`;
     yield { filename, contents };
   }
 }
 
-function *generateMutations(ctx: AutogenContext): IterableIterator<OutputFile> {
+function* generateMutations(ctx: AutogenContext): IterableIterator<OutputFile> {
   for (let mutInfo of ctx.mutationMap.values()) {
-    const { name, filename, fieldName, inputArg, outputType, sessionFields } = mutInfo;
-    let queryCtx = sessionFields ? ctx.withModifiedTypes({
-      SessionInfo: { includeOnlyFields: sessionFields }
-    }): ctx;
+    const {
+      name,
+      filename,
+      fieldName,
+      inputArg,
+      outputType,
+      sessionFields,
+    } = mutInfo;
+    let queryCtx = sessionFields
+      ? ctx.withModifiedTypes({
+          SessionInfo: { includeOnlyFields: sessionFields },
+        })
+      : ctx;
     const contents = [
       `mutation ${name}($input: ${inputArg.type}) {`,
       `  output: ${fieldName}(${inputArg.name}: $input) {`,
-      getQueryForType(outputType, '    ', queryCtx),
+      getQueryForType(outputType, "    ", queryCtx),
       `  }`,
-      `}`
-    ].join('\n');
+      `}`,
+    ].join("\n");
     yield { filename, contents };
   }
 }
@@ -90,8 +120,11 @@ function deleteStaleGraphQlFiles(
   graphQlFiles = GraphQlFile.fromDir()
 ) {
   const filesRemoved: string[] = [];
-  graphQlFiles = graphQlFiles.filter(file => {
-    if (file.graphQl.startsWith(AUTOGEN_PREAMBLE) && !freshFiles.has(file.graphQlFilename)) {
+  graphQlFiles = graphQlFiles.filter((file) => {
+    if (
+      file.graphQl.startsWith(AUTOGEN_PREAMBLE) &&
+      !freshFiles.has(file.graphQlFilename)
+    ) {
       // This is a stale auto-generated file, remove it.
       filesRemoved.push(file.graphQlFilename);
       if (!dryRun) {
@@ -109,9 +142,12 @@ function deleteStaleGraphQlFiles(
  * Autogenerate GraphQL files against the given schema, deleting any stale
  * auto-generated GraphQL files if needed.
  */
-export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = false): {
-  graphQlFiles: GraphQlFile[],
-  filesChanged: string[]
+export function autogenerateGraphQlFiles(
+  ctx: AutogenContext,
+  dryRun: boolean = false
+): {
+  graphQlFiles: GraphQlFile[];
+  filesChanged: string[];
 } {
   const output = [...generateFragments(ctx), ...generateMutations(ctx)];
   const freshFiles = new Set<string>();
@@ -120,29 +156,42 @@ export function autogenerateGraphQlFiles(ctx: AutogenContext, dryRun: boolean = 
   output.forEach(({ filename, contents }) => {
     freshFiles.add(filename);
     const fullPath = path.join(AUTOGEN_QUERIES_PATH, filename);
-    if (writeFileIfChangedSync(fullPath, `${AUTOGEN_PREAMBLE}${contents}`, dryRun)) {
+    if (
+      writeFileIfChangedSync(fullPath, `${AUTOGEN_PREAMBLE}${contents}`, dryRun)
+    ) {
       filesGenerated.push(filename);
     }
   });
 
-  const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(freshFiles, dryRun);
+  const { graphQlFiles, filesRemoved } = deleteStaleGraphQlFiles(
+    freshFiles,
+    dryRun
+  );
 
-  reportChanged(filesGenerated, (number, s) => 
-    `Generated ${number} GraphQL query file${s} in ${AUTOGEN_QUERIES_PATH}.`);
+  reportChanged(
+    filesGenerated,
+    (number, s) =>
+      `Generated ${number} GraphQL query file${s} in ${AUTOGEN_QUERIES_PATH}.`
+  );
 
-  reportChanged(filesRemoved, (number, s) =>
-    `Deleted ${number} stale GraphQL query file${s} from ${AUTOGEN_QUERIES_PATH}.`);
+  reportChanged(
+    filesRemoved,
+    (number, s) =>
+      `Deleted ${number} stale GraphQL query file${s} from ${AUTOGEN_QUERIES_PATH}.`
+  );
 
   return {
     graphQlFiles,
-    filesChanged: [...filesGenerated, ...filesRemoved].map(f => path.join(AUTOGEN_QUERIES_PATH, f))
+    filesChanged: [...filesGenerated, ...filesRemoved].map((f) =>
+      path.join(AUTOGEN_QUERIES_PATH, f)
+    ),
   };
 }
 
 const blankName = (typeName: string) => `Blank${typeName}`;
 
 function generateBlankTypeLiteral(
-  type: GraphQLObjectType|GraphQLInputObjectType,
+  type: GraphQLObjectType | GraphQLInputObjectType,
   typeName: string,
   options?: CreateBlankTypeLiteralOptions
 ): string {
@@ -152,34 +201,44 @@ function generateBlankTypeLiteral(
   return tsCode;
 }
 
-function ensureFragmentName(ctx: AutogenContext, type: GraphQLNamedType): string {
+function ensureFragmentName(
+  ctx: AutogenContext,
+  type: GraphQLNamedType
+): string {
   const fragmentName = ctx.getFragmentName(type);
   if (!fragmentName) {
     throw new ToolError(
       `Blank object literals are only currently supported on fragments, ` +
-      `which the type "${type.name}" does not have.`
+        `which the type "${type.name}" does not have.`
     );
   }
   return fragmentName;
 }
 
-function* generateBlankTypeLiteralsForFragments(ctx: AutogenContext): IterableIterator<[string, ExtraTsCodeInfo]> {
+function* generateBlankTypeLiteralsForFragments(
+  ctx: AutogenContext
+): IterableIterator<[string, ExtraTsCodeInfo]> {
   for (let info of ctx.typeMap.values()) {
     if (info.createBlankLiteral) {
       const fragmentName = ensureFragmentName(ctx, info.type);
-      yield [filenameForFragment(fragmentName), {
-        code: generateBlankTypeLiteral(
-          ensureObjectType(info.type),
-          fragmentName,
-        )
-      }]
+      yield [
+        filenameForFragment(fragmentName),
+        {
+          code: generateBlankTypeLiteral(
+            ensureObjectType(info.type),
+            fragmentName
+          ),
+        },
+      ];
     }
   }
 }
 
-function generateBlankTypeLiteralForInput(inputObjectType: GraphQLInputObjectType): string {
+function generateBlankTypeLiteralForInput(
+  inputObjectType: GraphQLInputObjectType
+): string {
   return generateBlankTypeLiteral(inputObjectType, inputObjectType.name, {
-    excludeNullableFields: true
+    excludeNullableFields: true,
   });
 }
 
@@ -187,7 +246,9 @@ function generateBlankTypeLiteralForInput(inputObjectType: GraphQLInputObjectTyp
  * Auto-generate blank type literals for anything that needs it. Return a
  * mapping from GraphQL filenames to TypeScript code defining the literals.
  */
-export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, ExtraTsCodeInfo> {
+export function generateBlankTypeLiterals(
+  ctx: AutogenContext
+): Map<string, ExtraTsCodeInfo> {
   let fileMap = new Map<string, ExtraTsCodeInfo>();
 
   for (let entry of generateBlankTypeLiteralsForFragments(ctx)) {
@@ -198,12 +259,12 @@ export function generateBlankTypeLiterals(ctx: AutogenContext): Map<string, Extr
     const extraInputTypes = findContainedInputObjectTypes(inputObjectType);
     const codeSnippets = [
       generateBlankTypeLiteralForInput(inputObjectType),
-      ...extraInputTypes.map(generateBlankTypeLiteralForInput)
+      ...extraInputTypes.map(generateBlankTypeLiteralForInput),
     ];
     const codeInfo: ExtraTsCodeInfo = {
-      extraGlobalTypesImports: extraInputTypes.map(type => type.name),
-      extraObjectProperties: [['blankInput', blankName(inputObjectType.name)]],
-      code: codeSnippets.join('\n\n')
+      extraGlobalTypesImports: extraInputTypes.map((type) => type.name),
+      extraObjectProperties: [["blankInput", blankName(inputObjectType.name)]],
+      code: codeSnippets.join("\n\n"),
     };
     fileMap.set(filename, codeInfo);
   }

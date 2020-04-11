@@ -1,8 +1,11 @@
-import React, { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
-import { AppContext } from '../app-context';
-import { BulmaImageClass } from './bulma';
+import React, { DetailedHTMLProps, ImgHTMLAttributes } from "react";
+import { AppContext } from "../app-context";
+import { BulmaImageClass } from "./bulma";
 
-type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
+type ImgProps = DetailedHTMLProps<
+  ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>;
 
 export type StaticImageProps = ImgProps & {
   src: string;
@@ -11,7 +14,7 @@ export type StaticImageProps = ImgProps & {
 };
 
 export function StaticImage(props: StaticImageProps): JSX.Element {
-  const {ratio, ...imgProps} = props;
+  const { ratio, ...imgProps } = props;
   return (
     <AppContext.Consumer>
       {(appCtx) => (

@@ -1,14 +1,24 @@
-import React from 'react';
+import React from "react";
 import ReactTestingLibraryPal from "./rtl-pal";
 import GraphQlClient, { queuedRequest } from "../networking/graphql-client";
-import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
-import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
+import {
+  createTestGraphQlClient,
+  FakeAppContext,
+  FakeSessionInfo,
+  FakeServerInfo,
+} from "./util";
+import {
+  MemoryRouter,
+  Route,
+  MemoryRouterProps,
+  RouteComponentProps,
+} from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
-import { WithServerFormFieldErrors } from '../forms/form-errors';
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { History } from 'history';
-import { assertNotNull } from '../util/util';
-import { HelmetProvider } from 'react-helmet-async';
+import { WithServerFormFieldErrors } from "../forms/form-errors";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { History } from "history";
+import { assertNotNull } from "../util/util";
+import { HelmetProvider } from "react-helmet-async";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -23,7 +33,7 @@ interface AppTesterPalOptions {
 
   /** Any updates to the memory router. */
   router: Partial<MemoryRouterProps>;
-};
+}
 
 /**
  * A specialized version of the AppContext, enhanced to allow for
@@ -31,13 +41,13 @@ interface AppTesterPalOptions {
  */
 interface AppTesterAppContext extends AppContextType {
   updateSession: AppContextType["updateSession"] & jest.MockInstance<any, any>;
-};
+}
 
 /**
  * This extends ReactTestingLibraryPal by wrapping your JSX in a
  * number of common React contexts and providing some
  * extra app-specific utilities.
- * 
+ *
  * When using it, be sure to add the following to your test suite:
  *
  *   afterEach(AppTesterPal.cleanup);
@@ -65,11 +75,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
 
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
-      url: '/',
+      url: "/",
       session: {},
       server: {},
       router: {},
-      ...options
+      ...options,
     };
     const { client } = createTestGraphQlClient();
     const appContext: AppTesterAppContext = {
@@ -78,14 +88,19 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       server: { ...FakeServerInfo, ...o.server },
       fetch: client.fetch,
       fetchWithoutErrorHandling: client.fetch,
-      updateSession: jest.fn()
+      updateSession: jest.fn(),
     };
-    let history: History|null = null;
+    let history: History | null = null;
     super(
-      AppTesterPal.generateJsx(el, o, appContext, (ctx) => history = ctx.history)
+      AppTesterPal.generateJsx(
+        el,
+        o,
+        appContext,
+        (ctx) => (history = ctx.history)
+      )
     );
 
-    this.history = assertNotNull(history as History|null);
+    this.history = assertNotNull(history as History | null);
     this.appContext = appContext;
     this.client = client;
     this.options = o;
@@ -95,13 +110,22 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     el: JSX.Element,
     options: AppTesterPalOptions,
     appContext: AppContextType,
-    onRouteComponentProps: (ctx: RouteComponentProps<any>) => void = () => {},
+    onRouteComponentProps: (ctx: RouteComponentProps<any>) => void = () => {}
   ): JSX.Element {
     return (
       <HelmetProvider>
-        <MemoryRouter initialEntries={[options.url]} initialIndex={0} {...options.router}>
+        <MemoryRouter
+          initialEntries={[options.url]}
+          initialIndex={0}
+          {...options.router}
+        >
           <AppContext.Provider value={appContext}>
-            <Route render={(ctx) => { onRouteComponentProps(ctx); return null; }} />
+            <Route
+              render={(ctx) => {
+                onRouteComponentProps(ctx);
+                return null;
+              }}
+            />
             {el}
           </AppContext.Provider>
         </MemoryRouter>
@@ -123,19 +147,23 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * Re-render with the given JSX. This will cause
    * React to do its diffing and unmount any components that aren't
    * present in the given JSX anymore, and so on.
-   * 
+   *
    * For more details, see:
    * https://github.com/kentcdodds/react-testing-library#rerender
    */
   rerender(el: JSX.Element) {
-    this.rr.rerender(AppTesterPal.generateJsx(el, this.options, this.appContext));
+    this.rr.rerender(
+      AppTesterPal.generateJsx(el, this.options, this.appContext)
+    );
   }
 
   /**
    * Assuming that our GraphQL client has been issued a
    * form request, responds with the given mock output.
    */
-  respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(output: FormOutput) {
+  respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(
+    output: FormOutput
+  ) {
     this.getFirstRequest().resolve({ output });
   }
 
@@ -154,7 +182,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * equals the given value.
    */
   expectFormInput<FormInput>(expected: FormInput) {
-    const actual = this.getFirstRequest().variables['input'];
+    const actual = this.getFirstRequest().variables["input"];
     expect(actual).toEqual(expected);
   }
 }

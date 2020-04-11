@@ -6,7 +6,7 @@ declare interface RollbarInterface {
   /**
    * Report an error to Rollbar.
    */
-  error(...args: (string|Error)[]): void;
+  error(...args: (string | Error)[]): void;
 }
 
 interface Window {

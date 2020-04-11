@@ -19,23 +19,27 @@ export function getStepIndexForPathname(
     }
   }
 
-  if (warnIfNotFound && process.env.NODE_ENV !== 'production') {
+  if (warnIfNotFound && process.env.NODE_ENV !== "production") {
     console.warn(`Path ${pathname} is not a valid step!`);
   }
 
   return -1;
 }
 
-export type NextOrPrev = 'next'|'prev';
+export type NextOrPrev = "next" | "prev";
 
 /**
  * Return the next or previous step relative to the given pathname.
  */
-export function getRelativeStep<T extends BaseProgressStepRoute>(pathname: string, which: NextOrPrev, steps: T[]): T|null {
+export function getRelativeStep<T extends BaseProgressStepRoute>(
+  pathname: string,
+  which: NextOrPrev,
+  steps: T[]
+): T | null {
   const currIndex = getStepIndexForPathname(pathname, steps);
   if (currIndex === -1) {
     return null;
   }
-  let relIndex = currIndex + (which === 'next' ? 1 : -1);
+  let relIndex = currIndex + (which === "next" ? 1 : -1);
   return steps[relIndex] || null;
 }

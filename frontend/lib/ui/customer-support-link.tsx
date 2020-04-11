@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import { OutboundLink } from "../analytics/google-analytics";
 
 const CUSTOMER_SUPPORT_EMAIL = "support@justfix.nyc";
 
 function EmailLink({ email }: { email: string }) {
-  return <OutboundLink href={`mailto:${email}`}>{email}</OutboundLink>
+  return <OutboundLink href={`mailto:${email}`}>{email}</OutboundLink>;
 }
 
 export function CustomerSupportLink(props: {}) {

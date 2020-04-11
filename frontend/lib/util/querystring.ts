@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from "querystring";
 
 /**
  * This is intentionally structured as a subset of react-router's
@@ -6,22 +6,25 @@ import querystring from 'querystring';
  */
 export type LocationSearchInfo = {
   location: {
-    search: string
-  }
+    search: string;
+  };
 };
 
 /**
  * If given a string, return it directly, otherwise return the
  * given react-router context's search string.
  */
-function getSearch(value: LocationSearchInfo|string): string {
-  return typeof(value) === 'string' ? value : value.location.search;
+function getSearch(value: LocationSearchInfo | string): string {
+  return typeof value === "string" ? value : value.location.search;
 }
 
 /**
  * Return the value of the last-defined key in the given querystring.
  */
-export function getQuerystringVar(routeInfo: LocationSearchInfo|string, name: string): string|undefined {
+export function getQuerystringVar(
+  routeInfo: LocationSearchInfo | string,
+  name: string
+): string | undefined {
   let val = querystring.parse(getSearch(routeInfo).slice(1))[name];
 
   if (Array.isArray(val)) {
@@ -38,7 +41,7 @@ export function getQuerystringVar(routeInfo: LocationSearchInfo|string, name: st
 type HttpPostInfo = {
   legacyFormSubmission?: {
     POST: Partial<{ [key: string]: string }>;
-  }
+  };
 };
 
 /**
@@ -47,7 +50,10 @@ type HttpPostInfo = {
  *
  * Otherwise, returns the last-defined key in the given querystring.
  */
-export function getPostOrQuerystringVar(info: LocationSearchInfo & HttpPostInfo, name: string): string|undefined {
+export function getPostOrQuerystringVar(
+  info: LocationSearchInfo & HttpPostInfo,
+  name: string
+): string | undefined {
   if (info.legacyFormSubmission) {
     return info.legacyFormSubmission.POST[name];
   }

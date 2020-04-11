@@ -1,10 +1,10 @@
-import React from 'react';
-import Page from '../ui/page';
-import autobind from 'autobind-decorator';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { smoothlyScrollToTopOfPage } from '../util/scrolling';
-import { RetryableLoadingComponentProps } from './loading-component-props';
+import React from "react";
+import Page from "../ui/page";
+import autobind from "autobind-decorator";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { RouteComponentProps, withRouter } from "react-router";
+import { smoothlyScrollToTopOfPage } from "../util/scrolling";
+import { RetryableLoadingComponentProps } from "./loading-component-props";
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -19,7 +19,7 @@ export const IMPERCEPTIBLE_MS = 16;
  * to avoid jank and confusion by ensuring that the loading transition
  * doesn't simply flicker in and out of existence before the user has
  * time to register it.
- * 
+ *
  * So we'll ensure that the loading indicator is visible for a minimum
  * amount of time, called the "friendly load time", before disappearing.
  */
@@ -54,22 +54,30 @@ const NullLoadingPageContext: LoadingPageContextType = {
   onLoadStop() {},
 };
 
-export const LoadingPageContext = React.createContext<LoadingPageContextType>(NullLoadingPageContext);
+export const LoadingPageContext = React.createContext<LoadingPageContextType>(
+  NullLoadingPageContext
+);
 
 /**
  * A loading page interstitial, which also presents a retry UI in the case
  * of network errors.
- * 
+ *
  * The actual visuals are managed by a component further up the heirarchy,
  * to ensure that visual transitions are smooth.
  */
-export function LoadingPageWithRetry(props: RetryableLoadingComponentProps): JSX.Element {
+export function LoadingPageWithRetry(
+  props: RetryableLoadingComponentProps
+): JSX.Element {
   if (props.error) {
-    return (<Page title="Network error">
-      <p>Unfortunately, a network error occurred.</p>
-      <br />
-      <button className="button" onClick={props.retry}>Retry</button>
-    </Page>);
+    return (
+      <Page title="Network error">
+        <p>Unfortunately, a network error occurred.</p>
+        <br />
+        <button className="button" onClick={props.retry}>
+          Retry
+        </button>
+      </Page>
+    );
   }
   return <LoadingPage />;
 }
@@ -93,11 +101,13 @@ export function LoadingPage(props: {}): JSX.Element {
  * resource is being loaded for the duration of the component's
  * lifetime. It doesn't actually render anything.
  */
-export class LoadingPageSignaler extends React.Component<LoadingPageContextType> {
+export class LoadingPageSignaler extends React.Component<
+  LoadingPageContextType
+> {
   componentDidMount() {
     this.props.onLoadStart();
   }
-  
+
   componentWillUnmount() {
     this.props.onLoadStop();
   }
@@ -107,7 +117,10 @@ export class LoadingPageSignaler extends React.Component<LoadingPageContextType>
   }
 }
 
-type LoadingOverlayManagerSnapshot = { div: HTMLDivElement, scroll: number }|null;
+type LoadingOverlayManagerSnapshot = {
+  div: HTMLDivElement;
+  scroll: number;
+} | null;
 
 interface LoadingOverlayManagerState {
   showOverlay: boolean;
@@ -118,7 +131,11 @@ interface LoadingOverlayManagerProps extends RouteComponentProps<any> {
   children: any;
 }
 
-class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayManagerProps, LoadingOverlayManagerState, LoadingOverlayManagerSnapshot> {
+class LoadingOverlayManagerWithoutRouter extends React.Component<
+  LoadingOverlayManagerProps,
+  LoadingOverlayManagerState,
+  LoadingOverlayManagerSnapshot
+> {
   state: LoadingOverlayManagerState;
   loadingPageContext: LoadingPageContextType;
   childrenRef: React.RefObject<HTMLDivElement>;
@@ -128,7 +145,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
     super(props);
     this.state = {
       showOverlay: false,
-      latestSnapshot: null
+      latestSnapshot: null,
     };
     this.loadingPageContext = {
       onLoadStart: this.handleLoadStart,
@@ -143,24 +160,33 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
    * it's very hard to know when we'll need a loading transition to occur. By
    * the time we do know, the old page that we want to transition from has
    * actually disappeared!
-   * 
+   *
    * However, React's getSnapshotBeforeUpdate() gives us a way to work around
    * this limitation. If we clone the DOM of the page every time we think
    * there *might* be a transition, we can reuse it if there ends up being
    * a transition, allowing us to keep a visual representation of it around
    * for a bit while the next page is loading.
    */
-  getSnapshotBeforeUpdate(prevProps: LoadingOverlayManagerProps): LoadingOverlayManagerSnapshot {
-    if (prevProps.location !== this.props.location && this.childrenRef.current) {
+  getSnapshotBeforeUpdate(
+    prevProps: LoadingOverlayManagerProps
+  ): LoadingOverlayManagerSnapshot {
+    if (
+      prevProps.location !== this.props.location &&
+      this.childrenRef.current
+    ) {
       return {
         div: this.childrenRef.current.cloneNode(true) as HTMLDivElement,
-        scroll: window.scrollY
-      }
+        scroll: window.scrollY,
+      };
     }
     return null;
   }
 
-  componentDidUpdate(prevProps: LoadingOverlayManagerProps, prevState: LoadingOverlayManagerState, snapshot: LoadingOverlayManagerSnapshot) {
+  componentDidUpdate(
+    prevProps: LoadingOverlayManagerProps,
+    prevState: LoadingOverlayManagerState,
+    snapshot: LoadingOverlayManagerSnapshot
+  ) {
     if (prevProps.location !== this.props.location) {
       this.setState({ latestSnapshot: snapshot });
     }
@@ -170,11 +196,18 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
       // position as it was before.
       const div = this.latestSnapshotRef.current;
       if (div && this.state.latestSnapshot) {
-        div.innerHTML = '';
+        div.innerHTML = "";
         div.appendChild(this.state.latestSnapshot.div);
-        window.scroll({ top: this.state.latestSnapshot.scroll, left: 0, behavior: 'auto' });
+        window.scroll({
+          top: this.state.latestSnapshot.scroll,
+          left: 0,
+          behavior: "auto",
+        });
       }
-    } else if (prevState.showOverlay === true && this.state.showOverlay === false) {
+    } else if (
+      prevState.showOverlay === true &&
+      this.state.showOverlay === false
+    ) {
       // We just stopped showing the overlay, so make sure the top of the page
       // is visible.
       smoothlyScrollToTopOfPage();
@@ -194,28 +227,37 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<LoadingOverlayM
   render() {
     return (
       <>
-      <TransitionGroup component={null}>
-        <CSSTransition key={this.state.showOverlay.toString()} classNames="jf-loading" timeout={JF_LOADING_FADE_MS}>
-          <LoadingOverlay show={this.state.showOverlay} />
-        </CSSTransition>
-      </TransitionGroup>
-      <LoadingPageContext.Provider value={this.loadingPageContext}>
-        <div ref={this.childrenRef}>{this.props.children}</div>
-        <div ref={this.latestSnapshotRef} hidden={!this.state.showOverlay}></div>
-      </LoadingPageContext.Provider>
+        <TransitionGroup component={null}>
+          <CSSTransition
+            key={this.state.showOverlay.toString()}
+            classNames="jf-loading"
+            timeout={JF_LOADING_FADE_MS}
+          >
+            <LoadingOverlay show={this.state.showOverlay} />
+          </CSSTransition>
+        </TransitionGroup>
+        <LoadingPageContext.Provider value={this.loadingPageContext}>
+          <div ref={this.childrenRef}>{this.props.children}</div>
+          <div
+            ref={this.latestSnapshotRef}
+            hidden={!this.state.showOverlay}
+          ></div>
+        </LoadingPageContext.Provider>
       </>
     );
   }
 }
 
-export const LoadingOverlayManager = withRouter(LoadingOverlayManagerWithoutRouter);
+export const LoadingOverlayManager = withRouter(
+  LoadingOverlayManagerWithoutRouter
+);
 
 interface LoadingOverlayProps {
   show: boolean;
 }
 
 /** The actual loading overlay visual. */
-function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {
+function LoadingOverlay(props: LoadingOverlayProps): JSX.Element | null {
   if (!props.show) {
     return null;
   }
@@ -223,7 +265,7 @@ function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {
   return (
     <div className="jf-loading-overlay-wrapper" aria-hidden="true">
       <div className="jf-loading-overlay">
-        <div className="jf-loader"/>
+        <div className="jf-loader" />
       </div>
     </div>
   );
@@ -236,7 +278,7 @@ function LoadingOverlay(props: LoadingOverlayProps): JSX.Element|null {
  * of time.
  */
 export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
-  if (typeof (window) === 'undefined') {
+  if (typeof window === "undefined") {
     return promise;
   }
 

@@ -1,15 +1,20 @@
-import { awesomeFetch, createAbortController, dynamicallyImportFetch } from "../fetch";
+import {
+  awesomeFetch,
+  createAbortController,
+  dynamicallyImportFetch,
+} from "../fetch";
 
 describe("awesomeFetch()", () => {
   it("uses existing fetch implementation if found", () => {
     window.fetch = jest.fn().mockResolvedValue("LOL HI");
-    return expect(awesomeFetch('bop')).resolves.toEqual("LOL HI");
+    return expect(awesomeFetch("bop")).resolves.toEqual("LOL HI");
   });
 
   it("dynamically loads fetch implementation if needed", () => {
     delete window.fetch;
-    return expect(awesomeFetch('aweogjaowejg'))
-      .rejects.toThrow(/only absolute urls are supported/);
+    return expect(awesomeFetch("aweogjaowejg")).rejects.toThrow(
+      /only absolute urls are supported/
+    );
   });
 });
 

@@ -1,11 +1,15 @@
-import React from 'react';
+import React from "react";
 
 import { getLatestStep } from "../progress-redirection";
-import { ProgressRoutesProps, getAllSteps, ProgressRoutes } from "../progress-routes";
-import { AllSessionInfo } from '../../queries/AllSessionInfo';
-import { FakeSessionInfo } from '../../tests/util';
-import { AppTesterPal } from '../../tests/app-tester-pal';
-import { ProgressStepRoute } from '../progress-step-route';
+import {
+  ProgressRoutesProps,
+  getAllSteps,
+  ProgressRoutes,
+} from "../progress-routes";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { FakeSessionInfo } from "../../tests/util";
+import { AppTesterPal } from "../../tests/app-tester-pal";
+import { ProgressStepRoute } from "../progress-step-route";
 
 /**
  * A convenience class that makes it easier to test progress route flows.
@@ -28,7 +32,7 @@ export class ProgressRoutesTester {
    * latest "un-completed" step is.
    */
   getLatestStep(session: Partial<AllSessionInfo> = {}): string {
-    return getLatestStep({...FakeSessionInfo, ...session}, this.allSteps);
+    return getLatestStep({ ...FakeSessionInfo, ...session }, this.allSteps);
   }
 
   /**
@@ -39,7 +43,7 @@ export class ProgressRoutesTester {
     describe(`${this.name} steps`, () => {
       afterEach(AppTesterPal.cleanup);
 
-      this.allSteps.forEach(step => {
+      this.allSteps.forEach((step) => {
         it(`${step.path} renders without throwing`, () => {
           new AppTesterPal(this.render(), { url: step.path });
         });

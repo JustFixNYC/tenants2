@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 import Page from "../ui/page";
-import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';
-import { ExampleRadioMutation } from '../queries/ExampleRadioMutation';
-import { ExampleRadioInput } from '../queries/globalTypes';
-import { RadiosFormField } from '../forms/form-fields';
-import { NextButton } from '../ui/buttons';
-import Routes from '../routes';
+import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
+import { ExampleRadioMutation } from "../queries/ExampleRadioMutation";
+import { ExampleRadioInput } from "../queries/globalTypes";
+import { RadiosFormField } from "../forms/form-fields";
+import { NextButton } from "../ui/buttons";
+import Routes from "../routes";
 
 const INITIAL_STATE: ExampleRadioInput = {
-  radioField: ''
+  radioField: "",
 };
 
 /* istanbul ignore next: this is tested by integration tests. */
@@ -24,8 +24,11 @@ function ExampleRadioForm(props: {}): JSX.Element {
         <React.Fragment>
           <RadiosFormField
             label="Radio"
-            choices={[['A', 'a'], ['B', 'b']]}
-            {...ctx.fieldPropsFor('radioField')}
+            choices={[
+              ["A", "a"],
+              ["B", "b"],
+            ]}
+            {...ctx.fieldPropsFor("radioField")}
           />
           <div className="field">
             <NextButton isLoading={ctx.isLoading} label="Submit" />

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { AllSessionInfo } from './queries/AllSessionInfo';
-import { GraphQLFetch } from './networking/graphql-client';
-import { buildContextHocFactory } from './util/context-util';
-import { SiteChoice } from '../../common-data/site-choices';
+import { AllSessionInfo } from "./queries/AllSessionInfo";
+import { GraphQLFetch } from "./networking/graphql-client";
+import { buildContextHocFactory } from "./util/context-util";
+import { SiteChoice } from "../../common-data/site-choices";
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -15,7 +15,7 @@ export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
    * the server didn't actually validate and process the form, e.g.
    * if the user clicked "add another" on a formset.
    */
-  result: FormOutput|null;
+  result: FormOutput | null;
 
   /**
    * The raw POST data. If more than one value was supplied for a key,
@@ -29,7 +29,7 @@ export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
  * we're just going to make it a global so we don't have to constantly
  * access it via a potentially cumbersome React Context.
  */
-let globalAppServerInfo: AppServerInfo|null = null;
+let globalAppServerInfo: AppServerInfo | null = null;
 
 /**
  * This sets the global app server info. It should only be called once
@@ -48,7 +48,7 @@ export function setGlobalAppServerInfo(info: AppServerInfo) {
  */
 export function getGlobalAppServerInfo(): AppServerInfo {
   if (!globalAppServerInfo) {
-    throw new Error('Assertion failure, global app server info should be set!');
+    throw new Error("Assertion failure, global app server info should be set!");
   }
   return globalAppServerInfo;
 }
@@ -107,12 +107,12 @@ export interface AppServerInfo {
   navbarLabel?: string;
 
   /**
-   * The base url for outbound links to Who Owns What. 
+   * The base url for outbound links to Who Owns What.
    */
   wowOrigin: string;
 
   /**
-   * The base url for outbound links to Eviction Free NYC. 
+   * The base url for outbound links to Eviction Free NYC.
    */
   efnycOrigin: string;
 
@@ -127,9 +127,9 @@ export interface AppServerInfo {
    * by the server, this will contain its value.
    */
   prefetchedGraphQLQueryResponse?: {
-    graphQL: string,
-    input: any,
-    output: any
+    graphQL: string;
+    input: any;
+    output: any;
   };
 
   /** Whether to enable emergency HP Action functionality. */
@@ -155,7 +155,7 @@ export interface AppContextType {
 
   /**
    * A reference to the app's GraphQL interface, for network requests.
-   * 
+   *
    * Includes automatic error handling that advises the user to try
    * again later.
    */
@@ -163,7 +163,7 @@ export interface AppContextType {
 
   /**
    * A reference to the app's GraphQL interface, for network requests.
-   * 
+   *
    * It does not include any error handing by default, so the caller
    * is responsible for informing the user about any errors that occur.
    */
@@ -193,7 +193,7 @@ class UnimplementedError extends Error {
  * properties are accessed; because this information is very
  * important to the user experience, we really need it to be
  * provided by the app!
- * 
+ *
  * However, we're also exporting the symbol, so test suites
  * can use Object.defineProperty() to override the properties
  * and provide defaults for testing. This will ensure that
@@ -214,16 +214,16 @@ export const defaultContext: AppContextType = {
   },
   updateSession(session: Partial<AllSessionInfo>) {
     throw new UnimplementedError();
-  }
+  },
 };
 
 /**
  * A React Context that provides basic information about
  * the app that we don't want to have to pass down through
  * our whole component heirarchy.
- * 
+ *
  * For more details, see:
- * 
+ *
  *   https://reactjs.org/docs/context.html
  */
 export const AppContext = React.createContext<AppContextType>(defaultContext);

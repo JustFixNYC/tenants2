@@ -26,7 +26,7 @@ import { FormsetItem, formsetItemProps } from '../forms/formset-item';
 import { TextualFieldWithCharsRemaining } from '../forms/chars-remaining';
 import { Modal } from '../ui/modal';
 import { UpdateBrowserStorage, useBrowserStorage } from '../browser-storage';
-import { NoScriptFallback } from '../progressive-enhancement';
+import { NoScriptFallback } from '../ui/progressive-enhancement';
 import { getQuerystringVar } from '../util/querystring';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;

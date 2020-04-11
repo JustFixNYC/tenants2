@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import autobind from 'autobind-decorator';
-import { ga } from './analytics/google-analytics';
+import { ga } from '../analytics/google-analytics';
 
 export interface ProgressiveEnhancementProps {
   /**

@@ -5,7 +5,7 @@ import { GraphQLFetch } from "./graphql-client";
 import { AppContextType, withAppContext } from '../app-context';
 import autobind from 'autobind-decorator';
 import { Helmet } from 'react-helmet-async';
-import { NoScriptFallback } from '../progressive-enhancement';
+import { NoScriptFallback } from '../ui/progressive-enhancement';
 
 const DEFAULT_INTERVAL_MS = 5000;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import { ProgressiveEnhancementProps, ProgressiveEnhancement, SimpleProgressiveEnhancement, NoScriptFallback, useProgressiveEnhancement } from "../progressive-enhancement";
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 
 
 const HorribleComponent = (): JSX.Element => {

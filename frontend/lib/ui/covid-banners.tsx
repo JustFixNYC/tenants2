@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 import classnames from 'classnames';
 import { Icon } from './icon';
 import { OutboundLink } from '../analytics/google-analytics';

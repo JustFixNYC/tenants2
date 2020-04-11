@@ -4,7 +4,7 @@ import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoices } from "../common-data";
 import { bulmaClasses } from '../ui/bulma';
 import { ariaBool } from '../ui/aria';
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+import { SimpleProgressiveEnhancement } from '../ui/progressive-enhancement';
 
 /**
  * Base properties that form fields need to have.

@@ -10,7 +10,7 @@ import { getQuerystringVar } from '../util/querystring';
 import { SessionPoller, SessionPollerProps } from '../networking/session-poller';
 import { GetEmailVerificationStatus } from '../queries/GetEmailVerificationStatus';
 import { MiddleProgressStep } from '../progress/progress-step-route';
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+import { SimpleProgressiveEnhancement } from '../ui/progressive-enhancement';
 
 type VerifyEmailProps = RouteComponentProps<{}> & {
   prevUrl: string,

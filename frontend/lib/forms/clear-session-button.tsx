@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { SessionUpdatingFormSubmitter } from "./session-updating-form-submitter";
 import { LogoutMutation } from "../queries/LogoutMutation";
-import { ProgressiveEnhancement } from "../progressive-enhancement";
+import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { bulmaClasses } from '../ui/bulma';
 
 const DEFAULT_LABEL = "Cancel";

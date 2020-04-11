@@ -5,7 +5,7 @@ import { isDeepEqual } from '../util/util';
 import { bulmaClasses } from '../ui/bulma';
 
 import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../../common-data/forms.json';
-import { useProgressiveEnhancement } from '../progressive-enhancement';
+import { useProgressiveEnhancement } from '../ui/progressive-enhancement';
 import { LegacyFormSubmissionContext } from './legacy-form-submitter';
 
 export interface BaseFormsetProps<FormsetInput> {

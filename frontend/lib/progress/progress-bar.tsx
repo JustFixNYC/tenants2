@@ -2,7 +2,7 @@ import React from 'react';
 import autobind from "autobind-decorator";
 import { RouteComponentProps, withRouter, Switch } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import { TransitionContextGroup } from '../transition-context';
+import { TransitionContextGroup } from '../ui/transition-context';
 import classnames from 'classnames';
 import { getStepIndexForPathname } from './progress-util';
 import { ProgressStepRoute, createStepRoute } from './progress-step-route';

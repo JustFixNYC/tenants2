@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TextualFormFieldProps, CheckboxView, TextualFormField, HiddenFormField, BaseFormFieldProps } from "./form-fields";
 import { useState } from "react";
-import { ProgressiveEnhancement } from "../progressive-enhancement";
+import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
 import classnames from 'classnames';
 
 /**

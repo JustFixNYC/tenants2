@@ -20,9 +20,9 @@ const ICON_CLASSES: {
 const ICON_SVGS: {
   [key in IconType]: JSX.Element;
 } = {
-  warning: require('./svg/exclamation-circle-solid.svg'),
-  notice: require('./svg/exclamation-triangle-solid.svg'),
-  info: require('./svg/info-circle-solid.svg'),
+  warning: require('../svg/exclamation-circle-solid.svg'),
+  notice: require('../svg/exclamation-triangle-solid.svg'),
+  info: require('../svg/info-circle-solid.svg'),
 };
 
 type IconProps = {

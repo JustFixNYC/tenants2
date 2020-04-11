@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SessionStepBuilder } from "../session-step-builder";
+import { SessionStepBuilder } from "../progress/session-step-builder";
 import { YesNoRadiosFormField, YES_NO_RADIOS_TRUE } from '../forms/yes-no-radios-form-field';
 import { HarassmentApartmentMutation } from '../queries/HarassmentApartmentMutation';
 import { HarassmentExplainMutation } from '../queries/HarassmentExplainMutation';

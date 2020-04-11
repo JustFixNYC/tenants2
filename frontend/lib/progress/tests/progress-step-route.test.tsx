@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getBestPrevStep, ProgressStepRoute, getBestNextStep } from "../progress-step-route";
-import { BlankAllSessionInfo } from "../queries/AllSessionInfo";
+import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 
 const session = BlankAllSessionInfo;
 const render = () => <p>hi</p>;

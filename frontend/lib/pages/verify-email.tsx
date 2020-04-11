@@ -9,7 +9,7 @@ import { RouteComponentProps, withRouter, Redirect, Link } from 'react-router-do
 import { getQuerystringVar } from '../querystring';
 import { SessionPoller, SessionPollerProps } from '../session-poller';
 import { GetEmailVerificationStatus } from '../queries/GetEmailVerificationStatus';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
 
 type VerifyEmailProps = RouteComponentProps<{}> & {

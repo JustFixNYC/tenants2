@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
+import { ProgressRoutesTester } from '../../progress/tests/progress-routes-tester';
 import RentalHistoryRoutes, { getRentalHistoryRoutesProps, GenerateUserRhFormInput } from '../rental-history';
 import Routes from '../../routes';
 import { AppTesterPal } from '../../tests/app-tester-pal';

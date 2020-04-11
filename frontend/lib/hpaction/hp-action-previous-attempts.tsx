@@ -8,7 +8,7 @@ import { hideByDefault, ConditionalYesNoRadiosFormField } from '../forms/conditi
 import { Route } from 'react-router';
 import { Modal } from '../modal';
 import { Link } from 'react-router-dom';
-import { SessionStepBuilder } from '../session-step-builder';
+import { SessionStepBuilder } from '../progress/session-step-builder';
 
 function renderQuestions(ctx: FormContext<HPActionPreviousAttemptsInput>) {
   const filedWith311 = ctx.fieldPropsFor('filedWith311');

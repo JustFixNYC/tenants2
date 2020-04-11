@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
 import { USStateFormField } from '../forms/mailing-address-fields';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 
 function getIntroText(isLookedUp: boolean|null): JSX.Element {
   return isLookedUp

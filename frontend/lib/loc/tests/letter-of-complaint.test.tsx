@@ -1,6 +1,6 @@
 import { getLOCProgressRoutesProps } from '../letter-of-complaint';
 import Routes from '../../routes';
-import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
+import { ProgressRoutesTester } from '../../progress/tests/progress-routes-tester';
 
 const tester = new ProgressRoutesTester(getLOCProgressRoutesProps(), 'letter of complaint');
 

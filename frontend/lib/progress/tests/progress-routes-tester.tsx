@@ -2,9 +2,9 @@ import React from 'react';
 
 import { getLatestStep } from "../progress-redirection";
 import { ProgressRoutesProps, getAllSteps, ProgressRoutes } from "../progress-routes";
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { FakeSessionInfo } from './util';
-import { AppTesterPal } from './app-tester-pal';
+import { AllSessionInfo } from '../../queries/AllSessionInfo';
+import { FakeSessionInfo } from '../../tests/util';
+import { AppTesterPal } from '../../tests/app-tester-pal';
 import { ProgressStepRoute } from '../progress-step-route';
 
 /**

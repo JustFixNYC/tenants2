@@ -1,5 +1,5 @@
 import React from 'react';
-import { SessionStepBuilder } from '../session-step-builder';
+import { SessionStepBuilder } from '../progress/session-step-builder';
 import { PriorHpActionCasesMutation, BlankCasesPriorCaseFormFormSetInput } from '../queries/PriorHpActionCasesMutation';
 import { TextualFormField, CheckboxFormField } from '../forms/form-fields';
 import { Formset } from '../forms/formset';

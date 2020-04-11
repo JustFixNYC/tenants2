@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import HPActionRoutes, { getHPActionProgressRoutesProps } from '../hp-action';
-import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
+import { ProgressRoutesTester } from '../../progress/tests/progress-routes-tester';
 import Routes from '../../routes';
 import { HPUploadStatus } from '../../queries/globalTypes';
 

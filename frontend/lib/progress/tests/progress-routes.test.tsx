@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress-routes";
 
 const myRoutesProps: ProgressRoutesProps = {

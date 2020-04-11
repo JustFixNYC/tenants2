@@ -3,7 +3,7 @@ import { TextualFormField } from '../forms/form-fields';
 import { TenantChildrenMutation, BlankChildrenTenantChildFormFormSetInput } from '../queries/TenantChildrenMutation';
 import { Formset } from '../forms/formset';
 import { TENANT_CHILDREN_MAX_COUNT } from '../../../common-data/hp-action.json';
-import { SessionStepBuilder } from '../session-step-builder';
+import { SessionStepBuilder } from '../progress/session-step-builder';
 import { FormsetItem, formsetItemProps } from '../forms/formset-item';
 
 const stepBuilder = new SessionStepBuilder(sess => sess.tenantChildren);

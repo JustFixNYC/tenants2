@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AllSessionInfo } from "./queries/AllSessionInfo";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { ProgressStepRoute } from "./progress-step-route";
-import { withAppContext, AppContextType } from "./app-context";
+import { withAppContext, AppContextType } from "../app-context";
 import { Redirect } from "react-router";
 
 /**

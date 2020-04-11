@@ -11,7 +11,7 @@ import { LetterRequestMutation } from '../queries/LetterRequestMutation';
 import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
 import { HiddenFormField } from '../forms/form-fields';
 import { BulmaClassName } from '../bulma';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 

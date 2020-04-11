@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../app-context';
-import { MiddleProgressStep, MiddleProgressStepProps } from '../progress-step-route';
+import { MiddleProgressStep, MiddleProgressStepProps } from '../progress/progress-step-route';
 import Page from '../page';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';

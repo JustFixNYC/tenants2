@@ -1,5 +1,5 @@
 import React from 'react';
-import { SessionStepBuilder } from "../session-step-builder";
+import { SessionStepBuilder } from "../progress/session-step-builder";
 import { AccessForInspectionMutation } from "../queries/AccessForInspectionMutation";
 import { TextualFormField } from '../forms/form-fields';
 

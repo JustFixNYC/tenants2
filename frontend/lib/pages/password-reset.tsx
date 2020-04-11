@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress-routes";
+import { ProgressRoutesProps, buildProgressRoutesComponent } from "../progress/progress-routes";
 import Routes from "../routes";
 import Page from '../page';
 import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';

@@ -7,7 +7,7 @@ import AccessDatesPage from './access-dates';
 import LandlordDetailsPage from './landlord-details';
 import LetterRequestPage from './letter-request';
 import LetterConfirmation from './loc-confirmation';
-import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress-routes';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress/progress-routes';
 import { LocSplash } from './letter-of-complaint-splash';
 import { GetStartedButton } from '../get-started-button';
 import { OnboardingInfoSignupIntent } from '../queries/globalTypes';

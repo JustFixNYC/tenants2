@@ -1,0 +1,9 @@
+# Don't go in that black hole!
+node_modules
+
+# These files are auto-generated.
+frontend/lib/queries
+
+# Almost all of these files are auto-generated.
+common-data/*.ts
+!common-data/config.ts

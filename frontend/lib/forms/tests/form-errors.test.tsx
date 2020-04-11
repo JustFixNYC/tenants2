@@ -1,5 +1,5 @@
 import { formatErrors, getFormErrors, parseFormsetField, addToFormsetErrors, FormsetErrorMap, ServerFormFieldError } from "../form-errors";
-import { assertNotNull } from "../../util";
+import { assertNotNull } from "../../util/util";
 import { simpleFormErrors } from "../../tests/util";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 

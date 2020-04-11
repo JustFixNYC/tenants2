@@ -2,7 +2,7 @@ import React from 'react';
 import { LabelRenderer, BaseFormFieldProps, TextualFormField, RadiosFormField, HiddenFormField } from './form-fields';
 import { toDjangoChoices } from '../common-data';
 import { BoroughChoices, getBoroughChoiceLabels, isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
-import { ProgressiveEnhancementContext, ProgressiveEnhancement } from '../progressive-enhancement';
+import { ProgressiveEnhancementContext, ProgressiveEnhancement } from '../ui/progressive-enhancement';
 import { GeoAutocomplete } from './geo-autocomplete';
 
 const DEFAULT_ADDRESS_LABEL = "Address";

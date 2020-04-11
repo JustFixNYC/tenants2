@@ -4,17 +4,17 @@ import autobind from 'autobind-decorator';
 import { BrowserRouter, RouteComponentProps, withRouter } from 'react-router-dom';
 import loadable, { loadableReady } from '@loadable/component';
 
-import GraphQlClient from './graphql-client';
+import GraphQlClient from './networking/graphql-client';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
 import { AppServerInfo, AppContext, AppContextType, AppLegacyFormSubmission } from './app-context';
 import { ErrorBoundary } from './error-boundary';
-import { isModalRoute } from './route-util';
-import { AriaAnnouncer } from './aria';
+import { isModalRoute } from './util/route-util';
+import { AriaAnnouncer } from './ui/aria';
 import { trackPageView, ga } from './analytics/google-analytics';
 import { Action } from 'history';
-import { smoothlyScrollToTopOfPage } from './scrolling';
-import { HistoryBlockerManager, getNavigationConfirmation } from './history-blocker';
+import { smoothlyScrollToTopOfPage } from './util/scrolling';
+import { HistoryBlockerManager, getNavigationConfirmation } from './forms/history-blocker';
 import { HelmetProvider } from 'react-helmet-async';
 import { browserStorage } from './browser-storage';
 import { areAnalyticsEnabled } from './analytics/analytics';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
+import { ProgressRoutesTester } from '../../progress/tests/progress-routes-tester';
 import { getEmergencyHPActionProgressRoutesProps } from '../emergency-hp-action';
 import { AppTesterPal } from '../../tests/app-tester-pal';
-import { ProgressRoutes } from '../../progress-routes';
+import { ProgressRoutes } from '../../progress/progress-routes';
 import Routes from '../../routes';
 
 const tester = new ProgressRoutesTester(getEmergencyHPActionProgressRoutesProps(), 'Emergency HP Action');

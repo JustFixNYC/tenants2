@@ -1,7 +1,7 @@
 import { defaultContext, setGlobalAppServerInfo } from '../app-context';
 import { FakeAppContext, FakeServerInfo } from './util';
 import chalk from 'chalk';
-import './confetti.setup';
+import '../ui/tests/confetti.setup';
 import i18n from '../i18n';
 
 i18n.initialize('');

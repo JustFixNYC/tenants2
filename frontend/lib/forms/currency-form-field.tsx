@@ -1,9 +1,9 @@
 import React, { RefObject } from 'react';
 import { formatErrors } from "./form-errors";
-import { bulmaClasses } from '../bulma';
-import { ariaBool } from '../aria';
+import { bulmaClasses } from '../ui/bulma';
+import { ariaBool } from '../ui/aria';
 import { BaseFormFieldProps, renderLabel, LabelRenderer } from './form-fields';
-import { KEY_ENTER } from '../key-codes';
+import { KEY_ENTER } from '../util/key-codes';
 
 /**
  * Properties for currency form field input.

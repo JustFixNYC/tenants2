@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from '../page';
+import Page from '../ui/page';
 import Routes from '../routes';
 import { withAppContext, AppContextType } from '../app-context';
 import { IssuesRoutes } from '../issues/issue-pages';
@@ -7,13 +7,13 @@ import AccessDatesPage from './access-dates';
 import LandlordDetailsPage from './landlord-details';
 import LetterRequestPage from './letter-request';
 import LetterConfirmation from './loc-confirmation';
-import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress-routes';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress/progress-routes';
 import { LocSplash } from './letter-of-complaint-splash';
-import { GetStartedButton } from '../get-started-button';
+import { GetStartedButton } from '../ui/get-started-button';
 import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
-import { CovidRiskBanner, MoratoriumWarning } from '../covid-banners';
+import { CovidRiskBanner, MoratoriumWarning } from '../ui/covid-banners';
 import ReliefAttemptsPage from '../onboarding/relief-attempts';
-import { isUserNycha } from '../nycha';
+import { isUserNycha } from '../util/nycha';
 
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {

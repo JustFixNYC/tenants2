@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactTestingLibraryPal from "./rtl-pal";
-import GraphQlClient, { queuedRequest } from "../graphql-client";
+import GraphQlClient, { queuedRequest } from "../networking/graphql-client";
 import { createTestGraphQlClient, FakeAppContext, FakeSessionInfo, FakeServerInfo } from "./util";
 import { MemoryRouter, Route, MemoryRouterProps, RouteComponentProps } from "react-router";
 import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../forms/form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { History } from 'history';
-import { assertNotNull } from '../util';
+import { assertNotNull } from '../util/util';
 import { HelmetProvider } from 'react-helmet-async';
 
 /** Options for AppTester. */

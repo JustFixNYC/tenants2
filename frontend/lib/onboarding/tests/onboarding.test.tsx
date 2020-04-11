@@ -4,7 +4,7 @@ import { FakeSessionInfo } from "../../tests/util";
 import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding-routes";
 import Routes from "../../routes";
 import { AllSessionInfo } from '../../queries/AllSessionInfo';
-import { getLatestStep } from '../../progress-redirection';
+import { getLatestStep } from '../../progress/progress-redirection';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
 

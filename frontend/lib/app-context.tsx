@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { AllSessionInfo } from './queries/AllSessionInfo';
-import { GraphQLFetch } from './graphql-client';
-import { buildContextHocFactory } from './context-util';
+import { GraphQLFetch } from './networking/graphql-client';
+import { buildContextHocFactory } from './util/context-util';
 import { SiteChoice } from '../../common-data/site-choices';
 
 /** Metadata about forms submitted via legacy POST. */

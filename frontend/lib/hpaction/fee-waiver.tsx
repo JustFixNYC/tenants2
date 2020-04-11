@@ -1,21 +1,21 @@
 import React from 'react';
 
 import { FeeWaiverExpensesInput } from "../queries/globalTypes";
-import Page from "../page";
+import Page from "../ui/page";
 import { CheckboxFormField } from '../forms/form-fields';
 import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
-import { BackButton, CenteredPrimaryButtonLink } from '../buttons';
+import { BackButton, CenteredPrimaryButtonLink } from '../ui/buttons';
 import { CurrencyFormField } from '../forms/currency-form-field';
 import { FeeWaiverMiscMutation } from '../queries/FeeWaiverMiscMutation';
 import { FeeWaiverIncomeMutation } from '../queries/FeeWaiverIncomeMutation';
 import { FeeWaiverExpensesMutation, BlankFeeWaiverExpensesInput } from '../queries/FeeWaiverExpensesMutation';
 import { ProgressiveOtherCheckboxFormField } from '../forms/other-checkbox-form-field';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 import { FeeWaiverPublicAssistanceMutation } from '../queries/FeeWaiverPublicAssistanceMutation';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
-import { bulmaClasses } from '../bulma';
-import { SessionStepBuilder } from '../session-step-builder';
+import { bulmaClasses } from '../ui/bulma';
+import { SessionStepBuilder } from '../progress/session-step-builder';
 
 const INITIAL_EXPENSES_STATE: FeeWaiverExpensesInput = {
   ...BlankFeeWaiverExpensesInput,

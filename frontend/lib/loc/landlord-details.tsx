@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { TextualFormField } from '../forms/form-fields';
 
-import { BackButton, ProgressButtons } from "../buttons";
+import { BackButton, ProgressButtons } from "../ui/buttons";
 import { AppContext } from '../app-context';
-import { exactSubsetOrDefault } from '../util';
+import { exactSubsetOrDefault } from '../util/util';
 import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
 import { USStateFormField } from '../forms/mailing-address-fields';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 
 function getIntroText(isLookedUp: boolean|null): JSX.Element {
   return isLookedUp

@@ -1,35 +1,35 @@
 import React from 'react';
 
 import Routes, { getSignupIntentOnboardingInfo } from "../routes";
-import Page from "../page";
-import { ProgressButtons } from '../buttons';
+import Page from "../ui/page";
+import { ProgressButtons } from '../ui/buttons';
 import { IssuesRoutes } from '../issues/issue-pages';
 import { withAppContext, AppContextType } from '../app-context';
-import { PdfLink } from '../pdf-link';
-import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress-routes';
+import { PdfLink } from '../ui/pdf-link';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress/progress-routes';
 import { OutboundLink } from '../analytics/google-analytics';
 import { HPUploadStatus, OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './fee-waiver';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 import { TenantChildren } from './hp-action-tenant-children';
 import { createHPActionPreviousAttempts } from './hp-action-previous-attempts';
 import { CheckboxFormField } from '../forms/form-fields';
 import { HpActionUrgentAndDangerousMutation } from '../queries/HpActionUrgentAndDangerousMutation';
 import { YesNoRadiosFormField } from '../forms/yes-no-radios-form-field';
-import { SessionStepBuilder } from '../session-step-builder';
+import { SessionStepBuilder } from '../progress/session-step-builder';
 import { HarassmentApartment, HarassmentExplain, HarassmentAllegations1, HarassmentAllegations2 } from './hp-action-harassment';
 import { HpActionSueMutation } from '../queries/HpActionSueMutation';
 import { HarassmentCaseHistory } from './hp-action-case-history';
-import { BigList } from '../big-list';
-import { EmailAttachmentForm } from '../email-attachment';
+import { BigList } from '../ui/big-list';
+import { EmailAttachmentForm } from '../forms/email-attachment';
 import { EmailHpActionPdfMutation } from '../queries/EmailHpActionPdfMutation';
-import { GetStartedButton } from '../get-started-button';
+import { GetStartedButton } from '../ui/get-started-button';
 import { AccessForInspection } from './hp-action-access-for-inspection';
 import { HPActionYourLandlord } from './hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
-import { CustomerSupportLink } from '../customer-support-link';
-import { isUserNycha } from '../nycha';
+import { CustomerSupportLink } from '../ui/customer-support-link';
+import { isUserNycha } from '../util/nycha';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 

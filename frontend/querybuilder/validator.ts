@@ -3,7 +3,7 @@ import * as path from 'path';
 import glob from 'glob';
 import { IntrospectionQuery, buildClientSchema, GraphQLSchema, validate, parse, DocumentNode, GraphQLError, formatError, specifiedRules, NoUnusedFragmentsRule } from "graphql";
 import { getGraphQlFragments } from './util';
-import { assertNotNull } from '../lib/util';
+import { assertNotNull } from '../lib/util/util';
 
 const rulesMinusUnusedFragments = specifiedRules.filter(rule => rule !== NoUnusedFragmentsRule);
 

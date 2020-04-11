@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleProgressiveEnhancement } from "../progressive-enhancement";
+import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { TextualFormFieldProps, TextareaFormField, TextualFormField } from './form-fields';
 
 /**

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { LegacyFormSubmitter } from '../forms/legacy-form-submitter';
 import { ExampleRadioMutation } from '../queries/ExampleRadioMutation';
 import { ExampleRadioInput } from '../queries/globalTypes';
 import { RadiosFormField } from '../forms/form-fields';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import Routes from '../routes';
 
 const INITIAL_STATE: ExampleRadioInput = {

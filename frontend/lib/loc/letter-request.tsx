@@ -1,17 +1,17 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 
 import { withAppContext, AppContextType } from '../app-context';
-import { NextButton, BackButton } from "../buttons";
+import { NextButton, BackButton } from "../ui/buttons";
 import Routes from '../routes';
 import { LetterRequestInput, LetterRequestMailChoice } from '../queries/globalTypes';
 import { LetterRequestMutation } from '../queries/LetterRequestMutation';
-import { Modal, BackOrUpOneDirLevel, ModalLink } from '../modal';
+import { Modal, BackOrUpOneDirLevel, ModalLink } from '../ui/modal';
 import { HiddenFormField } from '../forms/form-fields';
-import { BulmaClassName } from '../bulma';
-import { MiddleProgressStep } from '../progress-step-route';
+import { BulmaClassName } from '../ui/bulma';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 
 const UNKNOWN_LANDLORD = { name: '', address: '' };
 

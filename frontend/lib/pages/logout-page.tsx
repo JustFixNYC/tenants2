@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Page from '../page';
+import Page from '../ui/page';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LogoutMutation } from '../queries/LogoutMutation';
 import { withAppContext, AppContextType } from '../app-context';

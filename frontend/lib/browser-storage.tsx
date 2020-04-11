@@ -1,4 +1,4 @@
-import { BaseBrowserStorageSchema, BrowserStorage, createUpdateBrowserStorage, createUseBrowserStorage } from "./browser-storage-base";
+import { BaseBrowserStorageSchema, BrowserStorage, createUpdateBrowserStorage, createUseBrowserStorage } from "./util/browser-storage-base";
 
 const SCHEMA_VERSION = 1;
 

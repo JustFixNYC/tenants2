@@ -1,11 +1,11 @@
 import React from 'react';
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
-import Page, { PageTitle } from '../page';
+import Page, { PageTitle } from '../ui/page';
 import Routes from '../routes';
 import { DataRequestMultiLandlordQuery, DataRequestMultiLandlordQuery_output } from '../queries/DataRequestMultiLandlordQuery';
 import { TextualFormField } from '../forms/form-fields';
-import { NextButton } from '../buttons';
-import { WhoOwnsWhatLink } from '../wow-link';
+import { NextButton } from '../ui/buttons';
+import { WhoOwnsWhatLink } from '../ui/wow-link';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../forms/query-form-submitter';
 
 const BASE_TITLE = "Multi-landlord data request";

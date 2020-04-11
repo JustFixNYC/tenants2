@@ -1,13 +1,13 @@
 import React from 'react';
-import Page from '../page';
-import { StaticImage } from '../static-image';
+import Page from '../ui/page';
+import { StaticImage } from '../ui/static-image';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
-import { BigList } from '../big-list';
+import { BigList } from '../ui/big-list';
 import { OutboundLink } from '../analytics/google-analytics';
-import { GetStartedButton } from '../get-started-button';
+import { GetStartedButton } from '../ui/get-started-button';
 import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
-import { MoratoriumWarning } from '../covid-banners';
+import { MoratoriumWarning } from '../ui/covid-banners';
 
 export function LocSplash(): JSX.Element {
   return (

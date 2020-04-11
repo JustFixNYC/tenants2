@@ -2,15 +2,15 @@ import React, { useContext } from 'react';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { SendVerificationEmailMutation } from '../queries/SendVerificationEmailMutation';
 import { TextualFormField } from '../forms/form-fields';
-import { ProgressButtons, BackButton } from '../buttons';
+import { ProgressButtons, BackButton } from '../ui/buttons';
 import { AppContext } from '../app-context';
-import Page from '../page';
+import Page from '../ui/page';
 import { RouteComponentProps, withRouter, Redirect, Link } from 'react-router-dom';
-import { getQuerystringVar } from '../querystring';
-import { SessionPoller, SessionPollerProps } from '../session-poller';
+import { getQuerystringVar } from '../util/querystring';
+import { SessionPoller, SessionPollerProps } from '../networking/session-poller';
 import { GetEmailVerificationStatus } from '../queries/GetEmailVerificationStatus';
-import { MiddleProgressStep } from '../progress-step-route';
-import { SimpleProgressiveEnhancement } from '../progressive-enhancement';
+import { MiddleProgressStep } from '../progress/progress-step-route';
+import { SimpleProgressiveEnhancement } from '../ui/progressive-enhancement';
 
 type VerifyEmailProps = RouteComponentProps<{}> & {
   prevUrl: string,

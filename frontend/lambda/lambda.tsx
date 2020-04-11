@@ -24,7 +24,7 @@ import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
 import { App, AppProps } from '../lib/app';
 import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
 import i18n from '../lib/i18n';
-import { assertNotUndefined } from '../lib/util';
+import { assertNotUndefined } from '../lib/util/util';
 import { serveLambdaOverHttp, serveLambdaOverStdio } from './lambda-io';
 import { setGlobalAppServerInfo } from '../lib/app-context';
 

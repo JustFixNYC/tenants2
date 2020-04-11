@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../app-context';
-import { MiddleProgressStep, MiddleProgressStepProps } from '../progress-step-route';
-import Page from '../page';
+import { MiddleProgressStep, MiddleProgressStepProps } from '../progress/progress-step-route';
+import Page from '../ui/page';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';
-import { exactSubsetOrDefault } from '../util';
+import { exactSubsetOrDefault } from '../util/util';
 import { TextualFormField } from '../forms/form-fields';
-import { ProgressButtons, BackButton } from '../buttons';
+import { ProgressButtons, BackButton } from '../ui/buttons';
 import { Link } from 'react-router-dom';
 import { USStateFormField } from '../forms/mailing-address-fields';
-import { LEGACY_NYCHA_ADDRESS, isUserNycha, LegacyAddressDetails } from '../nycha';
+import { LEGACY_NYCHA_ADDRESS, isUserNycha, LegacyAddressDetails } from '../util/nycha';
 
 const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps & {
   details: LegacyAddressDetails,

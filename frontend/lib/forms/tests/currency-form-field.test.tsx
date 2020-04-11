@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import { normalizeCurrency, parseCurrency, CurrencyFormFieldProps, CurrencyFormField } from '../currency-form-field';
-import { KEY_ENTER } from '../../key-codes';
+import { KEY_ENTER } from '../../util/key-codes';
 
 describe("normalizeCurrency()", () => {
   it("returns empty string if value can't be parsed", () => {

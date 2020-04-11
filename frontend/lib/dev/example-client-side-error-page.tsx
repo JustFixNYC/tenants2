@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 
 
 export default class ExampleClientSideErrorPage extends React.Component {

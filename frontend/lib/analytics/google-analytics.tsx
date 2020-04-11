@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DetailedHTMLProps, AnchorHTMLAttributes, MouseEvent } from "react";
-import { callOnceWithinMs, getFunctionProperty } from "../util";
+import { callOnceWithinMs, getFunctionProperty } from "../util/util";
 import hardRedirect from '../hard-redirect';
 
 /**

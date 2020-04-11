@@ -3,7 +3,7 @@ import React from 'react';
 import OnboardingStep1 from '../onboarding-step-1';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { OnboardingStep1Mutation_output } from '../../queries/OnboardingStep1Mutation';
-import { createMockFetch } from '../../tests/mock-fetch';
+import { createMockFetch } from '../../networking/tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
 import Routes from '../../routes';
 import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';

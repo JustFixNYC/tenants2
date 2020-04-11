@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 
-import Page from '../page';
+import Page from '../ui/page';
 import Routes from '../routes';
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../forms/form-fields';
-import { NextButton } from '../buttons';
+import { NextButton } from '../ui/buttons';
 import { RouteComponentProps } from 'react-router';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../hard-redirect';
 import { PhoneNumberFormField } from '../forms/phone-number-form-field';
-import { assertNotNull } from '../util';
-import { getPostOrQuerystringVar } from '../querystring';
+import { assertNotNull } from '../util/util';
+import { getPostOrQuerystringVar } from '../util/querystring';
 import { Link } from 'react-router-dom';
 import { getPostOnboardingURL } from '../onboarding/signup-intent';
 

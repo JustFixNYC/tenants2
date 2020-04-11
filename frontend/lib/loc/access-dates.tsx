@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Page from "../page";
+import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
 import { TextualFormField } from '../forms/form-fields';
 import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
-import { ProgressButtons } from "../buttons";
-import { dateAsISO, addDays } from '../util';
+import { ProgressButtons } from "../ui/buttons";
+import { dateAsISO, addDays } from '../util/util';
 
 import validation from '../../../common-data/access-dates-validation.json';
-import { MiddleProgressStep } from '../progress-step-route';
+import { MiddleProgressStep } from '../progress/progress-step-route';
 
 /**
  * The minimum number of days from today that the first access date

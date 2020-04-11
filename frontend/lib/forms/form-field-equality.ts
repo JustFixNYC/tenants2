@@ -1,4 +1,4 @@
-import { isDeepEqual } from "../util";
+import { isDeepEqual } from "../util/util";
 
 /**
  * Returns whether or not the two arrays have the same items,

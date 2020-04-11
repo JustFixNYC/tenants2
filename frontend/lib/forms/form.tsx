@@ -1,6 +1,6 @@
 import React, { FormHTMLAttributes } from 'react';
 import autobind from 'autobind-decorator';
-import { AriaAnnouncement } from '../aria';
+import { AriaAnnouncement } from '../ui/aria';
 import { FormErrors, NonFieldErrors } from './form-errors';
 import { FormContext } from './form-context';
 

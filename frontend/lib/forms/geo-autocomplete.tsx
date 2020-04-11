@@ -4,10 +4,10 @@ import classnames from 'classnames';
 import autobind from 'autobind-decorator';
 import { BoroughChoice, getBoroughChoiceLabels } from '../../../common-data/borough-choices';
 import { WithFormFieldErrors, formatErrors } from './form-errors';
-import { bulmaClasses } from '../bulma';
-import { awesomeFetch, createAbortController } from '../fetch';
+import { bulmaClasses } from '../ui/bulma';
+import { awesomeFetch, createAbortController } from '../networking/fetch';
 import { renderLabel, LabelRenderer } from './form-fields';
-import { KEY_ENTER, KEY_TAB } from '../key-codes';
+import { KEY_ENTER, KEY_TAB } from '../util/key-codes';
 import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from '@justfixnyc/geosearch-requester';
 
 // https://stackoverflow.com/a/4565120

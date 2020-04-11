@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import Page from '../page';
-import Routes, { routeMap } from '../routes';
+import Routes from '../routes';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
 import { TextualFormField } from '../form-fields';
@@ -29,7 +29,7 @@ export interface LoginFormProps {
  * in which we stay in our SPA.
  */
 export function performHardOrSoftRedirect(redirect: string, history: History) {
-  if (routeMap.exists(redirect)) {
+  if (Routes.routeMap.exists(redirect)) {
     history.push(redirect);
   } else {
     // This isn't a route we can serve from this single-page app,

@@ -1,5 +1,5 @@
 import React from 'react';
-import Routes, { routeMap } from "./routes";
+import Routes from "./routes";
 import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from './loading-page';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,7 @@ const DevHome = withAppContext((props: AppContextType): JSX.Element => {
     );
   }
 
-  for (let path of routeMap.nonParameterizedRoutes()) {
+  for (let path of Routes.routeMap.nonParameterizedRoutes()) {
     frontendRouteLinks.push(
       <li key={path}>
         <Link to={path} className="jf-dev-code">{path}</Link>

@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import autobind from 'autobind-decorator';
 import { UnregisterCallback, Location, Action } from 'history';
 import { assertNotNull } from './util';
-import { isModalRoute } from './routes';
+import { isModalRoute } from './route-util';
 import { ga } from './google-analytics';
 
 

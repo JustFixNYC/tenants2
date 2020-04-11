@@ -1,4 +1,5 @@
 import { matchPath } from 'react-router-dom';
+import i18n from './i18n';
 
 /**
  * Special route key indicating the prefix of a set of routes,
@@ -94,4 +95,42 @@ export class RouteMap {
     }
     return false;
   }
+}
+
+/**
+ * This is an ad-hoc structure that defines URL routes for an app or website.
+ * 
+ * The 'locale' property always returns routes that are prefixed by the
+ * currently-selected locale, while other properties represent routes
+ * that aren't localized.
+ */
+type RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = NonLocalizedRoutes & {
+  locale: LocalizedRoutes,
+};
+
+/**
+ * Given a factory function that creates localized routes for a particular
+ * locale prefix, and information about non-localized routes, returns route
+ * information about the whole site.
+ */
+export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
+  createLocalizedRouteInfo: (localePathPrefix: string) => LocalizedRoutes,
+  nonLocalizedRouteInfo: NonLocalizedRoutes,
+): RouteInfo<LocalizedRoutes, NonLocalizedRoutes> {
+  let currentLocaleRoutes: LocalizedRoutes|null = null;
+
+  // Note that this can technically create a memory leak, but we won't be making
+  // many of these obects and they'll last the lifetime of the application, so it's ok.
+  i18n.addChangeListener(() => { currentLocaleRoutes = null; });
+
+  return {
+    /** Localized routes for the user's currently-selected locale. */
+    get locale(): LocalizedRoutes {
+      if (currentLocaleRoutes === null) {
+        currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
+      }
+      return currentLocaleRoutes;
+    },
+    ...nonLocalizedRouteInfo,
+  };
 }

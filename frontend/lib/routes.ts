@@ -1,9 +1,8 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import i18n from './i18n';
 import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
 import { inputToQuerystring } from './http-get-query-util';
-import { ROUTE_PREFIX, RouteMap } from './route-util';
+import { ROUTE_PREFIX, RouteMap, createRoutesForSite } from './route-util';
 
 /**
  * Metadata about signup intents.
@@ -245,22 +244,10 @@ function createLocalizedRouteInfo(prefix: string) {
   }
 }
 
-let currentLocaleRoutes: LocalizedRouteInfo|null = null;
-
-i18n.addChangeListener(() => { currentLocaleRoutes = null; });
-
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
-const Routes = {
-  /** Localized routes for the user's currently-selected locale. */
-  get locale(): LocalizedRouteInfo {
-    if (currentLocaleRoutes === null) {
-      currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
-    }
-    return currentLocaleRoutes;
-  },
-
+const Routes = createRoutesForSite(createLocalizedRouteInfo, {
   /**
    * The *admin* login page. We override Django's default admin login
    * here, so we need to make sure this URL matches the URL that Django
@@ -294,7 +281,7 @@ const Routes = {
       query: '/dev/examples/query'
     }
   }
-};
+});
 
 export default Routes;
 

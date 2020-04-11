@@ -1,4 +1,5 @@
-import { isModalRoute, RouteMap } from "../route-util";
+import { isModalRoute, RouteMap, createRoutesForSite } from "../route-util";
+import i18n from "../i18n";
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);
@@ -36,5 +37,25 @@ describe('RouteMap', () => {
     expect(map.size).toEqual(1);
     expect(map.exists('/blah/7')).toBe(true);
     expect(map.exists('/blah/9/zorp')).toBe(false);
+  });
+});
+
+describe('createRoutesForSite', () => {
+  const Routes = createRoutesForSite((prefix) => ({
+    foo: `${prefix}/foo`,
+  }), {
+    blarg: '/blarg',
+  });
+
+  it('responds to locale changes', () => {
+    expect(Routes.locale.foo).toBe('/foo');
+    i18n.initialize('en');
+    expect(Routes.locale.foo).toBe('/en/foo');
+    i18n.initialize('');
+    expect(Routes.locale.foo).toBe('/foo');
+  });
+
+  it('has expected non-localized routes', () => {
+    expect(Routes.blarg).toBe('/blarg');
   });
 });

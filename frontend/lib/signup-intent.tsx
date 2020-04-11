@@ -12,7 +12,7 @@ export const DEFAULT_SIGNUP_INTENT_CHOICE = OnboardingInfoSignupIntent.LOC;
 
 export type WithSignupIntent = Pick<AllSessionInfo_onboardingInfo, 'signupIntent'>;
 
-const LoadableOnboardingRoutes = loadable(() => friendlyLoad(import('./onboarding')), {
+const LoadableOnboardingRoutes = loadable(() => friendlyLoad(import('./onboarding/onboarding')), {
   fallback: <LoadingPage />
 });
 

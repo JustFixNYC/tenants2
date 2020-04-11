@@ -1,6 +1,6 @@
 import { customIssuesForArea, areaIssueCount } from "../issues";
-import { CustomIssueArea } from "../queries/globalTypes";
-import { AllSessionInfo_customIssuesV2 } from "../queries/AllSessionInfo";
+import { CustomIssueArea } from "../../queries/globalTypes";
+import { AllSessionInfo_customIssuesV2 } from "../../queries/AllSessionInfo";
 
 test('customIssuesForArea() works', () => {
   const item: AllSessionInfo_customIssuesV2 = {

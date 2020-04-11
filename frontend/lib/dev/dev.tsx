@@ -1,31 +1,31 @@
 import React from 'react';
-import Routes from "./routes";
+import Routes from "../routes";
 import { Switch, Route, Redirect } from "react-router";
-import { friendlyLoad, LoadingPage } from './loading-page';
+import { friendlyLoad, LoadingPage } from '../loading-page';
 import { Link } from 'react-router-dom';
-import Page from './page';
-import { withAppContext, AppContextType } from './app-context';
+import Page from '../page';
+import { withAppContext, AppContextType } from '../app-context';
 import { Helmet } from 'react-helmet-async';
-import { QueryLoader } from './query-loader';
-import { ExampleQuery } from './queries/ExampleQuery';
-import ExampleRadioPage from './pages/example-radio-page';
-import { ExampleDataDrivenOnboardingResults } from './pages/example-ddo-results';
+import { QueryLoader } from '../query-loader';
+import { ExampleQuery } from '../queries/ExampleQuery';
+import ExampleRadioPage from './example-radio-page';
+import { ExampleDataDrivenOnboardingResults } from '../data-driven-onboarding/example-ddo-results';
 import loadable from '@loadable/component';
-import { ExampleFormPage, ExampleFormWithoutRedirectPage } from './pages/example-form-page';
+import { ExampleFormPage, ExampleFormWithoutRedirectPage } from './example-form-page';
 
-const LoadableExamplePage = loadable(() => friendlyLoad(import('./pages/example-loadable-page')), {
+const LoadableExamplePage = loadable(() => friendlyLoad(import('./example-loadable-page')), {
   fallback: <LoadingPage />
 });
 
-const LoadableExampleModalPage = loadable(() => friendlyLoad(import('./pages/example-modal-page')), {
+const LoadableExampleModalPage = loadable(() => friendlyLoad(import('./example-modal-page')), {
   fallback: <LoadingPage />
 });
 
-const LoadableExampleLoadingPage = loadable(() => friendlyLoad(import('./pages/example-loading-page')), {
+const LoadableExampleLoadingPage = loadable(() => friendlyLoad(import('./example-loading-page')), {
   fallback: <LoadingPage />
 });
 
-const LoadableClientSideErrorPage = loadable(() => friendlyLoad(import('./pages/example-client-side-error-page')), {
+const LoadableClientSideErrorPage = loadable(() => friendlyLoad(import('./example-client-side-error-page')), {
   fallback: <LoadingPage />
 });
 

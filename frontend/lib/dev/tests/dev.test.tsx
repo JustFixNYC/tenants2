@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ReactTestingLibraryPal from "./rtl-pal";
-import { AppTesterPal } from "./app-tester-pal";
+import ReactTestingLibraryPal from "../../tests/rtl-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import DevRoutes from "../dev";
-import Routes from '../routes';
+import Routes from '../../routes';
 
 describe("development pages", () => {
   afterEach(ReactTestingLibraryPal.cleanup);

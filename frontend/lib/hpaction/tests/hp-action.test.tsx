@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import HPActionRoutes, { getHPActionProgressRoutesProps } from '../hp-action';
-import { ProgressRoutesTester } from './progress-routes-tester';
-import Routes from '../routes';
-import { HPUploadStatus } from '../queries/globalTypes';
+import { ProgressRoutesTester } from '../../tests/progress-routes-tester';
+import Routes from '../../routes';
+import { HPUploadStatus } from '../../queries/globalTypes';
 
 const tester = new ProgressRoutesTester(getHPActionProgressRoutesProps(), 'HP Action');
 

@@ -12,7 +12,7 @@ import { EmailAttachmentForm } from '../email-attachment';
 import { EmailLetterMutation } from '../queries/EmailLetterMutation';
 import { BigList } from '../big-list';
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
-import { SquareImage } from './data-driven-onboarding';
+import { SquareImage } from '../data-driven-onboarding/data-driven-onboarding';
 import { ariaBool } from '../aria';
 
 const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`

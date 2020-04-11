@@ -14,7 +14,7 @@ import { AppContext, getGlobalAppServerInfo } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
 import { OutboundLink, ga } from '../google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
-import { getEmergencyHPAIssueLabels } from '../emergency-hp-action-issues';
+import { getEmergencyHPAIssueLabels } from '../hpaction/emergency-hp-action-issues';
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 

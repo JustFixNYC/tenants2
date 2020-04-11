@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getInitialState } from '../access-dates';
 import Routes from '../../routes';
-import LetterOfComplaintRoutes from '../../letter-of-complaint';
+import LetterOfComplaintRoutes from '../letter-of-complaint';
 import { AppTesterPal } from '../../tests/app-tester-pal';
 import { AccessDatesMutation_output } from '../../queries/AccessDatesMutation';
 

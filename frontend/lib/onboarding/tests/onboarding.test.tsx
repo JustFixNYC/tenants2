@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { FakeSessionInfo } from "./util";
+import { FakeSessionInfo } from "../../tests/util";
 import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding";
-import Routes from "../routes";
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { getLatestStep } from '../progress-redirection';
-import { AppTesterPal } from './app-tester-pal';
-import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
+import Routes from "../../routes";
+import { AllSessionInfo } from '../../queries/AllSessionInfo';
+import { getLatestStep } from '../../progress-redirection';
+import { AppTesterPal } from '../../tests/app-tester-pal';
+import { OnboardingInfoSignupIntent } from '../../queries/globalTypes';
 
 const PROPS: OnboardingRoutesProps = {
   toCancel: '/cancel',

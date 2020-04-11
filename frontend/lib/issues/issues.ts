@@ -1,7 +1,7 @@
-import { DjangoChoices } from "./common-data";
-import { AllSessionInfo_customIssuesV2 } from "./queries/AllSessionInfo";
-import { IssueAreaChoice } from "../../common-data/issue-area-choices";
-import { IssueChoice, IssueChoices, getIssueChoiceLabels } from "../../common-data/issue-choices";
+import { DjangoChoices } from "../common-data";
+import { AllSessionInfo_customIssuesV2 } from "../queries/AllSessionInfo";
+import { IssueAreaChoice } from "../../../common-data/issue-area-choices";
+import { IssueChoice, IssueChoices, getIssueChoiceLabels } from "../../../common-data/issue-choices";
 
 type CustomIssue = AllSessionInfo_customIssuesV2;
 

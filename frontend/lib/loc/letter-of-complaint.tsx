@@ -1,19 +1,19 @@
 import React from 'react';
-import Page from './page';
-import Routes from './routes';
-import { withAppContext, AppContextType } from './app-context';
-import { IssuesRoutes } from './pages/issue-pages';
-import AccessDatesPage from './pages/access-dates';
-import LandlordDetailsPage from './pages/landlord-details';
-import LetterRequestPage from './pages/letter-request';
-import LetterConfirmation from './pages/loc-confirmation';
-import { ProgressRoutesProps, buildProgressRoutesComponent } from './progress-routes';
+import Page from '../page';
+import Routes from '../routes';
+import { withAppContext, AppContextType } from '../app-context';
+import { IssuesRoutes } from '../issues/issue-pages';
+import AccessDatesPage from './access-dates';
+import LandlordDetailsPage from './landlord-details';
+import LetterRequestPage from './letter-request';
+import LetterConfirmation from './loc-confirmation';
+import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress-routes';
 import { LocSplash } from './letter-of-complaint-splash';
-import { GetStartedButton } from './get-started-button';
-import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { CovidRiskBanner, MoratoriumWarning } from './covid-banners';
-import ReliefAttemptsPage from './pages/relief-attempts';
-import { isUserNycha } from './nycha';
+import { GetStartedButton } from '../get-started-button';
+import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
+import { CovidRiskBanner, MoratoriumWarning } from '../covid-banners';
+import ReliefAttemptsPage from '../onboarding/relief-attempts';
+import { isUserNycha } from '../nycha';
 
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {

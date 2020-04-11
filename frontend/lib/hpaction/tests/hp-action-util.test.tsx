@@ -1,6 +1,6 @@
 import { isNotSuingForHarassment } from "../hp-action-util";
-import { BlankAllSessionInfo } from "../queries/AllSessionInfo";
-import { BlankHPActionDetails } from "../queries/HPActionDetails";
+import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
+import { BlankHPActionDetails } from "../../queries/HPActionDetails";
 
 test("isNotSuingForHarassment works", () => {
     expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);

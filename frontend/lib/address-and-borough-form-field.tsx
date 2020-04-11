@@ -3,7 +3,7 @@ import { LabelRenderer, BaseFormFieldProps, TextualFormField, RadiosFormField, H
 import { toDjangoChoices } from './common-data';
 import { BoroughChoices, getBoroughChoiceLabels } from '../../common-data/borough-choices';
 import { ProgressiveEnhancementContext, ProgressiveEnhancement } from './progressive-enhancement';
-import { safeGetBoroughChoice } from './pages/onboarding-step-1';
+import { safeGetBoroughChoice } from './onboarding/onboarding-step-1';
 import { GeoAutocomplete } from './geo-autocomplete';
 
 const DEFAULT_ADDRESS_LABEL = "Address";

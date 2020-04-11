@@ -1,14 +1,14 @@
 import React from 'react';
-import { OnboardingRouteInfo } from './routes';
+import { OnboardingRouteInfo } from '../routes';
 import { Route, Switch } from 'react-router';
-import OnboardingStep1 from './pages/onboarding-step-1';
-import OnboardingStep3 from './pages/onboarding-step-3';
-import OnboardingStep4 from './pages/onboarding-step-4';
-import { RouteProgressBar } from './progress-bar';
-import { RedirectToLatestStep } from './progress-redirection';
-import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { ProgressStepRoute } from './progress-step-route';
-import { OnboardingThanks } from './pages/onboarding-thanks';
+import OnboardingStep1 from './onboarding-step-1';
+import OnboardingStep3 from './onboarding-step-3';
+import OnboardingStep4 from './onboarding-step-4';
+import { RouteProgressBar } from '../progress-bar';
+import { RedirectToLatestStep } from '../progress-redirection';
+import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
+import { ProgressStepRoute } from '../progress-step-route';
+import { OnboardingThanks } from './onboarding-thanks';
 
 export type OnboardingRoutesProps = {
   toCancel: string;

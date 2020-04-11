@@ -1,4 +1,4 @@
-import { AllSessionInfo_feeWaiver, AllSessionInfo } from "./queries/AllSessionInfo";
+import { AllSessionInfo_feeWaiver, AllSessionInfo } from "../queries/AllSessionInfo";
 
 /**
  * Returns whether the given session fee waiver info exists, and, if so, whether

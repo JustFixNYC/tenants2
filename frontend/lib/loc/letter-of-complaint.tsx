@@ -13,7 +13,7 @@ import { GetStartedButton } from '../ui/get-started-button';
 import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import { CovidRiskBanner, MoratoriumWarning } from '../ui/covid-banners';
 import ReliefAttemptsPage from '../onboarding/relief-attempts';
-import { isUserNycha } from '../nycha';
+import { isUserNycha } from '../util/nycha';
 
 
 export const Welcome = withAppContext((props: AppContextType): JSX.Element => {

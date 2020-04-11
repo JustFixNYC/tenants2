@@ -6,7 +6,7 @@ import { TextualFormField } from '../forms/form-fields';
 import { AccessDatesMutation, BlankAccessDatesInput } from '../queries/AccessDatesMutation';
 import { AccessDatesInput } from '../queries/globalTypes';
 import { ProgressButtons } from "../ui/buttons";
-import { dateAsISO, addDays } from '../util';
+import { dateAsISO, addDays } from '../util/util';
 
 import validation from '../../../common-data/access-dates-validation.json';
 import { MiddleProgressStep } from '../progress/progress-step-route';

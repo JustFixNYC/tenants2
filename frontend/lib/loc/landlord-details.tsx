@@ -6,7 +6,7 @@ import { TextualFormField } from '../forms/form-fields';
 
 import { BackButton, ProgressButtons } from "../ui/buttons";
 import { AppContext } from '../app-context';
-import { exactSubsetOrDefault } from '../util';
+import { exactSubsetOrDefault } from '../util/util';
 import { Link } from 'react-router-dom';
 import { AllSessionInfo_landlordDetails } from '../queries/AllSessionInfo';
 import { LandlordDetailsV2Mutation, BlankLandlordDetailsV2Input } from '../queries/LandlordDetailsV2Mutation';

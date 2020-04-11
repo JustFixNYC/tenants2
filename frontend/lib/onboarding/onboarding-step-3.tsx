@@ -11,7 +11,7 @@ import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
 import { ReactDjangoChoices } from '../common-data';
 import { OnboardingStep3Mutation, BlankOnboardingStep3Input } from '../queries/OnboardingStep3Mutation';
 import { Modal, BackOrUpOneDirLevel } from '../ui/modal';
-import { twoTuple } from '../util';
+import { twoTuple } from '../util/util';
 import { glueToLastWord } from '../ui/word-glue';
 import { OnboardingRouteInfo } from '../routes';
 import { getLeaseChoiceLabels, LeaseChoices, LeaseChoice } from '../../../common-data/lease-choices';

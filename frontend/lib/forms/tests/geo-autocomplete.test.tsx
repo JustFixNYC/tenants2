@@ -3,7 +3,7 @@ import ReactTestingLibraryPal from '../../tests/rtl-pal';
 import { GeoAutocomplete, geoSearchResultsToAutocompleteItems, geoAutocompleteItemToString } from '../geo-autocomplete';
 import { createMockFetch } from '../../networking/tests/mock-fetch';
 import { FakeGeoResults } from '../../tests/util';
-import { KEY_TAB } from '../../key-codes';
+import { KEY_TAB } from '../../util/key-codes';
 
 
 describe("GeoAutocomplete", () => {

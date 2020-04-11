@@ -1,6 +1,6 @@
-import { AllSessionInfo } from './queries/AllSessionInfo';
-import { OnboardingInfoLeaseType } from './queries/globalTypes';
-import ADDRESS from '../../common-data/nycha-address.json';
+import { AllSessionInfo } from '../queries/AllSessionInfo';
+import { OnboardingInfoLeaseType } from '../queries/globalTypes';
+import ADDRESS from '../../../common-data/nycha-address.json';
 
 /**
  * Our legacy address format. We used to store addresses as a big

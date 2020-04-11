@@ -1,5 +1,5 @@
 import { matchPath } from 'react-router-dom';
-import i18n from './i18n';
+import i18n from '../i18n';
 
 /**
  * Special route key indicating the prefix of a set of routes,

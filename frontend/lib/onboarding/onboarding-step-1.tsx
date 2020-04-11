@@ -6,7 +6,7 @@ import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-sub
 import { OnboardingStep1Input, OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import autobind from 'autobind-decorator';
 import { OnboardingStep1Mutation, BlankOnboardingStep1Input } from '../queries/OnboardingStep1Mutation';
-import { assertNotNull, exactSubsetOrDefault } from '../util';
+import { assertNotNull, exactSubsetOrDefault } from '../util/util';
 import { Modal, BackOrUpOneDirLevel } from '../ui/modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../forms/form-fields';
 import { NextButton } from '../ui/buttons';

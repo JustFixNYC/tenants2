@@ -7,7 +7,7 @@ import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from '../forms/form-errors';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { History } from 'history';
-import { assertNotNull } from '../util';
+import { assertNotNull } from '../util/util';
 import { HelmetProvider } from 'react-helmet-async';
 
 /** Options for AppTester. */

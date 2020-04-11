@@ -5,7 +5,7 @@ import { AppContext } from '../app-context';
 import { AdminConversations, AdminConversationsVariables } from '../queries/AdminConversations';
 import { QueryLoaderQuery } from '../networking/query-loader-prefetcher';
 import { AdminConversationVariables, AdminConversation } from '../queries/AdminConversation';
-import { getQuerystringVar } from '../querystring';
+import { getQuerystringVar } from '../util/querystring';
 import { Helmet } from 'react-helmet-async';
 import { whoOwnsWhatURL } from '../ui/wow-link';
 import classnames from 'classnames';
@@ -13,7 +13,7 @@ import { UpdateTextingHistoryMutation } from '../queries/UpdateTextingHistoryMut
 import { niceAdminTimestamp, friendlyAdminPhoneNumber } from './admin-util';
 import { useRepeatedPromise, useAdminFetch, usePrevious } from './admin-hooks';
 import { staffOnlyView } from './staff-only-view';
-import { useDebouncedValue } from '../use-debounced-value';
+import { useDebouncedValue } from '../util/use-debounced-value';
 
 const PHONE_QS_VAR = 'phone';
 

@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router";
 import { FormContext } from "../forms/form-context";
 import { useState, useEffect, useContext } from "react";
-import { getQuerystringVar } from "../querystring";
+import { getQuerystringVar } from "../util/querystring";
 import { QueryLoaderQuery, QueryLoaderPrefetcher } from "./query-loader-prefetcher";
 import { AppContext } from "../app-context";
 

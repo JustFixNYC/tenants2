@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDebouncedValue } from '../use-debounced-value';
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 import { act } from '@testing-library/react';
 
 

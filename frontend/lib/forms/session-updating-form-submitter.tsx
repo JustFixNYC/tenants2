@@ -1,7 +1,7 @@
 import React from 'react';
 import { WithServerFormFieldErrors } from './form-errors';
 import { AppContext } from '../app-context';
-import { assertNotNull } from '../util';
+import { assertNotNull } from '../util/util';
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { LegacyFormSubmitterProps, LegacyFormSubmitter } from './legacy-form-submitter';
 

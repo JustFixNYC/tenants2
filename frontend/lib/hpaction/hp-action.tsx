@@ -29,7 +29,7 @@ import { HPActionYourLandlord } from './hp-action-your-landlord';
 import { GeneratePDFForm, ShowHPUploadStatus } from './hp-action-generate-pdf';
 import { isNotSuingForRepairs, isNotSuingForHarassment, hasFeeWaiverAnd } from './hp-action-util';
 import { CustomerSupportLink } from '../ui/customer-support-link';
-import { isUserNycha } from '../nycha';
+import { isUserNycha } from '../util/nycha';
 
 const onboardingForHPActionRoute = () => getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding.latestStep;
 

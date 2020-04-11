@@ -12,7 +12,7 @@ import Navbar from './ui/navbar';
 import { OnboardingInfoSignupIntent } from './queries/globalTypes';
 import { getOnboardingRouteForIntent } from './onboarding/signup-intent';
 import HelpPage from './pages/help-page';
-import { createRedirectWithSearch } from './redirect-util';
+import { createRedirectWithSearch } from './util/redirect-util';
 import MoratoriumBanner from './ui/covid-banners';
 import { AppSiteProps } from './app';
 import { Footer } from './ui/footer';

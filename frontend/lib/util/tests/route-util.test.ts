@@ -1,5 +1,5 @@
 import { isModalRoute, RouteMap, createRoutesForSite } from "../route-util";
-import i18n from "../i18n";
+import i18n from "../../i18n";
 
 test('isModalRoute() works', () => {
   expect(isModalRoute('/blah')).toBe(false);

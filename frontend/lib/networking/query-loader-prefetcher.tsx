@@ -1,7 +1,7 @@
 import { GraphQLFetch } from "./graphql-client";
 import { RouteComponentProps } from "react-router";
 import { AppContextType } from "../app-context";
-import { isDeepEqual } from "../util";
+import { isDeepEqual } from "../util/util";
 import { getAppStaticContext } from "../app-static-context";
 
 export interface QueryLoaderFetch<Input, Output> {

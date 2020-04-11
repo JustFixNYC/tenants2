@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 import { MemoryRouter, Route, Switch } from 'react-router';
 import { createRedirectWithSearch } from '../redirect-util';
 

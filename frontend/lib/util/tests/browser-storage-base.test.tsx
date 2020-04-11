@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { BrowserStorage, createUseBrowserStorage, BaseBrowserStorageSchema } from "../browser-storage-base";
-import ReactTestingLibraryPal from './rtl-pal';
+import ReactTestingLibraryPal from '../../tests/rtl-pal';
 
 class FakeStorage {
   constructor(readonly data: any = {}) {

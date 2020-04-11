@@ -16,7 +16,7 @@ import { NextButton, BackButton, ProgressButtons } from "../ui/buttons";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { issueChoicesForArea, issuesForArea, areaIssueCount, customIssuesForArea } from './issues';
 import ISSUE_AREA_SVGS from '../svg/issues';
-import { assertNotUndefined } from '../util';
+import { assertNotUndefined } from '../util/util';
 import { IssueAreaChoice, isIssueAreaChoice, getIssueAreaChoiceLabels, IssueAreaChoices } from '../../../common-data/issue-area-choices';
 import { IssueChoice } from '../../../common-data/issue-choices';
 import { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } from '../../../common-data/issue-validation.json';
@@ -27,7 +27,7 @@ import { TextualFieldWithCharsRemaining } from '../forms/chars-remaining';
 import { Modal } from '../ui/modal';
 import { UpdateBrowserStorage, useBrowserStorage } from '../browser-storage';
 import { NoScriptFallback } from '../progressive-enhancement';
-import { getQuerystringVar } from '../querystring';
+import { getQuerystringVar } from '../util/querystring';
 
 const checkSvg = require('../svg/check-solid.svg') as JSX.Element;
 

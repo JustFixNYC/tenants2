@@ -4,7 +4,7 @@ import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from '../queries/AllSessionInfo';
 import { AppContext } from '../app-context';
-import { assertNotNull } from '../util';
+import { assertNotNull } from '../util/util';
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */

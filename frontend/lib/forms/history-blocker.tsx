@@ -2,9 +2,9 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import autobind from 'autobind-decorator';
 import { UnregisterCallback, Location, Action } from 'history';
-import { assertNotNull } from './util';
-import { isModalRoute } from './route-util';
-import { ga } from './analytics/google-analytics';
+import { assertNotNull } from '../util/util';
+import { isModalRoute } from '../util/route-util';
+import { ga } from '../analytics/google-analytics';
 
 
 const DEFAULT_PROMPT = (

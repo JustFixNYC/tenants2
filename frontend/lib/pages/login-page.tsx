@@ -11,8 +11,8 @@ import { withAppContext, AppContextType, AppContext } from '../app-context';
 import { History } from 'history';
 import hardRedirect from '../hard-redirect';
 import { PhoneNumberFormField } from '../forms/phone-number-form-field';
-import { assertNotNull } from '../util';
-import { getPostOrQuerystringVar } from '../querystring';
+import { assertNotNull } from '../util/util';
+import { getPostOrQuerystringVar } from '../util/querystring';
 import { Link } from 'react-router-dom';
 import { getPostOnboardingURL } from '../onboarding/signup-intent';
 

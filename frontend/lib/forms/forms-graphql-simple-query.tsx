@@ -1,6 +1,6 @@
 import { GraphQLFetch } from "../networking/graphql-client";
 import { WithServerFormFieldErrors } from "./form-errors";
-import { isDeepEqual } from "../util";
+import { isDeepEqual } from "../util/util";
 
 export interface FetchSimpleQuery<FormInput, FormOutput> {
   (fetch: GraphQLFetch, args: FormInput): Promise<{ output: FormOutput }>;

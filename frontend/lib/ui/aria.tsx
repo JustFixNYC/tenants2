@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { KEY_ENTER, KEY_SPACE } from '../key-codes';
-import { buildContextHocFactory } from '../context-util';
+import { KEY_ENTER, KEY_SPACE } from '../util/key-codes';
+import { buildContextHocFactory } from '../util/context-util';
 
 function trapEnterOrSpace(e: React.KeyboardEvent): boolean {
   if (e.which === KEY_ENTER || e.which === KEY_SPACE) {

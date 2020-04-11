@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import Confetti, { CONFETTI_WRAPPER_CLASS, ensurePointerEventsIsNone } from "../confetti";
-import { assertNotNull } from '../../util';
+import { assertNotNull } from '../../util/util';
 import { responsiveInt } from '../../../vendor/confetti';
 
 describe('Confetti', () => {

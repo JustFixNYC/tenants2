@@ -3,7 +3,7 @@ import { MemoryRouter, Route } from 'react-router';
 
 import { LoadingOverlayManager, friendlyLoad, IMPERCEPTIBLE_MS, LoadingPage, LoadingPageWithRetry } from "../loading-page";
 import { AppTesterPal } from '../../tests/app-tester-pal';
-import { assertNotNull } from '../../util';
+import { assertNotNull } from '../../util/util';
 import { Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';

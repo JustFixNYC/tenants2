@@ -1,9 +1,9 @@
 import React from 'react';
 import { ReactElement } from "react";
 import { TransitionProps } from "react-transition-group/Transition";
-import { assertNotNull } from './util';
+import { assertNotNull } from './util/util';
 import { TransitionGroup } from 'react-transition-group';
-import { buildContextHocFactory } from './context-util';
+import { buildContextHocFactory } from './util/context-util';
 
 /**
  * This context communicates information about the current

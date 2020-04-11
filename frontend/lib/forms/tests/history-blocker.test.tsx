@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppTesterPal } from "./app-tester-pal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import { HistoryBlockerManager, HistoryBlocker, HistoryBlockerManagerWithoutRouter, getNavigationConfirmation } from "../history-blocker";
 import { Route } from "react-router";
 

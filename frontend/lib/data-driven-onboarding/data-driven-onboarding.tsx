@@ -11,7 +11,7 @@ import { AddressAndBoroughField } from '../forms/address-and-borough-form-field'
 import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../forms/query-form-submitter';
 import { AppContext, getGlobalAppServerInfo } from '../app-context';
-import { properNoun, numberWithCommas } from '../util';
+import { properNoun, numberWithCommas } from '../util/util';
 import { OutboundLink, ga } from '../analytics/google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
 import { getEmergencyHPAIssueLabels } from '../hpaction/emergency-hp-action-issues';

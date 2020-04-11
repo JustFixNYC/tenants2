@@ -6,7 +6,7 @@ import { History } from 'history';
 import autobind from 'autobind-decorator';
 import { areFieldsEqual } from './form-field-equality';
 import { ga } from '../analytics/google-analytics';
-import { HistoryBlocker } from '../history-blocker';
+import { HistoryBlocker } from './history-blocker';
 import { getDataLayer } from '../analytics/google-tag-manager';
 
 export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {

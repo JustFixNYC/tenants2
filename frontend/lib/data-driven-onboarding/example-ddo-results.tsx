@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Page from "../ui/page";
 import { BlankDDOSuggestionsResult } from '../queries/DDOSuggestionsResult';
 import { RouteComponentProps } from 'react-router';
-import { getQuerystringVar } from '../querystring';
+import { getQuerystringVar } from '../util/querystring';
 import { DataDrivenOnboardingResults } from './data-driven-onboarding';
-import { KEY_ENTER } from '../key-codes';
+import { KEY_ENTER } from '../util/key-codes';
 
 const QUERYSTRING_VAR = 'props';
 

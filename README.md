@@ -124,6 +124,21 @@ You can also use `yarn test:watch` to have Jest
 continuously watch the front-end tests for changes and
 re-run them as needed.
 
+## Prettier
+
+We use [Prettier][] to automatically format some of our code. Before
+committing or pushing to GitHub, you may want to run the following
+to ensure that any files you've changed are properly formatted:
+
+```
+yarn prettier:fix
+```
+
+Note that if you don't either use this or some kind of editor plug-in
+before pushing to GitHub, continuous integration will fail.
+
+[Prettier]: https://prettier.io
+
 ## Environment variables
 
 For help on environment variables related to the

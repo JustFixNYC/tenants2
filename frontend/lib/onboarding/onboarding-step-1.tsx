@@ -11,7 +11,6 @@ import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
-import { isBoroughChoice, BoroughChoice } from '../../../common-data/borough-choices';
 import { OutboundLink } from '../google-analytics';
 import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
@@ -19,11 +18,6 @@ import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '..
 import { ClearSessionButton } from '../clear-session-button';
 import { updateAddressFromBrowserStorage } from '../browser-storage';
 import { getSignupIntentLabels } from '../../../common-data/signup-intent-choices';
-
-export function safeGetBoroughChoice(choice: string): BoroughChoice|null {
-  if (isBoroughChoice(choice)) return choice;
-  return null;
-}
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (

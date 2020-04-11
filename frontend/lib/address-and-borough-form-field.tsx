@@ -1,9 +1,8 @@
 import React from 'react';
 import { LabelRenderer, BaseFormFieldProps, TextualFormField, RadiosFormField, HiddenFormField } from './form-fields';
 import { toDjangoChoices } from './common-data';
-import { BoroughChoices, getBoroughChoiceLabels } from '../../common-data/borough-choices';
+import { BoroughChoices, getBoroughChoiceLabels, isBoroughChoice, BoroughChoice } from '../../common-data/borough-choices';
 import { ProgressiveEnhancementContext, ProgressiveEnhancement } from './progressive-enhancement';
-import { safeGetBoroughChoice } from './onboarding/onboarding-step-1';
 import { GeoAutocomplete } from './geo-autocomplete';
 
 const DEFAULT_ADDRESS_LABEL = "Address";
@@ -17,6 +16,11 @@ type AddressAndBoroughFieldProps = {
   addressProps: BaseFormFieldProps<string>,
   boroughProps: BaseFormFieldProps<string>
 };
+
+function safeGetBoroughChoice(choice: string): BoroughChoice|null {
+  if (isBoroughChoice(choice)) return choice;
+  return null;
+}
 
 export class AddressAndBoroughField extends React.Component<AddressAndBoroughFieldProps> {
   renderBaselineAddressFields(): JSX.Element {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ga, trackPageView, OutboundLink, handleOutboundLinkClick } from "../google-analytics";
-import ReactTestingLibraryPal from "./rtl-pal";
-import { setHardRedirector } from '../hard-redirect';
+import ReactTestingLibraryPal from "../../tests/rtl-pal";
+import { setHardRedirector } from '../../hard-redirect';
 
 describe('ga()', () => {
   describe('if window.ga is undefined', () => {

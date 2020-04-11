@@ -11,7 +11,7 @@ import { Modal, BackOrUpOneDirLevel } from '../modal';
 import { TextualFormField, renderSimpleLabel, LabelRenderer } from '../form-fields';
 import { NextButton } from '../buttons';
 import { withAppContext, AppContextType, AppContext } from '../app-context';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink } from '../analytics/google-analytics';
 import { FormContext } from '../form-context';
 import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';

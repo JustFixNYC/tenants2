@@ -7,7 +7,7 @@ import { IssuesRoutes } from '../issues/issue-pages';
 import { withAppContext, AppContextType } from '../app-context';
 import { PdfLink } from '../pdf-link';
 import { ProgressRoutesProps, buildProgressRoutesComponent } from '../progress-routes';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink } from '../analytics/google-analytics';
 import { HPUploadStatus, OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import { FeeWaiverMisc, FeeWaiverIncome, FeeWaiverExpenses, FeeWaiverPublicAssistance, FeeWaiverStart } from './fee-waiver';
 import { MiddleProgressStep } from '../progress-step-route';

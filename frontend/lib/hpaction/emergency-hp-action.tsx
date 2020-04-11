@@ -17,7 +17,7 @@ import { GeneratePDFForm, ShowHPUploadStatus } from './hp-action-generate-pdf';
 import { assertNotNull } from '../util';
 import { PdfLink } from '../pdf-link';
 import { BigList } from '../big-list';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink } from '../analytics/google-analytics';
 import { SessionUpdatingFormSubmitter } from '../session-updating-form-submitter';
 import { EmergencyHpaIssuesMutation, BlankCustomHomeIssuesCustomIssueFormFormSetInput } from '../queries/EmergencyHpaIssuesMutation';
 import { HiddenFormField, MultiCheckboxFormField, TextualFormField } from '../form-fields';

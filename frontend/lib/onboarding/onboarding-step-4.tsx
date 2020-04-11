@@ -9,9 +9,9 @@ import { CheckboxFormField, TextualFormField, HiddenFormField } from '../form-fi
 import { PhoneNumberFormField } from '../phone-number-form-field';
 import { ModalLink } from '../modal';
 import { PrivacyInfoModal } from './onboarding-step-1';
-import { fbq } from '../facebook-pixel';
+import { fbq } from '../analytics/facebook-pixel';
 import { FormContext } from '../form-context';
-import { getDataLayer } from '../google-tag-manager';
+import { getDataLayer } from '../analytics/google-tag-manager';
 import { BlankOnboardingStep4Version2Input, OnboardingStep4Version2Mutation } from '../queries/OnboardingStep4Version2Mutation';
 
 type OnboardingStep4Props = {

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { QueryFormSubmitter, useQueryFormResultFocusProps } from '../query-form-submitter';
 import { AppContext, getGlobalAppServerInfo } from '../app-context';
 import { properNoun, numberWithCommas } from '../util';
-import { OutboundLink, ga } from '../google-analytics';
+import { OutboundLink, ga } from '../analytics/google-analytics';
 import { UpdateBrowserStorage } from '../browser-storage';
 import { getEmergencyHPAIssueLabels } from '../hpaction/emergency-hp-action-issues';
 

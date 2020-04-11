@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { SimpleProgressiveEnhancement } from './progressive-enhancement';
 import classnames from 'classnames';
 import { Icon } from './icon';
-import { OutboundLink } from './google-analytics';
+import { OutboundLink } from './analytics/google-analytics';
 import { getEmergencyHPAIssueLabels } from './hpaction/emergency-hp-action-issues';
 import { CSSTransition } from 'react-transition-group';
 import Routes from './routes';

@@ -4,7 +4,7 @@ import { StaticImage } from '../static-image';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
 import { BigList } from '../big-list';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink } from '../analytics/google-analytics';
 import { GetStartedButton } from '../get-started-button';
 import { OnboardingInfoSignupIntent } from '../queries/globalTypes';
 import { MoratoriumWarning } from '../covid-banners';

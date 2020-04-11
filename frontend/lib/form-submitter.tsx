@@ -5,9 +5,9 @@ import { RouteComponentProps, Route } from 'react-router';
 import { History } from 'history';
 import autobind from 'autobind-decorator';
 import { areFieldsEqual } from './form-field-equality';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 import { HistoryBlocker } from './history-blocker';
-import { getDataLayer } from './google-tag-manager';
+import { getDataLayer } from './analytics/google-tag-manager';
 
 export type FormSubmitterProps<FormInput, FormOutput extends WithServerFormFieldErrors> = {
   /**

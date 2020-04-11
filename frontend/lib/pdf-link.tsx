@@ -1,5 +1,5 @@
 import React from 'react';
-import { OutboundLink } from './google-analytics';
+import { OutboundLink } from './analytics/google-analytics';
 
 /**
  * Generate a PDF download link.

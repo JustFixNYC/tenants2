@@ -1,5 +1,5 @@
 import React from 'react';
-import { ga } from './google-analytics';
+import { ga } from './analytics/google-analytics';
 
 /** The server uses this as the field "name" for non-field errors. */
 const SERVER_NON_FIELD_ERROR = '__all__';

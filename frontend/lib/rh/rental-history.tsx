@@ -19,7 +19,7 @@ import { AddressAndBoroughField } from '../address-and-borough-form-field';
 import { ConfirmAddressModal, redirectToAddressConfirmationOrNextStep } from '../address-confirmation';
 import { getBoroughChoiceLabels, BoroughChoice } from '../../../common-data/borough-choices';
 import { ClearSessionButton } from '../clear-session-button';
-import { OutboundLink } from '../google-analytics';
+import { OutboundLink } from '../analytics/google-analytics';
 import { CustomerSupportLink } from '../customer-support-link';
 import { updateAddressFromBrowserStorage } from '../browser-storage';
 import { GetStartedButton } from '../get-started-button';

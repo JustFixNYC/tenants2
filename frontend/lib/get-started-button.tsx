@@ -1,6 +1,6 @@
 import React from 'react';
 import { CenteredPrimaryButtonLink } from './buttons';
-import { GetStartedIntent, getDataLayer, GetStartedPageType } from './google-tag-manager';
+import { GetStartedIntent, getDataLayer, GetStartedPageType } from './analytics/google-tag-manager';
 
 export const GetStartedButton: React.FC<{
   to: string,

@@ -1,4 +1,4 @@
-import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
+import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 
 export interface GTMDataLayer {
   push(obj: GTMDataLayerObject): void;

@@ -1,37 +1,37 @@
 /**
  * This class keeps track of internationalization-related data.
- * 
+ *
  * Instances start out uninitialized, and must be explicitly
  * initialized before any other methods or properties can be
  * accessed.
- * 
+ *
  * Once initialized, an instance can actually be re-initialized;
  * clients can register to be notified if and when this happens.
  */
 export class I18n {
-  private _locale: null|string = null;
+  private _locale: null | string = null;
   private _changeListeners: Function[] = [];
 
   /**
    * Create an instance, optionally auto-initializing it.
-   * 
+   *
    * @param locale An empty string to indicate that localization is
    *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
    */
   constructor(locale?: string) {
-    if (typeof(locale) === 'string') {
+    if (typeof locale === "string") {
       this.initialize(locale);
     }
   }
 
   private raiseInitError(): never {
-    throw new Error('i18n is not initialized!');
+    throw new Error("i18n is not initialized!");
   }
 
   /**
    * Return the current locale, raising an error if the
    * class is uninitialized.
-   * 
+   *
    * If the locale is set to the empty string, it means that
    * localization is currently disabled. Otherwise, the
    * string will be an ISO 639-1 code such as 'en' or 'es'.
@@ -49,18 +49,18 @@ export class I18n {
    */
   get localePathPrefix(): string {
     const { locale } = this;
-    return locale === '' ? '' : `/${locale}`;
+    return locale === "" ? "" : `/${locale}`;
   }
 
   /**
    * Initialize the instance to the given locale.
-   * 
+   *
    * @param locale An empty string to indicate that localization is
    *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
    */
   initialize(locale: string) {
     this._locale = locale;
-    this._changeListeners.forEach(cb => cb());
+    this._changeListeners.forEach((cb) => cb());
   }
 
   /** Return whether the instance is initialized. */
@@ -80,7 +80,7 @@ export class I18n {
   removeChangeListener(cb: Function) {
     const index = this._changeListeners.indexOf(cb);
     if (index === -1) {
-      throw new Error('change listener does not exist!');
+      throw new Error("change listener does not exist!");
     }
     this._changeListeners.splice(index, 1);
   }
@@ -91,7 +91,7 @@ export class I18n {
  * a singleton because passing it around everywhere would be
  * a massive headache, especially given the state of the codebase
  * at the time that internationalization was introduced.
- * 
+ *
  * That said, one should prefer to write client code in a way
  * such that an I18n object is passed into it, rather than
  * grabbing this singleton directly. This will make it easier

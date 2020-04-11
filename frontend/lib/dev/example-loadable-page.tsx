@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import Page from "../ui/page";
 
@@ -6,8 +6,10 @@ import Page from "../ui/page";
 export default function ExampleLoadablePage(): JSX.Element {
   console.log(
     "This logging statement exists to make sure that logging statements " +
-    "can be made from code without messing anything up on the server or " +
-    "client side. Please do not remove it."
+      "can be made from code without messing anything up on the server or " +
+      "client side. Please do not remove it."
   );
-  return <Page title="Example loadable page">This is an example loadable page.</Page>;
+  return (
+    <Page title="Example loadable page">This is an example loadable page.</Page>
+  );
 }

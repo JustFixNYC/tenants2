@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import Page from '../ui/page';
-import Routes from '../routes';
-import { SessionUpdatingFormSubmitter } from '../forms/session-updating-form-submitter';
-import { LoginMutation, BlankLoginInput } from '../queries/LoginMutation';
-import { TextualFormField } from '../forms/form-fields';
-import { NextButton } from '../ui/buttons';
-import { RouteComponentProps } from 'react-router';
-import { withAppContext, AppContextType, AppContext } from '../app-context';
-import { History } from 'history';
-import hardRedirect from '../hard-redirect';
-import { PhoneNumberFormField } from '../forms/phone-number-form-field';
-import { assertNotNull } from '../util/util';
-import { getPostOrQuerystringVar } from '../util/querystring';
-import { Link } from 'react-router-dom';
-import { getPostOnboardingURL } from '../onboarding/signup-intent';
+import Page from "../ui/page";
+import Routes from "../routes";
+import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
+import { TextualFormField } from "../forms/form-fields";
+import { NextButton } from "../ui/buttons";
+import { RouteComponentProps } from "react-router";
+import { withAppContext, AppContextType, AppContext } from "../app-context";
+import { History } from "history";
+import hardRedirect from "../hard-redirect";
+import { PhoneNumberFormField } from "../forms/phone-number-form-field";
+import { assertNotNull } from "../util/util";
+import { getPostOrQuerystringVar } from "../util/querystring";
+import { Link } from "react-router-dom";
+import { getPostOnboardingURL } from "../onboarding/signup-intent";
 
-export const NEXT = 'next';
+export const NEXT = "next";
 
 export interface LoginFormProps {
   next: string;
@@ -56,8 +56,15 @@ export class LoginForm extends React.Component<LoginFormProps> {
         {(ctx) => (
           <React.Fragment>
             <input type="hidden" name={NEXT} value={this.props.next} />
-            <PhoneNumberFormField label="Phone number" {...ctx.fieldPropsFor('phoneNumber')} />
-            <TextualFormField label="Password" type="password" {...ctx.fieldPropsFor('password')} />
+            <PhoneNumberFormField
+              label="Phone number"
+              {...ctx.fieldPropsFor("phoneNumber")}
+            />
+            <TextualFormField
+              label="Password"
+              type="password"
+              {...ctx.fieldPropsFor("password")}
+            />
             <div className="field">
               <NextButton isLoading={ctx.isLoading} label="Sign in" />
             </div>
@@ -77,36 +84,49 @@ export function absolutifyURLToOurOrigin(url: string, origin: string): string {
   if (url.indexOf(`${origin}/`) === 0) {
     return url;
   }
-  if (url[0] !== '/') {
+  if (url[0] !== "/") {
     url = `/${url}`;
   }
   return `${origin}${url}`;
 }
 
-const LoginPage = withAppContext((props: RouteComponentProps<any> & AppContextType): JSX.Element => {
-  const appContext = useContext(AppContext);
-  let next = absolutifyURLToOurOrigin(
-    getPostOrQuerystringVar(props, NEXT) || getPostOnboardingURL(appContext.session.onboardingInfo),
-    props.server.originURL
-  );
+const LoginPage = withAppContext(
+  (props: RouteComponentProps<any> & AppContextType): JSX.Element => {
+    const appContext = useContext(AppContext);
+    let next = absolutifyURLToOurOrigin(
+      getPostOrQuerystringVar(props, NEXT) ||
+        getPostOnboardingURL(appContext.session.onboardingInfo),
+      props.server.originURL
+    );
 
-  return (
-    <Page title="Sign in">
-      <div className="box">
-        <h1 className="title">Sign in</h1>
-        <LoginForm next={next} redirectToLegacyAppURL={props.server.redirectToLegacyAppURL} />
-        <br/>
-        <div className="content">
-          <p>
-            If you have trouble logging in, you can <Link to={Routes.locale.passwordReset.start}>reset your password</Link>.
-          </p>
-          <p>
-            Don't have an account yet? You can sign up for one by composing a <Link to={Routes.locale.loc.splash}>Letter of Complaint</Link> or starting an <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
-          </p>
+    return (
+      <Page title="Sign in">
+        <div className="box">
+          <h1 className="title">Sign in</h1>
+          <LoginForm
+            next={next}
+            redirectToLegacyAppURL={props.server.redirectToLegacyAppURL}
+          />
+          <br />
+          <div className="content">
+            <p>
+              If you have trouble logging in, you can{" "}
+              <Link to={Routes.locale.passwordReset.start}>
+                reset your password
+              </Link>
+              .
+            </p>
+            <p>
+              Don't have an account yet? You can sign up for one by composing a{" "}
+              <Link to={Routes.locale.loc.splash}>Letter of Complaint</Link> or
+              starting an{" "}
+              <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
+            </p>
+          </div>
         </div>
-      </div>
-    </Page>
-  );
-});
+      </Page>
+    );
+  }
+);
 
 export default LoginPage;

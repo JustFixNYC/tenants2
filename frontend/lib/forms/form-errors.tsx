@@ -1,8 +1,8 @@
-import React from 'react';
-import { ga } from '../analytics/google-analytics';
+import React from "react";
+import { ga } from "../analytics/google-analytics";
 
 /** The server uses this as the field "name" for non-field errors. */
-const SERVER_NON_FIELD_ERROR = '__all__';
+const SERVER_NON_FIELD_ERROR = "__all__";
 
 /**
  * This is the extended, new-style form validation error returned
@@ -12,9 +12,9 @@ const SERVER_NON_FIELD_ERROR = '__all__';
 export interface ServerFormFieldError {
   field: string;
   extendedMessages: {
-    message: string,
-    code: string|null
-  }[]
+    message: string;
+    code: string | null;
+  }[];
 }
 
 /**
@@ -34,26 +34,25 @@ export class FormError {
    * with the "shape" of a FormError vs. an actual instance of it,
    * so we'll add this sentinel to manually ensure it.
    */
-  _type = 'FormError';
+  _type = "FormError";
 
-  constructor(readonly message: string, readonly code: string|null = null) {
-  }
+  constructor(readonly message: string, readonly code: string | null = null) {}
 
   /** The human-readable representation of the error. */
   toString(): string {
     return this.message;
   }
-};
+}
 
 // This type is parameterized by the form input, so that each
 // key corresponds to the name of a form input field.
 export type FormFieldErrorMap<T> = {
   [K in keyof T]?: FormError[];
-}
+};
 
 export type FormsetErrorMap<T> = {
   [K in keyof T]?: T[K] extends Array<infer U> ? FormErrors<U>[] : never;
-}
+};
 
 export interface FormErrors<T> {
   /**
@@ -78,7 +77,7 @@ export interface FormErrors<T> {
 export function trackFormErrors(errors: ServerFormFieldError[]): void {
   for (let error of errors) {
     for (let fe of toFormErrors(error)) {
-      ga('send', 'event', 'form-error', error.field, fe.message);
+      ga("send", "event", "form-error", error.field, fe.message);
     }
   }
 }
@@ -95,7 +94,7 @@ type FormsetField = {
  * Parse a field name of the form "<formset>.<index>.<field>", e.g.
  * "people.0.firstName", and return the structured data.
  */
-export function parseFormsetField(field: string): FormsetField|null {
+export function parseFormsetField(field: string): FormsetField | null {
   const match = field.match(FORMSET_FIELD_RE);
 
   if (!match) return null;
@@ -103,7 +102,7 @@ export function parseFormsetField(field: string): FormsetField|null {
   return {
     formset: match[1],
     index: parseInt(match[2]),
-    field: match[3]
+    field: match[3],
   };
 }
 
@@ -112,7 +111,10 @@ export function parseFormsetField(field: string): FormsetField|null {
  * error and, if it's a formset error, add it to the hash and
  * return true. Otherwise, return false.
  */
-export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[]|undefined }, error: ServerFormFieldError): boolean {
+export function addToFormsetErrors(
+  errors: { [formset: string]: FormErrors<any>[] | undefined },
+  error: ServerFormFieldError
+): boolean {
   const ff = parseFormsetField(error.field);
 
   if (!ff) return false;
@@ -124,9 +126,10 @@ export function addToFormsetErrors(errors: { [formset: string]: FormErrors<any>[
     errors[ff.formset] = formsetErrors;
   }
 
-  const result = getFormErrors([
-    { ...error, field: ff.field }
-  ], formsetErrors[ff.index]);
+  const result = getFormErrors(
+    [{ ...error, field: ff.field }],
+    formsetErrors[ff.index]
+  );
 
   formsetErrors[ff.index] = result;
 
@@ -138,22 +141,29 @@ export function strToFormError(message: string): FormError {
 }
 
 export function toFormErrors(errors: ServerFormFieldError): FormError[] {
-  return errors.extendedMessages.map(em => new FormError(em.message, em.code));
+  return errors.extendedMessages.map(
+    (em) => new FormError(em.message, em.code)
+  );
 }
 
 /**
  * Re-structure a list of errors from the server into a more convenient
  * format for us to process.
- * 
+ *
  * @param errors A list of errors from the server.
  */
-export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErrors<T> = {
-  nonFieldErrors: [],
-  fieldErrors: {}
-}): FormErrors<T> {
-  const formsetErrors: { [formset: string]: FormErrors<any>[]|undefined } = {};
+export function getFormErrors<T>(
+  errors: ServerFormFieldError[],
+  result: FormErrors<T> = {
+    nonFieldErrors: [],
+    fieldErrors: {},
+  }
+): FormErrors<T> {
+  const formsetErrors: {
+    [formset: string]: FormErrors<any>[] | undefined;
+  } = {};
 
-  errors.forEach(error => {
+  errors.forEach((error) => {
     if (error.field === SERVER_NON_FIELD_ERROR) {
       result.nonFieldErrors.push(...toFormErrors(error));
     } else {
@@ -182,7 +192,9 @@ export function getFormErrors<T>(errors: ServerFormFieldError[], result: FormErr
 }
 
 /** A JSX component that displays non-field errors. */
-export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element|null {
+export function NonFieldErrors(props: {
+  errors?: FormErrors<any>;
+}): JSX.Element | null {
   const errors = props.errors && props.errors.nonFieldErrors;
 
   if (!errors) {
@@ -191,7 +203,11 @@ export function NonFieldErrors(props: { errors?: FormErrors<any> }): JSX.Element
 
   return (
     <React.Fragment>
-      {errors.map(error => <div className="notification is-danger" key={error.message}>{error.message}</div>)}
+      {errors.map((error) => (
+        <div className="notification is-danger" key={error.message}>
+          {error.message}
+        </div>
+      ))}
     </React.Fragment>
   );
 }
@@ -207,24 +223,30 @@ export type WithFormFieldErrors = {
 
 /**
  * Combine multiple errors into a single string and return it.
- * 
+ *
  * Also, if we're provided with a label, construct an ARIA label
  * consisting of the original label followed by the errors (there's
  * dispute on what the best way to present form validation errors
  * to screen readers is, and this approach seems to work).
  */
-export function formatErrors(props: WithFormFieldErrors & { label: string }): {
-  errorHelp: JSX.Element|null,
-  ariaLabel: string
+export function formatErrors(
+  props: WithFormFieldErrors & { label: string }
+): {
+  errorHelp: JSX.Element | null;
+  ariaLabel: string;
 };
 
-export function formatErrors(props: WithFormFieldErrors): {
-  errorHelp: JSX.Element|null,
+export function formatErrors(
+  props: WithFormFieldErrors
+): {
+  errorHelp: JSX.Element | null;
 };
 
-export function formatErrors(props: WithFormFieldErrors & { label?: string }): {
-  errorHelp: JSX.Element|null,
-  ariaLabel?: string
+export function formatErrors(
+  props: WithFormFieldErrors & { label?: string }
+): {
+  errorHelp: JSX.Element | null;
+  ariaLabel?: string;
 } {
   let ariaLabel = props.label;
   let errorHelp = null;
@@ -232,7 +254,7 @@ export function formatErrors(props: WithFormFieldErrors & { label?: string }): {
   if (props.errors) {
     // We expect each error to be a sentence, so we'll join
     // them with whitespace.
-    const allErrors = props.errors.join(' ');
+    const allErrors = props.errors.join(" ");
     errorHelp = <p className="help is-danger">{allErrors}</p>;
     if (props.label !== undefined) {
       ariaLabel = `${ariaLabel}, ${allErrors}`;

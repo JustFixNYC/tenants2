@@ -4,7 +4,10 @@
   "description": "JustFix.nyc tenants app number two",
   "main": "index.js",
   "scripts": {
-    "lint": "yarn typecheck && yarn eslint",
+    "prettier": "prettier",
+    "prettier:check": "prettier \"**/*.{ts,tsx}\" --check",
+    "prettier:fix": "prettier \"**/*.{ts,tsx}\" --write",
+    "lint": "yarn typecheck && yarn eslint && yarn prettier:check",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "eslint": "eslint frontend/lib --ext .ts,.tsx",
@@ -51,6 +54,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "jest": "25.1.0",
+    "prettier": "2.0.4",
     "webpack-bundle-analyzer": "3.6.0"
   },
   "resolutions": {

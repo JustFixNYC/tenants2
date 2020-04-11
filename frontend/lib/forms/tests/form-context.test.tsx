@@ -1,34 +1,36 @@
 import { BaseFormContextOptions, FormContext } from "../form-context";
 
-describe('FormContext', () => {
+describe("FormContext", () => {
   const currentState = {
-    foo: 'hello',
+    foo: "hello",
     bar: 1,
-    baz: [{thing: 1}]
+    baz: [{ thing: 1 }],
   };
   const baseOptions: BaseFormContextOptions<typeof currentState> = {
-    idPrefix: 'blarg',
+    idPrefix: "blarg",
     isLoading: false,
     errors: undefined,
     currentState,
     setField(field, value) {},
-    namePrefix: 'hi'
+    namePrefix: "hi",
   };
 
-  describe('formsetPropsFor()', () => {
+  describe("formsetPropsFor()", () => {
     const ctx = new FormContext(baseOptions, () => {});
 
-    it('throws an error when not passed a formset', () => {
-      expect(() => ctx.formsetPropsFor('foo')).toThrowError("invalid formset 'foo'");
+    it("throws an error when not passed a formset", () => {
+      expect(() => ctx.formsetPropsFor("foo")).toThrowError(
+        "invalid formset 'foo'"
+      );
     });
 
-    it('works', () => {
-      const props = ctx.formsetPropsFor('baz');
+    it("works", () => {
+      const props = ctx.formsetPropsFor("baz");
       expect(props.items).toEqual([{ thing: 1 }]);
       expect(props.errors).toBeUndefined();
-      expect(props.idPrefix).toEqual('blarg');
+      expect(props.idPrefix).toEqual("blarg");
       expect(props.isLoading).toEqual(false);
-      expect(props.name).toEqual('baz');
+      expect(props.name).toEqual("baz");
     });
   });
 });

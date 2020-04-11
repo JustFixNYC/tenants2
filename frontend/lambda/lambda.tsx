@@ -1,7 +1,7 @@
 // Register source map support ASAP so any exceptions thrown
 // at the top level of imported modules have source-mapped
 // stack traces.
-import 'source-map-support/register'
+import "source-map-support/register";
 
 // We're outputting our result to stdout, so we want all
 // console.log() statements to go to stderr, so they don't
@@ -10,23 +10,26 @@ import 'source-map-support/register'
 // It's also important that we do this as early as possible,
 // so that even logging statements at the top level of modules
 // we import are sent to stderr.
-import './redirect-console-to-stderr';
+import "./redirect-console-to-stderr";
 
-import path from 'path';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import { HelmetData } from 'react-helmet';
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import path from "path";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { StaticRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import { HelmetData } from "react-helmet";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 
-import { ErrorDisplay, getErrorString } from '../lib/error-boundary';
-import { App, AppProps } from '../lib/app';
-import { appStaticContextAsStaticRouterContext, AppStaticContext } from '../lib/app-static-context';
-import i18n from '../lib/i18n';
-import { assertNotUndefined } from '../lib/util/util';
-import { serveLambdaOverHttp, serveLambdaOverStdio } from './lambda-io';
-import { setGlobalAppServerInfo } from '../lib/app-context';
+import { ErrorDisplay, getErrorString } from "../lib/error-boundary";
+import { App, AppProps } from "../lib/app";
+import {
+  appStaticContextAsStaticRouterContext,
+  AppStaticContext,
+} from "../lib/app-static-context";
+import i18n from "../lib/i18n";
+import { assertNotUndefined } from "../lib/util/util";
+import { serveLambdaOverHttp, serveLambdaOverStdio } from "./lambda-io";
+import { setGlobalAppServerInfo } from "../lib/app-context";
 
 /**
  * This is the structure that our lambda returns to clients.
@@ -54,19 +57,19 @@ export interface LambdaResponse {
   modalHtml: string;
 
   /** The location to redirect to, if the status is 301 or 302. */
-  location: string|null;
+  location: string | null;
 
   /** The error traceback, if the status is 500. */
-  traceback: string|null;
+  traceback: string | null;
 
   /**
    * If the page contains a GraphQL query whose results should be
    * pre-fetched, this will contain its value.
    */
   graphQLQueryToPrefetch: {
-    graphQL: string,
-    input: any
-  }|null;
+    graphQL: string;
+    input: any;
+  } | null;
 }
 
 type HelmetContext = {
@@ -79,15 +82,20 @@ type EventProps = AppProps & {
    * This isn't particularly, elegant, but it's used during integration testing
    *to ensure that this process' handling of internal server errors works properly.
    */
-  testInternalServerError?: boolean
+  testInternalServerError?: boolean;
 };
 
-function ServerRouter(props: { event: AppProps, context: AppStaticContext, children: any }): JSX.Element {
+function ServerRouter(props: {
+  event: AppProps;
+  context: AppStaticContext;
+  children: any;
+}): JSX.Element {
   return (
     <StaticRouter
       location={props.event.initialURL}
       context={appStaticContextAsStaticRouterContext(props.context)}
-      children={props.children} />
+      children={props.children}
+    />
   );
 }
 
@@ -112,7 +120,7 @@ function renderAppHtml(
 /**
  * Generate the response for a given handler request, including the initial
  * HTML for the requested URL.
- * 
+ *
  * @param event The request.
  */
 function generateResponse(event: AppProps): LambdaResponse {
@@ -123,13 +131,19 @@ function generateResponse(event: AppProps): LambdaResponse {
     statusCode: 200,
   };
   const extractor = new ChunkExtractor({
-    statsFile: path.join(process.cwd(), 'frontend', 'static', 'frontend', 'loadable-stats.json'),
-    publicPath: event.server.webpackPublicPathURL
+    statsFile: path.join(
+      process.cwd(),
+      "frontend",
+      "static",
+      "frontend",
+      "loadable-stats.json"
+    ),
+    publicPath: event.server.webpackPublicPathURL,
   });
   const helmetContext: HelmetContext = {};
   const html = renderAppHtml(event, context, extractor, helmetContext);
   const helmet = assertNotUndefined(helmetContext.helmet);
-  let modalHtml = '';
+  let modalHtml = "";
   if (context.modal) {
     modalHtml = ReactDOMServer.renderToStaticMarkup(
       <ServerRouter event={event} context={context}>
@@ -151,7 +165,7 @@ function generateResponse(event: AppProps): LambdaResponse {
     modalHtml,
     location,
     traceback: null,
-    graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null
+    graphQLQueryToPrefetch: context.graphQLQueryToPrefetch || null,
   };
 }
 
@@ -160,12 +174,12 @@ function generateResponse(event: AppProps): LambdaResponse {
  * given initial app properties, returns the initial
  * HTML rendering of the app, along with other response
  * metadata.
- * 
+ *
  * @param event The initial properties for our app.
  */
 function baseHandler(event: EventProps): LambdaResponse {
   if (event.testInternalServerError) {
-    throw new Error('Testing internal server error');
+    throw new Error("Testing internal server error");
   }
 
   return generateResponse(event);
@@ -194,21 +208,21 @@ export function errorCatchingHandler(event: EventProps): LambdaResponse {
       html,
       titleTag: helmet.title.toString(),
       metaTags: helmet.meta.toString(),
-      scriptTags: '',
+      scriptTags: "",
       status: 500,
-      modalHtml: '',
+      modalHtml: "",
       location: null,
       traceback: error.stack,
-      graphQLQueryToPrefetch: null
+      graphQLQueryToPrefetch: null,
     };
-  };
+  }
 }
 
 exports.handler = errorCatchingHandler;
 
 /* istanbul ignore next: this is tested by integration tests. */
 if (!module.parent) {
-  if (process.argv.includes('--serve-http')) {
+  if (process.argv.includes("--serve-http")) {
     serveLambdaOverHttp(errorCatchingHandler);
   } else {
     serveLambdaOverStdio(errorCatchingHandler);

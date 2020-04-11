@@ -25,7 +25,7 @@ export class FakeRequestAnimationFrame {
 
   @autobind
   cancelAnimationFrame(handle: number) {
-    const callbacks = this.callbacks.filter(c => c.handle !== handle);
+    const callbacks = this.callbacks.filter((c) => c.handle !== handle);
     if (callbacks.length !== this.callbacks.length - 1) {
       throw new Error(`handle ${handle} not found!`);
     }
@@ -35,6 +35,6 @@ export class FakeRequestAnimationFrame {
   runCallbacks() {
     const { callbacks } = this;
     this.callbacks = [];
-    callbacks.forEach(c => c.callback());
+    callbacks.forEach((c) => c.callback());
   }
 }

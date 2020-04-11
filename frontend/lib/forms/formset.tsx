@@ -1,25 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import { FormErrors, NonFieldErrors } from "./form-errors";
 import { BaseFormContext } from "./form-context";
-import { isDeepEqual } from '../util/util';
-import { bulmaClasses } from '../ui/bulma';
+import { isDeepEqual } from "../util/util";
+import { bulmaClasses } from "../ui/bulma";
 
-import { LEGACY_FORMSET_ADD_BUTTON_NAME } from '../../../common-data/forms.json';
-import { useProgressiveEnhancement } from '../ui/progressive-enhancement';
-import { LegacyFormSubmissionContext } from './legacy-form-submitter';
+import { LEGACY_FORMSET_ADD_BUTTON_NAME } from "../../../common-data/forms.json";
+import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
+import { LegacyFormSubmissionContext } from "./legacy-form-submitter";
 
 export interface BaseFormsetProps<FormsetInput> {
   /**
    * The current state of all the forms in the formset.
    */
-  items: FormsetInput[],
+  items: FormsetInput[];
 
   /**
    * The validation errors for each form in the formset.
    */
-  errors?: FormErrors<FormsetInput>[],
+  errors?: FormErrors<FormsetInput>[];
 
-  /** 
+  /**
    * This function is called whenever any of the forms
    * in the formset change.
    */
@@ -44,7 +44,8 @@ export interface BaseFormsetProps<FormsetInput> {
   name: string;
 }
 
-export interface FormsetProps<FormsetInput> extends BaseFormsetProps<FormsetInput> {
+export interface FormsetProps<FormsetInput>
+  extends BaseFormsetProps<FormsetInput> {
   /**
    * A render prop that is called once for each form in the formset. It
    * is responsible for rendering the form's fields.
@@ -80,13 +81,21 @@ export type FormsetContext<FormsetInput> = BaseFormContext<FormsetInput>;
  * This function type is responsible for rendering a single formset
  * form.
  */
-export type FormsetRenderer<FormsetInput> = (ctx: FormsetContext<FormsetInput>, index: number) => JSX.Element;
+export type FormsetRenderer<FormsetInput> = (
+  ctx: FormsetContext<FormsetInput>,
+  index: number
+) => JSX.Element;
 
 /**
  * Given an array of objects, returns an array with one of the
  * fields of one of the entries changed.
  */
-function withItemChanged<T, K extends keyof T>(items: T[], index: number, field: K, value: T[K]): T[] {
+function withItemChanged<T, K extends keyof T>(
+  items: T[],
+  index: number,
+  field: K,
+  value: T[K]
+): T[] {
   const newItems = items.slice();
   newItems[index] = Object.assign({}, newItems[index]);
   newItems[index][field] = value;
@@ -97,8 +106,8 @@ function withItemChanged<T, K extends keyof T>(items: T[], index: number, field:
  * Given an object that may be undefined, return either
  * the object (if it's not undefined) or the given default value.
  */
-function getValueOrDefault<T>(value: T|undefined, defaultValue: T): T {
-  return typeof(value) === 'undefined' ? defaultValue : value;
+function getValueOrDefault<T>(value: T | undefined, defaultValue: T): T {
+  return typeof value === "undefined" ? defaultValue : value;
 }
 
 /**
@@ -132,7 +141,13 @@ export function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
  * Return the number of extra blank forms to show at the end
  * of a formset, if any.
  */
-function getExtra({ extra, isMounted }: { extra?: number, isMounted?: boolean }) {
+function getExtra({
+  extra,
+  isMounted,
+}: {
+  extra?: number;
+  isMounted?: boolean;
+}) {
   const base = getValueOrDefault(extra, 1);
   if (isMounted) {
     // If we're progressively-enhanced, show at most one extra form.
@@ -146,12 +161,12 @@ function getExtra({ extra, isMounted }: { extra?: number, isMounted?: boolean })
  * formset forms.
  */
 export function addEmptyForms<FormsetInput>(options: {
-  items: FormsetInput[],
-  emptyForm?: FormsetInput,
-  maxNum?: number,
-  extra?: number,
-  isMounted?: boolean
-}): { initialForms: number, items: FormsetInput[] } {
+  items: FormsetInput[];
+  emptyForm?: FormsetInput;
+  maxNum?: number;
+  extra?: number;
+  isMounted?: boolean;
+}): { initialForms: number; items: FormsetInput[] } {
   if (options.emptyForm) {
     const extra = getExtra(options);
     const maxNum = getValueOrDefault(options.maxNum, Infinity);
@@ -171,13 +186,22 @@ function AddButton(props: {}) {
   return (
     <div className="field">
       {/**
-        * Ugh, we need to insert an "invisible" submit button here to make it the default
-        * instead of the add button, in case the user presses enter. Unfortunately this
-        * might end up confusing screen reader users, but hopefully not.
-        */}
-      <input type="submit" value="Submit form" className="jf-sr-only" tabIndex={-1} />
-      <input type="submit" name={LEGACY_FORMSET_ADD_BUTTON_NAME} className={bulmaClasses('button')}
-             value="Add another" />
+       * Ugh, we need to insert an "invisible" submit button here to make it the default
+       * instead of the add button, in case the user presses enter. Unfortunately this
+       * might end up confusing screen reader users, but hopefully not.
+       */}
+      <input
+        type="submit"
+        value="Submit form"
+        className="jf-sr-only"
+        tabIndex={-1}
+      />
+      <input
+        type="submit"
+        name={LEGACY_FORMSET_ADD_BUTTON_NAME}
+        className={bulmaClasses("button")}
+        value="Add another"
+      />
     </div>
   );
 }
@@ -187,13 +211,22 @@ function AddButton(props: {}) {
  * to determine how many extra forms to show. Otherwise, just return the
  * default number of extra forms.
  */
-function useExtraFromLegacyPOST(options: Pick<FormsetProps<any>, 'extra'|'items'|'emptyForm'> & {
-  totalFormsName: string,
-}): number|undefined {
+function useExtraFromLegacyPOST(
+  options: Pick<FormsetProps<any>, "extra" | "items" | "emptyForm"> & {
+    totalFormsName: string;
+  }
+): number | undefined {
   const legacyCtx = useContext(LegacyFormSubmissionContext);
-  if (legacyCtx && legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] && options.emptyForm) {
-    const prevNonEmptyForms = findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
-    const prevTotalForms = parseInt(legacyCtx.POST[options.totalFormsName] || '');
+  if (
+    legacyCtx &&
+    legacyCtx.POST[LEGACY_FORMSET_ADD_BUTTON_NAME] &&
+    options.emptyForm
+  ) {
+    const prevNonEmptyForms =
+      findLatestNonEmptyFormIndex(options.items, options.emptyForm) + 1;
+    const prevTotalForms = parseInt(
+      legacyCtx.POST[options.totalFormsName] || ""
+    );
     if (prevTotalForms >= prevNonEmptyForms) {
       return prevTotalForms - prevNonEmptyForms + 1;
     }
@@ -217,7 +250,11 @@ export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
   return (
     <>
       <input type="hidden" name={totalFormsName} value={items.length} />
-      <input type="hidden" name={`${name}-INITIAL_FORMS`} value={initialForms} />
+      <input
+        type="hidden"
+        name={`${name}-INITIAL_FORMS`}
+        value={initialForms}
+      />
       {items.map((item, i) => {
         const itemErrors = errors && errors[i];
         const ctx = new BaseFormContext({
@@ -227,9 +264,12 @@ export function Formset<FormsetInput>(props: FormsetProps<FormsetInput>) {
           namePrefix: `${name}-${i}-`,
           currentState: item,
           setField: (field, value) => {
-            const newItems = removeEmptyFormsAtEnd(withItemChanged(items, i, field, value), props.emptyForm);
+            const newItems = removeEmptyFormsAtEnd(
+              withItemChanged(items, i, field, value),
+              props.emptyForm
+            );
             props.onChange(newItems);
-          }
+          },
         });
         return (
           <React.Fragment key={i}>

@@ -1,5 +1,5 @@
-import autobind from 'autobind-decorator';
-import { awesomeFetch } from './fetch';
+import autobind from "autobind-decorator";
+import { awesomeFetch } from "./fetch";
 
 const DEFAULT_TIMEOUT_MS = 100;
 
@@ -31,8 +31,8 @@ export default class GraphQlClient {
   constructor(
     readonly batchGraphQLURL: string,
     csrfToken: string,
-    readonly timeoutMs: number|null = DEFAULT_TIMEOUT_MS,
-    readonly fetchImpl: typeof fetch|null = null
+    readonly timeoutMs: number | null = DEFAULT_TIMEOUT_MS,
+    readonly fetchImpl: typeof fetch | null = null
   ) {
     this.csrfToken = csrfToken;
   }
@@ -56,14 +56,14 @@ export default class GraphQlClient {
   private async fetchBodies(bodies: GraphQLBody[]): Promise<Response> {
     const fetch = this.fetchImpl || awesomeFetch;
     return fetch(this.batchGraphQLURL, {
-      method: 'POST',
+      method: "POST",
       credentials: "same-origin",
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-CSRFToken': this.csrfToken,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-CSRFToken": this.csrfToken,
       },
-      body: JSON.stringify(bodies)
+      body: JSON.stringify(bodies),
     });
   }
 
@@ -73,7 +73,7 @@ export default class GraphQlClient {
       if (result && result.data) {
         resolve(result.data);
       } else {
-        reject(new GraphQlError('GraphQL request failed', result));
+        reject(new GraphQlError("GraphQL request failed", result));
       }
     });
   }

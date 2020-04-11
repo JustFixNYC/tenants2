@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { GraphQLFetch } from "./graphql-client";
-import { AppContextType, withAppContext } from '../app-context';
-import autobind from 'autobind-decorator';
-import { Helmet } from 'react-helmet-async';
-import { NoScriptFallback } from '../ui/progressive-enhancement';
+import { AppContextType, withAppContext } from "../app-context";
+import autobind from "autobind-decorator";
+import { Helmet } from "react-helmet-async";
+import { NoScriptFallback } from "../ui/progressive-enhancement";
 
 const DEFAULT_INTERVAL_MS = 5000;
 
@@ -22,7 +22,7 @@ export type SessionPollerProps = {
 type Props = SessionPollerProps & AppContextType;
 
 class SessionPollerWithoutContext extends React.Component<Props> {
-  interval: number|null = null;
+  interval: number | null = null;
 
   get intervalMS(): number {
     return this.props.intervalMS || DEFAULT_INTERVAL_MS;
@@ -45,8 +45,10 @@ class SessionPollerWithoutContext extends React.Component<Props> {
 
   @autobind
   handleInterval() {
-    const { props } =this;
-    const fetch = props.ignoreErrors ? props.fetchWithoutErrorHandling : props.fetch;
+    const { props } = this;
+    const fetch = props.ignoreErrors
+      ? props.fetchWithoutErrorHandling
+      : props.fetch;
     props.query.fetch(fetch).then((updates) => {
       this.props.updateSession(updates.session);
     });
@@ -56,7 +58,10 @@ class SessionPollerWithoutContext extends React.Component<Props> {
     return (
       <NoScriptFallback>
         <Helmet>
-          <meta http-equiv="refresh" content={this.intervalSeconds.toString()} />
+          <meta
+            http-equiv="refresh"
+            content={this.intervalSeconds.toString()}
+          />
         </Helmet>
       </NoScriptFallback>
     );

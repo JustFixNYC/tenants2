@@ -1,6 +1,6 @@
 import { assertNotNull } from "../../util/util";
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== "undefined") {
   // Our canvas usage is very minimal and we just want to make
   // sure it doesn't crash or anything, so we'll fake it here.
   (window as any).HTMLCanvasElement.prototype.getContext = function () {
@@ -30,7 +30,7 @@ if (typeof(window) !== 'undefined') {
     };
   };
 
-  const style = document.createElement('style');
-  style.textContent = '.jf-confetti-wrapper canvas { pointer-events: none; }';
+  const style = document.createElement("style");
+  style.textContent = ".jf-confetti-wrapper canvas { pointer-events: none; }";
   assertNotNull(document.head).appendChild(style);
 }

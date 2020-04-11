@@ -1,7 +1,7 @@
 import GraphQlClient from "../networking/graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
-import { FormError, strToFormError } from '../forms/form-errors';
+import { FormError, strToFormError } from "../forms/form-errors";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -16,18 +16,26 @@ interface TestClient {
  *   If disabled (the default), your tests will need to manually tell the client
  *   to fetch queued requests.
  */
-export function createTestGraphQlClient(enableTimeout: boolean = false): TestClient {
+export function createTestGraphQlClient(
+  enableTimeout: boolean = false
+): TestClient {
   const timeoutMs = enableTimeout ? undefined : null;
-  const mockFetch = jest.fn()
-    .mockName('fetch')
+  const mockFetch = jest
+    .fn()
+    .mockName("fetch")
     .mockReturnValue(new Promise(() => {}));
-  const client = new GraphQlClient('/mygraphql', 'mycsrf', timeoutMs, mockFetch);
+  const client = new GraphQlClient(
+    "/mygraphql",
+    "mycsrf",
+    timeoutMs,
+    mockFetch
+  );
   return { client, mockFetch };
 }
 
 // https://stackoverflow.com/a/6969486
 export function escapeRegExp(string: string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
 /** Wait for the given number of milliseconds. */
@@ -41,20 +49,20 @@ export function nextTick(): Promise<void> {
 }
 
 export const FakeServerInfo: Readonly<AppServerInfo> = {
-  originURL: 'https://myserver.com',
-  staticURL: '/mystatic/',
-  webpackPublicPathURL: '/mystatic/myfrontend/',
-  adminIndexURL: '/myadmin/',
-  siteName: 'ExampleJustFix.nyc',
-  siteType: 'JUSTFIX',
+  originURL: "https://myserver.com",
+  staticURL: "/mystatic/",
+  webpackPublicPathURL: "/mystatic/myfrontend/",
+  adminIndexURL: "/myadmin/",
+  siteName: "ExampleJustFix.nyc",
+  siteType: "JUSTFIX",
   debug: false,
-  batchGraphQLURL: '/mygarphql',
-  locHtmlURL: '/myletter.html',
-  locPdfURL: '/myletter.pdf',
-  wowOrigin: 'https://wow.test',
-  efnycOrigin: 'https://efnyc.test',
-  enableSafeModeURL: '/mysafemode/enable',
-  redirectToLegacyAppURL: '/myredirect-to-legacy-app'
+  batchGraphQLURL: "/mygarphql",
+  locHtmlURL: "/myletter.html",
+  locPdfURL: "/myletter.pdf",
+  wowOrigin: "https://wow.test",
+  efnycOrigin: "https://efnyc.test",
+  enableSafeModeURL: "/mysafemode/enable",
+  redirectToLegacyAppURL: "/myredirect-to-legacy-app",
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;
@@ -64,24 +72,26 @@ export const FakeAppContext: AppContextType = {
   session: FakeSessionInfo,
   fetch: jest.fn(),
   fetchWithoutErrorHandling: jest.fn(),
-  updateSession: jest.fn()
+  updateSession: jest.fn(),
 };
 
 export const FakeDebugAppContext: AppContextType = {
   ...FakeAppContext,
   server: {
     ...FakeAppContext.server,
-    debug: true
-  }
+    debug: true,
+  },
 };
 
 export const FakeGeoResults: any = {
-  features: [{
-    properties: {
-      borough_gid: 'whosonfirst:borough:1',
-      name: '150 COURT STREET'
-    }
-  }]
+  features: [
+    {
+      properties: {
+        borough_gid: "whosonfirst:borough:1",
+        name: "150 COURT STREET",
+      },
+    },
+  ],
 };
 
 export function simpleFormErrors(...errors: string[]): FormError[] {

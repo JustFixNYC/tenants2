@@ -1,46 +1,63 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import glob from 'glob';
-import { IntrospectionQuery, buildClientSchema, GraphQLSchema, validate, parse, DocumentNode, GraphQLError, formatError, specifiedRules, NoUnusedFragmentsRule } from "graphql";
-import { getGraphQlFragments } from './util';
-import { assertNotNull } from '../lib/util/util';
+import * as fs from "fs";
+import * as path from "path";
+import glob from "glob";
+import {
+  IntrospectionQuery,
+  buildClientSchema,
+  GraphQLSchema,
+  validate,
+  parse,
+  DocumentNode,
+  GraphQLError,
+  formatError,
+  specifiedRules,
+  NoUnusedFragmentsRule,
+} from "graphql";
+import { getGraphQlFragments } from "./util";
+import { assertNotNull } from "../lib/util/util";
 
-const rulesMinusUnusedFragments = specifiedRules.filter(rule => rule !== NoUnusedFragmentsRule);
+const rulesMinusUnusedFragments = specifiedRules.filter(
+  (rule) => rule !== NoUnusedFragmentsRule
+);
 
 function loadSchema(path: string): GraphQLSchema {
   const introspectionQuery: IntrospectionQuery = JSON.parse(
-    fs.readFileSync(path, { encoding: 'utf-8' })).data;
+    fs.readFileSync(path, { encoding: "utf-8" })
+  ).data;
   return buildClientSchema(introspectionQuery);
 }
 
 function isFragment(ast: DocumentNode): boolean {
-  return ast.definitions.length > 0 && ast.definitions[0].kind === 'FragmentDefinition';
+  return (
+    ast.definitions.length > 0 &&
+    ast.definitions[0].kind === "FragmentDefinition"
+  );
 }
 
-function includeFragment(query: DocumentNode, fragment: DocumentNode): DocumentNode {
+function includeFragment(
+  query: DocumentNode,
+  fragment: DocumentNode
+): DocumentNode {
   return {
     ...query,
-    definitions: [
-      ...query.definitions,
-      ...fragment.definitions
-    ]
+    definitions: [...query.definitions, ...fragment.definitions],
   };
 }
 
-class QueryInfo  {
+class QueryInfo {
   stem: string;
   basename: string;
   contents: string;
-  parseError: GraphQLError|null;
-  ast: DocumentNode|null;
+  parseError: GraphQLError | null;
+  ast: DocumentNode | null;
   fragmentNames: string[];
   fragments: QueryInfo[];
   validationErrors: string[];
   wasValidateCalled: boolean;
-  resolvedAST: DocumentNode|null;
+  resolvedAST: DocumentNode | null;
 
   constructor(readonly filename: string) {
-    this.contents = fs.readFileSync(filename, { encoding: 'utf-8' });
+    this.contents = fs.readFileSync(filename, { encoding: "utf-8" });
     this.basename = path.basename(filename);
     this.stem = path.basename(filename, path.extname(filename));
     this.fragmentNames = getGraphQlFragments(this.contents);
@@ -72,7 +89,7 @@ class QueryInfo  {
       if (!fragQuery) {
         this.validationErrors.push(
           `${this.basename}: Reference to fragment '${fragment}' found, ` +
-          `but '${fragment}.graphql' does not exist!`
+            `but '${fragment}.graphql' does not exist!`
         );
         return;
       }
@@ -90,16 +107,18 @@ class QueryInfo  {
       this.validationErrors.push(makeError(this.filename, error));
     }
   }
-};
+}
 
 function makeError(filename: string, error: GraphQLError): string {
   const fmtErr = formatError(error);
-  const lines = fmtErr.locations ? fmtErr.locations.map(loc => `L${loc.line}`) : [];
-  return `${path.basename(filename)} ${lines.join(', ')}: ${fmtErr.message}`;
+  const lines = fmtErr.locations
+    ? fmtErr.locations.map((loc) => `L${loc.line}`)
+    : [];
+  return `${path.basename(filename)} ${lines.join(", ")}: ${fmtErr.message}`;
 }
 
 export class GraphQLValidator {
-  private schema: GraphQLSchema|null;
+  private schema: GraphQLSchema | null;
   private schemaMtime: number;
 
   constructor(readonly schemaPath: string, readonly queryGlobPattern: string) {
@@ -128,7 +147,9 @@ export class GraphQLValidator {
         errors.push(makeError(filename, query.parseError));
       }
       if (queries.has(query.stem)) {
-        errors.push(`Multiple queries with the name "${query.basename}" exist!`);
+        errors.push(
+          `Multiple queries with the name "${query.basename}" exist!`
+        );
       }
       queries.set(query.stem, query);
     }

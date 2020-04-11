@@ -1,16 +1,23 @@
-import React from 'react';
-import AriaModal from '@justfixnyc/react-aria-modal';
-import autobind from 'autobind-decorator';
-import { RouteComponentProps, withRouter, Route, RouteProps } from 'react-router';
-import { Location } from 'history';
-import { getAppStaticContext } from '../app-static-context';
-import { Link, LinkProps } from 'react-router-dom';
-import { TransitionContextType, withTransitionContext } from './transition-context';
-
+import React from "react";
+import AriaModal from "@justfixnyc/react-aria-modal";
+import autobind from "autobind-decorator";
+import {
+  RouteComponentProps,
+  withRouter,
+  Route,
+  RouteProps,
+} from "react-router";
+import { Location } from "history";
+import { getAppStaticContext } from "../app-static-context";
+import { Link, LinkProps } from "react-router-dom";
+import {
+  TransitionContextType,
+  withTransitionContext,
+} from "./transition-context";
 
 const ANIMATION_CLASS = "jf-fadein-half-second";
 
-const DIALOG_CLASS = "jf-modal-dialog"
+const DIALOG_CLASS = "jf-modal-dialog";
 
 const UNDERLAY_CLASS = "jf-modal-underlay";
 
@@ -30,11 +37,13 @@ interface ModalProps {
   title: string;
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
-  onCloseGoTo: string|BackOrUpOneDirLevel|((location: Location) => string);
+  onCloseGoTo: string | BackOrUpOneDirLevel | ((location: Location) => string);
   withHeading?: boolean;
 }
 
-type ModalPropsWithRouter = ModalProps & RouteComponentProps<any> & TransitionContextType;
+type ModalPropsWithRouter = ModalProps &
+  RouteComponentProps<any> &
+  TransitionContextType;
 
 interface ModalState {
   isActive: boolean;
@@ -42,30 +51,33 @@ interface ModalState {
 }
 
 export function getOneDirLevelUp(path: string) {
-  return path.split('/').slice(0, -1).join('/');
+  return path.split("/").slice(0, -1).join("/");
 }
 
-export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, ModalState> {
-  raf: number|null = null;
+export class ModalWithoutRouter extends React.Component<
+  ModalPropsWithRouter,
+  ModalState
+> {
+  raf: number | null = null;
 
   constructor(props: ModalPropsWithRouter) {
     super(props);
     this.state = {
       isActive: false,
-      animate: true
+      animate: true,
     };
   }
 
   get closeDestination(): string {
     const goTo = this.props.onCloseGoTo;
-    if (typeof(goTo) === 'string') {
+    if (typeof goTo === "string") {
       return goTo;
-    } else if (typeof(goTo) === 'function') {
+    } else if (typeof goTo === "function") {
       return goTo(this.props.location);
     }
     switch (goTo) {
       case BackOrUpOneDirLevel:
-      return getOneDirLevelUp(this.props.location.pathname);
+        return getOneDirLevelUp(this.props.location.pathname);
     }
   }
 
@@ -76,7 +88,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
       onClick: (e) => {
         e.preventDefault();
         this.handleClose();
-      }
+      },
     };
   }
 
@@ -85,7 +97,10 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     // Note that we don't need to set isActive to false here;
     // because this modal class is route-based, we'll simply trust
     // that the modal doesn't exist in the route the user is sent to.
-    if (this.props.onCloseGoTo === BackOrUpOneDirLevel && this.props.history.action === "PUSH") {
+    if (
+      this.props.onCloseGoTo === BackOrUpOneDirLevel &&
+      this.props.history.action === "PUSH"
+    ) {
       this.props.history.goBack();
     } else if (this.closeDestination) {
       this.props.history.push(this.closeDestination);
@@ -98,7 +113,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
     // It's possible that this modal was pre-rendered on the
     // server side. If so, get rid of it, since we've just
     // replaced it with this component instance.
-    const prerenderedModalEl = document.getElementById('prerendered-modal');
+    const prerenderedModalEl = document.getElementById("prerendered-modal");
     if (prerenderedModalEl && prerenderedModalEl.parentNode) {
       if (prerenderedModalEl.children.length) {
         // There's an actual modal we're replacing; since it came with the
@@ -111,7 +126,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   }
 
   componentDidUpdate(prevProps: ModalPropsWithRouter) {
-    if (this.props.transition === 'exit' && prevProps.transition !== 'exit') {
+    if (this.props.transition === "exit" && prevProps.transition !== "exit") {
       // For some reason we need to delay for one frame after the
       // exit transition starts, or else the browser will get confused
       // and not transition everything properly.
@@ -132,26 +147,33 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
   renderServerModal(): JSX.Element {
     return (
       <div className={UNDERLAY_CLASS}>
-        <div className={DIALOG_CLASS}>
-          {this.renderBody()}
-        </div>
+        <div className={DIALOG_CLASS}>{this.renderBody()}</div>
       </div>
     );
   }
 
   renderBody(): JSX.Element {
-    return <>
-      <div className="modal-content">
-        <div className="content box">
-          {this.props.withHeading && <h1 className="title is-4">{this.props.title}</h1>}
-          {this.props.render && this.props.render({
-            getLinkCloseProps: this.getLinkCloseProps
-          })}
-          {this.props.children}
+    return (
+      <>
+        <div className="modal-content">
+          <div className="content box">
+            {this.props.withHeading && (
+              <h1 className="title is-4">{this.props.title}</h1>
+            )}
+            {this.props.render &&
+              this.props.render({
+                getLinkCloseProps: this.getLinkCloseProps,
+              })}
+            {this.props.children}
+          </div>
         </div>
-      </div>
-      <Link {...this.getLinkCloseProps()} className="modal-close is-large" aria-label="close"></Link>
-    </>;
+        <Link
+          {...this.getLinkCloseProps()}
+          className="modal-close is-large"
+          aria-label="close"
+        ></Link>
+      </>
+    );
   }
 
   render() {
@@ -176,7 +198,7 @@ export class ModalWithoutRouter extends React.Component<ModalPropsWithRouter, Mo
         onExit={this.handleClose}
         includeDefaultStyles={false}
         dialogClass={DIALOG_CLASS}
-        underlayClass={underlayClasses.join(' ')}
+        underlayClass={underlayClasses.join(" ")}
         focusDialog
       >
         {this.renderBody()}
@@ -194,13 +216,15 @@ interface BaseLinkToModalRouteProps extends LinkProps {
 
 type ComponentLinkToModalRouteProps = BaseLinkToModalRouteProps & {
   component: React.ComponentType;
-}
+};
 
 type RenderLinkToModalRouteProps = BaseLinkToModalRouteProps & {
   render: () => JSX.Element;
 };
 
-type LinkToModalRouteProps = ComponentLinkToModalRouteProps | RenderLinkToModalRouteProps;
+type LinkToModalRouteProps =
+  | ComponentLinkToModalRouteProps
+  | RenderLinkToModalRouteProps;
 
 /**
  * A component that's similar to React Router's <Link> but
@@ -208,12 +232,14 @@ type LinkToModalRouteProps = ComponentLinkToModalRouteProps | RenderLinkToModalR
  * defines a route that points to said modal.
  */
 export function ModalLink(props: LinkToModalRouteProps): JSX.Element {
-  const make = (linkProps: LinkProps, routeProps: RouteProps) => <>
-    <Link {...linkProps}>{props.children}</Link>
-    <Route path={props.to} exact {...routeProps} />
-  </>;
+  const make = (linkProps: LinkProps, routeProps: RouteProps) => (
+    <>
+      <Link {...linkProps}>{props.children}</Link>
+      <Route path={props.to} exact {...routeProps} />
+    </>
+  );
 
-  if ('component' in props) {
+  if ("component" in props) {
     const { component, ...linkProps } = props;
     return make(linkProps, { component });
   } else {

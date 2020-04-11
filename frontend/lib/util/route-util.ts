@@ -1,11 +1,11 @@
-import { matchPath } from 'react-router-dom';
-import i18n from '../i18n';
+import { matchPath } from "react-router-dom";
+import i18n from "../i18n";
 
 /**
  * Special route key indicating the prefix of a set of routes,
  * rather than a route that necessarily leads somewhere.
  */
-export const ROUTE_PREFIX = 'prefix';
+export const ROUTE_PREFIX = "prefix";
 
 /**
  * Returns if any of the arguments represents a route that
@@ -21,7 +21,7 @@ export function isModalRoute(...paths: string[]): boolean {
 }
 
 export function isParameterizedRoute(path: string): boolean {
-  return path.indexOf(':') !== -1;
+  return path.indexOf(":") !== -1;
 }
 
 /**
@@ -34,8 +34,7 @@ export class RouteMap {
   private parameterizedRoutes: string[] = [];
   private isInitialized = false;
 
-  constructor(private readonly routes: any) {
-  }
+  constructor(private readonly routes: any) {}
 
   private ensureIsInitialized() {
     if (!this.isInitialized) {
@@ -45,15 +44,19 @@ export class RouteMap {
   }
 
   private populate(routes: any) {
-    Object.keys(routes).forEach(name => {
+    Object.keys(routes).forEach((name) => {
       const value = routes[name];
-      if (typeof(value) === 'string' && name !== ROUTE_PREFIX) {
+      if (typeof value === "string" && name !== ROUTE_PREFIX) {
         if (isParameterizedRoute(value)) {
           this.parameterizedRoutes.push(value);
         } else {
           this.existenceMap.set(value, true);
         }
-      } else if (value && typeof(value) === 'object' && !(value instanceof RouteMap)) {
+      } else if (
+        value &&
+        typeof value === "object" &&
+        !(value instanceof RouteMap)
+      ) {
         this.populate(value);
       }
     });
@@ -82,7 +85,7 @@ export class RouteMap {
   /**
    * Given a concrete pathname, returns whether a route for it will
    * potentially match.
-   * 
+   *
    * Note that it doesn't validate that route parameters are necessarily
    * valid beyond their syntactic structure, e.g. passing
    * `/objects/200` to this method may return true, but in reality there
@@ -106,17 +109,17 @@ export class RouteMap {
 
 /**
  * This is an ad-hoc structure that defines URL routes for an app or website.
- * 
+ *
  * The 'locale' property always returns routes that are prefixed by the
  * currently-selected locale, while other properties represent routes
  * that aren't localized.
  */
 type RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = NonLocalizedRoutes & {
   /** Localized routes for the user's currently-selected locale. */
-  locale: LocalizedRoutes,
+  locale: LocalizedRoutes;
 
   /** A utility object for querying information about routes. */
-  routeMap: RouteMap,
+  routeMap: RouteMap;
 };
 
 /**
@@ -126,9 +129,9 @@ type RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = NonLocalizedRoutes & {
  */
 export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
   createLocalizedRouteInfo: (localePathPrefix: string) => LocalizedRoutes,
-  nonLocalizedRouteInfo: NonLocalizedRoutes,
+  nonLocalizedRouteInfo: NonLocalizedRoutes
 ): RouteInfo<LocalizedRoutes, NonLocalizedRoutes> {
-  let currentLocaleRoutes: LocalizedRoutes|null = null;
+  let currentLocaleRoutes: LocalizedRoutes | null = null;
 
   const baseRoutes = {
     get locale(): LocalizedRoutes {

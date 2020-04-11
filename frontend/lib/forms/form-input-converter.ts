@@ -1,37 +1,49 @@
-import { YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE } from "./yes-no-radios-form-field";
+import {
+  YES_NO_RADIOS_TRUE,
+  YES_NO_RADIOS_FALSE,
+} from "./yes-no-radios-form-field";
 import { exactSubsetOrDefault } from "../util/util";
 
 type NullBooleanPropertyNames<T> = {
-  [k in keyof T]: T[k] extends boolean|null ? k : never
+  [k in keyof T]: T[k] extends boolean | null ? k : never;
 }[keyof T];
 
 type StringifiedNullBooleans<T, K extends NullBooleanPropertyNames<T>> = {
-  [k in keyof T]: k extends K ? string : T[k]
+  [k in keyof T]: k extends K ? string : T[k];
 };
 
 type NullsToBooleans<T, K extends NullBooleanPropertyNames<T>> = {
-  [k in keyof T]: k extends K ? boolean : T[k]
+  [k in keyof T]: k extends K ? boolean : T[k];
 };
 
 type StringifiedNumbers<A> = {
-  [K in keyof A]: Extract<A[K], number> extends never ? A[K] : Exclude<A[K], number>|string
+  [K in keyof A]: Extract<A[K], number> extends never
+    ? A[K]
+    : Exclude<A[K], number> | string;
 };
 
 type StringifiedNulls<A> = {
-  [K in keyof A]: Extract<A[K], null> extends never ? A[K] : Exclude<A[K], null>|string
+  [K in keyof A]: Extract<A[K], null> extends never
+    ? A[K]
+    : Exclude<A[K], null> | string;
 };
 
-/** 
+/**
  * Assert that the given value is either `null` or a boolean and return it.
- * 
+ *
  * @param key The object key the value was taken from; used only to make
  *   the exception message more helpful, in case of failure.
  * @param value The value to assert (and return).
  */
-function assertNullOrBool(key: string|number|symbol, value: unknown): null|boolean {
-  if (!(typeof(value) === 'boolean' || value === null)) {
+function assertNullOrBool(
+  key: string | number | symbol,
+  value: unknown
+): null | boolean {
+  if (!(typeof value === "boolean" || value === null)) {
     const keyStr = String(key);
-    throw new Error(`Expected key '${keyStr}' to be a boolean or null, but it is ${typeof(value)}`);
+    throw new Error(
+      `Expected key '${keyStr}' to be a boolean or null, but it is ${typeof value}`
+    );
   }
   return value;
 }
@@ -39,7 +51,7 @@ function assertNullOrBool(key: string|number|symbol, value: unknown): null|boole
 /**
  * Convert the given value to a boolean, assigning a default if it's `null`.
  */
-function nullToBool(value: boolean|null, defaultValue: boolean): boolean {
+function nullToBool(value: boolean | null, defaultValue: boolean): boolean {
   return value ?? defaultValue;
 }
 
@@ -65,13 +77,13 @@ function withNullAsBool<T, K extends NullBooleanPropertyNames<T>>(
  * Convert the given boolean or null to a string value
  * suitable for a yes/no radio input.
  */
-export function toStringifiedNullBool(value: boolean|null): string {
+export function toStringifiedNullBool(value: boolean | null): string {
   if (value === true) {
     return YES_NO_RADIOS_TRUE;
   } else if (value === false) {
     return YES_NO_RADIOS_FALSE;
   }
-  return '';
+  return "";
 }
 
 /**
@@ -101,7 +113,7 @@ function withStringifiedNumbers<A>(obj: A): StringifiedNumbers<A> {
 
   for (let key in obj) {
     const value = obj[key];
-    result[key] = typeof(value) === 'number' ? value.toString() : value;
+    result[key] = typeof value === "number" ? value.toString() : value;
   }
 
   return result;
@@ -115,7 +127,7 @@ function withStringifiedNulls<A>(obj: A): StringifiedNulls<A> {
 
   for (let key in obj) {
     const value = obj[key];
-    result[key] = value === null ? '' : value;
+    result[key] = value === null ? "" : value;
   }
 
   return result;
@@ -130,11 +142,10 @@ function withStringifiedNulls<A>(obj: A): StringifiedNulls<A> {
 export class FormInputConverter<T> {
   /**
    * Create a converter instance.
-   * 
+   *
    * @param data Strongly-typed data from the server.
    */
-  constructor(readonly data: T) {
-  }
+  constructor(readonly data: T) {}
 
   /**
    * Finish the conversion of the original data.
@@ -147,7 +158,7 @@ export class FormInputConverter<T> {
    * Convert null/boolean properties into boolean properties, converting any
    * `null` values to the given default value. This can be useful for preparing
    * data for use as checkbox form field input.
-   * 
+   *
    * @param defaultValue The default boolean value to convert `null` values to.
    * @param keys Null/boolean properties from the original data needing conversion.
    */
@@ -155,7 +166,9 @@ export class FormInputConverter<T> {
     defaultValue: boolean,
     ...keys: readonly K[]
   ): FormInputConverter<NullsToBooleans<T, K>> {
-    return new FormInputConverter(withNullAsBool(this.data, defaultValue, ...keys));
+    return new FormInputConverter(
+      withNullAsBool(this.data, defaultValue, ...keys)
+    );
   }
 
   /**
@@ -175,7 +188,7 @@ export class FormInputConverter<T> {
  * This convenience function can be used to get the initial
  * input for a form, either by converting source data or
  * providing a default value if no source data exists.
- * 
+ *
  * @param from The initial source data that needs to be
  *   transformed.
  * @param defaultValue The value to return if the initial
@@ -186,7 +199,7 @@ export class FormInputConverter<T> {
  *   the form input.
  */
 export function getInitialFormInput<From, To>(
-  from: From|null,
+  from: From | null,
   defaultValue: To,
   convert: (from: FormInputConverter<From>) => To
 ): To {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { RouteComponentProps, Redirect } from "react-router";
 
 /**
@@ -6,8 +6,12 @@ import { RouteComponentProps, Redirect } from "react-router";
  * passing along the current search query as well.
  */
 export function createRedirectWithSearch(to: string) {
-  return (props: RouteComponentProps) => <Redirect to={{
-    pathname: to,
-    search: props.location.search
-  }}/>;
+  return (props: RouteComponentProps) => (
+    <Redirect
+      to={{
+        pathname: to,
+        search: props.location.search,
+      }}
+    />
+  );
 }

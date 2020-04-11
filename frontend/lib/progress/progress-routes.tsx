@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 import { RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
-import { RouteProgressBar } from './progress-bar';
-import { createStepRoute, ProgressStepRoute } from './progress-step-route';
+import { RouteProgressBar } from "./progress-bar";
+import { createStepRoute, ProgressStepRoute } from "./progress-step-route";
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -29,34 +29,38 @@ export type ProgressRoutesProps = {
    * The steps that welcome the user to the flow, but that we won't
    * display a progress bar for.
    */
-  welcomeSteps: ProgressStepRoute[],
+  welcomeSteps: ProgressStepRoute[];
 
   /**
    * The steps that the user needs to fill out or otherwise provide
    * some input for. We will display a progress bar for these.
-   * 
+   *
    * The length of this array is where "y" comes from when we
    * show "Step x of y" text to the user.
    */
-  stepsToFillOut: ProgressStepRoute[],
+  stepsToFillOut: ProgressStepRoute[];
 
   /**
    * The steps that confirm the completion of the flow,
    * let the user know what will happen in the short/long term,
    * and so on. We won't display a progress bar for these.
    */
-  confirmationSteps: ProgressStepRoute[],
+  confirmationSteps: ProgressStepRoute[];
 };
 
 export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {
   return [
     ...props.welcomeSteps,
     ...props.stepsToFillOut,
-    ...props.confirmationSteps
+    ...props.confirmationSteps,
   ];
 }
 
-function createRoutesForSteps(steps: ProgressStepRoute[], allSteps: ProgressStepRoute[], keyPrefix: string) {
+function createRoutesForSteps(
+  steps: ProgressStepRoute[],
+  allSteps: ProgressStepRoute[],
+  keyPrefix: string
+) {
   return steps.map((step, i) => {
     return createStepRoute({ key: keyPrefix + i, step, allSteps });
   });
@@ -66,14 +70,26 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
   const allSteps = getAllSteps(props);
 
   return [
-    <Route key="toLatestStep" path={props.toLatestStep} exact render={() => 
-      <RedirectToLatestStep steps={allSteps} />
-    }/>,
-    ...createRoutesForSteps(props.welcomeSteps, allSteps, 'welcome'),
-    ...createRoutesForSteps(props.confirmationSteps, allSteps, 'confirmation'),
-    <Route key="progressBar" render={() => {
-      return <RouteProgressBar label={props.label} steps={props.stepsToFillOut} outerSteps={allSteps} />;
-    }}/>
+    <Route
+      key="toLatestStep"
+      path={props.toLatestStep}
+      exact
+      render={() => <RedirectToLatestStep steps={allSteps} />}
+    />,
+    ...createRoutesForSteps(props.welcomeSteps, allSteps, "welcome"),
+    ...createRoutesForSteps(props.confirmationSteps, allSteps, "confirmation"),
+    <Route
+      key="progressBar"
+      render={() => {
+        return (
+          <RouteProgressBar
+            label={props.label}
+            steps={props.stepsToFillOut}
+            outerSteps={allSteps}
+          />
+        );
+      }}
+    />,
   ];
 }
 
@@ -81,6 +97,8 @@ export function ProgressRoutes(props: ProgressRoutesProps): JSX.Element {
   return <Switch>{generateRoutes(props)}</Switch>;
 }
 
-export function buildProgressRoutesComponent(getProps: () => ProgressRoutesProps): () => JSX.Element {
-  return () => <ProgressRoutes {...getProps()}/>;
+export function buildProgressRoutesComponent(
+  getProps: () => ProgressRoutesProps
+): () => JSX.Element {
+  return () => <ProgressRoutes {...getProps()} />;
 }

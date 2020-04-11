@@ -1,8 +1,8 @@
-import { RouteComponentProps } from 'react-router-dom';
-import { OnboardingInfoSignupIntent } from './queries/globalTypes';
-import { DataDrivenOnboardingSuggestionsVariables } from './queries/DataDrivenOnboardingSuggestions';
-import { inputToQuerystring } from './networking/http-get-query-util';
-import { ROUTE_PREFIX, createRoutesForSite } from './util/route-util';
+import { RouteComponentProps } from "react-router-dom";
+import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
+import { DataDrivenOnboardingSuggestionsVariables } from "./queries/DataDrivenOnboardingSuggestions";
+import { inputToQuerystring } from "./networking/http-get-query-util";
+import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 
 /**
  * Metadata about signup intents.
@@ -23,30 +23,37 @@ type SignupIntentOnboardingInfo = {
  * use a union type as an index signature, so I guess we'll have
  * to make it a function.
  */
-export function getSignupIntentOnboardingInfo(intent: OnboardingInfoSignupIntent): SignupIntentOnboardingInfo {
+export function getSignupIntentOnboardingInfo(
+  intent: OnboardingInfoSignupIntent
+): SignupIntentOnboardingInfo {
   switch (intent) {
-    case OnboardingInfoSignupIntent.LOC: return {
-      preOnboarding: Routes.locale.loc.splash,
-      postOnboarding: Routes.locale.loc.latestStep,
-      onboarding: Routes.locale.onboarding
-    };
+    case OnboardingInfoSignupIntent.LOC:
+      return {
+        preOnboarding: Routes.locale.loc.splash,
+        postOnboarding: Routes.locale.loc.latestStep,
+        onboarding: Routes.locale.onboarding,
+      };
 
-    case OnboardingInfoSignupIntent.HP: return Routes.locale.hp;
-    case OnboardingInfoSignupIntent.EHP: return Routes.locale.ehp;
+    case OnboardingInfoSignupIntent.HP:
+      return Routes.locale.hp;
+    case OnboardingInfoSignupIntent.EHP:
+      return Routes.locale.ehp;
   }
 }
 
 export type IssuesRouteInfo = {
-  [ROUTE_PREFIX]: string,
-  home: string,
-  modal: string,
+  [ROUTE_PREFIX]: string;
+  home: string;
+  modal: string;
   area: {
-    parameterizedRoute: string,
-    create: (area: string) => string,
-  }
-}
+    parameterizedRoute: string;
+    create: (area: string) => string;
+  };
+};
 
-export type PasswordResetRouteInfo = ReturnType<typeof createPasswordResetRouteInfo>;
+export type PasswordResetRouteInfo = ReturnType<
+  typeof createPasswordResetRouteInfo
+>;
 
 function createPasswordResetRouteInfo(prefix: string) {
   return {
@@ -55,7 +62,7 @@ function createPasswordResetRouteInfo(prefix: string) {
     start: `${prefix}/start`,
     verify: `${prefix}/verify`,
     confirm: `${prefix}/confirm`,
-    done: `${prefix}/done`
+    done: `${prefix}/done`,
   };
 }
 
@@ -69,7 +76,7 @@ function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
     area: {
       parameterizedRoute: `${prefix}/:area`,
       create: (area: string) => `${prefix}/${area}`,
-    }
+    },
   };
 }
 
@@ -98,7 +105,9 @@ function createOnboardingRouteInfo(prefix: string) {
   };
 }
 
-export type LetterOfComplaintInfo = ReturnType<typeof createLetterOfComplaintRouteInfo>;
+export type LetterOfComplaintInfo = ReturnType<
+  typeof createLetterOfComplaintRouteInfo
+>;
 
 function createLetterOfComplaintRouteInfo(prefix: string) {
   return {
@@ -112,7 +121,7 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
     yourLandlord: `${prefix}/your-landlord`,
     preview: `${prefix}/preview`,
     previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
-    confirmation: `${prefix}/confirmation`
+    confirmation: `${prefix}/confirmation`,
   };
 }
 
@@ -140,7 +149,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     reviewFormsSignModal: `${prefix}/review/sign-modal`,
     verifyEmail: `${prefix}/verify-email`,
     confirmation: `${prefix}/confirmation`,
-  }
+  };
 }
 
 function createHPActionRouteInfo(prefix: string) {
@@ -173,7 +182,7 @@ function createHPActionRouteInfo(prefix: string) {
     ready: `${prefix}/ready`,
     waitForUpload: `${prefix}/wait`,
     confirmation: `${prefix}/confirmation`,
-  }
+  };
 }
 
 function createDataRequestsRouteInfo(prefix: string) {
@@ -192,7 +201,7 @@ function createRentalHistoryRouteInfo(prefix: string) {
     form: `${prefix}/form`,
     formAddressModal: `${prefix}/form/address-modal`,
     preview: `${prefix}/preview`,
-    confirmation: `${prefix}/confirmation`
+    confirmation: `${prefix}/confirmation`,
   };
 }
 
@@ -212,7 +221,7 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page with a pre-filled search address. */
     homeWithSearch(options: DataDrivenOnboardingSuggestionsVariables) {
       const { address, borough } = options;
-      return `${this.home}${inputToQuerystring({address, borough})}`;    
+      return `${this.home}${inputToQuerystring({ address, borough })}`;
     },
 
     /** The help page. */
@@ -233,7 +242,8 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The Emergency HP Action flow (COVID-19). */
     ehp: createEmergencyHPActionRouteInfo(`${prefix}/ehp`),
 
-    /** The Rental History flow. */   
+    /** The Rental History flow. */
+
     rh: createRentalHistoryRouteInfo(`${prefix}/rh`),
 
     /** The data requests portal.  */
@@ -241,7 +251,7 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** Legacy experimental data-driven onboarding. */
     legacyDataDrivenOnboarding: `${prefix}/ddo`,
-  }
+  };
 }
 
 /**
@@ -253,34 +263,34 @@ const Routes = createRoutesForSite(createLocalizedRouteInfo, {
    * here, so we need to make sure this URL matches the URL that Django
    * redirects users to.
    */
-  adminLogin: '/admin/login/',
+  adminLogin: "/admin/login/",
 
-  adminConversations: '/admin/conversations/',
+  adminConversations: "/admin/conversations/",
 
   /**
    * Example pages used in integration tests, and other
    * development-related pages.
    */
   dev: {
-    [ROUTE_PREFIX]: '/dev',
-    home: '/dev/',
+    [ROUTE_PREFIX]: "/dev",
+    home: "/dev/",
     examples: {
-      [ROUTE_PREFIX]: '/dev/examples',
-      ddo: '/dev/examples/ddo',
-      redirect: '/dev/examples/redirect',
-      modal: '/dev/examples/modal',
-      loadingPage: '/dev/examples/loading-page',
-      form: '/dev/examples/form',
-      formInModal: '/dev/examples/form/in-modal',
-      formWithoutRedirect: '/dev/examples/form2',
-      formInModalWithoutRedirect: '/dev/examples/form2/in-modal',
-      radio: '/dev/examples/radio',
-      loadable: '/dev/examples/loadable-page',
-      clientSideError: '/dev/examples/client-side-error',
-      metaTag: '/dev/examples/meta-tag',
-      query: '/dev/examples/query'
-    }
-  }
+      [ROUTE_PREFIX]: "/dev/examples",
+      ddo: "/dev/examples/ddo",
+      redirect: "/dev/examples/redirect",
+      modal: "/dev/examples/modal",
+      loadingPage: "/dev/examples/loading-page",
+      form: "/dev/examples/form",
+      formInModal: "/dev/examples/form/in-modal",
+      formWithoutRedirect: "/dev/examples/form2",
+      formInModalWithoutRedirect: "/dev/examples/form2/in-modal",
+      radio: "/dev/examples/radio",
+      loadable: "/dev/examples/loadable-page",
+      clientSideError: "/dev/examples/client-side-error",
+      metaTag: "/dev/examples/meta-tag",
+      query: "/dev/examples/query",
+    },
+  },
 });
 
 export default Routes;

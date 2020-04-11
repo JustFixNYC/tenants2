@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import toml from 'toml';
+import * as fs from "fs";
+import toml from "toml";
 
 import { ToolError } from "../util";
 
@@ -13,22 +13,22 @@ export type AutogenConfig = {
    * may want to increment the version to ensure that developers know they need to
    * restart watcher processes, instead of getting confusing tracebacks.
    */
-  version: LatestVersion,
+  version: LatestVersion;
 
   /**
    * A list of fields to globally ignore, regardless of what GraphQL type they appear in.
    */
-  ignoreFields?: string[],
+  ignoreFields?: string[];
 
   /**
    * A mapping from GraphQL type names to configuration metadata.
    */
-  types?: { [name: string]: AutogenTypeConfig },
+  types?: { [name: string]: AutogenTypeConfig };
 
   /**
    * A mapping from GraphQL mutation fields to configuration metadata.
    */
-  mutations?: { [name: string]: AutogenMutationConfig },
+  mutations?: { [name: string]: AutogenMutationConfig };
 };
 
 export type AutogenMutationConfig = {
@@ -50,39 +50,39 @@ export type AutogenMutationConfig = {
 
 export type AutogenTypeConfig = {
   /** A list of fields in GraphQL types to ignore when generating queries. */
-  ignoreFields?: string[],
+  ignoreFields?: string[];
 
   /**
    * A list of fields in GraphQL types to *only* include when generating queries,
    * ignoring all others.
    */
-  includeOnlyFields?: string[],
+  includeOnlyFields?: string[];
 
   /**
    * The GraphQL fragment name to create for the type.
    */
-  fragmentName?: string,
+  fragmentName?: string;
 
   /**
    * Whether to create a "blank" object literal for the type. This
    * literal will contain keys for the type set to values that will
    * satisfy a type checker.
    */
-  createBlankLiteral?: boolean
+  createBlankLiteral?: boolean;
 };
 
 function validateBasicConfig(config: AutogenConfig): AutogenConfig {
   if (config.version !== LATEST_AUTOGEN_CONFIG_VERSION) {
     throw new ToolError(
       `Please restart this tool, configuration schema has changed ` +
-      `from ${LATEST_AUTOGEN_CONFIG_VERSION} to ${config.version}`
+        `from ${LATEST_AUTOGEN_CONFIG_VERSION} to ${config.version}`
     );
   }
   return config;
 }
 
 export function loadAutogenConfig(filename: string): AutogenConfig {
-  const contents = fs.readFileSync(filename, { encoding: 'utf-8' });
+  const contents = fs.readFileSync(filename, { encoding: "utf-8" });
   try {
     return validateBasicConfig(toml.parse(contents));
   } catch (e) {

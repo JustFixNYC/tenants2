@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from "fs";
 
 /** Returns whether a source string contains any of the given strings. */
 export function strContains(source: string, ...strings: string[]): boolean {
@@ -40,7 +40,10 @@ export function argvHasOption(...opts: string[]): boolean {
 }
 
 /** A simple debouncer to aid in file watching. */
-export function debouncer(func: (events: any[], paths: string[]) => void, debounceMs: number) {
+export function debouncer(
+  func: (events: any[], paths: string[]) => void,
+  debounceMs: number
+) {
   let timeout: any = null;
   let events: any[] = [];
   let paths: string[] = [];
@@ -49,7 +52,7 @@ export function debouncer(func: (events: any[], paths: string[]) => void, deboun
     const finalPaths = paths;
     events = [];
     paths = [];
-    func(finalEvents, finalPaths)
+    func(finalEvents, finalPaths);
   };
 
   return (event: any, path: string) => {
@@ -75,26 +78,33 @@ export class ToolError extends Error {}
  */
 export function reportChanged(
   files: string[],
-  createMsg: (count: number, s: 's'|'') => string,
+  createMsg: (count: number, s: "s" | "") => string,
   log = console.log
 ) {
   if (files.length > 0) {
-    log(createMsg(files.length, files.length > 1 ? 's' : ''));
+    log(createMsg(files.length, files.length > 1 ? "s" : ""));
   }
 }
 
 /**
  * Write the given file to disk, but only if its new contents are
  * different from its existing contents.
- * 
+ *
  * Returns true if the file's contents have changed, false otherwise.
  */
-export function writeFileIfChangedSync(path: string, contents: string, dryRun: boolean = false): boolean {
-  if (fs.existsSync(path) && fs.readFileSync(path, { encoding: 'utf-8' }) === contents) {
+export function writeFileIfChangedSync(
+  path: string,
+  contents: string,
+  dryRun: boolean = false
+): boolean {
+  if (
+    fs.existsSync(path) &&
+    fs.readFileSync(path, { encoding: "utf-8" }) === contents
+  ) {
     return false;
   }
   if (!dryRun) {
-    fs.writeFileSync(path, contents, { encoding: 'utf-8' });
+    fs.writeFileSync(path, contents, { encoding: "utf-8" });
   }
   return true;
 }
@@ -104,5 +114,5 @@ export function writeFileIfChangedSync(path: string, contents: string, dryRun: b
  * glob expression.
  */
 export function combineGlobs(globs: string[]): string {
-  return globs.length === 1 ? globs[0] : `{${globs.join(',')}}`
+  return globs.length === 1 ? globs[0] : `{${globs.join(",")}}`;
 }

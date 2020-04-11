@@ -3,14 +3,18 @@ import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 import { BlankHPActionDetails } from "../../queries/HPActionDetails";
 
 test("isNotSuingForHarassment works", () => {
-    expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);
-  
-    [[false, true], [true, false], [null, true]].forEach(([sueForHarassment, expected]) => {
-      expect(isNotSuingForHarassment({
+  expect(isNotSuingForHarassment(BlankAllSessionInfo)).toBe(true);
+
+  [
+    [false, true],
+    [true, false],
+    [null, true],
+  ].forEach(([sueForHarassment, expected]) => {
+    expect(
+      isNotSuingForHarassment({
         ...BlankAllSessionInfo,
-        hpActionDetails: { ...BlankHPActionDetails, sueForHarassment }
-      }))
-        .toBe(expected);
-    });
+        hpActionDetails: { ...BlankHPActionDetails, sueForHarassment },
+      })
+    ).toBe(expected);
   });
-  
+});

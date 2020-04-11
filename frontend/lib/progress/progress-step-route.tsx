@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
 import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
-import { AllSessionInfo } from '../queries/AllSessionInfo';
-import { AppContext } from '../app-context';
-import { assertNotNull } from '../util/util';
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { AppContext } from "../app-context";
+import { assertNotNull } from "../util/util";
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -37,18 +37,18 @@ export type BaseProgressStepRoute = {
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
   /** The URL path to the step before the one being rendered, if any. */
-  prevStep: string|null,
+  prevStep: string | null;
 
   /** The URL path to the step after the one being rendered, if any. */
-  nextStep: string|null,
+  nextStep: string | null;
 };
 
 export type MiddleProgressStepProps = ProgressStepProps & {
   /** The URL path to the step before the one being rendered. */
-  prevStep: string,
+  prevStep: string;
 
   /** The URL path to the step after the one being rendered. */
-  nextStep: string
+  nextStep: string;
 };
 
 /**
@@ -61,7 +61,13 @@ export function MiddleProgressStep(
 ): React.FunctionComponent<ProgressStepProps> {
   return (props: ProgressStepProps) => {
     let { prevStep, nextStep, ...rest } = props;
-    return <Component prevStep={assertNotNull(prevStep)} nextStep={assertNotNull(nextStep)} {...rest} />
+    return (
+      <Component
+        prevStep={assertNotNull(prevStep)}
+        nextStep={assertNotNull(nextStep)}
+        {...rest}
+      />
+    );
   };
 }
 
@@ -73,28 +79,38 @@ type RenderProgressStepRoute = BaseProgressStepRoute & {
   render: (ctx: ProgressStepProps) => JSX.Element;
 };
 
-export type ProgressStepRoute = ComponentProgressStepRoute | RenderProgressStepRoute;
+export type ProgressStepRoute =
+  | ComponentProgressStepRoute
+  | RenderProgressStepRoute;
 
 type StepInfo = {
-  step: ProgressStepRoute,
-  allSteps: ProgressStepRoute[]
+  step: ProgressStepRoute;
+  allSteps: ProgressStepRoute[];
 };
 
 class StepQuerier {
-  constructor(readonly step: BaseProgressStepRoute, readonly session: AllSessionInfo) {
-  }
+  constructor(
+    readonly step: BaseProgressStepRoute,
+    readonly session: AllSessionInfo
+  ) {}
 
   get isIncomplete(): boolean {
     return this.step.isComplete ? !this.step.isComplete(this.session) : false;
   }
 
   get shouldBeSkipped(): boolean {
-    return this.step.shouldBeSkipped ? this.step.shouldBeSkipped(this.session) : false;
+    return this.step.shouldBeSkipped
+      ? this.step.shouldBeSkipped(this.session)
+      : false;
   }
 }
 
-export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
-  const prev = getRelativeStep(path, 'prev', allSteps);
+export function getBestPrevStep(
+  session: AllSessionInfo,
+  path: string,
+  allSteps: ProgressStepRoute[]
+): ProgressStepRoute | null {
+  const prev = getRelativeStep(path, "prev", allSteps);
   if (prev) {
     const pq = new StepQuerier(prev, session);
     if (pq.isIncomplete || pq.shouldBeSkipped || prev.neverGoBackTo) {
@@ -107,8 +123,12 @@ export function getBestPrevStep(session: AllSessionInfo, path: string, allSteps:
   return prev;
 }
 
-export function getBestNextStep(session: AllSessionInfo, path: string, allSteps: ProgressStepRoute[]): ProgressStepRoute|null {
-  const next = getRelativeStep(path, 'next', allSteps);
+export function getBestNextStep(
+  session: AllSessionInfo,
+  path: string,
+  allSteps: ProgressStepRoute[]
+): ProgressStepRoute | null {
+  const next = getRelativeStep(path, "next", allSteps);
   if (next) {
     const nq = new StepQuerier(next, session);
     if (nq.shouldBeSkipped) {
@@ -127,9 +147,9 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   const ctx: ProgressStepProps = {
     ...routerCtx,
     prevStep: prev && prev.path,
-    nextStep: next && next.path
+    nextStep: next && next.path,
   };
-  if ('component' in step) {
+  if ("component" in step) {
     return <step.component {...ctx} />;
   } else {
     return step.render(ctx);
@@ -139,13 +159,30 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
 /**
  * Creates a <Route> that renders the given progress step, in the
  * context of other steps.
- * 
+ *
  * Ordinarily this might be a component, but since <Switch> requires
  * its immediate descendants to be <Route> components, we can't do that.
  */
-export function createStepRoute(options: { key: string, step: ProgressStepRoute, allSteps: ProgressStepRoute[] }) {
+export function createStepRoute(options: {
+  key: string;
+  step: ProgressStepRoute;
+  allSteps: ProgressStepRoute[];
+}) {
   const { step, allSteps } = options;
-  return <Route key={options.key} render={(routerCtx) => {
-    return <ProgressStepRenderer step={step} allSteps={allSteps} {...routerCtx} />;
-  }} path={step.path} exact={step.exact} />
+  return (
+    <Route
+      key={options.key}
+      render={(routerCtx) => {
+        return (
+          <ProgressStepRenderer
+            step={step}
+            allSteps={allSteps}
+            {...routerCtx}
+          />
+        );
+      }}
+      path={step.path}
+      exact={step.exact}
+    />
+  );
 }

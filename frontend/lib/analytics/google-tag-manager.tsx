@@ -11,14 +11,14 @@ declare global {
      *
      * However, it won't exist if the app hasn't been configured to support GTM.
      */
-    dataLayer: GTMDataLayer|undefined;
+    dataLayer: GTMDataLayer | undefined;
   }
 }
 
 /** Data layer event to send when a user signs up. */
 type GTMSignupEvent = {
-  event: 'jf.signup',
-  'jf.signupIntent': OnboardingInfoSignupIntent|null
+  event: "jf.signup";
+  "jf.signupIntent": OnboardingInfoSignupIntent | null;
 };
 
 /**
@@ -39,22 +39,25 @@ export type GetStartedPageType = "splash" | "welcome";
  * usually by clicking a big button with text similar to "get started".
  */
 type GTMGetStartedEvent = {
-  event: 'jf.getStarted',
-  'jf.getStartedIntent': GetStartedIntent,
-  'jf.getStartedPageType': GetStartedPageType,
+  event: "jf.getStarted";
+  "jf.getStartedIntent": GetStartedIntent;
+  "jf.getStartedPageType": GetStartedPageType;
 };
 
 /**
  * Data layer event to send when the user successfully submits a form.
  */
 type GTMFormSuccessEvent = {
-  event: 'jf.formSuccess',
-  'jf.formKind': string,
-  'jf.formId'?: string,
-  'jf.redirect'?: string,
+  event: "jf.formSuccess";
+  "jf.formKind": string;
+  "jf.formId"?: string;
+  "jf.redirect"?: string;
 };
 
-export type GTMDataLayerObject = GTMSignupEvent | GTMGetStartedEvent | GTMFormSuccessEvent;
+export type GTMDataLayerObject =
+  | GTMSignupEvent
+  | GTMGetStartedEvent
+  | GTMFormSuccessEvent;
 
 export function getDataLayer(): GTMDataLayer {
   return window.dataLayer || [];

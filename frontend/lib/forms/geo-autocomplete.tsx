@@ -1,28 +1,40 @@
-import React from 'react';
-import Downshift, { ControllerStateAndHelpers, DownshiftInterface } from 'downshift';
-import classnames from 'classnames';
-import autobind from 'autobind-decorator';
-import { BoroughChoice, getBoroughChoiceLabels } from '../../../common-data/borough-choices';
-import { WithFormFieldErrors, formatErrors } from './form-errors';
-import { bulmaClasses } from '../ui/bulma';
-import { awesomeFetch, createAbortController } from '../networking/fetch';
-import { renderLabel, LabelRenderer } from './form-fields';
-import { KEY_ENTER, KEY_TAB } from '../util/key-codes';
-import { GeoSearchBoroughGid, GeoSearchResults, GeoSearchRequester } from '@justfixnyc/geosearch-requester';
+import React from "react";
+import Downshift, {
+  ControllerStateAndHelpers,
+  DownshiftInterface,
+} from "downshift";
+import classnames from "classnames";
+import autobind from "autobind-decorator";
+import {
+  BoroughChoice,
+  getBoroughChoiceLabels,
+} from "../../../common-data/borough-choices";
+import { WithFormFieldErrors, formatErrors } from "./form-errors";
+import { bulmaClasses } from "../ui/bulma";
+import { awesomeFetch, createAbortController } from "../networking/fetch";
+import { renderLabel, LabelRenderer } from "./form-fields";
+import { KEY_ENTER, KEY_TAB } from "../util/key-codes";
+import {
+  GeoSearchBoroughGid,
+  GeoSearchResults,
+  GeoSearchRequester,
+} from "@justfixnyc/geosearch-requester";
 
 // https://stackoverflow.com/a/4565120
 function isChrome(): boolean {
-  return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  return (
+    /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+  );
 }
 
 /**
  * Return the browser-specific "autocomplete" attribute value to disable
  * autocomplete on a form field.
- * 
+ *
  * This is mostly needed because Chrome is extremely aggressive with
  * respect to autocompleting form fields, and the behavior seems to
  * change from one release to the next.
- * 
+ *
  * For more details on why Chrome ignores the standard autocomplete="off",
  * see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
  */
@@ -31,21 +43,28 @@ function getBrowserAutoCompleteOffValue(): string {
   // that the initial render on the server-side is for the baseline component.
   // Otherwise we'd run into issues where the client-side initial render
   // would be different from the SSR, which is bad.
-  if (typeof(navigator) === 'undefined') {
-    throw new Error('Assertion failure, this function should only be called in the browser!');
+  if (typeof navigator === "undefined") {
+    throw new Error(
+      "Assertion failure, this function should only be called in the browser!"
+    );
   }
 
   // https://gist.github.com/niksumeiko/360164708c3b326bd1c8#gistcomment-2666079
-  return isChrome() ? 'disabled' : 'off';
+  return isChrome() ? "disabled" : "off";
 }
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
   switch (gid) {
-    case GeoSearchBoroughGid.Manhattan: return 'MANHATTAN';
-    case GeoSearchBoroughGid.Bronx: return 'BRONX';
-    case GeoSearchBoroughGid.Brooklyn: return 'BROOKLYN';
-    case GeoSearchBoroughGid.Queens: return 'QUEENS';
-    case GeoSearchBoroughGid.StatenIsland: return 'STATEN_ISLAND';
+    case GeoSearchBoroughGid.Manhattan:
+      return "MANHATTAN";
+    case GeoSearchBoroughGid.Bronx:
+      return "BRONX";
+    case GeoSearchBoroughGid.Brooklyn:
+      return "BROOKLYN";
+    case GeoSearchBoroughGid.Queens:
+      return "QUEENS";
+    case GeoSearchBoroughGid.StatenIsland:
+      return "STATEN_ISLAND";
   }
 
   throw new Error(`No borough found for ${gid}!`);
@@ -54,7 +73,7 @@ function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
 export interface GeoAutocompleteItem {
   address: string;
   borough: BoroughChoice | null;
-};
+}
 
 interface GeoAutocompleteProps extends WithFormFieldErrors {
   label: string;
@@ -62,7 +81,7 @@ interface GeoAutocompleteProps extends WithFormFieldErrors {
   initialValue?: GeoAutocompleteItem;
   onChange: (item: GeoAutocompleteItem) => void;
   onNetworkError: (err: Error) => void;
-};
+}
 
 interface GeoAutocompleteState {
   isLoading: boolean;
@@ -87,42 +106,43 @@ const MAX_SUGGESTIONS = 5;
  * progressive enhancement, since it requires JavaScript and uses
  * a third-party API that might become unavailable.
  */
-export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAutocompleteState> {
+export class GeoAutocomplete extends React.Component<
+  GeoAutocompleteProps,
+  GeoAutocompleteState
+> {
   requester: GeoSearchRequester;
 
   constructor(props: GeoAutocompleteProps) {
     super(props);
     this.state = {
       isLoading: false,
-      results: []
+      results: [],
     };
     this.requester = new GeoSearchRequester({
       createAbortController,
       fetch: awesomeFetch,
       throttleMs: AUTOCOMPLETE_KEY_THROTTLE_MS,
       onError: this.handleRequesterError,
-      onResults: this.handleRequesterResults
+      onResults: this.handleRequesterResults,
     });
   }
 
-  renderListItem(ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
-                 item: GeoAutocompleteItem,
-                 index: number): JSX.Element {
+  renderListItem(
+    ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
+    item: GeoAutocompleteItem,
+    index: number
+  ): JSX.Element {
     const props = ds.getItemProps({
       key: item.address + item.borough,
       index,
       item,
       className: classnames({
-        'jf-autocomplete-is-highlighted': ds.highlightedIndex === index,
-        'jf-autocomplete-is-selected': ds.selectedItem === item
-      })
+        "jf-autocomplete-is-highlighted": ds.highlightedIndex === index,
+        "jf-autocomplete-is-selected": ds.selectedItem === item,
+      }),
     });
 
-    return (
-      <li {...props}>
-        {geoAutocompleteItemToString(item)}
-      </li>
-    );
+    return <li {...props}>{geoAutocompleteItemToString(item)}</li>;
   }
 
   /**
@@ -134,10 +154,13 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
    * that causes the autocomplete to lose focus.
    */
   selectIncompleteAddress(ds: ControllerStateAndHelpers<GeoAutocompleteItem>) {
-    if (!ds.selectedItem || geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue) {
+    if (
+      !ds.selectedItem ||
+      geoAutocompleteItemToString(ds.selectedItem) !== ds.inputValue
+    ) {
       ds.selectItem({
-        address: ds.inputValue || '',
-        borough: null
+        address: ds.inputValue || "",
+        borough: null,
       });
     }
   }
@@ -148,7 +171,9 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
    *
    * Otherwise, return false.
    */
-  selectFirstResult(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): boolean {
+  selectFirstResult(
+    ds: ControllerStateAndHelpers<GeoAutocompleteItem>
+  ): boolean {
     const { results } = this.state;
     if (ds.highlightedIndex === null && ds.isOpen && results.length > 0) {
       ds.selectItem(results[0]);
@@ -165,11 +190,16 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
    */
   makeChromeNotBeAnnoying() {
     if (isChrome()) {
-      this.setState({ inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}` });
+      this.setState({
+        inputName: `omfg-chrome-stop-autocompleting-this-field-${Date.now()}`,
+      });
     }
   }
 
-  handleAutocompleteKeyDown(ds: ControllerStateAndHelpers<GeoAutocompleteItem>, event: React.KeyboardEvent) {
+  handleAutocompleteKeyDown(
+    ds: ControllerStateAndHelpers<GeoAutocompleteItem>,
+    event: React.KeyboardEvent
+  ) {
     this.makeChromeNotBeAnnoying();
     if (event.keyCode === KEY_ENTER || event.keyCode === KEY_TAB) {
       if (this.selectFirstResult(ds)) {
@@ -186,25 +216,42 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
       onFocus: () => this.makeChromeNotBeAnnoying(),
       onBlur: () => this.selectIncompleteAddress(ds),
       onKeyDown: (event) => this.handleAutocompleteKeyDown(ds, event),
-      onChange: (event) => this.handleInputValueChange(event.currentTarget.value)
+      onChange: (event) =>
+        this.handleInputValueChange(event.currentTarget.value),
     });
   }
 
-  renderAutocomplete(ds: ControllerStateAndHelpers<GeoAutocompleteItem>): JSX.Element {
+  renderAutocomplete(
+    ds: ControllerStateAndHelpers<GeoAutocompleteItem>
+  ): JSX.Element {
     const { errorHelp } = formatErrors(this.props);
     const { results } = this.state;
 
     return (
       <div className="field jf-autocomplete-field">
-        {renderLabel(this.props.label, ds.getLabelProps(), this.props.renderLabel)}
-        <div className={bulmaClasses('control', {
-          'is-loading': this.state.isLoading
-        })}>
-          <input name={this.state.inputName} className="input" {...this.getInputProps(ds)} />
-          <ul className={classnames({
-            'jf-autocomplete-open': ds.isOpen && results.length > 0
-          })} {...ds.getMenuProps()}>
-            {ds.isOpen && results.map((item, i) => this.renderListItem(ds, item, i))}
+        {renderLabel(
+          this.props.label,
+          ds.getLabelProps(),
+          this.props.renderLabel
+        )}
+        <div
+          className={bulmaClasses("control", {
+            "is-loading": this.state.isLoading,
+          })}
+        >
+          <input
+            name={this.state.inputName}
+            className="input"
+            {...this.getInputProps(ds)}
+          />
+          <ul
+            className={classnames({
+              "jf-autocomplete-open": ds.isOpen && results.length > 0,
+            })}
+            {...ds.getMenuProps()}
+          >
+            {ds.isOpen &&
+              results.map((item, i) => this.renderListItem(ds, item, i))}
           </ul>
         </div>
         {errorHelp}
@@ -225,7 +272,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   handleRequesterResults(results: GeoSearchResults) {
     this.setState({
       isLoading: false,
-      results: geoSearchResultsToAutocompleteItems(results)
+      results: geoSearchResultsToAutocompleteItems(results),
     });
   }
 
@@ -244,7 +291,7 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   render() {
     return (
       <GeoDownshift
-        onChange={item => item && this.props.onChange(item)}
+        onChange={(item) => item && this.props.onChange(item)}
         initialSelectedItem={this.props.initialValue}
         itemToString={geoAutocompleteItemToString}
       >
@@ -254,20 +301,24 @@ export class GeoAutocomplete extends React.Component<GeoAutocompleteProps, GeoAu
   }
 }
 
-export function geoAutocompleteItemToString(item: GeoAutocompleteItem|null): string {
-  if (!item) return '';
+export function geoAutocompleteItemToString(
+  item: GeoAutocompleteItem | null
+): string {
+  if (!item) return "";
   if (!item.borough) return item.address;
   return `${item.address}, ${getBoroughChoiceLabels()[item.borough]}`;
 }
 
-export function geoSearchResultsToAutocompleteItems(results: GeoSearchResults): GeoAutocompleteItem[] {
-  return results.features.slice(0, MAX_SUGGESTIONS).map(feature => {
+export function geoSearchResultsToAutocompleteItems(
+  results: GeoSearchResults
+): GeoAutocompleteItem[] {
+  return results.features.slice(0, MAX_SUGGESTIONS).map((feature) => {
     const { borough_gid } = feature.properties;
     const borough = boroughGidToChoice(borough_gid);
 
     return {
       address: feature.properties.name,
-      borough
-    }
+      borough,
+    };
   });
 }

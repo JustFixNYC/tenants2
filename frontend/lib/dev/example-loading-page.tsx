@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { LoadingPageWithRetry } from '../networking/loading-page';
-import Page from '../ui/page';
+import { LoadingPageWithRetry } from "../networking/loading-page";
+import Page from "../ui/page";
 
 interface State {
   error: boolean;
@@ -10,7 +10,10 @@ interface State {
 
 const page = (
   <Page title="Example loading page">
-    <p>This page can be used to test the loading screen via the panel at the bottom-right.</p>
+    <p>
+      This page can be used to test the loading screen via the panel at the
+      bottom-right.
+    </p>
   </Page>
 );
 
@@ -26,9 +29,9 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
           disabled={disabled}
           onChange={(e) => {
             const { checked } = e.target;
-            this.setState(state => ({
+            this.setState((state) => ({
               ...state,
-              [k]: checked
+              [k]: checked,
             }));
           }}
         />
@@ -40,15 +43,19 @@ export default class ExampleLoadingPage extends React.Component<{}, State> {
   render() {
     return (
       <>
-        {this.state.mount ? <LoadingPageWithRetry
-          error={this.state.error}
-          retry={() => {
-            this.setState({ mount: true, error: false });
-          }}
-        /> : page}
+        {this.state.mount ? (
+          <LoadingPageWithRetry
+            error={this.state.error}
+            retry={() => {
+              this.setState({ mount: true, error: false });
+            }}
+          />
+        ) : (
+          page
+        )}
         <div className="jf-loading-page-devtools">
-          {this.renderCheckbox('mount')}
-          {this.renderCheckbox('error', !this.state.mount)}
+          {this.renderCheckbox("mount")}
+          {this.renderCheckbox("error", !this.state.mount)}
         </div>
       </>
     );

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prettier": "prettier",
-    "prettier:check": "prettier \"**/*.{scss,js,ts,tsx}\" --check",
-    "prettier:fix": "prettier \"**/*.{scss,js,ts,tsx}\" --write",
+    "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
+    "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",
     "lint": "yarn typecheck && yarn eslint && yarn prettier:check",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",

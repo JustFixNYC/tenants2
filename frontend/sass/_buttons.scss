@@ -1,0 +1,40 @@
+// It's entirely possible that the a button's text
+// may make it too wide for some mobile screens, so
+// this mixin overrides Bulma's default button styling
+// to allow the text to wrap.
+@mixin button-text-wrap() {
+  white-space: normal;
+  height: auto;
+
+  // Ideally, we only want to alter the line height of button text that wraps to two lines
+  // However, this solution should cover all cases where this happens,
+  // just also alters one-line buttons on mobile as well, which isn't ideal.
+  @media screen and (max-width: $jf-supertiny) {
+    line-height: normal;
+  }
+}
+
+.button.jf-text-wrap {
+  @include button-text-wrap();
+}
+
+.button.jf-is-extra-wide {
+  padding-left: 2em;
+  padding-right: 2em;
+  @include button-text-wrap();
+}
+
+// A class used around groups of two buttons to
+// put them on opposite sides of the screen.
+.jf-two-buttons,
+.field.is-grouped.jf-two-buttons {
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  &.jf-two-buttons--vertical {
+    // This centers and aligns the buttons vertically on a phone
+    @include until($tablet) {
+      flex-direction: column;
+    }
+  }
+}

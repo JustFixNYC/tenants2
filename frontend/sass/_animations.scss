@@ -1,0 +1,47 @@
+.jf-slidedown-5em {
+  animation-duration: 0.5s;
+  animation-name: jf-slidedown-5em;
+  overflow: hidden;
+}
+
+@keyframes jf-slidedown-5em {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 5em;
+  }
+}
+
+.jf-fadein-half-second {
+  animation-duration: 0.5s;
+  animation-name: jf-fadein;
+}
+
+@keyframes jf-fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.jf-slide-500px-200ms-enter {
+  max-height: 0;
+}
+
+.jf-slide-500px-200ms-enter-active {
+  max-height: 500px;
+  transition: max-height 200ms;
+}
+
+.jf-slide-500px-200ms-exit {
+  max-height: 500px;
+}
+
+.jf-slide-500px-200ms-exit-active {
+  max-height: 0;
+  transition: max-height 200ms;
+}

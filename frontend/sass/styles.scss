@@ -21,6 +21,10 @@
 @import "./_dev.scss";
 @import "./_footer.scss";
 @import "./_admin-conversations.scss";
+@import "./_forms.scss";
+@import "./_buttons.scss";
+@import "./_big-list.scss";
+@import "./_animations.scss";
 
 // This variable defines how much of the page footer we want to
 // appear above the fold on all pages
@@ -51,124 +55,8 @@ body > #prerendered-modal ~ .safe-mode-disable {
   display: none;
 }
 
-// Bulma's default help text size is way too small, so we'll
-// make it bigger.
-.help {
-  font-size: inherit;
-}
-
 .title.jf-page-steps-title {
   margin-bottom: 0.5em;
-}
-
-.jf-radio.radio + .jf-radio.radio {
-  // This undoes Bulma's default .radio+.radio styling.
-  margin-left: 0;
-}
-
-.jf-checkbox input,
-.jf-single-checkbox input,
-.jf-radio input {
-  @include sr-only();
-}
-
-.jf-radio-symbol {
-  box-shadow: 0 0 0 2px $primary-invert, 0 0 0 4px $border-hover;
-  min-width: 1.2em;
-  min-height: 1.2em;
-  border-radius: 100%;
-  margin: 0.3em 0.6em 0.3em 0.3em;
-}
-
-input:checked + .jf-radio-symbol {
-  background-color: $primary;
-}
-
-input:focus + .jf-radio-symbol {
-  outline: 2px dotted $border-hover;
-  outline-offset: 5px;
-}
-
-input[type="number"] {
-  max-width: 10em;
-}
-
-.jf-checkbox-symbol {
-  min-width: 1.4em;
-  min-height: 1.4em;
-  margin: 0.3em 0.6em 0.3em 0.3em;
-  border-radius: 2px;
-  border: 2px solid $border-hover;
-}
-
-.checkbox + .jf-inset-field {
-  padding-left: 1.4em + 0.3em + 0.6em;
-
-  .label {
-    font-weight: normal;
-    color: $subtitle-color;
-  }
-}
-
-.jf-slidedown-5em {
-  animation-duration: 0.5s;
-  animation-name: jf-slidedown-5em;
-  overflow: hidden;
-}
-
-@keyframes jf-slidedown-5em {
-  from {
-    max-height: 0;
-  }
-  to {
-    max-height: 5em;
-  }
-}
-
-input:checked + .jf-checkbox-symbol {
-  border-color: $primary;
-  background-color: $primary;
-
-  // Note that the only color present in the background
-  // image needs to be $primary-invert. If $primary ever
-  // changes drastically, the background image may need
-  // to be changed!
-  background-image: url("./img/correct8.png");
-  background-image: url("./img/correct8.svg");
-
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-input:focus + .jf-checkbox-symbol {
-  outline: 2px dotted $border-hover;
-  outline-offset: 2px;
-}
-
-.jf-radio,
-.jf-checkbox,
-.jf-single-checkbox {
-  display: flex;
-  padding: 0.25em 0;
-}
-
-.jf-radio,
-.jf-checkbox {
-  align-items: center;
-}
-
-.jf-single-checkbox {
-  align-items: center;
-}
-
-// This class is largely empty; its main purpose is
-// to wrap our label text so it breaks the flexbox layout of our
-// <label> elements, which is an annoying hack. For more details,
-// see https://github.com/JustFixNYC/tenants2/issues/260.
-.jf-label-text {
-  // This makes text wrap properly on IE11. For more details,
-  // see https://stackoverflow.com/a/35113633/2422398.
-  flex: 1;
 }
 
 .jf-loc-preview.box {
@@ -187,47 +75,6 @@ input:focus + .jf-checkbox-symbol {
   height: 300px;
 }
 
-// It's entirely possible that the a button's text
-// may make it too wide for some mobile screens, so
-// this mixin overrides Bulma's default button styling
-// to allow the text to wrap.
-@mixin button-text-wrap() {
-  white-space: normal;
-  height: auto;
-
-  // Ideally, we only want to alter the line height of button text that wraps to two lines
-  // However, this solution should cover all cases where this happens,
-  // just also alters one-line buttons on mobile as well, which isn't ideal.
-  @media screen and (max-width: $jf-supertiny) {
-    line-height: normal;
-  }
-}
-
-.button.jf-text-wrap {
-  @include button-text-wrap();
-}
-
-.button.jf-is-extra-wide {
-  padding-left: 2em;
-  padding-right: 2em;
-  @include button-text-wrap();
-}
-
-// A class used around groups of two buttons to
-// put them on opposite sides of the screen.
-.jf-two-buttons,
-.field.is-grouped.jf-two-buttons {
-  justify-content: space-between;
-  margin-top: 2rem;
-
-  &.jf-two-buttons--vertical {
-    // This centers and aligns the buttons vertically on a phone
-    @include until($tablet) {
-      flex-direction: column;
-    }
-  }
-}
-
 // This is used to "glue" content together, so that e.g. an icon doesn't
 // word-wrap to be orphaned from the content it's associated with.
 .jf-word-glue {
@@ -239,85 +86,6 @@ input:focus + .jf-checkbox-symbol {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 1em;
-}
-
-// Until https://github.com/jgthms/bulma/issues/886 is fixed,
-// Bulma doesn't have fieldset/legend styling, so we'll provide
-// our own.
-fieldset {
-  border: none;
-
-  legend {
-    font-weight: bold;
-  }
-
-  .field:not(:last-child) {
-    margin-bottom: 0;
-  }
-}
-
-$jf-biglist-counter-size: 45px;
-$jf-biglist-counter-margin: 1em;
-
-.content ol.jf-biglist {
-  & {
-    list-style: none;
-    counter-reset: jf-biglist-counter;
-    margin-left: 0;
-  }
-
-  li {
-    counter-increment: jf-biglist-counter;
-    display: flex;
-    align-items: center;
-    padding: 1em;
-    background: $light;
-  }
-
-  li > div.jf-biglist-counter {
-    // Align counters to top of their container:
-    margin-bottom: auto;
-    & + div {
-      margin-left: $jf-biglist-counter-margin;
-      // Make guidelines box extend outside of parent div on mobile:
-      @media screen and (max-width: $tablet) {
-        .jf-sanitation-guidelines {
-          margin-left: calc(
-            0px - #{$jf-biglist-counter-size} - #{$jf-biglist-counter-margin}
-          );
-        }
-      }
-    }
-  }
-
-  li > div.jf-biglist-counter::before {
-    content: counter(jf-biglist-counter);
-    display: block;
-    font-size: 30px;
-    font-weight: bold;
-    padding-left: 15px;
-    width: $jf-biglist-counter-size;
-    height: $jf-biglist-counter-size;
-    overflow: hidden;
-    border-radius: 100%;
-    background-color: hsl(0, 0%, 29%);
-    color: white;
-  }
-}
-
-.jf-fadein-half-second {
-  animation-duration: 0.5s;
-  animation-name: jf-fadein;
-}
-
-@keyframes jf-fadein {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 
 .jf-beta-tag:before {
@@ -385,24 +153,6 @@ html.jf-is-fullscreen-admin-page {
       }
     }
   }
-}
-
-.jf-slide-500px-200ms-enter {
-  max-height: 0;
-}
-
-.jf-slide-500px-200ms-enter-active {
-  max-height: 500px;
-  transition: max-height 200ms;
-}
-
-.jf-slide-500px-200ms-exit {
-  max-height: 500px;
-}
-
-.jf-slide-500px-200ms-exit-active {
-  max-height: 0;
-  transition: max-height 200ms;
 }
 
 .jf-covid-ehp-disclaimer {

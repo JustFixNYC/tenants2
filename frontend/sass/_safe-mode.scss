@@ -1,29 +1,29 @@
 aside.safe-mode {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1em;
-    z-index: 1150;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1em;
+  z-index: 1150;
 }
 
 .safe-mode-disable {
-    background-color: $primary;
+  background-color: $primary;
 }
 
 .safe-mode[data-safe-mode-hidden] {
-    display: none;
+  display: none;
 }
 
 html[data-safe-mode-no-js] .safe-mode[data-safe-mode-hidden] {
-    display: block;
+  display: block;
 
-    button.delete {
-        display: none;
-    }
+  button.delete {
+    display: none;
+  }
 }
 
 // https://css-tricks.com/snippets/css/remove-gray-highlight-when-tapping-links-in-mobile-safari/
 html:not([data-safe-mode-no-js]) {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

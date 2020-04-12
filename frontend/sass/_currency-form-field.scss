@@ -1,16 +1,16 @@
 .jf-currency {
-    position: relative;
+  position: relative;
 }
 
 .jf-currency input {
-    $padding: uncalc($control-padding-horizontal);
-    padding-left: calc(#{$padding} + 1em);
-    max-width: 10em;
+  $padding: uncalc($control-padding-horizontal);
+  padding-left: calc(#{$padding} + 1em);
+  max-width: 10em;
 }
 
 .jf-currency .jf-currency-symbol {
-    position: absolute;
-    top: $control-padding-vertical;
-    left: $control-padding-horizontal;
-    content: '$';
+  position: absolute;
+  top: $control-padding-vertical;
+  left: $control-padding-horizontal;
+  content: "$";
 }

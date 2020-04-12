@@ -1,66 +1,65 @@
 .jf-issue-area-link {
-    color: $button-text-color;
-    display: block;
-    border: 1px solid $button-text-hover-background-color;
-    text-align: center;
-    padding: 1.5em;
-    height: 100%;
+  color: $button-text-color;
+  display: block;
+  border: 1px solid $button-text-hover-background-color;
+  text-align: center;
+  padding: 1.5em;
+  height: 100%;
 
-    svg {
-        width: 36px;
-        height: 36px;
-        overflow: hidden;
-        fill: currentColor;
+  svg {
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    fill: currentColor;
+  }
 
-    }
+  // target icon only
+  & > svg {
+    margin-bottom: 0.5em;
+  }
 
-    // target icon only
-    & > svg {
-      margin-bottom: 0.5em;
-    }
+  p.title {
+    margin-bottom: 0;
+  }
 
-    p.title {
-      margin-bottom: 0;
-    }
-
-    p.subtitle {
-      margin-top: 0.5em;
-    }
+  p.subtitle {
+    margin-top: 0.5em;
+  }
 }
 
 .jf-issue-area-link:focus {
-    @include outline-focus();
+  @include outline-focus();
 }
 
 .jf-issue-area-link:not(.jf-issue-count-zero) {
-    background-color: $primary;
-    color: $primary-invert;
+  background-color: $primary;
+  color: $primary-invert;
 
-    &:hover {
-        // This appears to be the amount that Bulma darkens a color by
-        // for its button hover styles, though it also doesn't seem to
-        // be defined as a mixin or constant or anything, so we have
-        // to manually apply the same effect here.
-        background: darken($primary, 2.5%);
-    }
+  &:hover {
+    // This appears to be the amount that Bulma darkens a color by
+    // for its button hover styles, though it also doesn't seem to
+    // be defined as a mixin or constant or anything, so we have
+    // to manually apply the same effect here.
+    background: darken($primary, 2.5%);
+  }
 }
 
 .jf-issue-area-link.jf-issue-count-zero:hover {
-    color: $button-text-hover-color;
-    background: $grey-lighter;
+  color: $button-text-hover-color;
+  background: $grey-lighter;
 }
 
 .jf-issue-area-link.jf-issue-count-zero .jf-issue-count {
-    display: none;
+  display: none;
 }
 
 .jf-issue-count svg {
-    width: 1em;
-    height: 1em;
+  width: 1em;
+  height: 1em;
 }
 
 .title.jf-issue-area svg {
-    height: 1em;
-    width: 1em;
-    fill: currentColor;
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
 }

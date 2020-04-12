@@ -1,132 +1,132 @@
 .jf-admin-conversations-wrapper {
+  display: flex;
+  font-size: 12px;
+  height: calc(100vh - 3.5rem - 40px);
+  margin-top: 20px;
+  border: 1px solid lightgray;
+
+  .jf-empty-panel {
+    background: #f0f0f0;
+    flex: 1;
     display: flex;
-    font-size: 12px;
-    height: calc(100vh - 3.5rem - 40px);
-    margin-top: 20px;
-    border: 1px solid lightgray;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .jf-empty-panel {
+  .jf-can-be-stale {
+    transition: opacity 0.5s;
+  }
+
+  .jf-is-stale-result {
+    opacity: 0.5;
+  }
+
+  .jf-conversation-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-width: 30em;
+    width: 30em;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #f0f0f0;
+
+    .jf-search {
+      display: block;
+      width: 100%;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 1px solid lightgray;
+      padding: 8px;
+    }
+
+    > a:not(:last-child) {
+      border-bottom: 1px solid lightgray;
+    }
+
+    > a {
+      display: block;
+      color: inherit;
+      padding: 8px;
+      background: white;
+    }
+
+    > a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .jf-heading {
+      display: flex;
+      margin-bottom: 0.5em;
+      justify-content: space-between;
+    }
+
+    .jf-tenant {
+      font-weight: bold;
+    }
+
+    .jf-body {
+      color: gray;
+    }
+
+    > a.jf-selected {
+      color: $primary-invert;
+      background: $primary;
+
+      .jf-body {
+        color: inherit;
+      }
+    }
+  }
+
+  .jf-current-conversation {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid darkgray;
+
+    .jf-user-details {
+      padding: 1em;
+      background: #f0f0f0;
+      border-bottom: 1px solid darkgray;
+      margin-bottom: 0;
+    }
+
+    .jf-messages {
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 1em;
+      overflow-y: auto;
+      flex: 1;
+
+      > .jf-sms {
+        padding: 1em 0;
+        max-width: 80%;
+      }
+
+      > .jf-sms > .jf-sms-body {
+        display: inline-block;
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .jf-sms.jf-from-us > .jf-sms-body {
+        background: $primary;
+        color: $primary-invert;
+      }
+
+      .jf-sms.jf-to-us {
+        align-self: flex-end;
+        text-align: right;
+      }
+
+      .jf-to-us > .jf-sms-body {
         background: #f0f0f0;
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      }
+
+      .jf-sms-error {
+        color: red;
+      }
     }
-
-    .jf-can-be-stale {
-        transition: opacity 0.5s;
-    }
-
-    .jf-is-stale-result {
-        opacity: 0.5;
-    }
-
-    .jf-conversation-sidebar {
-        display: flex;
-        flex-direction: column;
-        min-width: 30em;
-        width: 30em;
-        overflow-x: hidden;
-        overflow-y: auto;
-        background: #f0f0f0;
-
-        .jf-search {
-            display: block;
-            width: 100%;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            border-bottom: 1px solid lightgray;
-            padding: 8px;
-        }
-
-        > a:not(:last-child) {
-            border-bottom: 1px solid lightgray;
-        }
-
-        > a {
-            display: block;
-            color: inherit;
-            padding: 8px;
-            background: white;
-        }
-
-        > a:hover {
-            background-color: #f0f0f0;
-        }
-
-        .jf-heading {
-            display: flex;
-            margin-bottom: 0.5em;
-            justify-content: space-between;
-        }
-
-        .jf-tenant {
-            font-weight: bold;
-        }
-
-        .jf-body {
-            color: gray;
-        }
-
-        > a.jf-selected {
-            color: $primary-invert;
-            background: $primary;
-
-            .jf-body {
-                color: inherit;
-            }
-        }
-    }
-
-    .jf-current-conversation {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        border-left: 1px solid darkgray;
-
-        .jf-user-details {
-            padding: 1em;
-            background: #f0f0f0;
-            border-bottom: 1px solid darkgray;
-            margin-bottom: 0;
-        }
-
-        .jf-messages {
-            display: flex;
-            flex-direction: column-reverse;
-            padding: 1em;
-            overflow-y: auto;
-            flex: 1;
-
-            > .jf-sms {
-                padding: 1em 0;
-                max-width: 80%;
-            }
-
-            > .jf-sms > .jf-sms-body {
-                display: inline-block;
-                padding: 8px;
-                border-radius: 8px;
-            }
-
-            .jf-sms.jf-from-us > .jf-sms-body {
-                background: $primary;
-                color: $primary-invert;
-            }
-
-            .jf-sms.jf-to-us {
-                align-self: flex-end;
-                text-align: right;
-            }
-
-            .jf-to-us > .jf-sms-body {
-                background: #f0f0f0;
-            }
-
-            .jf-sms-error {
-                color: red;
-            }
-        }
-    }
+  }
 }

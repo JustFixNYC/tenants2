@@ -1,33 +1,34 @@
-.jf-warning-icon, .jf-info-icon {
-    margin-left: 0.25em;
-    margin-right: 0.25em;
+.jf-warning-icon,
+.jf-info-icon {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
 
-    svg {
-        width: 1em;
-        height: 1em;
-    }
+  svg {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .jf-warning-icon {
-    color: $orange;
+  color: $orange;
 }
 
 a.jf-warning-icon:hover {
-    color: darken($orange, 10%);
+  color: darken($orange, 10%);
 }
 
 .jf-notice-icon {
-    color: $warning;
+  color: $warning;
 }
 
 a.jf-notice-icon:hover {
-    color: darken($warning, 10%);
+  color: darken($warning, 10%);
 }
 
 .jf-info-icon {
-    color: $justfix-blue;
+  color: $justfix-blue;
 }
 
 a.jf-info-icon:hover {
-    color: darken($justfix-blue, 10%);
+  color: darken($justfix-blue, 10%);
 }

@@ -1,32 +1,32 @@
 .jf-autocomplete-is-highlighted {
-    color: $primary-invert;
-    background-color: $primary;
+  color: $primary-invert;
+  background-color: $primary;
 }
 
 .jf-autocomplete-is-selected {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .jf-autocomplete-field .control {
-    position: relative;
+  position: relative;
 }
 
 .jf-autocomplete-field ul {
-    position: absolute;
-    top: 2em;
-    left: 0;
-    width: 100%;
-    background: $primary-invert;
-    border: 1px solid $grey-light;
-    z-index: 100;
-    border-radius: 4px;
-    display: none;
+  position: absolute;
+  top: 2em;
+  left: 0;
+  width: 100%;
+  background: $primary-invert;
+  border: 1px solid $grey-light;
+  z-index: 100;
+  border-radius: 4px;
+  display: none;
 }
 
 .jf-autocomplete-field ul.jf-autocomplete-open {
-    display: block;
+  display: block;
 }
 
 .jf-autocomplete-field ul li {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }

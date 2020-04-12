@@ -1,103 +1,109 @@
 html[data-safe-mode-no-js] {
-    // Don't show the hamburger at all, since people
-    // will just be confused by its lack of interactivity.
-    .navbar-burger {
-        display: none;
-    }
+  // Don't show the hamburger at all, since people
+  // will just be confused by its lack of interactivity.
+  .navbar-burger {
+    display: none;
+  }
 }
 
 @keyframes jf-slidedown {
-    from {
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        overflow: hidden;
-    }
+  from {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
 
-    to {
-        max-height: 1000px;
-    }
+  to {
+    max-height: 1000px;
+  }
 }
 
 html:not([data-safe-mode-no-js]) nav.navbar .is-active {
-    &.navbar-menu, .navbar-dropdown {
-        animation: jf-slidedown 0.5s;
-    }
+  &.navbar-menu,
+  .navbar-dropdown {
+    animation: jf-slidedown 0.5s;
+  }
 }
 
 nav.navbar {
-    background: $primary;
+  background: $primary;
 
-    .navbar-item:focus, .navbar-link:focus, .navbar-burger:focus {
-        outline: 2px dashed $primary-invert;
+  .navbar-item:focus,
+  .navbar-link:focus,
+  .navbar-burger:focus {
+    outline: 2px dashed $primary-invert;
+  }
+
+  .navbar-item,
+  .navbar-link {
+    color: $primary-invert;
+  }
+
+  .navbar-item figure {
+    max-height: 1.5rem;
+    position: relative;
+    top: 1px;
+  }
+
+  .navbar-link::after {
+    border-color: $primary-invert;
+  }
+
+  .navbar-item.jf-navbar-label {
+    padding-left: 0.5rem;
+
+    .tag.is-warning {
+      border-radius: 0;
+      transform: rotate(-4deg);
+    }
+  }
+
+  .is-active {
+    .navbar-item:focus,
+    .navbar-link:focus:not([role="button"]) {
+      outline: 2px dashed $primary;
     }
 
-    .navbar-item, .navbar-link {
+    .navbar-item,
+    .navbar-link {
+      color: $primary;
+    }
+
+    // This handles the extremely weird case where the hamburger
+    // is active, but the browser window is also wide enough to
+    // not be showing the menu bar.
+    //
+    // Most significantly, this is the case in safe mode, when
+    // we show both the hamburger and all dropdowns simultaneously,
+    // and have no ability to change the DOM via JS.
+    //
+    // This is probably a symptom of how horrible all this CSS is.
+    @media screen and (min-width: $desktop) {
+      .navbar-end > .navbar-item:not(:hover) {
         color: $primary-invert;
-    }
-
-    .navbar-item figure {
-      max-height: 1.5rem;
-      position: relative;
-      top: 1px;
+        outline-color: $primary-invert;
+      }
     }
 
     .navbar-link::after {
-        border-color: $primary-invert;
+      border-color: $primary;
     }
+  }
 
-    .navbar-item.jf-navbar-label {
-        padding-left: 0.5rem;
-        
-        .tag.is-warning {
-            border-radius: 0;
-            transform: rotate(-4deg);
-        }
-    }
+  a.navbar-item:hover,
+  a.navbar-item.is-active,
+  .navbar-link:hover,
+  .navbar-link.is-active {
+    color: $primary;
+  }
 
-    .is-active {
-        .navbar-item:focus, .navbar-link:focus:not([role="button"]) {
-            outline: 2px dashed $primary;
-        }
+  .navbar-link:hover::after,
+  .navbar-link.is-active::after {
+    border-color: $primary;
+  }
 
-        .navbar-item, .navbar-link {
-            color: $primary;
-        }
-
-        // This handles the extremely weird case where the hamburger
-        // is active, but the browser window is also wide enough to
-        // not be showing the menu bar.
-        //
-        // Most significantly, this is the case in safe mode, when
-        // we show both the hamburger and all dropdowns simultaneously,
-        // and have no ability to change the DOM via JS.
-        //
-        // This is probably a symptom of how horrible all this CSS is.
-        @media screen and (min-width: $desktop) {
-            .navbar-end > .navbar-item:not(:hover) {
-                color: $primary-invert;
-                outline-color: $primary-invert;
-            }
-        }
-
-        .navbar-link::after {
-            border-color: $primary;
-        }
-    }
-
-    a.navbar-item:hover,
-    a.navbar-item.is-active,
-    .navbar-link:hover,
-    .navbar-link.is-active {
-        color: $primary;
-    }
-
-    .navbar-link:hover::after,
-    .navbar-link.is-active::after {
-        border-color: $primary;
-    }
-
-    .navbar-burger {
-        color: $primary-invert;
-    }
+  .navbar-burger {
+    color: $primary-invert;
+  }
 }

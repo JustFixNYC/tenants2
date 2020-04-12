@@ -17,24 +17,24 @@
 // weird if they're on the same horizontal level as the other form
 // controls.
 .level.jf-ddo-searchbar {
-    .field {
-        flex: 1;
-        
-        @media screen and (min-width: $tablet) {
-            padding-right: 1rem;
-        }
+  .field {
+    flex: 1;
+
+    @media screen and (min-width: $tablet) {
+      padding-right: 1rem;
     }
+  }
 }
 
 .jf-ddo-searchbar:not(.level) {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .jf-ddo-searchbar {
-    .button {
-        margin-top: auto;
-        margin-bottom: 0.75rem;
-    }
+  .button {
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+  }
 }
 
 // The search bar is in a `hero` when there is no search query (i.e.,
@@ -44,56 +44,56 @@
 // we want the set of radio buttons for the borough to look slightly
 // different from normal form controls.
 .hero .jf-ddo-searchbar div[role="group"] {
-    .label {
-        // Don't make the "What is your borough?" label bold, it
-        // sticks out too much on the splash page.
-        font-weight: normal;
-    }
+  .label {
+    // Don't make the "What is your borough?" label bold, it
+    // sticks out too much on the splash page.
+    font-weight: normal;
+  }
 
-    .control {
-        // This will ensure the radio buttons are centered on the page.
-        display: inline-block;
-    }
+  .control {
+    // This will ensure the radio buttons are centered on the page.
+    display: inline-block;
+  }
 }
 
 .jf-ddo-results {
-    .jf-ddo-card {
-        p.subtitle, span.subtitle {
-            display: block;
-            margin-bottom: 0.25em;
-            .jf-registration-warning {
-                display: block;
-                margin-bottom: 1rem;
-            }
-        }
-
-        .button.is-primary {
-            margin-top: 1.25em;
-        }
-
-        .media {
-            align-items: center;
-
-            .media-right.jf-is-hidden-supertiny {
-                margin-bottom: auto;
-
-                figure.image {
-                    padding: 0 0.7rem 1.4rem 0.7rem;
-                }
-
-            }
-        }
-
-        margin-bottom: 1.25em;
-
-        @media (max-width: $jf-supertiny) {
-            h3 {
-                min-height: 2em;
-
-                figure {
-                    margin: 0 0 0 1em;
-                }
-            }
-        }
+  .jf-ddo-card {
+    p.subtitle,
+    span.subtitle {
+      display: block;
+      margin-bottom: 0.25em;
+      .jf-registration-warning {
+        display: block;
+        margin-bottom: 1rem;
+      }
     }
+
+    .button.is-primary {
+      margin-top: 1.25em;
+    }
+
+    .media {
+      align-items: center;
+
+      .media-right.jf-is-hidden-supertiny {
+        margin-bottom: auto;
+
+        figure.image {
+          padding: 0 0.7rem 1.4rem 0.7rem;
+        }
+      }
+    }
+
+    margin-bottom: 1.25em;
+
+    @media (max-width: $jf-supertiny) {
+      h3 {
+        min-height: 2em;
+
+        figure {
+          margin: 0 0 0 1em;
+        }
+      }
+    }
+  }
 }

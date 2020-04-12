@@ -18,6 +18,12 @@
   animation-name: jf-fadein;
 }
 
+div.jf-is-transitioning-out {
+  .jf-fadein-half-second {
+    animation: none;
+  }
+}
+
 @keyframes jf-fadein {
   from {
     opacity: 0;

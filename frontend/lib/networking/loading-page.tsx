@@ -239,6 +239,7 @@ class LoadingOverlayManagerWithoutRouter extends React.Component<
         <LoadingPageContext.Provider value={this.loadingPageContext}>
           <div ref={this.childrenRef}>{this.props.children}</div>
           <div
+            className="jf-is-transitioning-out"
             ref={this.latestSnapshotRef}
             hidden={!this.state.showOverlay}
           ></div>

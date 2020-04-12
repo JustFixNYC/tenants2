@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+// This is where the NoRent.org static assets will be, relative to
+// where this CSS file will be when the site is deployed.
+$norent-root: "../norent";
+
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
 @import "../../../node_modules/bulma/bulma.sass";

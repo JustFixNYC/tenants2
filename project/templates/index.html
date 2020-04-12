@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {{ meta_tags }}
-        <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
+        {% if site_type == "NORENT" %}
+            <link rel="stylesheet" href="{% static "frontend/styles-norent.css" %}" />
+        {% else %}
+            <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
+        {% endif %}
         {{ SAFE_MODE_SNIPPET }}
         {{ ROLLBAR_SNIPPET }}
         {% if enable_analytics %}

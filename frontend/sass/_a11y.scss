@@ -1,14 +1,14 @@
 @mixin outline-focus() {
-    outline-width: 1px;
-    outline-style: dashed;
-    outline-offset: -5px;
-    outline-color: currentColor;
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-offset: -5px;
+  outline-color: currentColor;
 }
 
 // Bulma's button default focus styling is not easy
 // to distinguish, so we'll make it stand out more here.
 .button:focus {
-    @include outline-focus();
+  @include outline-focus();
 }
 
 // Anything with this mixin will only be perceivable to
@@ -16,12 +16,12 @@
 //
 // It's taken from: https://webaim.org/techniques/css/invisiblecontent/
 @mixin sr-only() {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 // Bulma is supposed to support this, but at the moment it
@@ -29,7 +29,7 @@
 //
 // Until it does, we'll use our own class.
 .jf-sr-only {
-    @include sr-only();
+  @include sr-only();
 }
 
 // Sometimes we want non-interactive elements to be
@@ -38,5 +38,5 @@
 // the element, so we'll do that here. For more details, see:
 // https://css-tricks.com/focus-styles-non-interactive-elements/
 [data-jf-is-noninteractive]:focus {
-    outline: none;
+  outline: none;
 }

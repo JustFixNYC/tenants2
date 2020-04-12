@@ -2,13 +2,13 @@
 $jf-supertiny: 480px;
 
 @media (min-width: $jf-supertiny) {
-    .jf-is-supertiny-only {
-        display: none;
-    }
+  .jf-is-supertiny-only {
+    display: none;
+  }
 }
 
 @media (max-width: $jf-supertiny) {
-    .jf-is-hidden-supertiny {
-        display: none;
-    }
+  .jf-is-hidden-supertiny {
+    display: none;
+  }
 }

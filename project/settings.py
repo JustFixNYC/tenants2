@@ -110,6 +110,7 @@ INSTALLED_APPS = [
     'dwh.apps.DwhConfig',
     'texting_history.apps.TextingHistoryConfig',
     'docusign.apps.DocusignConfig',
+    'norent.apps.NorentConfig',
 ]
 
 MIDDLEWARE = [

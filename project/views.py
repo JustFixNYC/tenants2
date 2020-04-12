@@ -240,6 +240,7 @@ def react_rendered_view(request):
         initial_props['legacyFormSubmission'] = legacy_form_submission
 
     site = get_site_from_request_or_default(request)
+    site_type = get_site_type(site)
 
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
@@ -251,7 +252,7 @@ def react_rendered_view(request):
         'server': {
             'originURL': request.build_absolute_uri('/')[:-1],
             'siteName': site.name,
-            'siteType': get_site_type(site),
+            'siteType': site_type,
             'staticURL': settings.STATIC_URL,
             'webpackPublicPathURL': webpack_public_path_url,
             'adminIndexURL': reverse('admin:index'),
@@ -301,6 +302,7 @@ def react_rendered_view(request):
         'enable_analytics': not request.user.is_staff,
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
+        'site_type': site_type,
         'meta_tags': lambda_response.meta_tags,
         'script_tags': script_tags,
         'initial_props': initial_props,

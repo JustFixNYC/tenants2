@@ -43,6 +43,8 @@ class Command(BaseCommand):
         '.png',
         '.jpg',
         '.ttf',
+        '.woff',
+        '.woff2',
         '.ico',
         '.dbf',
         '.sbn',

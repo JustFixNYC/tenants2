@@ -13,6 +13,8 @@
     "eslint": "eslint frontend/lib --ext .ts,.tsx",
     "test": "jest",
     "test:watch": "jest --watch",
+    "sass_norent": "node-sass frontend/sass/norent/styles.scss frontend/static/frontend/styles-norent.css --source-map frontend/static/frontend/styles-norent.css.map --source-map-contents --output-style compressed",
+    "sass_norent:watch": "yarn sass_norent --watch",
     "sass": "node-sass frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "yarn sass --watch",
     "querybuilder": "node querybuilder.js",
@@ -21,8 +23,8 @@
     "webpack:watch": "webpack --watch",
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
-    "build": "yarn querybuilder && yarn sass && yarn webpack && yarn safe_mode_snippet",
-    "start": "yarn querybuilder && yarn sass && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\""
+    "build": "yarn querybuilder && yarn sass && yarn sass_norent && yarn webpack && yarn safe_mode_snippet",
+    "start": "yarn querybuilder && yarn sass && yarn sass_norent && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\""
   },
   "repository": {
     "type": "git",

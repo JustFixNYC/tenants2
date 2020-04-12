@@ -5,6 +5,13 @@ staticfiles
 frontend/vendor
 *.min.js
 .venv
+.mypy_cache
+.vscode
+.babel-cache.json
+schema.json
+
+# This is a weird JSON format, ignore it for now.
+tsconfig.json
 
 # Don't go in that black hole!
 node_modules

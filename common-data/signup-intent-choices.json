@@ -1,5 +1,5 @@
 [
-    ["LOC", "Letter of Complaint"],
-    ["HP", "HP Action"],
-    ["EHP", "Emergency HP Action"]
+  ["LOC", "Letter of Complaint"],
+  ["HP", "HP Action"],
+  ["EHP", "Emergency HP Action"]
 ]

@@ -1,7 +1,7 @@
 {
-    "name": "NYC Housing Authority",
-    "primaryLine": "250 Broadway",
-    "city": "New York",
-    "state": "NY",
-    "zipCode": "10007"
+  "name": "NYC Housing Authority",
+  "primaryLine": "250 Broadway",
+  "city": "New York",
+  "state": "NY",
+  "zipCode": "10007"
 }

@@ -4,8 +4,7 @@ function createLocalizedRouteInfo(prefix: string) {
   return {
     /** The home page. */
     home: `${prefix}/`,
-  }
-};
+  };
+}
 
-export const NorentRoutes = createRoutesForSite(createLocalizedRouteInfo, {
-});
+export const NorentRoutes = createRoutesForSite(createLocalizedRouteInfo, {});

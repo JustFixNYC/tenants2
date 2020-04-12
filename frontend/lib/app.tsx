@@ -36,7 +36,7 @@ import { areAnalyticsEnabled } from "./analytics/analytics";
 // client-side, as they represent entirely different websites.
 // We're just using our infrastructure for code splitting here.
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
-const LoadableNorentSite = loadable(() => import("./norent-site"));
+const LoadableNorentSite = loadable(() => import("./norent/site"));
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;

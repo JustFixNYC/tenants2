@@ -1,5 +1,5 @@
 [
-    ["IN_PROGRESS", "In progress"],
-    ["SIGNED", "Signed"],
-    ["DECLINED", "Declined"]
+  ["IN_PROGRESS", "In progress"],
+  ["SIGNED", "Signed"],
+  ["DECLINED", "Declined"]
 ]

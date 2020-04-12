@@ -1,8 +1,8 @@
 [
-    ["RENT_STABILIZED", "Rent Stabilized/Rent Controlled"],
-    ["MARKET_RATE", "Market Rate"],
-    ["NYCHA", "NYCHA Housing Development"],
-    ["OTHER", "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"],
-    ["NOT_SURE", "I'm not sure (currently hidden in app)"],
-    ["NO_LEASE", "I don't have a lease"]
+  ["RENT_STABILIZED", "Rent Stabilized/Rent Controlled"],
+  ["MARKET_RATE", "Market Rate"],
+  ["NYCHA", "NYCHA Housing Development"],
+  ["OTHER", "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"],
+  ["NOT_SURE", "I'm not sure (currently hidden in app)"],
+  ["NO_LEASE", "I don't have a lease"]
 ]

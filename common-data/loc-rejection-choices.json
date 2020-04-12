@@ -1,6 +1,6 @@
 [
-    ["INCRIMINATION", "Letter is potentially incriminating"],
-    ["CHANGED_MIND", "Tenant changed their mind"],
-    ["BAD_ADDRESS", "Unintelligible address"],
-    ["OTHER", "Other"]
+  ["INCRIMINATION", "Letter is potentially incriminating"],
+  ["CHANGED_MIND", "Tenant changed their mind"],
+  ["BAD_ADDRESS", "Unintelligible address"],
+  ["OTHER", "Other"]
 ]

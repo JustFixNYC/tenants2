@@ -38,10 +38,7 @@
     "dpv_confirmation": "Y",
     "dpv_cmra": "N",
     "dpv_vacant": "N",
-    "dpv_footnotes": [
-      "AA",
-      "BB"
-    ],
+    "dpv_footnotes": ["AA", "BB"],
     "ews_match": false,
     "lacs_indicator": "",
     "lacs_return_code": "",

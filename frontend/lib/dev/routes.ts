@@ -6,6 +6,7 @@ export function createDevRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     home: `${prefix}/`,
+    styleGuide: `${prefix}/style-guide`,
     examples: {
       [ROUTE_PREFIX]: `${prefix}/examples`,
       ddo: `${prefix}/examples/ddo`,

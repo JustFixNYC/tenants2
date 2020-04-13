@@ -14,6 +14,7 @@ import {
   ExampleFormPage,
   ExampleFormWithoutRedirectPage,
 } from "./example-form-page";
+import { StyleGuide } from "./style-guide";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -127,6 +128,7 @@ export default function DevRoutes(): JSX.Element {
   return (
     <Switch>
       <Route path={dev.home} exact component={DevHome} />
+      <Route path={dev.styleGuide} exact component={StyleGuide} />
       <Route
         path={dev.examples.ddo}
         exact

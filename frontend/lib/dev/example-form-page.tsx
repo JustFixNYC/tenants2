@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Page from "../ui/page";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
@@ -9,13 +9,13 @@ import {
 } from "../queries/ExampleMutation";
 import { TextualFormField, CheckboxFormField } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
-import Routes from "../routes";
 import { ExampleInput } from "../queries/globalTypes";
 import { Modal, BackOrUpOneDirLevel, ModalLink } from "../ui/modal";
 import { Formset } from "../forms/formset";
 import { CurrencyFormField } from "../forms/currency-form-field";
 import { ProgressiveOtherCheckboxFormField } from "../forms/other-checkbox-form-field";
 import { Link } from "react-router-dom";
+import { AppContext } from "../app-context";
 
 const INITIAL_STATE: ExampleInput = {
   ...BlankExampleInput,
@@ -105,45 +105,49 @@ function ExampleForm(props: {
 
 /* istanbul ignore next: this is tested by integration tests. */
 export function ExampleFormPage(): JSX.Element {
+  const routes = useContext(AppContext).siteRoutes;
+
   return (
     <Page title="Example form page">
       <div className="content">
         <p>
           This is an example form page. It will redirect to the homepage on
           success; use the{" "}
-          <Link to={Routes.dev.examples.formWithoutRedirect}>
+          <Link to={routes.dev.examples.formWithoutRedirect}>
             form without redirect
           </Link>{" "}
           if you want different behavior.
         </p>
         <ModalLink
-          to={Routes.dev.examples.formInModal}
+          to={routes.dev.examples.formInModal}
           render={() => (
-            <FormInModal onSuccessRedirect={Routes.dev.examples.form} />
+            <FormInModal onSuccessRedirect={routes.dev.examples.form} />
           )}
           className="button is-light"
         >
           Use the form in a modal
         </ModalLink>
       </div>
-      <ExampleForm onSuccessRedirect={Routes.locale.home} id="not_in_modal" />
+      <ExampleForm onSuccessRedirect={routes.locale.home} id="not_in_modal" />
     </Page>
   );
 }
 
 /* istanbul ignore next: this is tested by integration tests. */
 export function ExampleFormWithoutRedirectPage(): JSX.Element {
+  const routes = useContext(AppContext).siteRoutes;
+
   return (
     <Page title="Example form page (without redirect on success)">
       <div className="content">
         <p>
           This is an example form page. It will not redirect anywhere on
           success; ; use the{" "}
-          <Link to={Routes.dev.examples.form}>form with redirect</Link> if you
+          <Link to={routes.dev.examples.form}>form with redirect</Link> if you
           want different behavior.
         </p>
         <ModalLink
-          to={Routes.dev.examples.formInModalWithoutRedirect}
+          to={routes.dev.examples.formInModalWithoutRedirect}
           render={() => <FormInModal />}
           className="button is-light"
         >

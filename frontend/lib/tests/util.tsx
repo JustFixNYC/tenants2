@@ -2,6 +2,7 @@ import GraphQlClient from "../networking/graphql-client";
 import { AppServerInfo, AppContextType } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from "../forms/form-errors";
+import Routes from "../routes";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -70,6 +71,7 @@ export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;
 export const FakeAppContext: AppContextType = {
   server: FakeServerInfo,
   session: FakeSessionInfo,
+  siteRoutes: Routes,
   fetch: jest.fn(),
   fetchWithoutErrorHandling: jest.fn(),
   updateSession: jest.fn(),

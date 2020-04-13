@@ -114,7 +114,10 @@ export class RouteMap {
  * currently-selected locale, while other properties represent routes
  * that aren't localized.
  */
-type RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = NonLocalizedRoutes & {
+export type RouteInfo<
+  LocalizedRoutes,
+  NonLocalizedRoutes
+> = NonLocalizedRoutes & {
   /** Localized routes for the user's currently-selected locale. */
   locale: LocalizedRoutes;
 

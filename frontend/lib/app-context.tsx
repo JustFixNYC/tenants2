@@ -4,6 +4,28 @@ import { AllSessionInfo } from "./queries/AllSessionInfo";
 import { GraphQLFetch } from "./networking/graphql-client";
 import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
+import { RouteInfo } from "./util/route-util";
+import { DevRouteInfo } from "./dev/routes";
+
+/** Common localized routes all our sites support. */
+type CommonLocalizedSiteRoutes = {
+  /** The site home page. */
+  home: string;
+};
+
+/** Common non-localized routes all our sites support. */
+type CommonNonLocalizedSiteRoutes = {
+  /**
+   * Example pages used in integration tests, and other
+   * development-related pages.
+   */
+  dev: DevRouteInfo;
+};
+
+export type AppSiteRoutes = RouteInfo<
+  CommonLocalizedSiteRoutes,
+  CommonNonLocalizedSiteRoutes
+>;
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -148,6 +170,12 @@ export interface AppContextType {
   server: AppServerInfo;
 
   /**
+   * The routes of the currently active site.  Note that only routes
+   * common to all sites will be accessible through this object.
+   */
+  siteRoutes: AppSiteRoutes;
+
+  /**
    * Information about the current user that may change if they
    * log in/out, etc.
    */
@@ -204,6 +232,9 @@ export const defaultContext: AppContextType = {
     throw new UnimplementedError();
   },
   get session(): AllSessionInfo {
+    throw new UnimplementedError();
+  },
+  get siteRoutes(): AppSiteRoutes {
     throw new UnimplementedError();
   },
   fetch(query: string, variables?: any): Promise<any> {

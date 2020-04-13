@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Page from "../ui/page";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
@@ -6,7 +6,7 @@ import { ExampleRadioMutation } from "../queries/ExampleRadioMutation";
 import { ExampleRadioInput } from "../queries/globalTypes";
 import { RadiosFormField } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
-import Routes from "../routes";
+import { AppContext } from "../app-context";
 
 const INITIAL_STATE: ExampleRadioInput = {
   radioField: "",
@@ -14,11 +14,13 @@ const INITIAL_STATE: ExampleRadioInput = {
 
 /* istanbul ignore next: this is tested by integration tests. */
 function ExampleRadioForm(props: {}): JSX.Element {
+  const routes = useContext(AppContext).siteRoutes;
+
   return (
     <LegacyFormSubmitter
       mutation={ExampleRadioMutation}
       initialState={INITIAL_STATE}
-      onSuccessRedirect={Routes.dev.home}
+      onSuccessRedirect={routes.dev.home}
     >
       {(ctx) => (
         <React.Fragment>

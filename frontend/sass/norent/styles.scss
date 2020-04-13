@@ -28,7 +28,7 @@ $jf-title-weight: 900;
 $jf-navbar-background: $white;
 $jf-navbar-content: $black;
 
-@import "./_navbar.scss";
+@import "../_navbar.scss";
 
 .title {
   font-family: $jf-title-family;

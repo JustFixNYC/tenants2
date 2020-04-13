@@ -4,6 +4,12 @@ import { NorentRoutes as Routes } from "./routes";
 import { RouteComponentProps, Switch, Route } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomepage } from "./homepage";
+import { LoadingPage, friendlyLoad } from "../networking/loading-page";
+import loadable from "@loadable/component";
+
+const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
+  fallback: <LoadingPage />,
+});
 
 const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;
@@ -13,6 +19,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   return (
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomepage} />
+      <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>
   );

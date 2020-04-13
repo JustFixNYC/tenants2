@@ -16,6 +16,7 @@ import {
   AppContext,
   AppContextType,
   AppLegacyFormSubmission,
+  AppSiteRoutes,
 } from "./app-context";
 import { ErrorBoundary } from "./error-boundary";
 import { isModalRoute } from "./util/route-util";
@@ -30,6 +31,8 @@ import {
 import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
+import { default as JustfixRoutes } from "./routes";
+import { NorentRoutes } from "./norent/routes";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -249,6 +252,7 @@ export class AppWithoutRouter extends React.Component<
     return {
       server: this.props.server,
       session: this.state.session,
+      siteRoutes: this.getSiteRoutes(),
       fetch: this.fetch,
       fetchWithoutErrorHandling: this.fetchWithoutErrorHandling,
       updateSession: this.handleSessionChange,
@@ -258,6 +262,15 @@ export class AppWithoutRouter extends React.Component<
 
   get isLoggedIn(): boolean {
     return !!this.state.session.phoneNumber;
+  }
+
+  getSiteRoutes(): AppSiteRoutes {
+    switch (this.props.server.siteType) {
+      case "JUSTFIX":
+        return JustfixRoutes;
+      case "NORENT":
+        return NorentRoutes;
+    }
   }
 
   getSiteComponent(): React.ComponentType<AppSiteProps> {

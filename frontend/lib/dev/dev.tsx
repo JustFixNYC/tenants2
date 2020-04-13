@@ -1,10 +1,9 @@
-import React from "react";
-import Routes from "../routes";
+import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import { Link } from "react-router-dom";
 import Page from "../ui/page";
-import { withAppContext, AppContextType } from "../app-context";
+import { withAppContext, AppContextType, AppContext } from "../app-context";
 import { Helmet } from "react-helmet-async";
 import { QueryLoader } from "../networking/query-loader";
 import { ExampleQuery } from "../queries/ExampleQuery";
@@ -64,7 +63,7 @@ const DevHome = withAppContext(
       );
     }
 
-    for (let path of Routes.routeMap.nonParameterizedRoutes()) {
+    for (let path of props.siteRoutes.routeMap.nonParameterizedRoutes()) {
       frontendRouteLinks.push(
         <li key={path}>
           <Link to={path} className="jf-dev-code">
@@ -122,55 +121,50 @@ function ExampleQueryPage(): JSX.Element {
 }
 
 export default function DevRoutes(): JSX.Element {
+  const { siteRoutes } = useContext(AppContext);
+  const dev = siteRoutes.dev;
+
   return (
     <Switch>
-      <Route path={Routes.dev.home} exact component={DevHome} />
+      <Route path={dev.home} exact component={DevHome} />
       <Route
-        path={Routes.dev.examples.ddo}
+        path={dev.examples.ddo}
         exact
         component={ExampleDataDrivenOnboardingResults}
       />
       <Route
-        path={Routes.dev.examples.redirect}
+        path={dev.examples.redirect}
         exact
-        render={() => <Redirect to={Routes.locale.home} />}
+        render={() => <Redirect to={siteRoutes.locale.home} />}
       />
       <Route
-        path={Routes.dev.examples.modal}
+        path={dev.examples.modal}
         exact
         component={LoadableExampleModalPage}
       />
       <Route
-        path={Routes.dev.examples.loadingPage}
+        path={dev.examples.loadingPage}
         exact
         component={LoadableExampleLoadingPage}
       />
-      <Route path={Routes.dev.examples.form} component={ExampleFormPage} />
+      <Route path={dev.examples.form} component={ExampleFormPage} />
       <Route
-        path={Routes.dev.examples.formWithoutRedirect}
+        path={dev.examples.formWithoutRedirect}
         component={ExampleFormWithoutRedirectPage}
       />
-      <Route path={Routes.dev.examples.radio} component={ExampleRadioPage} />
+      <Route path={dev.examples.radio} component={ExampleRadioPage} />
       <Route
-        path={Routes.dev.examples.loadable}
+        path={dev.examples.loadable}
         exact
         component={LoadableExamplePage}
       />
       <Route
-        path={Routes.dev.examples.clientSideError}
+        path={dev.examples.clientSideError}
         exact
         component={LoadableClientSideErrorPage}
       />
-      <Route
-        path={Routes.dev.examples.metaTag}
-        exact
-        component={ExampleMetaTagPage}
-      />
-      <Route
-        path={Routes.dev.examples.query}
-        exact
-        component={ExampleQueryPage}
-      />
+      <Route path={dev.examples.metaTag} exact component={ExampleMetaTagPage} />
+      <Route path={dev.examples.query} exact component={ExampleQueryPage} />
     </Switch>
   );
 }

@@ -3,6 +3,7 @@ import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
 import { DataDrivenOnboardingSuggestionsVariables } from "./queries/DataDrivenOnboardingSuggestions";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
+import { createDevRouteInfo } from "./dev/routes";
 
 /**
  * Metadata about signup intents.
@@ -271,26 +272,7 @@ const Routes = createRoutesForSite(createLocalizedRouteInfo, {
    * Example pages used in integration tests, and other
    * development-related pages.
    */
-  dev: {
-    [ROUTE_PREFIX]: "/dev",
-    home: "/dev/",
-    examples: {
-      [ROUTE_PREFIX]: "/dev/examples",
-      ddo: "/dev/examples/ddo",
-      redirect: "/dev/examples/redirect",
-      modal: "/dev/examples/modal",
-      loadingPage: "/dev/examples/loading-page",
-      form: "/dev/examples/form",
-      formInModal: "/dev/examples/form/in-modal",
-      formWithoutRedirect: "/dev/examples/form2",
-      formInModalWithoutRedirect: "/dev/examples/form2/in-modal",
-      radio: "/dev/examples/radio",
-      loadable: "/dev/examples/loadable-page",
-      clientSideError: "/dev/examples/client-side-error",
-      metaTag: "/dev/examples/meta-tag",
-      query: "/dev/examples/query",
-    },
-  },
+  dev: createDevRouteInfo("/dev"),
 });
 
 export default Routes;

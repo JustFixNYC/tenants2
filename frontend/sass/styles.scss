@@ -6,7 +6,6 @@
 @import "./_supertiny.scss";
 @import "./_a11y.scss";
 @import "./_safe-mode.scss";
-@import "./_navbar.scss";
 @import "./_modal.scss";
 @import "./_issues.scss";
 @import "./_product-icons.scss";
@@ -25,6 +24,12 @@
 @import "./_buttons.scss";
 @import "./_big-list.scss";
 @import "./_animations.scss";
+
+// These variables define the background and content colors for the nav-bar
+$jf-navbar-background: $primary;
+$jf-navbar-content: $primary-invert;
+
+@import "./_navbar.scss";
 
 // This variable defines how much of the page footer we want to
 // appear above the fold on all pages

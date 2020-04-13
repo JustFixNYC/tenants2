@@ -14,7 +14,6 @@ $jf-title-weight: 900;
 @import "../_supertiny.scss";
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
-@import "../_navbar.scss";
 @import "../_modal.scss";
 @import "../_loading-overlay.scss";
 @import "../_dev.scss";
@@ -24,6 +23,12 @@ $jf-title-weight: 900;
 @import "../_animations.scss";
 
 @import "./_fonts.scss";
+
+// These variables define the background and content colors for the nav-bar
+$jf-navbar-background: $white;
+$jf-navbar-content: $black;
+
+@import "./_navbar.scss";
 
 .title {
   font-family: $jf-title-family;

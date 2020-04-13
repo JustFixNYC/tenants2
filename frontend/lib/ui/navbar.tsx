@@ -6,13 +6,24 @@ import autobind from "autobind-decorator";
 import { AriaExpandableButton } from "./aria";
 import { bulmaClasses } from "./bulma";
 import { AppContextType, withAppContext } from "../app-context";
-import Routes from "../routes";
 import { ga } from "../analytics/google-analytics";
-import { StaticImage } from "./static-image";
 
 type Dropdown = "developer" | "all";
 
-export type NavbarProps = AppContextType;
+export type NavbarProps = AppContextType & {
+  /**
+   * A component to render the branding at the beginning of the navbar.
+   * If omitted, the navbar will have no branding.
+   */
+  brandComponent?: React.ComponentType<{}>;
+
+  /**
+   * A component to render any additional menu items at the end of
+   * the navbar. If omitted, the navbar won't have any additional
+   * menu items.
+   */
+  menuItemsComponent?: React.ComponentType<{}>;
+};
 
 interface NavbarState {
   currentDropdown: Dropdown | null;
@@ -99,7 +110,7 @@ class NavbarWithoutAppContext extends React.Component<
   }
 
   renderDevMenu(): JSX.Element | null {
-    const { server, session } = this.props;
+    const { server, session, siteRoutes } = this.props;
     const { state } = this;
 
     if (!server.debug) return null;
@@ -140,7 +151,7 @@ class NavbarWithoutAppContext extends React.Component<
             Show safe mode UI
           </a>
         )}
-        <Link className="navbar-item" to={Routes.dev.home}>
+        <Link className="navbar-item" to={siteRoutes.dev.home}>
           More tools&hellip;
         </Link>
       </NavbarDropdown>
@@ -149,25 +160,12 @@ class NavbarWithoutAppContext extends React.Component<
 
   renderNavbarBrand(): JSX.Element {
     const { navbarLabel } = this.props.server;
-    const { onboardingInfo } = this.props.session;
     const { state } = this;
+    const Brand = this.props.brandComponent;
 
     return (
       <div className="navbar-brand">
-        <Link
-          className="navbar-item"
-          to={
-            onboardingInfo
-              ? Routes.locale.homeWithSearch(onboardingInfo)
-              : Routes.locale.home
-          }
-        >
-          <StaticImage
-            ratio="is-128x128"
-            src="frontend/img/logo.png"
-            alt="Home"
-          />
-        </Link>
+        {Brand && <Brand />}
         {navbarLabel && (
           <div className="navbar-item jf-navbar-label">
             <span className="tag is-warning">{navbarLabel}</span>
@@ -197,6 +195,7 @@ class NavbarWithoutAppContext extends React.Component<
       "navbar",
       !session.isSafeModeEnabled && "is-fixed-top"
     );
+    const MenuItems = this.props.menuItemsComponent;
 
     return (
       <nav className={navClass} ref={this.navbarRef}>
@@ -209,31 +208,12 @@ class NavbarWithoutAppContext extends React.Component<
             )}
           >
             <div className="navbar-end">
-              {session.onboardingInfo && (
-                <Link
-                  className="navbar-item"
-                  to={Routes.locale.homeWithSearch(session.onboardingInfo)}
-                >
-                  Take action
-                </Link>
-              )}
+              {MenuItems && <MenuItems />}
               {session.isStaff && (
                 <a className="navbar-item" href={server.adminIndexURL}>
                   Admin
                 </a>
               )}
-              {session.phoneNumber ? (
-                <Link className="navbar-item" to={Routes.locale.logout}>
-                  Sign out
-                </Link>
-              ) : (
-                <Link className="navbar-item" to={Routes.locale.login}>
-                  Sign in
-                </Link>
-              )}
-              <Link className="navbar-item" to={Routes.locale.help}>
-                Help
-              </Link>
               {this.renderDevMenu()}
             </div>
           </div>

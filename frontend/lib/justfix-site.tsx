@@ -12,7 +12,6 @@ import {
 import LoginPage from "./pages/login-page";
 import { LogoutPage } from "./pages/logout-page";
 import Routes from "./routes";
-import Navbar from "./ui/navbar";
 import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
 import { getOnboardingRouteForIntent } from "./onboarding/signup-intent";
 import HelpPage from "./pages/help-page";
@@ -20,6 +19,7 @@ import { createRedirectWithSearch } from "./util/redirect-util";
 import MoratoriumBanner from "./ui/covid-banners";
 import { AppSiteProps } from "./app";
 import { Footer } from "./ui/footer";
+import { JustfixNavbar } from "./justfix-navbar";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -167,7 +167,7 @@ const JustfixSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     return (
       <>
         <div className="jf-above-footer-content">
-          <Navbar />
+          <JustfixNavbar />
           <MoratoriumBanner pathname={props.location.pathname} />
           <section className="section">
             <div

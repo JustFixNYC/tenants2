@@ -27,17 +27,17 @@ html:not([data-safe-mode-no-js]) nav.navbar .is-active {
 }
 
 nav.navbar {
-  background: $primary;
+  background: $jf-navbar-background;
 
   .navbar-item:focus,
   .navbar-link:focus,
   .navbar-burger:focus {
-    outline: 2px dashed $primary-invert;
+    outline: 2px dashed $jf-navbar-content;
   }
 
   .navbar-item,
   .navbar-link {
-    color: $primary-invert;
+    color: $jf-navbar-content;
   }
 
   .navbar-item figure {
@@ -47,7 +47,7 @@ nav.navbar {
   }
 
   .navbar-link::after {
-    border-color: $primary-invert;
+    border-color: $jf-navbar-content;
   }
 
   .navbar-item.jf-navbar-label {
@@ -62,12 +62,12 @@ nav.navbar {
   .is-active {
     .navbar-item:focus,
     .navbar-link:focus:not([role="button"]) {
-      outline: 2px dashed $primary;
+      outline: 2px dashed $jf-navbar-background;
     }
 
     .navbar-item,
     .navbar-link {
-      color: $primary;
+      color: $jf-navbar-background;
     }
 
     // This handles the extremely weird case where the hamburger
@@ -81,13 +81,13 @@ nav.navbar {
     // This is probably a symptom of how horrible all this CSS is.
     @media screen and (min-width: $desktop) {
       .navbar-end > .navbar-item:not(:hover) {
-        color: $primary-invert;
-        outline-color: $primary-invert;
+        color: $jf-navbar-content;
+        outline-color: $jf-navbar-content;
       }
     }
 
     .navbar-link::after {
-      border-color: $primary;
+      border-color: $jf-navbar-background;
     }
   }
 
@@ -95,15 +95,15 @@ nav.navbar {
   a.navbar-item.is-active,
   .navbar-link:hover,
   .navbar-link.is-active {
-    color: $primary;
+    color: $jf-navbar-background;
   }
 
   .navbar-link:hover::after,
   .navbar-link.is-active::after {
-    border-color: $primary;
+    border-color: $jf-navbar-background;
   }
 
   .navbar-burger {
-    color: $primary-invert;
+    color: $jf-navbar-content;
   }
 }

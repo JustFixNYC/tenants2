@@ -1,5 +1,9 @@
 from django import forms
 
+from project.util.mailing_address import (
+    US_STATE_CHOICES, ZipCodeValidator)
+from project.util.phone_number import USPhoneNumberField
+
 
 class TenantInfo(forms.Form):
     '''
@@ -15,15 +19,15 @@ class TenantInfo(forms.Form):
 
     city = forms.CharField()
 
-    state = forms.CharField()
+    state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
 
-    zip_code = forms.CharField()
+    zip_code = forms.CharField(validators=[ZipCodeValidator()])
 
     apt_number = forms.CharField()
 
-    email = forms.CharField()
+    email = forms.EmailField()
 
-    phone_number = forms.CharField()
+    phone_number = USPhoneNumberField()
 
 
 class LandlordInfo(forms.Form):
@@ -39,10 +43,10 @@ class LandlordInfo(forms.Form):
 
     landlord_city = forms.CharField()
 
-    landlord_state = forms.CharField()
+    landlord_state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
 
     landlord_zip_code = forms.CharField()
 
-    landlord_email = forms.CharField()
+    landlord_email = forms.EmailField(required=False)
 
-    landlord_phone_number = forms.CharField()
+    landlord_phone_number = USPhoneNumberField(required=False)

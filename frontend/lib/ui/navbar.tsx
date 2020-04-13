@@ -11,7 +11,17 @@ import { ga } from "../analytics/google-analytics";
 type Dropdown = "developer" | "all";
 
 export type NavbarProps = AppContextType & {
+  /**
+   * A component to render the branding at the beginning of the navbar.
+   * If omitted, the navbar will have no branding.
+   */
   brandComponent?: React.ComponentType<{}>;
+
+  /**
+   * A component to render any additional menu items at the end of
+   * the navbar. If omitted, the navbar won't have any additional
+   * menu items.
+   */
   menuItemsComponent?: React.ComponentType<{}>;
 };
 

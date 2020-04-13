@@ -4,7 +4,11 @@ import { NorentRoutes as Routes } from "./routes";
 import { RouteComponentProps, Switch, Route } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomepage } from "./homepage";
-import { LoadingPage, friendlyLoad, LoadingOverlayManager } from "../networking/loading-page";
+import {
+  LoadingPage,
+  friendlyLoad,
+  LoadingOverlayManager,
+} from "../networking/loading-page";
 import loadable from "@loadable/component";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {

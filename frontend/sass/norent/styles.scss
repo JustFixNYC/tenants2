@@ -29,8 +29,13 @@ $jf-title-weight: 900;
 }
 
 .content {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: $jf-title-family;
-    font-weight: $jf-title-weight;  
+    font-weight: $jf-title-weight;
   }
 }

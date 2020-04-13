@@ -10,6 +10,7 @@ import {
   LoadingOverlayManager,
 } from "../networking/loading-page";
 import loadable from "@loadable/component";
+import Navbar from "../ui/navbar";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -32,18 +33,21 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
 const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     return (
-      <section className="section">
-        <div
-          className="container"
-          ref={ref}
-          data-jf-is-noninteractive
-          tabIndex={-1}
-        >
-          <LoadingOverlayManager>
-            <Route component={NorentRoute} />
-          </LoadingOverlayManager>
-        </div>
-      </section>
+      <>
+        <Navbar />
+        <section className="section">
+          <div
+            className="container"
+            ref={ref}
+            data-jf-is-noninteractive
+            tabIndex={-1}
+          >
+            <LoadingOverlayManager>
+              <Route component={NorentRoute} />
+            </LoadingOverlayManager>
+          </div>
+        </section>
+      </>
     );
   }
 );

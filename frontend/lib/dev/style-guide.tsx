@@ -31,7 +31,7 @@ export const StyleGuide: React.FC<{}> = () => {
         process.
       </p>
       <p>
-        <BackButton className="is-link is-outlined" to={dev.home} />
+        <BackButton to={dev.home} />
       </p>
       <p>
         The next button can be used to submit the current form. It also has a

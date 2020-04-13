@@ -22,6 +22,9 @@ createBlankLiteral = true
 fragmentName = "HPActionDetails"
 createBlankLiteral = true
 
+[types.NorentScaffolding]
+fragmentName = "NorentScaffolding"
+
 [types.FeeWaiverType]
 fragmentName = "FeeWaiverDetails"
 

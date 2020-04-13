@@ -4,16 +4,33 @@
 // where this CSS file will be when the site is deployed.
 $norent-root: "../norent";
 
+$jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
+$jf-title-family: "Montserrat Black", sans-serif;
+$jf-title-weight: 900;
+
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
 @import "../../../node_modules/bulma/bulma.sass";
 @import "../_supertiny.scss";
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
+@import "../_modal.scss";
+@import "../_loading-overlay.scss";
+@import "../_dev.scss";
+@import "../_forms.scss";
+@import "../_buttons.scss";
+@import "../_animations.scss";
 
 @import "./_fonts.scss";
 
-h1.title {
-  font-family: "Montserrat Black", sans-serif;
-  font-weight: 900;
+.title {
+  font-family: $jf-title-family;
+  font-weight: $jf-title-weight;
+}
+
+.content {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $jf-title-family;
+    font-weight: $jf-title-weight;  
+  }
 }

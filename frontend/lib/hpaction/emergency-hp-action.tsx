@@ -237,7 +237,7 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
       Next, we're going to prepare your Emergency HP Action paperwork for you to
       review.
     </p>
-    <p>This will take a little while, so sit tight.</p>
+    <p>This could take a while, so sit tight.</p>
     <GeneratePDFForm
       toWaitForUpload={Routes.locale.ehp.waitForUpload}
       kind="EMERGENCY"

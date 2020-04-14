@@ -19,6 +19,7 @@ $jf-title-weight: 900;
 @import "../_dev.scss";
 @import "../_forms.scss";
 @import "../_buttons.scss";
+@import "./_button-overrides.scss";
 @import "../_big-list.scss";
 @import "../_animations.scss";
 
@@ -58,35 +59,5 @@ $jf-navbar-content: $black;
         // Keep color consistent on hover
         color: $link;
     }
-  }
-}
-
-// Default style for back buttons:
-.button.jf-is-back-button {
-  background-color: transparent;
-  border: 2px solid $primary;
-  color: $primary;
-
-  &:hover {
-    background-color: $primary;
-    color: $white;
-  }
-}
-
-// Default style for next buttons:
-.button.jf-is-next-button {
-  // center button text within button element
-  line-height: 0;
-}
-
-// Default style for extra wide, centered buttons:
-.button.jf-is-extra-wide {
-  font-size: 1.25rem;
-  line-height: 0;
-  padding-left: 4rem;
-  padding-right: 4rem;
-  
-  @media screen and (max-width: $tablet) {
-    width: 100%
   }
 }

@@ -1,7 +1,7 @@
 nav.navbar {
   .navbar-menu {
     .navbar-link,
-    .navbar-item {
+    .navbar-dropdown .navbar-item {
       color: $dark;
       text-transform: uppercase;
       letter-spacing: 2px;

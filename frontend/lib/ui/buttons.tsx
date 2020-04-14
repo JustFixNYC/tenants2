@@ -47,7 +47,7 @@ export function BackButton(props: {
   return (
     <Link
       to={props.to}
-      className={bulmaClasses(
+      className={"jf-is-back-button " + bulmaClasses(
         "button",
         props.buttonClass || "is-light",
         "is-medium"
@@ -69,7 +69,7 @@ export function NextButton(props: {
   return (
     <button
       type="submit"
-      className={bulmaClasses(
+      className={"jf-is-next-button " + bulmaClasses(
         "button",
         props.buttonClass || "is-primary",
         props.buttonSizeClass || "is-medium",

@@ -15,7 +15,7 @@ from users.tests.factories import JustfixUser
 from loc.tests.factories import LandlordDetailsFactory
 from hpaction.models import Config
 from hpaction import docusign
-from hpaction.docusign import HPAType
+from hpaction.docusign import HPAType, FormsConfig
 from hpaction.hpactionvars import HPActionVariables
 
 ALL_BOROUGHS = BOROUGH_CHOICES.choices_dict.keys()
@@ -85,6 +85,18 @@ class TestGetHousingCourtForBorough:
         assert docusign.get_housing_court_for_borough("STATEN_ISLAND") == (
             "Staten Island Housing Court", "si@courts.gov",
         )
+
+
+class TestFormsConfig:
+    @pytest.mark.parametrize('hpa_type,num_date_signed_tabs', [
+        (HPAType.REPAIRS, 3),
+        (HPAType.HARASSMENT, 2),
+        (HPAType.BOTH, 3),
+    ])
+    def test_it_creates_date_signed_tabs(self, hpa_type, num_date_signed_tabs):
+        fc = FormsConfig.from_case_type(hpa_type)
+        tabs = fc.to_docusign_tabs('blah')
+        assert len(tabs.date_signed_tabs) == num_date_signed_tabs
 
 
 class TestCreateEnvelopeDefinitionForHPA:

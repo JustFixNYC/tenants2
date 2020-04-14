@@ -65,6 +65,19 @@ class HPAType(Enum):
         raise ValueError('XML is suing for neither harassment nor repairs!')
 
 
+class PageCoords(NamedTuple):
+    page: int
+    x: int
+    y: int
+
+    def to_docusign(self):
+        return dict(
+            page_number=str(self.page),
+            x_position=str(self.x),
+            y_position=str(self.y),
+        )
+
+
 class HousingCourt(NamedTuple):
     name: str
     email: str
@@ -166,62 +179,26 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     text_tabs: List[dse.Text] = []
     sign_here_tabs: List[dse.SignHere] = []
-
     hpd_inspection_page: Optional[str] = None
-
-    sign_here_kwargs = dict(
-        document_id=HPA_DOCUMENT_ID,
-        recipient_id=TENANT_RECIPIENT_ID,
-        tab_label='SignHereTab',
-    )
-
-    expected_pages: int
 
     if case_type == HPAType.REPAIRS:
         expected_pages = 3
         hpd_inspection_page = '3'
-        sign_here_petition = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='2',
-            x_position='419',
-            y_position='556',
-        )
-        sign_here_verification = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='2',
-            x_position='419',
-            y_position='667',
-        )
+        sign_here_petition_coords = PageCoords(page=2, x=419, y=556)
+        sign_here_verification_coords = PageCoords(page=2, x=419, y=667)
+        contact_info_coords = PageCoords(page=2, x=350, y=730)
     elif case_type == HPAType.HARASSMENT:
         expected_pages = 3
-        sign_here_petition = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='3',
-            x_position='419',
-            y_position='456',
-        )
-        sign_here_verification = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='3',
-            x_position='419',
-            y_position='656',
-        )
+        sign_here_petition_coords = PageCoords(page=3, x=419, y=456)
+        sign_here_verification_coords = PageCoords(page=3, x=419, y=656)
+        contact_info_coords = PageCoords(page=3, x=350, y=730)
     else:
         assert case_type == HPAType.BOTH
         expected_pages = 5
         hpd_inspection_page = '5'
-        sign_here_petition = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='4',
-            x_position='419',
-            y_position='315',
-        )
-        sign_here_verification = dse.SignHere(
-            **sign_here_kwargs,
-            page_number='4',
-            x_position='419',
-            y_position='500',
-        )
+        sign_here_petition_coords = PageCoords(page=4, x=419, y=315)
+        sign_here_verification_coords = PageCoords(page=4, x=419, y=500)
+        contact_info_coords = PageCoords(page=4, x=350, y=730)
 
     if num_pages != expected_pages:
         # Creating a DocuSign envelope costs money, and if our "sign here"
@@ -233,7 +210,16 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             f"but it has {num_pages}"
         )
 
-    sign_here_tabs.extend([sign_here_petition, sign_here_verification])
+    sign_here_kwargs = dict(
+        document_id=HPA_DOCUMENT_ID,
+        recipient_id=TENANT_RECIPIENT_ID,
+        tab_label='SignHereTab',
+    )
+
+    sign_here_tabs.extend([
+        dse.SignHere(**sign_here_kwargs, **sign_here_petition_coords.to_docusign()),
+        dse.SignHere(**sign_here_kwargs, **sign_here_verification_coords.to_docusign()),
+    ])
 
     if hpd_inspection_page:
         sign_here_tabs.append(dse.SignHere(
@@ -257,12 +243,12 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     contact_info_lines = create_stacked_lines(
         lines=get_contact_info(user).splitlines(),
-        start_y=25,
+        start_y=contact_info_coords.y,
         document_id=HPA_DOCUMENT_ID,
-        page_number='2',
+        page_number=str(contact_info_coords.page),
         tab_label="ReadOnlyDataField",
         locked="true",
-        x_position="27",
+        x_position=str(contact_info_coords.x),
     )
 
     signer.tabs = dse.Tabs(

@@ -1,13 +1,20 @@
 nav.navbar {
+  &.is-fixed-top {
+    // override navbar position to not be sticky:
+    position: absolute;
+  }
   .navbar-menu {
     .navbar-link,
-    .navbar-dropdown .navbar-item {
+    .navbar-item {
       color: $dark;
       text-transform: uppercase;
       letter-spacing: 2px;
 
-      &:hover::after {
-        border-color: $dark;
+      &:hover {
+        color: $dark;
+        &::after {
+          border-color: $dark;
+        }
       }
     }
   }

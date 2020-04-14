@@ -1,0 +1,35 @@
+// New style for back buttons:
+.button.jf-is-back-button {
+  background-color: transparent;
+  border: 2px solid $primary;
+  color: $primary;
+
+  &:hover,
+  &:active {
+    background-color: $primary;
+    color: $white;
+  }
+}
+
+// New style for next buttons:
+.button.jf-is-next-button {
+  // center button text within button element
+  line-height: 0;
+}
+
+// New style for extra wide, centered buttons:
+.button.jf-is-extra-wide {
+  font-size: 1.25rem;
+  height: 0;
+  padding-left: 4rem;
+  padding-right: 4rem;
+
+  @media screen and (max-width: $tablet) {
+    width: 100%;
+    // Since these buttons can go to 2 or 3 lines on mobile,
+    // we want to bring back the internal height,
+    // which means we must also reduce the padding to offset:
+    height: auto;
+    padding: 1.25rem;
+  }
+}

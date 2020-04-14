@@ -20,6 +20,7 @@ $jf-title-weight: 900;
 @import "../_dev.scss";
 @import "../_forms.scss";
 @import "../_buttons.scss";
+@import "./_button-overrides.scss";
 @import "../_big-list.scss";
 @import "../_animations.scss";
 
@@ -45,5 +46,19 @@ $jf-navbar-content: $black;
   h6 {
     font-family: $jf-title-family;
     font-weight: $jf-title-weight;
+  }
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  // Default style for inline hyperlinks:
+  a:not(.button) {
+    text-decoration: underline;
+    font-weight: 700;
+    &:hover {
+      // Keep color consistent on hover
+      color: $link;
+    }
   }
 }

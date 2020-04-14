@@ -47,11 +47,10 @@ export function BackButton(props: {
   return (
     <Link
       to={props.to}
-      className={bulmaClasses(
-        "button",
-        props.buttonClass || "is-light",
-        "is-medium"
-      )}
+      className={
+        "jf-is-back-button " +
+        bulmaClasses("button", props.buttonClass || "is-light", "is-medium")
+      }
     >
       {props.label || "Back"}
     </Link>
@@ -69,15 +68,18 @@ export function NextButton(props: {
   return (
     <button
       type="submit"
-      className={bulmaClasses(
-        "button",
-        props.buttonClass || "is-primary",
-        props.buttonSizeClass || "is-medium",
-        {
-          "is-loading": props.isLoading,
-          "is-fullwidth": props.isFullWidth,
-        }
-      )}
+      className={
+        "jf-is-next-button " +
+        bulmaClasses(
+          "button",
+          props.buttonClass || "is-primary",
+          props.buttonSizeClass || "is-medium",
+          {
+            "is-loading": props.isLoading,
+            "is-fullwidth": props.isFullWidth,
+          }
+        )
+      }
     >
       {props.label || "Next"}
     </button>

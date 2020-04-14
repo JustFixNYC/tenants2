@@ -25,6 +25,9 @@
 
   @media screen and (max-width: $tablet) {
     width: 100%;
+    // Since these buttons can go to 2 or 3 lines on mobile,
+    // we want to bring back the internal height, 
+    // which means we must also reduce the padding to offset:
     height: auto;
     padding: 1.25rem;
   }

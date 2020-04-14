@@ -140,3 +140,6 @@ sessionFields = ["onboardingInfo"]
 
 [mutations.reliefAttempts]
 sessionFields = ["onboardingInfo"]
+
+[mutations."norent.*"]
+sessionFields = ["norentScaffolding"]

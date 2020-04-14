@@ -11,6 +11,7 @@ import {
 } from "../networking/loading-page";
 import loadable from "@loadable/component";
 import Navbar from "../ui/navbar";
+import { NorentLetterRoutes } from "./letter-builder";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -24,6 +25,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   return (
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomepage} />
+      <Route
+        path={Routes.locale.letter.prefix}
+        component={NorentLetterRoutes}
+      />
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>

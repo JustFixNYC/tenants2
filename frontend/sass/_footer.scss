@@ -1,3 +1,7 @@
+// This variable defines how much of the page footer we want to
+// appear above the fold on all pages
+$footer-offset: 12px;
+
 footer {
   background-color: #003d57;
   color: $primary-invert;
@@ -38,4 +42,8 @@ footer {
       color: inherit;
     }
   }
+}
+
+.jf-above-footer-content {
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-offset});
 }

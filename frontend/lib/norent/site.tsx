@@ -69,19 +69,21 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     return (
       <>
-        <Navbar menuItemsComponent={NorentMenuItems} />
-        <section className="section">
-          <div
-            className="container"
-            ref={ref}
-            data-jf-is-noninteractive
-            tabIndex={-1}
-          >
-            <LoadingOverlayManager>
-              <Route component={NorentRoute} />
-            </LoadingOverlayManager>
-          </div>
-        </section>
+        <div className="jf-above-footer-content">
+          <Navbar menuItemsComponent={NorentMenuItems} />
+          <section className="section">
+            <div
+              className="container"
+              ref={ref}
+              data-jf-is-noninteractive
+              tabIndex={-1}
+            >
+              <LoadingOverlayManager>
+                <Route component={NorentRoute} />
+              </LoadingOverlayManager>
+            </div>
+          </section>
+        </div>
         <NorentFooter />
       </>
     );

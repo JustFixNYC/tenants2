@@ -17,14 +17,4 @@ describe("NorentSite", () => {
     const pal = new AppTesterPal(route, { url: "/" });
     pal.rr.getByText(/this is the no rent site/i);
   });
-
-  it("renders tenant info page", () => {
-    const pal = new AppTesterPal(route, { url: "/your-info" });
-    pal.rr.getByText(/your information/i);
-  });
-
-  it("renders landlord info page", () => {
-    const pal = new AppTesterPal(route, { url: "/landlord-info" });
-    pal.rr.getByText(/your landlord.*information/i);
-  });
 });

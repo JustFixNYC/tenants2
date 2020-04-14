@@ -13,6 +13,7 @@ import loadable from "@loadable/component";
 import Navbar from "../ui/navbar";
 import { NorentLetterRoutes } from "./letter-builder";
 import { AppContext } from "../app-context";
+import { NorentFooter } from "./footer";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -81,6 +82,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             </LoadingOverlayManager>
           </div>
         </section>
+        <NorentFooter />
       </>
     );
   }

@@ -1,0 +1,39 @@
+footer {
+  background-color: $dark;
+  a {
+    display: block;
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+  .mc-field-group {
+    display: flex;
+    margin-top: 4.5rem;
+
+    .control:first-child {
+      flex-grow: 2;
+      max-width: 450px;
+    }
+
+    .control {
+      border-bottom: 1.5px solid $grey-light;
+      .input,
+      .button {
+        color: $grey-light;
+        background-color: $dark;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+      }
+      .input {
+        padding-left: 0;
+        &::placeholder {
+          color: $grey-light;
+          letter-spacing: 1.5;
+        }
+      }
+      .button {
+        padding: 0 0.25rem;
+      }
+    }
+  }
+}

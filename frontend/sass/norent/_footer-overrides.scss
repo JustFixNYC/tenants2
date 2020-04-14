@@ -1,7 +1,8 @@
 footer {
   background-color: $dark;
-  a {
+  .column.has-text-right a {
     display: block;
+    text-decoration: none;
     letter-spacing: 2px;
     line-height: 2;
   }
@@ -33,6 +34,9 @@ footer {
       }
       .button {
         padding: 0 0.25rem;
+        &:hover {
+          color: $white;
+        }
       }
     }
   }

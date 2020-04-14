@@ -25,7 +25,6 @@ import {
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { TenantChildren } from "./hp-action-tenant-children";
 import { createHPActionPreviousAttempts } from "./hp-action-previous-attempts";
-import { CheckboxFormField } from "../forms/form-fields";
 import { HpActionUrgentAndDangerousMutation } from "../queries/HpActionUrgentAndDangerousMutation";
 import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
 import { SessionStepBuilder } from "../progress/session-step-builder";
@@ -35,7 +34,6 @@ import {
   HarassmentAllegations1,
   HarassmentAllegations2,
 } from "./hp-action-harassment";
-import { HpActionSueMutation } from "../queries/HpActionSueMutation";
 import { HarassmentCaseHistory } from "./hp-action-case-history";
 import { BigList } from "../ui/big-list";
 import { EmailAttachmentForm } from "../forms/email-attachment";
@@ -51,6 +49,7 @@ import {
 } from "./hp-action-util";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { isUserNycha } from "../util/nycha";
+import { HpActionSue } from "./sue";
 
 const onboardingForHPActionRoute = () =>
   getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding
@@ -304,23 +303,6 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   ),
 });
 
-const Sue = hpActionDetailsStepBuilder.createStep({
-  title: "What would you like to do? (Select all that apply)",
-  mutation: HpActionSueMutation,
-  toFormInput: (hp) =>
-    hp.nullsToBools(false, "sueForRepairs", "sueForHarassment").finish(),
-  renderForm: (ctx) => (
-    <>
-      <CheckboxFormField {...ctx.fieldPropsFor("sueForRepairs")}>
-        Sue my landlord for repairs
-      </CheckboxFormField>
-      <CheckboxFormField {...ctx.fieldPropsFor("sueForHarassment")}>
-        Sue my landlord for harassment
-      </CheckboxFormField>
-    </>
-  ),
-});
-
 const PreviousAttempts = createHPActionPreviousAttempts(() => Routes.locale.hp);
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
@@ -340,7 +322,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     },
   ],
   stepsToFillOut: [
-    { path: Routes.locale.hp.sue, component: Sue },
+    { path: Routes.locale.hp.sue, component: HpActionSue },
     {
       path: Routes.locale.hp.issues.prefix,
       component: HPActionIssuesRoutes,

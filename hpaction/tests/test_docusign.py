@@ -1,13 +1,22 @@
 from django.contrib.auth.models import AnonymousUser
 import pytest
 
-from .factories import HPActionDocumentsFactory, DocusignEnvelopeFactory
+from .factories import (
+    HPActionDocumentsFactory,
+    HPActionDocumentsForRepairsFactory,
+    HPActionDocumentsForHarassmentFactory,
+    HPActionDocumentsForBothFactory,
+    FAKE_HPA_BOTH_PDF,
+    DocusignEnvelopeFactory
+)
 from onboarding.tests.factories import OnboardingInfoFactory
 from onboarding.models import BOROUGH_CHOICES
 from users.tests.factories import JustfixUser
 from loc.tests.factories import LandlordDetailsFactory
 from hpaction.models import Config
 from hpaction import docusign
+from hpaction.docusign import HPAType
+from hpaction.hpactionvars import HPActionVariables
 
 ALL_BOROUGHS = BOROUGH_CHOICES.choices_dict.keys()
 
@@ -17,6 +26,35 @@ def set_config(**kwargs):
     for name, value in kwargs.items():
         setattr(config, name, value)
     config.save()
+
+
+class TestHPAType:
+    @pytest.mark.parametrize('vars,expected', [
+        (HPActionVariables(sue_for_harassment_tf=True), HPAType.HARASSMENT),
+        (HPActionVariables(sue_for_harassment_tf=True,
+                           sue_for_repairs_tf=False), HPAType.HARASSMENT),
+        (HPActionVariables(sue_for_repairs_tf=True), HPAType.REPAIRS),
+        (HPActionVariables(sue_for_harassment_tf=False,
+                           sue_for_repairs_tf=True), HPAType.REPAIRS),
+        (HPActionVariables(sue_for_repairs_tf=True,
+                           sue_for_harassment_tf=True), HPAType.BOTH),
+    ])
+    def test_it_works(self, vars: HPActionVariables, expected):
+        xmlstr = str(vars.to_answer_set())
+        assert HPAType.get_from_answers_xml(xmlstr) == expected
+
+        vars.access_person_te = "with unicode\u2026"
+        xmlbytes = str(vars.to_answer_set()).encode('utf-8')
+        assert HPAType.get_from_answers_xml(xmlbytes) == expected
+
+    @pytest.mark.parametrize('vars', [
+        HPActionVariables(),
+        HPActionVariables(sue_for_harassment_tf=False, sue_for_repairs_tf=False),
+    ])
+    def test_it_raises_error_when_neither_are_present(self, vars):
+        xmlstr = str(vars.to_answer_set())
+        with pytest.raises(ValueError, match="suing for neither"):
+            HPAType.get_from_answers_xml(xmlstr)
 
 
 class TestGetHousingCourtForBorough:
@@ -50,12 +88,36 @@ class TestGetHousingCourtForBorough:
 
 
 class TestCreateEnvelopeDefinitionForHPA:
-    def test_it_works(self, db, django_file_storage):
-        docs = HPActionDocumentsFactory()
+    def test_it_works_with_repairs_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForRepairsFactory()
         ed = docusign.create_envelope_definition_for_hpa(docs)
         assert len(ed.documents) == 1
         assert len(ed.recipients.signers) == 1
         assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_works_with_harassment_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForHarassmentFactory()
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.documents) == 1
+        assert len(ed.recipients.signers) == 1
+        assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_works_with_repairs_and_harassment_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForBothFactory()
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.documents) == 1
+        assert len(ed.recipients.signers) == 1
+        assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_raises_error_on_unexpected_page_count(self, db, django_file_storage):
+        docs = HPActionDocumentsForRepairsFactory(
+            pdf_data=FAKE_HPA_BOTH_PDF.read_bytes()
+        )
+        with pytest.raises(
+            ValueError,
+            match="Expected HPAType.REPAIRS PDF to have 3 pages but it has 5"
+        ):
+            docusign.create_envelope_definition_for_hpa(docs)
 
     def test_it_ccs_housing_court_if_possible(self, db, django_file_storage):
         onb = OnboardingInfoFactory(borough="BRONX")

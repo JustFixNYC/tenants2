@@ -3,12 +3,21 @@ from pathlib import Path
 import factory
 
 from users.tests.factories import UserFactory
+from hpaction.hpactionvars import HPActionVariables
 from .. import models
 
 
 MY_DIR = Path(__file__).parent.resolve()
 
-FAKE_HPA_PDF = MY_DIR / 'fake-hp-action-packet.pdf'
+FAKE_HPA_REPAIRS_PDF = MY_DIR / 'fake-hpa-repairs.pdf'
+
+FAKE_HPA_HARASSMENT_PDF = MY_DIR / 'fake-hpa-harassment.pdf'
+
+FAKE_HPA_BOTH_PDF = MY_DIR / 'fake-hpa-both.pdf'
+
+
+def make_hpa_xml(v: HPActionVariables) -> bytes:
+    return str(v.to_answer_set()).encode('utf-8')
 
 
 class TenantChildFactory(factory.django.DjangoModelFactory):
@@ -30,13 +39,32 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    xml_data = b'i am xml'
+    xml_data = make_hpa_xml(HPActionVariables(
+        sue_for_harassment_tf=False, sue_for_repairs_tf=True))
 
-    pdf_data = FAKE_HPA_PDF.read_bytes()
+    pdf_data = FAKE_HPA_REPAIRS_PDF.read_bytes()
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):
         return models.HPActionDocuments.objects.create_from_file_data(*args, **kwargs)
+
+
+class HPActionDocumentsForRepairsFactory(HPActionDocumentsFactory):
+    pass
+
+
+class HPActionDocumentsForHarassmentFactory(HPActionDocumentsFactory):
+    xml_data = make_hpa_xml(HPActionVariables(
+        sue_for_harassment_tf=True, sue_for_repairs_tf=False))
+
+    pdf_data = FAKE_HPA_HARASSMENT_PDF.read_bytes()
+
+
+class HPActionDocumentsForBothFactory(HPActionDocumentsFactory):
+    xml_data = make_hpa_xml(HPActionVariables(
+        sue_for_harassment_tf=True, sue_for_repairs_tf=True))
+
+    pdf_data = FAKE_HPA_BOTH_PDF.read_bytes()
 
 
 class UploadTokenFactory(factory.django.DjangoModelFactory):

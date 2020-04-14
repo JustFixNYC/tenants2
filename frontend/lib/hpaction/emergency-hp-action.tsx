@@ -13,7 +13,10 @@ import Page from "../ui/page";
 import { GetStartedButton } from "../ui/get-started-button";
 import { AppContext } from "../app-context";
 import { TenantChildren } from "./hp-action-tenant-children";
-import { isNotSuingForRepairs } from "./hp-action-util";
+import {
+  isNotSuingForRepairs,
+  isNotSuingForHarassment,
+} from "./hp-action-util";
 import {
   MiddleProgressStep,
   ProgressStepProps,
@@ -62,6 +65,14 @@ import {
   EMERGENCY_HPA_ISSUE_SET,
   getEmergencyHPAIssueChoices,
 } from "./emergency-hp-action-issues";
+import { HpActionSue } from "./sue";
+import {
+  HarassmentApartment,
+  HarassmentAllegations1,
+  HarassmentAllegations2,
+  HarassmentExplain,
+} from "./hp-action-harassment";
+import { HarassmentCaseHistory } from "./hp-action-case-history";
 
 const checkCircleSvg = require("../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -169,7 +180,7 @@ const EmergencyHPActionWelcome = () => {
   );
 };
 
-const Sue = MiddleProgressStep((props) => (
+const Issues = MiddleProgressStep((props) => (
   <Page
     title="What type of problems are you experiencing?"
     withHeading
@@ -237,7 +248,7 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
       Next, we're going to prepare your Emergency HP Action paperwork for you to
       review.
     </p>
-    <p>This will take a little while, so sit tight.</p>
+    <p>This could take a while, so sit tight.</p>
     <GeneratePDFForm
       toWaitForUpload={Routes.locale.ehp.waitForUpload}
       kind="EMERGENCY"
@@ -486,7 +497,12 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     },
   ],
   stepsToFillOut: [
-    { path: Routes.locale.ehp.sue, component: Sue },
+    { path: Routes.locale.ehp.sue, component: HpActionSue },
+    {
+      path: Routes.locale.ehp.issues,
+      component: Issues,
+      shouldBeSkipped: isNotSuingForRepairs,
+    },
     {
       path: Routes.locale.ehp.tenantChildren,
       component: TenantChildren,
@@ -501,6 +517,31 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
       path: Routes.locale.ehp.prevAttempts,
       component: PreviousAttempts,
       shouldBeSkipped: (s) => isNotSuingForRepairs(s) || isUserNycha(s),
+    },
+    {
+      path: Routes.locale.ehp.harassmentApartment,
+      component: HarassmentApartment,
+      shouldBeSkipped: isNotSuingForHarassment,
+    },
+    {
+      path: Routes.locale.ehp.harassmentAllegations1,
+      component: HarassmentAllegations1,
+      shouldBeSkipped: isNotSuingForHarassment,
+    },
+    {
+      path: Routes.locale.ehp.harassmentAllegations2,
+      component: HarassmentAllegations2,
+      shouldBeSkipped: isNotSuingForHarassment,
+    },
+    {
+      path: Routes.locale.ehp.harassmentExplain,
+      component: HarassmentExplain,
+      shouldBeSkipped: isNotSuingForHarassment,
+    },
+    {
+      path: Routes.locale.ehp.harassmentCaseHistory,
+      component: HarassmentCaseHistory,
+      shouldBeSkipped: isNotSuingForHarassment,
     },
     {
       path: Routes.locale.ehp.yourLandlord,

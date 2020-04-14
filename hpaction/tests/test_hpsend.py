@@ -48,7 +48,7 @@ def test_it_extracts_files(db, settings, fake_soap_call, django_file_storage):
                  *EXTRACT_BASENAME_ARGS, stdout=out)
     assert 'Successfully received HP Action documents' in out.getvalue()
     assert 'Writing test-hp-action.xml.' in out.getvalue()
-    assert extract_xml_path.read_text() == 'i am xml'
+    assert 'name="Sue for harassment TF"' in extract_xml_path.read_text()
     assert len(extract_pdf_path.read_bytes()) > 0
 
 

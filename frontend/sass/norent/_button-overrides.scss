@@ -4,7 +4,8 @@
   border: 2px solid $primary;
   color: $primary;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $primary;
     color: $white;
   }

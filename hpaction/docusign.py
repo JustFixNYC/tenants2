@@ -78,6 +78,110 @@ class PageCoords(NamedTuple):
         )
 
 
+class FormsConfig(NamedTuple):
+    case_type: HPAType
+    expected_pages: int
+    hpd_inspection_page: Optional[int]
+    sign_here_petition_coords: PageCoords
+    sign_here_verification_coords: PageCoords
+    contact_info_coords: PageCoords
+
+    def ensure_expected_pages(self, num_pages: int):
+        if num_pages != self.expected_pages:
+            # Creating a DocuSign envelope costs money, and if our "sign here"
+            # tabs aren't in the exact spots we expect them to be in, we're
+            # confusing the user and wasting money, so let's raise an error
+            # instead of potentially creating a bad envelope.
+            raise ValueError(
+                f"Expected {self.case_type} PDF to have {self.expected_pages} pages "
+                f"but it has {num_pages}"
+            )
+
+    def to_docusign_tabs(self, contact_info: str) -> dse.Tabs:
+        text_tabs: List[dse.Text] = []
+        sign_here_tabs: List[dse.SignHere] = []
+
+        sign_kwargs = dict(
+            document_id=HPA_DOCUMENT_ID,
+            recipient_id=TENANT_RECIPIENT_ID,
+            tab_label='SignHereTab',
+        )
+
+        sign_here_tabs.extend([
+            dse.SignHere(**sign_kwargs, **self.sign_here_petition_coords.to_docusign()),
+            dse.SignHere(**sign_kwargs, **self.sign_here_verification_coords.to_docusign()),
+        ])
+
+        if self.hpd_inspection_page:
+            sign_here_tabs.append(dse.SignHere(
+                document_id=HPA_DOCUMENT_ID,
+                page_number=str(self.hpd_inspection_page),
+                recipient_id=TENANT_RECIPIENT_ID,
+                tab_label='SignHereTab',
+                x_position='446',
+                y_position='625',
+            ))
+            text_tabs.extend(create_stacked_lines(
+                lines=["These conditions are immediately hazardous to the",
+                       "health and safety of my household."],
+                start_y=103,
+                document_id=HPA_DOCUMENT_ID,
+                page_number=str(self.hpd_inspection_page),
+                tab_label="ReadOnlyDataField",
+                locked="true",
+                x_position="16",
+            ))
+
+        contact_info_lines = create_stacked_lines(
+            lines=contact_info.splitlines(),
+            start_y=self.contact_info_coords.y,
+            document_id=HPA_DOCUMENT_ID,
+            page_number=str(self.contact_info_coords.page),
+            tab_label="ReadOnlyDataField",
+            locked="true",
+            x_position=str(self.contact_info_coords.x),
+        )
+
+        return dse.Tabs(
+            text_tabs=[
+                *contact_info_lines,
+                *text_tabs,
+            ],
+            sign_here_tabs=sign_here_tabs,
+        )
+
+    @staticmethod
+    def from_case_type(case_type: HPAType) -> 'FormsConfig':
+        if case_type == HPAType.REPAIRS:
+            return FormsConfig(
+                case_type=case_type,
+                expected_pages=3,
+                hpd_inspection_page=3,
+                sign_here_petition_coords=PageCoords(page=2, x=419, y=556),
+                sign_here_verification_coords=PageCoords(page=2, x=419, y=667),
+                contact_info_coords=PageCoords(page=2, x=350, y=730)
+            )
+        elif case_type == HPAType.HARASSMENT:
+            return FormsConfig(
+                case_type=case_type,
+                expected_pages=3,
+                hpd_inspection_page=None,
+                sign_here_petition_coords=PageCoords(page=3, x=419, y=456),
+                sign_here_verification_coords=PageCoords(page=3, x=419, y=656),
+                contact_info_coords=PageCoords(page=3, x=350, y=730),
+            )
+
+        assert case_type == HPAType.BOTH
+        return FormsConfig(
+            case_type=case_type,
+            expected_pages=5,
+            hpd_inspection_page=5,
+            sign_here_petition_coords=PageCoords(page=4, x=419, y=315),
+            sign_here_verification_coords=PageCoords(page=4, x=419, y=500),
+            contact_info_coords=PageCoords(page=4, x=350, y=730),
+        )
+
+
 class HousingCourt(NamedTuple):
     name: str
     email: str
@@ -155,7 +259,6 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             'of instructions)'
         )
     pdf_bytes = pdf_file.read()
-    num_pages: int = PyPDF2.PdfFileReader(BytesIO(pdf_bytes)).numPages
     base64_pdf = base64.b64encode(pdf_bytes).decode('ascii')
 
     document = dse.Document(
@@ -173,91 +276,9 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         client_user_id=docusign_client_user_id(user),
     )
 
-    # These coordinates were found by manually creating a DocuSign template based on
-    # generated HP Action forms, creating fields using the drag-and-drop UI,
-    # and noting their locations.
-
-    text_tabs: List[dse.Text] = []
-    sign_here_tabs: List[dse.SignHere] = []
-    hpd_inspection_page: Optional[str] = None
-
-    if case_type == HPAType.REPAIRS:
-        expected_pages = 3
-        hpd_inspection_page = '3'
-        sign_here_petition_coords = PageCoords(page=2, x=419, y=556)
-        sign_here_verification_coords = PageCoords(page=2, x=419, y=667)
-        contact_info_coords = PageCoords(page=2, x=350, y=730)
-    elif case_type == HPAType.HARASSMENT:
-        expected_pages = 3
-        sign_here_petition_coords = PageCoords(page=3, x=419, y=456)
-        sign_here_verification_coords = PageCoords(page=3, x=419, y=656)
-        contact_info_coords = PageCoords(page=3, x=350, y=730)
-    else:
-        assert case_type == HPAType.BOTH
-        expected_pages = 5
-        hpd_inspection_page = '5'
-        sign_here_petition_coords = PageCoords(page=4, x=419, y=315)
-        sign_here_verification_coords = PageCoords(page=4, x=419, y=500)
-        contact_info_coords = PageCoords(page=4, x=350, y=730)
-
-    if num_pages != expected_pages:
-        # Creating a DocuSign envelope costs money, and if our "sign here"
-        # tabs aren't in the exact spots we expect them to be in, we're
-        # confusing the user and wasting money, so let's raise an error
-        # instead of potentially creating a bad envelope.
-        raise ValueError(
-            f"Expected {case_type} PDF to have {expected_pages} pages "
-            f"but it has {num_pages}"
-        )
-
-    sign_here_kwargs = dict(
-        document_id=HPA_DOCUMENT_ID,
-        recipient_id=TENANT_RECIPIENT_ID,
-        tab_label='SignHereTab',
-    )
-
-    sign_here_tabs.extend([
-        dse.SignHere(**sign_here_kwargs, **sign_here_petition_coords.to_docusign()),
-        dse.SignHere(**sign_here_kwargs, **sign_here_verification_coords.to_docusign()),
-    ])
-
-    if hpd_inspection_page:
-        sign_here_tabs.append(dse.SignHere(
-            document_id=HPA_DOCUMENT_ID,
-            page_number=hpd_inspection_page,
-            recipient_id=TENANT_RECIPIENT_ID,
-            tab_label='SignHereTab',
-            x_position='446',
-            y_position='625',
-        ))
-        text_tabs.extend(create_stacked_lines(
-            lines=["These conditions are immediately hazardous to the",
-                   "health and safety of my household."],
-            start_y=103,
-            document_id=HPA_DOCUMENT_ID,
-            page_number=hpd_inspection_page,
-            tab_label="ReadOnlyDataField",
-            locked="true",
-            x_position="16",
-        ))
-
-    contact_info_lines = create_stacked_lines(
-        lines=get_contact_info(user).splitlines(),
-        start_y=contact_info_coords.y,
-        document_id=HPA_DOCUMENT_ID,
-        page_number=str(contact_info_coords.page),
-        tab_label="ReadOnlyDataField",
-        locked="true",
-        x_position=str(contact_info_coords.x),
-    )
-
-    signer.tabs = dse.Tabs(
-        text_tabs=[
-            *contact_info_lines,
-            *text_tabs,
-        ],
-        sign_here_tabs=sign_here_tabs,
-    )
+    cfg = FormsConfig.from_case_type(case_type)
+    cfg.ensure_expected_pages(PyPDF2.PdfFileReader(BytesIO(pdf_bytes)).numPages)
+    signer.tabs = cfg.to_docusign_tabs(contact_info=get_contact_info(user))
 
     carbon_copies: List[dse.CarbonCopy] = [
         dse.CarbonCopy(

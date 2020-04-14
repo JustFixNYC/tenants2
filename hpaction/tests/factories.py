@@ -3,12 +3,15 @@ from pathlib import Path
 import factory
 
 from users.tests.factories import UserFactory
+from hpaction.hpactionvars import HPActionVariables
 from .. import models
 
 
 MY_DIR = Path(__file__).parent.resolve()
 
 FAKE_HPA_PDF = MY_DIR / 'fake-hp-action-packet.pdf'
+
+HPA_VARS = HPActionVariables(sue_for_harassment_tf=False, sue_for_repairs_tf=True)
 
 
 class TenantChildFactory(factory.django.DjangoModelFactory):
@@ -30,7 +33,7 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    xml_data = b'i am xml'
+    xml_data = str(HPA_VARS.to_answer_set()).encode('utf-8')
 
     pdf_data = FAKE_HPA_PDF.read_bytes()
 

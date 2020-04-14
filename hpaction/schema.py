@@ -175,10 +175,6 @@ class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
         with transaction.atomic():
             save_custom_issues_formset_with_area(formset, cls.CUSTOM_ISSUE_AREA)
             sync_emergency_issues(user, issues)
-            details, _ = models.HPActionDetails.objects.get_or_create(user=user)
-            details.sue_for_repairs = True
-            details.sue_for_harassment = False
-            details.save()
         return cls.mutation_success()
 
 

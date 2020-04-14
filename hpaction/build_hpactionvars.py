@@ -250,10 +250,7 @@ def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails, kind: st
     # v.problem_is_urgent_tf = h.urgent_and_dangerous
     v.problem_is_urgent_tf = False
 
-    if kind == HP_ACTION_CHOICES.EMERGENCY:
-        v.sue_for_harassment_tf = False
-    else:
-        v.sue_for_harassment_tf = h.sue_for_harassment
+    v.sue_for_harassment_tf = h.sue_for_harassment
 
     v.sue_for_repairs_tf = h.sue_for_repairs
 

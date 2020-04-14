@@ -8,7 +8,7 @@ from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory, DocusignEnvelopeFactory)
 from hpaction.models import (
-    get_upload_status_for_user, HPUploadStatus, TenantChild, HPActionDetails,
+    get_upload_status_for_user, HPUploadStatus, TenantChild,
     HP_ACTION_CHOICES, DocusignEnvelope)
 from hpaction.schema import sync_emergency_issues
 import hpaction.docusign
@@ -86,9 +86,6 @@ class TestEmergencyHPAIssuesMutation:
             'customHomeIssues': []
         })
         assert result['session']['issues'] == ['HOME__NO_HEAT']
-        details = HPActionDetails.objects.get(user=self.user)
-        assert details.sue_for_repairs is True
-        assert details.sue_for_harassment is False
 
     def test_it_works_when_a_custom_issue_is_selected(self):
         result = self.execute({

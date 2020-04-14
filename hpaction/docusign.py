@@ -1,4 +1,6 @@
-from typing import List, Optional, NamedTuple
+from typing import List, Optional, NamedTuple, Union
+from enum import Enum
+import xml.etree.ElementTree as ET
 import base64
 import logging
 from django.http import (
@@ -28,6 +30,37 @@ TENANT_RECIPIENT_ID = '1'
 HPA_DOCUMENT_ID = '1'
 
 logger = logging.getLogger(__name__)
+
+
+def get_answers_xml_tf(root: ET.Element, name: str) -> Optional[bool]:
+    nodes = root.findall(f".//Answer[@name='{name}']/TFValue")
+    if nodes:
+        return nodes[0].text == 'true'
+    return None
+
+
+class HPAType(Enum):
+    REPAIRS = 1
+    HARASSMENT = 2
+    BOTH = 3
+
+    @staticmethod
+    def get_from_answers_xml(xml_value: Union[str, bytes]) -> 'HPAType':
+        # Interestingly, ET is in charge of decoding this if it's bytes:
+        # https://stackoverflow.com/a/21698118
+        root = ET.fromstring(xml_value)
+
+        harassment = get_answers_xml_tf(root, 'Sue for harassment TF')
+        repairs = get_answers_xml_tf(root, 'Sue for repairs TF')
+
+        if harassment and repairs:
+            return HPAType.BOTH
+        elif harassment:
+            return HPAType.HARASSMENT
+        elif repairs:
+            return HPAType.REPAIRS
+
+        raise ValueError('XML is suing for neither harassment nor repairs!')
 
 
 class HousingCourt(NamedTuple):
@@ -96,6 +129,10 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     '''
 
     user = docs.user
+
+    xml_bytes = docs.xml_file.open().read()
+    case_type = HPAType.get_from_answers_xml(xml_bytes)
+
     pdf_file = docs.open_emergency_pdf_file()
     if not pdf_file:
         raise Exception(
@@ -124,32 +161,81 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     # generated HP Action forms, creating fields using the drag-and-drop UI,
     # and noting their locations.
 
-    sign_here_petition = dse.SignHere(
+    text_tabs: List[dse.Text] = []
+    sign_here_tabs: List[dse.SignHere] = []
+
+    hpd_inspection_page: Optional[str] = None
+
+    sign_here_kwargs = dict(
         document_id=HPA_DOCUMENT_ID,
-        page_number='2',
         recipient_id=TENANT_RECIPIENT_ID,
         tab_label='SignHereTab',
-        x_position='419',
-        y_position='556',
     )
 
-    sign_here_verification = dse.SignHere(
-        document_id=HPA_DOCUMENT_ID,
-        page_number='2',
-        recipient_id=TENANT_RECIPIENT_ID,
-        tab_label='SignHereTab',
-        x_position='419',
-        y_position='667',
-    )
+    if case_type == HPAType.REPAIRS:
+        hpd_inspection_page = '3'
+        sign_here_petition = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='2',
+            x_position='419',
+            y_position='556',
+        )
+        sign_here_verification = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='2',
+            x_position='419',
+            y_position='667',
+        )
+    elif case_type == HPAType.HARASSMENT:
+        sign_here_petition = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='3',
+            x_position='419',
+            y_position='456',
+        )
+        sign_here_verification = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='3',
+            x_position='419',
+            y_position='656',
+        )
+    else:
+        assert case_type == HPAType.BOTH
+        hpd_inspection_page = '5'
+        sign_here_petition = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='4',
+            x_position='419',
+            y_position='315',
+        )
+        sign_here_verification = dse.SignHere(
+            **sign_here_kwargs,
+            page_number='4',
+            x_position='419',
+            y_position='500',
+        )
 
-    sign_here_hpd_inspection = dse.SignHere(
-        document_id=HPA_DOCUMENT_ID,
-        page_number='3',
-        recipient_id=TENANT_RECIPIENT_ID,
-        tab_label='SignHereTab',
-        x_position='446',
-        y_position='625',
-    )
+    sign_here_tabs.extend([sign_here_petition, sign_here_verification])
+
+    if hpd_inspection_page:
+        sign_here_tabs.append(dse.SignHere(
+            document_id=HPA_DOCUMENT_ID,
+            page_number=hpd_inspection_page,
+            recipient_id=TENANT_RECIPIENT_ID,
+            tab_label='SignHereTab',
+            x_position='446',
+            y_position='625',
+        ))
+        text_tabs.extend(create_stacked_lines(
+            lines=["These conditions are immediately hazardous to the",
+                   "health and safety of my household."],
+            start_y=103,
+            document_id=HPA_DOCUMENT_ID,
+            page_number=hpd_inspection_page,
+            tab_label="ReadOnlyDataField",
+            locked="true",
+            x_position="16",
+        ))
 
     contact_info_lines = create_stacked_lines(
         lines=get_contact_info(user).splitlines(),
@@ -161,27 +247,12 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         x_position="27",
     )
 
-    inspection_req_note_lines = create_stacked_lines(
-        lines=["These conditions are immediately hazardous to the",
-               "health and safety of my household."],
-        start_y=103,
-        document_id=HPA_DOCUMENT_ID,
-        page_number='3',
-        tab_label="ReadOnlyDataField",
-        locked="true",
-        x_position="16",
-    )
-
     signer.tabs = dse.Tabs(
         text_tabs=[
             *contact_info_lines,
-            *inspection_req_note_lines,
+            *text_tabs,
         ],
-        sign_here_tabs=[
-            sign_here_petition,
-            sign_here_verification,
-            sign_here_hpd_inspection
-        ],
+        sign_here_tabs=sign_here_tabs,
     )
 
     carbon_copies: List[dse.CarbonCopy] = [

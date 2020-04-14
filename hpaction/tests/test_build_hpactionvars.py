@@ -295,13 +295,6 @@ def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     assert v.more_than_2_apartments_in_building_tf is True
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
 
-    # Even if the user "wants" it, if we're generating an emergency form,
-    # it shouldn't have a harassment component in it.
-    v = user_to_hpactionvars(har.user, EMERGENCY)
-    assert v.sue_for_harassment_tf is False
-    assert v.more_than_2_apartments_in_building_tf is None
-    assert v.prior_repairs_case_mc is None
-
 
 @pytest.mark.parametrize("enum_name,attr_name", [
     (entry.name, get_hpactionvars_attr_for_harassment_alleg(entry.name))

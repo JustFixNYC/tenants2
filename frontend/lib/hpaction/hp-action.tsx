@@ -51,6 +51,7 @@ import {
 } from "./hp-action-util";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { isUserNycha } from "../util/nycha";
+import { HpActionSue } from "./sue";
 
 const onboardingForHPActionRoute = () =>
   getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding
@@ -304,23 +305,6 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   ),
 });
 
-const Sue = hpActionDetailsStepBuilder.createStep({
-  title: "What would you like to do? (Select all that apply)",
-  mutation: HpActionSueMutation,
-  toFormInput: (hp) =>
-    hp.nullsToBools(false, "sueForRepairs", "sueForHarassment").finish(),
-  renderForm: (ctx) => (
-    <>
-      <CheckboxFormField {...ctx.fieldPropsFor("sueForRepairs")}>
-        Sue my landlord for repairs
-      </CheckboxFormField>
-      <CheckboxFormField {...ctx.fieldPropsFor("sueForHarassment")}>
-        Sue my landlord for harassment
-      </CheckboxFormField>
-    </>
-  ),
-});
-
 const PreviousAttempts = createHPActionPreviousAttempts(() => Routes.locale.hp);
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
@@ -340,7 +324,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     },
   ],
   stepsToFillOut: [
-    { path: Routes.locale.hp.sue, component: Sue },
+    { path: Routes.locale.hp.sue, component: HpActionSue },
     {
       path: Routes.locale.hp.issues.prefix,
       component: HPActionIssuesRoutes,

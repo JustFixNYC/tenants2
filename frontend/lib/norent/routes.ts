@@ -1,16 +1,21 @@
-import { createRoutesForSite } from "../util/route-util";
+import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
+
+function createNoRentLetterRouteInfo(prefix: string) {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    latestStep: prefix,
+    tenantInfo: `${prefix}/your-info`,
+    landlordInfo: `${prefix}/landlord-info`,
+  };
+}
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
     /** The home page. */
     home: `${prefix}/`,
 
-    /** Ask for tenant info. */
-    tenantInfo: `${prefix}/your-info`,
-
-    /** Ask for landlord info. */
-    landlordInfo: `${prefix}/landlord-info`,
+    letter: createNoRentLetterRouteInfo(`${prefix}/letter`),
   };
 }
 

@@ -2,17 +2,18 @@ import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { TextualFormField } from "../forms/form-fields";
-import { exactSubsetOrDefault } from "../util/util";
+import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NorentRoutes } from "./routes";
 import { USStateFormField } from "../forms/mailing-address-fields";
-import { NextButton } from "../ui/buttons";
+import { ProgressButtons } from "../ui/buttons";
 import {
   NorentLandlordInfoMutation,
   BlankNorentLandlordInfoInput,
 } from "../queries/NorentLandlordInfoMutation";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
+import { ProgressStepProps } from "../progress/progress-step-route";
 
-export const NorentLandlordInfoPage: React.FC<{}> = (props) => {
+export const NorentLandlordInfoPage: React.FC<ProgressStepProps> = (props) => {
   return (
     <Page
       title="Your landlord or management company's information"
@@ -61,7 +62,10 @@ export const NorentLandlordInfoPage: React.FC<{}> = (props) => {
               {...ctx.fieldPropsFor("landlordPhoneNumber")}
               label="Phone number"
             />
-            <NextButton isLoading={ctx.isLoading} />
+            <ProgressButtons
+              isLoading={ctx.isLoading}
+              back={assertNotNull(props.prevStep)}
+            />
           </>
         )}
       </SessionUpdatingFormSubmitter>

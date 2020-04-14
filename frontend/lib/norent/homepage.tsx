@@ -12,10 +12,7 @@ export const NorentHomepage: React.FC<{}> = () => (
         <Link to={NorentRoutes.dev.styleGuide}>Style guide</Link>
       </li>
       <li>
-        <Link to={NorentRoutes.locale.tenantInfo}>Tenant info form</Link>
-      </li>
-      <li>
-        <Link to={NorentRoutes.locale.landlordInfo}>Landlord info form</Link>
+        <Link to={NorentRoutes.locale.letter.latestStep}>Letter builder</Link>
       </li>
     </ul>
   </Page>

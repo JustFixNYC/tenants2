@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import {
@@ -6,13 +6,17 @@ import {
   BlankNorentTenantInfoInput,
 } from "../queries/NorentTenantInfoMutation";
 import { TextualFormField } from "../forms/form-fields";
-import { exactSubsetOrDefault } from "../util/util";
+import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NorentRoutes } from "./routes";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { NextButton } from "../ui/buttons";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
+import { ClearSessionButton } from "../forms/clear-session-button";
+import { ProgressStepProps } from "../progress/progress-step-route";
 
-export const NorentTenantInfoPage: React.FC<{}> = (props) => {
+export const NorentTenantInfoPage: React.FC<ProgressStepProps> = (props) => {
+  const cancelControlRef = useRef(null);
+
   return (
     <Page title="Your information" withHeading="big" className="content">
       <p>
@@ -24,7 +28,7 @@ export const NorentTenantInfoPage: React.FC<{}> = (props) => {
         initialState={(s) =>
           exactSubsetOrDefault(s.norentScaffolding, BlankNorentTenantInfoInput)
         }
-        onSuccessRedirect={NorentRoutes.locale.home}
+        onSuccessRedirect={assertNotNull(props.nextStep)}
       >
         {(ctx) => (
           <>
@@ -59,10 +63,18 @@ export const NorentTenantInfoPage: React.FC<{}> = (props) => {
               {...ctx.fieldPropsFor("phoneNumber")}
               label="Phone number"
             />
-            <NextButton isLoading={ctx.isLoading} />
+            <div className="field is-grouped jf-two-buttons">
+              <div className="control" ref={cancelControlRef} />
+              <NextButton isLoading={ctx.isLoading} />
+            </div>
           </>
         )}
       </SessionUpdatingFormSubmitter>
+      <ClearSessionButton
+        to={NorentRoutes.locale.home}
+        portalRef={cancelControlRef}
+        label="Cancel letter"
+      />
     </Page>
   );
 };

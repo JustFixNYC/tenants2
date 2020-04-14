@@ -1,7 +1,14 @@
 from django.contrib.auth.models import AnonymousUser
 import pytest
 
-from .factories import HPActionDocumentsFactory, DocusignEnvelopeFactory
+from .factories import (
+    HPActionDocumentsFactory,
+    HPActionDocumentsForRepairsFactory,
+    HPActionDocumentsForHarassmentFactory,
+    HPActionDocumentsForBothFactory,
+    FAKE_HPA_BOTH_PDF,
+    DocusignEnvelopeFactory
+)
 from onboarding.tests.factories import OnboardingInfoFactory
 from onboarding.models import BOROUGH_CHOICES
 from users.tests.factories import JustfixUser
@@ -81,12 +88,36 @@ class TestGetHousingCourtForBorough:
 
 
 class TestCreateEnvelopeDefinitionForHPA:
-    def test_it_works(self, db, django_file_storage):
-        docs = HPActionDocumentsFactory()
+    def test_it_works_with_repairs_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForRepairsFactory()
         ed = docusign.create_envelope_definition_for_hpa(docs)
         assert len(ed.documents) == 1
         assert len(ed.recipients.signers) == 1
         assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_works_with_harassment_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForHarassmentFactory()
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.documents) == 1
+        assert len(ed.recipients.signers) == 1
+        assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_works_with_repairs_and_harassment_cases(self, db, django_file_storage):
+        docs = HPActionDocumentsForBothFactory()
+        ed = docusign.create_envelope_definition_for_hpa(docs)
+        assert len(ed.documents) == 1
+        assert len(ed.recipients.signers) == 1
+        assert len(ed.recipients.carbon_copies) == 1
+
+    def test_it_raises_error_on_unexpected_page_count(self, db, django_file_storage):
+        docs = HPActionDocumentsForRepairsFactory(
+            pdf_data=FAKE_HPA_BOTH_PDF.read_bytes()
+        )
+        with pytest.raises(
+            ValueError,
+            match="Expected HPAType.REPAIRS PDF to have 3 pages but it has 5"
+        ):
+            docusign.create_envelope_definition_for_hpa(docs)
 
     def test_it_ccs_housing_court_if_possible(self, db, django_file_storage):
         onb = OnboardingInfoFactory(borough="BRONX")

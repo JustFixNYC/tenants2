@@ -1,5 +1,6 @@
 from typing import List, Optional, NamedTuple, Union
 from enum import Enum
+from io import BytesIO
 import xml.etree.ElementTree as ET
 import base64
 import logging
@@ -10,6 +11,7 @@ from django.http import (
     HttpResponseForbidden,
 )
 from django.conf import settings
+import PyPDF2
 
 from project import slack
 from users.models import JustfixUser
@@ -140,6 +142,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             'of instructions)'
         )
     pdf_bytes = pdf_file.read()
+    num_pages: int = PyPDF2.PdfFileReader(BytesIO(pdf_bytes)).numPages
     base64_pdf = base64.b64encode(pdf_bytes).decode('ascii')
 
     document = dse.Document(
@@ -172,7 +175,10 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         tab_label='SignHereTab',
     )
 
+    expected_pages: int
+
     if case_type == HPAType.REPAIRS:
+        expected_pages = 3
         hpd_inspection_page = '3'
         sign_here_petition = dse.SignHere(
             **sign_here_kwargs,
@@ -187,6 +193,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             y_position='667',
         )
     elif case_type == HPAType.HARASSMENT:
+        expected_pages = 3
         sign_here_petition = dse.SignHere(
             **sign_here_kwargs,
             page_number='3',
@@ -201,6 +208,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         )
     else:
         assert case_type == HPAType.BOTH
+        expected_pages = 5
         hpd_inspection_page = '5'
         sign_here_petition = dse.SignHere(
             **sign_here_kwargs,
@@ -213,6 +221,16 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             page_number='4',
             x_position='419',
             y_position='500',
+        )
+
+    if num_pages != expected_pages:
+        # Creating a DocuSign envelope costs money, and if our "sign here"
+        # tabs aren't in the exact spots we expect them to be in, we're
+        # confusing the user and wasting money, so let's raise an error
+        # instead of potentially creating a bad envelope.
+        raise ValueError(
+            f"Expected {case_type} PDF to have {expected_pages} pages "
+            f"but it has {num_pages}"
         )
 
     sign_here_tabs.extend([sign_here_petition, sign_here_verification])
@@ -273,6 +291,9 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
             routing_order="2",
         ))
     else:
+        # This is bad, but we can always manually forward the signed document
+        # to the proper court, so just log an error instead of raising
+        # an exception.
         logger.error(f"No housing court found for user '{user.username}'!")
 
     envelope_definition = dse.EnvelopeDefinition(

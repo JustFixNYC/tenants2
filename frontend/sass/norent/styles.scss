@@ -30,6 +30,7 @@ $jf-navbar-background: $white;
 $jf-navbar-content: $black;
 
 @import "../_navbar.scss";
+@import "./_navbar-overrides.scss";
 
 .title {
   font-family: $jf-title-family;

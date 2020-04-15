@@ -11,9 +11,10 @@
   }
 }
 
-// New style for next buttons:
-.button.jf-is-next-button {
-  // center button text within button element
+// New style for next buttons and general full width buttons:
+.button.jf-is-next-button,
+.button.is-fullwidth {
+  // center button text vertically within button element
   line-height: 0;
 }
 

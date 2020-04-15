@@ -124,6 +124,18 @@ function renderAppHtml(
   );
 }
 
+function renderStaticMarkup(
+  event: AppProps,
+  context: AppStaticContext,
+  jsx: JSX.Element
+): string {
+  return ReactDOMServer.renderToStaticMarkup(
+    <ServerRouter event={event} context={context}>
+      <App {...event} children={jsx} />
+    </ServerRouter>
+  );
+}
+
 /**
  * Generate the response for a given handler request, including the initial
  * HTML for the requested URL.
@@ -152,19 +164,12 @@ function generateResponse(event: AppProps): LambdaResponse {
   const helmet = assertNotUndefined(helmetContext.helmet);
   let isStaticContent = false;
   let modalHtml = "";
-  const staticJSX = context.modal || context.staticContent;
-  if (staticJSX) {
-    const staticHTML = ReactDOMServer.renderToStaticMarkup(
-      <ServerRouter event={event} context={context}>
-        <App {...event} children={staticJSX} />
-      </ServerRouter>
-    );
-    if (context.modal) {
-      modalHtml = staticHTML;
-    } else {
-      html = staticHTML;
-      isStaticContent = true;
-    }
+  if (context.modal) {
+    modalHtml = renderStaticMarkup(event, context, context.modal);
+  }
+  if (context.staticContent) {
+    html = renderStaticMarkup(event, context, context.staticContent);
+    isStaticContent = true;
   }
   let location = null;
   if (context.url) {

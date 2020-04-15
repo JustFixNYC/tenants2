@@ -14,8 +14,9 @@ export type StaticPageProps = { children: JSX.Element };
  * such as a PDF (via WeasyPrint) or richly-formatted HTML email.
  *
  * Using this element will actually *not* render anything above it in
- * the component heirarchy. If it's visited via a <Link>, it will cause
- * a hard refresh on the user's browser.
+ * the component heirarchy. If it's visited via a <Link> or any other
+ * pushState-based mechanism, it will cause a hard refresh on the user's
+ * browser.
  */
 export const StaticPage = withRouter(
   (props: RouteComponentProps & StaticPageProps) => {

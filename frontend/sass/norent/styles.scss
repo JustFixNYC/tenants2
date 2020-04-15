@@ -35,6 +35,11 @@ $jf-navbar-content: $black;
 @import "../_navbar.scss";
 @import "./_navbar-overrides.scss";
 
+// PRESETS TO PRE-EXISTING CLASSES:
+body {
+  color: $dark;
+}
+
 .title {
   font-family: $jf-title-family;
   font-weight: $jf-title-weight;
@@ -46,13 +51,20 @@ $jf-navbar-content: $black;
   h3,
   h4,
   h5,
-  h6 {
-    font-family: $jf-title-family;
-    font-weight: $jf-title-weight;
+  h6,
+  p {
+    &.title {
+      font-family: $jf-title-family;
+      font-weight: $jf-title-weight;
+    }
   }
 
-  h1 {
-    font-size: 5rem;
+  h1.title {
+    font-size: 4.5rem;
+  }
+
+  h2.title {
+    font-size: 2.25rem;
   }
 
   // Default style for inline hyperlinks:
@@ -63,5 +75,78 @@ $jf-navbar-content: $black;
       // Keep color consistent on hover
       color: $link;
     }
+  }
+
+  // Default spacing between paragraphs
+  p:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  // Set all Bulma container classes to have max width:
+  .container {
+    max-width: 800px;
+    &.jf-tight-container {
+      max-width: 600px;
+    }
+    &.jf-wide-container {
+      max-width: 1000px;
+    }
+  }
+}
+
+// CUSTOM CLASSES
+
+@mixin is-horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jf-space-below {
+  margin-bottom: 2rem;
+}
+
+.jf-has-text-centered-desktop {
+  @media screen and (min-width: $tablet) {
+    text-align: center;
+  }
+}
+
+.jf-has-centered-images {
+  figure {
+    @include is-horizontal-center;
+  }
+}
+
+.jf-illustration-paper-airplanes {
+  width: 300px;
+  height: 300px;
+  figure {
+    margin: 0;
+  }
+}
+
+.jf-illustration-fist-pump {
+  width: 200px;
+  height: 200px;
+  @include is-horizontal-center;
+}
+
+.jf-letter-counter {
+  font-size: 4rem;
+}
+
+.jf-letter-preview-container {
+  padding-bottom: 0;
+  .jf-letter-preview-fadeout {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45%;
+    background: linear-gradient(
+      0deg,
+      $grey-lighter 50%,
+      rgba(255, 255, 255, 0) 102.42%
+    );
   }
 }

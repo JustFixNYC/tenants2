@@ -40,14 +40,6 @@ body {
   color: $dark;
 }
 
-// This fixes a bug with fullscreen-width Bulma columns
-// having their margins extend beyond the parent div on mobile
-div#main {
-  @media screen and (max-width: $tablet) {
-    overflow-x: hidden;
-  }
-}
-
 .title {
   font-family: $jf-title-family;
   font-weight: $jf-title-weight;
@@ -153,6 +145,15 @@ div#main {
   figure {
     @extend .jf-up-and-down;
   }
+}
+
+.jf-sticky-button-menu {
+  position: sticky;
+  height: 100px;
+  top: calc(100vh - 100px);
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem;
 }
 
 .jf-illustration-paper-airplanes,

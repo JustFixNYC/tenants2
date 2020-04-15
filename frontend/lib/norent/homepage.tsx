@@ -41,7 +41,7 @@ const LandingPageChecklist = () => (
 const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
 
 const LandingPageDemands = () => (
-  <div className="columns is-mobile is-multiline is-variable is-8">
+  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
     {demandsListItems.map((demand, i) => (
       <div className="column has-text-centered jf-has-centered-images" key={i}>
         <p className="title is-size-5">{demand}</p>
@@ -77,7 +77,9 @@ export const NorentHomepage: React.FC<{}> = () => (
             letter to your landlord.
           </p>
           <br />
-          <BuildMyLetterButton />
+          <span className="is-hidden-mobile">
+            <BuildMyLetterButton />
+          </span>
           <br />
         </div>
       </div>
@@ -93,6 +95,9 @@ export const NorentHomepage: React.FC<{}> = () => (
     </section>
 
     <div id="more-info">
+      <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
+        <BuildMyLetterButton />
+      </div>
       <section className="container">
         <div className="hero is-small">
           <div className="hero-body is-paddingless">
@@ -140,7 +145,9 @@ export const NorentHomepage: React.FC<{}> = () => (
             </h3>
             <br />
             <LandingPageChecklist />
-            <BuildMyLetterButton />
+            <span className="is-hidden-mobile">
+              <BuildMyLetterButton />
+            </span>
           </div>
         </div>
       </section>
@@ -198,7 +205,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <br />
           </div>
           <div className="container jf-wide-container jf-how-it-works-container">
-            <div className="columns is-variable is-8">
+            <div className="columns is-variable is-8-desktop">
               <div className="column is-one-third jf-has-centered-images">
                 <div>
                   <StaticImage
@@ -255,7 +262,9 @@ export const NorentHomepage: React.FC<{}> = () => (
               </div>
             </div>
             <br />
-            <BuildMyLetterButton />
+            <span className="is-hidden-mobile">
+              <BuildMyLetterButton />
+            </span>
           </div>
         </div>
       </section>
@@ -278,7 +287,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <br />
           </div>
           <div className="container jf-wide-container">
-            <div className="columns is-mobile is-multiline is-variable is-8">
+            <div className="columns is-mobile is-multiline is-variable is-8-desktop">
               <div className="column is-one-fourth jf-has-centered-images">
                 <StaticImage
                   ratio="is-128x128"
@@ -325,7 +334,9 @@ export const NorentHomepage: React.FC<{}> = () => (
           <div className="container jf-wide-container">
             <LandingPageDemands />
             <br />
-            <BuildMyLetterButton />
+            <span className="is-hidden-mobile">
+              <BuildMyLetterButton />
+            </span>
           </div>
         </div>
       </section>
@@ -342,7 +353,9 @@ export const NorentHomepage: React.FC<{}> = () => (
               from people who have used our tool:
             </h3>
             <br />
-            <BuildMyLetterButton />
+            <span className="is-hidden-mobile">
+              <BuildMyLetterButton />
+            </span>
           </div>
         </div>
       </section>

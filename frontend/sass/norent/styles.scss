@@ -127,17 +127,26 @@ body {
   }
 }
 
+.jf-jump-arrow {
+  figure {
+    @extend .jf-up-and-down;
+  }
+}
+
+.jf-illustration-paper-airplanes,
+.jf-illustration-fist-pump {
+  width: 200px;
+  height: 200px;
+}
+
 .jf-illustration-paper-airplanes {
-  width: 300px;
-  height: 300px;
+  // Illustration spacing offset according to design:
+  margin-left: 3rem;
   figure {
     margin: 0;
   }
 }
-
 .jf-illustration-fist-pump {
-  width: 200px;
-  height: 200px;
   @include is-horizontal-center;
 }
 

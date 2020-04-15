@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>checkmark</title>
+    <desc>Created with Sketch.</desc>
+    <g id="checkmark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Vector-2" transform="translate(3.000000, 7.500000)" stroke="#18AF7C" stroke-width="5">
+            <polyline id="Path" points="0 8.5 8.5 17 25.5 0"></polyline>
+        </g>
+    </g>
+</svg>

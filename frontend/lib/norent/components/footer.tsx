@@ -1,6 +1,7 @@
 import React from "react";
-import { NorentRoutes as Routes } from "./routes";
+import { NorentRoutes as Routes } from "../routes";
 import { Link } from "react-router-dom";
+import { NorentLogo } from "./logo";
 
 const MAILCHIMP_URL =
   "https://nyc.us13.list-manage.com/subscribe/post?u=d4f5d1addd4357eb77c3f8a99&amp;id=588f6c6ef4";
@@ -61,7 +62,8 @@ export const NorentFooter: React.FC<{}> = () => (
               housing. We can help direct you to free legal services if
               necessary.
             </p>
-            <p>NO RENT brought to you by JustFix.nyc</p>
+            <NorentLogo size="is-64x64" color="white" />{" "}
+            <span>brought to you by JustFix.nyc</span>
           </div>
         </div>
       </div>

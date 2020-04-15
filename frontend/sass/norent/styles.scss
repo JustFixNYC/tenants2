@@ -117,6 +117,16 @@ body {
   }
 }
 
+.jf-norent-logo {
+  display: inline-block;
+  figure.image {
+    // Add a little top margin to nudge it inline with text
+    margin: 0.1rem 0 0 0;
+    // Fit height attribute to height of logo
+    height: fit-content;
+  }
+}
+
 .jf-illustration-paper-airplanes {
   width: 300px;
   height: 300px;

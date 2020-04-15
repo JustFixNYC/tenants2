@@ -5,8 +5,13 @@ import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
 import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
+import { NorentLogo } from "./components/logo";
 
 const PLACEHOLDER_IMG = "frontend/img/96x96.png";
+
+export function getImageSrc(name: string) {
+  return `frontend/img/norent/${name}.svg`;
+}
 
 const checklistItems = [
   "Build a letter using our free letter builder",
@@ -23,7 +28,7 @@ const LandingPageChecklist = () => (
         <div className="media-left is-hidden-mobile">
           <StaticImage
             ratio="is-32x32"
-            src={PLACEHOLDER_IMG}
+            src={getImageSrc("checkmark")}
             alt="Check mark"
           />
         </div>
@@ -46,7 +51,7 @@ const LandingPageDemands = () => (
         <div className="jf-illustration-fist-pump">
           <StaticImage
             ratio="is-square"
-            src={PLACEHOLDER_IMG}
+            src={getImageSrc("fistpump")}
             alt="Fist pump"
           />
         </div>
@@ -85,7 +90,7 @@ export const NorentHomepage: React.FC<{}> = () => (
           <div className="jf-illustration-paper-airplanes is-pulled-left">
             <StaticImage
               ratio="is-square"
-              src={PLACEHOLDER_IMG}
+              src={getImageSrc("paperairplane1")}
               alt="Paper airplane letters"
             />
           </div>
@@ -97,9 +102,10 @@ export const NorentHomepage: React.FC<{}> = () => (
             <p className="jf-letter-counter title is-spaced has-text-info">
               5,234
             </p>
-            <p className="subtitle">
-              NO RENT letters sent by Tenants across the US
-            </p>
+            <NorentLogo size="is-96x96" />{" "}
+            <span className="subtitle">
+              letters sent by Tenants across the US
+            </span>
             <p className="is-uppercase">Since May 2020</p>
           </div>
         </div>
@@ -109,7 +115,7 @@ export const NorentHomepage: React.FC<{}> = () => (
           <div className="jf-illustration-paper-airplanes is-pulled-right">
             <StaticImage
               ratio="is-square"
-              src={PLACEHOLDER_IMG}
+              src={getImageSrc("paperairplane2")}
               alt="Paper airplane letters"
             />
           </div>
@@ -121,7 +127,7 @@ export const NorentHomepage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-tight-container has-text-centered">
           <h3 className="is-spaced has-text-weight-normal">
-            Here’s what you can do with NO RENT
+            Here’s what you can do with <NorentLogo size="is-128x128" />
           </h3>
           <br />
           <LandingPageChecklist />
@@ -187,7 +193,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <div className="column is-one-third jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
+                src={getImageSrc("chatbox")}
                 alt="Chat boxes"
               />
               <p className="title is-size-4 has-text-weight-bold">6 Steps</p>
@@ -199,7 +205,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <div className="column is-one-third jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
+                src={getImageSrc("connection")}
                 alt="Chat boxes"
               />
               <p className="title is-size-4 has-text-weight-bold">
@@ -213,7 +219,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <div className="column is-one-third jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
+                src={getImageSrc("letters")}
                 alt="Chat boxes"
               />
               <p className="title is-size-4 has-text-weight-bold">

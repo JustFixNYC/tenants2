@@ -116,10 +116,10 @@ def add_graphql_fragments(query: str) -> str:
     return '\n'.join(all_graphql)
 
 
-def run_react_lambda(initial_props) -> LambdaResponse:
+def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaResponse:
     start_time = time.time_ns()
     response = lambda_service.run_handler(initial_props)
-    render_time = int((time.time_ns() - start_time) / NS_PER_MS)
+    render_time = initial_render_time + int((time.time_ns() - start_time) / NS_PER_MS)
 
     pf = response['graphQLQueryToPrefetch']
     if pf is not None:
@@ -140,6 +140,29 @@ def run_react_lambda(initial_props) -> LambdaResponse:
         graphql_query_to_prefetch=pf,
         render_time=render_time
     )
+
+
+def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
+    lambda_response = run_react_lambda(initial_props)
+
+    if lambda_response.status == 200 and lambda_response.graphql_query_to_prefetch:
+        # The page rendered, but it has a "loading..." message somewhere on it
+        # that's waiting for a GraphQL request to complete. Let's pre-fetch that
+        # request and re-render the page, so that the user receives it without
+        # any such messages (and so the user can see all the content if their
+        # JS isn't working).
+        pfquery = lambda_response.graphql_query_to_prefetch
+        initial_props['server']['prefetchedGraphQLQueryResponse'] = {
+            'graphQL': pfquery.graphql,
+            'input': pfquery.input,
+            'output': execute_query(request, pfquery.graphql, pfquery.input)
+        }
+        lambda_response = run_react_lambda(
+            initial_props,
+            initial_render_time=lambda_response.render_time
+        )
+
+    return lambda_response
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
@@ -270,23 +293,7 @@ def react_rendered_view(request):
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
     })
 
-    lambda_response = run_react_lambda(initial_props)
-    render_time = lambda_response.render_time
-
-    if lambda_response.status == 200 and lambda_response.graphql_query_to_prefetch:
-        # The page rendered, but it has a "loading..." message somewhere on it
-        # that's waiting for a GraphQL request to complete. Let's pre-fetch that
-        # request and re-render the page, so that the user receives it without
-        # any such messages (and so the user can see all the content if their
-        # JS isn't working).
-        pfquery = lambda_response.graphql_query_to_prefetch
-        initial_props['server']['prefetchedGraphQLQueryResponse'] = {
-            'graphQL': pfquery.graphql,
-            'input': pfquery.input,
-            'output': execute_query(request, pfquery.graphql, pfquery.input)
-        }
-        lambda_response = run_react_lambda(initial_props)
-        render_time += lambda_response.render_time
+    lambda_response = run_react_lambda_with_prefetching(initial_props, request)
 
     script_tags = lambda_response.script_tags
     if lambda_response.status == 500:
@@ -295,7 +302,7 @@ def react_rendered_view(request):
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
 
-    logger.debug(f"Rendering {url} in Node.js took {render_time} ms.")
+    logger.debug(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,

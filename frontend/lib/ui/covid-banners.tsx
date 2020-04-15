@@ -126,17 +126,23 @@ export const MoratoriumWarning = () => (
 
 export const CovidEhpDisclaimer = () => {
   const acceptedEmergencyHpCases = getEmergencyHPAIssueLabels();
-  const numCases = acceptedEmergencyHpCases.length;
+  const caseList = [...acceptedEmergencyHpCases, "Harassing you"].map((v) =>
+    v.toLowerCase()
+  );
+  const numCases = caseList.length;
   const generateCaseList = (start: number, end: number) =>
-    acceptedEmergencyHpCases
+    caseList
       .map((caseType, i) => <li key={i}> {caseType} </li>)
       .slice(start, end);
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
         Due to the covid-19 pandemic, Housing Courts in New York City are only
-        accepting cases for the following conditions, or others that threaten
-        the health and safety of your household:
+        accepting cases for the following conditions,{" "}
+        <strong>
+          or others that threaten the health and safety of your household
+        </strong>
+        :
       </p>
       <div className="is-hidden-tablet">{generateCaseList(0, numCases)}</div>
       <div className="columns is-mobile is-hidden-mobile">

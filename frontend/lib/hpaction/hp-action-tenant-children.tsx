@@ -25,8 +25,8 @@ export const TenantChildren = stepBuilder.createStep({
         page.
       </p>
       <p>
-        <strong>Note:</strong> When you provide this, the court is more likely
-        to prioritize your case because children are very sensitive to lead.
+        <strong>Note:</strong> By providing this information, the HPD inspector
+        will automatically check for lead in your apartment.
       </p>
       <p>
         Please list up to {TENANT_CHILDREN_MAX_COUNT} children under the age of
@@ -49,10 +49,7 @@ export const TenantChildren = stepBuilder.createStep({
           >
             <div className="columns is-mobile is-marginless">
               <div className="column">
-                <TextualFormField
-                  {...ctx.fieldPropsFor("name")}
-                  label="Full name"
-                />
+                <TextualFormField {...ctx.fieldPropsFor("name")} label="Name" />
               </div>
               <div className="column">
                 <TextualFormField

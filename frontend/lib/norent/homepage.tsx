@@ -7,10 +7,10 @@ import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
 
-const PLACEHOLDER_IMG = "frontend/img/96x96.png";
+type NorentImageType = "png" | "svg";
 
-export function getImageSrc(name: string) {
-  return `frontend/img/norent/${name}.svg`;
+export function getImageSrc(name: string, type?: NorentImageType) {
+  return `frontend/img/norent/${name}.${type || "svg"}`;
 }
 
 const checklistItems = [
@@ -259,29 +259,29 @@ export const NorentHomepage: React.FC<{}> = () => (
             <div className="column is-one-fourth jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
-                alt="PLACEHOLDER_IMG"
+                src={getImageSrc("justfix", "png")}
+                alt="Justfix logo"
               />
             </div>
             <div className="column is-one-fourth jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
-                alt="PLACEHOLDER_IMG"
+                src={getImageSrc("nwbccc", "png")}
+                alt="NWBCCC logo"
               />
             </div>
             <div className="column is-one-fourth jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
-                alt="PLACEHOLDER_IMG"
+                src={getImageSrc("tenantsandneighbors", "png")}
+                alt="Tenants and neighbors logo"
               />
             </div>
             <div className="column is-one-fourth jf-has-centered-images">
               <StaticImage
                 ratio="is-128x128"
-                src={PLACEHOLDER_IMG}
-                alt="PLACEHOLDER_IMG"
+                src={getImageSrc("lsnyc", "png")}
+                alt="Legal Services NYC Logo"
               />
             </div>
           </div>

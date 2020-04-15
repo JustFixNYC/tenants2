@@ -115,12 +115,12 @@ body {
   margin-right: auto;
 }
 
-.jf-space-below {
+.jf-space-below-2rem {
   margin-bottom: 2rem;
 }
 
-.jf-has-text-centered-desktop {
-  @media screen and (min-width: $tablet) {
+.jf-has-text-centered-tablet {
+  @include from($tablet) {
     text-align: center;
   }
 }

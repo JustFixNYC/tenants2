@@ -22,14 +22,14 @@ const checklistItems = [
 ];
 
 const LandingPageChecklist = () => (
-  <div className="jf-space-below">
+  <div className="jf-space-below-2rem">
     {checklistItems.map((checklistItem, i) => (
       <article className="media" key={i}>
         <div className="media-left">
           <StaticImage
             ratio="is-32x32"
             src={getImageSrc("checkmark")}
-            alt="Check mark"
+            alt="You can"
           />
         </div>
         <div className="media-content">{checklistItem}</div>
@@ -47,11 +47,7 @@ const LandingPageDemands = () => (
         <p className="title is-size-5">{demand}</p>
         <br />
         <div className="jf-illustration-fist-pump">
-          <StaticImage
-            ratio="is-square"
-            src={getImageSrc("fistpump")}
-            alt="Fist pump"
-          />
+          <StaticImage ratio="is-square" src={getImageSrc("fistpump")} alt="" />
         </div>
       </div>
     ))}
@@ -68,7 +64,7 @@ export const NorentHomepage: React.FC<{}> = () => (
   <Page title="NoRent.org" className="content">
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-desktop">
+        <div className="container jf-has-text-centered-tablet">
           <h1 className="title is-spaced has-text-info">Can't pay rent?</h1>
           <br />
           <p className="subtitle">
@@ -83,7 +79,7 @@ export const NorentHomepage: React.FC<{}> = () => (
           <br />
         </div>
       </div>
-      <div className="container jf-has-centered-images jf-space-below">
+      <div className="container jf-has-centered-images jf-space-below-2rem">
         <Link to="#more-info" className="jf-jump-arrow">
           <StaticImage
             ratio="is-32x32"
@@ -105,7 +101,7 @@ export const NorentHomepage: React.FC<{}> = () => (
               <StaticImage
                 ratio="is-square"
                 src={getImageSrc("paperairplane1")}
-                alt="Paper airplane letters"
+                alt=""
               />
             </div>
           </div>
@@ -130,7 +126,7 @@ export const NorentHomepage: React.FC<{}> = () => (
               <StaticImage
                 ratio="is-square"
                 src={getImageSrc("paperairplane2")}
-                alt="Paper airplane letters"
+                alt=""
               />
             </div>
           </div>
@@ -196,7 +192,7 @@ export const NorentHomepage: React.FC<{}> = () => (
 
       <section className="hero has-background-white-ter">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below">
+          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
             <h2 className="title is-spaced">How it works</h2>
             <p className="subtitle is-size-4">
               We make it easy to weigh your options and notify your landlord by
@@ -211,7 +207,7 @@ export const NorentHomepage: React.FC<{}> = () => (
                   <StaticImage
                     ratio="is-128x128"
                     src={getImageSrc("chatbox")}
-                    alt="Chat boxes"
+                    alt=""
                   />
                 </div>
                 <div>
@@ -229,7 +225,7 @@ export const NorentHomepage: React.FC<{}> = () => (
                   <StaticImage
                     ratio="is-128x128"
                     src={getImageSrc("connection")}
-                    alt="Chat boxes"
+                    alt=""
                   />
                 </div>
                 <div>
@@ -247,7 +243,7 @@ export const NorentHomepage: React.FC<{}> = () => (
                   <StaticImage
                     ratio="is-128x128"
                     src={getImageSrc("letters")}
-                    alt="Chat boxes"
+                    alt=""
                   />
                 </div>
                 <div>
@@ -271,7 +267,7 @@ export const NorentHomepage: React.FC<{}> = () => (
 
       <section className="hero">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below">
+          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
             <h2 className="title is-spaced">Legally vetted</h2>
             <p className="subtitle is-size-4">
               Our free letter builder was built with{" "}
@@ -292,28 +288,28 @@ export const NorentHomepage: React.FC<{}> = () => (
                 <StaticImage
                   ratio="is-128x128"
                   src={getImageSrc("justfix", "png")}
-                  alt="Justfix logo"
+                  alt="Justfix.nyc"
                 />
               </div>
               <div className="column is-one-fourth jf-has-centered-images">
                 <StaticImage
                   ratio="is-128x128"
                   src={getImageSrc("nwbccc", "png")}
-                  alt="NWBCCC logo"
+                  alt="Northwest Bronx Community and Clergy Coalition"
                 />
               </div>
               <div className="column is-one-fourth jf-has-centered-images">
                 <StaticImage
                   ratio="is-128x128"
                   src={getImageSrc("tenantsandneighbors", "png")}
-                  alt="Tenants and neighbors logo"
+                  alt="Tenants and Neighbors"
                 />
               </div>
               <div className="column is-one-fourth jf-has-centered-images">
                 <StaticImage
                   ratio="is-128x128"
                   src={getImageSrc("lsnyc", "png")}
-                  alt="Legal Services NYC Logo"
+                  alt="Legal Services NYC"
                 />
               </div>
             </div>
@@ -323,7 +319,7 @@ export const NorentHomepage: React.FC<{}> = () => (
 
       <section className="hero has-background-white-ter">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below">
+          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
             <h2 className="title is-spaced">Locally supported</h2>
             <p className="subtitle is-size-4">
               After sending your letter, we can connect you to local groups to
@@ -343,7 +339,7 @@ export const NorentHomepage: React.FC<{}> = () => (
 
       <section className="hero">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below">
+          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
             <h3 className="is-spaced has-text-weight-normal">
               Sending a letter to your landlord is a big step. Here are a few{" "}
               {/* REPLACE once routes are set up */}

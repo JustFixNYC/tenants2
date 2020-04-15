@@ -25,7 +25,7 @@ const LandingPageChecklist = () => (
   <div className="jf-space-below">
     {checklistItems.map((checklistItem, i) => (
       <article className="media" key={i}>
-        <div className="media-left is-hidden-mobile">
+        <div className="media-left">
           <StaticImage
             ratio="is-32x32"
             src={getImageSrc("checkmark")}
@@ -41,12 +41,9 @@ const LandingPageChecklist = () => (
 const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
 
 const LandingPageDemands = () => (
-  <div className="columns is-variable is-8">
+  <div className="columns is-mobile is-multiline is-variable is-8">
     {demandsListItems.map((demand, i) => (
-      <div
-        className="column is-one-third has-text-centered jf-has-centered-images"
-        key={i}
-      >
+      <div className="column has-text-centered jf-has-centered-images" key={i}>
         <p className="title is-size-5">{demand}</p>
         <br />
         <div className="jf-illustration-fist-pump">
@@ -200,47 +197,61 @@ export const NorentHomepage: React.FC<{}> = () => (
             </p>
             <br />
           </div>
-          <div className="container jf-wide-container">
+          <div className="container jf-wide-container jf-how-it-works-container">
             <div className="columns is-variable is-8">
               <div className="column is-one-third jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("chatbox")}
-                  alt="Chat boxes"
-                />
-                <p className="title is-size-4 has-text-weight-bold">8 Steps</p>
-                <p>
-                  Answer a few questions about yourself and your landlord or
-                  management company.
-                </p>
+                <div>
+                  <StaticImage
+                    ratio="is-128x128"
+                    src={getImageSrc("chatbox")}
+                    alt="Chat boxes"
+                  />
+                </div>
+                <div>
+                  <p className="title is-size-4 has-text-weight-bold">
+                    8 Steps
+                  </p>
+                  <p>
+                    Answer a few questions about yourself and your landlord or
+                    management company.
+                  </p>
+                </div>{" "}
               </div>
               <div className="column is-one-third jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("connection")}
-                  alt="Chat boxes"
-                />
-                <p className="title is-size-4 has-text-weight-bold">
-                  Legal Protections
-                </p>
-                <p>
-                  Our letter cites the most up-to-date legal ordinances that
-                  protect tenant rights in your state.
-                </p>
+                <div>
+                  <StaticImage
+                    ratio="is-128x128"
+                    src={getImageSrc("connection")}
+                    alt="Chat boxes"
+                  />
+                </div>
+                <div>
+                  <p className="title is-size-4 has-text-weight-bold">
+                    Legal Protections
+                  </p>
+                  <p>
+                    Our letter cites the most up-to-date legal ordinances that
+                    protect tenant rights in your state.
+                  </p>
+                </div>
               </div>
               <div className="column is-one-third jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("letters")}
-                  alt="Chat boxes"
-                />
-                <p className="title is-size-4 has-text-weight-bold">
-                  Free Certified Mail
-                </p>
-                <p>
-                  After you’ve reviewed your letter, we send it to your landlord
-                  on your behalf by email and by certified mail.
-                </p>
+                <div>
+                  <StaticImage
+                    ratio="is-128x128"
+                    src={getImageSrc("letters")}
+                    alt="Chat boxes"
+                  />
+                </div>
+                <div>
+                  <p className="title is-size-4 has-text-weight-bold">
+                    Free Certified Mail
+                  </p>
+                  <p>
+                    After you’ve reviewed your letter, we send it to your
+                    landlord on your behalf by email and by certified mail.
+                  </p>
+                </div>
               </div>
             </div>
             <br />
@@ -267,7 +278,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             <br />
           </div>
           <div className="container jf-wide-container">
-            <div className="columns is-variable is-8">
+            <div className="columns is-mobile is-multiline is-variable is-8">
               <div className="column is-one-fourth jf-has-centered-images">
                 <StaticImage
                   ratio="is-128x128"

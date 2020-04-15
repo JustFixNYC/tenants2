@@ -6,6 +6,7 @@ import { StaticImage } from "../ui/static-image";
 import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
+import { NorentFaqsPreview } from "./faqs";
 
 type NorentImageType = "png" | "svg";
 
@@ -349,6 +350,7 @@ export const NorentHomepage: React.FC<{}> = () => (
               from people who have used our tool:
             </h3>
             <br />
+            <NorentFaqsPreview />
             <span className="is-hidden-mobile">
               <BuildMyLetterButton />
             </span>

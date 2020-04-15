@@ -83,26 +83,26 @@ const onboardingForHPActionRoute = () =>
     .latestStep;
 
 function EmergencyHPActionSplash(): JSX.Element {
+  const title =
+    "Sue your landlord for Repairs and/or Harassment through an Emergency HP Action proceeding";
   return (
-    <Page title="Sue your landlord for Repairs through an Emergency HP Action proceeding">
+    <Page title={title}>
       <section className="hero is-light">
         <div className="hero-body">
           <div className="content has-text-centered">
             <div className="is-inline-block jf-hp-icon">
               <StaticImage ratio="is-square" src={HP_ICON} alt="" />
             </div>
-            <h1 className="title is-spaced">
-              Sue your landlord for Repairs through an Emergency HP Action
-              proceeding
-            </h1>
+            <h1 className="title is-spaced">{title}</h1>
           </div>
           <div className="columns is-centered">
             <div className="column is-four-fifths">
               <div className="content">
                 <p className="subtitle">
                   An Emergency HP Action is a legal case you can bring against
-                  your landlord for failing to make repairs or not providing
-                  essential services. This service is free and secure.
+                  your landlord for failing to make repairs, not providing
+                  essential services, and/or harassing you. This service is free
+                  and secure.
                 </p>
                 <CovidEhpDisclaimer />
                 <GetStartedButton
@@ -114,7 +114,8 @@ function EmergencyHPActionSplash(): JSX.Element {
                 </GetStartedButton>
                 <div className="content has-text-centered">
                   <p className="jf-secondary-cta has-text-weight-bold">
-                    Would you prefer to work with a lawyer to start your case?
+                    Would you prefer to have personal assistance to start your
+                    case?
                     <br />
                     Call the Housing Court Answers hotline at{" "}
                     <a href="tel:1-212-962-4795">212-962-4795</a> Monday to
@@ -141,8 +142,9 @@ const EmergencyHPActionWelcome = () => {
       <CovidEhpDisclaimer />
       <p>
         An <strong>Emergency HP (Housing Part) Action</strong> is a legal case
-        you can bring against your landlord for failing to make repairs or not
-        providing essential services. Here is how it works:
+        you can bring against your landlord for failing to make repairs, not
+        providing essential services, and/or harassing you. Here is how it
+        works:
       </p>
       <BigList>
         <li>
@@ -151,14 +153,18 @@ const EmergencyHPActionWelcome = () => {
           emailed a copy of the forms.
         </li>
         <li>
-          The Housing Court will assign you a lawyer who will call you to
-          coordinate at the phone number you provided.
+          The Housing Court clerk will review your Emergency HP Action forms and
+          decide whether or not to approve your case.
         </li>
         <li>
-          An inspector from Housing Preservation and Development (HPD) will come
-          to your apartment to verify the issue(s). Your lawyer will help you
-          arrange a time that is convenient for you and give you the details you
-          will need.
+          If your case is approved, the Housing Court will assign you a lawyer
+          who will call you to coordinate at the phone number you provided.
+        </li>
+        <li>
+          If you are suing for Repairs, an inspector from Housing Preservation
+          and Development (HPD) will come to your apartment to verify the
+          issue(s). Your lawyer will help you arrange a time that is convenient
+          for you and give you the details you will need.
         </li>
         <li>
           The court hearing will happen through a video call so that{" "}
@@ -404,22 +410,23 @@ const Confirmation: React.FC<{}> = () => {
       </h1>
       <p>
         Your completed, signed Emergency HP Action forms have been emailed to
-        you and your Housing Court.
+        you and your Borough's Housing Court.
       </p>
       <h2>What happens next?</h2>
       <BigList>
         <li>
-          The Housing Court clerk will review your Emergency HP Action forms.
+          The Housing Court clerk will review your Emergency HP Action forms and
+          decide whether or not to approve your case.
         </li>
         <li>
-          The Housing Court will assign you a lawyer who will call you to
-          coordinate at the phone number you provided.
+          If your case is approved, the Housing Court will assign you a lawyer
+          who will call you to coordinate at the phone number you provided.
         </li>
         <li>
-          An inspector from Housing Preservation and Development (HPD) will come
-          to your apartment to verify the issue(s). Your lawyer will help you
-          arrange a time that is convenient for you and give you the details you
-          will need.
+          If you are suing for Repairs, an inspector from Housing Preservation
+          and Development (HPD) will come to your apartment to verify the
+          issue(s). Your lawyer will help you arrange a time that is convenient
+          for you and give you the details you will need.
         </li>
         <li>
           The court hearing will happen through a video call so that{" "}

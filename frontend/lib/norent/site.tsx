@@ -54,11 +54,11 @@ const NorentMenuItems: React.FC<{}> = () => {
       </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.home}>
-          Sign out
+          Log out
         </Link>
       ) : (
         <Link className="navbar-item" to={Routes.locale.home}>
-          Sign in
+          Log in
         </Link>
       )}
     </>
@@ -71,18 +71,15 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
       <>
         <div className="jf-above-footer-content">
           <Navbar menuItemsComponent={NorentMenuItems} />
-          <section className="section">
-            <div
-              className="container"
-              ref={ref}
-              data-jf-is-noninteractive
-              tabIndex={-1}
-            >
-              <LoadingOverlayManager>
-                <Route component={NorentRoute} />
-              </LoadingOverlayManager>
-            </div>
-          </section>
+          <div
+            ref={ref}
+            data-jf-is-noninteractive
+            tabIndex={-1}
+          >
+            <LoadingOverlayManager>
+              <Route component={NorentRoute} />
+            </LoadingOverlayManager>
+          </div>
         </div>
         <NorentFooter />
       </>

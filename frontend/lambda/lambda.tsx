@@ -163,14 +163,13 @@ function generateResponse(event: AppProps): LambdaResponse {
   let html = renderAppHtml(event, context, extractor, helmetContext);
   const helmet = assertNotUndefined(helmetContext.helmet);
   let isStaticContent = false;
-  let modalHtml = "";
-  if (context.modal) {
-    modalHtml = renderStaticMarkup(event, context, context.modal);
-  }
   if (context.staticContent) {
     html = renderStaticMarkup(event, context, context.staticContent);
     isStaticContent = true;
   }
+  const modalHtml = context.modal
+    ? renderStaticMarkup(event, context, context.modal)
+    : "";
   let location = null;
   if (context.url) {
     context.statusCode = 302;

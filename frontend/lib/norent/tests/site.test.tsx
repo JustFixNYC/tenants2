@@ -15,6 +15,6 @@ describe("NorentSite", () => {
 
   it("renders home page", () => {
     const pal = new AppTesterPal(route, { url: "/" });
-    pal.rr.getByText(/this is the no rent site/i);
+    pal.rr.getByText(/Can't pay rent/i);
   });
 });

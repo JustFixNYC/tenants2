@@ -15,6 +15,9 @@ const EmailSignupForm = () => (
   >
     <div className="mc-field-group">
       <div className="control is-expanded">
+        <label htmlFor="mce-EMAIL" className="jf-sr-only">
+          Email
+        </label>
         <input
           type="email"
           name="EMAIL"
@@ -24,7 +27,7 @@ const EmailSignupForm = () => (
         />
       </div>
       <div className="control has-text-centered-touch">
-        <button className="button" type="submit">
+        <button className="button" type="submit" aria-label="Submit email">
           ➔
         </button>
       </div>

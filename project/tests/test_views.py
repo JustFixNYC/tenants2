@@ -136,6 +136,18 @@ def test_pages_with_redirects_work(client):
     assert response['location'] == react_url('/')
 
 
+def test_static_pages_work(client):
+    response = client.get('/dev/examples/static-page')
+    assert response.status_code == 200
+    assert response.content.decode("utf-8") == (
+        '<!DOCTYPE html>'
+        '<html><meta charSet="utf-8"/>'
+        '<title>This is an example static page.</title>'
+        '<p>Hello, this is an example static page\u2026</p>'
+        '</html>'
+    )
+
+
 def test_pages_with_extra_bundles_work(client):
     response = client.get('/dev/examples/loadable-page')
     assert response.status_code == 200

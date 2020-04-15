@@ -20,6 +20,12 @@ export interface AppStaticContext {
   modal?: JSX.Element;
 
   /**
+   * The static content to render server-side, if any. If provided, it
+   * is expected to be an entire HTML5-complaint web page.
+   */
+  staticContent?: JSX.Element;
+
+  /**
    * If the page contains a GraphQL query whose results should be
    * pre-fetched, this will contain its value.
    */

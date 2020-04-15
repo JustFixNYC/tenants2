@@ -15,6 +15,7 @@ import {
   ExampleFormWithoutRedirectPage,
 } from "./example-form-page";
 import { StyleGuide } from "./style-guide";
+import { ExampleStaticPage } from "./example-static-page";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -167,6 +168,11 @@ export default function DevRoutes(): JSX.Element {
       />
       <Route path={dev.examples.metaTag} exact component={ExampleMetaTagPage} />
       <Route path={dev.examples.query} exact component={ExampleQueryPage} />
+      <Route
+        path={dev.examples.staticPage}
+        exact
+        component={ExampleStaticPage}
+      />
     </Switch>
   );
 }

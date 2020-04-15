@@ -14,10 +14,10 @@ import { defaultContext, AppContext } from "../app-context";
 describe("App", () => {
   let appContext = defaultContext;
 
-  const AppContextCapturer = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const AppContextCapturer = () => {
     appContext = useContext(AppContext);
     return <p>HAI</p>;
-  });
+  };
 
   const buildPal = (initialSession = FakeSessionInfo) => {
     const props: AppProps = {
@@ -25,7 +25,7 @@ describe("App", () => {
       locale: "",
       initialSession,
       server: FakeServerInfo,
-      siteComponent: AppContextCapturer,
+      children: <AppContextCapturer />,
     };
     const pal = new ReactTestingLibraryPal(
       (

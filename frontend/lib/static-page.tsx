@@ -8,7 +8,7 @@ export type StaticPageProps = { children: JSX.Element };
  * A <StaticPage> represents a web page of completely self-contained HTML
  * that isn't progressively enhanced in any way. Almost all components that
  * use this should pass an <html> element as a child.
- * 
+ *
  * The primary use case for this component is for content that isn't
  * intended for use in a browser, but rather for alternate media
  * such as a PDF (via WeasyPrint) or richly-formatted HTML email.

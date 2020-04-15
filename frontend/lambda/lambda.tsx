@@ -151,21 +151,20 @@ function generateResponse(event: AppProps): LambdaResponse {
   let html = renderAppHtml(event, context, extractor, helmetContext);
   const helmet = assertNotUndefined(helmetContext.helmet);
   let isStaticContent = false;
-  if (context.staticContent) {
-    html = ReactDOMServer.renderToStaticMarkup(
-      <ServerRouter event={event} context={context}>
-        <App {...event} modal={context.staticContent} />
-      </ServerRouter>
-    );
-    isStaticContent = true;
-  }
   let modalHtml = "";
-  if (context.modal) {
-    modalHtml = ReactDOMServer.renderToStaticMarkup(
+  const staticJSX = context.modal || context.staticContent;
+  if (staticJSX) {
+    const staticHTML = ReactDOMServer.renderToStaticMarkup(
       <ServerRouter event={event} context={context}>
-        <App {...event} modal={context.modal} />
+        <App {...event} children={staticJSX} />
       </ServerRouter>
     );
+    if (context.modal) {
+      modalHtml = staticHTML;
+    } else {
+      html = staticHTML;
+      isStaticContent = true;
+    }
   }
   let location = null;
   if (context.url) {

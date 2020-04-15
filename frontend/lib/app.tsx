@@ -70,17 +70,10 @@ export interface AppProps {
   legacyFormSubmission?: AppLegacyFormSubmission;
 
   /**
-   * If we're on the server-side and there's a modal on the page, we
-   * will actually be rendered *twice*: once with the modal background,
-   * and again with the modal itself. In the latter case, this prop will
-   * be populated with the content of the modal.
+   * If provided, this will *not* render a whole website, but instead just
+   * the single child wrapped in an AppContext.
    */
-  modal?: JSX.Element;
-
-  /**
-   * The site to render. This is intended primarily for testing purposes.
-   */
-  siteComponent?: React.ComponentType<AppSiteProps>;
+  children?: JSX.Element;
 }
 
 export type AppPropsWithRouter = AppProps & RouteComponentProps<any>;
@@ -274,9 +267,6 @@ export class AppWithoutRouter extends React.Component<
   }
 
   getSiteComponent(): React.ComponentType<AppSiteProps> {
-    if (this.props.siteComponent) {
-      return this.props.siteComponent;
-    }
     switch (this.props.server.siteType) {
       case "JUSTFIX":
         return LoadableJustfixSite;
@@ -286,11 +276,11 @@ export class AppWithoutRouter extends React.Component<
   }
 
   render() {
-    if (this.props.modal) {
+    if (this.props.children) {
       return (
         <AppContext.Provider
           value={this.getAppContext()}
-          children={this.props.modal}
+          children={this.props.children}
         />
       );
     }

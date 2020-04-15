@@ -71,11 +71,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
       <>
         <div className="jf-above-footer-content">
           <Navbar menuItemsComponent={NorentMenuItems} />
-          <div
-            ref={ref}
-            data-jf-is-noninteractive
-            tabIndex={-1}
-          >
+          <div ref={ref} data-jf-is-noninteractive tabIndex={-1}>
             <LoadingOverlayManager>
               <Route component={NorentRoute} />
             </LoadingOverlayManager>

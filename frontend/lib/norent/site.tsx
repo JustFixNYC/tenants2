@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AppSiteProps } from "../app";
-import { NorentRoutes as Routes } from "./routes";
+import { NorentRoutes as Routes, NorentRoutes } from "./routes";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomepage } from "./homepage";
@@ -10,10 +10,11 @@ import {
   LoadingOverlayManager,
 } from "../networking/loading-page";
 import loadable from "@loadable/component";
-import Navbar from "../ui/navbar";
+import classnames from "classnames";
 import { NorentLetterRoutes } from "./letter-builder";
 import { AppContext } from "../app-context";
 import { NorentFooter } from "./components/footer";
+import Navbar from "../ui/navbar";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -67,16 +68,28 @@ const NorentMenuItems: React.FC<{}> = () => {
 
 const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
+    const isLandingPage = props.location.pathname === NorentRoutes.locale.home;
     return (
       <>
-        <div className="jf-above-footer-content">
+        <section
+          className={classnames(
+            "section",
+            "jf-above-footer-content",
+            isLandingPage && "is-paddingless"
+          )}
+        >
           <Navbar menuItemsComponent={NorentMenuItems} />
-          <div ref={ref} data-jf-is-noninteractive tabIndex={-1}>
+          <div
+            className={classnames(!isLandingPage && "container")}
+            ref={ref}
+            data-jf-is-noninteractive
+            tabIndex={-1}
+          >
             <LoadingOverlayManager>
               <Route component={NorentRoute} />
             </LoadingOverlayManager>
           </div>
-        </div>
+        </section>
         <NorentFooter />
       </>
     );

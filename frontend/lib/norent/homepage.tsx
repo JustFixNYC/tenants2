@@ -324,6 +324,7 @@ export const NorentHomepage: React.FC<{}> = () => (
           <div className="container jf-tight-container has-text-centered jf-space-below">
             <h3 className="is-spaced has-text-weight-normal">
               Sending a letter to your landlord is a big step. Here are a few{" "}
+              {/* REPLACE once routes are set up */}
               <Link to={NorentRoutes.locale.home}>
                 frequently asked questions
               </Link>{" "}

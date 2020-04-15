@@ -22,6 +22,7 @@ export function createDevRouteInfo(prefix: string) {
       clientSideError: `${prefix}/examples/client-side-error`,
       metaTag: `${prefix}/examples/meta-tag`,
       query: `${prefix}/examples/query`,
+      staticPage: `${prefix}/examples/static-page`,
     },
   };
 }

@@ -38,6 +38,13 @@ export interface LambdaResponse {
   /** The HTML of the initial render of the page. */
   html: string;
 
+  /**
+   * Whether or not the response represents an entire self-contained, static
+   * web page: one doesn't need to be put in a template and/or progressively
+   * enhanced in any way.
+   */
+  isStaticContent: boolean;
+
   /** The <title> tag for the initial render of the page. */
   titleTag: string;
 
@@ -141,8 +148,17 @@ function generateResponse(event: AppProps): LambdaResponse {
     publicPath: event.server.webpackPublicPathURL,
   });
   const helmetContext: HelmetContext = {};
-  const html = renderAppHtml(event, context, extractor, helmetContext);
+  let html = renderAppHtml(event, context, extractor, helmetContext);
   const helmet = assertNotUndefined(helmetContext.helmet);
+  let isStaticContent = false;
+  if (context.staticContent) {
+    html = ReactDOMServer.renderToStaticMarkup(
+      <ServerRouter event={event} context={context}>
+        <App {...event} modal={context.staticContent} />
+      </ServerRouter>
+    );
+    isStaticContent = true;
+  }
   let modalHtml = "";
   if (context.modal) {
     modalHtml = ReactDOMServer.renderToStaticMarkup(
@@ -158,6 +174,7 @@ function generateResponse(event: AppProps): LambdaResponse {
   }
   return {
     html,
+    isStaticContent,
     titleTag: helmet.title.toString(),
     metaTags: helmet.meta.toString(),
     scriptTags: extractor.getScriptTags(),
@@ -206,6 +223,7 @@ export function errorCatchingHandler(event: EventProps): LambdaResponse {
     const helmet = assertNotUndefined(helmetContext.helmet);
     return {
       html,
+      isStaticContent: false,
       titleTag: helmet.title.toString(),
       metaTags: helmet.meta.toString(),
       scriptTags: "",

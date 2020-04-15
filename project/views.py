@@ -2,7 +2,7 @@ import re
 import time
 import logging
 from typing import NamedTuple, List, Dict, Any, Optional
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import SafeString
@@ -77,6 +77,7 @@ class LambdaResponse(NamedTuple):
     '''
 
     html: SafeString
+    is_static_content: bool
     title_tag: SafeString
     meta_tags: SafeString
     script_tags: SafeString
@@ -130,6 +131,7 @@ def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaRespo
 
     return LambdaResponse(
         html=SafeString(response['html']),
+        is_static_content=response['isStaticContent'],
         modal_html=SafeString(response['modalHtml']),
         title_tag=SafeString(response['titleTag']),
         meta_tags=SafeString(response['metaTags']),
@@ -303,6 +305,12 @@ def react_rendered_view(request):
         return redirect(to=lambda_response.location)
 
     logger.debug(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
+
+    if lambda_response.is_static_content:
+        return HttpResponse(
+            "<!DOCTYPE html>" + lambda_response.html,
+            status=lambda_response.status
+        )
 
     return render(request, 'index.html', {
         'initial_render': lambda_response.html,

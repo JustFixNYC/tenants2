@@ -65,3 +65,5 @@ export const NorentFaqsPreview = () => {
     </div>
   );
 };
+
+export const NorentFaqsPage: React.FC<{}> = () => <NorentFaqsPreview />;

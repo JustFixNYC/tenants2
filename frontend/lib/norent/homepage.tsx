@@ -84,7 +84,7 @@ const BuildMyLetterButton = () => (
   </CenteredPrimaryButtonLink>
 );
 
-export const NorentHomepage: React.FC<{}> = () => (
+export const NorentHomePage: React.FC<{}> = () => (
   <Page title="NoRent.org" className="content">
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">

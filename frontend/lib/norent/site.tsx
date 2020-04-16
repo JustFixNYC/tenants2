@@ -3,7 +3,7 @@ import { AppSiteProps } from "../app";
 import { NorentRoutes as Routes, NorentRoutes } from "./routes";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
-import { NorentHomepage } from "./homepage";
+import { NorentHomePage } from "./homepage";
 import {
   LoadingPage,
   friendlyLoad,
@@ -17,6 +17,16 @@ import { NorentFooter } from "./components/footer";
 import { NorentLetterStaticPage } from "./letter-content";
 import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
+import { NorentFaqsPage } from "./faqs";
+import { NorentAboutPage } from "./about";
+import { NorentBuildMyLetterPage } from "./build-my-letter";
+
+const ROUTES_FOR_PRIMARY_PAGES = [
+  Routes.locale.home,
+  Routes.locale.about,
+  Routes.locale.faqs,
+  Routes.locale.aboutLetter,
+];
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -29,7 +39,14 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   }
   return (
     <Switch location={location}>
-      <Route path={Routes.locale.home} exact component={NorentHomepage} />
+      <Route path={Routes.locale.home} exact component={NorentHomePage} />
+      <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
+      <Route path={Routes.locale.about} exact component={NorentAboutPage} />
+      <Route
+        path={Routes.locale.aboutLetter}
+        exact
+        component={NorentBuildMyLetterPage}
+      />
       <Route
         path={Routes.locale.letter.prefix}
         component={NorentLetterRoutes}
@@ -45,20 +62,20 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
 
 const NorentMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
-  // These are placeholders just to show styling.
-  // Will replace when we have site scaffolding ready.
   return (
     <>
-      <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
+      <Link className="navbar-item" to={Routes.locale.aboutLetter}>
         Build my letter
       </Link>
-      <Link className="navbar-item" to={Routes.locale.home}>
+      <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
       </Link>
-      <Link className="navbar-item" to={Routes.locale.home}>
+      <Link className="navbar-item" to={Routes.locale.about}>
         About
       </Link>
       {session.phoneNumber ? (
+        // These are placeholders just to show styling.
+        // Will replace when we have site scaffolding ready.
         <Link className="navbar-item" to={Routes.locale.home}>
           Log out
         </Link>
@@ -73,19 +90,21 @@ const NorentMenuItems: React.FC<{}> = () => {
 
 const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
-    const isLandingPage = props.location.pathname === NorentRoutes.locale.home;
+    const isPrimaryPage = ROUTES_FOR_PRIMARY_PAGES.includes(
+      props.location.pathname
+    );
     return (
       <>
         <section
           className={classnames(
             "section",
             "jf-above-footer-content",
-            isLandingPage && "is-paddingless"
+            isPrimaryPage && "is-paddingless"
           )}
         >
           <Navbar menuItemsComponent={NorentMenuItems} />
           <div
-            className={classnames(!isLandingPage && "container")}
+            className={classnames(!isPrimaryPage && "container")}
             ref={ref}
             data-jf-is-noninteractive
             tabIndex={-1}

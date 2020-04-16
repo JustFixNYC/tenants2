@@ -143,8 +143,8 @@ def test_static_pages_work(client):
     assert response.content.decode("utf-8") == (
         '<!DOCTYPE html>'
         '<html><meta charSet="utf-8"/>'
-        '<title>This is an example static page.</title>'
-        '<p>Hello, this is an example static page\u2026</p>'
+        '<title>This is an example static HTML page.</title>'
+        '<p>Hello, this is an example static HTML page\u2026</p>'
         '</html>'
     )
 

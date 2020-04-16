@@ -15,8 +15,10 @@ import {
   ExampleFormWithoutRedirectPage,
 } from "./example-form-page";
 import { StyleGuide } from "./style-guide";
-import { ExampleStaticPage } from "./example-static-page";
-import { ExampleStaticPagePDF } from "./example-static-page-pdf";
+import {
+  ExampleStaticPageHTML,
+  ExampleStaticPagePDF,
+} from "./example-static-page";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -172,7 +174,7 @@ export default function DevRoutes(): JSX.Element {
       <Route
         path={dev.examples.staticPage}
         exact
-        component={ExampleStaticPage}
+        component={ExampleStaticPageHTML}
       />
       <Route
         path={dev.examples.staticPagePdf}

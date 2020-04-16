@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { QueryLoader } from "../networking/query-loader";
 import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
-import { LetterStaticPage } from "../letter-static-page";
+import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { NotFound } from "../pages/not-found";
 import { Route } from "react-router-dom";

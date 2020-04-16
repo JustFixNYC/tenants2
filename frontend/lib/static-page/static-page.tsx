@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getAppStaticContext } from "./app-static-context";
-import { LambdaResponseHttpHeaders } from "../lambda/lambda";
+import { getAppStaticContext } from "../app-static-context";
+import { LambdaResponseHttpHeaders } from "../../lambda/lambda";
 
 export type StaticPageProps = {
   httpHeaders?: LambdaResponseHttpHeaders;

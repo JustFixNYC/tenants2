@@ -1,6 +1,6 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
-import { createLetterStaticPageRouteInfo } from "../letter-static-page";
+import { createLetterStaticPageRouteInfo } from "../static-page/routes";
 
 function createNoRentLetterRouteInfo(prefix: string) {
   return {

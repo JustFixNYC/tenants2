@@ -8,6 +8,7 @@ function createNoRentLetterRouteInfo(prefix: string) {
     latestStep: prefix,
     tenantInfo: `${prefix}/your-info`,
     landlordInfo: `${prefix}/landlord-info`,
+    preview: `${prefix}/preview`,
   };
 }
 

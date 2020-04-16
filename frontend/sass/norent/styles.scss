@@ -233,12 +233,18 @@ $norent-sticky-menu-height: 100px;
   }
 
   details {
-    p {
+    // Initially tried adding margins, but since we include a focus outline around the 
+    // summary element, I translated those into padding instead for a better look
+    p,
+    summary {
       padding: 1rem;
     }
     summary {
       display: flex;
-      padding: 1rem;
+      // Remove default marker
+      &::-webkit-details-marker {
+        display: none;
+      }
       &:focus {
         @include outline-focus();
       }
@@ -250,9 +256,6 @@ $norent-sticky-menu-height: 100px;
         figure.image {
           margin: 0 1rem auto auto;
         }
-      }
-      &::-webkit-details-marker {
-        display: none;
       }
     }
   }

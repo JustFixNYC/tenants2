@@ -219,4 +219,32 @@ body {
 }
 
 .jf-accordian-item {
+  &:not(:last-child) {
+    border-bottom: 0.3px solid #828282ee;
+  }
+
+  details {
+    p {
+      padding: 1rem;
+    }
+    summary {
+      display: flex;
+      padding: 1rem;
+      &:focus {
+        @include outline-focus();
+      }
+      div.title {
+        margin: 0 2rem 0 0;
+      }
+      div:not(.title) {
+        margin-left: auto;
+        figure.image {
+          margin: 0 1rem auto auto;
+        }
+      }
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
 }

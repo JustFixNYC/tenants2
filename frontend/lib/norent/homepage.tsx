@@ -39,6 +39,29 @@ const LandingPageChecklist = () => (
   </div>
 );
 
+const partnerLogoItems = [
+  ["Justfix.nyc", "justfix"],
+  ["Northwest Bronx Community and Clergy Coalition", "nwbccc"],
+  ["Tenants and Neighbors", "tenantsandneighbors"],
+  ["Legal Services NYC", "lsnyc"],
+];
+
+const LandingPagePartnerLogos = () => (
+  <div className="container jf-wide-container">
+    <div className="columns is-mobile is-multiline is-variable is-8-desktop">
+      {partnerLogoItems.map((partnerDetails, i) => (
+        <div className="column is-one-fourth jf-has-centered-images" key={i}>
+          <StaticImage
+            ratio="is-128x128"
+            src={getImageSrc(partnerDetails[1], "png")}
+            alt={partnerDetails[0]}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
 
 const LandingPageDemands = () => (
@@ -283,38 +306,7 @@ export const NorentHomepage: React.FC<{}> = () => (
             </p>
             <br />
           </div>
-          <div className="container jf-wide-container">
-            <div className="columns is-mobile is-multiline is-variable is-8-desktop">
-              <div className="column is-one-fourth jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("justfix", "png")}
-                  alt="Justfix.nyc"
-                />
-              </div>
-              <div className="column is-one-fourth jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("nwbccc", "png")}
-                  alt="Northwest Bronx Community and Clergy Coalition"
-                />
-              </div>
-              <div className="column is-one-fourth jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("tenantsandneighbors", "png")}
-                  alt="Tenants and Neighbors"
-                />
-              </div>
-              <div className="column is-one-fourth jf-has-centered-images">
-                <StaticImage
-                  ratio="is-128x128"
-                  src={getImageSrc("lsnyc", "png")}
-                  alt="Legal Services NYC"
-                />
-              </div>
-            </div>
-          </div>
+          <LandingPagePartnerLogos />
         </div>
       </section>
 

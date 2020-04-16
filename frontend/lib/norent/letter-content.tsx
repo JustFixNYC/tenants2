@@ -14,67 +14,96 @@ const NONPAY_START_DATE = "2020-05-01T15:41:37.114Z";
 
 export type NorentLetterContentProps = AllSessionInfo_norentScaffolding;
 
+const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
+  <>{props.landlordName.toUpperCase()}</>
+);
+
+const FullName: React.FC<NorentLetterContentProps> = (props) => (
+  <>
+    {props.firstName} {props.lastName}
+  </>
+);
+
+const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
+  /*
+   * We originally had a <br> in this <h1>, but React self-closes the
+   * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
+   * include an actual newline and set the style to preserve whitespace.
+   */
+  <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
+    <span className="is-uppercase">Notice of non-payment of rent</span>
+    {"\n"}
+    at {props.street}, {props.city}, {props.state} {props.zipCode}
+  </h1>
+);
+
+const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
+  <dl className="jf-letter-heading">
+    <dt>To</dt>
+    <dd>
+      <LandlordName {...props} />
+      <br />
+      {props.landlordPrimaryLine}
+      <br />
+      {props.landlordCity}, {props.landlordState} {props.landlordZipCode}
+    </dd>
+    <dt>From</dt>
+    <dd>
+      <FullName {...props} />
+      <br />
+      {props.street}
+      <br />
+      {props.city}, {props.state} {props.zipCode}
+      <br />
+      {formatPhoneNumber(props.phoneNumber)}
+      <br />
+      {props.email}
+    </dd>
+  </dl>
+);
+
+const TenantProtections: React.FC<{}> = () => (
+  <>
+    <p>
+      Tenants impacted by the COVID-19 crisis are protected from eviction for
+      nonpayment per emergency declaration(s) from:
+    </p>
+    <ul>
+      <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
+    </ul>
+  </>
+);
+
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
 ) => {
-  const landlordName = props.landlordName.toUpperCase();
   const nonpayStartDate = friendlyDate(new Date(NONPAY_START_DATE));
-  const fullName = `${props.firstName} ${props.lastName}`;
 
   return (
     <>
-      {/*
-       * We originally had a <br> in this <h1>, but React self-closes the
-       * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
-       * include an actual newline and set the style to preserve whitespace.
-       */}
-      <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
-        <span className="is-uppercase">Notice of non-payment of rent</span>
-        {"\n"}
-        at {props.street}, {props.city}, {props.state} {props.zipCode}
-      </h1>
-
+      <LetterTitle {...props} />
       <p className="has-text-right">{friendlyDate(new Date())}</p>
-
-      <dl className="jf-letter-heading">
-        <dt>To</dt>
-        <dd>
-          {landlordName}
-          <br />
-          {props.landlordPrimaryLine}
-          <br />
-          {props.landlordCity}, {props.landlordState} {props.landlordZipCode}
-        </dd>
-        <dt>From</dt>
-        <dd>
-          {fullName}
-          <br />
-          {props.street}
-          <br />
-          {props.city}, {props.state} {props.zipCode}
-          <br />
-          {formatPhoneNumber(props.phoneNumber)}
-          <br />
-          {props.email}
-        </dd>
-      </dl>
-
-      <p>Dear {landlordName},</p>
-
+      <LetterHeading {...props} />
+      <p>
+        Dear <LandlordName {...props} />,
+      </p>
       <p>
         This letter is to notify you that I will be unable to pay rent starting
         on {nonpayStartDate} and until further notice due to loss of income,
         increased expenses, and/or other financial circumstances related to
         COVID-19.
       </p>
-
+      <TenantProtections />
+      <p>
+        In order to document our communication and to avoid misunderstandings,
+        please reply to me via email or text rather than a call or visit.
+      </p>
       <p>Thank you for your understanding and cooperation.</p>
-
       <p className="jf-signature">
         Regards,
         <br />
         <br />
-        {fullName}
+        <FullName {...props} />
       </p>
     </>
   );

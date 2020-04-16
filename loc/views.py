@@ -29,6 +29,8 @@ LOC_FONTS_PATH_PARTS = ['loc', 'loc-fonts.css']
 
 LOC_FONTS_CSS = MY_STATIC_DIR.joinpath(*LOC_FONTS_PATH_PARTS)
 
+LOC_PREVIEW_STYLES_PATH_PARTS = ['loc', 'loc-preview-styles.css']
+
 
 def can_we_render_pdfs():
     try:
@@ -207,6 +209,7 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
             'is_pdf': False,
             'stylesheet_path': '/'.join(PDF_STYLES_PATH_PARTS),
             'fonts_stylesheet_path': '/'.join(LOC_FONTS_PATH_PARTS),
+            'preview_stylesheet_path': '/'.join(LOC_PREVIEW_STYLES_PATH_PARTS),
         })
         return HttpResponse(html)
 

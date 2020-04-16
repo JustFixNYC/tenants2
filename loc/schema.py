@@ -175,6 +175,6 @@ class LocQueries:
             html_css_urls=[
                 staticfiles_storage.url('/'.join(views.LOC_FONTS_PATH_PARTS)),
                 staticfiles_storage.url('/'.join(views.PDF_STYLES_PATH_PARTS)),
-                staticfiles_storage.url('loc/loc-preview-styles.css'),
+                staticfiles_storage.url('/'.join(views.LOC_PREVIEW_STYLES_PATH_PARTS)),
             ]
         )

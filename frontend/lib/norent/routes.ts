@@ -1,5 +1,6 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
+import { createLetterStaticPageRouteInfo } from "../letter-static-page";
 
 function createNoRentLetterRouteInfo(prefix: string) {
   return {
@@ -15,11 +16,11 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
+    /** The actual letter content (HTML and PDF versions). */
+    letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
+
+    /** The letter builder. */
     letter: createNoRentLetterRouteInfo(`${prefix}/letter`),
-
-    letterHtml: `${prefix}/letter.html`,
-
-    letterPdf: `${prefix}/letter.pdf`,
   };
 }
 

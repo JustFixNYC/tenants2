@@ -45,5 +45,3 @@ export const NorentLetterStaticPage: React.FC<{ isPdf?: boolean }> = ({
     />
   );
 };
-
-export const NorentLetterStaticPdfPage = () => <NorentLetterStaticPage isPdf />;

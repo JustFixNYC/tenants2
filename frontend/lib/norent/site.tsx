@@ -16,9 +16,9 @@ import { AppContext } from "../app-context";
 import { NorentFooter } from "./components/footer";
 import {
   NorentLetterStaticPage,
-  NorentLetterStaticPdfPage,
 } from "./letter-content";
 import Navbar from "../ui/navbar";
+import { createLetterStaticPageRoutes } from "../letter-static-page";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -36,16 +36,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         path={Routes.locale.letter.prefix}
         component={NorentLetterRoutes}
       />
-      <Route
-        path={Routes.locale.letterHtml}
-        exact
-        component={NorentLetterStaticPage}
-      />
-      <Route
-        path={Routes.locale.letterPdf}
-        exact
-        component={NorentLetterStaticPdfPage}
-      />
+      {createLetterStaticPageRoutes(Routes.locale.letterContent, isPdf => <NorentLetterStaticPage isPdf={isPdf} />)}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>

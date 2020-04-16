@@ -1,0 +1,6 @@
+query NorentLetterContentQuery {
+  letterStyles {
+    inlinePdfCss,
+    htmlCssUrls
+  }
+}

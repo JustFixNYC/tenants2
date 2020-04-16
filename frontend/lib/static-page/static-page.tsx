@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { getAppStaticContext } from "./app-static-context";
+import { getAppStaticContext } from "../app-static-context";
+import { LambdaResponseHttpHeaders } from "../../lambda/lambda";
 
-export type StaticPageProps = { children: JSX.Element };
+export type StaticPageProps = {
+  httpHeaders?: LambdaResponseHttpHeaders;
+  children: JSX.Element;
+};
 
 /**
  * A <StaticPage> represents a web page of completely self-contained HTML
@@ -37,6 +41,9 @@ export const StaticPage = withRouter(
     const staticCtx = getAppStaticContext(props);
     if (staticCtx) {
       staticCtx.staticContent = props.children;
+      if (props.httpHeaders) {
+        Object.assign(staticCtx.httpHeaders, props.httpHeaders);
+      }
     }
     return null;
   }

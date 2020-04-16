@@ -1,4 +1,5 @@
 import { StaticRouterContext, RouteComponentProps } from "react-router";
+import { LambdaResponseHttpHeaders } from "../lambda/lambda";
 
 /**
  * This structure keeps track of anything we need during server-side
@@ -18,6 +19,12 @@ export interface AppStaticContext {
 
   /** The modal to render server-side, if any. */
   modal?: JSX.Element;
+
+  /**
+   * Extra HTTP headers to add to the HTTP response for this page. Only
+   * applies when `isStaticContent` is true.
+   */
+  httpHeaders: LambdaResponseHttpHeaders;
 
   /**
    * The static content to render server-side, if any. If provided, it

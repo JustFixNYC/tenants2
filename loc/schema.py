@@ -2,13 +2,14 @@ from typing import List
 from graphql import ResolveInfo
 import graphene
 from graphene_django.types import DjangoObjectType
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project.util.site_util import get_site_name
 from project import slack, schema_registry, common_data
-from . import forms, models, email_letter
+from . import forms, models, email_letter, views
 from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
@@ -156,3 +157,38 @@ class LocSessionInfo:
         if not user.is_authenticated:
             return []
         return models.AccessDate.objects.get_for_user(user)
+
+
+class LetterStyles(graphene.ObjectType):
+    inline_pdf_css = graphene.String(
+        required=True,
+        description="Inline CSS to embed when generating PDFs from HTML."
+    )
+
+    html_css_urls = graphene.List(
+        graphene.NonNull(graphene.String),
+        required=True,
+        description=(
+            "A list of stylesheet URLs to include in the HTML version "
+            "of a letter."
+        )
+    )
+
+
+@schema_registry.register_queries
+class LocQueries:
+    letter_styles = graphene.Field(
+        LetterStyles,
+        required=True,
+        description="Details about CSS styling for business letters."
+    )
+
+    def resolve_letter_styles(self, info: ResolveInfo):
+        return LetterStyles(
+            inline_pdf_css=views.PDF_STYLES_CSS.read_text(),
+            html_css_urls=[
+                staticfiles_storage.url('/'.join(views.LOC_FONTS_PATH_PARTS)),
+                staticfiles_storage.url('/'.join(views.PDF_STYLES_PATH_PARTS)),
+                staticfiles_storage.url('/'.join(views.LOC_PREVIEW_STYLES_PATH_PARTS)),
+            ]
+        )

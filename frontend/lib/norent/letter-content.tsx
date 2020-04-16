@@ -9,22 +9,28 @@ import { AllSessionInfo_norentScaffolding } from "../queries/AllSessionInfo";
 import { friendlyDate } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
-type NorentInfo = AllSessionInfo_norentScaffolding;
+// TODO: This is temporary, it should be passed in as a prop.
+const NONPAY_START_DATE = "2020-05-01T15:41:37.114Z";
 
-const LetterContent: React.FC<NorentInfo> = (props) => {
+export type NorentLetterContentProps = AllSessionInfo_norentScaffolding;
+
+export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
+  props
+) => {
   const landlordName = props.landlordName.toUpperCase();
-  const nonpayStartDate = friendlyDate(new Date("2020-05-01T15:41:37.114Z"));
+  const nonpayStartDate = friendlyDate(new Date(NONPAY_START_DATE));
   const fullName = `${props.firstName} ${props.lastName}`;
 
   return (
     <>
       {/*
-        * We originally had a <br> in this <h1>, but React self-closes the
-        * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
-        * include an actual newline and set the style to preserve whitespace.
-        */}
-      <h1 className="has-text-right" style={{whiteSpace: 'pre'}}>
-        <span className="is-uppercase">Notice of non-payment of rent</span>{"\n"}
+       * We originally had a <br> in this <h1>, but React self-closes the
+       * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
+       * include an actual newline and set the style to preserve whitespace.
+       */}
+      <h1 className="has-text-right" style={{ whiteSpace: "pre" }}>
+        <span className="is-uppercase">Notice of non-payment of rent</span>
+        {"\n"}
         at {props.street}, {props.city}, {props.state} {props.zipCode}
       </h1>
 
@@ -93,7 +99,7 @@ export const NorentLetterStaticPage: React.FC<{ isPdf?: boolean }> = ({
             isPdf={isPdf}
             css={output.letterStyles}
           >
-            <LetterContent {...norentScaffolding} />
+            <NorentLetterContent {...norentScaffolding} />
           </LetterStaticPage>
         );
       }}

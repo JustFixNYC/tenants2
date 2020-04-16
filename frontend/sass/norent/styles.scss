@@ -11,6 +11,7 @@ $jf-title-weight: 900;
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
 @import "../../../node_modules/bulma/bulma.sass";
+@import "../../../node_modules/bulma-divider/dist/css/bulma-divider.sass";
 @import "../_supertiny.scss";
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
@@ -120,7 +121,7 @@ body {
 }
 
 .jf-has-text-centered-tablet {
-  @include from($tablet) {
+  @include tablet {
     text-align: center;
   }
 }
@@ -147,10 +148,12 @@ body {
   }
 }
 
+$norent-sticky-menu-height: 100px;
+
 .jf-sticky-button-menu {
   position: sticky;
-  height: 100px;
-  top: calc(100vh - 100px);
+  height: $norent-sticky-menu-height;
+  top: calc(100vh - #{$norent-sticky-menu-height});
   width: 100%;
   z-index: 1000;
   padding: 1rem;
@@ -160,7 +163,7 @@ body {
 .jf-illustration-fist-pump {
   width: 200px;
   height: 200px;
-  @media screen and (max-width: $tablet) {
+  @include mobile {
     width: 128px;
     height: 128px;
   }
@@ -183,7 +186,7 @@ body {
 
 .jf-letter-preview-container {
   padding-bottom: 0;
-  @media screen and (max-width: $tablet) {
+  @include mobile {
     .message .message-body {
       padding: 1.5rem;
     }
@@ -205,13 +208,54 @@ body {
 
 .jf-how-it-works-container {
   .column {
-    @media screen and (max-width: $tablet) {
+    @include mobile {
       // Make divs in column line up side by side on mobile
       display: flex;
       figure {
         width: 64px;
         height: 64px;
         margin: 0.5rem 1.5rem 0 0;
+      }
+    }
+  }
+}
+
+.jf-faqs-preview {
+  // Allow extra padding to make room for sticky menu on mobile:
+  @include mobile {
+    padding-bottom: $norent-sticky-menu-height;
+  }
+}
+
+.jf-accordion-item {
+  &:not(:last-child) {
+    border-bottom: 0.3px solid #828282ee;
+  }
+
+  details {
+    // Initially tried adding margins, but since we include a focus outline around the
+    // summary element, I translated those into padding instead for a better look
+    p,
+    summary {
+      padding: 1rem;
+    }
+    summary {
+      display: flex;
+      // Remove default marker
+      &::-webkit-details-marker {
+        display: none;
+      }
+      &:focus {
+        @include outline-focus();
+      }
+      div.title {
+        margin: 0 2rem 0 0;
+      }
+      div:not(.title) {
+        margin-left: auto;
+        figure.image {
+          margin: 0 1rem auto auto;
+        }
       }
     }
   }

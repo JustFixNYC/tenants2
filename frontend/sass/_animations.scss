@@ -67,3 +67,18 @@ div.jf-is-transitioning-out {
     transform: translateY(0);
   }
 }
+
+// Default animation for detail/summary expandables.
+// Inspired by https://stackoverflow.com/questions/38213329/how-to-add-css3-transition-with-html5-details-summary-tag-reveal/38215801
+details[open] summary ~ * {
+  animation: sweep 0.5s ease-in-out;
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

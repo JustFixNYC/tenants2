@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AppSiteProps } from "../app";
-import { NorentRoutes as Routes, NorentRoutes } from "./routes";
+import { NorentRoutes as Routes } from "./routes";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomePage } from "./homepage";

@@ -52,7 +52,7 @@ export const NorentFaqsPreview = () => {
   return (
     <div className="jf-space-below-2rem">
       {FaqsContent.map((faq, i) => (
-        <div className="jf-accordian-item jf-space-below-2rem" key={i}>
+        <div className="jf-accordion-item jf-space-below-2rem" key={i}>
           <details className="has-text-left jf-space-below-2rem">
             <summary>
               <div className="title is-size-5 has-text-dark">{faq[0]}</div>

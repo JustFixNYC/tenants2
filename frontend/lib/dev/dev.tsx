@@ -16,6 +16,7 @@ import {
 } from "./example-form-page";
 import { StyleGuide } from "./style-guide";
 import { ExampleStaticPage } from "./example-static-page";
+import { ExampleStaticPagePDF } from "./example-static-page-pdf";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -172,6 +173,11 @@ export default function DevRoutes(): JSX.Element {
         path={dev.examples.staticPage}
         exact
         component={ExampleStaticPage}
+      />
+      <Route
+        path={dev.examples.staticPagePdf}
+        exact
+        component={ExampleStaticPagePDF}
       />
     </Switch>
   );

@@ -243,8 +243,8 @@ def get_webpack_public_path_url() -> str:
 
 def render_lambda_static_content(lr: LambdaResponse):
     html = "<!DOCTYPE html>" + lr.html
-    ctype = lr.http_headers.get('Content-Type', 'text/html')
-    if ctype == 'text/html':
+    ctype = lr.http_headers.get('Content-Type')
+    if ctype is None:
         res = HttpResponse(html, status=lr.status)
     elif ctype == 'application/pdf':
         from loc.views import pdf_response

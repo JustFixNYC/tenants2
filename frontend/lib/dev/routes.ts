@@ -23,6 +23,7 @@ export function createDevRouteInfo(prefix: string) {
       metaTag: `${prefix}/examples/meta-tag`,
       query: `${prefix}/examples/query`,
       staticPage: `${prefix}/examples/static-page`,
+      staticPagePdf: `${prefix}/examples/static-page.pdf`,
     },
   };
 }

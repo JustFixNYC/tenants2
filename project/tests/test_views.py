@@ -139,6 +139,7 @@ def test_pages_with_redirects_work(client):
 def test_static_pages_work(client):
     response = client.get('/dev/examples/static-page')
     assert response.status_code == 200
+    assert response['content-type'] == 'text/html; charset=utf-8'
     assert response.content.decode("utf-8") == (
         '<!DOCTYPE html>'
         '<html><meta charSet="utf-8"/>'
@@ -146,6 +147,12 @@ def test_static_pages_work(client):
         '<p>Hello, this is an example static page\u2026</p>'
         '</html>'
     )
+
+
+def test_static_pdf_pages_work(client):
+    response = client.get('/dev/examples/static-page.pdf')
+    assert response.status_code == 200
+    assert response['content-type'] == 'application/pdf'
 
 
 def test_pages_with_extra_bundles_work(client):

@@ -26,7 +26,6 @@ const PDF_HEADERS: LambdaResponseHttpHeaders = {
 };
 
 const HTML_HEADERS: LambdaResponseHttpHeaders = {
-  "Content-Type": "text/html",
   "X-Frame-Options": "SAMEORIGIN",
 };
 

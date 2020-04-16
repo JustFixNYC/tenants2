@@ -14,7 +14,7 @@ type LetterStylesProps = {
 
 const LetterStyles: React.FC<LetterStylesProps> = ({ css, isPdf }) =>
   isPdf ? (
-    <style children={css.inlinePdfCss} />
+    <style dangerouslySetInnerHTML={{__html: css.inlinePdfCss}} />
   ) : (
     <>
       {css.htmlCssUrls.map((url, i) => [<link rel="stylesheet" href={url} />])}

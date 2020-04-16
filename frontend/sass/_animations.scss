@@ -68,7 +68,7 @@ div.jf-is-transitioning-out {
   }
 }
 
-// Default animation for detail/summary expand icons:
+// Default animation for details/summary expand icons:
 details[open] summary figure {
   transition: transform 0.2s linear;
   transform: rotateX(180deg) translateY(-3px);

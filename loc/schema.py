@@ -160,14 +160,28 @@ class LocSessionInfo:
 
 
 class LetterStyles(graphene.ObjectType):
-    inline_pdf_css = graphene.String(required=True)
+    inline_pdf_css = graphene.String(
+        required=True,
+        description="Inline CSS to embed when generating PDFs from HTML."
+    )
 
-    html_css_urls = graphene.List(graphene.NonNull(graphene.String), required=True)
+    html_css_urls = graphene.List(
+        graphene.NonNull(graphene.String),
+        required=True,
+        description=(
+            "A list of stylesheet URLs to include in the HTML version "
+            "of a letter."
+        )
+    )
 
 
 @schema_registry.register_queries
 class LocQueries:
-    letter_styles = graphene.Field(LetterStyles, required=True)
+    letter_styles = graphene.Field(
+        LetterStyles,
+        required=True,
+        description="Details about CSS styling for business letters."
+    )
 
     def resolve_letter_styles(self, info: ResolveInfo):
         return LetterStyles(

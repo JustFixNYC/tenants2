@@ -282,7 +282,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Details about CSS styling for business letters.",
               "isDeprecated": false,
               "name": "letterStyles",
               "type": {
@@ -1775,7 +1775,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Inline CSS to embed when generating PDFs from HTML.",
               "isDeprecated": false,
               "name": "inlinePdfCss",
               "type": {
@@ -1791,7 +1791,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "A list of stylesheet URLs to include in the HTML version of a letter.",
               "isDeprecated": false,
               "name": "htmlCssUrls",
               "type": {

@@ -121,7 +121,7 @@ body {
 }
 
 .jf-has-text-centered-tablet {
-  @include from($tablet) {
+  @include tablet {
     text-align: center;
   }
 }
@@ -163,7 +163,7 @@ $norent-sticky-menu-height: 100px;
 .jf-illustration-fist-pump {
   width: 200px;
   height: 200px;
-  @media screen and (max-width: $tablet) {
+  @include mobile {
     width: 128px;
     height: 128px;
   }
@@ -186,7 +186,7 @@ $norent-sticky-menu-height: 100px;
 
 .jf-letter-preview-container {
   padding-bottom: 0;
-  @media screen and (max-width: $tablet) {
+  @include mobile {
     .message .message-body {
       padding: 1.5rem;
     }
@@ -208,7 +208,7 @@ $norent-sticky-menu-height: 100px;
 
 .jf-how-it-works-container {
   .column {
-    @media screen and (max-width: $tablet) {
+    @include mobile {
       // Make divs in column line up side by side on mobile
       display: flex;
       figure {
@@ -222,7 +222,7 @@ $norent-sticky-menu-height: 100px;
 
 .jf-faqs-preview {
   // Allow extra padding to make room for sticky menu on mobile:
-  @media screen and (max-width: $tablet) {
+  @include mobile {
     padding-bottom: $norent-sticky-menu-height;
   }
 }

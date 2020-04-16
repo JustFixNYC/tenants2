@@ -361,3 +361,19 @@ def test_relief_attempts_form_saves_data_to_db(db, graphql_client):
     oi.refresh_from_db()
     assert result['errors'] == []
     assert oi.has_called_311 is True
+
+
+def test_letter_styles_works(graphql_client):
+    res = graphql_client.execute(
+        '''
+        query {
+            letterStyles { inlinePdfCss, htmlCssUrls }
+        }
+        '''
+    )['data']['letterStyles']
+    assert '@page' in res['inlinePdfCss']
+    assert res['htmlCssUrls'] == [
+        '/static/loc/loc-fonts.css',
+        '/static/loc/pdf-styles.css',
+        '/static/loc/loc-preview-styles.css'
+    ]

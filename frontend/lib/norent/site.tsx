@@ -14,6 +14,10 @@ import classnames from "classnames";
 import { NorentLetterRoutes } from "./letter-builder";
 import { AppContext } from "../app-context";
 import { NorentFooter } from "./components/footer";
+import {
+  NorentLetterStaticPage,
+  NorentLetterStaticPdfPage,
+} from "./letter-content";
 import Navbar from "../ui/navbar";
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
@@ -31,6 +35,16 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       <Route
         path={Routes.locale.letter.prefix}
         component={NorentLetterRoutes}
+      />
+      <Route
+        path={Routes.locale.letterHtml}
+        exact
+        component={NorentLetterStaticPage}
+      />
+      <Route
+        path={Routes.locale.letterPdf}
+        exact
+        component={NorentLetterStaticPdfPage}
       />
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />

@@ -32,6 +32,14 @@ import { serveLambdaOverHttp, serveLambdaOverStdio } from "./lambda-io";
 import { setGlobalAppServerInfo } from "../lib/app-context";
 
 /**
+ * Valid HTTP headers to add to lambda responses.
+ */
+export type LambdaResponseHttpHeaders = {
+  "Content-Type"?: "text/html" | "application/pdf";
+  "X-Frame-Options"?: "SAMEORIGIN" | "DENY";
+};
+
+/**
  * This is the structure that our lambda returns to clients.
  */
 export interface LambdaResponse {
@@ -44,6 +52,12 @@ export interface LambdaResponse {
    * enhanced in any way.
    */
   isStaticContent: boolean;
+
+  /**
+   * Extra HTTP headers to add to the HTTP response for this page. Only
+   * applies when `isStaticContent` is true.
+   */
+  httpHeaders: LambdaResponseHttpHeaders;
 
   /** The <title> tag for the initial render of the page. */
   titleTag: string;
@@ -148,6 +162,7 @@ function generateResponse(event: AppProps): LambdaResponse {
 
   const context: AppStaticContext = {
     statusCode: 200,
+    httpHeaders: {},
   };
   const extractor = new ChunkExtractor({
     statsFile: path.join(
@@ -178,6 +193,7 @@ function generateResponse(event: AppProps): LambdaResponse {
   return {
     html,
     isStaticContent,
+    httpHeaders: context.httpHeaders,
     titleTag: helmet.title.toString(),
     metaTags: helmet.meta.toString(),
     scriptTags: extractor.getScriptTags(),
@@ -227,6 +243,7 @@ export function errorCatchingHandler(event: EventProps): LambdaResponse {
     return {
       html,
       isStaticContent: false,
+      httpHeaders: {},
       titleTag: helmet.title.toString(),
       metaTags: helmet.meta.toString(),
       scriptTags: "",

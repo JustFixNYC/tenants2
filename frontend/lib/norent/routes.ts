@@ -16,6 +16,10 @@ function createLocalizedRouteInfo(prefix: string) {
     home: `${prefix}/`,
 
     letter: createNoRentLetterRouteInfo(`${prefix}/letter`),
+
+    letterHtml: `${prefix}/letter.html`,
+
+    letterPdf: `${prefix}/letter.pdf`,
   };
 }
 

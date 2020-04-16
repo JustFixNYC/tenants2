@@ -38,7 +38,7 @@ def can_we_render_pdfs():
     return True
 
 
-def pdf_response(html: str, filename: str):
+def pdf_response(html: str, filename: str = ''):
     import weasyprint
     from weasyprint.fonts import FontConfiguration
 

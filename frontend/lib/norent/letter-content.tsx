@@ -18,9 +18,13 @@ const LetterContent: React.FC<NorentInfo> = (props) => {
 
   return (
     <>
-      <h1 className="has-text-right">
-        <span className="is-uppercase">Notice of non-payment of rent</span>
-        <br />
+      {/*
+        * We originally had a <br> in this <h1>, but React self-closes the
+        * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
+        * include an actual newline and set the style to preserve whitespace.
+        */}
+      <h1 className="has-text-right" style={{whiteSpace: 'pre'}}>
+        <span className="is-uppercase">Notice of non-payment of rent</span>{"\n"}
         at {props.street}, {props.city}, {props.state} {props.zipCode}
       </h1>
 

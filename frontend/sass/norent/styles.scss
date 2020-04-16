@@ -148,10 +148,12 @@ body {
   }
 }
 
+$norent-sticky-menu-height: 100px;
+
 .jf-sticky-button-menu {
   position: sticky;
-  height: 100px;
-  top: calc(100vh - 100px);
+  height: $norent-sticky-menu-height;
+  top: calc(100vh - #{$norent-sticky-menu-height});
   width: 100%;
   z-index: 1000;
   padding: 1rem;
@@ -215,6 +217,13 @@ body {
         margin: 0.5rem 1.5rem 0 0;
       }
     }
+  }
+}
+
+.jf-faqs-preview {
+  // Allow extra padding to make room for sticky menu on mobile:
+  @media screen and (max-width: $tablet) {
+    padding-bottom: $norent-sticky-menu-height;
   }
 }
 

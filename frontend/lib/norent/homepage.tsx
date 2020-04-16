@@ -330,7 +330,7 @@ export const NorentHomepage: React.FC<{}> = () => (
         </div>
       </section>
 
-      <section className="hero">
+      <section className="hero jf-faqs-preview">
         <div className="hero-body">
           <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
             <h3 className="is-spaced has-text-weight-normal">

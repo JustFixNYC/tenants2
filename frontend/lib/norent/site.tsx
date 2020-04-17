@@ -21,7 +21,7 @@ import {
 import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
-import { NorentAboutPage } from "./about";
+import { NorentInfoPage } from "./info";
 import { NorentAboutYourLetterPage } from "./about-your-letter";
 
 const ROUTES_FOR_PRIMARY_PAGES = [
@@ -44,7 +44,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomePage} />
       <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
-      <Route path={Routes.locale.info} exact component={NorentAboutPage} />
+      <Route path={Routes.locale.info} exact component={NorentInfoPage} />
       <Route
         path={Routes.locale.aboutLetter}
         exact

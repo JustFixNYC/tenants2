@@ -88,19 +88,17 @@ const partnerLogoItems = [
   ["Legal Services NYC", "lsnyc"],
 ];
 
-const LandingPagePartnerLogos = () => (
-  <div className="container jf-wide-container">
-    <div className="columns is-mobile is-multiline is-variable is-8-desktop">
-      {partnerLogoItems.map((partnerDetails, i) => (
-        <div className="column is-one-fourth jf-has-centered-images" key={i}>
-          <StaticImage
-            ratio="is-128x128"
-            src={getImageSrc(partnerDetails[1], "png")}
-            alt={partnerDetails[0]}
-          />
-        </div>
-      ))}
-    </div>
+export const LandingPagePartnerLogos = () => (
+  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
+    {partnerLogoItems.map((partnerDetails, i) => (
+      <div className="column is-one-fourth jf-has-centered-images" key={i}>
+        <StaticImage
+          ratio="is-128x128"
+          src={getImageSrc(partnerDetails[1], "png")}
+          alt={partnerDetails[0]}
+        />
+      </div>
+    ))}
   </div>
 );
 
@@ -316,7 +314,9 @@ export const NorentHomePage: React.FC<{}> = () => (
             </p>
             <br />
           </div>
-          <LandingPagePartnerLogos />
+          <div className="container jf-wide-container">
+            <LandingPagePartnerLogos />
+          </div>
         </div>
       </section>
 

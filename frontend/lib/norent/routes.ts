@@ -20,10 +20,10 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The FAQs page. */
     faqs: `${prefix}/faqs`,
 
-    /** The About page. */
+    /** The Information page. */
     info: `${prefix}/info`,
 
-    /** The introductory page explaining the letter building process in more detail. */
+    /** The "About Your Letter" page explaining the letter building process in more detail. */
     aboutLetter: `${prefix}/about-your-letter`,
 
     /** The letter content for the user's own data (HTML and PDF versions). */

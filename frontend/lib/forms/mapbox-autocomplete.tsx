@@ -109,7 +109,11 @@ export const mapboxCityAutocompleteHelpers: SearchAutocompleteHelpers<
     return [item.city, item.stateCode].join("_");
   },
   itemToString(item) {
-    return item ? `${item.city}, ${item.stateName}` : "";
+    return item
+      ? item.stateName
+        ? `${item.city}, ${item.stateName}`
+        : item.city
+      : "";
   },
   searchResultsToItems(results) {
     const items: MapboxCityItem[] = [];

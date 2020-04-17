@@ -24,6 +24,7 @@
 @import "./_buttons.scss";
 @import "./_big-list.scss";
 @import "./_animations.scss";
+@import "./_letter-preview.scss";
 
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
@@ -54,22 +55,6 @@ body > #prerendered-modal ~ .safe-mode-disable {
 
 .title.jf-page-steps-title {
   margin-bottom: 0.5em;
-}
-
-.jf-loc-preview.box {
-  padding: 8px;
-}
-
-.jf-loc-preview iframe[scrolling="no"] {
-  display: block;
-  width: 100%;
-  // Note that the enclosed document inside the IFRAME needs to
-  // have this max-height set; all scrolling will actually be
-  // part of the enclosing document, rather than the IFRAME
-  // wrapper, to work around the unusual behavior of iOS to
-  // always set IFRAME dimensions to the contents of their
-  // document.
-  height: 300px;
 }
 
 // This is used to "glue" content together, so that e.g. an icon doesn't

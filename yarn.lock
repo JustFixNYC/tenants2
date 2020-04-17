@@ -1205,10 +1205,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@justfixnyc/geosearch-requester@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-0.0.4.tgz#1d31d52af1e06df2de27a38068dc146fe3e3ee27"
-  integrity sha512-hJ/yt8kEzt0c7W28HIlzIXbTjlF9DYAAnYzYCh78EejVglGVcSruYa6BjUQFaD87jlb/ldBdg6UJRi9i19+CBw==
+"@justfixnyc/geosearch-requester@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-0.1.0.tgz#3cd694907c3b5cb217f4ad34cb7dc16abc6d27e3"
+  integrity sha512-1Fz0RVG4mnxr2ItYI9KuXPku5RMndJSo/v1OMJZLWTRTHGkB6EjK4E3m3JSZ6Ai7GgQUhWsY8b0fKARMe0mKtw==
 
 "@justfixnyc/react-aria-modal@5.1.0":
   version "5.1.0"

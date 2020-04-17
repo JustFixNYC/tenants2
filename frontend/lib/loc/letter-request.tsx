@@ -15,6 +15,7 @@ import { Modal, BackOrUpOneDirLevel, ModalLink } from "../ui/modal";
 import { HiddenFormField } from "../forms/form-fields";
 import { BulmaClassName } from "../ui/bulma";
 import { MiddleProgressStep } from "../progress/progress-step-route";
+import { LetterPreview } from "../static-page/letter-preview";
 
 const UNKNOWN_LANDLORD = { name: "", address: "" };
 
@@ -86,14 +87,11 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
   );
 }
 
-const LetterPreview = withAppContext((props) => (
-  <div className="box has-text-centered jf-loc-preview">
-    <iframe
-      scrolling="no"
-      title="Preview of your letter of complaint"
-      src={`${props.server.locHtmlURL}?live_preview=on`}
-    ></iframe>
-  </div>
+const LocPreview = withAppContext((props) => (
+  <LetterPreview
+    title="Preview of your letter of complaint"
+    src={`${props.server.locHtmlURL}?live_preview=on`}
+  />
 ));
 
 const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
@@ -104,7 +102,7 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
         Here is a preview of the letter for you to review. It includes the
         repair issues you selected from the Issue Checklist.
       </p>
-      <LetterPreview />
+      <LocPreview />
       <div className="has-text-centered is-grouped">
         <ModalLink
           to={Routes.locale.loc.previewSendConfirmModal}

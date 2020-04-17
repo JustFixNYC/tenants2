@@ -10,6 +10,8 @@ import {
 import { NorentFaqsPreview } from "./faqs";
 import { StaticImage } from "../ui/static-image";
 import { LetterPreview } from "../static-page/letter-preview";
+import Routes from "../routes";
+import { NorentRoutes } from "./routes";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
   <Page title="About Your Letter" className="content">
@@ -29,7 +31,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <JumpArrow to="#more-info" />
+        <JumpArrow to="#more-info" altText="Learn more" />
       </div>
     </section>
 
@@ -83,7 +85,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
             <br />
             <LetterPreview
               title="Preview of your NoRent.org letter"
-              src="/sample-letter.html"
+              src={NorentRoutes.locale.sampleLetterContent.html}
             />
           </div>
         </div>

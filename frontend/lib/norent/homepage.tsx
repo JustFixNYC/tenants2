@@ -15,12 +15,12 @@ export function getImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
 }
 
-export const JumpArrow = (props: { to: string }) => (
+export const JumpArrow = (props: { to: string; altText: string }) => (
   <Link to={props.to} className="jf-jump-arrow">
     <StaticImage
       ratio="is-32x32"
       src={getImageSrc("downarrow")}
-      alt="Explore the tool"
+      alt={props.altText}
     />
   </Link>
 );
@@ -136,7 +136,7 @@ export const NorentHomePage: React.FC<{}> = () => (
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <JumpArrow to="#more-info" />
+        <JumpArrow to="#more-info" altText="Explore the tool" />
       </div>
     </section>
 

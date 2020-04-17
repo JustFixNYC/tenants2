@@ -22,9 +22,15 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
     <div className="jf-accordion-item jf-space-below-2rem" key={i}>
       <details className="has-text-left jf-space-below-2rem">
         <summary>
-          <div className="title is-size-5 has-text-dark">{faq.question}</div>
-          <div>
-            <ChevronIcon />
+          <div className="media">
+            <div className="media-content">
+              <span className="title is-size-5 has-text-dark">
+                {faq.question}
+              </span>
+            </div>
+            <div className="media-right">
+              <ChevronIcon />
+            </div>
           </div>
         </summary>
         {isPreview ? faq.answerPreview : faq.answerFull}

@@ -46,11 +46,11 @@ export const NorentFooter: React.FC<{}> = () => (
           <EmailSignupForm />
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
-          {/* Will replace when we have site scaffolding ready. */}
-          <Link to={Routes.locale.letter.latestStep}>About your letter</Link>
+          <Link to={Routes.locale.aboutLetter}>About your letter</Link>
+          {/* Will replace when we have log in page ready. */}
           <Link to={Routes.locale.home}>Log in</Link>
-          <Link to={Routes.locale.home}>Faqs</Link>
-          <Link to={Routes.locale.home}>Information</Link>
+          <Link to={Routes.locale.faqs}>Faqs</Link>
+          <Link to={Routes.locale.info}>Information</Link>
           <a href="https://www.justfix.nyc/privacy-policy">Privacy policy</a>
           <a href="https://www.justfix.nyc/terms-of-use">Terms of use</a>
         </div>

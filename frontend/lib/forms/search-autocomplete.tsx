@@ -55,10 +55,40 @@ export interface SearchAutocompleteProps<Item, SearchResults>
   initialValue?: Item;
   onChange: (item: Item) => void;
   onNetworkError: (err: Error) => void;
+
+  /**
+   * A constructor to create a `SearchRequester` for our particular
+   * kind of search result.
+   */
   searchRequesterClass: SearchRequesterConstructor<SearchResults>;
+
+  /**
+   * Convert an autocomplete item into a `key` prop, used when listing
+   * autocomplete results.
+   */
   itemToKey: (item: Item) => any;
+
+  /**
+   * Convert an autocomplete item to a string, used when listing
+   * and comparing autocomplete results.
+   */
   itemToString: (item: Item | null) => string;
+
+  /**
+   * If what the user has typed so far doesn't map to a current
+   * item in the autocomplete list, this converts it to an item
+   * that at least preserves what the user has typed.
+   *
+   * This is basically a fallback to ensure that the user's input isn't lost if
+   * they are typing and happen to (intentionally or accidentally) do something
+   * that causes the autocomplete to lose focus.
+   */
   getIncompleteItem: (value: string | null) => Item;
+
+  /**
+   * A function that converts what the search API has returned into
+   * a list of autocomplete items.
+   */
   searchResultsToItems: (results: SearchResults) => Item[];
 }
 
@@ -82,7 +112,7 @@ interface SearchRequesterConstructor<SearchResults> {
 }
 
 /**
- * An address autocomplete field. This should only be used as a
+ * A generic search autocomplete field. This should only be used as a
  * progressive enhancement, since it requires JavaScript and uses
  * a third-party API that might become unavailable.
  */

@@ -48,7 +48,7 @@ type GeoAutocompleteProps = Omit<
 const MAX_SUGGESTIONS = 5;
 
 /**
- * An address autocomplete field. This should only be used as a
+ * A NYC address autocomplete field. This should only be used as a
  * progressive enhancement, since it requires JavaScript and uses
  * a third-party API that might become unavailable.
  */

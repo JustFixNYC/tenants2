@@ -14,7 +14,10 @@ import classnames from "classnames";
 import { NorentLetterRoutes } from "./letter-builder";
 import { AppContext } from "../app-context";
 import { NorentFooter } from "./components/footer";
-import { NorentLetterForUserStaticPage, NorentSampleLetterSamplePage } from "./letter-content";
+import {
+  NorentLetterForUserStaticPage,
+  NorentSampleLetterSamplePage,
+} from "./letter-content";
 import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 
@@ -37,9 +40,12 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       {createLetterStaticPageRoutes(Routes.locale.letterContent, (isPdf) => (
         <NorentLetterForUserStaticPage isPdf={isPdf} />
       ))}
-      {createLetterStaticPageRoutes(Routes.locale.sampleLetterContent, (isPdf) => (
-        <NorentSampleLetterSamplePage isPdf={isPdf} />
-      ))}
+      {createLetterStaticPageRoutes(
+        Routes.locale.sampleLetterContent,
+        (isPdf) => (
+          <NorentSampleLetterSamplePage isPdf={isPdf} />
+        )
+      )}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>

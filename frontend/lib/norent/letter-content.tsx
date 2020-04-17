@@ -109,23 +109,21 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   );
 };
 
-const NorentLetterStaticPage: React.FC<{ isPdf?: boolean, title: string } & NorentLetterContentProps> = ({isPdf, title, ...props}) => (
+const NorentLetterStaticPage: React.FC<
+  { isPdf?: boolean; title: string } & NorentLetterContentProps
+> = ({ isPdf, title, ...props }) => (
   <QueryLoader
-  query={NorentLetterContentQuery}
-  render={(output) => {
-    return (
-      <LetterStaticPage
-        title={title}
-        isPdf={isPdf}
-        css={output.letterStyles}
-      >
-        <NorentLetterContent {...props} />
-      </LetterStaticPage>
-    );
-  }}
-  input={null}
-  loading={() => null}
-/>
+    query={NorentLetterContentQuery}
+    render={(output) => {
+      return (
+        <LetterStaticPage title={title} isPdf={isPdf} css={output.letterStyles}>
+          <NorentLetterContent {...props} />
+        </LetterStaticPage>
+      );
+    }}
+    input={null}
+    loading={() => null}
+  />
 );
 
 export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
@@ -137,7 +135,13 @@ export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
     return <Route component={NotFound} />;
   }
 
-  return <NorentLetterStaticPage {...norentScaffolding} isPdf={isPdf} title="Your NoRent.org letter" />;
+  return (
+    <NorentLetterStaticPage
+      {...norentScaffolding}
+      isPdf={isPdf}
+      title="Your NoRent.org letter"
+    />
+  );
 };
 
 export const noRentSampleLetterProps: NorentLetterContentProps = {

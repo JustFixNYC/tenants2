@@ -26,8 +26,13 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The introductory page explaining the letter building process in more detail. */
     aboutLetter: `${prefix}/about-your-letter`,
 
-    /** The actual letter content (HTML and PDF versions). */
+    /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
+
+    /** The sample letter content (HTML and PDF versions). */
+    sampleLetterContent: createLetterStaticPageRouteInfo(
+      `${prefix}/sample-letter`
+    ),
 
     /** The letter builder. */
     letter: createNoRentLetterRouteInfo(`${prefix}/letter`),

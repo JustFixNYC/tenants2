@@ -109,7 +109,24 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   );
 };
 
-export const NorentLetterStaticPage: React.FC<{ isPdf?: boolean }> = ({
+const NorentLetterStaticPage: React.FC<
+  { isPdf?: boolean; title: string } & NorentLetterContentProps
+> = ({ isPdf, title, ...props }) => (
+  <QueryLoader
+    query={NorentLetterContentQuery}
+    render={(output) => {
+      return (
+        <LetterStaticPage title={title} isPdf={isPdf} css={output.letterStyles}>
+          <NorentLetterContent {...props} />
+        </LetterStaticPage>
+      );
+    }}
+    input={null}
+    loading={() => null}
+  />
+);
+
+export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
   isPdf,
 }) => {
   const { norentScaffolding } = useContext(AppContext).session;
@@ -119,21 +136,39 @@ export const NorentLetterStaticPage: React.FC<{ isPdf?: boolean }> = ({
   }
 
   return (
-    <QueryLoader
-      query={NorentLetterContentQuery}
-      render={(output) => {
-        return (
-          <LetterStaticPage
-            title="Your NoRent.org letter"
-            isPdf={isPdf}
-            css={output.letterStyles}
-          >
-            <NorentLetterContent {...norentScaffolding} />
-          </LetterStaticPage>
-        );
-      }}
-      input={null}
-      loading={() => null}
+    <NorentLetterStaticPage
+      {...norentScaffolding}
+      isPdf={isPdf}
+      title="Your NoRent.org letter"
     />
   );
 };
+
+export const noRentSampleLetterProps: NorentLetterContentProps = {
+  firstName: "Boop",
+  lastName: "Jones",
+  street: "654 Park Place",
+  city: "Brooklyn",
+  state: "NY",
+  zipCode: "12345",
+  aptNumber: "2",
+  email: "boop@jones.com",
+  phoneNumber: "5551234567",
+  landlordName: "Landlordo Calrissian",
+  landlordPrimaryLine: "1 Cloud City Drive",
+  landlordCity: "Bespin",
+  landlordState: "OH",
+  landlordZipCode: "41235",
+  landlordEmail: "landlordo@calrissian.net",
+  landlordPhoneNumber: "5552003000",
+};
+
+export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({
+  isPdf,
+}) => (
+  <NorentLetterStaticPage
+    {...noRentSampleLetterProps}
+    title="Sample NoRent.org letter"
+    isPdf={isPdf}
+  />
+);

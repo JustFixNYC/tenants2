@@ -1,12 +1,14 @@
 import React from "react";
 
+export type FaqCategory =
+  | "Letter Builder"
+  | "Tenant Rights"
+  | "Connecting With Others"
+  | "After Sending Your Letter";
+
 export type Faq = {
   question: string;
-  category:
-    | "Letter Builder"
-    | "Tenant Rights"
-    | "Connecting With Others"
-    | "After Sending Your Letter";
+  category: FaqCategory;
   priority: number;
   answerPreview: React.ReactNode;
   answerFull: React.ReactNode;

@@ -3,21 +3,42 @@ import { StaticImage } from "../ui/static-image";
 import { getImageSrc } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
-import { FaqsContent, Faq } from "./data/faqs-content";
+import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
 import Page from "../ui/page";
 
-const faqsPrioritySorter = (faq1: Faq, faq2: Faq) =>
-  faq1.priority - faq2.priority;
+const FAQ_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
+  "Letter Builder",
+  "Tenant Rights",
+  "Connecting With Others",
+  "After Sending Your Letter",
+];
 
-const FaqsPreviewContent = FaqsContent.filter((faq) => faq.priority < 5).sort(
-  faqsPrioritySorter
-);
+function faqsPrioritySorter(faq1: Faq, faq2: Faq) {
+  return faq1.priority - faq2.priority;
+}
 
-const chevronIcon = (
+function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
+  return data.sort(faqsPrioritySorter).map((faq, i) => (
+    <div className="jf-accordion-item jf-space-below-2rem" key={i}>
+      <details className="has-text-left jf-space-below-2rem">
+        <summary>
+          <div className="title is-size-5 has-text-dark">{faq.question}</div>
+          <div>
+            <ChevronIcon />
+          </div>
+        </summary>
+        {isPreview ? faq.answerPreview : faq.answerFull}
+      </details>
+    </div>
+  ));
+}
+
+const ChevronIcon = () => (
   <StaticImage ratio="is-16x16" src={getImageSrc("chevron")} alt="" />
 );
 
 export const NorentFaqsPreview = () => {
+  const FaqsPreviewContent = FaqsContent.filter((faq) => faq.priority < 5);
   return (
     <section className="hero jf-faqs-preview">
       <div className="hero-body">
@@ -32,19 +53,7 @@ export const NorentFaqsPreview = () => {
           </h3>
           <br />
           <div className="jf-space-below-2rem">
-            {FaqsPreviewContent.map((faq, i) => (
-              <div className="jf-accordion-item jf-space-below-2rem" key={i}>
-                <details className="has-text-left jf-space-below-2rem">
-                  <summary>
-                    <div className="title is-size-5 has-text-dark">
-                      {faq.question}
-                    </div>
-                    <div>{chevronIcon}</div>
-                  </summary>
-                  {faq.answerPreview}
-                </details>
-              </div>
-            ))}
+            {generateFaqsListFromData(FaqsPreviewContent, true)}
           </div>
           <div className="has-text-left">
             <Link
@@ -60,22 +69,46 @@ export const NorentFaqsPreview = () => {
   );
 };
 
-export const NorentFaqsPage: React.FC<{}> = () => (
-  <Page title="NoRent.org | FAQs" className="content">
-    <section className="hero is-medium">
-      <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced has-text-info">
-            Frequently Asked Questions
-          </h2>
-          <br />
-          <p className="subtitle">
-            Sending a letter to your landlord is a big step. Check out our
-            frequently asked questions from people who have used our tool:
-          </p>
-          <br />
+export const NorentFaqsPage: React.FC<{}> = () => {
+  return (
+    <Page title="NoRent.org | FAQs" className="content">
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container jf-has-text-centered-tablet jf-space-below-2rem">
+            <h2 className="title is-spaced has-text-info">
+              Frequently Asked Questions
+            </h2>
+            <br />
+            <p className="subtitle">
+              Sending a letter to your landlord is a big step. Check out our
+              frequently asked questions from people who have used our tool:
+            </p>
+          </div>
+          <div className="container">
+            <br />
+            {FAQ_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
+              const faqs = FaqsContent.filter(
+                (faq) => faq.category === category
+              );
+              return (
+                faqs.length > 0 && (
+                  <div className="has-text-left" key={i}>
+                    <p className="is-size-7 is-uppercase has-text-info has-text-weight-bold">
+                      {category}
+                    </p>
+                    <br />
+                    <div>{generateFaqsListFromData(faqs)}</div>
+                    <div className="jf-space-below-2rem">
+                      <Link to="#main">Back to top</Link>
+                    </div>
+                    <br />
+                  </div>
+                )
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
-  </Page>
-);
+      </section>
+    </Page>
+  );
+};

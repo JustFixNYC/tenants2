@@ -10,7 +10,6 @@ import {
 import { NorentFaqsPreview } from "./faqs";
 import { StaticImage } from "../ui/static-image";
 import { LetterPreview } from "../static-page/letter-preview";
-import Routes from "../routes";
 import { NorentRoutes } from "./routes";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (

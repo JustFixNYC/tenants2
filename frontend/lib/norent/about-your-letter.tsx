@@ -5,7 +5,11 @@ import {
   BuildMyLetterButton,
   StickyLetterButtonContainer,
   LandingPageChecklist,
+  getImageSrc,
 } from "./homepage";
+import { NorentFaqsPreview } from "./faqs";
+import { StaticImage } from "../ui/static-image";
+import { LetterPreview } from "../static-page/letter-preview";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
   <Page title="NoRent | About Your Letter" className="content">
@@ -32,7 +36,12 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
     <StickyLetterButtonContainer containerId="more-info">
       <section className="hero">
         <div className="hero-body">
-          <div className="container jf-tight-container jf-space-below-2rem">
+          <div className="container jf-tight-container jf-has-centered-images jf-space-below-2rem">
+            <StaticImage
+              ratio="is-128x128"
+              src={getImageSrc("question")}
+              alt=""
+            />
             <h2 className="title is-spaced">Why send a letter</h2>
             <p className="subtitle is-size-4">
               Here are a few benefits to sending a letter to your landlord:
@@ -64,6 +73,23 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
       </section>
 
       <LandingPageChecklist />
+
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <h3 className="is-spaced has-text-weight-normal">
+              Here’s what the letter will look like:
+            </h3>
+            <br />
+            <LetterPreview
+              title="Preview of your NoRent.org letter"
+              // UPDATE WITH REAL LINK TO SAMPLE LETTER:
+              src="/sample-letter"
+            />
+          </div>
+        </div>
+      </section>
+      <NorentFaqsPreview />
     </StickyLetterButtonContainer>
   </Page>
 );

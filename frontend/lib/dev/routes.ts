@@ -17,6 +17,7 @@ export function createDevRouteInfo(prefix: string) {
       formInModal: `${prefix}/examples/form/in-modal`,
       formWithoutRedirect: `${prefix}/examples/form2`,
       formInModalWithoutRedirect: `${prefix}/examples/form2/in-modal`,
+      mapbox: `${prefix}/examples/mapbox`,
       radio: `${prefix}/examples/radio`,
       loadable: `${prefix}/examples/loadable-page`,
       clientSideError: `${prefix}/examples/client-side-error`,

@@ -156,6 +156,12 @@ export interface AppServerInfo {
 
   /** Whether to enable emergency HP Action functionality. */
   enableEmergencyHPAction?: boolean;
+
+  /**
+   * The Mapbox access token. Note that this can be the empty string,
+   * in which case Mapbox integration is disabled.
+   */
+  mapboxAccessToken: string;
 }
 
 /**

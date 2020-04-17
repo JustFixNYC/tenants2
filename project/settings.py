@@ -481,7 +481,8 @@ CSP_SCRIPT_SRC = [
 
 CSP_CONNECT_SRC = [
     "'self'",
-    "https://geosearch.planninglabs.nyc"
+    "https://geosearch.planninglabs.nyc",
+    "https://api.mapbox.com"
 ]
 
 CSP_FRAME_SRC = [

@@ -194,7 +194,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # geospatial libraries are installed.
     ENABLE_FINDHELP: bool = False
 
-    # A Mapbox public access token for embedded maps. If
+    # A Mapbox public access token for embedded maps and/or geocoding. If
     # not provided, mapbox integration will be disabled.
     MAPBOX_ACCESS_TOKEN: str = ''
 

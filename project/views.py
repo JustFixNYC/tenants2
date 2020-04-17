@@ -308,6 +308,7 @@ def react_rendered_view(request):
             'wowOrigin': settings.WOW_ORIGIN,
             'efnycOrigin': settings.EFNYC_ORIGIN,
             'enableEmergencyHPAction': settings.ENABLE_EMERGENCY_HP_ACTION,
+            'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

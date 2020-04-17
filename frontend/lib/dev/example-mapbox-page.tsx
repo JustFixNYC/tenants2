@@ -1,0 +1,20 @@
+import React, { useContext } from "react";
+import Page from "../ui/page";
+import { MapboxAutocomplete } from "../forms/mapbox-autocomplete";
+import { AppContext } from "../app-context";
+import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
+
+export const ExampleMapboxPage: React.FC<{}> = () => {
+  const isMapboxEnabled = !!useContext(AppContext).server.mapboxAccessToken;
+
+  return (
+    <Page title="Example Mapbox page" withHeading>
+      <div className="content">
+        <p>Mapbox integration is {isMapboxEnabled ? "enabled" : "disabled"}.</p>
+      </div>
+      <SimpleProgressiveEnhancement>
+        <MapboxAutocomplete />
+      </SimpleProgressiveEnhancement>
+    </Page>
+  );
+};

@@ -6,19 +6,19 @@ import { NorentRoutes } from "./routes";
 import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
 import Page from "../ui/page";
 
-const FAQ_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
+const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
   "Tenant Rights",
   "Connecting With Others",
   "After Sending Your Letter",
 ];
 
-function faqsPrioritySorter(faq1: Faq, faq2: Faq) {
-  return faq1.priority - faq2.priority;
+function sortFaqsByPriority(data: Faq[]) {
+  return data.sort((faq1, faq2) => faq1.priority - faq2.priority);
 }
 
 function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
-  return data.sort(faqsPrioritySorter).map((faq, i) => (
+  return sortFaqsByPriority(data).map((faq, i) => (
     <div className="jf-accordion-item jf-space-below-2rem" key={i}>
       <details className="has-text-left jf-space-below-2rem">
         <summary>
@@ -86,20 +86,22 @@ export const NorentFaqsPage: React.FC<{}> = () => {
           </div>
           <div className="container">
             <br />
-            {FAQ_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
+            {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
               const faqs = FaqsContent.filter(
                 (faq) => faq.category === category
               );
               return (
                 faqs.length > 0 && (
                   <div className="has-text-left" key={i}>
-                    <p className="is-size-7 is-uppercase has-text-info has-text-weight-bold">
+                    <p className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless">
                       {category}
                     </p>
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>
                     <div className="jf-space-below-2rem">
-                      <Link to="#main">Back to top</Link>
+                      <Link className="has-text-weight-normal" to="#main">
+                        Back to top
+                      </Link>
                     </div>
                     <br />
                   </div>

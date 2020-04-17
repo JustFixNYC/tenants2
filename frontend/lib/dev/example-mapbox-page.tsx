@@ -13,7 +13,15 @@ export const ExampleMapboxPage: React.FC<{}> = () => {
         <p>Mapbox integration is {isMapboxEnabled ? "enabled" : "disabled"}.</p>
       </div>
       <SimpleProgressiveEnhancement>
-        <MapboxCityAutocomplete />
+        <MapboxCityAutocomplete
+          label="What city do you live in?"
+          onChange={(item) => {
+            console.log("CHANGE", item);
+          }}
+          onNetworkError={(err) => {
+            console.error("ERROR", err);
+          }}
+        />
       </SimpleProgressiveEnhancement>
     </Page>
   );

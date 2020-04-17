@@ -48,19 +48,14 @@ function getBrowserAutoCompleteOffValue(): string {
   return isChrome() ? "disabled" : "off";
 }
 
-export interface SearchAutocompleteProps<Item, SearchResults>
-  extends WithFormFieldErrors {
-  label: string;
-  renderLabel?: LabelRenderer;
-  initialValue?: Item;
-  onChange: (item: Item) => void;
-  onNetworkError: (err: Error) => void;
-
+export type SearchAutocompleteHelpers<Item, SearchResults> = {
   /**
-   * A constructor to create a `SearchRequester` for our particular
+   * A factory to create a `SearchRequester` for our particular
    * kind of search result.
    */
-  searchRequesterClass: SearchRequesterConstructor<SearchResults>;
+  createSearchRequester: (
+    options: SearchRequesterOptions<SearchResults>
+  ) => SearchRequester<SearchResults>;
 
   /**
    * Convert an autocomplete item into a `key` prop, used when listing
@@ -90,6 +85,16 @@ export interface SearchAutocompleteProps<Item, SearchResults>
    * a list of autocomplete items.
    */
   searchResultsToItems: (results: SearchResults) => Item[];
+};
+
+export interface SearchAutocompleteProps<Item, SearchResults>
+  extends WithFormFieldErrors {
+  label: string;
+  renderLabel?: LabelRenderer;
+  initialValue?: Item;
+  onChange: (item: Item) => void;
+  onNetworkError: (err: Error) => void;
+  helpers: SearchAutocompleteHelpers<Item, SearchResults>;
 }
 
 interface SearchAutocompleteState<Item> {
@@ -104,12 +109,6 @@ interface SearchAutocompleteState<Item> {
  * results.
  */
 const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
-
-interface SearchRequesterConstructor<SearchResults> {
-  new (options: SearchRequesterOptions<SearchResults>): SearchRequester<
-    SearchResults
-  >;
-}
 
 /**
  * A generic search autocomplete field. This should only be used as a
@@ -128,7 +127,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
       isLoading: false,
       results: [],
     };
-    this.requester = new this.props.searchRequesterClass({
+    this.requester = this.props.helpers.createSearchRequester({
       createAbortController,
       fetch: awesomeFetch,
       throttleMs: AUTOCOMPLETE_KEY_THROTTLE_MS,
@@ -143,7 +142,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
     index: number
   ): JSX.Element {
     const props = ds.getItemProps({
-      key: this.props.itemToKey(item),
+      key: this.props.helpers.itemToKey(item),
       index,
       item,
       className: classnames({
@@ -152,7 +151,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
       }),
     });
 
-    return <li {...props}>{this.props.itemToString(item)}</li>;
+    return <li {...props}>{this.props.helpers.itemToString(item)}</li>;
   }
 
   /**
@@ -165,9 +164,9 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
   selectIncompleteItem(ds: ControllerStateAndHelpers<Item>) {
     if (
       !ds.selectedItem ||
-      this.props.itemToString(ds.selectedItem) !== ds.inputValue
+      this.props.helpers.itemToString(ds.selectedItem) !== ds.inputValue
     ) {
-      ds.selectItem(this.props.getIncompleteItem(ds.inputValue));
+      ds.selectItem(this.props.helpers.getIncompleteItem(ds.inputValue));
     }
   }
 
@@ -274,7 +273,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
   handleRequesterResults(results: SearchResults) {
     this.setState({
       isLoading: false,
-      results: this.props.searchResultsToItems(results),
+      results: this.props.helpers.searchResultsToItems(results),
     });
   }
 
@@ -296,7 +295,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
       <ItemDownshift
         onChange={(item) => item && this.props.onChange(item)}
         initialSelectedItem={this.props.initialValue}
-        itemToString={this.props.itemToString}
+        itemToString={this.props.helpers.itemToString}
       >
         {(downshift) => this.renderAutocomplete(downshift)}
       </ItemDownshift>

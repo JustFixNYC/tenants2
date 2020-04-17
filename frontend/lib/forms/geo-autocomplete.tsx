@@ -11,6 +11,7 @@ import {
 import {
   SearchAutocompleteProps,
   SearchAutocomplete,
+  SearchAutocompleteHelpers,
 } from "./search-autocomplete";
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
@@ -37,11 +38,7 @@ export interface GeoAutocompleteItem {
 
 type GeoAutocompleteProps = Omit<
   SearchAutocompleteProps<GeoAutocompleteItem, GeoSearchResults>,
-  | "itemToKey"
-  | "itemToString"
-  | "getIncompleteItem"
-  | "searchResultsToItems"
-  | "searchRequesterClass"
+  "helpers"
 >;
 
 /** The maximum number of autocomplete suggestions to show. */
@@ -53,17 +50,19 @@ const MAX_SUGGESTIONS = 5;
  * a third-party API that might become unavailable.
  */
 export function GeoAutocomplete(props: GeoAutocompleteProps) {
-  return (
-    <SearchAutocomplete
-      {...props}
-      itemToKey={itemToKey}
-      itemToString={geoAutocompleteItemToString}
-      searchResultsToItems={geoSearchResultsToAutocompleteItems}
-      getIncompleteItem={getIncompleteItem}
-      searchRequesterClass={GeoSearchRequester}
-    />
-  );
+  return <SearchAutocomplete {...props} helpers={geoAutocompleteHelpers} />;
 }
+
+const geoAutocompleteHelpers: SearchAutocompleteHelpers<
+  GeoAutocompleteItem,
+  GeoSearchResults
+> = {
+  itemToKey: itemToKey,
+  itemToString: geoAutocompleteItemToString,
+  searchResultsToItems: geoSearchResultsToAutocompleteItems,
+  getIncompleteItem: getIncompleteItem,
+  createSearchRequester: (options) => new GeoSearchRequester(options),
+};
 
 function itemToKey(item: GeoAutocompleteItem): string {
   return item.address + item.borough;

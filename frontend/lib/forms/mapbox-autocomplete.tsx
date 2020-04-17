@@ -1,6 +1,10 @@
 import React from "react";
 import { SearchRequester } from "@justfixnyc/geosearch-requester";
-import { SearchAutocomplete } from "./search-autocomplete";
+import {
+  SearchAutocomplete,
+  SearchAutocompleteProps,
+  SearchAutocompleteHelpers,
+} from "./search-autocomplete";
 import { getGlobalAppServerInfo } from "../app-context";
 
 /**
@@ -66,7 +70,8 @@ class MapboxCitySearchRequester extends SearchRequester<MapboxResults> {
       access_token: mapboxAccessToken,
       country: "US",
       language: "en",
-      // We want "locality" so folks can enter places like "Brooklyn".
+      // We want "place" because it covers all cities, but we also want
+      // "locality" so folks can enter places like "Brooklyn".
       types: ["place", "locality"],
     }).toString();
     const encodedQuery = encodeURIComponent(query);
@@ -83,32 +88,52 @@ type MapboxCityItem = {
   city: string;
 } & StateInfo;
 
-export const MapboxCityAutocomplete: React.FC<{}> = () => {
+type MapboxCityAutocompleteProps = Omit<
+  SearchAutocompleteProps<MapboxCityItem, MapboxResults>,
+  "helpers"
+>;
+
+export const MapboxCityAutocomplete: React.FC<MapboxCityAutocompleteProps> = (
+  props
+) => {
   return (
-    <SearchAutocomplete
-      itemToKey={itemToKey}
-      itemToString={itemToString}
-      searchResultsToItems={searchResultsToItems}
-      getIncompleteItem={getIncompleteItem}
-      searchRequesterClass={MapboxCitySearchRequester}
-      label="What city do you live in?"
-      onChange={(item) => {
-        console.log("CHANGE", item);
-      }}
-      onNetworkError={(err) => {
-        console.error("ERROR", err);
-      }}
-    />
+    <SearchAutocomplete {...props} helpers={mapboxCityAutocompleteHelpers} />
   );
 };
 
-function itemToKey(item: MapboxCityItem): string {
-  return [item.city, item.stateCode].join("_");
-}
-
-function itemToString(item: MapboxCityItem | null): string {
-  return item ? `${item.city}, ${item.stateName}` : "";
-}
+export const mapboxCityAutocompleteHelpers: SearchAutocompleteHelpers<
+  MapboxCityItem,
+  MapboxResults
+> = {
+  itemToKey(item) {
+    return [item.city, item.stateCode].join("_");
+  },
+  itemToString(item) {
+    return item ? `${item.city}, ${item.stateName}` : "";
+  },
+  searchResultsToItems(results) {
+    const items: MapboxCityItem[] = [];
+    for (let feature of results.features) {
+      const stateInfo = getStateInfo(feature);
+      console.log(feature.place_name, feature, stateInfo);
+      if (stateInfo) {
+        items.push({
+          city: feature.text,
+          ...stateInfo,
+        });
+      }
+    }
+    return items;
+  },
+  getIncompleteItem(value) {
+    return {
+      city: value || "",
+      stateCode: "",
+      stateName: "",
+    };
+  },
+  createSearchRequester: (options) => new MapboxCitySearchRequester(options),
+};
 
 function getStateInfo(feature: MapboxFeature): StateInfo | null {
   const SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
@@ -119,27 +144,4 @@ function getStateInfo(feature: MapboxFeature): StateInfo | null {
     }
   }
   return null;
-}
-
-function searchResultsToItems(results: MapboxResults): MapboxCityItem[] {
-  const items: MapboxCityItem[] = [];
-  for (let feature of results.features) {
-    const stateInfo = getStateInfo(feature);
-    console.log(feature.place_name, feature, stateInfo);
-    if (stateInfo) {
-      items.push({
-        city: feature.text,
-        ...stateInfo,
-      });
-    }
-  }
-  return items;
-}
-
-function getIncompleteItem(value: string | null): MapboxCityItem {
-  return {
-    city: value || "",
-    stateCode: "",
-    stateName: "",
-  };
 }

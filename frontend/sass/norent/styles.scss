@@ -229,7 +229,7 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-accordion-item {
-  // Have border extend beyond div boundary
+  // Have border extend beyond element boundary
   padding-left: 1rem;
   padding-right: 1rem;
   margin-left: -1rem;
@@ -239,15 +239,13 @@ $norent-sticky-menu-height: 100px;
   }
 
   details {
-    // Initially tried adding margins, but since we include a focus outline around the
-    // summary element, I translated those into padding instead for a better look
     p,
     summary {
+      // Have border extend beyond element boundary
       padding: 1rem;
       margin: 0 -1rem;
     }
     summary {
-      display: flex;
       // Remove default marker
       &::-webkit-details-marker {
         display: none;
@@ -255,14 +253,8 @@ $norent-sticky-menu-height: 100px;
       &:focus {
         @include outline-focus();
       }
-      div.title {
-        margin: 0 2rem 0 0;
-      }
-      div:not(.title) {
-        margin-left: auto;
-        figure.image {
-          margin: 0 1rem auto auto;
-        }
+      .media .media-right {
+        margin-top: 0.15rem;
       }
     }
   }

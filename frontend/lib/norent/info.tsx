@@ -5,7 +5,7 @@ import { LandingPagePartnerLogos, getImageSrc } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 
 export const NorentInfoPage: React.FC<{}> = () => (
-  <Page title="NoRent | About Your Letter" className="content">
+  <Page title="Information" className="content">
     <section className="hero">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet jf-space-below-2rem">

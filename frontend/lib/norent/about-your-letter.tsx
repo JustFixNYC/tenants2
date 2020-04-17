@@ -12,7 +12,7 @@ import { StaticImage } from "../ui/static-image";
 import { LetterPreview } from "../static-page/letter-preview";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
-  <Page title="NoRent | About Your Letter" className="content">
+  <Page title="About Your Letter" className="content">
     <section className="hero">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">

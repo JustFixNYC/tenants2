@@ -24,12 +24,14 @@ import { NorentFaqsPage } from "./faqs";
 import { NorentInfoPage } from "./info";
 import { NorentAboutYourLetterPage } from "./about-your-letter";
 
-const ROUTES_FOR_PRIMARY_PAGES = [
-  Routes.locale.home,
-  Routes.locale.info,
-  Routes.locale.faqs,
-  Routes.locale.aboutLetter,
-];
+function getRoutesForPrimaryPages() {
+  return new Set([
+    Routes.locale.home,
+    Routes.locale.info,
+    Routes.locale.faqs,
+    Routes.locale.aboutLetter,
+  ]);
+}
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -99,7 +101,7 @@ const NorentMenuItems: React.FC<{}> = () => {
 
 const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
-    const isPrimaryPage = ROUTES_FOR_PRIMARY_PAGES.includes(
+    const isPrimaryPage = getRoutesForPrimaryPages().has(
       props.location.pathname
     );
     return (

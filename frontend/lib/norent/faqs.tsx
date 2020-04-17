@@ -71,7 +71,7 @@ export const NorentFaqsPreview = () => {
 
 export const NorentFaqsPage: React.FC<{}> = () => {
   return (
-    <Page title="NoRent.org | FAQs" className="content">
+    <Page title="FAQs" className="content">
       <section className="hero">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet jf-space-below-2rem">

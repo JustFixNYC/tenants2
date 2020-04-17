@@ -241,7 +241,7 @@ $norent-sticky-menu-height: 100px;
   details {
     p,
     summary {
-      // Have border extend beyond element boundary
+      // Have border extend beyond element boundary for a better looking focus border
       padding: 1rem;
       margin: 0 -1rem;
     }

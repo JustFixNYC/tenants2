@@ -13,7 +13,7 @@ import { LetterPreview } from "../static-page/letter-preview";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
   <Page title="NoRent | About Your Letter" className="content">
-    <section className="hero">
+    <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced has-text-info">About Your Letter</h2>

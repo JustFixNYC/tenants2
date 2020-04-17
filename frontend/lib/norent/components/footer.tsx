@@ -47,10 +47,10 @@ export const NorentFooter: React.FC<{}> = () => (
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
           {/* Will replace when we have site scaffolding ready. */}
-          <Link to={Routes.locale.letter.latestStep}>Build my letter</Link>
+          <Link to={Routes.locale.letter.latestStep}>About your letter</Link>
           <Link to={Routes.locale.home}>Log in</Link>
           <Link to={Routes.locale.home}>Faqs</Link>
-          <Link to={Routes.locale.home}>About</Link>
+          <Link to={Routes.locale.home}>Information</Link>
           <a href="https://www.justfix.nyc/privacy-policy">Privacy policy</a>
           <a href="https://www.justfix.nyc/terms-of-use">Terms of use</a>
         </div>

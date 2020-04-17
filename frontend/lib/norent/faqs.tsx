@@ -1,6 +1,8 @@
 import React from "react";
 import { StaticImage } from "../ui/static-image";
-import { getImageSrc } from "./homepage";
+import { getImageSrc, BuildMyLetterButton } from "./homepage";
+import { Link } from "react-router-dom";
+import { NorentRoutes } from "./routes";
 
 const FaqsContent = [
   [
@@ -50,19 +52,44 @@ export const NorentFaqsPreview = () => {
     <StaticImage ratio="is-16x16" src={getImageSrc("chevron")} alt="" />
   );
   return (
-    <div className="jf-space-below-2rem">
-      {FaqsContent.map((faq, i) => (
-        <div className="jf-accordion-item jf-space-below-2rem" key={i}>
-          <details className="has-text-left jf-space-below-2rem">
-            <summary>
-              <div className="title is-size-5 has-text-dark">{faq[0]}</div>
-              <div>{chevronIcon}</div>
-            </summary>
-            {faq[1]}
-          </details>
+    <section className="hero jf-faqs-preview">
+      <div className="hero-body">
+        <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
+          <h3 className="is-spaced has-text-weight-normal">
+            Sending a letter to your landlord is a big step. Here are a few{" "}
+            {/* REPLACE once routes are set up */}
+            <Link to={NorentRoutes.locale.home}>
+              frequently asked questions
+            </Link>{" "}
+            from people who have used our tool:
+          </h3>
+          <br />
+          <div className="jf-space-below-2rem">
+            {FaqsContent.map((faq, i) => (
+              <div className="jf-accordion-item jf-space-below-2rem" key={i}>
+                <details className="has-text-left jf-space-below-2rem">
+                  <summary>
+                    <div className="title is-size-5 has-text-dark">
+                      {faq[0]}
+                    </div>
+                    <div>{chevronIcon}</div>
+                  </summary>
+                  {faq[1]}
+                </details>
+              </div>
+            ))}
+          </div>
+          <div className="has-text-left">
+            <Link
+              to={NorentRoutes.locale.faqs}
+              className="is-size-6 has-text-weight-normal"
+            >
+              See more FAQs
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
+      </div>
+    </section>
   );
 };
 

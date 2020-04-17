@@ -7,12 +7,43 @@ import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
+import classnames from "classnames";
 
 type NorentImageType = "png" | "svg";
 
 export function getImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
 }
+
+export const JumpArrow = (props: { to: string }) => (
+  <Link to={props.to} className="jf-jump-arrow">
+    <StaticImage
+      ratio="is-32x32"
+      src={getImageSrc("downarrow")}
+      alt="Explore the tool"
+    />
+  </Link>
+);
+
+export const BuildMyLetterButton = (props: { isHiddenMobile?: boolean }) => (
+  <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
+    <CenteredPrimaryButtonLink to={NorentRoutes.locale.letter.latestStep}>
+      Build my letter
+    </CenteredPrimaryButtonLink>
+  </span>
+);
+
+export const StickyLetterButtonContainer = (props: {
+  containerId: string;
+  children: React.ReactNode;
+}) => (
+  <div id={props.containerId}>
+    <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
+      <BuildMyLetterButton />
+    </div>
+    {props.children}
+  </div>
+);
 
 const checklistItems = [
   "Build a letter using our free letter builder",
@@ -22,21 +53,32 @@ const checklistItems = [
   "Cite up-to-date legal ordinances in your letter",
 ];
 
-const LandingPageChecklist = () => (
-  <div className="jf-space-below-2rem">
-    {checklistItems.map((checklistItem, i) => (
-      <article className="media" key={i}>
-        <div className="media-left">
-          <StaticImage
-            ratio="is-32x32"
-            src={getImageSrc("checkmark")}
-            alt="You can"
-          />
+export const LandingPageChecklist = () => (
+  <section className="hero has-background-white-ter">
+    <div className="hero-body">
+      <div className="container jf-tight-container has-text-centered">
+        <h3 className="is-spaced has-text-weight-normal">
+          Here’s what you can do with <NorentLogo size="is-128x128" />
+        </h3>
+        <br />
+        <div className="jf-space-below-2rem">
+          {checklistItems.map((checklistItem, i) => (
+            <article className="media" key={i}>
+              <div className="media-left">
+                <StaticImage
+                  ratio="is-32x32"
+                  src={getImageSrc("checkmark")}
+                  alt="You can"
+                />
+              </div>
+              <div className="media-content">{checklistItem}</div>
+            </article>
+          ))}
         </div>
-        <div className="media-content">{checklistItem}</div>
-      </article>
-    ))}
-  </div>
+        <BuildMyLetterButton isHiddenMobile />
+      </div>
+    </div>
+  </section>
 );
 
 const partnerLogoItems = [
@@ -78,12 +120,6 @@ const LandingPageDemands = () => (
   </div>
 );
 
-const BuildMyLetterButton = () => (
-  <CenteredPrimaryButtonLink to={NorentRoutes.locale.letter.latestStep}>
-    Build my letter
-  </CenteredPrimaryButtonLink>
-);
-
 export const NorentHomePage: React.FC<{}> = () => (
   <Page title="NoRent.org" className="content">
     <section className="hero is-fullheight-with-navbar">
@@ -97,27 +133,16 @@ export const NorentHomePage: React.FC<{}> = () => (
             letter to your landlord.
           </p>
           <br />
-          <span className="is-hidden-mobile">
-            <BuildMyLetterButton />
-          </span>
+          <BuildMyLetterButton isHiddenMobile />
           <br />
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <Link to="#more-info" className="jf-jump-arrow">
-          <StaticImage
-            ratio="is-32x32"
-            src={getImageSrc("downarrow")}
-            alt="Explore the tool"
-          />
-        </Link>
+        <JumpArrow to="#more-info" />
       </div>
     </section>
 
-    <div id="more-info">
-      <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
-        <BuildMyLetterButton />
-      </div>
+    <StickyLetterButtonContainer containerId="more-info">
       <section className="container">
         <div className="hero is-small">
           <div className="hero-body is-paddingless">
@@ -157,20 +182,7 @@ export const NorentHomePage: React.FC<{}> = () => (
         </div>
       </section>
 
-      <section className="hero has-background-white-ter">
-        <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered">
-            <h3 className="is-spaced has-text-weight-normal">
-              Here’s what you can do with <NorentLogo size="is-128x128" />
-            </h3>
-            <br />
-            <LandingPageChecklist />
-            <span className="is-hidden-mobile">
-              <BuildMyLetterButton />
-            </span>
-          </div>
-        </div>
-      </section>
+      <LandingPageChecklist />
 
       <section className="hero">
         <div className="hero-body jf-letter-preview-container">
@@ -282,9 +294,7 @@ export const NorentHomePage: React.FC<{}> = () => (
               </div>
             </div>
             <br />
-            <span className="is-hidden-mobile">
-              <BuildMyLetterButton />
-            </span>
+            <BuildMyLetterButton isHiddenMobile />
           </div>
         </div>
       </section>
@@ -323,32 +333,12 @@ export const NorentHomePage: React.FC<{}> = () => (
           <div className="container jf-wide-container">
             <LandingPageDemands />
             <br />
-            <span className="is-hidden-mobile">
-              <BuildMyLetterButton />
-            </span>
+            <BuildMyLetterButton isHiddenMobile />
           </div>
         </div>
       </section>
 
-      <section className="hero jf-faqs-preview">
-        <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
-            <h3 className="is-spaced has-text-weight-normal">
-              Sending a letter to your landlord is a big step. Here are a few{" "}
-              {/* REPLACE once routes are set up */}
-              <Link to={NorentRoutes.locale.home}>
-                frequently asked questions
-              </Link>{" "}
-              from people who have used our tool:
-            </h3>
-            <br />
-            <NorentFaqsPreview />
-            <span className="is-hidden-mobile">
-              <BuildMyLetterButton />
-            </span>
-          </div>
-        </div>
-      </section>
-    </div>
+      <NorentFaqsPreview />
+    </StickyLetterButtonContainer>
   </Page>
 );

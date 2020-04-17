@@ -19,11 +19,11 @@ import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
-import { NorentBuildMyLetterPage } from "./build-my-letter";
+import { NorentAboutYourLetterPage } from "./about-your-letter";
 
 const ROUTES_FOR_PRIMARY_PAGES = [
   Routes.locale.home,
-  Routes.locale.about,
+  Routes.locale.info,
   Routes.locale.faqs,
   Routes.locale.aboutLetter,
 ];
@@ -41,11 +41,11 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomePage} />
       <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
-      <Route path={Routes.locale.about} exact component={NorentAboutPage} />
+      <Route path={Routes.locale.info} exact component={NorentAboutPage} />
       <Route
         path={Routes.locale.aboutLetter}
         exact
-        component={NorentBuildMyLetterPage}
+        component={NorentAboutYourLetterPage}
       />
       <Route
         path={Routes.locale.letter.prefix}
@@ -65,13 +65,13 @@ const NorentMenuItems: React.FC<{}> = () => {
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.aboutLetter}>
-        Build my letter
+        About your letter
       </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
       </Link>
-      <Link className="navbar-item" to={Routes.locale.about}>
-        About
+      <Link className="navbar-item" to={Routes.locale.info}>
+        Information
       </Link>
       {session.phoneNumber ? (
         // These are placeholders just to show styling.

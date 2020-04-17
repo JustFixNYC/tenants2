@@ -20,10 +20,10 @@ function createLocalizedRouteInfo(prefix: string) {
     faqs: `${prefix}/faqs`,
 
     /** The About page. */
-    about: `${prefix}/about`,
+    info: `${prefix}/info`,
 
     /** The introductory page explaining the letter building process in more detail. */
-    aboutLetter: `${prefix}/build-my-letter`,
+    aboutLetter: `${prefix}/about-your-letter`,
 
     /** The actual letter content (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),

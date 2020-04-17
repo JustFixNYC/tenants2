@@ -38,35 +38,60 @@ type MapboxFeature = {
   matching_text?: string;
   bbox: [number, number, number, number];
   center: [number, number];
+  context: Array<Partial<MapboxFeature> & { short_code?: string }>;
 };
 
 const MAPBOX_PLACES_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 
-class MapboxSearchRequester extends SearchRequester<MapboxResults> {
+type MapboxSearchOptions = {
+  access_token: string;
+  country: "US";
+  language: "en";
+  types: MapboxPlaceType[];
+};
+
+function searchOptionsToURLSearchParams(
+  options: MapboxSearchOptions
+): URLSearchParams {
+  return new URLSearchParams({
+    ...options,
+    types: options.types.join(","),
+  });
+}
+
+class MapboxCitySearchRequester extends SearchRequester<MapboxResults> {
   searchQueryToURL(query: string): string {
     const { mapboxAccessToken } = getGlobalAppServerInfo();
-    const params = new URLSearchParams({
+    const params = searchOptionsToURLSearchParams({
       access_token: mapboxAccessToken,
+      country: "US",
+      language: "en",
+      // We want "locality" so folks can enter places like "Brooklyn".
+      types: ["place", "locality"],
     }).toString();
     const encodedQuery = encodeURIComponent(query);
     return `${MAPBOX_PLACES_URL}/${encodedQuery}.json?${params}`;
   }
 }
 
-type MapboxAutocompleteItem = {
-  id: string;
-  text: string;
+type StateInfo = {
+  stateCode: string;
+  stateName: string;
 };
 
-export const MapboxAutocomplete: React.FC<{}> = () => {
+type MapboxCityItem = {
+  city: string;
+} & StateInfo;
+
+export const MapboxCityAutocomplete: React.FC<{}> = () => {
   return (
     <SearchAutocomplete
       itemToKey={itemToKey}
       itemToString={itemToString}
       searchResultsToItems={searchResultsToItems}
       getIncompleteItem={getIncompleteItem}
-      searchRequesterClass={MapboxSearchRequester}
-      label="Enter an address"
+      searchRequesterClass={MapboxCitySearchRequester}
+      label="What city do you live in?"
       onChange={(item) => {
         console.log("CHANGE", item);
       }}
@@ -77,26 +102,44 @@ export const MapboxAutocomplete: React.FC<{}> = () => {
   );
 };
 
-function itemToKey(item: MapboxAutocompleteItem): string {
-  return item.id;
+function itemToKey(item: MapboxCityItem): string {
+  return [item.city, item.stateCode].join("_");
 }
 
-function itemToString(item: MapboxAutocompleteItem | null): string {
-  return item ? item.text : "";
+function itemToString(item: MapboxCityItem | null): string {
+  return item ? `${item.city}, ${item.stateName}` : "";
 }
 
-function searchResultsToItems(
-  results: MapboxResults
-): MapboxAutocompleteItem[] {
-  return results.features.map((feature) => ({
-    id: feature.id,
-    text: feature.text,
-  }));
+function getStateInfo(feature: MapboxFeature): StateInfo | null {
+  const SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
+  for (let context of feature.context) {
+    const match = (context.short_code || "").match(SHORT_CODE_RE);
+    if (match && context.text) {
+      return { stateCode: match[1], stateName: context.text };
+    }
+  }
+  return null;
 }
 
-function getIncompleteItem(value: string | null): MapboxAutocompleteItem {
+function searchResultsToItems(results: MapboxResults): MapboxCityItem[] {
+  const items: MapboxCityItem[] = [];
+  for (let feature of results.features) {
+    const stateInfo = getStateInfo(feature);
+    console.log(feature.place_name, feature, stateInfo);
+    if (stateInfo) {
+      items.push({
+        city: feature.text,
+        ...stateInfo,
+      });
+    }
+  }
+  return items;
+}
+
+function getIncompleteItem(value: string | null): MapboxCityItem {
   return {
-    id: value || "",
-    text: value || "",
+    city: value || "",
+    stateCode: "",
+    stateName: "",
   };
 }

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../ui/page";
-import { MapboxAutocomplete } from "../forms/mapbox-autocomplete";
+import { MapboxCityAutocomplete } from "../forms/mapbox-autocomplete";
 import { AppContext } from "../app-context";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
 
@@ -13,7 +13,7 @@ export const ExampleMapboxPage: React.FC<{}> = () => {
         <p>Mapbox integration is {isMapboxEnabled ? "enabled" : "disabled"}.</p>
       </div>
       <SimpleProgressiveEnhancement>
-        <MapboxAutocomplete />
+        <MapboxCityAutocomplete />
       </SimpleProgressiveEnhancement>
     </Page>
   );

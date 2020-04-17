@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticImage } from "../ui/static-image";
-import { getImageSrc, BuildMyLetterButton } from "./homepage";
+import { getImageSrc } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 
@@ -82,7 +82,7 @@ export const NorentFaqsPreview = () => {
           <div className="has-text-left">
             <Link
               to={NorentRoutes.locale.faqs}
-              className="is-size-6 has-text-weight-normal"
+              className="is-size-5 has-text-weight-normal"
             >
               See more FAQs
             </Link>

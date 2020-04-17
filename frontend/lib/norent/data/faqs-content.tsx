@@ -12,7 +12,7 @@ export type Faq = {
   answerFull: React.ReactNode;
 };
 
-export const FaqsContent:Faq[] = [
+export const FaqsContent: Faq[] = [
   {
     question: "I'm scared. What happens if my landlord retaliates?",
     category: "After Sending Your Letter",

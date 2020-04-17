@@ -83,8 +83,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
             <br />
             <LetterPreview
               title="Preview of your NoRent.org letter"
-              // UPDATE WITH REAL LINK TO SAMPLE LETTER:
-              src="/sample-letter"
+              src="/sample-letter.html"
             />
           </div>
         </div>

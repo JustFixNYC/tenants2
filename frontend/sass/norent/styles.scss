@@ -229,6 +229,11 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-accordion-item {
+  // Have border extend beyond div boundary
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
   &:not(:last-child) {
     border-bottom: 0.3px solid #828282ee;
   }
@@ -239,6 +244,7 @@ $norent-sticky-menu-height: 100px;
     p,
     summary {
       padding: 1rem;
+      margin: 0 -1rem;
     }
     summary {
       display: flex;

@@ -137,6 +137,16 @@ class TestAddrMetadataLookup:
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
 
+    def test_no_lookup_when_address_is_non_nyc(self):
+        onb = OnboardingInfo(
+            address='1 Boop Way',
+            non_nyc_city="Beetville",
+            state="OH",
+            zipcode="43215",
+        )
+        assert onb.maybe_lookup_new_addr_metadata() is False
+        assert onb.zipcode == "43215"
+
     def test_no_lookup_when_addr_and_metadata_have_changed(self):
         info = self.mkinfo_with_metadata()
         info.address = '120 zzz street'

@@ -5,7 +5,7 @@ import graphene
 from project import geocoding
 from project.common_data import Choices
 
-BOROUGH_CHOICES = Choices.from_file('borough-choices.json')
+BOROUGH_CHOICES = Choices.from_file('borough-choices.json', name='Borough')
 
 ADDRESS_MAX_LENGTH = 200
 

@@ -1,6 +1,6 @@
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { OnboardingInfoLeaseType } from "../queries/globalTypes";
 import ADDRESS from "../../../common-data/nycha-address.json";
+import { LeaseType } from "../queries/globalTypes";
 
 /**
  * Our legacy address format. We used to store addresses as a big
@@ -37,6 +37,6 @@ export const NYCHA_ADDRESS = ADDRESS;
  */
 export function isUserNycha(session: AllSessionInfo): boolean {
   return session.onboardingInfo
-    ? session.onboardingInfo.leaseType === OnboardingInfoLeaseType.NYCHA
+    ? session.onboardingInfo.leaseType === LeaseType.NYCHA
     : false;
 }

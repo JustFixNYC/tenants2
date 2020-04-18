@@ -73,6 +73,17 @@ class BaseSessionInfo:
         required=True
     )
 
+    example_deprecated_field = graphene.String(
+        description="An example deprecated session field.",
+        deprecation_reason=(
+            "This is an example of a deprecated session field. "
+            "It should never appear in auto-generated GraphQL queries "
+            "because it is deprecated, but it can still be queried, "
+            "which will allow legacy clients asking for it to not "
+            "crash."
+        )
+    )
+
     def resolve_user_id(self, info: ResolveInfo) -> Optional[int]:
         request = info.context
         if not request.user.is_authenticated:

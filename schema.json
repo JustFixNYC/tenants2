@@ -2262,6 +2262,18 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": "This is an example of a deprecated session field. It should never appear in auto-generated GraphQL queries because it is deprecated, but it can still be queried, which will allow legacy clients asking for it to not crash.",
+              "description": "An example deprecated session field.",
+              "isDeprecated": true,
+              "name": "exampleDeprecatedField",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

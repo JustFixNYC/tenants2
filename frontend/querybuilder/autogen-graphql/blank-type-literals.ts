@@ -114,7 +114,11 @@ function createBlankTypeLiteralObj(
 ): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
-    const { type, name } = field;
+    const { type, name, isDeprecated } = field;
+
+    if (isDeprecated) {
+      continue;
+    }
 
     if (isNullableType(type)) {
       maybeAssignNullValue(result, name, !excludeNullableFields);

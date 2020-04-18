@@ -55,6 +55,12 @@ class NationalOnboardingInfoType(DjangoObjectType):
         only_fields = (
             'address', 'apt_number', 'city', 'state', 'zip_code',)
 
+    # Make the 'state' field just a string, not an enum, for now.
+    state = graphene.String(
+        required=True,
+        description=NationalOnboardingInfo._meta.get_field('state').help_text,
+    )
+
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):

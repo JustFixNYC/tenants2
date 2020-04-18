@@ -1838,6 +1838,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The user's non-NYC onboarding details. This will only be non-null if the user is both logged-in *and* their address is not in New York City.",
+              "isDeprecated": false,
+              "name": "nationalOnboardingInfo",
+              "type": {
+                "kind": "OBJECT",
+                "name": "NationalOnboardingInfoType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "rentalHistoryInfo",
@@ -1886,7 +1898,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user.",
+              "description": "The user's onboarding details, which they filled out during the onboarding process. This is not to be confused with the individual onboarding steps, which capture information someone filled out *during* onboarding, before they became a full-fledged user. This will only be non-null if the user is both logged-in *and* their address is in New York City.",
               "isDeprecated": false,
               "name": "onboardingInfo",
               "type": {
@@ -2535,6 +2547,97 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "NorentScaffolding",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The user's address. Only street name and number are required.",
+              "isDeprecated": false,
+              "name": "address",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The user's city, e.g. \"San Francisco\".",
+              "isDeprecated": false,
+              "name": "city",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The two-letter state or territory for the user's address, e.g. \"CA\".",
+              "isDeprecated": false,
+              "name": "state",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The zip code of the user, e.g. \"94110\" or \"94107-2282\".",
+              "isDeprecated": false,
+              "name": "zipCode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The user's apartment number, e.g. \"2A\".",
+              "isDeprecated": false,
+              "name": "aptNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NationalOnboardingInfoType",
           "possibleTypes": null
         },
         {

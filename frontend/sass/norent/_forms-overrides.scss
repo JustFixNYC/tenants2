@@ -1,0 +1,28 @@
+form {
+  .field {
+    .label {
+      color: $black;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+    .control {
+      input,
+      select {
+        box-shadow: none;
+        border-radius: 0;
+        border-color: $grey-light;
+        margin-bottom: 0.5rem;
+      }
+    }
+    .jf-checkbox-symbol {
+      border: 1px solid $grey-light;
+      border-radius: 4px;
+      margin-left: 0;
+    }
+    .jf-radio-symbol {
+      box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
+    }
+  }
+}

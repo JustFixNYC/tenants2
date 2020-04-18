@@ -203,7 +203,8 @@ class OnboardingSessionInfo(object):
             "during the onboarding process. This is not to be confused with "
             "the individual onboarding steps, which capture information "
             "someone filled out *during* onboarding, before they became "
-            "a full-fledged user."
+            "a full-fledged user. This will only be non-null if the user is "
+            "both logged-in *and* their address is in New York City."
         )
     )
 

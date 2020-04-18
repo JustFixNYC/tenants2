@@ -1,9 +1,11 @@
 import graphene
+from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
 from . import scaffolding, forms
+from .models import NationalOnboardingInfo
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
@@ -47,15 +49,37 @@ class NorentScaffolding(graphene.ObjectType):
     landlord_phone_number = graphene.String(required=True)
 
 
+class NationalOnboardingInfoType(DjangoObjectType):
+    class Meta:
+        model = NationalOnboardingInfo
+        only_fields = (
+            'address', 'apt_number', 'city', 'state', 'zip_code',)
+
+
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
     norent_scaffolding = graphene.Field(NorentScaffolding)
+
+    national_onboarding_info = graphene.Field(
+        NationalOnboardingInfoType,
+        description=(
+            "The user's non-NYC onboarding details. This will only be "
+            "non-null if the user is both logged-in *and* their address "
+            "is not in New York City."
+        ),
+    )
 
     def resolve_norent_scaffolding(self, info: ResolveInfo):
         request = info.context
         kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
         if kwargs:
             return scaffolding.NorentScaffolding(**kwargs)
+        return None
+
+    def resolve_national_onboarding_info(self, info: ResolveInfo):
+        user = info.context.user
+        if hasattr(user, 'national_onboarding_info'):
+            return user.national_onboarding_info
         return None
 
 

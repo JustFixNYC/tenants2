@@ -1,3 +1,6 @@
+from .factories import NationalOnboardingInfoFactory
+
+
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
     result = graphql_client.execute(
         '''
@@ -67,3 +70,32 @@ def test_landlord_info_mutation_updates_session(graphql_client):
     assert output['session']['norentScaffolding'] == {
         'landlordName': 'Landlordo Calrissian'
     }
+
+
+class TestNationalOnboardingInfo:
+    QUERY = '''
+    query {
+        session {
+            nationalOnboardingInfo {
+                address, aptNumber, city, state, zipCode
+            }
+        }
+    }
+    '''
+
+    def execute(self, graphql_client):
+        return graphql_client.execute(self.QUERY)['data']['session']['nationalOnboardingInfo']
+
+    def test_it_returns_none_when_user_is_logged_out(self, graphql_client, db):
+        assert self.execute(graphql_client) is None
+
+    def test_it_returns_info_when_user_is_logged_in(self, graphql_client, db):
+        onb = NationalOnboardingInfoFactory()
+        graphql_client.request.user = onb.user
+        assert self.execute(graphql_client) == {
+            'address': '620 GUERRERO ST',
+            'aptNumber': '8',
+            'city': 'SAN FRANCISCO',
+            'state': 'CA',
+            'zipCode': '94110'
+        }

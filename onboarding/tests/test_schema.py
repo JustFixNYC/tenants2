@@ -109,8 +109,11 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert user.pk == request.user.pk
     assert is_password_usable(user.password) is True
     assert oi.address == '123 boop way'
+    assert oi.borough == "MANHATTAN"
+    assert oi.state == "NY"
     assert oi.needs_repairs is None
     assert oi.lease_type == 'MARKET_RATE'
+    assert oi.receives_public_assistance is False
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body

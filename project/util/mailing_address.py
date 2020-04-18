@@ -18,6 +18,16 @@ class ZipCodeValidator(RegexValidator):
         )
 
 
+CITY_KWARGS = dict(
+    max_length=80,
+)
+
+STATE_KWARGS = dict(
+    max_length=2,
+    choices=US_STATE_CHOICES.choices,
+)
+
+
 class MailingAddress(models.Model):
     '''
     A base Django model for storing mailing address information.
@@ -47,15 +57,14 @@ class MailingAddress(models.Model):
     )
 
     city = models.CharField(
-        max_length=80,
+        **CITY_KWARGS,
         blank=True,
         help_text='The city of the address, e.g. "Brooklyn".'
     )
 
     state = models.CharField(
-        max_length=2,
+        **STATE_KWARGS,
         blank=True,
-        choices=US_STATE_CHOICES.choices,
         help_text='The two-letter state or territory for the address, e.g. "NY".'
     )
 

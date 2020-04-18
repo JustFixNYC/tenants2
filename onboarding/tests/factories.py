@@ -17,6 +17,8 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     borough = BOROUGH_CHOICES.BROOKLYN
 
+    state = "NY"
+
     apt_number = '2'
 
     is_in_eviction = False

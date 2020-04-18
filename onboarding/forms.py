@@ -58,6 +58,10 @@ class OnboardingStep3Form(forms.ModelForm):
         help_text=OnboardingInfo._meta.get_field('receives_public_assistance').help_text
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['lease_type'].required = True
+
 
 class ReliefAttemptsForm(forms.ModelForm):
     class Meta:

@@ -124,7 +124,8 @@ class OnboardingStep4Base(SessionFormMutation):
             )
 
             oi = OnboardingInfo(user=user, **pick_model_fields(
-                OnboardingInfo, **prev_steps, **form.cleaned_data))
+                OnboardingInfo, **prev_steps, **form.cleaned_data),
+                state="NY")
             oi.full_clean()
             oi.save()
 

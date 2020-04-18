@@ -1,5 +1,6 @@
 from typing import List
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from project.common_data import Choices
 from project import geocoding
@@ -9,6 +10,8 @@ from project.util.hyperlink import Hyperlink
 from project.util.admin_util import admin_field
 from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS, BOROUGH_FIELD_KWARGS, BOROUGH_CHOICES)
+from project.util.mailing_address import (
+    CITY_KWARGS, STATE_KWARGS, ZipCodeValidator)
 from users.models import JustfixUser
 
 
@@ -16,9 +19,9 @@ LEASE_CHOICES = Choices.from_file('lease-choices.json')
 
 SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
 
-ADDR_META_HELP = (
-    "This field is automatically updated when you change the address or "
-    "borough, so you generally shouldn't have to change it manually."
+NYCADDR_META_HELP = (
+    "This field is automatically updated for NYC users when you change the "
+    "address or borough."
 )
 
 
@@ -44,17 +47,21 @@ class AddressWithoutBoroughDiagnostic(models.Model):
 class OnboardingInfo(models.Model):
     '''
     The details a user filled out when they joined the site.
+
+    Note that this model was originally NYC-specific, but was
+    subsequently changed to support non-NYC users. As such, it
+    has a few wrinkles.
     '''
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # This keeps track of the fields that comprise our address.
-        self.__addr = InstanceChangeTracker(self, ['address', 'borough'])
+        self.__nycaddr = InstanceChangeTracker(self, ['address', 'borough'])
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
-        self.__addr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl', 'pad_bin'])
+        self.__nycaddr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl', 'pad_bin'])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -83,26 +90,45 @@ class OnboardingInfo(models.Model):
 
     borough = models.CharField(
         **BOROUGH_FIELD_KWARGS,
-        help_text="The New York City borough the user's address is in."
+        blank=True,
+        help_text=(
+            "The New York City borough the user's address is in, if they "
+            "live inside NYC."
+        )
+    )
+
+    non_nyc_city = models.CharField(
+        **CITY_KWARGS,
+        blank=True,
+        help_text=(
+            "The non-NYC city the user's address is in, if they live outside "
+            "of NYC."
+        )
+    )
+
+    state = models.CharField(
+        **STATE_KWARGS,
+        help_text='The two-letter state or territory of the user, e.g. "NY".'
     )
 
     zipcode = models.CharField(
         # https://stackoverflow.com/q/325041/2422398
         max_length=12,
         blank=True,
-        help_text=f"The user's ZIP code. {ADDR_META_HELP}"
+        validators=[ZipCodeValidator()],
+        help_text=f"The user's ZIP code. {NYCADDR_META_HELP}"
     )
 
     pad_bbl: str = models.CharField(
         max_length=PAD_BBL_DIGITS,
         blank=True,
-        help_text=f"The user's Boro, Block, and Lot number. {ADDR_META_HELP}"
+        help_text=f"The user's Boro, Block, and Lot number. {NYCADDR_META_HELP}"
     )
 
     pad_bin: str = models.CharField(
         max_length=PAD_BIN_DIGITS,
         blank=True,
-        help_text=f"The user's building identification number (BIN). {ADDR_META_HELP}"
+        help_text=f"The user's building identification number (BIN). {NYCADDR_META_HELP}"
     )
 
     apt_number = models.CharField(max_length=10)
@@ -129,10 +155,10 @@ class OnboardingInfo(models.Model):
         help_text="Has the user called 311 before?")
 
     lease_type = models.CharField(
-        max_length=30, choices=LEASE_CHOICES.choices,
-        help_text="The type of lease the user has on their dwelling.")
+        max_length=30, choices=LEASE_CHOICES.choices, blank=True,
+        help_text="The type of lease the user has on their dwelling (NYC only).")
 
-    receives_public_assistance = models.BooleanField(
+    receives_public_assistance = models.NullBooleanField(
         help_text="Does the user receive public assistance, e.g. Section 8?")
 
     can_we_sms = models.BooleanField(
@@ -147,30 +173,23 @@ class OnboardingInfo(models.Model):
     @property
     def city(self) -> str:
         '''
-        The city of the user. This will be the same as the borough name,
-        except we use "New York" instead of "Manhattan".
+        The city of the user. For NYC-based users, this will be the same as
+        the borough name, except we use "New York" instead of "Manhattan".
         '''
 
         if not self.borough:
-            return ''
+            return self.non_nyc_city
         if self.borough == BOROUGH_CHOICES.MANHATTAN:
             return 'New York'
         return self.borough_label
 
     @property
-    def full_address(self) -> str:
+    def full_nyc_address(self) -> str:
         '''Return the full address for purposes of geolocation, etc.'''
 
         if not (self.borough and self.address):
             return ''
         return f"{self.address}, {self.borough_label}"
-
-    @property
-    def state(self) -> str:
-        '''The two-letter abbreviation for the user's state.'''
-
-        # For now we'll just hard-code this to New York.
-        return 'NY'
 
     @property
     def apartment_address_line(self) -> str:
@@ -189,7 +208,7 @@ class OnboardingInfo(models.Model):
             result.append(self.address)
         if self.apt_number:
             result.append(self.apartment_address_line)
-        if self.borough:
+        if self.city:
             result.append(f"{self.city}, {self.state} {self.zipcode}".strip())
 
         return result
@@ -209,45 +228,51 @@ class OnboardingInfo(models.Model):
         )
 
     def __should_lookup_new_addr_metadata(self) -> bool:
-        if self.__addr.are_any_fields_blank():
+        if self.__nycaddr.are_any_fields_blank():
             # We can't even look up address metadata without a
             # full address.
             return False
 
-        if self.__addr_meta.are_any_fields_blank():
+        if self.__nycaddr_meta.are_any_fields_blank():
             # We have full address information but no
             # address metadata, so let's look it up!
             return True
 
-        if self.__addr.has_changed() and not self.__addr_meta.has_changed():
+        if self.__nycaddr.has_changed() and not self.__nycaddr_meta.has_changed():
             # The address information has changed but our address
             # metadata has not, so let's look it up again.
             return True
 
         return False
 
-    def lookup_addr_metadata(self):
-        features = geocoding.search(self.full_address)
+    def lookup_nycaddr_metadata(self):
+        features = geocoding.search(self.full_nyc_address)
         if features:
             props = features[0].properties
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
             self.pad_bin = props.pad_bin
-        elif self.__addr.has_changed():
+        elif self.__nycaddr.has_changed():
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
             # about their old address.
             self.zipcode = ''
             self.pad_bbl = ''
             self.pad_bin = ''
-        self.__addr.set_to_unchanged()
-        self.__addr_meta.set_to_unchanged()
+        self.__nycaddr.set_to_unchanged()
+        self.__nycaddr_meta.set_to_unchanged()
 
     def maybe_lookup_new_addr_metadata(self) -> bool:
         if self.__should_lookup_new_addr_metadata():
-            self.lookup_addr_metadata()
+            self.lookup_nycaddr_metadata()
             return True
         return False
+
+    def clean(self):
+        if self.borough and self.non_nyc_city:
+            raise ValidationError(
+                'One cannot be in an NYC borough and outside NYC simultaneously.'
+            )
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()

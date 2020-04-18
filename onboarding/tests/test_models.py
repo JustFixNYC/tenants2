@@ -64,7 +64,7 @@ def test_city_works():
     (dict(state='ZZ'), "not a valid choice"),
     (dict(zipcode='abcde'), "Enter a valid U.S. zip code"),
     (dict(borough="MANHATTAN", non_nyc_city="Beetville"),
-     "A user cannot be in an NYC borough and outside NYC simultaneously"),
+     "One cannot be in an NYC borough and outside NYC simultaneously"),
 ])
 def test_validation_errors_are_raised(db, kwargs, match):
     onb = OnboardingInfoFactory(**kwargs)

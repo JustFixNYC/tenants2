@@ -271,7 +271,7 @@ class OnboardingInfo(models.Model):
     def clean(self):
         if self.borough and self.non_nyc_city:
             raise ValidationError(
-                'A user cannot be in an NYC borough and outside NYC simultaneously'
+                'One cannot be in an NYC borough and outside NYC simultaneously.'
             )
 
     def save(self, *args, **kwargs):

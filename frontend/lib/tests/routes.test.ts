@@ -32,5 +32,8 @@ describe("Routes.locale.homeWithSearch()", () => {
 
   it("Returns home when not enough onboarding info is available", () => {
     expect(Routes.locale.homeWithSearch(null)).toBe("/");
+    expect(
+      Routes.locale.homeWithSearch({ address: "blarg", borough: null })
+    ).toBe("/");
   });
 });

@@ -3,7 +3,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { HPActionYourLandlord } from "../hp-action-your-landlord";
 import { Route } from "react-router-dom";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
-import { OnboardingInfoLeaseType } from "../../queries/globalTypes";
+import { LeaseType } from "../../queries/globalTypes";
 import {
   BlankLandlordDetailsType,
   LandlordDetailsType,
@@ -31,7 +31,7 @@ describe("HPActionYourLandlord", () => {
       session: {
         onboardingInfo: {
           ...BlankOnboardingInfo,
-          leaseType: OnboardingInfoLeaseType.NYCHA,
+          leaseType: LeaseType.NYCHA,
         },
       },
     });

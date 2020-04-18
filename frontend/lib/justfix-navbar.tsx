@@ -7,9 +7,7 @@ import { StaticImage } from "./ui/static-image";
 
 const JustfixBrand: React.FC<{}> = () => {
   const { onboardingInfo } = useContext(AppContext).session;
-  const to = onboardingInfo
-    ? Routes.locale.homeWithSearch(onboardingInfo)
-    : Routes.locale.home;
+  const to = Routes.locale.homeWithSearch(onboardingInfo);
 
   return (
     <Link className="navbar-item" to={to}>

@@ -280,11 +280,7 @@ function RentalHistoryConfirmation(): JSX.Element {
         If you have more questions, please email us at <CustomerSupportLink />.
       </p>
       <Link
-        to={
-          onboardingInfo
-            ? Routes.locale.homeWithSearch(onboardingInfo)
-            : Routes.locale.home
-        }
+        to={Routes.locale.homeWithSearch(onboardingInfo)}
         className="button is-primary is-medium"
       >
         Explore our other tools

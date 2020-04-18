@@ -19,7 +19,7 @@ from users.models import JustfixUser
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
-from onboarding.models import OnboardingInfo
+from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES
 
 
 logger = logging.getLogger(__name__)
@@ -162,12 +162,37 @@ class ReliefAttempts(OneToOneUserModelFormMutation):
         form_class = forms.ReliefAttemptsForm
 
 
+BoroughEnum = graphene.Enum.from_enum(BOROUGH_CHOICES.enum)
+
+LeaseTypeEnum = graphene.Enum.from_enum(LEASE_CHOICES.enum)
+
+
 class OnboardingInfoType(DjangoObjectType):
     class Meta:
         model = OnboardingInfo
         only_fields = (
-            'signup_intent', 'floor_number', 'address', 'borough', 'apt_number', 'pad_bbl',
-            'lease_type', 'has_called_311',)
+            'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
+            'has_called_311',)
+
+    borough = graphene.Field(
+        BoroughEnum,
+        description=OnboardingInfo._meta.get_field('borough').help_text,
+    )
+
+    lease_type = graphene.Field(
+        LeaseTypeEnum,
+        description=OnboardingInfo._meta.get_field('lease_type').help_text,
+    )
+
+    def resolve_borough(self, info):
+        if self.borough:
+            return BOROUGH_CHOICES.get_enum_member(self.borough)
+        return None
+
+    def resolve_lease_type(self, info):
+        if self.lease_type:
+            return LEASE_CHOICES.get_enum_member(self.lease_type)
+        return None
 
 
 @schema_registry.register_session_info

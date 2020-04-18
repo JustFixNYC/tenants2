@@ -1,6 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
-import { DataDrivenOnboardingSuggestionsVariables } from "./queries/DataDrivenOnboardingSuggestions";
+import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/routes";
@@ -226,9 +225,14 @@ function createLocalizedRouteInfo(prefix: string) {
     home: `${prefix}/`,
 
     /** The home page with a pre-filled search address. */
-    homeWithSearch(options: DataDrivenOnboardingSuggestionsVariables) {
-      const { address, borough } = options;
-      return `${this.home}${inputToQuerystring({ address, borough })}`;
+    homeWithSearch(
+      options: { address: string; borough: Borough | null } | null
+    ) {
+      if (options && options.borough) {
+        const { address, borough } = options;
+        return `${this.home}${inputToQuerystring({ address, borough })}`;
+      }
+      return this.home;
     },
 
     /** The help page. */

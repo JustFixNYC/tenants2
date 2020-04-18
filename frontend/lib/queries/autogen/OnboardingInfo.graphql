@@ -2,10 +2,10 @@
 fragment OnboardingInfo on OnboardingInfoType {
   signupIntent,
   address,
-  borough,
   padBbl,
   aptNumber,
   floorNumber,
   hasCalled311,
+  borough,
   leaseType
 }

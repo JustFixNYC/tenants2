@@ -15,7 +15,7 @@ from project.util.mailing_address import (
 from users.models import JustfixUser
 
 
-LEASE_CHOICES = Choices.from_file('lease-choices.json')
+LEASE_CHOICES = Choices.from_file('lease-choices.json', name="LeaseType")
 
 SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
 

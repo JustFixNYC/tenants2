@@ -43,8 +43,8 @@
     .button {
       width: 100%;
       line-height: 0;
-      @extend .has-background-grey;
-      @extend .has-text-white;
+      background-color: $grey;
+      color: $white;
     }
   }
   .button.jf-is-next-button,

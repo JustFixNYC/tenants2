@@ -16,13 +16,6 @@ VALID_STEP_DATA = {
         'borough': 'MANHATTAN',
         'aptNumber': '3B'
     },
-    2: {
-        'isInEviction': False,
-        'needsRepairs': True,
-        'hasNoServices': False,
-        'hasPests': False,
-        'hasCalled311': False
-    },
     3: {
         'leaseType': 'MARKET_RATE',
         'receivesPublicAssistance': 'False'
@@ -104,7 +97,7 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
 def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
-    for i in [1, 2, 3]:
+    for i in [1, 3]:
         assert result['session'][f'onboardingStep{i}'] is None
     assert result['session']['phoneNumber'] == '5551234567'
 
@@ -116,31 +109,13 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert user.pk == request.user.pk
     assert is_password_usable(user.password) is True
     assert oi.address == '123 boop way'
-    assert oi.needs_repairs is True
+    assert oi.needs_repairs is None
     assert oi.lease_type == 'MARKET_RATE'
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
     assert len(mailoutbox) == 1
     assert "verify your email" in mailoutbox[0].subject
-
-
-@pytest.mark.django_db
-def test_onboarding_without_optional_steps_works(graphql_client):
-    steps = {**VALID_STEP_DATA}
-    del steps[2]
-
-    result = execute_onboarding(graphql_client, step_data=steps)
-
-    for i in [1, 3]:
-        assert result['session'][f'onboardingStep{i}'] is None
-    assert result['session']['phoneNumber'] == '5551234567'
-
-    user = JustfixUser.objects.get(phone_number='5551234567')
-    oi = user.onboarding_info
-    assert user.full_name == 'boop jones'
-    assert oi.needs_repairs is None
-    assert oi.lease_type == 'MARKET_RATE'
 
 
 @pytest.mark.django_db

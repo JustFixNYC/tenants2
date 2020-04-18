@@ -55,24 +55,13 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
 
 # The onboarding steps we store in the request session.
 SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
-    OnboardingStep1Info, OnboardingStep2Info, OnboardingStep3Info]
-
-# Steps that are actually optional.
-OPTIONAL_STEPS: List[Type[DjangoSessionFormObjectType]] = [
-    OnboardingStep2Info,
-]
+    OnboardingStep1Info, OnboardingStep3Info]
 
 
 @schema_registry.register_mutation
 class OnboardingStep1(DjangoSessionFormMutation):
     class Meta:
         source = OnboardingStep1Info
-
-
-@schema_registry.register_mutation
-class OnboardingStep2(DjangoSessionFormMutation):
-    class Meta:
-        source = OnboardingStep2Info
 
 
 @schema_registry.register_mutation
@@ -109,8 +98,7 @@ class OnboardingStep4Base(SessionFormMutation):
         for step in SESSION_STEPS:
             value = step.get_dict_from_request(request)
             if not value:
-                if step not in OPTIONAL_STEPS:
-                    return None
+                return None
             else:
                 result.update(value)
         return result
@@ -162,12 +150,6 @@ class OnboardingStep4Base(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class OnboardingStep4(OnboardingStep4Base):
-    class Meta:
-        form_class = forms.OnboardingStep4Form
-
-
-@schema_registry.register_mutation
 class OnboardingStep4Version2(OnboardingStep4Base):
     class Meta:
         form_class = forms.OnboardingStep4FormVersion2
@@ -194,7 +176,9 @@ class OnboardingSessionInfo(object):
     '''
 
     onboarding_step_1 = OnboardingStep1Info.field()
-    onboarding_step_2 = OnboardingStep2Info.field()
+    onboarding_step_2 = OnboardingStep2Info.field(
+        deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
+    )
     onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,

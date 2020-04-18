@@ -29,6 +29,7 @@ $jf-title-weight: 900;
 @import "./_footer-overrides.scss";
 @import "../_letter-preview.scss";
 @import "../_autocomplete.scss";
+@import "../_helpers.scss";
 
 @import "./_fonts.scss";
 
@@ -228,6 +229,12 @@ $norent-sticky-menu-height: 100px;
   @include mobile {
     padding-bottom: $norent-sticky-menu-height;
   }
+
+  .jf-accordion-item {
+    &:not(:last-child) {
+      border-bottom: 0.3px solid #828282ee;
+    }
+  }
 }
 
 .jf-accordion-item {
@@ -236,9 +243,6 @@ $norent-sticky-menu-height: 100px;
   padding-right: 1rem;
   margin-left: -1rem;
   margin-right: -1rem;
-  &:not(:last-child) {
-    border-bottom: 0.3px solid #828282ee;
-  }
 
   details {
     p,

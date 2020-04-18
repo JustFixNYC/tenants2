@@ -30,20 +30,7 @@ import i18n from "../lib/i18n";
 import { assertNotUndefined } from "../lib/util/util";
 import { serveLambdaOverHttp, serveLambdaOverStdio } from "./lambda-io";
 import { setGlobalAppServerInfo } from "../lib/app-context";
-
-/**
- * Valid HTTP headers to add to lambda responses.
- */
-export type LambdaResponseHttpHeaders = {
-  /**
-   * The content type. It defaults to HTML, so leave it empty if it's not
-   * one of the following values.
-   */
-  "Content-Type"?: "application/pdf";
-
-  /** Controls whether we can embed the content as an IFRAME. */
-  "X-Frame-Options"?: "SAMEORIGIN" | "DENY";
-};
+import { LambdaResponseHttpHeaders } from "./lambda-response-http-headers";
 
 /**
  * This is the structure that our lambda returns to clients.

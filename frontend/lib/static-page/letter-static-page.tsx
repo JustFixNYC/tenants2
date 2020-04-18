@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticPage } from "./static-page";
-import { LambdaResponseHttpHeaders } from "../../lambda/lambda";
+import { LambdaResponseHttpHeaders } from "../../lambda/lambda-response-http-headers";
 
 type LetterStylesCss = {
   /** Inline CSS to embed when generating PDFs from HTML. */

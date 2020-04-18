@@ -1,5 +1,5 @@
 import { StaticRouterContext, RouteComponentProps } from "react-router";
-import { LambdaResponseHttpHeaders } from "../lambda/lambda";
+import { LambdaResponseHttpHeaders } from "../lambda/lambda-response-http-headers";
 
 /**
  * This structure keeps track of anything we need during server-side

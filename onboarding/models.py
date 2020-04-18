@@ -21,6 +21,8 @@ ADDR_META_HELP = (
     "borough, so you generally shouldn't have to change it manually."
 )
 
+APT_NUMBER_MAX_LENGTH = 10
+
 
 class AddressWithoutBoroughDiagnostic(models.Model):
     '''
@@ -43,7 +45,7 @@ class AddressWithoutBoroughDiagnostic(models.Model):
 
 class OnboardingInfo(models.Model):
     '''
-    The details a user filled out when they joined the site.
+    The details a New York City user filled out when they joined the site.
     '''
 
     def __init__(self, *args, **kwargs):
@@ -105,7 +107,7 @@ class OnboardingInfo(models.Model):
         help_text=f"The user's building identification number (BIN). {ADDR_META_HELP}"
     )
 
-    apt_number = models.CharField(max_length=10)
+    apt_number = models.CharField(max_length=APT_NUMBER_MAX_LENGTH)
 
     floor_number = models.PositiveSmallIntegerField(
         null=True,

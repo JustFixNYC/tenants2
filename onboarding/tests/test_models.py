@@ -1,6 +1,9 @@
 import datetime
+from django.core.exceptions import ValidationError
+import pytest
 
 from users.tests.factories import UserFactory
+from .factories import OnboardingInfoFactory
 from onboarding.models import OnboardingInfo
 from project.tests.test_geocoding import enable_fake_geocoding, EXAMPLE_SEARCH
 
@@ -46,11 +49,40 @@ def test_city_works():
     info = OnboardingInfo()
     assert info.city == ''
 
+    info.non_nyc_city = "Beetville"
+    assert info.city == "Beetville"
+
+    info.non_nyc_city = ""
     info.borough = 'STATEN_ISLAND'
     assert info.city == 'Staten Island'
 
     info.borough = 'MANHATTAN'
     assert info.city == 'New York'
+
+
+@pytest.mark.parametrize('kwargs,match', [
+    (dict(state='ZZ'), "not a valid choice"),
+    (dict(zipcode='abcde'), "Enter a valid U.S. zip code"),
+    (dict(borough="MANHATTAN", non_nyc_city="Beetville"),
+     "A user cannot be in an NYC borough and outside NYC simultaneously"),
+    (dict(borough="", non_nyc_city=""),
+     "A user must be either in a NYC borough or outside NYC")
+])
+def test_validation_errors_are_raised(db, kwargs, match):
+    onb = OnboardingInfoFactory(**kwargs)
+    with pytest.raises(ValidationError, match=match):
+        onb.full_clean()
+
+
+@pytest.mark.parametrize('kwargs', [
+    dict(),
+    dict(zipcode='43210'),
+    dict(borough='MANHATTAN', non_nyc_city=""),
+    dict(borough='', non_nyc_city="Beetville"),
+])
+def test_validation_errors_are_not_raised(db, kwargs):
+    onb = OnboardingInfoFactory(**kwargs)
+    onb.full_clean()
 
 
 def test_full_nyc_address_works():
@@ -80,6 +112,12 @@ def test_address_lines_for_mailing():
 
     info.zipcode = "11201"
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "New York, NY 11201"]
+
+    info.borough = ""
+    info.non_nyc_city = "Beetville"
+    info.state = "OH"
+    info.zipcode = "43210"
+    assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "Beetville, OH 43210"]
 
 
 class TestAddrMetadataLookup:

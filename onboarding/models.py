@@ -1,5 +1,6 @@
 from typing import List
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from project.common_data import Choices
 from project import geocoding
@@ -207,7 +208,7 @@ class OnboardingInfo(models.Model):
             result.append(self.address)
         if self.apt_number:
             result.append(self.apartment_address_line)
-        if self.borough:
+        if self.city:
             result.append(f"{self.city}, {self.state} {self.zipcode}".strip())
 
         return result
@@ -266,6 +267,16 @@ class OnboardingInfo(models.Model):
             self.lookup_nycaddr_metadata()
             return True
         return False
+
+    def clean(self):
+        if self.borough and self.non_nyc_city:
+            raise ValidationError(
+                'A user cannot be in an NYC borough and outside NYC simultaneously'
+            )
+        if not (self.borough or self.non_nyc_city):
+            raise ValidationError(
+                'A user must be either in a NYC borough or outside NYC'
+            )
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()

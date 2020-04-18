@@ -37,6 +37,8 @@ query {
         onboardingInfo {
             signupIntent
             hasCalled311
+            borough
+            leaseType
         }
     }
 }
@@ -157,3 +159,21 @@ def test_onboarding_session_info_is_fault_tolerant(graphql_client):
         assert _get_step_1_info(graphql_client) is None
         m.exception.assert_called_once_with(f'Error deserializing {key} from session')
         assert key not in graphql_client.request.session
+
+
+def test_onboarding_session_info_works_with_blank_values(db, graphql_client):
+    def query():
+        result = graphql_client.execute(ONBOARDING_INFO_QUERY)
+        return result['data']['session']['onboardingInfo']
+
+    onb = OnboardingInfoFactory(borough='', lease_type='')
+    graphql_client.request.user = onb.user
+    result = query()
+    assert result['borough'] == ''
+    assert result['leaseType'] == ''
+
+    onb.borough = 'BROOKLYN'
+    onb.lease_type = 'NYCHA'
+    result = query()
+    assert result['borough'] == 'BROOKLYN'
+    assert result['leaseType'] == 'NYCHA'

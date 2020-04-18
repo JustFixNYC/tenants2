@@ -14,7 +14,6 @@ import { AppContextType } from "../../app-context";
 import {
   RhFormInput,
   OnboardingInfoSignupIntent,
-  OnboardingInfoBorough,
 } from "../../queries/globalTypes";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
 
@@ -53,7 +52,7 @@ describe("Rental history frontend", () => {
           ...BlankOnboardingInfo,
           address: "150 DOOMBRINGER STREET",
           signupIntent: OnboardingInfoSignupIntent.LOC,
-          borough: OnboardingInfoBorough.MANHATTAN,
+          borough: "MANHATTAN",
           padBbl: "1234567890",
           aptNumber: "1",
           floorNumber: null,

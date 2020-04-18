@@ -1006,22 +1006,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The New York City borough the user's address is in, if they live inside NYC.",
-              "isDeprecated": false,
-              "name": "borough",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "OnboardingInfoBorough",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": "The user's Boro, Block, and Lot number. This field is automatically updated for NYC users when you change the address or borough.",
               "isDeprecated": false,
               "name": "padBbl",
@@ -1078,6 +1062,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The New York City borough the user's address is in, if they live inside NYC.",
+              "isDeprecated": false,
+              "name": "borough",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The type of lease the user has on their dwelling (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",
@@ -1085,8 +1085,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "ENUM",
-                  "name": "OnboardingInfoLeaseType",
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               }
@@ -1125,94 +1125,6 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "OnboardingInfoSignupIntent",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": "Brooklyn",
-              "isDeprecated": false,
-              "name": "BROOKLYN"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Queens",
-              "isDeprecated": false,
-              "name": "QUEENS"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Bronx",
-              "isDeprecated": false,
-              "name": "BRONX"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Manhattan",
-              "isDeprecated": false,
-              "name": "MANHATTAN"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Staten Island",
-              "isDeprecated": false,
-              "name": "STATEN_ISLAND"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "OnboardingInfoBorough",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": "Rent Stabilized/Rent Controlled",
-              "isDeprecated": false,
-              "name": "RENT_STABILIZED"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Market Rate",
-              "isDeprecated": false,
-              "name": "MARKET_RATE"
-            },
-            {
-              "deprecationReason": null,
-              "description": "NYCHA Housing Development",
-              "isDeprecated": false,
-              "name": "NYCHA"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)",
-              "isDeprecated": false,
-              "name": "OTHER"
-            },
-            {
-              "deprecationReason": null,
-              "description": "I'm not sure (currently hidden in app)",
-              "isDeprecated": false,
-              "name": "NOT_SURE"
-            },
-            {
-              "deprecationReason": null,
-              "description": "I don't have a lease",
-              "isDeprecated": false,
-              "name": "NO_LEASE"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "OnboardingInfoLeaseType",
           "possibleTypes": null
         },
         {

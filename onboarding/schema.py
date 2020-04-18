@@ -166,8 +166,24 @@ class OnboardingInfoType(DjangoObjectType):
     class Meta:
         model = OnboardingInfo
         only_fields = (
-            'signup_intent', 'floor_number', 'address', 'borough', 'apt_number', 'pad_bbl',
-            'lease_type', 'has_called_311',)
+            'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
+            'has_called_311',)
+
+    # Argh, once we made this optional, everything exploded, so we're just making
+    # it a string instead of an enum now. Note that the string can be blank.
+    borough = graphene.String(
+        required=True,
+        description=OnboardingInfo._meta.get_field('borough').help_text,
+        resolver=lambda self, ctx: self.borough
+    )
+
+    # Argh, once we made this optional, everything exploded, so we're just making
+    # it a string instead of an enum now. Note that the string can be blank.
+    lease_type = graphene.String(
+        required=True,
+        description=OnboardingInfo._meta.get_field('lease_type').help_text,
+        resolver=lambda self, ctx: self.lease_type
+    )
 
 
 @schema_registry.register_session_info

@@ -3,11 +3,11 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { HPActionYourLandlord } from "../hp-action-your-landlord";
 import { Route } from "react-router-dom";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
-import { OnboardingInfoLeaseType } from "../../queries/globalTypes";
 import {
   BlankLandlordDetailsType,
   LandlordDetailsType,
 } from "../../queries/LandlordDetailsType";
+import { NYCHA_LEASE_CHOICE } from "../../util/nycha";
 
 describe("HPActionYourLandlord", () => {
   afterEach(AppTesterPal.cleanup);
@@ -31,7 +31,7 @@ describe("HPActionYourLandlord", () => {
       session: {
         onboardingInfo: {
           ...BlankOnboardingInfo,
-          leaseType: OnboardingInfoLeaseType.NYCHA,
+          leaseType: NYCHA_LEASE_CHOICE,
         },
       },
     });

@@ -19,6 +19,7 @@ import {
   ExampleStaticPageHTML,
   ExampleStaticPagePDF,
 } from "./example-static-page";
+import { ExampleMapboxPage } from "./example-mapbox-page";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -181,6 +182,7 @@ export default function DevRoutes(): JSX.Element {
         exact
         component={ExampleStaticPagePDF}
       />
+      <Route path={dev.examples.mapbox} exact component={ExampleMapboxPage} />
     </Switch>
   );
 }

@@ -1,12 +1,11 @@
 import React from "react";
 
-import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import DevRoutes from "../dev";
 import Routes from "../../routes";
 
 describe("development pages", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  afterEach(AppTesterPal.cleanup);
 
   it("shows development tools home", () => {
     const pal = new AppTesterPal(<DevRoutes />, {
@@ -20,5 +19,12 @@ describe("development pages", () => {
       url: Routes.dev.examples.ddo,
     });
     pal.rr.getByText("Submit");
+  });
+
+  it("shows mapbox page", () => {
+    const pal = new AppTesterPal(<DevRoutes />, {
+      url: Routes.dev.examples.mapbox,
+    });
+    pal.rr.getByText(/Example Mapbox page/i);
   });
 });

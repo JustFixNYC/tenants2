@@ -1,0 +1,54 @@
+{
+  "id": "locality.6335122455180360",
+  "type": "Feature",
+  "place_type": ["locality"],
+  "relevance": 1,
+  "properties": {
+    "wikidata": "Q18419"
+  },
+  "text_en": "Brooklyn",
+  "language_en": "en",
+  "place_name_en": "Brooklyn, New York City, New York, United States of America",
+  "text": "Brooklyn",
+  "language": "en",
+  "place_name": "Brooklyn, New York City, New York, United States of America",
+  "bbox": [-74.0424119629985, 40.566161483009, -73.833365, 40.739446],
+  "center": [-73.9496, 40.6501],
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-73.9496, 40.6501]
+  },
+  "context": [
+    {
+      "id": "postcode.6747177845636270",
+      "text_en": "11226",
+      "text": "11226"
+    },
+    {
+      "id": "place.15278078705964500",
+      "wikidata": "Q60",
+      "text_en": "New York City",
+      "language_en": "en",
+      "text": "New York City",
+      "language": "en"
+    },
+    {
+      "id": "region.10003493535855570",
+      "short_code": "US-NY",
+      "wikidata": "Q1384",
+      "text_en": "New York",
+      "language_en": "en",
+      "text": "New York",
+      "language": "en"
+    },
+    {
+      "id": "country.19352517729256050",
+      "short_code": "us",
+      "wikidata": "Q30",
+      "text_en": "United States of America",
+      "language_en": "en",
+      "text": "United States of America",
+      "language": "en"
+    }
+  ]
+}

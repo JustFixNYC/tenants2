@@ -64,6 +64,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
   redirectToLegacyAppURL: "/myredirect-to-legacy-app",
+  mapboxAccessToken: "fakeMapboxAccessToken",
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;

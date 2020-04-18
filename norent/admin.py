@@ -16,6 +16,16 @@ class NorentUser(JustfixUser):
 class NationalOnboardingInfoInline(admin.StackedInline):
     model = models.NationalOnboardingInfo
 
+    fieldsets = (
+        (None, {
+            'description': (
+                "This should only exist if the user does NOT live "
+                "in New York city."
+            ),
+            'fields': ('address', 'city', 'state', 'zip_code', 'apt_number')
+        }),
+    )
+
 
 @admin.register(NorentUser)
 class NorentUserAdmin(admin.ModelAdmin):

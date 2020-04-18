@@ -118,6 +118,7 @@ export class AutogenContext {
     field: GraphQLField<any, any>
   ): boolean {
     return (
+      field.isDeprecated ||
       this.globalIgnoreFields.has(field.name) ||
       this.doesTypeConfigIgnoreField(type, field)
     );

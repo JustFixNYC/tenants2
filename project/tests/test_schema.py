@@ -4,6 +4,8 @@ from users.tests.factories import UserFactory
 from project.util import schema_json
 from .util import get_frontend_query
 
+EXAMPLE_DEPRECATED_FIELD = 'exampleDeprecatedField'
+
 
 @pytest.mark.django_db
 def test_login_works(graphql_client):
@@ -32,6 +34,16 @@ def test_logout_works(graphql_client):
     result = graphql_client.execute(logout_mutation, variables={'input': {}})
     assert len(result['data']['output']['session']['csrfToken']) > 0
     assert graphql_client.request.user.pk is None
+
+
+def test_deprecated_field_is_not_in_session_query():
+    all_session_info = get_frontend_query('AllSessionInfo.graphql')
+    assert EXAMPLE_DEPRECATED_FIELD not in all_session_info
+
+
+def test_deprecated_field_can_be_queried(graphql_client):
+    result = graphql_client.execute('query { session { %s } }' % EXAMPLE_DEPRECATED_FIELD)
+    assert result['data']['session'][EXAMPLE_DEPRECATED_FIELD] is None
 
 
 class TestPasswordReset:

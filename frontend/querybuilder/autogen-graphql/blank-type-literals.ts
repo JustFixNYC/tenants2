@@ -16,6 +16,10 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
   Float: 0.0,
   String: "",
   Boolean: false,
+
+  // These are custom scalars we've defined.
+  OptionalBorough: "",
+  OptionalLeaseType: "",
 };
 
 export type CreateBlankTypeLiteralOptions = Partial<Options>;

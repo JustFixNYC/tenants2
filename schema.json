@@ -1070,7 +1070,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "OptionalBorough",
                   "ofType": null
                 }
               }
@@ -1086,7 +1086,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "OptionalLeaseType",
                   "ofType": null
                 }
               }
@@ -1125,6 +1125,26 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "OnboardingInfoSignupIntent",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "OptionalBorough",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "OptionalLeaseType",
           "possibleTypes": null
         },
         {

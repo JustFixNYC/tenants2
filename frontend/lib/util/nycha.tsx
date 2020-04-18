@@ -1,8 +1,5 @@
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import ADDRESS from "../../../common-data/nycha-address.json";
-import { LeaseChoice } from "../../../common-data/lease-choices";
-
-export const NYCHA_LEASE_CHOICE: LeaseChoice = "NYCHA";
 
 /**
  * Our legacy address format. We used to store addresses as a big
@@ -39,6 +36,6 @@ export const NYCHA_ADDRESS = ADDRESS;
  */
 export function isUserNycha(session: AllSessionInfo): boolean {
   return session.onboardingInfo
-    ? session.onboardingInfo.leaseType === NYCHA_LEASE_CHOICE
+    ? session.onboardingInfo.leaseType === "NYCHA"
     : false;
 }

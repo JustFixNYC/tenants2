@@ -7,7 +7,6 @@ import {
   BlankLandlordDetailsType,
   LandlordDetailsType,
 } from "../../queries/LandlordDetailsType";
-import { NYCHA_LEASE_CHOICE } from "../../util/nycha";
 
 describe("HPActionYourLandlord", () => {
   afterEach(AppTesterPal.cleanup);
@@ -31,7 +30,7 @@ describe("HPActionYourLandlord", () => {
       session: {
         onboardingInfo: {
           ...BlankOnboardingInfo,
-          leaseType: NYCHA_LEASE_CHOICE,
+          leaseType: "NYCHA",
         },
       },
     });

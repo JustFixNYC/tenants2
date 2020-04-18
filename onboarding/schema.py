@@ -162,6 +162,14 @@ class ReliefAttempts(OneToOneUserModelFormMutation):
         form_class = forms.ReliefAttemptsForm
 
 
+class OptionalBorough(graphene.String):
+    pass
+
+
+class OptionalLeaseType(graphene.String):
+    pass
+
+
 class OnboardingInfoType(DjangoObjectType):
     class Meta:
         model = OnboardingInfo
@@ -171,7 +179,7 @@ class OnboardingInfoType(DjangoObjectType):
 
     # Argh, once we made this optional, everything exploded, so we're just making
     # it a string instead of an enum now. Note that the string can be blank.
-    borough = graphene.String(
+    borough = OptionalBorough(
         required=True,
         description=OnboardingInfo._meta.get_field('borough').help_text,
         resolver=lambda self, ctx: self.borough
@@ -179,7 +187,7 @@ class OnboardingInfoType(DjangoObjectType):
 
     # Argh, once we made this optional, everything exploded, so we're just making
     # it a string instead of an enum now. Note that the string can be blank.
-    lease_type = graphene.String(
+    lease_type = OptionalLeaseType(
         required=True,
         description=OnboardingInfo._meta.get_field('lease_type').help_text,
         resolver=lambda self, ctx: self.lease_type

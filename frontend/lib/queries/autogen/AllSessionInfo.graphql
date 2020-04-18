@@ -18,13 +18,6 @@ fragment AllSessionInfo on SessionInfo {
     firstName,
     lastName
   },
-  onboardingStep2 {
-    isInEviction,
-    needsRepairs,
-    hasNoServices,
-    hasPests,
-    hasCalled311
-  },
   onboardingStep3 {
     leaseType,
     receivesPublicAssistance

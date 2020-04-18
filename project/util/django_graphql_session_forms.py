@@ -104,14 +104,14 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         return None
 
     @classmethod
-    def field(cls):
+    def field(cls, **kwargs):
         '''
         Return a GraphQL Field associated with this type, with a resolver
         that retrieves the object of this type from the request session, if
         it exists.
         '''
 
-        return graphene.Field(cls, resolver=cls._resolve_from_session)
+        return graphene.Field(cls, resolver=cls._resolve_from_session, **kwargs)
 
 
 class StoreToSessionFormOptions(DjangoFormMutationOptions):

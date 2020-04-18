@@ -53,15 +53,15 @@ def test_city_works():
     assert info.city == 'New York'
 
 
-def test_full_address_works():
+def test_full_nyc_address_works():
     info = OnboardingInfo()
-    assert info.full_address == ''
+    assert info.full_nyc_address == ''
 
     info.borough = 'STATEN_ISLAND'
-    assert info.full_address == ''
+    assert info.full_nyc_address == ''
 
     info.address = '123 Boop street'
-    assert info.full_address == '123 Boop street, Staten Island'
+    assert info.full_nyc_address == '123 Boop street, Staten Island'
 
 
 def test_address_lines_for_mailing():
@@ -75,6 +75,7 @@ def test_address_lines_for_mailing():
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2"]
 
     info.borough = "MANHATTAN"
+    info.state = "NY"
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "New York, NY"]
 
     info.zipcode = "11201"

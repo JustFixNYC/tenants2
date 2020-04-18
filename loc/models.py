@@ -146,10 +146,10 @@ class LandlordDetails(MailingAddress):
         None, as it has no address to lookup the landlord for.
         '''
 
-        if hasattr(user, 'onboarding_info'):
+        if hasattr(user, 'onboarding_info') and user.onboarding_info.borough:
             oi = user.onboarding_info
             info = lookup_landlord(
-                oi.full_address,
+                oi.full_nyc_address,
                 oi.pad_bbl,
                 oi.pad_bin
             )

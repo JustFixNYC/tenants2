@@ -1006,7 +1006,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The New York City borough the user's address is in.",
+              "description": "The New York City borough the user's address is in, if they live inside NYC.",
               "isDeprecated": false,
               "name": "borough",
               "type": {
@@ -1022,7 +1022,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The user's Boro, Block, and Lot number. This field is automatically updated when you change the address or borough, so you generally shouldn't have to change it manually.",
+              "description": "The user's Boro, Block, and Lot number. This field is automatically updated for NYC users when you change the address or borough.",
               "isDeprecated": false,
               "name": "padBbl",
               "type": {
@@ -1078,7 +1078,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The type of lease the user has on their dwelling.",
+              "description": "The type of lease the user has on their dwelling (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",
               "type": {
@@ -2909,7 +2909,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The type of lease the user has on their dwelling.",
+              "description": "The type of lease the user has on their dwelling (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",
               "type": {
@@ -6472,7 +6472,7 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "The type of lease the user has on their dwelling.",
+              "description": "The type of lease the user has on their dwelling (NYC only).",
               "name": "leaseType",
               "type": {
                 "kind": "NON_NULL",

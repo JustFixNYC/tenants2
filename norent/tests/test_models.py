@@ -9,7 +9,11 @@ class TestNationalOnboardingInfo:
         onb = NationalOnboardingInfoFactory()
         onb.full_clean()
 
-    def test_it_raises_validation_error_on_invalid_state(self, db):
-        onb = NationalOnboardingInfoFactory(state='ZZ')
+    @pytest.mark.parametrize('kwargs', [
+        dict(state='ZZ'),
+        dict(zip_code='abcde'),
+    ])
+    def test_it_raises_validation_errors(self, db, kwargs):
+        onb = NationalOnboardingInfoFactory(**kwargs)
         with pytest.raises(ValidationError):
             onb.full_clean()

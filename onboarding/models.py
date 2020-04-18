@@ -273,10 +273,6 @@ class OnboardingInfo(models.Model):
             raise ValidationError(
                 'A user cannot be in an NYC borough and outside NYC simultaneously'
             )
-        if not (self.borough or self.non_nyc_city):
-            raise ValidationError(
-                'A user must be either in a NYC borough or outside NYC'
-            )
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()

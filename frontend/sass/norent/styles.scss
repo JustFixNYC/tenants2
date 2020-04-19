@@ -58,7 +58,7 @@ $jf-navbar-content: $black;
   // Default style for inline hyperlinks:
   a:not(.button) {
     text-decoration: underline;
-    font-weight: 700;
+    font-weight: 600;
     &:hover {
       // Keep color consistent on hover
       color: $link;

@@ -84,6 +84,31 @@ class TestPasswordReset:
         )
         return result['data']['passwordResetConfirm']['errors']
 
+    def mutate_password_reset_confirm_and_login(
+        self,
+        password='my_new_pw1234',
+        confirm_password='my_new_pw1234'
+    ):
+        result = self.graphql_client.execute(
+            '''
+            mutation {
+                passwordResetConfirmAndLogin(input: {
+                    password: "%s",
+                    confirmPassword: "%s"
+                }) {
+                    errors {
+                        field,
+                        messages
+                    }
+                    session {
+                        phoneNumber
+                    }
+                }
+            }
+            ''' % (password, confirm_password)
+        )
+        return result['data']['passwordResetConfirmAndLogin']
+
     def mutate_password_reset_verification_code(self):
         result = self.graphql_client.execute(
             '''
@@ -134,11 +159,25 @@ class TestPasswordReset:
         user.refresh_from_db()
         assert user.check_password('my_new_pw1234') is True
 
+    def test_entire_reset_process_with_login_works(self):
+        user = UserFactory(phone_number='5551234567')
+        assert self.mutate_password_reset() == []
+        assert self.mutate_password_reset_verification_code() == []
+        assert self.mutate_password_reset_confirm_and_login() == {
+            'errors': [],
+            'session': {'phoneNumber': '5551234567'},
+        }
+        user.refresh_from_db()
+        assert user.check_password('my_new_pw1234') is True
+
     def test_password_field_is_required(self):
         assert 'This field is required' in repr(self.mutate_password_reset_confirm('', ''))
 
     def test_confirm_raises_errors(self):
         assert 'Please go back' in repr(self.mutate_password_reset_confirm())
+
+    def test_confirm_and_login_raises_errors(self):
+        assert 'Please go back' in repr(self.mutate_password_reset_confirm_and_login())
 
     def test_verification_raises_errors(self):
         assert 'Incorrect verification' in repr(self.mutate_password_reset_verification_code())

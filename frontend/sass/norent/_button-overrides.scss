@@ -43,12 +43,25 @@
     .button {
       width: 100%;
       line-height: 0;
-      background-color: $grey;
-      color: $white;
     }
   }
   .button.jf-is-next-button,
   .button.jf-is-back-button {
     max-width: 45%;
   }
+}
+
+// Default styling for all light buttons
+.button.is-light,
+.button.is-light:hover {
+  color: $white;
+  // Override color of loading icon:
+  &.is-loading::after {
+    border-color: transparent transparent $white $white !important;
+  }
+}
+
+// Fixes issue with light buttons in forms having displaced text:
+form .button.is-light {
+  line-height: 0;
 }

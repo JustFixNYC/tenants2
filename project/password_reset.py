@@ -104,6 +104,15 @@ def verify_verification_code(request: HttpRequest, vcode: str) -> Optional[str]:
     return None
 
 
+def get_user_id_of_password_reset_user(request: HttpRequest) -> Optional[int]:
+    '''
+    Returns the user ID of the user who is trying to reset their password,
+    or None if it doesn't exist.
+    '''
+
+    return request.session.get(USER_ID_SESSION_KEY)
+
+
 def set_password(request: HttpRequest, password: str) -> Optional[str]:
     '''
     Set the user's password. If anything is amiss, return a string

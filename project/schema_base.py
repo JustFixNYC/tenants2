@@ -2,7 +2,7 @@ from typing import Optional
 from enum import Enum
 import graphene
 from graphql import ResolveInfo
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, authenticate
 from django.middleware import csrf
 from django.forms import formset_factory
 
@@ -279,6 +279,33 @@ class PasswordResetConfirm(DjangoFormMutation):
         if err_str is not None:
             return cls.make_error(err_str)
         return cls(errors=[])
+
+
+@schema_registry.register_mutation
+class PasswordResetConfirmAndLogin(SessionFormMutation):
+    '''
+    Like PasswordResetConfirm, but also logs the user in.
+    '''
+
+    class Meta:
+        form_class = forms.SetPasswordForm
+
+    @classmethod
+    def perform_mutate(cls, form: forms.SetPasswordForm, info: ResolveInfo):
+        request = info.context
+        password = form.cleaned_data['password']
+        user_id = password_reset.get_user_id_of_password_reset_user(request)
+        err_str = password_reset.set_password(request, password)
+        if err_str is not None:
+            return cls.make_error(err_str)
+
+        assert user_id is not None
+        user = JustfixUser.objects.get(pk=user_id)
+        user = authenticate(phone_number=user.phone_number, password=password)
+        assert user is not None
+        login(request, user)
+
+        return cls.mutation_success()
 
 
 class PhoneNumberAccountStatus(Enum):

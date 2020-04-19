@@ -172,7 +172,7 @@ class OnboardingInfoType(DjangoObjectType):
         model = OnboardingInfo
         only_fields = (
             'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
-            'has_called_311',)
+            'has_called_311', 'non_nyc_city', 'zipcode',)
 
     borough = graphene.Field(
         BoroughEnum,
@@ -182,6 +182,21 @@ class OnboardingInfoType(DjangoObjectType):
     lease_type = graphene.Field(
         LeaseTypeEnum,
         description=OnboardingInfo._meta.get_field('lease_type').help_text,
+    )
+
+    # If we specify 'state' as a model field, graphene-django will turn
+    # it into an enum where the empty string value is an invalid choice,
+    # so instead we'll just coerce it to a string.
+    state = graphene.String(
+        required=True,
+        description=OnboardingInfo._meta.get_field('state').help_text,
+        resolver=lambda self, context: self.state,
+    )
+
+    city = graphene.String(
+        required=True,
+        description=OnboardingInfo.city.__doc__.strip(),  # type: ignore
+        resolver=lambda self, context: self.city,
     )
 
     def resolve_borough(self, info):

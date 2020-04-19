@@ -1006,6 +1006,38 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The non-NYC city the user's address is in, if they live outside of NYC.",
+              "isDeprecated": false,
+              "name": "nonNycCity",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The user's ZIP code. This field is automatically updated for NYC users when you change the address or borough.",
+              "isDeprecated": false,
+              "name": "zipcode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The user's Boro, Block, and Lot number. This field is automatically updated for NYC users when you change the address or borough.",
               "isDeprecated": false,
               "name": "padBbl",
@@ -1081,6 +1113,38 @@
                 "kind": "ENUM",
                 "name": "LeaseType",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The two-letter state or territory of the user, e.g. \"NY\".",
+              "isDeprecated": false,
+              "name": "state",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The city of the user. For NYC-based users, this will be the same as\n        the borough name, except we use \"New York\" instead of \"Manhattan\".",
+              "isDeprecated": false,
+              "name": "city",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               }
             }
           ],
@@ -2192,6 +2256,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The account status of the phone number most recently queried, or null if none.",
+              "isDeprecated": false,
+              "name": "lastQueriedPhoneNumberAccountStatus",
+              "type": {
+                "kind": "ENUM",
+                "name": "PhoneNumberAccountStatus",
                 "ofType": null
               }
             },
@@ -4027,6 +4103,35 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "CustomIssueArea",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "NO_ACCOUNT"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITHOUT_PASSWORD"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITH_PASSWORD"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "PhoneNumberAccountStatus",
           "possibleTypes": null
         },
         {
@@ -10410,35 +10515,6 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "QueryOrVerifyPhoneNumberPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "NO_ACCOUNT"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "ACCOUNT_WITHOUT_PASSWORD"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "ACCOUNT_WITH_PASSWORD"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "PhoneNumberAccountStatus",
           "possibleTypes": null
         },
         {

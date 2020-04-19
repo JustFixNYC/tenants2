@@ -81,6 +81,8 @@ sessionFields = ["email", "isEmailVerified"]
 
 [mutations."passwordReset.*"]
 
+[mutations.queryOrVerifyPhoneNumber]
+
 [mutations.onboardingStep1]
 sessionFields = ["onboardingStep1"]
 

@@ -23,6 +23,7 @@ import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentInfoPage } from "./info";
 import { NorentAboutYourLetterPage } from "./about-your-letter";
+import { NorentAccountRoutes } from "./account/steps";
 
 function getRoutesForPrimaryPages() {
   return new Set([
@@ -55,6 +56,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       <Route
         path={Routes.locale.letter.prefix}
         component={NorentLetterRoutes}
+      />
+      <Route
+        path={Routes.locale.account.prefix}
+        component={NorentAccountRoutes}
       />
       {createLetterStaticPageRoutes(Routes.locale.letterContent, (isPdf) => (
         <NorentLetterForUserStaticPage isPdf={isPdf} />

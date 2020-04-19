@@ -1,6 +1,7 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
 import { createLetterStaticPageRouteInfo } from "../static-page/routes";
+import { createNorentAccountRouteInfo } from "./account/routes";
 
 function createNoRentLetterRouteInfo(prefix: string) {
   return {
@@ -36,6 +37,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The letter builder. */
     letter: createNoRentLetterRouteInfo(`${prefix}/letter`),
+
+    /** Login and account creation/onboarding. */
+    account: createNorentAccountRouteInfo(`${prefix}/account`),
   };
 }
 

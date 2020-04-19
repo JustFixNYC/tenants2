@@ -50,3 +50,15 @@ class LandlordInfo(forms.Form):
     landlord_email = forms.EmailField(required=False)
 
     landlord_phone_number = USPhoneNumberField(required=False)
+
+
+class FullName(forms.Form):
+    first_name = forms.CharField()
+
+    last_name = forms.CharField()
+
+
+class CityState(forms.Form):
+    city = forms.CharField()
+
+    state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)

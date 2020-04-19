@@ -82,3 +82,15 @@ class NorentTenantInfo(NorentScaffoldingMutation):
 class NorentLandlordInfo(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.LandlordInfo
+
+
+@schema_registry.register_mutation
+class NorentFullName(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.FullName
+
+
+@schema_registry.register_mutation
+class NorentCityState(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.CityState

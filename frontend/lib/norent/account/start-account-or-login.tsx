@@ -25,6 +25,7 @@ import { ProgressStepRoute } from "../../progress/progress-step-route";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { assertNotNull } from "../../util/util";
 import Page from "../../ui/page";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
 
 type StartAccountOrLoginProps = {
   routes: StartAccountOrLoginRouteInfo;
@@ -261,21 +262,29 @@ export function createStartAccountOrLoginSteps(
     {
       path: routes.phoneNumber,
       exact: true,
+      shouldBeSkipped: isUserLoggedIn,
       render: () => <AskPhoneNumber {...props} />,
     },
     {
       path: routes.verifyPassword,
+      shouldBeSkipped: isUserLoggedIn,
       render: () => <VerifyPassword {...props} />,
     },
     {
       path: routes.verifyPhoneNumber,
       exact: true,
+      shouldBeSkipped: isUserLoggedIn,
       render: () => <VerifyPhoneNumber {...props} />,
     },
     {
       path: routes.setPassword,
       exact: true,
+      shouldBeSkipped: isUserLoggedIn,
       render: () => <SetPassword {...props} />,
     },
   ];
+}
+
+function isUserLoggedIn(s: AllSessionInfo): boolean {
+  return !!s.phoneNumber;
 }

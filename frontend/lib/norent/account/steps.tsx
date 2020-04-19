@@ -194,8 +194,8 @@ export function createNorentAccountSteps(): ProgressStepRoute[] {
     },
     ...createStartAccountOrLoginSteps({
       routes,
-      toNextPhase: routes.name,
       toPreviousPhase: routes.welcome,
+      toNextPhase: routes.name,
     }),
     {
       path: routes.name,

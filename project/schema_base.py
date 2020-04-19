@@ -1,14 +1,19 @@
 from typing import Optional
+from enum import Enum
 import graphene
 from graphql import ResolveInfo
 from django.contrib.auth import logout, login
 from django.middleware import csrf
 from django.forms import formset_factory
 
+from users.models import JustfixUser
 from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from frontend import safe_mode
 from . import forms, password_reset, schema_registry
+
+
+LAST_QUERIED_PHONE_NUMBER_SESSION_KEY = '_last_queried_phone_number'
 
 
 @schema_registry.register_session_info
@@ -37,6 +42,12 @@ class BaseSessionInfo:
         description=(
             "The phone number of the currently logged-in user, or "
             "null if not logged-in."
+        )
+    )
+
+    last_queried_phone_number = graphene.String(
+        description=(
+            "The phone number most recently queried, or null if none."
         )
     )
 
@@ -107,6 +118,10 @@ class BaseSessionInfo:
         if not request.user.is_authenticated:
             return None
         return request.user.phone_number
+
+    def resolve_last_queried_phone_number(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
 
     def resolve_email(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
@@ -264,6 +279,55 @@ class PasswordResetConfirm(DjangoFormMutation):
         if err_str is not None:
             return cls.make_error(err_str)
         return cls(errors=[])
+
+
+class PhoneNumberAccountStatus(Enum):
+    NO_ACCOUNT = 0
+    ACCOUNT_WITHOUT_PASSWORD = 1
+    ACCOUNT_WITH_PASSWORD = 2
+
+
+@schema_registry.register_mutation
+class QueryOrVerifyPhoneNumber(SessionFormMutation):
+    '''
+    Return information about whether a phone number is associated with
+    an account. If the account has no password set, this mutation will
+    automatically send it a verification code, allowing its user to
+    set their password.
+
+    Note that the phone number provided will be stored in the request
+    session so it can later be reused if the user decides to sign up.
+    This means that any subsequent pages that use this mutation will
+    need to provide the user with the ability to clear their session
+    data (usually provided via a "cancel" button).
+    '''
+
+    class Meta:
+        form_class = forms.PhoneNumberForm
+
+    account_status = graphene.Field(
+        graphene.Enum.from_enum(PhoneNumberAccountStatus),
+        description=(
+            "The account status of the user. If ACCOUNT_WITHOUT_PASSWORD, "
+            "assume we have texted the user a verification code."
+        ),
+    )
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        phone_number = form.cleaned_data['phone_number']
+        user = JustfixUser.objects.filter(phone_number=phone_number).first()
+        if user:
+            if user.has_usable_password():
+                account_status = PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD
+            else:
+                account_status = PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD
+                password_reset.create_verification_code(request, phone_number)
+        else:
+            account_status = PhoneNumberAccountStatus.NO_ACCOUNT
+        request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
+        return cls.mutation_success(account_status=account_status)
 
 
 @schema_registry.register_queries

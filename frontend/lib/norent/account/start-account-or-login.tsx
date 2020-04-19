@@ -267,19 +267,19 @@ export function createStartAccountOrLoginSteps(
     },
     {
       path: routes.verifyPassword,
-      shouldBeSkipped: isUserLoggedIn,
+      shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
       render: () => <VerifyPassword {...props} />,
     },
     {
       path: routes.verifyPhoneNumber,
       exact: true,
-      shouldBeSkipped: isUserLoggedIn,
+      shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
       render: () => <VerifyPhoneNumber {...props} />,
     },
     {
       path: routes.setPassword,
       exact: true,
-      shouldBeSkipped: isUserLoggedIn,
+      shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
       render: () => <SetPassword {...props} />,
     },
   ];
@@ -287,4 +287,12 @@ export function createStartAccountOrLoginSteps(
 
 function isUserLoggedIn(s: AllSessionInfo): boolean {
   return !!s.phoneNumber;
+}
+
+function isUserLoggedInOrCreatingNewAccount(s: AllSessionInfo): boolean {
+  return (
+    isUserLoggedIn(s) ||
+    s.lastQueriedPhoneNumberAccountStatus ===
+      PhoneNumberAccountStatus.NO_ACCOUNT
+  );
 }

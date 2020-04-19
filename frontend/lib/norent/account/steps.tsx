@@ -14,10 +14,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
-import {
-  NorentFullNameMutation,
-  BlankNorentFullNameInput,
-} from "../../queries/NorentFullNameMutation";
+import { NorentFullNameMutation } from "../../queries/NorentFullNameMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import {
   NorentCityStateMutation,
@@ -38,8 +35,6 @@ function getNorentAccountRoutes(): NorentAccountRouteInfo {
 }
 
 const AskName = MiddleProgressStep((props) => {
-  const routes = getNorentAccountRoutes();
-
   return (
     <Page title="Welcome!" withHeading="big">
       <div className="content">
@@ -47,9 +42,10 @@ const AskName = MiddleProgressStep((props) => {
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentFullNameMutation}
-        initialState={(s) =>
-          exactSubsetOrDefault(s.norentScaffolding, BlankNorentFullNameInput)
-        }
+        initialState={(s) => ({
+          firstName: s.norentScaffolding?.firstName || s.firstName || "",
+          lastName: s.norentScaffolding?.lastName || s.lastName || "",
+        })}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (
@@ -62,10 +58,7 @@ const AskName = MiddleProgressStep((props) => {
               {...ctx.fieldPropsFor("lastName")}
               label="Last name"
             />
-            <ProgressButtons
-              isLoading={ctx.isLoading}
-              back={routes.phoneNumber}
-            />
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}
       </SessionUpdatingFormSubmitter>

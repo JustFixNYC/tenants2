@@ -39,6 +39,8 @@ query {
             hasCalled311
             borough
             leaseType
+            state
+            city
         }
     }
 }
@@ -159,6 +161,15 @@ def test_onboarding_session_info_is_fault_tolerant(graphql_client):
         assert _get_step_1_info(graphql_client) is None
         m.exception.assert_called_once_with(f'Error deserializing {key} from session')
         assert key not in graphql_client.request.session
+
+
+def test_onboarding_session_info_returns_city_and_state(db, graphql_client):
+    onb = OnboardingInfoFactory()
+    graphql_client.request.user = onb.user
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)
+    info = result['data']['session']['onboardingInfo']
+    assert info['city'] == 'Brooklyn'
+    assert info['state'] == 'NY'
 
 
 def test_onboarding_session_info_works_with_blank_values(db, graphql_client):

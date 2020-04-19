@@ -2,10 +2,14 @@
 fragment OnboardingInfo on OnboardingInfoType {
   signupIntent,
   address,
+  nonNycCity,
+  zipcode,
   padBbl,
   aptNumber,
   floorNumber,
   hasCalled311,
   borough,
-  leaseType
+  leaseType,
+  state,
+  city
 }

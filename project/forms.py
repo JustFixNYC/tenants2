@@ -116,6 +116,10 @@ class OptionalSetPasswordForm(SetPasswordForm):
         self.fields['confirm_password'].required = False
 
 
+class PhoneNumberForm(forms.Form):
+    phone_number = USPhoneNumberField()
+
+
 class ExampleRadioForm(forms.Form):
     radio_field = forms.ChoiceField(choices=[('A', 'a'), ('B', 'b')])
 

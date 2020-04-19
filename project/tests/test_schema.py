@@ -1,5 +1,6 @@
 import pytest
 
+from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from project.util import schema_json
 from .util import get_frontend_query
@@ -203,3 +204,65 @@ def test_user_id_works(graphql_client, db):
     assert user.pk is not None
     graphql_client.request.user = user
     assert get() == user.pk
+
+
+class TestQueryOrVerifyPhoneNumber:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, graphql_client, smsoutbox):
+        self.graphql_client = graphql_client
+        self.smsoutbox = smsoutbox
+
+    def execute(self, phone_number):
+        return self.graphql_client.execute(
+            '''
+            mutation {
+                queryOrVerifyPhoneNumber(input: {phoneNumber: "%s"}) {
+                    errors { field, messages }
+                    accountStatus
+                    session { lastQueriedPhoneNumber }
+                }
+            }
+            ''' % phone_number
+        )['data']['queryOrVerifyPhoneNumber']
+
+    def test_it_returns_no_account(self):
+        result = self.execute('5551234567')
+        assert result == {
+            'accountStatus': 'NO_ACCOUNT',
+            'errors': [],
+            'session': {'lastQueriedPhoneNumber': '5551234567'},
+        }
+        assert len(self.smsoutbox) == 0
+
+    def test_it_returns_form_errors(self):
+        result = self.execute('bleh')
+        assert result['accountStatus'] is None
+        assert result['errors'] != []
+        assert len(self.smsoutbox) == 0
+
+    def test_it_returns_account(self):
+        UserFactory(phone_number='5551234567')
+        result = self.execute('5551234567')
+        assert result == {
+            'accountStatus': 'ACCOUNT_WITH_PASSWORD',
+            'errors': [],
+            'session': {'lastQueriedPhoneNumber': '5551234567'},
+        }
+        assert len(self.smsoutbox) == 0
+
+    def test_it_returns_account_without_password_and_sends_code(self):
+        JustfixUser.objects.create_user(
+            username='blarg', phone_number='5551234567', password=None)
+        result = self.execute('5551234567')
+        assert result == {
+            'accountStatus': 'ACCOUNT_WITHOUT_PASSWORD',
+            'errors': [],
+            'session': {'lastQueriedPhoneNumber': '5551234567'},
+        }
+        assert len(self.smsoutbox) == 1
+
+
+def test_last_queried_phone_number_returns_none(graphql_client):
+    assert graphql_client.execute('query { session { lastQueriedPhoneNumber } }') == {
+        'data': {'session': {'lastQueriedPhoneNumber': None}}
+    }

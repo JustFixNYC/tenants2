@@ -2186,6 +2186,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The phone number most recently queried, or null if none.",
+              "isDeprecated": false,
+              "name": "lastQueriedPhoneNumber",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The email of the currently logged-in user, or null if not logged-in. Note that this can be an empty string if the user hasn't yet given us their email.",
               "isDeprecated": false,
               "name": "email",
@@ -5121,6 +5133,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "SendVerificationEmailPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "QueryOrVerifyPhoneNumberInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "queryOrVerifyPhoneNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "QueryOrVerifyPhoneNumberPayload",
                   "ofType": null
                 }
               }
@@ -9987,6 +10030,141 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "SendVerificationEmailInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "Return information about whether a phone number is associated with\nan account. If the account has no password set, this mutation will\nautomatically send it a verification code, allowing its user to\nset their password.\n\nNote that the phone number provided will be stored in the request\nsession so it can later be reused if the user decides to sign up.\nThis means that any subsequent pages that use this mutation will\nneed to provide the user with the ability to clear their session\ndata (usually provided via a \"cancel\" button).",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The account status of the user. If ACCOUNT_WITHOUT_PASSWORD, assume we have texted the user a verification code.",
+              "isDeprecated": false,
+              "name": "accountStatus",
+              "type": {
+                "kind": "ENUM",
+                "name": "PhoneNumberAccountStatus",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "QueryOrVerifyPhoneNumberPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "NO_ACCOUNT"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITHOUT_PASSWORD"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITH_PASSWORD"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "PhoneNumberAccountStatus",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "phoneNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "QueryOrVerifyPhoneNumberInput",
           "possibleTypes": null
         },
         {

@@ -62,6 +62,7 @@ fragment AllSessionInfo on SessionInfo {
   firstName,
   lastName,
   phoneNumber,
+  lastQueriedPhoneNumber,
   email,
   isEmailVerified,
   csrfToken,

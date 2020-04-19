@@ -41,29 +41,12 @@ $jf-navbar-content: $black;
 @import "./_navbar-overrides.scss";
 
 // PRESETS TO PRE-EXISTING CLASSES:
-body {
-  color: $dark;
-}
-
 .title {
   font-family: $jf-title-family;
   font-weight: $jf-title-weight;
 }
 
 .content {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    &.title {
-      font-family: $jf-title-family;
-      font-weight: $jf-title-weight;
-    }
-  }
-
   h1.title {
     font-size: 4.5rem;
   }

@@ -142,7 +142,9 @@ class BaseSessionInfo:
         request = info.context
         return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
 
-    def resolve_last_queried_phone_number_account_status(self, info: ResolveInfo) -> Optional[PhoneNumberAccountStatus]:
+    def resolve_last_queried_phone_number_account_status(
+        self, info: ResolveInfo
+    ) -> Optional[PhoneNumberAccountStatus]:
         request = info.context
         status = request.session.get(LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY)
         if status:

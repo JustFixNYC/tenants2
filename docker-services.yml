@@ -37,10 +37,10 @@ services:
       - DDM_IS_RUNNING_IN_DOCKER=yup
 
       # This was needed for file watchers to work on Windows, but Docker for Windows has
-      # since started supporting file events, so it doesn't seem to be needed anymore.
-      # However, if we ever start noticing problems with watchers not noticing changes
-      # to files, we should uncomment it (or add it to docker-compose.override.yml).
-      # - CHOKIDAR_USEPOLLING=1
+      # since started supporting file events, so it didn't seem to be needed anymore.
+      # However, in practice it seems that file watchers sometimes stop noticing changes,
+      # so we're enabling polling for now, just to be more reliable.
+      - CHOKIDAR_USEPOLLING=1
 
       - BABEL_CACHE_PATH=/tenants2/.babel-cache.json
       - DATABASE_URL=postgis://justfix@db/justfix

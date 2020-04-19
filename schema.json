@@ -2198,6 +2198,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The account status of the phone number most recently queried, or null if none.",
+              "isDeprecated": false,
+              "name": "lastQueriedPhoneNumberAccountStatus",
+              "type": {
+                "kind": "ENUM",
+                "name": "PhoneNumberAccountStatus",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The email of the currently logged-in user, or null if not logged-in. Note that this can be an empty string if the user hasn't yet given us their email.",
               "isDeprecated": false,
               "name": "email",
@@ -4027,6 +4039,35 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "CustomIssueArea",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "NO_ACCOUNT"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITHOUT_PASSWORD"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ACCOUNT_WITH_PASSWORD"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "PhoneNumberAccountStatus",
           "possibleTypes": null
         },
         {
@@ -10132,35 +10173,6 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "QueryOrVerifyPhoneNumberPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "NO_ACCOUNT"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "ACCOUNT_WITHOUT_PASSWORD"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "ACCOUNT_WITH_PASSWORD"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "PhoneNumberAccountStatus",
           "possibleTypes": null
         },
         {

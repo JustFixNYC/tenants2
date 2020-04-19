@@ -258,7 +258,7 @@ class TestQueryOrVerifyPhoneNumber:
                 queryOrVerifyPhoneNumber(input: {phoneNumber: "%s"}) {
                     errors { field, messages }
                     accountStatus
-                    session { lastQueriedPhoneNumber }
+                    session { lastQueriedPhoneNumber, lastQueriedPhoneNumberAccountStatus }
                 }
             }
             ''' % phone_number
@@ -269,7 +269,10 @@ class TestQueryOrVerifyPhoneNumber:
         assert result == {
             'accountStatus': 'NO_ACCOUNT',
             'errors': [],
-            'session': {'lastQueriedPhoneNumber': '5551234567'},
+            'session': {
+                'lastQueriedPhoneNumber': '5551234567',
+                'lastQueriedPhoneNumberAccountStatus': 'NO_ACCOUNT',
+            },
         }
         assert len(self.smsoutbox) == 0
 
@@ -285,7 +288,10 @@ class TestQueryOrVerifyPhoneNumber:
         assert result == {
             'accountStatus': 'ACCOUNT_WITH_PASSWORD',
             'errors': [],
-            'session': {'lastQueriedPhoneNumber': '5551234567'},
+            'session': {
+                'lastQueriedPhoneNumber': '5551234567',
+                'lastQueriedPhoneNumberAccountStatus': 'ACCOUNT_WITH_PASSWORD'
+            },
         }
         assert len(self.smsoutbox) == 0
 
@@ -296,12 +302,20 @@ class TestQueryOrVerifyPhoneNumber:
         assert result == {
             'accountStatus': 'ACCOUNT_WITHOUT_PASSWORD',
             'errors': [],
-            'session': {'lastQueriedPhoneNumber': '5551234567'},
+            'session': {
+                'lastQueriedPhoneNumber': '5551234567',
+                'lastQueriedPhoneNumberAccountStatus': 'ACCOUNT_WITHOUT_PASSWORD'
+            },
         }
         assert len(self.smsoutbox) == 1
 
 
-def test_last_queried_phone_number_returns_none(graphql_client):
-    assert graphql_client.execute('query { session { lastQueriedPhoneNumber } }') == {
-        'data': {'session': {'lastQueriedPhoneNumber': None}}
+def test_last_queried_phone_number_info_returns_none(graphql_client):
+    assert graphql_client.execute(
+        'query { session { lastQueriedPhoneNumber, lastQueriedPhoneNumberAccountStatus } }'
+    ) == {
+        'data': {'session': {
+            'lastQueriedPhoneNumber': None,
+            'lastQueriedPhoneNumberAccountStatus': None,
+        }}
     }

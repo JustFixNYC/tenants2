@@ -15,6 +15,17 @@ from . import forms, password_reset, schema_registry
 
 LAST_QUERIED_PHONE_NUMBER_SESSION_KEY = '_last_queried_phone_number'
 
+LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY = '_last_queried_phone_number_status'
+
+
+class PhoneNumberAccountStatus(Enum):
+    NO_ACCOUNT = 0
+    ACCOUNT_WITHOUT_PASSWORD = 1
+    ACCOUNT_WITH_PASSWORD = 2
+
+
+GraphQlPhoneNumberAccountStatus = graphene.Enum.from_enum(PhoneNumberAccountStatus)
+
 
 @schema_registry.register_session_info
 class BaseSessionInfo:
@@ -48,6 +59,14 @@ class BaseSessionInfo:
     last_queried_phone_number = graphene.String(
         description=(
             "The phone number most recently queried, or null if none."
+        )
+    )
+
+    last_queried_phone_number_account_status = graphene.Field(
+        GraphQlPhoneNumberAccountStatus,
+        description=(
+            "The account status of the phone number most recently queried, "
+            "or null if none."
         )
     )
 
@@ -122,6 +141,15 @@ class BaseSessionInfo:
     def resolve_last_queried_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
         return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
+
+    def resolve_last_queried_phone_number_account_status(
+        self, info: ResolveInfo
+    ) -> Optional[PhoneNumberAccountStatus]:
+        request = info.context
+        status = request.session.get(LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY)
+        if status:
+            return getattr(PhoneNumberAccountStatus, status)
+        return None
 
     def resolve_email(self, info: ResolveInfo) -> Optional[str]:
         request = info.context
@@ -308,12 +336,6 @@ class PasswordResetConfirmAndLogin(SessionFormMutation):
         return cls.mutation_success()
 
 
-class PhoneNumberAccountStatus(Enum):
-    NO_ACCOUNT = 0
-    ACCOUNT_WITHOUT_PASSWORD = 1
-    ACCOUNT_WITH_PASSWORD = 2
-
-
 @schema_registry.register_mutation
 class QueryOrVerifyPhoneNumber(SessionFormMutation):
     '''
@@ -333,7 +355,7 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
         form_class = forms.PhoneNumberForm
 
     account_status = graphene.Field(
-        graphene.Enum.from_enum(PhoneNumberAccountStatus),
+        GraphQlPhoneNumberAccountStatus,
         description=(
             "The account status of the user. If ACCOUNT_WITHOUT_PASSWORD, "
             "assume we have texted the user a verification code."
@@ -353,6 +375,7 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
                 password_reset.create_verification_code(request, phone_number)
         else:
             account_status = PhoneNumberAccountStatus.NO_ACCOUNT
+        request.session[LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY] = account_status.name
         request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
         return cls.mutation_success(account_status=account_status)
 

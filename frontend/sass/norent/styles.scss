@@ -20,6 +20,7 @@ $jf-title-weight: 900;
 @import "../_progress.scss";
 @import "../_dev.scss";
 @import "../_forms.scss";
+@import "./forms-overrides.scss";
 @import "../_buttons.scss";
 @import "./_button-overrides.scss";
 @import "../_big-list.scss";
@@ -28,6 +29,7 @@ $jf-title-weight: 900;
 @import "./_footer-overrides.scss";
 @import "../_letter-preview.scss";
 @import "../_autocomplete.scss";
+@import "../_helpers.scss";
 
 @import "./_fonts.scss";
 
@@ -39,29 +41,12 @@ $jf-navbar-content: $black;
 @import "./_navbar-overrides.scss";
 
 // PRESETS TO PRE-EXISTING CLASSES:
-body {
-  color: $dark;
-}
-
 .title {
   font-family: $jf-title-family;
   font-weight: $jf-title-weight;
 }
 
 .content {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    &.title {
-      font-family: $jf-title-family;
-      font-weight: $jf-title-weight;
-    }
-  }
-
   h1.title {
     font-size: 4.5rem;
   }
@@ -73,7 +58,7 @@ body {
   // Default style for inline hyperlinks:
   a:not(.button) {
     text-decoration: underline;
-    font-weight: 700;
+    font-weight: 600;
     &:hover {
       // Keep color consistent on hover
       color: $link;
@@ -227,6 +212,12 @@ $norent-sticky-menu-height: 100px;
   @include mobile {
     padding-bottom: $norent-sticky-menu-height;
   }
+
+  .jf-accordion-item {
+    &:not(:last-child) {
+      border-bottom: 0.3px solid #828282ee;
+    }
+  }
 }
 
 .jf-accordion-item {
@@ -235,9 +226,6 @@ $norent-sticky-menu-height: 100px;
   padding-right: 1rem;
   margin-left: -1rem;
   margin-right: -1rem;
-  &:not(:last-child) {
-    border-bottom: 0.3px solid #828282ee;
-  }
 
   details {
     p,

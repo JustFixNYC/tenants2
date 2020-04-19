@@ -25,6 +25,7 @@
 @import "./_big-list.scss";
 @import "./_animations.scss";
 @import "./_letter-preview.scss";
+@import "./_helpers.scss";
 
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
@@ -55,19 +56,6 @@ body > #prerendered-modal ~ .safe-mode-disable {
 
 .title.jf-page-steps-title {
   margin-bottom: 0.5em;
-}
-
-// This is used to "glue" content together, so that e.g. an icon doesn't
-// word-wrap to be orphaned from the content it's associated with.
-.jf-word-glue {
-  white-space: pre;
-}
-
-.jf-is-scrollable-if-too-tall {
-  max-height: 50vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 1em;
 }
 
 .jf-beta-tag:before {
@@ -110,10 +98,6 @@ html.jf-is-fullscreen-admin-page {
     color: $primary !important;
     white-space: nowrap;
   }
-}
-
-.jf-has-text-underline {
-  text-decoration: underline;
 }
 
 .jf-moratorium-banner {
@@ -171,39 +155,6 @@ html.jf-is-fullscreen-admin-page {
       p {
         line-height: 1.3;
       }
-    }
-  }
-}
-
-.jf-heading-with-icon {
-  display: flex;
-
-  > i > svg {
-    width: 1.5em;
-    height: 1.5em;
-  }
-
-  @media (min-width: $jf-supertiny + 1px) {
-    > i {
-      padding-right: 0.5em;
-    }
-
-    > span {
-      padding-top: 0.1em;
-    }
-  }
-
-  @media (max-width: $jf-supertiny) {
-    flex-direction: column;
-
-    margin-top: -0.5em;
-
-    > i {
-      text-align: center;
-    }
-
-    > span {
-      padding-top: 0.5em;
     }
   }
 }

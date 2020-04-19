@@ -73,7 +73,7 @@ export const NorentTenantInfoPage: React.FC<ProgressStepProps> = (props) => {
       <ClearSessionButton
         to={NorentRoutes.locale.home}
         portalRef={cancelControlRef}
-        label="Cancel letter"
+        label="Cancel"
       />
     </Page>
   );

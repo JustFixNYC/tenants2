@@ -61,7 +61,7 @@
   }
 }
 
-// Fixes issue with light buttons in forms having displaced text:
-form .button.is-light {
+// Fixes issue with light buttons in progress step forms having displaced text:
+.jf-progress-step-wrapper form .button.is-light {
   line-height: 0;
 }

@@ -117,3 +117,9 @@ class NorentFullName(NorentScaffoldingMutation):
 class NorentCityState(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.CityState
+
+
+@schema_registry.register_mutation
+class NorentNationalAddress(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.NationalAddress

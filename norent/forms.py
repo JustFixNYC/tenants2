@@ -62,3 +62,11 @@ class CityState(forms.Form):
     city = forms.CharField()
 
     state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
+
+
+class NationalAddress(forms.Form):
+    street = forms.CharField()
+
+    apt_number = forms.CharField()
+
+    zip_code = forms.CharField(validators=[ZipCodeValidator()])

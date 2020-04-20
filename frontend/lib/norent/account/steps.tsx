@@ -24,6 +24,7 @@ import { AppContext } from "../../app-context";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 import { NorentAskNycAddress } from "./nyc-steps";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { NorentAskNationalAddress } from "./national-steps";
 
 const Todo: React.FC<{ title: string }> = ({ title }) => (
   <Page title={`TODO: ${title}`} withHeading />
@@ -176,7 +177,7 @@ export function createNorentAccountSteps(): ProgressStepRoute[] {
       path: routes.nationalAddress,
       exact: true,
       shouldBeSkipped: isUserInNYC,
-      render: () => <Todo title="Ask user for their non-NYC address" />,
+      component: NorentAskNationalAddress,
     },
     {
       path: routes.nycAddress,

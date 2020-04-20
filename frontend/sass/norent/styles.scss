@@ -152,6 +152,11 @@ $norent-sticky-menu-height: 100px;
 
 .jf-sticky-button-container {
   @include mobile {
+    // Allow extra padding on the last child container to make room for sticky menu,
+    // as well as a margin to make space between the menu and the footer:
+    section:last-child {
+      padding-bottom: $norent-sticky-menu-height;
+    }
     margin-bottom: calc(#{$norent-sticky-menu-height} / 2);
   }
   .jf-sticky-button-menu {
@@ -246,11 +251,6 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-faqs-preview {
-  // Allow extra padding to make room for sticky menu on mobile:
-  @include mobile {
-    padding-bottom: $norent-sticky-menu-height;
-  }
-
   .jf-accordion-item {
     &:not(:last-child) {
       border-bottom: 0.3px solid #828282ee;

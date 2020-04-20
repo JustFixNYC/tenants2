@@ -97,12 +97,6 @@ class NorentScaffoldingMutation(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class NorentTenantInfo(NorentScaffoldingMutation):
-    class Meta:
-        form_class = forms.TenantInfo
-
-
-@schema_registry.register_mutation
 class NorentLandlordInfo(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.LandlordInfo

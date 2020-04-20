@@ -5,31 +5,6 @@ from project.util.mailing_address import (
 from project.util.phone_number import USPhoneNumberField
 
 
-class TenantInfo(forms.Form):
-    '''
-    Corresponds to fields in our scaffolding model that
-    involve tenant info.
-    '''
-
-    first_name = forms.CharField()
-
-    last_name = forms.CharField()
-
-    street = forms.CharField()
-
-    city = forms.CharField()
-
-    state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
-
-    zip_code = forms.CharField(validators=[ZipCodeValidator()])
-
-    apt_number = forms.CharField()
-
-    email = forms.EmailField()
-
-    phone_number = USPhoneNumberField()
-
-
 class LandlordInfo(forms.Form):
     '''
     Corresponds to fields in our scaffolding model that

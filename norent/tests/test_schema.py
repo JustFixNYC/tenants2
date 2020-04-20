@@ -40,24 +40,16 @@ def test_is_city_in_nyc_works(graphql_client, city, state, expected):
     assert actual is expected
 
 
-def test_tenant_info_mutation_updates_session(graphql_client):
+def test_email_mutation_updates_session(graphql_client):
     output = graphql_client.execute(
         '''
         mutation {
-          output: norentTenantInfo(input: {
-            firstName: "boeop",
-            lastName: "blap",
-            street: "boing",
-            city: "oof",
-            state: "OH",
-            zipCode: "43569",
-            aptNumber: "2",
-            email: "boop@jones.com",
-            phoneNumber: "5551234567"
+          output: norentEmail(input: {
+            email: "blarf@blarg.com",
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { firstName }
+              norentScaffolding { email }
             }
           }
         }
@@ -65,7 +57,78 @@ def test_tenant_info_mutation_updates_session(graphql_client):
     )['data']['output']
     assert output['errors'] == []
     assert output['session']['norentScaffolding'] == {
-        'firstName': 'boeop'
+        'email': 'blarf@blarg.com',
+    }
+
+
+def test_national_address_mutation_updates_session(graphql_client):
+    output = graphql_client.execute(
+        '''
+        mutation {
+          output: norentNationalAddress(input: {
+            street: "boing",
+            zipCode: "43569",
+            aptNumber: "2",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { street, zipCode, aptNumber }
+            }
+          }
+        }
+        '''
+    )['data']['output']
+    assert output['errors'] == []
+    assert output['session']['norentScaffolding'] == {
+        'street': 'boing',
+        'zipCode': '43569',
+        'aptNumber': '2',
+    }
+
+
+def test_city_state_mutation_updates_session(graphql_client):
+    output = graphql_client.execute(
+        '''
+        mutation {
+          output: norentCityState(input: {
+            city: "oof",
+            state: "OH",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { city, state }
+            }
+          }
+        }
+        '''
+    )['data']['output']
+    assert output['errors'] == []
+    assert output['session']['norentScaffolding'] == {
+        'city': 'oof',
+        'state': 'OH',
+    }
+
+
+def test_full_name_mutation_updates_session(graphql_client):
+    output = graphql_client.execute(
+        '''
+        mutation {
+          output: norentFullName(input: {
+            firstName: "boeop",
+            lastName: "blap",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { firstName, lastName }
+            }
+          }
+        }
+        '''
+    )['data']['output']
+    assert output['errors'] == []
+    assert output['session']['norentScaffolding'] == {
+        'firstName': 'boeop',
+        'lastName': 'blap',
     }
 
 

@@ -27,7 +27,7 @@ import { NorentAboutYourLetterPage } from "./about-your-letter";
 function getRoutesForPrimaryPages() {
   return new Set([
     Routes.locale.home,
-    Routes.locale.info,
+    Routes.locale.about,
     Routes.locale.faqs,
     Routes.locale.aboutLetter,
   ]);
@@ -46,7 +46,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomePage} />
       <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
-      <Route path={Routes.locale.info} exact component={NorentInfoPage} />
+      <Route path={Routes.locale.about} exact component={NorentInfoPage} />
       <Route
         path={Routes.locale.aboutLetter}
         exact
@@ -76,13 +76,16 @@ const NorentMenuItems: React.FC<{}> = () => {
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.aboutLetter}>
-        About your letter
+        The Letter
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
+        Build my Letter
       </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
       </Link>
-      <Link className="navbar-item" to={Routes.locale.info}>
-        Information
+      <Link className="navbar-item" to={Routes.locale.about}>
+        About
       </Link>
       {session.phoneNumber ? (
         // These are placeholders just to show styling.

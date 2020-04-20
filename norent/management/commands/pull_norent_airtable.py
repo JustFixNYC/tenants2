@@ -1,6 +1,6 @@
 import urllib.parse
 import json
-from typing import Any, List, Dict, Iterator
+from typing import Any, Dict, Iterator
 from enum import Enum
 from pathlib import Path
 from django.core.management import BaseCommand, CommandError

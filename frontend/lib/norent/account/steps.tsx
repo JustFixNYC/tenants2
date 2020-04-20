@@ -65,44 +65,12 @@ const AskName = MiddleProgressStep((props) => {
   );
 });
 
-const NYC_CITIES = [
-  "nyc",
-  "new york city",
-  "new york",
-  "ny",
-  "manhattan",
-  "queens",
-  "brooklyn",
-  "staten island",
-  "bronx",
-  "the bronx",
-];
-
-function isCityInNYC(city: string): boolean {
-  return NYC_CITIES.includes(city.toLowerCase().trim());
-}
-
 function isUserInNYC(s: AllSessionInfo): boolean {
-  return isCityInNYC(s.norentScaffolding?.city || "");
+  return s.norentScaffolding?.isCityInNyc || false;
 }
 
 function isUserOutsideNYC(s: AllSessionInfo): boolean {
   return !isUserInNYC(s);
-}
-
-function getRouteForMailingAddress({
-  city,
-  state,
-}: {
-  city: string;
-  state: string;
-}): string {
-  const routes = getNorentAccountRoutes();
-
-  if (state === "NY" && isCityInNYC(city)) {
-    return routes.nycAddress;
-  }
-  return routes.nationalAddress;
 }
 
 const AskCityState = MiddleProgressStep((props) => {
@@ -117,11 +85,7 @@ const AskCityState = MiddleProgressStep((props) => {
           city: s.norentScaffolding?.city || s.onboardingInfo?.city || "",
           state: s.norentScaffolding?.state || s.onboardingInfo?.state || "",
         })}
-        onSuccessRedirect={(output) =>
-          getRouteForMailingAddress(
-            assertNotNull(assertNotNull(output.session).norentScaffolding)
-          )
-        }
+        onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (
           <>

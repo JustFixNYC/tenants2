@@ -1,3 +1,4 @@
+from typing import Optional
 import graphene
 from graphql import ResolveInfo
 
@@ -7,6 +8,20 @@ from . import scaffolding, forms
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
+
+
+NYC_CITIES = [
+    "nyc",
+    "new york city",
+    "new york",
+    "ny",
+    "manhattan",
+    "queens",
+    "brooklyn",
+    "staten island",
+    "bronx",
+    "the bronx"
+]
 
 
 class NorentScaffolding(graphene.ObjectType):
@@ -21,6 +36,8 @@ class NorentScaffolding(graphene.ObjectType):
     street = graphene.String(required=True)
 
     city = graphene.String(required=True)
+
+    is_city_in_nyc = graphene.Boolean()
 
     state = graphene.String(required=True)
 
@@ -45,6 +62,12 @@ class NorentScaffolding(graphene.ObjectType):
     landlord_email = graphene.String(required=True)
 
     landlord_phone_number = graphene.String(required=True)
+
+    def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
+        city = self.city
+        if city:
+            return city.lower() in NYC_CITIES
+        return None
 
 
 @schema_registry.register_session_info

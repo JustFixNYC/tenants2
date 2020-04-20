@@ -2435,6 +2435,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "isCityInNyc",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "state",
               "type": {
                 "kind": "NON_NULL",

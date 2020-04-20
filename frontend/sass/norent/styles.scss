@@ -54,10 +54,12 @@ $jf-navbar-content: $black;
 .content {
   h1.title {
     font-size: 4.5rem;
+    line-height: 1;
   }
 
   h2.title {
     font-size: 2.25rem;
+    line-height: 1;
   }
 
   // Default style for inline hyperlinks:
@@ -118,6 +120,7 @@ $jf-navbar-content: $black;
 }
 
 .jf-has-text-centered-tablet {
+  text-align: left;
   @include tablet {
     text-align: center;
   }
@@ -147,13 +150,26 @@ $jf-navbar-content: $black;
 
 $norent-sticky-menu-height: 100px;
 
-.jf-sticky-button-menu {
-  position: sticky;
-  height: $norent-sticky-menu-height;
-  top: calc(100vh - #{$norent-sticky-menu-height});
-  width: 100%;
-  z-index: 1000;
-  padding: 1rem;
+.jf-sticky-button-container {
+  @include mobile {
+    margin-bottom: calc(#{$norent-sticky-menu-height} / 2);
+  }
+  .jf-sticky-button-menu {
+    position: sticky;
+    height: $norent-sticky-menu-height;
+    top: calc(100vh - #{$norent-sticky-menu-height});
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem;
+  }
+}
+
+// We need to offset the position of whatever container appears after the sticky menu
+// Otherwise, we will be left with empty space at the menu's original position
+.jf-sticky-button-menu + .container {
+  @include mobile {
+    margin-top: calc(-#{$norent-sticky-menu-height} / 2);
+  }
 }
 
 .jf-illustration-paper-airplanes,

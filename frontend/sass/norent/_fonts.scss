@@ -11,8 +11,7 @@
   font-family: "Montserrat Bold";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$norent-root}/font/montserrat-bold-webfont.woff2")
-      format("woff2"),
+  src: url("#{$norent-root}/font/montserrat-bold-webfont.woff2") format("woff2"),
     url("#{$norent-root}/font/montserrat-bold-webfont.woff") format("woff");
 }
 

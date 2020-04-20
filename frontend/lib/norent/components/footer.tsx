@@ -41,7 +41,8 @@ export const NorentFooter: React.FC<{}> = () => (
       <div className="columns">
         <div className="column is-8">
           <h6 className="title is-size-3 has-text-weight-bold has-text-white">
-            Join our mailing list
+            Join our <br className="is-hidden-tablet" />
+            mailing list
           </h6>
           <EmailSignupForm />
         </div>

@@ -24,7 +24,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
         <summary>
           <div className="media">
             <div className="media-content">
-              <span className="title is-size-5 has-text-dark">
+              <span className="title jf-alt-title-font is-size-5 has-text-dark">
                 {faq.question}
               </span>
             </div>
@@ -48,8 +48,8 @@ export const NorentFaqsPreview = () => {
   return (
     <section className="hero jf-faqs-preview">
       <div className="hero-body">
-        <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
-          <h3 className="is-spaced has-text-weight-normal">
+        <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
+          <h3 className="is-spaced has-text-weight-normal is-size-5">
             Sending a letter to your landlord is a big step. Here are a few{" "}
             {/* REPLACE once routes are set up */}
             <Link to={NorentRoutes.locale.faqs}>
@@ -61,14 +61,12 @@ export const NorentFaqsPreview = () => {
           <div className="jf-space-below-2rem">
             {generateFaqsListFromData(FaqsPreviewContent, true)}
           </div>
-          <div className="has-text-left">
-            <Link
-              to={NorentRoutes.locale.faqs}
-              className="is-size-5 has-text-weight-normal"
-            >
-              See more FAQs
-            </Link>
-          </div>
+          <Link
+            to={NorentRoutes.locale.faqs}
+            className="is-size-5 has-text-weight-normal"
+          >
+            See more FAQs
+          </Link>
         </div>
       </div>
     </section>
@@ -85,7 +83,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
               Frequently Asked Questions
             </h2>
             <br />
-            <p className="subtitle">
+            <p className="subtitle is-size-5">
               Sending a letter to your landlord is a big step. Check out our
               frequently asked questions from people who have used our tool:
             </p>

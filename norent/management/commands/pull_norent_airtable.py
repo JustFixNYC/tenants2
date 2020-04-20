@@ -28,6 +28,12 @@ class Table(Enum):
     DOCUMENTATION_REQUIREMENTS = "Documentation Requirements"
 
 
+def pop_if_present(fields: Dict[str, Any], key: str) -> Any:
+    if key in fields:
+        return fields.pop(key)
+    return None
+
+
 def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:
     '''
     Convert raw Airtable rows into a table that maps state codes
@@ -37,19 +43,14 @@ def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDic
     states: StateDict = {}
     for row in rows:
         fields: Dict[str, Any] = row['fields']
+        state = pop_if_present(fields, 'State')
 
         # Only some of our tables have an 'ID' column, for some reason, which we
         # don't actually need, so remove it.
-        if 'ID' in fields:
-            fields.pop('ID')
+        pop_if_present(fields, 'ID')
 
-        if not fields:
-            # It's an empty row.
-            continue
-
-        state = fields.pop('State')
-        assert state not in states, f"{state} should only have one row"
-        if fields:
+        if state and fields:
+            assert state not in states, f"{state} should only have one row"
             states[state] = fields
     return states
 

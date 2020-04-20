@@ -1,3 +1,4 @@
+from typing import Optional
 import graphene
 from graphql import ResolveInfo
 
@@ -7,6 +8,20 @@ from . import scaffolding, forms
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
+
+
+NYC_CITIES = [
+    "nyc",
+    "new york city",
+    "new york",
+    "ny",
+    "manhattan",
+    "queens",
+    "brooklyn",
+    "staten island",
+    "bronx",
+    "the bronx"
+]
 
 
 class NorentScaffolding(graphene.ObjectType):
@@ -21,6 +36,8 @@ class NorentScaffolding(graphene.ObjectType):
     street = graphene.String(required=True)
 
     city = graphene.String(required=True)
+
+    is_city_in_nyc = graphene.Boolean()
 
     state = graphene.String(required=True)
 
@@ -46,6 +63,9 @@ class NorentScaffolding(graphene.ObjectType):
 
     landlord_phone_number = graphene.String(required=True)
 
+    def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
+        return self.state == "NY" and self.city.lower() in NYC_CITIES
+
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
@@ -59,6 +79,12 @@ class NorentSessionInfo(object):
         return None
 
 
+def update_scaffolding(request, new_data):
+    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+    scaffolding_dict.update(new_data)
+    request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+
+
 class NorentScaffoldingMutation(SessionFormMutation):
     class Meta:
         abstract = True
@@ -66,19 +92,35 @@ class NorentScaffoldingMutation(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-        scaffolding_dict.update(form.cleaned_data)
-        request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+        update_scaffolding(request, form.cleaned_data)
         return cls.mutation_success()
-
-
-@schema_registry.register_mutation
-class NorentTenantInfo(NorentScaffoldingMutation):
-    class Meta:
-        form_class = forms.TenantInfo
 
 
 @schema_registry.register_mutation
 class NorentLandlordInfo(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.LandlordInfo
+
+
+@schema_registry.register_mutation
+class NorentFullName(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.FullName
+
+
+@schema_registry.register_mutation
+class NorentCityState(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.CityState
+
+
+@schema_registry.register_mutation
+class NorentNationalAddress(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.NationalAddress
+
+
+@schema_registry.register_mutation
+class NorentEmail(NorentScaffoldingMutation):
+    class Meta:
+        form_class = forms.Email

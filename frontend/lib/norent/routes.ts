@@ -1,16 +1,7 @@
-import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
+import { createRoutesForSite } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
 import { createLetterStaticPageRouteInfo } from "../static-page/routes";
-
-function createNoRentLetterRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    tenantInfo: `${prefix}/your-info`,
-    landlordInfo: `${prefix}/landlord-info`,
-    preview: `${prefix}/preview`,
-  };
-}
+import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -35,7 +26,7 @@ function createLocalizedRouteInfo(prefix: string) {
     ),
 
     /** The letter builder. */
-    letter: createNoRentLetterRouteInfo(`${prefix}/letter`),
+    letter: createNorentLetterBuilderRouteInfo(`${prefix}/letter`),
   };
 }
 

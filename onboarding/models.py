@@ -19,6 +19,8 @@ LEASE_CHOICES = Choices.from_file('lease-choices.json', name="LeaseType")
 
 SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
 
+APT_NUMBER_KWARGS = dict(max_length=10)
+
 NYCADDR_META_HELP = (
     "This field is automatically updated for NYC users when you change the "
     "address or borough."
@@ -131,7 +133,7 @@ class OnboardingInfo(models.Model):
         help_text=f"The user's building identification number (BIN). {NYCADDR_META_HELP}"
     )
 
-    apt_number = models.CharField(max_length=10)
+    apt_number = models.CharField(**APT_NUMBER_KWARGS)
 
     floor_number = models.PositiveSmallIntegerField(
         null=True,

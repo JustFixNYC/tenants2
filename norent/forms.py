@@ -1,8 +1,13 @@
 from django import forms
 
+from project.forms import UniqueEmailForm
 from project.util.mailing_address import (
-    US_STATE_CHOICES, ZipCodeValidator)
+    US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS)
+from project.util.address_form_fields import (
+    ADDRESS_FIELD_KWARGS)
 from project.util.phone_number import USPhoneNumberField
+from onboarding.models import APT_NUMBER_KWARGS
+from users.models import JustfixUser
 
 
 class LandlordInfo(forms.Form):
@@ -27,25 +32,25 @@ class LandlordInfo(forms.Form):
     landlord_phone_number = USPhoneNumberField(required=False)
 
 
-class FullName(forms.Form):
-    first_name = forms.CharField()
-
-    last_name = forms.CharField()
+class FullName(forms.ModelForm):
+    class Meta:
+        model = JustfixUser
+        fields = ('first_name', 'last_name')
 
 
 class CityState(forms.Form):
-    city = forms.CharField()
+    city = forms.CharField(**CITY_KWARGS)
 
     state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
 
 
 class NationalAddress(forms.Form):
-    street = forms.CharField()
+    street = forms.CharField(**ADDRESS_FIELD_KWARGS)
 
-    apt_number = forms.CharField()
+    apt_number = forms.CharField(**APT_NUMBER_KWARGS)
 
     zip_code = forms.CharField(validators=[ZipCodeValidator()])
 
 
-class Email(forms.Form):
-    email = forms.EmailField()
+class Email(UniqueEmailForm):
+    pass

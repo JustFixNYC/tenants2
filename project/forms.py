@@ -78,6 +78,22 @@ class PasswordResetVerificationCodeForm(forms.Form):
     )
 
 
+class UniqueEmailForm(forms.Form):
+    '''
+    A form with an email field that makes sure the provided email address
+    isn't already taken by another user.
+    '''
+
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if JustfixUser.objects.filter(email=email).exists():
+            # TODO: Are we leaking valuable PII here?
+            raise ValidationError('A user with that email address already exists.')
+        return email
+
+
 class SetPasswordForm(forms.Form):
     '''
     A form that can be used to set a password. It can also

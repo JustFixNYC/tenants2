@@ -12,7 +12,10 @@ import { formatPhoneNumber } from "../forms/phone-number-form-field";
 // TODO: This is temporary, it should be passed in as a prop.
 const NONPAY_START_DATE = "2020-05-01T15:41:37.114Z";
 
-export type NorentLetterContentProps = AllSessionInfo_norentScaffolding;
+export type NorentLetterContentProps = Omit<
+  AllSessionInfo_norentScaffolding,
+  "isCityInNyc"
+>;
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>

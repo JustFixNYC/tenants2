@@ -1,11 +1,11 @@
 import React from "react";
-import Page from "../ui/page";
-import { ProgressStepProps } from "../progress/progress-step-route";
-import { LetterPreview } from "../static-page/letter-preview";
-import { NorentRoutes } from "./routes";
-import { BackButton } from "../ui/buttons";
-import { assertNotNull } from "../util/util";
-import { OutboundLink } from "../analytics/google-analytics";
+import Page from "../../ui/page";
+import { ProgressStepProps } from "../../progress/progress-step-route";
+import { LetterPreview } from "../../static-page/letter-preview";
+import { NorentRoutes } from "../routes";
+import { BackButton } from "../../ui/buttons";
+import { assertNotNull } from "../../util/util";
+import { OutboundLink } from "../../analytics/google-analytics";
 
 export const NorentLetterPreviewPage: React.FC<ProgressStepProps> = (props) => {
   const prevStep = assertNotNull(props.prevStep);

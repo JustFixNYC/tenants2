@@ -4,6 +4,7 @@ fragment NorentScaffolding on NorentScaffolding {
   lastName,
   street,
   city,
+  isCityInNyc,
   state,
   zipCode,
   aptNumber,

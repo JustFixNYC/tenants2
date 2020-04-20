@@ -5,14 +5,20 @@ import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { NotFound } from "../pages/not-found";
 import { Route } from "react-router-dom";
-import { AllSessionInfo_norentScaffolding } from "../queries/AllSessionInfo";
+import {
+  AllSessionInfo_norentScaffolding,
+  AllSessionInfo,
+} from "../queries/AllSessionInfo";
 import { friendlyDate } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
 // TODO: This is temporary, it should be passed in as a prop.
 const NONPAY_START_DATE = "2020-05-01T15:41:37.114Z";
 
-export type NorentLetterContentProps = AllSessionInfo_norentScaffolding;
+export type NorentLetterContentProps = Omit<
+  AllSessionInfo_norentScaffolding,
+  "isCityInNyc"
+>;
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>
@@ -126,18 +132,42 @@ const NorentLetterStaticPage: React.FC<
   />
 );
 
+function getNorentLetterContentPropsFromSession(
+  session: AllSessionInfo
+): NorentLetterContentProps | null {
+  if (!session.norentScaffolding) {
+    return null;
+  }
+
+  // Make a copy of this object, because we may modify it.
+  const props: NorentLetterContentProps = { ...session.norentScaffolding };
+
+  // TEMPORARY: The phone number they entered is elsewhere in our session.
+  props.phoneNumber = session.lastQueriedPhoneNumber || "";
+
+  if (session.norentScaffolding?.isCityInNyc) {
+    // TEMPORARY: If they specified a NYC-specific address, it will be in
+    // the onboarding step 1 session info.
+    props.street = session.onboardingStep1?.address || "";
+    props.aptNumber = session.onboardingStep1?.aptNumber || "";
+  }
+
+  return props;
+}
+
 export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
   isPdf,
 }) => {
-  const { norentScaffolding } = useContext(AppContext).session;
+  const { session } = useContext(AppContext);
+  const lcProps = getNorentLetterContentPropsFromSession(session);
 
-  if (!norentScaffolding) {
+  if (!lcProps) {
     return <Route component={NotFound} />;
   }
 
   return (
     <NorentLetterStaticPage
-      {...norentScaffolding}
+      {...lcProps}
       isPdf={isPdf}
       title="Your NoRent.org letter"
     />

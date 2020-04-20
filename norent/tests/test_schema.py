@@ -1,3 +1,8 @@
+import pytest
+
+from norent.schema import update_scaffolding
+
+
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
     result = graphql_client.execute(
         '''
@@ -11,6 +16,28 @@ def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
         '''
     )['data']['session']['norentScaffolding']
     assert result is None
+
+
+@pytest.mark.parametrize('city,state,expected', [
+    ('Ithaca', 'NY', False),
+    ('STATEN ISLAND', 'NY', True),
+    ('Brooklyn', 'NY', True),
+    ('Brooklyn', 'AZ', False),
+    ('Columbus', 'OH', False),
+])
+def test_is_city_in_nyc_works(graphql_client, city, state, expected):
+    update_scaffolding(graphql_client.request, {
+        'city': city,
+        'state': state
+    })
+
+    actual = graphql_client.execute(
+        '''
+        query { session { norentScaffolding { isCityInNyc } } }
+        '''
+    )['data']['session']['norentScaffolding']['isCityInNyc']
+
+    assert actual is expected
 
 
 def test_tenant_info_mutation_updates_session(graphql_client):

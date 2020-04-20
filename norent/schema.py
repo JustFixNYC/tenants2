@@ -64,10 +64,7 @@ class NorentScaffolding(graphene.ObjectType):
     landlord_phone_number = graphene.String(required=True)
 
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
-        city = self.city
-        if city:
-            return city.lower() in NYC_CITIES
-        return None
+        return self.state == "NY" and self.city.lower() in NYC_CITIES
 
 
 @schema_registry.register_session_info
@@ -82,6 +79,12 @@ class NorentSessionInfo(object):
         return None
 
 
+def update_scaffolding(request, new_data):
+    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+    scaffolding_dict.update(new_data)
+    request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+
+
 class NorentScaffoldingMutation(SessionFormMutation):
     class Meta:
         abstract = True
@@ -89,9 +92,7 @@ class NorentScaffoldingMutation(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-        scaffolding_dict.update(form.cleaned_data)
-        request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+        update_scaffolding(request, form.cleaned_data)
         return cls.mutation_success()
 
 

@@ -25,6 +25,7 @@ import { LogoutMutation } from "../../queries/LogoutMutation";
 import { NorentAskNycAddress } from "./nyc-steps";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentAskNationalAddress } from "./national-steps";
+import { NorentEmailMutation } from "../../queries/NorentEmailMutation";
 
 const Todo: React.FC<{ title: string }> = ({ title }) => (
   <Page title={`TODO: ${title}`} withHeading />
@@ -57,6 +58,34 @@ const AskName = MiddleProgressStep((props) => {
             <TextualFormField
               {...ctx.fieldPropsFor("lastName")}
               label="Last name"
+            />
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+    </Page>
+  );
+});
+
+const AskEmail = MiddleProgressStep((props) => {
+  return (
+    <Page title="Your email address" withHeading="big">
+      <div className="content">
+        <p>We'll use this information to email you a copy of your letter.</p>
+      </div>
+      <SessionUpdatingFormSubmitter
+        mutation={NorentEmailMutation}
+        initialState={(s) => ({
+          email: s.norentScaffolding?.email || s.email || "",
+        })}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => (
+          <>
+            <TextualFormField
+              type="email"
+              {...ctx.fieldPropsFor("email")}
+              label="Email address"
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
@@ -188,7 +217,7 @@ export function createNorentAccountSteps(): ProgressStepRoute[] {
     {
       path: routes.email,
       exact: true,
-      render: () => <Todo title="Ask user for their email" />,
+      component: AskEmail,
     },
     {
       path: routes.create,

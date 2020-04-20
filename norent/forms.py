@@ -70,3 +70,7 @@ class NationalAddress(forms.Form):
     apt_number = forms.CharField()
 
     zip_code = forms.CharField(validators=[ZipCodeValidator()])
+
+
+class Email(forms.Form):
+    email = forms.EmailField()

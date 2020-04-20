@@ -1,22 +1,9 @@
 import { ROUTE_PREFIX } from "../../util/route-util";
+import { createStartAccountOrLoginRouteInfo } from "../start-account-or-login/routes";
 
 export type NorentAccountRouteInfo = ReturnType<
   typeof createNorentAccountRouteInfo
 >;
-
-export type StartAccountOrLoginRouteInfo = ReturnType<
-  typeof createStartAccountOrLoginRouteInfo
->;
-
-function createStartAccountOrLoginRouteInfo(prefix: string) {
-  return {
-    phoneNumber: `${prefix}/phone/ask`,
-    verifyPhoneNumber: `${prefix}/phone/verify`,
-    setPassword: `${prefix}/password/set`,
-    verifyPassword: `${prefix}/password/verify`,
-    forgotPasswordModal: `${prefix}/password/verify/forgot-modal`,
-  };
-}
 
 export function createNorentAccountRouteInfo(prefix: string) {
   return {

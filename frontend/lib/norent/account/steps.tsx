@@ -21,7 +21,7 @@ import {
   BlankNorentCityStateInput,
 } from "../../queries/NorentCityStateMutation";
 import { USStateFormField } from "../../forms/mailing-address-fields";
-import { createStartAccountOrLoginSteps } from "./start-account-or-login";
+import { createStartAccountOrLoginSteps } from "../start-account-or-login/steps";
 import { Link, Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { LogoutMutation } from "../../queries/LogoutMutation";

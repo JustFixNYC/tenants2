@@ -18,7 +18,7 @@ import Page from "../../ui/page";
 import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 
-const NorentConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
+const ConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
   nextStep,
 }) => {
   const addrInfo =
@@ -26,7 +26,7 @@ const NorentConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
   return <ConfirmAddressModal nextStep={nextStep} {...addrInfo} />;
 };
 
-export const NorentAskNycAddress = MiddleProgressStep((props) => {
+export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
   return (
     <Page title="Your NYC mailing information" withHeading="big">
       <div className="content">
@@ -52,7 +52,7 @@ export const NorentAskNycAddress = MiddleProgressStep((props) => {
               assertNotNull(output.session).onboardingStep1
             ),
             nextStep: props.nextStep,
-            confirmation: NorentRoutes.locale.account.nycAddressConfirmModal,
+            confirmation: NorentRoutes.locale.letter.nycAddressConfirmModal,
           })
         }
       >
@@ -74,11 +74,9 @@ export const NorentAskNycAddress = MiddleProgressStep((props) => {
         )}
       </SessionUpdatingFormSubmitter>
       <Route
-        path={NorentRoutes.locale.account.nycAddressConfirmModal}
+        path={NorentRoutes.locale.letter.nycAddressConfirmModal}
         exact
-        render={() => (
-          <NorentConfirmNycAddressModal nextStep={props.nextStep} />
-        )}
+        render={() => <ConfirmNycAddressModal nextStep={props.nextStep} />}
       />
     </Page>
   );

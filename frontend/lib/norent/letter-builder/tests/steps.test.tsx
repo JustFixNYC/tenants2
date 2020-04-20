@@ -1,9 +1,9 @@
 import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
-import { getNorentAccountProgressRoutesProps } from "../steps";
+import { getNoRentLetterBuilderProgressRoutesProps } from "../steps";
 
 const tester = new ProgressRoutesTester(
-  getNorentAccountProgressRoutesProps(),
-  "NoRent account flow"
+  getNoRentLetterBuilderProgressRoutesProps(),
+  "NoRent letter builder flow"
 );
 
 tester.defineSmokeTests();

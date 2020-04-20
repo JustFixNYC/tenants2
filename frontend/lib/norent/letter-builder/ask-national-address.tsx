@@ -7,7 +7,7 @@ import { NorentNationalAddressMutation } from "../../queries/NorentNationalAddre
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 
-export const NorentAskNationalAddress = MiddleProgressStep((props) => {
+export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
   const norent = useContext(AppContext).session.norentScaffolding;
   return (
     <Page title="Your mailing information" withHeading="big">

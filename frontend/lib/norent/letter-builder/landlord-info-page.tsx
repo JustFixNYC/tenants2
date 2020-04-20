@@ -1,16 +1,16 @@
 import React from "react";
-import Page from "../ui/page";
-import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { TextualFormField } from "../forms/form-fields";
-import { exactSubsetOrDefault } from "../util/util";
-import { USStateFormField } from "../forms/mailing-address-fields";
-import { ProgressButtons } from "../ui/buttons";
+import Page from "../../ui/page";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
+import { TextualFormField } from "../../forms/form-fields";
+import { exactSubsetOrDefault } from "../../util/util";
+import { USStateFormField } from "../../forms/mailing-address-fields";
+import { ProgressButtons } from "../../ui/buttons";
 import {
   NorentLandlordInfoMutation,
   BlankNorentLandlordInfoInput,
-} from "../queries/NorentLandlordInfoMutation";
-import { PhoneNumberFormField } from "../forms/phone-number-form-field";
-import { MiddleProgressStep } from "../progress/progress-step-route";
+} from "../../queries/NorentLandlordInfoMutation";
+import { PhoneNumberFormField } from "../../forms/phone-number-form-field";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 
 export const NorentLandlordInfoPage = MiddleProgressStep((props) => {
   return (

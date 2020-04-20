@@ -1,11 +1,11 @@
 import { ROUTE_PREFIX } from "../../util/route-util";
 import { createStartAccountOrLoginRouteInfo } from "../start-account-or-login/routes";
 
-export type NorentAccountRouteInfo = ReturnType<
-  typeof createNorentAccountRouteInfo
+export type NorentLetterBuilderRouteInfo = ReturnType<
+  typeof createNorentLetterBuilderRouteInfo
 >;
 
-export function createNorentAccountRouteInfo(prefix: string) {
+export function createNorentLetterBuilderRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
@@ -17,7 +17,7 @@ export function createNorentAccountRouteInfo(prefix: string) {
     nycAddress: `${prefix}/address/nyc`,
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
     email: `${prefix}/email`,
-    create: `${prefix}/create`,
-    update: `${prefix}/update`,
+    landlordInfo: `${prefix}/landlord-info`,
+    preview: `${prefix}/preview`,
   };
 }

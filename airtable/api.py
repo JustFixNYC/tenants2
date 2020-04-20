@@ -11,6 +11,9 @@ from .record import Record, Fields
 
 logger = logging.getLogger(__name__)
 
+# Raw dictionary representation of a row in the Airtable, as retured
+# by the API.
+RawRow = Dict[str, Any]
 
 # The HTTP status code returned by Airtable when it can't process
 # something we gave it. This is usually caused because we're giving
@@ -148,7 +151,7 @@ class Airtable:
             return Record(**record)
         return None
 
-    def _get_list_page(self, page_size: int, offset: str) -> Tuple[List[Record], str]:
+    def _get_raw_list_page(self, page_size: int, offset: str) -> Tuple[List[RawRow], str]:
         params = {
             'pageSize': str(page_size),
         }
@@ -157,21 +160,26 @@ class Airtable:
         res = self.request('GET', params=params)
         result = res.json()
         next_offset = result.get('offset', '')
-        records = [
-            Record(**record) for record in result['records']
-        ]
-        return (records, next_offset)
+        return (result['records'], next_offset)
+
+    def list_raw(self, page_size=100) -> Iterator[RawRow]:
+        '''
+        Iterate through all rows in the Airtable, but with raw dictionary data.
+        '''
+
+        offset = ''
+
+        while True:
+            records, offset = self._get_raw_list_page(page_size, offset)
+            for record in records:
+                yield record
+            if not offset:
+                break
 
     def list(self, page_size=100) -> Iterator[Record]:
         '''
         Iterate through all rows in the Airtable.
         '''
 
-        offset = ''
-
-        while True:
-            records, offset = self._get_list_page(page_size, offset)
-            for record in records:
-                yield record
-            if not offset:
-                break
+        for raw_record in self.list_raw(page_size):
+            yield Record(**raw_record)

@@ -23,7 +23,6 @@ import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentInfoPage } from "./info";
 import { NorentAboutYourLetterPage } from "./about-your-letter";
-import { StaticImage } from "../ui/static-image";
 import { NorentLogo } from "./components/logo";
 
 function getRoutesForPrimaryPages() {

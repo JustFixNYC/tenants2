@@ -106,9 +106,10 @@ const AskCityState = MiddleProgressStep((props) => {
     >
       <SessionUpdatingFormSubmitter
         mutation={NorentCityStateMutation}
-        initialState={(s) =>
-          exactSubsetOrDefault(s.norentScaffolding, BlankNorentCityStateInput)
-        }
+        initialState={(s) => ({
+          city: s.onboardingInfo?.city || s.norentScaffolding?.city || "",
+          state: s.onboardingInfo?.state || s.norentScaffolding?.state || "",
+        })}
         onSuccessRedirect={(output) =>
           getRouteForMailingAddress(
             assertNotNull(assertNotNull(output.session).norentScaffolding)

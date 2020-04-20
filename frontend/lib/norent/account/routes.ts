@@ -15,6 +15,7 @@ export function createNorentAccountRouteInfo(prefix: string) {
     city: `${prefix}/city`,
     nationalAddress: `${prefix}/address/national`,
     nycAddress: `${prefix}/address/nyc`,
+    nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
     email: `${prefix}/email`,
     create: `${prefix}/create`,
     update: `${prefix}/update`,

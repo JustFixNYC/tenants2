@@ -8,7 +8,7 @@ import Page from "../../ui/page";
 import { NorentRoutes } from "../routes";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { NorentAccountRouteInfo } from "./routes";
-import { assertNotNull, exactSubsetOrDefault } from "../../util/util";
+import { assertNotNull } from "../../util/util";
 import { ProgressButtons } from "../../ui/buttons";
 import {
   ProgressRoutesProps,
@@ -16,15 +16,14 @@ import {
 } from "../../progress/progress-routes";
 import { NorentFullNameMutation } from "../../queries/NorentFullNameMutation";
 import { TextualFormField } from "../../forms/form-fields";
-import {
-  NorentCityStateMutation,
-  BlankNorentCityStateInput,
-} from "../../queries/NorentCityStateMutation";
+import { NorentCityStateMutation } from "../../queries/NorentCityStateMutation";
 import { USStateFormField } from "../../forms/mailing-address-fields";
 import { createStartAccountOrLoginSteps } from "../start-account-or-login/steps";
 import { Link, Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { LogoutMutation } from "../../queries/LogoutMutation";
+import { NorentAskNycAddress } from "./nyc-steps";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
 
 const Todo: React.FC<{ title: string }> = ({ title }) => (
   <Page title={`TODO: ${title}`} withHeading />
@@ -83,6 +82,14 @@ function isCityInNYC(city: string): boolean {
   return NYC_CITIES.includes(city.toLowerCase().trim());
 }
 
+function isUserInNYC(s: AllSessionInfo): boolean {
+  return isCityInNYC(s.norentScaffolding?.city || "");
+}
+
+function isUserOutsideNYC(s: AllSessionInfo): boolean {
+  return !isUserInNYC(s);
+}
+
 function getRouteForMailingAddress({
   city,
   state,
@@ -107,8 +114,8 @@ const AskCityState = MiddleProgressStep((props) => {
       <SessionUpdatingFormSubmitter
         mutation={NorentCityStateMutation}
         initialState={(s) => ({
-          city: s.onboardingInfo?.city || s.norentScaffolding?.city || "",
-          state: s.onboardingInfo?.state || s.norentScaffolding?.state || "",
+          city: s.norentScaffolding?.city || s.onboardingInfo?.city || "",
+          state: s.norentScaffolding?.state || s.onboardingInfo?.state || "",
         })}
         onSuccessRedirect={(output) =>
           getRouteForMailingAddress(
@@ -204,12 +211,14 @@ export function createNorentAccountSteps(): ProgressStepRoute[] {
     {
       path: routes.nationalAddress,
       exact: true,
+      shouldBeSkipped: isUserInNYC,
       render: () => <Todo title="Ask user for their non-NYC address" />,
     },
     {
       path: routes.nycAddress,
-      exact: true,
-      render: () => <Todo title="Ask user for their NYC address" />,
+      exact: false,
+      shouldBeSkipped: isUserOutsideNYC,
+      component: NorentAskNycAddress,
     },
     {
       path: routes.email,

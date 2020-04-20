@@ -6,6 +6,7 @@ $norent-root: "../norent";
 
 $jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
 $jf-title-family: "Montserrat Black", sans-serif;
+$jf-alt-title-family: "Montserrat Bold", sans-serif;
 $jf-title-weight: 900;
 
 @import "../_util.scss";
@@ -44,6 +45,10 @@ $jf-navbar-content: $black;
 .title {
   font-family: $jf-title-family;
   font-weight: $jf-title-weight;
+
+  &.jf-alt-title-font {
+    font-family: $jf-alt-title-family;
+  }
 }
 
 .content {
@@ -79,6 +84,11 @@ $jf-navbar-content: $black;
     &.jf-wide-container {
       max-width: 1000px;
     }
+  }
+
+  // Default hero padding
+  .hero .hero-body {
+    padding: 4rem 2rem;
   }
 
   // Make all media icons have vertical centering
@@ -171,6 +181,15 @@ $norent-sticky-menu-height: 100px;
   font-size: 4rem;
 }
 
+.jf-norent-checklist {
+  .media {
+    height: 5rem;
+    .media-content {
+      align-self: center;
+    }
+  }
+}
+
 .jf-letter-preview-container {
   padding-bottom: 0;
   @include mobile {
@@ -195,6 +214,9 @@ $norent-sticky-menu-height: 100px;
 
 .jf-how-it-works-container {
   .column {
+    p:not(.title) {
+      line-height: 1.35;
+    }
     @include mobile {
       // Make divs in column line up side by side on mobile
       display: flex;

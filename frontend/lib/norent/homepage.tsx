@@ -54,7 +54,7 @@ const checklistItems = [
 ];
 
 export const LandingPageChecklist = () => (
-  <section className="hero has-background-white-ter">
+  <section className="hero has-background-white-ter jf-norent-checklist">
     <div className="hero-body">
       <div className="container jf-tight-container has-text-centered">
         <h3 className="is-spaced has-text-weight-normal">
@@ -190,7 +190,7 @@ export const NorentHomePage: React.FC<{}> = () => (
             </h3>
             <br />
             <article className="message">
-              <div className="message-body has-background-grey-lighter has-text-left">
+              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
                 <p>Dear Landlord/Management.</p>
                 <br />
                 <p>
@@ -245,7 +245,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
+                  <p className="title is-size-4 jf-alt-title-font">
                     8 Steps
                   </p>
                   <p>
@@ -263,7 +263,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
+                  <p className="title is-size-4 jf-alt-title-font">
                     Legal Protections
                   </p>
                   <p>
@@ -281,7 +281,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
+                  <p className="title is-size-4 jf-alt-title-font">
                     Free Certified Mail
                   </p>
                   <p>

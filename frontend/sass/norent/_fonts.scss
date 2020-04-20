@@ -9,6 +9,13 @@
 
 @font-face {
   font-family: "Open Sans";
+  font-weight: 200;
+  font-style: normal;
+  src: url("#{$norent-root}/font/opensans-light-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
   font-weight: normal;
   font-style: normal;
   src: url("#{$norent-root}/font/opensans-regular-webfont.woff") format("woff");

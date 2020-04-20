@@ -1,7 +1,8 @@
 from django import forms
 from django.forms import ValidationError
 
-from project.forms import SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField
+from project.forms import (
+    SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField, UniqueEmailForm)
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from users.models import JustfixUser
@@ -92,16 +93,12 @@ class OnboardingStep4Form(BaseOnboardingStep4Form, OptionalSetPasswordForm, form
         fields = ('can_we_sms', 'signup_intent')
 
 
-class OnboardingStep4FormVersion2(BaseOnboardingStep4Form, SetPasswordForm, forms.ModelForm):
+class OnboardingStep4FormVersion2(
+    BaseOnboardingStep4Form,
+    UniqueEmailForm,
+    SetPasswordForm,
+    forms.ModelForm
+):
     class Meta:
         model = OnboardingInfo
         fields = ('can_we_sms', 'signup_intent')
-
-    email = forms.EmailField()
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if JustfixUser.objects.filter(email=email).exists():
-            # TODO: Are we leaking valuable PII here?
-            raise ValidationError('A user with that email address already exists.')
-        return email

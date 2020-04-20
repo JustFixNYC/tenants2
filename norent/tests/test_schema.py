@@ -40,7 +40,7 @@ def test_is_city_in_nyc_works(graphql_client, city, state, expected):
     assert actual is expected
 
 
-def test_email_mutation_updates_session(graphql_client):
+def test_email_mutation_updates_session(db, graphql_client):
     output = graphql_client.execute(
         '''
         mutation {

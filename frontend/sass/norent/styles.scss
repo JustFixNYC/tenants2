@@ -7,7 +7,6 @@ $norent-root: "../norent";
 $jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
 $jf-title-family: "Montserrat Black", sans-serif;
 $jf-alt-title-family: "Montserrat Bold", sans-serif;
-$jf-title-weight: 900;
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
@@ -44,7 +43,6 @@ $jf-navbar-content: $black;
 // PRESETS TO PRE-EXISTING CLASSES:
 .title {
   font-family: $jf-title-family;
-  font-weight: $jf-title-weight;
 
   &.jf-alt-title-font {
     font-family: $jf-alt-title-family;

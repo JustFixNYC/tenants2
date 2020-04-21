@@ -1,6 +1,5 @@
 import React from "react";
 import Page from "../ui/page";
-import { Link } from "react-router-dom";
 import { ScrollyLink } from "../ui/scrolly-link";
 
 const LoremIpsum: React.FC<{}> = () => (

@@ -133,23 +133,28 @@ class NorentCreateAccount(SessionFormMutation):
         form_class = forms.CreateAccount
 
     @classmethod
+    def fill_nyc_info(cls, request, info: Dict[str, Any]):
+        step1 = OnboardingStep1Info.get_dict_from_request(request)
+        if step1 is None:
+            return None
+        info['borough'] = step1['borough']
+        info['address'] = step1['address']
+        info['apt_number'] = step1['apt_number']
+        info['address_verified'] = step1['address_verified']
+        return info
+
+    @classmethod
     def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.NorentScaffolding):
         if scf.is_city_in_nyc():
-            step1 = OnboardingStep1Info.get_dict_from_request(request)
-            if step1 is None:
-                return None
-            info['borough'] = step1['borough']
-            info['address'] = step1['address']
-            info['apt_number'] = step1['apt_number']
-            info['address_verified'] = step1['address_verified']
-        else:
-            if not are_all_truthy(scf.street, scf.zip_code, scf.apt_number):
-                return None
-            info['non_nyc_city'] = scf.city
-            info['address'] = scf.street
-            info['apt_number'] = scf.apt_number
-            info['zipcode'] = scf.zip_code
-            info['address_verified'] = False
+            return cls.fill_nyc_info(request, info)
+
+        if not are_all_truthy(scf.street, scf.zip_code, scf.apt_number):
+            return None
+        info['non_nyc_city'] = scf.city
+        info['address'] = scf.street
+        info['apt_number'] = scf.apt_number
+        info['zipcode'] = scf.zip_code
+        info['address_verified'] = False
         return info
 
     @classmethod

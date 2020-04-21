@@ -1,6 +1,8 @@
 import pytest
 
+from users.models import JustfixUser
 from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
+from onboarding.tests.test_schema import _exec_onboarding_step_n
 from norent.schema import update_scaffolding
 
 
@@ -209,3 +211,42 @@ class TestNorentCreateAccount:
             'zip_code': '43120',
         })
         assert self.execute()['errors'] == []
+        user = JustfixUser.objects.get(phone_number='5551234567')
+        assert user.first_name == 'boop'
+        assert user.last_name == 'jones'
+        assert user.email == 'boop@jones.com'
+        oi = user.onboarding_info
+        assert oi.non_nyc_city == 'Columbus'
+        assert oi.borough == ''
+        assert oi.state == 'OH'
+        assert oi.zipcode == '43120'
+        assert oi.address == '1200 Bingy Bingy Way'
+        assert oi.apt_number == '5A'
+
+    def test_it_works_for_nyc_users(self):
+        request = self.graphql_client.request
+        update_last_queried_phone_number(
+            request, '5551234567', PhoneNumberAccountStatus.NO_ACCOUNT)
+        res = _exec_onboarding_step_n(1, self.graphql_client)
+        assert res['errors'] == []
+        update_scaffolding(request, {
+            'first_name': 'zlorp',
+            'last_name': 'zones',
+            'city': 'New York City',
+            'state': 'NY',
+            'email': 'zlorp@zones.com',
+        })
+        assert self.execute()['errors'] == []
+        user = JustfixUser.objects.get(phone_number='5551234567')
+        assert user.first_name == 'zlorp'
+        assert user.last_name == 'zones'
+        assert user.email == 'zlorp@zones.com'
+        oi = user.onboarding_info
+        assert oi.non_nyc_city == ''
+        assert oi.borough == 'MANHATTAN'
+        assert oi.state == 'NY'
+        assert oi.address == '123 boop way'
+        assert oi.apt_number == '3B'
+
+        # This will only get filled out if geocoding is enabled, which it's not.
+        assert oi.zipcode == ''

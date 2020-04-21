@@ -54,7 +54,7 @@ nav.navbar {
   }
 }
 
-.jf-home-navbar nav.navbar {
+.jf-white-navbar nav.navbar {
   @extend .is-white;
   .navbar-menu {
     background-color: $white;
@@ -65,6 +65,7 @@ nav.navbar {
   .navbar-link,
   .navbar-item,
   .navbar-burger {
+    color: $info;
     &:focus {
       outline-color: $dark;
     }

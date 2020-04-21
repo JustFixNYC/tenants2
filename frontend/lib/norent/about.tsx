@@ -1,7 +1,7 @@
 import React from "react";
 import Page from "../ui/page";
 import { OutboundLink } from "../analytics/google-analytics";
-import { getImageSrc } from "./homepage";
+import { getImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 
 const partnerLogoItems = [
@@ -30,10 +30,10 @@ export const PartnerLogos = () => (
 
 export const NorentAboutPage: React.FC<{}> = () => (
   <Page title="About" className="content">
-    <section className="hero is-info is-medium">
+    <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced">About</h2>
+          <h2 className="title is-spaced has-text-info">About</h2>
           <br />
           <p className="subtitle">
             Learn about why we made this tool, who we are, and who are partners
@@ -41,9 +41,13 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </p>
         </div>
       </div>
+      <div className="container jf-has-centered-images jf-space-below-2rem">
+        <JumpArrow to="#more-info" altText="Learn more" />
+        <br />
+      </div>
     </section>
 
-    <section className="hero">
+    <section className="hero" id="more-info">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Why We Made This</h2>

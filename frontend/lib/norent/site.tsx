@@ -34,10 +34,6 @@ function getRoutesForPrimaryPages() {
   ]);
 }
 
-function getRouteForHomePage() {
-  return Routes.locale.home;
-}
-
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
 });
@@ -112,11 +108,10 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     const isPrimaryPage = getRoutesForPrimaryPages().has(
       props.location.pathname
     );
-    const isHomePage = getRouteForHomePage() === props.location.pathname;
 
     const NorentBrand: React.FC<{}> = () => (
       <Link className="navbar-item" to={Routes.locale.home}>
-        <NorentLogo size="is-96x96" color={isHomePage ? "dark" : "white"} />
+        <NorentLogo size="is-96x96" color={isPrimaryPage ? "dark" : "white"} />
       </Link>
     );
     return (
@@ -128,7 +123,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             isPrimaryPage && "is-paddingless"
           )}
         >
-          <span className={classnames(isHomePage && "jf-home-navbar")}>
+          <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
             <Navbar
               menuItemsComponent={NorentMenuItems}
               brandComponent={NorentBrand}

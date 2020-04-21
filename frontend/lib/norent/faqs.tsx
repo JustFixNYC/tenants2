@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticImage } from "../ui/static-image";
-import { getImageSrc } from "./homepage";
+import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
@@ -77,10 +77,12 @@ export const NorentFaqsPreview = () => {
 export const NorentFaqsPage: React.FC<{}> = () => {
   return (
     <Page title="FAQs" className="content">
-      <section className="hero is-info is-medium">
+      <section className="hero is-medium">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">
-            <h2 className="title is-spaced">Frequently Asked Questions</h2>
+            <h2 className="title is-spaced has-text-info">
+              Frequently Asked Questions
+            </h2>
             <br />
             <p className="subtitle">
               Sending a letter to your landlord is a big step. Check out our
@@ -88,9 +90,13 @@ export const NorentFaqsPage: React.FC<{}> = () => {
             </p>
           </div>
         </div>
+        <div className="container jf-has-centered-images jf-space-below-2rem">
+          <JumpArrow to="#more-info" altText="Browse the FAQs" />
+          <br />
+        </div>
       </section>
 
-      <section className="hero">
+      <section className="hero jf-faqs" id="more-info">
         <div className="hero-body">
           <div className="container jf-tight-container">
             <br />

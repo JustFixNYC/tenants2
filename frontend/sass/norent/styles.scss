@@ -146,6 +146,7 @@ $jf-logo-height: 70px;
   height: $jf-logo-height;
   figure.image {
     margin: 0;
+    padding: 0;
     img {
       height: $jf-logo-height;
       width: calc(3 * #{$jf-logo-height});
@@ -283,6 +284,12 @@ $norent-sticky-menu-height: 100px;
     &:not(:last-child) {
       border-bottom: 0.3px solid #828282ee;
     }
+  }
+}
+
+.jf-faqs {
+  .hero-body {
+    padding-top: 1rem;
   }
 }
 

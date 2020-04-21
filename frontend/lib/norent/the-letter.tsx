@@ -14,10 +14,10 @@ import { NorentRoutes } from "./routes";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
   <Page title="The Letter" className="content">
-    <section className="hero is-info is-medium">
+    <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced">The Letter</h2>
+          <h2 className="title is-spaced has-text-info">The Letter</h2>
           <br />
           <p className="subtitle">
             Not being able to pay rent due to COVID-19 is nothing to be ashamed
@@ -27,7 +27,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <JumpArrow to="#more-info" altText="Learn more" color="white" />
+        <JumpArrow to="#more-info" altText="Learn more" />
         <br />
       </div>
     </section>

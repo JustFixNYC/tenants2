@@ -16,19 +16,11 @@ export function getImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
 }
 
-type JumpArrowColor = "white" | "primary" | null;
-
-export const JumpArrow = (props: {
-  to: string;
-  altText: string;
-  color?: JumpArrowColor;
-}) => (
+export const JumpArrow = (props: { to: string; altText: string }) => (
   <ScrollyLink to={props.to} className="jf-jump-arrow">
     <StaticImage
       ratio="is-32x32"
-      src={getImageSrc(
-        props.color === "white" ? "downarrow-white" : "downarrow"
-      )}
+      src={getImageSrc("downarrow")}
       alt={props.altText}
     />
   </ScrollyLink>
@@ -131,6 +123,31 @@ export const NorentHomePage: React.FC<{}> = () => (
     </section>
 
     <StickyLetterButtonContainer containerId="more-info">
+      <LandingPageChecklist />
+
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
+            <h2 className="title is-spaced">Legally vetted</h2>
+            <p className="subtitle is-size-5">
+              Our free letter builder was built with{" "}
+              <OutboundLink
+                href="https://www.justfix.nyc/about/partners"
+                rel="noopener noreferrer"
+              >
+                lawyers and non-profit tenants rights organizations
+              </OutboundLink>{" "}
+              across the nation to ensure that your letter gives you the most
+              protections based on your state.
+            </p>
+            <br />
+          </div>
+          <div className="container">
+            <PartnerLogos />
+          </div>
+        </div>
+      </section>
+
       <section className="container">
         <div className="hero is-small">
           <div className="hero-body is-paddingless">
@@ -166,50 +183,6 @@ export const NorentHomePage: React.FC<{}> = () => (
                 alt=""
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <LandingPageChecklist />
-
-      <section className="hero">
-        <div className="hero-body jf-letter-preview-container">
-          <div className="container jf-has-text-centered-tablet">
-            <h3 className="is-size-5 is-spaced has-text-weight-normal">
-              Here’s a preview of what the letter looks like:
-            </h3>
-            <br />
-            <article className="message">
-              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-                <p>Dear Landlord/Management.</p>
-                <br />
-                <p>
-                  I am writing to inform you that I have experienced a loss of
-                  income, increased expenses and/or other financial
-                  circumstances related to the pandemic. Until further notice, I
-                  will be unable to pay my rent due to the COVID-19 emergency.
-                </p>
-                <br />
-                <p>
-                  Tenants in Florida are protected from eviction for non-payment
-                  by Executive Order 20-94, issued by Governor Ron DeSantis on
-                  April 2, 2020.
-                </p>
-                <br />
-                <p>
-                  Tenants in covered properties are also protected from
-                  eviction, fees, penalties, and other charges related to
-                  non-payment by the CARES Act (Title IV, Sec. 4024) enacted by
-                  Congress on March 27, 2020.
-                </p>
-                <br />
-                <p>
-                  Along with my neighbors, I am organizing, encouraging, and/or
-                  participating in a tenant organization so that we may support
-                </p>
-              </div>
-              <div className="jf-letter-preview-fadeout" />
-            </article>
           </div>
         </div>
       </section>
@@ -286,24 +259,43 @@ export const NorentHomePage: React.FC<{}> = () => (
       </section>
 
       <section className="hero">
-        <div className="hero-body">
-          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
-            <h2 className="title is-spaced">Legally vetted</h2>
-            <p className="subtitle is-size-5">
-              Our free letter builder was built with{" "}
-              <OutboundLink
-                href="https://www.justfix.nyc/about/partners"
-                rel="noopener noreferrer"
-              >
-                lawyers and non-profit tenants rights organizations
-              </OutboundLink>{" "}
-              across the nation to ensure that your letter gives you the most
-              protections based on your state.
-            </p>
+        <div className="hero-body jf-letter-preview-container">
+          <div className="container jf-has-text-centered-tablet">
+            <h3 className="is-size-5 is-spaced has-text-weight-normal">
+              Here’s a preview of what the letter looks like:
+            </h3>
             <br />
-          </div>
-          <div className="container">
-            <PartnerLogos />
+            <article className="message">
+              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+                <p>Dear Landlord/Management.</p>
+                <br />
+                <p>
+                  I am writing to inform you that I have experienced a loss of
+                  income, increased expenses and/or other financial
+                  circumstances related to the pandemic. Until further notice, I
+                  will be unable to pay my rent due to the COVID-19 emergency.
+                </p>
+                <br />
+                <p>
+                  Tenants in Florida are protected from eviction for non-payment
+                  by Executive Order 20-94, issued by Governor Ron DeSantis on
+                  April 2, 2020.
+                </p>
+                <br />
+                <p>
+                  Tenants in covered properties are also protected from
+                  eviction, fees, penalties, and other charges related to
+                  non-payment by the CARES Act (Title IV, Sec. 4024) enacted by
+                  Congress on March 27, 2020.
+                </p>
+                <br />
+                <p>
+                  Along with my neighbors, I am organizing, encouraging, and/or
+                  participating in a tenant organization so that we may support
+                </p>
+              </div>
+              <div className="jf-letter-preview-fadeout" />
+            </article>
           </div>
         </div>
       </section>

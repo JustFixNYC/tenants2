@@ -5,8 +5,12 @@ from users.models import JustfixUser
 
 
 class RentPeriod(models.Model):
+    class Meta:
+        ordering = ['-payment_date']
+
     payment_date = models.DateField(
-        help_text="The date rent payment is due."
+        help_text="The date rent payment is due.",
+        unique=True,
     )
 
 
@@ -17,6 +21,7 @@ class Letter(models.Model):
 
     class Meta:
         unique_together = [['user', 'rent_period']]
+        ordering = ['-rent_period__payment_date']
 
     created_at = models.DateTimeField(auto_now_add=True)
 

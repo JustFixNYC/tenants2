@@ -1,8 +1,10 @@
 import pytest
 
 from users.models import JustfixUser
+from users.tests.factories import SecondUserFactory
 from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
 from onboarding.tests.test_schema import _exec_onboarding_step_n
+from .factories import RentPeriodFactory, LetterFactory
 from norent.schema import update_scaffolding
 
 
@@ -280,3 +282,39 @@ class TestNorentCreateAccount:
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''
+
+
+class TestNorentLatestRentPeriod:
+    def test_it_returns_none_when_no_periods_exist(self, db, graphql_client):
+        res = graphql_client.execute(
+            'query { session { norentLatestRentPeriod { paymentDate} } }')
+        assert res['data']['session']['norentLatestRentPeriod'] is None
+
+    def test_it_returns_period(self, db, graphql_client):
+        RentPeriodFactory()
+        res = graphql_client.execute(
+            'query { session { norentLatestRentPeriod { paymentDate } } }')
+        assert res['data']['session']['norentLatestRentPeriod']['paymentDate'] == "2020-05-01"
+
+
+class TestNorentLatestLetter:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.letter = LetterFactory(tracking_number='abcd')
+        self.graphql_client = graphql_client
+
+    def execute(self):
+        res = self.graphql_client.execute(
+            'query { session { norentLatestLetter { paymentDate } } }')
+        return res['data']['session']['norentLatestLetter']
+
+    def test_it_returns_none_if_not_logged_in(self):
+        assert self.execute() is None
+
+    def test_it_returns_none_if_no_letters_exist_for_user(self):
+        self.graphql_client.request.user = SecondUserFactory()
+        assert self.execute() is None
+
+    def test_it_returns_letter_if_one_exists_for_user(self):
+        self.graphql_client.request.user = self.letter.user
+        assert self.execute()['paymentDate'] == '2020-05-01'

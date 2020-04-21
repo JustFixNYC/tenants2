@@ -1,13 +1,14 @@
 from typing import Optional, Dict, Any
 import graphene
 from graphql import ResolveInfo
+from graphene_django.types import DjangoObjectType
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
 from project.schema_base import get_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
-from . import scaffolding, forms
+from . import scaffolding, forms, models
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
@@ -56,9 +57,48 @@ class NorentScaffolding(graphene.ObjectType):
         return self.is_city_in_nyc()
 
 
+class NorentLetter(DjangoObjectType):
+    class Meta:
+        model = models.Letter
+        only_fields = ('tracking_number', 'letter_sent_at')
+
+    payment_date = graphene.Date(
+        required=True,
+        description="The rent payment date the letter is for.",
+        resolver=lambda self, info: self.rent_period.payment_date
+    )
+
+
+class NorentRentPeriod(DjangoObjectType):
+    class Meta:
+        model = models.RentPeriod
+        only_fields = ('payment_date',)
+
+
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
     norent_scaffolding = graphene.Field(NorentScaffolding)
+
+    norent_latest_rent_period = graphene.Field(
+        NorentRentPeriod,
+        description="The latest rent period one can create a no rent letter for.")
+
+    norent_latest_letter = graphene.Field(
+        NorentLetter,
+        description=(
+            "The latest no rent letter sent by the user. If the user has never "
+            "sent a letter or is not logged in, this will be null."
+        ),
+    )
+
+    def resolve_norent_latest_rent_period(self, info: ResolveInfo):
+        return models.RentPeriod.objects.first()
+
+    def resolve_norent_latest_letter(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return models.Letter.objects.filter(user=request.user).first()
 
     def resolve_norent_scaffolding(self, info: ResolveInfo):
         request = info.context

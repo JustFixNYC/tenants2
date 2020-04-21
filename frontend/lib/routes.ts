@@ -28,8 +28,8 @@ export function getSignupIntentOnboardingInfo(
 ): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.NORENT:
-      // TODO: Actually figure out something to do here, instead of just
-      // falling through to LOC.
+    // TODO: Actually figure out something to do here, instead of just
+    // falling through to LOC.
 
     case OnboardingInfoSignupIntent.LOC:
       return {

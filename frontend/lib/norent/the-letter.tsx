@@ -41,10 +41,12 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
               src={getImageSrc("question")}
               alt=""
             />
-            <h2 className="title is-spaced">Why send a letter</h2>
-            <p className="subtitle is-size-5">
-              Here are a few benefits to sending a letter to your landlord:
-            </p>
+            <div className="jf-has-text-centered-tablet">
+              <h2 className="title is-spaced">Why send a letter</h2>
+              <p className="subtitle is-size-5">
+                Here are a few benefits to sending a letter to your landlord:
+              </p>
+            </div>
             <br />
             <ul>
               <li>

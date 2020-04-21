@@ -149,9 +149,14 @@ $jf-logo-height: 70px;
     img {
       height: $jf-logo-height;
       width: calc(3 * #{$jf-logo-height});
-      @include tablet {
-        @include is-horizontal-center;
-      }
+    }
+  }
+  @include tablet {
+    height: calc(#{$jf-logo-height} + 50px);
+    figure.image img {
+      @include is-horizontal-center;
+      height: calc(#{$jf-logo-height} + 50px);
+      width: calc(3 * (#{$jf-logo-height} + 50px));
     }
   }
 }

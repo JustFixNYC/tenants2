@@ -97,7 +97,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
 
     <section className="hero">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet ">
+        <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Our Partners</h2>
           <br />
           <p className="subtitle is-size-5">

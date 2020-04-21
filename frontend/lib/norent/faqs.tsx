@@ -92,7 +92,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
 
       <section className="hero">
         <div className="hero-body">
-          <div className="container">
+          <div className="container jf-tight-container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
               const faqs = FaqsContent.filter(

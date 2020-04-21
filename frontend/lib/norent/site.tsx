@@ -20,14 +20,15 @@ import {
 import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
-import { NorentInfoPage } from "./info";
-import { NorentAboutYourLetterPage } from "./about-your-letter";
+import { NorentAboutPage } from "./about";
+import { NorentAboutYourLetterPage } from "./the-letter";
+import { NorentLogo } from "./components/logo";
 import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 
 function getRoutesForPrimaryPages() {
   return new Set([
     Routes.locale.home,
-    Routes.locale.info,
+    Routes.locale.about,
     Routes.locale.faqs,
     Routes.locale.aboutLetter,
   ]);
@@ -46,7 +47,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={NorentHomePage} />
       <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
-      <Route path={Routes.locale.info} exact component={NorentInfoPage} />
+      <Route path={Routes.locale.about} exact component={NorentAboutPage} />
       <Route
         path={Routes.locale.aboutLetter}
         exact
@@ -71,18 +72,27 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   );
 };
 
+const NorentBrand: React.FC<{}> = () => (
+  <Link className="navbar-item" to={Routes.locale.home}>
+    <NorentLogo size="is-96x96" />
+  </Link>
+);
+
 const NorentMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.aboutLetter}>
-        About your letter
+        The Letter
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
+        Build my Letter
       </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
       </Link>
-      <Link className="navbar-item" to={Routes.locale.info}>
-        Information
+      <Link className="navbar-item" to={Routes.locale.about}>
+        About
       </Link>
       {session.phoneNumber ? (
         // These are placeholders just to show styling.
@@ -113,7 +123,10 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             isPrimaryPage && "is-paddingless"
           )}
         >
-          <Navbar menuItemsComponent={NorentMenuItems} />
+          <Navbar
+            menuItemsComponent={NorentMenuItems}
+            brandComponent={NorentBrand}
+          />
           <div
             className={classnames(!isPrimaryPage && "container")}
             ref={ref}

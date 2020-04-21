@@ -41,16 +41,17 @@ export const NorentFooter: React.FC<{}> = () => (
       <div className="columns">
         <div className="column is-8">
           <h6 className="title is-size-3 has-text-weight-bold has-text-white">
-            Join our mailing list
+            Join our <br className="is-hidden-tablet" />
+            mailing list
           </h6>
           <EmailSignupForm />
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
-          <Link to={Routes.locale.aboutLetter}>About your letter</Link>
+          <Link to={Routes.locale.aboutLetter}>The Letter</Link>
           {/* Will replace when we have log in page ready. */}
           <Link to={Routes.locale.home}>Log in</Link>
           <Link to={Routes.locale.faqs}>Faqs</Link>
-          <Link to={Routes.locale.info}>Information</Link>
+          <Link to={Routes.locale.about}>About</Link>
           <a href="https://www.justfix.nyc/privacy-policy">Privacy policy</a>
           <a href="https://www.justfix.nyc/terms-of-use">Terms of use</a>
         </div>

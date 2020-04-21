@@ -37,7 +37,7 @@ export const StickyLetterButtonContainer = (props: {
   containerId: string;
   children: React.ReactNode;
 }) => (
-  <div id={props.containerId}>
+  <div id={props.containerId} className="jf-sticky-button-container">
     <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
       <BuildMyLetterButton />
     </div>
@@ -54,12 +54,14 @@ const checklistItems = [
 ];
 
 export const LandingPageChecklist = () => (
-  <section className="hero has-background-white-ter">
+  <section className="hero has-background-white-ter jf-norent-checklist">
     <div className="hero-body">
-      <div className="container jf-tight-container has-text-centered">
-        <h3 className="is-spaced has-text-weight-normal">
+      <div className="container jf-has-text-centered-tablet">
+        <h3 className="is-size-5 is-spaced has-text-weight-normal">
           Here’s what you can do with <NorentLogo size="is-128x128" />
         </h3>
+      </div>
+      <div className="container jf-tight-container">
         <br />
         <div className="jf-space-below-2rem">
           {checklistItems.map((checklistItem, i) => (
@@ -184,13 +186,13 @@ export const NorentHomePage: React.FC<{}> = () => (
 
       <section className="hero">
         <div className="hero-body jf-letter-preview-container">
-          <div className="container has-text-centered">
-            <h3 className="is-spaced has-text-weight-normal">
+          <div className="container jf-has-text-centered-tablet">
+            <h3 className="is-size-5 is-spaced has-text-weight-normal">
               Here’s a preview of what the letter looks like:
             </h3>
             <br />
             <article className="message">
-              <div className="message-body has-background-grey-lighter has-text-left">
+              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
                 <p>Dear Landlord/Management.</p>
                 <br />
                 <p>
@@ -226,9 +228,9 @@ export const NorentHomePage: React.FC<{}> = () => (
 
       <section className="hero has-background-white-ter">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
+          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">How it works</h2>
-            <p className="subtitle is-size-4">
+            <p className="subtitle is-size-5">
               We make it easy to weigh your options and notify your landlord by
               email or by certified mail for free.
             </p>
@@ -245,9 +247,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
-                    8 Steps
-                  </p>
+                  <p className="title is-size-4 jf-alt-title-font">8 Steps</p>
                   <p>
                     Answer a few questions about yourself and your landlord or
                     management company.
@@ -263,7 +263,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
+                  <p className="title is-size-4 jf-alt-title-font">
                     Legal Protections
                   </p>
                   <p>
@@ -281,7 +281,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 has-text-weight-bold">
+                  <p className="title is-size-4 jf-alt-title-font">
                     Free Certified Mail
                   </p>
                   <p>
@@ -291,7 +291,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                 </div>
               </div>
             </div>
-            <br />
+            <br className="is-hidden-mobile" />
             <BuildMyLetterButton isHiddenMobile />
           </div>
         </div>
@@ -299,9 +299,9 @@ export const NorentHomePage: React.FC<{}> = () => (
 
       <section className="hero">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
+          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Legally vetted</h2>
-            <p className="subtitle is-size-4">
+            <p className="subtitle is-size-5">
               Our free letter builder was built with{" "}
               <OutboundLink
                 href="https://www.justfix.nyc/about/partners"
@@ -322,9 +322,9 @@ export const NorentHomePage: React.FC<{}> = () => (
 
       <section className="hero has-background-white-ter">
         <div className="hero-body">
-          <div className="container jf-tight-container has-text-centered jf-space-below-2rem">
+          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Locally supported</h2>
-            <p className="subtitle is-size-4">
+            <p className="subtitle is-size-5">
               After sending your letter, we can connect you to local groups to
               organize for greater demands with other tenants.
             </p>

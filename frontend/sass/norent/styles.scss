@@ -6,7 +6,7 @@ $norent-root: "../norent";
 
 $jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
 $jf-title-family: "Montserrat Black", sans-serif;
-$jf-title-weight: 900;
+$jf-alt-title-family: "Montserrat Bold", sans-serif;
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
@@ -43,16 +43,21 @@ $jf-navbar-content: $black;
 // PRESETS TO PRE-EXISTING CLASSES:
 .title {
   font-family: $jf-title-family;
-  font-weight: $jf-title-weight;
+
+  &.jf-alt-title-font {
+    font-family: $jf-alt-title-family;
+  }
 }
 
 .content {
   h1.title {
     font-size: 4.5rem;
+    line-height: 1;
   }
 
   h2.title {
     font-size: 2.25rem;
+    line-height: 1;
   }
 
   // Default style for inline hyperlinks:
@@ -79,6 +84,11 @@ $jf-navbar-content: $black;
     &.jf-wide-container {
       max-width: 1000px;
     }
+  }
+
+  // Default hero padding
+  .hero .hero-body {
+    padding: 4rem 2rem;
   }
 
   // Make all media icons have vertical centering
@@ -108,6 +118,7 @@ $jf-navbar-content: $black;
 }
 
 .jf-has-text-centered-tablet {
+  text-align: left;
   @include tablet {
     text-align: center;
   }
@@ -137,13 +148,31 @@ $jf-navbar-content: $black;
 
 $norent-sticky-menu-height: 100px;
 
-.jf-sticky-button-menu {
-  position: sticky;
-  height: $norent-sticky-menu-height;
-  top: calc(100vh - #{$norent-sticky-menu-height});
-  width: 100%;
-  z-index: 1000;
-  padding: 1rem;
+.jf-sticky-button-container {
+  @include mobile {
+    // Allow extra padding on the last child container to make room for sticky menu,
+    // as well as a margin to make space between the menu and the footer:
+    section:last-child {
+      padding-bottom: $norent-sticky-menu-height;
+    }
+    margin-bottom: calc(#{$norent-sticky-menu-height} / 2);
+  }
+  .jf-sticky-button-menu {
+    position: sticky;
+    height: $norent-sticky-menu-height;
+    top: calc(100vh - #{$norent-sticky-menu-height});
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem;
+  }
+}
+
+// We need to offset the position of whatever container appears after the sticky menu
+// Otherwise, we will be left with empty space at the menu's original position
+.jf-sticky-button-menu + .container {
+  @include mobile {
+    margin-top: calc(-#{$norent-sticky-menu-height} / 2);
+  }
 }
 
 .jf-illustration-paper-airplanes,
@@ -171,6 +200,15 @@ $norent-sticky-menu-height: 100px;
   font-size: 4rem;
 }
 
+.jf-norent-checklist {
+  .media {
+    height: 5rem;
+    .media-content {
+      align-self: center;
+    }
+  }
+}
+
 .jf-letter-preview-container {
   padding-bottom: 0;
   @include mobile {
@@ -195,6 +233,9 @@ $norent-sticky-menu-height: 100px;
 
 .jf-how-it-works-container {
   .column {
+    p:not(.title) {
+      line-height: 1.35;
+    }
     @include mobile {
       // Make divs in column line up side by side on mobile
       display: flex;
@@ -208,11 +249,6 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-faqs-preview {
-  // Allow extra padding to make room for sticky menu on mobile:
-  @include mobile {
-    padding-bottom: $norent-sticky-menu-height;
-  }
-
   .jf-accordion-item {
     &:not(:last-child) {
       border-bottom: 0.3px solid #828282ee;

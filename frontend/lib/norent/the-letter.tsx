@@ -13,7 +13,7 @@ import { LetterPreview } from "../static-page/letter-preview";
 import { NorentRoutes } from "./routes";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
-  <Page title="About Your Letter" className="content">
+  <Page title="The Letter" className="content">
     <section className="hero">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
@@ -44,13 +44,15 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
               alt=""
             />
             <h2 className="title is-spaced">Why send a letter</h2>
-            <p className="subtitle is-size-4">
+            <p className="subtitle is-size-5">
               Here are a few benefits to sending a letter to your landlord:
             </p>
             <br />
             <ul>
               <li>
-                <p className="title is-size-6">Exercise your rights</p>
+                <p className="title jf-alt-title-font is-size-6">
+                  Exercise your rights
+                </p>
                 <p>
                   Benefit from the eviction protections that local elected
                   officials have put in place, by notifying your landlord of
@@ -59,7 +61,9 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
               </li>
               <br />
               <li>
-                <p className="title is-size-6">Establish your defense</p>
+                <p className="title jf-alt-title-font is-size-6">
+                  Establish your defense
+                </p>
                 <p>
                   In the event that your landlord tries to evict you, the courts
                   will see this as a proactive step that helps establish your
@@ -77,8 +81,8 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
 
       <section className="hero">
         <div className="hero-body">
-          <div className="container has-text-centered">
-            <h3 className="is-spaced has-text-weight-normal">
+          <div className="container jf-has-text-centered-tablet">
+            <h3 className="is-spaced is-size-5 has-text-weight-normal">
               Here’s what the letter will look like:
             </h3>
             <br />

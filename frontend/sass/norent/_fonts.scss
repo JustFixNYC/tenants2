@@ -8,6 +8,21 @@
 }
 
 @font-face {
+  font-family: "Montserrat Bold";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$norent-root}/font/montserrat-bold-webfont.woff2") format("woff2"),
+    url("#{$norent-root}/font/montserrat-bold-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 200;
+  font-style: normal;
+  src: url("#{$norent-root}/font/opensans-light-webfont.woff") format("woff");
+}
+
+@font-face {
   font-family: "Open Sans";
   font-weight: normal;
   font-style: normal;

@@ -239,6 +239,10 @@ class TestNorentCreateAccount:
         update_scaffolding(self.graphql_client.request, scaff)
         assert self.execute()['errors'] == self.INCOMPLETE_ERR
 
+    def test_it_returns_error_when_national_addr_but_no_phone_number(self):
+        update_scaffolding(self.graphql_client.request, self.NATIONAL_SCAFFOLDING)
+        assert self.execute()['errors'] == self.INCOMPLETE_ERR
+
     def test_it_works_for_national_users(self):
         request = self.graphql_client.request
         self.populate_phone_number()

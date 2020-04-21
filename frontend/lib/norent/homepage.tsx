@@ -302,7 +302,7 @@ export const NorentHomePage: React.FC<{}> = () => (
             </p>
             <br />
           </div>
-          <div className="container jf-wide-container">
+          <div className="container">
             <PartnerLogos />
           </div>
         </div>

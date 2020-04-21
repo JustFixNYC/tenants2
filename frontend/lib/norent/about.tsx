@@ -7,13 +7,17 @@ import { StaticImage } from "../ui/static-image";
 const partnerLogoItems = [
   ["Community Justice Project", "cjp"],
   ["Right to the City", "rttc"],
+  ["Movement Law Lab", "mll"],
   ["Manufactured Housing Action", "mha"],
 ];
 
 export const PartnerLogos = () => (
-  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
+  <div className="jf-partner-logos columns is-mobile is-multiline is-variable is-8-desktop">
     {partnerLogoItems.map((partnerDetails, i) => (
-      <div className="column is-one-fourth jf-has-centered-images" key={i}>
+      <div
+        className="column is-one-fourth jf-has-centered-images is-paddingless"
+        key={i}
+      >
         <StaticImage
           ratio="is-128x128"
           src={getImageSrc(partnerDetails[1], "png")}

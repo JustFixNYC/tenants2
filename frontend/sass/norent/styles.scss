@@ -156,6 +156,15 @@ $jf-logo-height: 70px;
   }
 }
 
+.jf-partner-logos {
+  @include tablet {
+    figure.image {
+      height: 160px;
+      width: 160px;
+    }
+  }
+}
+
 .jf-jump-arrow {
   figure {
     @extend .jf-up-and-down;

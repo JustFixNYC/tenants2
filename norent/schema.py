@@ -6,6 +6,7 @@ from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
 from project.schema_base import get_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
+from onboarding.models import SIGNUP_INTENT_CHOICES
 from . import scaffolding, forms
 
 
@@ -136,6 +137,8 @@ class NorentCreateAccount(SessionFormMutation):
             'first_name': scf.first_name,
             'last_name': scf.last_name,
             'state': scf.state,
+            'email': scf.email,
+            'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
         }
         if scf.is_city_in_nyc():
             step1 = OnboardingStep1Info.get_dict_from_request(request)
@@ -144,6 +147,7 @@ class NorentCreateAccount(SessionFormMutation):
             info['borough'] = step1['borough']
             info['address'] = step1['address']
             info['apt_number'] = step1['apt_number']
+            info['address_verified'] = step1['address_verified']
         else:
             if not (scf.street and scf.zip_code and scf.apt_number):
                 return None
@@ -151,6 +155,7 @@ class NorentCreateAccount(SessionFormMutation):
             info['address'] = scf.street
             info['apt_number'] = scf.apt_number
             info['zipcode'] = scf.zip_code
+            info['address_verified'] = False
         return info
 
     @classmethod

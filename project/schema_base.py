@@ -31,6 +31,15 @@ def get_last_queried_phone_number(request) -> Optional[str]:
     return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
 
 
+def update_last_queried_phone_number(
+    request,
+    phone_number: str,
+    status: PhoneNumberAccountStatus
+):
+    request.session[LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY] = status.name
+    request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
+
+
 @schema_registry.register_session_info
 class BaseSessionInfo:
     user_id = graphene.Int(
@@ -378,8 +387,11 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
                 password_reset.create_verification_code(request, phone_number)
         else:
             account_status = PhoneNumberAccountStatus.NO_ACCOUNT
-        request.session[LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY] = account_status.name
-        request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
+        update_last_queried_phone_number(
+            request,
+            phone_number,
+            status=account_status,
+        )
         return cls.mutation_success(account_status=account_status)
 
 

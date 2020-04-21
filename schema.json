@@ -1174,6 +1174,12 @@
               "description": "Emergency HP Action",
               "isDeprecated": false,
               "name": "EHP"
+            },
+            {
+              "deprecationReason": null,
+              "description": "No rent letter",
+              "isDeprecated": false,
+              "name": "NORENT"
             }
           ],
           "fields": null,

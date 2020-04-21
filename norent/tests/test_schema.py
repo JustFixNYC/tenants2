@@ -1,5 +1,6 @@
 import pytest
 
+from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
 from norent.schema import update_scaffolding
 
 
@@ -158,3 +159,53 @@ def test_landlord_info_mutation_updates_session(graphql_client):
     assert output['session']['norentScaffolding'] == {
         'landlordName': 'Landlordo Calrissian'
     }
+
+
+class TestNorentCreateAccount:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, graphql_client):
+        self.graphql_client = graphql_client
+
+    def execute(self):
+        input = {
+            'password': 'blarg1234',
+            'confirmPassword': 'blarg1234',
+            'agreeToTerms': True,
+            'canWeSms': True,
+        }
+
+        return self.graphql_client.execute(
+            '''
+            mutation Create($input: NorentCreateAccountInput!) {
+                output: norentCreateAccount(input: $input) {
+                    errors { field, messages }
+                    session {
+                        firstName
+                    }
+                }
+            }
+            ''',
+            variables={'input': input}
+        )['data']['output']
+
+    def test_it_returns_error_when_prev_steps_incomplete(self):
+        assert self.execute()['errors'] == [{
+            'field': '__all__',
+            'messages': ["You haven't completed all the previous steps yet."]
+        }]
+
+    def test_it_works_for_national_users(self):
+        request = self.graphql_client.request
+        update_last_queried_phone_number(
+            request, '5551234567', PhoneNumberAccountStatus.NO_ACCOUNT)
+        update_scaffolding(request, {
+            'first_name': 'boop',
+            'last_name': 'jones',
+            'city': 'Columbus',
+            'state': 'OH',
+            'email': 'boop@jones.com',
+            'street': '1200 Bingy Bingy Way',
+            'apt_number': '5A',
+            'zip_code': '43120',
+        })
+        assert self.execute()['errors'] == []

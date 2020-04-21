@@ -4,11 +4,11 @@ import { NorentRoutes } from "./routes";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
 import { OutboundLink } from "../analytics/google-analytics";
-import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
 import { PartnerLogos } from "./about";
 import classnames from "classnames";
+import { ScrollyLink } from "../ui/scrolly-link";
 
 type NorentImageType = "png" | "svg";
 
@@ -23,7 +23,7 @@ export const JumpArrow = (props: {
   altText: string;
   color?: JumpArrowColor;
 }) => (
-  <Link to={props.to} className="jf-jump-arrow">
+  <ScrollyLink to={props.to} className="jf-jump-arrow">
     <StaticImage
       ratio="is-32x32"
       src={getImageSrc(
@@ -31,7 +31,7 @@ export const JumpArrow = (props: {
       )}
       alt={props.altText}
     />
-  </Link>
+  </ScrollyLink>
 );
 
 export const BuildMyLetterButton = (props: { isHiddenMobile?: boolean }) => (

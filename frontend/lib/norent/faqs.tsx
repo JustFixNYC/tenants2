@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
 import Page from "../ui/page";
+import { ScrollyLink } from "../ui/scrolly-link";
 
 const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
@@ -106,9 +107,12 @@ export const NorentFaqsPage: React.FC<{}> = () => {
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>
                     <div className="jf-space-below-2rem">
-                      <Link className="has-text-weight-normal" to="#main">
+                      <ScrollyLink
+                        className="has-text-weight-normal"
+                        to="#main"
+                      >
                         Back to top
-                      </Link>
+                      </ScrollyLink>
                     </div>
                     <br />
                   </div>

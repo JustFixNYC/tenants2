@@ -120,26 +120,20 @@ class NorentEmail(NorentScaffoldingMutation):
         form_class = forms.Email
 
 
+def are_all_truthy(*args) -> bool:
+    for arg in args:
+        if not arg:
+            return False
+    return True
+
+
 @schema_registry.register_mutation
 class NorentCreateAccount(SessionFormMutation):
     class Meta:
         form_class = forms.CreateAccount
 
     @classmethod
-    def get_previous_step_info(cls, request) -> Optional[Dict[str, Any]]:
-        scf = get_scaffolding(request)
-        phone_number = get_last_queried_phone_number(request)
-        if not (phone_number and scf.first_name and scf.last_name and scf.city
-                and scf.state and scf.email):
-            return None
-        info = {
-            'phone_number': phone_number,
-            'first_name': scf.first_name,
-            'last_name': scf.last_name,
-            'state': scf.state,
-            'email': scf.email,
-            'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
-        }
+    def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.NorentScaffolding):
         if scf.is_city_in_nyc():
             step1 = OnboardingStep1Info.get_dict_from_request(request)
             if step1 is None:
@@ -149,7 +143,7 @@ class NorentCreateAccount(SessionFormMutation):
             info['apt_number'] = step1['apt_number']
             info['address_verified'] = step1['address_verified']
         else:
-            if not (scf.street and scf.zip_code and scf.apt_number):
+            if not are_all_truthy(scf.street, scf.zip_code, scf.apt_number):
                 return None
             info['non_nyc_city'] = scf.city
             info['address'] = scf.street
@@ -157,6 +151,25 @@ class NorentCreateAccount(SessionFormMutation):
             info['zipcode'] = scf.zip_code
             info['address_verified'] = False
         return info
+
+    @classmethod
+    def get_previous_step_info(cls, request) -> Optional[Dict[str, Any]]:
+        scf = get_scaffolding(request)
+        phone_number = get_last_queried_phone_number(request)
+        if not are_all_truthy(
+            phone_number, scf.first_name, scf.last_name, scf.city,
+            scf.state, scf.email
+        ):
+            return None
+        info: Dict[str, Any] = {
+            'phone_number': phone_number,
+            'first_name': scf.first_name,
+            'last_name': scf.last_name,
+            'state': scf.state,
+            'email': scf.email,
+            'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
+        }
+        return cls.fill_city_info(request, info, scf)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):

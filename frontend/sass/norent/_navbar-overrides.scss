@@ -1,4 +1,5 @@
 nav.navbar {
+  padding: 0 1.5rem;
   @extend .is-info;
   background-color: $info;
   &.is-fixed-top {

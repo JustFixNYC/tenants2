@@ -23,7 +23,7 @@ const EmailSignupForm = () => (
           name="EMAIL"
           className="required email input"
           id="mce-EMAIL"
-          placeholder="Enter your email"
+          placeholder="ENTER YOUR EMAIL"
         />
       </div>
       <div className="control has-text-centered-touch">

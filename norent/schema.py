@@ -8,6 +8,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.schema_base import get_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
+from loc.models import LandlordDetails
 from . import scaffolding, forms, models
 
 
@@ -165,6 +166,67 @@ def are_all_truthy(*args) -> bool:
         if not arg:
             return False
     return True
+
+
+def scaffolding_to_landlord_details(request):
+    scf = get_scaffolding(request)
+    if not scf.landlord_name:
+        return None
+    details = LandlordDetails(
+        name=scf.landlord_name,
+        email=scf.landlord_email,
+        primary_line=scf.landlord_primary_line,
+        city=scf.landlord_city,
+        state=scf.landlord_state,
+        zip_code=scf.landlord_zip_code,
+    )
+    details.address = '\n'.join(details.address_lines_for_mailing)
+    return details
+
+
+@schema_registry.register_mutation
+class NorentSendLetter(SessionFormMutation):
+    login_required = True
+
+    @classmethod
+    def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+        html_content = "<p>TODO: Render HTML of letter in React.</p>"
+        letter = models.Letter(
+            user=request.user,
+            rent_period=rp,
+            html_content=html_content,
+        )
+        letter.full_clean()
+        letter.save()
+
+        if ld.email:
+            # TODO: Send letter via email.
+            pass
+
+        if ld.primary_line:
+            # TODO: Mail letter via lob.
+            pass
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+        rent_period = models.RentPeriod.objects.first()
+        if not rent_period:
+            return cls.make_error("No rent periods are defined!")
+        letter = models.Letter.objects.filter(user=user, rent_period=rent_period).first()
+        if letter is not None:
+            return cls.make_error("You have already sent a letter for this rent period!")
+
+        ld = scaffolding_to_landlord_details(request)
+
+        if not ld:
+            return cls.make_error("You haven't provided any landlord details yet!")
+
+        cls.send_letter(request, ld, rent_period)
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

@@ -10,15 +10,8 @@ import airtable.sync
 from . import models, views, lob_api
 
 
-def get_ll_addr_details(landlord_details: models.LandlordDetails) -> models.AddressDetails:
-    return models.AddressDetails.objects.get_or_create(
-        address=landlord_details.address,
-        defaults=landlord_details.get_address_as_dict(),
-    )[0]
-
-
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
-    ad = get_ll_addr_details(landlord_details)
+    ad = landlord_details.get_or_create_address_details_model()
     return reverse('admin:loc_addressdetails_change', args=(ad.pk,))
 
 
@@ -39,7 +32,7 @@ class LocAdminViews:
     def _get_mail_confirmation_context(self, user):
         landlord_details = user.landlord_details
         onboarding_info = user.onboarding_info
-        ll_addr_details = get_ll_addr_details(landlord_details)
+        ll_addr_details = landlord_details.get_or_create_address_details_model()
 
         landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
         user_verification = lob_api.verify_address(

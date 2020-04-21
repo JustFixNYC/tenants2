@@ -1,11 +1,16 @@
 import pytest
+from django.contrib.auth.models import AnonymousUser
 
 from users.models import JustfixUser
-from users.tests.factories import SecondUserFactory
+from users.tests.factories import SecondUserFactory, UserFactory
 from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from .factories import RentPeriodFactory, LetterFactory
 from norent.schema import update_scaffolding
+
+
+def one_field_err(message: str):
+    return [{'field': '__all__', 'messages': [message]}]
 
 
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
@@ -318,3 +323,57 @@ class TestNorentLatestLetter:
     def test_it_returns_letter_if_one_exists_for_user(self):
         self.graphql_client.request.user = self.letter.user
         assert self.execute()['paymentDate'] == '2020-05-01'
+
+
+class TestNorentSendLetter:
+    QUERY = '''
+    mutation {
+        norentSendLetter(input: {}) {
+            errors { field, messages }
+        }
+    }
+    '''
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory()
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        update_scaffolding(self.graphql_client.request, {
+            'landlord_name': 'Landlordo Calrissian',
+            'landlord_primary_line': '2 Cloud City Place',
+            'landlord_city': 'Bespin',
+            'landlord_state': 'OH',
+            'landlord_zip_code': '43216',
+            'landlord_email': 'landlordo@calrissian.net',
+        })
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res['data']['norentSendLetter']
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()['errors'] == one_field_err(
+            'You do not have permission to use this form!')
+
+    def test_it_raises_err_when_no_rent_periods_are_defined(self):
+        assert self.execute()['errors'] == one_field_err(
+            'No rent periods are defined!')
+
+    def test_it_raises_err_when_letter_already_sent(self):
+        LetterFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'You have already sent a letter for this rent period!')
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        RentPeriodFactory()
+        assert self.execute()['errors'] == one_field_err(
+            'You haven\'t provided any landlord details yet!')
+
+    def test_it_works(self):
+        RentPeriodFactory()
+        self.create_landlord_details()
+        assert self.execute()['errors'] == []

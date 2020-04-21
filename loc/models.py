@@ -114,6 +114,12 @@ class LandlordDetails(MailingAddress):
     def formatted_phone_number(self) -> str:
         return pn.humanize(self.phone_number)
 
+    def get_or_create_address_details_model(self) -> 'AddressDetails':
+        return AddressDetails.objects.get_or_create(
+            address=self.address,
+            defaults=self.get_address_as_dict(),
+        )[0]
+
     @property
     def address_lines_for_mailing(self) -> List[str]:
         '''

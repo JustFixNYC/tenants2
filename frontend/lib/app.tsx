@@ -23,7 +23,10 @@ import { isModalRoute } from "./util/route-util";
 import { AriaAnnouncer } from "./ui/aria";
 import { trackPageView, ga } from "./analytics/google-analytics";
 import { Action } from "history";
-import { smoothlyScrollToTopOfPage } from "./util/scrolling";
+import {
+  smoothlyScrollToTopOfPage,
+  smoothlyScrollToLocation,
+} from "./util/scrolling";
 import {
   HistoryBlockerManager,
   getNavigationConfirmation,
@@ -141,10 +144,32 @@ export class AppWithoutRouter extends React.Component<
     this.setState((state) => ({ session: { ...state.session, ...updates } }));
   }
 
-  handleFocusDuringPathnameChange(prevPathname: string, pathname: string) {
+  handleFocusOnHash(hash: string) {
+    const element = document.getElementById(hash.slice(1));
+    if (element) {
+      element.focus({ preventScroll: true });
+    }
+  }
+
+  handleScrollToHash(hash: string) {
+    const element = document.getElementById(hash.slice(1));
+    if (element) {
+      smoothlyScrollToLocation(element);
+    }
+  }
+
+  handleFocusDuringPathnameChange(
+    prevPathname: string,
+    pathname: string,
+    hash: string
+  ) {
     // Modals handle focus changes themselves, so don't manage focus if
     // we're moving to or from a modal.
     if (!isModalRoute(prevPathname, pathname)) {
+      if (hash.length > 1) {
+        this.handleFocusOnHash(hash);
+        return;
+      }
       // This isn't a modal, so focus on the page's body to ensure
       // focus isn't lost in the page transition.
       const body = this.pageBodyRef.current;
@@ -163,6 +188,7 @@ export class AppWithoutRouter extends React.Component<
   handleScrollPositionDuringPathnameChange(
     prevPathname: string,
     pathname: string,
+    hash: string,
     action: Action
   ) {
     // We don't need to worry about scroll position when transitioning into a modal, and
@@ -174,19 +200,33 @@ export class AppWithoutRouter extends React.Component<
       !isModalRoute(pathname) &&
       (action === "PUSH" || action === "REPLACE")
     ) {
-      smoothlyScrollToTopOfPage();
+      if (hash.length > 1) {
+        this.handleScrollToHash(hash);
+      } else {
+        smoothlyScrollToTopOfPage();
+      }
     }
   }
 
-  handlePathnameChange(prevPathname: string, pathname: string, action: Action) {
+  handlePathnameChange(
+    prevPathname: string,
+    prevHash: string,
+    pathname: string,
+    hash: string,
+    action: Action
+  ) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
-      this.handleFocusDuringPathnameChange(prevPathname, pathname);
+      this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
       this.handleScrollPositionDuringPathnameChange(
         prevPathname,
         pathname,
+        hash,
         action
       );
+    } else if (prevHash !== hash) {
+      this.handleFocusOnHash(hash);
+      this.handleScrollToHash(hash);
     }
   }
 
@@ -236,7 +276,9 @@ export class AppWithoutRouter extends React.Component<
     }
     this.handlePathnameChange(
       prevProps.location.pathname,
+      prevProps.location.hash,
       this.props.location.pathname,
+      this.props.location.hash,
       this.props.history.action
     );
   }

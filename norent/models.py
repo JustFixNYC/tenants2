@@ -51,6 +51,12 @@ class Letter(models.Model):
         help_text="When the letter was mailed."
     )
 
+    letter_emailed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the letter was e-mailed."
+    )
+
     def __str__(self):
         if not self.pk:
             return super().__str__()

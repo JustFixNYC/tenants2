@@ -35,13 +35,7 @@ class LocAdminViews:
         ll_addr_details = landlord_details.get_or_create_address_details_model()
 
         landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
-        user_verification = lob_api.verify_address(
-            primary_line=onboarding_info.address,
-            secondary_line=onboarding_info.apartment_address_line,
-            state=onboarding_info.state,
-            city=onboarding_info.city,
-            zip_code=onboarding_info.zipcode,
-        )
+        user_verification = lob_api.verify_address(**onboarding_info.as_lob_params())
 
         return self._create_mail_confirmation_context(
             landlord_verification=landlord_verification,

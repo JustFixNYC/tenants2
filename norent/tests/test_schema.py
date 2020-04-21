@@ -5,6 +5,7 @@ from users.models import JustfixUser
 from users.tests.factories import SecondUserFactory, UserFactory
 from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
 from onboarding.tests.test_schema import _exec_onboarding_step_n
+from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from norent.schema import update_scaffolding
 
@@ -368,12 +369,19 @@ class TestNorentSendLetter:
         assert self.execute()['errors'] == one_field_err(
             'You have already sent a letter for this rent period!')
 
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        RentPeriodFactory()
+        assert self.execute()['errors'] == one_field_err(
+            'You have not onboarded!')
+
     def test_it_raises_err_when_no_landlord_details_exist(self):
         RentPeriodFactory()
+        OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == one_field_err(
             'You haven\'t provided any landlord details yet!')
 
     def test_it_works(self):
         RentPeriodFactory()
         self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []

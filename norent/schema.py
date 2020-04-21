@@ -190,9 +190,10 @@ class NorentSendLetter(SessionFormMutation):
 
     @classmethod
     def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+        user = request.user
         html_content = "<p>TODO: Render HTML of letter in React.</p>"
         letter = models.Letter(
-            user=request.user,
+            user=user,
             rent_period=rp,
             html_content=html_content,
         )
@@ -204,8 +205,11 @@ class NorentSendLetter(SessionFormMutation):
             pass
 
         if ld.primary_line:
+            user_addr = user.onboarding_info.as_lob_params()
+            addr_details = ld.get_or_create_address_details_model()
+            ll_addr = addr_details.as_lob_params()
+            print(user_addr, ll_addr)
             # TODO: Mail letter via lob.
-            pass
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -218,6 +222,8 @@ class NorentSendLetter(SessionFormMutation):
         letter = models.Letter.objects.filter(user=user, rent_period=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
+        if not hasattr(user, 'onboarding_info'):
+            return cls.make_error("You have not onboarded!")
 
         ld = scaffolding_to_landlord_details(request)
 

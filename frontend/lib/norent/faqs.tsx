@@ -89,7 +89,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
         </div>
       </section>
 
-      <div className="hero">
+      <section className="hero">
         <div className="hero-body">
           <div className="container">
             <br />
@@ -117,7 +117,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
             })}
           </div>
         </div>
-      </div>
+      </section>
     </Page>
   );
 };

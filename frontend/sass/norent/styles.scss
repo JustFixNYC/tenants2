@@ -140,6 +140,22 @@ $jf-navbar-content: $black;
   }
 }
 
+$jf-logo-height: 70px;
+
+.jf-justfix-logo {
+  height: $jf-logo-height;
+  figure.image {
+    margin: 0;
+    img {
+      height: $jf-logo-height;
+      width: calc(3 * #{$jf-logo-height});
+      @include tablet {
+        @include is-horizontal-center;
+      }
+    }
+  }
+}
+
 .jf-jump-arrow {
   figure {
     @extend .jf-up-and-down;

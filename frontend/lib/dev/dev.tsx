@@ -20,7 +20,10 @@ import {
   ExampleStaticPagePDF,
 } from "./example-static-page";
 import { ExampleMapboxPage } from "./example-mapbox-page";
-import { ExamplePageWithAnchors1, ExamplePageWithAnchors2 } from "./example-pages-with-anchors";
+import {
+  ExamplePageWithAnchors1,
+  ExamplePageWithAnchors2,
+} from "./example-pages-with-anchors";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),

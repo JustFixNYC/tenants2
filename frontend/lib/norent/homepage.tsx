@@ -9,6 +9,7 @@ import { NorentFaqsPreview } from "./faqs";
 import { PartnerLogos } from "./about";
 import classnames from "classnames";
 import { ScrollyLink } from "../ui/scrolly-link";
+import { Link } from "react-router-dom";
 
 type NorentImageType = "png" | "svg";
 
@@ -49,7 +50,6 @@ export const StickyLetterButtonContainer = (props: {
 const checklistItems = [
   "Build a letter using our free letter builder",
   "Send your letter by email",
-  "Make a special request to your landlord",
   "Send your letter by certified mail for free",
   "Cite up-to-date legal ordinances in your letter",
 ];
@@ -115,6 +115,16 @@ export const NorentHomePage: React.FC<{}> = () => (
           <br />
           <BuildMyLetterButton isHiddenMobile />
           <br />
+          <p className="is-size-6">
+            Made by non-profit{" "}
+            <OutboundLink
+              href="https://www.justfix.nyc/"
+              rel="noopener noreferrer"
+            >
+              JustFix.nyc
+            </OutboundLink>
+          </p>
+          <br />
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
@@ -131,12 +141,9 @@ export const NorentHomePage: React.FC<{}> = () => (
             <h2 className="title is-spaced">Legally vetted</h2>
             <p className="subtitle is-size-5">
               Our free letter builder was built with{" "}
-              <OutboundLink
-                href="https://www.justfix.nyc/about/partners"
-                rel="noopener noreferrer"
-              >
+              <Link to={NorentRoutes.locale.about}>
                 lawyers and non-profit tenants rights organizations
-              </OutboundLink>{" "}
+              </Link>{" "}
               across the nation to ensure that your letter gives you the most
               protections based on your state.
             </p>
@@ -192,8 +199,8 @@ export const NorentHomePage: React.FC<{}> = () => (
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">How it works</h2>
             <p className="subtitle is-size-5">
-              We make it easy to weigh your options and notify your landlord by
-              email or by certified mail for free.
+              We make it easy to notify your landlord by email or by certified
+              mail for free.
             </p>
             <br />
           </div>
@@ -208,10 +215,10 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 jf-alt-title-font">8 Steps</p>
+                  <p className="title is-size-4 jf-alt-title-font">8 Minutes</p>
                   <p>
                     Answer a few questions about yourself and your landlord or
-                    management company.
+                    management company. It'll take no more than 8 minutes.
                   </p>
                 </div>{" "}
               </div>
@@ -305,10 +312,14 @@ export const NorentHomePage: React.FC<{}> = () => (
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Locally supported</h2>
             <p className="subtitle is-size-5">
-              After sending your letter, we can connect you to local groups to
+              After sending your letter, we can connect you to{" "}
+              <Link to={NorentRoutes.locale.about}>local groups</Link> to
               organize for greater demands with other tenants.
             </p>
             <br />
+            <p className="subtitle is-size-5">
+              Collective action is a powerful tool for:
+            </p>
           </div>
           <div className="container jf-wide-container">
             <LandingPageDemands />

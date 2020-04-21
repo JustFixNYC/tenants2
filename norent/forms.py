@@ -1,12 +1,12 @@
 from django import forms
 
-from project.forms import UniqueEmailForm
+from project.forms import SetPasswordForm, UniqueEmailForm
 from project.util.mailing_address import (
     US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS)
 from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS)
 from project.util.phone_number import USPhoneNumberField
-from onboarding.models import APT_NUMBER_KWARGS
+from onboarding.models import OnboardingInfo, APT_NUMBER_KWARGS
 from users.models import JustfixUser
 
 
@@ -54,3 +54,11 @@ class NationalAddress(forms.Form):
 
 class Email(UniqueEmailForm):
     pass
+
+
+class CreateAccount(SetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ('can_we_sms',)
+
+    agree_to_terms = forms.BooleanField(required=True)

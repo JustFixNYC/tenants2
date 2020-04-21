@@ -27,6 +27,10 @@ export function getSignupIntentOnboardingInfo(
   intent: OnboardingInfoSignupIntent
 ): SignupIntentOnboardingInfo {
   switch (intent) {
+    case OnboardingInfoSignupIntent.NORENT:
+    // TODO: Actually figure out something to do here, instead of just
+    // falling through to LOC.
+
     case OnboardingInfoSignupIntent.LOC:
       return {
         preOnboarding: Routes.locale.loc.splash,

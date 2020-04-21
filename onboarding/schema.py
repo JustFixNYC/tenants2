@@ -88,6 +88,38 @@ def pick_model_fields(model, **kwargs):
     }
 
 
+def complete_onboarding(request, info, password: Optional[str]):
+    with transaction.atomic():
+        user = JustfixUser.objects.create_user(
+            username=JustfixUser.objects.generate_random_username(),
+            first_name=info['first_name'],
+            last_name=info['last_name'],
+            email=info['email'],
+            phone_number=info['phone_number'],
+            password=password,
+        )
+
+        oi = OnboardingInfo(user=user, **pick_model_fields(
+            OnboardingInfo, **info))
+        oi.full_clean()
+        oi.save()
+
+    user.send_sms_async(
+        f"Welcome to {get_site_name()}, {user.first_name}! "
+        f"We'll be sending you notifications from this phone number.",
+    )
+    slack.sendmsg_async(
+        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"from {slack.escape(oi.borough_label)} has signed up!",
+        is_safe=True
+    )
+    if user.email:
+        send_verification_email_async(user.pk)
+
+    user.backend = settings.AUTHENTICATION_BACKENDS[0]
+    login(request, user)
+
+
 class OnboardingStep4Base(SessionFormMutation):
     class Meta:
         abstract = True
@@ -106,43 +138,15 @@ class OnboardingStep4Base(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        phone_number = form.cleaned_data['phone_number']
-        password = form.cleaned_data['password'] or None
-        email = form.cleaned_data.get('email', '')
-        prev_steps = cls.__extract_all_step_session_data(request)
-        if prev_steps is None:
+        allinfo = cls.__extract_all_step_session_data(request)
+        if allinfo is None:
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
-        with transaction.atomic():
-            user = JustfixUser.objects.create_user(
-                username=JustfixUser.objects.generate_random_username(),
-                first_name=prev_steps['first_name'],
-                last_name=prev_steps['last_name'],
-                email=email,
-                phone_number=phone_number,
-                password=password,
-            )
-
-            oi = OnboardingInfo(user=user, **pick_model_fields(
-                OnboardingInfo, **prev_steps, **form.cleaned_data),
-                state="NY")
-            oi.full_clean()
-            oi.save()
-
-        user.send_sms_async(
-            f"Welcome to {get_site_name()}, {user.first_name}! "
-            f"We'll be sending you notifications from this phone number.",
-        )
-        slack.sendmsg_async(
-            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-            f"from {slack.escape(oi.borough_label)} has signed up!",
-            is_safe=True
-        )
-        if user.email:
-            send_verification_email_async(user.pk)
-
-        user.backend = settings.AUTHENTICATION_BACKENDS[0]
-        login(request, user)
+        allinfo.update(form.cleaned_data)
+        password = form.cleaned_data['password'] or None
+        allinfo['email'] = form.cleaned_data.get('email', '')
+        allinfo['state'] = "NY"
+        complete_onboarding(request, info=allinfo, password=password)
 
         for step in SESSION_STEPS:
             step.clear_from_request(request)

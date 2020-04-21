@@ -7,6 +7,7 @@ import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
+import { PartnerLogos } from "./about";
 import classnames from "classnames";
 
 type NorentImageType = "png" | "svg";
@@ -89,27 +90,6 @@ export const LandingPageChecklist = () => (
       </div>
     </div>
   </section>
-);
-
-const partnerLogoItems = [
-  ["Justfix.nyc", "justfix"],
-  ["Northwest Bronx Community and Clergy Coalition", "nwbccc"],
-  ["Tenants and Neighbors", "tenantsandneighbors"],
-  ["Legal Services NYC", "lsnyc"],
-];
-
-export const LandingPagePartnerLogos = () => (
-  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
-    {partnerLogoItems.map((partnerDetails, i) => (
-      <div className="column is-one-fourth jf-has-centered-images" key={i}>
-        <StaticImage
-          ratio="is-128x128"
-          src={getImageSrc(partnerDetails[1], "png")}
-          alt={partnerDetails[0]}
-        />
-      </div>
-    ))}
-  </div>
 );
 
 const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
@@ -323,7 +303,7 @@ export const NorentHomePage: React.FC<{}> = () => (
             <br />
           </div>
           <div className="container jf-wide-container">
-            <LandingPagePartnerLogos />
+            <PartnerLogos />
           </div>
         </div>
       </section>

@@ -1,8 +1,28 @@
 import React from "react";
 import Page from "../ui/page";
 import { OutboundLink } from "../analytics/google-analytics";
-import { LandingPagePartnerLogos, getImageSrc } from "./homepage";
+import { getImageSrc } from "./homepage";
 import { StaticImage } from "../ui/static-image";
+
+const partnerLogoItems = [
+  ["Community Justice Project", "cjp"],
+  ["Right to the City", "rttc"],
+  ["Manufactured Housing Action", "mha"],
+];
+
+export const PartnerLogos = () => (
+  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
+    {partnerLogoItems.map((partnerDetails, i) => (
+      <div className="column is-one-fourth jf-has-centered-images" key={i}>
+        <StaticImage
+          ratio="is-128x128"
+          src={getImageSrc(partnerDetails[1], "png")}
+          alt={partnerDetails[0]}
+        />
+      </div>
+    ))}
+  </div>
+);
 
 export const NorentAboutPage: React.FC<{}> = () => (
   <Page title="About" className="content">

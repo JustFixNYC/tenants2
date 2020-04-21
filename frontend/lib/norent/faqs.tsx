@@ -76,18 +76,21 @@ export const NorentFaqsPreview = () => {
 export const NorentFaqsPage: React.FC<{}> = () => {
   return (
     <Page title="FAQs" className="content">
-      <section className="hero">
+      <section className="hero is-info is-medium">
         <div className="hero-body">
-          <div className="container jf-has-text-centered-tablet jf-space-below-2rem">
-            <h2 className="title is-spaced has-text-info">
-              Frequently Asked Questions
-            </h2>
+          <div className="container jf-has-text-centered-tablet">
+            <h2 className="title is-spaced">Frequently Asked Questions</h2>
             <br />
-            <p className="subtitle is-size-5">
+            <p className="subtitle">
               Sending a letter to your landlord is a big step. Check out our
               frequently asked questions from people who have used our tool:
             </p>
           </div>
+        </div>
+      </section>
+
+      <div className="hero">
+        <div className="hero-body">
           <div className="container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
@@ -114,7 +117,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
             })}
           </div>
         </div>
-      </section>
+      </div>
     </Page>
   );
 };

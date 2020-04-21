@@ -9,7 +9,7 @@ import {
   AllSessionInfo_norentScaffolding,
   AllSessionInfo,
 } from "../queries/AllSessionInfo";
-import { friendlyDate } from "../util/util";
+import { friendlyDate, assertNotNull } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
 // TODO: This is temporary, it should be passed in as a prop.
@@ -135,22 +135,23 @@ const NorentLetterStaticPage: React.FC<
 function getNorentLetterContentPropsFromSession(
   session: AllSessionInfo
 ): NorentLetterContentProps | null {
-  if (!session.norentScaffolding) {
+  const onb = session.onboardingInfo;
+  if (!(session.norentScaffolding && onb)) {
     return null;
   }
 
-  // Make a copy of this object, because we may modify it.
-  const props: NorentLetterContentProps = { ...session.norentScaffolding };
-
-  // TEMPORARY: The phone number they entered is elsewhere in our session.
-  props.phoneNumber = session.lastQueriedPhoneNumber || "";
-
-  if (session.norentScaffolding?.isCityInNyc) {
-    // TEMPORARY: If they specified a NYC-specific address, it will be in
-    // the onboarding step 1 session info.
-    props.street = session.onboardingStep1?.address || "";
-    props.aptNumber = session.onboardingStep1?.aptNumber || "";
-  }
+  const props: NorentLetterContentProps = {
+    ...session.norentScaffolding,
+    phoneNumber: assertNotNull(session.phoneNumber),
+    firstName: assertNotNull(session.firstName),
+    lastName: assertNotNull(session.lastName),
+    email: assertNotNull(session.email),
+    street: onb.address,
+    city: onb.city,
+    state: onb.state,
+    zipCode: onb.zipcode,
+    aptNumber: onb.aptNumber,
+  };
 
   return props;
 }

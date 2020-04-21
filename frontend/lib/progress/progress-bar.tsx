@@ -93,8 +93,11 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
    */
   outerSteps?: ProgressStepRoute[];
 
-  /** The human-readable label for the progress bar. */
-  label: string;
+  /**
+   * The human-readable label for the progress bar. If absent, no label
+   * will be shown, as will no "step X of Y" text.
+   */
+  label?: string;
 
   /** If true, hide the actual progress bar but still render the routes. */
   hideBar?: boolean;
@@ -167,9 +170,11 @@ class RouteProgressBarWithoutRouter extends React.Component<
       <React.Fragment>
         {!this.props.hideBar && (
           <ProgressBar pct={pct}>
-            <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
-              {props.label}: Step {currStep} of {numSteps}
-            </h6>
+            {this.props.label && (
+              <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
+                {props.label}: Step {currStep} of {numSteps}
+              </h6>
+            )}
           </ProgressBar>
         )}
         <TransitionContextGroup

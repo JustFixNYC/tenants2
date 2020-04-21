@@ -7,7 +7,7 @@ import { getImageSrc } from "../homepage";
 but I suspected it would require some refactoring of the svg files themselves... 
 Also since we only need two colors of the logo currently, 
 I didn't spend too much time investigating. */
-type NorentLogoColor = "white" | null;
+type NorentLogoColor = "white" | "dark" | null;
 
 export const NorentLogo = (props: {
   size: BulmaImageClass;

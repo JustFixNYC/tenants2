@@ -1,28 +1,67 @@
 nav.navbar {
+  @extend .is-info;
+  background-color: $info;
   &.is-fixed-top {
     // override navbar position to not be sticky:
     position: absolute;
   }
-  .navbar-menu {
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 200;
+
+    &:focus {
+      outline-color: $white;
+    }
+
+    &:hover::after {
+      border-color: $white;
+    }
+  }
+
+  .navbar-menu.is-active {
+    background-color: $white;
     .navbar-link,
     .navbar-item {
       color: $dark;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-weight: 200;
+      &:focus {
+        outline-color: $dark;
+      }
+    }
+  }
 
-      &:hover {
-        color: $dark;
-        &::after {
-          border-color: $dark;
-        }
+  .navbar-dropdown {
+    .navbar-item,
+    .navbar-item:hover {
+      color: $dark;
+      &:focus {
+        outline-color: $dark;
       }
     }
   }
   .navbar-burger {
-    color: $info;
+    color: $white;
     span {
       height: 2px;
+    }
+  }
+}
+
+.jf-home-navbar nav.navbar {
+  @extend .is-white;
+  .navbar-menu {
+    background-color: $white;
+    .navbar-link:hover::after {
+      border-color: $dark;
+    }
+  }
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    &:focus {
+      outline-color: $dark;
     }
   }
 }

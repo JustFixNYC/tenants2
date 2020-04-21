@@ -14,6 +14,9 @@ import { NorentLbAskCityState } from "./ask-city-state";
 import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
+import { ProgressStepRoute } from "../../progress/progress-step-route";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { NorentCreateAccount } from "./create-account";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -40,46 +43,48 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         exact: true,
         component: NorentLbWelcome,
       },
-      ...createStartAccountOrLoginSteps({
-        routes,
-        toPreviousPhase: routes.welcome,
-        toNextPhase: routes.name,
-      }),
+      ...createStartAccountOrLoginSteps(routes),
+      ...skipStepsIf(isUserLoggedIn, [
+        {
+          path: routes.name,
+          exact: true,
+          component: NorentLbAskName,
+        },
+        {
+          path: routes.city,
+          exact: true,
+          component: NorentLbAskCityState,
+        },
+        {
+          path: routes.nationalAddress,
+          exact: true,
+          shouldBeSkipped: isUserInNYC,
+          component: NorentLbAskNationalAddress,
+        },
+        {
+          path: routes.nycAddress,
+          exact: false,
+          shouldBeSkipped: isUserOutsideNYC,
+          component: NorentLbAskNycAddress,
+        },
+        {
+          path: routes.email,
+          exact: true,
+          component: NorentLbAskEmail,
+        },
+      ]),
       {
-        path: routes.name,
-        exact: true,
-        component: NorentLbAskName,
+        path: routes.createAccount,
+        component: NorentCreateAccount,
+        shouldBeSkipped: isUserLoggedIn,
       },
       {
-        path: routes.city,
-        exact: true,
-        component: NorentLbAskCityState,
-      },
-      {
-        path: routes.nationalAddress,
-        exact: true,
-        shouldBeSkipped: isUserInNYC,
-        component: NorentLbAskNationalAddress,
-      },
-      {
-        path: routes.nycAddress,
-        exact: false,
-        shouldBeSkipped: isUserOutsideNYC,
-        component: NorentLbAskNycAddress,
-      },
-      {
-        path: routes.email,
-        exact: true,
-        component: NorentLbAskEmail,
-      },
-
-      {
-        path: NorentRoutes.locale.letter.landlordInfo,
+        path: routes.landlordInfo,
         exact: true,
         component: NorentLandlordInfoPage,
       },
       {
-        path: NorentRoutes.locale.letter.preview,
+        path: routes.preview,
         exact: true,
         component: NorentLetterPreviewPage,
       },
@@ -91,3 +96,19 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
 export const NorentLetterBuilderRoutes = buildProgressRoutesComponent(
   getNoRentLetterBuilderProgressRoutesProps
 );
+
+function skipStepsIf(
+  predicate: (s: AllSessionInfo) => boolean,
+  steps: ProgressStepRoute[]
+): ProgressStepRoute[] {
+  return steps.map((step) => {
+    return {
+      ...step,
+      shouldBeSkipped(s) {
+        if (predicate(s)) return true;
+        if (step.shouldBeSkipped) return step.shouldBeSkipped(s);
+        return false;
+      },
+    };
+  });
+}

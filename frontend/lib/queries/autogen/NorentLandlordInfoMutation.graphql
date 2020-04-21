@@ -2,8 +2,6 @@
 mutation NorentLandlordInfoMutation($input: NorentLandlordInfoInput!) {
   output: norentLandlordInfo(input: $input) {
     errors { ...ExtendedFormFieldErrors },
-    session {
-      norentScaffolding { ...NorentScaffolding }
-    }
+    session { ...AllSessionInfo }
   }
 }

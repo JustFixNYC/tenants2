@@ -1,52 +1,61 @@
 import React from "react";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { StartAccountOrLoginRouteInfo } from "./routes";
-import { ProgressStepRoute } from "../../progress/progress-step-route";
+import {
+  ProgressStepRoute,
+  ProgressStepProps,
+  MiddleProgressStepProps,
+} from "../../progress/progress-step-route";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { AskPhoneNumber } from "./ask-phone-number";
 import { VerifyPassword } from "./verify-password";
 import { SetPassword } from "./set-password";
 import { VerifyPhoneNumber } from "./verify-phone-number";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { assertNotNull } from "../../util/util";
 
-export type StartAccountOrLoginProps = {
+export type StartAccountOrLoginProps = MiddleProgressStepProps & {
   routes: StartAccountOrLoginRouteInfo;
-  toNextPhase: string;
-  toPreviousPhase: string;
 };
 
 export function createStartAccountOrLoginSteps(
-  props: StartAccountOrLoginProps
+  routes: StartAccountOrLoginRouteInfo
 ): ProgressStepRoute[] {
-  const { routes } = props;
+  const wrap = (Component: React.ComponentType<StartAccountOrLoginProps>) => {
+    return (props: ProgressStepProps) => (
+      <Component
+        {...props}
+        routes={routes}
+        prevStep={assertNotNull(props.prevStep)}
+        nextStep={assertNotNull(props.nextStep)}
+      />
+    );
+  };
   return [
     {
       path: routes.phoneNumber,
       exact: true,
       shouldBeSkipped: isUserLoggedIn,
-      render: () => <AskPhoneNumber {...props} />,
+      render: wrap(AskPhoneNumber),
     },
     {
       path: routes.verifyPassword,
       shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
-      render: () => <VerifyPassword {...props} />,
+      render: wrap(VerifyPassword),
     },
     {
       path: routes.verifyPhoneNumber,
       exact: true,
       shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
-      render: () => <VerifyPhoneNumber {...props} />,
+      render: wrap(VerifyPhoneNumber),
     },
     {
       path: routes.setPassword,
       exact: true,
       shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
-      render: () => <SetPassword {...props} />,
+      render: wrap(SetPassword),
     },
   ];
-}
-
-function isUserLoggedIn(s: AllSessionInfo): boolean {
-  return !!s.phoneNumber;
 }
 
 function isUserLoggedInOrCreatingNewAccount(s: AllSessionInfo): boolean {

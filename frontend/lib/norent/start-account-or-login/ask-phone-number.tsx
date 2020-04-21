@@ -9,12 +9,12 @@ import { StartAccountOrLoginProps } from "./steps";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 
 export function getRouteForAccountStatus(
-  { routes, toNextPhase }: StartAccountOrLoginProps,
+  { routes, nextStep }: StartAccountOrLoginProps,
   status: PhoneNumberAccountStatus
 ): string {
   switch (status) {
     case PhoneNumberAccountStatus.NO_ACCOUNT:
-      return toNextPhase;
+      return nextStep;
     case PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD:
       return routes.verifyPassword;
     case PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD:
@@ -44,10 +44,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               {...ctx.fieldPropsFor("phoneNumber")}
               label="Phone number"
             />
-            <ProgressButtons
-              isLoading={ctx.isLoading}
-              back={props.toPreviousPhase}
-            />
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}
       </SessionUpdatingFormSubmitter>

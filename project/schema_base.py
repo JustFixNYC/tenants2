@@ -27,6 +27,10 @@ class PhoneNumberAccountStatus(Enum):
 GraphQlPhoneNumberAccountStatus = graphene.Enum.from_enum(PhoneNumberAccountStatus)
 
 
+def get_last_queried_phone_number(request) -> Optional[str]:
+    return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
+
+
 @schema_registry.register_session_info
 class BaseSessionInfo:
     user_id = graphene.Int(
@@ -139,8 +143,7 @@ class BaseSessionInfo:
         return request.user.phone_number
 
     def resolve_last_queried_phone_number(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
+        return get_last_queried_phone_number(info.context)
 
     def resolve_last_queried_phone_number_account_status(
         self, info: ResolveInfo

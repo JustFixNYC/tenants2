@@ -1,8 +1,23 @@
+from typing import Optional
 import pydantic
 
 
 # This should change whenever our scaffolding model's fields change.
 VERSION = '1'
+
+
+NYC_CITIES = [
+    "nyc",
+    "new york city",
+    "new york",
+    "ny",
+    "manhattan",
+    "queens",
+    "brooklyn",
+    "staten island",
+    "bronx",
+    "the bronx"
+]
 
 
 class NorentScaffolding(pydantic.BaseModel):
@@ -47,3 +62,8 @@ class NorentScaffolding(pydantic.BaseModel):
     landlord_email: str = ''
 
     landlord_phone_number: str = ''
+
+    def is_city_in_nyc(self) -> Optional[bool]:
+        if not (self.state and self.city):
+            return None
+        return self.state == "NY" and self.city.lower() in NYC_CITIES

@@ -19,6 +19,7 @@ def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
 
 
 @pytest.mark.parametrize('city,state,expected', [
+    ('', '', None),
     ('Ithaca', 'NY', False),
     ('STATEN ISLAND', 'NY', True),
     ('Brooklyn', 'NY', True),

@@ -1,6 +1,7 @@
 import React from "react";
 import Page from "../ui/page";
 import { Link } from "react-router-dom";
+import { ScrollyLink } from "../ui/scrolly-link";
 
 const LoremIpsum: React.FC<{}> = () => (
   <p>
@@ -23,15 +24,17 @@ const LotsOfSections: React.FC<{
     const id = `heading-${i}`;
     sections.push(
       <h2 key={id}>
-        <Link to={`#${id}`} id={id}>
+        <ScrollyLink to={`#${id}`} id={id}>
           {prefix}, heading {i}
-        </Link>
+        </ScrollyLink>
       </h2>
     );
     sections.push(<LoremIpsum key={`ipsum-${i}`} />);
     sections.push(
       <p key={`link-${i}`}>
-        <Link to={`${otherURL}#${id}`}>Link to the other page</Link>
+        <ScrollyLink to={`${otherURL}#${id}`}>
+          Link to the other page
+        </ScrollyLink>
       </p>
     );
   }

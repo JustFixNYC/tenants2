@@ -103,7 +103,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <br />
         </div>
         <div className="container">
-          <LandingPagePartnerLogos />
+          <PartnerLogos />
         </div>
       </div>
     </section>

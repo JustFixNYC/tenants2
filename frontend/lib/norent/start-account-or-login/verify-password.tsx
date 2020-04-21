@@ -75,7 +75,7 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
           ...BlankLoginInput,
           phoneNumber: s.lastQueriedPhoneNumber || "",
         })}
-        onSuccessRedirect={(output, input) => props.toNextPhase}
+        onSuccessRedirect={(output, input) => props.nextStep}
       >
         {(ctx) => (
           <>

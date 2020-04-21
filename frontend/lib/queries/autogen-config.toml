@@ -141,4 +141,3 @@ sessionFields = ["onboardingInfo"]
 sessionFields = ["onboardingInfo"]
 
 [mutations."norent.*"]
-sessionFields = ["norentScaffolding"]

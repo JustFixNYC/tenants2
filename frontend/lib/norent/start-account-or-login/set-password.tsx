@@ -11,7 +11,7 @@ import { StartAccountOrLoginProps } from "./steps";
 
 export const SetPassword: React.FC<StartAccountOrLoginProps> = ({
   routes,
-  toNextPhase,
+  nextStep,
 }) => {
   return (
     <Page title="Set your new password">
@@ -22,7 +22,7 @@ export const SetPassword: React.FC<StartAccountOrLoginProps> = ({
       <SessionUpdatingFormSubmitter
         mutation={PasswordResetConfirmAndLoginMutation}
         initialState={BlankPasswordResetConfirmAndLoginInput}
-        onSuccessRedirect={toNextPhase}
+        onSuccessRedirect={nextStep}
       >
         {(ctx) => (
           <>

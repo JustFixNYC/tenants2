@@ -15,7 +15,7 @@ import {
 } from "../forms/form-fields";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { ModalLink } from "../ui/modal";
-import { PrivacyInfoModal } from "./onboarding-step-1";
+import { PrivacyInfoModal } from "../ui/privacy-info-modal";
 import { fbq } from "../analytics/facebook-pixel";
 import { FormContext } from "../forms/form-context";
 import { getDataLayer } from "../analytics/google-tag-manager";

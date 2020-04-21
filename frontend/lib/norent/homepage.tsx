@@ -15,11 +15,19 @@ export function getImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
 }
 
-export const JumpArrow = (props: { to: string; altText: string }) => (
+type JumpArrowColor = "white" | "primary" | null;
+
+export const JumpArrow = (props: {
+  to: string;
+  altText: string;
+  color?: JumpArrowColor;
+}) => (
   <Link to={props.to} className="jf-jump-arrow">
     <StaticImage
       ratio="is-32x32"
-      src={getImageSrc("downarrow")}
+      src={getImageSrc(
+        props.color === "white" ? "downarrow-white" : "downarrow"
+      )}
       alt={props.altText}
     />
   </Link>

@@ -44,6 +44,11 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         component: NorentLbWelcome,
       },
       ...createStartAccountOrLoginSteps(routes),
+
+      // TODO: We're going to skip these steps if the user is logged-in for now,
+      // which assumes that all our users have all the information we need,
+      // which isn't necessarily the case.  Eventually we'll iron out the
+      // edge cases.
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,
@@ -73,6 +78,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           component: NorentLbAskEmail,
         },
       ]),
+
       {
         path: routes.createAccount,
         component: NorentCreateAccount,

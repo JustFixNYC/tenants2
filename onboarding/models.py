@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -220,6 +220,25 @@ class OnboardingInfo(models.Model):
         '''Return the full mailing address as a string.'''
 
         return '\n'.join(self.address_lines_for_mailing)
+
+    def as_lob_params(self) -> Dict[str, str]:
+        '''
+        Returns a dictionary representing the address that can be passed directly
+        to Lob's verifications API: https://lob.com/docs#us_verifications_create
+        '''
+
+        return dict(
+            primary_line=self.address,
+
+            # TODO: Technically this is the wrong way to use the secondary
+            # line, according to the USPS. We should instead be putting the
+            # apartment number in the primary line.
+            secondary_line=self.apartment_address_line,
+
+            state=self.state,
+            city=self.city,
+            zip_code=self.zipcode,
+        )
 
     def __str__(self):
         if not (self.created_at and self.user and self.user.full_name):

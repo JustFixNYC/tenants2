@@ -1900,6 +1900,30 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The latest rent period one can create a no rent letter for.",
+              "isDeprecated": false,
+              "name": "norentLatestRentPeriod",
+              "type": {
+                "kind": "OBJECT",
+                "name": "NorentRentPeriod",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The latest no rent letter sent by the user. If the user has never sent a letter or is not logged in, this will be null.",
+              "isDeprecated": false,
+              "name": "norentLatestLetter",
+              "type": {
+                "kind": "OBJECT",
+                "name": "NorentLetter",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "rentalHistoryInfo",
@@ -2645,6 +2669,98 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "NorentScaffolding",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The date rent payment is due.",
+              "isDeprecated": false,
+              "name": "paymentDate",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Date",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentRentPeriod",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `Date` scalar type represents a Date\nvalue as specified by\n[iso8601](https://en.wikipedia.org/wiki/ISO_8601).",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Date",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The tracking number for the letter.",
+              "isDeprecated": false,
+              "name": "trackingNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the letter was mailed.",
+              "isDeprecated": false,
+              "name": "letterSentAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The rent payment date the letter is for.",
+              "isDeprecated": false,
+              "name": "paymentDate",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Date",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentLetter",
           "possibleTypes": null
         },
         {
@@ -3911,16 +4027,6 @@
           "possibleTypes": null
         },
         {
-          "description": "The `Date` scalar type represents a Date\nvalue as specified by\n[iso8601](https://en.wikipedia.org/wiki/ISO_8601).",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "SCALAR",
-          "name": "Date",
-          "possibleTypes": null
-        },
-        {
           "description": null,
           "enumValues": null,
           "fields": [
@@ -4217,6 +4323,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "NorentCreateAccountPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "NorentSendLetterInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentSendLetter",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentSendLetterPayload",
                   "ofType": null
                 }
               }
@@ -5918,6 +6055,86 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "NorentCreateAccountInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentSendLetterPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentSendLetterInput",
           "possibleTypes": null
         },
         {

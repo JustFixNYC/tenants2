@@ -20,6 +20,10 @@ import {
   ExampleStaticPagePDF,
 } from "./example-static-page";
 import { ExampleMapboxPage } from "./example-mapbox-page";
+import {
+  ExamplePageWithAnchors1,
+  ExamplePageWithAnchors2,
+} from "./example-pages-with-anchors";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -181,6 +185,16 @@ export default function DevRoutes(): JSX.Element {
         path={dev.examples.staticPagePdf}
         exact
         component={ExampleStaticPagePDF}
+      />
+      <Route
+        path={dev.examples.anchors1}
+        exact
+        component={ExamplePageWithAnchors1}
+      />
+      <Route
+        path={dev.examples.anchors2}
+        exact
+        component={ExamplePageWithAnchors2}
       />
       <Route path={dev.examples.mapbox} exact component={ExampleMapboxPage} />
     </Switch>

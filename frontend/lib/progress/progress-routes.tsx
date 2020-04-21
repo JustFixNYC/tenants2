@@ -21,9 +21,10 @@ export type ProgressRoutesProps = {
 
   /**
    * The name of the whole flow. It should generally be named such that
-   * "{label}: Step x of y" makes sense.
+   * "{label}: Step x of y" makes sense, but if not provided, no
+   * such label will be shown.
    */
-  label: string;
+  label?: string;
 
   /**
    * The steps that welcome the user to the flow, but that we won't

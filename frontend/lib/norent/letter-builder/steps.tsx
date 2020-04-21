@@ -35,7 +35,6 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
 
   return {
     toLatestStep: NorentRoutes.locale.letter.latestStep,
-    label: "Build your letter",
     welcomeSteps: [],
     stepsToFillOut: [
       {

@@ -87,7 +87,7 @@ $jf-navbar-content: $black;
   }
 
   // Default hero padding
-  .hero .hero-body {
+  .hero-body {
     padding: 4rem 2rem;
   }
 
@@ -209,7 +209,7 @@ $norent-sticky-menu-height: 100px;
   }
 }
 
-.jf-letter-preview-container {
+.jf-letter-preview-container.hero-body {
   padding-bottom: 0;
   @include mobile {
     .message .message-body {

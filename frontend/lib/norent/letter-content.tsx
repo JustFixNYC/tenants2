@@ -14,7 +14,7 @@ import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
 export type NorentLetterContentProps = Omit<
   AllSessionInfo_norentScaffolding,
-  "isCityInNyc"|"hasLandlordEmailAddress"|"hasLandlordMailingAddress"
+  "isCityInNyc" | "hasLandlordEmailAddress" | "hasLandlordMailingAddress"
 > & {
   paymentDate: GraphQLDate;
 };

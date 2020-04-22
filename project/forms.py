@@ -9,6 +9,21 @@ from project.util.phone_number import USPhoneNumberField
 from . import password_reset
 
 
+CHOOSE_ONE_MSG = "Please choose at least one option."
+
+
+def ensure_at_least_one_is_true(cleaned_data):
+    '''
+    A helper for forms that ensures that at least one of the values
+    in the given cleaned data dict is True.
+    '''
+
+    true_fields = [True for value in cleaned_data.values() if value is True]
+    if not true_fields:
+        raise ValidationError(CHOOSE_ONE_MSG)
+    return cleaned_data
+
+
 class YesNoRadiosField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, choices=[

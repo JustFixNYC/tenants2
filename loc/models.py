@@ -77,6 +77,7 @@ class LandlordDetails(MailingAddress):
         max_length=100, help_text="The landlord's name.")
 
     address = models.CharField(
+        blank=True,
         max_length=ADDR_LENGTH,
         verbose_name="LEGACY address",
         help_text=(

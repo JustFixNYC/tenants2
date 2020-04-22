@@ -1,11 +1,12 @@
 from django import forms
 
-from project.forms import SetPasswordForm, UniqueEmailForm
+from project.forms import SetPasswordForm, UniqueEmailForm, ensure_at_least_one_is_true
 from project.util.mailing_address import (
     US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS)
 from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS)
 from project.util.phone_number import USPhoneNumberField
+from loc.models import LandlordDetails
 from onboarding.models import OnboardingInfo, APT_NUMBER_KWARGS
 from users.models import JustfixUser
 
@@ -62,3 +63,16 @@ class CreateAccount(SetPasswordForm, forms.ModelForm):
         fields = ('can_we_sms',)
 
     agree_to_terms = forms.BooleanField(required=True)
+
+
+class LandlordNameAndContactTypes(forms.ModelForm):
+    class Meta:
+        model = LandlordDetails
+        fields = ('name',)
+
+    has_email_address = forms.BooleanField(required=False)
+
+    has_mailing_address = forms.BooleanField(required=False)
+
+    def clean(self):
+        return ensure_at_least_one_is_true(super().clean())

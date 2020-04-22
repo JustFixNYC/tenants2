@@ -60,6 +60,10 @@ class NorentScaffolding(graphene.ObjectType):
 
     landlord_phone_number = graphene.String(required=True)
 
+    has_landlord_email_address = graphene.Boolean()
+
+    has_landlord_mailing_address = graphene.Boolean()
+
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
 
@@ -165,6 +169,27 @@ class NorentNationalAddress(NorentScaffoldingMutation):
 class NorentEmail(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.Email
+
+
+@schema_registry.register_mutation
+class NorentLandlordNameAndContactTypes(SessionFormMutation):
+    class Meta:
+        form_class = forms.LandlordNameAndContactTypes
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        ld = LandlordDetails.objects.get_or_create(user=user)[0]
+        ld.name = form.cleaned_data['name']
+        ld.save()
+        update_scaffolding(request, {
+            'has_landlord_email_address': form.cleaned_data['has_email_address'],
+            'has_landlord_mailing_address': form.cleaned_data['has_mailing_address'],
+        })
+        return cls.mutation_success()
 
 
 def are_all_truthy(*args) -> bool:

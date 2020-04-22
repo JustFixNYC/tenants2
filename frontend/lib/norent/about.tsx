@@ -3,6 +3,7 @@ import Page from "../ui/page";
 import { OutboundLink } from "../analytics/google-analytics";
 import { getImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
+import { JustfixLogo } from "./components/logo";
 
 const partnerLogoItems = [
   ["Community Justice Project", "cjp"],
@@ -66,13 +67,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Who We Are</h2>
           <br />
-          <div className="jf-justfix-logo">
-            <StaticImage
-              ratio="is-3by1"
-              src={getImageSrc("justfix", "png")}
-              alt=""
-            />
-          </div>
+          <JustfixLogo />
           <p className="subtitle is-size-5">
             NoRent.org is made by{" "}
             <OutboundLink

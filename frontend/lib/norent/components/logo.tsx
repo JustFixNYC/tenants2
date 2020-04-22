@@ -27,3 +27,13 @@ export const NorentLogo = (props: {
     />
   </div>
 );
+
+export const JustfixLogo = () => (
+  <div className="jf-justfix-logo">
+    <StaticImage
+      ratio="is-3by1"
+      src={getImageSrc("justfix")}
+      alt="JustFix.nyc"
+    />
+  </div>
+);

@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sites.models import Site
 
 from users.models import JustfixUser
 from users.tests.factories import SecondUserFactory, UserFactory
@@ -8,6 +9,14 @@ from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from norent.schema import update_scaffolding
+from norent.models import Letter
+
+
+@pytest.fixture
+def use_norent_site(db):
+    site = Site.objects.get(pk=1)
+    site.name = "NoRent.org"
+    site.save()
 
 
 def one_field_err(message: str):
@@ -380,8 +389,18 @@ class TestNorentSendLetter:
         assert self.execute()['errors'] == one_field_err(
             'You haven\'t provided any landlord details yet!')
 
-    def test_it_works(self):
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        RentPeriodFactory()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'This form can only be used from the NoRent site.')
+
+    def test_it_works(self, allow_lambda_http, use_norent_site):
         RentPeriodFactory()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []
+        letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert str(letter.rent_period.payment_date) == '2020-05-01'
+        assert "unable to pay rent" in letter.html_content

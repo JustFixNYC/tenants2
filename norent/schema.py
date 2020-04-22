@@ -2,9 +2,11 @@ from typing import Optional, Dict, Any
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
+from django.urls import reverse
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
+from project.util import site_util
 from project.schema_base import get_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -190,12 +192,19 @@ class NorentSendLetter(SessionFormMutation):
 
     @classmethod
     def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+        from project.views import render_raw_lambda_static_content
+
         user = request.user
-        html_content = "<p>TODO: Render HTML of letter in React.</p>"
+        lr = render_raw_lambda_static_content(
+            request,
+            url=f"{reverse('react')}letter.pdf"
+        )
+        assert lr is not None, "Rendering of PDF HTML must succeed"
+        assert lr.http_headers['Content-Type'] == "application/pdf"
         letter = models.Letter(
             user=user,
             rent_period=rp,
-            html_content=html_content,
+            html_content=lr.html,
         )
         letter.full_clean()
         letter.save()
@@ -229,6 +238,11 @@ class NorentSendLetter(SessionFormMutation):
 
         if not ld:
             return cls.make_error("You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.NORENT:
+            return cls.make_error("This form can only be used from the NoRent site.")
 
         cls.send_letter(request, ld, rent_period)
 

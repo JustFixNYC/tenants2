@@ -2538,9 +2538,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In lastQueriedPhoneNumber now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "phoneNumber",
               "type": {
                 "kind": "NON_NULL",
@@ -2554,9 +2554,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordName",
               "type": {
                 "kind": "NON_NULL",
@@ -2570,9 +2570,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordPrimaryLine",
               "type": {
                 "kind": "NON_NULL",
@@ -2586,9 +2586,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordCity",
               "type": {
                 "kind": "NON_NULL",
@@ -2602,9 +2602,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordState",
               "type": {
                 "kind": "NON_NULL",
@@ -2618,9 +2618,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordZipCode",
               "type": {
                 "kind": "NON_NULL",
@@ -2634,9 +2634,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordEmail",
               "type": {
                 "kind": "NON_NULL",
@@ -2650,9 +2650,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordPhoneNumber",
               "type": {
                 "kind": "NON_NULL",
@@ -4533,37 +4533,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "NorentFullNamePayload",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "input",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "NorentLandlordInfoInput",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "norentLandlordInfo",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "NorentLandlordInfoPayload",
                   "ofType": null
                 }
               }
@@ -6713,184 +6682,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "NorentFullNameInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "isDeprecated": false,
-              "name": "errors",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "session",
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "NorentLandlordInfoPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordName",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordPrimaryLine",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordCity",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordState",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordZipCode",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordEmail",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordPhoneNumber",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "NorentLandlordInfoInput",
           "possibleTypes": null
         },
         {

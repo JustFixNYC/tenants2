@@ -221,7 +221,6 @@ class NorentSendLetter(SessionFormMutation):
             user_addr = user.onboarding_info.as_lob_params()
             addr_details = ld.get_or_create_address_details_model()
             ll_addr = addr_details.as_lob_params()
-
             print(user_addr, ll_addr)
             # TODO: Mail letter via lob.
 

@@ -404,3 +404,4 @@ class TestNorentSendLetter:
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert str(letter.rent_period.payment_date) == '2020-05-01'
         assert "unable to pay rent" in letter.html_content
+        assert "Boop Jones" in letter.html_content

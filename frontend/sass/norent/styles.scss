@@ -181,6 +181,8 @@ $jf-logo-height: 70px;
   }
 }
 
+// PRIMARY PAGES
+
 $norent-sticky-menu-height: 100px;
 
 .jf-sticky-button-container {
@@ -358,9 +360,12 @@ $norent-sticky-menu-height: 100px;
   z-index: -1;
 }
 
-.jf-above-footer-content > .box {
+// LETTER BUILDER PAGES
+
+.box.jf-norent-builder-page {
   max-width: 700px;
   margin: 4rem auto;
+
   @include mobile {
     margin: 0;
     // Override default box padding:
@@ -370,5 +375,38 @@ $norent-sticky-menu-height: 100px;
     // Since the mobile breakpoint might actually be higher than the max-width,
     // let's unset the max-width property to avoid formatting weirdness
     max-width: unset;
+  }
+
+  h1.title {
+    font-size: 36px;
+  }
+
+  .progress {
+    @extend .is-info;
+  }
+
+  p {
+    font-size: 1.25rem;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  ul {
+    margin-left: 1.5rem;
+    li {
+      font-weight: 600;
+    }
+  }
+
+  ol {
+    list-style-position: inside;
+  }
+
+  // Override default accordion styling from primary pages
+  .jf-accordion-item {
+    .media-content {
+      flex-grow: 0;
+    }
   }
 }

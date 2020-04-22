@@ -130,7 +130,9 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             <div className="jf-block-of-color-in-background" />
           )}
           <div
-            className={classnames(!isPrimaryPage && "box")}
+            className={classnames(
+              !isPrimaryPage && "box jf-norent-builder-page"
+            )}
             ref={ref}
             data-jf-is-noninteractive
             tabIndex={-1}

@@ -7,6 +7,8 @@ import { assertNotNull } from "../../util/util";
 import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
+import { LetterBuilderAccordion } from "../letter-builder/welcome";
+import { OutboundLink } from "../../analytics/google-analytics";
 
 export function getRouteForAccountStatus(
   { routes, nextStep }: StartAccountOrLoginProps,
@@ -44,6 +46,28 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               {...ctx.fieldPropsFor("phoneNumber")}
               label="Phone number"
             />
+            <div className="content">
+              <LetterBuilderAccordion question="Why do you need this information?">
+                We’ll use this information to either:
+                <ol className="is-marginless">
+                  <li>Log you into your existing account</li>
+                  <li>Match with a pre-existing account </li>
+                  <li>Sign you up for a new account.</li>
+                </ol>
+              </LetterBuilderAccordion>
+              <p className="is-size-6">
+                Your privacy is very important to us! Everything on JustFix.nyc
+                is secure.{" "}
+                <OutboundLink
+                  className="has-text-weight-normal"
+                  href="https://www.justfix.nyc/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Click here to learn more about our privacy policy.
+                </OutboundLink>
+              </p>
+            </div>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}

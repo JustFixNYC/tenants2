@@ -333,6 +333,8 @@ $norent-sticky-menu-height: 100px;
       margin: 0 -1rem;
     }
     summary {
+      // Make question box feel clickable to user
+      cursor: pointer;
       // Remove default marker
       &::-webkit-details-marker {
         display: none;

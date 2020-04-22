@@ -93,32 +93,16 @@ export const LandingPageChecklist = () => (
   </section>
 );
 
-const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
+const demandsListItems = [
+  "Going on rent strike",
+  "Cancelling rent",
+  "Banning evictions",
+];
 
-const LandingPageDemands = () => (
-  <>
-    {/* Desktop & Tablet Component */}
-    <div className="columns is-hidden-mobile is-multiline is-variable is-8-desktop">
-      {demandsListItems.map((demand, i) => (
-        <div
-          className="column has-text-centered jf-has-centered-images"
-          key={i}
-        >
-          <p className="title jf-alt-title-font is-size-5">{demand}</p>
-          <br />
-          <div className="jf-illustration-fist-pump">
-            <StaticImage
-              ratio="is-square"
-              src={getImageSrc("fistpump")}
-              alt=""
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-    {/* Mobile Component */}
+const LandingPageCollectiveActionList = () => (
+  <div className="container jf-collective-action-list jf-space-below-2rem">
     {demandsListItems.map((demand, i) => (
-      <article className="media is-hidden-tablet" key={i}>
+      <article className="media" key={i}>
         <div className="media-left">
           <StaticImage ratio="is-64x64" src={getImageSrc("fistpump")} alt="" />
         </div>
@@ -127,7 +111,7 @@ const LandingPageDemands = () => (
         </div>
       </article>
     ))}
-  </>
+  </div>
 );
 
 export const NorentHomePage: React.FC<{}> = () => (
@@ -337,7 +321,7 @@ export const NorentHomePage: React.FC<{}> = () => (
         </div>
       </section>
 
-      <section className="hero has-background-white-ter jf-collective-action">
+      <section className="hero has-background-white-ter">
         <div className="hero-body">
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Locally supported</h2>
@@ -351,11 +335,9 @@ export const NorentHomePage: React.FC<{}> = () => (
               Collective action is a powerful tool for:
             </p>
           </div>
-          <div className="container jf-wide-container">
-            <LandingPageDemands />
-            <br />
-            <BuildMyLetterButton isHiddenMobile />
-          </div>
+          <LandingPageCollectiveActionList />
+          <br />
+          <BuildMyLetterButton isHiddenMobile />
         </div>
       </section>
 

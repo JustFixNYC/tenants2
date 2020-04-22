@@ -237,17 +237,23 @@ $norent-sticky-menu-height: 100px;
   }
 }
 
-.jf-collective-action {
+.jf-collective-action-list {
   .media {
     border: none;
     .media-left figure.image {
       margin-left: 0;
     }
   }
+  @include tablet {
+    width: fit-content;
+    .media {
+      @include is-horizontal-center;
+    }
+  }
 }
 
 .jf-norent-checklist,
-.jf-collective-action {
+.jf-collective-action-list {
   .media-content {
     align-self: center;
   }

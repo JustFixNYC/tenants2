@@ -138,6 +138,7 @@ export const NorentHomePage: React.FC<{}> = () => (
             Made by non-profit{" "}
             <OutboundLink
               href="https://www.justfix.nyc/"
+              target="_blank"
               rel="noopener noreferrer"
             >
               JustFix.nyc

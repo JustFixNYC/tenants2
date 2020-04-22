@@ -163,6 +163,10 @@ $jf-logo-height: 70px;
 }
 
 .jf-partner-logos {
+  a figure.image:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
   @include tablet {
     figure.image {
       height: 160px;
@@ -329,6 +333,8 @@ $norent-sticky-menu-height: 100px;
       margin: 0 -1rem;
     }
     summary {
+      // Make question box feel clickable to user
+      cursor: pointer;
       // Remove default marker
       &::-webkit-details-marker {
         display: none;

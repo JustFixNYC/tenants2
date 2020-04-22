@@ -9,14 +9,6 @@ fragment NorentScaffolding on NorentScaffolding {
   zipCode,
   aptNumber,
   email,
-  phoneNumber,
-  landlordName,
-  landlordPrimaryLine,
-  landlordCity,
-  landlordState,
-  landlordZipCode,
-  landlordEmail,
-  landlordPhoneNumber,
   hasLandlordEmailAddress,
   hasLandlordMailingAddress
 }

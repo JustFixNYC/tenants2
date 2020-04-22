@@ -5,32 +5,9 @@ from project.util.mailing_address import (
     US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS)
 from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS)
-from project.util.phone_number import USPhoneNumberField
 from loc.models import LandlordDetails
 from onboarding.models import OnboardingInfo, APT_NUMBER_KWARGS
 from users.models import JustfixUser
-
-
-class LandlordInfo(forms.Form):
-    '''
-    Corresponds to fields in our scaffolding model that
-    involve landlord info.
-    '''
-
-    landlord_name = forms.CharField()
-
-    # e.g. "666 FIFTH AVENUE, APT 2"
-    landlord_primary_line = forms.CharField()
-
-    landlord_city = forms.CharField()
-
-    landlord_state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
-
-    landlord_zip_code = forms.CharField()
-
-    landlord_email = forms.EmailField(required=False)
-
-    landlord_phone_number = USPhoneNumberField(required=False)
 
 
 class FullName(forms.ModelForm):

@@ -5,17 +5,26 @@ import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { NotFound } from "../pages/not-found";
 import { Route } from "react-router-dom";
-import {
-  AllSessionInfo_norentScaffolding,
-  AllSessionInfo,
-} from "../queries/AllSessionInfo";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { friendlyDate, assertNotNull } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
-export type NorentLetterContentProps = Omit<
-  AllSessionInfo_norentScaffolding,
-  "isCityInNyc" | "hasLandlordEmailAddress" | "hasLandlordMailingAddress"
-> & {
+export type NorentLetterContentProps = {
+  firstName: string;
+  lastName: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  aptNumber: string;
+  email: string;
+  phoneNumber: string;
+  landlordName: string;
+  landlordPrimaryLine: string;
+  landlordCity: string;
+  landlordState: string;
+  landlordZipCode: string;
+  landlordEmail: string;
   paymentDate: GraphQLDate;
 };
 
@@ -138,7 +147,8 @@ function getNorentLetterContentPropsFromSession(
   session: AllSessionInfo
 ): NorentLetterContentProps | null {
   const onb = session.onboardingInfo;
-  if (!(session.norentScaffolding && onb)) {
+  const ld = session.landlordDetails;
+  if (!(ld && onb)) {
     return null;
   }
 
@@ -152,7 +162,6 @@ function getNorentLetterContentPropsFromSession(
   }
 
   const props: NorentLetterContentProps = {
-    ...session.norentScaffolding,
     paymentDate,
     phoneNumber: assertNotNull(session.phoneNumber),
     firstName: assertNotNull(session.firstName),
@@ -163,6 +172,12 @@ function getNorentLetterContentPropsFromSession(
     state: onb.state,
     zipCode: onb.zipcode,
     aptNumber: onb.aptNumber,
+    landlordName: ld.name,
+    landlordPrimaryLine: ld.primaryLine,
+    landlordCity: ld.city,
+    landlordState: ld.state,
+    landlordZipCode: ld.zipCode,
+    landlordEmail: ld.email,
   };
 
   return props;
@@ -203,7 +218,6 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
   landlordState: "OH",
   landlordZipCode: "41235",
   landlordEmail: "landlordo@calrissian.net",
-  landlordPhoneNumber: "5552003000",
   paymentDate: "2020-05-01T15:41:37.114Z",
 };
 

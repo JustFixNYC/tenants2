@@ -234,9 +234,22 @@ $norent-sticky-menu-height: 100px;
 .jf-norent-checklist {
   .media {
     height: 5rem;
-    .media-content {
-      align-self: center;
+  }
+}
+
+.jf-collective-action {
+  .media {
+    border: none;
+    .media-left figure.image {
+      margin-left: 0;
     }
+  }
+}
+
+.jf-norent-checklist,
+.jf-collective-action {
+  .media-content {
+    align-self: center;
   }
 }
 

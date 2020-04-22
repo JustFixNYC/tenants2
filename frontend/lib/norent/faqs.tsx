@@ -25,7 +25,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
         <summary>
           <div className="media">
             <div className="media-content">
-              <span className="title jf-alt-title-font is-size-5 has-text-dark">
+              <span className="title jf-alt-title-font is-size-5">
                 {faq.question}
               </span>
             </div>

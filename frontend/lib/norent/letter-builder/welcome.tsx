@@ -10,8 +10,7 @@ import { NorentRoutes } from "../routes";
 import { ChevronIcon } from "../faqs";
 
 export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
-  <Page title="Build your letter" className="content">
-    <h2 className="title">Build your letter</h2>
+  <Page title="Build your letter" className="content" withHeading="big">
     <p>
       In order to benefit from the eviction protections that local elected
       officials have put in place, you should notify your landlord of your

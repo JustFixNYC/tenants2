@@ -89,13 +89,12 @@ const NorentMenuItems: React.FC<{}> = () => {
         About
       </Link>
       {session.phoneNumber ? (
-        // These are placeholders just to show styling.
-        // Will replace when we have site scaffolding ready.
+        // This is a placeholder, until we have Log Out configured
         <Link className="navbar-item" to={Routes.locale.home}>
           Log out
         </Link>
       ) : (
-        <Link className="navbar-item" to={Routes.locale.home}>
+        <Link className="navbar-item" to={Routes.locale.letter.phoneNumber}>
           Log in
         </Link>
       )}

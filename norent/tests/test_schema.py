@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sites.models import Site
 
 from users.models import JustfixUser
 from users.tests.factories import SecondUserFactory, UserFactory
@@ -7,7 +8,16 @@ from project.schema_base import update_last_queried_phone_number, PhoneNumberAcc
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
+from loc.tests import test_lob_api
 from norent.schema import update_scaffolding
+from norent.models import Letter
+
+
+@pytest.fixture
+def use_norent_site(db):
+    site = Site.objects.get(pk=1)
+    site.name = "NoRent.org"
+    site.save()
 
 
 def one_field_err(message: str):
@@ -380,8 +390,29 @@ class TestNorentSendLetter:
         assert self.execute()['errors'] == one_field_err(
             'You haven\'t provided any landlord details yet!')
 
-    def test_it_works(self):
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        RentPeriodFactory()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'This form can only be used from the NoRent site.')
+
+    def test_it_works(self, allow_lambda_http, use_norent_site, requests_mock):
+        requests_mock.post(
+            test_lob_api.LOB_VERIFICATIONS_URL,
+            json=test_lob_api.get_sample_verification()
+        )
+        sample_letter = test_lob_api.get_sample_letter()
+        requests_mock.post(
+            test_lob_api.LOB_LETTERS_URL,
+            json=sample_letter
+        )
         RentPeriodFactory()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []
+        letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert str(letter.rent_period.payment_date) == '2020-05-01'
+        assert "unable to pay rent" in letter.html_content
+        assert "Boop Jones" in letter.html_content
+        assert letter.tracking_number == sample_letter['tracking_number']

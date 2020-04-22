@@ -1,10 +1,14 @@
 from typing import Optional, Dict, Any
+import logging
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
+from django.urls import reverse
+from django.utils import timezone
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
+from project.util import site_util
 from project.schema_base import get_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -13,6 +17,8 @@ from . import scaffolding, forms, models
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
+
+logger = logging.getLogger(__name__)
 
 
 class NorentScaffolding(graphene.ObjectType):
@@ -190,26 +196,64 @@ class NorentSendLetter(SessionFormMutation):
 
     @classmethod
     def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+        from io import BytesIO
+        from loc import lob_api
+        from project.views import render_raw_lambda_static_content
+        from loc.views import render_pdf_bytes
+
         user = request.user
-        html_content = "<p>TODO: Render HTML of letter in React.</p>"
+
+        # TODO: Once we translate to other languages, we'll likely want to
+        # force the locale of this letter to English, since that's what the
+        # landlord will read the letter as.
+        lr = render_raw_lambda_static_content(
+            request,
+            url=f"{reverse('react')}letter.pdf"
+        )
+        assert lr is not None, "Rendering of PDF HTML must succeed"
+        assert lr.http_headers['Content-Type'] == "application/pdf"
         letter = models.Letter(
             user=user,
             rent_period=rp,
-            html_content=html_content,
+            html_content=lr.html,
         )
         letter.full_clean()
         letter.save()
+
+        pdf_bytes = render_pdf_bytes(letter.html_content)
 
         if ld.email:
             # TODO: Send letter via email.
             pass
 
         if ld.primary_line:
-            user_addr = user.onboarding_info.as_lob_params()
-            addr_details = ld.get_or_create_address_details_model()
-            ll_addr = addr_details.as_lob_params()
-            print(user_addr, ll_addr)
-            # TODO: Mail letter via lob.
+            ll_addr_details = ld.get_or_create_address_details_model()
+            landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
+            user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
+
+            logger.info(
+                f"Sending {letter} with {landlord_verification['deliverability']} "
+                f"landlord address."
+            )
+
+            response = lob_api.mail_certified_letter(
+                description="No rent letter",
+                to_address={
+                    'name': ld.name,
+                    **lob_api.verification_to_inline_address(landlord_verification),
+                },
+                from_address={
+                    'name': user.full_name,
+                    **lob_api.verification_to_inline_address(user_verification),
+                },
+                file=BytesIO(pdf_bytes),
+                color=False,
+                double_sided=False,
+            )
+            letter.lob_letter_object = response
+            letter.tracking_number = response['tracking_number']
+            letter.letter_sent_at = timezone.now()
+            letter.save()
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -218,17 +262,22 @@ class NorentSendLetter(SessionFormMutation):
         assert user.is_authenticated
         rent_period = models.RentPeriod.objects.first()
         if not rent_period:
-            return cls.make_error("No rent periods are defined!")
+            return cls.make_and_log_error(info, "No rent periods are defined!")
         letter = models.Letter.objects.filter(user=user, rent_period=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
         if not hasattr(user, 'onboarding_info'):
-            return cls.make_error("You have not onboarded!")
+            return cls.make_and_log_error(info, "You have not onboarded!")
 
         ld = scaffolding_to_landlord_details(request)
 
         if not ld:
-            return cls.make_error("You haven't provided any landlord details yet!")
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.NORENT:
+            return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
         cls.send_letter(request, ld, rent_period)
 

@@ -1,4 +1,5 @@
 import json
+import logging
 import graphene
 from unittest.mock import patch
 from dataclasses import dataclass
@@ -289,17 +290,17 @@ def test_error_is_raised_when_fields_conflict():
 
 
 def test_log_works_with_anonymous_users():
-    with patch.object(logger, 'info') as mock:
+    with patch.object(logger, 'log') as mock:
         DjangoFormMutation.log(FakeResolveInfo('blorf', create_fake_request()), 'boop')
-        mock.assert_called_once_with('[blorf mutation] boop')
+        mock.assert_called_once_with(logging.INFO, '[blorf mutation] boop')
 
 
 @pytest.mark.django_db
 def test_log_works_with_logged_in_users():
     user = UserFactory(username='blarg')
-    with patch.object(logger, 'info') as mock:
+    with patch.object(logger, 'log') as mock:
         DjangoFormMutation.log(FakeResolveInfo('blorf', create_fake_request(user)), 'boop')
-        mock.assert_called_once_with(f'[blorf mutation user=blarg] boop')
+        mock.assert_called_once_with(logging.INFO, f'[blorf mutation user=blarg] boop')
 
 
 def test_get_form_class_for_input_type_works():

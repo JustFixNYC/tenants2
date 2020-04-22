@@ -344,7 +344,8 @@ def render_raw_lambda_static_content(request, url: str) -> Optional[LambdaRespon
     if not (lr.is_static_content and lr.status == 200):
         logger.error(
             "Expected (is_static_content=True, status=200) but got "
-            f"(is_static_content={lr.is_static_content}, status={lr.status})"
+            f"(is_static_content={lr.is_static_content}, status={lr.status}) for "
+            f"{url}"
         )
         return None
     return lr

@@ -12,13 +12,12 @@ import {
 import { friendlyDate, assertNotNull } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
-// TODO: This is temporary, it should be passed in as a prop.
-const NONPAY_START_DATE = "2020-05-01T15:41:37.114Z";
-
 export type NorentLetterContentProps = Omit<
   AllSessionInfo_norentScaffolding,
   "isCityInNyc"
->;
+> & {
+  paymentDate: GraphQLDate;
+};
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>
@@ -83,7 +82,10 @@ const TenantProtections: React.FC<{}> = () => (
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
 ) => {
-  const nonpayStartDate = friendlyDate(new Date(NONPAY_START_DATE));
+  // Oy, the payment date is in midnight UTC time, and we explicitly want
+  // to *not* convert it to any other time zone, otherwise it may
+  // appear as a different date.
+  const paymentDate = friendlyDate(new Date(props.paymentDate), "UTC");
 
   return (
     <>
@@ -95,7 +97,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       </p>
       <p>
         This letter is to notify you that I will be unable to pay rent starting
-        on {nonpayStartDate} and until further notice due to loss of income,
+        on {paymentDate} and until further notice due to loss of income,
         increased expenses, and/or other financial circumstances related to
         COVID-19.
       </p>
@@ -140,8 +142,18 @@ function getNorentLetterContentPropsFromSession(
     return null;
   }
 
+  const paymentDate = session.norentLatestRentPeriod?.paymentDate;
+
+  if (!paymentDate) {
+    console.log(
+      "No latest rent period defined! Please create one in the admin."
+    );
+    return null;
+  }
+
   const props: NorentLetterContentProps = {
     ...session.norentScaffolding,
+    paymentDate,
     phoneNumber: assertNotNull(session.phoneNumber),
     firstName: assertNotNull(session.firstName),
     lastName: assertNotNull(session.lastName),
@@ -192,6 +204,7 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
   landlordZipCode: "41235",
   landlordEmail: "landlordo@calrissian.net",
   landlordPhoneNumber: "5552003000",
+  paymentDate: "2020-05-01T15:41:37.114Z",
 };
 
 export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({

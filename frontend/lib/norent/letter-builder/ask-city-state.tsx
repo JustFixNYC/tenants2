@@ -9,10 +9,14 @@ import { ProgressButtons } from "../../ui/buttons";
 
 export const NorentLbAskCityState = MiddleProgressStep((props) => {
   return (
-    <Page
-      title="What part of the United States do you live in?"
-      withHeading="big"
-    >
+    <Page title="Your city" withHeading="big">
+      <div className="content">
+        <p>
+          We’ll use this information to pull the most up-to-date ordinances that
+          protect your rights as a tenant in your letter.
+        </p>
+      </div>
+      <br />
       <SessionUpdatingFormSubmitter
         mutation={NorentCityStateMutation}
         initialState={(s) => ({

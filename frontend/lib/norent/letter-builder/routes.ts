@@ -16,7 +16,6 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     nationalAddress: `${prefix}/address/national`,
     nycAddress: `${prefix}/address/nyc`,
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
-    email: `${prefix}/email`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     landlordInfo: `${prefix}/landlord-info`,

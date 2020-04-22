@@ -187,9 +187,9 @@ export const NorentHomePage: React.FC<{}> = () => (
               <p className="jf-letter-counter title is-spaced has-text-info">
                 5,234
               </p>
-              <NorentLogo size="is-96x96" />{" "}
+              <NorentLogo size="is-96x96" color="dark" />{" "}
               <span className="subtitle">
-                letters sent by Tenants across the USA
+                letters sent by tenants across the USA
               </span>
               <p className="is-uppercase">Since May 2020</p>
             </div>

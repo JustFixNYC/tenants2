@@ -331,6 +331,14 @@ def create_initial_props_for_lambda_from_request(
 
 
 def render_raw_lambda_static_content(request, url: str) -> Optional[LambdaResponse]:
+    '''
+    This function can be used by the server to render static content in the
+    lambda service. Normally such content is delivered directly to a user's
+    browser, but sometimes we want to access it in the server so we can
+    do other things with it, e.g. generate a PDF to send to an API, or
+    render an HTML email.
+    '''
+
     initial_props = create_initial_props_for_lambda_from_request(request, url=url)
     lr = run_react_lambda_with_prefetching(initial_props, request)
     if not (lr.is_static_content and lr.status == 200):

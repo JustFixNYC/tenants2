@@ -583,13 +583,18 @@ class GrapheneDjangoFormMixin:
             return cls(errors=errors)  # type: ignore
 
     @classmethod
-    def log(cls, info: ResolveInfo, msg: str) -> None:
+    def log(cls, info: ResolveInfo, msg: str, lvl: int = logging.INFO) -> None:
         parts = [f'{info.field_name} {cls.query_type}']
         user = info.context.user
         if user.is_authenticated:
             parts.append(f'user={user.username}')
         preamble = ' '.join(parts)
-        logger.info(f"[{preamble}] {msg}")
+        logger.log(lvl, f"[{preamble}] {msg}")
+
+    @classmethod
+    def make_and_log_error(cls, info: ResolveInfo, message: str, code: Optional[str] = None):
+        cls.log(info, f"Returning form error '{message}'.", lvl=logging.ERROR)
+        return cls.make_error(message, code)
 
     @classmethod
     def make_error(cls, message: str, code: Optional[str] = None):

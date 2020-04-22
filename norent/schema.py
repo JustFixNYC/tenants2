@@ -195,6 +195,10 @@ class NorentSendLetter(SessionFormMutation):
         from project.views import render_raw_lambda_static_content
 
         user = request.user
+
+        # TODO: Once we translate to other languages, we'll likely want to
+        # force the locale of this letter to English, since that's what the
+        # landlord will read the letter as.
         lr = render_raw_lambda_static_content(
             request,
             url=f"{reverse('react')}letter.pdf"
@@ -217,6 +221,7 @@ class NorentSendLetter(SessionFormMutation):
             user_addr = user.onboarding_info.as_lob_params()
             addr_details = ld.get_or_create_address_details_model()
             ll_addr = addr_details.as_lob_params()
+
             print(user_addr, ll_addr)
             # TODO: Mail letter via lob.
 
@@ -227,22 +232,22 @@ class NorentSendLetter(SessionFormMutation):
         assert user.is_authenticated
         rent_period = models.RentPeriod.objects.first()
         if not rent_period:
-            return cls.make_error("No rent periods are defined!")
+            return cls.make_and_log_error(info, "No rent periods are defined!")
         letter = models.Letter.objects.filter(user=user, rent_period=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
         if not hasattr(user, 'onboarding_info'):
-            return cls.make_error("You have not onboarded!")
+            return cls.make_and_log_error(info, "You have not onboarded!")
 
         ld = scaffolding_to_landlord_details(request)
 
         if not ld:
-            return cls.make_error("You haven't provided any landlord details yet!")
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
 
         site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
 
         if site_type != site_util.SITE_CHOICES.NORENT:
-            return cls.make_error("This form can only be used from the NoRent site.")
+            return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
         cls.send_letter(request, ld, rent_period)
 

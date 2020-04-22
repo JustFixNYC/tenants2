@@ -28,7 +28,7 @@ const ConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
 
 export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
   return (
-    <Page title="Your NYC mailing information" withHeading="big">
+    <Page title="Your residence" withHeading="big">
       <div className="content">
         <p>We'll include this information in the letter to your landlord.</p>
       </div>

@@ -64,8 +64,8 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
     <Page title="You already have an account" withHeading="big">
       <div className="content">
         <p>
-          Now we just need your password. (If you've used JustFix.nyc, this is
-          the same password you use there.)
+          Now we just need your password. This is the same one you’ve used on
+          JustFix.nyc.
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -86,11 +86,12 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
               {...ctx.fieldPropsFor("password")}
             />
             <div className="content">
-              <p>
-                If you don't remember it, you can{" "}
-                <Link to={routes.forgotPasswordModal}>reset your password</Link>
-                .
-              </p>
+              <Link
+                to={routes.forgotPasswordModal}
+                className="is-size-6 has-text-weight-normal"
+              >
+                I forgot my password
+              </Link>
             </div>
             <ProgressButtons
               isLoading={ctx.isLoading}

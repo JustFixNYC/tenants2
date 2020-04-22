@@ -38,15 +38,15 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
 
   return {
     toLatestStep: NorentRoutes.locale.letter.latestStep,
-    welcomeSteps: [],
-    stepsToFillOut: [
+    welcomeSteps: [
       {
         path: routes.welcome,
         exact: true,
         component: NorentLbWelcome,
       },
       ...createStartAccountOrLoginSteps(routes),
-
+    ],
+    stepsToFillOut: [
       // TODO: We're going to skip these steps if the user is logged-in for now,
       // which assumes that all our users have all the information we need,
       // which isn't necessarily the case.  Eventually we'll iron out the

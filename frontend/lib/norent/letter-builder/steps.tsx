@@ -3,7 +3,7 @@ import {
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
 import { NorentRoutes } from "../routes";
-import { NorentLandlordInfoPage } from "./landlord-info-page";
+import { NorentLandlordNameAndContactTypes } from "./landlord-name-and-contact-types";
 import { NorentLetterPreviewPage } from "./letter-preview";
 import { createStartAccountOrLoginSteps } from "../start-account-or-login/steps";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
@@ -87,7 +87,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       {
         path: routes.landlordInfo,
         exact: true,
-        component: NorentLandlordInfoPage,
+        component: NorentLandlordNameAndContactTypes,
       },
       {
         path: routes.preview,

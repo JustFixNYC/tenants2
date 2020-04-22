@@ -4,10 +4,12 @@ import { NorentRoutes } from "./routes";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
 import { OutboundLink } from "../analytics/google-analytics";
-import { Link } from "react-router-dom";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
+import { PartnerLogos } from "./about";
 import classnames from "classnames";
+import { ScrollyLink } from "../ui/scrolly-link";
+import { Link } from "react-router-dom";
 
 type NorentImageType = "png" | "svg";
 
@@ -16,17 +18,31 @@ export function getImageSrc(name: string, type?: NorentImageType) {
 }
 
 export const JumpArrow = (props: { to: string; altText: string }) => (
-  <Link to={props.to} className="jf-jump-arrow">
-    <StaticImage
-      ratio="is-32x32"
-      src={getImageSrc("downarrow")}
-      alt={props.altText}
-    />
-  </Link>
+  <ScrollyLink to={props.to} className="jf-jump-arrow">
+    <span className="is-hidden-mobile">
+      <StaticImage
+        ratio="is-32x32"
+        src={getImageSrc("downarrow")}
+        alt={props.altText}
+      />
+    </span>
+    <span className="is-hidden-tablet">
+      <StaticImage
+        ratio="is-24x24"
+        src={getImageSrc("downarrow-mobile")}
+        alt={props.altText}
+      />
+    </span>
+  </ScrollyLink>
 );
 
 export const BuildMyLetterButton = (props: { isHiddenMobile?: boolean }) => (
-  <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
+  <span
+    className={classnames(
+      "is-uppercase",
+      props.isHiddenMobile && "is-hidden-mobile"
+    )}
+  >
     <CenteredPrimaryButtonLink to={NorentRoutes.locale.letter.latestStep}>
       Build my letter
     </CenteredPrimaryButtonLink>
@@ -48,7 +64,6 @@ export const StickyLetterButtonContainer = (props: {
 const checklistItems = [
   "Build a letter using our free letter builder",
   "Send your letter by email",
-  "Make a special request to your landlord",
   "Send your letter by certified mail for free",
   "Cite up-to-date legal ordinances in your letter",
 ];
@@ -83,39 +98,23 @@ export const LandingPageChecklist = () => (
   </section>
 );
 
-const partnerLogoItems = [
-  ["Justfix.nyc", "justfix"],
-  ["Northwest Bronx Community and Clergy Coalition", "nwbccc"],
-  ["Tenants and Neighbors", "tenantsandneighbors"],
-  ["Legal Services NYC", "lsnyc"],
+const demandsListItems = [
+  "Going on rent strike",
+  "Cancelling rent",
+  "Banning evictions",
 ];
 
-export const LandingPagePartnerLogos = () => (
-  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
-    {partnerLogoItems.map((partnerDetails, i) => (
-      <div className="column is-one-fourth jf-has-centered-images" key={i}>
-        <StaticImage
-          ratio="is-128x128"
-          src={getImageSrc(partnerDetails[1], "png")}
-          alt={partnerDetails[0]}
-        />
-      </div>
-    ))}
-  </div>
-);
-
-const demandsListItems = ["Cancel rent", "Rent strike", "Ban evictions"];
-
-const LandingPageDemands = () => (
-  <div className="columns is-mobile is-multiline is-variable is-8-desktop">
+const LandingPageCollectiveActionList = () => (
+  <div className="container jf-collective-action-list jf-space-below-2rem">
     {demandsListItems.map((demand, i) => (
-      <div className="column has-text-centered jf-has-centered-images" key={i}>
-        <p className="title is-size-5">{demand}</p>
-        <br />
-        <div className="jf-illustration-fist-pump">
-          <StaticImage ratio="is-square" src={getImageSrc("fistpump")} alt="" />
+      <article className="media" key={i}>
+        <div className="media-left">
+          <StaticImage ratio="is-64x64" src={getImageSrc("fistpump")} alt="" />
         </div>
-      </div>
+        <div className="media-content title jf-alt-title-font is-size-5">
+          {demand}
+        </div>
+      </article>
     ))}
   </div>
 );
@@ -135,6 +134,16 @@ export const NorentHomePage: React.FC<{}> = () => (
           <br />
           <BuildMyLetterButton isHiddenMobile />
           <br />
+          <p className="is-size-6">
+            Made by non-profit{" "}
+            <OutboundLink
+              href="https://www.justfix.nyc/"
+              rel="noopener noreferrer"
+            >
+              JustFix.nyc
+            </OutboundLink>
+          </p>
+          <br />
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
@@ -143,6 +152,28 @@ export const NorentHomePage: React.FC<{}> = () => (
     </section>
 
     <StickyLetterButtonContainer containerId="more-info">
+      <LandingPageChecklist />
+
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
+            <h2 className="title is-spaced">Legally vetted</h2>
+            <p className="subtitle is-size-5">
+              Our free letter builder was built with{" "}
+              <Link to={NorentRoutes.locale.about}>
+                lawyers and non-profit tenants rights organizations
+              </Link>{" "}
+              across the nation to ensure that your letter gives you the most
+              protections based on your state.
+            </p>
+            <br />
+          </div>
+          <div className="container">
+            <PartnerLogos />
+          </div>
+        </div>
+      </section>
+
       <section className="container">
         <div className="hero is-small">
           <div className="hero-body is-paddingless">
@@ -161,9 +192,9 @@ export const NorentHomePage: React.FC<{}> = () => (
               <p className="jf-letter-counter title is-spaced has-text-info">
                 5,234
               </p>
-              <NorentLogo size="is-96x96" />{" "}
+              <NorentLogo size="is-96x96" color="dark" />{" "}
               <span className="subtitle">
-                letters sent by Tenants across the USA
+                letters sent by tenants across the USA
               </span>
               <p className="is-uppercase">Since May 2020</p>
             </div>
@@ -182,57 +213,13 @@ export const NorentHomePage: React.FC<{}> = () => (
         </div>
       </section>
 
-      <LandingPageChecklist />
-
-      <section className="hero">
-        <div className="hero-body jf-letter-preview-container">
-          <div className="container jf-has-text-centered-tablet">
-            <h3 className="is-size-5 is-spaced has-text-weight-normal">
-              Here’s a preview of what the letter looks like:
-            </h3>
-            <br />
-            <article className="message">
-              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-                <p>Dear Landlord/Management.</p>
-                <br />
-                <p>
-                  I am writing to inform you that I have experienced a loss of
-                  income, increased expenses and/or other financial
-                  circumstances related to the pandemic. Until further notice, I
-                  will be unable to pay my rent due to the COVID-19 emergency.
-                </p>
-                <br />
-                <p>
-                  Tenants in Florida are protected from eviction for non-payment
-                  by Executive Order 20-94, issued by Governor Ron DeSantis on
-                  April 2, 2020.
-                </p>
-                <br />
-                <p>
-                  Tenants in covered properties are also protected from
-                  eviction, fees, penalties, and other charges related to
-                  non-payment by the CARES Act (Title IV, Sec. 4024) enacted by
-                  Congress on March 27, 2020.
-                </p>
-                <br />
-                <p>
-                  Along with my neighbors, I am organizing, encouraging, and/or
-                  participating in a tenant organization so that we may support
-                </p>
-              </div>
-              <div className="jf-letter-preview-fadeout" />
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section className="hero has-background-white-ter">
         <div className="hero-body">
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">How it works</h2>
             <p className="subtitle is-size-5">
-              We make it easy to weigh your options and notify your landlord by
-              email or by certified mail for free.
+              We make it easy to notify your landlord by email or by certified
+              mail for free.
             </p>
             <br />
           </div>
@@ -247,10 +234,10 @@ export const NorentHomePage: React.FC<{}> = () => (
                   />
                 </div>
                 <div>
-                  <p className="title is-size-4 jf-alt-title-font">8 Steps</p>
+                  <p className="title is-size-4 jf-alt-title-font">8 Minutes</p>
                   <p>
                     Answer a few questions about yourself and your landlord or
-                    management company.
+                    management company. It'll take no more than 8 minutes.
                   </p>
                 </div>{" "}
               </div>
@@ -298,24 +285,43 @@ export const NorentHomePage: React.FC<{}> = () => (
       </section>
 
       <section className="hero">
-        <div className="hero-body">
-          <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
-            <h2 className="title is-spaced">Legally vetted</h2>
-            <p className="subtitle is-size-5">
-              Our free letter builder was built with{" "}
-              <OutboundLink
-                href="https://www.justfix.nyc/about/partners"
-                rel="noopener noreferrer"
-              >
-                lawyers and non-profit tenants rights organizations
-              </OutboundLink>{" "}
-              across the nation to ensure that your letter gives you the most
-              protections based on your state.
-            </p>
+        <div className="hero-body jf-letter-preview-container">
+          <div className="container jf-has-text-centered-tablet">
+            <h3 className="is-size-5 is-spaced has-text-weight-normal">
+              Here’s a preview of what the letter looks like:
+            </h3>
             <br />
-          </div>
-          <div className="container jf-wide-container">
-            <LandingPagePartnerLogos />
+            <article className="message">
+              <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+                <p>Dear Landlord/Management.</p>
+                <br />
+                <p>
+                  I am writing to inform you that I have experienced a loss of
+                  income, increased expenses and/or other financial
+                  circumstances related to the pandemic. Until further notice, I
+                  will be unable to pay my rent due to the COVID-19 emergency.
+                </p>
+                <br />
+                <p>
+                  Tenants in Florida are protected from eviction for non-payment
+                  by Executive Order 20-94, issued by Governor Ron DeSantis on
+                  April 2, 2020.
+                </p>
+                <br />
+                <p>
+                  Tenants in covered properties are also protected from
+                  eviction, fees, penalties, and other charges related to
+                  non-payment by the CARES Act (Title IV, Sec. 4024) enacted by
+                  Congress on March 27, 2020.
+                </p>
+                <br />
+                <p>
+                  Along with my neighbors, I am organizing, encouraging, and/or
+                  participating in a tenant organization so that we may support
+                </p>
+              </div>
+              <div className="jf-letter-preview-fadeout" />
+            </article>
           </div>
         </div>
       </section>
@@ -325,16 +331,18 @@ export const NorentHomePage: React.FC<{}> = () => (
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Locally supported</h2>
             <p className="subtitle is-size-5">
-              After sending your letter, we can connect you to local groups to
+              After sending your letter, we can connect you to{" "}
+              <Link to={NorentRoutes.locale.about}>local groups</Link> to
               organize for greater demands with other tenants.
             </p>
             <br />
+            <p className="subtitle is-size-5">
+              Collective action is a powerful tool for:
+            </p>
           </div>
-          <div className="container jf-wide-container">
-            <LandingPageDemands />
-            <br />
-            <BuildMyLetterButton isHiddenMobile />
-          </div>
+          <LandingPageCollectiveActionList />
+          <br />
+          <BuildMyLetterButton isHiddenMobile />
         </div>
       </section>
 

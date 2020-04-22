@@ -24,6 +24,9 @@ footer {
         box-shadow: none;
         border: none;
         border-radius: 0;
+        figure.image:hover {
+          opacity: 0.7;
+        }
       }
       .input {
         padding-left: 0;

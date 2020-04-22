@@ -1,34 +1,85 @@
 import React from "react";
 import Page from "../ui/page";
 import { OutboundLink } from "../analytics/google-analytics";
-import { LandingPagePartnerLogos, getImageSrc } from "./homepage";
+import { getImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
+import { JustfixLogo } from "./components/logo";
+
+const partnerLogoItems = [
+  ["Community Justice Project", "cjp"],
+  ["Right to the City", "rttc"],
+  ["Movement Law Lab", "mll"],
+  ["Manufactured Housing Action", "mha"],
+];
+
+export const PartnerLogos = () => (
+  <div className="jf-partner-logos columns is-mobile is-multiline is-variable is-8-desktop">
+    {partnerLogoItems.map((partnerDetails, i) => (
+      <div
+        className="column is-one-fourth jf-has-centered-images is-paddingless"
+        key={i}
+      >
+        <StaticImage
+          ratio="is-128x128"
+          src={getImageSrc(partnerDetails[1], "png")}
+          alt={partnerDetails[0]}
+        />
+      </div>
+    ))}
+  </div>
+);
 
 export const NorentAboutPage: React.FC<{}> = () => (
   <Page title="About" className="content">
-    <section className="hero">
+    <section className="hero is-medium">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet jf-space-below-2rem">
-          <h2 className="title is-spaced has-text-info">Information</h2>
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="title is-spaced has-text-info">About</h2>
           <br />
           <p className="subtitle">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Learn about why we made this tool, who we are, and who are partners
+            are.
           </p>
         </div>
+      </div>
+      <div className="container jf-has-centered-images jf-space-below-2rem">
+        <JumpArrow to="#more-info" altText="Learn more" />
         <br />
-        <div className="container jf-has-centered-images jf-space-below-2rem">
-          <StaticImage
-            ratio="is-128x128"
-            src={getImageSrc("justfix", "png")}
-            alt=""
-          />
-          <p className="subtitle">
-            NoRent.org is made by JustFix.nyc. JustFix.nyc co-designs and builds
-            tools for tenants, housing organizers, and legal advocates fighting
-            displacement in New York City.
+      </div>
+    </section>
+
+    <section className="hero" id="more-info">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="title is-spaced">Why We Made This</h2>
+          <br />
+          <p className="subtitle is-size-5">
+            Tenants across the nation are being impacted by COVID-19 in ways
+            that are affecting their abilities to pay rent. We made this tool to
+            empower tenants to exercise their rights during this pandemic.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section className="hero has-background-white-ter">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="title is-spaced">Who We Are</h2>
+          <br />
+          <JustfixLogo />
+          <p className="subtitle is-size-5">
+            NoRent.org is made by{" "}
+            <OutboundLink
+              className="has-text-weight-normal"
+              href="https://www.justfix.nyc/"
+              rel="noopener noreferrer"
+            >
+              JustFix.nyc
+            </OutboundLink>
+            . JustFix.nyc co-designs and builds tools for tenants, housing
+            organizers, and legal advocates fighting displacement in New York
+            City.
           </p>
           <br />
           <OutboundLink
@@ -40,19 +91,22 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </OutboundLink>
           <br />
         </div>
-        <div className="container jf-space-below-2rem">
-          <p className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless">
-            Our Partners
-          </p>
+      </div>
+    </section>
+
+    <section className="hero">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="title is-spaced">Our Partners</h2>
           <br />
-          <p className="subtitle">
+          <p className="subtitle is-size-5">
             NoRent.org is a collaboration between JustFix.nyc and legal
             organizations and housing rights non-profits across the nation.
           </p>
           <br />
         </div>
         <div className="container">
-          <LandingPagePartnerLogos />
+          <PartnerLogos />
         </div>
       </div>
     </section>

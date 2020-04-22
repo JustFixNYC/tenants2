@@ -14,23 +14,21 @@ import { NorentRoutes } from "./routes";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
   <Page title="The Letter" className="content">
-    <section className="hero">
+    <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced has-text-info">About Your Letter</h2>
+          <h2 className="title is-spaced has-text-info">The Letter</h2>
           <br />
           <p className="subtitle">
             Not being able to pay rent due to COVID-19 is nothing to be ashamed
             of. Our letter builder makes it easy to send a letter to your
             landlord.
           </p>
-          <br />
-          <BuildMyLetterButton isHiddenMobile />
-          <br />
         </div>
       </div>
       <div className="container jf-has-centered-images jf-space-below-2rem">
         <JumpArrow to="#more-info" altText="Learn more" />
+        <br />
       </div>
     </section>
 
@@ -43,10 +41,12 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
               src={getImageSrc("question")}
               alt=""
             />
-            <h2 className="title is-spaced">Why send a letter</h2>
-            <p className="subtitle is-size-5">
-              Here are a few benefits to sending a letter to your landlord:
-            </p>
+            <div className="jf-has-text-centered-tablet">
+              <h2 className="title is-spaced">Why send a letter</h2>
+              <p className="subtitle is-size-5">
+                Here are a few benefits to sending a letter to your landlord:
+              </p>
+            </div>
             <br />
             <ul>
               <li>

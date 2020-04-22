@@ -1,10 +1,11 @@
 import React from "react";
 import { StaticImage } from "../ui/static-image";
-import { getImageSrc } from "./homepage";
+import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
 import Page from "../ui/page";
+import { ScrollyLink } from "../ui/scrolly-link";
 
 const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
@@ -24,7 +25,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
         <summary>
           <div className="media">
             <div className="media-content">
-              <span className="title jf-alt-title-font is-size-5 has-text-dark">
+              <span className="title jf-alt-title-font is-size-5">
                 {faq.question}
               </span>
             </div>
@@ -76,19 +77,28 @@ export const NorentFaqsPreview = () => {
 export const NorentFaqsPage: React.FC<{}> = () => {
   return (
     <Page title="FAQs" className="content">
-      <section className="hero">
+      <section className="hero is-medium">
         <div className="hero-body">
-          <div className="container jf-has-text-centered-tablet jf-space-below-2rem">
+          <div className="container jf-has-text-centered-tablet">
             <h2 className="title is-spaced has-text-info">
               Frequently Asked Questions
             </h2>
             <br />
-            <p className="subtitle is-size-5">
+            <p className="subtitle">
               Sending a letter to your landlord is a big step. Check out our
               frequently asked questions from people who have used our tool:
             </p>
           </div>
-          <div className="container">
+        </div>
+        <div className="container jf-has-centered-images jf-space-below-2rem">
+          <JumpArrow to="#more-info" altText="Browse the FAQs" />
+          <br />
+        </div>
+      </section>
+
+      <section className="hero jf-faqs" id="more-info">
+        <div className="hero-body">
+          <div className="container jf-tight-container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
               const faqs = FaqsContent.filter(
@@ -103,9 +113,12 @@ export const NorentFaqsPage: React.FC<{}> = () => {
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>
                     <div className="jf-space-below-2rem">
-                      <Link className="has-text-weight-normal" to="#main">
+                      <ScrollyLink
+                        className="has-text-weight-normal"
+                        to="#main"
+                      >
                         Back to top
-                      </Link>
+                      </ScrollyLink>
                     </div>
                     <br />
                   </div>

@@ -140,6 +140,37 @@ $jf-navbar-content: $black;
   }
 }
 
+$jf-logo-height: 70px;
+
+.jf-justfix-logo {
+  height: $jf-logo-height;
+  figure.image {
+    margin: 0;
+    padding: 0;
+    img {
+      height: $jf-logo-height;
+      width: calc(3 * #{$jf-logo-height});
+    }
+  }
+  @include tablet {
+    height: calc(#{$jf-logo-height} + 50px);
+    figure.image img {
+      @include is-horizontal-center;
+      height: calc(#{$jf-logo-height} + 50px);
+      width: calc(3 * (#{$jf-logo-height} + 50px));
+    }
+  }
+}
+
+.jf-partner-logos {
+  @include tablet {
+    figure.image {
+      height: 160px;
+      width: 160px;
+    }
+  }
+}
+
 .jf-jump-arrow {
   figure {
     @extend .jf-up-and-down;
@@ -203,9 +234,30 @@ $norent-sticky-menu-height: 100px;
 .jf-norent-checklist {
   .media {
     height: 5rem;
-    .media-content {
-      align-self: center;
+  }
+}
+
+.jf-collective-action-list {
+  .media {
+    border: none;
+    .media-left figure.image {
+      margin-left: 0;
     }
+  }
+  @include tablet {
+    width: fit-content;
+    .media {
+      @include is-horizontal-center;
+    }
+  }
+}
+
+.jf-norent-checklist,
+.jf-collective-action-list {
+  .media-content {
+    align-self: center;
+    // Fixes bug on Safari that made these content blocks scrollable
+    display: table;
   }
 }
 
@@ -253,6 +305,12 @@ $norent-sticky-menu-height: 100px;
     &:not(:last-child) {
       border-bottom: 0.3px solid #828282ee;
     }
+  }
+}
+
+.jf-faqs {
+  .hero-body {
+    padding-top: 1rem;
   }
 }
 

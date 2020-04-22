@@ -5,6 +5,7 @@ from django.urls import reverse
 from project.views import (
     get_initial_session,
     execute_query,
+    render_raw_lambda_static_content,
     get_legacy_form_submission,
     fix_newlines,
     LegacyFormSubmissionError,
@@ -402,3 +403,17 @@ def test_extended_health_works(db, client, settings):
     health = res.json()
     assert health['status'] == 200
     assert health['is_extended'] is True
+
+
+def test_render_raw_lambda_static_content_works(db, graphql_client):
+    req = graphql_client.request
+    lr = render_raw_lambda_static_content(req, '/dev/examples/static-page.pdf')
+    assert lr is not None
+    assert "<!DOCTYPE html>" in lr.html
+    assert "This is an example static PDF page" in lr.html
+
+
+def test_render_raw_lambda_static_content_returns_none_on_error(db, graphql_client):
+    req = graphql_client.request
+    lr = render_raw_lambda_static_content(req, '/blarfle')
+    assert lr is None

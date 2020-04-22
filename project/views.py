@@ -10,6 +10,7 @@ from django.utils import translation
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
@@ -130,7 +131,7 @@ def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaRespo
             input=pf['input']
         )
 
-    return LambdaResponse(
+    lr = LambdaResponse(
         html=SafeString(response['html']),
         is_static_content=response['isStaticContent'],
         http_headers=response['httpHeaders'],
@@ -144,6 +145,14 @@ def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaRespo
         graphql_query_to_prefetch=pf,
         render_time=render_time
     )
+
+    if lr.status == 500:
+        logger.error(lr.traceback)
+
+    if lr.is_static_content:
+        lr = lr._replace(html="<!DOCTYPE html>" + lr.html)
+
+    return lr
 
 
 def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
@@ -208,7 +217,7 @@ def get_legacy_form_submission_result(request, graphql, input):
     return execute_query(request, graphql, variables={'input': input})['output']
 
 
-def get_legacy_form_submission(request):
+def get_legacy_form_submission(request) -> Dict[str, Any]:
     graphql = request.POST.get('graphql')
 
     if not graphql:
@@ -242,13 +251,12 @@ def get_webpack_public_path_url() -> str:
 
 
 def render_lambda_static_content(lr: LambdaResponse):
-    html = "<!DOCTYPE html>" + lr.html
     ctype = lr.http_headers.get('Content-Type')
     if ctype is None:
-        res = HttpResponse(html, status=lr.status)
+        res = HttpResponse(lr.html, status=lr.status)
     elif ctype == 'application/pdf':
         from loc.views import pdf_response
-        res = pdf_response(html)
+        res = pdf_response(lr.html)
     else:
         raise ValueError(f'Invalid Content-Type from lambda response: {ctype}')
 
@@ -257,43 +265,26 @@ def render_lambda_static_content(lr: LambdaResponse):
     return res
 
 
-def react_rendered_view(request):
-    url = request.path
-    cur_language = ''
-    if settings.USE_I18N:
-        cur_language = translation.get_language_from_request(request, check_path=True)
-    querystring = request.GET.urlencode()
-    if querystring:
-        url += f'?{querystring}'
+def create_initial_props_for_lambda(
+    site: Site,
+    url: str,
+    locale: str,
+    initial_session: Dict[str, Any],
+    origin_url: str,
+    legacy_form_submission: Optional[Dict[str, Any]] = None
+):
     webpack_public_path_url = get_webpack_public_path_url()
-
-    initial_props: Dict[str, Any] = {}
-
-    if request.method == "POST":
-        try:
-            # It's important that we process the legacy form submission
-            # *before* getting the initial session, so that when we
-            # get the initial session, it reflects any state changes
-            # made by the form submission. This will ensure the same
-            # behavior between baseline (non-JS) and progressively
-            # enhanced (JS) clients.
-            legacy_form_submission = get_legacy_form_submission(request)
-        except LegacyFormSubmissionError as e:
-            return HttpResponseBadRequest(e.args[0])
-        initial_props['legacyFormSubmission'] = legacy_form_submission
-
-    site = get_site_from_request_or_default(request)
     site_type = get_site_type(site)
 
     # Currently, the schema for this structure needs to be mirrored
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
-    initial_props.update({
+    initial_props: Dict[str, Any] = {
         'initialURL': url,
-        'initialSession': get_initial_session(request),
-        'locale': cur_language,
+        'initialSession': initial_session,
+        'locale': locale,
         'server': {
-            'originURL': request.build_absolute_uri('/')[:-1],
+            'originURL': origin_url,
             'siteName': site.name,
             'siteType': site_type,
             'staticURL': settings.STATIC_URL,
@@ -312,13 +303,75 @@ def react_rendered_view(request):
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
-    })
+    }
+
+    if legacy_form_submission is not None:
+        initial_props['legacyFormSubmission'] = legacy_form_submission
+
+    return initial_props
+
+
+def create_initial_props_for_lambda_from_request(
+    request,
+    url: str,
+    legacy_form_submission: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    locale = ''
+    if settings.USE_I18N:
+        locale = translation.get_language_from_request(request, check_path=True)
+
+    return create_initial_props_for_lambda(
+        site=get_site_from_request_or_default(request),
+        url=url,
+        locale=locale,
+        initial_session=get_initial_session(request),
+        origin_url=request.build_absolute_uri('/')[:-1],
+        legacy_form_submission=legacy_form_submission,
+    )
+
+
+def render_raw_lambda_static_content(request, url: str) -> Optional[LambdaResponse]:
+    initial_props = create_initial_props_for_lambda_from_request(request, url=url)
+    lr = run_react_lambda_with_prefetching(initial_props, request)
+    if not (lr.is_static_content and lr.status == 200):
+        logger.error(
+            "Expected (is_static_content=True, status=200) but got "
+            f"(is_static_content={lr.is_static_content}, status={lr.status})"
+        )
+        return None
+    return lr
+
+
+def react_rendered_view(request):
+    url = request.path
+    querystring = request.GET.urlencode()
+    if querystring:
+        url += f'?{querystring}'
+
+    legacy_form_submission = None
+
+    if request.method == "POST":
+        try:
+            # It's important that we process the legacy form submission
+            # *before* getting the initial session, so that when we
+            # get the initial session, it reflects any state changes
+            # made by the form submission. This will ensure the same
+            # behavior between baseline (non-JS) and progressively
+            # enhanced (JS) clients.
+            legacy_form_submission = get_legacy_form_submission(request)
+        except LegacyFormSubmissionError as e:
+            return HttpResponseBadRequest(e.args[0])
+
+    initial_props = create_initial_props_for_lambda_from_request(
+        request,
+        url=url,
+        legacy_form_submission=legacy_form_submission,
+    )
 
     lambda_response = run_react_lambda_with_prefetching(initial_props, request)
 
     script_tags = lambda_response.script_tags
     if lambda_response.status == 500:
-        logger.error(lambda_response.traceback)
         script_tags = ''
     elif lambda_response.status == 302 and lambda_response.location:
         return redirect(to=lambda_response.location)
@@ -333,7 +386,7 @@ def react_rendered_view(request):
         'enable_analytics': not request.user.is_staff,
         'modal_html': lambda_response.modal_html,
         'title_tag': lambda_response.title_tag,
-        'site_type': site_type,
+        'site_type': initial_props['server']['siteType'],
         'meta_tags': lambda_response.meta_tags,
         'script_tags': script_tags,
         'initial_props': initial_props,

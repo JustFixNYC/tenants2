@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../app-context";
 
 export type DemoDeploymentNoteProps = {
-  children: JSX.Element|JSX.Element[]
+  children: JSX.Element | JSX.Element[];
 };
 
-export const DemoDeploymentNote: React.FC<DemoDeploymentNoteProps> = ({children}) => {
-  return <aside className="jf-demo-deployment-note">
-    <div className="jf-demo-deployment-note-heading">
-      <span>Demo site note</span>
-    </div>
-    <div className="jf-demo-deployment-note-content">
-      {children}
-    </div>
-  </aside>
+export const DemoDeploymentNote: React.FC<DemoDeploymentNoteProps> = ({
+  children,
+}) => {
+  const { server } = useContext(AppContext);
+
+  if (!server.isDemoDeployment) return null;
+
+  return (
+    <aside className="jf-demo-deployment-note">
+      <span className="tag is-warning">DEMO SITE NOTE</span>
+      <div className="content has-text-centered">{children}</div>
+    </aside>
+  );
 };

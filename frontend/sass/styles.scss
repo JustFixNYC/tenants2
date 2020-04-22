@@ -25,7 +25,6 @@
 @import "./_big-list.scss";
 @import "./_animations.scss";
 @import "./_letter-preview.scss";
-@import "./demo-deployment-note";
 @import "./_helpers.scss";
 
 // These variables define the background and content colors for the nav-bar
@@ -33,6 +32,8 @@ $jf-navbar-background: $primary;
 $jf-navbar-content: $primary-invert;
 
 @import "./_navbar.scss";
+
+@import "./_demo-deployment-note.scss";
 
 // We want to give the page a column-based flex layout so we can
 // have our safe mode UI be a sticky footer if needed.

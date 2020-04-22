@@ -33,6 +33,7 @@ import { CustomerSupportLink } from "../ui/customer-support-link";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
 import { ProgressiveLoadableConfetti } from "../ui/confetti-loadable";
+import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -236,6 +237,12 @@ function RentalHistoryPreview(): JSX.Element {
           </div>
         </article>
       )}
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will not send</strong> a real request to the
+          DHCR.
+        </p>
+      </DemoDeploymentNote>
       <div className="field is-grouped jf-two-buttons">
         <BackButton label="Back" to={Routes.locale.rh.form} />
         <SessionUpdatingFormSubmitter

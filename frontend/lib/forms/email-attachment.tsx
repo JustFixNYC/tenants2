@@ -70,7 +70,9 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
                 to up to {maxRecipients} addresses.
               </p>
               <DemoDeploymentNote>
-                <p>Using this form will actually send a real e-mail.</p>
+                <p>
+                  Using this form <strong>will send</strong> real e-mails.
+                </p>
               </DemoDeploymentNote>
               <Formset
                 {...ctx.formsetPropsFor("recipients")}

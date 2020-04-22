@@ -73,6 +73,7 @@ import {
   HarassmentExplain,
 } from "./hp-action-harassment";
 import { HarassmentCaseHistory } from "./hp-action-case-history";
+import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 
 const checkCircleSvg = require("../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -386,6 +387,12 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
         From here, you'll sign your forms electronically and we'll immediately
         send them to the courts for you.
       </p>
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will not send</strong> real forms to any
+          courts.
+        </p>
+      </DemoDeploymentNote>
       <div className="buttons jf-two-buttons jf-two-buttons--vertical">
         <BackButton to={prevStep} />
         <ModalLink

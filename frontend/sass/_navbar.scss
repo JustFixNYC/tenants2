@@ -1,3 +1,8 @@
+@mixin jf-navbar-site-label() {
+  border-radius: 0;
+  transform: rotate(-4deg);
+}
+
 html[data-safe-mode-no-js] {
   // Don't show the hamburger at all, since people
   // will just be confused by its lack of interactivity.
@@ -54,8 +59,7 @@ nav.navbar {
     padding-left: 0.5rem;
 
     .tag.is-warning {
-      border-radius: 0;
-      transform: rotate(-4deg);
+      @include jf-navbar-site-label();
     }
   }
 

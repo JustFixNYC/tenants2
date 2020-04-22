@@ -163,6 +163,10 @@ $jf-logo-height: 70px;
 }
 
 .jf-partner-logos {
+  a figure.image:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
   @include tablet {
     figure.image {
       height: 160px;

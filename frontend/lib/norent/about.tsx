@@ -5,11 +5,33 @@ import { getImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 import { JustfixLogo } from "./components/logo";
 
-const partnerLogoItems = [
-  ["Community Justice Project", "cjp"],
-  ["Right to the City", "rttc"],
-  ["Movement Law Lab", "mll"],
-  ["Manufactured Housing Action", "mha"],
+type PartnerLogo = {
+  name: string;
+  srcName: string;
+  href: string;
+};
+
+const partnerLogoItems: PartnerLogo[] = [
+  {
+    name: "Community Justice Project",
+    srcName: "cjp",
+    href: "http://communityjusticeproject.com/",
+  },
+  {
+    name: "Right to the City",
+    srcName: "rttc",
+    href: "https://righttothecity.org/",
+  },
+  {
+    name: "Movement Law Lab",
+    srcName: "mll",
+    href: "https://movementlawlab.org/",
+  },
+  {
+    name: "Manufactured Housing Action",
+    srcName: "mha",
+    href: "https://mhaction.org/",
+  },
 ];
 
 export const PartnerLogos = () => (
@@ -19,11 +41,17 @@ export const PartnerLogos = () => (
         className="column is-one-fourth jf-has-centered-images is-paddingless"
         key={i}
       >
-        <StaticImage
-          ratio="is-128x128"
-          src={getImageSrc(partnerDetails[1], "png")}
-          alt={partnerDetails[0]}
-        />
+        <OutboundLink
+          href={partnerDetails.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <StaticImage
+            ratio="is-128x128"
+            src={getImageSrc(partnerDetails.srcName, "png")}
+            alt={partnerDetails.name}
+          />
+        </OutboundLink>
       </div>
     ))}
   </div>
@@ -73,6 +101,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
             <OutboundLink
               className="has-text-weight-normal"
               href="https://www.justfix.nyc/"
+              target="_blank"
               rel="noopener noreferrer"
             >
               JustFix.nyc
@@ -85,6 +114,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <OutboundLink
             className="is-size-5 has-text-weight-normal"
             href="https://www.justfix.nyc/our-mission"
+            target="_blank"
             rel="noopener noreferrer"
           >
             Learn more about our mission on our website

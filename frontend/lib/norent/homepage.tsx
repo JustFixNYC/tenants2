@@ -19,11 +19,20 @@ export function getImageSrc(name: string, type?: NorentImageType) {
 
 export const JumpArrow = (props: { to: string; altText: string }) => (
   <ScrollyLink to={props.to} className="jf-jump-arrow">
-    <StaticImage
-      ratio="is-32x32"
-      src={getImageSrc("downarrow")}
-      alt={props.altText}
-    />
+    <span className="is-hidden-mobile">
+      <StaticImage
+        ratio="is-32x32"
+        src={getImageSrc("downarrow")}
+        alt={props.altText}
+      />
+    </span>
+    <span className="is-hidden-tablet">
+      <StaticImage
+        ratio="is-24x24"
+        src={getImageSrc("downarrow-mobile")}
+        alt={props.altText}
+      />
+    </span>
   </ScrollyLink>
 );
 

@@ -63,6 +63,10 @@ class NorentScaffolding(pydantic.BaseModel):
 
     landlord_phone_number: str = ''
 
+    has_landlord_email_address: Optional[bool] = None
+
+    has_landlord_mailing_address: Optional[bool] = None
+
     def is_city_in_nyc(self) -> Optional[bool]:
         if not (self.state and self.city):
             return None

@@ -16,5 +16,7 @@ fragment NorentScaffolding on NorentScaffolding {
   landlordState,
   landlordZipCode,
   landlordEmail,
-  landlordPhoneNumber
+  landlordPhoneNumber,
+  hasLandlordEmailAddress,
+  hasLandlordMailingAddress
 }

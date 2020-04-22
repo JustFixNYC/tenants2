@@ -1,0 +1,20 @@
+.jf-demo-deployment-note {
+    border: 4px solid $warning;
+    margin: 1em;
+    border-radius: 4px;
+    display: flex;
+    align-items: stretch;
+
+    .jf-demo-deployment-note-heading {
+        background: $warning;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 4px;
+    }
+
+    .jf-demo-deployment-note-content {
+        padding: 4px;
+    }
+}

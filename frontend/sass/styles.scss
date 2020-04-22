@@ -33,6 +33,8 @@ $jf-navbar-content: $primary-invert;
 
 @import "./_navbar.scss";
 
+@import "./_demo-deployment-note.scss";
+
 // We want to give the page a column-based flex layout so we can
 // have our safe mode UI be a sticky footer if needed.
 body {

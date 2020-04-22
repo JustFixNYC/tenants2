@@ -1,0 +1,17 @@
+.jf-demo-deployment-note {
+  border: 4px solid $warning;
+  margin: 1em;
+  border-radius: 4px;
+
+  .tag {
+    @include jf-navbar-site-label();
+    position: relative;
+    top: -1em;
+    left: -1em;
+  }
+
+  .content {
+    margin-top: -0.5em;
+    padding: 0 1em 1em 1em;
+  }
+}

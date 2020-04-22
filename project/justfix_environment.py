@@ -325,6 +325,14 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # DocuSign integration to be working properly!
     ENABLE_EMERGENCY_HP_ACTION: bool = False
 
+    # Whether or not this deployment represents a "demo site" that is
+    # intended for training or review purposes. This controls whether
+    # certain actions, such as emailing a landlord a notice, will
+    # actually be taken. It also controls whether certain notices
+    # will appear on the site to inform users of any demo-specific
+    # behavior.
+    IS_DEMO_DEPLOYMENT: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

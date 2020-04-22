@@ -16,6 +16,7 @@ import { HiddenFormField } from "../forms/form-fields";
 import { BulmaClassName } from "../ui/bulma";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { LetterPreview } from "../static-page/letter-preview";
+import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 
 const UNKNOWN_LANDLORD = { name: "", address: "" };
 
@@ -103,6 +104,12 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
         repair issues you selected from the Issue Checklist.
       </p>
       <LocPreview />
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will not send</strong> a real letter to your
+          landlord.
+        </p>
+      </DemoDeploymentNote>
       <div className="has-text-centered is-grouped">
         <ModalLink
           to={Routes.locale.loc.previewSendConfirmModal}

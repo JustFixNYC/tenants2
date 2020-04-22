@@ -300,6 +300,7 @@ def create_initial_props_for_lambda(
             'efnycOrigin': settings.EFNYC_ORIGIN,
             'enableEmergencyHPAction': settings.ENABLE_EMERGENCY_HP_ACTION,
             'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
+            'isDemoDeployment': settings.IS_DEMO_DEPLOYMENT,
             'debug': settings.DEBUG
         },
         'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,

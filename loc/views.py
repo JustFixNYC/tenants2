@@ -40,7 +40,7 @@ def can_we_render_pdfs():
     return True
 
 
-def pdf_response(html: str, filename: str = ''):
+def render_pdf_bytes(html: str):
     import weasyprint
     from weasyprint.fonts import FontConfiguration
 
@@ -48,10 +48,13 @@ def pdf_response(html: str, filename: str = ''):
     font_css_str = LOC_FONTS_CSS.read_text().replace(
         'url(./', f'url({LOC_FONTS_CSS.parent.as_uri()}/')
     font_css = weasyprint.CSS(string=font_css_str, font_config=font_config)
-    pdf_bytes = weasyprint.HTML(string=html).write_pdf(
+    return weasyprint.HTML(string=html).write_pdf(
         stylesheets=[font_css],
         font_config=font_config)
-    return FileResponse(BytesIO(pdf_bytes), filename=filename)
+
+
+def pdf_response(html: str, filename: str = ''):
+    return FileResponse(BytesIO(render_pdf_bytes(html)), filename=filename)
 
 
 def example_doc(request, format):

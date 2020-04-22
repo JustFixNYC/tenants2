@@ -1,8 +1,10 @@
 from typing import Optional, Dict, Any
+import logging
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
 from django.urls import reverse
+from django.utils import timezone
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
@@ -15,6 +17,8 @@ from . import scaffolding, forms, models
 
 
 SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
+
+logger = logging.getLogger(__name__)
 
 
 class NorentScaffolding(graphene.ObjectType):
@@ -192,7 +196,10 @@ class NorentSendLetter(SessionFormMutation):
 
     @classmethod
     def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+        from io import BytesIO
+        from loc import lob_api
         from project.views import render_raw_lambda_static_content
+        from loc.views import render_pdf_bytes
 
         user = request.user
 
@@ -213,16 +220,40 @@ class NorentSendLetter(SessionFormMutation):
         letter.full_clean()
         letter.save()
 
+        pdf_bytes = render_pdf_bytes(letter.html_content)
+
         if ld.email:
             # TODO: Send letter via email.
             pass
 
         if ld.primary_line:
-            user_addr = user.onboarding_info.as_lob_params()
-            addr_details = ld.get_or_create_address_details_model()
-            ll_addr = addr_details.as_lob_params()
-            print(user_addr, ll_addr)
-            # TODO: Mail letter via lob.
+            ll_addr_details = ld.get_or_create_address_details_model()
+            landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
+            user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
+
+            logger.info(
+                f"Sending {letter} with {landlord_verification['deliverability']} "
+                f"landlord address."
+            )
+
+            response = lob_api.mail_certified_letter(
+                description="No rent letter",
+                to_address={
+                    'name': ld.name,
+                    **lob_api.verification_to_inline_address(landlord_verification),
+                },
+                from_address={
+                    'name': user.full_name,
+                    **lob_api.verification_to_inline_address(user_verification),
+                },
+                file=BytesIO(pdf_bytes),
+                color=False,
+                double_sided=False,
+            )
+            letter.lob_letter_object = response
+            letter.tracking_number = response['tracking_number']
+            letter.letter_sent_at = timezone.now()
+            letter.save()
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):

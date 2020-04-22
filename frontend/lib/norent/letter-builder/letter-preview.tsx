@@ -1,14 +1,14 @@
 import React from "react";
 import Page from "../../ui/page";
-import { ProgressStepProps } from "../../progress/progress-step-route";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { LetterPreview } from "../../static-page/letter-preview";
 import { NorentRoutes } from "../routes";
-import { BackButton } from "../../ui/buttons";
-import { assertNotNull } from "../../util/util";
+import { ProgressButtons } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
+import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation";
 
-export const NorentLetterPreviewPage: React.FC<ProgressStepProps> = (props) => {
-  const prevStep = assertNotNull(props.prevStep);
+export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
   const { letterContent } = NorentRoutes.locale;
 
   return (
@@ -29,8 +29,19 @@ export const NorentLetterPreviewPage: React.FC<ProgressStepProps> = (props) => {
         </OutboundLink>
         .
       </p>
-      <br />
-      <BackButton to={prevStep} />
+      <SessionUpdatingFormSubmitter
+        mutation={NorentSendLetterMutation}
+        initialState={{}}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => (
+          <ProgressButtons
+            isLoading={ctx.isLoading}
+            back={props.prevStep}
+            nextLabel="Send letter"
+          />
+        )}
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
-};
+});

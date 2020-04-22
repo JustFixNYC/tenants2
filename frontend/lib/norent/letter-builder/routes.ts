@@ -21,5 +21,6 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     landlordInfo: `${prefix}/landlord-info`,
     preview: `${prefix}/preview`,
+    confirmation: `${prefix}/confirmation`,
   };
 }

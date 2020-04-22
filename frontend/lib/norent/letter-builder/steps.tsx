@@ -17,6 +17,7 @@ import { NorentLbAskNycAddress } from "./ask-nyc-address";
 import { ProgressStepRoute } from "../../progress/progress-step-route";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
+import { NorentConfirmation } from "./confirmation";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -91,10 +92,17 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       {
         path: routes.preview,
         exact: true,
+        isComplete: hasNorentLetterBeenSentForThisRentPeriod,
         component: NorentLetterPreviewPage,
       },
     ],
-    confirmationSteps: [],
+    confirmationSteps: [
+      {
+        path: routes.confirmation,
+        exact: true,
+        component: NorentConfirmation,
+      },
+    ],
   };
 };
 
@@ -116,4 +124,11 @@ function skipStepsIf(
       },
     };
   });
+}
+
+function hasNorentLetterBeenSentForThisRentPeriod(s: AllSessionInfo): boolean {
+  const letter = s.norentLatestLetter;
+  const rentPeriod = s.norentLatestRentPeriod;
+  if (!(letter && rentPeriod)) return false;
+  return letter.paymentDate === rentPeriod.paymentDate && !!letter.letterSentAt;
 }

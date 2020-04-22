@@ -95,14 +95,18 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         path: routes.landlordEmail,
         exact: true,
         shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp ? false : !s.norentScaffolding?.hasLandlordEmailAddress,
+          s.landlordDetails?.isLookedUp
+            ? false
+            : !s.norentScaffolding?.hasLandlordEmailAddress,
         component: NorentLandlordEmail,
       },
       {
         path: routes.landlordAddress,
         exact: true,
         shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp ? true : !s.norentScaffolding?.hasLandlordMailingAddress,
+          s.landlordDetails?.isLookedUp
+            ? true
+            : !s.norentScaffolding?.hasLandlordMailingAddress,
         component: NorentLandlordMailingAddress,
       },
       {

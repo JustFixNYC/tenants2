@@ -2,6 +2,8 @@ import React from "react";
 import { NorentRoutes as Routes } from "../routes";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./logo";
+import { StaticImage } from "../../ui/static-image";
+import { getImageSrc } from "../homepage";
 
 const MAILCHIMP_URL =
   "https://nyc.us13.list-manage.com/subscribe/post?u=d4f5d1addd4357eb77c3f8a99&amp;id=588f6c6ef4";
@@ -28,7 +30,11 @@ const EmailSignupForm = () => (
       </div>
       <div className="control has-text-centered-touch">
         <button className="button" type="submit" aria-label="Submit email">
-          ➔
+          <StaticImage
+            ratio="is-16x16"
+            src={getImageSrc("submitarrow")}
+            alt="Submit email"
+          />
         </button>
       </div>
     </div>

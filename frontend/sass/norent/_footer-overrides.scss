@@ -19,11 +19,13 @@ footer {
       border-bottom: 1.5px solid $grey-light;
       .input,
       .button {
-        color: $grey-light;
         background-color: $dark;
         box-shadow: none;
         border: none;
         border-radius: 0;
+        figure.image:hover {
+          opacity: 0.7;
+        }
       }
       .input {
         padding-left: 0;

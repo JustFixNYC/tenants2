@@ -17,7 +17,7 @@ export const NorentCreateAccount = MiddleProgressStep((props) => {
     <Page title="Set up an account" withHeading="big">
       <div className="content">
         <p>
-          Let's set you up with an account. An account will enable you to save
+          Let’s set you up with an account. An account will enable you to save
           your information, download your letter, and more.
         </p>
       </div>
@@ -29,12 +29,12 @@ export const NorentCreateAccount = MiddleProgressStep((props) => {
         {(ctx) => (
           <>
             <TextualFormField
-              label="Create a password"
+              label="Password"
               type="password"
               {...ctx.fieldPropsFor("password")}
             />
             <TextualFormField
-              label="Please confirm your password"
+              label="Confirm password"
               type="password"
               {...ctx.fieldPropsFor("confirmPassword")}
             />

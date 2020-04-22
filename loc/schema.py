@@ -39,12 +39,6 @@ class AccessDates(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class LandlordDetails(OneToOneUserModelFormMutation):
-    class Meta:
-        form_class = forms.LandlordDetailsForm
-
-
-@schema_registry.register_mutation
 class LandlordDetailsV2(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsFormV2

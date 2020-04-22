@@ -14,12 +14,6 @@ DEFAULT_ACCESS_DATES_INPUT = {
 }
 
 
-DEFAULT_LANDLORD_DETAILS_INPUT = {
-    'name': '',
-    'address': '',
-}
-
-
 DEFAULT_LANDLORD_DETAILS_V2_INPUT = {
     'name': '',
     'primaryLine': '',
@@ -53,29 +47,6 @@ def execute_ad_mutation(graphql_client, **input):
                 }
                 session {
                     accessDates
-                }
-            }
-        }
-        """,
-        variables={'input': input}
-    )['data']['output']
-
-
-def execute_ld_mutation(graphql_client, **input):
-    input = {**DEFAULT_LANDLORD_DETAILS_INPUT, **input}
-    return graphql_client.execute(
-        """
-        mutation MyMutation($input: LandlordDetailsInput!) {
-            output: landlordDetails(input: $input) {
-                errors {
-                    field
-                    messages
-                }
-                session {
-                    landlordDetails {
-                        name
-                        address
-                    }
                 }
             }
         }
@@ -165,24 +136,6 @@ def test_access_dates_is_empty_when_unauthenticated(graphql_client):
 
 
 @pytest.mark.django_db
-def test_landlord_details_works(graphql_client):
-    graphql_client.request.user = UserFactory.create()
-    ld_1 = {
-        'name': 'Boop Jones',
-        'address': '123 Boop Way\nSomewhere, NY 11299'
-    }
-
-    result = execute_ld_mutation(graphql_client, **ld_1)
-    assert result['errors'] == []
-    assert result['session']['landlordDetails'] == ld_1
-
-    ld_2 = {**ld_1, 'name': 'Boopy Jones'}
-    result = execute_ld_mutation(graphql_client, **ld_2)
-    assert result['errors'] == []
-    assert result['session']['landlordDetails'] == ld_2
-
-
-@pytest.mark.django_db
 def test_landlord_details_v2_creates_details(graphql_client):
     graphql_client.request.user = UserFactory()
     ld_1 = EXAMPLE_LANDLORD_DETAILS_V2_INPUT
@@ -233,13 +186,6 @@ def test_landlord_details_address_represents_best_address(graphql_client):
     res = graphql_client.execute('query { session { landlordDetails { address } } }')
     assert res['data']['session']['landlordDetails']['address'] == \
         '123 Cloud City Drive\nBespin, NY 12345'
-
-
-def test_landlord_details_requires_auth(graphql_client):
-    result = execute_ld_mutation(graphql_client)
-    assert result['errors'] == [{'field': '__all__', 'messages': [
-        'You do not have permission to use this form!'
-    ]}]
 
 
 def test_landlord_details_is_null_when_unauthenticated(graphql_client):

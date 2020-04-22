@@ -41,6 +41,8 @@ $jf-navbar-content: $black;
 @import "../_navbar.scss";
 @import "./_navbar-overrides.scss";
 
+@import "../_demo-deployment-note.scss";
+
 // PRESETS TO PRE-EXISTING CLASSES:
 .title {
   font-family: $jf-title-family;

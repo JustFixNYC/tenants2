@@ -7,6 +7,7 @@ import { NextButton } from "../ui/buttons";
 import { maxRecipients } from "../../../common-data/email-attachment-validation.json";
 import { FetchMutationInfo } from "./forms-graphql";
 import { WithServerFormFieldErrors } from "./form-errors";
+import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 
 type Recipient = {
   email: string;
@@ -68,6 +69,11 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
                 You can use the form below if you'd like us to email your {noun}{" "}
                 to up to {maxRecipients} addresses.
               </p>
+              <DemoDeploymentNote>
+                <p>
+                  Using this form <strong>will send</strong> real e-mails.
+                </p>
+              </DemoDeploymentNote>
               <Formset
                 {...ctx.formsetPropsFor("recipients")}
                 maxNum={maxRecipients}

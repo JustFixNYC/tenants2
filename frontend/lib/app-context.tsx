@@ -162,6 +162,12 @@ export interface AppServerInfo {
    * in which case Mapbox integration is disabled.
    */
   mapboxAccessToken: string;
+
+  /**
+   * Whether or not this deployment represents a "demo site" that is
+   * intended for training or review purposes.
+   */
+  isDemoDeployment: boolean;
 }
 
 /**

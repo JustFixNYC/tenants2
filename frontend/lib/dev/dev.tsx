@@ -24,6 +24,7 @@ import {
   ExamplePageWithAnchors1,
   ExamplePageWithAnchors2,
 } from "./example-pages-with-anchors";
+import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -85,6 +86,12 @@ const DevHome = withAppContext(
 
     return (
       <Page title="Development tools">
+        <DemoDeploymentNote>
+          <p>
+            This deployment has been flagged as a <strong>demo</strong> so it
+            will contain notices like this one.
+          </p>
+        </DemoDeploymentNote>
         <div className="content">
           <h1>Development tools</h1>
           <h2>Back-end routes</h2>

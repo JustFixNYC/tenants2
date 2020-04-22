@@ -16,6 +16,7 @@ $jf-alt-title-family: "Montserrat Bold", sans-serif;
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
 @import "../_modal.scss";
+@import "./_modal-overrides.scss";
 @import "../_loading-overlay.scss";
 @import "../_progress.scss";
 @import "../_dev.scss";
@@ -363,12 +364,12 @@ $norent-sticky-menu-height: 100px;
 // LETTER BUILDER PAGES
 
 .box.jf-norent-builder-page {
+  padding: 4rem 6rem;
   max-width: 700px;
   margin: 4rem auto;
 
   @include mobile {
     margin: 0;
-    // Override default box padding:
     padding: 3rem 1.5rem;
     box-shadow: none;
     border-radius: 0;

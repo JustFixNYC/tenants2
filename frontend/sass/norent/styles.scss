@@ -256,6 +256,8 @@ $norent-sticky-menu-height: 100px;
 .jf-collective-action-list {
   .media-content {
     align-self: center;
+    // Fixes bug on Safari that made these content blocks scrollable
+    display: table;
   }
 }
 

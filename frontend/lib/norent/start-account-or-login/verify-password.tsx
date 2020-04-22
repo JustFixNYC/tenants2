@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
 import { LoginMutation, BlankLoginInput } from "../../queries/LoginMutation";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
-import { CenteredButtons } from "../../ui/centered-buttons";
 import { Link, Route } from "react-router-dom";
 import { PasswordResetMutation } from "../../queries/PasswordResetMutation";
 import { AppContext } from "../../app-context";
@@ -38,15 +37,15 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
             {(ctx) => (
               <>
                 <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
-                <CenteredButtons>
-                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                <div className="buttons jf-two-buttons">
                   <Link
                     {...modalCtx.getLinkCloseProps()}
-                    className="button is-text"
+                    className="button is-medium jf-is-back-button"
                   >
                     Go back
                   </Link>
-                </CenteredButtons>
+                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                </div>
               </>
             )}
           </LegacyFormSubmitter>

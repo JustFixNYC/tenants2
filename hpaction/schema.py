@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.forms import inlineformset_factory
 
 from users.models import JustfixUser
+from project.forms import CHOOSE_ONE_MSG
 from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project import schema_registry, slack
@@ -171,7 +172,7 @@ class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
         formset = form.formsets['custom_home_issues']
         num_custom_issues = cls.get_number_of_custom_issues(formset)
         if len(issues) + num_custom_issues == 0:
-            return cls.make_error(forms.CHOOSE_ONE_MSG)
+            return cls.make_error(CHOOSE_ONE_MSG)
         with transaction.atomic():
             save_custom_issues_formset_with_area(formset, cls.CUSTOM_ISSUE_AREA)
             sync_emergency_issues(user, issues)

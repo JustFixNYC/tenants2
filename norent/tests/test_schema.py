@@ -9,6 +9,7 @@ from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from loc.tests import test_lob_api
+from loc.tests.factories import LandlordDetailsFactory
 from norent.schema import update_scaffolding
 from norent.models import Letter
 
@@ -154,33 +155,6 @@ def test_full_name_mutation_updates_session(graphql_client):
     }
 
 
-def test_landlord_info_mutation_updates_session(graphql_client):
-    output = graphql_client.execute(
-        '''
-        mutation {
-          output: norentLandlordInfo(input: {
-            landlordName: "Landlordo Calrissian",
-            landlordPrimaryLine: "1 Cloud City Drive",
-            landlordCity: "Bespin",
-            landlordState: "OH",
-            landlordZipCode: "43569",
-            landlordEmail: "boop@jones.com",
-            landlordPhoneNumber: "5551234567"
-        }) {
-            errors { field, messages }
-            session {
-              norentScaffolding { landlordName }
-            }
-          }
-        }
-        '''
-    )['data']['output']
-    assert output['errors'] == []
-    assert output['session']['norentScaffolding'] == {
-        'landlordName': 'Landlordo Calrissian'
-    }
-
-
 class TestNorentCreateAccount:
     INCOMPLETE_ERR = [{
         'field': '__all__',
@@ -300,6 +274,54 @@ class TestNorentCreateAccount:
         assert oi.zipcode == ''
 
 
+class TestNorentLandlordNameAndContactTypes:
+    def test_it_requires_at_least_one_checkbox(self, db, graphql_client):
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(
+            '''
+            mutation {
+                output: norentLandlordNameAndContactTypes(input: {
+                    name: "Bleh",
+                    hasEmailAddress: false,
+                    hasMailingAddress: false
+                }) {
+                    errors { field, messages }
+                }
+            }
+            '''
+        )['data']['output']
+        assert res['errors'] == one_field_err('Please choose at least one option.')
+
+    def test_it_works(self, db, graphql_client):
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(
+            '''
+            mutation {
+                output: norentLandlordNameAndContactTypes(input: {
+                    name: "Bleh",
+                    hasEmailAddress: true,
+                    hasMailingAddress: false
+                }) {
+                    errors { field, messages }
+                    session {
+                        landlordDetails { name }
+                        norentScaffolding {
+                            hasLandlordEmailAddress,
+                            hasLandlordMailingAddress
+                        }
+                    }
+                }
+            }
+            '''
+        )['data']['output']
+        assert res['errors'] == []
+        assert res['session'] == {
+           'landlordDetails': {'name': 'Bleh'},
+           'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                 'hasLandlordMailingAddress': False}
+        }
+
+
 class TestNorentLatestRentPeriod:
     def test_it_returns_none_when_no_periods_exist(self, db, graphql_client):
         res = graphql_client.execute(
@@ -352,14 +374,7 @@ class TestNorentSendLetter:
         self.graphql_client = graphql_client
 
     def create_landlord_details(self):
-        update_scaffolding(self.graphql_client.request, {
-            'landlord_name': 'Landlordo Calrissian',
-            'landlord_primary_line': '2 Cloud City Place',
-            'landlord_city': 'Bespin',
-            'landlord_state': 'OH',
-            'landlord_zip_code': '43216',
-            'landlord_email': 'landlordo@calrissian.net',
-        })
+        LandlordDetailsFactory(user=self.user)
 
     def execute(self):
         res = self.graphql_client.execute(self.QUERY)

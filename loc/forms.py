@@ -53,12 +53,6 @@ class AccessDatesForm(forms.Form):
         return result
 
 
-class LandlordDetailsForm(forms.ModelForm):
-    class Meta:
-        model = models.LandlordDetails
-        fields = ('name', 'address')
-
-
 class LandlordDetailsFormV2(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails

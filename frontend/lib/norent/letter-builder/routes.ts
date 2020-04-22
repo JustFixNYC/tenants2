@@ -18,7 +18,9 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
-    landlordInfo: `${prefix}/landlord-info`,
+    landlordName: `${prefix}/landlord/name`,
+    landlordEmail: `${prefix}/landlord/email`,
+    landlordAddress: `${prefix}/landlord/address`,
     preview: `${prefix}/preview`,
     confirmation: `${prefix}/confirmation`,
   };

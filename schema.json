@@ -2538,9 +2538,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In lastQueriedPhoneNumber now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "phoneNumber",
               "type": {
                 "kind": "NON_NULL",
@@ -2554,9 +2554,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordName",
               "type": {
                 "kind": "NON_NULL",
@@ -2570,9 +2570,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordPrimaryLine",
               "type": {
                 "kind": "NON_NULL",
@@ -2586,9 +2586,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordCity",
               "type": {
                 "kind": "NON_NULL",
@@ -2602,9 +2602,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordState",
               "type": {
                 "kind": "NON_NULL",
@@ -2618,9 +2618,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordZipCode",
               "type": {
                 "kind": "NON_NULL",
@@ -2634,10 +2634,26 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "In landlordDetails now",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "landlordEmail",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": "In landlordDetails now",
+              "description": null,
+              "isDeprecated": true,
+              "name": "landlordPhoneNumber",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2653,15 +2669,23 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "landlordPhoneNumber",
+              "name": "hasLandlordEmailAddress",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "hasLandlordMailingAddress",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               }
             }
           ],
@@ -4369,6 +4393,37 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
+                      "name": "NorentLandlordNameAndContactTypesInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentLandlordNameAndContactTypes",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentLandlordNameAndContactTypesPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
                       "name": "NorentEmailInput",
                       "ofType": null
                     }
@@ -4478,37 +4533,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "NorentFullNamePayload",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "input",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "NorentLandlordInfoInput",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "norentLandlordInfo",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "NorentLandlordInfoPayload",
                   "ofType": null
                 }
               }
@@ -4804,37 +4828,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "LandlordDetailsV2Payload",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "input",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "LandlordDetailsInput",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "landlordDetails",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "LandlordDetailsPayload",
                   "ofType": null
                 }
               }
@@ -6193,6 +6186,128 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
+          "name": "NorentLandlordNameAndContactTypesPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "The landlord's name.",
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "hasEmailAddress",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "hasMailingAddress",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentLandlordNameAndContactTypesInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
           "name": "NorentEmailPayload",
           "possibleTypes": null
         },
@@ -6567,184 +6682,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "NorentFullNameInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "isDeprecated": false,
-              "name": "errors",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "session",
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "NorentLandlordInfoPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordName",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordPrimaryLine",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordCity",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordState",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordZipCode",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordEmail",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "landlordPhoneNumber",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "NorentLandlordInfoInput",
           "possibleTypes": null
         },
         {
@@ -7906,114 +7843,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "LandlordDetailsV2Input",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "isDeprecated": false,
-              "name": "errors",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "session",
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "LandlordDetailsPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": "The landlord's name.",
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "The full mailing address for the landlord. This is a LEGACY field that we prefer not to use if possible, e.g. if the more granular primary/secondary line and city/state/zip details are available on this model.",
-              "name": "address",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "LandlordDetailsInput",
           "possibleTypes": null
         },
         {

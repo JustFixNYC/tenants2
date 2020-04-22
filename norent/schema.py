@@ -44,21 +44,41 @@ class NorentScaffolding(graphene.ObjectType):
 
     email = graphene.String(required=True)
 
-    phone_number = graphene.String(required=True)
+    phone_number = graphene.String(
+        required=True,
+        deprecation_reason="In lastQueriedPhoneNumber now")
 
-    landlord_name = graphene.String(required=True)
+    landlord_name = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_primary_line = graphene.String(required=True)
+    landlord_primary_line = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_city = graphene.String(required=True)
+    landlord_city = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_state = graphene.String(required=True)
+    landlord_state = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_zip_code = graphene.String(required=True)
+    landlord_zip_code = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_email = graphene.String(required=True)
+    landlord_email = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
 
-    landlord_phone_number = graphene.String(required=True)
+    landlord_phone_number = graphene.String(
+        required=True,
+        deprecation_reason="In landlordDetails now")
+
+    has_landlord_email_address = graphene.Boolean()
+
+    has_landlord_mailing_address = graphene.Boolean()
 
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
@@ -138,12 +158,6 @@ class NorentScaffoldingMutation(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class NorentLandlordInfo(NorentScaffoldingMutation):
-    class Meta:
-        form_class = forms.LandlordInfo
-
-
-@schema_registry.register_mutation
 class NorentFullName(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.FullName
@@ -167,6 +181,28 @@ class NorentEmail(NorentScaffoldingMutation):
         form_class = forms.Email
 
 
+@schema_registry.register_mutation
+class NorentLandlordNameAndContactTypes(SessionFormMutation):
+    class Meta:
+        form_class = forms.LandlordNameAndContactTypes
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        ld = LandlordDetails.objects.get_or_create(user=user)[0]
+        ld.name = form.cleaned_data['name']
+        ld.is_looked_up = False
+        ld.save()
+        update_scaffolding(request, {
+            'has_landlord_email_address': form.cleaned_data['has_email_address'],
+            'has_landlord_mailing_address': form.cleaned_data['has_mailing_address'],
+        })
+        return cls.mutation_success()
+
+
 def are_all_truthy(*args) -> bool:
     for arg in args:
         if not arg:
@@ -174,20 +210,12 @@ def are_all_truthy(*args) -> bool:
     return True
 
 
-def scaffolding_to_landlord_details(request):
-    scf = get_scaffolding(request)
-    if not scf.landlord_name:
-        return None
-    details = LandlordDetails(
-        name=scf.landlord_name,
-        email=scf.landlord_email,
-        primary_line=scf.landlord_primary_line,
-        city=scf.landlord_city,
-        state=scf.landlord_state,
-        zip_code=scf.landlord_zip_code,
+def does_user_have_ll_mailing_addr_or_email(user) -> bool:
+    return (
+        hasattr(user, 'landlord_details') and
+        (user.landlord_details.address_lines_for_mailing or
+         user.landlord_details.email)
     )
-    details.address = '\n'.join(details.address_lines_for_mailing)
-    return details
 
 
 @schema_registry.register_mutation
@@ -195,7 +223,7 @@ class NorentSendLetter(SessionFormMutation):
     login_required = True
 
     @classmethod
-    def send_letter(cls, request, ld: LandlordDetails, rp: models.RentPeriod):
+    def send_letter(cls, request, rp: models.RentPeriod):
         from io import BytesIO
         from loc import lob_api
         from project.views import render_raw_lambda_static_content
@@ -221,12 +249,13 @@ class NorentSendLetter(SessionFormMutation):
         letter.save()
 
         pdf_bytes = render_pdf_bytes(letter.html_content)
+        ld = user.landlord_details
 
         if ld.email:
             # TODO: Send letter via email.
             pass
 
-        if ld.primary_line:
+        if ld.address_lines_for_mailing:
             ll_addr_details = ld.get_or_create_address_details_model()
             landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
             user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
@@ -268,10 +297,7 @@ class NorentSendLetter(SessionFormMutation):
             return cls.make_error("You have already sent a letter for this rent period!")
         if not hasattr(user, 'onboarding_info'):
             return cls.make_and_log_error(info, "You have not onboarded!")
-
-        ld = scaffolding_to_landlord_details(request)
-
-        if not ld:
+        if not does_user_have_ll_mailing_addr_or_email(user):
             return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
 
         site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
@@ -279,7 +305,7 @@ class NorentSendLetter(SessionFormMutation):
         if site_type != site_util.SITE_CHOICES.NORENT:
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
-        cls.send_letter(request, ld, rent_period)
+        cls.send_letter(request, rent_period)
 
         return cls.mutation_success()
 

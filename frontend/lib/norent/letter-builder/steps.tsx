@@ -3,7 +3,7 @@ import {
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
 import { NorentRoutes } from "../routes";
-import { NorentLandlordInfoPage } from "./landlord-info-page";
+import { NorentLandlordNameAndContactTypes } from "./landlord-name-and-contact-types";
 import { NorentLetterPreviewPage } from "./letter-preview";
 import { createStartAccountOrLoginSteps } from "../start-account-or-login/steps";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
@@ -18,6 +18,8 @@ import { ProgressStepRoute } from "../../progress/progress-step-route";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
+import { NorentLandlordEmail } from "./landlord-email";
+import NorentLandlordMailingAddress from "./landlord-mailing-address";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -85,9 +87,27 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         shouldBeSkipped: isUserLoggedIn,
       },
       {
-        path: routes.landlordInfo,
+        path: routes.landlordName,
         exact: true,
-        component: NorentLandlordInfoPage,
+        component: NorentLandlordNameAndContactTypes,
+      },
+      {
+        path: routes.landlordEmail,
+        exact: true,
+        shouldBeSkipped: (s) =>
+          s.landlordDetails?.isLookedUp
+            ? false
+            : !s.norentScaffolding?.hasLandlordEmailAddress,
+        component: NorentLandlordEmail,
+      },
+      {
+        path: routes.landlordAddress,
+        exact: true,
+        shouldBeSkipped: (s) =>
+          s.landlordDetails?.isLookedUp
+            ? true
+            : !s.norentScaffolding?.hasLandlordMailingAddress,
+        component: NorentLandlordMailingAddress,
       },
       {
         path: routes.preview,

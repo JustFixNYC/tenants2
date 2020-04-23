@@ -268,6 +268,8 @@ class NorentSendLetter(SessionFormMutation):
                 recipients=[ld.email],
                 attachment=FileResponse(BytesIO(pdf_bytes), filename="letter.pdf"),
             )
+            letter.letter_emailed_at = timezone.now()
+            letter.save()
 
         if ld.address_lines_for_mailing:
             ll_addr_details = ld.get_or_create_address_details_model()

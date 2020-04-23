@@ -433,6 +433,7 @@ class TestNorentSendLetter:
         assert str(letter.rent_period.payment_date) == '2020-05-01'
         assert "unable to pay rent" in letter.html_content
         assert "Boop Jones" in letter.html_content
+        assert letter.letter_sent_at is not None
         assert letter.tracking_number == sample_letter['tracking_number']
 
         assert len(mailoutbox) == 1
@@ -442,3 +443,4 @@ class TestNorentSendLetter:
         assert "Boop Jones" in mail.body
         assert 'rent payment' in mail.subject
         assert len(mail.attachments) == 1
+        assert letter.letter_emailed_at is not None

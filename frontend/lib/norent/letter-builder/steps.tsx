@@ -64,7 +64,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         },
         {
           path: routes.nationalAddress,
-          exact: true,
+          exact: false,
           shouldBeSkipped: isUserInNYC,
           component: NorentLbAskNationalAddress,
         },

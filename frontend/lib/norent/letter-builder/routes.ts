@@ -8,12 +8,13 @@ export type NorentLetterBuilderRouteInfo = ReturnType<
 export function createNorentLetterBuilderRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
+    latestStep: prefix,   
     welcome: `${prefix}/welcome`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,
     city: `${prefix}/city`,
     nationalAddress: `${prefix}/address/national`,
+    nationalAddressModal: `${prefix}/address/national/kyr-modal`,
     nycAddress: `${prefix}/address/nyc`,
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
     email: `${prefix}/email`,

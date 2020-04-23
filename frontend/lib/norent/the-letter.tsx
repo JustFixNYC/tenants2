@@ -77,7 +77,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
         </div>
       </section>
 
-      <LandingPageChecklist />
+      <LandingPageChecklist backgroundColor="off-white" />
 
       <section className="hero">
         <div className="hero-body">

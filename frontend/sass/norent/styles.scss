@@ -294,6 +294,9 @@ $norent-sticky-menu-height: 100px;
     p:not(.title) {
       line-height: 1.35;
     }
+    figure {
+      margin-bottom: 1rem;
+    }
     @include mobile {
       // Make divs in column line up side by side on mobile
       display: flex;

@@ -68,8 +68,18 @@ const checklistItems = [
   "Cite up-to-date legal ordinances in your letter",
 ];
 
-export const LandingPageChecklist = () => (
-  <section className="hero has-background-white-ter jf-norent-checklist">
+type ChecklistBackgroundColor = "off-white" | "white";
+
+export const LandingPageChecklist = (props: {
+  backgroundColor?: ChecklistBackgroundColor;
+}) => (
+  <section
+    className={classnames(
+      "hero",
+      "jf-norent-checklist",
+      props.backgroundColor === "off-white" && "has-background-white-ter"
+    )}
+  >
     <div className="hero-body">
       <div className="container jf-has-text-centered-tablet">
         <h3 className="is-size-5 is-spaced has-text-weight-normal">
@@ -155,7 +165,7 @@ export const NorentHomePage: React.FC<{}> = () => (
     <StickyLetterButtonContainer containerId="more-info">
       <LandingPageChecklist />
 
-      <section className="hero">
+      <section className="hero has-background-white-ter jf-space-below-2rem">
         <div className="hero-body">
           <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
             <h2 className="title is-spaced">Legally vetted</h2>
@@ -230,7 +240,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                 <div>
                   <StaticImage
                     ratio="is-128x128"
-                    src={getImageSrc("chatbox")}
+                    src={getImageSrc("stopwatch")}
                     alt=""
                   />
                 </div>
@@ -246,7 +256,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                 <div>
                   <StaticImage
                     ratio="is-128x128"
-                    src={getImageSrc("connection")}
+                    src={getImageSrc("legal")}
                     alt=""
                   />
                 </div>

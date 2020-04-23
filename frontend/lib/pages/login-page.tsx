@@ -84,12 +84,14 @@ export class LoginForm extends React.Component<LoginFormProps> {
 
 /**
  * Given a URL, return everything after its origin if it is
- * rooted at our origin. Otherwise, return null.
+ * rooted at our origin. If it's already a relative URL,
+ * return it as-is. Otherwise, return null.
  */
 export function unabsolutifyURLFromOurOrigin(
   url: string,
   origin: string = getGlobalAppServerInfo().originURL
 ): string | null {
+  if (url[0] === '/') return url;
   if (url.indexOf(`${origin}/`) === 0) {
     return url.slice(origin.length);
   }

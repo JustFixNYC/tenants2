@@ -73,6 +73,12 @@ describe("unabsolutifyURLFromOurOrigin()", () => {
       unabsolutifyURLFromOurOrigin("http://foo.com/hmm", "http://foo.com")
     ).toBe("/hmm");
   });
+
+  it("returns paths when given paths", () => {
+    expect(
+      unabsolutifyURLFromOurOrigin("/bleerg", "http://foo.com")
+    ).toBe("/bleerg");
+  });
 });
 
 describe("absolutifyURLToOurOrigin()", () => {

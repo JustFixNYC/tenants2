@@ -32,7 +32,7 @@ export type NorentLetterContentProps = {
   paymentDate: GraphQLDate;
 };
 
-// const MAX_LEGISLATIONS_LISTED_IN_LETTER = 6;
+const MAX_LEGISLATIONS_LISTED_IN_LETTER = 6;
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>
@@ -89,17 +89,26 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   </dl>
 );
 
-const TenantProtections: React.FC<{}> = () => (
-  <>
-    <p>
-      Tenants impacted by the COVID-19 crisis are protected from eviction for
-      nonpayment per emergency declaration(s) from:
-    </p>
-    <ul>
-      <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
-    </ul>
-  </>
-);
+const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
+  const state = props.state as USStateChoice;
+  const protectionData = getNorentMetadataForUSState(state)?.lawForLetter;
+  const protectionEntries = Object.entries(protectionData);
+
+  return (
+    <>
+      <p>
+        Tenants impacted by the COVID-19 crisis are protected from eviction for
+        nonpayment per emergency declaration(s) from:
+      </p>
+      <ul>
+        {protectionEntries.map((protection, i) => (
+          <li key={i}>{protection[1]}</li>
+        ))}
+        <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
+      </ul>
+    </>
+  );
+};
 
 const LetterContentPropsFromSession: React.FC<{
   children: (lcProps: NorentLetterContentProps) => JSX.Element;
@@ -175,7 +184,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       increased expenses, and/or other financial circumstances related to
       COVID-19.
     </p>
-    <TenantProtections />
+    <TenantProtections {...props} />
     <p>
       In order to document our communication and to avoid misunderstandings,
       please reply to me via email or text rather than a call or visit.

@@ -18,8 +18,9 @@ const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
 export const NorentConfirmation: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const letter = session.norentLatestLetter;
-  const user = session.norentScaffolding;
-  const state = user?.state && (user?.state as USStateChoice);
+  const state =
+    session.onboardingInfo?.state &&
+    (session.onboardingInfo.state as USStateChoice);
   const stateName = state && getUSStateChoiceLabels()[state];
 
   // Content from national metadata:

@@ -23,7 +23,6 @@ describe("getNorentMetadataForUSState()", () => {
       expect(typeof md.lawForBuilder.linkToLegislation).toBe("string");
       expect(typeof md.lawForBuilder.textOfLegislation).toBe("string");
       expect(typeof md.lawForLetter.textOfLegislation1).toBe("string");
-      expect(typeof md.lawForLetter.textOfLegislation2).toBe("string");
       expect(typeof md.partner.organizationName).toBe("string");
       expect(typeof md.partner.organizationWebsiteLink).toBe("string");
       expect(

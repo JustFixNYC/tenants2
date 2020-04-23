@@ -20,6 +20,7 @@ import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
 import NorentLandlordMailingAddress from "./landlord-mailing-address";
+import { NorentLbKnowYourRights } from "./know-your-rights";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -63,8 +64,13 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           component: NorentLbAskCityState,
         },
         {
-          path: routes.nationalAddress,
+          path: routes.knowYourRights,
           exact: true,
+          component: NorentLbKnowYourRights,
+        },
+        {
+          path: routes.nationalAddress,
+          exact: false,
           shouldBeSkipped: isUserInNYC,
           component: NorentLbAskNationalAddress,
         },
@@ -111,7 +117,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       },
       {
         path: routes.preview,
-        exact: true,
+        exact: false,
         isComplete: hasNorentLetterBeenSentForThisRentPeriod,
         component: NorentLetterPreviewPage,
       },

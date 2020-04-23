@@ -439,8 +439,8 @@ class TestNorentSendLetter:
         assert len(mailoutbox) == 1
         mail = mailoutbox[0]
         assert mail.to == ['landlordo@calrissian.net']
-        assert 'attached letter' in mail.body
+        assert 'letter attached' in mail.body
         assert "Boop Jones" in mail.body
-        assert 'rent payment' in mail.subject
+        assert 'sent on behalf' in mail.subject
         assert len(mail.attachments) == 1
         assert letter.letter_emailed_at is not None

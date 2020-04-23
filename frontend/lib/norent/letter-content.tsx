@@ -114,18 +114,26 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
   props
 ) => (
   <>
-    <EmailSubject value="My rent payment" />
+    <EmailSubject
+      value={`Notice of Non-Payment of Rent sent on behalf of ${props.firstName} ${props.lastName}`}
+    />
     <p>
       Dear <LandlordName {...props} />,
     </p>
     <p>
-      I am writing to let you know that I am not able to pay my rent starting{" "}
-      <PaymentDate {...props} /> because of COVID-19 related reasons. Please see
-      the attached letter.
+      Until further notice <FullName {...props} /> will be unable to pay rent.
+      Please see letter attached.{" "}
     </p>
-    <p>Sincerely,</p>
+    <p>[PLACEHOLDER: cite same state ordinance info as KYR page]</p>
     <p>
-      <FullName {...props} />
+      In order to document communications and avoid misunderstandings, please
+      correspond with <FullName {...props} /> via mail, email, or text rather
+      than a phone call or in-person visit.
+    </p>
+    <p>Regards,</p>
+    <p>
+      JustFix.nyc <br />
+      sent on behalf of <FullName {...props} />
     </p>
   </>
 );

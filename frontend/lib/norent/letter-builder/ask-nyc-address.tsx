@@ -6,24 +6,62 @@ import {
   BlankOnboardingStep1Input,
 } from "../../queries/OnboardingStep1Mutation";
 import { assertNotNull } from "../../util/util";
-import {
-  redirectToAddressConfirmationOrNextStep,
-  ConfirmAddressModal,
-} from "../../ui/address-confirmation";
+import { redirectToAddressConfirmationOrNextStep } from "../../ui/address-confirmation";
 import { NorentRoutes } from "../routes";
 import { HiddenFormField, TextualFormField } from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
+import {
+  isBoroughChoice,
+  getBoroughChoiceLabels,
+} from "../../../../common-data/borough-choices";
+import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 
-const ConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
-  nextStep,
-}) => {
+const ConfirmNycAddressModal: React.FC<{
+  nextStep: string;
+}> = ({ nextStep }) => {
   const addrInfo =
     useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
-  return <ConfirmAddressModal nextStep={nextStep} {...addrInfo} />;
+  let borough = "";
+  if (isBoroughChoice(addrInfo.borough)) {
+    borough = getBoroughChoiceLabels()[addrInfo.borough];
+  }
+
+  return (
+    <Modal
+      title="Confirming the address"
+      withHeading
+      onCloseGoTo={BackOrUpOneDirLevel}
+      render={(ctx) => (
+        <>
+          <p>
+            Our records have shown us a similar address. Would you like to
+            proceed with this address:
+          </p>
+          <p className="content is-italic">
+            {addrInfo.address}, {borough}
+          </p>
+          <div className="buttons jf-two-buttons">
+            <Link
+              {...ctx.getLinkCloseProps()}
+              className="jf-is-back-button button is-medium"
+            >
+              No
+            </Link>
+            <Link
+              to={nextStep}
+              className="button is-primary is-medium jf-is-next-button"
+            >
+              Yes
+            </Link>
+          </div>
+        </>
+      )}
+    />
+  );
 };
 
 export const NorentLbAskNycAddress = MiddleProgressStep((props) => {

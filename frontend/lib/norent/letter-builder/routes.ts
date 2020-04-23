@@ -13,6 +13,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,
     city: `${prefix}/city`,
+    knowYourRights: `${prefix}/kyr`,
     nationalAddress: `${prefix}/address/national`,
     nycAddress: `${prefix}/address/nyc`,
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
@@ -23,6 +24,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,
     preview: `${prefix}/preview`,
+    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

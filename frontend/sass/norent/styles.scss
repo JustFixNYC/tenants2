@@ -410,10 +410,36 @@ $norent-sticky-menu-height: 100px;
     list-style-position: inside;
   }
 
+  .message .message-body {
+    @include mobile {
+      padding: 1rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  // Add top padding to any titles that appear inside media,
+  // like the title on the letter builder confirmation page
+  .media .media-content .title {
+    margin-top: 0.75rem;
+  }
+
   // Override default accordion styling from primary pages
   .jf-accordion-item {
     .media-content {
       flex-grow: 0;
+    }
+
+    // Include special styling props for when a message is
+    // embedded inside an accordion item
+    .message .message-body {
+      padding: 1rem;
+      p {
+        padding-top: 0;
+        font-size: 1.25rem;
+        font-weight: normal;
+      }
     }
   }
 }

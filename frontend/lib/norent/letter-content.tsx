@@ -10,6 +10,8 @@ import {
   EmailSubject,
   EmailStaticPage,
 } from "../static-page/email-static-page";
+import { USStateChoice } from "../../../common-data/us-state-choices";
+import { getNorentMetadataForUSState } from "./letter-builder/national-metadata";
 
 export type NorentLetterContentProps = {
   firstName: string;
@@ -85,17 +87,27 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   </dl>
 );
 
-const TenantProtections: React.FC<{}> = () => (
-  <>
-    <p>
-      Tenants impacted by the COVID-19 crisis are protected from eviction for
-      nonpayment per emergency declaration(s) from:
-    </p>
-    <ul>
-      <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
-    </ul>
-  </>
-);
+const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
+  const state = props.state as USStateChoice;
+  const protectionData = getNorentMetadataForUSState(state)?.lawForLetter;
+  const protectionEntries = Object.entries(protectionData);
+
+  return (
+    <>
+      <p>
+        Tenants impacted by the COVID-19 crisis are protected from eviction for
+        nonpayment per emergency declaration(s) from:
+      </p>
+      <ul>
+        {protectionData &&
+          protectionEntries.map((protection, i) => (
+            <li key={i}>{protection[1]}</li>
+          ))}
+        <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
+      </ul>
+    </>
+  );
+};
 
 const LetterContentPropsFromSession: React.FC<{
   children: (lcProps: NorentLetterContentProps) => JSX.Element;
@@ -124,7 +136,12 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
       Until further notice <FullName {...props} /> will be unable to pay rent.
       Please see letter attached.{" "}
     </p>
-    <p>[PLACEHOLDER: cite same state ordinance info as KYR page]</p>
+    <p>
+      {
+        getNorentMetadataForUSState(props.state as USStateChoice)?.lawForBuilder
+          ?.textOfLegislation
+      }
+    </p>
     <p>
       In order to document communications and avoid misunderstandings, please
       correspond with <FullName {...props} /> via mail, email, or text rather
@@ -166,7 +183,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       increased expenses, and/or other financial circumstances related to
       COVID-19.
     </p>
-    <TenantProtections />
+    <TenantProtections {...props} />
     <p>
       In order to document our communication and to avoid misunderstandings,
       please reply to me via email or text rather than a call or visit.

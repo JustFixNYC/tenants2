@@ -8,28 +8,43 @@ import {
   getUSStateChoiceLabels,
   USStateChoice,
 } from "../../../../common-data/us-state-choices";
+import { getNorentMetadataForUSState } from "./national-metadata";
+import { OutboundLink } from "../../analytics/google-analytics";
 
 export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const state = session.norentScaffolding?.state as USStateChoice;
+
+  // Content from national metadata:
+  const legislation = getNorentMetadataForUSState(state)?.lawForBuilder
+    ?.textOfLegislation;
+
+  const partner = getNorentMetadataForUSState(state)?.partner;
+
   return (
     <Page title="Know your rights">
       <h2 className="title">
-        Looks like you're in{" "}
+        You're in{" "}
         <span className="has-text-info">
           {state && getUSStateChoiceLabels()[state]}
         </span>
       </h2>
 
-      <p>
-        Tenants in Florida are protected from eviction for non-payment by
-        Executive Order 20-94, issued by Governor Ron DeSantis until May 17,
-        2020.
-      </p>
-      <p>
-        We’ve partnered with Community Justice Partners to provide additional
-        support once you’ve sent your letter.
-      </p>
+      {legislation && <p>{legislation}</p>}
+
+      {partner && (
+        <p>
+          We’ve partnered with{" "}
+          <OutboundLink
+            href={partner.organizationWebsiteLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {partner.organizationName}
+          </OutboundLink>{" "}
+          to provide additional support once you’ve sent your letter.
+        </p>
+      )}
       <br />
       <div className="buttons jf-two-buttons">
         <BackButton to={props.prevStep} />

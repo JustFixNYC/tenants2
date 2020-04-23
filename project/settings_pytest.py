@@ -43,6 +43,13 @@ DOCUSIGN_ACCOUNT_ID = ''
 DOCUSIGN_INTEGRATION_KEY = ''
 DOCUSIGN_USER_ID = ''
 
+# Because we generally *don't* do things when we're on a demo
+# deployment, we'll default this to true, which will force tests
+# to set it to false in order to pass, which feels like a more
+# explicit way of writing tests, but we can always change this
+# default in the future if it ends up being a bad decision.
+IS_DEMO_DEPLOYMENT = True
+
 CELERY_BROKER_URL = ''
 CELERY_TASK_ALWAYS_EAGER = True
 

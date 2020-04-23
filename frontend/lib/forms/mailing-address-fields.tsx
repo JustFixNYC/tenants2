@@ -1,7 +1,10 @@
 import React from "react";
 import { SelectFormField, ChoiceFormFieldProps } from "./form-fields";
-import US_STATE_CHOICES from "../../../common-data/us-state-choices.json";
-import { DjangoChoices } from "../common-data";
+import { toDjangoChoices } from "../common-data";
+import {
+  USStateChoices,
+  getUSStateChoiceLabels,
+} from "../../../common-data/us-state-choices";
 
 export const USStateFormField: React.FC<Omit<
   ChoiceFormFieldProps,
@@ -9,7 +12,7 @@ export const USStateFormField: React.FC<Omit<
 >> = (props) => (
   <SelectFormField
     {...props}
-    choices={US_STATE_CHOICES as DjangoChoices}
+    choices={toDjangoChoices(USStateChoices, getUSStateChoiceLabels())}
     label="State"
   />
 );

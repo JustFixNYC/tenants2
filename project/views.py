@@ -257,6 +257,12 @@ def render_lambda_static_content(lr: LambdaResponse):
     elif ctype == 'application/pdf':
         from loc.views import pdf_response
         res = pdf_response(lr.html)
+    elif ctype == 'text/plain; charset=utf-8':
+        from project.util.html_to_text import html_to_text
+        res = HttpResponse(
+            html_to_text(lr.html).encode("utf-8"),
+            status=lr.status
+        )
     else:
         raise ValueError(f'Invalid Content-Type from lambda response: {ctype}')
 

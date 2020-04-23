@@ -7,6 +7,7 @@ const Page: React.FC<{ format: string }> = ({ format }) => (
     <meta charSet="utf-8" />
     <title>This is an example static {format} page.</title>
     <p>Hello, this is an example static {format} page&hellip;</p>
+    <p>This is another paragraph.</p>
   </html>
 );
 
@@ -19,5 +20,11 @@ export const ExampleStaticPageHTML: React.FC<{}> = () => (
 export const ExampleStaticPagePDF: React.FC<{}> = () => (
   <StaticPage httpHeaders={{ "Content-Type": "application/pdf" }}>
     <Page format="PDF" />
+  </StaticPage>
+);
+
+export const ExampleStaticPageText: React.FC<{}> = () => (
+  <StaticPage httpHeaders={{ "Content-Type": "text/plain; charset=utf-8" }}>
+    <Page format="plaintext" />
   </StaticPage>
 );

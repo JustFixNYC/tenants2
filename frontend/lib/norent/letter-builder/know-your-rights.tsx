@@ -8,6 +8,8 @@ import {
   getUSStateChoiceLabels,
   USStateChoice,
 } from "../../../../common-data/us-state-choices";
+import { getNorentMetadataForUSState } from "./national-metadata";
+import { OutboundLink } from "../../analytics/google-analytics";
 
 export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
@@ -22,13 +24,20 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
       </h2>
 
       <p>
-        Tenants in Florida are protected from eviction for non-payment by
-        Executive Order 20-94, issued by Governor Ron DeSantis until May 17,
-        2020.
+        {getNorentMetadataForUSState(state).lawForBuilder.textOfLegislation}
       </p>
       <p>
-        We’ve partnered with Community Justice Partners to provide additional
-        support once you’ve sent your letter.
+        We’ve partnered with{" "}
+        <OutboundLink
+          href={
+            getNorentMetadataForUSState(state).partner.organizationWebsiteLink
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {getNorentMetadataForUSState(state).partner.organizationName}
+        </OutboundLink>{" "}
+        to provide additional support once you’ve sent your letter.
       </p>
       <br />
       <div className="buttons jf-two-buttons">

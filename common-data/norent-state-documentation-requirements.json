@@ -1,0 +1,223 @@
+{
+  "AK": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "AL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 5000
+  },
+  "AR": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "AZ": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "CA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "CO": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "CT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "DE": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "FL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "GA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "HI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "ID": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "KS": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "KY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "LA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MD": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "ME": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MO": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MS": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "ND": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "NE": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NH": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NJ": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NM": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "NV": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "OH": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "OK": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "OR": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "PA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "RI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "SC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "SD": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "TN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "TX": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "UT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "VA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "VT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "WA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "WI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "WV": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "WY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  }
+}

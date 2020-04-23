@@ -410,10 +410,12 @@ $norent-sticky-menu-height: 100px;
     list-style-position: inside;
   }
 
-  // Override default accordion styling from primary pages
-  .jf-accordion-item {
-    .media-content {
-      flex-grow: 0;
+  .message .message-body {
+    @include mobile {
+      padding: 1rem;
+    }
+    p {
+      font-size: 1rem;
     }
   }
 
@@ -423,12 +425,21 @@ $norent-sticky-menu-height: 100px;
     margin-top: 0.75rem;
   }
 
-  .message .message-body {
-    @include mobile {
-      padding: 1rem;
+  // Override default accordion styling from primary pages
+  .jf-accordion-item {
+    .media-content {
+      flex-grow: 0;
     }
-    p {
-      font-size: 1rem;
+    
+    // Include special styling props for when a message is
+    // embedded inside an accordion item
+    .message .message-body {
+      padding: 1rem;
+      p {
+        padding-top: 0;
+        font-size: 1.25rem;
+        font-weight: normal;
+      }
     }
   }
 }

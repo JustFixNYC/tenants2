@@ -1,4 +1,8 @@
 .modal-content {
+  p {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
   .content {
     @include tablet {
       padding: 2.5rem 4rem;

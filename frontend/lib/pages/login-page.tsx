@@ -7,7 +7,12 @@ import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
 import { TextualFormField } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
 import { RouteComponentProps } from "react-router";
-import { withAppContext, AppContextType, AppContext } from "../app-context";
+import {
+  withAppContext,
+  AppContextType,
+  AppContext,
+  getGlobalAppServerInfo,
+} from "../app-context";
 import { History } from "history";
 import hardRedirect from "../hard-redirect";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
@@ -29,12 +34,14 @@ export interface LoginFormProps {
  * in which we stay in our SPA.
  */
 export function performHardOrSoftRedirect(redirect: string, history: History) {
-  if (Routes.routeMap.exists(redirect)) {
-    history.push(redirect);
+  const localPath = unabsolutifyURLFromOurOrigin(redirect);
+  if (localPath && Routes.routeMap.exists(localPath)) {
+    history.push(localPath);
   } else {
     // This isn't a route we can serve from this single-page app,
     // but it might be something our underlying Django app can
-    // serve, so force a browser refresh.
+    // serve, or it might be a trusted third-party site, so force
+    // a browser refresh.
     hardRedirect(redirect);
   }
 }
@@ -73,6 +80,20 @@ export class LoginForm extends React.Component<LoginFormProps> {
       </SessionUpdatingFormSubmitter>
     );
   }
+}
+
+/**
+ * Given a URL, return everything after its origin if it is
+ * rooted at our origin. Otherwise, return null.
+ */
+export function unabsolutifyURLFromOurOrigin(
+  url: string,
+  origin: string = getGlobalAppServerInfo().originURL
+): string | null {
+  if (url.indexOf(`${origin}/`) === 0) {
+    return url.slice(origin.length);
+  }
+  return null;
 }
 
 /**

@@ -234,8 +234,17 @@ export class AppWithoutRouter extends React.Component<
     const { userId, firstName, isStaff } = this.state.session;
     if (isStaff && areAnalyticsEnabled()) {
       // There's no way to disable analytics without reloading the page,
-      // so just reload it.
-      window.location.reload();
+      // so just reload it. But wait a little while just in case a page
+      // transition was just triggered, and let the user know so they
+      // aren't confused.
+      window.setTimeout(() => {
+        window.alert(
+          "Welcome, admin user! We're going to need to reload the page now to " +
+            "disable analytics and ensure no PII is leaked to third-party " +
+            "services."
+        );
+        window.location.reload();
+      }, 1000);
     }
     if (window.FS && userId !== null) {
       // FullStory ignores '1' as a user ID because it might be unintentional,

@@ -18,6 +18,7 @@ import { StyleGuide } from "./style-guide";
 import {
   ExampleStaticPageHTML,
   ExampleStaticPagePDF,
+  ExampleStaticPageText,
 } from "./example-static-page";
 import { ExampleMapboxPage } from "./example-mapbox-page";
 import {
@@ -192,6 +193,11 @@ export default function DevRoutes(): JSX.Element {
         path={dev.examples.staticPagePdf}
         exact
         component={ExampleStaticPagePDF}
+      />
+      <Route
+        path={dev.examples.staticPageTxt}
+        exact
+        component={ExampleStaticPageText}
       />
       <Route
         path={dev.examples.anchors1}

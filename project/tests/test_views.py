@@ -137,7 +137,7 @@ def test_pages_with_redirects_work(client):
     assert response['location'] == react_url('/')
 
 
-def test_static_pages_work(client):
+def test_static_html_pages_work(client):
     response = client.get('/dev/examples/static-page')
     assert response.status_code == 200
     assert response['content-type'] == 'text/html; charset=utf-8'
@@ -146,7 +146,18 @@ def test_static_pages_work(client):
         '<html><meta charSet="utf-8"/>'
         '<title>This is an example static HTML page.</title>'
         '<p>Hello, this is an example static HTML page\u2026</p>'
+        '<p>This is another paragraph.</p>'
         '</html>'
+    )
+
+
+def test_static_plaintext_pages_work(client):
+    response = client.get('/dev/examples/static-page.txt')
+    assert response.status_code == 200
+    assert response['content-type'] == 'text/plain; charset=utf-8'
+    assert response.content.decode("utf-8") == (
+        'Hello, this is an example static plaintext page\u2026\n\n'
+        'This is another paragraph.'
     )
 
 

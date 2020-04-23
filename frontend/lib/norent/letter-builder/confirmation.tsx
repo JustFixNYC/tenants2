@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { AppContext } from "../../app-context";
-import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;

@@ -40,7 +40,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
   ));
 }
 
-const ChevronIcon = () => (
+export const ChevronIcon = () => (
   <StaticImage ratio="is-16x16" src={getImageSrc("chevron")} alt="" />
 );
 

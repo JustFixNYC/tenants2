@@ -11,6 +11,7 @@ import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentL
 import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
+import { LetterBuilderAccordion } from "./welcome";
 
 function splitLines(text: string): JSX.Element[] {
   return text.split("\n").map((line, i) => <div key={i}>{line}</div>);
@@ -70,12 +71,18 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
             {...ctx.fieldPropsFor("name")}
             label="Landlord/management company's name"
           />
+          <LetterBuilderAccordion question="Where do I find this information?">
+            If you write checks or transfer money through your bank to pay your
+            rent, use that name here.
+          </LetterBuilderAccordion>
           <p>
             What contact information do you have for your landlord or building
-            management? <strong>Choose all that apply.</strong>
+            management?{" "}
+            <span className="has-text-weight-bold">Choose all that apply.</span>
           </p>
           <CheckboxFormField {...ctx.fieldPropsFor("hasEmailAddress")}>
-            Email address
+            Email address{" "}
+            <span className="has-text-weight-bold">(recommended)</span>
           </CheckboxFormField>
           <CheckboxFormField {...ctx.fieldPropsFor("hasMailingAddress")}>
             Mailing address

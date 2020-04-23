@@ -1,0 +1,10 @@
+.modal-content {
+  .content {
+    @include tablet {
+      padding: 2.5rem 4rem;
+    }
+    h1.title {
+      font-size: 2.25rem;
+    }
+  }
+}

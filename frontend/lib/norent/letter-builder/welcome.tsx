@@ -6,13 +6,43 @@ import { assertNotNull } from "../../util/util";
 import { AppContext } from "../../app-context";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { LogoutMutation } from "../../queries/LogoutMutation";
+import { NorentRoutes } from "../routes";
+import { ChevronIcon } from "../faqs";
 
 export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
-  <Page title="Build your letter" withHeading="big" className="content">
-    <p>This is gonna be awesome!</p>
-    <Link to={assertNotNull(props.nextStep)} className="button is-primary">
-      Next
-    </Link>
+  <Page title="Build your letter" className="content" withHeading="big">
+    <p>
+      In order to benefit from the eviction protections that local elected
+      officials have put in place, you should notify your landlord of your
+      non-payment for reasons related to COVID-19. In the event that your
+      landlord tries to evict you, the courts will see this as a proactive step
+      that helps establish your defense.
+    </p>
+    <p>
+      In the next few steps, we’ll build your letter using the following
+      information. Have this information on hand if possible:
+    </p>
+    <ul>
+      <li>
+        <p>your phone number, email address, and residence</p>
+      </li>
+      <li>
+        <p>
+          your landlord or management company’s mailing and/or email address
+        </p>
+      </li>
+    </ul>
+    <div className="buttons jf-two-buttons">
+      <Link to={NorentRoutes.locale.home} className="button is-light is-medium">
+        Cancel
+      </Link>
+      <Link
+        to={assertNotNull(props.nextStep)}
+        className="button jf-is-next-button is-primary is-medium"
+      >
+        Next
+      </Link>
+    </div>
     <DebugArea />
   </Page>
 );
@@ -55,3 +85,26 @@ const DebugArea = () => {
     />
   );
 };
+
+export const LetterBuilderAccordion = (props: {
+  question: string;
+  children: React.ReactNode;
+}) => (
+  <div className="jf-accordion-item jf-space-below-2rem">
+    <details className="has-text-left jf-space-below-2rem">
+      <summary>
+        <div className="media">
+          <div className="media-content">
+            <span className="is-size-6 has-text-primary jf-has-text-underline">
+              {props.question}
+            </span>
+          </div>
+          <div className="media-right">
+            <ChevronIcon />
+          </div>
+        </div>
+      </summary>
+      {props.children}
+    </details>
+  </div>
+);

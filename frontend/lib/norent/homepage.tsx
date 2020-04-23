@@ -138,8 +138,8 @@ export const NorentHomePage: React.FC<{}> = () => (
           <br />
           <p className="subtitle">
             You’re not alone. Millions of Americans won’t be able to pay rent
-            because of COVID-19. Use our FREE tool to take action by writing a
-            letter to your landlord.
+            because of COVID&#8209;19. Use our FREE tool to take action by
+            writing a letter to your landlord.
           </p>
           <br />
           <BuildMyLetterButton isHiddenMobile />

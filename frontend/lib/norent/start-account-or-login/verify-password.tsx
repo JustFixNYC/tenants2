@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
 import { LoginMutation, BlankLoginInput } from "../../queries/LoginMutation";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
-import { CenteredButtons } from "../../ui/centered-buttons";
 import { Link, Route } from "react-router-dom";
 import { PasswordResetMutation } from "../../queries/PasswordResetMutation";
 import { AppContext } from "../../app-context";
@@ -38,15 +37,15 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
             {(ctx) => (
               <>
                 <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
-                <CenteredButtons>
-                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                <div className="buttons jf-two-buttons">
                   <Link
                     {...modalCtx.getLinkCloseProps()}
-                    className="button is-text"
+                    className="button is-medium jf-is-back-button"
                   >
                     Go back
                   </Link>
-                </CenteredButtons>
+                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                </div>
               </>
             )}
           </LegacyFormSubmitter>
@@ -64,8 +63,8 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
     <Page title="You already have an account" withHeading="big">
       <div className="content">
         <p>
-          Now we just need your password. (If you've used JustFix.nyc, this is
-          the same password you use there.)
+          Now we just need your password. This is the same one you’ve used on
+          JustFix.nyc.
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -86,11 +85,12 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
               {...ctx.fieldPropsFor("password")}
             />
             <div className="content">
-              <p>
-                If you don't remember it, you can{" "}
-                <Link to={routes.forgotPasswordModal}>reset your password</Link>
-                .
-              </p>
+              <Link
+                to={routes.forgotPasswordModal}
+                className="is-size-6 has-text-weight-normal"
+              >
+                I forgot my password
+              </Link>
             </div>
             <ProgressButtons
               isLoading={ctx.isLoading}

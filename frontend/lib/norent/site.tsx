@@ -89,13 +89,12 @@ const NorentMenuItems: React.FC<{}> = () => {
         About
       </Link>
       {session.phoneNumber ? (
-        // These are placeholders just to show styling.
-        // Will replace when we have site scaffolding ready.
+        // This is a placeholder, until we have Log Out configured
         <Link className="navbar-item" to={Routes.locale.home}>
           Log out
         </Link>
       ) : (
-        <Link className="navbar-item" to={Routes.locale.home}>
+        <Link className="navbar-item" to={Routes.locale.letter.phoneNumber}>
           Log in
         </Link>
       )}
@@ -119,21 +118,20 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     );
     return (
       <>
-        <section
-          className={classnames(
-            "section",
-            "jf-above-footer-content",
-            isPrimaryPage && "is-paddingless"
-          )}
-        >
+        <section className="jf-above-footer-content">
           <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
             <Navbar
               menuItemsComponent={NorentMenuItems}
               brandComponent={NorentBrand}
             />
           </span>
+          {!isPrimaryPage && (
+            <div className="jf-block-of-color-in-background" />
+          )}
           <div
-            className={classnames(!isPrimaryPage && "container")}
+            className={classnames(
+              !isPrimaryPage && "box jf-norent-builder-page"
+            )}
             ref={ref}
             data-jf-is-noninteractive
             tabIndex={-1}

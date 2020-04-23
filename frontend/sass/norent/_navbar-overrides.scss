@@ -1,10 +1,21 @@
 nav.navbar {
-  padding: 0 1.5rem;
   @extend .is-info;
   background-color: $info;
   &.is-fixed-top {
     // override navbar position to not be sticky:
     position: absolute;
+  }
+  // Increase container width to accomodate admin/developer links on desktop
+  .container {
+    max-width: 1200px;
+    @include tablet {
+      padding: 0 1rem;
+    }
+    @include mobile {
+      .navbar-brand {
+        padding: 0 1rem;
+      }
+    }
   }
 
   .navbar-link,

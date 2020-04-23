@@ -8,10 +8,11 @@ import { ProgressButtons } from "../../ui/buttons";
 
 export const NorentLbAskName = MiddleProgressStep((props) => {
   return (
-    <Page title="Welcome!" withHeading="big">
+    <Page title="It’s your first time here!" withHeading="big">
       <div className="content">
-        <p>Let's start off by getting to know you.</p>
+        <p>Let's get to know you.</p>
       </div>
+      <br />
       <SessionUpdatingFormSubmitter
         mutation={NorentFullNameMutation}
         initialState={(s) => ({

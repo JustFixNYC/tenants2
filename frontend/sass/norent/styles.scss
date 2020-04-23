@@ -422,4 +422,13 @@ $norent-sticky-menu-height: 100px;
   .media .media-content .title {
     margin-top: 0.75rem;
   }
+
+  .message .message-body {
+    @include mobile {
+      padding: 1rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
 }

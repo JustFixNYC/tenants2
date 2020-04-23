@@ -13,17 +13,30 @@ import {
 import { NorentRoutes } from "../routes";
 import { HiddenFormField, TextualFormField } from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
-import { ProgressButtons } from "../../ui/buttons";
+import { ProgressButtons, BackButton } from "../../ui/buttons";
 import Page from "../../ui/page";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
 
-const ConfirmNycAddressModal: React.FC<{ nextStep: string }> = ({
-  nextStep,
-}) => {
+const ConfirmNycAddressModal: React.FC<{
+  nextStep: string;
+  prevStep: string;
+}> = ({ nextStep, prevStep }) => {
   const addrInfo =
     useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
-  return <ConfirmAddressModal nextStep={nextStep} {...addrInfo} />;
+  return (
+    <ConfirmAddressModal nextStep={nextStep} {...addrInfo} hideButtons>
+      <div className="buttons jf-two-buttons">
+        <BackButton to={prevStep} />
+        <Link
+          to={nextStep}
+          className="button is-primary is-medium jf-is-next-button"
+        >
+          Next
+        </Link>
+      </div>
+    </ConfirmAddressModal>
+  );
 };
 
 export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
@@ -76,7 +89,12 @@ export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
       <Route
         path={NorentRoutes.locale.letter.nycAddressConfirmModal}
         exact
-        render={() => <ConfirmNycAddressModal nextStep={props.nextStep} />}
+        render={() => (
+          <ConfirmNycAddressModal
+            nextStep={props.nextStep}
+            prevStep={props.prevStep}
+          />
+        )}
       />
     </Page>
   );

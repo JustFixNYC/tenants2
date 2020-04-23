@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { BackOrUpOneDirLevel, Modal } from "./modal";
 import { Link } from "react-router-dom";
 import {
@@ -20,6 +20,17 @@ export type ConfirmAddressModalProps = AddressAndBorough & {
    * correctness of the address.
    */
   nextStep: string;
+
+  /**
+   * Whether or not the modal should hide its button container,
+   * as needed for custom configuration on the NoRent site.
+   */
+  hideButtons?: boolean;
+
+  /**
+   * Any React children to add to the bottom of the modal.
+   */
+  children?: React.ReactNode;
 };
 
 /**
@@ -46,14 +57,17 @@ export function ConfirmAddressModal(
           <p>
             {props.address}, {borough}
           </p>
-          <CenteredButtons>
-            <Link to={props.nextStep} className="button is-primary is-medium">
-              Yes!
-            </Link>
-            <Link {...ctx.getLinkCloseProps()} className="button is-text">
-              No, go back.
-            </Link>
-          </CenteredButtons>
+          {!props.hideButtons && (
+            <CenteredButtons>
+              <Link to={props.nextStep} className="button is-primary is-medium">
+                Yes!
+              </Link>
+              <Link {...ctx.getLinkCloseProps()} className="button is-text">
+                No, go back.
+              </Link>
+            </CenteredButtons>
+          )}
+          {props.children}
         </>
       )}
     />

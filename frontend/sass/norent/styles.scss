@@ -416,4 +416,10 @@ $norent-sticky-menu-height: 100px;
       flex-grow: 0;
     }
   }
+
+  // Add top padding to any titles that appear inside media,
+  // like the title on the letter builder confirmation page
+  .media .media-content .title {
+    margin-top: 0.75rem;
+  }
 }

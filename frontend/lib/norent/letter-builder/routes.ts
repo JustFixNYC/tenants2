@@ -8,7 +8,7 @@ export type NorentLetterBuilderRouteInfo = ReturnType<
 export function createNorentLetterBuilderRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,   
+    latestStep: prefix,
     welcome: `${prefix}/welcome`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,

@@ -67,11 +67,12 @@ def test_user_to_hpactionvars_populates_basic_info(db):
 
 
 def test_user_to_hpactionvars_populates_onboarding_info(db):
-    oi = OnboardingInfoFactory.create(apt_number='2B', borough='BROOKLYN')
+    oi = OnboardingInfoFactory.create(apt_number='2B', borough='BROOKLYN', floor_number=5)
     v = user_to_hpactionvars(oi.user, NORMAL)
     assert v.tenant_address_apt_no_te == '2B'
     assert v.court_county_mc == hp.CourtCountyMC.KINGS
     assert v.court_location_mc == hp.CourtLocationMC.KINGS_COUNTY
+    assert v.tenant_address_floor_nu == 5
     v.to_answer_set()
 
 

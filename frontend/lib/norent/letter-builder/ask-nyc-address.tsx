@@ -10,7 +10,7 @@ import { redirectToAddressConfirmationOrNextStep } from "../../ui/address-confir
 import { NorentRoutes } from "../routes";
 import { HiddenFormField, TextualFormField } from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
-import { ProgressButtons, BackButton } from "../../ui/buttons";
+import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
 import { Route, Link } from "react-router-dom";
 import { AppContext } from "../../app-context";

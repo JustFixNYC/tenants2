@@ -5,6 +5,9 @@ import { OutboundLink } from "../../analytics/google-analytics";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
+const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
+const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
+
 export const NorentConfirmation: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const letter = session.norentLatestLetter;
@@ -67,7 +70,7 @@ export const NorentConfirmation: React.FC<{}> = () => {
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"
-          href="https://cancelrent.us/"
+          href={CANCEL_RENT_PETITION_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -82,10 +85,9 @@ export const NorentConfirmation: React.FC<{}> = () => {
       </p>
       <br />
       <p className="has-text-centered">
-        {/* PLACEHOLDER: to be swapped in with actual feedback form: */}
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"
-          href="https://cancelrent.us/"
+          href={NORENT_FEEDBACK_FORM_URL}
           target="_blank"
           rel="noopener noreferrer"
         >

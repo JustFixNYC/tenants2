@@ -57,6 +57,10 @@ const StateLegalAidProviders = RawStateLegalAidProviders as StateMapping<
   StateLegalAidProviderEntry
 >;
 
+/**
+ * Return the given string as a U.S. state choice, throwing an
+ * error if it's invalid.
+ */
 export const assertIsUSState = (state: string): USStateChoice => {
   if (!isUSStateChoice(state)) {
     throw new Error(`${state} is not a valid two-letter US state!`);
@@ -64,6 +68,10 @@ export const assertIsUSState = (state: string): USStateChoice => {
   return state;
 };
 
+/**
+ * Return a big blob of metadata about NoRent.org-related information
+ * for the given U.S. state.
+ */
 export const getNorentMetadataForUSState = (state: USStateChoice) => {
   return {
     lawForBuilder: StateLawForBuilder[state],

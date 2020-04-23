@@ -10,6 +10,8 @@ import {
   EmailSubject,
   EmailStaticPage,
 } from "../static-page/email-static-page";
+import { USStateChoice } from "../../../common-data/us-state-choices";
+import { getNorentMetadataForUSState } from "./letter-builder/national-metadata";
 
 export type NorentLetterContentProps = {
   firstName: string;
@@ -29,6 +31,8 @@ export type NorentLetterContentProps = {
   landlordEmail: string;
   paymentDate: GraphQLDate;
 };
+
+// const MAX_LEGISLATIONS_LISTED_IN_LETTER = 6;
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>
@@ -124,7 +128,12 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
       Until further notice <FullName {...props} /> will be unable to pay rent.
       Please see letter attached.{" "}
     </p>
-    <p>[PLACEHOLDER: cite same state ordinance info as KYR page]</p>
+    <p>
+      {
+        getNorentMetadataForUSState(props.state as USStateChoice).lawForBuilder
+          .textOfLegislation
+      }
+    </p>
     <p>
       In order to document communications and avoid misunderstandings, please
       correspond with <FullName {...props} /> via mail, email, or text rather

@@ -228,6 +228,10 @@ class NorentSendLetter(SessionFormMutation):
         from loc import lob_api
         from project.views import render_raw_lambda_static_content
         from loc.views import render_pdf_bytes
+        from project.util.email_attachment import email_file_response_as_attachment
+        from project.util.html_to_text import html_to_text
+        from django.http import FileResponse
+        from django.conf import settings
 
         user = request.user
 
@@ -251,9 +255,19 @@ class NorentSendLetter(SessionFormMutation):
         pdf_bytes = render_pdf_bytes(letter.html_content)
         ld = user.landlord_details
 
-        if ld.email:
-            # TODO: Send letter via email.
-            pass
+        if ld.email and not settings.IS_DEMO_DEPLOYMENT:
+            lr = render_raw_lambda_static_content(
+                request,
+                url=f"{reverse('react')}letter-email.txt"
+            )
+            assert lr is not None, "Rendering of email text must succeed"
+            assert lr.http_headers['Content-Type'] == "text/plain; charset=utf-8"
+            email_file_response_as_attachment(
+                subject=lr.http_headers['X-JustFix-Email-Subject'],
+                body=html_to_text(lr.html),
+                recipients=[ld.email],
+                attachment=FileResponse(BytesIO(pdf_bytes), filename="letter.pdf"),
+            )
 
         if ld.address_lines_for_mailing:
             ll_addr_details = ld.get_or_create_address_details_model()

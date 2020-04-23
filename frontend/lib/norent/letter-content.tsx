@@ -3,11 +3,13 @@ import { QueryLoader } from "../networking/query-loader";
 import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
 import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
-import { NotFound } from "../pages/not-found";
-import { Route } from "react-router-dom";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { friendlyDate, assertNotNull } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
+import {
+  EmailSubject,
+  EmailStaticPage,
+} from "../static-page/email-static-page";
 
 export type NorentLetterContentProps = {
   firstName: string;
@@ -51,6 +53,13 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   </h1>
 );
 
+const PaymentDate: React.FC<{ paymentDate: GraphQLDate }> = (props) => (
+  // Oy, the payment date is in midnight UTC time, and we explicitly want
+  // to *not* convert it to any other time zone, otherwise it may
+  // appear as a different date.
+  <>{friendlyDate(new Date(props.paymentDate), "UTC")}</>
+);
+
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
     <dt>To</dt>
@@ -88,43 +97,81 @@ const TenantProtections: React.FC<{}> = () => (
   </>
 );
 
+const LetterContentPropsFromSession: React.FC<{
+  children: (lcProps: NorentLetterContentProps) => JSX.Element;
+}> = ({ children }) => {
+  const { session } = useContext(AppContext);
+  const lcProps = getNorentLetterContentPropsFromSession(session);
+
+  if (!lcProps) {
+    return <p>We don't have enough information to generate a letter yet.</p>;
+  }
+
+  return children(lcProps);
+};
+
+export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
+  props
+) => (
+  <>
+    <EmailSubject value="My rent payment" />
+    <p>
+      Dear <LandlordName {...props} />,
+    </p>
+    <p>
+      I am writing to let you know that I am not able to pay my rent starting{" "}
+      <PaymentDate {...props} /> because of COVID-19 related reasons. Please see
+      the attached letter.
+    </p>
+    <p>Sincerely,</p>
+    <p>
+      <FullName {...props} />
+    </p>
+  </>
+);
+
+export const NorentLetterEmailForUser: React.FC<{}> = () => (
+  <LetterContentPropsFromSession
+    children={(lcProps) => <NorentLetterEmail {...lcProps} />}
+  />
+);
+
+export const NorentLetterEmailForUserStaticPage: React.FC<{}> = () => (
+  <EmailStaticPage>
+    <NorentLetterEmailForUser />
+  </EmailStaticPage>
+);
+
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
-) => {
-  // Oy, the payment date is in midnight UTC time, and we explicitly want
-  // to *not* convert it to any other time zone, otherwise it may
-  // appear as a different date.
-  const paymentDate = friendlyDate(new Date(props.paymentDate), "UTC");
-
-  return (
-    <>
-      <LetterTitle {...props} />
-      <p className="has-text-right">{friendlyDate(new Date())}</p>
-      <LetterHeading {...props} />
-      <p>
-        Dear <LandlordName {...props} />,
-      </p>
-      <p>
-        This letter is to notify you that I will be unable to pay rent starting
-        on {paymentDate} and until further notice due to loss of income,
-        increased expenses, and/or other financial circumstances related to
-        COVID-19.
-      </p>
-      <TenantProtections />
-      <p>
-        In order to document our communication and to avoid misunderstandings,
-        please reply to me via email or text rather than a call or visit.
-      </p>
-      <p>Thank you for your understanding and cooperation.</p>
-      <p className="jf-signature">
-        Regards,
-        <br />
-        <br />
-        <FullName {...props} />
-      </p>
-    </>
-  );
-};
+) => (
+  <>
+    <LetterTitle {...props} />
+    <p className="has-text-right">{friendlyDate(new Date())}</p>
+    <LetterHeading {...props} />
+    <p>
+      Dear <LandlordName {...props} />,
+    </p>
+    <p>
+      This letter is to notify you that I will be unable to pay rent starting on{" "}
+      <PaymentDate {...props} /> and until further notice due to loss of income,
+      increased expenses, and/or other financial circumstances related to
+      COVID-19.
+    </p>
+    <TenantProtections />
+    <p>
+      In order to document our communication and to avoid misunderstandings,
+      please reply to me via email or text rather than a call or visit.
+    </p>
+    <p>Thank you for your understanding and cooperation.</p>
+    <p className="jf-signature">
+      Regards,
+      <br />
+      <br />
+      <FullName {...props} />
+    </p>
+  </>
+);
 
 const NorentLetterStaticPage: React.FC<
   { isPdf?: boolean; title: string } & NorentLetterContentProps
@@ -185,22 +232,17 @@ function getNorentLetterContentPropsFromSession(
 
 export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
   isPdf,
-}) => {
-  const { session } = useContext(AppContext);
-  const lcProps = getNorentLetterContentPropsFromSession(session);
-
-  if (!lcProps) {
-    return <Route component={NotFound} />;
-  }
-
-  return (
-    <NorentLetterStaticPage
-      {...lcProps}
-      isPdf={isPdf}
-      title="Your NoRent.org letter"
-    />
-  );
-};
+}) => (
+  <LetterContentPropsFromSession
+    children={(lcProps) => (
+      <NorentLetterStaticPage
+        {...lcProps}
+        isPdf={isPdf}
+        title="Your NoRent.org letter"
+      />
+    )}
+  />
+);
 
 export const noRentSampleLetterProps: NorentLetterContentProps = {
   firstName: "Boop",

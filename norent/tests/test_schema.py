@@ -374,7 +374,7 @@ class TestNorentSendLetter:
         self.graphql_client = graphql_client
 
     def create_landlord_details(self):
-        LandlordDetailsFactory(user=self.user)
+        LandlordDetailsFactory(user=self.user, email="landlordo@calrissian.net")
 
     def execute(self):
         res = self.graphql_client.execute(self.QUERY)
@@ -412,7 +412,9 @@ class TestNorentSendLetter:
         assert self.execute()['errors'] == one_field_err(
             'This form can only be used from the NoRent site.')
 
-    def test_it_works(self, allow_lambda_http, use_norent_site, requests_mock):
+    def test_it_works(self, allow_lambda_http, use_norent_site,
+                      requests_mock, mailoutbox, settings):
+        settings.IS_DEMO_DEPLOYMENT = False
         requests_mock.post(
             test_lob_api.LOB_VERIFICATIONS_URL,
             json=test_lob_api.get_sample_verification()
@@ -426,8 +428,17 @@ class TestNorentSendLetter:
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []
+
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert str(letter.rent_period.payment_date) == '2020-05-01'
         assert "unable to pay rent" in letter.html_content
         assert "Boop Jones" in letter.html_content
         assert letter.tracking_number == sample_letter['tracking_number']
+
+        assert len(mailoutbox) == 1
+        mail = mailoutbox[0]
+        assert mail.to == ['landlordo@calrissian.net']
+        assert 'attached letter' in mail.body
+        assert "Boop Jones" in mail.body
+        assert 'rent payment' in mail.subject
+        assert len(mail.attachments) == 1

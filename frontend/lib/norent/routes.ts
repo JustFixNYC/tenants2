@@ -20,6 +20,9 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
 
+    /** The email to the user's landlord. */
+    letterEmail: `${prefix}/letter-email.txt`,
+
     /** The sample letter content (HTML and PDF versions). */
     sampleLetterContent: createLetterStaticPageRouteInfo(
       `${prefix}/sample-letter`

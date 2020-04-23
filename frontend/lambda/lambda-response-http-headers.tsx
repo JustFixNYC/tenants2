@@ -10,4 +10,10 @@ export type LambdaResponseHttpHeaders = {
 
   /** Controls whether we can embed the content as an IFRAME. */
   "X-Frame-Options"?: "SAMEORIGIN" | "DENY";
+
+  /**
+   * Custom header used to communicate the subject of an email to
+   * the server, if rendering an email.
+   */
+  "X-JustFix-Email-Subject"?: string;
 };

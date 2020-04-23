@@ -28,6 +28,11 @@
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
     "isDocumentationALegalRequirement": false
   },
+  "DC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
   "DE": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
     "isDocumentationALegalRequirement": false
@@ -156,6 +161,11 @@
     "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
   },
   "PA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "PR": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
     "isDocumentationALegalRequirement": true,
     "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7

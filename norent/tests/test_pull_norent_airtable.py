@@ -11,19 +11,24 @@ class TestConvertRowsToStateDict:
     @pytest.mark.parametrize('raw_rows,state_dict', [
         ([], {}),
         (
-            [{'fields': {'ID': 1, 'State': 'WV', 'Boop': 2}}],
+            [{'fields': {'ID': 1, 'State': 'WV', 'Boop': 2, 'To be used': True}}],
             {'WV': {'boop': 2}}
         ),
         (
-            [{'fields': {'State': 'WV', 'Boop Jones?': 2}}],
+            [{'fields': {'State': 'WV', 'Boop Jones?': 2, 'To be used': True}}],
             {'WV': {'boopJones': 2}}
         ),
         (
-            [{'fields': {'State': 'WV', 'thingy': 2, 'thingy source (not exposed)': 5}}],
+            [{'fields': {'State': 'WV', 'Boop Jones?': 2}}],
+            {}
+        ),
+        (
+            [{'fields': {'State': 'WV', 'thingy': 2,
+                         'thingy source (not exposed)': 5, 'To be used': True}}],
             {'WV': {'thingy': 2}}
         ),
         (
-            [{'fields': {'State': 'WV', 'thingy source (not exposed)': 5}}],
+            [{'fields': {'State': 'WV', 'thingy source (not exposed)': 5, 'To be used': True}}],
             {}
         ),
         (

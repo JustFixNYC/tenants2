@@ -25,6 +25,8 @@ BOOLEAN_YES_NO_FIELDS = [
     "Does the tenant need to send the documentation to the landlord?",
 ]
 
+TO_BE_USED_FIELD = 'toBeUsed'
+
 IGNORE_FIELDS = [
     # Only some of our tables have an 'ID' column, for some reason, which we
     # don't actually need.
@@ -63,6 +65,18 @@ def convert_yes_no_to_boolean(name: str, value: str) -> bool:
     raise ValueError(f"Field '{name}' should be 'Yes' or 'No' but it is '{value}'!")
 
 
+def filter_to_be_used(new_fields: Dict[str, Any]) -> Dict[str, Any]:
+    if new_fields:
+        to_be_used = new_fields.get(TO_BE_USED_FIELD, False)
+
+        if to_be_used:
+            new_fields.pop(TO_BE_USED_FIELD)
+        else:
+            new_fields = {}
+
+    return new_fields
+
+
 def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
     new_fields: Dict[str, Any] = {}
 
@@ -76,7 +90,7 @@ def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
         new_name = to_camel_case(name).replace('?', '')
         new_fields[new_name] = value
 
-    return new_fields
+    return filter_to_be_used(new_fields)
 
 
 def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:

@@ -45,7 +45,7 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: "us-state-choices.json",
       typeName: "USStateChoice",
       exportLabels: true,
-      filterOut: ["AS", "DC", "GU", "MP", "PR", "VI"],
+      filterOut: ["AS", "GU", "MP", "VI"],
     },
   ],
 };

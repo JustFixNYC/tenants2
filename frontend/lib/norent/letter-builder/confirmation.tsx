@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { AppContext } from "../../app-context";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
+import { OutboundLink } from "../../analytics/google-analytics";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -64,9 +65,16 @@ export const NorentConfirmation: React.FC<{}> = () => {
         national suspension on rent, mortgage and utility payments!
       </p>
       <br />
-      <CenteredPrimaryButtonLink to="www.placeholder.com">
-        Sign the petition
-      </CenteredPrimaryButtonLink>
+      <p className="has-text-centered">
+        <OutboundLink
+          className="button is-primary is-large jf-is-extra-wide"
+          href="https://cancelrent.us/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Sign the petition
+        </OutboundLink>
+      </p>
       <h3 className="title jf-alt-title-font">Give us feedback</h3>
       <p>
         This tool is provided by JustFix.nyc. We’re a non-profit that creates
@@ -74,9 +82,17 @@ export const NorentConfirmation: React.FC<{}> = () => {
         feedback to improve our tools.
       </p>
       <br />
-      <CenteredPrimaryButtonLink to="www.placeholder.com">
-        Give feedback
-      </CenteredPrimaryButtonLink>
+      <p className="has-text-centered">
+        {/* PLACEHOLDER: to be swapped in with actual feedback form: */}
+        <OutboundLink
+          className="button is-primary is-large jf-is-extra-wide"
+          href="https://cancelrent.us/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Give feedback
+        </OutboundLink>
+      </p>
     </Page>
   );
 };

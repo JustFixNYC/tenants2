@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";

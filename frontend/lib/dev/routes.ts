@@ -27,6 +27,7 @@ export function createDevRouteInfo(prefix: string) {
       anchors2: `${prefix}/examples/anchors/two`,
       staticPage: `${prefix}/examples/static-page`,
       staticPagePdf: `${prefix}/examples/static-page.pdf`,
+      staticPageTxt: `${prefix}/examples/static-page.txt`,
     },
   };
 }

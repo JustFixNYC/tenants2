@@ -14,6 +14,13 @@ import { OutboundLink } from "../../analytics/google-analytics";
 export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const state = session.norentScaffolding?.state as USStateChoice;
+
+  // Content from national metadata:
+  const legislation = getNorentMetadataForUSState(state)?.lawForBuilder
+    ?.textOfLegislation;
+
+  const partner = getNorentMetadataForUSState(state)?.partner;
+
   return (
     <Page title="Know your rights">
       <h2 className="title">
@@ -22,23 +29,20 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
           {state && getUSStateChoiceLabels()[state]}
         </span>
       </h2>
-
-      <p>
-        {getNorentMetadataForUSState(state).lawForBuilder.textOfLegislation}
-      </p>
-      <p>
-        We’ve partnered with{" "}
-        <OutboundLink
-          href={
-            getNorentMetadataForUSState(state).partner.organizationWebsiteLink
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {getNorentMetadataForUSState(state).partner.organizationName}
-        </OutboundLink>{" "}
-        to provide additional support once you’ve sent your letter.
-      </p>
+      {legislation && <p>{legislation}</p>}
+      {partner && (
+        <p>
+          We’ve partnered with{" "}
+          <OutboundLink
+            href={partner.organizationWebsiteLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {partner.organizationName}
+          </OutboundLink>{" "}
+          to provide additional support once you’ve sent your letter.
+        </p>
+      )}
       <br />
       <div className="buttons jf-two-buttons">
         <BackButton to={props.prevStep} />

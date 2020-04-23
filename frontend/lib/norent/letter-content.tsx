@@ -130,8 +130,8 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
     </p>
     <p>
       {
-        getNorentMetadataForUSState(props.state as USStateChoice).lawForBuilder
-          .textOfLegislation
+        getNorentMetadataForUSState(props.state as USStateChoice)?.lawForBuilder
+          ?.textOfLegislation
       }
     </p>
     <p>

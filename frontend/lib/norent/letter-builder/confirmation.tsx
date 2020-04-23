@@ -22,23 +22,25 @@ export const NorentConfirmation: React.FC<{}> = () => {
   const state = user?.state && (user?.state as USStateChoice);
   const stateName = state && getUSStateChoiceLabels()[state];
 
+  // Content from national metadata:
   const needsDocumentation =
     state &&
-    getNorentMetadataForUSState(state).docs.isDocumentationALegalRequirement;
+    getNorentMetadataForUSState(state)?.docs?.isDocumentationALegalRequirement;
 
   const needsToSendLandlord =
     state &&
-    getNorentMetadataForUSState(state).docs
-      .doesTheTenantNeedToSendTheDocumentationToTheLandlord;
+    getNorentMetadataForUSState(state)?.docs
+      ?.doesTheTenantNeedToSendTheDocumentationToTheLandlord;
 
   const numDaysToSend =
     state &&
-    getNorentMetadataForUSState(state).docs
-      .numberOfDaysFromNonPaymentNoticeToProvideDocumentation;
+    getNorentMetadataForUSState(state)?.docs
+      ?.numberOfDaysFromNonPaymentNoticeToProvideDocumentation;
 
   const legalAidLink =
     (state &&
-      getNorentMetadataForUSState(state).legalAid.localLegalAidProviderLink) ||
+      getNorentMetadataForUSState(state)?.legalAid
+        ?.localLegalAidProviderLink) ||
     NATIONAL_LEGAL_AID_URL;
 
   return (

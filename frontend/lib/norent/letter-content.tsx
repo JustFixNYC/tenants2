@@ -99,9 +99,10 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
         nonpayment per emergency declaration(s) from:
       </p>
       <ul>
-        {protectionEntries.map((protection, i) => (
-          <li key={i}>{protection[1]}</li>
-        ))}
+        {protectionData &&
+          protectionEntries.map((protection, i) => (
+            <li key={i}>{protection[1]}</li>
+          ))}
         <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
       </ul>
     </>

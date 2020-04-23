@@ -11,7 +11,7 @@ export const NorentConfirmation: React.FC<{}> = () => {
   const user = session.norentScaffolding;
 
   return (
-    <Page title="Your letter has been sent!" className="content">
+    <Page title="You've sent your letter" className="content">
       <div className="media">
         <div className="media-left">
           <i className="has-text-info">{checkCircleSvg}</i>

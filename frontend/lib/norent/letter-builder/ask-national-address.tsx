@@ -9,15 +9,16 @@ import { AppContext } from "../../app-context";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { Link, Route } from "react-router-dom";
 import { NorentRoutes } from "../routes";
-
-import * as stateLegislation from "../../../../common-data/norent-state-law-for-builder.json";
+import { getLegislationForState } from "./airtable-common-data";
 
 const KyrModal: React.FC<{ nextStep: string }> = (props: {
   nextStep: string;
 }) => {
   const { session } = useContext(AppContext);
   const norent = session.norentScaffolding;
-
+  const state = norent?.state;
+  const legislation = state && getLegislationForState(state);
+  console.log(norent?.state, legislation);
   return (
     <Modal
       title="Know your rights"
@@ -31,10 +32,7 @@ const KyrModal: React.FC<{ nextStep: string }> = (props: {
             </span>
           </h2>
 
-          {/* REPLACE: Typescript isn't allowing me call the state property dynamically on the json blob... 
-          This is a placeholder for now to show the modal content */}
-
-          <p>{stateLegislation.FL["Text of Legislation"]}</p>
+          <p>{legislation && legislation["Text of Legislation"]}</p>
           <p>
             We’ve partnered with Community Justice Partners to provide
             additional support once you’ve sent your letter.
@@ -71,6 +69,7 @@ export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
             s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
         })}
         onSuccessRedirect={props.nextStep}
+        /* onSuccessRedirect={(output, input) => (output.session?.norentScaffolding?.state is in BLOB ? NorentRoutes.locale.letter.nationalAddressModal : props.nextStep)} */
       >
         {(ctx) => (
           <>

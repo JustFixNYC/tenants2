@@ -240,7 +240,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                 <div>
                   <StaticImage
                     ratio="is-128x128"
-                    src={getImageSrc("chatbox")}
+                    src={getImageSrc("stopwatch")}
                     alt=""
                   />
                 </div>
@@ -256,7 +256,7 @@ export const NorentHomePage: React.FC<{}> = () => (
                 <div>
                   <StaticImage
                     ratio="is-128x128"
-                    src={getImageSrc("connection")}
+                    src={getImageSrc("legal")}
                     alt=""
                   />
                 </div>

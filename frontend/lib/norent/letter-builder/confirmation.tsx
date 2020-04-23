@@ -7,18 +7,39 @@ import {
   USStateChoice,
 } from "../../../../common-data/us-state-choices";
 import { LetterBuilderAccordion } from "./welcome";
+import { getNorentMetadataForUSState } from "./national-metadata";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
+const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
 const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
+const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
 
 export const NorentConfirmation: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const letter = session.norentLatestLetter;
   const user = session.norentScaffolding;
-  const stateName =
-    user?.state && getUSStateChoiceLabels()[user?.state as USStateChoice];
+  const state = user?.state && (user?.state as USStateChoice);
+  const stateName = state && getUSStateChoiceLabels()[state];
+
+  const needsDocumentation =
+    state &&
+    getNorentMetadataForUSState(state).docs.isDocumentationALegalRequirement;
+
+  const needsToSendLandlord =
+    state &&
+    getNorentMetadataForUSState(state).docs
+      .doesTheTenantNeedToSendTheDocumentationToTheLandlord;
+
+  const numDaysToSend =
+    state &&
+    getNorentMetadataForUSState(state).docs
+      .numberOfDaysFromNonPaymentNoticeToProvideDocumentation;
+
+  const legalAidLink =
+    (state &&
+      getNorentMetadataForUSState(state).legalAid.localLegalAidProviderLink) ||
+    NATIONAL_LEGAL_AID_URL;
 
   return (
     <Page title="You've sent your letter" className="content">
@@ -47,19 +68,23 @@ export const NorentConfirmation: React.FC<{}> = () => {
         documentation as you can. This can include a letter from your employer,
         receipts, doctor’s notes etc.
       </p>
-      {stateName && (
-        <>
+      <>
+        {stateName && needsDocumentation && (
           <p>
             {stateName} has specific documentation requirements to support your
             letter to your landlord.
           </p>
+        )}
+        {stateName && (
           <LetterBuilderAccordion question="Find out more">
             <article className="message">
               <div className="message-body has-background-grey-lighter has-text-left">
-                <p>
-                  In {stateName}, you have 7 days to send documentation to your
-                  landlord proving you can’t pay rent.
-                </p>
+                {needsToSendLandlord && (
+                  <p>
+                    In {stateName}, you have {numDaysToSend} days to send
+                    documentation to your landlord proving you can’t pay rent.
+                  </p>
+                )}
                 <p>Some types of documentation you can gather include:</p>
                 <ul>
                   <li>
@@ -93,15 +118,23 @@ export const NorentConfirmation: React.FC<{}> = () => {
               </div>
             </article>
           </LetterBuilderAccordion>
-        </>
-      )}
+        )}
+      </>
       <h3 className="title jf-alt-title-font">
         Contact a lawyer if your landlord retaliates
       </h3>
       <p>
         It’s possible that your landlord will retaliate once they’ve received
-        your letter. This is illegal. Contact your local legal aid provider for
-        assistance.
+        your letter. This is illegal. Contact{" "}
+        <OutboundLink
+          className="has-text-weight-normal"
+          href={legalAidLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          your local legal aid provider
+        </OutboundLink>{" "}
+        for assistance.
       </p>
       <h3 className="title jf-alt-title-font">Build power in numbers</h3>
       <p>

@@ -91,7 +91,7 @@ export function unabsolutifyURLFromOurOrigin(
   url: string,
   origin: string = getGlobalAppServerInfo().originURL
 ): string | null {
-  if (url[0] === '/') return url;
+  if (url[0] === "/") return url;
   if (url.indexOf(`${origin}/`) === 0) {
     return url.slice(origin.length);
   }

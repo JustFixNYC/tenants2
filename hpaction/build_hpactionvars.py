@@ -441,6 +441,7 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
         v.tenant_borough_mc = BOROUGHS[oinfo.borough]
         v.court_location_mc = COURT_LOCATIONS[oinfo.borough]
         v.court_county_mc = COURT_COUNTIES[oinfo.borough]
+        v.tenant_address_floor_nu = oinfo.floor_number
 
     fill_issues(v, user, kind)
 

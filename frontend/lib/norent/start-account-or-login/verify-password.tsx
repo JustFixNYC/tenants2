@@ -22,12 +22,10 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
       withHeading
       render={(modalCtx) => (
         <>
-          <div className="content">
-            <p>
-              To begin the password reset process, we'll text you a verification
-              code.
-            </p>
-          </div>
+          <p>
+            To begin the password reset process, we'll text you a verification
+            code.
+          </p>
           <LegacyFormSubmitter
             formId="resetPassword"
             mutation={PasswordResetMutation}

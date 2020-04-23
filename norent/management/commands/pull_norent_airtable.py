@@ -20,18 +20,63 @@ NORENT_VARIABLES_BASE_ID = "appcHw4ksitvRgc4y"
 
 StateDict = Dict[str, Any]
 
+BOOLEAN_YES_NO_FIELDS = [
+    "Is documentation a legal requirement?",
+    "Does the tenant need to send the documentation to the landlord?",
+]
+
+IGNORE_FIELDS = [
+    # Only some of our tables have an 'ID' column, for some reason, which we
+    # don't actually need.
+    "ID",
+]
+
 
 class Table(Enum):
     STATE_LAW_FOR_BUILDER = "State Legislation for Letter Builder Screens"
     STATE_LAW_FOR_LETTER = "State Legislation for letter itself"
     STATE_PARTNERS_FOR_BUILDER = "State Partner Organizations for Letter Builder Screens"
-    DOCUMENTATION_REQUIREMENTS = "Documentation Requirements"
+    STATE_DOCUMENTATION_REQUIREMENTS = "Documentation Requirements"
+    STATE_LEGAL_AID_PROVIDERS = "Local legal aid provider"
+
+
+def to_camel_case(string: str) -> str:
+    string = string.replace('-', ' ')
+    cc = ''.join([
+        word[0].upper() + word[1:]
+        for word in string.split(' ')
+    ])
+    return cc[0].lower() + cc[1:]
 
 
 def pop_if_present(fields: Dict[str, Any], key: str) -> Any:
     if key in fields:
         return fields.pop(key)
     return None
+
+
+def convert_yes_no_to_boolean(name: str, value: str) -> bool:
+    if value == "Yes":
+        return True
+    if value == "No":
+        return False
+    raise ValueError(f"Field '{name}' should be 'Yes' or 'No' but it is '{value}'!")
+
+
+def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
+    new_fields: Dict[str, Any] = {}
+
+    for name, value in fields.items():
+        if name in IGNORE_FIELDS:
+            continue
+        if name.lower().endswith('(not exposed)'):
+            continue
+        if name in BOOLEAN_YES_NO_FIELDS:
+            value = convert_yes_no_to_boolean(name, value)
+        new_name = to_camel_case(name).replace('?', '')
+        new_fields[new_name] = value
+
+    return new_fields
 
 
 def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:
@@ -44,10 +89,7 @@ def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDic
     for row in rows:
         fields: Dict[str, Any] = row['fields']
         state = pop_if_present(fields, 'State')
-
-        # Only some of our tables have an 'ID' column, for some reason, which we
-        # don't actually need, so remove it.
-        pop_if_present(fields, 'ID')
+        fields = transform_fields(fields)
 
         if state and fields:
             assert state not in states, f"{state} should only have one row"

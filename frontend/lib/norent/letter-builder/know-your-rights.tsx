@@ -24,12 +24,14 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   return (
     <Page title="Know your rights">
       <h2 className="title">
-        Looks like you're in{" "}
+        You're in{" "}
         <span className="has-text-info">
           {state && getUSStateChoiceLabels()[state]}
         </span>
       </h2>
+
       {legislation && <p>{legislation}</p>}
+
       {partner && (
         <p>
           We’ve partnered with{" "}

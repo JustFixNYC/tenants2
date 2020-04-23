@@ -15,7 +15,7 @@ type StateLawForBuilderEntry = {
 
 type StateLawForLetterEntry = {
   textOfLegislation1: string;
-  textOfLegislation2: string;
+  textOfLegislation2?: string;
   textOfLegislation3?: string;
   textOfLegislation4?: string;
   textOfLegislation5?: string;

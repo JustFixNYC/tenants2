@@ -50,13 +50,13 @@ const ConfirmNycAddressModal: React.FC<{
               {...ctx.getLinkCloseProps()}
               className="jf-is-back-button button is-medium"
             >
-              Back
+              No
             </Link>
             <Link
               to={nextStep}
               className="button is-primary is-medium jf-is-next-button"
             >
-              Next
+              Yes
             </Link>
           </div>
         </>

@@ -22,8 +22,7 @@ import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
-  prevStep: string;
-}> = ({ nextStep, prevStep }) => {
+}> = ({ nextStep }) => {
   const addrInfo =
     useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
   let borough = "";
@@ -115,12 +114,7 @@ export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
       <Route
         path={NorentRoutes.locale.letter.nycAddressConfirmModal}
         exact
-        render={() => (
-          <ConfirmNycAddressModal
-            nextStep={props.nextStep}
-            prevStep={props.prevStep}
-          />
-        )}
+        render={() => <ConfirmNycAddressModal nextStep={props.nextStep} />}
       />
     </Page>
   );

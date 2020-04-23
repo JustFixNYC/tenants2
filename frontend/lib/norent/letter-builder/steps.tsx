@@ -117,7 +117,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       },
       {
         path: routes.preview,
-        exact: true,
+        exact: false,
         isComplete: hasNorentLetterBeenSentForThisRentPeriod,
         component: NorentLetterPreviewPage,
       },

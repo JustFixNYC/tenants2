@@ -24,6 +24,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,
     preview: `${prefix}/preview`,
+    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

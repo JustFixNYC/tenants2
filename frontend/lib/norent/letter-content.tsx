@@ -32,8 +32,6 @@ export type NorentLetterContentProps = {
   paymentDate: GraphQLDate;
 };
 
-const MAX_LEGISLATIONS_LISTED_IN_LETTER = 6;
-
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
   <>{props.landlordName.toUpperCase()}</>
 );

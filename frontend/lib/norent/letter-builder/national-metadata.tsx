@@ -84,8 +84,8 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
 };
 
 /**
- * Return a boolean determining whether a given zipcode is within 
- * our array of Los Angeles County zipcodes. 
+ * Return a boolean determining whether a given zipcode is within
+ * our array of Los Angeles County zipcodes.
  */
 export const zipCodeIsInLosAngeles = (zipCode: string) => {
   return LosAngelesZipCodes.includes(zipCode);

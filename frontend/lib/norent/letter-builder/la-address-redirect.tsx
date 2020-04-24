@@ -2,7 +2,6 @@ import React from "react";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { OutboundLink } from "../../analytics/google-analytics";
-import { Link } from "react-router-dom";
 import { BackButton } from "../../ui/buttons";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";

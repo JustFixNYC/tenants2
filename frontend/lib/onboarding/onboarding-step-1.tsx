@@ -30,6 +30,10 @@ import { ClearSessionButton } from "../forms/clear-session-button";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { getSignupIntentLabels } from "../../../common-data/signup-intent-choices";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
+import {
+  createAptNumberFormInput,
+  AptNumberFormFields,
+} from "../forms/apt-number-form-fields";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -113,10 +117,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
           addressProps={ctx.fieldPropsFor("address")}
           boroughProps={ctx.fieldPropsFor("borough")}
         />
-        <TextualFormField
-          label="Apartment number"
-          autoComplete="address-line2 street-address"
-          {...ctx.fieldPropsFor("aptNumber")}
+        <AptNumberFormFields
+          aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+          noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
         />
         <Route
           path={routes.step1AddressModal}
@@ -151,7 +154,15 @@ class OnboardingStep1WithoutContexts extends React.Component<
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(s) =>
-              exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)
+              exactSubsetOrDefault(
+                s.onboardingStep1
+                  ? {
+                      ...s.onboardingStep1,
+                      ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
+                    }
+                  : null,
+                BlankOnboardingStep1Input
+              )
             }
             updateInitialStateInBrowser={updateAddressFromBrowserStorage}
             onSuccessRedirect={(output, input) =>

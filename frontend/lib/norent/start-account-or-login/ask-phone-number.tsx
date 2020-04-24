@@ -8,7 +8,9 @@ import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { LetterBuilderAccordion } from "../letter-builder/welcome";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { NorentRoutes } from "../routes";
+import { ModalLink } from "../../ui/modal";
+import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 
 export function getRouteForAccountStatus(
   { routes, nextStep }: StartAccountOrLoginProps,
@@ -58,14 +60,13 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               <p className="is-size-6">
                 Your privacy is very important to us! Everything on JustFix.nyc
                 is secure.{" "}
-                <OutboundLink
+                <ModalLink
+                  to={NorentRoutes.locale.letter.phoneNumberTermsModal}
+                  component={() => <PrivacyInfoModal isForNorentSite />}
                   className="has-text-weight-normal"
-                  href="https://www.justfix.nyc/privacy-policy"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Click here to learn more about our privacy policy.
-                </OutboundLink>
+                </ModalLink>
               </p>
             </div>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />

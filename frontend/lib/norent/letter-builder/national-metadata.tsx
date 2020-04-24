@@ -7,6 +7,7 @@ import {
   USStateChoice,
   isUSStateChoice,
 } from "../../../../common-data/us-state-choices";
+import { LosAngelesZipCodes } from "../data/la-zipcodes";
 
 type StateLawForBuilderEntry = {
   linkToLegislation: string;
@@ -80,4 +81,12 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
     docs: StateDocumentationRequirements[state],
     legalAid: StateLegalAidProviders[state],
   };
+};
+
+/**
+ * Return a boolean determining whether a given zipcode is within
+ * our array of Los Angeles County zipcodes.
+ */
+export const isZipCodeInLosAngeles = (zipCode: string) => {
+  return LosAngelesZipCodes.includes(zipCode);
 };

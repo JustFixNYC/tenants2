@@ -40,7 +40,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     zip_code = graphene.String(required=True)
 
-    apt_number = graphene.String(required=True)
+    apt_number = graphene.String()
 
     email = graphene.String(required=True)
 
@@ -347,7 +347,7 @@ class NorentCreateAccount(SessionFormMutation):
         if scf.is_city_in_nyc():
             return cls.fill_nyc_info(request, info)
 
-        if not are_all_truthy(scf.street, scf.zip_code, scf.apt_number):
+        if not are_all_truthy(scf.street, scf.zip_code):
             return None
         info['non_nyc_city'] = scf.city
         info['address'] = scf.street

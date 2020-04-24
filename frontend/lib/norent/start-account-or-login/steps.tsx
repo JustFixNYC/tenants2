@@ -34,7 +34,6 @@ export function createStartAccountOrLoginSteps(
   return [
     {
       path: routes.phoneNumber,
-      exact: true,
       shouldBeSkipped: isUserLoggedIn,
       render: wrap(AskPhoneNumber),
     },

@@ -77,7 +77,7 @@ describe("onboarding step 1 page", () => {
     pal.fillFormFields([
       [/first name/i, "boop"],
       [/last name/i, "jones"],
-      [/apartment number/i, "2"],
+      [/(?<!no\s)apartment number/i, "2"],
       [/address/i, "150 cou"],
     ]);
     await fetch.resolvePromisesAndTimers();
@@ -89,6 +89,7 @@ describe("onboarding step 1 page", () => {
       aptNumber: "2",
       address: "150 COURT STREET",
       borough: "MANHATTAN",
+      noAptNumber: false,
     });
   });
 
@@ -101,7 +102,7 @@ describe("onboarding step 1 page", () => {
       [/first name/i, "boop"],
       [/last name/i, "jones"],
       [/address/i, "150 court"],
-      [/apartment number/i, "2"],
+      [/(?<!no\s)apartment number/i, "2"],
     ]);
     pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink("Next");

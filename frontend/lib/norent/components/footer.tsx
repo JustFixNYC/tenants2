@@ -54,7 +54,7 @@ export const NorentFooter: React.FC<{}> = () => (
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
           <Link to={Routes.locale.aboutLetter}>The Letter</Link>
-          <Link to={Routes.locale.letter.phoneNumber}>Log in</Link>
+          <Link to={Routes.locale.letter.latestStep}>Build my Letter</Link>
           <Link to={Routes.locale.faqs}>Faqs</Link>
           <Link to={Routes.locale.about}>About</Link>
           <a href="https://www.justfix.nyc/privacy-policy-norent">

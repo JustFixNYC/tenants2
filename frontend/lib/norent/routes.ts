@@ -17,6 +17,9 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The "About Your Letter" page explaining the letter building process in more detail. */
     aboutLetter: `${prefix}/the-letter`,
 
+    /** The Log-out page */
+    logOut: `${prefix}/log-out`,
+
     /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
 

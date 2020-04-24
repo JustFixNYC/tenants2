@@ -107,9 +107,9 @@ export const NorentFaqsPage: React.FC<{}> = () => {
               return (
                 faqs.length > 0 && (
                   <div className="has-text-left" key={i}>
-                    <p className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless">
+                    <h6 className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless">
                       {category}
-                    </p>
+                    </h6>
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>
                     <div className="jf-space-below-2rem">

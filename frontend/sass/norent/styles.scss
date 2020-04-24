@@ -336,6 +336,7 @@ $norent-sticky-menu-height: 100px;
   }
 }
 
+.jf-faqs,
 .jf-faqs-preview {
   .jf-accordion-item {
     &:not(:last-child) {
@@ -347,6 +348,9 @@ $norent-sticky-menu-height: 100px;
 .jf-faqs {
   .hero-body {
     padding-top: 1rem;
+    h6 {
+      letter-spacing: 0.04rem;
+    }
   }
 }
 

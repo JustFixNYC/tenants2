@@ -68,9 +68,15 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
     <dd>
       <LandlordName {...props} />
       <br />
-      {props.landlordPrimaryLine}
-      <br />
-      {props.landlordCity}, {props.landlordState} {props.landlordZipCode}
+      {props.landlordPrimaryLine ? (
+        <>
+          {props.landlordPrimaryLine}
+          <br />
+          {props.landlordCity}, {props.landlordState} {props.landlordZipCode}
+        </>
+      ) : (
+        <>{props.landlordEmail}</>
+      )}
     </dd>
     <dt>From</dt>
     <dd>

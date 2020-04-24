@@ -84,11 +84,11 @@ const NorentMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
-      <Link className="navbar-item" to={Routes.locale.aboutLetter}>
-        The Letter
-      </Link>
       <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
         Build my Letter
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.aboutLetter}>
+        The Letter
       </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
@@ -118,7 +118,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     const NorentBrand: React.FC<{}> = () => (
       <Link className="navbar-item" to={Routes.locale.home}>
         <NorentLogo
-          size="is-128x128"
+          size="is-96x96"
           color={isPrimaryPage ? "default" : "white"}
         />
       </Link>

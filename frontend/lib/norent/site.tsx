@@ -55,7 +55,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={NorentAboutYourLetterPage}
       />
-      <Route path={Routes.locale.logOut} exact component={NorentLogoutPage} />
+      <Route path={Routes.locale.logout} exact component={NorentLogoutPage} />
       <Route
         path={Routes.locale.letter.prefix}
         component={NorentLetterBuilderRoutes}
@@ -97,7 +97,7 @@ const NorentMenuItems: React.FC<{}> = () => {
         About
       </Link>
       {session.phoneNumber ? (
-        <Link className="navbar-item" to={Routes.locale.logOut}>
+        <Link className="navbar-item" to={Routes.locale.logout}>
           Log out
         </Link>
       ) : (

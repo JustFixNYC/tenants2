@@ -370,6 +370,8 @@ $norent-sticky-menu-height: 100px;
 // LETTER BUILDER PAGES
 
 .box.jf-norent-builder-page {
+  // Make container extend just beyond viewport:
+  min-height: calc(100vh - 7rem);
   padding: 4rem 6rem;
   max-width: 700px;
   margin: 4rem auto;
@@ -409,6 +411,10 @@ $norent-sticky-menu-height: 100px;
 
   ol {
     list-style-position: inside;
+  }
+
+  .buttons {
+    margin-top: 6rem;
   }
 
   .message .message-body {

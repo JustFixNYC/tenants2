@@ -36,7 +36,7 @@ export const NorentLandlordEmail = MiddleProgressStep((props) => {
               type="email"
               {...ctx.fieldPropsFor("email")}
               required={required}
-              label={`Landlord/management company's email${
+              label={`Landlord/management company's email ${
                 required ? "" : "(optional)"
               }`}
             />

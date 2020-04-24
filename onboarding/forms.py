@@ -19,6 +19,21 @@ FIELD_SCHEMA_VERSION = 4
 
 
 class AptNumberWithConfirmationForm(forms.Form):
+    '''
+    This mixin can be used to gather the user's apartment number, but
+    accounts for the use case where the user may *forget* to
+    enter one, while also accomodating users who don't have an
+    apartment number.
+
+    This is done by providing two fields: one field for the apartment
+    number, and another "I have no apartment number" checkbox. Either
+    the checkbox must be checked or the field must be filled.
+
+    Notably, the `cleaned_data` dict of this form contains *only* the
+    apartment number: it will be either an empty string, if the user marked
+    the checkbox, or have a filled-in value.
+    '''
+
     apt_number = forms.CharField(**APT_NUMBER_KWARGS, required=False)
 
     no_apt_number = forms.BooleanField(required=False)

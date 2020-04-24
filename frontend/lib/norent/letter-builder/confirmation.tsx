@@ -77,7 +77,6 @@ export const NorentConfirmation: React.FC<{}> = () => {
             >
               {letter.trackingNumber}
             </OutboundLink>
-            .
           </p>
         </>
       ) : (

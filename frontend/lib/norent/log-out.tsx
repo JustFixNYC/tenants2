@@ -18,7 +18,7 @@ export const NorentLogOutPage: React.FC<{}> = () => (
       onSuccessRedirect={NorentRoutes.locale.home}
     >
       {(ctx) => (
-        <div className="buttons jf-two-buttons">
+        <div className="buttons jf-two-buttons jf-log-out-button-container">
           <NextButton isLoading={ctx.isLoading} label="Yes, Sign Out" />
         </div>
       )}

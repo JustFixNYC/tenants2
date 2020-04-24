@@ -46,6 +46,10 @@
       width: 100%;
     }
   }
+  // Add special button justification for the log out button container
+  &.jf-log-out-button-container {
+    justify-content: flex-end;
+  }
 }
 
 // Default styling for all "light" buttons other than our standard back button

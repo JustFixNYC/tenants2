@@ -70,20 +70,25 @@ export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
           {isEmailingLetter &&
             !isMailingLetter &&
             " that will be attached in an email to your landlord"}
-          .
+          :
         </p>
         <LetterPreview
           title="Preview of your NoRent.org letter"
           src={letterContent.html}
         />
         <p>
-          You can also{" "}
           <OutboundLink href={letterContent.pdf} target="_blank">
-            view this letter as a PDF
+            View this letter as a PDF
           </OutboundLink>
-          .
         </p>
+        {isMailingLetter && (
+          <p>
+            We will be mailing this letter on your behalf by USPS certified mail
+            and will be providing a tracking number.
+          </p>
+        )}
       </>
+      <br />
       {isEmailingLetter && (
         <>
           <p>Here’s a preview of the email that will be sent on your behalf:</p>

@@ -57,7 +57,9 @@ export const NorentFooter: React.FC<{}> = () => (
           <Link to={Routes.locale.letter.phoneNumber}>Log in</Link>
           <Link to={Routes.locale.faqs}>Faqs</Link>
           <Link to={Routes.locale.about}>About</Link>
-          <a href="https://www.justfix.nyc/privacy-policy">Privacy policy</a>
+          <a href="https://www.justfix.nyc/privacy-policy-norent">
+            Privacy policy
+          </a>
           <a href="https://www.justfix.nyc/terms-of-use">Terms of use</a>
         </div>
       </div>

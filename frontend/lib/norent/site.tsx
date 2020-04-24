@@ -25,7 +25,7 @@ import { NorentAboutPage } from "./about";
 import { NorentAboutYourLetterPage } from "./the-letter";
 import { NorentLogo } from "./components/logo";
 import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
-import { NorentLogOutPage } from "./log-out";
+import { NorentLogoutPage } from "./log-out";
 
 function getRoutesForPrimaryPages() {
   return new Set([
@@ -55,7 +55,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={NorentAboutYourLetterPage}
       />
-      <Route path={Routes.locale.logOut} exact component={NorentLogOutPage} />
+      <Route path={Routes.locale.logOut} exact component={NorentLogoutPage} />
       <Route
         path={Routes.locale.letter.prefix}
         component={NorentLetterBuilderRoutes}

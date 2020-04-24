@@ -5,7 +5,7 @@ import { LogoutMutation } from "../queries/LogoutMutation";
 import { NorentRoutes } from "./routes";
 import { NextButton } from "../ui/buttons";
 
-export const NorentLogOutPage: React.FC<{}> = () => (
+export const NorentLogoutPage: React.FC<{}> = () => (
   <Page title="Know your rights">
     <h2 className="title">Are you sure you want to log out?</h2>
     <p>

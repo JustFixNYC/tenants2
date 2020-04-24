@@ -21,8 +21,8 @@ import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
 import NorentLandlordMailingAddress from "./landlord-mailing-address";
 import { NorentLbKnowYourRights } from "./know-your-rights";
-import { zipCodeIsInLosAngeles } from "./national-metadata";
-import { NorentLbLaRedirect } from "./la-address-redirect";
+import { isZipCodeInLosAngeles } from "./national-metadata";
+import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -40,7 +40,7 @@ function isUserInLA(s: AllSessionInfo): boolean {
   const norent = s.norentScaffolding;
   if (!(norent && norent.zipCode)) return false;
   if (isUserInNYC(s)) return false;
-  return zipCodeIsInLosAngeles(norent.zipCode);
+  return isZipCodeInLosAngeles(norent.zipCode);
 }
 
 function isUserOutsideLA(s: AllSessionInfo): boolean {
@@ -91,7 +91,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           path: routes.laAddress,
           exact: true,
           shouldBeSkipped: isUserOutsideLA,
-          component: NorentLbLaRedirect,
+          component: NorentLbLosAngelesRedirect,
         },
         {
           path: routes.nycAddress,

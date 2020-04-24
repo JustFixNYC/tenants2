@@ -73,7 +73,7 @@ export default class OnboardingStep4 extends React.Component<
           I agree to the{" "}
           <ModalLink
             to={routes.step4TermsModal}
-            component={() => <PrivacyInfoModal />}
+            render={() => <PrivacyInfoModal />}
           >
             JustFix.nyc terms and conditions
           </ModalLink>

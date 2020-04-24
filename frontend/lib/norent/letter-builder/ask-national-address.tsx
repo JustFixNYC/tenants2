@@ -17,7 +17,7 @@ function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
     street: s.norentScaffolding?.street || s.onboardingInfo?.address || "",
     zipCode: s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
     ...createAptNumberFormInput(
-      s.norentScaffolding?.street ?? s.onboardingInfo?.aptNumber
+      s.norentScaffolding?.aptNumber ?? s.onboardingInfo?.aptNumber
     ),
   };
 }

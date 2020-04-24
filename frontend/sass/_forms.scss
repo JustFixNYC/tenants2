@@ -113,3 +113,9 @@ fieldset {
     margin-bottom: 0;
   }
 }
+
+.jf-related-text-field-with-checkbox {
+  div.field:last-child {
+    margin-top: -0.75em;
+  }
+}

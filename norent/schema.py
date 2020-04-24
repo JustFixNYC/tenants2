@@ -40,7 +40,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     zip_code = graphene.String(required=True)
 
-    apt_number = graphene.String(required=True)
+    apt_number = graphene.String()
 
     email = graphene.String(required=True)
 

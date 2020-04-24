@@ -42,7 +42,7 @@ class NorentScaffolding(pydantic.BaseModel):
 
     zip_code: str = ''
 
-    apt_number: str = ''
+    apt_number: Optional[str] = None
 
     email: str = ''
 

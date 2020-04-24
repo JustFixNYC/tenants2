@@ -9,20 +9,8 @@ import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentNationalAddressInput } from "../../queries/globalTypes";
 
 function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
-  // Oy, we need to differentiate between whether the apartment number in our
-  // scaffolding has never been filled out, or if it has been filled out and
-  // the user previously confirmed that they had no apartment number. This is
-  // challenging because in both cases, the value of the scaffolding is
-  // the empty string.
-  //
-  // We can do this by checking to see if the street address--another required field
-  // in this form--has previously been filled out. If it has, we know that
-  // the user has either previously filled out the form and confirmed
-  // that they have no apartment number.
-  const scaffoldingAptNumber = s.norentScaffolding?.street
-    ? s.norentScaffolding?.aptNumber
-    : undefined;
-  const existingAptNumber = scaffoldingAptNumber ?? s.onboardingInfo?.aptNumber;
+  const existingAptNumber =
+    s.norentScaffolding?.street ?? s.onboardingInfo?.aptNumber;
   const noAptNumber = existingAptNumber === "" ? true : false;
 
   return {

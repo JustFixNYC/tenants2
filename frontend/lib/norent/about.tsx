@@ -86,6 +86,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
             that are affecting their abilities to pay rent. We made this tool to
             empower tenants to exercise their rights during this pandemic.
           </p>
+          <br />
         </div>
       </div>
     </section>

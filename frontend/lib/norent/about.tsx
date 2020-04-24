@@ -65,7 +65,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <h2 className="title is-spaced has-text-info">About</h2>
           <br />
           <p className="subtitle">
-            Learn about why we made this tool, who we are, and who are partners
+            Learn about why we made this tool, who we are, and who our partners
             are.
           </p>
         </div>

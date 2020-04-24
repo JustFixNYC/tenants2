@@ -33,14 +33,13 @@ export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
       </li>
     </ul>
     <div className="buttons jf-two-buttons">
-      <Link to={NorentRoutes.locale.home} className="button is-light is-medium">
-        Cancel
+      <Link to={NorentRoutes.locale.home}>
+        <button className="button is-light is-medium">Cancel</button>
       </Link>
-      <Link
-        to={assertNotNull(props.nextStep)}
-        className="button jf-is-next-button is-primary is-medium"
-      >
-        Next
+      <Link to={assertNotNull(props.nextStep)}>
+        <button className="button jf-is-next-button is-primary is-medium">
+          Next
+        </button>
       </Link>
     </div>
     <DebugArea />

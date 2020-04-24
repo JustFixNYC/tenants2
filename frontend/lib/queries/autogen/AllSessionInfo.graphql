@@ -20,9 +20,9 @@ fragment AllSessionInfo on SessionInfo {
     zipcode
   },
   onboardingStep1 {
-    aptNumber,
     address,
     borough,
+    aptNumber,
     firstName,
     lastName
   },

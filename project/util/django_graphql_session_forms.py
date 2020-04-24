@@ -43,6 +43,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         cls,
         form_class=None,
         session_key='',
+        exclude=(),
         _meta=None,
         **options
     ):
@@ -56,7 +57,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         _meta.form_class = form_class
         form = form_class()
 
-        fields = yank_fields_from_attrs(fields_for_form(form, [], []), _as=Field)
+        fields = yank_fields_from_attrs(fields_for_form(form, [], exclude), _as=Field)
         if hasattr(form, 'extra_graphql_output_fields'):
             fields.update(yank_fields_from_attrs(form.extra_graphql_output_fields, _as=Field))
 

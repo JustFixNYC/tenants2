@@ -17,6 +17,7 @@ import {
   TextualFormField,
   renderSimpleLabel,
   LabelRenderer,
+  CheckboxFormField,
 } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
 import { withAppContext, AppContextType, AppContext } from "../app-context";
@@ -118,6 +119,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
           autoComplete="address-line2 street-address"
           {...ctx.fieldPropsFor("aptNumber")}
         />
+        <CheckboxFormField {...ctx.fieldPropsFor("noAptNumber")}>
+          I have no apartment number
+        </CheckboxFormField>
         <Route
           path={routes.step1AddressModal}
           exact
@@ -151,7 +155,10 @@ class OnboardingStep1WithoutContexts extends React.Component<
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(s) =>
-              exactSubsetOrDefault(s.onboardingStep1, BlankOnboardingStep1Input)
+              exactSubsetOrDefault( s.onboardingStep1 ? {
+                ...s.onboardingStep1,
+                noAptNumber: !s.onboardingStep1.aptNumber,
+              } : null, BlankOnboardingStep1Input)
             }
             updateInitialStateInBrowser={updateAddressFromBrowserStorage}
             onSuccessRedirect={(output, input) =>

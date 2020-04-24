@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.test import override_settings
 import pytest
 
+from project.util.testing_util import one_field_err
 from users.tests.factories import UserFactory
 from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
@@ -15,10 +16,6 @@ import hpaction.docusign
 
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
-
-
-def one_field_err(message: str):
-    return [{'field': '__all__', 'messages': [message]}]
 
 
 def execute_tenant_children_mutation(graphql_client, children):

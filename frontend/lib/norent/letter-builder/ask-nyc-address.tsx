@@ -8,7 +8,11 @@ import {
 import { assertNotNull } from "../../util/util";
 import { redirectToAddressConfirmationOrNextStep } from "../../ui/address-confirmation";
 import { NorentRoutes } from "../routes";
-import { HiddenFormField, TextualFormField } from "../../forms/form-fields";
+import {
+  HiddenFormField,
+  TextualFormField,
+  CheckboxFormField,
+} from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
@@ -19,6 +23,8 @@ import {
   getBoroughChoiceLabels,
 } from "../../../../common-data/borough-choices";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { OnboardingStep1Input } from "../../queries/globalTypes";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
@@ -64,6 +70,22 @@ const ConfirmNycAddressModal: React.FC<{
   );
 };
 
+function getInitialState(s: AllSessionInfo): OnboardingStep1Input {
+  const existingAptNumber =
+    s.onboardingStep1?.aptNumber ?? s.onboardingInfo?.aptNumber;
+  const noAptNumber =
+    existingAptNumber === undefined ? false : !existingAptNumber;
+
+  return {
+    firstName: "ignore",
+    lastName: "ignore",
+    address: s.onboardingStep1?.address || s.onboardingInfo?.address || "",
+    borough: s.onboardingStep1?.borough || s.onboardingInfo?.borough || "",
+    aptNumber: existingAptNumber || "",
+    noAptNumber,
+  };
+}
+
 export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
   return (
     <Page title="Your residence" withHeading="big">
@@ -73,16 +95,7 @@ export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
       <SessionUpdatingFormSubmitter
         formId="address"
         mutation={OnboardingStep1Mutation}
-        initialState={(s) => ({
-          firstName: "ignore",
-          lastName: "ignore",
-          address:
-            s.onboardingStep1?.address || s.onboardingInfo?.address || "",
-          borough:
-            s.onboardingStep1?.borough || s.onboardingInfo?.borough || "",
-          aptNumber:
-            s.onboardingStep1?.aptNumber || s.onboardingInfo?.aptNumber || "",
-        })}
+        initialState={getInitialState}
         onSuccessRedirect={(output, input) =>
           redirectToAddressConfirmationOrNextStep({
             input,
@@ -107,6 +120,9 @@ export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
               autoComplete="address-line2 street-address"
               {...ctx.fieldPropsFor("aptNumber")}
             />
+            <CheckboxFormField {...ctx.fieldPropsFor("noAptNumber")}>
+              I have no apartment number
+            </CheckboxFormField>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}

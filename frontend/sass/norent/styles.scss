@@ -148,8 +148,8 @@ $jf-navbar-content: $black;
   figure.image {
     // Add a little top margin to nudge it inline with text
     margin: 0.1rem 0 0 0;
-    // Fit height attribute to height of logo
-    height: fit-content;
+    // Remove default image height (fixes bug on Firefox)
+    height: unset;
   }
 }
 

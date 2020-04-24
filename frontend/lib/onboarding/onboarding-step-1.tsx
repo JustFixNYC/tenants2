@@ -155,10 +155,15 @@ class OnboardingStep1WithoutContexts extends React.Component<
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1Mutation}
             initialState={(s) =>
-              exactSubsetOrDefault( s.onboardingStep1 ? {
-                ...s.onboardingStep1,
-                noAptNumber: !s.onboardingStep1.aptNumber,
-              } : null, BlankOnboardingStep1Input)
+              exactSubsetOrDefault(
+                s.onboardingStep1
+                  ? {
+                      ...s.onboardingStep1,
+                      noAptNumber: !s.onboardingStep1.aptNumber,
+                    }
+                  : null,
+                BlankOnboardingStep1Input
+              )
             }
             updateInitialStateInBrowser={updateAddressFromBrowserStorage}
             onSuccessRedirect={(output, input) =>

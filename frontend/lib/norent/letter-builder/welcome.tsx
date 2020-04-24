@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
-import { AppContext } from "../../app-context";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { LogoutMutation } from "../../queries/LogoutMutation";
 import { NorentRoutes } from "../routes";
 import { ChevronIcon } from "../faqs";
 

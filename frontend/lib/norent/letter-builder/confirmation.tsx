@@ -11,6 +11,8 @@ import { getNorentMetadataForUSState } from "./national-metadata";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
+const USPS_TRACKING_URL_PREFIX =
+  "https://tools.usps.com/go/TrackConfirmAction.action?tLabels=";
 const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
 const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
 const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
@@ -45,7 +47,10 @@ export const NorentConfirmation: React.FC<{}> = () => {
     NATIONAL_LEGAL_AID_URL;
 
   return (
-    <Page title="You've sent your letter" className="content">
+    <Page
+      title="You've sent your letter"
+      className="content jf-norent-letter-confirmation"
+    >
       <div className="media">
         <div className="media-left">
           <i className="has-text-info">{checkCircleSvg}</i>
@@ -54,19 +59,36 @@ export const NorentConfirmation: React.FC<{}> = () => {
           <h2 className="title">You've sent your letter</h2>
         </div>
       </div>
-      <p>
-        Your letter has been sent to your landlord via email. A copy of your
-        letter has also been sent to your email.
-      </p>
-      {letter?.trackingNumber && (
-        <p className="is-size-4 has-text-weight-bold">
-          Tracking #: {letter?.trackingNumber}.
+      {letter?.trackingNumber ? (
+        <>
+          <p>
+            Your letter has been mailed to your landlord via USPS Certified
+            Mail. A copy of your letter has also been sent to your email.
+          </p>
+          <p>
+            <span className="is-size-5 has-text-weight-bold">
+              USPS Tracking #:
+            </span>{" "}
+            <OutboundLink
+              href={USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="is-size-5 is-size-6-mobile"
+            >
+              {letter.trackingNumber}
+            </OutboundLink>
+            .
+          </p>
+        </>
+      ) : (
+        <p>
+          Your letter has been sent to your landlord via email. A copy of your
+          letter has also been sent to your email.
         </p>
       )}
-      <br />
       <h2 className="title is-spaced has-text-info">What happens next?</h2>
       <h3 className="title jf-alt-title-font">Gather documentation</h3>
-      <p>
+      <p className="is-marginless">
         While you wait for your landlord to respond, gather as much
         documentation as you can. This can include a letter from your employer,
         receipts, doctor’s notes etc.
@@ -150,7 +172,6 @@ export const NorentConfirmation: React.FC<{}> = () => {
         Join millions of us to fight for a future free from debt and to win a
         national suspension on rent, mortgage and utility payments!
       </p>
-      <br />
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"
@@ -167,7 +188,6 @@ export const NorentConfirmation: React.FC<{}> = () => {
         tools for tenants and the housing rights movement. We always want
         feedback to improve our tools.
       </p>
-      <br />
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"

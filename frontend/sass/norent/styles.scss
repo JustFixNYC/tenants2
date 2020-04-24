@@ -481,12 +481,24 @@ $norent-sticky-menu-height: 100px;
     // Include special styling props for when a message is
     // embedded inside an accordion item
     .message .message-body {
-      padding: 1rem;
+      @include tablet {
+        padding: 2rem;
+      }
       p {
         padding-top: 0;
         font-size: 1.25rem;
         font-weight: normal;
       }
+    }
+  }
+
+  .jf-norent-letter-confirmation {
+    h3,
+    h4 {
+      margin-bottom: 0.5rem;
+    }
+    h3:not(:first-child) {
+      margin-top: 3rem;
     }
   }
 }

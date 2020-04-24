@@ -92,6 +92,7 @@ def test_national_address_mutation_updates_session(graphql_client):
             street: "boing",
             zipCode: "43569",
             aptNumber: "2",
+            noAptNumber: false,
         }) {
             errors { field, messages }
             session {

@@ -45,14 +45,15 @@ export function BackButton(props: {
   label?: string;
 }): JSX.Element {
   return (
-    <Link
-      to={props.to}
-      className={
-        "jf-is-back-button " +
-        bulmaClasses("button", props.buttonClass || "is-light", "is-medium")
-      }
-    >
-      {props.label || "Back"}
+    <Link to={props.to}>
+      <button
+        className={
+          "jf-is-back-button " +
+          bulmaClasses("button", props.buttonClass || "is-light", "is-medium")
+        }
+      >
+        {props.label || "Back"}
+      </button>
     </Link>
   );
 }

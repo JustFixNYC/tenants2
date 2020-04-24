@@ -389,7 +389,7 @@ $norent-sticky-menu-height: 100px;
   $progress-step-offset-mobile: 210px;
 
   .jf-progress-step-wrapper {
-    // Make container extend just beyond viewport:
+    // Make container height extend to edge of viewport:
     min-height: calc(100vh - #{$progress-step-offset});
     @include mobile {
       min-height: calc(100vh - #{$progress-step-offset-mobile});

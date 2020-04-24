@@ -10,7 +10,7 @@ const LA_LETTER_BUILDER_URL =
 
 export const NorentLbLaRedirect = MiddleProgressStep((props) => {
   return (
-    <Page title="Know your rights">
+    <Page title="Los Angeles County">
       <h2 className="title">
         Looks like you're in{" "}
         <span className="has-text-info">Los Angeles County, California</span>

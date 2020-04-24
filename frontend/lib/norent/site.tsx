@@ -124,7 +124,9 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     );
     return (
       <>
-        <section className="jf-above-footer-content">
+        <section
+          className={classnames(isPrimaryPage && "jf-above-footer-content")}
+        >
           <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
             <Navbar
               menuItemsComponent={NorentMenuItems}

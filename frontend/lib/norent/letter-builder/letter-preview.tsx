@@ -55,7 +55,11 @@ export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
   const isMailingLetter = session.norentScaffolding?.hasLandlordMailingAddress;
   const isEmailingLetter = session.norentScaffolding?.hasLandlordEmailAddress;
   return (
-    <Page title="Almost there!" withHeading="big" className="content">
+    <Page
+      title="Your Letter Is Ready To Send!"
+      withHeading="big"
+      className="content"
+    >
       <p>
         Before you send your letter, let's review what will be sent to make sure
         all the information is correct.
@@ -83,7 +87,12 @@ export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
       {isEmailingLetter && (
         <>
           <p>Here’s a preview of the email that will be sent on your behalf:</p>
-          <article className="message">
+          <article className="message jf-email-preview">
+            <div className="message-header has-text-weight-normal">
+              To: {session.landlordDetails?.name}{" "}
+              {session.landlordDetails?.email &&
+                `<${session.landlordDetails?.email}>`}
+            </div>
             <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
               <NorentLetterEmailForUser />
             </div>

@@ -3,21 +3,22 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { NorentNationalAddressMutation } from "../../queries/NorentNationalAddressMutation";
-import { TextualFormField, CheckboxFormField } from "../../forms/form-fields";
+import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentNationalAddressInput } from "../../queries/globalTypes";
+import {
+  createAptNumberFormInput,
+  AptNumberFormFields,
+} from "../../forms/apt-number-form-fields";
 
 function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
-  const existingAptNumber =
-    s.norentScaffolding?.street ?? s.onboardingInfo?.aptNumber;
-  const noAptNumber = existingAptNumber === "" ? true : false;
-
   return {
     street: s.norentScaffolding?.street || s.onboardingInfo?.address || "",
-    aptNumber: existingAptNumber || "",
-    noAptNumber,
     zipCode: s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
+    ...createAptNumberFormInput(
+      s.norentScaffolding?.street ?? s.onboardingInfo?.aptNumber
+    ),
   };
 }
 
@@ -38,13 +39,11 @@ export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
               {...ctx.fieldPropsFor("street")}
               label="Address"
             />
-            <TextualFormField
-              {...ctx.fieldPropsFor("aptNumber")}
-              label="Unit/apt/suite number"
+            <AptNumberFormFields
+              aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+              noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+              aptNumberLabel="Unit/apt/suite number"
             />
-            <CheckboxFormField {...ctx.fieldPropsFor("noAptNumber")}>
-              I have no apartment number
-            </CheckboxFormField>
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}
               label="Zip code"

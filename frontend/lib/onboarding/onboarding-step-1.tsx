@@ -31,6 +31,10 @@ import { ClearSessionButton } from "../forms/clear-session-button";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { getSignupIntentLabels } from "../../../common-data/signup-intent-choices";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
+import {
+  createAptNumberFormInput,
+  AptNumberFormFields,
+} from "../forms/apt-number-form-fields";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -114,14 +118,10 @@ class OnboardingStep1WithoutContexts extends React.Component<
           addressProps={ctx.fieldPropsFor("address")}
           boroughProps={ctx.fieldPropsFor("borough")}
         />
-        <TextualFormField
-          label="Apartment number"
-          autoComplete="address-line2 street-address"
-          {...ctx.fieldPropsFor("aptNumber")}
+        <AptNumberFormFields
+          aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+          noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
         />
-        <CheckboxFormField {...ctx.fieldPropsFor("noAptNumber")}>
-          I have no apartment number
-        </CheckboxFormField>
         <Route
           path={routes.step1AddressModal}
           exact
@@ -159,7 +159,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
                 s.onboardingStep1
                   ? {
                       ...s.onboardingStep1,
-                      noAptNumber: !s.onboardingStep1.aptNumber,
+                      ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
                     }
                   : null,
                 BlankOnboardingStep1Input

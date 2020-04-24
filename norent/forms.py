@@ -6,7 +6,8 @@ from project.util.mailing_address import (
 from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS)
 from loc.models import LandlordDetails
-from onboarding.models import OnboardingInfo, APT_NUMBER_KWARGS
+from onboarding.models import OnboardingInfo
+from onboarding.forms import AptNumberWithConfirmationForm
 from users.models import JustfixUser
 
 
@@ -22,10 +23,8 @@ class CityState(forms.Form):
     state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
 
 
-class NationalAddress(forms.Form):
+class NationalAddress(AptNumberWithConfirmationForm):
     street = forms.CharField(**ADDRESS_FIELD_KWARGS)
-
-    apt_number = forms.CharField(**APT_NUMBER_KWARGS)
 
     zip_code = forms.CharField(validators=[ZipCodeValidator()])
 

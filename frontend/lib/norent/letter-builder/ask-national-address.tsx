@@ -5,6 +5,22 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { NorentNationalAddressMutation } from "../../queries/NorentNationalAddressMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { NorentNationalAddressInput } from "../../queries/globalTypes";
+import {
+  createAptNumberFormInput,
+  AptNumberFormFields,
+} from "../../forms/apt-number-form-fields";
+
+function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
+  return {
+    street: s.norentScaffolding?.street || s.onboardingInfo?.address || "",
+    zipCode: s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
+    ...createAptNumberFormInput(
+      s.norentScaffolding?.aptNumber ?? s.onboardingInfo?.aptNumber
+    ),
+  };
+}
 
 export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
   return (
@@ -14,14 +30,7 @@ export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentNationalAddressMutation}
-        initialState={(s) => ({
-          street:
-            s.norentScaffolding?.street || s.onboardingInfo?.address || "",
-          aptNumber:
-            s.norentScaffolding?.aptNumber || s.onboardingInfo?.aptNumber || "",
-          zipCode:
-            s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
-        })}
+        initialState={getInitialState}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (
@@ -30,9 +39,10 @@ export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
               {...ctx.fieldPropsFor("street")}
               label="Address"
             />
-            <TextualFormField
-              {...ctx.fieldPropsFor("aptNumber")}
-              label="Unit/apt/suite number"
+            <AptNumberFormFields
+              aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+              noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+              aptNumberLabel="Unit/apt/suite number"
             />
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}

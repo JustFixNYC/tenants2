@@ -39,6 +39,7 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1Form
         session_key = session_key_for_step(1)
+        exclude = ['no_apt_number']
 
 
 class OnboardingStep2Info(DjangoSessionFormObjectType):

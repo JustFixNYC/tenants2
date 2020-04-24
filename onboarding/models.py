@@ -133,7 +133,7 @@ class OnboardingInfo(models.Model):
         help_text=f"The user's building identification number (BIN). {NYCADDR_META_HELP}"
     )
 
-    apt_number = models.CharField(**APT_NUMBER_KWARGS)
+    apt_number = models.CharField(**APT_NUMBER_KWARGS, blank=True)
 
     floor_number = models.PositiveSmallIntegerField(
         null=True,

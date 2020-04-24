@@ -6,7 +6,7 @@ from project.forms import (
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from users.models import JustfixUser
-from .models import OnboardingInfo
+from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
 
 # Whenever we change the fields in any of the onboarding
@@ -18,11 +18,37 @@ from .models import OnboardingInfo
 FIELD_SCHEMA_VERSION = 4
 
 
-class OnboardingStep1Form(AddressAndBoroughFormMixin, forms.ModelForm):
-    class Meta:
-        model = OnboardingInfo
-        fields = ('apt_number',)
+class AptNumberWithConfirmationForm(forms.Form):
+    apt_number = forms.CharField(**APT_NUMBER_KWARGS, required=False)
 
+    no_apt_number = forms.BooleanField(required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        apt_number = cleaned_data.get('apt_number')
+
+        no_apt_number = cleaned_data.get('no_apt_number')
+
+        if apt_number and no_apt_number:
+            raise ValidationError(
+                'Please either provide an apartment number or check the '
+                '"I have no apartment number" checkbox (but not both).'
+            )
+
+        if not apt_number and not no_apt_number:
+            raise ValidationError(
+                'Please either provide an apartment number or check the '
+                '"I have no apartment number" checkbox.'
+            )
+
+        if 'no_apt_number' in cleaned_data:
+            cleaned_data.pop('no_apt_number')
+
+        return cleaned_data
+
+
+class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
     first_name = forms.CharField(max_length=30)
 
     last_name = forms.CharField(max_length=150)

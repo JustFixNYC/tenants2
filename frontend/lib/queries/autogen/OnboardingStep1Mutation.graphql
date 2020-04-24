@@ -4,9 +4,9 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
     errors { ...ExtendedFormFieldErrors },
     session {
       onboardingStep1 {
-        aptNumber,
         address,
         borough,
+        aptNumber,
         firstName,
         lastName
       }

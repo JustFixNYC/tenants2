@@ -414,10 +414,7 @@ $norent-sticky-menu-height: 100px;
     @extend .is-info;
   }
 
-  p,
-  h4,
-  h5,
-  h6 {
+  p {
     font-size: 1.25rem;
     line-height: 1.3;
     &:not(:last-child) {

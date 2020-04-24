@@ -3,6 +3,9 @@ import { Modal, BackOrUpOneDirLevel } from "./modal";
 import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 
+const DEFAULT_PRIVACY_POLICY_URL = "https://www.justfix.nyc/privacy-policy";
+const NORENT_PRIVACY_POLICY_URL = DEFAULT_PRIVACY_POLICY_URL + "-norent";
+
 export function PrivacyInfoModal(props: {
   isForNorentSite?: boolean;
 }): JSX.Element {
@@ -37,8 +40,9 @@ export function PrivacyInfoModal(props: {
               more, please review our full{" "}
               <OutboundLink
                 href={
-                  "https://www.justfix.nyc/privacy-policy" +
-                  (props.isForNorentSite ? "-norent" : "")
+                  props.isForNorentSite
+                    ? NORENT_PRIVACY_POLICY_URL
+                    : DEFAULT_PRIVACY_POLICY_URL
                 }
                 target="_blank"
               >

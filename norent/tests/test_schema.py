@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites.models import Site
 
+from project.util.testing_util import one_field_err
 from users.models import JustfixUser
 from users.tests.factories import SecondUserFactory, UserFactory
 from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
@@ -19,10 +20,6 @@ def use_norent_site(db):
     site = Site.objects.get(pk=1)
     site.name = "NoRent.org"
     site.save()
-
-
-def one_field_err(message: str):
-    return [{'field': '__all__', 'messages': [message]}]
 
 
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):

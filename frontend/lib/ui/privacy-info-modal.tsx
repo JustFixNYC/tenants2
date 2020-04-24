@@ -3,7 +3,12 @@ import { Modal, BackOrUpOneDirLevel } from "./modal";
 import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 
-export function PrivacyInfoModal(): JSX.Element {
+const DEFAULT_PRIVACY_POLICY_URL = "https://www.justfix.nyc/privacy-policy";
+const NORENT_PRIVACY_POLICY_URL = DEFAULT_PRIVACY_POLICY_URL + "-norent";
+
+export function PrivacyInfoModal(props: {
+  isForNorentSite?: boolean;
+}): JSX.Element {
   return (
     <Modal
       title="Your privacy is very important to us!"
@@ -34,7 +39,11 @@ export function PrivacyInfoModal(): JSX.Element {
               have regarding your personal information. If you’d like to read{" "}
               more, please review our full{" "}
               <OutboundLink
-                href="https://www.justfix.nyc/privacy-policy"
+                href={
+                  props.isForNorentSite
+                    ? NORENT_PRIVACY_POLICY_URL
+                    : DEFAULT_PRIVACY_POLICY_URL
+                }
                 target="_blank"
               >
                 Privacy Policy

@@ -71,7 +71,10 @@ export default class OnboardingStep4 extends React.Component<
         />
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
           I agree to the{" "}
-          <ModalLink to={routes.step4TermsModal} component={PrivacyInfoModal}>
+          <ModalLink
+            to={routes.step4TermsModal}
+            render={() => <PrivacyInfoModal />}
+          >
             JustFix.nyc terms and conditions
           </ModalLink>
           .

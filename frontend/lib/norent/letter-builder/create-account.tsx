@@ -45,7 +45,7 @@ export const NorentCreateAccount = MiddleProgressStep((props) => {
               I agree to the{" "}
               <ModalLink
                 to={NorentRoutes.locale.letter.createAccountTermsModal}
-                component={PrivacyInfoModal}
+                render={() => <PrivacyInfoModal isForNorentSite />}
               >
                 JustFix.nyc terms and conditions
               </ModalLink>

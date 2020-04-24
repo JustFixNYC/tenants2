@@ -17,7 +17,6 @@ import {
   TextualFormField,
   renderSimpleLabel,
   LabelRenderer,
-  CheckboxFormField,
 } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
 import { withAppContext, AppContextType, AppContext } from "../app-context";

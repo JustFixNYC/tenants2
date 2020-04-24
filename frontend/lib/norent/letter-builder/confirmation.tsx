@@ -8,6 +8,7 @@ import {
 } from "../../../../common-data/us-state-choices";
 import { LetterBuilderAccordion } from "./welcome";
 import { getNorentMetadataForUSState } from "./national-metadata";
+import classnames from "classnames";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -87,14 +88,18 @@ export const NorentConfirmation: React.FC<{}> = () => {
       )}
       <h2 className="title is-spaced has-text-info">What happens next?</h2>
       <h3 className="title jf-alt-title-font">Gather documentation</h3>
-      <p className="is-marginless">
+      <p
+        className={classnames(
+          !(stateName && needsDocumentation) && "is-marginless"
+        )}
+      >
         While you wait for your landlord to respond, gather as much
         documentation as you can. This can include a letter from your employer,
         receipts, doctor’s notes etc.
       </p>
       <>
         {stateName && needsDocumentation && (
-          <p>
+          <p className="is-marginless">
             {stateName} has specific documentation requirements to support your
             letter to your landlord.
           </p>
@@ -105,8 +110,14 @@ export const NorentConfirmation: React.FC<{}> = () => {
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (
                   <p>
-                    In {stateName}, you have {numDaysToSend} days to send
-                    documentation to your landlord proving you can’t pay rent.
+                    In {stateName}, you have{" "}
+                    {numDaysToSend && (
+                      <span className="has-text-weight-bold">
+                        {numDaysToSend} days{" "}
+                      </span>
+                    )}
+                    to send documentation to your landlord proving you can’t pay
+                    rent.
                   </p>
                 )}
                 <p>Some types of documentation you can gather include:</p>

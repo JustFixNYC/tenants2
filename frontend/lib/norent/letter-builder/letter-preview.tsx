@@ -52,32 +52,35 @@ const SendLetterModal: React.FC<{
 export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
   const { letterContent } = NorentRoutes.locale;
   const { session } = useContext(AppContext);
-  const showLetterPreview =
-    session.norentScaffolding?.hasLandlordMailingAddress;
-  const showEmailPreview = session.norentScaffolding?.hasLandlordEmailAddress;
+  const isMailingLetter = session.norentScaffolding?.hasLandlordMailingAddress;
+  const isEmailingLetter = session.norentScaffolding?.hasLandlordEmailAddress;
   return (
     <Page title="Almost there!" withHeading="big" className="content">
       <p>
         Before you send your letter, let's review what will be sent to make sure
         all the information is correct.
       </p>
-      {showLetterPreview && (
-        <>
-          <p>Here's a preview of the letter.</p>
-          <LetterPreview
-            title="Preview of your NoRent.org letter"
-            src={letterContent.html}
-          />
-          <p>
-            You can also{" "}
-            <OutboundLink href={letterContent.pdf} target="_blank">
-              view this letter as a PDF
-            </OutboundLink>
-            .
-          </p>
-        </>
-      )}
-      {showEmailPreview && (
+      <>
+        <p>
+          Here's a preview of the letter
+          {isEmailingLetter &&
+            !isMailingLetter &&
+            " that will be attached in an email to your landlord"}
+          .
+        </p>
+        <LetterPreview
+          title="Preview of your NoRent.org letter"
+          src={letterContent.html}
+        />
+        <p>
+          You can also{" "}
+          <OutboundLink href={letterContent.pdf} target="_blank">
+            view this letter as a PDF
+          </OutboundLink>
+          .
+        </p>
+      </>
+      {isEmailingLetter && (
         <>
           <p>Here’s a preview of the email that will be sent on your behalf:</p>
           <article className="message">

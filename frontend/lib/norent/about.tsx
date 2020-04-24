@@ -96,7 +96,14 @@ export const NorentAboutPage: React.FC<{}> = () => (
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Who We Are</h2>
           <br />
-          <JustfixLogo />
+          <OutboundLink
+            className="has-text-weight-normal"
+            href="https://www.justfix.nyc/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <JustfixLogo />
+          </OutboundLink>
           <p className="subtitle is-size-5">
             NoRent.org is made by{" "}
             <OutboundLink

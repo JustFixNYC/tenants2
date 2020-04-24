@@ -8,7 +8,6 @@ import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { LetterBuilderAccordion } from "../letter-builder/welcome";
-import { OutboundLink } from "../../analytics/google-analytics";
 import { NorentRoutes } from "../routes";
 import { ModalLink } from "../../ui/modal";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";

@@ -1924,6 +1924,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The number of no rent letters sent by the whole platform (not just the current user).",
+              "isDeprecated": false,
+              "name": "norentLettersSent",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "rentalHistoryInfo",

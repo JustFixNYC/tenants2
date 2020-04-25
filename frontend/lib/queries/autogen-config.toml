@@ -64,6 +64,8 @@ createBlankLiteral = true
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true
 
+[mutations.prepareLegacyTenantsAccountForMigration]
+
 [mutations."example.*"]
 
 [mutations.emailLetter]

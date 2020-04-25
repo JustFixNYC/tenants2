@@ -46,6 +46,12 @@ class LegacyUserInfo(models.Model):
     def is_legacy_user(cls, user: User) -> bool:
         return hasattr(user, 'legacy_info')
 
+    @classmethod
+    def does_user_prefer_legacy_app(cls, user: User) -> bool:
+        if cls.is_legacy_user(user):
+            return user.legacy_info.prefers_legacy_app
+        return False
+
     def update_from_mongo_user(self, mongo_user: mongo.MongoUser):
         if mongo_user.tenant_info:
             self.role = self.TENANT

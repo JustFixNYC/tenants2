@@ -1,4 +1,5 @@
 import logging
+import random
 from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -61,6 +62,17 @@ ROLES['Tenant Resource Editors'] = set([
 logger = logging.getLogger(__name__)
 
 
+def create_random_phone_number() -> str:
+    '''
+    Returns a random phone number in the 555 area code.
+    '''
+
+    return '555' + ''.join([
+        str(random.choice(range(10)))
+        for _ in range(7)
+    ])
+
+
 class JustfixUserManager(UserManager):
     def generate_random_username(self, prefix='') -> str:
         while True:
@@ -70,6 +82,16 @@ class JustfixUserManager(UserManager):
             )
             if not self.filter(username=username).exists():
                 return username
+
+    def find_random_unused_phone_number(self) -> str:
+        '''
+        Returns a random unused phone number in the 555 area code.
+        '''
+
+        while True:
+            phone_number = create_random_phone_number()
+            if not self.filter(phone_number=phone_number).exists():
+                return phone_number
 
 
 class JustfixUser(AbstractUser):

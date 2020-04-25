@@ -16,13 +16,12 @@ import {
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { ModalLink } from "../ui/modal";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
-import { fbq } from "../analytics/facebook-pixel";
 import { FormContext } from "../forms/form-context";
-import { getDataLayer } from "../analytics/google-tag-manager";
 import {
   BlankOnboardingStep4Version2Input,
   OnboardingStep4Version2Mutation,
 } from "../queries/OnboardingStep4Version2Mutation";
+import { trackSignup } from "../analytics/track-signup";
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -97,16 +96,9 @@ export default class OnboardingStep4 extends React.Component<
             mutation={OnboardingStep4Version2Mutation}
             initialState={this.blankInitialState}
             onSuccessRedirect={this.props.toSuccess}
-            onSuccess={(output) => {
-              fbq("trackCustom", "NewUserSignup");
-              getDataLayer().push({
-                event: "jf.signup",
-                "jf.signupIntent":
-                  output.session &&
-                  output.session.onboardingInfo &&
-                  output.session.onboardingInfo.signupIntent,
-              });
-            }}
+            onSuccess={(output) =>
+              trackSignup(output.session?.onboardingInfo?.signupIntent)
+            }
           >
             {this.renderForm}
           </SessionUpdatingFormSubmitter>

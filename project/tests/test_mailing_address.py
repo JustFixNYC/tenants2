@@ -14,6 +14,22 @@ EXAMPLE_KWARGS = dict(
 )
 
 
+def test_as_lob_params_works_with_populated_addr():
+    kwargs = dict(
+        primary_line="150 Court St. #2",
+        city="Brooklyn",
+        state="NY",
+        zip_code="11201"
+    )
+    ad = MailingAddress(**kwargs)
+    assert ad.as_lob_params() == kwargs
+
+
+def test_as_lob_params_returns_empty_dict_for_unpopulated_addr():
+    ad = MailingAddress()
+    assert ad.as_lob_params() == {}
+
+
 def test_is_address_populated_works():
     ma = MailingAddress()
     assert ma.is_address_populated() is False

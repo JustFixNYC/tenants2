@@ -75,6 +75,22 @@ class MailingAddress(models.Model):
         help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
     )
 
+    # Attributes that map to keys used by Lob's verifications API:
+    LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
+
+    def as_lob_params(self) -> Dict[str, str]:
+        '''
+        Returns a dictionary representing the address that can be passed directly
+        to Lob's verifications API: https://lob.com/docs#us_verifications_create
+        '''
+
+        result: Dict[str, str] = {}
+        for attr in self.LOB_ATTRS:
+            value = getattr(self, attr)
+            if value:
+                result[attr] = value
+        return result
+
     def is_address_populated(self) -> bool:
         '''
         Return whether the model contains enough filled-out fields to be used

@@ -11,6 +11,10 @@ def one_field_err(message: str, field: str = '__all__'):
 
 
 class GraphQLTestingPal:
+    '''
+    A class that makes it easier to test GraphQL endpoints.
+    '''
+
     @pytest.fixture(autouse=True)
     def setup_fixture(self, graphql_client, db):
         self.graphql_client = graphql_client

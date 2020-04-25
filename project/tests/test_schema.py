@@ -323,6 +323,7 @@ class TestQueryOrVerifyPhoneNumber:
             },
         }
         assert len(self.smsoutbox) == 1
+        assert self.smsoutbox[0].to == '+15551234567'
 
 
 def test_last_queried_phone_number_info_returns_none(graphql_client):

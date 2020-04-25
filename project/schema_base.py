@@ -422,18 +422,23 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
     )
 
     @classmethod
+    def get_account_status_for_user(cls, request, user: JustfixUser) -> PhoneNumberAccountStatus:
+        if LegacyUserInfo.does_user_prefer_legacy_app(user):
+            account_status = PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT
+        elif user.has_usable_password():
+            account_status = PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD
+        else:
+            account_status = PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD
+            password_reset.create_verification_code(request, user.phone_number)
+        return account_status
+
+    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
         user = JustfixUser.objects.filter(phone_number=phone_number).first()
         if user:
-            if LegacyUserInfo.does_user_prefer_legacy_app(user):
-                account_status = PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT
-            elif user.has_usable_password():
-                account_status = PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD
-            else:
-                account_status = PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD
-                password_reset.create_verification_code(request, phone_number)
+            account_status = cls.get_account_status_for_user(request, user)
         else:
             account_status = PhoneNumberAccountStatus.NO_ACCOUNT
         update_last_queried_phone_number(

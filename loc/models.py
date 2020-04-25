@@ -236,9 +236,6 @@ class AddressDetails(MailingAddress):
         )
     )
 
-    # Attributes that map to keys used by Lob's verifications API:
-    LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
-
     def as_lob_params(self) -> Dict[str, str]:
         '''
         Returns a dictionary representing the address that can be passed directly
@@ -247,12 +244,7 @@ class AddressDetails(MailingAddress):
 
         if not self.is_address_populated():
             return {'address': self.address}
-        result: Dict[str, str] = {}
-        for attr in self.LOB_ATTRS:
-            value = getattr(self, attr)
-            if value:
-                result[attr] = value
-        return result
+        return super().as_lob_params()
 
     def __str__(self):
         return self.address.replace("\n", " / ")

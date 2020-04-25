@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from users.models import JustfixUser
+from project.util import phone_number as pn
 from . import mongo
 
 
@@ -42,9 +43,23 @@ class LegacyUserInfo(models.Model):
         )
     )
 
+    # The user's original phone number, before their account was
+    # migrated and their phone number changed to make room for a
+    # brand new account.
+    original_phone_number = models.CharField(
+        **pn.get_model_field_kwargs(),
+        blank=True,
+    )
+
     @classmethod
     def is_legacy_user(cls, user: User) -> bool:
         return hasattr(user, 'legacy_info')
+
+    @classmethod
+    def does_user_prefer_legacy_app(cls, user: User) -> bool:
+        if cls.is_legacy_user(user):
+            return user.legacy_info.prefers_legacy_app
+        return False
 
     def update_from_mongo_user(self, mongo_user: mongo.MongoUser):
         if mongo_user.tenant_info:

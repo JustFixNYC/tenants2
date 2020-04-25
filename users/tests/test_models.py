@@ -1,9 +1,15 @@
 from unittest.mock import patch, MagicMock
 import pytest
 
-from ..models import JustfixUser
+from ..models import JustfixUser, create_random_phone_number
 from .factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+
+
+def test_create_random_phone_number_works():
+    pn = create_random_phone_number()
+    assert pn.startswith('555')
+    assert len(pn) == 10
 
 
 @pytest.mark.django_db

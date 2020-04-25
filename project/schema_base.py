@@ -6,7 +6,9 @@ from django.contrib.auth import logout, login, authenticate
 from django.middleware import csrf
 from django.forms import formset_factory
 
+from legacy_tenants.models import LegacyUserInfo
 from users.models import JustfixUser
+from project import slack
 from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from frontend import safe_mode
@@ -22,6 +24,7 @@ class PhoneNumberAccountStatus(Enum):
     NO_ACCOUNT = 0
     ACCOUNT_WITHOUT_PASSWORD = 1
     ACCOUNT_WITH_PASSWORD = 2
+    LEGACY_TENANTS_ACCOUNT = 3
 
 
 GraphQlPhoneNumberAccountStatus = graphene.Enum.from_enum(PhoneNumberAccountStatus)
@@ -356,6 +359,52 @@ class PasswordResetConfirmAndLogin(SessionFormMutation):
 
 
 @schema_registry.register_mutation
+class PrepareLegacyTenantsAccountForMigration(SessionFormMutation):
+    '''
+    Prepares a legacy tenants app for migration to the
+    new platform. The account must currently prefer the legacy
+    tenants app and have no valuable user data associated with it.
+    '''
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        phone_number = get_last_queried_phone_number(request)
+        if not phone_number:
+            return cls.make_error('You have not provided your phone number!')
+        user = JustfixUser.objects.filter(phone_number=phone_number).first()
+        if not (user and LegacyUserInfo.does_user_prefer_legacy_app(user)):
+            return cls.make_error('You are not eligible for migration!')
+        assert not hasattr(user, 'onboarding_info')
+        assert not user.is_staff
+        assert not user.is_superuser
+        assert not user.email
+
+        # Free up the user's phone number for the brand-new account that will
+        # replace it when they go through onboarding.
+        user.legacy_info.original_phone_number = user.phone_number
+        user.legacy_info.save()
+        user.phone_number = JustfixUser.objects.find_random_unused_phone_number()
+        user.is_active = False
+        user.save()
+
+        update_last_queried_phone_number(
+            request,
+            phone_number,
+            # This phone number is now free to create a new account with.
+            PhoneNumberAccountStatus.NO_ACCOUNT,
+        )
+
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has started migrating their legacy tenants app account!",
+            is_safe=True
+        )
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class QueryOrVerifyPhoneNumber(SessionFormMutation):
     '''
     Return information about whether a phone number is associated with
@@ -382,16 +431,23 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
     )
 
     @classmethod
+    def get_account_status_for_user(cls, request, user: JustfixUser) -> PhoneNumberAccountStatus:
+        if LegacyUserInfo.does_user_prefer_legacy_app(user):
+            account_status = PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT
+        elif user.has_usable_password():
+            account_status = PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD
+        else:
+            account_status = PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD
+            password_reset.create_verification_code(request, user.phone_number)
+        return account_status
+
+    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         phone_number = form.cleaned_data['phone_number']
         user = JustfixUser.objects.filter(phone_number=phone_number).first()
         if user:
-            if user.has_usable_password():
-                account_status = PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD
-            else:
-                account_status = PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD
-                password_reset.create_verification_code(request, phone_number)
+            account_status = cls.get_account_status_for_user(request, user)
         else:
             account_status = PhoneNumberAccountStatus.NO_ACCOUNT
         update_last_queried_phone_number(

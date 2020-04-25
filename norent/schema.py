@@ -9,7 +9,7 @@ from django.utils import timezone
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
-from project.schema_base import get_last_queried_phone_number
+from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.models import LandlordDetails
@@ -144,6 +144,11 @@ def update_scaffolding(request, new_data):
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
     request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+
+
+def purge_scaffolding(request):
+    if SCAFFOLDING_SESSION_KEY in request.session:
+        del request.session[SCAFFOLDING_SESSION_KEY]
 
 
 class NorentScaffoldingMutation(SessionFormMutation):
@@ -386,6 +391,8 @@ class NorentCreateAccount(SessionFormMutation):
         allinfo.update(form.cleaned_data)
         complete_onboarding(request, info=allinfo, password=password)
 
-        # TODO: Remove data from session.
+        purge_last_queried_phone_number(request)
+        OnboardingStep1Info.clear_from_request(request)
+        purge_scaffolding(request)
 
         return cls.mutation_success()

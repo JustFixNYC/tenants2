@@ -40,6 +40,13 @@ def update_last_queried_phone_number(
     request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
 
 
+def purge_last_queried_phone_number(request):
+    if LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY in request.session:
+        del request.session[LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY]
+    if LAST_QUERIED_PHONE_NUMBER_SESSION_KEY in request.session:
+        del request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY]
+
+
 @schema_registry.register_session_info
 class BaseSessionInfo:
     user_id = graphene.Int(

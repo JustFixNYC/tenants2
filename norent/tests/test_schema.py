@@ -5,13 +5,18 @@ from django.contrib.sites.models import Site
 from project.util.testing_util import one_field_err
 from users.models import JustfixUser
 from users.tests.factories import SecondUserFactory, UserFactory
-from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
+from project.schema_base import (
+    get_last_queried_phone_number,
+    update_last_queried_phone_number,
+    PhoneNumberAccountStatus
+)
+from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from loc.tests import test_lob_api
 from loc.tests.factories import LandlordDetailsFactory
-from norent.schema import update_scaffolding
+from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter
 
 
@@ -237,6 +242,7 @@ class TestNorentCreateAccount:
         request = self.graphql_client.request
         self.populate_phone_number()
         update_scaffolding(request, self.NATIONAL_SCAFFOLDING)
+        assert SCAFFOLDING_SESSION_KEY in request.session
         assert self.execute()['errors'] == []
         user = JustfixUser.objects.get(phone_number='5551234567')
         assert user.first_name == 'boop'
@@ -250,12 +256,17 @@ class TestNorentCreateAccount:
         assert oi.address == '1200 Bingy Bingy Way'
         assert oi.apt_number == '5A'
 
+        assert get_last_queried_phone_number(request) is None
+        assert SCAFFOLDING_SESSION_KEY not in request.session
+
     def test_it_works_for_nyc_users(self):
         request = self.graphql_client.request
         self.populate_phone_number()
         res = _exec_onboarding_step_n(1, self.graphql_client)
+        assert OnboardingStep1Info.get_dict_from_request(request) is not None
         assert res['errors'] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING)
+        assert SCAFFOLDING_SESSION_KEY in request.session
         assert self.execute()['errors'] == []
         user = JustfixUser.objects.get(phone_number='5551234567')
         assert user.first_name == 'zlorp'
@@ -270,6 +281,10 @@ class TestNorentCreateAccount:
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''
+
+        assert get_last_queried_phone_number(request) is None
+        assert OnboardingStep1Info.get_dict_from_request(request) is None
+        assert SCAFFOLDING_SESSION_KEY not in request.session
 
 
 class TestNorentLandlordNameAndContactTypes:

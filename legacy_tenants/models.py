@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from users.models import JustfixUser
+from project.util import phone_number as pn
 from . import mongo
 
 
@@ -40,6 +41,14 @@ class LegacyUserInfo(models.Model):
             "Whether we should redirect this user to the legacy "
             "tenant app after they log in."
         )
+    )
+
+    # The user's original phone number, before their account was
+    # migrated and their phone number changed to make room for a
+    # brand new account.
+    original_phone_number = models.CharField(
+        **pn.get_model_field_kwargs(),
+        blank=True,
     )
 
     @classmethod

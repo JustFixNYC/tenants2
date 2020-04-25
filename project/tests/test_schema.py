@@ -386,4 +386,5 @@ class TestPrepareLegacyTenantsAccountForMigration(GraphQLTestingPal):
         }
         user.refresh_from_db()
         assert user.phone_number.startswith('555')
+        assert user.legacy_info.original_phone_number == '4151234567'
         assert not user.is_active

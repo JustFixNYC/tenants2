@@ -382,6 +382,8 @@ class PrepareLegacyTenantsAccountForMigration(SessionFormMutation):
 
         # Free up the user's phone number for the brand-new account that will
         # replace it when they go through onboarding.
+        user.legacy_info.original_phone_number = user.phone_number
+        user.legacy_info.save()
         user.phone_number = JustfixUser.objects.find_random_unused_phone_number()
         user.is_active = False
         user.save()

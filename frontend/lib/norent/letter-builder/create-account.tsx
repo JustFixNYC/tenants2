@@ -11,6 +11,8 @@ import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
 import { NorentRoutes } from "../routes";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
+import { trackSignup } from "../../analytics/track-signup";
+import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 
 export const NorentCreateAccount = MiddleProgressStep((props) => {
   return (
@@ -24,6 +26,7 @@ export const NorentCreateAccount = MiddleProgressStep((props) => {
       <SessionUpdatingFormSubmitter
         mutation={NorentCreateAccountMutation}
         initialState={{ ...BlankNorentCreateAccountInput, canWeSms: true }}
+        onSuccess={() => trackSignup(OnboardingInfoSignupIntent.NORENT)}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (

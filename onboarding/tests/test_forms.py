@@ -5,6 +5,7 @@ from onboarding.forms import (
     OnboardingStep1Form,
     OnboardingStep4Form,
     OnboardingStep4FormVersion2,
+    AptNumberWithConfirmationForm
 )
 from onboarding.models import AddressWithoutBoroughDiagnostic
 from users.models import JustfixUser
@@ -183,3 +184,40 @@ def test_onboarding_step_1_creates_addr_without_borough_diagnostic():
     diags = list(AddressWithoutBoroughDiagnostic.objects.all())
     assert len(diags) == 1
     assert diags[0].address == '150 court'
+
+
+class TestAptNumberWithConfirmationForm:
+    def test_it_raises_err_when_neither_are_filled(self):
+        form = AptNumberWithConfirmationForm(data={})
+        form.full_clean()
+        assert form.errors == {'__all__': [
+            'Please either provide an apartment number or check '
+            'the "I have no apartment number" checkbox.'
+        ]}
+
+    def test_it_raises_err_when_both_are_filled(self):
+        form = AptNumberWithConfirmationForm(data={
+            'apt_number': '3B',
+            'no_apt_number': True
+        })
+        form.full_clean()
+        assert form.errors == {'__all__': [
+            'Please either provide an apartment number or check '
+            'the "I have no apartment number" checkbox (but not both).'
+        ]}
+
+    def test_it_works_when_only_apt_number_is_filled(self):
+        form = AptNumberWithConfirmationForm(data={
+            'apt_number': '2B',
+        })
+        form.full_clean()
+        assert form.errors == {}
+        assert form.cleaned_data == {'apt_number': '2B'}
+
+    def test_it_works_when_only_checkbox_is_checked(self):
+        form = AptNumberWithConfirmationForm(data={
+            'no_apt_number': True
+        })
+        form.full_clean()
+        assert form.errors == {}
+        assert form.cleaned_data == {'apt_number': ''}

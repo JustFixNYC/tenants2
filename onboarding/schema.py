@@ -19,7 +19,8 @@ from users.models import JustfixUser
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
-from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES
+from onboarding.models import (
+    OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES)
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +112,8 @@ def complete_onboarding(request, info, password: Optional[str]):
     )
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-        f"from {slack.escape(oi.borough_label)} has signed up!",
+        f"from {slack.escape(oi.borough_label)} has signed up for "
+        f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))}!",
         is_safe=True
     )
     if user.email:

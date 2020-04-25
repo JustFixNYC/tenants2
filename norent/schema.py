@@ -195,9 +195,22 @@ class NorentNationalAddress(NorentScaffoldingMutation):
 
 
 @schema_registry.register_mutation
-class NorentEmail(NorentScaffoldingMutation):
+class NorentEmail(SessionFormMutation):
     class Meta:
         form_class = forms.Email
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        if user.is_authenticated:
+            user.email = form.cleaned_data['email']
+            user.is_email_verified = False
+            user.save()
+        else:
+            update_scaffolding(request, form.cleaned_data)
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

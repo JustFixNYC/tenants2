@@ -65,7 +65,7 @@ def test_is_city_in_nyc_works(graphql_client, city, state, expected):
     assert actual is expected
 
 
-def test_email_mutation_updates_session(db, graphql_client):
+def test_email_mutation_updates_session_if_not_logged_in(db, graphql_client):
     output = graphql_client.execute(
         '''
         mutation {
@@ -83,6 +83,33 @@ def test_email_mutation_updates_session(db, graphql_client):
     assert output['errors'] == []
     assert output['session']['norentScaffolding'] == {
         'email': 'blarf@blarg.com',
+    }
+
+
+def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
+    user = UserFactory(is_email_verified=True, email='burp@burp.com')
+    graphql_client.request.user = user
+    output = graphql_client.execute(
+        '''
+        mutation {
+          output: norentEmail(input: {
+            email: "blarf@blarg.com",
+        }) {
+            errors { field, messages }
+            session {
+              email,
+              isEmailVerified,
+              norentScaffolding { email }
+            }
+          }
+        }
+        '''
+    )['data']['output']
+    assert output['errors'] == []
+    assert output['session'] == {
+        'email': 'blarf@blarg.com',
+        'isEmailVerified': False,
+        'norentScaffolding': None,
     }
 
 

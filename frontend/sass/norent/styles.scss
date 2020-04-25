@@ -44,6 +44,7 @@ $jf-navbar-content: $black;
 @import "../_demo-deployment-note.scss";
 
 // PRESETS TO PRE-EXISTING CLASSES:
+
 .title {
   font-family: $jf-title-family;
 
@@ -117,9 +118,14 @@ $jf-navbar-content: $black;
       }
     }
   }
+
+  // Override styling from Justfix site to include shadow above
+  .jf-letter-preview {
+    box-shadow: 0px 1.5px 4px 1px rgba(0, 0, 0, 0.25);
+  }
 }
 
-// CUSTOM CLASSES
+// NEW CUSTOM CLASSES
 
 @mixin is-horizontal-center {
   margin-left: auto;
@@ -142,6 +148,8 @@ $jf-navbar-content: $black;
     @include is-horizontal-center;
   }
 }
+
+// SITE-WIDE REUSABLE ELEMENTS
 
 .jf-norent-logo {
   display: inline-block;
@@ -175,341 +183,13 @@ $jf-logo-height: 70px;
   }
 }
 
-.jf-partner-logos {
-  a figure.image:hover {
-    opacity: 0.8;
-    transform: scale(1.02);
-  }
-  @include tablet {
-    figure.image {
-      height: 160px;
-      width: 160px;
-    }
-  }
-}
-
 .jf-jump-arrow {
   figure {
     @extend .jf-up-and-down;
   }
 }
 
-// PRIMARY PAGES
+// OTHER CUSTOM STYLING
 
-$norent-sticky-menu-height: 100px;
-
-.jf-sticky-button-container {
-  @include mobile {
-    // Allow extra padding on the last child container to make room for sticky menu,
-    // as well as a margin to make space between the menu and the footer:
-    section:last-child {
-      padding-bottom: $norent-sticky-menu-height;
-    }
-    margin-bottom: calc(#{$norent-sticky-menu-height} / 2);
-  }
-  .jf-sticky-button-menu {
-    position: sticky;
-    height: $norent-sticky-menu-height;
-    top: calc(100vh - #{$norent-sticky-menu-height});
-    width: 100%;
-    z-index: 1000;
-    padding: 1rem;
-  }
-}
-
-// We need to offset the position of whatever container appears after the sticky menu
-// Otherwise, we will be left with empty space at the menu's original position
-.jf-sticky-button-menu + .container {
-  @include mobile {
-    margin-top: calc(-#{$norent-sticky-menu-height} / 2);
-  }
-}
-
-.jf-illustration-paper-airplanes,
-.jf-illustration-fist-pump {
-  width: 200px;
-  height: 200px;
-  @include mobile {
-    width: 128px;
-    height: 128px;
-  }
-}
-
-.jf-illustration-paper-airplanes {
-  // Illustration spacing offset according to design:
-  margin-left: 3rem;
-  figure {
-    margin: 0;
-  }
-}
-.jf-illustration-fist-pump {
-  @include is-horizontal-center;
-}
-
-.jf-letter-counter {
-  font-size: 4rem;
-}
-
-.jf-norent-checklist {
-  .media {
-    height: 5rem;
-  }
-}
-
-.jf-collective-action-list {
-  .media {
-    border: none;
-    .media-left figure.image {
-      margin-left: 0;
-    }
-  }
-  @include tablet {
-    width: fit-content;
-    .media {
-      @include is-horizontal-center;
-    }
-  }
-}
-
-.jf-norent-checklist,
-.jf-collective-action-list {
-  .media-content {
-    align-self: center;
-    // Fixes bug on Safari that made these content blocks scrollable
-    display: table-cell;
-  }
-}
-
-.jf-collective-action-list {
-  // Fixes bug on firefox where container extends all the way to maximum width on desktop
-  @include tablet {
-    width: max-content;
-  }
-}
-
-// Override styling from Justfix site to include shadow above
-.jf-letter-preview {
-  box-shadow: 0px 1.5px 4px 1px rgba(0, 0, 0, 0.25);
-}
-
-.jf-letter-preview-container.hero-body {
-  padding-bottom: 0;
-  @include mobile {
-    .message .message-body {
-      padding: 1.5rem;
-    }
-  }
-
-  .jf-letter-preview-fadeout {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 45%;
-    background: linear-gradient(
-      0deg,
-      $grey-lighter 50%,
-      rgba(255, 255, 255, 0) 102.42%
-    );
-  }
-}
-
-.jf-email-preview {
-  .message-body p:first-child {
-    font-size: 1rem;
-    font-style: italic;
-    border-bottom: 1px solid $light;
-    padding-bottom: 1rem;
-  }
-}
-
-.jf-how-it-works-container {
-  .column {
-    p:not(.title) {
-      line-height: 1.35;
-    }
-    figure {
-      margin-bottom: 1rem;
-    }
-    @include mobile {
-      // Make divs in column line up side by side on mobile
-      display: flex;
-      figure {
-        width: 64px;
-        height: 64px;
-        margin: 0.5rem 1.5rem 0 0;
-      }
-    }
-  }
-}
-
-.jf-faqs,
-.jf-faqs-preview {
-  .jf-accordion-item {
-    &:not(:last-child) {
-      border-bottom: 0.3px solid #828282ee;
-    }
-  }
-}
-
-.jf-faqs {
-  .hero-body {
-    padding-top: 1rem;
-    h5 {
-      letter-spacing: 0.04rem;
-    }
-  }
-}
-
-.jf-accordion-item {
-  // Have border extend beyond element boundary
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-
-  details {
-    p,
-    summary {
-      // Have border extend beyond element boundary for a better looking focus border
-      padding: 1rem;
-      margin: 0 -1rem;
-    }
-    summary {
-      // Make question box feel clickable to user
-      cursor: pointer;
-      // Remove default marker
-      list-style-type: none;
-      &::-webkit-details-marker {
-        display: none;
-      }
-      &:focus {
-        @include outline-focus();
-      }
-      .media .media-right {
-        margin-top: 0.15rem;
-      }
-    }
-  }
-}
-
-.jf-block-of-color-in-background {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 450px;
-  background-color: $info;
-  z-index: -1;
-}
-
-// LETTER BUILDER PAGES
-
-.box.jf-norent-builder-page {
-  padding: 4rem 6rem;
-  max-width: 700px;
-  margin: 4rem auto;
-
-  // These variables estimate the height between the top of the viewport
-  // and the top of a jf-progress-step-wrapper container on desktop and mobile.
-  // The idea is to offset these containers so that the letter builder box extends just beyond the viewport on desktop,
-  // and just before the viewport on mobile (to reveal a sliver of the footer).
-  //
-  // Note: this is NOT an ideal implementation, and should be updated if there are major changes to the sizing
-  // and formatting of the NoRent builder step pages
-  $progress-step-offset: 300px;
-  $progress-step-offset-mobile: 210px;
-
-  .jf-progress-step-wrapper {
-    // Make container height extend to edge of viewport:
-    min-height: calc(100vh - #{$progress-step-offset});
-    @include mobile {
-      min-height: calc(100vh - #{$progress-step-offset-mobile});
-    }
-  }
-
-  @include mobile {
-    margin: 0;
-    padding: 3rem 1.5rem;
-    box-shadow: none;
-    border-radius: 0;
-    // Since the mobile breakpoint might actually be higher than the max-width,
-    // let's unset the max-width property to avoid formatting weirdness
-    max-width: unset;
-  }
-
-  h1.title {
-    font-size: 36px;
-  }
-
-  .progress {
-    @extend .is-info;
-  }
-
-  p {
-    font-size: 1.25rem;
-    line-height: 1.3;
-    &:not(:last-child) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  ul {
-    margin-left: 1.5rem;
-    li {
-      font-weight: 600;
-    }
-  }
-
-  ol {
-    list-style-position: inside;
-  }
-
-  .buttons {
-    margin-top: 6rem;
-  }
-
-  .message .message-body {
-    @include mobile {
-      padding: 1rem;
-    }
-    p {
-      font-size: 1rem;
-    }
-  }
-
-  // Add top padding to any titles that appear inside media,
-  // like the title on the letter builder confirmation page
-  .media .media-content .title {
-    margin-top: 0.75rem;
-  }
-
-  // Override default accordion styling from primary pages
-  .jf-accordion-item {
-    .media-content {
-      flex-grow: 0;
-    }
-
-    // Include special styling props for when a message is
-    // embedded inside an accordion item
-    .message .message-body {
-      @include tablet {
-        padding: 2rem;
-      }
-      p {
-        padding-top: 0;
-        font-size: 1.25rem;
-        font-weight: normal;
-      }
-    }
-  }
-
-  .jf-norent-letter-confirmation {
-    h3,
-    h4 {
-      margin-bottom: 0.5rem;
-    }
-    h3:not(:first-child) {
-      margin-top: 3rem;
-    }
-  }
-}
+@import "./_primary_pages.scss";
+@import "./_letter-builder.scss";

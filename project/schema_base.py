@@ -8,6 +8,7 @@ from django.forms import formset_factory
 
 from legacy_tenants.models import LegacyUserInfo
 from users.models import JustfixUser
+from project import slack
 from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from frontend import safe_mode
@@ -390,6 +391,12 @@ class PrepareLegacyTenantsAccountForMigration(SessionFormMutation):
             phone_number,
             # This phone number is now free to create a new account with.
             PhoneNumberAccountStatus.NO_ACCOUNT,
+        )
+
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has started migrating their legacy tenants app account!",
+            is_safe=True
         )
 
         return cls.mutation_success()

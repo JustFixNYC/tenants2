@@ -8,6 +8,8 @@ import {
 } from "../../../../common-data/us-state-choices";
 import { LetterBuilderAccordion } from "./welcome";
 import { getNorentMetadataForUSState } from "./national-metadata";
+import classnames from "classnames";
+import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -45,7 +47,10 @@ export const NorentConfirmation: React.FC<{}> = () => {
     NATIONAL_LEGAL_AID_URL;
 
   return (
-    <Page title="You've sent your letter" className="content">
+    <Page
+      title="You've sent your letter"
+      className="content jf-norent-letter-confirmation"
+    >
       <div className="media">
         <div className="media-left">
           <i className="has-text-info">{checkCircleSvg}</i>
@@ -54,26 +59,46 @@ export const NorentConfirmation: React.FC<{}> = () => {
           <h2 className="title">You've sent your letter</h2>
         </div>
       </div>
-      <p>
-        Your letter has been sent to your landlord via email. A copy of your
-        letter has also been sent to your email.
-      </p>
-      {letter?.trackingNumber && (
-        <p className="is-size-4 has-text-weight-bold">
-          Tracking #: {letter?.trackingNumber}.
+      {letter?.trackingNumber ? (
+        <>
+          <p>
+            Your letter has been mailed to your landlord via USPS Certified
+            Mail. A copy of your letter has also been sent to your email.
+          </p>
+          <p>
+            <span className="is-size-5 has-text-weight-bold">
+              USPS Tracking #:
+            </span>{" "}
+            <OutboundLink
+              href={`${USPS_TRACKING_URL_PREFIX}${letter.trackingNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="is-size-5 is-size-6-mobile"
+            >
+              {letter.trackingNumber}
+            </OutboundLink>
+          </p>
+        </>
+      ) : (
+        <p>
+          Your letter has been sent to your landlord via email. A copy of your
+          letter has also been sent to your email.
         </p>
       )}
-      <br />
       <h2 className="title is-spaced has-text-info">What happens next?</h2>
       <h3 className="title jf-alt-title-font">Gather documentation</h3>
-      <p>
+      <p
+        className={classnames(
+          !(stateName && needsDocumentation) && "is-marginless"
+        )}
+      >
         While you wait for your landlord to respond, gather as much
         documentation as you can. This can include a letter from your employer,
         receipts, doctor’s notes etc.
       </p>
       <>
         {stateName && needsDocumentation && (
-          <p>
+          <p className="is-marginless">
             {stateName} has specific documentation requirements to support your
             letter to your landlord.
           </p>
@@ -84,8 +109,14 @@ export const NorentConfirmation: React.FC<{}> = () => {
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (
                   <p>
-                    In {stateName}, you have {numDaysToSend} days to send
-                    documentation to your landlord proving you can’t pay rent.
+                    In {stateName}, you have{" "}
+                    {numDaysToSend && (
+                      <span className="has-text-weight-bold">
+                        {numDaysToSend} days{" "}
+                      </span>
+                    )}
+                    to send documentation to your landlord proving you can’t pay
+                    rent.
                   </p>
                 )}
                 <p>Some types of documentation you can gather include:</p>
@@ -150,7 +181,6 @@ export const NorentConfirmation: React.FC<{}> = () => {
         Join millions of us to fight for a future free from debt and to win a
         national suspension on rent, mortgage and utility payments!
       </p>
-      <br />
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"
@@ -167,7 +197,6 @@ export const NorentConfirmation: React.FC<{}> = () => {
         tools for tenants and the housing rights movement. We always want
         feedback to improve our tools.
       </p>
-      <br />
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"

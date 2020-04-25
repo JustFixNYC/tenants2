@@ -33,17 +33,19 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
       {legislation && <p>{legislation}</p>}
 
       {partner && (
-        <p>
-          We’ve partnered with{" "}
-          <OutboundLink
-            href={partner.organizationWebsiteLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {partner.organizationName}
-          </OutboundLink>{" "}
-          to provide additional support once you’ve sent your letter.
-        </p>
+        <div className="content">
+          <p>
+            We’ve partnered with{" "}
+            <OutboundLink
+              href={partner.organizationWebsiteLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {partner.organizationName}
+            </OutboundLink>{" "}
+            to provide additional support once you’ve sent your letter.
+          </p>
+        </div>
       )}
       <br />
       <div className="buttons jf-two-buttons">

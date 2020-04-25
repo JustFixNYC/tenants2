@@ -52,35 +52,52 @@ const SendLetterModal: React.FC<{
 export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
   const { letterContent } = NorentRoutes.locale;
   const { session } = useContext(AppContext);
-  const showLetterPreview =
-    session.norentScaffolding?.hasLandlordMailingAddress;
-  const showEmailPreview = session.norentScaffolding?.hasLandlordEmailAddress;
+  const isMailingLetter = session.landlordDetails?.address;
+  const isEmailingLetter = session.landlordDetails?.email;
   return (
-    <Page title="Almost there!" withHeading="big" className="content">
+    <Page
+      title="Your Letter Is Ready To Send!"
+      withHeading="big"
+      className="content"
+    >
       <p>
         Before you send your letter, let's review what will be sent to make sure
         all the information is correct.
       </p>
-      {showLetterPreview && (
-        <>
-          <p>Here's a preview of the letter.</p>
-          <LetterPreview
-            title="Preview of your NoRent.org letter"
-            src={letterContent.html}
-          />
+      <>
+        <p>
+          Here's a preview of the letter
+          {isEmailingLetter &&
+            !isMailingLetter &&
+            " that will be attached in an email to your landlord"}
+          :
+        </p>
+        <LetterPreview
+          title="Preview of your NoRent.org letter"
+          src={letterContent.html}
+        />
+        <p>
+          <OutboundLink href={letterContent.pdf} target="_blank">
+            View this letter as a PDF
+          </OutboundLink>
+        </p>
+        {isMailingLetter && (
           <p>
-            You can also{" "}
-            <OutboundLink href={letterContent.pdf} target="_blank">
-              view this letter as a PDF
-            </OutboundLink>
-            .
+            We will be mailing this letter on your behalf by USPS certified mail
+            and will be providing a tracking number.
           </p>
-        </>
-      )}
-      {showEmailPreview && (
+        )}
+      </>
+      <br />
+      {isEmailingLetter && (
         <>
           <p>Here’s a preview of the email that will be sent on your behalf:</p>
-          <article className="message">
+          <article className="message jf-email-preview">
+            <div className="message-header has-text-weight-normal">
+              To: {session.landlordDetails?.name}{" "}
+              {session.landlordDetails?.email &&
+                `<${session.landlordDetails?.email}>`}
+            </div>
             <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
               <NorentLetterEmailForUser />
             </div>

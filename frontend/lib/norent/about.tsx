@@ -65,7 +65,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <h2 className="title is-spaced has-text-info">About</h2>
           <br />
           <p className="subtitle">
-            Learn about why we made this tool, who we are, and who are partners
+            Learn about why we made this tool, who we are, and who our partners
             are.
           </p>
         </div>
@@ -86,6 +86,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
             that are affecting their abilities to pay rent. We made this tool to
             empower tenants to exercise their rights during this pandemic.
           </p>
+          <br />
         </div>
       </div>
     </section>
@@ -95,7 +96,14 @@ export const NorentAboutPage: React.FC<{}> = () => (
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Who We Are</h2>
           <br />
-          <JustfixLogo />
+          <OutboundLink
+            className="has-text-weight-normal"
+            href="https://www.justfix.nyc/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <JustfixLogo />
+          </OutboundLink>
           <p className="subtitle is-size-5">
             NoRent.org is made by{" "}
             <OutboundLink

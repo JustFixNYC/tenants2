@@ -6,7 +6,7 @@ from graphene_django.types import DjangoObjectType
 from django.urls import reverse
 from django.utils import timezone
 
-from project import schema_registry
+from project import slack, schema_registry
 from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
@@ -324,6 +324,12 @@ class NorentSendLetter(SessionFormMutation):
             letter.tracking_number = response['tracking_number']
             letter.letter_sent_at = timezone.now()
             letter.save()
+
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has sent a no rent letter!",
+            is_safe=True
+        )
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):

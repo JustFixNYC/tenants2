@@ -118,6 +118,14 @@ class NorentSessionInfo(object):
         ),
     )
 
+    norent_letters_sent = graphene.Int(
+        required=True,
+        description=(
+            "The number of no rent letters sent by the whole platform (not just " +
+            "the current user)."
+        )
+    )
+
     def resolve_norent_latest_rent_period(self, info: ResolveInfo):
         return models.RentPeriod.objects.first()
 
@@ -133,6 +141,12 @@ class NorentSessionInfo(object):
         if kwargs:
             return scaffolding.NorentScaffolding(**kwargs)
         return None
+
+    def resolve_norent_letters_sent(self, info: ResolveInfo):
+        # Note that Postgres' count() is not very efficient, as it
+        # generally needs to perform a sequential scan, so we might
+        # want to cache this at some point.
+        return models.Letter.objects.all().count()
 
 
 def get_scaffolding(request) -> scaffolding.NorentScaffolding:

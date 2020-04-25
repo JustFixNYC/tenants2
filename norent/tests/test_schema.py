@@ -287,6 +287,20 @@ class TestNorentCreateAccount:
         assert SCAFFOLDING_SESSION_KEY not in request.session
 
 
+class TestNorentLettersSent:
+    QUERY = 'query { session { norentLettersSent } }'
+
+    def execute(self, graphql_client):
+        return graphql_client.execute(self.QUERY)['data']['session']['norentLettersSent']
+
+    def test_it_works_when_zero(self, db, graphql_client):
+        assert self.execute(graphql_client) == 0
+
+    def test_it_works_when_nonzero(self, db, graphql_client):
+        LetterFactory()
+        assert self.execute(graphql_client) == 1
+
+
 class TestNorentLandlordNameAndContactTypes:
     @pytest.fixture(autouse=True)
     def setup_fixture(self, db, graphql_client):

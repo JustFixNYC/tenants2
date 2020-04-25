@@ -113,3 +113,11 @@ class MailingAddress(models.Model):
             'state': self.state,
             'zip_code': self.zip_code,
         }
+
+    def clear_address(self):
+        self.primary_line = ''
+        self.secondary_line = ''
+        self.urbanization = ''
+        self.city = ''
+        self.state = ''
+        self.zip_code = ''

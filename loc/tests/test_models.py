@@ -10,7 +10,8 @@ from loc.models import (
     AddressDetails, AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES)
 from .test_landlord_lookup import (
     mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
-from .factories import create_user_with_all_info, LetterRequestFactory
+from .factories import (
+    create_user_with_all_info, LetterRequestFactory, LandlordDetailsV2Factory)
 
 WE_WILL_MAIL = LOC_MAILING_CHOICES.WE_WILL_MAIL
 USER_WILL_MAIL = LOC_MAILING_CHOICES.USER_WILL_MAIL
@@ -52,6 +53,15 @@ def test_landlord_details_address_lines_for_mailing_works():
         '1 Cloud City',
         'Bespin, OH 43220',
     ]
+
+
+def test_landlord_details_clear_address_works():
+    ld = LandlordDetailsV2Factory.build()
+    assert ld.address != ''
+    assert ld.primary_line != ''
+    ld.clear_address()
+    assert ld.address == ''
+    assert ld.primary_line == ''
 
 
 def test_landlord_details_formatted_phone_number_works():

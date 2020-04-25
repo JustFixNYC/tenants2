@@ -15,7 +15,7 @@ from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from loc.tests import test_lob_api
-from loc.tests.factories import LandlordDetailsFactory
+from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter
 
@@ -288,36 +288,26 @@ class TestNorentCreateAccount:
 
 
 class TestNorentLandlordNameAndContactTypes:
-    def test_it_requires_at_least_one_checkbox(self, db, graphql_client):
-        graphql_client.request.user = UserFactory()
-        res = graphql_client.execute(
-            '''
-            mutation {
-                output: norentLandlordNameAndContactTypes(input: {
-                    name: "Bleh",
-                    hasEmailAddress: false,
-                    hasMailingAddress: false
-                }) {
-                    errors { field, messages }
-                }
-            }
-            '''
-        )['data']['output']
-        assert res['errors'] == one_field_err('Please choose at least one option.')
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, graphql_client):
+        self.user = UserFactory()
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
 
-    def test_it_works(self, db, graphql_client):
-        graphql_client.request.user = UserFactory()
-        res = graphql_client.execute(
+    def execute(self, input):
+        input = {
+            'name': "Bleh",
+            'hasEmailAddress': False,
+            'hasMailingAddress': False,
+            **input,
+        }
+        return self.graphql_client.execute(
             '''
-            mutation {
-                output: norentLandlordNameAndContactTypes(input: {
-                    name: "Bleh",
-                    hasEmailAddress: true,
-                    hasMailingAddress: false
-                }) {
+            mutation Mutation($input: NorentLandlordNameAndContactTypesInput!) {
+                output: norentLandlordNameAndContactTypes(input: $input) {
                     errors { field, messages }
                     session {
-                        landlordDetails { name }
+                        landlordDetails { name, email, primaryLine }
                         norentScaffolding {
                             hasLandlordEmailAddress,
                             hasLandlordMailingAddress
@@ -325,13 +315,41 @@ class TestNorentLandlordNameAndContactTypes:
                     }
                 }
             }
-            '''
+            ''',
+            variables={'input': input}
         )['data']['output']
+
+    def test_it_requires_at_least_one_checkbox(self):
+        res = self.execute({})
+        assert res['errors'] == one_field_err('Please choose at least one option.')
+
+    def test_it_creates_new_landlord_details(self):
+        res = self.execute({'hasEmailAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh'},
+           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': ''},
            'norentScaffolding': {'hasLandlordEmailAddress': True,
                                  'hasLandlordMailingAddress': False}
+        }
+
+    def test_it_clears_mailing_address_if_needed_but_keeps_email(self):
+        LandlordDetailsV2Factory(user=self.user, email='a@b.com')
+        res = self.execute({'hasEmailAddress': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+           'landlordDetails': {'name': 'Bleh', 'email': 'a@b.com', 'primaryLine': ''},
+           'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                 'hasLandlordMailingAddress': False}
+        }
+
+    def test_it_clears_email_if_needed_but_keeps_mailing_address(self):
+        LandlordDetailsV2Factory(user=self.user, email='a@b.com')
+        res = self.execute({'hasMailingAddress': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': '123 Cloud City Drive'},
+           'norentScaffolding': {'hasLandlordEmailAddress': False,
+                                 'hasLandlordMailingAddress': True}
         }
 
 

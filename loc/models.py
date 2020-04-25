@@ -136,6 +136,11 @@ class LandlordDetails(MailingAddress):
             return []
         return self.address.split('\n')
 
+    def clear_address(self):
+        super().clear_address()
+        self.address = ''
+        self.is_looked_up = False
+
     @classmethod
     def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
         '''

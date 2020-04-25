@@ -200,10 +200,16 @@ class NorentLandlordNameAndContactTypes(SessionFormMutation):
         ld = LandlordDetails.objects.get_or_create(user=user)[0]
         ld.name = form.cleaned_data['name']
         ld.is_looked_up = False
+        has_email_address = form.cleaned_data['has_email_address']
+        has_mailing_address = form.cleaned_data['has_mailing_address']
+        if not has_email_address:
+            ld.email = ''
+        if not has_mailing_address:
+            ld.clear_address()
         ld.save()
         update_scaffolding(request, {
-            'has_landlord_email_address': form.cleaned_data['has_email_address'],
-            'has_landlord_mailing_address': form.cleaned_data['has_mailing_address'],
+            'has_landlord_email_address': has_email_address,
+            'has_landlord_mailing_address': has_mailing_address,
         })
         return cls.mutation_success()
 

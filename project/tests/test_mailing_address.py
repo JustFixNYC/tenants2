@@ -4,6 +4,16 @@ import pytest
 from project.util.mailing_address import MailingAddress, ZipCodeValidator
 
 
+EXAMPLE_KWARGS = dict(
+    primary_line="123 Zoom St.",
+    secondary_line="hmm",
+    city="Zoomville",
+    state="NY",
+    zip_code="12345",
+    urbanization="huh",
+)
+
+
 def test_is_address_populated_works():
     ma = MailingAddress()
     assert ma.is_address_populated() is False
@@ -47,16 +57,19 @@ def test_address_lines_for_mailing_works():
 
 
 def test_get_address_as_dict_works():
-    kwargs = dict(
-        primary_line="123 Zoom St.",
-        secondary_line="hmm",
-        city="Zoomville",
-        state="NY",
-        zip_code="12345",
-        urbanization="huh",
-    )
-    ma = MailingAddress(**kwargs)
-    assert ma.get_address_as_dict() == kwargs
+    ma = MailingAddress(**EXAMPLE_KWARGS)
+    assert ma.get_address_as_dict() == EXAMPLE_KWARGS
+
+
+def test_clear_address_works():
+    ma = MailingAddress(**EXAMPLE_KWARGS)
+    ma.clear_address()
+    assert ma.primary_line == ''
+    assert ma.secondary_line == ''
+    assert ma.urbanization == ''
+    assert ma.city == ''
+    assert ma.state == ''
+    assert ma.zip_code == ''
 
 
 @pytest.mark.parametrize('zip_code', [

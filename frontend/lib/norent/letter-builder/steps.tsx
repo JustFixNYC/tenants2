@@ -36,6 +36,10 @@ function isUserOutsideNYC(s: AllSessionInfo): boolean {
   return !isUserInNYC(s);
 }
 
+function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
+  return isUserLoggedIn(s) && !!s.email;
+}
+
 function isUserInLA(s: AllSessionInfo): boolean {
   const norent = s.norentScaffolding;
   if (!(norent && norent.zipCode)) return false;
@@ -99,13 +103,13 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           shouldBeSkipped: isUserOutsideNYC,
           component: NorentLbAskNycAddress,
         },
-        {
-          path: routes.email,
-          exact: true,
-          component: NorentLbAskEmail,
-        },
       ]),
-
+      {
+        path: routes.email,
+        exact: true,
+        component: NorentLbAskEmail,
+        shouldBeSkipped: isUserLoggedInWithEmail,
+      },
       {
         path: routes.createAccount,
         component: NorentCreateAccount,

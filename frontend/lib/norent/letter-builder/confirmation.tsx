@@ -9,11 +9,10 @@ import {
 import { LetterBuilderAccordion } from "./welcome";
 import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
+import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const USPS_TRACKING_URL_PREFIX =
-  "https://tools.usps.com/go/TrackConfirmAction.action?tLabels=";
 const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
 const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
 const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
@@ -71,7 +70,7 @@ export const NorentConfirmation: React.FC<{}> = () => {
               USPS Tracking #:
             </span>{" "}
             <OutboundLink
-              href={USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+              href={`${USPS_TRACKING_URL_PREFIX}${letter.trackingNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="is-size-5 is-size-6-mobile"

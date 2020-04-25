@@ -52,8 +52,8 @@ const SendLetterModal: React.FC<{
 export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
   const { letterContent } = NorentRoutes.locale;
   const { session } = useContext(AppContext);
-  const isMailingLetter = session.norentScaffolding?.hasLandlordMailingAddress;
-  const isEmailingLetter = session.norentScaffolding?.hasLandlordEmailAddress;
+  const isMailingLetter = session.landlordDetails?.address;
+  const isEmailingLetter = session.landlordDetails?.email;
   return (
     <Page
       title="Your Letter Is Ready To Send!"

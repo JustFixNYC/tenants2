@@ -14,7 +14,7 @@ def one_field_err(message: str, field: str = '__all__'):
 class GraphQLTestingPal:
     '''
     A class that makes it easier to test GraphQL endpoints.
-    
+
     It can be used to test any kind of GraphQL endpoint, but is
     specifically built for testing GraphQL mutations that wrap
     Django forms.

@@ -66,6 +66,7 @@ describe("landlord details page", () => {
     });
     pal.respondWithFormOutput<LandlordDetailsV2Mutation_output>({
       errors: [],
+      isUndeliverable: null,
       session: {
         landlordDetails: { ...BlankLandlordDetailsType, name, address },
       },

@@ -65,6 +65,7 @@ def execute_ld2_mutation(graphql_client, **input):
                     field
                     messages
                 }
+                isUndeliverable,
                 session {
                     landlordDetails {
                         name
@@ -141,6 +142,7 @@ def test_landlord_details_v2_creates_details(graphql_client):
     ld_1 = EXAMPLE_LANDLORD_DETAILS_V2_INPUT
     result = execute_ld2_mutation(graphql_client, **ld_1)
     assert result['errors'] == []
+    assert result['isUndeliverable'] is None
     assert result['session']['landlordDetails'] == ld_1
 
 

@@ -4,6 +4,7 @@ mutation LandlordDetailsV2Mutation($input: LandlordDetailsV2Input!) {
     errors { ...ExtendedFormFieldErrors },
     session {
       landlordDetails { ...LandlordDetailsType }
-    }
+    },
+    isUndeliverable
   }
 }

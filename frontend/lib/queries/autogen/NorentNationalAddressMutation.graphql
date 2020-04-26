@@ -2,6 +2,7 @@
 mutation NorentNationalAddressMutation($input: NorentNationalAddressInput!) {
   output: norentNationalAddress(input: $input) {
     errors { ...ExtendedFormFieldErrors },
-    session { ...AllSessionInfo }
+    session { ...AllSessionInfo },
+    isValid
   }
 }

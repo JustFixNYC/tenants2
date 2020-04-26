@@ -57,6 +57,10 @@ def mock_brl_results(query: str, requests_mock):
     mock_places_request(query, BRL_RESULTS_JSON, requests_mock)
 
 
+def mock_no_results(query: str, requests_mock):
+    mock_places_request(query, {'features': []}, requests_mock)
+
+
 class TestGetMapboxState:
     def test_it_returns_none_on_no_match(self):
         assert get_mapbox_state(mkfeature(context=[])) is None

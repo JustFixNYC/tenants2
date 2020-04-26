@@ -10,6 +10,8 @@ from project.schema_base import (
     update_last_queried_phone_number,
     PhoneNumberAccountStatus
 )
+from project.tests.test_mapbox import mock_brl_results, mock_no_results
+from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -113,30 +115,71 @@ def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
     }
 
 
-def test_national_address_mutation_updates_session(graphql_client):
-    output = graphql_client.execute(
-        '''
-        mutation {
-          output: norentNationalAddress(input: {
-            street: "boing",
-            zipCode: "43569",
-            aptNumber: "2",
-            noAptNumber: false,
-        }) {
+class TestNationalAddressMutation(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentNationalAddressMutation($input: NorentNationalAddressInput!) {
+        output: norentNationalAddress(input: $input) {
             errors { field, messages }
+            isValid
             session {
-              norentScaffolding { street, zipCode, aptNumber }
+                norentScaffolding { street, zipCode, aptNumber }
             }
-          }
         }
-        '''
-    )['data']['output']
-    assert output['errors'] == []
-    assert output['session']['norentScaffolding'] == {
-        'street': 'boing',
-        'zipCode': '43569',
-        'aptNumber': '2',
     }
+    '''
+
+    DEFAULT_INPUT = {
+        'street': '150 court st',
+        'zipCode': '12345',
+        'aptNumber': '2',
+        'noAptNumber': False,
+    }
+
+    def set_prior_info(self):
+        update_scaffolding(self.request, {
+            'city': 'Brooklyn',
+            'state': 'NY'
+        })
+
+    def test_it_raises_err_without_prior_info(self):
+        self.assert_one_field_err("You haven't provided your city and state yet!")
+
+    def test_it_updates_session(self):
+        self.set_prior_info()
+        output = self.execute()
+        assert output['errors'] == []
+        assert output['isValid'] is None
+        assert output['session']['norentScaffolding'] == {
+            'street': '150 court st',
+            'zipCode': '12345',
+            'aptNumber': '2',
+        }
+
+    def test_it_validates_addresses(self, settings, requests_mock):
+        settings.MAPBOX_ACCESS_TOKEN = 'blah'
+        self.set_prior_info()
+        mock_brl_results('150 court st, Brooklyn, NY 12345', requests_mock)
+        output = self.execute()
+        assert output['errors'] == []
+        assert output['isValid'] is True
+        assert output['session']['norentScaffolding'] == {
+            'street': '150 Court Street',
+            'zipCode': '11201',
+            'aptNumber': '2',
+        }
+
+    def test_it_reports_invaild_addresses_as_invalid(self, settings, requests_mock):
+        settings.MAPBOX_ACCESS_TOKEN = 'blah'
+        self.set_prior_info()
+        mock_no_results('zzz, Brooklyn, NY 12345', requests_mock)
+        output = self.execute(input={'street': 'zzz'})
+        assert output['errors'] == []
+        assert output['isValid'] is False
+        assert output['session']['norentScaffolding'] == {
+            'street': 'zzz',
+            'zipCode': '12345',
+            'aptNumber': '2',
+        }
 
 
 def test_city_state_mutation_updates_session(graphql_client):

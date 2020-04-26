@@ -131,7 +131,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       },
       {
         path: routes.landlordAddress,
-        exact: true,
+        exact: false,
         shouldBeSkipped: (s) =>
           s.landlordDetails?.isLookedUp
             ? true

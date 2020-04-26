@@ -9,7 +9,7 @@ from project.util.model_form_util import OneToOneUserModelFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project.util.site_util import get_site_name
 from project import slack, schema_registry, common_data
-from . import forms, models, email_letter, views
+from . import forms, models, email_letter, views, lob_api
 from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
@@ -43,6 +43,14 @@ class LandlordDetailsV2(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordDetailsFormV2
 
+    is_undeliverable = graphene.Boolean(
+        description=(
+            "Whether or not the provided address appears to be undeliverable. "
+            "If Lob integration is disabled, there was a problem contacting Lob, "
+            "or the mutation was unsuccessful, this will be null."
+        )
+    )
+
     @classmethod
     def resolve(cls, parent, info: ResolveInfo):
         result = super().resolve(parent, info)
@@ -65,7 +73,9 @@ class LandlordDetailsV2(OneToOneUserModelFormMutation):
         ld.is_looked_up = False
         ld.save()
 
-        return cls.mutation_success()
+        return cls.mutation_success(
+            is_undeliverable=lob_api.is_address_undeliverable(**ld.as_lob_params())
+        )
 
 
 @schema_registry.register_mutation

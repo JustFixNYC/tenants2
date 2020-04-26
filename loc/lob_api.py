@@ -1,8 +1,11 @@
 import json
-from typing import Dict, Any, BinaryIO
+import logging
+from typing import Dict, Any, BinaryIO, Optional
 from threading import Lock
 from django.conf import settings
 import lob
+
+logger = logging.getLogger(__name__)
 
 DELIVERABLE = 'deliverable'
 
@@ -38,6 +41,9 @@ DELIVERABILITY_DOCS = {
 # we might want to verify addresses using a production publishable
 # key while sending mail using a test secret key. So we'll just
 # use a lock to ensure thread safety when accessing the Lob API.
+#
+# This issue has been filed with Lob here:
+# https://github.com/lob/lob-python/issues/163
 _lock = Lock()
 
 
@@ -95,6 +101,33 @@ def verify_address(**params: str) -> Dict[str, Any]:
     with _lock:
         lob.api_key = settings.LOB_PUBLISHABLE_API_KEY
         return _to_plain_object(lob.USVerification.create(**params))
+
+
+def is_address_undeliverable(**params: str) -> Optional[bool]:
+    '''
+    Given a Lob verification object, contacts Lob and returns whether
+    the address appears to be undeliverable. Returns None if there
+    was a problem contacting Lob, or if Lob integration is disabled.
+    '''
+
+    if not settings.LOB_PUBLISHABLE_API_KEY:
+        return None
+
+    try:
+        # One unfortunate aspect of Lob's Python library API is that
+        # there isn't an easy way to provide a timeout to the request
+        # it's making, so this can potentially hang. Hopefully this
+        # will rarely/never be an issue.
+        #
+        # In the meantime, I've filed an issue about it with Lob
+        # so hopefully it can be fixed eventually:
+        #
+        # https://github.com/lob/lob-python/issues/162
+        v = verify_address(**params)
+        return v['deliverability'] == UNDELIVERABLE
+    except Exception as e:
+        logger.exception(e)
+        return None
 
 
 def get_deliverability_docs(verification: Dict[str, Any]) -> str:

@@ -7815,6 +7815,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether or not the provided address appears to be undeliverable. If Lob integration is disabled, there was a problem contacting Lob, or the mutation was unsuccessful, this will be null.",
+              "isDeprecated": false,
+              "name": "isUndeliverable",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "clientMutationId",

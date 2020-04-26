@@ -76,3 +76,33 @@ def test_get_address_from_verification_works():
         '185 BERRY ST STE 6100\n'
         'SAN FRANCISCO CA 94107-1728'
     )
+
+
+class TestIsAddressUndeliverable:
+    def test_it_returns_null_if_lob_is_disabled(self):
+        assert lob_api.is_address_undeliverable() is None
+
+    def test_it_returns_false_if_addr_is_deliverable(self, settings, requests_mock):
+        settings.LOB_PUBLISHABLE_API_KEY = 'mypubkey'
+        requests_mock.post(
+            LOB_VERIFICATIONS_URL,
+            json=get_sample_verification()
+        )
+        assert lob_api.is_address_undeliverable() is False
+
+    def test_it_returns_true_if_addr_is_undeliverable(self, settings, requests_mock):
+        settings.LOB_PUBLISHABLE_API_KEY = 'mypubkey'
+        requests_mock.post(
+            LOB_VERIFICATIONS_URL,
+            json=get_sample_verification(deliverability='undeliverable')
+        )
+        assert lob_api.is_address_undeliverable() is True
+
+    def test_it_returns_null_if_lob_raises_exception(self, settings, requests_mock):
+        settings.LOB_PUBLISHABLE_API_KEY = 'mypubkey'
+        requests_mock.post(
+            LOB_VERIFICATIONS_URL,
+            json={'error': {'message': 'something weird happened'}},
+            status_code=500,
+        )
+        assert lob_api.is_address_undeliverable() is None

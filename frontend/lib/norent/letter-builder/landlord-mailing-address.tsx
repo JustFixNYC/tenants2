@@ -13,9 +13,9 @@ import {
 import { USStateFormField } from "../../forms/mailing-address-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { NorentRoutes } from "../routes";
-import { Route, Link } from "react-router-dom";
-import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
+import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
+import { NorentConfirmationModal } from "./confirmation-modal";
 
 const getConfirmModalRoute = () =>
   NorentRoutes.locale.letter.landlordAddressConfirmModal;
@@ -28,31 +28,13 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
   const { landlordDetails } = useContext(AppContext).session;
 
   return (
-    <Modal
+    <NorentConfirmationModal
       title="Our records tell us that this address is undeliverable."
-      withHeading
-      onCloseGoTo={BackOrUpOneDirLevel}
-      render={(ctx) => (
-        <>
-          <p>Do you still want to mail to:</p>
-          {splitLines(landlordDetails?.address || "")}
-          <div className="buttons jf-two-buttons">
-            <Link
-              {...ctx.getLinkCloseProps()}
-              className="jf-is-back-button button is-medium"
-            >
-              Back
-            </Link>
-            <Link
-              to={nextStep}
-              className="button is-primary is-medium jf-is-next-button"
-            >
-              Yes
-            </Link>
-          </div>
-        </>
-      )}
-    />
+      nextStep={nextStep}
+    >
+      <p>Do you still want to mail to:</p>
+      {splitLines(landlordDetails?.address || "")}
+    </NorentConfirmationModal>
   );
 };
 

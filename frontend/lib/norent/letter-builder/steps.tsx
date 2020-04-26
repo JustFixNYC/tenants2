@@ -77,7 +77,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         },
         {
           path: routes.city,
-          exact: true,
+          exact: false,
           component: NorentLbAskCityState,
         },
         {

@@ -13,6 +13,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,
     city: `${prefix}/city`,
+    cityConfirmModal: `${prefix}/city/confirm-modal`,
     knowYourRights: `${prefix}/kyr`,
     nationalAddress: `${prefix}/address/national`,
     laAddress: `${prefix}/address/los-angeles`,

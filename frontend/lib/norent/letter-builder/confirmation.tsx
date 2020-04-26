@@ -10,6 +10,7 @@ import { LetterBuilderAccordion } from "./welcome";
 import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
+import { NorentRoutes } from "../routes";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -76,6 +77,16 @@ export const NorentConfirmation: React.FC<{}> = () => {
               className="is-size-5 is-size-6-mobile"
             >
               {letter.trackingNumber}
+            </OutboundLink>
+          </p>
+          <p className="has-text-centered">
+            <OutboundLink
+              className="button is-primary is-large jf-is-extra-wide"
+              href={NorentRoutes.locale.letterContent.pdf}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download letter (PDF)
             </OutboundLink>
           </p>
         </>

@@ -8,7 +8,7 @@ import { USStateFormField } from "../../forms/mailing-address-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { AppContext } from "../../app-context";
-import { assertNotNullish } from "../../util/util";
+import { hardFail } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
@@ -49,7 +49,7 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
         onSuccessRedirect={(output, input) =>
           areAddressesTheSame(
             input.city,
-            assertNotNullish<string>(output.session?.norentScaffolding?.city)
+            output.session?.norentScaffolding?.city ?? hardFail()
           )
             ? props.nextStep
             : getConfirmModalRoute()

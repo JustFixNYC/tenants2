@@ -11,7 +11,7 @@ import {
   isDeepEqual,
   properNoun,
   numberWithCommas,
-  assertNotNullish,
+  hardFail,
 } from "../util";
 
 describe("properNoun()", () => {
@@ -32,23 +32,12 @@ describe("assertNotNull()", () => {
   });
 });
 
-describe("assertNotNullish()", () => {
-  it("returns thing when it is not null or undefined", () => {
-    expect(assertNotNullish("")).toBe("");
-    expect(assertNotNullish(0)).toBe(0);
-    expect(assertNotNullish(123)).toBe(123);
-  });
-
-  it("raises exception when null", () => {
-    expect(() => assertNotNullish(null)).toThrowError(
-      "expected argument to not be null"
+describe("hardFail()", () => {
+  it("throws an error", () => {
+    expect(() => hardFail()).toThrowError(
+      "Code should never reach this point!"
     );
-  });
-
-  it("raises exception when undefined", () => {
-    expect(() => assertNotNullish(undefined)).toThrowError(
-      "expected argument to not be undefined"
-    );
+    expect(() => hardFail("boop")).toThrowError("boop");
   });
 });
 

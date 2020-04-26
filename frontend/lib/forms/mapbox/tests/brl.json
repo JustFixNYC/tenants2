@@ -1,0 +1,38 @@
+{
+  "id": "address.7249648506421788",
+  "type": "Feature",
+  "place_type": ["address"],
+  "relevance": 1,
+  "properties": { "accuracy": "rooftop" },
+  "text": "Court Street",
+  "place_name": "150 Court Street, Brooklyn, New York 11201, United States",
+  "center": [-73.992972, 40.688772],
+  "geometry": { "type": "Point", "coordinates": [-73.992972, 40.688772] },
+  "address": "150",
+  "context": [
+    { "id": "neighborhood.299612", "text": "Cobble Hill" },
+    {
+      "id": "locality.6335122455180360",
+      "wikidata": "Q18419",
+      "text": "Brooklyn"
+    },
+    { "id": "postcode.15332151625363130", "text": "11201" },
+    {
+      "id": "place.15278078705964500",
+      "wikidata": "Q60",
+      "text": "New York"
+    },
+    {
+      "id": "region.10003493535855570",
+      "short_code": "US-NY",
+      "wikidata": "Q1384",
+      "text": "New York"
+    },
+    {
+      "id": "country.19352517729256050",
+      "short_code": "us",
+      "wikidata": "Q30",
+      "text": "United States"
+    }
+  ]
+}

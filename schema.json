@@ -6438,6 +6438,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether or not the provided address appears to be valid. If Mapbox integration is disabled, there was a problem contacting Mapbox, or the mutation was unsuccessful, this will be null.",
+              "isDeprecated": false,
+              "name": "isValid",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "clientMutationId",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { NorentCityStateMutation } from "../../queries/NorentCityStateMutation";
@@ -6,6 +6,29 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { TextualFormField } from "../../forms/form-fields";
 import { USStateFormField } from "../../forms/mailing-address-fields";
 import { ProgressButtons } from "../../ui/buttons";
+import { NorentConfirmationModal } from "./confirmation-modal";
+import { AppContext } from "../../app-context";
+import { hardFail } from "../../util/util";
+import { NorentRoutes } from "../routes";
+import { Route } from "react-router-dom";
+import { areAddressesTheSame } from "../../ui/address-confirmation";
+
+const getConfirmModalRoute = () => NorentRoutes.locale.letter.cityConfirmModal;
+
+const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
+  const scf = useContext(AppContext).session.norentScaffolding;
+
+  return (
+    <NorentConfirmationModal
+      nextStep={props.nextStep}
+      title="Confirming the city"
+    >
+      <p>
+        Do you live in {scf?.city}, {scf?.state}?
+      </p>
+    </NorentConfirmationModal>
+  );
+};
 
 export const NorentLbAskCityState = MiddleProgressStep((props) => {
   return (
@@ -23,7 +46,14 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
           city: s.norentScaffolding?.city || s.onboardingInfo?.city || "",
           state: s.norentScaffolding?.state || s.onboardingInfo?.state || "",
         })}
-        onSuccessRedirect={props.nextStep}
+        onSuccessRedirect={(output, input) =>
+          areAddressesTheSame(
+            input.city,
+            output.session?.norentScaffolding?.city ?? hardFail()
+          )
+            ? props.nextStep
+            : getConfirmModalRoute()
+        }
       >
         {(ctx) => (
           <>
@@ -33,6 +63,10 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
           </>
         )}
       </SessionUpdatingFormSubmitter>
+      <Route
+        path={getConfirmModalRoute()}
+        render={() => <ConfirmCityModal nextStep={props.nextStep} />}
+      />
     </Page>
   );
 });

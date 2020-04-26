@@ -33,6 +33,18 @@ export function assertNotUndefined<T>(thing: T | undefined): T | never {
 }
 
 /**
+ * This function throws an exception with the given optional message. It's
+ * useful as an assertion in combination with the logical OR or nullish
+ * coalescing operators, as a way of asserting that a value must always
+ * be truthy or non-nullish.
+ */
+export function hardFail(
+  msg: string = "Code should never reach this point!"
+): never {
+  throw new Error(msg);
+}
+
+/**
  * Convert a Date to just the date part of its ISO representation,
  * e.g. '2018-09-15'.
  */

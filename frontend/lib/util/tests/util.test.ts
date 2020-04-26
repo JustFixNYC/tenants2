@@ -11,6 +11,7 @@ import {
   isDeepEqual,
   properNoun,
   numberWithCommas,
+  hardFail,
 } from "../util";
 
 describe("properNoun()", () => {
@@ -28,6 +29,15 @@ describe("assertNotNull()", () => {
 
   it("returns argument when not null", () => {
     expect(assertNotNull("")).toBe("");
+  });
+});
+
+describe("hardFail()", () => {
+  it("throws an error", () => {
+    expect(() => hardFail()).toThrowError(
+      "Code should never reach this point!"
+    );
+    expect(() => hardFail("boop")).toThrowError("boop");
   });
 });
 

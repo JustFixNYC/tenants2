@@ -12,19 +12,19 @@ import { HiddenFormField } from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import {
   isBoroughChoice,
   getBoroughChoiceLabels,
 } from "../../../../common-data/borough-choices";
-import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { OnboardingStep1Input } from "../../queries/globalTypes";
 import {
   AptNumberFormFields,
   createAptNumberFormInput,
 } from "../../forms/apt-number-form-fields";
+import { NorentConfirmationModal } from "./confirmation-modal";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
@@ -37,36 +37,15 @@ const ConfirmNycAddressModal: React.FC<{
   }
 
   return (
-    <Modal
-      title="Confirming the address"
-      withHeading
-      onCloseGoTo={BackOrUpOneDirLevel}
-      render={(ctx) => (
-        <>
-          <p>
-            Our records have shown us a similar address. Would you like to
-            proceed with this address:
-          </p>
-          <p className="content is-italic">
-            {addrInfo.address}, {borough}
-          </p>
-          <div className="buttons jf-two-buttons">
-            <Link
-              {...ctx.getLinkCloseProps()}
-              className="jf-is-back-button button is-medium"
-            >
-              No
-            </Link>
-            <Link
-              to={nextStep}
-              className="button is-primary is-medium jf-is-next-button"
-            >
-              Yes
-            </Link>
-          </div>
-        </>
-      )}
-    />
+    <NorentConfirmationModal title="Confirming the address" nextStep={nextStep}>
+      <p>
+        Our records have shown us a similar address. Would you like to proceed
+        with this address:
+      </p>
+      <p className="content is-italic">
+        {addrInfo.address}, {borough}
+      </p>
+    </NorentConfirmationModal>
   );
 };
 

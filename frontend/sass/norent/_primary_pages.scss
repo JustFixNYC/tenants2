@@ -49,7 +49,16 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-letter-counter {
-  font-size: 4rem;
+  .hero-body {
+    padding-top: 0;
+    padding-bottom: 0;
+    @include tablet {
+      padding: 0;
+    }
+    .title {
+      font-size: 4rem;
+    }
+  }
 }
 
 .jf-norent-checklist {

@@ -192,12 +192,10 @@ export const NorentHomePage: React.FC<{}> = () => (
             </div>
           </div>
         </div>
-        <div className="hero is-small">
-          <div className="hero-body is-paddingless">
+        <div className="hero jf-letter-counter">
+          <div className="hero-body">
             <div className="container has-text-centered">
-              <p className="jf-letter-counter title is-spaced has-text-info">
-                5,234
-              </p>
+              <p className="title is-spaced has-text-info">5,234</p>
               <NorentLogo size="is-96x96" color="dark" />{" "}
               <span className="subtitle">
                 letters sent by tenants across the USA

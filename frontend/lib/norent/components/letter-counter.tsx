@@ -5,11 +5,9 @@ import { NorentLogo } from "./logo";
 // Initial count of norent.org letter sent, based on tally from LA letter sender
 const NORENT_LETTERS_SENT_PRE_LAUNCH = 122;
 
-// Initial count of norent.org letter sent, based on tally from LA letter sender
-const NUMBER_OF_TIMES_LETTER_COUNTER_INCREMENTS = 20;
-
 export const LetterCounter = () => {
   const { session } = useContext(AppContext);
+
   return (
     <div className="hero jf-letter-counter">
       <div className="hero-body">

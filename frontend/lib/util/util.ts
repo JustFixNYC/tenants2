@@ -16,6 +16,18 @@ export function assertNotNull<T>(thing: T | null): T | never {
 }
 
 /**
+ * Assert that the given argument isn't null or undefined and return it.
+ * Throw an exception otherwise.
+ *
+ * This is primarily useful for situations where we're unable to
+ * statically verify that something isn't undefined (e.g. due to the limitations
+ * of typings we didn't write) but are sure it won't be in practice.
+ */
+export function assertNotNullish<T>(thing: T | null | undefined): T | never {
+  return assertNotNull(assertNotUndefined(thing));
+}
+
+/**
  * Assert that the given argument isn't undefined and return it. Throw
  * an exception otherwise.
  *

@@ -139,7 +139,8 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           )}
           <div
             className={classnames(
-              !isPrimaryPage && "box jf-norent-builder-page"
+              !isPrimaryPage &&
+                "box jf-norent-builder-page jf-above-footer-content"
             )}
             ref={ref}
             data-jf-is-noninteractive

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Page from "../ui/page";
 import { NorentRoutes } from "./routes";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
@@ -10,12 +10,9 @@ import { PartnerLogos } from "./about";
 import classnames from "classnames";
 import { ScrollyLink } from "../ui/scrolly-link";
 import { Link } from "react-router-dom";
-import { AppContext } from "../app-context";
+import { LetterCounter } from "./components/letter-counter";
 
 type NorentImageType = "png" | "svg";
-
-// Initial count of norent.org letter sent, based on tally from LA letter sender
-const BASELINE_COUNT_OF_NORENT_LETTERS_SENT = 122;
 
 export function getImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
@@ -129,7 +126,6 @@ const LandingPageCollectiveActionList = () => (
 );
 
 export const NorentHomePage: React.FC<{}> = () => {
-  const { session } = useContext(AppContext);
   return (
     <Page title="NoRent.org" className="content">
       <section className="hero is-fullheight-with-navbar">
@@ -198,23 +194,7 @@ export const NorentHomePage: React.FC<{}> = () => {
               </div>
             </div>
           </div>
-          <div className="hero jf-letter-counter">
-            <div className="hero-body">
-              <div className="container has-text-centered">
-                <p className="title is-spaced has-text-info">
-                  {session.norentLettersSent
-                    ? BASELINE_COUNT_OF_NORENT_LETTERS_SENT +
-                      session.norentLettersSent
-                    : BASELINE_COUNT_OF_NORENT_LETTERS_SENT}
-                </p>
-                <NorentLogo size="is-96x96" color="dark" />{" "}
-                <span className="subtitle">
-                  letters sent by tenants across the USA
-                </span>
-                <p className="is-uppercase">Since May 2020</p>
-              </div>
-            </div>
-          </div>
+          <LetterCounter />
           <div className="hero is-small">
             <div className="hero-body is-paddingless">
               <div className="jf-illustration-paper-airplanes is-pulled-right">

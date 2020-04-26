@@ -174,11 +174,11 @@ $jf-logo-height: 70px;
     }
   }
   @include tablet {
-    height: calc(#{$jf-logo-height} + 50px);
+    height: calc(#{$jf-logo-height} + 20px);
     figure.image img {
       @include is-horizontal-center;
-      height: calc(#{$jf-logo-height} + 50px);
-      width: calc(3 * (#{$jf-logo-height} + 50px));
+      height: calc(#{$jf-logo-height} + 20px);
+      width: calc(3 * (#{$jf-logo-height} + 20px));
     }
   }
 }

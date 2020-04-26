@@ -1,6 +1,7 @@
 import json
 import pytest
 from django.core.management import call_command
+import urllib.parse
 
 from project.justfix_environment import BASE_DIR
 from project.mapbox import (
@@ -23,6 +24,11 @@ BROOKLYN_RESULTS_JSON = {
 @pytest.fixture(autouse=True)
 def setup_fixture(settings):
     settings.MAPBOX_ACCESS_TOKEN = 'boop'
+
+
+def mock_brooklyn_results(query: str, requests_mock):
+    url = f"{MAPBOX_PLACES_URL}/{urllib.parse.quote(query)}.json"
+    requests_mock.get(url, json=BROOKLYN_RESULTS_JSON)
 
 
 class TestGetMapboxState:
@@ -54,11 +60,11 @@ class TestFindCity:
         assert find_city('zzz', 'OH') is None
 
     def test_it_returns_empty_list_when_no_states_match(self, requests_mock):
-        requests_mock.get(f"{MAPBOX_PLACES_URL}/brook%2C%20GA.json", json=BROOKLYN_RESULTS_JSON)
+        mock_brooklyn_results("brook, GA", requests_mock)
         assert find_city('brook', 'GA') == []
 
     def test_it_returns_nonempty_list_when_states_match(self, requests_mock):
-        requests_mock.get(f"{MAPBOX_PLACES_URL}/brook%2C%20NY.json", json=BROOKLYN_RESULTS_JSON)
+        mock_brooklyn_results("brook, NY", requests_mock)
         assert find_city('brook', 'NY') == ['Brooklyn']
 
 

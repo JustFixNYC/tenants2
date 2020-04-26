@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
@@ -12,6 +12,49 @@ import {
 } from "../../queries/LandlordDetailsV2Mutation";
 import { USStateFormField } from "../../forms/mailing-address-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
+import { NorentRoutes } from "../routes";
+import { Route, Link } from "react-router-dom";
+import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
+import { AppContext } from "../../app-context";
+
+const getConfirmModalRoute = () =>
+  NorentRoutes.locale.letter.landlordAddressConfirmModal;
+
+function splitLines(text: string): JSX.Element[] {
+  return text.split("\n").map((line, i) => <div key={i}>{line}</div>);
+}
+
+const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
+  const { landlordDetails } = useContext(AppContext).session;
+
+  return (
+    <Modal
+      title="Our records tell us that this address is undeliverable."
+      withHeading
+      onCloseGoTo={BackOrUpOneDirLevel}
+      render={(ctx) => (
+        <>
+          <p>Do you still want to mail to:</p>
+          {splitLines(landlordDetails?.address || "")}
+          <div className="buttons jf-two-buttons">
+            <Link
+              {...ctx.getLinkCloseProps()}
+              className="jf-is-back-button button is-medium"
+            >
+              Back
+            </Link>
+            <Link
+              to={nextStep}
+              className="button is-primary is-medium jf-is-next-button"
+            >
+              Yes
+            </Link>
+          </div>
+        </>
+      )}
+    />
+  );
+};
 
 const NorentLandlordMailingAddress = MiddleProgressStep((props) => {
   return (
@@ -29,7 +72,9 @@ const NorentLandlordMailingAddress = MiddleProgressStep((props) => {
             BlankLandlordDetailsV2Input
           )
         }
-        onSuccessRedirect={props.nextStep}
+        onSuccessRedirect={(output) =>
+          output.isUndeliverable ? getConfirmModalRoute() : props.nextStep
+        }
       >
         {(ctx) => (
           <>
@@ -48,6 +93,10 @@ const NorentLandlordMailingAddress = MiddleProgressStep((props) => {
           </>
         )}
       </SessionUpdatingFormSubmitter>
+      <Route
+        path={getConfirmModalRoute()}
+        render={() => <ConfirmAddressModal nextStep={props.nextStep} />}
+      />
     </Page>
   );
 });

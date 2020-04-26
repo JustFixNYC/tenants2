@@ -136,7 +136,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </p>
           <br />
         </div>
-        <div className="container">
+        <div className="container jf-space-below-2rem">
           <PartnerLogos />
         </div>
       </div>

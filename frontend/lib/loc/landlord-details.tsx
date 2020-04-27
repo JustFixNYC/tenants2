@@ -15,6 +15,7 @@ import {
 } from "../queries/LandlordDetailsV2Mutation";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { MiddleProgressStep } from "../progress/progress-step-route";
+import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 
 function getIntroText(isLookedUp: boolean | null): JSX.Element {
   return isLookedUp ? (
@@ -38,10 +39,6 @@ function getIntroText(isLookedUp: boolean | null): JSX.Element {
   );
 }
 
-function splitLines(text: string): JSX.Element[] {
-  return text.split("\n").map((line, i) => <div key={i}>{line}</div>);
-}
-
 function ReadOnlyLandlordDetails(props: {
   details: AllSessionInfo_landlordDetails;
   nextStep: string;
@@ -59,7 +56,9 @@ function ReadOnlyLandlordDetails(props: {
         <dt>
           <strong>Landlord address</strong>
         </dt>
-        <dd>{splitLines(details.address)}</dd>
+        <dd>
+          <BreaksBetweenLines lines={details.address} />
+        </dd>
       </dl>
       <ProgressButtons>
         <BackButton to={prevStep} />

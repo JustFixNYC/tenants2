@@ -23,6 +23,7 @@ StateDict = Dict[str, Any]
 BOOLEAN_YES_NO_FIELDS = [
     "Is documentation a legal requirement?",
     "Does the tenant need to send the documentation to the landlord?",
+    "State without protections?",
 ]
 
 TO_BE_USED_FIELD = 'toBeUsed'

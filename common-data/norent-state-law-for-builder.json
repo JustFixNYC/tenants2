@@ -1,210 +1,221 @@
 {
   "AK": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "AL": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "AR": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://static.ark.org/eeuploads/pulaski/COVID-19_Response_PC.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Arkansas has suspended all in-person court hearings, but there is no moratorium on eviction proceedings and judges can hold hearings remotely."
   },
   "AZ": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "CA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://jcc.legistar.com/View.ashx?M=F&ID=8234474&GUID=79611543-6A40-465C-8B8B-D324F5CAE349",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Most evictions in California are suspended until 90-days after the Governor lifts the state of emergency related to the COVID\u201019 pandemic under the Judicial Council's Emergency Rule 1, issued April 6, 2020."
   },
   "CO": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "CT": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://portal.ct.gov/-/media/Office-of-the-Governor/Executive-Orders/Lamont-Executive-Orders/Executive-Order-No-7X.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until July 1, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
   },
   "DC": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "DE": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "FL": {
     "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis until May 17, 2020."
   },
   "GA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://www.gasupreme.us/wp-content/uploads/2020/04/CJ_Melton_Extension_Order_signed_entered.pdf",
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Tenants in Georgia are not protected from eviction for non-payment. Georgia has not implemented statewide orders to protect tenants from evictions for non-payment during or immediately following the COVID-19 pandemic."
   },
   "HI": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "IA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "ID": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "IL": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "IN": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "KS": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "KY": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://governor.ky.gov/attachments/20200325_Executive-Order_2020-257_Healthy-at-Home.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Governor Beshear\u2019s Executive Order protects tenants from eviction during the COVID-19 crisis. And, on April 1, the Kentucky Supreme Court prohibited clerks from accepting eviction filings until May 31."
   },
   "LA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MD": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "ME": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MI": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MN": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://mn.gov/governor/assets/EO%2020-14%20Filed_tcm1055-424508.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Tenants in Minnesota are protected from eviction for non-payment of rent by Executive Order 20-14 issued by Governor Tim Walz on March 23, 2020."
   },
   "MO": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MS": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "MT": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NC": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "ND": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NE": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NH": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NJ": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://www.nj.gov/infobank/eo/056murphy/pdf/EO-106.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106, issued by Governor Philip Murphy on March 19, 2020. "
   },
   "NM": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NV": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "NY": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/EO_202.8.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Tenants in New York State are protected from eviction until June 19, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
   },
   "OH": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "OK": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://www.oscn.net/images/news/SCAD-2020-29.pdf",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "All deadlines and procedures in civil matters, including eviction matters, are suspended through May 15, 2020. District and Special Judges have been ordered to reschedule hearings scheduled for before May 15, 2020."
   },
   "OR": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "PA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "PR": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "linkToLegislation": "https://www.congress.gov/bill/116th-congress/house-bill/748/text",
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020."
   },
   "RI": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "SC": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "SD": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "TN": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "TX": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "UT": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "VA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "VT": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "WA": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "WI": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "WV": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   },
   "WY": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Lorem Ipsum"
   }
 }

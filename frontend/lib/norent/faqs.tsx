@@ -12,6 +12,7 @@ const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Tenant Rights",
   "Connecting With Others",
   "After Sending Your Letter",
+  "States with Limited Protections",
 ];
 
 function sortFaqsByPriority(data: Faq[]) {
@@ -105,10 +106,20 @@ export const NorentFaqsPage: React.FC<{}> = () => {
               const faqs = FaqsContent.filter(
                 (faq) => faq.category === category
               );
+
+              const formatCategoryID = function (
+                categoryTitle: string
+              ): string {
+                return categoryTitle.replace(/\s+/g, "_").toLowerCase();
+              };
+
               return (
                 faqs.length > 0 && (
                   <div className="has-text-left" key={i}>
-                    <h5 className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless">
+                    <h5
+                      id={formatCategoryID(category)}
+                      className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless"
+                    >
                       {category}
                     </h5>
                     <br />

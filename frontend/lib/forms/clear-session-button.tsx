@@ -5,6 +5,8 @@ import { SessionUpdatingFormSubmitter } from "./session-updating-form-submitter"
 import { LogoutMutation } from "../queries/LogoutMutation";
 import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { bulmaClasses } from "../ui/bulma";
+import { FormContext } from "./form-context";
+import { LogoutInput } from "../queries/globalTypes";
 
 const DEFAULT_LABEL = "Cancel";
 
@@ -67,15 +69,7 @@ export function ClearSessionButton(props: ClearSessionButtonProps) {
             if (!props.portalRef.current)
               throw new Error("portalRef must exist!");
             return ReactDOM.createPortal(
-              <button
-                type="button"
-                onClick={() => ctx.submit()}
-                className={bulmaClasses("button", "is-light", "is-medium", {
-                  "is-loading": ctx.isLoading,
-                })}
-              >
-                {label}
-              </button>,
+              createButton(label, ctx),
               props.portalRef.current
             );
           }}
@@ -84,3 +78,35 @@ export function ClearSessionButton(props: ClearSessionButtonProps) {
     </SessionUpdatingFormSubmitter>
   );
 }
+
+function createButton(label: string, ctx: FormContext<LogoutInput>) {
+  return (
+    <button
+      type="button"
+      onClick={() => ctx.submit()}
+      className={bulmaClasses("button", "is-light", "is-medium", {
+        "is-loading": ctx.isLoading,
+      })}
+    >
+      {label}
+    </button>
+  );
+}
+
+/**
+ * A much simpler clearing session button that doesn't require
+ * React Portals, if you don't need to put it on an existing form.
+ */
+export const SimpleClearSessionButton: React.FC<Pick<
+  ClearSessionButtonProps,
+  "to" | "label"
+>> = (props) => {
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LogoutMutation}
+      initialState={{}}
+      onSuccessRedirect={props.to}
+      children={createButton.bind(null, props.label || DEFAULT_LABEL)}
+    />
+  );
+};

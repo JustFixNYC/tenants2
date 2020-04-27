@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { ChevronIcon } from "../faqs";
+import { SimpleClearSessionButton } from "../../forms/clear-session-button";
 
 export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
   <Page title="Build your letter" className="content" withHeading="big">
@@ -32,9 +33,7 @@ export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
       </li>
     </ul>
     <div className="buttons jf-two-buttons">
-      <Link to={NorentRoutes.locale.home} className="button is-light is-medium">
-        Cancel
-      </Link>
+      <SimpleClearSessionButton to={NorentRoutes.locale.home} />
       <Link
         to={assertNotNull(props.nextStep)}
         className="button jf-is-next-button is-primary is-medium"

@@ -85,7 +85,7 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
     )
     user.custom_issues.add(CustomIssue(
         area=ISSUE_AREA_CHOICES.HOME,
-        description='supermold'
+        description='SUPERMOLD'
     ), CustomIssue(
         area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
         description='Lobby is consumed by darkness'
@@ -125,7 +125,7 @@ def test_user_to_hpactionvars_populates_issues(db):
 
     assert second.area_complained_of_mc == hp.AreaComplainedOfMC.PUBLIC_AREA
     assert second.which_room_mc.value == "Public areas"  # type: ignore
-    assert second.conditions_complained_of_te == "Lobby is consumed by darkness"
+    assert second.conditions_complained_of_te == "lobby is consumed by darkness"
     v.to_answer_set()
 
 

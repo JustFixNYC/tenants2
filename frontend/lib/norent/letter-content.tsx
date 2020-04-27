@@ -12,6 +12,7 @@ import {
 } from "../static-page/email-static-page";
 import { USStateChoice } from "../../../common-data/us-state-choices";
 import { getNorentMetadataForUSState } from "./letter-builder/national-metadata";
+import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 
 export type NorentLetterContentProps = {
   firstName: string;
@@ -24,10 +25,7 @@ export type NorentLetterContentProps = {
   email: string;
   phoneNumber: string;
   landlordName: string;
-  landlordPrimaryLine: string;
-  landlordCity: string;
-  landlordState: string;
-  landlordZipCode: string;
+  landlordAddress: string;
   landlordEmail: string;
   paymentDate: GraphQLDate;
 };
@@ -68,12 +66,8 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
     <dd>
       <LandlordName {...props} />
       <br />
-      {props.landlordPrimaryLine ? (
-        <>
-          {props.landlordPrimaryLine}
-          <br />
-          {props.landlordCity}, {props.landlordState} {props.landlordZipCode}
-        </>
+      {props.landlordAddress ? (
+        <BreaksBetweenLines lines={props.landlordAddress} />
       ) : (
         <>{props.landlordEmail}</>
       )}
@@ -251,10 +245,7 @@ function getNorentLetterContentPropsFromSession(
     zipCode: onb.zipcode,
     aptNumber: onb.aptNumber,
     landlordName: ld.name,
-    landlordPrimaryLine: ld.primaryLine,
-    landlordCity: ld.city,
-    landlordState: ld.state,
-    landlordZipCode: ld.zipCode,
+    landlordAddress: ld.address,
     landlordEmail: ld.email,
   };
 
@@ -286,10 +277,7 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
   email: "boop@jones.com",
   phoneNumber: "5551234567",
   landlordName: "Landlordo Calrissian",
-  landlordPrimaryLine: "1 Cloud City Drive",
-  landlordCity: "Bespin",
-  landlordState: "OH",
-  landlordZipCode: "41235",
+  landlordAddress: "1 Cloud City Drive\nBespin, OH 41235",
   landlordEmail: "landlordo@calrissian.net",
   paymentDate: "2020-05-01T15:41:37.114Z",
 };

@@ -21,8 +21,13 @@ import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
 import NorentLandlordMailingAddress from "./landlord-mailing-address";
 import { NorentLbKnowYourRights } from "./know-your-rights";
-import { isZipCodeInLosAngeles } from "./national-metadata";
+import {
+  isZipCodeInLosAngeles,
+  getNorentMetadataForUSState,
+  assertIsUSState,
+} from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
+import { PostSignupNoProtections } from "./post-signup-no-protections";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -38,6 +43,15 @@ function isUserOutsideNYC(s: AllSessionInfo): boolean {
 
 function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
   return isUserLoggedIn(s) && !!s.email;
+}
+
+function isLoggedInUserInStateWithProtections(s: AllSessionInfo): boolean {
+  const state = s.onboardingInfo?.state;
+
+  if (!state) return true;
+
+  return !getNorentMetadataForUSState(assertIsUSState(state)).lawForBuilder
+    .stateWithoutProtections;
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {
@@ -114,6 +128,12 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         path: routes.createAccount,
         component: NorentCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.postSignupNoProtections,
+        exact: true,
+        shouldBeSkipped: isLoggedInUserInStateWithProtections,
+        component: PostSignupNoProtections,
       },
       {
         path: routes.landlordName,

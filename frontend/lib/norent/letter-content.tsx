@@ -206,7 +206,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       ) : (
         // Letter Copy for V3_FEW_PROTECTIONS, the default:
         <p>
-          This letter is to advise you of protections in place for tenants in
+          This letter is to advise you of protections in place for tenants in{" "}
           {getUSStateChoiceLabels()[state]}. I am not waiving my right to assert
           any other defenses.
         </p>

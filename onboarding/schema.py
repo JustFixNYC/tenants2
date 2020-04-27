@@ -90,7 +90,7 @@ def pick_model_fields(model, **kwargs):
     }
 
 
-def complete_onboarding(request, info, password: Optional[str]):
+def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
     with transaction.atomic():
         user = JustfixUser.objects.create_user(
             username=JustfixUser.objects.generate_random_username(),
@@ -106,21 +106,17 @@ def complete_onboarding(request, info, password: Optional[str]):
         oi.full_clean()
         oi.save()
 
-    user.send_sms_async(
-        f"Welcome to {get_site_name()}, {user.first_name}! "
-        f"We'll be sending you notifications from this phone number.",
-    )
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-        f"from {slack.escape(oi.borough_label)} has signed up for "
+        f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
         f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))}!",
         is_safe=True
     )
-    if user.email:
-        send_verification_email_async(user.pk)
 
     user.backend = settings.AUTHENTICATION_BACKENDS[0]
     login(request, user)
+
+    return user
 
 
 class OnboardingStep4Base(SessionFormMutation):
@@ -149,7 +145,14 @@ class OnboardingStep4Base(SessionFormMutation):
         password = form.cleaned_data['password'] or None
         allinfo['email'] = form.cleaned_data.get('email', '')
         allinfo['state'] = "NY"
-        complete_onboarding(request, info=allinfo, password=password)
+        user = complete_onboarding(request, info=allinfo, password=password)
+
+        user.send_sms_async(
+            f"Welcome to {get_site_name()}, {user.first_name}! "
+            f"We'll be sending you notifications from this phone number.",
+        )
+        if user.email:
+            send_verification_email_async(user.pk)
 
         for step in SESSION_STEPS:
             step.clear_from_request(request)

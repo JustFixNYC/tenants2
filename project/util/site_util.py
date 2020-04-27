@@ -77,15 +77,29 @@ def get_canonical_url(request: HttpRequest):
     return absolutify_url(request.get_full_path(), request)
 
 
-def get_site_name() -> str:
+def get_site_base_name(site_type: str) -> str:
+    '''
+    Returns the base site name given the type of site we are,
+    without any additional deployment information.
+    '''
+
+    if site_type == SITE_CHOICES.JUSTFIX:
+        return "JustFix.nyc"
+    elif site_type == SITE_CHOICES.NORENT:
+        return "NoRent"
+    raise ValueError(f"Invalid site type: {site_type}")
+
+
+def get_site_name(site_type: str = SITE_CHOICES.JUSTFIX) -> str:
     '''
     Returns the site name. Note that this doesn't actually look at
     Django's current Site object, but rather assumes that we're
-    JustFix.nyc and appends any optional deployment information
-    to it, to ensure that people don't confuse it with production.
+    either JustFix.nyc or NoRent and appends any optional
+    deployment information to it, to ensure that people don't
+    confuse it with production.
     '''
 
-    words = ["JustFix.nyc"]
+    words = [get_site_base_name(site_type)]
 
     if settings.NAVBAR_LABEL:
         words.append(settings.NAVBAR_LABEL)

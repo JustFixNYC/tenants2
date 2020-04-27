@@ -474,7 +474,13 @@ class NorentCreateAccount(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        complete_onboarding(request, info=allinfo, password=password)
+        user = complete_onboarding(request, info=allinfo, password=password)
+
+        site_name = site_util.get_site_name("NORENT")
+        user.send_sms_async(
+            f"Welcome to {site_name}, a product by JustFix.nyc. "
+            f"We'll be sending you notifications from this phone number.",
+        )
 
         purge_last_queried_phone_number(request)
         OnboardingStep1Info.clear_from_request(request)

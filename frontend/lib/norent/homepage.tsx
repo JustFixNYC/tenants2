@@ -142,7 +142,7 @@ export const NorentHomePage: React.FC<{}> = () => {
             <BuildMyLetterButton isHiddenMobile />
             <br />
             <p className="is-size-6">
-              Made by non-profit{" "}
+              National tool by non-profit{" "}
               <OutboundLink
                 href="https://www.justfix.nyc/"
                 target="_blank"

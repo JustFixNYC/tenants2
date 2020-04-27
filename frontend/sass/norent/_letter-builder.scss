@@ -13,6 +13,20 @@
   max-width: 700px;
   margin: 4rem auto;
 
+  @include mobile {
+    margin: 0;
+    padding: 3rem 1.5rem;
+    box-shadow: none;
+    border-radius: 0;
+    // Since the mobile breakpoint might actually be higher than the max-width,
+    // let's unset the max-width property to avoid formatting weirdness
+    max-width: unset;
+  }
+
+  @include tablet {
+    min-height: unset;
+  }
+
   // These variables estimate the height between the top of the viewport
   // and the top of a jf-progress-step-wrapper container on desktop and mobile.
   // The idea is to offset these containers so that the letter builder box extends just beyond the viewport on desktop,
@@ -29,16 +43,6 @@
     @include mobile {
       min-height: calc(100vh - #{$progress-step-offset-mobile});
     }
-  }
-
-  @include mobile {
-    margin: 0;
-    padding: 3rem 1.5rem;
-    box-shadow: none;
-    border-radius: 0;
-    // Since the mobile breakpoint might actually be higher than the max-width,
-    // let's unset the max-width property to avoid formatting weirdness
-    max-width: unset;
   }
 
   h1.title {

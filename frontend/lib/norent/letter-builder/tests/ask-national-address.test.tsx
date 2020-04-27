@@ -36,14 +36,12 @@ describe("getSuccessRedirect()", () => {
   const OUTPUT: NorentNationalAddressMutation_output = {
     errors: [],
     isValid: null,
-    session: {
-      ...BlankAllSessionInfo,
-      norentScaffolding: {
-        ...BlankNorentScaffolding,
+    session: override(BlankAllSessionInfo, {
+      norentScaffolding: override(BlankNorentScaffolding, {
         street: "150 Court Street",
         zipCode: "11201",
-      },
-    },
+      }),
+    }),
   };
 
   const VALID_OUTPUT = override(OUTPUT, {

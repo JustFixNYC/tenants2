@@ -391,7 +391,13 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
         v.tenant_complaints_list.append(create_complaint(issue.area, desc))
 
     for cissue in custom_issues:
-        v.tenant_complaints_list.append(create_complaint(cissue.area, cissue.description))
+        # We're lowercasing the description because we *really* don't want
+        # to generate an addendum: the font used in the form isn't monospaced
+        # and many users type in all-caps, so lowercasing everything reduces
+        # the risk of addendumification.
+        complaint = create_complaint(cissue.area, cissue.description.lower())
+
+        v.tenant_complaints_list.append(complaint)
 
 
 def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:

@@ -16,8 +16,9 @@ function headingClassName(heading: true | "big" | "small") {
 }
 
 export function useSiteName(): string {
-  const { navbarLabel } = useContext(AppContext).server;
-  let siteName = "JustFix.nyc";
+  const { server } = useContext(AppContext);
+  const { navbarLabel, siteType } = server;
+  let siteName = siteType === "JUSTFIX" ? "JustFix.nyc" : "NoRent.org";
 
   if (navbarLabel) {
     siteName += " " + navbarLabel;

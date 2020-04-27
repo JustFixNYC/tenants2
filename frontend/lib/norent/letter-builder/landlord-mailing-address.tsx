@@ -16,13 +16,10 @@ import { NorentRoutes } from "../routes";
 import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { NorentConfirmationModal } from "./confirmation-modal";
+import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 
 const getConfirmModalRoute = () =>
   NorentRoutes.locale.letter.landlordAddressConfirmModal;
-
-function splitLines(text: string): JSX.Element[] {
-  return text.split("\n").map((line, i) => <div key={i}>{line}</div>);
-}
 
 const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
   const { landlordDetails } = useContext(AppContext).session;
@@ -33,7 +30,9 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
       nextStep={nextStep}
     >
       <p>Do you still want to mail to:</p>
-      {splitLines(landlordDetails?.address || "")}
+      <p className="content is-italic">
+        <BreaksBetweenLines lines={landlordDetails?.address || ""} />
+      </p>
     </NorentConfirmationModal>
   );
 };

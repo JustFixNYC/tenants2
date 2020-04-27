@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 import logging
 import graphene
 from graphql import ResolveInfo
@@ -9,6 +9,7 @@ from django.utils import timezone
 from project import slack, schema_registry
 from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
+from project import mapbox
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
 from onboarding.schema import OnboardingStep1Info, complete_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -189,9 +190,54 @@ class NorentCityState(NorentScaffoldingMutation):
 
 
 @schema_registry.register_mutation
-class NorentNationalAddress(NorentScaffoldingMutation):
+class NorentNationalAddress(SessionFormMutation):
     class Meta:
         form_class = forms.NationalAddress
+
+    is_valid = graphene.Boolean(
+        description=(
+            "Whether or not the provided address appears to be valid. "
+            "If Mapbox integration is disabled, there was a problem contacting Mapbox, "
+            "or the mutation was unsuccessful, this will be null."
+        )
+    )
+
+    @classmethod
+    def validate_address(
+        cls,
+        cleaned_data: Dict[str, str],
+        city: str,
+        state: str
+    ) -> Tuple[Dict[str, str], Optional[bool]]:
+        addresses = mapbox.find_address(
+            address=cleaned_data['street'],
+            city=city,
+            state=state,
+            zip_code=cleaned_data['zip_code']
+        )
+        if addresses is None:
+            return (cleaned_data, None)
+        if len(addresses) == 0:
+            return (cleaned_data, False)
+        address = addresses[0]
+        return ({
+            **cleaned_data,
+            'street': address.address,
+            'zip_code': address.zip_code,
+        }, True)
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        scf = get_scaffolding(request)
+        city = scf.city
+        state = scf.state
+        if not (city and state):
+            return cls.make_error("You haven't provided your city and state yet!")
+        cleaned_data, is_valid = cls.validate_address(
+            form.cleaned_data, city=city, state=state)
+        update_scaffolding(request, cleaned_data)
+        return cls.mutation_success(is_valid=is_valid)
 
 
 @schema_registry.register_mutation

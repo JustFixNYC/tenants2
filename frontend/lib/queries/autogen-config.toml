@@ -24,6 +24,7 @@ createBlankLiteral = true
 
 [types.NorentScaffolding]
 fragmentName = "NorentScaffolding"
+createBlankLiteral = true
 
 [types.FeeWaiverType]
 fragmentName = "FeeWaiverDetails"

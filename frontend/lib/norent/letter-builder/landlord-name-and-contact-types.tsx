@@ -50,7 +50,10 @@ const ReadOnlyLandlordDetails: React.FC<
 
 const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
   <>
-    <p>We'll use this information to send your letter.</p>
+    <p className="jf-space-below-2rem">
+      We'll use this information to send your letter.
+    </p>
+    <br />
     <SessionUpdatingFormSubmitter
       mutation={NorentLandlordNameAndContactTypesMutation}
       initialState={(s) => ({

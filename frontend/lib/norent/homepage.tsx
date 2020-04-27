@@ -306,14 +306,14 @@ export const NorentHomePage: React.FC<{}> = () => {
                     DeSantis on April 2, 2020.
                   </p>
                   <br />
-                  <p>
+                  <p className="is-hidden-mobile">
                     Tenants in covered properties are also protected from
                     eviction, fees, penalties, and other charges related to
                     non-payment by the CARES Act (Title IV, Sec. 4024) enacted
                     by Congress on March 27, 2020.
                   </p>
                   <br />
-                  <p>
+                  <p className="is-hidden-mobile">
                     Along with my neighbors, I am organizing, encouraging,
                     and/or participating in a tenant organization so that we may
                     support

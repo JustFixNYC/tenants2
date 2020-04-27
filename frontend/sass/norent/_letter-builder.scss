@@ -28,20 +28,17 @@
   }
 
   // These variables estimate the height between the top of the viewport
-  // and the top of a jf-progress-step-wrapper container on desktop and mobile.
-  // The idea is to offset these containers so that the letter builder box extends just beyond the viewport on desktop,
-  // and just before the viewport on mobile (to reveal a sliver of the footer).
+  // and the top of a jf-progress-step-wrapper container on desktop.
+  // The idea is to offset these containers so that the letter builder box extends just beyond the viewport on desktop.
   //
   // Note: this is NOT an ideal implementation, and should be updated if there are major changes to the sizing
   // and formatting of the NoRent builder step pages
   $progress-step-offset: 300px;
-  $progress-step-offset-mobile: 210px;
 
   .jf-progress-step-wrapper {
     // Make container height extend to edge of viewport:
-    min-height: calc(100vh - #{$progress-step-offset});
-    @include mobile {
-      min-height: calc(100vh - #{$progress-step-offset-mobile});
+    @include tablet {
+      min-height: calc(100vh - #{$progress-step-offset});
     }
   }
 

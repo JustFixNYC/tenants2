@@ -125,7 +125,7 @@ const LandingPageCollectiveActionList = () => (
 );
 
 export const NorentHomePage: React.FC<{}> = () => (
-  <Page title="NoRent.org" className="content">
+  <Page title="" className="content">
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">

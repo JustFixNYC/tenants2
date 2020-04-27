@@ -296,8 +296,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                     I am writing to inform you that I have experienced a loss of
                     income, increased expenses and/or other financial
                     circumstances related to the pandemic. Until further notice,
-                    I will be unable to pay my rent due to the COVID-19
-                    emergency.
+                    the COVID-19 emergency may impact my ability to pay rent.
                   </p>
                   <br />
                   <p>

@@ -131,7 +131,7 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
 ) => (
   <>
     <EmailSubject
-      value={`Notice of Non-Payment of Rent sent on behalf of ${props.firstName} ${props.lastName}`}
+      value={`Notice of COVID-19 impact on Rent sent on behalf of ${props.firstName} ${props.lastName}`}
     />
     <p>
       Dear <LandlordName {...props} />,

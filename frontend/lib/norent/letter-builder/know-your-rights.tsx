@@ -12,6 +12,7 @@ import {
   NorentMetadataForUSState,
 } from "./national-metadata";
 import { OutboundLink } from "../../analytics/google-analytics";
+import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
 
 const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
   props
@@ -20,7 +21,10 @@ const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
     <>
       <p>
         Unfortunately, we do not currently recommend sending a notice of
-        non-payment to your landlord. Sending a notice could put you at risk.
+        non-payment to your landlord. Sending a notice could put you at risk.{" "}
+        <Link to={getStatesWithLimitedProtectionsFAQSectionURL()}>
+          Learn more.
+        </Link>
       </p>
 
       <div className="content">

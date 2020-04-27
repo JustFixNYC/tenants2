@@ -12,10 +12,7 @@ import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { LetterBuilderAccordion } from "./welcome";
-
-function splitLines(text: string): JSX.Element[] {
-  return text.split("\n").map((line, i) => <div key={i}>{line}</div>);
-}
+import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 
 const ReadOnlyLandlordDetails: React.FC<
   MiddleProgressStepProps & { details: AllSessionInfo_landlordDetails }
@@ -37,7 +34,9 @@ const ReadOnlyLandlordDetails: React.FC<
         <dt>
           <strong>Landlord address</strong>
         </dt>
-        <dd>{splitLines(details.address)}</dd>
+        <dd>
+          <BreaksBetweenLines lines={details.address} />
+        </dd>
       </dl>
       <ProgressButtons>
         <BackButton to={prevStep} />

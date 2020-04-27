@@ -11,6 +11,7 @@ $norent-sticky-menu-height: 100px;
   }
   .jf-sticky-button-menu {
     position: sticky;
+    bottom: 0;
     height: $norent-sticky-menu-height;
     top: calc(100vh - #{$norent-sticky-menu-height});
     width: 100%;

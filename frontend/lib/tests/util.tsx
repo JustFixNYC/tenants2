@@ -101,3 +101,18 @@ export const FakeGeoResults: any = {
 export function simpleFormErrors(...errors: string[]): FormError[] {
   return errors.map(strToFormError);
 }
+
+/**
+ * A helper that allows some or all of the given default object's
+ * properties to be overridden.
+ *
+ * The return type is the same as the default object, which is what
+ * makes this function useful over simply merging the two objects
+ * using spread syntax.
+ */
+export function override<T>(defaults: T, overrides: Partial<T>): T {
+  return {
+    ...defaults,
+    ...overrides,
+  };
+}

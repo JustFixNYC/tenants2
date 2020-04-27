@@ -165,24 +165,25 @@ $jf-navbar-content: $black;
   }
 }
 
-$jf-logo-height: 70px;
+$jf-logo-height-mobile: 70px;
+$jf-logo-height-desktop: 90px;
 
 .jf-justfix-logo {
-  height: $jf-logo-height;
+  height: $jf-logo-height-mobile;
   figure.image {
     margin: 0;
     padding: 0;
     img {
-      height: $jf-logo-height;
-      width: calc(3 * #{$jf-logo-height});
+      height: $jf-logo-height-mobile;
+      width: calc(3 * #{$jf-logo-height-mobile});
     }
   }
   @include tablet {
-    height: calc(#{$jf-logo-height} + 20px);
+    height: $jf-logo-height-desktop;
     figure.image img {
       @include is-horizontal-center;
-      height: calc(#{$jf-logo-height} + 20px);
-      width: calc(3 * (#{$jf-logo-height} + 20px));
+      height: $jf-logo-height-desktop;
+      width: calc(3 * #{$jf-logo-height-desktop});
     }
   }
 }

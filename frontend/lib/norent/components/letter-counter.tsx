@@ -13,15 +13,13 @@ export const LetterCounter = () => {
       <div className="hero-body">
         <div className="container has-text-centered">
           <p className="title is-spaced has-text-info">
-            {session.norentLettersSent
-              ? NORENT_LETTERS_SENT_PRE_LAUNCH + session.norentLettersSent
-              : NORENT_LETTERS_SENT_PRE_LAUNCH}
+            {NORENT_LETTERS_SENT_PRE_LAUNCH + session.norentLettersSent}
           </p>
           <NorentLogo size="is-96x96" color="dark" />{" "}
           <span className="subtitle">
             letters sent by tenants across the USA
           </span>
-          <p className="is-uppercase">Since May 2020</p>
+          <p className="is-uppercase">Since April 2020</p>
         </div>
       </div>
     </div>

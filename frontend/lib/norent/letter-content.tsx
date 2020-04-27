@@ -137,14 +137,7 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
       Dear <LandlordName {...props} />,
     </p>
     <p>
-      Until further notice <FullName {...props} /> will be unable to pay rent.
-      Please see letter attached.{" "}
-    </p>
-    <p>
-      {
-        getNorentMetadataForUSState(props.state as USStateChoice)?.lawForBuilder
-          ?.textOfLegislation
-      }
+      Please see letter attached from <FullName {...props} />.{" "}
     </p>
     <p>
       In order to document communications and avoid misunderstandings, please

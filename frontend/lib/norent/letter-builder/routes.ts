@@ -16,6 +16,8 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     cityConfirmModal: `${prefix}/city/confirm-modal`,
     knowYourRights: `${prefix}/kyr`,
     nationalAddress: `${prefix}/address/national`,
+    nationalAddressConfirmModal: `${prefix}/address/national/confirm-modal`,
+    nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
     laAddress: `${prefix}/address/los-angeles`,
     nycAddress: `${prefix}/address/nyc`,
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,

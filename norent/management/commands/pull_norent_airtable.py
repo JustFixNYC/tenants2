@@ -82,6 +82,14 @@ def filter_to_be_used(new_fields: Dict[str, Any]) -> Dict[str, Any]:
     return new_fields
 
 
+def transform_value(name: str, value: Any) -> Any:
+    if name in BOOLEAN_YES_NO_FIELDS:
+        value = convert_yes_no_to_boolean(name, value)
+    if isinstance(value, str):
+        value = value.strip()
+    return value
+
+
 def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
     new_fields: Dict[str, Any] = {}
 
@@ -90,10 +98,8 @@ def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
             continue
         if name.lower().endswith('(not exposed)'):
             continue
-        if name in BOOLEAN_YES_NO_FIELDS:
-            value = convert_yes_no_to_boolean(name, value)
         new_name = to_camel_case(name).replace('?', '')
-        new_fields[new_name] = value
+        new_fields[new_name] = transform_value(name, value)
 
     convert_all_numbered_fields_to_arrays(new_fields)
 

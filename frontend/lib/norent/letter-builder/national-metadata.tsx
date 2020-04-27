@@ -10,17 +10,20 @@ import {
 import { LosAngelesZipCodes } from "../data/la-zipcodes";
 
 type StateLawForBuilderEntry = {
-  linkToLegislation: string;
+  linkToLegislation?: string;
   textOfLegislation: string;
+  stateWithoutProtections: boolean;
 };
 
+export enum CovidStateLawVersion {
+  V1_NON_PAYMENT = "V1 non-payment",
+  V2_HARDSHIP = "V2 hardship",
+  V3_FEW_PROTECTIONS = "V3 few protections",
+}
+
 type StateLawForLetterEntry = {
-  textOfLegislation1: string;
-  textOfLegislation2?: string;
-  textOfLegislation3?: string;
-  textOfLegislation4?: string;
-  textOfLegislation5?: string;
-  textOfLegislation6?: string;
+  whichVersion: CovidStateLawVersion;
+  textOfLegislation: string[];
 };
 
 type StatePartnerForBuilderEntry = {

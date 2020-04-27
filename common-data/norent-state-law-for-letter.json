@@ -1,210 +1,231 @@
 {
   "AK": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "AL": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "AR": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "AZ": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "CA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Governor Gavin Newsom, Executive Order N-37-20, March 27, 2020",
+      "California Judicial Council, Emergency Rule 1, April 6, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "CO": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "CT": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Governor Ned Lamont, Executive Order No. 7X, April 10, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "DC": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "DE": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "FL": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    ],
+    "whichVersion": "V2 hardship"
   },
   "GA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Georgia Supreme Court Order, Order Extending Declaration of Statewide Judicial Emergency, April 4, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "HI": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "IA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "ID": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "IL": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "IN": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "KS": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "KY": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Governor Beshear, Executive Order 2020-257, March 25",
+      "Kentucky Supreme Court, Judicial Order 2020-16, April 1"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "LA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MD": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "ME": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MI": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MN": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MO": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MS": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "MT": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NC": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "ND": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NE": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NH": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NJ": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NM": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NV": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "NY": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "Governor Andrew Cuomo, Executive Order 202.8, March 20, 2020",
+      "Judge Marks, Chief Administrative Judge of the Courts, Administrative Order AO/85/20, April 8, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "OH": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "OK": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "The Supreme Court of the State of Oklahoma, SCAD No. 2020-29, March 27, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "OR": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "PA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V3 few protections"
   },
   "PR": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "RI": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "SC": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "SD": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "TN": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "TX": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "UT": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "VA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "VT": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "WA": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "WI": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "WV": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   },
   "WY": {
-    "textOfLegislation1": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020",
-    "textOfLegislation2": "Governor Ron DeSantis, Executive Order 20-94, April 2, 2020"
+    "textOfLegislation": ["Lorem Ipsum"],
+    "whichVersion": "V1 non-payment"
   }
 }

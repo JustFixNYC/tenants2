@@ -32,7 +32,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
   return (
     <Page title="Your phone number" withHeading="big">
       <div className="content">
-        <p>
+        <p className="jf-space-below-2rem">
           Whether it's your first time here, or you're a returning user, let's
           start with your number.
         </p>

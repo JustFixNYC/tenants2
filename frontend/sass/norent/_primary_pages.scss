@@ -12,7 +12,7 @@ $norent-sticky-menu-height: 100px;
   .jf-sticky-button-menu {
     position: sticky;
     height: $norent-sticky-menu-height;
-    top: calc(100vh - #{$norent-sticky-menu-height});
+    top: calc(100% - #{$norent-sticky-menu-height});
     width: 100%;
     z-index: 1000;
     padding: 1rem;
@@ -49,7 +49,16 @@ $norent-sticky-menu-height: 100px;
 }
 
 .jf-letter-counter {
-  font-size: 4rem;
+  .hero-body {
+    padding-top: 0;
+    padding-bottom: 0;
+    @include tablet {
+      padding: 0;
+    }
+    .title {
+      font-size: 4rem;
+    }
+  }
 }
 
 .jf-norent-checklist {

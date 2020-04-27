@@ -90,7 +90,6 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
 const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
   const state = props.state as USStateChoice;
   const protectionData = getNorentMetadataForUSState(state)?.lawForLetter;
-  const protectionEntries = Object.entries(protectionData);
 
   return (
     <>
@@ -100,8 +99,8 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
       </p>
       <ul>
         {protectionData &&
-          protectionEntries.map((protection, i) => (
-            <li key={i}>{protection[1]}</li>
+          protectionData.textOfLegislation.map((protection, i) => (
+            <li key={i}>{protection}</li>
           ))}
         <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
       </ul>

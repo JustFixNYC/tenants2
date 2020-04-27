@@ -8,7 +8,10 @@ import {
 } from "../../queries/NorentNationalAddressMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import {
+  AllSessionInfo,
+  AllSessionInfo_norentScaffolding,
+} from "../../queries/AllSessionInfo";
 import { NorentNationalAddressInput } from "../../queries/globalTypes";
 import {
   createAptNumberFormInput,
@@ -20,17 +23,31 @@ import { NorentRoutes } from "../routes";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { hardFail } from "../../util/util";
+import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 
 const getRoutes = () => NorentRoutes.locale.letter;
 
+function getNationalAddressLines(
+  scf: AllSessionInfo_norentScaffolding
+): string[] {
+  const firstLineParts = [scf.street];
+
+  if (scf.aptNumber) {
+    firstLineParts.push(`#${scf.aptNumber}`);
+  }
+
+  return [firstLineParts.join(" "), `${scf.city}, ${scf.state} ${scf.zipCode}`];
+}
+
 const ScaffoldingAddress: React.FC<{}> = (props) => {
-  const scf = useContext(AppContext).session.norentScaffolding;
+  const { norentScaffolding } = useContext(AppContext).session;
+  if (!norentScaffolding) return null;
+
+  const addr = getNationalAddressLines(norentScaffolding);
 
   return (
     <p className="content is-italic">
-      {scf?.street}
-      <br />
-      {scf?.city}, {scf?.state} {scf?.zipCode}
+      <BreaksBetweenLines lines={addr} />
     </p>
   );
 };
@@ -96,6 +113,7 @@ export const NorentLbAskNationalAddress_forUnitTests = {
   ConfirmValidAddressModal,
   ConfirmInvalidAddressModal,
   getSuccessRedirect,
+  getNationalAddressLines,
 };
 
 export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {

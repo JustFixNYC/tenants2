@@ -70,6 +70,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </p>
         </div>
       </div>
+      <br />
       <div className="container jf-has-centered-images jf-space-below-2rem">
         <JumpArrow to="#more-info" altText="Learn more" />
         <br />
@@ -96,14 +97,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">Who We Are</h2>
           <br />
-          <OutboundLink
-            className="has-text-weight-normal"
-            href="https://www.justfix.nyc/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <JustfixLogo />
-          </OutboundLink>
+          <JustfixLogo isHyperlinked />
           <p className="subtitle is-size-5">
             NoRent.org is made by{" "}
             <OutboundLink
@@ -143,7 +137,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </p>
           <br />
         </div>
-        <div className="container">
+        <div className="container jf-space-below-2rem">
           <PartnerLogos />
         </div>
       </div>

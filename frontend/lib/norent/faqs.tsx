@@ -90,6 +90,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
             </p>
           </div>
         </div>
+        <br />
         <div className="container jf-has-centered-images jf-space-below-2rem">
           <JumpArrow to="#more-info" altText="Browse the FAQs" />
           <br />

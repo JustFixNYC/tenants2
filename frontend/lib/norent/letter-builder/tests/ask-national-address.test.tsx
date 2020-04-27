@@ -14,7 +14,27 @@ const {
   getSuccessRedirect,
   ConfirmInvalidAddressModal,
   ConfirmValidAddressModal,
+  getNationalAddressLines,
 } = NorentLbAskNationalAddress_forUnitTests;
+
+describe("getNationalAddressLines() works", () => {
+  const scf = override(BlankNorentScaffolding, {
+    street: "150 Court Street",
+    city: "Boopville",
+    state: "OH",
+    zipCode: "43216",
+  });
+  expect(getNationalAddressLines(scf)).toEqual([
+    "150 Court Street",
+    "Boopville, OH 43216",
+  ]);
+
+  scf.aptNumber = "2";
+  expect(getNationalAddressLines(scf)).toEqual([
+    "150 Court Street #2",
+    "Boopville, OH 43216",
+  ]);
+});
 
 describe("Asking for national address", () => {
   afterEach(AppTesterPal.cleanup);

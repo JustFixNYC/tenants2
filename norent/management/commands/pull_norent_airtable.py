@@ -1,6 +1,6 @@
 import urllib.parse
 import json
-from typing import Any, Dict, Iterator
+from typing import Any, Dict, Iterator, List
 from enum import Enum
 from pathlib import Path
 from django.core.management import BaseCommand, CommandError
@@ -23,6 +23,7 @@ StateDict = Dict[str, Any]
 BOOLEAN_YES_NO_FIELDS = [
     "Is documentation a legal requirement?",
     "Does the tenant need to send the documentation to the landlord?",
+    "State without protections?",
 ]
 
 TO_BE_USED_FIELD = 'toBeUsed'
@@ -31,6 +32,10 @@ IGNORE_FIELDS = [
     # Only some of our tables have an 'ID' column, for some reason, which we
     # don't actually need.
     "ID",
+]
+
+ARRAY_FIELDS = [
+    ("textOfLegislation", 6),
 ]
 
 
@@ -77,6 +82,14 @@ def filter_to_be_used(new_fields: Dict[str, Any]) -> Dict[str, Any]:
     return new_fields
 
 
+def transform_value(name: str, value: Any) -> Any:
+    if name in BOOLEAN_YES_NO_FIELDS:
+        value = convert_yes_no_to_boolean(name, value)
+    if isinstance(value, str):
+        value = value.strip()
+    return value
+
+
 def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
     new_fields: Dict[str, Any] = {}
 
@@ -85,12 +98,31 @@ def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
             continue
         if name.lower().endswith('(not exposed)'):
             continue
-        if name in BOOLEAN_YES_NO_FIELDS:
-            value = convert_yes_no_to_boolean(name, value)
         new_name = to_camel_case(name).replace('?', '')
-        new_fields[new_name] = value
+        new_fields[new_name] = transform_value(name, value)
+
+    convert_all_numbered_fields_to_arrays(new_fields)
 
     return filter_to_be_used(new_fields)
+
+
+def convert_all_numbered_fields_to_arrays(fields: Dict[str, Any]):
+    for (prefix, max) in ARRAY_FIELDS:
+        convert_numbered_fields_to_array(fields, prefix, max)
+
+
+def convert_numbered_fields_to_array(
+    fields: Dict[str, Any],
+    prefix: str,
+    max: int
+):
+    array: List[Any] = []
+    for i in range(1, max + 1):
+        key = f"{prefix}{i}"
+        if key in fields:
+            array.append(fields.pop(key))
+    if array:
+        fields[prefix] = array
 
 
 def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:

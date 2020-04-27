@@ -26,7 +26,7 @@ type StateLawForLetterEntry = {
   textOfLegislation: string[];
 };
 
-type StatePartnerForBuilderEntry = {
+export type StatePartnerForBuilderEntry = {
   organizationName: string;
   organizationWebsiteLink: string;
 };
@@ -71,6 +71,10 @@ export const assertIsUSState = (state: string): USStateChoice => {
   }
   return state;
 };
+
+export type NorentMetadataForUSState = ReturnType<
+  typeof getNorentMetadataForUSState
+>;
 
 /**
  * Return a big blob of metadata about NoRent.org-related information

@@ -5,7 +5,8 @@ from django.contrib.sites.models import Site
 
 from ..util.site_util import (
     absolute_reverse, absolutify_url, get_site_name, get_default_site,
-    get_site_from_request_or_default, get_site_type, SITE_CHOICES)
+    get_site_from_request_or_default, get_site_type, SITE_CHOICES,
+    get_site_base_name)
 
 
 class SiteUtilsTests(TestCase):
@@ -103,3 +104,16 @@ class TestGetSiteName:
 def test_get_site_type_works(name, expected):
     site = Site(name=name, domain="example.com")
     assert get_site_type(site) == expected
+
+
+@pytest.mark.parametrize('name,expected', [
+    [SITE_CHOICES.JUSTFIX, "JustFix.nyc"],
+    [SITE_CHOICES.NORENT, "NoRent"],
+])
+def test_get_site_base_name_works(name, expected):
+    assert get_site_base_name(name) == expected
+
+
+def test_get_site_base_name_raises_error():
+    with pytest.raises(ValueError):
+        get_site_base_name("BOOP")

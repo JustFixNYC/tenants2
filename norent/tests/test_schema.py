@@ -329,7 +329,7 @@ class TestNorentCreateAccount:
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
 
-    def test_it_works_for_nyc_users(self):
+    def test_it_works_for_nyc_users(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
         res = _exec_onboarding_step_n(1, self.graphql_client)
@@ -351,6 +351,9 @@ class TestNorentCreateAccount:
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''
+
+        assert len(smsoutbox) == 1
+        assert len(mailoutbox) == 0
 
         assert get_last_queried_phone_number(request) is None
         assert OnboardingStep1Info.get_dict_from_request(request) is None

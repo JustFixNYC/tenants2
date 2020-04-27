@@ -26,6 +26,7 @@ import { NorentAboutYourLetterPage } from "./the-letter";
 import { NorentLogo } from "./components/logo";
 import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 import { NorentLogoutPage } from "./log-out";
+import { NorentHelmet } from "./components/helmet";
 
 function getRoutesForPrimaryPages() {
   return new Set([
@@ -133,6 +134,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               menuItemsComponent={NorentMenuItems}
               brandComponent={NorentBrand}
             />
+            <NorentHelmet />
           </span>
           {!isPrimaryPage && (
             <div className="jf-block-of-color-in-background" />

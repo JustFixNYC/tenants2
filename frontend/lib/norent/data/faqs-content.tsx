@@ -20,6 +20,7 @@ export type Faq = {
 
 const LawHelpLink = () => (
   <OutboundLink
+    className="has-text-weight-normal"
     href="https://www.lawhelp.org/"
     target="_blank"
     rel="noopener noreferrer"
@@ -30,6 +31,7 @@ const LawHelpLink = () => (
 
 const RightToTheCityLink = () => (
   <OutboundLink
+    className="has-text-weight-normal"
     href="https://righttothecity.org/"
     target="_blank"
     rel="noopener noreferrer"
@@ -40,6 +42,7 @@ const RightToTheCityLink = () => (
 
 const CancelRentLink = () => (
   <OutboundLink
+    className="has-text-weight-normal"
     href="https://cancelrent.us/"
     target="_blank"
     rel="noopener noreferrer"
@@ -50,6 +53,7 @@ const CancelRentLink = () => (
 
 const RentStrike2020Link = () => (
   <OutboundLink
+    className="has-text-weight-normal"
     href="https://thenewinquiry.com/rent-strike-2020/"
     target="_blank"
     rel="noopener noreferrer"
@@ -60,6 +64,7 @@ const RentStrike2020Link = () => (
 
 const EmergencyTenantProtectionsMapLink = () => (
   <OutboundLink
+    className="has-text-weight-normal"
     href="https://antievictionmappingproject.github.io/covid-19-map/"
     target="_blank"
     rel="noopener noreferrer"
@@ -179,8 +184,9 @@ export const FaqsContent: Faq[] = [
       <p>
         It’s normal to feel anxious or scared that your landlord will retaliate.
         If your landlord is harassing you, denying you repairs, or trying to
-        illegally evict you, reach out to legal assistance at <LawHelpLink />
-        and connect with tenant organizers at <RightToTheCityLink />.
+        illegally evict you, reach out to legal assistance at <LawHelpLink />{" "}
+        and connect with tenant organizers at <RightToTheCityLink />
+        .s
       </p>
     ),
   },
@@ -314,7 +320,7 @@ export const FaqsContent: Faq[] = [
           NoRent.org will support you with the process of navigating these
           different rules. You can also read more about the tenant protections
           in your jurisdiction at the Anti-Eviction Mapping Project’s{" "}
-          <EmergencyTenantProtectionsMapLink />
+          <EmergencyTenantProtectionsMapLink />.
         </p>
       </>
     ),
@@ -339,7 +345,7 @@ export const FaqsContent: Faq[] = [
         <p>
           We are working hard to push for an immediate rent freeze and rent
           suspension, among other demands. This is the time to organize! Get
-          involved at <CancelRentLink />
+          involved at <CancelRentLink />.
         </p>
       </>
     ),
@@ -404,8 +410,7 @@ export const FaqsContent: Faq[] = [
           Avoid engaging in negotiation other than agreeing to pay a reasonable
           portion of your rent that you are sure you can afford without putting
           your health at risk. Don’t agree to move. You can find further legal
-          assistance at
-          <LawHelpLink />.
+          assistance at <LawHelpLink />.
         </p>
         <p>
           You should continue to collect documentation that shows you’ve been
@@ -471,7 +476,7 @@ export const FaqsContent: Faq[] = [
           Start by organizing a means of communicating with one another to find
           out what issues and needs you share in common. For more resources on
           forming a tenant union check out <RentStrike2020Link />. You may also
-          connect with local organizing groups affiliated with the national
+          connect with local organizing groups affiliated with the national{" "}
           <RightToTheCityLink />.
         </p>
         <p>

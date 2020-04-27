@@ -106,11 +106,18 @@ export const NorentFaqsPage: React.FC<{}> = () => {
               const faqs = FaqsContent.filter(
                 (faq) => faq.category === category
               );
+
+              const formatCategoryID = function (
+                categoryTitle: string
+              ): string {
+                return categoryTitle.replace(/\s+/g, "_").toLowerCase();
+              };
+
               return (
                 faqs.length > 0 && (
                   <div className="has-text-left" key={i}>
                     <h5
-                      id={category.replace(/\s+/g, "_").toLowerCase()}
+                      id={formatCategoryID(category)}
                       className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless"
                     >
                       {category}

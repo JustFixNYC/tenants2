@@ -92,6 +92,12 @@ function getSuccessRedirect(
   return nextStep;
 }
 
+export const NorentLbAskNationalAddress_forUnitTests = {
+  ConfirmValidAddressModal,
+  ConfirmInvalidAddressModal,
+  getSuccessRedirect,
+};
+
 export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
   const onSuccessRedirect = getSuccessRedirect.bind(null, props.nextStep);
 

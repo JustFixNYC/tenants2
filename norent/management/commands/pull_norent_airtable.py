@@ -1,6 +1,6 @@
 import urllib.parse
 import json
-from typing import Any, Dict, Iterator
+from typing import Any, Dict, Iterator, List
 from enum import Enum
 from pathlib import Path
 from django.core.management import BaseCommand, CommandError
@@ -32,6 +32,10 @@ IGNORE_FIELDS = [
     # Only some of our tables have an 'ID' column, for some reason, which we
     # don't actually need.
     "ID",
+]
+
+ARRAY_FIELDS = [
+    ("textOfLegislation", 6),
 ]
 
 
@@ -91,7 +95,28 @@ def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
         new_name = to_camel_case(name).replace('?', '')
         new_fields[new_name] = value
 
+    convert_all_numbered_fields_to_arrays(new_fields)
+
     return filter_to_be_used(new_fields)
+
+
+def convert_all_numbered_fields_to_arrays(fields: Dict[str, Any]):
+    for (prefix, max) in ARRAY_FIELDS:
+        convert_numbered_fields_to_array(fields, prefix, max)
+
+
+def convert_numbered_fields_to_array(
+    fields: Dict[str, Any],
+    prefix: str,
+    max: int
+):
+    array: List[Any] = []
+    for i in range(1, max + 1):
+        key = f"{prefix}{i}"
+        if key in fields:
+            array.append(fields.pop(key))
+    if array:
+        fields[prefix] = array
 
 
 def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:

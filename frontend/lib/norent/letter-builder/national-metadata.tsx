@@ -23,12 +23,7 @@ export enum CovidStateLawVersion {
 
 type StateLawForLetterEntry = {
   whichVersion: CovidStateLawVersion;
-  textOfLegislation1: string;
-  textOfLegislation2?: string;
-  textOfLegislation3?: string;
-  textOfLegislation4?: string;
-  textOfLegislation5?: string;
-  textOfLegislation6?: string;
+  textOfLegislation: string[];
 };
 
 type StatePartnerForBuilderEntry = {

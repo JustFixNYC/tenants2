@@ -32,6 +32,15 @@ class TestConvertRowsToStateDict:
             {}
         ),
         (
+            [{'fields': {
+                'State': 'WV',
+                'textOfLegislation1': 'blah',
+                'textOfLegislation2': 'meh',
+                'To be used': True
+             }}],
+            {'WV': {'textOfLegislation': ['blah', 'meh']}}
+        ),
+        (
             [{'fields': {}}],
             {}
         ),

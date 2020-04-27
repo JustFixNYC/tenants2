@@ -40,7 +40,7 @@ describe("getNorentMetadataForUSState()", () => {
       );
       expect(typeof md.lawForBuilder.textOfLegislation).toBe("string");
       validateCovidStateLawVersion(md.lawForLetter.whichVersion);
-      expect(typeof md.lawForLetter.textOfLegislation1).toBe("string");
+      expect(md.lawForLetter.textOfLegislation.length).toBeGreaterThan(0);
       expect(typeof md.partner.organizationName).toBe("string");
       expect(typeof md.partner.organizationWebsiteLink).toBe("string");
       expect(

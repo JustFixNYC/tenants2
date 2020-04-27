@@ -16,9 +16,9 @@ type StateLawForBuilderEntry = {
 };
 
 export enum CovidStateLawVersion {
-  V1_NON_PAYMENT = 'V1 non-payment',
-  V2_HARDSHIP = 'V2 hardship',
-  V3_FEW_PROTECTIONS = 'V3 few protections',
+  V1_NON_PAYMENT = "V1 non-payment",
+  V2_HARDSHIP = "V2 hardship",
+  V3_FEW_PROTECTIONS = "V3 few protections",
 }
 
 type StateLawForLetterEntry = {

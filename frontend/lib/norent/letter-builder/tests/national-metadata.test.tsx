@@ -2,8 +2,24 @@ import {
   assertIsUSState,
   getNorentMetadataForUSState,
   CovidStateLawVersion,
+  isLoggedInUserInStateWithProtections,
 } from "../national-metadata";
 import { USStateChoices } from "../../../../../common-data/us-state-choices";
+import { override } from "../../../tests/util";
+import { BlankOnboardingInfo } from "../../../queries/OnboardingInfo";
+import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
+
+test("isLoggedInUserInStateWithProtections() works", () => {
+  const onboardingInfo = override(BlankOnboardingInfo, { state: "NY" });
+  const session = override(BlankAllSessionInfo, { onboardingInfo });
+  expect(isLoggedInUserInStateWithProtections(session)).toBe(true);
+
+  onboardingInfo.state = "";
+  expect(isLoggedInUserInStateWithProtections(session)).toBe(true);
+
+  onboardingInfo.state = "GA";
+  expect(isLoggedInUserInStateWithProtections(session)).toBe(false);
+});
 
 describe("assertIsUSState", () => {
   it("works w/ states", () => {

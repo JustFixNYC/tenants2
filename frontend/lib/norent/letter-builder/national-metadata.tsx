@@ -8,6 +8,7 @@ import {
   isUSStateChoice,
 } from "../../../../common-data/us-state-choices";
 import { LosAngelesZipCodes } from "../data/la-zipcodes";
+import { AllSessionInfo } from "../../queries/AllSessionInfo.js";
 
 type StateLawForBuilderEntry = {
   linkToLegislation?: string;
@@ -97,3 +98,17 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
 export const isZipCodeInLosAngeles = (zipCode: string) => {
   return LosAngelesZipCodes.includes(zipCode);
 };
+
+export function isLoggedInUserInStateWithProtections(
+  s: AllSessionInfo
+): boolean {
+  const state = s.onboardingInfo?.state;
+
+  // This is kind of arbitrary, it shouldn't ever happen, but we want
+  // to return a boolean and very few states have no protections so
+  // we're just going to return true.
+  if (!state) return true;
+
+  return !getNorentMetadataForUSState(assertIsUSState(state)).lawForBuilder
+    .stateWithoutProtections;
+}

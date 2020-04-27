@@ -23,8 +23,7 @@ import NorentLandlordMailingAddress from "./landlord-mailing-address";
 import { NorentLbKnowYourRights } from "./know-your-rights";
 import {
   isZipCodeInLosAngeles,
-  getNorentMetadataForUSState,
-  assertIsUSState,
+  isLoggedInUserInStateWithProtections,
 } from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
@@ -43,15 +42,6 @@ function isUserOutsideNYC(s: AllSessionInfo): boolean {
 
 function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
   return isUserLoggedIn(s) && !!s.email;
-}
-
-function isLoggedInUserInStateWithProtections(s: AllSessionInfo): boolean {
-  const state = s.onboardingInfo?.state;
-
-  if (!state) return true;
-
-  return !getNorentMetadataForUSState(assertIsUSState(state)).lawForBuilder
-    .stateWithoutProtections;
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {

@@ -43,9 +43,7 @@
     "whichVersion": "V1 non-payment"
   },
   "DC": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "DE": {
@@ -73,33 +71,23 @@
     "whichVersion": "V3 few protections"
   },
   "IA": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "ID": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "IL": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "IN": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "KS": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "KY": {
@@ -110,9 +98,7 @@
     "whichVersion": "V1 non-payment"
   },
   "LA": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "MA": {
@@ -122,21 +108,15 @@
     "whichVersion": "V1 non-payment"
   },
   "MD": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "ME": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "MI": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "MN": {
@@ -146,63 +126,43 @@
     "whichVersion": "V1 non-payment"
   },
   "MO": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "MS": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "MT": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NC": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "ND": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NE": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NH": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NJ": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NM": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NV": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "NY": {
@@ -213,9 +173,7 @@
     "whichVersion": "V1 non-payment"
   },
   "OH": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "OK": {
@@ -225,9 +183,7 @@
     "whichVersion": "V1 non-payment"
   },
   "OR": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "PA": {
@@ -243,75 +199,51 @@
     "whichVersion": "V2 hardship"
   },
   "RI": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "SC": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "SD": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "TN": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "TX": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "UT": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "VA": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "VT": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "WA": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "WI": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "WV": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "WY": {
-    "textOfLegislation": [
-      "Lorem Ipsum"
-    ],
+    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   }
 }

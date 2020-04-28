@@ -126,35 +126,37 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         shouldBeSkipped: isLoggedInUserInStateWithProtections,
         component: PostSignupNoProtections,
       },
-      {
-        path: routes.landlordName,
-        exact: true,
-        component: NorentLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp
-            ? false
-            : !s.norentScaffolding?.hasLandlordEmailAddress,
-        component: NorentLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp
-            ? true
-            : !s.norentScaffolding?.hasLandlordMailingAddress,
-        component: NorentLandlordMailingAddress,
-      },
-      {
-        path: routes.preview,
-        exact: false,
-        isComplete: hasNorentLetterBeenSentForThisRentPeriod,
-        component: NorentLetterPreviewPage,
-      },
+      ...skipStepsIf(hasNorentLetterBeenSentForThisRentPeriod, [
+        {
+          path: routes.landlordName,
+          exact: true,
+          component: NorentLandlordNameAndContactTypes,
+        },
+        {
+          path: routes.landlordEmail,
+          exact: true,
+          shouldBeSkipped: (s) =>
+            s.landlordDetails?.isLookedUp
+              ? false
+              : !s.norentScaffolding?.hasLandlordEmailAddress,
+          component: NorentLandlordEmail,
+        },
+        {
+          path: routes.landlordAddress,
+          exact: false,
+          shouldBeSkipped: (s) =>
+            s.landlordDetails?.isLookedUp
+              ? true
+              : !s.norentScaffolding?.hasLandlordMailingAddress,
+          component: NorentLandlordMailingAddress,
+        },
+        {
+          path: routes.preview,
+          exact: false,
+          isComplete: hasNorentLetterBeenSentForThisRentPeriod,
+          component: NorentLetterPreviewPage,
+        },
+      ]),
     ],
     confirmationSteps: [
       {

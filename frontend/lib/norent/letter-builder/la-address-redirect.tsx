@@ -6,8 +6,7 @@ import { BackButton } from "../../ui/buttons";
 import { Link } from "react-router-dom";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";
-const LA_LETTER_BUILDER_URL =
-  "https://app.norent.org/?i=docassemble.playground1:BrQm8N3wh4C8FPDk.yml&reset=1&key=J2NsHXy22cyUyMoTrHq1nujrX&_ga=2.208244050.136157993.1587673131-1106448515.1585681365";
+const LA_LETTER_BUILDER_URL = "https://www.saje.net/norent/";
 
 export const NorentLbLosAngelesRedirect = MiddleProgressStep((props) => {
   return (

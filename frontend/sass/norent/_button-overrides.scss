@@ -38,9 +38,10 @@
   > .button {
     max-width: 45%;
   }
-  .control {
+  .control,
+  form {
     max-width: 45%;
-    // This style targets any button wrapped in a control class inside a container of two buttons.
+    // This style targets any button wrapped in a control class or form inside a container of two buttons.
     // The main examples of these inside NoRent are the "Cancel" buttons in the first steps of the letter builder.
     .button {
       width: 100%;

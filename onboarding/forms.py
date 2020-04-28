@@ -163,3 +163,13 @@ class AgreeToTermsForm(forms.Form):
             "privacy policy."
         )
     )
+
+
+class OptInToRttcCommsForm(forms.Form):
+    opt_in = forms.BooleanField(
+        required=False,
+        help_text=(
+            "Whether the user agrees to receive communications from the "
+            "Right to the City Alliance (RTTC)."
+        )
+    )

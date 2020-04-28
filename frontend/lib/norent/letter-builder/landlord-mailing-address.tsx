@@ -11,12 +11,12 @@ import {
   BlankLandlordDetailsV2Input,
 } from "../../queries/LandlordDetailsV2Mutation";
 import { USStateFormField } from "../../forms/mailing-address-fields";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { NorentRoutes } from "../routes";
 import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
+import { NorentNotSentLetterStep } from "./step-decorators";
 
 const getConfirmModalRoute = () =>
   NorentRoutes.locale.letter.landlordAddressConfirmModal;
@@ -37,7 +37,7 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
   );
 };
 
-const NorentLandlordMailingAddress = MiddleProgressStep((props) => {
+const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
   return (
     <Page
       title="Your landlord or management company's address"

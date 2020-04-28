@@ -1,14 +1,14 @@
 import React from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { BackButton } from "../../ui/buttons";
 import { Link } from "react-router-dom";
+import { NorentOnboardingStep } from "./step-decorators";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";
 const LA_LETTER_BUILDER_URL = "https://www.saje.net/norent/";
 
-export const NorentLbLosAngelesRedirect = MiddleProgressStep((props) => {
+export const NorentLbLosAngelesRedirect = NorentOnboardingStep((props) => {
   return (
     <Page title="Los Angeles County">
       <h2 className="title">

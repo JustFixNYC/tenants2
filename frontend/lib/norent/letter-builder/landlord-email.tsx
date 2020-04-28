@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { OptionalLandlordDetailsMutation } from "../../queries/OptionalLandlordDetailsMutation";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { TextualFormField, HiddenFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { AppContext } from "../../app-context";
+import { NorentNotSentLetterStep } from "./step-decorators";
 
-export const NorentLandlordEmail = MiddleProgressStep((props) => {
+export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);
   const required = !session.landlordDetails?.isLookedUp;
 

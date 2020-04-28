@@ -4,3 +4,8 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 export function isUserLoggedIn(s: AllSessionInfo): boolean {
   return !!s.phoneNumber;
 }
+
+/** Returns whether or not a user is currently logged out. */
+export function isUserLoggedOut(s: AllSessionInfo): boolean {
+  return !s.phoneNumber;
+}

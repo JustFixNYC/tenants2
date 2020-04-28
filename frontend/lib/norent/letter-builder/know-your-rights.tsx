@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
@@ -13,6 +12,7 @@ import {
 } from "./national-metadata";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
+import { NorentOnboardingStep } from "./step-decorators";
 
 const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
   props
@@ -62,7 +62,7 @@ export const StateWithProtectionsContent: React.FC<NorentMetadataForUSState> = (
   </>
 );
 
-export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
+export const NorentLbKnowYourRights = NorentOnboardingStep((props) => {
   const { session } = useContext(AppContext);
   const scf = session.norentScaffolding;
 

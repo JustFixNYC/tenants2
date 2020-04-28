@@ -1,12 +1,12 @@
 import React from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { NorentFullNameMutation } from "../../queries/NorentFullNameMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
+import { NorentOnboardingStep } from "./step-decorators";
 
-export const NorentLbAskName = MiddleProgressStep((props) => {
+export const NorentLbAskName = NorentOnboardingStep((props) => {
   return (
     <Page title="It’s your first time here!" withHeading="big">
       <div className="content">

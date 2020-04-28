@@ -15,11 +15,14 @@ const TWITTER_HANDLE = "@JustFixNYC";
 const description =
   "Millions of Americans won’t be able to pay rent because of COVID‑19. Use our free tool to take action by writing a letter to your landlord. You're not alone.";
 const keywords = "pay rent, rent, can't pay rent, may rent, may 1";
-const shareImageSrc = getImageSrc("social-share", "png");
 
 export const NorentHelmet = () => {
   const { server } = useContext(AppContext);
   const siteName = useSiteName();
+  const shareImageSrc = `${server.staticURL}${getImageSrc(
+    "social-share",
+    "png"
+  )}`;
   return (
     <Helmet
       link={[

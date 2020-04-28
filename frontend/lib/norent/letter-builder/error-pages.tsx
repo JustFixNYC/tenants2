@@ -67,6 +67,10 @@ type SessionErrorHandlingPageProps = {
   children: React.ReactNode;
 };
 
+/**
+ * A component that conditionally renders either its children or an
+ * error component based on whether a criteria is met.
+ */
 export const SessionErrorHandlingPage: React.FC<SessionErrorHandlingPageProps> = (
   props
 ) => {
@@ -83,6 +87,12 @@ export const SessionErrorHandlingPage: React.FC<SessionErrorHandlingPageProps> =
   return <>{props.children}</>;
 };
 
+/**
+ * Wraps the given component in error-handling logic, such
+ * that if the current user's session matches a certain
+ * error state, a error component is shown instead of the
+ * usual one.
+ */
 export function withSessionErrorHandling<T>(
   isInErrorState: NullishSessionPredicate,
   ErrorComponent: React.ComponentType<{}>,

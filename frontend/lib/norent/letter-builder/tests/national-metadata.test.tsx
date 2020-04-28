@@ -57,8 +57,11 @@ describe("getNorentMetadataForUSState()", () => {
       expect(typeof md.lawForBuilder.textOfLegislation).toBe("string");
       validateCovidStateLawVersion(md.lawForLetter.whichVersion);
       expect(md.lawForLetter.textOfLegislation.length).toBeGreaterThan(0);
-      expect(typeof md.partner.organizationName).toBe("string");
-      expect(typeof md.partner.organizationWebsiteLink).toBe("string");
+      expect(typeof md.partner).toMatch(/object|undefined/);
+      if (typeof md.partner === "object") {
+        expect(typeof md.partner.organizationName).toBe("string");
+        expect(typeof md.partner.organizationWebsiteLink).toBe("string");
+      }
       expect(
         typeof md.docs.doesTheTenantNeedToSendTheDocumentationToTheLandlord
       ).toBe("boolean");

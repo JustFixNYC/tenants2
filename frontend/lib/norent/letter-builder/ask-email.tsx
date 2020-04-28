@@ -5,12 +5,19 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { NorentEmailMutation } from "../../queries/NorentEmailMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
+import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 
 export const NorentLbAskEmail = MiddleProgressStep((props) => {
+  const isWritingLetter = useIsOnboardingUserInStateWithProtections();
+
   return (
     <Page title="Your email address" withHeading="big">
       <div className="content">
-        <p>We'll use this information to email you a copy of your letter.</p>
+        {isWritingLetter ? (
+          <p>We'll use this information to email you a copy of your letter.</p>
+        ) : (
+          <p>We'll use this information to send you updates.</p>
+        )}
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentEmailMutation}

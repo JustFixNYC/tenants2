@@ -13,15 +13,25 @@ import { NorentRoutes } from "../routes";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
+import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 
 export const NorentCreateAccount = MiddleProgressStep((props) => {
+  const isWritingLetter = useIsOnboardingUserInStateWithProtections();
+
   return (
     <Page title="Set up an account" withHeading="big">
       <div className="content">
-        <p>
-          Let’s set you up with an account. An account will enable you to save
-          your information, download your letter, and more.
-        </p>
+        {isWritingLetter ? (
+          <p>
+            Let’s set you up with an account. An account will enable you to save
+            your information, download your letter, and more.
+          </p>
+        ) : (
+          <p>
+            Let's set you up with an account. This will enable you to save your
+            information, and receive updates.
+          </p>
+        )}
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentCreateAccountMutation}

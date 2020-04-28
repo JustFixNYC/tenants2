@@ -9,6 +9,8 @@ import {
 } from "../../../../common-data/us-state-choices";
 import { LosAngelesZipCodes } from "../data/la-zipcodes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo.js";
+import { useContext } from "react";
+import { AppContext } from "../../app-context";
 
 type StateLawForBuilderEntry = {
   linkToLegislation?: string;
@@ -99,11 +101,7 @@ export const isZipCodeInLosAngeles = (zipCode: string) => {
   return LosAngelesZipCodes.includes(zipCode);
 };
 
-export function isLoggedInUserInStateWithProtections(
-  s: AllSessionInfo
-): boolean {
-  const state = s.onboardingInfo?.state;
-
+function isInStateWithProtections(state: string | null | undefined): boolean {
   // This is kind of arbitrary, it shouldn't ever happen, but we want
   // to return a boolean and very few states have no protections so
   // we're just going to return true.
@@ -111,4 +109,21 @@ export function isLoggedInUserInStateWithProtections(
 
   return !getNorentMetadataForUSState(assertIsUSState(state)).lawForBuilder
     .stateWithoutProtections;
+}
+
+export function useIsOnboardingUserInStateWithProtections(): boolean {
+  const s = useContext(AppContext).session;
+  return isInStateWithProtections(s.norentScaffolding?.state);
+}
+
+export function isOnboardingUserInStateWithProtections(
+  s: AllSessionInfo
+): boolean {
+  return isInStateWithProtections(s.norentScaffolding?.state);
+}
+
+export function isLoggedInUserInStateWithProtections(
+  s: AllSessionInfo
+): boolean {
+  return isInStateWithProtections(s.onboardingInfo?.state);
 }

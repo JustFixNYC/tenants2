@@ -24,6 +24,7 @@ import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { hardFail } from "../../util/util";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
+import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 
 const getRoutes = () => NorentRoutes.locale.letter;
 
@@ -118,11 +119,14 @@ export const NorentLbAskNationalAddress_forUnitTests = {
 
 export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
   const onSuccessRedirect = getSuccessRedirect.bind(null, props.nextStep);
+  const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (
     <Page title="Your residence" withHeading="big">
       <div className="content">
-        <p>We'll include this information in the letter to your landlord.</p>
+        {isWritingLetter ? (
+          <p>We'll include this information in the letter to your landlord.</p>
+        ) : null}
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentNationalAddressMutation}

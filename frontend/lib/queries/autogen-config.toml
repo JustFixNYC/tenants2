@@ -70,9 +70,6 @@ createBlankLiteral = true
 [mutations.agreeToTerms]
 sessionFields = ["onboardingInfo"]
 
-[mutations.optInToRttcComms]
-sessionFields = ["onboardingInfo"]
-
 [mutations."example.*"]
 
 [mutations.emailLetter]

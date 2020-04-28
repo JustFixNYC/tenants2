@@ -190,22 +190,6 @@ class AgreeToTerms(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class OptInToRttcComms(SessionFormMutation):
-    class Meta:
-        form_class = forms.OptInToRttcCommsForm
-
-    login_required = True
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        oi = request.user.onboarding_info
-        oi.can_receive_rttc_comms = form.cleaned_data['opt_in']
-        oi.save()
-        return cls.mutation_success()
-
-
-@schema_registry.register_mutation
 class ReliefAttempts(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm

@@ -44,6 +44,26 @@ def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
     assert result is None
 
 
+def test_scaffolding_defaults_work(graphql_client):
+    update_scaffolding(graphql_client.request, {'firstName': ''})
+    result = graphql_client.execute(
+        '''
+        query {
+          session {
+            norentScaffolding {
+              firstName,
+              canReceiveRttcComms,
+            }
+          }
+        }
+        '''
+    )['data']['session']['norentScaffolding']
+    assert result == {
+        'firstName': '',
+        'canReceiveRttcComms': None,
+    }
+
+
 @pytest.mark.parametrize('city,state,expected', [
     ('', '', None),
     ('Ithaca', 'NY', False),
@@ -566,3 +586,59 @@ class TestNorentSendLetter:
         assert 'sent on behalf' in mail.subject
         assert len(mail.attachments) == 1
         assert letter.letter_emailed_at is not None
+
+
+class TestOptInToRttcComms(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentOptInToRttcCommsMutation($input: NorentOptInToRttcCommsInput!) {
+        output: norentOptInToRttcComms(input: $input) {
+            errors { field, messages },
+            session {
+                onboardingInfo { canReceiveRttcComms },
+                norentScaffolding { canReceiveRttcComms }
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'optIn': False,
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory()
+        self.request.user = self.oi.user
+
+    def test_it_works_when_logged_out(self):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveRttcComms': False},
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveRttcComms': True},
+        }
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveRttcComms': False},
+            'norentScaffolding': None,
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveRttcComms': True},
+            'norentScaffolding': None,
+        }
+
+        self.oi.refresh_from_db()
+        assert self.oi.can_receive_rttc_comms is True

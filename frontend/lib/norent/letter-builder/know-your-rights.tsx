@@ -27,12 +27,15 @@ const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
         </Link>
       </p>
 
-      <div className="content">
-        <p>
-          We’ve partnered with <PartnerLink {...props.partner} /> to provide
-          additional support.
-        </p>
-      </div>
+      <p>
+        We’ve partnered with <PartnerLink {...props.partner} /> to provide
+        additional support.
+      </p>
+
+      <p>
+        If you’d still like to create an account, we can send you updates in the
+        future.
+      </p>
     </>
   );
 };
@@ -52,13 +55,10 @@ export const StateWithProtectionsContent: React.FC<NorentMetadataForUSState> = (
 ) => (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
-
-    <div className="content">
-      <p>
-        We’ve partnered with <PartnerLink {...props.partner} /> to provide
-        additional support once you’ve sent your letter.
-      </p>
-    </div>
+    <p>
+      We’ve partnered with <PartnerLink {...props.partner} /> to provide
+      additional support once you’ve sent your letter.
+    </p>
   </>
 );
 
@@ -85,11 +85,13 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
         You're in <span className="has-text-info">{stateName}</span>
       </h2>
 
-      {hasNoProtections ? (
-        <StateWithoutProtectionsContent {...metadata} />
-      ) : (
-        <StateWithProtectionsContent {...metadata} />
-      )}
+      <div className="content">
+        {hasNoProtections ? (
+          <StateWithoutProtectionsContent {...metadata} />
+        ) : (
+          <StateWithProtectionsContent {...metadata} />
+        )}
+      </div>
 
       <br />
       <div className="buttons jf-two-buttons">

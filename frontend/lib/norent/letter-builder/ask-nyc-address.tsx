@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import {
   OnboardingStep1Mutation,

@@ -25,6 +25,7 @@ import {
   createAptNumberFormInput,
 } from "../../forms/apt-number-form-fields";
 import { NorentConfirmationModal } from "./confirmation-modal";
+import { NorentOnboardingStep } from "./step-decorators";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
@@ -61,7 +62,7 @@ function getInitialState(s: AllSessionInfo): OnboardingStep1Input {
   };
 }
 
-export const NorentLbAskNycAddress = MiddleProgressStep((props) => {
+export const NorentLbAskNycAddress = NorentOnboardingStep((props) => {
   return (
     <Page title="Your residence" withHeading="big">
       <div className="content">

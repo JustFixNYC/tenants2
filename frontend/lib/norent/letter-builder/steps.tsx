@@ -27,6 +27,7 @@ import {
 } from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
+import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -183,11 +184,4 @@ function skipStepsIf(
       },
     };
   });
-}
-
-function hasNorentLetterBeenSentForThisRentPeriod(s: AllSessionInfo): boolean {
-  const letter = s.norentLatestLetter;
-  const rentPeriod = s.norentLatestRentPeriod;
-  if (!(letter && rentPeriod)) return false;
-  return letter.paymentDate === rentPeriod.paymentDate && !!letter.letterSentAt;
 }

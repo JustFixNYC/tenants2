@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import {
@@ -25,6 +24,7 @@ import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { hardFail } from "../../util/util";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
+import { NorentOnboardingStep } from "./step-decorators";
 
 const getRoutes = () => NorentRoutes.locale.letter;
 
@@ -117,7 +117,7 @@ export const NorentLbAskNationalAddress_forUnitTests = {
   getNationalAddressLines,
 };
 
-export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
+export const NorentLbAskNationalAddress = NorentOnboardingStep((props) => {
   const onSuccessRedirect = getSuccessRedirect.bind(null, props.nextStep);
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 

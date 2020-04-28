@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Page from "../../ui/page";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { LetterPreview } from "../../static-page/letter-preview";
 import { NorentRoutes } from "../routes";
 import { NextButton, BackButton } from "../../ui/buttons";
@@ -11,6 +10,7 @@ import { Route, Link } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
 import { NorentLetterEmailForUser } from "../letter-content";
+import { NorentNotSentLetterStep } from "./step-decorators";
 
 const SendLetterModal: React.FC<{
   nextStep: string;
@@ -49,7 +49,7 @@ const SendLetterModal: React.FC<{
   );
 };
 
-export const NorentLetterPreviewPage = MiddleProgressStep((props) => {
+export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
   const { letterContent } = NorentRoutes.locale;
   const { session } = useContext(AppContext);
   const isMailingLetter = session.landlordDetails?.address;

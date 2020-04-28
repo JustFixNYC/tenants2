@@ -3,16 +3,14 @@ import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { TextualFormField, CheckboxFormField } from "../../forms/form-fields";
 import { ProgressButtons, BackButton } from "../../ui/buttons";
-import {
-  MiddleProgressStep,
-  MiddleProgressStepProps,
-} from "../../progress/progress-step-route";
+import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentLandlordNameAndContactTypesMutation";
 import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { LetterBuilderAccordion } from "./welcome";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
+import { NorentNotSentLetterStep } from "./step-decorators";
 
 const ReadOnlyLandlordDetails: React.FC<
   MiddleProgressStepProps & { details: AllSessionInfo_landlordDetails }
@@ -96,19 +94,24 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
   </>
 );
 
-export const NorentLandlordNameAndContactTypes = MiddleProgressStep((props) => {
-  const { session } = useContext(AppContext);
-  return (
-    <Page
-      title="Your landlord or management company's information"
-      withHeading="big"
-      className="content"
-    >
-      {session.landlordDetails?.isLookedUp ? (
-        <ReadOnlyLandlordDetails {...props} details={session.landlordDetails} />
-      ) : (
-        <NameAndContactTypesForm {...props} />
-      )}
-    </Page>
-  );
-});
+export const NorentLandlordNameAndContactTypes = NorentNotSentLetterStep(
+  (props) => {
+    const { session } = useContext(AppContext);
+    return (
+      <Page
+        title="Your landlord or management company's information"
+        withHeading="big"
+        className="content"
+      >
+        {session.landlordDetails?.isLookedUp ? (
+          <ReadOnlyLandlordDetails
+            {...props}
+            details={session.landlordDetails}
+          />
+        ) : (
+          <NameAndContactTypesForm {...props} />
+        )}
+      </Page>
+    );
+  }
+);

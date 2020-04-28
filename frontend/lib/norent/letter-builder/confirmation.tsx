@@ -10,6 +10,7 @@ import { LetterBuilderAccordion } from "./welcome";
 import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
+import { NorentRequireLoginStep } from "./step-decorators";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -17,7 +18,7 @@ const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
 const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
 const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
 
-export const NorentConfirmation: React.FC<{}> = () => {
+export const NorentConfirmation = NorentRequireLoginStep(() => {
   const { session } = useContext(AppContext);
   const letter = session.norentLatestLetter;
   const state =
@@ -209,4 +210,4 @@ export const NorentConfirmation: React.FC<{}> = () => {
       </p>
     </Page>
   );
-};
+});

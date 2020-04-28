@@ -30,8 +30,13 @@ type StateLawForLetterEntry = {
 };
 
 export type StatePartnerForBuilderEntry = {
-  organizationName: string;
-  organizationWebsiteLink: string;
+  organizationName?: string;
+  organizationWebsiteLink?: string;
+};
+
+const DefaultStatePartnerForBuilder = {
+  organizationName: "Right to the City Alliancey",
+  organizationWebsiteLink: "https://cancelrent.us/",
 };
 
 type StateDocumentationRequirementsEntry = {
@@ -87,7 +92,7 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
   return {
     lawForBuilder: StateLawForBuilder[state],
     lawForLetter: StateLawForLetter[state],
-    partner: StatePartnersForBuilder[state],
+    partner: StatePartnersForBuilder[state] || DefaultStatePartnerForBuilder,
     docs: StateDocumentationRequirements[state],
     legalAid: StateLegalAidProviders[state],
   };

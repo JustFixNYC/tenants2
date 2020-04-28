@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { ChevronIcon } from "../faqs";
 import { SimpleClearSessionButton } from "../../forms/clear-session-button";
+import { AppContext } from "../../app-context";
+import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
 
-export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
+const WelcomePage: React.FC<ProgressStepProps> = (props) => (
   <Page title="Build your letter" className="content" withHeading="big">
     <p>
       In order to benefit from the eviction protections that local elected
@@ -43,6 +45,20 @@ export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => (
     </div>
   </Page>
 );
+
+export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => {
+  const { session } = useContext(AppContext);
+  // Note that we can't put this in the step definition as an `isCompleted`
+  // because some steps in the flow expect a previous step, and this
+  // is our book-end.  However, we know that the confirmation page has
+  // no need for a "previous" button so we can just go straight to it
+  // if we know the user has sent a letter, without requiring them
+  // to see this step, which would just be confusing.
+  if (hasNorentLetterBeenSentForThisRentPeriod(session)) {
+    return <Redirect to={assertNotNull(props.nextStep)} />;
+  }
+  return <WelcomePage {...props} />;
+};
 
 export const LetterBuilderAccordion = (props: {
   question: string;

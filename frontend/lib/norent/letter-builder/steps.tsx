@@ -27,6 +27,7 @@ import {
 } from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
+import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -125,35 +126,37 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         shouldBeSkipped: isLoggedInUserInStateWithProtections,
         component: PostSignupNoProtections,
       },
-      {
-        path: routes.landlordName,
-        exact: true,
-        component: NorentLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp
-            ? false
-            : !s.norentScaffolding?.hasLandlordEmailAddress,
-        component: NorentLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: (s) =>
-          s.landlordDetails?.isLookedUp
-            ? true
-            : !s.norentScaffolding?.hasLandlordMailingAddress,
-        component: NorentLandlordMailingAddress,
-      },
-      {
-        path: routes.preview,
-        exact: false,
-        isComplete: hasNorentLetterBeenSentForThisRentPeriod,
-        component: NorentLetterPreviewPage,
-      },
+      ...skipStepsIf(hasNorentLetterBeenSentForThisRentPeriod, [
+        {
+          path: routes.landlordName,
+          exact: true,
+          component: NorentLandlordNameAndContactTypes,
+        },
+        {
+          path: routes.landlordEmail,
+          exact: true,
+          shouldBeSkipped: (s) =>
+            s.landlordDetails?.isLookedUp
+              ? false
+              : !s.norentScaffolding?.hasLandlordEmailAddress,
+          component: NorentLandlordEmail,
+        },
+        {
+          path: routes.landlordAddress,
+          exact: false,
+          shouldBeSkipped: (s) =>
+            s.landlordDetails?.isLookedUp
+              ? true
+              : !s.norentScaffolding?.hasLandlordMailingAddress,
+          component: NorentLandlordMailingAddress,
+        },
+        {
+          path: routes.preview,
+          exact: false,
+          isComplete: hasNorentLetterBeenSentForThisRentPeriod,
+          component: NorentLetterPreviewPage,
+        },
+      ]),
     ],
     confirmationSteps: [
       {
@@ -183,11 +186,4 @@ function skipStepsIf(
       },
     };
   });
-}
-
-function hasNorentLetterBeenSentForThisRentPeriod(s: AllSessionInfo): boolean {
-  const letter = s.norentLatestLetter;
-  const rentPeriod = s.norentLatestRentPeriod;
-  if (!(letter && rentPeriod)) return false;
-  return letter.paymentDate === rentPeriod.paymentDate && !!letter.letterSentAt;
 }

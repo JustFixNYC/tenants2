@@ -13,7 +13,7 @@ from project.util.django_graphql_session_forms import (
     DjangoSessionFormMutation
 )
 from project.util.session_mutation import SessionFormMutation
-from project.util.site_util import get_site_name
+from project.util.site_util import get_site_name, SITE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
 from project.util.model_form_util import OneToOneUserModelFormMutation
@@ -145,6 +145,7 @@ class OnboardingStep4Base(SessionFormMutation):
         password = form.cleaned_data['password'] or None
         allinfo['email'] = form.cleaned_data.get('email', '')
         allinfo['state'] = "NY"
+        allinfo['agreed_to_justfix_terms'] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
@@ -167,6 +168,44 @@ class OnboardingStep4Version2(OnboardingStep4Base):
 
 
 @schema_registry.register_mutation
+class AgreeToTerms(SessionFormMutation):
+    class Meta:
+        form_class = forms.AgreeToTermsForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        site_type = form.cleaned_data['site']
+        oi = request.user.onboarding_info
+        if site_type == SITE_CHOICES.JUSTFIX:
+            oi.agreed_to_justfix_terms = True
+        elif site_type == SITE_CHOICES.NORENT:
+            oi.agreed_to_norent_terms = True
+        else:
+            raise AssertionError(f"Unknown site type: {site_type}")
+        oi.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class OptInToRttcComms(SessionFormMutation):
+    class Meta:
+        form_class = forms.OptInToRttcCommsForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        oi = request.user.onboarding_info
+        oi.can_receive_rttc_comms = form.cleaned_data['opt_in']
+        oi.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class ReliefAttempts(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm
@@ -182,7 +221,8 @@ class OnboardingInfoType(DjangoObjectType):
         model = OnboardingInfo
         only_fields = (
             'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
-            'has_called_311', 'non_nyc_city', 'zipcode',)
+            'has_called_311', 'non_nyc_city', 'zipcode', 'agreed_to_justfix_terms',
+            'agreed_to_norent_terms', 'can_receive_rttc_comms',)
 
     borough = graphene.Field(
         BoroughEnum,

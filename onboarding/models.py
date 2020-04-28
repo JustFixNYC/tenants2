@@ -166,6 +166,29 @@ class OnboardingInfo(models.Model):
     can_we_sms = models.BooleanField(
         help_text="Whether we can contact the user via SMS to follow up.")
 
+    agreed_to_justfix_terms = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has agreed to the JustFix.nyc terms "
+            "of service and privacy policy."
+        )
+    )
+
+    agreed_to_norent_terms = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has agreed to the NoRent.org terms "
+            "of service and privacy policy."
+        )
+    )
+
+    can_receive_rttc_comms = models.NullBooleanField(
+        help_text=(
+            "Whether the user has opted-in to being contacted by "
+            "the Right to the City Alliance (RTTC)."
+        )
+    )
+
     @property
     def borough_label(self) -> str:
         if not self.borough:

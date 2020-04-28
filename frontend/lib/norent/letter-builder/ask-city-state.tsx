@@ -12,6 +12,8 @@ import { hardFail } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { NorentAlreadyLoggedInErrorPage } from "./error-pages";
 
 const getConfirmModalRoute = () => NorentRoutes.locale.letter.cityConfirmModal;
 
@@ -31,6 +33,10 @@ const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
 };
 
 export const NorentLbAskCityState = MiddleProgressStep((props) => {
+  if (isUserLoggedIn(useContext(AppContext).session)) {
+    return <NorentAlreadyLoggedInErrorPage />;
+  }
+
   return (
     <Page title="Your city" withHeading="big">
       <div className="content">

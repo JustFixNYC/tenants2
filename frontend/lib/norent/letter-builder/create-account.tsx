@@ -1,5 +1,4 @@
 import React from "react";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
@@ -14,8 +13,9 @@ import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
+import { NorentOnboardingStep } from "./step-decorators";
 
-export const NorentCreateAccount = MiddleProgressStep((props) => {
+export const NorentCreateAccount = NorentOnboardingStep((props) => {
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (

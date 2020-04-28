@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
+from project.util.testing_util import GraphQLTestingPal
 from project.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
@@ -125,6 +126,8 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert oi.needs_repairs is None
     assert oi.lease_type == 'MARKET_RATE'
     assert oi.receives_public_assistance is False
+    assert oi.agreed_to_justfix_terms is True
+    assert oi.agreed_to_norent_terms is False
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
@@ -195,3 +198,85 @@ def test_onboarding_session_info_works_with_blank_values(db, graphql_client):
     result = query()
     assert result['borough'] == 'BROOKLYN'
     assert result['leaseType'] == 'NYCHA'
+
+
+class TestAgreeToTerms(GraphQLTestingPal):
+    QUERY = '''
+    mutation AgreeToTermsMutation($input: AgreeToTermsInput!) {
+        output: agreeToTerms(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo { agreedToJustfixTerms, agreedToNorentTerms } }
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'site': 'JUSTFIX',
+        'agreeToTerms': True
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory(agreed_to_justfix_terms=False)
+        self.request.user = self.oi.user
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err('You do not have permission to use this form!')
+
+    def test_it_raises_err_when_checkbox_not_checked(self, logged_in):
+        self.assert_one_field_err('This field is required.', 'agreeToTerms', input={
+            'agreeToTerms': False,
+        })
+
+    def test_it_works_with_justfix_site(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo'] == {
+            'agreedToJustfixTerms': True,
+            'agreedToNorentTerms': False,
+        }
+
+    def test_it_works_with_norent_site(self, logged_in):
+        res = self.execute(input={'site': 'NORENT'})
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo'] == {
+            'agreedToJustfixTerms': False,
+            'agreedToNorentTerms': True,
+        }
+        self.oi.refresh_from_db()
+        assert self.oi.agreed_to_norent_terms is True
+
+
+class TestOptInToRttcComms(GraphQLTestingPal):
+    QUERY = '''
+    mutation OptInToRttcCommsMutation($input: OptInToRttcCommsInput!) {
+        output: optInToRttcComms(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo { canReceiveRttcComms } }
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'optIn': False,
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory()
+        self.request.user = self.oi.user
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err('You do not have permission to use this form!')
+
+    def test_it_works(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo']['canReceiveRttcComms'] is False
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo']['canReceiveRttcComms'] is True
+
+        self.oi.refresh_from_db()
+        assert self.oi.can_receive_rttc_comms is True

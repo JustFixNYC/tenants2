@@ -67,6 +67,8 @@ class NorentScaffolding(pydantic.BaseModel):
 
     has_landlord_mailing_address: Optional[bool] = None
 
+    can_receive_rttc_comms: Optional[bool] = None
+
     def is_city_in_nyc(self) -> Optional[bool]:
         if not (self.state and self.city):
             return None

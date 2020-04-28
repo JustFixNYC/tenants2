@@ -81,6 +81,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     has_landlord_mailing_address = graphene.Boolean()
 
+    can_receive_rttc_comms = graphene.Boolean()
+
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
 
@@ -487,4 +489,25 @@ class NorentCreateAccount(SessionFormMutation):
         OnboardingStep1Info.clear_from_request(request)
         purge_scaffolding(request)
 
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentOptInToRttcComms(SessionFormMutation):
+    class Meta:
+        form_class = forms.OptInToRttcCommsForm
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        opt_in: bool = form.cleaned_data['opt_in']
+        if user.is_authenticated:
+            oi = request.user.onboarding_info
+            oi.can_receive_rttc_comms = opt_in
+            oi.save()
+        else:
+            update_scaffolding(request, {
+                'can_receive_rttc_comms': opt_in
+            })
         return cls.mutation_success()

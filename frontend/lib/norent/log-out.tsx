@@ -6,7 +6,7 @@ import { NorentRoutes } from "./routes";
 import { NextButton } from "../ui/buttons";
 
 export const NorentLogoutPage: React.FC<{}> = () => (
-  <Page title="Know your rights">
+  <Page title="Log out">
     <h2 className="title">Are you sure you want to log out?</h2>
     <p>
       Don’t worry, we’ll save your progress so you’ll be able to come back to

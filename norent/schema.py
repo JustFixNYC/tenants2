@@ -474,6 +474,7 @@ class NorentCreateAccount(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
+        allinfo['agreed_to_norent_terms'] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
         site_name = site_util.get_site_name("NORENT")

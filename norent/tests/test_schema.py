@@ -325,6 +325,8 @@ class TestNorentCreateAccount:
         assert oi.zipcode == '43120'
         assert oi.address == '1200 Bingy Bingy Way'
         assert oi.apt_number == '5A'
+        assert oi.agreed_to_norent_terms is True
+        assert oi.agreed_to_justfix_terms is False
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
@@ -348,6 +350,8 @@ class TestNorentCreateAccount:
         assert oi.state == 'NY'
         assert oi.address == '123 boop way'
         assert oi.apt_number == '3B'
+        assert oi.agreed_to_norent_terms is True
+        assert oi.agreed_to_justfix_terms is False
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''

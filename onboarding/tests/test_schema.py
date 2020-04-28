@@ -125,6 +125,8 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert oi.needs_repairs is None
     assert oi.lease_type == 'MARKET_RATE'
     assert oi.receives_public_assistance is False
+    assert oi.agreed_to_justfix_terms is True
+    assert oi.agreed_to_norent_terms is False
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
     assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body

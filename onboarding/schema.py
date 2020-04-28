@@ -145,6 +145,7 @@ class OnboardingStep4Base(SessionFormMutation):
         password = form.cleaned_data['password'] or None
         allinfo['email'] = form.cleaned_data.get('email', '')
         allinfo['state'] = "NY"
+        allinfo['agreed_to_justfix_terms'] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
@@ -182,7 +183,8 @@ class OnboardingInfoType(DjangoObjectType):
         model = OnboardingInfo
         only_fields = (
             'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
-            'has_called_311', 'non_nyc_city', 'zipcode',)
+            'has_called_311', 'non_nyc_city', 'zipcode', 'agreed_to_justfix_terms',
+            'agreed_to_norent_terms', 'can_receive_rttc_comms',)
 
     borough = graphene.Field(
         BoroughEnum,

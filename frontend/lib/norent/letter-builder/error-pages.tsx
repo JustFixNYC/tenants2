@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Page from "../../ui/page";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "../routes";
@@ -70,8 +70,14 @@ type SessionErrorHandlingPageProps = {
 export const SessionErrorHandlingPage: React.FC<SessionErrorHandlingPageProps> = (
   props
 ) => {
-  const { session } = useContext(AppContext);
-  if (props.isInErrorState(session)) {
+  const currentSession = useContext(AppContext).session;
+  const sessionAtMount = useState(currentSession)[0];
+
+  // We're only looking at our session at mount time, because it's possible
+  // this page could cause a state transition that makes it impossible for
+  // the user to *return* to this page--but we don't want that transition
+  // to cause this page to suddenly error!
+  if (props.isInErrorState(sessionAtMount)) {
     return React.createElement(props.errorComponent);
   }
   return <>{props.children}</>;

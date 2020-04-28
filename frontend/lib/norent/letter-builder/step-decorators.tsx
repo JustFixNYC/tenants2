@@ -22,7 +22,7 @@ export function hasNorentLetterBeenSentForThisRentPeriod(
   const letter = s.norentLatestLetter;
   const rentPeriod = s.norentLatestRentPeriod;
   if (!(letter && rentPeriod)) return false;
-  return letter.paymentDate === rentPeriod.paymentDate && !!letter.letterSentAt;
+  return letter.paymentDate === rentPeriod.paymentDate;
 }
 
 export const NorentRequireLoginStep = (c: StepComponent) =>

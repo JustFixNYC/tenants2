@@ -126,7 +126,12 @@ export const NorentLbAskNationalAddress = MiddleProgressStep((props) => {
       <div className="content">
         {isWritingLetter ? (
           <p>We'll include this information in the letter to your landlord.</p>
-        ) : null}
+        ) : (
+          <p>
+            We’ll use this to reference the latest policies that protect your
+            rights as a tenant.
+          </p>
+        )}
       </div>
       <SessionUpdatingFormSubmitter
         mutation={NorentNationalAddressMutation}

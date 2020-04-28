@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  withSessionErrorHandling,
   NorentNotLoggedInErrorPage,
   NorentAlreadyLoggedInErrorPage,
   NorentAlreadySentLetterErrorPage,
@@ -12,6 +11,7 @@ import {
   MiddleProgressStep,
 } from "../../progress/progress-step-route";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { withSessionErrorHandling } from "../../ui/session-error-handling";
 
 type MiddleStepComponent = React.ComponentType<MiddleProgressStepProps>;
 type StepComponent = React.ComponentType<ProgressStepProps>;

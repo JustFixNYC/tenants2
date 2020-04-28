@@ -38,3 +38,5 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
     can_we_sms = True
 
     signup_intent = SIGNUP_INTENT_CHOICES.LOC
+
+    agreed_to_justfix_terms = True

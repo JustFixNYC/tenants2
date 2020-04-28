@@ -9,6 +9,7 @@ import {
   getNorentMetadataForUSState,
   assertIsUSState,
   NorentMetadataForUSState,
+  DefaultStatePartnerForBuilder,
 } from "./national-metadata";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
@@ -28,8 +29,9 @@ const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
       </p>
 
       <p>
-        We’ve partnered with <PartnerLink {...props.partner} /> to provide
-        additional support.
+        We’ve partnered with{" "}
+        <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
+        provide additional support.
       </p>
 
       <p>
@@ -56,8 +58,9 @@ export const StateWithProtectionsContent: React.FC<NorentMetadataForUSState> = (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
     <p>
-      We’ve partnered with <PartnerLink {...props.partner} /> to provide
-      additional support once you’ve sent your letter.
+      We’ve partnered with{" "}
+      <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
+      provide additional support once you’ve sent your letter.
     </p>
   </>
 );

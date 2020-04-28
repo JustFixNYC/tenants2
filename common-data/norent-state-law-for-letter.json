@@ -1,21 +1,27 @@
 {
   "AK": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "textOfLegislation": [
+      "Alaska Supreme Court, Order No. 1957, April 3, 2020"
+    ],
+    "whichVersion": "V2 hardship"
   },
   "AL": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
+    "whichVersion": "V2 hardship"
   },
   "AR": {
     "textOfLegislation": [
       "US Congress, CARES Act Public Law 116-136, March 27, 2020"
     ],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V2 hardship"
   },
   "AZ": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "textOfLegislation": [
+      "Governor Douglas Ducey, Executive Order 2020-14, March 24, 2020"
+    ],
+    "whichVersion": "V2 hardship"
   },
   "CA": {
     "textOfLegislation": [
@@ -25,8 +31,10 @@
     "whichVersion": "V1 non-payment"
   },
   "CO": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
+    "whichVersion": "V3 few protections"
   },
   "CT": {
     "textOfLegislation": [
@@ -36,10 +44,12 @@
   },
   "DC": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "DE": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Governor John Carney, State of Emergency Declaration Sixth Modification, March 24, 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "FL": {
@@ -52,31 +62,33 @@
     "textOfLegislation": [
       "Georgia Supreme Court Order, Order Extending Declaration of Statewide Judicial Emergency, April 4, 2020"
     ],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V2 hardship"
   },
   "HI": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "textOfLegislation": [
+      "Governor David Ige, State of Emergency section 127A-30(2), March 17, 2020"
+    ],
+    "whichVersion": "V3 few protections"
   },
   "IA": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "ID": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "IL": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "IN": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "KS": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "KY": {
     "textOfLegislation": [
@@ -87,67 +99,71 @@
   },
   "LA": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "MA": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Governor Charlie Baker, Act 191-H.4647, April 20, 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MD": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "ME": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "MI": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "MN": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Governor Tim Walz, Emergency Executive Order 20-14, March 23, 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MO": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "MS": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "MT": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NC": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "ND": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NE": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NH": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NJ": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NM": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NV": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "NY": {
     "textOfLegislation": [
@@ -158,7 +174,7 @@
   },
   "OH": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "OK": {
     "textOfLegislation": [
@@ -168,64 +184,66 @@
   },
   "OR": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "PA": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Pennsylvania Supreme Court, Judicial Order 531 and 532, April 1, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "PR": {
     "textOfLegislation": [
       "US Congress, CARES Act Public Law 116-136, March 27, 2020"
     ],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V2 hardship"
   },
   "RI": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "SC": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "SD": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "TN": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "TX": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "UT": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "VA": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "VT": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "WA": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "WI": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "WV": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   },
   "WY": {
     "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V3 few protections"
   }
 }

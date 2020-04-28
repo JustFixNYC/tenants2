@@ -34,6 +34,11 @@ export type StatePartnerForBuilderEntry = {
   organizationWebsiteLink: string;
 };
 
+export const DefaultStatePartnerForBuilder = {
+  organizationName: "Right to the City Alliance",
+  organizationWebsiteLink: "https://cancelrent.us/",
+};
+
 type StateDocumentationRequirementsEntry = {
   doesTheTenantNeedToSendTheDocumentationToTheLandlord: boolean;
   isDocumentationALegalRequirement: boolean;
@@ -54,8 +59,8 @@ const StateLawForBuilder = RawStateLawForBuilder as StateMapping<
 const StateLawForLetter = RawStateLawForLetter as StateMapping<
   StateLawForLetterEntry
 >;
-const StatePartnersForBuilder = RawStatePartnersForBuilder as StateMapping<
-  StatePartnerForBuilderEntry
+const StatePartnersForBuilder = RawStatePartnersForBuilder as Partial<
+  StateMapping<StatePartnerForBuilderEntry>
 >;
 const StateDocumentationRequirements = RawStateDocumentationRequirements as StateMapping<
   StateDocumentationRequirementsEntry

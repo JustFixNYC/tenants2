@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
+from project.util.testing_util import GraphQLTestingPal
 from project.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
@@ -197,3 +198,48 @@ def test_onboarding_session_info_works_with_blank_values(db, graphql_client):
     result = query()
     assert result['borough'] == 'BROOKLYN'
     assert result['leaseType'] == 'NYCHA'
+
+
+class TestAgreeToTerms(GraphQLTestingPal):
+    QUERY = '''
+    mutation AgreeToTermsMutation($input: AgreeToTermsInput!) {
+        output: agreeToTerms(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo { agreedToJustfixTerms, agreedToNorentTerms } }
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'site': 'JUSTFIX',
+        'agreeToTerms': True
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        oi = OnboardingInfoFactory(agreed_to_justfix_terms=False)
+        self.request.user = oi.user
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err('You do not have permission to use this form!')
+
+    def test_it_raises_err_when_checkbox_not_checked(self, logged_in):
+        self.assert_one_field_err('This field is required.', 'agreeToTerms', input={
+            'agreeToTerms': False,
+        })
+
+    def test_it_works_with_justfix_site(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo'] == {
+            'agreedToJustfixTerms': True,
+            'agreedToNorentTerms': False,
+        }
+
+    def test_it_works_with_norent_site(self, logged_in):
+        res = self.execute(input={'site': 'NORENT'})
+        assert res['errors'] == []
+        assert res['session']['onboardingInfo'] == {
+            'agreedToJustfixTerms': False,
+            'agreedToNorentTerms': True,
+        }

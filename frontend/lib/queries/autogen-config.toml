@@ -67,6 +67,8 @@ createBlankLiteral = true
 
 [mutations.prepareLegacyTenantsAccountForMigration]
 
+[mutations.agreeToTerms]
+
 [mutations."example.*"]
 
 [mutations.emailLetter]

@@ -13,7 +13,7 @@ from project.util.django_graphql_session_forms import (
     DjangoSessionFormMutation
 )
 from project.util.session_mutation import SessionFormMutation
-from project.util.site_util import get_site_name
+from project.util.site_util import get_site_name, SITE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
 from project.util.model_form_util import OneToOneUserModelFormMutation
@@ -165,6 +165,28 @@ class OnboardingStep4Base(SessionFormMutation):
 class OnboardingStep4Version2(OnboardingStep4Base):
     class Meta:
         form_class = forms.OnboardingStep4FormVersion2
+
+
+@schema_registry.register_mutation
+class AgreeToTerms(SessionFormMutation):
+    class Meta:
+        form_class = forms.AgreeToTermsForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        site_type = form.cleaned_data['site']
+        oi = request.user.onboarding_info
+        if site_type == SITE_CHOICES.JUSTFIX:
+            oi.agreed_to_justfix_terms = True
+        elif site_type == SITE_CHOICES.NORENT:
+            oi.agreed_to_norent_terms = True
+        else:
+            raise AssertionError(f"Unknown site type: {site_type}")
+        oi.save()
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

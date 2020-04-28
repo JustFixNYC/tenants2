@@ -5,6 +5,7 @@ from project.forms import (
     SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField, UniqueEmailForm)
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
+from project.util.site_util import SITE_CHOICES
 from users.models import JustfixUser
 from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
@@ -143,3 +144,22 @@ class OnboardingStep4FormVersion2(
     class Meta:
         model = OnboardingInfo
         fields = ('can_we_sms', 'signup_intent')
+
+
+class AgreeToTermsForm(forms.Form):
+    agree_to_terms = forms.BooleanField(
+        required=True,
+        help_text=(
+            "Whether the user agrees to the terms of the site's terms of "
+            "use and privacy policy."
+        )
+    )
+
+    site = forms.ChoiceField(
+        choices=SITE_CHOICES.choices,
+        required=True,
+        help_text=(
+            "The site for which the user is agreeing to the terms of use and "
+            "privacy policy."
+        )
+    )

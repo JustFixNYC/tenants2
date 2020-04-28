@@ -10,8 +10,14 @@ import {
   EmailSubject,
   EmailStaticPage,
 } from "../static-page/email-static-page";
-import { USStateChoice } from "../../../common-data/us-state-choices";
-import { getNorentMetadataForUSState } from "./letter-builder/national-metadata";
+import {
+  USStateChoice,
+  getUSStateChoiceLabels,
+} from "../../../common-data/us-state-choices";
+import {
+  getNorentMetadataForUSState,
+  CovidStateLawVersion,
+} from "./letter-builder/national-metadata";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 
 export type NorentLetterContentProps = {
@@ -47,7 +53,7 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
    * include an actual newline and set the style to preserve whitespace.
    */
   <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
-    <span className="is-uppercase">Notice of non-payment of rent</span>
+    <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
     {"\n"}
     at {props.street}, {props.city}, {props.state} {props.zipCode}
   </h1>
@@ -102,7 +108,6 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
           protectionData.textOfLegislation.map((protection, i) => (
             <li key={i}>{protection}</li>
           ))}
-        <li>US Congress, CARES Act (Title IV, Sec. 4024), March 27, 2020</li>
       </ul>
     </>
   );
@@ -126,20 +131,13 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
 ) => (
   <>
     <EmailSubject
-      value={`Notice of Non-Payment of Rent sent on behalf of ${props.firstName} ${props.lastName}`}
+      value={`Notice of COVID-19 impact on Rent sent on behalf of ${props.firstName} ${props.lastName}`}
     />
     <p>
       Dear <LandlordName {...props} />,
     </p>
     <p>
-      Until further notice <FullName {...props} /> will be unable to pay rent.
-      Please see letter attached.{" "}
-    </p>
-    <p>
-      {
-        getNorentMetadataForUSState(props.state as USStateChoice)?.lawForBuilder
-          ?.textOfLegislation
-      }
+      Please see letter attached from <FullName {...props} />.{" "}
     </p>
     <p>
       In order to document communications and avoid misunderstandings, please
@@ -168,34 +166,66 @@ export const NorentLetterEmailForUserStaticPage: React.FC<{}> = () => (
 
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
-) => (
-  <>
-    <LetterTitle {...props} />
-    <p className="has-text-right">{friendlyDate(new Date())}</p>
-    <LetterHeading {...props} />
-    <p>
-      Dear <LandlordName {...props} />,
-    </p>
-    <p>
-      This letter is to notify you that I will be unable to pay rent starting on{" "}
-      <PaymentDate {...props} /> and until further notice due to loss of income,
-      increased expenses, and/or other financial circumstances related to
-      COVID-19.
-    </p>
-    <TenantProtections {...props} />
-    <p>
-      In order to document our communication and to avoid misunderstandings,
-      please reply to me via email or text rather than a call or visit.
-    </p>
-    <p>Thank you for your understanding and cooperation.</p>
-    <p className="jf-signature">
-      Regards,
-      <br />
-      <br />
-      <FullName {...props} />
-    </p>
-  </>
-);
+) => {
+  const state = props.state as USStateChoice;
+  const letterVersion = getNorentMetadataForUSState(state).lawForLetter
+    .whichVersion;
+  return (
+    <>
+      <LetterTitle {...props} />
+      <p className="has-text-right">{friendlyDate(new Date())}</p>
+      <LetterHeading {...props} />
+      <p>
+        Dear <LandlordName {...props} />,
+      </p>
+      {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
+        <>
+          <p>
+            This letter is to notify you that I will be unable to pay rent
+            starting on <PaymentDate {...props} /> and until further notice due
+            to loss of income, increased expenses, and/or other financial
+            circumstances related to COVID-19.
+          </p>
+          <TenantProtections {...props} />
+        </>
+      ) : letterVersion === CovidStateLawVersion.V2_HARDSHIP ? (
+        <p>
+          This letter is to notify you that I have experienced a loss of income,
+          increased expenses and/or other financial circumstances related to the
+          pandemic. Until further notice, the COVID-19 emergency may impact my
+          ability to pay rent. I am not waiving my right to assert any other
+          defenses.
+        </p>
+      ) : (
+        // Letter Copy for V3_FEW_PROTECTIONS, the default:
+        <p>
+          This letter is to advise you of protections in place for tenants in{" "}
+          {getUSStateChoiceLabels()[state]}. I am not waiving my right to assert
+          any other defenses.
+        </p>
+      )}
+      <p>
+        Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
+        Tenants in covered properties are also protected from eviction for
+        non-payment or any other reason until August 23, 2020. Tenants cannot be
+        charged late fees, interest, or other penalties through July 25, 2020.
+        Please let me know right away if you believe this property is not
+        covered by the CARES Act and explain why the property is not covered.
+      </p>
+      <p>
+        In order to document our communication and to avoid misunderstandings,
+        please reply to me via email or text rather than a call or visit.
+      </p>
+      <p>Thank you for your understanding and cooperation.</p>
+      <p className="jf-signature">
+        Regards,
+        <br />
+        <br />
+        <FullName {...props} />
+      </p>
+    </>
+  );
+};
 
 const NorentLetterStaticPage: React.FC<
   { isPdf?: boolean; title: string } & NorentLetterContentProps

@@ -8,6 +8,9 @@ import {
   isUSStateChoice,
 } from "../../../../common-data/us-state-choices";
 import { LosAngelesZipCodes } from "../data/la-zipcodes";
+import { AllSessionInfo } from "../../queries/AllSessionInfo.js";
+import { useContext } from "react";
+import { AppContext } from "../../app-context";
 
 type StateLawForBuilderEntry = {
   linkToLegislation?: string;
@@ -26,7 +29,7 @@ type StateLawForLetterEntry = {
   textOfLegislation: string[];
 };
 
-type StatePartnerForBuilderEntry = {
+export type StatePartnerForBuilderEntry = {
   organizationName: string;
   organizationWebsiteLink: string;
 };
@@ -72,6 +75,10 @@ export const assertIsUSState = (state: string): USStateChoice => {
   return state;
 };
 
+export type NorentMetadataForUSState = ReturnType<
+  typeof getNorentMetadataForUSState
+>;
+
 /**
  * Return a big blob of metadata about NoRent.org-related information
  * for the given U.S. state.
@@ -93,3 +100,30 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
 export const isZipCodeInLosAngeles = (zipCode: string) => {
   return LosAngelesZipCodes.includes(zipCode);
 };
+
+function isInStateWithProtections(state: string | null | undefined): boolean {
+  // This is kind of arbitrary, it shouldn't ever happen, but we want
+  // to return a boolean and very few states have no protections so
+  // we're just going to return true.
+  if (!state) return true;
+
+  return !getNorentMetadataForUSState(assertIsUSState(state)).lawForBuilder
+    .stateWithoutProtections;
+}
+
+export function useIsOnboardingUserInStateWithProtections(): boolean {
+  const s = useContext(AppContext).session;
+  return isInStateWithProtections(s.norentScaffolding?.state);
+}
+
+export function isOnboardingUserInStateWithProtections(
+  s: AllSessionInfo
+): boolean {
+  return isInStateWithProtections(s.norentScaffolding?.state);
+}
+
+export function isLoggedInUserInStateWithProtections(
+  s: AllSessionInfo
+): boolean {
+  return isInStateWithProtections(s.onboardingInfo?.state);
+}

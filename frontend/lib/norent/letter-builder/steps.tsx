@@ -21,8 +21,12 @@ import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
 import NorentLandlordMailingAddress from "./landlord-mailing-address";
 import { NorentLbKnowYourRights } from "./know-your-rights";
-import { isZipCodeInLosAngeles } from "./national-metadata";
+import {
+  isZipCodeInLosAngeles,
+  isLoggedInUserInStateWithProtections,
+} from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
+import { PostSignupNoProtections } from "./post-signup-no-protections";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -114,6 +118,12 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         path: routes.createAccount,
         component: NorentCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.postSignupNoProtections,
+        exact: true,
+        shouldBeSkipped: isLoggedInUserInStateWithProtections,
+        component: PostSignupNoProtections,
       },
       {
         path: routes.landlordName,

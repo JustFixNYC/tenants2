@@ -15,6 +15,13 @@ const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "States with Limited Protections",
 ];
 
+export const STATES_WITH_LIMITED_PROTECTIONS_ID =
+  "states_with_limited_protections";
+
+export function getStatesWithLimitedProtectionsFAQSectionURL() {
+  return `${NorentRoutes.locale.faqs}#${STATES_WITH_LIMITED_PROTECTIONS_ID}`;
+}
+
 function sortFaqsByPriority(data: Faq[]) {
   return data.sort((faq1, faq2) => faq1.priority - faq2.priority);
 }

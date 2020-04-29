@@ -70,8 +70,8 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
               tenants rights mission. The Privacy Policy contains information
               regarding what data we collect, how we use it, and the choices you
               have regarding your personal information. If you’d like to read{" "}
-              more, please review our full <PrivacyPolicyLink />
-              and <TermsOfUseLink />.
+              more, please review our full <PrivacyPolicyLink /> and{" "}
+              <TermsOfUseLink />.
             </p>
           </div>
           <div className="has-text-centered">

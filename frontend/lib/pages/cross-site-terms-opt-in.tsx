@@ -32,7 +32,7 @@ export const CrossSiteAgreeToTerms = MiddleProgressStep((props) => {
   const { siteType } = useContext(AppContext).server;
 
   return (
-    <Page title="Please agree to our privacy policy" withHeading="big">
+    <Page title="Please agree to our terms and conditions" withHeading="big">
       <p>
         <SiteName short /> makes use of a <PrivacyPolicyLink /> and{" "}
         <TermsOfUseLink />, which you can review.

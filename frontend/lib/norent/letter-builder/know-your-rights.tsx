@@ -52,8 +52,13 @@ const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
 
       <p>
         We’ve partnered with{" "}
-        <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
-        provide additional support.
+        {props.partner && (
+          <>
+            <PartnerLink {...props.partner} /> and{" "}
+          </>
+        )}
+        <PartnerLink {...DefaultStatePartnerForBuilder} /> to provide additional
+        support.
       </p>
 
       {props.rttcCheckbox}
@@ -83,8 +88,13 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
     <p>{props.lawForBuilder.textOfLegislation}</p>
     <p>
       We’ve partnered with{" "}
-      <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
-      provide additional support once you’ve sent your letter.
+      {props.partner && (
+        <>
+          <PartnerLink {...props.partner} /> and{" "}
+        </>
+      )}
+      <PartnerLink {...DefaultStatePartnerForBuilder} /> to provide additional
+      support once you’ve sent your letter.
     </p>
     {props.rttcCheckbox}
   </>

@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  DEFAULT_PRIVACY_POLICY_URL,
+  DEFAULT_TERMS_OF_USE_URL,
+} from "./privacy-info-modal";
 
 export const Footer: React.FC<{}> = () => (
   <footer>
@@ -28,12 +32,10 @@ export const Footer: React.FC<{}> = () => (
           <hr />
           <ul>
             <li>
-              <a href="https://www.justfix.nyc/privacy-policy">
-                Privacy policy
-              </a>
+              <a href={DEFAULT_PRIVACY_POLICY_URL}>Privacy policy</a>
             </li>
             <li>
-              <a href="https://www.justfix.nyc/terms-of-use">Terms of use</a>
+              <a href={DEFAULT_TERMS_OF_USE_URL}>Terms of use</a>
             </li>
           </ul>
         </div>

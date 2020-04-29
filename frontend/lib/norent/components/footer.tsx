@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import { NorentLogo } from "./logo";
 import { StaticImage } from "../../ui/static-image";
 import { getImageSrc } from "../homepage";
-import {
-  addNorentSuffixToUrl,
-  DEFAULT_PRIVACY_POLICY_URL,
-  DEFAULT_TERMS_OF_USE_URL,
-} from "../../ui/privacy-info-modal";
+import { PrivacyPolicyLink, TermsOfUseLink } from "../../ui/privacy-info-modal";
 
 const MAILCHIMP_URL =
   "https://nyc.us13.list-manage.com/subscribe?u=d4f5d1addd4357eb77c3f8a99&id=588f6c6ef4";
@@ -62,12 +58,8 @@ export const NorentFooter: React.FC<{}> = () => (
           <Link to={Routes.locale.aboutLetter}>The Letter</Link>
           <Link to={Routes.locale.faqs}>Faqs</Link>
           <Link to={Routes.locale.about}>About</Link>
-          <a href={addNorentSuffixToUrl(DEFAULT_PRIVACY_POLICY_URL)}>
-            Privacy policy
-          </a>
-          <a href={addNorentSuffixToUrl(DEFAULT_TERMS_OF_USE_URL)}>
-            Terms of use
-          </a>
+          <PrivacyPolicyLink />
+          <TermsOfUseLink />
         </div>
       </div>
       <div className="columns">

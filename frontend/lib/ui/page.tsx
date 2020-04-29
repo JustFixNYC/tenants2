@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { AriaAnnouncement } from "./aria";
 import classNames from "classnames";
 import { AppContext } from "../app-context";
+import { SiteChoice } from "../../../common-data/site-choices";
 
 interface PageProps {
   title: string;
@@ -15,12 +16,42 @@ function headingClassName(heading: true | "big" | "small") {
   return classNames("title", heading !== "big" && "is-4");
 }
 
-export function useSiteName(): string {
+/**
+ * Renders the text of the current site, optionally with the
+ * text of the current navbar label (e.g. "DEMO SITE").
+ */
+export const SiteName: React.FC<{
+  /**
+   * Whether or not to include the navbar label (e.g. "DEMO SITE") in the
+   * site name.
+   */
+  short?: boolean;
+}> = (props) => {
+  const siteName = useSiteName(props.short);
+
+  return <>{siteName}</>;
+};
+
+function getSiteBaseName(siteType: SiteChoice): string {
+  switch (siteType) {
+    case "JUSTFIX":
+      return "JustFix.nyc";
+
+    case "NORENT":
+      return "NoRent.org";
+  }
+}
+
+/**
+ * A React Hook that returns the text of the current site, optionally with the
+ * text of the current navbar label (e.g. "DEMO SITE").
+ */
+export function useSiteName(short?: boolean): string {
   const { server } = useContext(AppContext);
   const { navbarLabel, siteType } = server;
-  let siteName = siteType === "JUSTFIX" ? "JustFix.nyc" : "NoRent.org";
+  let siteName = getSiteBaseName(siteType);
 
-  if (navbarLabel) {
+  if (navbarLabel && !short) {
     siteName += " " + navbarLabel;
   }
 

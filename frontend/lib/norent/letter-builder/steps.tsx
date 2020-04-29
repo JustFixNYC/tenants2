@@ -31,6 +31,7 @@ import {
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
+import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -73,10 +74,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
       ...createStartAccountOrLoginSteps(routes),
     ],
     stepsToFillOut: [
-      // TODO: We're going to skip these steps if the user is logged-in for now,
-      // which assumes that all our users have all the information we need,
-      // which isn't necessarily the case.  Eventually we'll iron out the
-      // edge cases.
+      createCrossSiteAgreeToTermsStep(routes.crossSiteAgreeToTerms),
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,

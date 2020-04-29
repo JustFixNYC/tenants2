@@ -74,6 +74,7 @@ import {
 } from "./hp-action-harassment";
 import { HarassmentCaseHistory } from "./hp-action-case-history";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
+import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 
 const checkCircleSvg = require("../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -134,7 +135,7 @@ function EmergencyHPActionSplash(): JSX.Element {
   );
 }
 
-const EmergencyHPActionWelcome = () => {
+const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
   const { session } = useContext(AppContext);
   const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
 
@@ -176,7 +177,7 @@ const EmergencyHPActionWelcome = () => {
       </BigList>
       <br />
       <GetStartedButton
-        to={Routes.locale.ehp.sue}
+        to={assertNotNull(props.nextStep)}
         intent={OnboardingInfoSignupIntent.EHP}
         pageType="welcome"
       >
@@ -511,6 +512,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     },
   ],
   stepsToFillOut: [
+    ...createJustfixCrossSiteVisitorSteps(Routes.locale.ehp),
     { path: Routes.locale.ehp.sue, component: HpActionSue },
     {
       path: Routes.locale.ehp.issues,

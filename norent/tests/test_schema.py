@@ -44,6 +44,26 @@ def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
     assert result is None
 
 
+def test_scaffolding_defaults_work(graphql_client):
+    update_scaffolding(graphql_client.request, {'firstName': ''})
+    result = graphql_client.execute(
+        '''
+        query {
+          session {
+            norentScaffolding {
+              firstName,
+              canReceiveRttcComms,
+            }
+          }
+        }
+        '''
+    )['data']['session']['norentScaffolding']
+    assert result == {
+        'firstName': '',
+        'canReceiveRttcComms': None,
+    }
+
+
 @pytest.mark.parametrize('city,state,expected', [
     ('', '', None),
     ('Ithaca', 'NY', False),
@@ -240,6 +260,7 @@ class TestNorentCreateAccount:
         'city': 'New York City',
         'state': 'NY',
         'email': 'zlorp@zones.com',
+        'can_receive_rttc_comms': True,
     }
 
     NATIONAL_SCAFFOLDING = {
@@ -251,6 +272,7 @@ class TestNorentCreateAccount:
         'street': '1200 Bingy Bingy Way',
         'apt_number': '5A',
         'zip_code': '43120',
+        'can_receive_rttc_comms': False,
     }
 
     @pytest.fixture(autouse=True)
@@ -300,7 +322,7 @@ class TestNorentCreateAccount:
 
     def test_it_returns_error_when_national_addr_but_incomplete_scaffolding(self):
         self.populate_phone_number()
-        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}
+        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}  # type: ignore
         update_scaffolding(self.graphql_client.request, scaff)
         assert self.execute()['errors'] == self.INCOMPLETE_ERR
 
@@ -327,6 +349,7 @@ class TestNorentCreateAccount:
         assert oi.apt_number == '5A'
         assert oi.agreed_to_norent_terms is True
         assert oi.agreed_to_justfix_terms is False
+        assert oi.can_receive_rttc_comms is False
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
@@ -352,6 +375,7 @@ class TestNorentCreateAccount:
         assert oi.apt_number == '3B'
         assert oi.agreed_to_norent_terms is True
         assert oi.agreed_to_justfix_terms is False
+        assert oi.can_receive_rttc_comms is True
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''
@@ -566,3 +590,59 @@ class TestNorentSendLetter:
         assert 'sent on behalf' in mail.subject
         assert len(mail.attachments) == 1
         assert letter.letter_emailed_at is not None
+
+
+class TestOptInToRttcComms(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentOptInToRttcCommsMutation($input: NorentOptInToRttcCommsInput!) {
+        output: norentOptInToRttcComms(input: $input) {
+            errors { field, messages },
+            session {
+                onboardingInfo { canReceiveRttcComms },
+                norentScaffolding { canReceiveRttcComms }
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'optIn': False,
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory()
+        self.request.user = self.oi.user
+
+    def test_it_works_when_logged_out(self):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveRttcComms': False},
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveRttcComms': True},
+        }
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveRttcComms': False},
+            'norentScaffolding': None,
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveRttcComms': True},
+            'norentScaffolding': None,
+        }
+
+        self.oi.refresh_from_db()
+        assert self.oi.can_receive_rttc_comms is True

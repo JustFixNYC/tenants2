@@ -1,32 +1,29 @@
 {
   "AK": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "State Supreme Court placed a moratorium on all non-emergency cases including most civil cases on March 13."
   },
   "AL": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Alabama has suspended in-person civil cases throughout the state, which should apply to evictions and foreclosures, although it does allow remote proceedings."
   },
   "AR": {
-    "linkToLegislation": "https://static.ark.org/eeuploads/pulaski/COVID-19_Response_PC.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Arkansas has suspended all in-person court hearings, but there is no moratorium on eviction proceedings and judges can hold hearings remotely."
   },
   "AZ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Governor Ducey today issued an executive order delaying the enforcement of eviction action orders for renters impacted by COVID-19."
   },
   "CA": {
-    "linkToLegislation": "https://jcc.legistar.com/View.ashx?M=F&ID=8234474&GUID=79611543-6A40-465C-8B8B-D324F5CAE349",
     "stateWithoutProtections": false,
     "textOfLegislation": "Most evictions in California are suspended until 90-days after the Governor lifts the state of emergency related to the COVID\u201019 pandemic under the Judicial Council's Emergency Rule 1, issued April 6, 2020."
   },
   "CO": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Colorado Governor issued an executive order that directs certain departments to work with landlords and banks to find lawful means of avoiding evictions, as well as asks sheriffs and other local enforcement to avoid executing evictions."
   },
   "CT": {
-    "linkToLegislation": "https://portal.ct.gov/-/media/Office-of-the-Governor/Executive-Orders/Lamont-Executive-Orders/Executive-Order-No-7X.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until July 1, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
   },
@@ -36,29 +33,27 @@
   },
   "DE": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Governor John Carney issued a moratorium for evictions through the State of Emergency Declaration Sixth Modification on March 24, 2020."
   },
   "FL": {
-    "linkToLegislation": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-94.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis until May 17, 2020."
   },
   "GA": {
-    "linkToLegislation": "https://www.gasupreme.us/wp-content/uploads/2020/04/CJ_Melton_Extension_Order_signed_entered.pdf",
     "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Georgia are not protected from eviction for non-payment. Georgia has not implemented statewide orders to protect tenants from evictions for non-payment during or immediately following the COVID-19 pandemic."
   },
   "HI": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Governor David Ige proclaimed a State of Emergency which automatically activates the provisions of section 127A-30(2) of the Hawaii Revised Statutes, which states, that \u201cno Landlord shall terminate any tenancy for a residential dwelling unit in the area that is the subject of the proclamation\"."
   },
   "IA": {
     "stateWithoutProtections": false,
     "textOfLegislation": "Lorem Ipsum"
   },
   "ID": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Idaho issued a statewide order directing that eviction cases be suspended except for drug-related cases until April 15. It is not clear if eviction cases have now resumed."
   },
   "IL": {
     "stateWithoutProtections": false,
@@ -73,7 +68,6 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "KY": {
-    "linkToLegislation": "https://governor.ky.gov/attachments/20200325_Executive-Order_2020-257_Healthy-at-Home.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Governor Beshear\u2019s Executive Order protects tenants from eviction during the COVID-19 crisis. And, on April 1, the Kentucky Supreme Court prohibited clerks from accepting eviction filings until May 31."
   },
@@ -83,7 +77,7 @@
   },
   "MA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Tenants in Massachusetts are protected from eviction for non-payment of rent by Chapter 65 of the Acts of 2020 issued by Governor Charlie Baker on April 20, 2020."
   },
   "MD": {
     "stateWithoutProtections": false,
@@ -98,7 +92,6 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "MN": {
-    "linkToLegislation": "https://mn.gov/governor/assets/EO%2020-14%20Filed_tcm1055-424508.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in Minnesota are protected from eviction for non-payment of rent by Executive Order 20-14 issued by Governor Tim Walz on March 23, 2020."
   },
@@ -131,7 +124,6 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "NJ": {
-    "linkToLegislation": "https://www.nj.gov/infobank/eo/056murphy/pdf/EO-106.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106, issued by Governor Philip Murphy on March 19, 2020."
   },
@@ -144,7 +136,6 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "NY": {
-    "linkToLegislation": "https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/EO_202.8.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in New York State are protected from eviction until June 19, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
   },
@@ -153,7 +144,6 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "OK": {
-    "linkToLegislation": "https://www.oscn.net/images/news/SCAD-2020-29.pdf",
     "stateWithoutProtections": false,
     "textOfLegislation": "All deadlines and procedures in civil matters, including eviction matters, are suspended through May 15, 2020. District and Special Judges have been ordered to reschedule hearings scheduled for before May 15, 2020."
   },
@@ -162,11 +152,10 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "PA": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Pennsylvania Supreme Court ordered a stay on all evictions until April 30, 2020."
   },
   "PR": {
-    "linkToLegislation": "https://www.congress.gov/bill/116th-congress/house-bill/748/text",
     "stateWithoutProtections": false,
     "textOfLegislation": "Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020."
   },
@@ -199,8 +188,8 @@
     "textOfLegislation": "Lorem Ipsum"
   },
   "VT": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Vermont Supreme Court has suspended all non-emergency Superior Court hearings. However, judges will have the discretion to hold emergency hearings on landlord-tenant issues on a case-by-case basis."
   },
   "WA": {
     "stateWithoutProtections": false,

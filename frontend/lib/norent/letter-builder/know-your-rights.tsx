@@ -2,21 +2,44 @@ import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
-import { BackButton } from "../../ui/buttons";
+import { ProgressButtons } from "../../ui/buttons";
 import { getUSStateChoiceLabels } from "../../../../common-data/us-state-choices";
 import {
   StatePartnerForBuilderEntry,
   getNorentMetadataForUSState,
   assertIsUSState,
   NorentMetadataForUSState,
+  DefaultStatePartnerForBuilder,
 } from "./national-metadata";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
-import { NorentOnboardingStep } from "./step-decorators";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
+import { NorentOptInToRttcCommsMutation } from "../../queries/NorentOptInToRttcCommsMutation";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { CheckboxFormField } from "../../forms/form-fields";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 
-const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
-  props
-) => {
+/**
+ * The default value of the RTTC checkbox; this will essentially determine if RTTC
+ * communications are opt-in or opt-out.
+ */
+const RTTC_CHECKBOX_DEFAULT = true;
+
+type ProtectionsContentComponent = React.FC<
+  NorentMetadataForUSState & {
+    rttcCheckbox: JSX.Element;
+  }
+>;
+
+const getRttcValue = (s: AllSessionInfo) =>
+  s.onboardingInfo?.canReceiveRttcComms ??
+  s.norentScaffolding?.canReceiveRttcComms;
+
+export function hasUserSeenRttcCheckboxYet(s: AllSessionInfo): boolean {
+  return typeof getRttcValue(s) === "boolean" ? true : false;
+}
+
+const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
   return (
     <>
       <p>
@@ -28,9 +51,12 @@ const StateWithoutProtectionsContent: React.FC<NorentMetadataForUSState> = (
       </p>
 
       <p>
-        We’ve partnered with <PartnerLink {...props.partner} /> to provide
-        additional support.
+        We’ve partnered with{" "}
+        <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
+        provide additional support.
       </p>
+
+      {props.rttcCheckbox}
 
       <p>
         If you’d still like to create an account, we can send you updates in the
@@ -50,23 +76,26 @@ export const PartnerLink: React.FC<StatePartnerForBuilderEntry> = (props) => (
   </OutboundLink>
 );
 
-export const StateWithProtectionsContent: React.FC<NorentMetadataForUSState> = (
+export const StateWithProtectionsContent: ProtectionsContentComponent = (
   props
 ) => (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
     <p>
-      We’ve partnered with <PartnerLink {...props.partner} /> to provide
-      additional support once you’ve sent your letter.
+      We’ve partnered with{" "}
+      <PartnerLink {...(props.partner || DefaultStatePartnerForBuilder)} /> to
+      provide additional support once you’ve sent your letter.
     </p>
+    {props.rttcCheckbox}
   </>
 );
 
-export const NorentLbKnowYourRights = NorentOnboardingStep((props) => {
+export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
-  const scf = session.norentScaffolding;
+  const rawState =
+    session.norentScaffolding?.state || session.onboardingInfo?.state;
 
-  if (!scf?.state) {
+  if (!rawState) {
     return (
       <p>
         Please <Link to={props.prevStep}>go back and choose a state</Link>.
@@ -74,7 +103,7 @@ export const NorentLbKnowYourRights = NorentOnboardingStep((props) => {
     );
   }
 
-  const state = assertIsUSState(scf.state);
+  const state = assertIsUSState(rawState);
   const stateName = getUSStateChoiceLabels()[state];
   const metadata = getNorentMetadataForUSState(state);
   const hasNoProtections = metadata.lawForBuilder.stateWithoutProtections;
@@ -85,24 +114,39 @@ export const NorentLbKnowYourRights = NorentOnboardingStep((props) => {
         You're in <span className="has-text-info">{stateName}</span>
       </h2>
 
-      <div className="content">
-        {hasNoProtections ? (
-          <StateWithoutProtectionsContent {...metadata} />
-        ) : (
-          <StateWithProtectionsContent {...metadata} />
-        )}
-      </div>
+      <SessionUpdatingFormSubmitter
+        mutation={NorentOptInToRttcCommsMutation}
+        initialState={(s) => ({
+          optIn: getRttcValue(s) ?? RTTC_CHECKBOX_DEFAULT,
+        })}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => {
+          const checkbox = (
+            <CheckboxFormField {...ctx.fieldPropsFor("optIn")}>
+              Right to the City Alliance can contact me to provide additional
+              support.
+            </CheckboxFormField>
+          );
 
-      <br />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={props.prevStep} />
-        <Link
-          to={props.nextStep}
-          className="button is-primary is-medium jf-is-next-button"
-        >
-          Next
-        </Link>
-      </div>
+          const ProtectionsComponent = hasNoProtections
+            ? StateWithoutProtectionsContent
+            : StateWithProtectionsContent;
+
+          return (
+            <>
+              <div className="content">
+                <ProtectionsComponent {...metadata} rttcCheckbox={checkbox} />
+              </div>
+
+              <ProgressButtons
+                back={props.prevStep}
+                isLoading={ctx.isLoading}
+              />
+            </>
+          );
+        }}
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 });

@@ -245,38 +245,3 @@ class TestAgreeToTerms(GraphQLTestingPal):
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_norent_terms is True
-
-
-class TestOptInToRttcComms(GraphQLTestingPal):
-    QUERY = '''
-    mutation OptInToRttcCommsMutation($input: OptInToRttcCommsInput!) {
-        output: optInToRttcComms(input: $input) {
-            errors { field, messages },
-            session { onboardingInfo { canReceiveRttcComms } }
-        }
-    }
-    '''
-
-    DEFAULT_INPUT = {
-        'optIn': False,
-    }
-
-    @pytest.fixture
-    def logged_in(self):
-        self.oi = OnboardingInfoFactory()
-        self.request.user = self.oi.user
-
-    def test_it_raises_err_when_not_logged_in(self):
-        self.assert_one_field_err('You do not have permission to use this form!')
-
-    def test_it_works(self, logged_in):
-        res = self.execute()
-        assert res['errors'] == []
-        assert res['session']['onboardingInfo']['canReceiveRttcComms'] is False
-
-        res = self.execute(input={'optIn': True})
-        assert res['errors'] == []
-        assert res['session']['onboardingInfo']['canReceiveRttcComms'] is True
-
-        self.oi.refresh_from_db()
-        assert self.oi.can_receive_rttc_comms is True

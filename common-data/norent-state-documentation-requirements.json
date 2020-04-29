@@ -66,7 +66,7 @@
   },
   "KS": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
-    "isDocumentationALegalRequirement": false
+    "isDocumentationALegalRequirement": true
   },
   "KY": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
@@ -82,7 +82,7 @@
   },
   "MD": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
-    "isDocumentationALegalRequirement": false
+    "isDocumentationALegalRequirement": true
   },
   "ME": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
@@ -117,8 +117,8 @@
     "isDocumentationALegalRequirement": false
   },
   "NE": {
-    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
-    "isDocumentationALegalRequirement": false
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true
   },
   "NH": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
@@ -130,7 +130,7 @@
   },
   "NM": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
-    "isDocumentationALegalRequirement": false
+    "isDocumentationALegalRequirement": true
   },
   "NV": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
@@ -182,7 +182,7 @@
   },
   "UT": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
-    "isDocumentationALegalRequirement": false
+    "isDocumentationALegalRequirement": true
   },
   "VA": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,

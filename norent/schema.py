@@ -464,6 +464,7 @@ class NorentCreateAccount(SessionFormMutation):
             'state': scf.state,
             'email': scf.email,
             'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
+            'can_receive_rttc_comms': scf.can_receive_rttc_comms,
         }
         return cls.fill_city_info(request, info, scf)
 

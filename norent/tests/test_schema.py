@@ -260,6 +260,7 @@ class TestNorentCreateAccount:
         'city': 'New York City',
         'state': 'NY',
         'email': 'zlorp@zones.com',
+        'can_receive_rttc_comms': True,
     }
 
     NATIONAL_SCAFFOLDING = {
@@ -271,6 +272,7 @@ class TestNorentCreateAccount:
         'street': '1200 Bingy Bingy Way',
         'apt_number': '5A',
         'zip_code': '43120',
+        'can_receive_rttc_comms': False,
     }
 
     @pytest.fixture(autouse=True)
@@ -320,7 +322,7 @@ class TestNorentCreateAccount:
 
     def test_it_returns_error_when_national_addr_but_incomplete_scaffolding(self):
         self.populate_phone_number()
-        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}
+        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}  # type: ignore
         update_scaffolding(self.graphql_client.request, scaff)
         assert self.execute()['errors'] == self.INCOMPLETE_ERR
 
@@ -347,6 +349,7 @@ class TestNorentCreateAccount:
         assert oi.apt_number == '5A'
         assert oi.agreed_to_norent_terms is True
         assert oi.agreed_to_justfix_terms is False
+        assert oi.can_receive_rttc_comms is False
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
@@ -372,6 +375,7 @@ class TestNorentCreateAccount:
         assert oi.apt_number == '3B'
         assert oi.agreed_to_norent_terms is True
         assert oi.agreed_to_justfix_terms is False
+        assert oi.can_receive_rttc_comms is True
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ''

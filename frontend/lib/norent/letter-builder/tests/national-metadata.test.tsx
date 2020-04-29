@@ -54,9 +54,14 @@ describe("getNorentMetadataForUSState()", () => {
       expect(typeof md.lawForBuilder.linkToLegislation).toMatch(
         /string|undefined/
       );
-      expect(typeof md.lawForBuilder.textOfLegislation).toBe("string");
+      expect(typeof md.lawForBuilder.textOfLegislation).toMatch(
+        /string|undefined/
+      );
+      if (!md.lawForBuilder.stateWithoutProtections) {
+        expect(typeof md.lawForBuilder.textOfLegislation).toBe("string");
+        expect(md.lawForLetter.textOfLegislation.length).toBeGreaterThan(0);
+      }
       validateCovidStateLawVersion(md.lawForLetter.whichVersion);
-      expect(md.lawForLetter.textOfLegislation.length).toBeGreaterThan(0);
       expect(typeof md.partner).toMatch(/object|undefined/);
       if (typeof md.partner === "object") {
         expect(typeof md.partner.organizationName).toBe("string");

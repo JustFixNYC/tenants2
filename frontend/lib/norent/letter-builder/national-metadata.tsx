@@ -14,7 +14,7 @@ import { AppContext } from "../../app-context";
 
 type StateLawForBuilderEntry = {
   linkToLegislation?: string;
-  textOfLegislation: string;
+  textOfLegislation?: string;
   stateWithoutProtections: boolean;
 };
 

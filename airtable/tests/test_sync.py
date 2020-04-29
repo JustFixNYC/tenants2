@@ -73,7 +73,7 @@ class TestSyncUser:
 
 class TestSyncAirtableCommand:
     def test_it_raises_error_when_settings_are_not_defined(self):
-        with pytest.raises(CommandError, match='AIRTABLE_API_KEY must be configured'):
+        with pytest.raises(CommandError, match='AIRTABLE_URL must be configured'):
             call_command('syncairtable')
 
     @pytest.mark.django_db

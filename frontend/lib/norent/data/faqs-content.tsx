@@ -285,7 +285,7 @@ export const FaqsContent: Faq[] = [
     answerFull: (
       <p>
         If you’re not able to pay the rent this month because of a COVID-19
-        related issue (ie employment changes, loss of income, medical expenses,
+        related issue (i.e. employment changes, loss of income, medical expenses,
         or loss of childcare) this tool is for you. Although the rules for
         exercising your rights will vary by state, NoRent.org can help walk you
         through the complexities and connect you to resources.

@@ -60,7 +60,7 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
                 to={NorentRoutes.locale.letter.createAccountTermsModal}
                 render={() => <PrivacyInfoModal />}
               >
-                JustFix.nyc terms and conditions
+                NoRent.org terms and conditions
               </ModalLink>
               .
             </CheckboxFormField>

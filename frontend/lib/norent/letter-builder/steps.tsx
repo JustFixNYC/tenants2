@@ -15,7 +15,7 @@ import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
 import { ProgressStepRoute } from "../../progress/progress-step-route";
-import { isUserLoggedIn, isUserLoggedOut } from "../../util/session-predicates";
+import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";

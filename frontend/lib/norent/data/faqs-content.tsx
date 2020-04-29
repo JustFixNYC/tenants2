@@ -485,9 +485,17 @@ export const FaqsContent: Faq[] = [
     answerFull: (
       <>
         <p>
-          You’re not alone. In states without eviction moratoriums, it’s
-          important to both protect yourself legally and build collective power
-          with other tenants.
+          On a national level, Congress passed the CARES Act on March 27, 2020
+          (Public Law 116-136). Tenants in covered properties are protected from
+          eviction for non-payment or any other reason until August 23, 2020.
+          Tenants cannot be charged late fees, interest, or other penalties
+          through July 25, 2020.
+        </p>
+
+        <p>
+          Also know that you’re not alone. In states without eviction
+          moratoriums, it’s important to both protect yourself legally and build
+          collective power with other tenants.
         </p>
         <p>
           First, start by making sure that all communication between you and

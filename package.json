@@ -8,6 +8,7 @@
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
     "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",
     "lint": "yarn typecheck && yarn eslint && yarn prettier:check",
+    "lint:fix": "yarn typecheck && yarn eslint && yarn prettier:fix",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "eslint": "eslint frontend/lib --ext .ts,.tsx",

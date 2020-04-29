@@ -179,15 +179,12 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
         Dear <LandlordName {...props} />,
       </p>
       {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
-        <>
-          <p>
-            This letter is to notify you that I will be unable to pay rent
-            starting on <PaymentDate {...props} /> and until further notice due
-            to loss of income, increased expenses, and/or other financial
-            circumstances related to COVID-19.
-          </p>
-          <TenantProtections {...props} />
-        </>
+        <p>
+          This letter is to notify you that I will be unable to pay rent
+          starting on <PaymentDate {...props} /> and until further notice due to
+          loss of income, increased expenses, and/or other financial
+          circumstances related to COVID-19.
+        </p>
       ) : letterVersion === CovidStateLawVersion.V2_HARDSHIP ? (
         <p>
           This letter is to notify you that I have experienced a loss of income,
@@ -204,6 +201,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
           any other defenses.
         </p>
       )}
+      <TenantProtections {...props} />
       <p>
         Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
         Tenants in covered properties are also protected from eviction for

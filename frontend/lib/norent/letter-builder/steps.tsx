@@ -15,12 +15,15 @@ import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
 import { ProgressStepRoute } from "../../progress/progress-step-route";
-import { isUserLoggedIn } from "../../util/session-predicates";
+import { isUserLoggedIn, isUserLoggedOut } from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
 import NorentLandlordMailingAddress from "./landlord-mailing-address";
-import { NorentLbKnowYourRights } from "./know-your-rights";
+import {
+  NorentLbKnowYourRights,
+  hasUserSeenRttcCheckboxYet,
+} from "./know-your-rights";
 import {
   isZipCodeInLosAngeles,
   isLoggedInUserInStateWithProtections,
@@ -85,11 +88,15 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           exact: false,
           component: NorentLbAskCityState,
         },
-        {
-          path: routes.knowYourRights,
-          exact: true,
-          component: NorentLbKnowYourRights,
-        },
+      ]),
+      {
+        path: routes.knowYourRights,
+        exact: true,
+        shouldBeSkipped: (s) =>
+          isUserLoggedIn(s) ? hasUserSeenRttcCheckboxYet(s) : false,
+        component: NorentLbKnowYourRights,
+      },
+      ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.nationalAddress,
           exact: false,

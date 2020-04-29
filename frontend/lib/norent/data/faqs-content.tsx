@@ -73,6 +73,17 @@ const EmergencyTenantProtectionsMapLink = () => (
   </OutboundLink>
 );
 
+const MHActionLink = () => (
+  <OutboundLink
+    className="has-text-weight-normal"
+    href="https://actionnetwork.org/forms/join-mhactions-fight-to-ensure-all-families-have-a-place-to-call-home/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Click here to join MHAction’s movement
+  </OutboundLink>
+);
+
 // COMMON BLOCKS OF CONTENT
 
 const NonpaymentDocumentation = () => (
@@ -274,10 +285,10 @@ export const FaqsContent: Faq[] = [
     answerFull: (
       <p>
         If you’re not able to pay the rent this month because of a COVID-19
-        related issue (ie employment changes, loss of income, medical expenses,
-        or loss of childcare) this tool is for you. Although the rules for
-        exercising your rights will vary by state, NoRent.org can help walk you
-        through the complexities and connect you to resources.
+        related issue (i.e. employment changes, loss of income, medical
+        expenses, or loss of childcare) this tool is for you. Although the rules
+        for exercising your rights will vary by state, NoRent.org can help walk
+        you through the complexities and connect you to resources.
       </p>
     ),
   },
@@ -397,9 +408,23 @@ export const FaqsContent: Faq[] = [
     answerFull: <ConnectWithLawyer />,
   },
   {
+    question: "What if I live in a manufactured or mobile home?",
+    category: "Connecting With Others",
+    priority: 13,
+    answerPreview: <></>,
+    answerFull: (
+      <p>
+        Join a movement of manufactured homeowners who are standing together to
+        make their communities affordable, healthy, safe, and beautiful places
+        to live. Mobile Home/Manufactured Home Owners: <MHActionLink /> to hold
+        corporate community owners accountable.
+      </p>
+    ),
+  },
+  {
     question: "What happens after I send this letter?",
     category: "After Sending Your Letter",
-    priority: 13,
+    priority: 14,
     answerPreview: <></>,
     answerFull: (
       <>
@@ -422,7 +447,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "Will I still owe my rent after I send this letter?",
     category: "After Sending Your Letter",
-    priority: 14,
+    priority: 15,
     answerPreview: <></>,
     answerFull: (
       <p>
@@ -435,7 +460,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "Help! My landlord is already trying to evict me.",
     category: "After Sending Your Letter",
-    priority: 15,
+    priority: 16,
     answerPreview: <></>,
     answerFull: (
       <p>
@@ -448,14 +473,14 @@ export const FaqsContent: Faq[] = [
     question:
       "What kind of documentation should I collect to prove I can’t pay rent?",
     category: "After Sending Your Letter",
-    priority: 16,
+    priority: 17,
     answerPreview: <></>,
     answerFull: <NonpaymentDocumentation />,
   },
   {
     question: "What if I live in a state without an eviction moratorium?",
     category: "States with Limited Protections",
-    priority: 17,
+    priority: 18,
     answerPreview: <></>,
     answerFull: (
       <>
@@ -490,21 +515,21 @@ export const FaqsContent: Faq[] = [
   {
     question: "How can I document my hardships related to COVID-19?",
     category: "States with Limited Protections",
-    priority: 18,
+    priority: 19,
     answerPreview: <></>,
     answerFull: <NonpaymentDocumentation />,
   },
   {
     question: "How can I connect with a lawyer?",
     category: "States with Limited Protections",
-    priority: 19,
+    priority: 20,
     answerPreview: <></>,
     answerFull: <ConnectWithLawyer />,
   },
   {
     question: "How can I build collective power with other tenants?",
     category: "States with Limited Protections",
-    priority: 20,
+    priority: 21,
     answerPreview: <></>,
     answerFull: <CollectiveOrganizing />,
   },

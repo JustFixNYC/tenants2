@@ -43,7 +43,9 @@
     "whichVersion": "V1 non-payment"
   },
   "DC": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Superior Court of the District of Columbia, Order, March 15, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "DE": {
@@ -71,23 +73,33 @@
     "whichVersion": "V3 few protections"
   },
   "IA": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "ID": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "IL": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Pritzker, COVID-19 Executive Order No. 28, April 23, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "IN": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Holcomb, Executive Order 20-06, March 19, 2020"
+    ],
+    "whichVersion": "V2 hardship"
   },
   "KS": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Governor Laura Kelly, Executive Order 20-10, March 23, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "KY": {
@@ -98,8 +110,11 @@
     "whichVersion": "V1 non-payment"
   },
   "LA": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor John Bel Edwards, Proclamation 41-JBE-2020, April 2, 2020",
+      "Order of the Louisiana Supreme Court, April 6, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "MA": {
     "textOfLegislation": [
@@ -108,16 +123,19 @@
     "whichVersion": "V1 non-payment"
   },
   "MD": {
-    "textOfLegislation": ["Lorem Ipsum"],
     "whichVersion": "V3 few protections"
   },
   "ME": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MI": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Gretchen Whitmer, Executive Orders 2020-54 and 2020-53, April 17, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "MN": {
     "textOfLegislation": [
@@ -126,43 +144,64 @@
     "whichVersion": "V1 non-payment"
   },
   "MO": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MS": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MT": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NC": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "ND": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NE": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NH": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NJ": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Philip D. Murphy, Executive Order N. 106, March 19, 2020",
+      "Supreme Court of New Jersey, Chief Justice Stuart Rabner, COVID-19- SECOND OMNIBUS ORDER ON COURT OPERATIONS AND LEGAL PRACTICE - MORE OPERATIONS TO BE CONDUCTED REMOTELY; LIMITED DISCOVERY EXTENSIONS AND TOLLING PERIODS"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "NM": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NV": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NY": {
@@ -173,7 +212,9 @@
     "whichVersion": "V1 non-payment"
   },
   "OH": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "OK": {
@@ -183,7 +224,9 @@
     "whichVersion": "V1 non-payment"
   },
   "OR": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "PA": {
@@ -199,51 +242,78 @@
     "whichVersion": "V2 hardship"
   },
   "RI": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "SC": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "SD": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "TN": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "TX": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Supreme Court of Texas, Twelfth Emergency Order Regarding the COVID-19 State of Disaster, April 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "UT": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Gary R. Herbert, Executive Order Temporarily Suspending Residential Evictions of Individuals Experiencing Wage or Job Loss as a Result of COVID-19, April 2, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "VA": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Supreme Court of Virginia, In Re: Order Declaring a Judicial Emergency in Response to COVID-19 Emergency, March 16, 2020",
+      "Supreme Court of Virginia, In Re: Order Extending Declaration of Judicial Emergency in Response to COVID-19 Emergency, April 6, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "VT": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Vermont Supreme Court, Administrative Order No. 49, April 21, 2020`"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WA": {
-    "textOfLegislation": ["Lorem Ipsum"],
-    "whichVersion": "V3 few protections"
+    "textOfLegislation": [
+      "Governor Jay Inslee, Proclamation by the Governor Amending Proclamation 20-05, March 18, 2020"
+    ],
+    "whichVersion": "V1 non-payment"
   },
   "WI": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Supreme Court of Wisconsin, In Re the Matter of Remote Hearings During the COVID-19 Pandemic, March 22, 2020.",
+      "Governor Tony Evers, Emergency Order #15 Temporary Ban on Evictions and Foreclosures, March, 27, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WV": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Supreme Court of Appeals of West Virginia, Administrative Order Re: Judicial Emergency Declared Second Amended Order, April 22, 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WY": {
-    "textOfLegislation": ["Lorem Ipsum"],
+    "textOfLegislation": [
+      "Wyoming State Supreme Court, Order Adopting Temporary Plan to Address Health Risks Posed by the COVID-19 Pandemic, March 18, 2020.",
+      "Wyoming State Supreme Court, Order Extending COVID-19 Emergency Orders to May 31, 2020, April 1, 2020."
+    ],
     "whichVersion": "V3 few protections"
   }
 }

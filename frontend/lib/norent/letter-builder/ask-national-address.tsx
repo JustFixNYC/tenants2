@@ -147,7 +147,7 @@ export const NorentLbAskNationalAddress = NorentOnboardingStep((props) => {
             <AptNumberFormFields
               aptNumberProps={ctx.fieldPropsFor("aptNumber")}
               noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
-              aptNumberLabel="Unit/apt/suite number"
+              aptNumberLabel="Unit/apt/lot/suite number"
             />
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}

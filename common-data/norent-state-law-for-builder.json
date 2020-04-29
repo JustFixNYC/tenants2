@@ -1,7 +1,7 @@
 {
   "AK": {
-    "stateWithoutProtections": true,
-    "textOfLegislation": "State Supreme Court placed a moratorium on all non-emergency cases including most civil cases on March 13."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "The Alaska State Supreme Court placed a moratorium on all non-emergency cases including most civil cases on March 13."
   },
   "AL": {
     "stateWithoutProtections": true,
@@ -28,8 +28,8 @@
     "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until July 1, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
   },
   "DC": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The District of Columbia Superior Court Order 03-1520 has temporarily suspend all evictions until May 1, 2020."
   },
   "DE": {
     "stateWithoutProtections": false,
@@ -48,8 +48,7 @@
     "textOfLegislation": "Governor David Ige proclaimed a State of Emergency which automatically activates the provisions of section 127A-30(2) of the Hawaii Revised Statutes, which states, that \u201cno Landlord shall terminate any tenancy for a residential dwelling unit in the area that is the subject of the proclamation\"."
   },
   "IA": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "ID": {
     "stateWithoutProtections": true,
@@ -57,15 +56,15 @@
   },
   "IL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 28, Issued April 23, 2020."
   },
   "IN": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Tenants in Indiana are protected from eviction until the state of emergency is over per Governor Holcomb's Executive Order 20-06 issued March 19, 2020."
   },
   "KS": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Kansas Governor Laura Kelly has declared that eviction proceedings cannot be brought as a result of nonpayment due to financial hardship related to COVID-19 per Executive Order 20-10."
   },
   "KY": {
     "stateWithoutProtections": false,
@@ -73,83 +72,74 @@
   },
   "LA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Tenants in Louisiana are protected from eviction for non-payment by Proclamation 41-JBE-2020, issued by Governor John Bel Edwards on April 2, 2020."
   },
   "MA": {
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in Massachusetts are protected from eviction for non-payment of rent by Chapter 65 of the Acts of 2020 issued by Governor Charlie Baker on April 20, 2020."
   },
   "MD": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Maryland has temporarily banned evictions for non-payment of rent for tenants who have lost income because of the pandemic."
   },
   "ME": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Maine's Judicial Branch ordered that effective on March 18, 2020 through May 1, 2020, all evictions and foreclosures are suspended."
   },
   "MI": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "textOfLegislation": "Tenants in Michigan are protected from eviction for non-payment of rent by Executive Orders 2020-54 and 2020-53 issued by Governor Gretchen Whitmer on April 17, 2020."
   },
   "MN": {
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in Minnesota are protected from eviction for non-payment of rent by Executive Order 20-14 issued by Governor Tim Walz on March 23, 2020."
   },
   "MO": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Supreme Court of Missouri has suspended in-person proceedings effective April 1, 2020."
   },
   "MS": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The State Supreme Court has directed local courts to determine their own court operations, although it has urged them to limit in-person proceedings. Most courts are still operating, and none clearly limit evictions."
   },
   "MT": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NC": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "ND": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NE": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NH": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NJ": {
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106, issued by Governor Philip Murphy on March 19, 2020."
   },
   "NM": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NV": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "NY": {
     "stateWithoutProtections": false,
     "textOfLegislation": "Tenants in New York State are protected from eviction until June 19, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
   },
   "OH": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "OK": {
     "stateWithoutProtections": false,
     "textOfLegislation": "All deadlines and procedures in civil matters, including eviction matters, are suspended through May 15, 2020. District and Special Judges have been ordered to reschedule hearings scheduled for before May 15, 2020."
   },
   "OR": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "PA": {
     "stateWithoutProtections": true,
@@ -160,51 +150,47 @@
     "textOfLegislation": "Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020."
   },
   "RI": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "SC": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "SD": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "TN": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true
   },
   "TX": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Texas Supreme Court has suspended all eviction proceedings and hearings until May 18, 2020."
   },
   "UT": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Tenants in Utah who were current on rent payments March 31, 2020 and have suffered loss of income or job due to COVID-19 are protected from eviction for non-payment of rent until May 15, 2020 by Executive Order issued by Governor Charlie Baker on April 2, 2020."
   },
   "VA": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Virginia Supreme Court has temporarily suspended all non-emergency hearings in all circuit and district courts throughout the state until April 26, 2020."
   },
   "VT": {
     "stateWithoutProtections": true,
     "textOfLegislation": "The Vermont Supreme Court has suspended all non-emergency Superior Court hearings. However, judges will have the discretion to hold emergency hearings on landlord-tenant issues on a case-by-case basis."
   },
   "WA": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "Tenants in Washington are temporarily protected from eviction until April 17, 2020 by Proclamation Amending Proclamation 20-05 issued by Governor Jay Inslee on March 18, 2020."
   },
   "WI": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Wisconsin Supreme Court has suspended in-person proceedings, with some exceptions, throughout the state until further order. Remote virtual hearings are recommended."
   },
   "WV": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Supreme Court of Appeals of West Virginia has suspended in-person proceedings, with some limited emergency exceptions, throughout the state until May 1, 2020."
   },
   "WY": {
-    "stateWithoutProtections": false,
-    "textOfLegislation": "Lorem Ipsum"
+    "stateWithoutProtections": true,
+    "textOfLegislation": "The Wyoming Supreme Court has suspended in-person proceedings, with some exceptions, throughout the state until May 31, 2020. While this may apply to eviction cases, remote virtual hearings are permitted."
   }
 }

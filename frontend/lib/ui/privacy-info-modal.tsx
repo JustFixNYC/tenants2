@@ -3,8 +3,11 @@ import { Modal, BackOrUpOneDirLevel } from "./modal";
 import { OutboundLink } from "../analytics/google-analytics";
 import { Link } from "react-router-dom";
 
-const DEFAULT_PRIVACY_POLICY_URL = "https://www.justfix.nyc/privacy-policy";
-const NORENT_PRIVACY_POLICY_URL = DEFAULT_PRIVACY_POLICY_URL + "-norent";
+export const addNorentSuffixToUrl = (url: string) => url + "-norent";
+
+export const DEFAULT_PRIVACY_POLICY_URL =
+  "https://www.justfix.nyc/privacy-policy";
+export const DEFAULT_TERMS_OF_USE_URL = "https://www.justfix.nyc/terms-of-use";
 
 export function PrivacyInfoModal(props: {
   isForNorentSite?: boolean;
@@ -41,7 +44,7 @@ export function PrivacyInfoModal(props: {
               <OutboundLink
                 href={
                   props.isForNorentSite
-                    ? NORENT_PRIVACY_POLICY_URL
+                    ? addNorentSuffixToUrl(DEFAULT_PRIVACY_POLICY_URL)
                     : DEFAULT_PRIVACY_POLICY_URL
                 }
                 target="_blank"
@@ -50,7 +53,11 @@ export function PrivacyInfoModal(props: {
               </OutboundLink>{" "}
               and{" "}
               <OutboundLink
-                href="https://www.justfix.nyc/terms-of-use"
+                href={
+                  props.isForNorentSite
+                    ? addNorentSuffixToUrl(DEFAULT_TERMS_OF_USE_URL)
+                    : DEFAULT_TERMS_OF_USE_URL
+                }
                 target="_blank"
               >
                 Terms of Use

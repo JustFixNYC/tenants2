@@ -322,7 +322,7 @@ class TestNorentCreateAccount:
 
     def test_it_returns_error_when_national_addr_but_incomplete_scaffolding(self):
         self.populate_phone_number()
-        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}
+        scaff = {**self.NATIONAL_SCAFFOLDING, 'street': ''}  # type: ignore
         update_scaffolding(self.graphql_client.request, scaff)
         assert self.execute()['errors'] == self.INCOMPLETE_ERR
 

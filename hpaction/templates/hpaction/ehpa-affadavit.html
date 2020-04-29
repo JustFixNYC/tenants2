@@ -1,0 +1,164 @@
+{% extends "loc/base.html" %}
+
+{% block title %}AFFIDAVIT IN SUPPORT OF AN APPLICATION TO WAIVE COURT FEES{% endblock %}
+
+{% block body %}
+<style>
+@page {
+    @bottom-center {
+        /** Urg, gotta undo LOC styling. */
+        content: "";
+    }
+}
+
+/**
+ * It's very intentional that we want the affadavit, which comprises the
+ * top of the page, to have a specific height: this ensures that the
+ * form fields at the bottom of the section will always be in the same
+ * place, so we know exactly where to tell DocuSign to put its "sign here"
+ * and "date signed" tabs.
+ */
+.affadavit {
+    position: relative;
+    height: 2.75in;
+}
+
+.form-fields {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.form-fields > div {
+    position: relative;
+}
+
+.form-field {
+    position: absolute;
+    width: 1.75in;
+    border-top: 1pt solid black;
+    padding-top: 2pt;
+}
+
+.form-field-value {
+    margin-top: -4em;
+    font-family: monospace;
+    font-size: 10pt;
+}
+
+.form-field-1 {
+    left: 0;
+}
+
+.form-field-2 {
+    left: 2in;
+}
+
+.form-field-3 {
+    left: 4in;
+}
+
+.contact-details {
+    border-top: 1pt solid black;
+    margin-top: 8em;
+}
+
+dl {
+    /** Urg, gotta undo LOC styling. */
+    margin-top: 0;
+}
+
+dt {
+    display: inline-block;
+    width: 1in;
+}
+
+dt::after {
+    content: ": ";
+}
+
+dd {
+    /** Urg, gotta undo LOC styling. */
+    margin-bottom: 0;
+
+    margin-left: 0;
+    display: inline-block;
+}
+
+h3 {
+    padding-top: 1em;
+    font-weight: bold;
+
+    /** Urg, gotta undo LOC styling. */
+    text-decoration: none;
+}
+</style>
+<section class="affadavit">
+    <p class="has-text-right">INDEX NUMBER ____________________________</p>
+
+    <h2>AFFIDAVIT IN SUPPORT OF AN APPLICATION TO WAIVE COURT FEES </h2>
+
+    <p>I, {{ tenant_name }}, hereby request the waiving of any and all statutory fees for
+        the defense or prosecution of this HP Action. I make this application based on
+        CPLR §1101. I do not have, nor am I able to obtain, the funds needed to pay
+        the court fees. I will be unable to proceed unless the Order is granted.</p>
+
+    <div class="form-fields">
+        <div>
+            <div class="form-field form-field-1">
+                Date
+            </div>
+
+            <div class="form-field form-field-2">
+                Tenant's full name
+                <div class="form-field-value">{{ tenant_name }}</div>
+            </div>
+
+            <div class="form-field form-field-3">
+                Tenant's signature
+            </div>
+        </div>
+    </div>
+</section>
+<section class="contact-details">
+    <h2>CONTACT DETAILS FOR PARTIES INVOLVED</h2>
+    <h3>Tenant plaintiff</h3>
+    <dl>
+        <div>
+            <dt>Name</dt>
+            <dd>{{ tenant_name }}</dd>
+        </div>
+        <div>
+            <dt>Email</dt>
+            <dd>{{ tenant_email }}</dd>
+        </div>
+        <div>
+            <dt>Phone</dt>
+            <dd>{{ tenant_phone }}</dd>
+        </div>
+        <div>
+            <dt>Address</dt>
+            <dd>{{ tenant_address }}</dd>
+        </div>
+    </dl>
+    <h3>Landlord/management company respondent</h3>
+    <dl>
+        <div>
+            <dt>Name</dt>
+            <dd>{{ landlord_name }}</dd>
+        </div>
+        <div>
+            <dt>Email</dt>
+            <dd>{{ landlord_email }}</dd>
+        </div>
+        <div>
+            <dt>Phone</dt>
+            <dd>{{ landlord_phone }}</dd>
+        </div>
+        <div>
+            <dt>Address</dt>
+            <dd>{{ landlord_address }}</dd>
+        </div>
+    </dl>
+</section>
+{% endblock %}

@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import UploadToken, HPActionDocuments, HP_ACTION_CHOICES
+from loc.views import render_document
 
 
 LHI_B64_ALTCHARS = b' /'
@@ -27,6 +28,19 @@ def decode_lhi_b64_data(data: str) -> bytes:
     '''
 
     return base64.b64decode(data, altchars=LHI_B64_ALTCHARS)
+
+
+def ehpa_affadavit_pdf(request):
+    return render_document(request, 'hpaction/ehpa-affadavit.html', {
+        'tenant_name': 'Boop Jones',
+        'tenant_email': 'boop@jones.com',
+        'tenant_phone': '(555) 123-4567',
+        'tenant_address': '123 Boop Jones Place, Bronx, NY 10453',
+        'landlord_name': 'Landlordo Calrissian',
+        'landlord_email': 'landlordo@calrissian.net',
+        'landlord_phone': '(555) 203-4032',
+        'landlord_address': '1 Cloud City Drive, Bespin OH 43201',
+    }, 'pdf')
 
 
 @csrf_exempt

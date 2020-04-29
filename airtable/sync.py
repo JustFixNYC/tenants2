@@ -91,7 +91,7 @@ def sync_user(user: JustfixUser):
     as the "syncairtable" management command.
     '''
 
-    if not settings.AIRTABLE_API_KEY:
+    if not settings.AIRTABLE_URL:
         return
 
     logger.info(f"Syncing user {user.username} with Airtable.")

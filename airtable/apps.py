@@ -13,8 +13,8 @@ def validate_settings():
     '''
 
     ensure_dependent_settings_are_nonempty(
+        'AIRTABLE_URL',
         'AIRTABLE_API_KEY',
-        'AIRTABLE_URL'
     )
 
 

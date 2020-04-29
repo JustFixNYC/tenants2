@@ -138,9 +138,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # will be disabled.
     AIRTABLE_API_KEY: str = ''
 
-    # The base URL for an Airtable table API endpoint, e.g.
+    # The base URL for an Airtable table API endpoint to sync users, e.g.
     # "https://api.airtable.com/v0/appEH2XUPhLwkrS66/Users".
-    # If AIRTABLE_API_KEY is specified, this must also
+    # If this is specified, AIRTABLE_API_KEY must also
     # be specified.
     AIRTABLE_URL: str = ''
 

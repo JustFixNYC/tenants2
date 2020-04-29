@@ -18,6 +18,16 @@ type SignupIntentOnboardingInfo = {
   onboarding: OnboardingRouteInfo;
 };
 
+export type JustfixCrossSiteVisitorRouteInfo = ReturnType<
+  typeof createJustfixCrossSiteVisitorRoutes
+>;
+
+function createJustfixCrossSiteVisitorRoutes(prefix: string) {
+  return {
+    crossSiteAgreeToTerms: `${prefix}/terms`,
+  };
+}
+
 /**
  * Ideally this would be a map, but TypeScript doesn't let us
  * use a union type as an index signature, so I guess we'll have
@@ -119,6 +129,7 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
     latestStep: prefix,
     splash: `${prefix}/splash`,
     welcome: `${prefix}/welcome`,
+    ...createJustfixCrossSiteVisitorRoutes(prefix),
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     reliefAttempts: `${prefix}/relief-attempts`,
@@ -140,6 +151,7 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
     postOnboarding: prefix,
     welcome: `${prefix}/welcome`,
+    ...createJustfixCrossSiteVisitorRoutes(prefix),
     sue: `${prefix}/sue`,
     issues: `${prefix}/issues`,
     tenantChildren: `${prefix}/children`,
@@ -171,6 +183,7 @@ function createHPActionRouteInfo(prefix: string) {
     onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
     postOnboarding: prefix,
     welcome: `${prefix}/welcome`,
+    ...createJustfixCrossSiteVisitorRoutes(prefix),
     sue: `${prefix}/sue`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     tenantChildren: `${prefix}/children`,

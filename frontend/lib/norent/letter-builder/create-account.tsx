@@ -58,9 +58,9 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
               I agree to the{" "}
               <ModalLink
                 to={NorentRoutes.locale.letter.createAccountTermsModal}
-                render={() => <PrivacyInfoModal isForNorentSite />}
+                render={() => <PrivacyInfoModal />}
               >
-                JustFix.nyc terms and conditions
+                NoRent.org terms and conditions
               </ModalLink>
               .
             </CheckboxFormField>

@@ -64,7 +64,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
                 is secure.{" "}
                 <ModalLink
                   to={NorentRoutes.locale.letter.phoneNumberTermsModal}
-                  component={() => <PrivacyInfoModal isForNorentSite />}
+                  component={() => <PrivacyInfoModal />}
                   className="has-text-weight-normal"
                 >
                   Click here to learn more about our privacy policy.

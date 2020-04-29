@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  DEFAULT_PRIVACY_POLICY_URL,
-  DEFAULT_TERMS_OF_USE_URL,
-} from "./privacy-info-modal";
+import { PrivacyPolicyLink, TermsOfUseLink } from "./privacy-info-modal";
 
 export const Footer: React.FC<{}> = () => (
   <footer>
@@ -32,10 +29,10 @@ export const Footer: React.FC<{}> = () => (
           <hr />
           <ul>
             <li>
-              <a href={DEFAULT_PRIVACY_POLICY_URL}>Privacy policy</a>
+              <PrivacyPolicyLink />
             </li>
             <li>
-              <a href={DEFAULT_TERMS_OF_USE_URL}>Terms of use</a>
+              <TermsOfUseLink />
             </li>
           </ul>
         </div>

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Routes, { getSignupIntentOnboardingInfo } from "../routes";
 import Page from "../ui/page";
 import { ProgressButtons } from "../ui/buttons";
 import { IssuesRoutes } from "../issues/issue-pages";
-import { withAppContext, AppContextType } from "../app-context";
+import { withAppContext, AppContextType, AppContext } from "../app-context";
 import { PdfLink } from "../ui/pdf-link";
 import {
   ProgressRoutesProps,
@@ -22,7 +22,10 @@ import {
   FeeWaiverPublicAssistance,
   FeeWaiverStart,
 } from "./fee-waiver";
-import { MiddleProgressStep } from "../progress/progress-step-route";
+import {
+  MiddleProgressStep,
+  ProgressStepProps,
+} from "../progress/progress-step-route";
 import { TenantChildren } from "./hp-action-tenant-children";
 import { createHPActionPreviousAttempts } from "./hp-action-previous-attempts";
 import { HpActionUrgentAndDangerousMutation } from "../queries/HpActionUrgentAndDangerousMutation";
@@ -50,6 +53,8 @@ import {
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { isUserNycha } from "../util/nycha";
 import { HpActionSue } from "./sue";
+import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
+import { assertNotNull } from "../util/util";
 
 const onboardingForHPActionRoute = () =>
   getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding
@@ -102,8 +107,9 @@ function HPActionSplash(): JSX.Element {
   );
 }
 
-const HPActionWelcome = withAppContext((props: AppContextType) => {
-  const title = `Welcome, ${props.session.firstName}! Let's start your HP Action paperwork.`;
+const HPActionWelcome: React.FC<ProgressStepProps> = (props) => {
+  const { firstName } = useContext(AppContext).session;
+  const title = `Welcome, ${firstName}! Let's start your HP Action paperwork.`;
 
   return (
     <Page title={title} withHeading="big" className="content">
@@ -127,7 +133,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
         </li>
       </ol>
       <GetStartedButton
-        to={Routes.locale.hp.sue}
+        to={assertNotNull(props.nextStep)}
         intent={OnboardingInfoSignupIntent.HP}
         pageType="welcome"
       >
@@ -145,7 +151,7 @@ const HPActionWelcome = withAppContext((props: AppContextType) => {
       </p>
     </Page>
   );
-});
+};
 
 const HPActionIssuesRoutes = MiddleProgressStep((props) => (
   <IssuesRoutes
@@ -322,6 +328,7 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
     },
   ],
   stepsToFillOut: [
+    ...createJustfixCrossSiteVisitorSteps(Routes.locale.hp),
     { path: Routes.locale.hp.sue, component: HpActionSue },
     {
       path: Routes.locale.hp.issues.prefix,

@@ -2,11 +2,14 @@ import React from "react";
 
 import { useContext } from "react";
 import { AppContext } from "../app-context";
-import { EmailSubject, asEmailStaticPage } from "../static-page/email-static-page";
+import {
+  EmailSubject,
+  asEmailStaticPage,
+} from "../static-page/email-static-page";
 import { NorentRoutes } from "./routes";
 
 export const NorentLetterEmailToUser: React.FC<{}> = () => {
-  const {session, server} = useContext(AppContext);
+  const { session, server } = useContext(AppContext);
 
   return (
     <>
@@ -18,10 +21,13 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
       </p>
       <p>
         To learn more about what to do next, check out our FAQ page:{" "}
-        {server.originURL}{NorentRoutes.locale.faqs}
+        {server.originURL}
+        {NorentRoutes.locale.faqs}
       </p>
     </>
   );
 };
 
-export const NorentLetterEmailToUserStaticPage = asEmailStaticPage(NorentLetterEmailToUser);
+export const NorentLetterEmailToUserStaticPage = asEmailStaticPage(
+  NorentLetterEmailToUser
+);

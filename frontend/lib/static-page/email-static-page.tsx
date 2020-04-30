@@ -25,7 +25,9 @@ export const EmailSubject = withRouter(
   }
 );
 
-export function asEmailStaticPage(Component: React.ComponentType<{}>): React.FC<{}> {
+export function asEmailStaticPage(
+  Component: React.ComponentType<{}>
+): React.FC<{}> {
   return () => (
     <EmailStaticPage>
       <Component />

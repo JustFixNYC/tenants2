@@ -2,7 +2,13 @@ from pathlib import Path
 import pydantic
 
 from users.models import JustfixUser
-from loc.views import render_document, get_onboarding_info, get_landlord_details
+from loc.views import (
+    pdf_response,
+    render_pdf_html,
+    render_pdf_bytes,
+    get_onboarding_info,
+    get_landlord_details
+)
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -52,15 +58,20 @@ EXAMPLE_VARS = EHPAAffadavitVars(
 )
 
 
-def render_affadavit(vars: EHPAAffadavitVars):
-    return render_document(
+def render_affadavit_pdf_html(vars: EHPAAffadavitVars) -> str:
+    return render_pdf_html(
         None,
         'hpaction/ehpa-affadavit.html',
-        vars.dict(),
-        'pdf',
+        context=vars.dict(),
         pdf_styles_path=PDF_STYLES_CSS
     )
 
 
+def render_affadavit_pdf_for_user(user: JustfixUser) -> bytes:
+    vars = EHPAAffadavitVars.from_user(user)
+    html = render_affadavit_pdf_html(vars)
+    return render_pdf_bytes(html)
+
+
 def example_pdf(request):
-    return render_affadavit(EXAMPLE_VARS)
+    return pdf_response(render_affadavit_pdf_html(EXAMPLE_VARS), 'example-ehpa-affadavit.pdf')

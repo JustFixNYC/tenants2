@@ -40,7 +40,7 @@ def can_we_render_pdfs():
     return True
 
 
-def render_pdf_bytes(html: str):
+def render_pdf_bytes(html: str) -> bytes:
     import weasyprint
     from weasyprint.fonts import FontConfiguration
 
@@ -205,6 +205,19 @@ def render_english_to_string(
         return render_to_string(template_name, context=context, request=request)
 
 
+def render_pdf_html(
+    request: Optional[HttpRequest],
+    template_name: str,
+    context: Dict[str, Any],
+    pdf_styles_path: Path,
+) -> str:
+    return render_english_to_string(request, template_name, {
+        **context,
+        'is_pdf': True,
+        'pdf_styles_css': SafeString(pdf_styles_path.read_text())
+    })
+
+
 def render_document(
     request: Optional[HttpRequest],
     template_name: str,
@@ -225,10 +238,6 @@ def render_document(
         })
         return HttpResponse(html)
 
-    html = render_english_to_string(request, template_name, {
-        **context,
-        'is_pdf': True,
-        'pdf_styles_css': SafeString(pdf_styles_path.read_text())
-    })
+    html = render_pdf_html(request, template_name, context, pdf_styles_path)
 
     return pdf_response(html, template_name_to_pdf_filename(template_name))

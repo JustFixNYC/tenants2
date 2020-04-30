@@ -446,6 +446,19 @@ class HPActionDocuments(models.Model):
     objects = HPActionDocumentsManager()
 
     def open_emergency_pdf_file(self) -> Optional[BytesIO]:
+        '''
+        Renders the emergency (COVID-19) version of the PDF file.
+        This removes the initial instruction pages and also adds
+        an EHPA affadavit to the end.
+
+        Note that the affadavit is *dynamically generated*, which
+        means that it's pulling from live data about the user. This
+        means that its contents might technically differ from those
+        in the PDF file stored by this model.
+        '''
+
+        from . import ehpa_affadavit
+
         if not self.pdf_file:
             return None
         pdf_bytes = self.pdf_file.open().read()
@@ -456,6 +469,12 @@ class HPActionDocuments(models.Model):
         pdf_writer = PyPDF2.PdfFileWriter()
         for i in range(NUM_INSTRUCTION_PAGES, num_pages):
             pdf_writer.addPage(pdf_reader.getPage(i))
+
+        aff_pdf_bytes = ehpa_affadavit.render_affadavit_pdf_for_user(self.user)
+        aff_pdf_reader = PyPDF2.PdfFileReader(BytesIO(aff_pdf_bytes))
+        assert aff_pdf_reader.numPages == 1
+        pdf_writer.addPage(aff_pdf_reader.getPage(0))
+
         new_pdf = BytesIO()
         pdf_writer.write(new_pdf)
         new_pdf.seek(0)

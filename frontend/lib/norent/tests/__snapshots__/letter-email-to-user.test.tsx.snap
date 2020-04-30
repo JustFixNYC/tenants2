@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NorentLetterEmailToUser works 1`] = `
+<div>
+  <p>
+    Subject: 
+    Here's a copy of your NoRent letter
+  </p>
+  <p>
+    Hello 
+    Boop
+    ,
+  </p>
+  <p>
+    You've sent your NoRent letter. Attached to this email is a PDF copy for your records.
+  </p>
+  <p>
+    To learn more about what to do next, check out our FAQ page:
+     
+    https://myserver.com
+    /faqs
+  </p>
+</div>
+`;

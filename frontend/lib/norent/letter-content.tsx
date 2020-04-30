@@ -8,7 +8,7 @@ import { friendlyDate, assertNotNull } from "../util/util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import {
   EmailSubject,
-  EmailStaticPage,
+  asEmailStaticPage,
 } from "../static-page/email-static-page";
 import {
   USStateChoice,
@@ -158,10 +158,8 @@ export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
   />
 );
 
-export const NorentLetterEmailToLandlordForUserStaticPage: React.FC<{}> = () => (
-  <EmailStaticPage>
-    <NorentLetterEmailToLandlordForUser />
-  </EmailStaticPage>
+export const NorentLetterEmailToLandlordForUserStaticPage = asEmailStaticPage(
+  NorentLetterEmailToLandlordForUser
 );
 
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (

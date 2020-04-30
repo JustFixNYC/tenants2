@@ -24,3 +24,11 @@ export const EmailSubject = withRouter(
     return <p>Subject: {props.value}</p>;
   }
 );
+
+export function asEmailStaticPage(Component: React.ComponentType<{}>): React.FC<{}> {
+  return () => (
+    <EmailStaticPage>
+      <Component />
+    </EmailStaticPage>
+  );
+}

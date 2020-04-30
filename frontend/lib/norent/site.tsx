@@ -27,6 +27,7 @@ import { NorentLogo } from "./components/logo";
 import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
+import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 
 function getRoutesForPrimaryPages() {
   return new Set([
@@ -68,6 +69,11 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         path={Routes.locale.letterEmail}
         exact
         component={NorentLetterEmailToLandlordForUserStaticPage}
+      />
+      <Route
+        path={Routes.locale.letterEmailToUser}
+        exact
+        component={NorentLetterEmailToUserStaticPage}
       />
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,

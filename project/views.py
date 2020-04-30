@@ -1,7 +1,7 @@
 import re
 import time
 import logging
-from typing import NamedTuple, List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,8 @@ from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_service import LambdaService
 from project.util.site_util import get_site_from_request_or_default, get_site_type
+from project.schema import schema
+from project.lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 from project import common_data
 import project.health
 
@@ -55,41 +57,6 @@ else:
         cwd=BASE_DIR,
         restart_on_script_change=settings.DEBUG
     )
-
-
-class GraphQLQueryPrefetchInfo(NamedTuple):
-    '''
-    Encapsulates details from the server-side renderer
-    about a GraphQL query that should (ideally) be
-    pre-fetched for the current request.
-    '''
-
-    graphql: str
-    input: Any
-
-
-class LambdaResponse(NamedTuple):
-    '''
-    Encapsulates the result of the server-side renderer.
-
-    This is more or less the same as the LambdaResponse
-    interface defined in frontend/lambda/lambda.tsx.
-    '''
-
-    html: SafeString
-    is_static_content: bool
-    http_headers: Dict[str, str]
-    title_tag: SafeString
-    meta_tags: SafeString
-    script_tags: SafeString
-    status: int
-    modal_html: SafeString
-    location: Optional[str]
-    traceback: Optional[str]
-    graphql_query_to_prefetch: Optional[GraphQLQueryPrefetchInfo]
-
-    # The amount of time rendering took, in milliseconds.
-    render_time: int
 
 
 def find_all_graphql_fragments(query: str) -> List[str]:
@@ -178,8 +145,6 @@ def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
-    from project.schema import schema
-
     result = schema.execute(query, context=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)

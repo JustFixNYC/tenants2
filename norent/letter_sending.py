@@ -9,7 +9,7 @@ from django.utils import timezone
 from project import slack
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
-from project.views import render_raw_lambda_static_content, LambdaResponse
+from project.lambda_response import LambdaResponse
 from loc.views import render_pdf_bytes
 from loc import lob_api
 from . import models
@@ -38,6 +38,9 @@ def render_static_content_via_react(
     verifies that it was successful and of the expected
     content type.
     '''
+
+    # Ugh, need to do this to avoid a circular import.
+    from project.views import render_raw_lambda_static_content
 
     full_url = f"{reverse('react')}{url}"
     lr = render_raw_lambda_static_content(request, url=full_url)

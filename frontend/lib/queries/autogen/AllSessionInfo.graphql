@@ -10,6 +10,16 @@ fragment AllSessionInfo on SessionInfo {
     paymentDate
   },
   norentLettersSent,
+  rentalHistoryInfo {
+    firstName,
+    lastName,
+    apartmentNumber,
+    address,
+    borough,
+    phoneNumber,
+    addressVerified,
+    zipcode
+  },
   onboardingStep1 {
     address,
     borough,
@@ -67,15 +77,5 @@ fragment AllSessionInfo on SessionInfo {
   isEmailVerified,
   csrfToken,
   isStaff,
-  isSafeModeEnabled,
-  rentalHistoryInfo {
-    firstName,
-    lastName,
-    apartmentNumber,
-    address,
-    borough,
-    phoneNumber,
-    addressVerified,
-    zipcode
-  }
+  isSafeModeEnabled
 }

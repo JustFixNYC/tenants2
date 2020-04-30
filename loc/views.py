@@ -207,7 +207,7 @@ def render_english_to_string(
 
 def render_document(
     request: Optional[HttpRequest],
-    template_name: str, 
+    template_name: str,
     context: Dict[str, Any],
     format: str,
     pdf_styles_path: Path = PDF_STYLES_CSS,

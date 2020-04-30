@@ -202,7 +202,13 @@ def render_english_to_string(request, template_name: str, context: Dict[str, Any
     return render_to_string(template_name, context=context, request=request)
 
 
-def render_document(request, template_name: str, context: Dict[str, Any], format: str):
+def render_document(
+    request,
+    template_name: str, 
+    context: Dict[str, Any],
+    format: str,
+    pdf_styles_path: Path = PDF_STYLES_CSS,
+):
     if format not in ['html', 'pdf']:
         raise ValueError(f'unknown format "{format}"')
 
@@ -219,7 +225,7 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
     html = render_english_to_string(request, template_name, {
         **context,
         'is_pdf': True,
-        'pdf_styles_css': SafeString(PDF_STYLES_CSS.read_text())
+        'pdf_styles_css': SafeString(pdf_styles_path.read_text())
     })
 
     return pdf_response(html, template_name_to_pdf_filename(template_name))

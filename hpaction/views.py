@@ -1,6 +1,7 @@
 import base64
 import logging
 import json
+from pathlib import Path
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,12 @@ from loc.views import render_document
 LHI_B64_ALTCHARS = b' /'
 
 SUCCESSFUL_UPLOAD_TEXT = "HP Action documents created."
+
+MY_DIR = Path(__file__).parent.resolve()
+
+MY_TEMPLATES_DIR = MY_DIR / 'templates' / 'hpaction'
+
+AFFADAVIT_PDF_STYLES_CSS = MY_TEMPLATES_DIR / 'ehpa-affadavit.css'
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +47,7 @@ def ehpa_affadavit_pdf(request):
         'landlord_email': 'landlordo@calrissian.net',
         'landlord_phone': '(555) 203-4032',
         'landlord_address': '1 Cloud City Drive, Bespin OH 43201',
-    }, 'pdf')
+    }, 'pdf', pdf_styles_path=AFFADAVIT_PDF_STYLES_CSS)
 
 
 @csrf_exempt

@@ -127,7 +127,11 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     return (
       <>
         <section
-          className={classnames(isPrimaryPage && "jf-above-footer-content")}
+          className={classnames(
+            isPrimaryPage
+              ? "jf-above-footer-content"
+              : "jf-norent-internal-above-footer-content"
+          )}
         >
           <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
             <Navbar
@@ -141,8 +145,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           )}
           <div
             className={classnames(
-              !isPrimaryPage &&
-                "box jf-norent-builder-page jf-above-footer-content"
+              !isPrimaryPage && "box jf-norent-builder-page"
             )}
             ref={ref}
             data-jf-is-noninteractive

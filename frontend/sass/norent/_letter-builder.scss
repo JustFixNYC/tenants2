@@ -1,3 +1,26 @@
+// This class is a recreation of the .jf-above-footer-content class
+// that allows our footer to peak above the fold on desktop and
+// fit just below the fold on mobile, while maintaining the
+// correct formatting of NoRent internal pages
+.jf-norent-internal-above-footer-content {
+  min-height: calc(100vh - #{$navbar-height});
+  @include tablet {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+  }
+}
+
+// Fixes page container spacing issue for users in safe mode
+html[data-safe-mode-no-js] .jf-norent-internal-above-footer-content {
+  @include tablet {
+    margin-top: 0;
+    nav.navbar {
+      margin-bottom: 4rem;
+    }
+  }
+}
+
 // This class helps create the two-color background on letter builder pages
 .jf-block-of-color-in-background {
   position: absolute;
@@ -11,7 +34,7 @@
 .box.jf-norent-builder-page {
   padding: 4rem 6rem;
   max-width: 700px;
-  margin: 4rem auto;
+  @include is-horizontal-center;
 
   @include mobile {
     margin: 0;
@@ -21,10 +44,6 @@
     // Since the mobile breakpoint might actually be higher than the max-width,
     // let's unset the max-width property to avoid formatting weirdness
     max-width: unset;
-  }
-
-  @include tablet {
-    min-height: unset;
   }
 
   // These variables estimate the height between the top of the viewport

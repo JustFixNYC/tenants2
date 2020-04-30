@@ -126,7 +126,7 @@ const LetterContentPropsFromSession: React.FC<{
   return children(lcProps);
 };
 
-export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
+export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
   props
 ) => (
   <>
@@ -152,15 +152,15 @@ export const NorentLetterEmail: React.FC<NorentLetterContentProps> = (
   </>
 );
 
-export const NorentLetterEmailForUser: React.FC<{}> = () => (
+export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
   <LetterContentPropsFromSession
-    children={(lcProps) => <NorentLetterEmail {...lcProps} />}
+    children={(lcProps) => <NorentLetterEmailToLandlord {...lcProps} />}
   />
 );
 
-export const NorentLetterEmailForUserStaticPage: React.FC<{}> = () => (
+export const NorentLetterEmailToLandlordForUserStaticPage: React.FC<{}> = () => (
   <EmailStaticPage>
-    <NorentLetterEmailForUser />
+    <NorentLetterEmailToLandlordForUser />
   </EmailStaticPage>
 );
 

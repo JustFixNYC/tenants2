@@ -16,7 +16,7 @@ import { NorentFooter } from "./components/footer";
 import {
   NorentLetterForUserStaticPage,
   NorentSampleLetterSamplePage,
-  NorentLetterEmailForUserStaticPage,
+  NorentLetterEmailToLandlordForUserStaticPage,
 } from "./letter-content";
 import Navbar from "../ui/navbar";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
@@ -67,7 +67,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       <Route
         path={Routes.locale.letterEmail}
         exact
-        component={NorentLetterEmailForUserStaticPage}
+        component={NorentLetterEmailToLandlordForUserStaticPage}
       />
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,

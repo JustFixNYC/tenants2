@@ -184,10 +184,21 @@ def create_letter(request, rp: models.RentPeriod) -> models.Letter:
     return letter
 
 
-def create_and_send_letter(request, rp: models.RentPeriod):
-    user = request.user
-    letter = create_letter(request, rp)
+def send_letter(request, letter: models.Letter):
+    '''
+    Send the given letter using whatever information is populated
+    in their landlord details: that is, if we have the landlord's
+    email, then send an email of the letter, and if we have
+    the landlord's mailing address, then send a physical copy
+    of the letter.
+
+    If any part of the sending fails, this function can be called
+    again and it won't send multiple copies of the letter.
+    '''
+
+    assert request.user == letter.user
     pdf_bytes = render_pdf_bytes(letter.html_content)
+    user = letter.user
     ld = user.landlord_details
 
     if ld.email:
@@ -201,3 +212,12 @@ def create_and_send_letter(request, rp: models.RentPeriod):
         f"has sent a no rent letter!",
         is_safe=True
     )
+
+
+def create_and_send_letter(request, rp: models.RentPeriod):
+    '''
+    Create a Letter model and send it.
+    '''
+
+    letter = create_letter(request, rp)
+    send_letter(request, letter)

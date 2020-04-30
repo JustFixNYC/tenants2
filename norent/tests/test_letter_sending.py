@@ -10,7 +10,7 @@ from norent.models import Letter
 def test_nothing_is_emailed_on_demo_deployment(settings, mailoutbox, rf):
     settings.IS_DEMO_DEPLOYMENT = True
     letter = Letter()
-    assert email_letter_to_landlord(rf.get('/'), letter, b"blah") is False    
+    assert email_letter_to_landlord(rf.get('/'), letter, b"blah") is False
     assert letter.letter_emailed_at is None
     assert len(mailoutbox) == 0
 

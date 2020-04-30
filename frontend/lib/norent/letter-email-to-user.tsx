@@ -10,6 +10,7 @@ import { NorentRoutes } from "./routes";
 
 export const NorentLetterEmailToUser: React.FC<{}> = () => {
   const { session, server } = useContext(AppContext);
+  const faqURL = `${server.originURL}${NorentRoutes.locale.faqs}`;
 
   return (
     <>
@@ -20,9 +21,7 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
         your records.
       </p>
       <p>
-        To learn more about what to do next, check out our FAQ page:{" "}
-        {server.originURL}
-        {NorentRoutes.locale.faqs}
+        To learn more about what to do next, check out our FAQ page: {faqURL}
       </p>
     </>
   );

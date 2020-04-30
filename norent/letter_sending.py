@@ -83,13 +83,21 @@ def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
 
 
-def mail_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> None:
+def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     '''
-    Mails the NoRent letter via Lob.
+    Mails the NoRent letter to the user's landlord via Lob. Does
+    nothing if the letter has already been sent.
+
+    Returns True if the letter was just sent.
     '''
+
+    if letter.letter_sent_at is not None:
+        logger.info(f"{letter} has already been mailed to the landlord.")
+        return False
 
     user = letter.user
     ld = user.landlord_details
+    assert ld.address_lines_for_mailing
     ll_addr_details = ld.get_or_create_address_details_model()
     landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
     user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
@@ -118,10 +126,45 @@ def mail_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> None:
     letter.tracking_number = response['tracking_number']
     letter.letter_sent_at = timezone.now()
     letter.save()
+    return True
 
 
-def send_letter(request, rp: models.RentPeriod):
-    user = request.user
+def email_letter_to_landlord(request, letter: models.Letter, pdf_bytes: bytes) -> bool:
+    '''
+    Email the given letter to the user's landlord. Does nothing if the
+    letter has already been emailed.
+
+    Returns True if the email was just sent.
+    '''
+
+    if settings.IS_DEMO_DEPLOYMENT:
+        logger.info(f"Not emailing {letter} because this is a demo deployment.")
+        return False
+    if letter.letter_emailed_at is not None:
+        logger.info(f"{letter} has already been emailed to the landlord.")
+        return False
+    ld = letter.user.landlord_details
+    assert request.user == letter.user
+    assert ld.email
+
+    # TODO: Once we translate to other languages, we'll likely want to
+    # force the locale of this email to English, since that's what the
+    # landlord will read the email as.
+    email_react_rendered_content_with_attachment(
+        request,
+        NORENT_EMAIL_TO_LANDLORD_URL,
+        recipients=[ld.email],
+        attachment=norent_pdf_response(pdf_bytes),
+    )
+    letter.letter_emailed_at = timezone.now()
+    letter.save()
+    return True
+
+
+def create_letter(request, rp: models.RentPeriod) -> models.Letter:
+    '''
+    Create a Letter model and set its PDF HTML content.
+    '''
 
     # TODO: Once we translate to other languages, we'll likely want to
     # force the locale of this letter to English, since that's what the
@@ -132,28 +175,26 @@ def send_letter(request, rp: models.RentPeriod):
         "application/pdf"
     )
     letter = models.Letter(
-        user=user,
+        user=request.user,
         rent_period=rp,
         html_content=lr.html,
     )
     letter.full_clean()
     letter.save()
+    return letter
 
+
+def create_and_send_letter(request, rp: models.RentPeriod):
+    user = request.user
+    letter = create_letter(request, rp)
     pdf_bytes = render_pdf_bytes(letter.html_content)
     ld = user.landlord_details
 
-    if ld.email and not settings.IS_DEMO_DEPLOYMENT:
-        email_react_rendered_content_with_attachment(
-            request,
-            NORENT_EMAIL_TO_LANDLORD_URL,
-            recipients=[ld.email],
-            attachment=norent_pdf_response(pdf_bytes),
-        )
-        letter.letter_emailed_at = timezone.now()
-        letter.save()
+    if ld.email:
+        email_letter_to_landlord(request, letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
-        mail_letter_via_lob(letter, pdf_bytes)
+        send_letter_via_lob(letter, pdf_bytes)
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

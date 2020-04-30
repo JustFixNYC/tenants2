@@ -1,8 +1,8 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse, HttpResponse, HttpRequest
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
@@ -40,7 +40,7 @@ def can_we_render_pdfs():
     return True
 
 
-def render_pdf_bytes(html: str):
+def render_pdf_bytes(html: str) -> bytes:
     import weasyprint
     from weasyprint.fonts import FontConfiguration
 
@@ -190,19 +190,41 @@ def template_name_to_pdf_filename(template_name: str) -> str:
     return f'{filename.stem}.pdf'
 
 
-def render_english_to_string(request, template_name: str, context: Dict[str, Any]):
+def render_english_to_string(
+    request: Optional[HttpRequest],
+    template_name: str,
+    context: Dict[str, Any]
+):
     # For now, we always want to localize the letter of complaint in English.
     # Even if we don't translate the letter itself to other languages, some
     # templating functionality provided by Django (such as date formatting) will
     # take the current locale into account, and we don't want e.g. a letter to
     # have English paragraphs but Spanish dates. So we'll explicitly set
     # the locale here.
-    translation.activate('en')
+    with translation.override('en'):
+        return render_to_string(template_name, context=context, request=request)
 
-    return render_to_string(template_name, context=context, request=request)
+
+def render_pdf_html(
+    request: Optional[HttpRequest],
+    template_name: str,
+    context: Dict[str, Any],
+    pdf_styles_path: Path,
+) -> str:
+    return render_english_to_string(request, template_name, {
+        **context,
+        'is_pdf': True,
+        'pdf_styles_css': SafeString(pdf_styles_path.read_text())
+    })
 
 
-def render_document(request, template_name: str, context: Dict[str, Any], format: str):
+def render_document(
+    request: Optional[HttpRequest],
+    template_name: str,
+    context: Dict[str, Any],
+    format: str,
+    pdf_styles_path: Path = PDF_STYLES_CSS,
+):
     if format not in ['html', 'pdf']:
         raise ValueError(f'unknown format "{format}"')
 
@@ -216,10 +238,6 @@ def render_document(request, template_name: str, context: Dict[str, Any], format
         })
         return HttpResponse(html)
 
-    html = render_english_to_string(request, template_name, {
-        **context,
-        'is_pdf': True,
-        'pdf_styles_css': SafeString(PDF_STYLES_CSS.read_text())
-    })
+    html = render_pdf_html(request, template_name, context, pdf_styles_path)
 
     return pdf_response(html, template_name_to_pdf_filename(template_name))

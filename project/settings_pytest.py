@@ -20,6 +20,7 @@ TWILIO_PHONE_NUMBER = ''
 # Disable a bunch of third-party integrations by default.
 GEOCODING_SEARCH_URL = ""
 AIRTABLE_API_KEY = ''
+AIRTABLE_URL = ''
 SLACK_WEBHOOK_URL = ''
 GA_TRACKING_ID = ''
 GTM_CONTAINER_ID = ''

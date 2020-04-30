@@ -89,9 +89,9 @@ class TestGetHousingCourtForBorough:
 
 class TestFormsConfig:
     @pytest.mark.parametrize('hpa_type,num_date_signed_tabs', [
-        (HPAType.REPAIRS, 3),
-        (HPAType.HARASSMENT, 2),
-        (HPAType.BOTH, 3),
+        (HPAType.REPAIRS, 4),
+        (HPAType.HARASSMENT, 3),
+        (HPAType.BOTH, 4),
     ])
     def test_it_creates_date_signed_tabs(self, hpa_type, num_date_signed_tabs):
         fc = FormsConfig.from_case_type(hpa_type)
@@ -127,7 +127,7 @@ class TestCreateEnvelopeDefinitionForHPA:
         )
         with pytest.raises(
             ValueError,
-            match="Expected HPAType.REPAIRS PDF to have 3 pages but it has 5"
+            match="Expected HPAType.REPAIRS PDF to have 4 pages but it has 6"
         ):
             docusign.create_envelope_definition_for_hpa(docs)
 

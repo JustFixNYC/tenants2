@@ -82,6 +82,7 @@ class FormsConfig(NamedTuple):
     case_type: HPAType
     expected_pages: int
     hpd_inspection_page: Optional[int]
+    affadavit_page: int
     sign_here_petition_coords: PageCoords
     sign_here_verification_coords: PageCoords
     contact_info_coords: PageCoords
@@ -143,6 +144,12 @@ class FormsConfig(NamedTuple):
             x_position=str(self.contact_info_coords.x),
         )
 
+        sign_here_tabs.append(dse.SignHere(
+            **sign_kwargs,
+            **PageCoords(page=self.affadavit_page, x=356, y=240).to_docusign(),
+        ))
+        affadavit_date_coords = PageCoords(page=self.affadavit_page, x=64, y=256)
+
         return dse.Tabs(
             date_signed_tabs=[
                 dse.DateSigned(
@@ -153,7 +160,7 @@ class FormsConfig(NamedTuple):
                     y_position=str(coord.y),
                     page_number=str(coord.page),
                 )
-                for coord in self.date_signed_coords
+                for coord in [*self.date_signed_coords, affadavit_date_coords]
             ],
             text_tabs=[
                 *contact_info_lines,
@@ -167,7 +174,8 @@ class FormsConfig(NamedTuple):
         if case_type == HPAType.REPAIRS:
             return FormsConfig(
                 case_type=case_type,
-                expected_pages=3,
+                expected_pages=4,
+                affadavit_page=4,
                 hpd_inspection_page=3,
                 sign_here_petition_coords=PageCoords(page=2, x=419, y=556),
                 sign_here_verification_coords=PageCoords(page=2, x=419, y=667),
@@ -181,7 +189,8 @@ class FormsConfig(NamedTuple):
         elif case_type == HPAType.HARASSMENT:
             return FormsConfig(
                 case_type=case_type,
-                expected_pages=3,
+                expected_pages=4,
+                affadavit_page=4,
                 hpd_inspection_page=None,
                 sign_here_petition_coords=PageCoords(page=3, x=419, y=456),
                 sign_here_verification_coords=PageCoords(page=3, x=419, y=656),
@@ -195,7 +204,8 @@ class FormsConfig(NamedTuple):
         assert case_type == HPAType.BOTH
         return FormsConfig(
             case_type=case_type,
-            expected_pages=5,
+            expected_pages=6,
+            affadavit_page=6,
             hpd_inspection_page=5,
             sign_here_petition_coords=PageCoords(page=4, x=419, y=315),
             sign_here_verification_coords=PageCoords(page=4, x=419, y=500),

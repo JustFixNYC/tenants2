@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.utils import timezone
 
 from project import slack
-from project.views import render_raw_lambda_static_content
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
 from loc.views import render_pdf_bytes
@@ -18,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 def send_letter(request, rp: models.RentPeriod):
+    from project.views import render_raw_lambda_static_content
+
     user = request.user
 
     # TODO: Once we translate to other languages, we'll likely want to

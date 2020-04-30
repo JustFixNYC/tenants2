@@ -16,6 +16,7 @@ from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_service import LambdaService
 from project.util.site_util import get_site_from_request_or_default, get_site_type
+from project.schema import schema
 from project import common_data
 import project.health
 
@@ -178,8 +179,6 @@ def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
-    from project.schema import schema
-
     result = schema.execute(query, context=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)

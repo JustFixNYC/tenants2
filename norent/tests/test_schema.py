@@ -515,7 +515,7 @@ class TestNorentSendLetter:
 
     @pytest.fixture(autouse=True)
     def setup_fixture(self, graphql_client, db):
-        self.user = UserFactory()
+        self.user = UserFactory(email="boop@jones.net")
         graphql_client.request.user = self.user
         self.graphql_client = graphql_client
 
@@ -582,14 +582,21 @@ class TestNorentSendLetter:
         assert letter.letter_sent_at is not None
         assert letter.tracking_number == sample_letter['tracking_number']
 
-        assert len(mailoutbox) == 1
-        mail = mailoutbox[0]
-        assert mail.to == ['landlordo@calrissian.net']
-        assert 'letter attached' in mail.body
-        assert "Boop Jones" in mail.body
-        assert 'sent on behalf' in mail.subject
-        assert len(mail.attachments) == 1
+        assert len(mailoutbox) == 2
+        ll_mail = mailoutbox[0]
+        assert ll_mail.to == ['landlordo@calrissian.net']
+        assert 'letter attached' in ll_mail.body
+        assert "Boop Jones" in ll_mail.body
+        assert 'sent on behalf' in ll_mail.subject
+        assert len(ll_mail.attachments) == 1
         assert letter.letter_emailed_at is not None
+
+        user_mail = mailoutbox[1]
+        assert user_mail.to == ['boop@jones.net']
+        assert "Hello Boop" in user_mail.body
+        assert "http://testserver/" in user_mail.body
+        assert "Here's a copy" in user_mail.subject
+        assert len(user_mail.attachments) == 1
 
 
 class TestOptInToRttcComms(GraphQLTestingPal):

@@ -23,6 +23,9 @@ NORENT_LETTER_PDF_URL = "letter.pdf"
 # email to the landlord.
 NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 
+# The URL, relative to the localized site root, that renders the NoRent
+# email to the user.
+NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.txt"
 
 logger = logging.getLogger(__name__)
 
@@ -209,6 +212,14 @@ def send_letter(request, letter: models.Letter):
 
     if ld.address_lines_for_mailing:
         send_letter_via_lob(letter, pdf_bytes)
+
+    if user.email:
+        email_react_rendered_content_with_attachment(
+            request,
+            NORENT_EMAIL_TO_USER_URL,
+            recipients=[user.email],
+            attachment=norent_pdf_response(pdf_bytes),
+        )
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

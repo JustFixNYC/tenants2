@@ -9,7 +9,7 @@ import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation
 import { Route, Link } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
-import { NorentLetterEmailForUser } from "../letter-content";
+import { NorentLetterEmailToLandlordForUser } from "../letter-content";
 import { NorentNotSentLetterStep } from "./step-decorators";
 
 const SendLetterModal: React.FC<{
@@ -99,7 +99,7 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
                 `<${session.landlordDetails?.email}>`}
             </div>
             <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-              <NorentLetterEmailForUser />
+              <NorentLetterEmailToLandlordForUser />
             </div>
           </article>
         </>

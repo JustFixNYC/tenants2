@@ -5,7 +5,13 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
 from django.conf import settings
+from django.db.models import Q
+
+from users.models import JustfixUser
+from issues.admin import IssueInline, CustomIssueInline
+from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_field, admin_action, never_has_permission
+from project.admin import UserProxyAdmin
 from . import models
 
 
@@ -175,3 +181,31 @@ user_inlines = (
     LandlordDetailsInline,
     LetterRequestInline
 )
+
+
+class LOCUser(JustfixUser):
+    class Meta:
+        proxy = True
+
+        verbose_name = "User with Letter of Complaint"
+
+        verbose_name_plural = "Users with Letters of Complaint"
+
+
+@admin.register(LOCUser)
+class LOCUserAdmin(UserProxyAdmin):
+    inlines = (
+        IssueInline,
+        CustomIssueInline,
+        AccessDateInline,
+        LandlordDetailsInline,
+        LetterRequestInline,
+    )
+
+    def filter_queryset_for_changelist_view(self, queryset):
+        return queryset.filter(
+            Q(letter_request__isnull=False) |
+            Q(onboarding_info__signup_intent__in=[
+                SIGNUP_INTENT_CHOICES.LOC
+            ])
+        )

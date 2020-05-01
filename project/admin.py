@@ -61,6 +61,12 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
         if hasattr(obj, 'onboarding_info'):
             return ', '.join(obj.onboarding_info.address_lines_for_mailing)
 
+    def filter_queryset_for_changelist_view(self, queryset):
+        return queryset
+
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.prefetch_related('onboarding_info')
+        queryset = queryset.prefetch_related('onboarding_info')
+        if request.resolver_match.func.__name__ == "changelist_view":
+            queryset = self.filter_queryset_for_changelist_view(queryset)
+        return queryset

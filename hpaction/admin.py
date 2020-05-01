@@ -137,9 +137,8 @@ class HPUserAdmin(UserProxyAdmin):
         HPActionDocumentsInline,
     )
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        return qs.filter(
+    def filter_queryset_for_changelist_view(self, queryset):
+        return queryset.filter(
             Q(hp_action_details__isnull=False) |
             Q(onboarding_info__signup_intent__in=[
                 SIGNUP_INTENT_CHOICES.HP,

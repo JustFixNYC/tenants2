@@ -7,18 +7,18 @@ from norent.letter_sending import (
 from norent.models import Letter
 
 
-def test_nothing_is_emailed_on_demo_deployment(settings, mailoutbox, rf):
+def test_nothing_is_emailed_on_demo_deployment(settings, mailoutbox):
     settings.IS_DEMO_DEPLOYMENT = True
     letter = Letter()
-    assert email_letter_to_landlord(rf.get('/'), letter, b"blah") is False
+    assert email_letter_to_landlord(letter, b"blah") is False
     assert letter.letter_emailed_at is None
     assert len(mailoutbox) == 0
 
 
-def test_nothing_is_emailed_if_already_emailed(settings, mailoutbox, rf):
+def test_nothing_is_emailed_if_already_emailed(settings, mailoutbox):
     settings.IS_DEMO_DEPLOYMENT = False
     letter = Letter(letter_emailed_at=timezone.now())
-    assert email_letter_to_landlord(rf.get('/'), letter, b"blah") is False
+    assert email_letter_to_landlord(letter, b"blah") is False
     assert len(mailoutbox) == 0
 
 

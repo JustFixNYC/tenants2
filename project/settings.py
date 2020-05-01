@@ -237,9 +237,9 @@ LANGUAGES = [
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = env.ENABLE_I18N
+USE_I18N = True
 
-USE_L10N = env.ENABLE_I18N
+USE_L10N = True
 
 USE_TZ = True
 

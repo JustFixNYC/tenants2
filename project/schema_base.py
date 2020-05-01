@@ -9,6 +9,7 @@ from django.forms import formset_factory
 from legacy_tenants.models import LegacyUserInfo
 from users.models import JustfixUser
 from project import slack
+from project.graphql_static_request import GraphQLStaticRequest
 from project.util.django_graphql_forms import DjangoFormMutation
 from project.util.session_mutation import SessionFormMutation
 from frontend import safe_mode
@@ -187,6 +188,11 @@ class BaseSessionInfo:
 
     def resolve_csrf_token(self, info: ResolveInfo) -> str:
         request = info.context
+        if isinstance(request, GraphQLStaticRequest):
+            # The request is coming from front-end code that's trying
+            # to generate static content; it won't even need a CSRF
+            # token, so we'll just return an empty string.
+            return ''
         return csrf.get_token(request)
 
     def resolve_is_staff(self, info: ResolveInfo) -> bool:

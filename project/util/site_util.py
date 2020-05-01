@@ -34,6 +34,15 @@ def get_site_from_request_or_default(request: Optional[HttpRequest] = None) -> S
 
 
 def get_site_of_type(site_type: str) -> Site:
+    '''
+    Finds the Site of the given type and returns it.
+
+    Note that this function assumes there is only one site of each type in
+    the database.
+
+    A ValueError is raised if a Site can't be found.
+    '''
+
     for site in Site.objects.all():
         if get_site_type(site) == site_type:
             return site
@@ -41,12 +50,20 @@ def get_site_of_type(site_type: str) -> Site:
 
 
 def get_site_type(site: Site) -> str:
+    '''
+    Returns the type of the given site.
+    '''
+
     if re.match(r'.*norent.*', site.name, re.IGNORECASE):
         return SITE_CHOICES.NORENT
     return SITE_CHOICES.JUSTFIX
 
 
 def get_site_origin(site: Site) -> str:
+    '''
+    Returns the origin of the given Site, e.g. 'https://boop.com`.
+    '''
+
     return absolutify_url('/', site=site)[:-1]
 
 

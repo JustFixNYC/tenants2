@@ -189,6 +189,9 @@ class BaseSessionInfo:
     def resolve_csrf_token(self, info: ResolveInfo) -> str:
         request = info.context
         if isinstance(request, GraphQLStaticRequest):
+            # The request is coming from front-end code that's trying
+            # to generate static content; it won't even need a CSRF
+            # token, so we'll just return an empty string.
             return ''
         return csrf.get_token(request)
 

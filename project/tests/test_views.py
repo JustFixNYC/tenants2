@@ -11,6 +11,7 @@ from project.views import (
     LegacyFormSubmissionError,
     FORMS_COMMON_DATA
 )
+from project.graphql_static_request import GraphQLStaticRequest
 from users.tests.factories import UserFactory
 from .util import qdict
 from frontend.tests import test_safe_mode
@@ -428,35 +429,21 @@ def test_render_raw_lambda_static_content_returns_none_on_error(db, graphql_clie
     assert lr is None
 
 
-def test_it_works_with_synthetic_request():
-    from django.contrib.auth.models import AnonymousUser
-    from project.schema import schema
+class TestGraphQLStaticRequest:
+    def test_get_initial_session_works_with_anonymous_user(self):
+        request = GraphQLStaticRequest()
+        session = get_initial_session(request)
 
-    class FakeRequest:
-        def __init__(self):
-            self.user = AnonymousUser()
-            self.META = {}
-            self.session = {}
+        assert session['firstName'] is None
+        assert session['csrfToken'] == ''
+        assert session['isSafeModeEnabled'] is False
+        assert request.session == {}
 
-    request = FakeRequest()
+    def test_get_initial_session_works_with_authenticated_user(self, db):
+        request = GraphQLStaticRequest(user=UserFactory())
+        session = get_initial_session(request)
 
-    result = schema.execute(
-        '''
-        query {
-            session {
-                firstName
-                csrfToken
-                isSafeModeEnabled
-            }
-        }
-        ''',
-        context=request,
-    )
-
-    assert result.errors is None
-    session = result.data['session']
-    assert session['firstName'] is None
-    assert len(session['csrfToken']) > 0
-    assert session['isSafeModeEnabled'] is False
-
-    assert request.session == {}
+        assert session['firstName'] == 'Boop'
+        assert session['csrfToken'] == ''
+        assert session['isSafeModeEnabled'] is False
+        assert request.session == {}

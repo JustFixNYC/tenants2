@@ -112,7 +112,7 @@ class LocAdminViews:
             'lob_nomail_reason': lob_nomail_reason,
             'is_post': is_post,
             'pdf_url': user.letter_request.admin_pdf_url,
-            'go_back_href': reverse('admin:users_justfixuser_change', args=(user.pk,)),
+            'go_back_href': reverse('admin:loc_locuser_change', args=(user.pk,)),
         }
 
         if not lob_nomail_reason:

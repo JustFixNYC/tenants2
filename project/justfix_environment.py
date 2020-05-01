@@ -198,9 +198,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # not provided, mapbox integration will be disabled.
     MAPBOX_ACCESS_TOKEN: str = ''
 
-    # Whether or not to enable internationalization/localization.
-    ENABLE_I18N: bool = False
-
     # The RapidPro API token to use. If not provided, RapidPro
     # integration is disabled.
     RAPIDPRO_API_TOKEN: str = ''

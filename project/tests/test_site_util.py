@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from ..util.site_util import (
     absolute_reverse, absolutify_url, get_site_name, get_default_site,
     get_site_from_request_or_default, get_site_type, SITE_CHOICES,
-    get_site_base_name)
+    get_site_base_name, get_site_of_type, get_site_origin)
 
 
 class SiteUtilsTests(TestCase):
@@ -85,6 +85,23 @@ class TestGetSiteName:
     @override_settings(NAVBAR_LABEL="DEMO SITE")
     def test_it_works_when_deployment_name_is_defined(self):
         assert get_site_name() == "JustFix.nyc DEMO SITE"
+
+
+class TestGetSiteOfType:
+    def test_it_works(self, db):
+        assert get_site_of_type(SITE_CHOICES.JUSTFIX).name == "example.com"
+
+    def test_it_raises_error_when_site_not_found(self, db):
+        with pytest.raises(ValueError, match="Unable to find site of type NORENT"):
+            get_site_of_type(SITE_CHOICES.NORENT)
+
+
+def test_get_site_origin_works(settings):
+    site = Site(domain="boop.com")
+    assert get_site_origin(site) == "https://boop.com"
+
+    settings.DEBUG = True
+    assert get_site_origin(site) == "http://boop.com"
 
 
 @pytest.mark.parametrize('name,expected', [

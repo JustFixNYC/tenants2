@@ -324,7 +324,7 @@ class NorentSendLetter(SessionFormMutation):
         if site_type != site_util.SITE_CHOICES.NORENT:
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
-        letter_sending.create_and_send_letter(request, rent_period)
+        letter_sending.create_and_send_letter(request.user, rent_period)
 
         return cls.mutation_success()
 

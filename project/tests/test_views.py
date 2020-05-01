@@ -7,10 +7,13 @@ from project.views import (
     execute_query,
     render_raw_lambda_static_content,
     get_legacy_form_submission,
+    get_language_from_url_or_default,
     fix_newlines,
     LegacyFormSubmissionError,
     FORMS_COMMON_DATA
 )
+from project.util.site_util import get_default_site
+from project.graphql_static_request import GraphQLStaticRequest
 from users.tests.factories import UserFactory
 from .util import qdict
 from frontend.tests import test_safe_mode
@@ -414,15 +417,50 @@ def test_extended_health_works(db, client, settings):
     assert health['is_extended'] is True
 
 
-def test_render_raw_lambda_static_content_works(db, graphql_client):
-    req = graphql_client.request
-    lr = render_raw_lambda_static_content(req, '/dev/examples/static-page.pdf')
+def test_render_raw_lambda_static_content_works(db):
+    lr = render_raw_lambda_static_content(
+        '/dev/examples/static-page.pdf',
+        site=get_default_site(),
+    )
     assert lr is not None
     assert "<!DOCTYPE html>" in lr.html
     assert "This is an example static PDF page" in lr.html
 
 
-def test_render_raw_lambda_static_content_returns_none_on_error(db, graphql_client):
-    req = graphql_client.request
-    lr = render_raw_lambda_static_content(req, '/blarfle')
+def test_render_raw_lambda_static_content_returns_none_on_error(db):
+    lr = render_raw_lambda_static_content('/blarfle', site=get_default_site())
     assert lr is None
+
+
+@pytest.mark.parametrize("url,locale", [
+    ("/dev/stuff", "en"),
+    ("/en/stuff", "en"),
+    ("/es/stuff", "es"),
+    ("/fr/stuff", "en"),
+])
+def test_get_language_from_url_or_default(url, locale, settings):
+    settings.LANGUAGES = [
+        ('en', 'English'),
+        ('es', 'Spanish'),
+    ]
+    assert get_language_from_url_or_default(url) == locale
+
+
+class TestGraphQLStaticRequest:
+    def test_get_initial_session_works_with_anonymous_user(self):
+        request = GraphQLStaticRequest()
+        session = get_initial_session(request)
+
+        assert session['firstName'] is None
+        assert session['csrfToken'] == ''
+        assert session['isSafeModeEnabled'] is False
+        assert request.session == {}
+
+    def test_get_initial_session_works_with_authenticated_user(self, db):
+        request = GraphQLStaticRequest(user=UserFactory())
+        session = get_initial_session(request)
+
+        assert session['firstName'] == 'Boop'
+        assert session['csrfToken'] == ''
+        assert session['isSafeModeEnabled'] is False
+        assert request.session == {}

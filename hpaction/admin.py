@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.db.models import Q
 
 from users.models import JustfixUser
+from issues.admin import IssueInline, CustomIssueInline
+from loc.admin import LandlordDetailsInline
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_action, never_has_permission, make_edit_link
 from project.admin import UserProxyAdmin
@@ -16,6 +18,14 @@ def schedule_for_deletion(modeladmin, request, queryset):
 class NoAddOrDeleteMixin:
     has_add_permission = never_has_permission
     has_delete_permission = never_has_permission
+
+
+class ReadOnlyMixin(NoAddOrDeleteMixin):
+    # Even if all the individual fields in the object are read-only, we need
+    # to set this or else Django admin will fail on changes to other fields
+    # this UI is embedded in with the error "Please correct the error below"
+    # but no visible errors.
+    has_change_permission = never_has_permission
 
 
 @admin.register(models.Config)
@@ -64,7 +74,7 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     edit_user = make_edit_link("View/edit user details", field="user")
 
 
-class HPActionDocumentsInline(NoAddOrDeleteMixin, admin.TabularInline):
+class HPActionDocumentsInline(ReadOnlyMixin, admin.TabularInline):
     model = models.HPActionDocuments
 
     fields = ['pdf_file', 'kind', 'created_at', 'docusign_status', 'edit']
@@ -117,10 +127,13 @@ class PriorCaseInline(admin.TabularInline):
 class HPUserAdmin(UserProxyAdmin):
     inlines = (
         HPActionDetailsInline,
+        IssueInline,
+        CustomIssueInline,
         TenantChildInline,
         PriorCaseInline,
-        FeeWaiverDetailsInline,
         HarassmentDetailsInline,
+        FeeWaiverDetailsInline,
+        LandlordDetailsInline,
         HPActionDocumentsInline,
     )
 

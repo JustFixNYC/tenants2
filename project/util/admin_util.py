@@ -89,7 +89,7 @@ def make_edit_link(short_description: str, field: Optional[str] = None):
     def edit(self, obj):
         if field:
             obj = getattr(obj, field, None)
-        if obj is None:
+        if not (obj and obj.pk):
             return ""
         admin_url = getattr(obj, 'admin_url', None)
         if not isinstance(admin_url, str):

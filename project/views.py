@@ -307,6 +307,10 @@ def create_initial_props_for_lambda_from_request(
     )
 
 
+def get_language_from_url_or_default(url: str) -> str:
+    return translation.get_language_from_path(url) or settings.LANGUAGE_CODE
+
+
 def render_raw_lambda_static_content(
     url: str,
     site: Site,
@@ -321,11 +325,10 @@ def render_raw_lambda_static_content(
     '''
 
     request = GraphQLStaticRequest(user=user)
-    locale = translation.get_language_from_path(url) or settings.LANGUAGE_CODE
     initial_props = create_initial_props_for_lambda(
         site=site,
         url=url,
-        locale=locale,
+        locale=get_language_from_url_or_default(url),
         initial_session=get_initial_session(request),
         origin_url=get_site_origin(site),
     )

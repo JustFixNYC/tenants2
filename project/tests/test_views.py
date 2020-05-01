@@ -7,6 +7,7 @@ from project.views import (
     execute_query,
     render_raw_lambda_static_content,
     get_legacy_form_submission,
+    get_language_from_url_or_default,
     fix_newlines,
     LegacyFormSubmissionError,
     FORMS_COMMON_DATA
@@ -429,6 +430,20 @@ def test_render_raw_lambda_static_content_works(db):
 def test_render_raw_lambda_static_content_returns_none_on_error(db):
     lr = render_raw_lambda_static_content('/blarfle', site=get_default_site())
     assert lr is None
+
+
+@pytest.mark.parametrize("url,locale", [
+    ("/dev/stuff", "en"),
+    ("/en/stuff", "en"),
+    ("/es/stuff", "es"),
+    ("/fr/stuff", "en"),
+])
+def test_get_language_from_url_or_default(url, locale, settings):
+    settings.LANGUAGES = [
+        ('en', 'English'),
+        ('es', 'Spanish'),
+    ]
+    assert get_language_from_url_or_default(url) == locale
 
 
 class TestGraphQLStaticRequest:

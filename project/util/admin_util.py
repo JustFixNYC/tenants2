@@ -1,4 +1,6 @@
 from typing import Optional, get_type_hints
+from django.utils.html import format_html
+from django.urls import reverse
 
 
 def admin_field(
@@ -74,3 +76,28 @@ def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
     '''
 
     return False
+
+
+# https://stackoverflow.com/a/10420949
+def get_admin_url_for_instance(model_instance):
+    info = (model_instance._meta.app_label, model_instance._meta.model_name)
+    return reverse('admin:%s_%s_change' % info, args=(model_instance.pk,))
+
+
+def make_edit_link(short_description: str, field: Optional[str] = None):
+    @admin_field(short_description=short_description, allow_tags=True)
+    def edit(self, obj):
+        if field:
+            obj = getattr(obj, field, None)
+        if obj is None:
+            return ""
+        admin_url = getattr(obj, 'admin_url', None)
+        if not isinstance(admin_url, str):
+            admin_url = get_admin_url_for_instance(obj)
+        return format_html(
+            '<a class="button" href="{}">{}</a>',
+            admin_url,
+            short_description,
+        )
+
+    return edit

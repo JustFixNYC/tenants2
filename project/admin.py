@@ -5,7 +5,9 @@ from .views import react_rendered_view
 from .admin_download_data import DownloadDataViews
 from .admin_dashboard import DashboardViews
 from project.util.site_util import get_site_name
+from project.util.admin_util import make_edit_link
 from loc.admin_views import LocAdminViews
+import airtable.sync
 
 
 class JustfixAdminSite(admin.AdminSite):
@@ -29,3 +31,29 @@ class JustfixAdminSite(admin.AdminSite):
             *self.loc_views.get_urls(),
         ]
         return my_urls + urls
+
+
+class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
+    list_display = ['phone_number', 'first_name', 'last_name', 'last_login']
+
+    fields = [
+        'first_name', 'last_name', 'phone_number', 'email',
+        'signup_intent', 'address',
+        'edit_user'
+    ]
+
+    readonly_fields = fields
+
+    ordering = ('-last_login',)
+
+    search_fields = ['phone_number', 'username', 'first_name', 'last_name', 'email']
+
+    edit_user = make_edit_link("View/edit user details")
+
+    def signup_intent(self, obj):
+        if hasattr(obj, 'onboarding_info'):
+            return obj.onboarding_info.signup_intent
+
+    def address(self, obj):
+        if hasattr(obj, 'onboarding_info'):
+            return ', '.join(obj.onboarding_info.address_lines_for_mailing)

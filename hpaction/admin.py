@@ -37,6 +37,12 @@ class DocusignEnvelopeInline(admin.StackedInline):
 
 @admin.register(models.HPActionDocuments)
 class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
+    '''
+    Admin for HP Action Documents. Ideally this would just be an inline
+    admin for users, but because deletion is done by dissociating a
+    user from the model, we basically have to make it a separate view.
+    '''
+
     list_display = [
         'id', 'user', 'user_full_name', 'kind', 'created_at'
     ]

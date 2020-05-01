@@ -124,8 +124,6 @@ def test_index_works_when_in_safe_mode(client):
 
 
 def test_redirects_to_locale_work(client, settings):
-    if not settings.USE_I18N:
-        pytest.skip('Internationalization is disabled')
     response = client.get('/')
     assert response.status_code == 302
     assert response['location'] == '/en/'

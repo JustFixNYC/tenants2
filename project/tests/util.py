@@ -53,6 +53,13 @@ def strip_locale(url: str) -> str:
 
         >>> strip_locale('https://blah/en/blarg')
         'https://blah/blarg'
+
+    Note that this function is deprecated, as it
+    was only useful when we feature-flagged I18N
+    support and wanted tests to work regardless
+    of whether it was enabled. Now that I18N is
+    always enabled, tests can just assume it's
+    active.
     '''
 
     # This isn't particularly precise, but it gets

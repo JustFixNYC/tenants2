@@ -428,3 +428,37 @@ def test_render_raw_lambda_static_content_returns_none_on_error(db, graphql_clie
     req = graphql_client.request
     lr = render_raw_lambda_static_content(req, '/blarfle')
     assert lr is None
+
+
+def test_it_works_with_synthetic_request():
+    from django.contrib.auth.models import AnonymousUser
+    from project.schema import schema
+
+    class FakeRequest:
+        def __init__(self):
+            self.user = AnonymousUser()
+            self.META = {}
+            self.session = {}
+
+    request = FakeRequest()
+
+    result = schema.execute(
+        '''
+        query {
+            session {
+                firstName
+                csrfToken
+                isSafeModeEnabled
+            }
+        }
+        ''',
+        context=request,
+    )
+
+    assert result.errors is None
+    session = result.data['session']
+    assert session['firstName'] is None
+    assert len(session['csrfToken']) > 0
+    assert session['isSafeModeEnabled'] is False
+
+    assert request.session == {}

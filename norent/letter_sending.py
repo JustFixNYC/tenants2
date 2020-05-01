@@ -63,7 +63,7 @@ def render_static_content_via_react(
 
 
 def email_react_rendered_content_with_attachment(
-    request,
+    user: JustfixUser,
     url: str,
     recipients: List[str],
     attachment: FileResponse
@@ -74,7 +74,7 @@ def email_react_rendered_content_with_attachment(
     '''
 
     lr = render_static_content_via_react(
-        request.user,
+        user,
         url,
         "text/plain; charset=utf-8"
     )
@@ -141,7 +141,7 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     return True
 
 
-def email_letter_to_landlord(request, letter: models.Letter, pdf_bytes: bytes) -> bool:
+def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     '''
     Email the given letter to the user's landlord. Does nothing if the
     letter has already been emailed.
@@ -156,14 +156,13 @@ def email_letter_to_landlord(request, letter: models.Letter, pdf_bytes: bytes) -
         logger.info(f"{letter} has already been emailed to the landlord.")
         return False
     ld = letter.user.landlord_details
-    assert request.user == letter.user
     assert ld.email
 
     # TODO: Once we translate to other languages, we'll likely want to
     # force the locale of this email to English, since that's what the
     # landlord will read the email as.
     email_react_rendered_content_with_attachment(
-        request,
+        letter.user,
         NORENT_EMAIL_TO_LANDLORD_URL,
         recipients=[ld.email],
         attachment=norent_pdf_response(pdf_bytes),
@@ -173,7 +172,7 @@ def email_letter_to_landlord(request, letter: models.Letter, pdf_bytes: bytes) -
     return True
 
 
-def create_letter(request, rp: models.RentPeriod) -> models.Letter:
+def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
     '''
     Create a Letter model and set its PDF HTML content.
     '''
@@ -182,12 +181,12 @@ def create_letter(request, rp: models.RentPeriod) -> models.Letter:
     # force the locale of this letter to English, since that's what the
     # landlord will read the letter as.
     lr = render_static_content_via_react(
-        request.user,
+        user,
         NORENT_LETTER_PDF_URL,
         "application/pdf"
     )
     letter = models.Letter(
-        user=request.user,
+        user=user,
         rent_period=rp,
         html_content=lr.html,
     )
@@ -196,7 +195,7 @@ def create_letter(request, rp: models.RentPeriod) -> models.Letter:
     return letter
 
 
-def send_letter(request, letter: models.Letter):
+def send_letter(letter: models.Letter):
     '''
     Send the given letter using whatever information is populated
     in their landlord details: that is, if we have the landlord's
@@ -208,20 +207,19 @@ def send_letter(request, letter: models.Letter):
     again and it won't send multiple copies of the letter.
     '''
 
-    assert request.user == letter.user
     pdf_bytes = render_pdf_bytes(letter.html_content)
     user = letter.user
     ld = user.landlord_details
 
     if ld.email:
-        email_letter_to_landlord(request, letter, pdf_bytes)
+        email_letter_to_landlord(letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
         send_letter_via_lob(letter, pdf_bytes)
 
     if user.email:
         email_react_rendered_content_with_attachment(
-            request,
+            user,
             NORENT_EMAIL_TO_USER_URL,
             recipients=[user.email],
             attachment=norent_pdf_response(pdf_bytes),
@@ -234,10 +232,10 @@ def send_letter(request, letter: models.Letter):
     )
 
 
-def create_and_send_letter(request, rp: models.RentPeriod):
+def create_and_send_letter(user: JustfixUser, rp: models.RentPeriod):
     '''
     Create a Letter model and send it.
     '''
 
-    letter = create_letter(request, rp)
-    send_letter(request, letter)
+    letter = create_letter(user, rp)
+    send_letter(letter)

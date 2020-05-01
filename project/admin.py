@@ -5,7 +5,7 @@ from .views import react_rendered_view
 from .admin_download_data import DownloadDataViews
 from .admin_dashboard import DashboardViews
 from project.util.site_util import get_site_name
-from project.util.admin_util import make_edit_link
+from project.util.admin_util import make_edit_link, admin_field
 from loc.admin_views import LocAdminViews
 import airtable.sync
 
@@ -34,7 +34,9 @@ class JustfixAdminSite(admin.AdminSite):
 
 
 class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
-    list_display = ['phone_number', 'first_name', 'last_name', 'last_login']
+    list_display = [
+        'phone_number', 'first_name', 'last_name', 'last_login', 'signup_intent'
+    ]
 
     fields = [
         'first_name', 'last_name', 'phone_number', 'email',
@@ -50,6 +52,7 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
 
     edit_user = make_edit_link("View/edit user details")
 
+    @admin_field(admin_order_field='onboarding_info__signup_intent')
     def signup_intent(self, obj):
         if hasattr(obj, 'onboarding_info'):
             return obj.onboarding_info.signup_intent
@@ -57,3 +60,7 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     def address(self, obj):
         if hasattr(obj, 'onboarding_info'):
             return ', '.join(obj.onboarding_info.address_lines_for_mailing)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.prefetch_related('onboarding_info')

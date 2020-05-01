@@ -12,11 +12,17 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.sites.models import Site
 
+from users.models import JustfixUser
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_service import LambdaService
-from project.util.site_util import get_site_from_request_or_default, get_site_type
+from project.util.site_util import (
+    get_site_from_request_or_default,
+    get_site_type,
+    get_site_origin,
+)
 from project.schema import schema
+from project.graphql_static_request import GraphQLStaticRequest
 from project.lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 from project import common_data
 import project.health
@@ -301,7 +307,11 @@ def create_initial_props_for_lambda_from_request(
     )
 
 
-def render_raw_lambda_static_content(request, url: str) -> Optional[LambdaResponse]:
+def render_raw_lambda_static_content(
+    url: str,
+    site: Site,
+    user: Optional[JustfixUser] = None,
+) -> Optional[LambdaResponse]:
     '''
     This function can be used by the server to render static content in the
     lambda service. Normally such content is delivered directly to a user's
@@ -310,7 +320,15 @@ def render_raw_lambda_static_content(request, url: str) -> Optional[LambdaRespon
     render an HTML email.
     '''
 
-    initial_props = create_initial_props_for_lambda_from_request(request, url=url)
+    request = GraphQLStaticRequest(user=user)
+    locale = translation.get_language_from_path(url) or settings.LANGUAGE_CODE
+    initial_props = create_initial_props_for_lambda(
+        site=site,
+        url=url,
+        locale=locale,
+        initial_session=get_initial_session(request),
+        origin_url=get_site_origin(site),
+    )
     lr = run_react_lambda_with_prefetching(initial_props, request)
     if not (lr.is_static_content and lr.status == 200):
         logger.error(

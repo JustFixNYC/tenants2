@@ -594,7 +594,7 @@ class TestNorentSendLetter:
         user_mail = mailoutbox[1]
         assert user_mail.to == ['boop@jones.net']
         assert "Hello Boop" in user_mail.body
-        assert "http://testserver/en/faqs" in user_mail.body
+        assert "https://example.com/en/faqs" in user_mail.body
         assert "Here's a copy" in user_mail.subject
         assert len(user_mail.attachments) == 1
 

@@ -11,6 +11,7 @@ from project.views import (
     LegacyFormSubmissionError,
     FORMS_COMMON_DATA
 )
+from project.util.site_util import get_default_site
 from project.graphql_static_request import GraphQLStaticRequest
 from users.tests.factories import UserFactory
 from .util import qdict
@@ -415,17 +416,18 @@ def test_extended_health_works(db, client, settings):
     assert health['is_extended'] is True
 
 
-def test_render_raw_lambda_static_content_works(db, graphql_client):
-    req = graphql_client.request
-    lr = render_raw_lambda_static_content(req, '/dev/examples/static-page.pdf')
+def test_render_raw_lambda_static_content_works(db):
+    lr = render_raw_lambda_static_content(
+        '/dev/examples/static-page.pdf',
+        site=get_default_site(),
+    )
     assert lr is not None
     assert "<!DOCTYPE html>" in lr.html
     assert "This is an example static PDF page" in lr.html
 
 
-def test_render_raw_lambda_static_content_returns_none_on_error(db, graphql_client):
-    req = graphql_client.request
-    lr = render_raw_lambda_static_content(req, '/blarfle')
+def test_render_raw_lambda_static_content_returns_none_on_error(db):
+    lr = render_raw_lambda_static_content('/blarfle', site=get_default_site())
     assert lr is None
 
 

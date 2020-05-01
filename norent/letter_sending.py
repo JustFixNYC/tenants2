@@ -10,6 +10,8 @@ from project import slack
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
 from project.lambda_response import LambdaResponse
+from project.util.site_util import get_site_of_type, SITE_CHOICES
+from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api
 from . import models
@@ -31,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 def render_static_content_via_react(
-    request,
+    user: JustfixUser,
     url: str,
     expected_content_type: str,
 ) -> LambdaResponse:
@@ -46,7 +48,11 @@ def render_static_content_via_react(
     from project.views import render_raw_lambda_static_content
 
     full_url = f"{reverse('react')}{url}"
-    lr = render_raw_lambda_static_content(request, url=full_url)
+    lr = render_raw_lambda_static_content(
+        url=full_url,
+        site=get_site_of_type(SITE_CHOICES.NORENT),
+        user=user,
+    )
     assert lr is not None, f"Rendering of {full_url} must succeed"
     content_type = lr.http_headers.get('Content-Type')
     assert content_type == expected_content_type, (
@@ -68,7 +74,7 @@ def email_react_rendered_content_with_attachment(
     '''
 
     lr = render_static_content_via_react(
-        request,
+        request.user,
         url,
         "text/plain; charset=utf-8"
     )
@@ -176,7 +182,7 @@ def create_letter(request, rp: models.RentPeriod) -> models.Letter:
     # force the locale of this letter to English, since that's what the
     # landlord will read the letter as.
     lr = render_static_content_via_react(
-        request,
+        request.user,
         NORENT_LETTER_PDF_URL,
         "application/pdf"
     )

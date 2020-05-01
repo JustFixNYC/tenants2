@@ -33,13 +33,28 @@ def get_site_from_request_or_default(request: Optional[HttpRequest] = None) -> S
         return get_default_site()
 
 
+def get_site_of_type(site_type: str) -> Site:
+    for site in Site.objects.all():
+        if get_site_type(site) == site_type:
+            return site
+    raise ValueError(f"Unable to find site of type {site_type}")
+
+
 def get_site_type(site: Site) -> str:
     if re.match(r'.*norent.*', site.name, re.IGNORECASE):
         return SITE_CHOICES.NORENT
     return SITE_CHOICES.JUSTFIX
 
 
-def absolutify_url(url: str, request: Optional[HttpRequest] = None) -> str:
+def get_site_origin(site: Site) -> str:
+    return absolutify_url('/', site=site)[:-1]
+
+
+def absolutify_url(
+    url: str,
+    request: Optional[HttpRequest] = None,
+    site: Optional[Site] = None,
+) -> str:
     '''
     If the URL is an absolute path, returns the URL prefixed with
     the appropriate Site's protocol and host information.
@@ -54,7 +69,8 @@ def absolutify_url(url: str, request: Optional[HttpRequest] = None) -> str:
         raise ValueError(f"url must be an absolute path: {url}")
 
     protocol = 'http' if settings.DEBUG else 'https'
-    host = get_site_from_request_or_default(request).domain
+    site = site or get_site_from_request_or_default(request)
+    host = site.domain
     return f"{protocol}://{host}{url}"
 
 

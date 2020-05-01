@@ -1,4 +1,3 @@
-from django.db.models import Count, Q
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.urls import reverse
@@ -10,17 +9,13 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from issues.admin import IssueInline, CustomIssueInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
-from loc.models import LOC_MAILING_CHOICES
 from texting.models import get_lookup_description_for_phone_number
 import loc.admin
 import airtable.sync
 
 
-ISSUE_COUNT = "_issue_count"
-MAILING_NEEDED = "_mailing_needed"
 PERMISSIONS_LABEL = _('Permissions')
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
@@ -36,7 +31,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     ] + list(UserAdmin.list_filter)
     list_display = [
         'phone_number', 'username', 'first_name', 'last_name', 'last_login',
-        'issue_count', 'mailing_needed'
     ]
     fieldsets = (
         (_('Personal info'), {'fields': (
@@ -80,11 +74,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     inlines = (
         LegacyUserInline,
         OnboardingInline,
-        IssueInline,
-        CustomIssueInline,
     ) + loc.admin.user_inlines
-
-    actions = UserAdmin.actions + [loc.admin.print_loc_envelopes]
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
@@ -126,39 +116,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                 return ', '.join(groups)
 
         return "None"
-
-    @admin_field(
-        short_description="Issues",
-        admin_order_field=ISSUE_COUNT
-    )
-    def issue_count(self, obj):
-        return getattr(obj, ISSUE_COUNT)
-
-    @admin_field(
-        short_description="Letter mailing needed?",
-        admin_order_field=MAILING_NEEDED
-    )
-    def mailing_needed(self, obj) -> bool:
-        return bool(getattr(obj, MAILING_NEEDED))
-
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.annotate(**{
-            ISSUE_COUNT: (
-                Count('issues', distinct=True) +
-                Count('custom_issues', distinct=True)
-            ),
-            MAILING_NEEDED: Count(
-                'letter_request',
-                distinct=True,
-                filter=(
-                    Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL) &
-                    Q(letter_request__tracking_number__exact='') &
-                    Q(letter_request__rejection_reason__exact='')
-                )
-            )
-        })
-        return queryset
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)

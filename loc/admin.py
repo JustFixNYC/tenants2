@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from users.models import JustfixUser
 from issues.admin import IssueInline, CustomIssueInline
@@ -192,6 +192,10 @@ class LOCUser(JustfixUser):
         verbose_name_plural = "Users with Letters of Complaint"
 
 
+ISSUE_COUNT = "_issue_count"
+MAILING_NEEDED = "_mailing_needed"
+
+
 @admin.register(LOCUser)
 class LOCUserAdmin(UserProxyAdmin):
     inlines = (
@@ -202,6 +206,12 @@ class LOCUserAdmin(UserProxyAdmin):
         LetterRequestInline,
     )
 
+    list_display = UserProxyAdmin.list_display + [
+        'issue_count', 'mailing_needed'
+    ]
+
+    actions = UserProxyAdmin.actions + [print_loc_envelopes]
+
     def filter_queryset_for_changelist_view(self, queryset):
         return queryset.filter(
             Q(letter_request__isnull=False) |
@@ -209,3 +219,36 @@ class LOCUserAdmin(UserProxyAdmin):
                 SIGNUP_INTENT_CHOICES.LOC
             ])
         )
+
+    @admin_field(
+        short_description="Issues",
+        admin_order_field=ISSUE_COUNT
+    )
+    def issue_count(self, obj):
+        return getattr(obj, ISSUE_COUNT)
+
+    @admin_field(
+        short_description="Letter mailing needed?",
+        admin_order_field=MAILING_NEEDED
+    )
+    def mailing_needed(self, obj) -> bool:
+        return bool(getattr(obj, MAILING_NEEDED))
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(**{
+            ISSUE_COUNT: (
+                Count('issues', distinct=True) +
+                Count('custom_issues', distinct=True)
+            ),
+            MAILING_NEEDED: Count(
+                'letter_request',
+                distinct=True,
+                filter=(
+                    Q(letter_request__mail_choice=models.LOC_MAILING_CHOICES.WE_WILL_MAIL) &
+                    Q(letter_request__tracking_number__exact='') &
+                    Q(letter_request__rejection_reason__exact='')
+                )
+            )
+        })
+        return queryset

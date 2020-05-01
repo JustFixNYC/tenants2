@@ -11,6 +11,7 @@ import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import { NorentRequireLoginStep } from "./step-decorators";
+import { NorentNonpaymentDocumentation } from "../data/faqs-content";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -120,36 +121,9 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
                     rent.
                   </p>
                 )}
-                <p>Some types of documentation you can gather include:</p>
-                <ul>
-                  <li>
-                    <h4 className="title jf-alt-title-font">
-                      Childcare expense receipts
-                    </h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mauris quis fringilla nulla.
-                    </p>
-                  </li>
-                  <li>
-                    <h4 className="title jf-alt-title-font">
-                      Letter from your employer
-                    </h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mauris quis fringilla nulla.
-                    </p>
-                  </li>
-                  <li>
-                    <h4 className="title jf-alt-title-font">
-                      Exercise your rights
-                    </h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mauris quis fringilla nulla.
-                    </p>
-                  </li>
-                </ul>
+                <div className="jf-is-nonpayment-documentation">
+                  <NorentNonpaymentDocumentation />
+                </div>
               </div>
             </article>
           </LetterBuilderAccordion>

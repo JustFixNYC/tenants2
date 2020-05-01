@@ -155,6 +155,8 @@ const NonpaymentDocumentation = () => (
   </>
 );
 
+export const NorentNonpaymentDocumentation = NonpaymentDocumentation;
+
 const ConnectWithLawyer = () => (
   <p>
     If you’re facing an emergency, you can find further legal assistance in your

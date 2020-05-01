@@ -12,13 +12,9 @@ from ..util.site_util import (
 class SiteUtilsTests(TestCase):
     @override_settings(DEBUG=False)
     def test_absolute_reverse_works(self):
-        if settings.USE_I18N:
-            url = 'https://example.com/en/graphql'
-        else:
-            url = 'https://example.com/graphql'
         self.assertEqual(
             absolute_reverse('batch-graphql'),
-            url
+            'https://example.com/en/graphql'
         )
 
     def test_absolutify_url_raises_error_on_non_absolute_paths(self):

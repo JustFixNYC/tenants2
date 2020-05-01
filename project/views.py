@@ -289,9 +289,7 @@ def create_initial_props_for_lambda_from_request(
     url: str,
     legacy_form_submission: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    locale = ''
-    if settings.USE_I18N:
-        locale = translation.get_language_from_request(request, check_path=True)
+    locale = translation.get_language_from_request(request, check_path=True)
 
     return create_initial_props_for_lambda(
         site=get_site_from_request_or_default(request),

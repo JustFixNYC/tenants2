@@ -10,7 +10,7 @@ import rapidpro.models
 from onboarding.admin import OnboardingInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
-from project.admin import user_signup_intent
+from .admin_user_proxy import user_signup_intent
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser
 from hpaction.admin import HPUser

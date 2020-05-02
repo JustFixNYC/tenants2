@@ -11,7 +11,7 @@ from users.models import JustfixUser
 from issues.admin import IssueInline, CustomIssueInline
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_field, admin_action, never_has_permission
-from project.admin import UserProxyAdmin
+from users.admin_user_proxy import UserProxyAdmin
 from . import models
 
 

@@ -37,6 +37,7 @@ ROLES['Outreach Coordinators'] = set([
     'loc.delete_letterrequest',
     VIEW_LETTER_REQUEST_PERMISSION,
     'loc.change_addressdetails',
+    'loc.view_locuser',
     *ModelPermissions('hpaction', 'hpactiondocuments').all,
     *ModelPermissions('hpaction', 'harassmentdetails').all,
     *ModelPermissions('hpaction', 'feewaiverdetails').all,

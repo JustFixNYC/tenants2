@@ -204,6 +204,8 @@ def outreach_user(initgroups):
     user = UserFactory(
         username='outreacher',
         phone_number='1234567000',
+        first_name="Adalky",
+        last_name="Superawesome",
         is_staff=True)
     group = Group.objects.get(name='Outreach Coordinators')
     user.groups.add(group)

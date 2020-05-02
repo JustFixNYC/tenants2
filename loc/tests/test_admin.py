@@ -2,6 +2,7 @@ import pytest
 
 from users.models import JustfixUser
 from users.tests.factories import UserFactory
+from users.tests.test_admin_user_proxy import UserProxyAdminTester
 from project.tests.util import strip_locale
 from loc.admin import (
     LetterRequestInline, print_loc_envelopes, get_lob_nomail_reason,
@@ -208,3 +209,10 @@ class TestGetLobNomailReason:
 
     def test_it_returns_none_when_letter_can_be_mailed_via_lob(self, enable_lob, db):
         assert get_lob_nomail_reason(create_valid_letter_request()) is None
+
+
+class TestLOCUserAdmin(UserProxyAdminTester):
+    list_view_url = '/admin/loc/locuser/'
+
+    def create_user(self):
+        return LetterRequestFactory().user

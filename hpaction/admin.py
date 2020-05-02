@@ -6,7 +6,7 @@ from issues.admin import IssueInline, CustomIssueInline
 from loc.admin import LandlordDetailsInline
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_action, never_has_permission, make_edit_link
-from project.admin import UserProxyAdmin
+from users.admin_user_proxy import UserProxyAdmin
 from . import models
 
 

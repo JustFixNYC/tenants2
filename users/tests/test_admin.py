@@ -34,6 +34,6 @@ class TestChangeViewForSuperusers(ClassCachedValue):
         assert SUPERUSER_SENTINEL in self.get_value(admin_client)
 
 
-def test_change_view_works_for_outreach(outreach_client):
+def test_superuser_checkbox_is_not_shown_for_outreach(outreach_client):
     html = get_user_change_view_html(outreach_client)
     assert SUPERUSER_SENTINEL not in html

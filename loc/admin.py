@@ -205,6 +205,8 @@ class LOCUserAdmin(UserProxyAdmin):
 
     actions = UserProxyAdmin.actions + [print_loc_envelopes]
 
+    list_filter = ['letter_request__mail_choice']
+
     def filter_queryset_for_changelist_view(self, queryset):
         return queryset.filter(
             Q(letter_request__isnull=False) |

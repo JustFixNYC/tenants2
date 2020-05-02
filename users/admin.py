@@ -41,7 +41,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     ordering = ('-last_login',)
     list_filter = [
         'onboarding_info__signup_intent',
-        'letter_request__mail_choice'
     ] + list(UserAdmin.list_filter)
     list_display = [
         'phone_number', 'username', 'first_name', 'last_name', 'last_login',

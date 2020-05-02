@@ -11,6 +11,17 @@ def user_signup_intent(self, obj):
 
 
 class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
+    '''
+    This class can be used to build specialized proxy views of the User model
+    for different kinds of products (e.g. Letter of Complaint, HP Action, etc).
+    This allows the basic user data to be viewed (with a link to view more on
+    the primary user change page) with all the relevant data for the product
+    as inline admin views.
+
+    The list view can also be optimized to display only users that have used
+    (or signaled intent to use) a particular product.
+    '''
+
     list_display = [
         'phone_number', 'first_name', 'last_name', 'last_login', 'signup_intent'
     ]
@@ -36,11 +47,21 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
             return ', '.join(obj.onboarding_info.address_lines_for_mailing)
 
     def filter_queryset_for_changelist_view(self, queryset):
+        '''
+        This method can be used to filter the list of users that are shown
+        in the list view, if e.g. one wants to show only users who have
+        actually used (or signaled intent to use) a particular product.
+        '''
+
         return queryset
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         queryset = queryset.prefetch_related('onboarding_info')
         if request.resolver_match.func.__name__ == "changelist_view":
+            # We only want to constrain the queryset if we're on the
+            # list view: we don't want to do it universally because then
+            # links from e.g. the regular User admin view wouldn't be able to
+            # access our proxy model's detail view.
             queryset = self.filter_queryset_for_changelist_view(queryset)
         return queryset

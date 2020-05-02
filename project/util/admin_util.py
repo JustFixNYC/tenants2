@@ -79,16 +79,31 @@ def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
 
 
 def get_admin_url_for_instance_or_class(obj, pk) -> str:
+    '''
+    Returns the admin URL for the given Django model instance or class with
+    the given primary key.
+    '''
+
     # https://stackoverflow.com/a/10420949
     info = (obj._meta.app_label, obj._meta.model_name)
     return reverse('admin:%s_%s_change' % info, args=(pk,))
 
 
 def get_admin_url_for_class(class_obj, pk) -> str:
+    '''
+    Returns the admin URL for the given Django class with the given primary
+    key.
+    '''
+
     return get_admin_url_for_instance_or_class(class_obj, pk)
 
 
 def get_admin_url_for_instance(model_instance) -> str:
+    '''
+    Returns the admin URL for the given Django instance. If the instance has
+    an 'admin_url' property, that is given priority.
+    '''
+
     admin_url = getattr(model_instance, 'admin_url', None)
     if isinstance(admin_url, str):
         return admin_url
@@ -96,6 +111,12 @@ def get_admin_url_for_instance(model_instance) -> str:
 
 
 def make_edit_link(short_description: str, field: Optional[str] = None):
+    '''
+    Created a Django admin field function that returns HTML for a link
+    to edit either the object itself (useful for StackedInlines/TabularInlines),
+    or a related object with the given field name.
+    '''
+
     @admin_field(short_description=short_description, allow_tags=True)
     def edit(self, obj):
         if field:

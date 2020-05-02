@@ -22,6 +22,12 @@ NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
 def make_link_to_other_user_view(model_class, short_description):
+    '''
+    We have specialized proxy views of the User model for different kinds
+    of products (e.g. Letter of Complaint, HP Action, etc). This generates
+    links to them.
+    '''
+
     @admin_field(
         short_description=short_description,
         allow_tags=True

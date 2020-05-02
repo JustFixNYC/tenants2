@@ -13,6 +13,9 @@ class RentPeriod(models.Model):
         unique=True,
     )
 
+    def __str__(self):
+        return f"Rent period for {self.payment_date}"
+
 
 class Letter(models.Model):
     '''
@@ -27,7 +30,11 @@ class Letter(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.CASCADE,
+        related_name='norent_letters'
+    )
 
     rent_period = models.ForeignKey(RentPeriod, on_delete=models.CASCADE)
 

@@ -109,3 +109,18 @@ class ClassCachedValue:
         if cls._cached_value is None:
             cls._cached_value = cls.cache_value(*args, **kwargs)
         return cls._cached_value
+
+
+class Blob:
+    '''
+    A class that lets you easily create objects for testing, e.g.:
+
+        >>> blob = Blob(a=1, b=Blob(c="hi"))
+        >>> blob.a
+        1
+        >>> blob.b.c
+        'hi'
+    '''
+
+    def __init__(self, **kwargs):
+        self.__dict__ = kwargs

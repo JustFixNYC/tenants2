@@ -176,13 +176,6 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     return result
 
 
-user_inlines = (
-    AccessDateInline,
-    LandlordDetailsInline,
-    LetterRequestInline
-)
-
-
 class LOCUser(JustfixUser):
     class Meta:
         proxy = True

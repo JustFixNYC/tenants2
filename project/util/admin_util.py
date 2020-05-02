@@ -78,10 +78,18 @@ def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
     return False
 
 
-# https://stackoverflow.com/a/10420949
+def get_admin_url_for_instance_or_class(obj, pk):
+    # https://stackoverflow.com/a/10420949
+    info = (obj._meta.app_label, obj._meta.model_name)
+    return reverse('admin:%s_%s_change' % info, args=(pk,))
+
+
+def get_admin_url_for_class(class_obj, pk):
+    return get_admin_url_for_instance_or_class(class_obj, pk)
+
+
 def get_admin_url_for_instance(model_instance):
-    info = (model_instance._meta.app_label, model_instance._meta.model_name)
-    return reverse('admin:%s_%s_change' % info, args=(model_instance.pk,))
+    return get_admin_url_for_instance_or_class(model_instance, model_instance.pk)
 
 
 def make_edit_link(short_description: str, field: Optional[str] = None):

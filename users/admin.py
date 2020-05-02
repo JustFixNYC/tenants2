@@ -1,10 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
-from project.util.admin_util import admin_field
+from project.util.admin_util import admin_field, get_admin_url_for_class
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
@@ -12,12 +11,26 @@ from onboarding.admin import OnboardingInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from texting.models import get_lookup_description_for_phone_number
-import loc.admin
+from loc.admin import LOCUser
+from hpaction.admin import HPUser
 import airtable.sync
 
 
 PERMISSIONS_LABEL = _('Permissions')
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
+
+
+def make_link_to_other_user_view(model_class, short_description):
+    @admin_field(
+        short_description=short_description,
+        allow_tags=True
+    )
+    def link(self, obj):
+        url = get_admin_url_for_class(model_class, obj.pk)
+        return format_html(
+            '<a class="button" href="{}">{}</a>', url, short_description)
+
+    return link
 
 
 class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
@@ -57,8 +70,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        ('HP action information', {
-            'fields': ('hp_action_info',),
+        ('Product action information', {
+            'fields': ('hp_action_info', 'loc_info'),
         }),
     )
     non_superuser_fieldsets = tuple(
@@ -74,12 +87,13 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     inlines = (
         LegacyUserInline,
         OnboardingInline,
-    ) + loc.admin.user_inlines
+    )
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
     readonly_fields = [
         'hp_action_info',
+        'loc_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
         *UserAdmin.readonly_fields
@@ -98,13 +112,9 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                 continue
             yield inline.get_formset(request, obj), inline
 
-    @admin_field(
-        short_description="HP action information",
-        allow_tags=True
-    )
-    def hp_action_info(self, obj):
-        url = reverse('admin:hpaction_hpuser_change', args=[obj.pk])
-        return format_html('<a class="button" href="{}">View/edit HP action information</a>', url)
+    hp_action_info = make_link_to_other_user_view(HPUser, "HP action information")
+
+    loc_info = make_link_to_other_user_view(LOCUser, "Letter of complaint information")
 
     @admin_field(
         short_description="Rapidpro contact groups",

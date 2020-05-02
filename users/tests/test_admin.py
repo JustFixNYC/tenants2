@@ -23,7 +23,7 @@ def get_user_change_view_html(client):
 
 def test_change_view_works(admin_client):
     html = get_user_change_view_html(admin_client)
-    assert 'View/edit HP action' in html
+    assert 'HP action information' in html
 
 
 def test_change_view_works_for_superusers(admin_client):

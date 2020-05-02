@@ -64,7 +64,7 @@ class UserProxyAdminTester:
 
     def ensure_change_view_content(self, user, content):
         '''
-        Test the HTML of the change (detail0 view to make sure it's what we expect.
+        Test the HTML of the change (detail) view to make sure it's what we expect.
         This can be overridden by subclasses.
         '''
 

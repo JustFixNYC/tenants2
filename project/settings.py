@@ -114,6 +114,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'project.middleware.CSPHashingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -125,6 +126,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'twofactor.middleware.admin_requires_2fa_middleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -161,6 +163,7 @@ DEFAULT_SITE_ID = 1
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+CACHE_MIDDLEWARE_SECONDS = 0
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

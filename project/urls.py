@@ -20,7 +20,9 @@ from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
 from legacy_tenants.views import redirect_to_legacy_app
-from .views import react_rendered_view, example_server_error, redirect_favicon, health
+from .views import (
+    react_rendered_view, example_server_error, redirect_favicon, health,
+    get_csrf_token)
 from users.views import verify_email
 import twofactor.views
 
@@ -30,6 +32,7 @@ dev_patterns = ([
 ], 'dev')
 
 urlpatterns = [
+    path('get-csrf-token', get_csrf_token, name='get_csrf_token'),
     path('verify', twofactor.views.verify, name='verify'),
     path('verify-email', verify_email, name='verify_email'),
     path('health', health, name='health'),

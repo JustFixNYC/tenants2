@@ -7,6 +7,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import SafeString
 from django.utils import translation
+from django.utils.cache import patch_cache_control
+from django.middleware import csrf
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
@@ -311,6 +313,20 @@ def get_language_from_url_or_default(url: str) -> str:
     return translation.get_language_from_path(url) or settings.LANGUAGE_CODE
 
 
+def create_initial_props_for_lambda_from_static_request(
+    url: str,
+    site: Site,
+    request: GraphQLStaticRequest,
+) -> Dict[str, Any]:
+    return create_initial_props_for_lambda(
+        site=site,
+        url=url,
+        locale=get_language_from_url_or_default(url),
+        initial_session=get_initial_session(request),
+        origin_url=get_site_origin(site),
+    )
+
+
 def render_raw_lambda_static_content(
     url: str,
     site: Site,
@@ -325,13 +341,7 @@ def render_raw_lambda_static_content(
     '''
 
     request = GraphQLStaticRequest(user=user)
-    initial_props = create_initial_props_for_lambda(
-        site=site,
-        url=url,
-        locale=get_language_from_url_or_default(url),
-        initial_session=get_initial_session(request),
-        origin_url=get_site_origin(site),
-    )
+    initial_props = create_initial_props_for_lambda_from_static_request(url, site, request)
     lr = run_react_lambda_with_prefetching(initial_props, request)
     if not (lr.is_static_content and lr.status == 200):
         logger.error(
@@ -343,33 +353,83 @@ def render_raw_lambda_static_content(
     return lr
 
 
+PATHS_TO_CACHE = set([
+    ("NORENT", '/en/'),
+])
+
+
 def react_rendered_view(request):
+    site = get_site_from_request_or_default(request)
+    site_type = get_site_type(site)
+    return react_rendered_view_with_site_type(request, site_type)
+
+
+def get_csrf_token(request):
+    '''
+    A view that will allow pages that were hydrated from cached
+    sources to get the CSRF token. Note this can't be done via
+    GraphQL because GraphQL is a POST request that requires a CSRF token!
+    '''
+
+    token = csrf.get_token(request)
+    return HttpResponse(token, content_type="text/plain")
+
+
+def has_session_data(request) -> bool:
+    '''
+    Returns whether the given request has any session data in it that
+    might prevent us from caching the page.
+    '''
+
+    cookies = {**request.COOKIES}
+
+    if 'csrftoken' in cookies:
+        # We're assuming the page we'll render doesn't have any
+        # forms on it, so we don't care about the CSRF token.
+        cookies.pop('csrftoken')
+
+    return bool(cookies)
+
+
+def react_rendered_view_with_site_type(request, site_type: str):
     url = request.path
     querystring = request.GET.urlencode()
     if querystring:
         url += f'?{querystring}'
 
-    legacy_form_submission = None
+    max_age = 0
+    if (site_type, url) in PATHS_TO_CACHE and not has_session_data(request):
+        print(f"Rendering and caching {url} for {site_type}.")
+        max_age = 600
+        site = get_site_from_request_or_default(request)
+        lambda_request = GraphQLStaticRequest()
+        initial_props = create_initial_props_for_lambda_from_static_request(
+            url, site, lambda_request)
+    else:
+        print("Rendering without caching.")
+        legacy_form_submission = None
 
-    if request.method == "POST":
-        try:
-            # It's important that we process the legacy form submission
-            # *before* getting the initial session, so that when we
-            # get the initial session, it reflects any state changes
-            # made by the form submission. This will ensure the same
-            # behavior between baseline (non-JS) and progressively
-            # enhanced (JS) clients.
-            legacy_form_submission = get_legacy_form_submission(request)
-        except LegacyFormSubmissionError as e:
-            return HttpResponseBadRequest(e.args[0])
+        if request.method == "POST":
+            try:
+                # It's important that we process the legacy form submission
+                # *before* getting the initial session, so that when we
+                # get the initial session, it reflects any state changes
+                # made by the form submission. This will ensure the same
+                # behavior between baseline (non-JS) and progressively
+                # enhanced (JS) clients.
+                legacy_form_submission = get_legacy_form_submission(request)
+            except LegacyFormSubmissionError as e:
+                return HttpResponseBadRequest(e.args[0])
 
-    initial_props = create_initial_props_for_lambda_from_request(
-        request,
-        url=url,
-        legacy_form_submission=legacy_form_submission,
-    )
+        initial_props = create_initial_props_for_lambda_from_request(
+            request,
+            url=url,
+            legacy_form_submission=legacy_form_submission,
+        )
 
-    lambda_response = run_react_lambda_with_prefetching(initial_props, request)
+        lambda_request = request
+
+    lambda_response = run_react_lambda_with_prefetching(initial_props, lambda_request)
 
     script_tags = lambda_response.script_tags
     if lambda_response.status == 500:
@@ -380,18 +440,21 @@ def react_rendered_view(request):
     logger.debug(f"Rendering {url} in Node.js took {lambda_response.render_time} ms.")
 
     if lambda_response.is_static_content:
-        return render_lambda_static_content(lambda_response)
+        response = render_lambda_static_content(lambda_response)
+    else:
+        response = render(request, 'index.html', {
+            'initial_render': lambda_response.html,
+            'enable_analytics': not request.user.is_staff,
+            'modal_html': lambda_response.modal_html,
+            'title_tag': lambda_response.title_tag,
+            'site_type': initial_props['server']['siteType'],
+            'meta_tags': lambda_response.meta_tags,
+            'script_tags': script_tags,
+            'initial_props': initial_props,
+        }, status=lambda_response.status)
 
-    return render(request, 'index.html', {
-        'initial_render': lambda_response.html,
-        'enable_analytics': not request.user.is_staff,
-        'modal_html': lambda_response.modal_html,
-        'title_tag': lambda_response.title_tag,
-        'site_type': initial_props['server']['siteType'],
-        'meta_tags': lambda_response.meta_tags,
-        'script_tags': script_tags,
-        'initial_props': initial_props,
-    }, status=lambda_response.status)
+    patch_cache_control(response, max_age=max_age)
+    return response
 
 
 @csrf_exempt

@@ -36,6 +36,7 @@ import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { default as JustfixRoutes } from "./routes";
 import { NorentRoutes } from "./norent/routes";
+import { awesomeFetch } from "./networking/fetch";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -110,13 +111,22 @@ export class AppWithoutRouter extends React.Component<
   }
 
   @autobind
-  fetchWithoutErrorHandling(query: string, variables?: any): Promise<any> {
+  async fetchWithoutErrorHandling(query: string, variables?: any): Promise<any> {
+    if (!this.state.session.csrfToken) {
+      // We were hydrated from a cached page that has no CSRF token in it, so
+      // we'll have to obtain one first.
+      const response = await awesomeFetch('/get-csrf-token');
+      const csrfToken = await response.text();
+      this.gqlClient.csrfToken = csrfToken;
+      this.handleSessionChange({ csrfToken });
+    }
+
     return this.gqlClient.fetch(query, variables);
   }
 
   @autobind
   fetch(query: string, variables?: any): Promise<any> {
-    return this.gqlClient.fetch(query, variables).catch((e) => {
+    return this.fetchWithoutErrorHandling(query, variables).catch((e) => {
       this.handleFetchError(e);
       throw e;
     });

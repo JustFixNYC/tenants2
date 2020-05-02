@@ -38,7 +38,11 @@ class DocusignEnvelopeInline(admin.StackedInline):
 
     fields = ['id', 'created_at', 'status']
 
-    readonly_fields = ['id', 'created_at']
+    # While "id" should really be in here, Django won't let us
+    # actually make changes to the model if we add it, giving the notoriously
+    # idiotic "Please correct the error below" without providing any
+    # visible errors upon form submission.
+    readonly_fields = ['created_at']
 
     ordering = ['-created_at']
 

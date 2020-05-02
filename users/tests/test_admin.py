@@ -1,5 +1,3 @@
-from typing import Any
-
 from project.util.testing_util import ClassCachedValue
 from .factories import UserFactory
 

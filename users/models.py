@@ -50,6 +50,7 @@ ROLES['Outreach Coordinators'] = set([
     'onboarding.change_onboardinginfo',
     *ModelPermissions('norent', 'rentperiod').only(add=True, change=True),
     *ModelPermissions('norent', 'letter').all,
+    'norent.change_norentuser',
     'rh.view_rentalhistoryrequest',
     VIEW_TEXT_MESSAGE_PERMISSION,
 ])

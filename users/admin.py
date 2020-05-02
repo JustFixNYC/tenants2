@@ -14,6 +14,7 @@ from .admin_user_proxy import user_signup_intent
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser
 from hpaction.admin import HPUser
+from norent.admin import NorentUser
 import airtable.sync
 
 
@@ -78,7 +79,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
         ('Product action information', {
-            'fields': ('hp_action_info', 'loc_info'),
+            'fields': ('hp_action_info', 'loc_info', 'norent_info'),
         }),
     )
     non_superuser_fieldsets = tuple(
@@ -103,6 +104,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     readonly_fields = [
         'hp_action_info',
         'loc_info',
+        'norent_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
         *UserAdmin.readonly_fields
@@ -124,6 +126,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     hp_action_info = make_link_to_other_user_view(HPUser, "HP action information")
 
     loc_info = make_link_to_other_user_view(LOCUser, "Letter of complaint information")
+
+    norent_info = make_link_to_other_user_view(NorentUser, "NoRent letter information")
 
     @admin_field(
         short_description="Rapidpro contact groups",

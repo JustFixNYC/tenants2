@@ -10,6 +10,7 @@ import rapidpro.models
 from onboarding.admin import OnboardingInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
+from project.admin import user_signup_intent
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser
 from hpaction.admin import HPUser
@@ -44,6 +45,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     ] + list(UserAdmin.list_filter)
     list_display = [
         'phone_number', 'username', 'first_name', 'last_name', 'last_login',
+        'signup_intent',
     ]
     fieldsets = (
         (_('Personal info'), {'fields': (
@@ -89,6 +91,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         OnboardingInline,
     )
 
+    signup_intent = user_signup_intent
+
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
     readonly_fields = [
@@ -133,6 +137,10 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
 
     def phone_number_lookup_details(self, obj):
         return get_lookup_description_for_phone_number(obj.phone_number)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.prefetch_related('onboarding_info')
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

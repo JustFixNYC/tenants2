@@ -33,6 +33,12 @@ class JustfixAdminSite(admin.AdminSite):
         return my_urls + urls
 
 
+@admin_field(admin_order_field='onboarding_info__signup_intent')
+def user_signup_intent(self, obj):
+    if hasattr(obj, 'onboarding_info'):
+        return obj.onboarding_info.signup_intent
+
+
 class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     list_display = [
         'phone_number', 'first_name', 'last_name', 'last_login', 'signup_intent'
@@ -52,10 +58,7 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
 
     edit_user = make_edit_link("View/edit user details")
 
-    @admin_field(admin_order_field='onboarding_info__signup_intent')
-    def signup_intent(self, obj):
-        if hasattr(obj, 'onboarding_info'):
-            return obj.onboarding_info.signup_intent
+    signup_intent = user_signup_intent
 
     def address(self, obj):
         if hasattr(obj, 'onboarding_info'):

@@ -48,6 +48,8 @@ ROLES['Outreach Coordinators'] = set([
     'hpaction.change_hpuser',
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',
+    *ModelPermissions('norent', 'rentperiod').only(add=True, change=True),
+    *ModelPermissions('norent', 'letter').all,
     'rh.view_rentalhistoryrequest',
     VIEW_TEXT_MESSAGE_PERMISSION,
 ])

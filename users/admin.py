@@ -1,28 +1,43 @@
-from django.db.models import Count, Q
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
-from project.util.admin_util import admin_field
+from project.util.admin_util import admin_field, get_admin_url_for_class
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from issues.admin import IssueInline, CustomIssueInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
-from loc.models import LOC_MAILING_CHOICES
+from .admin_user_proxy import user_signup_intent
 from texting.models import get_lookup_description_for_phone_number
-import loc.admin
+from loc.admin import LOCUser
+from hpaction.admin import HPUser
 import airtable.sync
 
 
-ISSUE_COUNT = "_issue_count"
-MAILING_NEEDED = "_mailing_needed"
 PERMISSIONS_LABEL = _('Permissions')
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
+
+
+def make_link_to_other_user_view(model_class, short_description):
+    '''
+    We have specialized proxy views of the User model for different kinds
+    of products (e.g. Letter of Complaint, HP Action, etc). This generates
+    links to them.
+    '''
+
+    @admin_field(
+        short_description=short_description,
+        allow_tags=True
+    )
+    def link(self, obj):
+        url = get_admin_url_for_class(model_class, obj.pk)
+        return format_html(
+            '<a class="button" href="{}">{}</a>', url, short_description)
+
+    return link
 
 
 class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
@@ -32,11 +47,10 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     ordering = ('-last_login',)
     list_filter = [
         'onboarding_info__signup_intent',
-        'letter_request__mail_choice'
     ] + list(UserAdmin.list_filter)
     list_display = [
         'phone_number', 'username', 'first_name', 'last_name', 'last_login',
-        'issue_count', 'mailing_needed'
+        'signup_intent',
     ]
     fieldsets = (
         (_('Personal info'), {'fields': (
@@ -63,8 +77,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        ('HP action information', {
-            'fields': ('hp_action_info',),
+        ('Product action information', {
+            'fields': ('hp_action_info', 'loc_info'),
         }),
     )
     non_superuser_fieldsets = tuple(
@@ -80,16 +94,15 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     inlines = (
         LegacyUserInline,
         OnboardingInline,
-        IssueInline,
-        CustomIssueInline,
-    ) + loc.admin.user_inlines
+    )
 
-    actions = UserAdmin.actions + [loc.admin.print_loc_envelopes]
+    signup_intent = user_signup_intent
 
     search_fields = ['phone_number', *UserAdmin.search_fields]
 
     readonly_fields = [
         'hp_action_info',
+        'loc_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
         *UserAdmin.readonly_fields
@@ -108,13 +121,9 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                 continue
             yield inline.get_formset(request, obj), inline
 
-    @admin_field(
-        short_description="HP action information",
-        allow_tags=True
-    )
-    def hp_action_info(self, obj):
-        url = reverse('admin:hpaction_hpuser_change', args=[obj.pk])
-        return format_html('<a class="button" href="{}">View/edit HP action information</a>', url)
+    hp_action_info = make_link_to_other_user_view(HPUser, "HP action information")
+
+    loc_info = make_link_to_other_user_view(LOCUser, "Letter of complaint information")
 
     @admin_field(
         short_description="Rapidpro contact groups",
@@ -127,45 +136,16 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
 
         return "None"
 
-    @admin_field(
-        short_description="Issues",
-        admin_order_field=ISSUE_COUNT
-    )
-    def issue_count(self, obj):
-        return getattr(obj, ISSUE_COUNT)
-
-    @admin_field(
-        short_description="Letter mailing needed?",
-        admin_order_field=MAILING_NEEDED
-    )
-    def mailing_needed(self, obj) -> bool:
-        return bool(getattr(obj, MAILING_NEEDED))
-
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.annotate(**{
-            ISSUE_COUNT: (
-                Count('issues', distinct=True) +
-                Count('custom_issues', distinct=True)
-            ),
-            MAILING_NEEDED: Count(
-                'letter_request',
-                distinct=True,
-                filter=(
-                    Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL) &
-                    Q(letter_request__tracking_number__exact='') &
-                    Q(letter_request__rejection_reason__exact='')
-                )
-            )
-        })
-        return queryset
-
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)
         airtable.sync.sync_user(obj)
 
     def phone_number_lookup_details(self, obj):
         return get_lookup_description_for_phone_number(obj.phone_number)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.prefetch_related('onboarding_info')
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

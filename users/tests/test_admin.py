@@ -1,3 +1,4 @@
+from project.util.testing_util import ClassCachedValue
 from .factories import UserFactory
 
 
@@ -21,16 +22,18 @@ def get_user_change_view_html(client):
     return res.content.decode('utf-8')
 
 
-def test_change_view_works(admin_client):
-    html = get_user_change_view_html(admin_client)
-    assert 'View/edit HP action' in html
+class TestChangeViewForSuperusers(ClassCachedValue):
+    @classmethod
+    def cache_value(cls, admin_client):
+        return get_user_change_view_html(admin_client)
+
+    def test_hp_action_information_is_shown(self, admin_client):
+        assert 'HP action information' in self.get_value(admin_client)
+
+    def test_superuser_checkbox_is_shown(self, admin_client):
+        assert SUPERUSER_SENTINEL in self.get_value(admin_client)
 
 
-def test_change_view_works_for_superusers(admin_client):
-    html = get_user_change_view_html(admin_client)
-    assert SUPERUSER_SENTINEL in html
-
-
-def test_change_view_works_for_outreach(outreach_client):
+def test_superuser_checkbox_is_not_shown_for_outreach(outreach_client):
     html = get_user_change_view_html(outreach_client)
     assert SUPERUSER_SENTINEL not in html

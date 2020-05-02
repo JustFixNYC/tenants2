@@ -71,3 +71,56 @@ class GraphQLTestingPal:
         '''
 
         return one_field_err(message, field)
+
+
+class ClassCachedValue:
+    '''
+    This class can be used as a superclass for pytest classes when you
+    want to perform multiple tests over some data that takes a long
+    time to generate.
+
+    Ideally, we'd just use pytest class-scoped fixtures for this, but
+    the problem is that in order to generate the cached value, we
+    need to use function-scoped fixtures, and class-scoped fixtures
+    can't use function-scoped ones.  This allows us to get around that
+    problem by having the function-scoped tests (or fixtures) pass
+    fixtures on to a class method.
+    '''
+
+    # Stores the cached value.
+    _cached_value: Any = None
+
+    @classmethod
+    def cache_value(cls, *args, **kwargs):
+        '''
+        Generates the value that should be cached and returns it.
+        '''
+
+        raise NotImplementedError()
+
+    @classmethod
+    def get_value(cls, *args, **kwargs):
+        '''
+        Retrieves the cached value, generating it first if it
+        doesn't exist yet. All arguments are passed on to
+        `cls.cache_value()`, if it's called.
+        '''
+
+        if cls._cached_value is None:
+            cls._cached_value = cls.cache_value(*args, **kwargs)
+        return cls._cached_value
+
+
+class Blob:
+    '''
+    A class that lets you easily create objects for testing, e.g.:
+
+        >>> blob = Blob(a=1, b=Blob(c="hi"))
+        >>> blob.a
+        1
+        >>> blob.b.c
+        'hi'
+    '''
+
+    def __init__(self, **kwargs):
+        self.__dict__ = kwargs

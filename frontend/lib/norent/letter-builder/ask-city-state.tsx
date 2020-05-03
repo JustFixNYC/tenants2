@@ -3,8 +3,6 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { NorentCityStateMutation } from "../../queries/NorentCityStateMutation";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { TextualFormField } from "../../forms/form-fields";
-import { USStateFormField } from "../../forms/mailing-address-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { AppContext } from "../../app-context";
@@ -14,6 +12,7 @@ import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentAlreadyLoggedInErrorPage } from "./error-pages";
+import { CityAndStateField } from "../../forms/city-and-state-form-field";
 
 const getConfirmModalRoute = () => NorentRoutes.locale.letter.cityConfirmModal;
 
@@ -63,8 +62,10 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
       >
         {(ctx) => (
           <>
-            <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
-            <USStateFormField {...ctx.fieldPropsFor("state")} />
+            <CityAndStateField
+              cityProps={ctx.fieldPropsFor("city")}
+              stateProps={ctx.fieldPropsFor("state")}
+            />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}

@@ -1,3 +1,8 @@
+import {
+  USStateChoice,
+  isUSStateChoice,
+} from "../../../../common-data/us-state-choices";
+
 /**
  * These are forward geocoding search results as documented in:
  *
@@ -43,6 +48,8 @@ export type MapboxStateInfo = {
 
 const MAPBOX_PLACES_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 
+const MAPBOX_STATE_SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
+
 type MapboxSearchOptions = {
   access_token: string;
   country: "US";
@@ -68,14 +75,23 @@ function mapboxSearchOptionsToURLSearchParams(
   });
 }
 
+function stateCodeFromShortCode(shortCode?: string): USStateChoice | null {
+  if (shortCode === "pr") return "PR";
+  const match = (shortCode || "").match(MAPBOX_STATE_SHORT_CODE_RE);
+  const state = match ? match[1] : "";
+  if (isUSStateChoice(state)) {
+    return state;
+  }
+  return null;
+}
+
 export function getMapboxStateInfo(
   feature: MapboxFeature
 ): MapboxStateInfo | null {
-  const SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
   for (let context of feature.context) {
-    const match = (context.short_code || "").match(SHORT_CODE_RE);
-    if (match && context.text) {
-      return { stateCode: match[1], stateName: context.text };
+    const stateCode = stateCodeFromShortCode(context.short_code);
+    if (stateCode && context.text) {
+      return { stateCode, stateName: context.text };
     }
   }
   return null;

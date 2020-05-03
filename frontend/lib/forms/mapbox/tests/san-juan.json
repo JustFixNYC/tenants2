@@ -1,0 +1,37 @@
+{
+  "id": "place.11752167710103880",
+  "type": "Feature",
+  "place_type": ["place"],
+  "relevance": 1,
+  "properties": {
+    "wikidata": "Q41211"
+  },
+  "text_en": "San Juan",
+  "language_en": "en",
+  "place_name_en": "San Juan, Puerto Rico",
+  "text": "San Juan",
+  "language": "en",
+  "place_name": "San Juan, Puerto Rico",
+  "bbox": [
+    -66.1250540194812,
+    18.3019210164431,
+    -65.9914915322709,
+    18.4718989803279
+  ],
+  "center": [-66.0571, 18.3744],
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-66.0571, 18.3744]
+  },
+  "context": [
+    {
+      "id": "country.10177928452498950",
+      "short_code": "pr",
+      "wikidata": "Q1183",
+      "text_en": "Puerto Rico",
+      "language_en": "en",
+      "text": "Puerto Rico",
+      "language": "en"
+    }
+  ]
+}

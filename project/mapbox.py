@@ -136,6 +136,19 @@ def get_mapbox_street_addr(feature: MapboxFeature) -> str:
     return feature.text
 
 
+def get_state_from_short_code(short_code: Optional[str]) -> Optional[str]:
+    '''
+    Given a Mapbox short code, returns the state it corresponds to.
+    '''
+
+    if short_code == "pr":
+        return "PR"
+    match = re.match(MAPBOX_STATE_SHORT_CODE_RE, short_code or '')
+    if match:
+        return match[1]
+    return None
+
+
 def get_mapbox_state(feature: MapboxFeature) -> Optional[str]:
     '''
     Returns the two-letter state code for the given Mapbox Feature, if
@@ -143,9 +156,9 @@ def get_mapbox_state(feature: MapboxFeature) -> Optional[str]:
     '''
 
     for context in feature.context:
-        match = re.match(MAPBOX_STATE_SHORT_CODE_RE, context.short_code or '')
-        if match:
-            return match[1]
+        state = get_state_from_short_code(context.short_code)
+        if state:
+            return state
     return None
 
 

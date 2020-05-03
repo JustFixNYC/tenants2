@@ -21,6 +21,8 @@ JSON_DIR = BASE_DIR / 'frontend' / 'lib' / 'forms' / 'mapbox' / 'tests'
 
 BROOKLYN_FEATURE_JSON = json.loads((JSON_DIR / 'brooklyn.json').read_text())
 BROOKLYN_FEATURE = MapboxFeature(**BROOKLYN_FEATURE_JSON)
+SAN_JUAN_FEATURE_JSON = json.loads((JSON_DIR / 'san-juan.json').read_text())
+SAN_JUAN_FEATURE = MapboxFeature(**SAN_JUAN_FEATURE_JSON)
 BRL_FEATURE_JSON = json.loads((JSON_DIR / 'brl.json').read_text())
 BRL_FEATURE = MapboxFeature(**BRL_FEATURE_JSON)
 BRL_RESULTS_JSON = {
@@ -67,6 +69,9 @@ class TestGetMapboxState:
 
     def test_it_returns_state_on_match(self):
         assert get_mapbox_state(BROOKLYN_FEATURE) == "NY"
+
+    def test_it_works_with_puerto_rico(self):
+        assert get_mapbox_state(SAN_JUAN_FEATURE) == "PR"
 
 
 class TestGetMapboxZipCode:

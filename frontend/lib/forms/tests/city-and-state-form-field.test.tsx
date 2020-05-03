@@ -38,6 +38,15 @@ describe("<CityAndStateField>", () => {
     expect(getCityField(pal).value).toBe("Columbus, Ohio");
   });
 
+  it("Does not fall back to baseline if city field has errors", () => {
+    const pal = new AppTesterPal(
+      makeField(empty.withValue("blah").withError("Not a city!"), ohio),
+      ENABLE_MAPBOX
+    );
+    expect(() => getStateField(pal)).toThrow();
+    expect(getCityField(pal).value).toBe("blah, Ohio");
+  });
+
   it("Falls back to baseline if state field has errors", () => {
     const pal = new AppTesterPal(
       makeField(columbus, empty.withError("This field is required.")),

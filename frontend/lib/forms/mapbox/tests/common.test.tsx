@@ -1,11 +1,18 @@
 import { getMapboxStateInfo, createMapboxPlacesURL } from "../common";
-import { BROOKLYN_MAPBOX_FEATURE } from "./data";
+import { BROOKLYN_MAPBOX_FEATURE, SAN_JUAN_MAPBOX_FEATURE } from "./data";
 
 describe("getMapboxStateInfo", () => {
   it("returns state info when state is found", () => {
     expect(getMapboxStateInfo(BROOKLYN_MAPBOX_FEATURE)).toEqual({
       stateCode: "NY",
       stateName: "New York",
+    });
+  });
+
+  it("works with puerto rico", () => {
+    expect(getMapboxStateInfo(SAN_JUAN_MAPBOX_FEATURE)).toEqual({
+      stateCode: "PR",
+      stateName: "Puerto Rico",
     });
   });
 

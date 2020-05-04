@@ -8,6 +8,7 @@ from project.util.address_form_fields import (
     ADDRESS_FIELD_KWARGS)
 from project import mapbox
 from loc.models import LandlordDetails
+from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from onboarding.models import OnboardingInfo
 from onboarding.forms import AptNumberWithConfirmationForm
 from users.models import JustfixUser
@@ -63,10 +64,14 @@ class CreateAccount(SetPasswordForm, forms.ModelForm):
     agree_to_terms = forms.BooleanField(required=True)
 
 
-class LandlordNameAndContactTypes(forms.ModelForm):
-    class Meta:
-        model = LandlordDetails
-        fields = ('name',)
+class LandlordNameAndContactTypes(forms.Form):
+    name = forms.CharField(
+        # Our model's limits are more lax than that of Lob's API, so
+        # hew to Lob's limits.
+        max_length=MAX_LOB_NAME_LEN,
+        required=True,
+        help_text=LandlordDetails._meta.get_field('name').help_text
+    )
 
     has_email_address = forms.BooleanField(required=False)
 

@@ -32,13 +32,23 @@ const partnerLogoItems: PartnerLogo[] = [
     srcName: "mha",
     href: "https://mhaction.org/",
   },
+  {
+    name: "SAJE",
+    srcName: "saje",
+    href: "https://www.saje.net/",
+  },
+  {
+    name: "Housing Justice for All",
+    srcName: "hj4a",
+    href: "https://www.housingjusticeforall.org/",
+  },
 ];
 
 export const PartnerLogos = () => (
   <div className="jf-partner-logos columns is-mobile is-multiline is-variable is-8-desktop">
     {partnerLogoItems.map((partnerDetails, i) => (
       <div
-        className="column is-one-fourth jf-has-centered-images is-paddingless"
+        className="column is-one-third-tablet is-half-mobile jf-has-centered-images is-paddingless"
         key={i}
       >
         <OutboundLink
@@ -137,7 +147,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </p>
           <br />
         </div>
-        <div className="container jf-space-below-2rem">
+        <div className="container jf-tight-container jf-space-below-2rem">
           <PartnerLogos />
         </div>
       </div>

@@ -33,7 +33,7 @@ const partnerLogoItems: PartnerLogo[] = [
     href: "https://mhaction.org/",
   },
   {
-    name: "SAJE",
+    name: "Strategic Actions for a Just Economy",
     srcName: "saje",
     href: "https://www.saje.net/",
   },

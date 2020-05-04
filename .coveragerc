@@ -3,4 +3,3 @@ omit =
   .venv/*
   docker_django_management.py
   manage.py
-  deploy.py

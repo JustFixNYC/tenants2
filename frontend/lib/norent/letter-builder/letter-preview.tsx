@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { LetterPreview } from "../../static-page/letter-preview";
 import { NorentRoutes } from "../routes";
-import { NextButton, BackButton } from "../../ui/buttons";
+import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation";
@@ -105,15 +105,10 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
         </>
       )}
       <p>Make sure all the information above is correct.</p>
-      <div className="buttons jf-two-buttons">
-        <BackButton to={props.prevStep} />
-        <Link
-          to={NorentRoutes.locale.letter.previewSendConfirmModal}
-          className="button is-primary is-medium jf-is-next-button"
-        >
-          Send letter
-        </Link>
-      </div>
+      <ProgressButtonsAsLinks
+        back={props.prevStep}
+        next={NorentRoutes.locale.letter.previewSendConfirmModal}
+      />
       <Route
         path={NorentRoutes.locale.letter.previewSendConfirmModal}
         exact

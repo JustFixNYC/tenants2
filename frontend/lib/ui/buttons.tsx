@@ -40,7 +40,7 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
 
 /**
  * A component that renders back/next buttons that function as internal links,
- * as in they don't involve any form submission or mutation. 
+ * as in they don't involve any form submission or mutation.
  */
 export function ProgressButtonsAsLinks(props: {
   back: LocationDescriptor<any>;

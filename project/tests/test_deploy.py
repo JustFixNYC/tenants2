@@ -41,11 +41,15 @@ def fake_tempfile(monkeypatch):
     monkeypatch.setattr(tempfile, 'TemporaryDirectory', fake_temporary_directory)
 
 
-def create_check_output(cmd_prefix_outputs=None):
-    cmd_prefix_outputs = {
+def create_cmd_prefix_outputs(overrides=None):
+    return {
         **DEFAULT_SUBPROCESS_CMD_PREFIX_OUTPUTS,
-        **(cmd_prefix_outputs or {}),
+        **(overrides or {}),
     }
+
+
+def create_check_output(cmd_prefix_outputs=None):
+    cmd_prefix_outputs = create_cmd_prefix_outputs(cmd_prefix_outputs)
 
     def check_output(args, **kwargs):
         cmd = ' '.join(args)

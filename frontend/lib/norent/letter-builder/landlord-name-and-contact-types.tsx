@@ -2,11 +2,10 @@ import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { TextualFormField, CheckboxFormField } from "../../forms/form-fields";
-import { ProgressButtons, BackButton } from "../../ui/buttons";
+import { ProgressButtons, ProgressButtonsAsLinks } from "../../ui/buttons";
 import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentLandlordNameAndContactTypesMutation";
 import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
-import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { LetterBuilderAccordion } from "./welcome";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
@@ -36,12 +35,7 @@ const ReadOnlyLandlordDetails: React.FC<
           <BreaksBetweenLines lines={details.address} />
         </dd>
       </dl>
-      <ProgressButtons>
-        <BackButton to={prevStep} />
-        <Link to={nextStep} className="button is-primary is-medium">
-          Next
-        </Link>
-      </ProgressButtons>
+      <ProgressButtonsAsLinks back={prevStep} next={nextStep} />
     </div>
   );
 };

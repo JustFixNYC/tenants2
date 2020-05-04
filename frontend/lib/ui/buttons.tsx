@@ -38,6 +38,29 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
   );
 }
 
+/**
+ * A component that renders back/next buttons that function as internal links,
+ * as in they don't involve any form submission or mutation.
+ */
+export function ProgressButtonsAsLinks(props: {
+  back: LocationDescriptor<any>;
+  backLabel?: string;
+  next: LocationDescriptor<any>;
+  nextLabel?: string;
+}): JSX.Element {
+  return (
+    <div className="buttons jf-two-buttons">
+      <BackButton to={props.back} label={props.backLabel} />
+      <Link
+        to={props.next}
+        className="button is-primary is-medium jf-is-next-button"
+      >
+        {props.nextLabel || "Next"}
+      </Link>
+    </div>
+  );
+}
+
 /** A back button, meant to go back to the previous step in a flow. */
 export function BackButton(props: {
   buttonClass?: BulmaClassName;

@@ -1,8 +1,7 @@
 import React from "react";
 import Page from "../../ui/page";
 import { OutboundLink } from "../../analytics/google-analytics";
-import { BackButton } from "../../ui/buttons";
-import { Link } from "react-router-dom";
+import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import { NorentOnboardingStep } from "./step-decorators";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";
@@ -40,15 +39,7 @@ export const NorentLbLosAngelesRedirect = NorentOnboardingStep((props) => {
         </p>
       </div>
       <br />
-      <div className="buttons jf-two-buttons">
-        <BackButton to={props.prevStep} />
-        <Link
-          to={props.nextStep}
-          className="button is-primary is-medium jf-is-next-button"
-        >
-          Next
-        </Link>
-      </div>
+      <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />
     </Page>
   );
 });

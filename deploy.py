@@ -214,7 +214,9 @@ class HerokuDeployer:
     def maintenance_mode_if_preboot_is_disabled(self):
         '''
         If Heroku preboot is disabled, wrap the enclosed code in Heroku's
-        maintenance mode.
+        maintenance mode. Otherwise, we'll assume this is a zero-downtime
+        deploy, e.g. that any migrations that do need to be run will be ones
+        that the old version of the code is still compatible with.
 
         Note that if the enclosed code raises an exception, we do _not_
         disable maintenance mode, since we're assuming that the site

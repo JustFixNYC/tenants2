@@ -180,8 +180,9 @@ workflows:
               only:
                 - master
   only_deploy:
-    - deploy:
-        filters:
-          branches:
-            only:
-              - production
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - production

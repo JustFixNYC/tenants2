@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
-import { Link } from "react-router-dom";
+import { ProgressButtonsAsLinks } from "../../ui/buttons";
 
 type NorentConfirmationModalProps = {
   nextStep: string;
@@ -30,20 +30,12 @@ export const NorentConfirmationModal: React.FC<NorentConfirmationModalProps> = (
       render={(ctx) => (
         <>
           {props.children}
-          <div className="buttons jf-two-buttons">
-            <Link
-              {...ctx.getLinkCloseProps()}
-              className="jf-is-back-button button is-medium"
-            >
-              No
-            </Link>
-            <Link
-              to={props.nextStep}
-              className="button is-primary is-medium jf-is-next-button"
-            >
-              Yes
-            </Link>
-          </div>
+          <ProgressButtonsAsLinks
+            back={ctx.getLinkCloseProps().to}
+            backLabel="No"
+            next={props.nextStep}
+            nextLabel="Yes"
+          />
         </>
       )}
     />

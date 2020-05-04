@@ -1,0 +1,14 @@
+Running "docker build -f Dockerfile.web -t registry.heroku.com/boop/web --build-arg GIT_REVISION=e7408710b8d091377041cfbe4c185931a214f280 --build-arg IS_GIT_REPO_PRISTINE=False .".
+Running "docker build -f Dockerfile.worker -t registry.heroku.com/boop/worker --build-arg DOCKERFILE_WEB=registry.heroku.com/boop/web /tmp/somedir".
+Pushing containers to Docker registry...
+Running "docker login --username=_ --password=00112233-aabb-ccdd-eeff-001122334455 registry.heroku.com".
+Running "docker push registry.heroku.com/boop/web".
+Running "docker push registry.heroku.com/boop/worker".
+Running "heroku maintenance:on -r myapp".
+Running migrations...
+Running "docker run --rm -it -e DATABASE_URL registry.heroku.com/boop/web python manage.py migrate".
+Running "docker run --rm -it -e DATABASE_URL registry.heroku.com/boop/web python manage.py initgroups".
+Initiating Heroku release phase...
+Running "heroku container:release web worker -r myapp".
+Running "heroku maintenance:off -r myapp".
+Deploy finished.

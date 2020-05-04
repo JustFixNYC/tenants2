@@ -1,3 +1,5 @@
+import sys
+from pathlib import Path
 from typing import Dict, Any, Optional
 import pytest
 
@@ -124,3 +126,42 @@ class Blob:
 
     def __init__(self, **kwargs):
         self.__dict__ = kwargs
+
+
+class Snapshot:
+    '''
+    A helper class to make snapshot/golden file testing easier in pytest.
+
+    To use it, pass in the actual output that you want to snapshot test
+    against, and a Path to a file that stores the snapshot's expected output.
+
+    If the snapshot file doesn't already exist, it will be created with
+    the passed-in actual output.
+
+    The content of the snapshot file will be set to the 'expected'
+    attribute, while the passed-in actual output will be set to the
+    'actual' attribute.
+
+    You'll want to `assert snapshot.actual == snapshot.expected` in
+    your actual test, as this will make sure that helpful diff output
+    is displayed if the snapshot test fails.
+
+    To update the snapshot to match the current actual output, you
+    will need to manually delete the snapshot file.
+    '''
+
+    def __init__(self, actual: str, path: Path):
+        self.actual = actual
+        self.path = path
+
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(actual)
+
+        self.expected = path.read_text()
+
+        if self.actual != self.expected:
+            sys.stderr.write(
+                f"Warning: snapshot does not match! To update the snapshot, "
+                f"delete '{self.path}'."
+            )

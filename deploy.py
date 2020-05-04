@@ -233,6 +233,8 @@ class HerokuDeployer:
 
         self.heroku.run('maintenance:off')
 
+        print("Deploy finished.")
+
 
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
@@ -266,7 +268,7 @@ def selfcheck(args):
     print("Deployment prerequisites satisfied!")
 
 
-def main():
+def main(args: Optional[List[str]] = None):
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(
         title='subcommands',
@@ -326,12 +328,12 @@ def main():
     )
     parser_heroku_run.set_defaults(func=heroku_run)
 
-    args = parser.parse_args()
-    if not hasattr(args, 'func'):
+    parsed_args = parser.parse_args(args)
+    if not hasattr(parsed_args, 'func'):
         parser.print_help()
         sys.exit(1)
 
-    args.func(args)
+    parsed_args.func(parsed_args)
 
 
 if __name__ == '__main__':

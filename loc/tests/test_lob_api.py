@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from io import BytesIO
 import lob
+import pytest
 
 from loc import lob_api
 
@@ -106,3 +107,15 @@ class TestIsAddressUndeliverable:
             status_code=500,
         )
         assert lob_api.is_address_undeliverable() is None
+
+
+@pytest.mark.parametrize('original,expected', [
+    ({'name': 'superultracalifragilistic ultrapersonofdooooooooooooooooooom',
+      'other': 'thing'},
+     {'name': 'superultracalifragilistic ultrapersonofd', 'other': 'thing'}),
+    ({'name': 'a shorter name'}, {'name': 'a shorter name'}),
+    ({'hello': 'there'}, {'hello': 'there'}),
+    ({'name': None}, {'name': None}),
+])
+def test_truncate_name_in_address_works(original, expected):
+    assert lob_api.truncate_name_in_address(original) == expected

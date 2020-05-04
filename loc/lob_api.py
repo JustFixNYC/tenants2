@@ -7,6 +7,8 @@ import lob
 
 logger = logging.getLogger(__name__)
 
+MAX_NAME_LEN = 40
+
 DELIVERABLE = 'deliverable'
 
 UNDELIVERABLE = 'undeliverable'
@@ -56,6 +58,22 @@ def _to_plain_object(obj):
     return json.loads(json.dumps(obj))
 
 
+def truncate_name_in_address(address: Dict[str, Any]) -> Dict[str, Any]:
+    '''
+    Lob limits the maximum length of a sender/recipient's name, but
+    we don't necessarily limit our name lengths; if ours is longer than
+    Lob's limit, just truncate it--we'll trust that the postal service
+    can still make sense of the address.
+    '''
+
+    if isinstance(address.get('name'), str):
+        return {
+            **address,
+            'name': address['name'][:MAX_NAME_LEN]
+        }
+    return address
+
+
 def mail_certified_letter(
     description: str,
     to_address: Dict[str, Any],
@@ -78,8 +96,8 @@ def mail_certified_letter(
         lob.api_key = settings.LOB_SECRET_API_KEY
         return _to_plain_object(lob.Letter.create(
             description=description,
-            to_address=to_address,
-            from_address=from_address,
+            to_address=truncate_name_in_address(to_address),
+            from_address=truncate_name_in_address(from_address),
             file=file,
             color=color,
             double_sided=double_sided,

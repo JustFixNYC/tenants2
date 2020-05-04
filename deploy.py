@@ -5,6 +5,7 @@ import subprocess
 import json
 import re
 import tempfile
+import contextlib
 from dataclasses import dataclass
 from typing import List, Optional, Dict
 from pathlib import Path
@@ -114,6 +115,14 @@ class HerokuCLI:
         cmdline = self._get_cmdline(*args)
         subprocess.check_call(cmdline, cwd=self.cwd, shell=self.shell)
 
+    def is_preboot_enabled(self, *args: str) -> bool:
+        result = subprocess.check_output(
+            self._get_cmdline('features:info', 'preboot', '--json'),
+            cwd=self.cwd,
+            shell=self.shell
+        )
+        return json.loads(result)['enabled']
+
     def get_full_config(self) -> Dict[str, str]:
         result = subprocess.check_output(
             self._get_cmdline('config', '-j'),
@@ -201,6 +210,34 @@ class HerokuDeployer:
 
         build_worker_container(self.worker_container_tag, dockerfile_web=self.container_tag)
 
+    @contextlib.contextmanager
+    def maintenance_mode_if_preboot_is_disabled(self):
+        '''
+        If Heroku preboot is disabled, wrap the enclosed code in Heroku's
+        maintenance mode. Otherwise, we'll assume this is a zero-downtime
+        deploy, e.g. that any migrations that do need to be run will be ones
+        that the old version of the code is still compatible with.
+
+        Note that if the enclosed code raises an exception, we do _not_
+        disable maintenance mode, since we're assuming that the site
+        is broken and maintainers will still need it to be in maintenance
+        mode in order to fix it.
+        '''
+
+        is_preboot_enabled = self.heroku.is_preboot_enabled()
+
+        if is_preboot_enabled:
+            print("Heroku preboot is enabled, proceeding with zero-downtime deploy.")
+        else:
+            print("Heroku preboot is disabled, turning on maintenance mode.")
+            self.heroku.run('maintenance:on')
+
+        yield
+
+        if not is_preboot_enabled:
+            print("Turning off maintenance mode.")
+            self.heroku.run('maintenance:off')
+
     def deploy(self) -> None:
         print("Pushing containers to Docker registry...")
         self.push_to_docker_registry()
@@ -219,19 +256,16 @@ class HerokuDeployer:
             # if self.is_using_rollbar:
             #     self.run_in_container(['python', 'manage.py', 'rollbarsourcemaps'])
 
-        self.heroku.run('maintenance:on')
+        with self.maintenance_mode_if_preboot_is_disabled():
+            # If Heroku preboot is disabled, then we want migrations to run while we're in
+            # maintenance mode because we're assuming our codebase doesn't make any guarantees
+            # about being able to run on database schemas from previous or future versions.
+            print("Running migrations...")
+            self.run_in_container(['python', 'manage.py', 'migrate'])
+            self.run_in_container(['python', 'manage.py', 'initgroups'])
 
-        # We want migrations to run while we're in maintenance mode because
-        # our codebase doesn't make any guarantees about being able to run
-        # on database schemas from previous or future versions.
-        print("Running migrations...")
-        self.run_in_container(['python', 'manage.py', 'migrate'])
-        self.run_in_container(['python', 'manage.py', 'initgroups'])
-
-        print("Initiating Heroku release phase...")
-        self.heroku.run('container:release', self.process_type, self.worker_process_type)
-
-        self.heroku.run('maintenance:off')
+            print("Initiating Heroku release phase...")
+            self.heroku.run('container:release', self.process_type, self.worker_process_type)
 
         print("Deploy finished.")
 

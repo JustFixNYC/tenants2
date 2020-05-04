@@ -7,15 +7,23 @@ import pytest
 from project.util.testing_util import Snapshot
 import deploy
 
+
+def binary_encode_json(x):
+    return json.dumps(x).encode('utf-8')
+
+
 MY_DIR = Path(__file__).parent.resolve()
 
 SNAPSHOT_DIR = MY_DIR / "test_deploy_snapshots"
 
 DEFAULT_SUBPROCESS_CMD_PREFIX_OUTPUTS = {
     "git remote get-url": b"https://git.heroku.com/boop.git",
-    "heroku config": json.dumps({
+    "heroku config -j": binary_encode_json({
         'DATABASE_URL': 'postgres://boop'
-    }).encode('utf-8'),
+    }),
+    "heroku features:info preboot --json": binary_encode_json({
+        "enabled": False
+    }),
     "git rev-parse HEAD": b"e7408710b8d091377041cfbe4c185931a214f280",
     "git status -uno --porcelain": b"M somefile.py",
     "heroku auth:token": b"00112233-aabb-ccdd-eeff-001122334455",
@@ -33,7 +41,12 @@ def fake_tempfile(monkeypatch):
     monkeypatch.setattr(tempfile, 'TemporaryDirectory', fake_temporary_directory)
 
 
-def create_check_output(cmd_prefix_outputs=DEFAULT_SUBPROCESS_CMD_PREFIX_OUTPUTS):
+def create_check_output(cmd_prefix_outputs=None):
+    cmd_prefix_outputs = {
+        **DEFAULT_SUBPROCESS_CMD_PREFIX_OUTPUTS,
+        **(cmd_prefix_outputs or {}),
+    }
+
     def check_output(args, **kwargs):
         cmd = ' '.join(args)
         for cmd_prefix, output in cmd_prefix_outputs.items():
@@ -104,4 +117,19 @@ def test_heroku_works(subprocess, capsys):
     deploy.main(['heroku', '-r', 'myapp'])
 
     snapshot = Snapshot(capsys.readouterr().out, SNAPSHOT_DIR / "heroku_works.txt")
+    assert snapshot.expected == snapshot.actual
+
+
+def test_heroku_with_preboot(subprocess, capsys):
+    subprocess.check_output.side_effect = create_check_output({
+        "heroku features:info preboot --json": json.dumps({
+            "enabled": True
+        }).encode('utf-8'),
+    })
+    subprocess.call.side_effect = successful_check_call_with_print
+    subprocess.check_call.side_effect = successful_check_call_with_print
+
+    deploy.main(['heroku', '-r', 'myapp'])
+
+    snapshot = Snapshot(capsys.readouterr().out, SNAPSHOT_DIR / "heroku_with_preboot.txt")
     assert snapshot.expected == snapshot.actual

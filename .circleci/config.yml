@@ -179,4 +179,9 @@ workflows:
             branches:
               only:
                 - master
-                - production
+  only_deploy:
+    - deploy:
+        filters:
+          branches:
+            only:
+              - production

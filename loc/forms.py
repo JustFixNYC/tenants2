@@ -4,7 +4,7 @@ import pydantic
 from django import forms
 from django.core.exceptions import ValidationError
 
-from . import models
+from . import models, lob_api
 from project import common_data
 
 
@@ -63,6 +63,14 @@ class LandlordDetailsFormV2(forms.ModelForm):
             'state',
             'zip_code',
         )
+
+    name = forms.CharField(
+        # Our model's limits are more lax than that of Lob's API, so
+        # hew to Lob's limits.
+        max_length=lob_api.MAX_NAME_LEN,
+        required=True,
+        help_text=models.LandlordDetails._meta.get_field('name').help_text
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

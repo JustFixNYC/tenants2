@@ -6,6 +6,7 @@ from users.models import JustfixUser
 from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
 from onboarding.models import SIGNUP_INTENT_CHOICES
+from loc.admin import LandlordDetailsInline
 from . import models
 
 
@@ -49,6 +50,7 @@ CITY = "_city"
 @admin.register(NorentUser)
 class NorentUserAdmin(UserProxyAdmin):
     inlines = (
+        LandlordDetailsInline,
         LetterInline,
     )
 

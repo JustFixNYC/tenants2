@@ -1,9 +1,19 @@
 from datetime import date, timedelta
 from freezegun import freeze_time
 
-from loc.forms import AccessDatesForm, LetterRequestForm
+from loc.forms import AccessDatesForm, LetterRequestForm, LandlordDetailsFormV2
 from loc.models import LetterRequest, LOC_CHANGE_LEEWAY
 from .factories import create_user_with_all_info
+
+
+def test_landlord_details_form_restricts_name_length():
+    form = LandlordDetailsFormV2(data={
+        'name': 'z' * 41
+    })
+    form.full_clean()
+    assert form.errors['name'] == [
+        'Ensure this value has at most 40 characters (it has 41).'
+    ]
 
 
 def test_form_raises_error_if_dates_are_same():

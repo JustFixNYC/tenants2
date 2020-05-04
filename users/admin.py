@@ -12,7 +12,7 @@ from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
 from .admin_user_proxy import user_signup_intent
 from texting.models import get_lookup_description_for_phone_number
-from loc.admin import LOCUser
+from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
 from norent.admin import NorentUser
 import airtable.sync
@@ -95,6 +95,10 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     inlines = (
         LegacyUserInline,
         OnboardingInline,
+        # We'll consider this part of the core user info b/c all our
+        # flows ask for it, and it can be considered part of the user's
+        # "core data".
+        LandlordDetailsInline,
     )
 
     signup_intent = user_signup_intent

@@ -62,8 +62,8 @@ function isUserOutsideLA(s: AllSessionInfo): boolean {
 
 /**
  * This function defines all routes within the NoRent Letter Builder flow.
- * To find the map of each route to its corresponding URL path, check out the
- * createNorentLetterBuilderRouteInfo function in the `routes.ts` file in the same directory as this file.
+ * To find the map of each route to its corresponding URL path, check out
+ * the `routes.ts` file in the same directory as this file.
  */
 export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = getLetterBuilderRoutes();

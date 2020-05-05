@@ -21,8 +21,8 @@ export type StartAccountOrLoginProps = MiddleProgressStepProps & {
 
 /**
  * This function defines all routes within the NoRent Account Creation/Login flow.
- * To find the map of each route to its corresponding URL path, check out the
- * createStartAccountOrLoginRouteInfo function in the `routes.ts` file in the same directory as this file.
+ * To find the map of each route to its corresponding URL path, check out
+ * the `routes.ts` file in the same directory as this file.
  */
 export function createStartAccountOrLoginSteps(
   routes: StartAccountOrLoginRouteInfo

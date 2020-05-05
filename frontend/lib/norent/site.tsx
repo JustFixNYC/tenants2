@@ -44,8 +44,8 @@ const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
 
 /**
  * This function defines Route components for each main page of the NoRent site.
- * To find the map of each route to its corresponding URL path, check out the
- * createLocalizedRouteInfo function in the `routes.ts` file in the same directory as this file.
+ * To find the map of each route to its corresponding URL path, check out
+ * the `routes.ts` file in the same directory as this file.
  */
 const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;

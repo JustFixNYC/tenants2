@@ -4,8 +4,8 @@ export type StartAccountOrLoginRouteInfo = ReturnType<
 
 /**
  * This function maps URL paths to our routes within the NoRent Account Creation/Login flow.
- * To find the actual definition of these routes, check out the
- * createStartAccountOrLoginSteps function in the `steps.tsx` file in the same directory as this file.
+ * To find the actual definition of these routes, check out
+ * the `steps.tsx` file in the same directory as this file.
  */
 export function createStartAccountOrLoginRouteInfo(prefix: string) {
   return {

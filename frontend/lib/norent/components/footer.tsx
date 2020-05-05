@@ -5,6 +5,7 @@ import { NorentLogo } from "./logo";
 import { StaticImage } from "../../ui/static-image";
 import { getImageSrc } from "../homepage";
 import { PrivacyPolicyLink, TermsOfUseLink } from "../../ui/privacy-info-modal";
+import { SocialIcons } from "./social-icons";
 
 const MAILCHIMP_URL =
   "https://nyc.us13.list-manage.com/subscribe?u=d4f5d1addd4357eb77c3f8a99&id=588f6c6ef4";
@@ -52,6 +53,7 @@ export const NorentFooter: React.FC<{}> = () => (
             mailing list
           </h6>
           <EmailSignupForm />
+          <SocialIcons />
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
           <Link to={Routes.locale.letter.latestStep}>Build my Letter</Link>

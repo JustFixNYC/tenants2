@@ -194,6 +194,16 @@ $jf-logo-height-desktop: 90px;
   }
 }
 
+.jf-social-icons.buttons {
+  margin: 1.5rem 0 1rem 0;
+  a:not(:last-child) {
+    margin-right: 1rem;
+  }
+  a:hover {
+    opacity: 0.75;
+  }
+}
+
 // OTHER CUSTOM STYLING
 
 @import "./_primary_pages.scss";

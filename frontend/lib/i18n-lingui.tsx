@@ -3,7 +3,7 @@ import { Catalog } from "@lingui/core";
 import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
 import i18n from "./i18n";
-import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
+import { setupI18n as linguiSetupI18n } from "@lingui/core";
 
 export type LoadableCatalog = LoadableLibrary<Catalog>;
 
@@ -26,17 +26,16 @@ const SetupI18n: React.FC<
   }
 > = (props) => {
   const { locale, catalog } = props;
-  const linguiI18n = useMemo(() => {
-    const catalogs: Catalogs = {
+  const ourLinguiI18n = useMemo(() => {
+    li18n.load({
       [locale]: catalog,
-    };
-    return linguiSetupI18n({
-      language: locale,
-      catalogs,
     });
+    li18n.activate(locale);
+    return li18n;
   }, [locale, catalog]);
+
   return (
-    <I18nProvider language={locale} i18n={linguiI18n}>
+    <I18nProvider language={locale} i18n={ourLinguiI18n}>
       {props.children}
     </I18nProvider>
   );
@@ -65,3 +64,5 @@ export function getLinguiCatalogForLanguage(locale: string): LoadableCatalog {
   }
   throw new Error(`Unsupported locale "${locale}"`);
 }
+
+export const li18n = linguiSetupI18n();

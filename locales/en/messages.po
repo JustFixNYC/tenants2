@@ -16,3 +16,7 @@ msgstr ""
 #: frontend/lib/norent/site.tsx:58
 msgid "Build my Letter"
 msgstr "Build my Letter"
+
+#: frontend/lib/norent/faqs.tsx:70
+msgid "FAQs"
+msgstr "FAQs"

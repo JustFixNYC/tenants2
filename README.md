@@ -17,7 +17,7 @@ principles and architecture, development tips, and more.
 makes development much easier. But if you'd really rather set
 everything up without Docker, read on!
 
-You'll need Python 3.8.2 and [pipenv][], as well as Node 10, yarn, and
+You'll need Python 3.8.2 and [pipenv][], as well as Node 12, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
 set up Postgres version 10 or later.
 

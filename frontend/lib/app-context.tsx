@@ -170,11 +170,11 @@ export interface AppServerInfo {
   isDemoDeployment: boolean;
 
   /**
-   * The Facebook App ID for the an associated organization's Facebook page.
+   * An optional "Facebook App ID" for the an associated organization's Facebook page.
    * If empty (the default), there will be no reference to a Facebook App ID
    * in the header metatags for the site.
    */
-  facebookAppId: string;
+  facebookAppId?: string;
 }
 
 /**

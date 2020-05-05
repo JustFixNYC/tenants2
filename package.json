@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lingui": "lingui",
+    "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile && node locales/fix-message-catalogs.js",
     "prettier": "prettier",
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",

@@ -104,7 +104,7 @@ class TestIndexPage(ClassCachedValue):
         assert '<html lang="en"' in self.html
 
     def test_locale_bundle_is_preloaded(self):
-        assert 'src="/static/frontend/locales-en-messages.bundle.js"' in self.html
+        assert 'src="/static/frontend/locales-en-messages.' in self.html
 
     def test_analytics_are_enabled_by_default(self):
         assert ENABLE_ANALYTICS_SENTINEL in self.html
@@ -117,7 +117,7 @@ def test_localized_pages_work(client, settings, use_norent_site):
     assert response.status_code == 200
     html = response.content.decode('utf-8')
     assert '<html lang="es"' in html
-    assert 'src="/static/frontend/locales-es-messages.bundle.js"' in html
+    assert 'src="/static/frontend/locales-es-messages.' in html
     assert 'Construye mi carta' in html
     assert 'Preguntas Frecuentes' in html
 

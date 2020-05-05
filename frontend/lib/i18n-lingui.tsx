@@ -5,8 +5,6 @@ import { I18nProvider } from "@lingui/react";
 import i18n from "./i18n";
 import { setupI18n as linguiSetupI18n } from "@lingui/core";
 
-const DEFAULT_LOCALE = "en";
-
 export type LoadableCatalog = LoadableLibrary<Catalog>;
 
 const EnCatalog: LoadableCatalog = loadable.lib(
@@ -54,7 +52,7 @@ const SetupI18n: React.FC<
 };
 
 export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
-  const locale = i18n.locale || DEFAULT_LOCALE;
+  const locale = i18n.locale;
 
   const Catalog = getLinguiCatalogForLanguage(locale);
 

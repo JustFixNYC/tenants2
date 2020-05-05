@@ -5,8 +5,8 @@ import { AppProps } from "../../lib/app";
 import { FakeServerInfo, FakeSessionInfo } from "../../lib/tests/util";
 
 const fakeAppProps: AppProps = {
-  initialURL: "/",
-  locale: "",
+  initialURL: "/en/",
+  locale: "en",
   server: FakeServerInfo,
   initialSession: FakeSessionInfo,
 };
@@ -24,7 +24,7 @@ test("lambda redirects", async () => {
     initialURL: "/dev/examples/redirect",
   });
   expect(response.status).toBe(302);
-  expect(response.location).toBe("/");
+  expect(response.location).toBe("/en/");
 });
 
 test("lambda catches errors", async () => {

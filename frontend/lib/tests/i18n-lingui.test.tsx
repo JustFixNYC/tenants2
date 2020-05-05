@@ -14,8 +14,8 @@ describe("<LinguiI18n>", () => {
     </LinguiI18n>
   );
 
-  it("defaults to 'en' when no locale is defined", async () => {
-    i18n.initialize("");
+  it("Works in English", async () => {
+    i18n.initialize("en");
     const pal = new ReactTestingLibraryPal(helloWorldJSX);
     await wait(() => pal.rr.getByText("Hello world"));
     expect(li18n.language).toBe("en");

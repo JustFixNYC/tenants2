@@ -15,10 +15,8 @@ import { isUserLoggedIn } from "../util/session-predicates";
 
 export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
   if (!s.onboardingInfo) {
-    window.Rollbar &&
-      window.Rollbar.error(
-        `Logged-in user with ID ${s.userId} has no onboarding info!`
-      );
+    // This is definitely unusual, but if the user ends up submitting the
+    // form we'll log an error on the back-end, so just return false here.
     return false;
   }
   const { siteType } = getGlobalAppServerInfo();

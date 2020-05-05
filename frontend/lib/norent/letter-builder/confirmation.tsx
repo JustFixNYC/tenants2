@@ -17,6 +17,8 @@ const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Elemen
 
 const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
 const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
+const MH_ACTION_URL =
+  "https://actionnetwork.org/forms/join-mhactions-fight-to-ensure-all-families-have-a-place-to-call-home/";
 const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
 
 export const NorentConfirmation = NorentRequireLoginStep(() => {
@@ -145,6 +147,8 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         </OutboundLink>{" "}
         for assistance.
       </p>
+      <br />
+      <h2 className="title is-spaced has-text-info">More resources</h2>
       <h3 className="title jf-alt-title-font">Build power in numbers</h3>
       <p>
         Our homes, health, and collective safety and futures are on the line.
@@ -166,7 +170,23 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           Sign the petition
         </OutboundLink>
       </p>
-      <h3 className="title jf-alt-title-font">Give us feedback</h3>
+      <h3 className="title jf-alt-title-font">Home/Manufactured Home Owners</h3>
+      <p>
+        Click here to join MHAction’s movement to hold corporate community
+        owners accountable.
+      </p>
+      <p className="has-text-centered">
+        <OutboundLink
+          className="button is-primary is-large jf-is-extra-wide"
+          href={MH_ACTION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to website
+        </OutboundLink>
+      </p>
+      <br />
+      <h2 className="title is-spaced has-text-info">Give us feedback</h2>
       <p>
         This tool is provided by JustFix.nyc. We’re a non-profit that creates
         tools for tenants and the housing rights movement. We always want

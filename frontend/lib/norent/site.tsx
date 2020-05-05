@@ -28,6 +28,7 @@ import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
+import { Trans } from "@lingui/macro";
 
 function getRoutesForPrimaryPages() {
   return new Set([
@@ -92,7 +93,7 @@ const NorentMenuItems: React.FC<{}> = () => {
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
-        Build my Letter
+        <Trans>Build my Letter</Trans>
       </Link>
       <Link className="navbar-item" to={Routes.locale.aboutLetter}>
         The Letter

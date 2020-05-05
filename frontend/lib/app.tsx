@@ -36,6 +36,7 @@ import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { default as JustfixRoutes } from "./routes";
 import { NorentRoutes } from "./norent/routes";
+import { LinguiI18n } from "./i18n-lingui";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -340,13 +341,15 @@ export class AppWithoutRouter extends React.Component<
 
     return (
       <ErrorBoundary debug={this.props.server.debug}>
-        <HistoryBlockerManager>
-          <AppContext.Provider value={this.getAppContext()}>
-            <AriaAnnouncer>
-              <Site {...this.props} ref={this.pageBodyRef} />
-            </AriaAnnouncer>
-          </AppContext.Provider>
-        </HistoryBlockerManager>
+        <LinguiI18n>
+          <HistoryBlockerManager>
+            <AppContext.Provider value={this.getAppContext()}>
+              <AriaAnnouncer>
+                <Site {...this.props} ref={this.pageBodyRef} />
+              </AriaAnnouncer>
+            </AppContext.Provider>
+          </HistoryBlockerManager>
+        </LinguiI18n>
       </ErrorBoundary>
     );
   }

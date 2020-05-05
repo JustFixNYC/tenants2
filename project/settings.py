@@ -233,6 +233,7 @@ LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
     ('en', 'English'),
+    ('es', 'Spanish'),
 ]
 
 TIME_ZONE = 'UTC'

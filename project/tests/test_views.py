@@ -14,6 +14,7 @@ from project.views import (
 )
 from project.util.site_util import get_default_site
 from project.graphql_static_request import GraphQLStaticRequest
+from project.util.testing_util import ClassCachedValue
 from users.tests.factories import UserFactory
 from .util import qdict
 from frontend.tests import test_safe_mode
@@ -88,11 +89,23 @@ ENABLE_ANALYTICS_SENTINEL = '<meta name="enable-analytics" content="1">'
 DISABLE_ANALYTICS_SENTINEL = '<meta name="enable-analytics" content="0">'
 
 
-def test_analytics_are_enabled_by_default(client):
-    response = client.get(react_url('/'))
-    html = response.content.decode('utf-8')
-    assert ENABLE_ANALYTICS_SENTINEL in html
-    assert DISABLE_ANALYTICS_SENTINEL not in html
+class TestIndexPage(ClassCachedValue):
+    @pytest.fixture(autouse=True)
+    def render_html(self, client):
+        self.html = self.get_value(client=client)
+
+    @classmethod
+    def cache_value(cls, client):
+        response = client.get(react_url('/'))
+        assert response.status_code == 200
+        return response.content.decode('utf-8')
+
+    def test_html_lang_attr_is_set(self):
+        assert '<html lang="en"' in self.html
+
+    def test_analytics_are_enabled_by_default(self):
+        assert ENABLE_ANALYTICS_SENTINEL in self.html
+        assert DISABLE_ANALYTICS_SENTINEL not in self.html
 
 
 def test_analytics_are_disabled_for_staff(admin_client):

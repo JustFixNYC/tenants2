@@ -12,6 +12,7 @@ import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import { NorentRequireLoginStep } from "./step-decorators";
 import { NorentNonpaymentDocumentation } from "../data/faqs-content";
+import { SocialIcons } from "../components/social-icons";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -202,6 +203,12 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           Give feedback
         </OutboundLink>
       </p>
+      <br />
+      <br />
+      <h5 className="has-text-centered is-uppercase has-text-weight-normal">
+        Share this tool
+      </h5>
+      <SocialIcons />
     </Page>
   );
 });

@@ -15,7 +15,10 @@ import { isUserLoggedIn } from "../util/session-predicates";
 
 export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
   if (!s.onboardingInfo) {
-    console.warn("Logged-in user has no onboarding info!");
+    window.Rollbar &&
+      window.Rollbar.error(
+        `Logged-in user with ID ${s.userId} has no onboarding info!`
+      );
     return false;
   }
   const { siteType } = getGlobalAppServerInfo();

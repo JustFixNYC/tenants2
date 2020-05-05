@@ -52,7 +52,7 @@ const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
 
       <p>
         We’ve partnered with{" "}
-        <OneOrMorePartnerLinks localStatePartner={props.partner} /> to provide
+        <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
         additional support.
       </p>
 
@@ -76,7 +76,7 @@ export const PartnerLink: React.FC<StatePartnerForBuilderEntry> = (props) => (
   </OutboundLink>
 );
 
-const OneOrMorePartnerLinks = (props: {
+const OneOrTwoPartnerLinks = (props: {
   localStatePartner?: StatePartnerForBuilderEntry;
 }) => (
   <>
@@ -96,7 +96,7 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
     <p>{props.lawForBuilder.textOfLegislation}</p>
     <p>
       We’ve partnered with{" "}
-      <OneOrMorePartnerLinks localStatePartner={props.partner} /> to provide
+      <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
       additional support once you’ve sent your letter.
     </p>
     {props.rttcCheckbox}

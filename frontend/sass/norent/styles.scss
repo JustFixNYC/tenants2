@@ -202,8 +202,8 @@ $jf-logo-height-desktop: 90px;
   a:not(:last-child) {
     margin-right: 1rem;
   }
-  a:hover {
-    opacity: 0.7;
+  img:hover {
+    filter: brightness(90%);
   }
 }
 

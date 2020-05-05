@@ -9,7 +9,9 @@ const socialMediaLinks = [
   { name: "instagram", url: "https://www.instagram.com/justfixnyc/" },
 ];
 
-export const SocialIcons = () => (
+type SocialIconColor = "white" | "default" | null;
+
+export const SocialIcons = (props: { color?: SocialIconColor }) => (
   <div className="buttons jf-social-icons">
     {socialMediaLinks.map((link, i) => (
       <OutboundLink
@@ -20,7 +22,9 @@ export const SocialIcons = () => (
       >
         <StaticImage
           ratio="is-48x48"
-          src={getImageSrc(link.name)}
+          src={getImageSrc(
+            props.color === "white" ? link.name + "-white" : link.name
+          )}
           alt={link.name}
         />
       </OutboundLink>

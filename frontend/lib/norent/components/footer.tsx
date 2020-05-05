@@ -53,7 +53,7 @@ export const NorentFooter: React.FC<{}> = () => (
             mailing list
           </h6>
           <EmailSignupForm />
-          <SocialIcons />
+          <SocialIcons color="white" />
         </div>
         <div className="column is-4 has-text-right is-uppercase content">
           <Link to={Routes.locale.letter.latestStep}>Build my Letter</Link>

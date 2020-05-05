@@ -57,6 +57,13 @@ export interface AppProps {
    * The locale the user is on. This can be an empty string to
    * indicate that localization is disabled, or an ISO 639-1
    * code such as 'en' or 'es'.
+   *
+   * NOTE: Since the back-end *always* enables localization, this
+   * will never be the empty string in production. However, some
+   * tests still assume it will be empty, so we're still allowing
+   * it for now. For more details, see:
+   *
+   * https://github.com/JustFixNYC/tenants2/issues/1382
    */
   locale: string;
 

@@ -5,6 +5,11 @@ export type NorentLetterBuilderRouteInfo = ReturnType<
   typeof createNorentLetterBuilderRouteInfo
 >;
 
+/**
+ * This function maps URL paths to our routes within the NoRent Letter Builder flow.
+ * To find the actual definition of these routes, check out
+ * the `steps.tsx` file in the same directory as this file.
+ */
 export function createNorentLetterBuilderRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,

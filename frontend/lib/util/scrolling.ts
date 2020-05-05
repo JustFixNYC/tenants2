@@ -10,6 +10,18 @@ export function smoothlyScrollToTopOfPage() {
   });
 }
 
+/**
+ * Jump straight to the top of the page, without smoothly
+ * scrolling.
+ */
+export function jumpToTopOfPage() {
+  // Without the explicit requestAnimationFrame, this
+  // might be unreliable on some browsers, so we'll play it safe.
+  window.requestAnimationFrame(() => {
+    window.scroll(0, 0);
+  });
+}
+
 function getFixedNavbarHeight(): number {
   const navbar = document.querySelector("nav.is-fixed-top");
   if (navbar) {

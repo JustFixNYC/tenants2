@@ -3,6 +3,11 @@ import { createDevRouteInfo } from "../dev/routes";
 import { createLetterStaticPageRouteInfo } from "../static-page/routes";
 import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
 
+/**
+ * This function maps URL paths to our main routes on the NoRent site.
+ * To find the actual definition of these routes, check out
+ * the `site.tsx` file in the same directory as this file.
+ */
 function createLocalizedRouteInfo(prefix: string) {
   return {
     /** The home page. */
@@ -46,3 +51,15 @@ export const NorentRoutes = createRoutesForSite(createLocalizedRouteInfo, {
    */
   dev: createDevRouteInfo("/dev"),
 });
+
+export const getNorentJumpToTopOfPageRoutes = () => [
+  NorentRoutes.locale.letter.confirmation,
+  ...getNorentRoutesForPrimaryPages(),
+];
+
+export const getNorentRoutesForPrimaryPages = () => [
+  NorentRoutes.locale.home,
+  NorentRoutes.locale.about,
+  NorentRoutes.locale.faqs,
+  NorentRoutes.locale.aboutLetter,
+];

@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { AppSiteProps } from "../app";
-import { NorentRoutes as Routes } from "./routes";
+import {
+  NorentRoutes as Routes,
+  getNorentRoutesForPrimaryPages,
+} from "./routes";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomePage } from "./homepage";
@@ -31,18 +34,18 @@ import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans } from "@lingui/macro";
 
 function getRoutesForPrimaryPages() {
-  return new Set([
-    Routes.locale.home,
-    Routes.locale.about,
-    Routes.locale.faqs,
-    Routes.locale.aboutLetter,
-  ]);
+  return new Set(getNorentRoutesForPrimaryPages());
 }
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
 });
 
+/**
+ * This function defines Route components for each main page of the NoRent site.
+ * To find the map of each route to its corresponding URL path, check out
+ * the `routes.ts` file in the same directory as this file.
+ */
 const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;
   if (!Routes.routeMap.exists(location.pathname)) {

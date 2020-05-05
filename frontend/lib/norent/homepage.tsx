@@ -288,6 +288,10 @@ export const NorentHomePage: React.FC<{}> = () => {
                 Here’s a preview of what the letter looks like:
               </h3>
               <br />
+              {/* NOTE: 
+              The content for this letter preview intentionally does not make use of our <LetterPreview> component. 
+              Here, the designer wanted a descriptive element getting across the concept, 
+              rather than a detailed example of what an actual letter looks like. */}
               <article className="message">
                 <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
                   <p>Dear Landlord/Management.</p>

@@ -20,6 +20,9 @@ form {
         margin-left: 0;
       }
     }
+    .checkbox .jf-label-text .subtitle {
+      font-size: 1rem;
+    }
     .jf-single-checkbox {
       padding: 0;
     }
@@ -38,9 +41,6 @@ form {
     div.field:last-child {
       margin-top: -1.25rem;
       margin-bottom: 0.75rem;
-    }
-    .checkbox .jf-label-text .subtitle {
-      font-size: 1rem;
     }
   }
 }

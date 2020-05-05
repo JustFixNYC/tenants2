@@ -26,6 +26,7 @@ import { Action } from "history";
 import {
   smoothlyScrollToTopOfPage,
   smoothlyScrollToLocation,
+  jumpToTopOfPage,
 } from "./util/scrolling";
 import {
   HistoryBlockerManager,
@@ -35,8 +36,8 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { default as JustfixRoutes } from "./routes";
-import { NorentRoutes } from "./norent/routes";
 import { LinguiI18n } from "./i18n-lingui";
+import { NorentRoutes, getNorentJumpToTopOfPageRoutes } from "./norent/routes";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -104,6 +105,7 @@ export class AppWithoutRouter extends React.Component<
 > {
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
+  jumpToTopOfPageRoutes: Set<string>;
 
   constructor(props: AppPropsWithRouter) {
     super(props);
@@ -115,6 +117,7 @@ export class AppWithoutRouter extends React.Component<
       session: props.initialSession,
     };
     this.pageBodyRef = React.createRef();
+    this.jumpToTopOfPageRoutes = new Set(getNorentJumpToTopOfPageRoutes());
   }
 
   @autobind
@@ -193,6 +196,14 @@ export class AppWithoutRouter extends React.Component<
     }
   }
 
+  handleScrollToTopOfPage(pathname: string) {
+    if (this.jumpToTopOfPageRoutes.has(pathname)) {
+      jumpToTopOfPage();
+    } else {
+      smoothlyScrollToTopOfPage();
+    }
+  }
+
   handleScrollPositionDuringPathnameChange(
     prevPathname: string,
     pathname: string,
@@ -211,7 +222,7 @@ export class AppWithoutRouter extends React.Component<
       if (hash.length > 1) {
         this.handleScrollToHash(hash);
       } else {
-        smoothlyScrollToTopOfPage();
+        this.handleScrollToTopOfPage(pathname);
       }
     }
   }

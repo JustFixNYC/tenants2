@@ -103,9 +103,23 @@ class TestIndexPage(ClassCachedValue):
     def test_html_lang_attr_is_set(self):
         assert '<html lang="en"' in self.html
 
+    def test_locale_bundle_is_preloaded(self):
+        assert 'src="/static/frontend/locales-en-messages.bundle.js"' in self.html
+
     def test_analytics_are_enabled_by_default(self):
         assert ENABLE_ANALYTICS_SENTINEL in self.html
         assert DISABLE_ANALYTICS_SENTINEL not in self.html
+
+
+def test_localized_pages_work(client, settings, use_norent_site):
+    settings.LANGUAGES = [('es', 'Spanish')]
+    response = client.get('/es/faqs')
+    assert response.status_code == 200
+    html = response.content.decode('utf-8')
+    assert '<html lang="es"' in html
+    assert 'src="/static/frontend/locales-es-messages.bundle.js"' in html
+    assert 'Construye mi carta' in html
+    assert 'Preguntas Frecuentes' in html
 
 
 def test_analytics_are_disabled_for_staff(admin_client):

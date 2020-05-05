@@ -106,7 +106,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     FACEBOOK_PIXEL_ID: str = ''
 
     # The Facebook App ID for the an associated organization's Facebook page.
-    # If empty (the default), there will be no reference to a Facebook App ID 
+    # If empty (the default), there will be no reference to a Facebook App ID
     # in the header metatags for the site.
     FACEBOOK_APP_ID: str = ''
 

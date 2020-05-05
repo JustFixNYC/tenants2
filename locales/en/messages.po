@@ -20,3 +20,9 @@ msgstr "Build my Letter"
 #: frontend/lib/norent/faqs.tsx:70
 msgid "FAQs"
 msgstr "FAQs"
+
+#: frontend/lib/tests/i18n-lingui.test.tsx:19
+#: frontend/lib/tests/i18n-lingui.test.tsx:26
+#: frontend/lib/tests/i18n-lingui.test.tsx:33
+msgid "Hello world"
+msgstr "Hello world"

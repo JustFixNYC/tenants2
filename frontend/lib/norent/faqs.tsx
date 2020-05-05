@@ -6,6 +6,8 @@ import { NorentRoutes } from "./routes";
 import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
@@ -84,7 +86,7 @@ export const NorentFaqsPreview = () => {
 
 export const NorentFaqsPage: React.FC<{}> = () => {
   return (
-    <Page title="FAQs" className="content">
+    <Page title={li18n._(t`FAQs`)} className="content">
       <section className="hero is-medium">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">

@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2020-05-05 12:32+0000\n"
+"Mime-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: frontend/lib/norent/site.tsx:58
+msgid "Build my Letter"
+msgstr "Construye mi carta"
+
+#: frontend/lib/norent/faqs.tsx:70
+msgid "FAQs"
+msgstr "Preguntas Frecuentes"
+
+#: frontend/lib/tests/i18n-lingui.test.tsx:19
+#: frontend/lib/tests/i18n-lingui.test.tsx:26
+#: frontend/lib/tests/i18n-lingui.test.tsx:33
+msgid "Hello world"
+msgstr "Hola mundo"

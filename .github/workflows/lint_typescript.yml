@@ -30,8 +30,9 @@ jobs:
       - name: Install dependencies
         run: |
           yarn --frozen-lockfile
-      - name: Build auto-generated TypeScript files
+      - name: Build auto-generated TypeScript/JS files
         run: |
+          yarn lingui:compile
           yarn querybuilder
       - name: Run linters
         run: |

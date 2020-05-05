@@ -379,7 +379,25 @@ python3 deploy.py heroku
 ```
 
 You'll likely want to use [Heroku Postgres][] as your
-database backend.
+ndatabase backend.
+
+## Internationalization
+
+The front-end uses [Lingui][] for internationalization. To extract
+messages for localization, run:
+
+```
+yarn lingui:extract
+```
+
+Once `.po` files have been updated, the catalogs can be compiled to JS
+with:
+
+```
+yarn lingui:compile
+```
+
+[Lingui]: https://lingui.js.org/
 
 ## Optional integrations
 

@@ -330,6 +330,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # behavior.
     IS_DEMO_DEPLOYMENT: bool = False
 
+    # Whether or not to enable localizations that are still
+    # works-in-progress (WIPs), i.e. only partially localized.
+    ENABLE_WIP_LOCALES: bool = False
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''

@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { AppSiteProps } from "../app";
-import { NorentRoutes as Routes } from "./routes";
+import {
+  NorentRoutes as Routes,
+  getNorentRoutesForPrimaryPages,
+} from "./routes";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomePage } from "./homepage";
@@ -30,12 +33,7 @@ import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 
 function getRoutesForPrimaryPages() {
-  return new Set([
-    Routes.locale.home,
-    Routes.locale.about,
-    Routes.locale.faqs,
-    Routes.locale.aboutLetter,
-  ]);
+  return new Set(getNorentRoutesForPrimaryPages());
 }
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {

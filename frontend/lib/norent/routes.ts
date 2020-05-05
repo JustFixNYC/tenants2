@@ -46,3 +46,15 @@ export const NorentRoutes = createRoutesForSite(createLocalizedRouteInfo, {
    */
   dev: createDevRouteInfo("/dev"),
 });
+
+export const getNorentJumpToTopOfPageRoutes = () => [
+  NorentRoutes.locale.letter.confirmation,
+  ...getNorentRoutesForPrimaryPages(),
+];
+
+export const getNorentRoutesForPrimaryPages = () => [
+  NorentRoutes.locale.home,
+  NorentRoutes.locale.about,
+  NorentRoutes.locale.faqs,
+  NorentRoutes.locale.aboutLetter,
+];

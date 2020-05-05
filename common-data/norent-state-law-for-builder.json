@@ -72,7 +72,7 @@
   },
   "LA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Louisiana are protected from eviction for non-payment by Proclamation 41-JBE-2020, issued by Governor John Bel Edwards on April 2, 2020."
+    "textOfLegislation": "Governor John Bel Edwards has issued Proclamation 41-JBE-2020 which suspends deadlines in all legal proceedings, including evictions, until at least April 30, 2020. The Supreme Court of Louisiana has ordered courts to limit activity to only essential proceedings, which do not include evictions."
   },
   "MA": {
     "stateWithoutProtections": false,
@@ -170,8 +170,8 @@
     "textOfLegislation": "Tenants in Utah who were current on rent payments March 31, 2020 and have suffered loss of income or job due to COVID-19 are protected from eviction for non-payment of rent until May 15, 2020 by Executive Order issued by Governor Charlie Baker on April 2, 2020."
   },
   "VA": {
-    "stateWithoutProtections": true,
-    "textOfLegislation": "The Virginia Supreme Court has temporarily suspended all non-emergency hearings in all circuit and district courts throughout the state until April 26, 2020."
+    "stateWithoutProtections": false,
+    "textOfLegislation": "The Virginia Supreme Court has temporarily suspended all non-emergency hearings in all circuit and district courts throughout the state until May 18, 2020."
   },
   "VT": {
     "stateWithoutProtections": true,

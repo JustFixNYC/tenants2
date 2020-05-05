@@ -2,7 +2,7 @@
 
 FROM python:3.8.2
 
-ENV NODE_VERSION=10
+ENV NODE_VERSION=12
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash - \
@@ -12,6 +12,8 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && apt-get install -y \
     nodejs \
     yarn \
+    # gettext is needed for Django internationalization.
+    gettext \
     # Install the CLIs for databases so we can use 'manage.py dbshell'.
     postgresql-client \
     # Add support for GeoDjango.

@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.8
+      - image: justfixnyc/tenants2_base:0.9
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgis://justfix@localhost/justfix
@@ -56,9 +56,9 @@ jobs:
           name: Restore Yarn cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
-            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v1-{{ .Branch }}-
-            - yarn-packages-v1-
+            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v2-{{ .Branch }}-
+            - yarn-packages-v2-
       - run:
           name: Install Node dependencies
           command: |
@@ -74,7 +74,7 @@ jobs:
           name: Save Yarn cache
           paths:
             - /usr/local/share/.cache/yarn
-          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: CodeClimate before-build
           command: |

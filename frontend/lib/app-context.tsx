@@ -174,7 +174,7 @@ export interface AppServerInfo {
    * If empty (the default), there will be no reference to a Facebook App ID
    * in the header metatags for the site.
    */
-  facebookAppId?: string;
+  facebookAppId: string;
 }
 
 /**

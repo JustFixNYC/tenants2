@@ -38,6 +38,7 @@ import { areAnalyticsEnabled } from "./analytics/analytics";
 import { default as JustfixRoutes } from "./routes";
 import { LinguiI18n } from "./i18n-lingui";
 import { NorentRoutes, getNorentJumpToTopOfPageRoutes } from "./norent/routes";
+import { SupportedLocale } from "./i18n";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -55,18 +56,10 @@ export interface AppProps {
   initialURL: string;
 
   /**
-   * The locale the user is on. This can be an empty string to
-   * indicate that localization is disabled, or an ISO 639-1
+   * The locale the user is on. This is an ISO 639-1
    * code such as 'en' or 'es'.
-   *
-   * NOTE: Since the back-end *always* enables localization, this
-   * will never be the empty string in production. However, some
-   * tests still assume it will be empty, so we're still allowing
-   * it for now. For more details, see:
-   *
-   * https://github.com/JustFixNYC/tenants2/issues/1382
    */
-  locale: string;
+  locale: SupportedLocale;
 
   /** The initial session state the App was started with. */
   initialSession: AllSessionInfo;

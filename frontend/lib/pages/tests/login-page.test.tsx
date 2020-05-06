@@ -38,26 +38,30 @@ describe("performHardOrSoftRedirect()", () => {
 
   it("performs a soft redirect when the absolute URL is known to be in our SPA", () => {
     const push = jest.fn();
-    performHardOrSoftRedirect(`${originURL}/login`, { push } as any);
+    performHardOrSoftRedirect(`${originURL}/en/login`, { push } as any);
     expect(hardRedirect.mock.calls.length).toBe(0);
     expect(push.mock.calls.length).toBe(1);
-    expect(push.mock.calls[0][0]).toBe("/login");
+    expect(push.mock.calls[0][0]).toBe("/en/login");
   });
 
   it("performs a soft redirect when the relative URL is known to be in our SPA", () => {
     const push = jest.fn();
-    performHardOrSoftRedirect("/login", { push } as any);
+    performHardOrSoftRedirect("/en/login", { push } as any);
     expect(hardRedirect.mock.calls.length).toBe(0);
     expect(push.mock.calls.length).toBe(1);
-    expect(push.mock.calls[0][0]).toBe("/login");
+    expect(push.mock.calls[0][0]).toBe("/en/login");
   });
 
   it("performs a hard redirect when the route is on our origin but unknown", () => {
     const push = jest.fn();
-    performHardOrSoftRedirect(`${originURL}/loc/letter.pdf`, { push } as any);
+    performHardOrSoftRedirect(`${originURL}/en/loc/letter.pdf`, {
+      push,
+    } as any);
     expect(push.mock.calls.length).toBe(0);
     expect(hardRedirect.mock.calls.length).toBe(1);
-    expect(hardRedirect.mock.calls[0][0]).toBe(`${originURL}/loc/letter.pdf`);
+    expect(hardRedirect.mock.calls[0][0]).toBe(
+      `${originURL}/en/loc/letter.pdf`
+    );
   });
 
   it("performs a hard redirect when the route is not on our origin", () => {

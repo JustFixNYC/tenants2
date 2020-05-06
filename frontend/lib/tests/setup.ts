@@ -4,7 +4,7 @@ import chalk from "chalk";
 import "../ui/tests/confetti.setup";
 import i18n from "../i18n";
 
-i18n.initialize("");
+i18n.initialize("en");
 setGlobalAppServerInfo(FakeServerInfo);
 
 Object.keys(FakeAppContext).forEach((prop) => {

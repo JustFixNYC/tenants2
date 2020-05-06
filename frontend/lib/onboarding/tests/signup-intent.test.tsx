@@ -23,7 +23,7 @@ describe("getOnboardingRouteForIntent()", () => {
     const pal = new AppTesterPal(
       getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC),
       {
-        url: "/onboarding/step/4",
+        url: "/en/onboarding/step/4",
       }
     );
     const input = await pal.rt.waitForElement(() =>
@@ -35,12 +35,12 @@ describe("getOnboardingRouteForIntent()", () => {
 
 describe("getPostOnboardingURL()", () => {
   it("returns a default if no onboarding information is available", () => {
-    expect(getPostOnboardingURL(null)).toBe("/loc");
+    expect(getPostOnboardingURL(null)).toBe("/en/loc");
   });
 
   it("returns the current signup intent's post-onboarding URL if possible", () => {
     expect(
       getPostOnboardingURL({ signupIntent: OnboardingInfoSignupIntent.HP })
-    ).toBe("/hp");
+    ).toBe("/en/hp");
   });
 });

@@ -35,12 +35,12 @@ describe("I18n", () => {
     i18n.initialize("es");
     expect(calls).toBe(2);
     i18n.removeChangeListener(cb);
-    i18n.initialize("de");
+    i18n.initialize("en");
     expect(calls).toBe(2);
   });
 
   it("returns locale path prefixes", () => {
-    expect(new I18n("").localePathPrefix).toBe("");
     expect(new I18n("en").localePathPrefix).toBe("/en");
+    expect(new I18n("es").localePathPrefix).toBe("/es");
   });
 });

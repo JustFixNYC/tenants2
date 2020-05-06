@@ -8,7 +8,7 @@ describe("HP Action flow", () => {
 
   it("should show 311 modal", async () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
-      url: "/hp/previous-attempts/311-modal",
+      url: "/en/hp/previous-attempts/311-modal",
     });
     pal.rr.getByText("311 is an important tool");
   });

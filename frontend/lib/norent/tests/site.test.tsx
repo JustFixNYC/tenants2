@@ -14,7 +14,7 @@ describe("NorentSite", () => {
   });
 
   it("renders home page", () => {
-    const pal = new AppTesterPal(route, { url: "/" });
+    const pal = new AppTesterPal(route, { url: "/en/" });
     pal.rr.getByText(/Can't pay rent/i);
   });
 });

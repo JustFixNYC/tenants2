@@ -1,6 +1,7 @@
 import urllib.parse
 import json
-from typing import Any, Dict, Iterator, List
+import re
+from typing import Any, Dict, Iterator, List, NamedTuple, Optional
 from enum import Enum
 from pathlib import Path
 from django.core.management import BaseCommand, CommandError
@@ -19,6 +20,13 @@ BASE_URL = "https://api.airtable.com/v0"
 NORENT_VARIABLES_BASE_ID = "appcHw4ksitvRgc4y"
 
 StateDict = Dict[str, Any]
+
+LOCALIZED_FIELD_NAME_RE = re.compile(r"^(.+) \((English|Spanish)\)$")
+
+LOCALIZED_FIELD_NAME_LOCALES = {
+    'English': 'en',
+    'Spanish': 'es',
+}
 
 BOOLEAN_YES_NO_FIELDS = [
     "Is documentation a legal requirement?",
@@ -45,6 +53,78 @@ class Table(Enum):
     STATE_PARTNERS_FOR_BUILDER = "State Partner Organizations for Letter Builder Screens"
     STATE_DOCUMENTATION_REQUIREMENTS = "Documentation Requirements"
     STATE_LEGAL_AID_PROVIDERS = "Local legal aid provider"
+
+
+class FieldName(NamedTuple):
+    '''
+    We parse the Airtable field name in various ways.
+
+    Sometimes a field is "not exposed", which means that it shouldn't be
+    exposed to our app at all and can therefore be ignored:
+
+        >>> field = FieldName.parse("Notes (not exposed)")
+        >>> field.is_not_exposed
+        True
+
+    Sometimes a field just has a name that we always want to ignore
+    because they're in our module's `IGNORE_FIELDS` list:
+
+        >>> field = FieldName.parse("ID")
+        >>> field.should_ignore
+        True
+
+    We also camel case our field names and remove special characters
+    to make them eaiser for our app's code to use:
+
+        >>> field = FieldName.parse("Should we contact the user?")
+        >>> field.camel_cased_name
+        'shouldWeContactTheUser'
+
+    Finally, some fields are localized...
+
+        >>> field = FieldName.parse("Instructions (English)")
+        >>> field.name
+        'Instructions'
+        >>> field.locale
+        'en'
+
+    ...while others aren't:
+
+        >>> field = FieldName.parse("This field is not localized.")
+        >>> field.name
+        'This field is not localized.'
+        >>> print(field.locale)
+        None
+    '''
+
+    name: str
+    locale: Optional[str]
+
+    @classmethod
+    def parse(cls, name: str) -> 'FieldName':
+        locale = None
+        match = LOCALIZED_FIELD_NAME_RE.match(name)
+        if match:
+            name = match[1]
+            locale = LOCALIZED_FIELD_NAME_LOCALES[match[2]]
+        return FieldName(name=name, locale=locale)
+
+    @property
+    def is_not_exposed(self) -> bool:
+        return self.name.lower().endswith('(not exposed)')
+
+    @property
+    def should_ignore(self) -> bool:
+        return (self.name in IGNORE_FIELDS) or self.is_not_exposed
+
+    def matches_locale(self, locale: str) -> bool:
+        if self.locale is None:
+            return True
+        return locale == self.locale
+
+    @property
+    def camel_cased_name(self) -> str:
+        return to_camel_case(self.name).replace('?', '')
 
 
 def to_camel_case(string: str) -> str:
@@ -90,16 +170,15 @@ def transform_value(name: str, value: Any) -> Any:
     return value
 
 
-def transform_fields(fields: Dict[str, Any]) -> Dict[str, Any]:
+def transform_fields(fields: Dict[str, Any], locale: str) -> Dict[str, Any]:
     new_fields: Dict[str, Any] = {}
 
     for name, value in fields.items():
-        if name in IGNORE_FIELDS:
+        field = FieldName.parse(name)
+        if field.should_ignore or not field.matches_locale(locale):
             continue
-        if name.lower().endswith('(not exposed)'):
-            continue
-        new_name = to_camel_case(name).replace('?', '')
-        new_fields[new_name] = transform_value(name, value)
+        new_name = field.camel_cased_name
+        new_fields[new_name] = transform_value(field.name, value)
 
     convert_all_numbered_fields_to_arrays(new_fields)
 
@@ -125,7 +204,11 @@ def convert_numbered_fields_to_array(
         fields[prefix] = array
 
 
-def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDict:
+def convert_rows_to_state_dict(
+    table: Table,
+    rows: Iterator[RawRow],
+    locale: str
+) -> StateDict:
     '''
     Convert raw Airtable rows into a table that maps state codes
     to metadata about the states.
@@ -135,7 +218,7 @@ def convert_rows_to_state_dict(table: Table, rows: Iterator[RawRow]) -> StateDic
     for row in rows:
         fields: Dict[str, Any] = row['fields']
         state = pop_if_present(fields, 'State')
-        fields = transform_fields(fields)
+        fields = transform_fields(fields, locale)
 
         if state and fields:
             assert state not in states, f"{state} should only have one row"
@@ -151,7 +234,7 @@ class Command(BaseCommand):
             url=url,
             api_key=settings.AIRTABLE_API_KEY,
         )
-        rows = convert_rows_to_state_dict(table, api.list_raw())
+        rows = convert_rows_to_state_dict(table, api.list_raw(), 'en')
         basename = table.name.lower().replace('_', '-')
         output_path = COMMON_DATA_DIR / f"norent-{basename}.json"
         print(f"Writing {output_path}.")

@@ -10,6 +10,7 @@ from django.test.client import Client as DjangoClient
 from django.core.management import call_command
 from django.contrib.auth.models import AnonymousUser, Group
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.contrib.sites.models import Site
 import subprocess
 import pytest
 import requests_mock as requests_mock_module
@@ -306,3 +307,14 @@ def mockdocusign(db, settings, monkeypatch):
     from docusign.tests.docusign_fixture import mockdocusign
 
     yield from mockdocusign(db, settings, monkeypatch)
+
+
+@pytest.fixture
+def use_norent_site(db):
+    '''
+    Set the default site as being the NoRent.org site.
+    '''
+
+    site = Site.objects.get(pk=1)
+    site.name = "NoRent.org"
+    site.save()

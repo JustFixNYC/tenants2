@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.sites.models import Site
 
 from project.util.testing_util import one_field_err
 from users.models import JustfixUser
@@ -20,13 +19,6 @@ from loc.tests import test_lob_api
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter
-
-
-@pytest.fixture
-def use_norent_site(db):
-    site = Site.objects.get(pk=1)
-    site.name = "NoRent.org"
-    site.save()
 
 
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):

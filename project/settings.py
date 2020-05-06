@@ -231,8 +231,23 @@ LOGIN_URL = '/login'
 
 LANGUAGE_CODE = 'en'
 
-LANGUAGES = [
+FULLY_SUPPORTED_LANGUAGES = [
     ('en', 'English'),
+]
+
+PARTIALLY_SUPPORTED_LANGUAGES = [
+    ('es', 'Spanish'),
+]
+
+LANGUAGES = [
+    *FULLY_SUPPORTED_LANGUAGES,
+]
+
+if env.ENABLE_WIP_LOCALES:
+    LANGUAGES.extend(PARTIALLY_SUPPORTED_LANGUAGES)
+
+LOCALE_PATHS = [
+    str(BASE_DIR / "locales")
 ]
 
 TIME_ZONE = 'UTC'

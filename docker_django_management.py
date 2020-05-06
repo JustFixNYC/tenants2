@@ -102,7 +102,7 @@ else:
 
 if False:
     # This is just needed so mypy will work; it's never executed.
-    from typing import Iterator, Any, List  # NOQA
+    from typing import Iterator, Any, List, Optional  # NOQA
 
 # If the owner of the app directory on the Docker host is
 # root, we're probably on Windows. So force a non-root user ID,
@@ -117,6 +117,51 @@ USER_OWNED_DIRS = os.environ.get('DDM_USER_OWNED_DIRS', '')
 VENV_DIR = os.environ.get('DDM_VENV_DIR', '')
 CONTAINER_NAME = os.environ.get('DDM_CONTAINER_NAME')
 IS_RUNNING_IN_DOCKER = 'DDM_IS_RUNNING_IN_DOCKER' in os.environ
+
+# manage.py commands that are part of the static asset/i18n build
+# pipeline.
+BUILD_PIPELINE_MANAGEMENT_CMDS = [
+    'collectstatic',
+    'makemessages',
+    'compilemessages',
+]
+
+# manage.py commands that don't require access to the database.
+NO_DB_MANAGEMENT_CMDS = [
+    *BUILD_PIPELINE_MANAGEMENT_CMDS,
+    'help',
+    '--help',
+]
+
+
+def is_running_dev_server(argv=sys.argv):  # type: (List[str]) -> bool
+    '''
+    Returns whether or not we are running the development
+    server, e.g.:
+
+        >>> is_running_dev_server(['manage.py', '--help'])
+        False
+
+        >>> is_running_dev_server(['manage.py', 'runserver'])
+        True
+    '''
+
+    return get_management_command(argv) == 'runserver'
+
+
+def get_management_command(argv=sys.argv):  # type: (List[str]) -> Optional[str]
+    '''
+    If manage.py is being run, returns the command name, or None
+    otherwise, e.g.:
+
+        >>> get_management_command(['boop.py'])
+        >>> get_management_command(['manage.py', 'compilemessages'])
+        'compilemessages'
+    '''
+
+    if len(argv) > 1 and os.path.basename(argv[0]) == "manage.py":
+        return argv[1]
+    return None
 
 
 def info(msg):  # type: (str) -> None
@@ -229,12 +274,13 @@ def execute_from_command_line(argv):  # type: (List[str]) -> None
     'docker-compose run <container name>'.
     '''
 
-    is_runserver = len(argv) > 1 and argv[1] == 'runserver'
+    is_runserver = is_running_dev_server(argv)
 
     if IS_RUNNING_IN_DOCKER:
         if is_runserver:
             setup_docker_sigterm_handler()
-        wait_for_db()
+        if get_management_command(argv) not in NO_DB_MANAGEMENT_CMDS:
+            wait_for_db()
 
         if 'PYTHONUNBUFFERED' not in os.environ:
             warn("PYTHONUNBUFFERED is not defined. Some output may "

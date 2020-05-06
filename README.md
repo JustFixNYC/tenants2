@@ -379,7 +379,49 @@ python3 deploy.py heroku
 ```
 
 You'll likely want to use [Heroku Postgres][] as your
-database backend.
+ndatabase backend.
+
+## Internationalization
+
+This project uses the [PO file format][] to store most of its
+localization data in the [`locales`](locales/) directory.
+
+[PO file format]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
+
+### Back-end internationalization
+
+The back-end uses the [Django translation framework][] for internationalization.
+To extract messages for localization, run:
+
+```
+python manage.py makemessages -e py
+```
+
+One `.po` files have been updated, the catalogs can be compiled with:
+
+```
+python manage.py compilemessages
+```
+
+[Django translation framework]: https://docs.djangoproject.com/en/3.0/topics/i18n/translation/
+
+### Front-end internationalization
+
+The front-end uses [Lingui][] for internationalization. To extract
+messages for localization, run:
+
+```
+yarn lingui:extract
+```
+
+Once `.po` files have been updated, the catalogs can be compiled to JS
+with:
+
+```
+yarn lingui:compile
+```
+
+[Lingui]: https://lingui.js.org/
 
 ## Optional integrations
 

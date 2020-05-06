@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Type
 
 from .util import typed_environ
+from docker_django_management import (
+    get_management_command, BUILD_PIPELINE_MANAGEMENT_CMDS)
 
 
 BASE_DIR = Path(__file__).parent.parent.resolve()
@@ -330,6 +332,23 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # behavior.
     IS_DEMO_DEPLOYMENT: bool = False
 
+    # Whether or not to enable localizations that are still
+    # works-in-progress (WIPs), i.e. only partially localized.
+    ENABLE_WIP_LOCALES: bool = False
+
+
+class JustfixBuildPipelineDefaults(JustfixEnvironment):
+    '''
+    Defaults when running management commands that are part
+    of our static asset/i18n build pipeline. These commands
+    don't need to use the secret key or the database so it's fine
+    for us to set them to arbitrary defaults.
+    '''
+
+    SECRET_KEY = 'for development and build pipeline commands only!'
+
+    DATABASE_URL = 'postgres://it-does-not/matter'
+
 
 class JustfixDevelopmentDefaults(JustfixEnvironment):
     '''
@@ -392,5 +411,7 @@ def get() -> JustfixEnvironment:
             env_class = JustfixDebugEnvironment
         elif env.USE_DEVELOPMENT_DEFAULTS:
             env_class = JustfixDevelopmentDefaults
+        elif get_management_command() in BUILD_PIPELINE_MANAGEMENT_CMDS:
+            env_class = JustfixBuildPipelineDefaults
 
     return env_class(exit_when_invalid=True)

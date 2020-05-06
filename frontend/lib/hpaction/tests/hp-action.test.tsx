@@ -18,7 +18,7 @@ describe("HP Action flow", () => {
 
   it("should show PDF download link on confirmation page", () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
-      url: "/hp/confirmation",
+      url: "/en/hp/confirmation",
       session: {
         latestHpActionPdfUrl: "/boop.pdf",
       },
@@ -33,7 +33,7 @@ describe("upload status page", () => {
 
   const makePal = (hpActionUploadStatus: HPUploadStatus) =>
     new AppTesterPal(<HPActionRoutes />, {
-      url: "/hp/wait",
+      url: "/en/hp/wait",
       session: { hpActionUploadStatus },
     });
 
@@ -44,7 +44,7 @@ describe("upload status page", () => {
 
   it("should redirect to confirmation when docs are ready", () => {
     const pal = makePal(HPUploadStatus.SUCCEEDED);
-    expect(pal.history.location.pathname).toBe("/hp/confirmation");
+    expect(pal.history.location.pathname).toBe("/en/hp/confirmation");
   });
 
   it("should show error page if errors occurred", () => {
@@ -54,7 +54,7 @@ describe("upload status page", () => {
 
   it("should redirect to beginning if docs are not started", () => {
     const pal = makePal(HPUploadStatus.NOT_STARTED);
-    expect(pal.history.location.pathname).toBe("/hp/splash");
+    expect(pal.history.location.pathname).toBe("/en/hp/splash");
   });
 });
 

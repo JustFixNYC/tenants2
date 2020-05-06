@@ -16,7 +16,7 @@ exports[`NorentLetterEmailToUser works 1`] = `
   </p>
   <p>
     To learn more about what to do next, check out our FAQ page: 
-    https://myserver.com/faqs
+    https://myserver.com/en/faqs
   </p>
 </div>
 `;

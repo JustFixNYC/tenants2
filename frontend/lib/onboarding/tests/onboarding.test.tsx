@@ -54,7 +54,7 @@ describe("Onboarding", () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {
       url: Routes.locale.onboarding.latestStep,
     });
-    expect(pal.history.location.pathname).toEqual("/onboarding/step/1");
+    expect(pal.history.location.pathname).toEqual("/en/onboarding/step/1");
     pal.rr.getByLabelText("First name");
   });
 });

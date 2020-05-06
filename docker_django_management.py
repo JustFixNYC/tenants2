@@ -118,11 +118,17 @@ VENV_DIR = os.environ.get('DDM_VENV_DIR', '')
 CONTAINER_NAME = os.environ.get('DDM_CONTAINER_NAME')
 IS_RUNNING_IN_DOCKER = 'DDM_IS_RUNNING_IN_DOCKER' in os.environ
 
-# manage.py commands that don't require access to the database.
-NO_DB_MANAGEMENT_CMDS = [
+# manage.py commands that are part of the static asset/i18n build
+# pipeline.
+BUILD_PIPELINE_MANAGEMENT_CMDS = [
     'collectstatic',
     'makemessages',
     'compilemessages',
+]
+
+# manage.py commands that don't require access to the database.
+NO_DB_MANAGEMENT_CMDS = [
+    *BUILD_PIPELINE_MANAGEMENT_CMDS,
     'help',
     '--help',
 ]
@@ -143,7 +149,7 @@ def is_running_dev_server(argv=sys.argv):  # type: (List[str]) -> bool
     return get_management_command(argv) == 'runserver'
 
 
-def get_management_command(argv):  # type: (List[str]) -> Optional[str]
+def get_management_command(argv=sys.argv):  # type: (List[str]) -> Optional[str]
     '''
     If manage.py is being run, returns the command name, or None
     otherwise, e.g.:

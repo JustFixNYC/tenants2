@@ -247,11 +247,13 @@ def get_contact_info(user: JustfixUser) -> str:
         ll_email = ld.email or ll_email
         ll_phone_number = ld.formatted_phone_number() or ll_phone_number
 
+    # Note that we used to include the tenant email here, but removed it
+    # because the LL could use the email address in e-filing in the other direction
+    # and we could see landlords serving now to tee up cases for court reopening.
     return '\n'.join([
         f"landlord phone: {ll_phone_number}",
         f"landlord email: {ll_email}",
         f"tenant phone: {user.formatted_phone_number()}",
-        f"tenant email: {user.email}",
     ])
 
 

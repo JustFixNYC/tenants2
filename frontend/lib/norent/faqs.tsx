@@ -24,12 +24,8 @@ export function getStatesWithLimitedProtectionsFAQSectionURL() {
   return `${NorentRoutes.locale.faqs}#${STATES_WITH_LIMITED_PROTECTIONS_ID}`;
 }
 
-function sortFaqsByPriority(data: Faq[]) {
-  return data.sort((faq1, faq2) => faq1.priority - faq2.priority);
-}
-
 function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
-  return sortFaqsByPriority(data).map((faq, i) => (
+  return data.map((faq, i) => (
     <div className="jf-accordion-item jf-space-below-2rem" key={i}>
       <details className="has-text-left jf-space-below-2rem">
         <summary>
@@ -44,7 +40,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
             </div>
           </div>
         </summary>
-        {isPreview ? faq.answerPreview : faq.answerFull}
+        {isPreview ? faq.answerPreviewContent?.answerPreview : faq.answerFull}
       </details>
     </div>
   ));
@@ -55,7 +51,16 @@ export const ChevronIcon = () => (
 );
 
 export const NorentFaqsPreview = () => {
-  const FaqsPreviewContent = FaqsContent.filter((faq) => faq.priority < 5);
+  const FaqsPreviewContent = FaqsContent.filter(
+    (faq) => faq.answerPreviewContent?.answerPreview
+  ).sort((faq1, faq2) =>
+    faq1.answerPreviewContent?.priorityInPreview &&
+    faq2.answerPreviewContent?.priorityInPreview
+      ? faq1.answerPreviewContent.priorityInPreview -
+        faq2.answerPreviewContent.priorityInPreview
+      : 0
+  );
+
   return (
     <section className="hero jf-faqs-preview">
       <div className="hero-body">

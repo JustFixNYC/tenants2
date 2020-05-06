@@ -52,7 +52,7 @@ export const ChevronIcon = () => (
 
 export const NorentFaqsPreview = () => {
   const FaqsPreviewContent = FaqsContent.filter(
-    (faq) => faq.previewOptions?.answerPreview
+    (faq) => faq.previewOptions
   ).sort((faq1, faq2) =>
     faq1.previewOptions?.priorityInPreview &&
     faq2.previewOptions?.priorityInPreview

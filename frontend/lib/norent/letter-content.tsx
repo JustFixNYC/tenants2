@@ -87,8 +87,6 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
       {props.city}, {props.state} {props.zipCode}
       <br />
       {formatPhoneNumber(props.phoneNumber)}
-      <br />
-      {props.email}
     </dd>
   </dl>
 );
@@ -141,8 +139,8 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
     </p>
     <p>
       In order to document communications and avoid misunderstandings, please
-      correspond with <FullName {...props} /> via mail, email, or text rather
-      than a phone call or in-person visit.
+      correspond with <FullName {...props} /> via mail or text rather than a
+      phone call or in-person visit.
     </p>
     <p>Regards,</p>
     <p>
@@ -210,7 +208,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       </p>
       <p>
         In order to document our communication and to avoid misunderstandings,
-        please reply to me via email or text rather than a call or visit.
+        please reply to me via mail or text rather than a call or visit.
       </p>
       <p>Thank you for your understanding and cooperation.</p>
       <p className="jf-signature">

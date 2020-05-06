@@ -23,6 +23,11 @@ class TestConvertRowsToStateDict:
             {}
         ),
         (
+            [{'fields': {'State': 'WV', 'To be used': True,
+                         'Text (English)': 'Hello', 'Text (Spanish)': 'Hola'}}],
+            {'WV': {'text': 'Hello'}}
+        ),
+        (
             [{'fields': {'State': 'WV', 'thingy': 2,
                          'thingy source (not exposed)': 5, 'To be used': True}}],
             {'WV': {'thingy': 2}}
@@ -46,7 +51,11 @@ class TestConvertRowsToStateDict:
         ),
     ])
     def test_it_works(self, raw_rows, state_dict):
-        result = convert_rows_to_state_dict(Table.STATE_DOCUMENTATION_REQUIREMENTS, raw_rows)
+        result = convert_rows_to_state_dict(
+            Table.STATE_DOCUMENTATION_REQUIREMENTS,
+            raw_rows,
+            'en',
+        )
         assert result == state_dict
 
 

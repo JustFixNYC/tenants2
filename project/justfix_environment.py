@@ -107,6 +107,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If empty (the default), Facebook Pixel is disabled.
     FACEBOOK_PIXEL_ID: str = ''
 
+    # The Facebook App ID for the an associated organization's Facebook page.
+    # If empty (the default), there will be no reference to a Facebook App ID
+    # in the header metatags for the site.
+    FACEBOOK_APP_ID: str = ''
+
     # An access token for Rollbar with the 'post_client_item'
     # scope. If empty (the default), Rollbar is disabled on
     # the client-side.

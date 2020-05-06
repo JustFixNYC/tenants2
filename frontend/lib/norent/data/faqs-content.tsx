@@ -12,7 +12,7 @@ export type Faq = {
   question: string;
   category: FaqCategory;
   answerFull: React.ReactNode;
-  answerPreviewContent?: {
+  previewOptions?: {
     priorityInPreview: number;
     answerPreview: React.ReactNode;
   };
@@ -195,7 +195,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "I'm scared. What happens if my landlord retaliates?",
     category: "After Sending Your Letter",
-    answerPreviewContent: {
+    previewOptions: {
       priorityInPreview: 1,
       answerPreview: (
         <p>
@@ -220,7 +220,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "Is this free?",
     category: "Letter Builder",
-    answerPreviewContent: {
+    previewOptions: {
       priorityInPreview: 2,
       answerPreview: (
         <p>
@@ -239,7 +239,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "Do I have to go to the post office to mail  my letter?",
     category: "Letter Builder",
-    answerPreviewContent: {
+    previewOptions: {
       priorityInPreview: 3,
       answerPreview: (
         <p>
@@ -259,7 +259,7 @@ export const FaqsContent: Faq[] = [
   {
     question: "Is there someone I can connect with after this to get help?",
     category: "Connecting With Others",
-    answerPreviewContent: {
+    previewOptions: {
       priorityInPreview: 4,
       answerPreview: (
         <p>

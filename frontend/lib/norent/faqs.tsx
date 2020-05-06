@@ -40,7 +40,7 @@ function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
             </div>
           </div>
         </summary>
-        {isPreview ? faq.answerPreviewContent?.answerPreview : faq.answerFull}
+        {isPreview ? faq.previewOptions?.answerPreview : faq.answerFull}
       </details>
     </div>
   ));
@@ -52,12 +52,12 @@ export const ChevronIcon = () => (
 
 export const NorentFaqsPreview = () => {
   const FaqsPreviewContent = FaqsContent.filter(
-    (faq) => faq.answerPreviewContent?.answerPreview
+    (faq) => faq.previewOptions?.answerPreview
   ).sort((faq1, faq2) =>
-    faq1.answerPreviewContent?.priorityInPreview &&
-    faq2.answerPreviewContent?.priorityInPreview
-      ? faq1.answerPreviewContent.priorityInPreview -
-        faq2.answerPreviewContent.priorityInPreview
+    faq1.previewOptions?.priorityInPreview &&
+    faq2.previewOptions?.priorityInPreview
+      ? faq1.previewOptions.priorityInPreview -
+        faq2.previewOptions.priorityInPreview
       : 0
   );
 

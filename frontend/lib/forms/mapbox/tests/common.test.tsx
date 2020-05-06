@@ -1,23 +1,17 @@
-import { getMapboxStateInfo, createMapboxPlacesURL } from "../common";
+import { getMapboxStateChoice, createMapboxPlacesURL } from "../common";
 import { BROOKLYN_MAPBOX_FEATURE, SAN_JUAN_MAPBOX_FEATURE } from "./data";
 
-describe("getMapboxStateInfo", () => {
-  it("returns state info when state is found", () => {
-    expect(getMapboxStateInfo(BROOKLYN_MAPBOX_FEATURE)).toEqual({
-      stateCode: "NY",
-      stateName: "New York",
-    });
+describe("getMapboxStateChoice", () => {
+  it("returns state choice when state is found", () => {
+    expect(getMapboxStateChoice(BROOKLYN_MAPBOX_FEATURE)).toEqual("NY");
   });
 
   it("works with puerto rico", () => {
-    expect(getMapboxStateInfo(SAN_JUAN_MAPBOX_FEATURE)).toEqual({
-      stateCode: "PR",
-      stateName: "Puerto Rico",
-    });
+    expect(getMapboxStateChoice(SAN_JUAN_MAPBOX_FEATURE)).toEqual("PR");
   });
 
   it("returns null when no state info was found", () => {
-    expect(getMapboxStateInfo({ context: [] } as any)).toBe(null);
+    expect(getMapboxStateChoice({ context: [] } as any)).toBe(null);
   });
 });
 

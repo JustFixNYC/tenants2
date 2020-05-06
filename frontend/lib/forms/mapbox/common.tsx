@@ -41,11 +41,6 @@ export type MapboxFeature = {
   context: Array<Partial<MapboxFeature> & { short_code?: string }>;
 };
 
-export type MapboxStateInfo = {
-  stateCode: string;
-  stateName: string;
-};
-
 const MAPBOX_PLACES_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 
 const MAPBOX_STATE_SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
@@ -75,7 +70,7 @@ function mapboxSearchOptionsToURLSearchParams(
   });
 }
 
-function stateCodeFromShortCode(shortCode?: string): USStateChoice | null {
+function stateChoiceFromShortCode(shortCode?: string): USStateChoice | null {
   if (shortCode === "pr") return "PR";
   const match = (shortCode || "").match(MAPBOX_STATE_SHORT_CODE_RE);
   const state = match ? match[1] : "";
@@ -85,13 +80,13 @@ function stateCodeFromShortCode(shortCode?: string): USStateChoice | null {
   return null;
 }
 
-export function getMapboxStateInfo(
+export function getMapboxStateChoice(
   feature: MapboxFeature
-): MapboxStateInfo | null {
+): USStateChoice | null {
   for (let context of feature.context) {
-    const stateCode = stateCodeFromShortCode(context.short_code);
-    if (stateCode && context.text) {
-      return { stateCode, stateName: context.text };
+    const stateChoice = stateChoiceFromShortCode(context.short_code);
+    if (stateChoice) {
+      return stateChoice;
     }
   }
   return null;

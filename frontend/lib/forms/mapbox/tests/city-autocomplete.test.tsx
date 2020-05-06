@@ -7,15 +7,13 @@ import { BROOKLYN_MAPBOX_RESULTS, BROOKLYN_MAPBOX_FEATURE } from "./data";
 const BROOKLYN_CITY: MapboxCityItem = {
   city: "Brooklyn",
   mapboxFeature: BROOKLYN_MAPBOX_FEATURE,
-  stateCode: "NY",
-  stateName: "New York",
+  stateChoice: "NY",
 };
 
 const INCOMPLETE_CITY: MapboxCityItem = {
   city: "blargblarg",
   mapboxFeature: null,
-  stateCode: "",
-  stateName: "",
+  stateChoice: null,
 };
 
 describe("mapboxCityAutocompleteHelpers", () => {
@@ -39,8 +37,7 @@ describe("mapboxCityAutocompleteHelpers", () => {
     expect(helpers.getIncompleteItem("blarf")).toEqual({
       city: "blarf",
       mapboxFeature: null,
-      stateCode: "",
-      stateName: "",
+      stateChoice: null,
     });
   });
 });

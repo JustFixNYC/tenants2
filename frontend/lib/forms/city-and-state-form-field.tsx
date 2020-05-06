@@ -13,7 +13,6 @@ import { AppContext } from "../app-context";
 import {
   USStateChoice,
   isUSStateChoice,
-  getUSStateChoiceLabels,
 } from "../../../common-data/us-state-choices";
 
 export type CityAndStateFieldProps = {
@@ -21,9 +20,9 @@ export type CityAndStateFieldProps = {
   stateProps: BaseFormFieldProps<string>;
 };
 
-function safeGetUSStateChoice(state: string): USStateChoice | "" {
+function safeGetUSStateChoice(state: string): USStateChoice | null {
   if (isUSStateChoice(state)) return state;
-  return "";
+  return null;
 }
 
 const BaselineField: React.FC<CityAndStateFieldProps> = (props) => (
@@ -37,14 +36,11 @@ const EnhancedField: React.FC<
   CityAndStateFieldProps & { pe: ProgressiveEnhancementContext }
 > = (props) => {
   const { cityProps, stateProps } = props;
-  const stateCode = safeGetUSStateChoice(stateProps.value);
-  const stateName = stateCode ? getUSStateChoiceLabels()[stateCode] : "";
   const initialValue: MapboxCityItem | undefined = cityProps.value
     ? {
         city: cityProps.value,
         mapboxFeature: null,
-        stateCode,
-        stateName,
+        stateChoice: safeGetUSStateChoice(stateProps.value),
       }
     : undefined;
 
@@ -58,7 +54,7 @@ const EnhancedField: React.FC<
       initialValue={initialValue}
       onChange={(item) => {
         cityProps.onChange(item.city);
-        stateProps.onChange(item.stateCode);
+        stateProps.onChange(item.stateChoice || "");
       }}
       onNetworkError={props.pe.fallbackToBaseline}
       errors={cityProps.errors}

@@ -69,7 +69,7 @@ msgstr "Georgia"
 msgid "Hawaii"
 msgstr "Hawaii"
 
-#: frontend/lib/tests/i18n-lingui.test.tsx:19
+#: frontend/lib/tests/i18n-lingui.test.tsx:20
 #: frontend/lib/tests/i18n-lingui.test.tsx:26
 #: frontend/lib/tests/i18n-lingui.test.tsx:33
 msgid "Hello world"

@@ -208,7 +208,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
       <h5 className="has-text-centered is-uppercase has-text-weight-normal">
         Share this tool
       </h5>
-      <SocialIcons />
+      <SocialIcons linksAreForSharing />
     </Page>
   );
 });

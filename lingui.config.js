@@ -9,7 +9,7 @@ assert(presets && plugins);
 module.exports = {
   extractBabelOptions: { presets, plugins },
   localeDir: "locales/",
-  srcPathDirs: ["frontend/lib/"],
+  srcPathDirs: ["frontend/lib/", "common-data/"],
   format: "po",
   sourceLocale: "en",
 };

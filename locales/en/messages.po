@@ -13,16 +13,224 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: common-data/us-state-choices.ts:66
+msgid "Alabama"
+msgstr "Alabama"
+
+#: common-data/us-state-choices.ts:65
+msgid "Alaska"
+msgstr "Alaska"
+
+#: common-data/us-state-choices.ts:67
+msgid "Arizona"
+msgstr "Arizona"
+
+#: common-data/us-state-choices.ts:68
+msgid "Arkansas"
+msgstr "Arkansas"
+
 #: frontend/lib/norent/site.tsx:58
 msgid "Build my Letter"
 msgstr "Build my Letter"
 
+#: common-data/us-state-choices.ts:69
+msgid "California"
+msgstr "California"
+
+#: common-data/us-state-choices.ts:70
+msgid "Colorado"
+msgstr "Colorado"
+
+#: common-data/us-state-choices.ts:71
+msgid "Connecticut"
+msgstr "Connecticut"
+
+#: common-data/us-state-choices.ts:72
+msgid "Delaware"
+msgstr "Delaware"
+
+#: common-data/us-state-choices.ts:73
+msgid "District of Columbia"
+msgstr "District of Columbia"
+
 #: frontend/lib/norent/faqs.tsx:70
 msgid "FAQs"
 msgstr "FAQs"
+
+#: common-data/us-state-choices.ts:74
+msgid "Florida"
+msgstr "Florida"
+
+#: common-data/us-state-choices.ts:75
+msgid "Georgia"
+msgstr "Georgia"
+
+#: common-data/us-state-choices.ts:76
+msgid "Hawaii"
+msgstr "Hawaii"
 
 #: frontend/lib/tests/i18n-lingui.test.tsx:19
 #: frontend/lib/tests/i18n-lingui.test.tsx:26
 #: frontend/lib/tests/i18n-lingui.test.tsx:33
 msgid "Hello world"
 msgstr "Hello world"
+
+#: common-data/us-state-choices.ts:77
+msgid "Idaho"
+msgstr "Idaho"
+
+#: common-data/us-state-choices.ts:78
+msgid "Illinois"
+msgstr "Illinois"
+
+#: common-data/us-state-choices.ts:79
+msgid "Indiana"
+msgstr "Indiana"
+
+#: common-data/us-state-choices.ts:80
+msgid "Iowa"
+msgstr "Iowa"
+
+#: common-data/us-state-choices.ts:81
+msgid "Kansas"
+msgstr "Kansas"
+
+#: common-data/us-state-choices.ts:82
+msgid "Kentucky"
+msgstr "Kentucky"
+
+#: common-data/us-state-choices.ts:83
+msgid "Louisiana"
+msgstr "Louisiana"
+
+#: common-data/us-state-choices.ts:84
+msgid "Maine"
+msgstr "Maine"
+
+#: common-data/us-state-choices.ts:85
+msgid "Maryland"
+msgstr "Maryland"
+
+#: common-data/us-state-choices.ts:86
+msgid "Massachusetts"
+msgstr "Massachusetts"
+
+#: common-data/us-state-choices.ts:87
+msgid "Michigan"
+msgstr "Michigan"
+
+#: common-data/us-state-choices.ts:88
+msgid "Minnesota"
+msgstr "Minnesota"
+
+#: common-data/us-state-choices.ts:89
+msgid "Mississippi"
+msgstr "Mississippi"
+
+#: common-data/us-state-choices.ts:90
+msgid "Missouri"
+msgstr "Missouri"
+
+#: common-data/us-state-choices.ts:91
+msgid "Montana"
+msgstr "Montana"
+
+#: common-data/us-state-choices.ts:92
+msgid "Nebraska"
+msgstr "Nebraska"
+
+#: common-data/us-state-choices.ts:93
+msgid "Nevada"
+msgstr "Nevada"
+
+#: common-data/us-state-choices.ts:94
+msgid "New Hampshire"
+msgstr "New Hampshire"
+
+#: common-data/us-state-choices.ts:95
+msgid "New Jersey"
+msgstr "New Jersey"
+
+#: common-data/us-state-choices.ts:96
+msgid "New Mexico"
+msgstr "New Mexico"
+
+#: common-data/us-state-choices.ts:97
+msgid "New York"
+msgstr "New York"
+
+#: common-data/us-state-choices.ts:98
+msgid "North Carolina"
+msgstr "North Carolina"
+
+#: common-data/us-state-choices.ts:99
+msgid "North Dakota"
+msgstr "North Dakota"
+
+#: common-data/us-state-choices.ts:100
+msgid "Ohio"
+msgstr "Ohio"
+
+#: common-data/us-state-choices.ts:101
+msgid "Oklahoma"
+msgstr "Oklahoma"
+
+#: common-data/us-state-choices.ts:102
+msgid "Oregon"
+msgstr "Oregon"
+
+#: common-data/us-state-choices.ts:103
+msgid "Pennsylvania"
+msgstr "Pennsylvania"
+
+#: common-data/us-state-choices.ts:104
+msgid "Puerto Rico"
+msgstr "Puerto Rico"
+
+#: common-data/us-state-choices.ts:105
+msgid "Rhode Island"
+msgstr "Rhode Island"
+
+#: common-data/us-state-choices.ts:106
+msgid "South Carolina"
+msgstr "South Carolina"
+
+#: common-data/us-state-choices.ts:107
+msgid "South Dakota"
+msgstr "South Dakota"
+
+#: common-data/us-state-choices.ts:108
+msgid "Tennessee"
+msgstr "Tennessee"
+
+#: common-data/us-state-choices.ts:109
+msgid "Texas"
+msgstr "Texas"
+
+#: common-data/us-state-choices.ts:110
+msgid "Utah"
+msgstr "Utah"
+
+#: common-data/us-state-choices.ts:111
+msgid "Vermont"
+msgstr "Vermont"
+
+#: common-data/us-state-choices.ts:112
+msgid "Virginia"
+msgstr "Virginia"
+
+#: common-data/us-state-choices.ts:113
+msgid "Washington"
+msgstr "Washington"
+
+#: common-data/us-state-choices.ts:114
+msgid "West Virginia"
+msgstr "West Virginia"
+
+#: common-data/us-state-choices.ts:115
+msgid "Wisconsin"
+msgstr "Wisconsin"
+
+#: common-data/us-state-choices.ts:116
+msgid "Wyoming"
+msgstr "Wyoming"

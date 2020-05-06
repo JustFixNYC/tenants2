@@ -27,6 +27,24 @@ describe("commondatabuilder", () => {
       })
     ).not.toMatch(/getFooLabels/);
   });
+
+  it("only internationalizes labels if configured to", () => {
+    expect(
+      createDjangoChoicesTypescript([], "Foo", {
+        exportLabels: true,
+      })
+    ).not.toMatch(/lingui/);
+    const ts = createDjangoChoicesTypescript(
+      [["THINGY", "I am thingy"]],
+      "Foo",
+      {
+        exportLabels: true,
+        internationalizeLabels: true,
+      }
+    );
+    expect(ts).toMatch(/lingui/);
+    expect(ts).toMatchSnapshot();
+  });
 });
 
 it("current common data JSON files are synced with TS files", () => {

@@ -3,13 +3,14 @@ from django import forms
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
+from django.utils.translation import gettext_lazy as _
 
 from users.models import JustfixUser
 from project.util.phone_number import USPhoneNumberField
 from . import password_reset
 
 
-CHOOSE_ONE_MSG = "Please choose at least one option."
+CHOOSE_ONE_MSG = _("Please choose at least one option.")
 
 
 def ensure_at_least_one_is_true(cleaned_data):
@@ -132,7 +133,7 @@ class SetPasswordForm(forms.Form):
         confirm_password = cleaned_data.get('confirm_password')
 
         if password and confirm_password and password != confirm_password:
-            raise ValidationError('Passwords do not match!')
+            raise ValidationError(_('Passwords do not match!'))
 
 
 class OptionalSetPasswordForm(SetPasswordForm):

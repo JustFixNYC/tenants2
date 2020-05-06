@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
 
 from project.util.admin_util import admin_field, get_admin_url_for_class
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
@@ -18,7 +17,7 @@ from norent.admin import NorentUser
 import airtable.sync
 
 
-PERMISSIONS_LABEL = _('Permissions')
+PERMISSIONS_LABEL = 'Permissions'
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
@@ -54,7 +53,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         'signup_intent',
     ]
     fieldsets = (
-        (_('Personal info'), {'fields': (
+        ('Personal info', {'fields': (
             'first_name', 'last_name', 'email', 'is_email_verified',
             'phone_number', 'phone_number_lookup_details'
         )}),
@@ -77,7 +76,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         }),
         (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
                                         'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Product action information', {
             'fields': ('hp_action_info', 'loc_info', 'norent_info'),
         }),

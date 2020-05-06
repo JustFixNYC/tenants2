@@ -8,11 +8,14 @@ import {
 import { getGlobalAppServerInfo } from "../../app-context";
 import {
   MapboxFeature,
-  MapboxStateInfo,
-  getMapboxStateInfo,
+  getMapboxStateChoice,
   MapboxResults,
   createMapboxPlacesURL,
 } from "./common";
+import {
+  USStateChoice,
+  getUSStateChoiceLabels,
+} from "../../../../common-data/us-state-choices";
 
 class MapboxCitySearchRequester extends SearchRequester<MapboxResults> {
   searchQueryToURL(query: string): string {
@@ -31,7 +34,8 @@ class MapboxCitySearchRequester extends SearchRequester<MapboxResults> {
 export type MapboxCityItem = {
   city: string;
   mapboxFeature: MapboxFeature | null;
-} & MapboxStateInfo;
+  stateChoice: USStateChoice | null;
+};
 
 type MapboxCityAutocompleteProps = Omit<
   SearchAutocompleteProps<MapboxCityItem, MapboxResults>,
@@ -51,24 +55,24 @@ export const mapboxCityAutocompleteHelpers: SearchAutocompleteHelpers<
   MapboxResults
 > = {
   itemToKey(item) {
-    return [item.city, item.stateCode].join("_");
+    return [item.city, item.stateChoice].join("_");
   },
   itemToString(item) {
     return item
-      ? item.stateName
-        ? `${item.city}, ${item.stateName}`
+      ? item.stateChoice
+        ? `${item.city}, ${getUSStateChoiceLabels()[item.stateChoice]}`
         : item.city
       : "";
   },
   searchResultsToItems(results) {
     const items: MapboxCityItem[] = [];
     for (let feature of results.features) {
-      const stateInfo = getMapboxStateInfo(feature);
-      if (stateInfo) {
+      const stateChoice = getMapboxStateChoice(feature);
+      if (stateChoice) {
         items.push({
           city: feature.text,
           mapboxFeature: feature,
-          ...stateInfo,
+          stateChoice,
         });
       }
     }
@@ -78,8 +82,7 @@ export const mapboxCityAutocompleteHelpers: SearchAutocompleteHelpers<
     return {
       city: value || "",
       mapboxFeature: null,
-      stateCode: "",
-      stateName: "",
+      stateChoice: null,
     };
   },
   createSearchRequester: (options) => new MapboxCitySearchRequester(options),

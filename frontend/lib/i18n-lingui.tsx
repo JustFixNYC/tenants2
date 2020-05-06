@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Catalog } from "@lingui/core";
 import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
-import i18n from "./i18n";
+import i18n, { SupportedLocale } from "./i18n";
 import { setupI18n as linguiSetupI18n } from "@lingui/core";
 
 /**
@@ -27,14 +27,13 @@ const EsCatalog: LoadableCatalog = loadable.lib(
  * Returns a component that loads the Lingui message catalog for
  * the given string.
  */
-function getLinguiCatalogForLanguage(locale: string): LoadableCatalog {
+function getLinguiCatalogForLanguage(locale: SupportedLocale): LoadableCatalog {
   switch (locale) {
     case "en":
       return EnCatalog;
     case "es":
       return EsCatalog;
   }
-  throw new Error(`Unsupported locale "${locale}"`);
 }
 
 const SetupI18n: React.FC<

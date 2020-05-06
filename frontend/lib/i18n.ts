@@ -1,4 +1,10 @@
 /**
+ * A locale we currently support (either fully or partially), as
+ * an ISO 639-1 code.
+ */
+export type SupportedLocale = "en" | "es";
+
+/**
  * This class keeps track of internationalization-related data.
  *
  * Instances start out uninitialized, and must be explicitly
@@ -9,16 +15,15 @@
  * clients can register to be notified if and when this happens.
  */
 export class I18n {
-  private _locale: null | string = null;
+  private _locale: null | SupportedLocale = null;
   private _changeListeners: Function[] = [];
 
   /**
    * Create an instance, optionally auto-initializing it.
    *
-   * @param locale An empty string to indicate that localization is
-   *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
+   * @param locale An ISO 639-1 code such as 'en' or 'es'.
    */
-  constructor(locale?: string) {
+  constructor(locale?: SupportedLocale) {
     if (typeof locale === "string") {
       this.initialize(locale);
     }
@@ -31,36 +36,37 @@ export class I18n {
   /**
    * Return the current locale, raising an error if the
    * class is uninitialized.
-   *
-   * If the locale is set to the empty string, it means that
-   * localization is currently disabled. Otherwise, the
-   * string will be an ISO 639-1 code such as 'en' or 'es'.
    */
-  get locale(): string {
+  get locale(): SupportedLocale {
     if (this._locale === null) return this.raiseInitError();
     return this._locale;
   }
 
   /**
    * Return the URL path prefix for the current locale.
-   * If localization is disabled, this will be the
-   * empty string; otherwise, it will be a slash followed
-   * by the locale's ISO 639-1 code, e.g. '/en'.
+   * This will be a slash followed by the locale's ISO 639-1 code,
+   * e.g. '/en'.
    */
   get localePathPrefix(): string {
-    const { locale } = this;
-    return locale === "" ? "" : `/${locale}`;
+    return `/${this.locale}`;
   }
 
   /**
    * Initialize the instance to the given locale.
    *
-   * @param locale An empty string to indicate that localization is
-   *   disabled, or an ISO 639-1 code such as 'en' or 'es'.
+   * @param locale An ISO 639-1 code such as 'en' or 'es'.
    */
-  initialize(locale: string) {
+  initialize(locale: SupportedLocale) {
     this._locale = locale;
     this._changeListeners.forEach((cb) => cb());
+
+    // We used to support having the locale be an empty string to
+    // disable localization, but removed support for it; just to
+    // make sure we don't have any code that still thinks we support
+    // it, we'll make an assertion here.
+    if (!locale) {
+      throw new Error("Assertion failure, locale must be a non-empty string!");
+    }
   }
 
   /** Return whether the instance is initialized. */

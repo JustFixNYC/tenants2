@@ -22,7 +22,7 @@ describe("App", () => {
   const buildPal = (initialSession = FakeSessionInfo) => {
     const props: AppProps = {
       initialURL: "/",
-      locale: "",
+      locale: "en",
       initialSession,
       server: FakeServerInfo,
       children: <AppContextCapturer />,
@@ -75,7 +75,7 @@ describe("AppWithoutRouter", () => {
     const { client } = createTestGraphQlClient();
     const props: AppPropsWithRouter = {
       initialURL: "/",
-      locale: "",
+      locale: "en",
       initialSession,
       server: FakeServerInfo,
       history: {} as any,

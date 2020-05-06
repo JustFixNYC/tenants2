@@ -4,15 +4,14 @@ import ReactTestingLibraryPal from "./rtl-pal";
 import { LinguiI18n, li18n } from "../i18n-lingui";
 import { Trans, t } from "@lingui/macro";
 import { wait } from "@testing-library/react";
+import { getUSStateChoiceLabels } from "../../../common-data/us-state-choices";
 
 describe("<LinguiI18n>", () => {
   afterEach(ReactTestingLibraryPal.cleanup);
 
-  const helloWorldJSX = (
-    <LinguiI18n>
-      <Trans>Hello world</Trans>
-    </LinguiI18n>
-  );
+  const linguified = (el: JSX.Element) => <LinguiI18n>{el}</LinguiI18n>;
+
+  const helloWorldJSX = linguified(<Trans>Hello world</Trans>);
 
   it("Works in English", async () => {
     i18n.initialize("en");
@@ -28,5 +27,12 @@ describe("<LinguiI18n>", () => {
     await wait(() => pal.rr.getByText("Hola mundo"));
     expect(li18n.language).toBe("es");
     expect(li18n._(t`Hello world`)).toBe("Hola mundo");
+  });
+
+  it("localizes commondatabuilder choices", async () => {
+    i18n.initialize("es");
+    const NewMexico = () => <p>{getUSStateChoiceLabels()["NM"]}</p>;
+    const pal = new ReactTestingLibraryPal(linguified(<NewMexico />));
+    await wait(() => pal.rr.getByText("Nuevo México"));
   });
 });

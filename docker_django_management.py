@@ -118,9 +118,12 @@ VENV_DIR = os.environ.get('DDM_VENV_DIR', '')
 CONTAINER_NAME = os.environ.get('DDM_CONTAINER_NAME')
 IS_RUNNING_IN_DOCKER = 'DDM_IS_RUNNING_IN_DOCKER' in os.environ
 
+# manage.py commands that don't require access to the database.
 NO_DB_MANAGEMENT_CMDS = [
     'collectstatic',
+    'makemessages',
     'compilemessages',
+    'help',
     '--help',
 ]
 

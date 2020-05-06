@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from project.forms import SetPasswordForm, UniqueEmailForm, ensure_at_least_one_is_true
 from project.util.mailing_address import (
@@ -19,6 +20,11 @@ class FullName(forms.ModelForm):
         model = JustfixUser
         fields = ('first_name', 'last_name')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
 
 class CityState(forms.Form):
     city = forms.CharField(**CITY_KWARGS)
@@ -32,7 +38,9 @@ class CityState(forms.Form):
             return city
         if len(cities) == 0:
             state_name = US_STATE_CHOICES.get_label(state)
-            raise ValidationError(f"{city}, {state_name} doesn't seem to exist!")
+            raise ValidationError(
+                _("%(city)s, %(state_name)s doesn't seem to exist!") % locals()
+            )
         return cities[0]
 
     def clean(self):

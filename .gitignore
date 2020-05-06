@@ -12,6 +12,7 @@ tsc-build/
 coverage/
 locales/_build
 locales/**/messages.js
+locales/**/*.mo
 frontend/static/frontend/*.js
 frontend/static/frontend/*.css
 frontend/static/frontend/*.map

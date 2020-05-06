@@ -1,6 +1,8 @@
 from typing import List, Dict
 from django.db import models
 from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
+
 from project.common_data import Choices
 
 
@@ -14,7 +16,7 @@ class ZipCodeValidator(RegexValidator):
         # https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s14.html
         super().__init__(
             regex=r"^[0-9]{5}(?:-[0-9]{4})?$",
-            message="Enter a valid U.S. zip code."
+            message=_("Enter a valid U.S. zip code.")
         )
 
 

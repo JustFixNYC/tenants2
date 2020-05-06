@@ -182,7 +182,7 @@ const JustfixSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             </div>
           </section>
         </div>
-        <Footer />
+        <Footer pathname={props.location.pathname} />
       </>
     );
   }

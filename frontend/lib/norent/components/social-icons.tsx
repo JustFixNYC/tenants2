@@ -20,7 +20,7 @@ const prefilledTwitterCopy =
 const prefilledEmailSubject =
   "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent";
 const prefilledEmailBody =
-  "I used www.norent.org to tell my landlord that I'm unable to pay May's rent. " +
+  "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. " +
   "This free tool helps you build and send a letter to your landlord, cites legal protections in your state, " +
   "and connects you to other people in your community working to #cancelrent";
 
@@ -28,7 +28,7 @@ const prefilledEmailBody =
  * Links for users to share out the product on social media
  * with a pre-filled message (if applicable)
  */
-const socialMediaShareOutLinks = [
+const socialMediaShareOutLinks = () => [
   {
     name: "twitter",
     url:
@@ -63,7 +63,7 @@ export const SocialIcons = (props: {
   linksAreForSharing?: boolean;
 }) => {
   const links = props.linksAreForSharing
-    ? socialMediaShareOutLinks
+    ? socialMediaShareOutLinks()
     : socialMediaPageLinks;
   return (
     <div className="buttons jf-social-icons">

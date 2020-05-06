@@ -37,11 +37,15 @@ const socialMediaShareOutLinks = [
   },
   {
     name: "facebook",
-    url:
-      `https://www.facebook.com/dialog/share` +
-      `?app_id=247990609143668` +
-      `&display=popup&href=${getGlobalAppServerInfo().originURL}` +
-      `&redirect_uri=https%3A%2F%2Fwww.facebook.com%2F`,
+    url: getGlobalAppServerInfo().facebookAppId
+      ? `https://www.facebook.com/dialog/share` +
+        `?app_id=${encodeURIComponent(
+          getGlobalAppServerInfo().facebookAppId
+        )}` +
+        `&display=popup&href=${getGlobalAppServerInfo().originURL}` +
+        `&redirect_uri=https%3A%2F%2Fwww.facebook.com%2F`
+      : `https://www.facebook.com/sharer/sharer.php` +
+        `?u=${encodeURI(getGlobalAppServerInfo().originURL)}`,
   },
   {
     name: "email",

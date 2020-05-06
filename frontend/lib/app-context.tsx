@@ -168,6 +168,13 @@ export interface AppServerInfo {
    * intended for training or review purposes.
    */
   isDemoDeployment: boolean;
+
+  /**
+   * An optional "Facebook App ID" for the an associated organization's Facebook page.
+   * If empty (the default), there will be no reference to a Facebook App ID
+   * in the header metatags for the site.
+   */
+  facebookAppId: string;
 }
 
 /**

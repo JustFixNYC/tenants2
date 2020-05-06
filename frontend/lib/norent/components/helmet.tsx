@@ -8,8 +8,6 @@ const favicon16 = getImageSrc("favicon-16x16", "png");
 const favicon32 = getImageSrc("favicon-32x32", "png");
 const favicon96 = getImageSrc("favicon-96x96", "png");
 
-// The public-facing FB App ID associated with the JustFixNYC Facebook organization
-const FB_APP_ID = "247990609143668";
 const TWITTER_HANDLE = "@JustFixNYC";
 
 const description =
@@ -50,7 +48,9 @@ export const NorentHelmet = () => {
       <meta name="keywords" content={keywords} />
       <meta name="author" content="JustFix.nyc" />
 
-      <meta property="fb:app_id" content={FB_APP_ID} />
+      {server.facebookAppId && (
+        <meta property="fb:app_id" content={server.facebookAppId} />
+      )}
       <meta property="og:site_name" content={siteName} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={server.originURL} />

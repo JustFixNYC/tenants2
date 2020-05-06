@@ -46,17 +46,8 @@ ARG IS_GIT_REPO_PRISTINE
 ENV GIT_REVISION=$GIT_REVISION
 ENV IS_GIT_REPO_PRISTINE=$IS_GIT_REPO_PRISTINE
 
-# We specify 'USE_DEVELOPMENT_DEFAULTS=yup' and a fake
-# database URL for these commands so that they can be run
-# without raising any errors about undefined environment
-# variables (this is fine, since they don't need
-# to use any production env vars or access the database).
 RUN yarn build \
-  && USE_DEVELOPMENT_DEFAULTS=yup \
-     DATABASE_URL=postgres://it-does-not/matter \
-     python manage.py collectstatic \
-  && USE_DEVELOPMENT_DEFAULTS=yup \
-     DATABASE_URL=postgres://it-does-not/matter \
-     python manage.py compilemessages
+  && python manage.py collectstatic \
+  && python manage.py compilemessages
 
 CMD gunicorn --bind 0.0.0.0:$PORT project.wsgi

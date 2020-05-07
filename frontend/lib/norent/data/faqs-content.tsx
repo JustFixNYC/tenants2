@@ -1,5 +1,7 @@
 import React from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
+import { li18n } from "../../i18n-lingui";
+import { t } from "@lingui/macro";
 
 export type FaqCategory =
   | "Letter Builder"
@@ -7,6 +9,22 @@ export type FaqCategory =
   | "Connecting With Others"
   | "After Sending Your Letter"
   | "States with Limited Protections";
+
+type FaqCategoryLabels = {
+  [k in FaqCategory]: string;
+};
+
+export function getLabelNameForFaqCategory(): FaqCategoryLabels {
+  return {
+    "Letter Builder": li18n._(t`Letter Builder`),
+    "Tenant Rights": li18n._(t`Tenant Rights`),
+    "Connecting With Others": li18n._(t`Connecting With Others`),
+    "After Sending Your Letter": li18n._(t`After Sending Your Letter`),
+    "States with Limited Protections": li18n._(
+      t`States with Limited Protections`
+    ),
+  };
+}
 
 export type Faq = {
   question: string;

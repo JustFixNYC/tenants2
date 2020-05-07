@@ -32,7 +32,9 @@ export const Footer = (props: { pathname?: string }) => {
               getRoutesWithCreditForLHI().includes(props.pathname) && (
                 <p>
                   Developed with{" "}
-                  <a href="https://justfix.nyc">Law Help Interactive</a>
+                  <a href="https://lawhelpinteractive.org/">
+                    Law Help Interactive
+                  </a>
                 </p>
               )}
           </div>

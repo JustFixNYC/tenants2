@@ -76,7 +76,6 @@ export const NorentFaqsPreview = () => {
           <h3 className="is-spaced has-text-weight-normal is-size-5">
             <Trans>
               Sending a letter to your landlord is a big step. Here are a few{" "}
-              {/* REPLACE once routes are set up */}
               <Link to={NorentRoutes.locale.faqs}>
                 frequently asked questions
               </Link>{" "}

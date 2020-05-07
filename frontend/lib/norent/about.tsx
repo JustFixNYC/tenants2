@@ -13,7 +13,7 @@ type PartnerLogo = {
   href: string;
 };
 
-const partnerLogoItems: PartnerLogo[] = [
+const partnerLogoItems: () => PartnerLogo[] = () => [
   {
     name: li18n._(t`Community Justice Project`),
     srcName: "cjp",
@@ -48,7 +48,7 @@ const partnerLogoItems: PartnerLogo[] = [
 
 export const PartnerLogos = () => (
   <div className="jf-partner-logos columns is-mobile is-multiline is-variable is-8-desktop">
-    {partnerLogoItems.map((partnerDetails, i) => (
+    {partnerLogoItems().map((partnerDetails, i) => (
       <div
         className="column is-one-third-tablet is-half-mobile jf-has-centered-images is-paddingless"
         key={i}
@@ -88,7 +88,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
       </div>
       <br />
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <JumpArrow to="#more-info" altText="Learn more" />
+        <JumpArrow to="#more-info" altText={li18n._(t`Learn more`)} />
         <br />
       </div>
     </section>

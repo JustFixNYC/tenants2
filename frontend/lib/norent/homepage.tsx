@@ -59,7 +59,7 @@ export const StickyLetterButtonContainer = (props: {
   </div>
 );
 
-const checklistItems = [
+const checklistItems = () => [
   li18n._(t`Build a letter using our free letter builder`),
   li18n._(t`Send your letter by email`),
   li18n._(t`Send your letter by certified mail for free`),
@@ -89,7 +89,7 @@ export const LandingPageChecklist = (props: {
       <div className="container jf-tight-container">
         <br />
         <div className="jf-space-below-2rem">
-          {checklistItems.map((checklistItem, i) => (
+          {checklistItems().map((checklistItem, i) => (
             <article className="media" key={i}>
               <div className="media-left">
                 <StaticImage
@@ -108,7 +108,7 @@ export const LandingPageChecklist = (props: {
   </section>
 );
 
-const demandsListItems = [
+const demandsListItems = () => [
   li18n._(t`Going on rent strike`),
   li18n._(t`Cancelling rent`),
   li18n._(t`Banning evictions`),
@@ -116,7 +116,7 @@ const demandsListItems = [
 
 const LandingPageCollectiveActionList = () => (
   <div className="container jf-collective-action-list jf-space-below-2rem">
-    {demandsListItems.map((demand, i) => (
+    {demandsListItems().map((demand, i) => (
       <article className="media" key={i}>
         <div className="media-left">
           <StaticImage ratio="is-64x64" src={getImageSrc("fistpump")} alt="" />

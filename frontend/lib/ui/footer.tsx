@@ -1,5 +1,19 @@
 import React from "react";
 import { PrivacyPolicyLink, TermsOfUseLink } from "./privacy-info-modal";
+import Routes from "../routes";
+import { ROUTE_PREFIX } from "../util/route-util";
+
+const CreditForLHI = (props: { pathname?: string }) =>
+  /* Include credit for LHI only on ehp routes */
+  props.pathname &&
+  props.pathname.startsWith(Routes.locale.ehp[ROUTE_PREFIX]) ? (
+    <p>
+      Developed with{" "}
+      <a href="https://lawhelpinteractive.org/">Law Help Interactive</a>
+    </p>
+  ) : (
+    <></>
+  );
 
 export const Footer = (props: { pathname?: string }) => {
   return (
@@ -25,15 +39,7 @@ export const Footer = (props: { pathname?: string }) => {
               Made with NYC ♥ by the team at{" "}
               <a href="https://justfix.nyc">JustFix.nyc</a>
             </p>
-            {/* Include credit for LHI on all ehp routes */}
-            {props.pathname && props.pathname.includes("/ehp") && (
-              <p>
-                Developed with{" "}
-                <a href="https://lawhelpinteractive.org/">
-                  Law Help Interactive
-                </a>
-              </p>
-            )}
+            <CreditForLHI pathname={props.pathname} />
           </div>
         </div>
         <div className="columns">

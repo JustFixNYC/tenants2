@@ -236,7 +236,7 @@ LANGUAGE_CODE = locales.ALL.en
 if env.ENABLE_WIP_LOCALES:
     LANGUAGES = locales.ALL.choices
 else:
-    LANGUAGES = locales.FULLY_SUPPORTED.choices
+    LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices
 
 LOCALE_PATHS = [
     str(BASE_DIR / "locales")

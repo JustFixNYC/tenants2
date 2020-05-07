@@ -6,7 +6,7 @@ justfix_environment.IS_RUNNING_TESTS = True
 from .settings import *  # noqa
 
 # Only support our fully-supported languages by default.
-LANGUAGES = locales.FULLY_SUPPORTED.choices  # noqa
+LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices  # noqa
 
 # Disable 2FA by default.
 TWOFACTOR_VERIFY_DURATION = 0

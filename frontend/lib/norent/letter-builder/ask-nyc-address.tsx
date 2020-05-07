@@ -25,6 +25,8 @@ import {
 } from "../../forms/apt-number-form-fields";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { NorentOnboardingStep } from "./step-decorators";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
@@ -37,10 +39,15 @@ const ConfirmNycAddressModal: React.FC<{
   }
 
   return (
-    <NorentConfirmationModal title="Confirming the address" nextStep={nextStep}>
+    <NorentConfirmationModal
+      title={li18n._(t`Confirming the address`)}
+      nextStep={nextStep}
+    >
       <p>
-        Our records have shown us a similar address. Would you like to proceed
-        with this address:
+        <Trans>
+          Our records have shown us a similar address. Would you like to proceed
+          with this address:
+        </Trans>
       </p>
       <p className="content is-italic">
         {addrInfo.address}, {borough}
@@ -65,7 +72,11 @@ export const NorentLbAskNycAddress = NorentOnboardingStep((props) => {
   return (
     <Page title="Your residence" withHeading="big">
       <div className="content">
-        <p>We'll include this information in the letter to your landlord.</p>
+        <p>
+          <Trans>
+            We'll include this information in the letter to your landlord.
+          </Trans>
+        </p>
       </div>
       <SessionUpdatingFormSubmitter
         formId="address"

@@ -18,6 +18,7 @@ import { NorentOptInToRttcCommsMutation } from "../../queries/NorentOptInToRttcC
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
+import { Trans } from "@lingui/macro";
 
 /**
  * The default value of the RTTC checkbox; this will essentially determine if RTTC
@@ -43,24 +44,30 @@ const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
   return (
     <>
       <p>
-        Unfortunately, we do not currently recommend sending a notice of
-        non-payment to your landlord. Sending a notice could put you at risk.{" "}
+        <Trans>
+          Unfortunately, we do not currently recommend sending a notice of
+          non-payment to your landlord. Sending a notice could put you at risk.
+        </Trans>{" "}
         <Link to={getStatesWithLimitedProtectionsFAQSectionURL()}>
-          Learn more.
+          <Trans>Learn more.</Trans>
         </Link>
       </p>
 
       <p>
-        We’ve partnered with{" "}
-        <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
-        additional support.
+        <Trans>
+          We’ve partnered with{" "}
+          <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
+          additional support.
+        </Trans>
       </p>
 
       {props.rttcCheckbox}
 
       <p>
-        If you’d still like to create an account, we can send you updates in the
-        future.
+        <Trans>
+          If you’d still like to create an account, we can send you updates in
+          the future.
+        </Trans>
       </p>
     </>
   );
@@ -82,7 +89,7 @@ const OneOrTwoPartnerLinks = (props: {
   <>
     {props.localStatePartner && (
       <>
-        <PartnerLink {...props.localStatePartner} /> and{" "}
+        <PartnerLink {...props.localStatePartner} /> <Trans>and</Trans>{" "}
       </>
     )}
     <PartnerLink {...DefaultStatePartnerForBuilder} />
@@ -95,9 +102,11 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
     <p>
-      We’ve partnered with{" "}
-      <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
-      additional support once you’ve sent your letter.
+      <Trans>
+        We’ve partnered with{" "}
+        <OneOrTwoPartnerLinks localStatePartner={props.partner} /> to provide
+        additional support once you’ve sent your letter.
+      </Trans>
     </p>
     {props.rttcCheckbox}
   </>
@@ -111,7 +120,9 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   if (!rawState) {
     return (
       <p>
-        Please <Link to={props.prevStep}>go back and choose a state</Link>.
+        <Trans>
+          Please <Link to={props.prevStep}>go back and choose a state</Link>.
+        </Trans>
       </p>
     );
   }
@@ -124,7 +135,9 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   return (
     <Page title="Know your rights">
       <h2 className="title">
-        You're in <span className="has-text-info">{stateName}</span>
+        <Trans>
+          You're in <span className="has-text-info">{stateName}</span>
+        </Trans>
       </h2>
 
       <SessionUpdatingFormSubmitter
@@ -137,8 +150,10 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
         {(ctx) => {
           const checkbox = (
             <CheckboxFormField {...ctx.fieldPropsFor("optIn")}>
-              Right to the City Alliance can contact me to provide additional
-              support.
+              <Trans>
+                Right to the City Alliance can contact me to provide additional
+                support.
+              </Trans>
             </CheckboxFormField>
           );
 

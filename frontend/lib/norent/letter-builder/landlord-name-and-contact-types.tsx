@@ -10,26 +10,34 @@ import { AppContext } from "../../app-context";
 import { LetterBuilderAccordion } from "./welcome";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 const ReadOnlyLandlordDetails: React.FC<
   MiddleProgressStepProps & { details: AllSessionInfo_landlordDetails }
 > = ({ details, nextStep, prevStep }) => {
   return (
     <div className="content">
-      <p>
-        This is your landlord’s information as registered with the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-        different than where you send your rent checks.
-      </p>
-      <p>We will use this address to ensure your landlord receives it.</p>
+      <Trans>
+        <p>
+          This is your landlord’s information as registered with the{" "}
+          <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
+          different than where you send your rent checks.
+        </p>
+        <p>We will use this address to ensure your landlord receives it.</p>
+      </Trans>
       <dl>
         <dt>
-          <strong>Landlord name</strong>
+          <strong>
+            <Trans>Landlord name</Trans>
+          </strong>
         </dt>
         <dd>{details.name}</dd>
         <br />
         <dt>
-          <strong>Landlord address</strong>
+          <strong>
+            <Trans>Landlord address</Trans>
+          </strong>
         </dt>
         <dd>
           <BreaksBetweenLines lines={details.address} />
@@ -43,7 +51,7 @@ const ReadOnlyLandlordDetails: React.FC<
 const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
   <>
     <p className="jf-space-below-2rem">
-      We'll use this information to send your letter.
+      <Trans>We'll use this information to send your letter.</Trans>
     </p>
     <br />
     <SessionUpdatingFormSubmitter
@@ -65,21 +73,31 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
             {...ctx.fieldPropsFor("name")}
             label="Landlord/management company's name"
           />
-          <LetterBuilderAccordion question="Where do I find this information?">
-            If you write checks or transfer money through your bank to pay your
-            rent, use that name here.
+          <LetterBuilderAccordion
+            question={li18n._(t`Where do I find this information?`)}
+          >
+            <Trans>
+              If you write checks or transfer money through your bank to pay
+              your rent, use that name here.
+            </Trans>
           </LetterBuilderAccordion>
           <p>
-            What contact information do you have for your landlord or building
-            management?{" "}
-            <span className="has-text-weight-bold">Choose all that apply.</span>
+            <Trans>
+              What contact information do you have for your landlord or building
+              management?{" "}
+              <span className="has-text-weight-bold">
+                Choose all that apply.
+              </span>
+            </Trans>
           </p>
           <CheckboxFormField {...ctx.fieldPropsFor("hasEmailAddress")}>
-            Email address{" "}
-            <span className="has-text-weight-bold">(recommended)</span>
+            <Trans>
+              Email address{" "}
+              <span className="has-text-weight-bold">(recommended)</span>
+            </Trans>
           </CheckboxFormField>
           <CheckboxFormField {...ctx.fieldPropsFor("hasMailingAddress")}>
-            Mailing address
+            <Trans>Mailing address</Trans>
           </CheckboxFormField>
           <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
         </>
@@ -93,7 +111,7 @@ export const NorentLandlordNameAndContactTypes = NorentNotSentLetterStep(
     const { session } = useContext(AppContext);
     return (
       <Page
-        title="Your landlord or management company's information"
+        title={li18n._(t`Your landlord or management company's information`)}
         withHeading="big"
         className="content"
       >

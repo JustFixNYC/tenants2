@@ -3,6 +3,7 @@ import Page from "../../ui/page";
 import { NorentRoutes } from "../routes";
 import { CustomerSupportLink } from "../../ui/customer-support-link";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
+import { Trans } from "@lingui/macro";
 
 type ErrorPageProps = {
   title: string;
@@ -19,21 +20,25 @@ const ErrorPage: React.FC<ErrorPageProps> = (props) => (
 
 export const NorentNotLoggedInErrorPage: React.FC<{}> = () => (
   <ErrorPage title="Looks like you're not logged in">
-    <p>Sign up or log in to your account to access our tool.</p>
+    <p>
+      <Trans>Sign up or log in to your account to access our tool.</Trans>
+    </p>
     <br />
     <CenteredPrimaryButtonLink to={getLbRoutes().phoneNumber}>
-      Log in
+      <Trans>Log in</Trans>
     </CenteredPrimaryButtonLink>
   </ErrorPage>
 );
 
 export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
   <ErrorPage title="Looks like you've already sent a letter">
-    <p>Our tool only allows you to send one letter at a time.</p>
-    <p>Continue to the confirmation page for what to do next.</p>
+    <Trans>
+      <p>Our tool only allows you to send one letter at a time.</p>
+      <p>Continue to the confirmation page for what to do next.</p>
+    </Trans>
     <br />
     <CenteredPrimaryButtonLink to={getLbRoutes().confirmation}>
-      Continue
+      <Trans>Continue</Trans>
     </CenteredPrimaryButtonLink>
   </ErrorPage>
 );
@@ -41,12 +46,14 @@ export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
 export const NorentAlreadyLoggedInErrorPage: React.FC<{}> = () => (
   <ErrorPage title="Looks like you're already logged in">
     <p>
-      If you need to make changes to your name or contact information, please
-      contact <CustomerSupportLink />.
+      <Trans>
+        If you need to make changes to your name or contact information, please
+        contact <CustomerSupportLink />.
+      </Trans>
     </p>
     <br />
     <CenteredPrimaryButtonLink to={getLbRoutes().latestStep}>
-      Continue
+      <Trans>Continue</Trans>
     </CenteredPrimaryButtonLink>
   </ErrorPage>
 );

@@ -17,6 +17,8 @@ import { AppContext } from "../../app-context";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const getConfirmModalRoute = () =>
   NorentRoutes.locale.letter.landlordAddressConfirmModal;
@@ -26,10 +28,14 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
 
   return (
     <NorentConfirmationModal
-      title="Our records tell us that this address is undeliverable."
+      title={li18n._(
+        t`Our records tell us that this address is undeliverable.`
+      )}
       nextStep={nextStep}
     >
-      <p>Do you still want to mail to:</p>
+      <p>
+        <Trans>Do you still want to mail to:</Trans>
+      </p>
       <p className="content is-italic">
         <BreaksBetweenLines lines={landlordDetails?.address || ""} />
       </p>
@@ -40,11 +46,13 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
 const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
   return (
     <Page
-      title="Your landlord or management company's address"
+      title={li18n._(t`Your landlord or management company's address`)}
       withHeading="big"
       className="content"
     >
-      <p>We'll use this information to send your letter.</p>
+      <p>
+        <Trans>We'll use this information to send your letter.</Trans>
+      </p>
       <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsV2Mutation}
         initialState={(session) =>
@@ -62,13 +70,16 @@ const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
             <HiddenFormField {...ctx.fieldPropsFor("name")} />
             <TextualFormField
               {...ctx.fieldPropsFor("primaryLine")}
-              label="Street address"
+              label={li18n._(t`Street address`)}
             />
-            <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
+            <TextualFormField
+              {...ctx.fieldPropsFor("city")}
+              label={li18n._(t`City`)}
+            />
             <USStateFormField {...ctx.fieldPropsFor("state")} />
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}
-              label="Zip code"
+              label={li18n._(t`Zip code`)}
             />
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
           </>

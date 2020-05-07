@@ -13,6 +13,8 @@ import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import { NorentRequireLoginStep } from "./step-decorators";
 import { NorentNonpaymentDocumentation } from "../data/faqs-content";
 import { SocialIcons } from "../components/social-icons";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -53,7 +55,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
 
   return (
     <Page
-      title="You've sent your letter"
+      title={li18n._(t`You've sent your letter`)}
       className="content jf-norent-letter-confirmation"
     >
       <div className="media">
@@ -61,18 +63,22 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           <i className="has-text-info">{checkCircleSvg}</i>
         </div>
         <div className="media-content">
-          <h2 className="title">You've sent your letter</h2>
+          <h2 className="title">
+            <Trans>You've sent your letter</Trans>
+          </h2>
         </div>
       </div>
       {letter?.trackingNumber ? (
         <>
           <p>
-            Your letter has been mailed to your landlord via USPS Certified
-            Mail. A copy of your letter has also been sent to your email.
+            <Trans>
+              Your letter has been mailed to your landlord via USPS Certified
+              Mail. A copy of your letter has also been sent to your email.
+            </Trans>
           </p>
           <p>
             <span className="is-size-5 has-text-weight-bold">
-              USPS Tracking #:
+              <Trans>USPS Tracking #:</Trans>
             </span>{" "}
             <OutboundLink
               href={`${USPS_TRACKING_URL_PREFIX}${letter.trackingNumber}`}
@@ -86,26 +92,36 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         </>
       ) : (
         <p>
-          Your letter has been sent to your landlord via email. A copy of your
-          letter has also been sent to your email.
+          <Trans>
+            Your letter has been sent to your landlord via email. A copy of your
+            letter has also been sent to your email.
+          </Trans>
         </p>
       )}
-      <h2 className="title is-spaced has-text-info">What happens next?</h2>
-      <h3 className="title jf-alt-title-font">Gather documentation</h3>
+      <h2 className="title is-spaced has-text-info">
+        <Trans>What happens next?</Trans>
+      </h2>
+      <h3 className="title jf-alt-title-font">
+        <Trans>Gather documentation</Trans>
+      </h3>
       <p
         className={classnames(
           !(stateName && needsDocumentation) && "is-marginless"
         )}
       >
-        While you wait for your landlord to respond, gather as much
-        documentation as you can. This can include a letter from your employer,
-        receipts, doctor’s notes etc.
+        <Trans>
+          While you wait for your landlord to respond, gather as much
+          documentation as you can. This can include a letter from your
+          employer, receipts, doctor’s notes etc.
+        </Trans>
       </p>
       <>
         {stateName && needsDocumentation && (
           <p className="is-marginless">
-            {stateName} has specific documentation requirements to support your
-            letter to your landlord.
+            <Trans>
+              {stateName} has specific documentation requirements to support
+              your letter to your landlord.
+            </Trans>
           </p>
         )}
         {stateName && (
@@ -114,14 +130,21 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (
                   <p>
-                    In {stateName}, you have{" "}
-                    {numDaysToSend && (
-                      <span className="has-text-weight-bold">
-                        {numDaysToSend} days{" "}
-                      </span>
+                    {numDaysToSend ? (
+                      <Trans>
+                        In {stateName}, you have{" "}
+                        <span className="has-text-weight-bold">
+                          {numDaysToSend} days{" "}
+                        </span>
+                        to send documentation to your landlord proving you can’t
+                        pay rent.
+                      </Trans>
+                    ) : (
+                      <Trans>
+                        In {stateName}, you have to send documentation to your
+                        landlord proving you can’t pay rent.
+                      </Trans>
                     )}
-                    to send documentation to your landlord proving you can’t pay
-                    rent.
                   </p>
                 )}
                 <div className="jf-is-nonpayment-documentation">
@@ -133,33 +156,43 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         )}
       </>
       <h3 className="title jf-alt-title-font">
-        Contact a lawyer if your landlord retaliates
+        <Trans>Contact a lawyer if your landlord retaliates</Trans>
       </h3>
       <p>
-        It’s possible that your landlord will retaliate once they’ve received
-        your letter. This is illegal. Contact{" "}
-        <OutboundLink
-          className="has-text-weight-normal"
-          href={legalAidLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          your local legal aid provider
-        </OutboundLink>{" "}
-        for assistance.
+        <Trans>
+          It’s possible that your landlord will retaliate once they’ve received
+          your letter. This is illegal. Contact{" "}
+          <OutboundLink
+            className="has-text-weight-normal"
+            href={legalAidLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            your local legal aid provider
+          </OutboundLink>{" "}
+          for assistance.
+        </Trans>
       </p>
       <br />
-      <h2 className="title is-spaced has-text-info">More resources</h2>
-      <h3 className="title jf-alt-title-font">Build power in numbers</h3>
+      <h2 className="title is-spaced has-text-info">
+        <Trans>More resources</Trans>
+      </h2>
+      <h3 className="title jf-alt-title-font">
+        <Trans>Build power in numbers</Trans>
+      </h3>
       <p>
-        Our homes, health, and collective safety and futures are on the line.
-        Millions of us don’t know how we are going to pay our rent, mortgage, or
-        utilities on May 1st, yet landlords and banks are expecting payment as
-        if it’s business as usual. It’s not.
+        <Trans>
+          Our homes, health, and collective safety and futures are on the line.
+          Millions of us don’t know how we are going to pay our rent, mortgage,
+          or utilities on May 1st, yet landlords and banks are expecting payment
+          as if it’s business as usual. It’s not.
+        </Trans>
       </p>
       <p>
-        Join millions of us to fight for a future free from debt and to win a
-        national suspension on rent, mortgage and utility payments!
+        <Trans>
+          Join millions of us to fight for a future free from debt and to win a
+          national suspension on rent, mortgage and utility payments!
+        </Trans>
       </p>
       <p className="has-text-centered">
         <OutboundLink
@@ -168,15 +201,17 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Sign the petition
+          <Trans>Sign the petition</Trans>
         </OutboundLink>
       </p>
       <h3 className="title jf-alt-title-font">
-        Mobile/Manufactured Home Residents
+        <Trans>Mobile/Manufactured Home Residents</Trans>
       </h3>
       <p>
-        Click here to join MHAction’s movement to hold corporate community
-        owners accountable.
+        <Trans>
+          Click here to join MHAction’s movement to hold corporate community
+          owners accountable.
+        </Trans>
       </p>
       <p className="has-text-centered">
         <OutboundLink
@@ -185,15 +220,19 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Go to website
+          <Trans>Go to website</Trans>
         </OutboundLink>
       </p>
       <br />
-      <h2 className="title is-spaced has-text-info">Give us feedback</h2>
+      <h2 className="title is-spaced has-text-info">
+        <Trans>Give us feedback</Trans>
+      </h2>
       <p>
-        This tool is provided by JustFix.nyc. We’re a non-profit that creates
-        tools for tenants and the housing rights movement. We always want
-        feedback to improve our tools.
+        <Trans>
+          This tool is provided by JustFix.nyc. We’re a non-profit that creates
+          tools for tenants and the housing rights movement. We always want
+          feedback to improve our tools.
+        </Trans>
       </p>
       <p className="has-text-centered">
         <OutboundLink
@@ -202,13 +241,13 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Give feedback
+          <Trans>Give feedback</Trans>
         </OutboundLink>
       </p>
       <br />
       <br />
       <h5 className="has-text-centered is-uppercase has-text-weight-normal">
-        Share this tool
+        <Trans>Share this tool</Trans>
       </h5>
       <SocialIcons linksAreForSharing />
     </Page>

@@ -32,6 +32,7 @@ import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans } from "@lingui/macro";
+import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -162,7 +163,9 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             tabIndex={-1}
           >
             <LoadingOverlayManager>
-              <Route component={NorentRoute} />
+              <LocalizedNationalMetadataProvider>
+                <Route component={NorentRoute} />
+              </LocalizedNationalMetadataProvider>
             </LoadingOverlayManager>
           </div>
         </section>

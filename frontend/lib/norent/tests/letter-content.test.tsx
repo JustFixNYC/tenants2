@@ -4,6 +4,9 @@ import {
   NorentLetterContent,
   noRentSampleLetterProps,
 } from "../letter-content";
+import { initNationalMetadataForTesting } from "../letter-builder/tests/national-metadata-test-util";
+
+beforeAll(initNationalMetadataForTesting);
 
 describe("<NorentLetterContent>", () => {
   afterEach(ReactTestingLibraryPal.cleanup);

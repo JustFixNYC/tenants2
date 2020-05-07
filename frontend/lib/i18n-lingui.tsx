@@ -25,7 +25,7 @@ const EsCatalog: LoadableCatalog = loadable.lib(
 
 /**
  * Returns a component that loads the Lingui message catalog for
- * the given string.
+ * the given locale.
  */
 function getLinguiCatalogForLanguage(locale: SupportedLocale): LoadableCatalog {
   switch (locale) {

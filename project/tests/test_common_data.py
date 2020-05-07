@@ -26,3 +26,18 @@ def test_getattr_raises_err_on_invalid_choice_name():
 
     with pytest.raises(AttributeError, match='or valid choice'):
         choices.BOOOOP
+
+
+def test_validate_choices_raises_no_err_on_valid_choices():
+    choices = Choices(choices=[('FOO', 'Foo'), ('BAR', 'Bar')])
+
+    choices.validate_choices('FOO')
+    choices.validate_choices('BAR')
+    choices.validate_choices('FOO', 'BAR')
+
+
+def test_validate_choices_raises_err_on_invalid_choice_name():
+    choices = Choices(choices=[('FOO', 'Foo'), ('BAR', 'Bar')])
+
+    with pytest.raises(ValueError, match="'BOOOOP' is not a valid choice"):
+        choices.validate_choices('FOO', 'BOOOOP')

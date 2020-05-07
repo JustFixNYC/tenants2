@@ -14,7 +14,7 @@ from typing import List, Dict, Optional
 import dj_database_url
 import dj_email_url
 
-from . import justfix_environment
+from . import justfix_environment, locales
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
     parse_secure_proxy_ssl_header, LazilyImportedFunction)
@@ -231,22 +231,12 @@ LOGIN_URL = '/login'
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en'
-
-FULLY_SUPPORTED_LANGUAGES = [
-    ('en', 'English'),
-]
-
-PARTIALLY_SUPPORTED_LANGUAGES = [
-    ('es', 'Spanish'),
-]
-
-LANGUAGES = [
-    *FULLY_SUPPORTED_LANGUAGES,
-]
+LANGUAGE_CODE = locales.ALL.en
 
 if env.ENABLE_WIP_LOCALES:
-    LANGUAGES.extend(PARTIALLY_SUPPORTED_LANGUAGES)
+    LANGUAGES = locales.ALL.choices
+else:
+    LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices
 
 LOCALE_PATHS = [
     str(BASE_DIR / "locales")

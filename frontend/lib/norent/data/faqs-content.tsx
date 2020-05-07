@@ -11,9 +11,11 @@ export type FaqCategory =
 export type Faq = {
   question: string;
   category: FaqCategory;
-  priority: number;
-  answerPreview: React.ReactNode;
   answerFull: React.ReactNode;
+  previewOptions?: {
+    priorityInPreview: number;
+    answerPreview: React.ReactNode;
+  };
 };
 
 // COMMON OUTBOUND LINKS
@@ -180,19 +182,31 @@ const CollectiveOrganizing = () => (
   </>
 );
 
+/**
+ * All content for FAQ entries throughout the site.
+ *
+ * The order of entries in this array determines the order in which entries appear on the FAQs page,
+ * once entries are sorted by category.
+ *
+ * For any FAQ preview section, only entries that have priorityInPreview defined will be shown,
+ * and these entries will be sorted by their priorityInPreview number.
+ */
 export const FaqsContent: Faq[] = [
   {
     question: "I'm scared. What happens if my landlord retaliates?",
     category: "After Sending Your Letter",
-    priority: 1,
-    answerPreview: (
-      <p>
-        It’s normal to feel anxious or scared that your landlord will retaliate.
-        If your landlord is harassing you, denying you repairs, or trying to
-        illegally evict you, reach out to legal assistance at <LawHelpLink />{" "}
-        and connect with tenant organizers at <RightToTheCityLink />.
-      </p>
-    ),
+    previewOptions: {
+      priorityInPreview: 1,
+      answerPreview: (
+        <p>
+          It’s normal to feel anxious or scared that your landlord will
+          retaliate. If your landlord is harassing you, denying you repairs, or
+          trying to illegally evict you, reach out to legal assistance at{" "}
+          <LawHelpLink /> and connect with tenant organizers at{" "}
+          <RightToTheCityLink />.
+        </p>
+      ),
+    },
     answerFull: (
       <p>
         It’s normal to feel anxious or scared that your landlord will retaliate.
@@ -206,13 +220,15 @@ export const FaqsContent: Faq[] = [
   {
     question: "Is this free?",
     category: "Letter Builder",
-    priority: 2,
-    answerPreview: (
-      <p>
-        Yes, this is a free website created by 501(c)3 non-profit organizations
-        across the United States.
-      </p>
-    ),
+    previewOptions: {
+      priorityInPreview: 2,
+      answerPreview: (
+        <p>
+          Yes, this is a free website created by 501(c)3 non-profit
+          organizations across the United States.
+        </p>
+      ),
+    },
     answerFull: (
       <p>
         Yes, this is a free website created by 501(c)3 non-profit organizations
@@ -223,13 +239,16 @@ export const FaqsContent: Faq[] = [
   {
     question: "Do I have to go to the post office to mail  my letter?",
     category: "Letter Builder",
-    priority: 3,
-    answerPreview: (
-      <p>
-        No, you can use this website to send a letter to your landlord via email
-        or USPS mail. You do not have to pay for the letter to be mailed.
-      </p>
-    ),
+    previewOptions: {
+      priorityInPreview: 3,
+      answerPreview: (
+        <p>
+          No, you can use this website to send a letter to your landlord via
+          email or USPS mail. You do not have to pay for the letter to be
+          mailed.
+        </p>
+      ),
+    },
     answerFull: (
       <p>
         No, you can use this website to send a letter to your landlord via email
@@ -240,15 +259,17 @@ export const FaqsContent: Faq[] = [
   {
     question: "Is there someone I can connect with after this to get help?",
     category: "Connecting With Others",
-    priority: 4,
-    answerPreview: (
-      <p>
-        Connect to organizers through the <RightToTheCityLink />, a national
-        alliance of organizers building the tenant movement since 2007. You can
-        join their call for renters across the country to fight for the
-        cancellation of rent at <CancelRentLink />.
-      </p>
-    ),
+    previewOptions: {
+      priorityInPreview: 4,
+      answerPreview: (
+        <p>
+          Connect to organizers through the <RightToTheCityLink />, a national
+          alliance of organizers building the tenant movement since 2007. You
+          can join their call for renters across the country to fight for the
+          cancellation of rent at <CancelRentLink />.
+        </p>
+      ),
+    },
     answerFull: (
       <>
         <p>
@@ -268,8 +289,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "What does this tool do?",
     category: "Letter Builder",
-    priority: 5,
-    answerPreview: <></>,
     answerFull: (
       <p>
         NoRent.org guides you through the process of notifying your landlord
@@ -282,8 +301,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "Is this tool right for me?",
     category: "Letter Builder",
-    priority: 6,
-    answerPreview: <></>,
     answerFull: (
       <p>
         If you’re not able to pay the rent this month because of a COVID-19
@@ -297,8 +314,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "Why should I notify my landlord if I can’t pay my rent?",
     category: "Tenant Rights",
-    priority: 7,
-    answerPreview: <></>,
     answerFull: (
       <p>
         In some states, in order to benefit from the eviction protections that
@@ -312,8 +327,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "What does an eviction moratorium mean?",
     category: "Tenant Rights",
-    priority: 8,
-    answerPreview: <></>,
     answerFull: (
       <>
         <p>
@@ -341,8 +354,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "What happens when the eviction moratorium ends?",
     category: "Tenant Rights",
-    priority: 9,
-    answerPreview: <></>,
     answerFull: (
       <>
         <p>
@@ -367,8 +378,6 @@ export const FaqsContent: Faq[] = [
     question:
       "Is not paying my rent because of COVID-19 considered a “rent strike”?",
     category: "Tenant Rights",
-    priority: 10,
-    answerPreview: <></>,
     answerFull: (
       <>
         <p>
@@ -398,22 +407,16 @@ export const FaqsContent: Faq[] = [
     question:
       "How do I organize with other tenants in my building, block, or neighborhood?",
     category: "Connecting With Others",
-    priority: 11,
-    answerPreview: <></>,
     answerFull: <CollectiveOrganizing />,
   },
   {
     question: "How can I connect with a lawyer?",
     category: "Connecting With Others",
-    priority: 12,
-    answerPreview: <></>,
     answerFull: <ConnectWithLawyer />,
   },
   {
     question: "What if I live in a manufactured or mobile home?",
     category: "Connecting With Others",
-    priority: 13,
-    answerPreview: <></>,
     answerFull: (
       <p>
         Join a movement of manufactured homeowners who are standing together to
@@ -426,8 +429,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "What happens after I send this letter?",
     category: "After Sending Your Letter",
-    priority: 14,
-    answerPreview: <></>,
     answerFull: (
       <>
         <p>
@@ -449,8 +450,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "Will I still owe my rent after I send this letter?",
     category: "After Sending Your Letter",
-    priority: 15,
-    answerPreview: <></>,
     answerFull: (
       <p>
         Yes, you’ll still owe rent after sending the letter because our state
@@ -462,8 +461,6 @@ export const FaqsContent: Faq[] = [
   {
     question: "Help! My landlord is already trying to evict me.",
     category: "After Sending Your Letter",
-    priority: 16,
-    answerPreview: <></>,
     answerFull: (
       <p>
         If your landlord is trying to illegally evict you, reach out to legal
@@ -475,15 +472,11 @@ export const FaqsContent: Faq[] = [
     question:
       "What kind of documentation should I collect to prove I can’t pay rent?",
     category: "After Sending Your Letter",
-    priority: 17,
-    answerPreview: <></>,
     answerFull: <NonpaymentDocumentation />,
   },
   {
     question: "What if I live in a state without an eviction moratorium?",
     category: "States with Limited Protections",
-    priority: 18,
-    answerPreview: <></>,
     answerFull: (
       <>
         <p>
@@ -525,22 +518,16 @@ export const FaqsContent: Faq[] = [
   {
     question: "How can I document my hardships related to COVID-19?",
     category: "States with Limited Protections",
-    priority: 19,
-    answerPreview: <></>,
     answerFull: <NonpaymentDocumentation />,
   },
   {
     question: "How can I connect with a lawyer?",
     category: "States with Limited Protections",
-    priority: 20,
-    answerPreview: <></>,
     answerFull: <ConnectWithLawyer />,
   },
   {
     question: "How can I build collective power with other tenants?",
     category: "States with Limited Protections",
-    priority: 21,
-    answerPreview: <></>,
     answerFull: <CollectiveOrganizing />,
   },
 ];

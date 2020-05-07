@@ -15,7 +15,7 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 
 export const NorentAboutYourLetterPage: React.FC<{}> = () => (
-  <Page title="The Letter" className="content">
+  <Page title={li18n._(t`The Letter`)} className="content">
     <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">

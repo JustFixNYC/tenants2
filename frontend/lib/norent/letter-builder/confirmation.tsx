@@ -171,7 +171,9 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           Sign the petition
         </OutboundLink>
       </p>
-      <h3 className="title jf-alt-title-font">Home/Manufactured Home Owners</h3>
+      <h3 className="title jf-alt-title-font">
+        Mobile/Manufactured Home Owners
+      </h3>
       <p>
         Click here to join MHAction’s movement to hold corporate community
         owners accountable.

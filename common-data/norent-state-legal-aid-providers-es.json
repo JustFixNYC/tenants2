@@ -1,0 +1,158 @@
+{
+  "AK": {
+    "localLegalAidProviderLink": "https://alaskalawhelp.org/"
+  },
+  "AL": {
+    "localLegalAidProviderLink": "https://www.alabamalegalhelp.org/"
+  },
+  "AR": {
+    "localLegalAidProviderLink": "http://www.arlegalservices.org/"
+  },
+  "AZ": {
+    "localLegalAidProviderLink": "https://www.azlawhelp.org/"
+  },
+  "CA": {
+    "localLegalAidProviderLink": "http://www.lawhelpca.org/"
+  },
+  "CO": {
+    "localLegalAidProviderLink": "https://coloradolegalservices.org/"
+  },
+  "CT": {
+    "localLegalAidProviderLink": "http://www.ctlawhelp.org/"
+  },
+  "DC": {
+    "localLegalAidProviderLink": "https://www.lawhelp.org/DC/"
+  },
+  "DE": {
+    "localLegalAidProviderLink": "https://delegalhelplink.org/"
+  },
+  "FL": {
+    "localLegalAidProviderLink": "https://www.floridalawhelp.org/"
+  },
+  "GA": {
+    "localLegalAidProviderLink": "https://www.georgialegalaid.org/"
+  },
+  "HI": {
+    "localLegalAidProviderLink": "https://www.lawhelp.org/hi/"
+  },
+  "IA": {
+    "localLegalAidProviderLink": "https://www.iowalegalaid.org/"
+  },
+  "ID": {
+    "localLegalAidProviderLink": "http://www.idaholegalaid.org/"
+  },
+  "IL": {
+    "localLegalAidProviderLink": "https://www.illinoislegalaid.org/"
+  },
+  "IN": {
+    "localLegalAidProviderLink": "https://www.indianalegalservices.org/"
+  },
+  "KS": {
+    "localLegalAidProviderLink": "http://www.kansaslegalservices.org/"
+  },
+  "KY": {
+    "localLegalAidProviderLink": "http://kyjustice.org/"
+  },
+  "LA": {
+    "localLegalAidProviderLink": "https://louisianalawhelp.org/"
+  },
+  "MA": {
+    "localLegalAidProviderLink": "http://www.masslegalhelp.org/"
+  },
+  "MD": {
+    "localLegalAidProviderLink": "http://www.peoples-law.org/"
+  },
+  "ME": {
+    "localLegalAidProviderLink": "https://ptla.org/"
+  },
+  "MI": {
+    "localLegalAidProviderLink": "https://michiganlegalhelp.org/"
+  },
+  "MN": {
+    "localLegalAidProviderLink": "https://www.lawhelpmn.org/"
+  },
+  "MO": {
+    "localLegalAidProviderLink": "http://www.lsmo.org/"
+  },
+  "MS": {
+    "localLegalAidProviderLink": "https://www.mslegalservices.org/"
+  },
+  "MT": {
+    "localLegalAidProviderLink": "https://www.montanalawhelp.org/"
+  },
+  "NC": {
+    "localLegalAidProviderLink": "https://www.lawhelpnc.org/"
+  },
+  "ND": {
+    "localLegalAidProviderLink": "http://www.legalassist.org/"
+  },
+  "NE": {
+    "localLegalAidProviderLink": "http://www.legalaidofnebraska.org/"
+  },
+  "NH": {
+    "localLegalAidProviderLink": "http://www.nhls.org/"
+  },
+  "NJ": {
+    "localLegalAidProviderLink": "http://www.lsnjlaw.org/"
+  },
+  "NM": {
+    "localLegalAidProviderLink": "http://lawhelpnewmexico.org/"
+  },
+  "NV": {
+    "localLegalAidProviderLink": "https://nlslaw.net/"
+  },
+  "NY": {
+    "localLegalAidProviderLink": "https://www.lawhelpny.org"
+  },
+  "OH": {
+    "localLegalAidProviderLink": "https://www.ohiolegalhelp.org/"
+  },
+  "OK": {
+    "localLegalAidProviderLink": "https://oklaw.org/"
+  },
+  "OR": {
+    "localLegalAidProviderLink": "https://oregonlawhelp.org/"
+  },
+  "PA": {
+    "localLegalAidProviderLink": "https://www.palawhelp.org/"
+  },
+  "PR": {
+    "localLegalAidProviderLink": "https://ayudalegalpr.org/"
+  },
+  "RI": {
+    "localLegalAidProviderLink": "http://www.helprilaw.org/"
+  },
+  "SC": {
+    "localLegalAidProviderLink": "https://www.lawhelp.org/sc"
+  },
+  "SD": {
+    "localLegalAidProviderLink": "http://ujslawhelp.sd.gov/"
+  },
+  "TN": {
+    "localLegalAidProviderLink": "http://www.tals.org/"
+  },
+  "TX": {
+    "localLegalAidProviderLink": "https://texaslawhelp.org/"
+  },
+  "UT": {
+    "localLegalAidProviderLink": "http://www.utahlegalservices.org/"
+  },
+  "VA": {
+    "localLegalAidProviderLink": "https://www.valegalaid.org/"
+  },
+  "VT": {
+    "localLegalAidProviderLink": "http://www.vtlawhelp.org/"
+  },
+  "WA": {
+    "localLegalAidProviderLink": "https://www.washingtonlawhelp.org/"
+  },
+  "WI": {
+    "localLegalAidProviderLink": "http://www.badgerlaw.net/"
+  },
+  "WV": {
+    "localLegalAidProviderLink": "http://www.lawv.net/"
+  },
+  "WY": {
+    "localLegalAidProviderLink": "http://www.lawyoming.org/"
+  }
+}

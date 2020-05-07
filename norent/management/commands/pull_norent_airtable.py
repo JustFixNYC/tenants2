@@ -1,7 +1,8 @@
 import urllib.parse
 import json
 import re
-from typing import Any, Dict, Iterator, List, NamedTuple, Optional
+from typing import Any, Dict, List, NamedTuple, Optional, Iterable
+from copy import deepcopy
 from enum import Enum
 from pathlib import Path
 from django.core.management import BaseCommand, CommandError
@@ -27,6 +28,8 @@ LOCALIZED_FIELD_NAME_LOCALES = {
     'English': 'en',
     'Spanish': 'es',
 }
+
+LOCALES = LOCALIZED_FIELD_NAME_LOCALES.values()
 
 BOOLEAN_YES_NO_FIELDS = [
     "Is documentation a legal requirement?",
@@ -206,13 +209,17 @@ def convert_numbered_fields_to_array(
 
 def convert_rows_to_state_dict(
     table: Table,
-    rows: Iterator[RawRow],
+    rows: Iterable[RawRow],
     locale: str
 ) -> StateDict:
     '''
     Convert raw Airtable rows into a table that maps state codes
     to metadata about the states.
     '''
+
+    # We're going to be destructively changing the rows, so make
+    # a copy of them.
+    rows = deepcopy(rows)
 
     states: StateDict = {}
     for row in rows:
@@ -234,17 +241,19 @@ class Command(BaseCommand):
             url=url,
             api_key=settings.AIRTABLE_API_KEY,
         )
-        rows = convert_rows_to_state_dict(table, api.list_raw(), 'en')
         basename = table.name.lower().replace('_', '-')
-        output_path = COMMON_DATA_DIR / f"norent-{basename}.json"
-        print(f"Writing {output_path}.")
+        raw_rows = list(api.list_raw())
+        for locale in LOCALES:
+            rows = convert_rows_to_state_dict(table, raw_rows, locale)
+            output_path = COMMON_DATA_DIR / f"norent-{basename}-{locale}.json"
+            print(f"Writing {output_path}.")
 
-        json_blob = json.dumps(rows, indent='  ', sort_keys=True)
+            json_blob = json.dumps(rows, indent='  ', sort_keys=True)
 
-        # Prettier wants newlines at the end of JSON files, so we'll add it.
-        json_blob = f"{json_blob}\n"
+            # Prettier wants newlines at the end of JSON files, so we'll add it.
+            json_blob = f"{json_blob}\n"
 
-        output_path.write_text(json_blob)
+            output_path.write_text(json_blob)
 
     def handle(self, *args, **options):
         if not settings.AIRTABLE_API_KEY:

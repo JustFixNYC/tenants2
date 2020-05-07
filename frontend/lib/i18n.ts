@@ -4,6 +4,8 @@
  */
 export type SupportedLocale = "en" | "es";
 
+export const allSupportedLocales: SupportedLocale[] = ["en", "es"];
+
 /**
  * This class keeps track of internationalization-related data.
  *

@@ -1,0 +1,211 @@
+{
+  "AK": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "AL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "AR": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "AZ": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true
+  },
+  "CA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true,
+    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+  },
+  "CO": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "CT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "DC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "DE": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "FL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "GA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "HI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "ID": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IL": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "IN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "KS": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": true
+  },
+  "KY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "LA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MD": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": true
+  },
+  "ME": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MO": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MS": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "MT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "ND": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NE": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
+    "isDocumentationALegalRequirement": true
+  },
+  "NH": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NJ": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NM": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": true
+  },
+  "NV": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "NY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "OH": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "OK": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "OR": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "PA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "PR": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "RI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "SC": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "SD": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "TN": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "TX": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "UT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": true
+  },
+  "VA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "VT": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "WA": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "WI": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "WV": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  },
+  "WY": {
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
+  }
+}

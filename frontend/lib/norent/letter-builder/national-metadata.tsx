@@ -52,6 +52,7 @@ type StateMapping<T> = {
 };
 
 export type LocalizedNationalMetadata = {
+  locale: SupportedLocale;
   lawForBuilder: StateMapping<StateLawForBuilderEntry>;
   lawForLetter: StateMapping<StateLawForLetterEntry>;
   partnersForBuilder: Partial<StateMapping<StatePartnerForBuilderEntry>>;
@@ -82,6 +83,10 @@ const EnNationalMetadata: LoadableNationalMetadata = loadable.lib(() =>
   import("./national-metadata-en")
 );
 
+const EsNationalMetadata: LoadableNationalMetadata = loadable.lib(() =>
+  import("./national-metadata-es")
+);
+
 function getLoadableForLanguage(
   locale: SupportedLocale
 ): LoadableNationalMetadata {
@@ -89,8 +94,7 @@ function getLoadableForLanguage(
     case "en":
       return EnNationalMetadata;
     case "es":
-      // TODO: Fix this.
-      return EnNationalMetadata;
+      return EsNationalMetadata;
   }
 }
 
@@ -125,6 +129,7 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
   }
 
   return {
+    locale: localizedMetadata.locale,
     lawForBuilder: localizedMetadata.lawForBuilder[state],
     lawForLetter: localizedMetadata.lawForLetter[state],
     partner: localizedMetadata.partnersForBuilder[state],

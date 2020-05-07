@@ -11,9 +11,10 @@ import { override } from "../../../tests/util";
 import { BlankOnboardingInfo } from "../../../queries/OnboardingInfo";
 import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
 import { initNationalMetadataForTesting } from "./national-metadata-test-util";
-import i18n, { allSupportedLocales } from "../../../i18n";
+import i18n from "../../../i18n";
 import ReactTestingLibraryPal from "../../../tests/rtl-pal";
 import { wait } from "@testing-library/react";
+import { LocaleChoices } from "../../../../../common-data/locale-choices";
 
 beforeAll(initNationalMetadataForTesting);
 
@@ -55,7 +56,7 @@ function validateCovidStateLawVersion(v: CovidStateLawVersion): boolean {
 }
 
 describe("getNorentMetadataForUSState()", () => {
-  allSupportedLocales.forEach((locale) => {
+  LocaleChoices.forEach((locale) => {
     describe(`for locale ${locale}`, () => {
       beforeAll(async () => {
         i18n.initialize(locale);

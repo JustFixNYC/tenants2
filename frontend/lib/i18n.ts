@@ -1,10 +1,10 @@
+import { LocaleChoice } from "../../common-data/locale-choices";
+
 /**
  * A locale we currently support (either fully or partially), as
  * an ISO 639-1 code.
  */
-export type SupportedLocale = "en" | "es";
-
-export const allSupportedLocales: SupportedLocale[] = ["en", "es"];
+export type SupportedLocale = LocaleChoice;
 
 /**
  * This class keeps track of internationalization-related data.

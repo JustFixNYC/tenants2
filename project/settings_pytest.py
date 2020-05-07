@@ -1,12 +1,12 @@
 import dj_email_url
-from . import justfix_environment  # noqa
+from . import justfix_environment, locales  # noqa
 
 justfix_environment.IS_RUNNING_TESTS = True
 
 from .settings import *  # noqa
 
 # Only support our fully-supported languages by default.
-LANGUAGES = [*FULLY_SUPPORTED_LANGUAGES]  # noqa
+LANGUAGES = locales.FULLY_SUPPORTED.choices  # noqa
 
 # Disable 2FA by default.
 TWOFACTOR_VERIFY_DURATION = 0

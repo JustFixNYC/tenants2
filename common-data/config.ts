@@ -48,6 +48,11 @@ const config: DjangoChoicesTypescriptConfig = {
       internationalizeLabels: true,
       filterOut: ["AS", "GU", "MP", "VI"],
     },
+    {
+      jsonFilename: "locale-choices.json",
+      typeName: "LocaleChoice",
+      exportLabels: false,
+    },
   ],
 };
 

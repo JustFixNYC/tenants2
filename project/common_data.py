@@ -1,6 +1,6 @@
 import json
 from enum import Enum
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional, Set
 from pathlib import Path
 import pydantic
 
@@ -62,6 +62,13 @@ class Choices:
         'BROOKLYN'
         >>> MyChoices.BROOKLYN.value
         'Brooklyn'
+
+    Finally, you can create a new Choices that represents a subset of
+    the choices:
+
+        >>> limited = c.only("BROOKLYN", "QUEENS")
+        >>> limited.choices
+        [('BROOKLYN', 'Brooklyn'), ('QUEENS', 'Queens')]
     '''
 
     choices: DjangoChoices
@@ -70,7 +77,10 @@ class Choices:
 
     enum: Enum
 
+    name: str
+
     def __init__(self, choices: DjangoChoices, name: str = 'DjangoChoices') -> None:
+        self.name = name
         self.choices = choices
         self.choices_dict = dict(self.choices)
         self.enum = Enum(
@@ -89,6 +99,24 @@ class Choices:
 
     def get_enum_member(self, value: str) -> Enum:
         return getattr(self.enum, value)
+
+    def validate_choices(self, *values: str):
+        for value in values:
+            if value not in self.choices_dict:
+                raise ValueError(f"'{value}' is not a valid choice")
+
+    def only(self, *values: str, name: Optional[str] = None) -> 'Choices':
+        name = name or self.name
+        self.validate_choices(*values)
+        choices: DjangoChoices = [
+            (choice, label) for choice, label in self.choices
+            if choice in values
+        ]
+        return Choices(choices, name)
+
+    @property
+    def choice_set(self) -> Set[str]:
+        return set(self.choices_dict.keys())
 
     @classmethod
     def from_file(cls, *path: str, name: str = 'DjangoChoices'):

@@ -172,7 +172,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         </OutboundLink>
       </p>
       <h3 className="title jf-alt-title-font">
-        Mobile/Manufactured Home Owners
+        Mobile/Manufactured Home Residents
       </h3>
       <p>
         Click here to join MHAction’s movement to hold corporate community

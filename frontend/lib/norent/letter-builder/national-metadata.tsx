@@ -1,8 +1,4 @@
-import RawStateLawForBuilder from "../../../../common-data/norent-state-law-for-builder.json";
-import RawStateLawForLetter from "../../../../common-data/norent-state-law-for-letter.json";
-import RawStatePartnersForBuilder from "../../../../common-data/norent-state-partners-for-builder.json";
-import RawStateDocumentationRequirements from "../../../../common-data/norent-state-documentation-requirements.json";
-import RawStateLegalAidProviders from "../../../../common-data/norent-state-legal-aid-providers.json";
+import React from "react";
 import {
   USStateChoice,
   isUSStateChoice,
@@ -11,6 +7,8 @@ import { LosAngelesZipCodes } from "../data/la-zipcodes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo.js";
 import { useContext } from "react";
 import { AppContext } from "../../app-context";
+import loadable, { LoadableLibrary } from "@loadable/component";
+import i18n, { SupportedLocale } from "../../i18n";
 
 type StateLawForBuilderEntry = {
   linkToLegislation?: string;
@@ -53,21 +51,13 @@ type StateMapping<T> = {
   [k in USStateChoice]: T;
 };
 
-const StateLawForBuilder = RawStateLawForBuilder as StateMapping<
-  StateLawForBuilderEntry
->;
-const StateLawForLetter = RawStateLawForLetter as StateMapping<
-  StateLawForLetterEntry
->;
-const StatePartnersForBuilder = RawStatePartnersForBuilder as Partial<
-  StateMapping<StatePartnerForBuilderEntry>
->;
-const StateDocumentationRequirements = RawStateDocumentationRequirements as StateMapping<
-  StateDocumentationRequirementsEntry
->;
-const StateLegalAidProviders = RawStateLegalAidProviders as StateMapping<
-  StateLegalAidProviderEntry
->;
+export type LocalizedNationalMetadata = {
+  lawForBuilder: StateMapping<StateLawForBuilderEntry>;
+  lawForLetter: StateMapping<StateLawForLetterEntry>;
+  partnersForBuilder: Partial<StateMapping<StatePartnerForBuilderEntry>>;
+  documentationRequirements: StateMapping<StateDocumentationRequirementsEntry>;
+  legalAidProviders: StateMapping<StateLegalAidProviderEntry>;
+};
 
 /**
  * Return the given string as a U.S. state choice, throwing an
@@ -84,17 +74,62 @@ export type NorentMetadataForUSState = ReturnType<
   typeof getNorentMetadataForUSState
 >;
 
+type LoadableNationalMetadata = LoadableLibrary<{
+  metadata: LocalizedNationalMetadata;
+}>;
+
+const EnNationalMetadata: LoadableNationalMetadata = loadable.lib(() =>
+  import("./national-metadata-en")
+);
+
+function getLoadableForLanguage(
+  locale: SupportedLocale
+): LoadableNationalMetadata {
+  switch (locale) {
+    case "en":
+      return EnNationalMetadata;
+    case "es":
+      // TODO: Fix this.
+      return EnNationalMetadata;
+  }
+}
+
+let localizedMetadata: LocalizedNationalMetadata | null = null;
+
+export function setLocalizedNationalMetadata(value: LocalizedNationalMetadata) {
+  localizedMetadata = value;
+}
+
+export const LocalizedNationalMetadataProvider: React.FC<{
+  children: React.ReactNode;
+}> = (props) => {
+  const LoadableMetadata = getLoadableForLanguage(i18n.locale);
+
+  return (
+    <LoadableMetadata fallback={<p>Loading localized national metadata...</p>}>
+      {({ metadata }) => {
+        localizedMetadata = metadata;
+        return props.children;
+      }}
+    </LoadableMetadata>
+  );
+};
+
 /**
  * Return a big blob of metadata about NoRent.org-related information
  * for the given U.S. state.
  */
 export const getNorentMetadataForUSState = (state: USStateChoice) => {
+  if (!localizedMetadata) {
+    throw new Error("Localized national metadata has not been loaded!");
+  }
+
   return {
-    lawForBuilder: StateLawForBuilder[state],
-    lawForLetter: StateLawForLetter[state],
-    partner: StatePartnersForBuilder[state],
-    docs: StateDocumentationRequirements[state],
-    legalAid: StateLegalAidProviders[state],
+    lawForBuilder: localizedMetadata.lawForBuilder[state],
+    lawForLetter: localizedMetadata.lawForLetter[state],
+    partner: localizedMetadata.partnersForBuilder[state],
+    docs: localizedMetadata.documentationRequirements[state],
+    legalAid: localizedMetadata.legalAidProviders[state],
   };
 };
 

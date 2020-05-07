@@ -7,6 +7,9 @@ import { override } from "../../../tests/util";
 import { BlankNorentScaffolding } from "../../../queries/NorentScaffolding";
 import { createProgressStepJSX } from "../../../progress/tests/progress-step-test-util";
 import { newSb } from "../../../tests/session-builder";
+import { initNationalMetadataForTesting } from "./national-metadata-test-util";
+
+beforeAll(initNationalMetadataForTesting);
 
 describe("<NorentLbKnowYourRights>", () => {
   afterEach(AppTesterPal.cleanup);

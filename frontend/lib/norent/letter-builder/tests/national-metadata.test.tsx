@@ -8,6 +8,9 @@ import { USStateChoices } from "../../../../../common-data/us-state-choices";
 import { override } from "../../../tests/util";
 import { BlankOnboardingInfo } from "../../../queries/OnboardingInfo";
 import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
+import { initNationalMetadataForTesting } from "./national-metadata-test-util";
+
+beforeAll(initNationalMetadataForTesting);
 
 test("isLoggedInUserInStateWithProtections() works", () => {
   const onboardingInfo = override(BlankOnboardingInfo, { state: "NY" });

@@ -54,6 +54,9 @@ export const NorentFaqsPreview = () => {
   const FaqsPreviewContent = FaqsContent.filter(
     (faq) => faq.previewOptions
   ).sort((faq1, faq2) =>
+    // This implementation of the "sort" function is definitely messy,
+    // but typescript requires that we check to make sure each value we reference isn't undefined.
+    // Something to rethink at a later date, perhaps...
     faq1.previewOptions?.priorityInPreview &&
     faq2.previewOptions?.priorityInPreview
       ? faq1.previewOptions.priorityInPreview -

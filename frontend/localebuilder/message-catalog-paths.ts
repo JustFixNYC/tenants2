@@ -1,13 +1,37 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Represents information about filesystem
+ * paths to a particular locale's message catalog.
+ */
 export type MessageCatalogPaths = {
+  /** The locale this object represents (e.g. 'en'). */
   locale: string;
+
+  /**
+   * The root directory where the locale's catalog
+   * is kept (e.g. '/foo/en`).
+   */
   rootDir: string;
+
+  /**
+   * The absolute path to the compiled message catalog
+   * (JavaScript) for the locale.
+   */
   js: string;
+
+  /**
+   * The absolute path to the extracted message catalog
+   * (PO) for the locale.
+   */
   po: string;
 };
 
+/**
+ * Given a root directory where all locale data lives,
+ * returns a list of path information about every locale.
+ */
 export function getAllMessageCatalogPaths(
   rootDir: string
 ): MessageCatalogPaths[] {

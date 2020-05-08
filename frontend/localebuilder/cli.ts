@@ -12,18 +12,34 @@ import {
 } from "./message-catalog-paths";
 
 const MY_DIR = __dirname;
+
 const LOCALES_DIR = path.resolve(path.join(MY_DIR, "..", "..", "locales"));
+
+/**
+ * This encapsulates our criteria for splitting up Lingui's
+ * single message catalog into separate individual "chunks".
+ */
 const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
+  /**
+   * Any strings that are *only* present in the norent directory
+   * will go into their own chunk.
+   */
   {
     name: "norent",
     test: (s) => s.startsWith("frontend/lib/norent/"),
   },
+  /**
+   * Everything else goes into a separate chunk.
+   */
   {
     name: "base",
     test: (s) => true,
   },
 ];
 
+/**
+ * Split up the message catalog for a single locale.
+ */
 function processLocale(paths: MessageCatalogPaths) {
   console.log(`Processing locale '${paths.locale}'.`);
 
@@ -43,6 +59,9 @@ function processLocale(paths: MessageCatalogPaths) {
   splitter.split();
 }
 
+/**
+ * Main function to run the localebuilder CLI.
+ */
 export function run() {
   const allPaths = getAllMessageCatalogPaths(LOCALES_DIR);
   for (let paths of allPaths) {

@@ -13,6 +13,7 @@ class LinguiMessageCatalog {
 class LinguiMessageCatalogParser {
   languageData: babel.types.ObjectExpression | null = null;
   messages: Map<string, babel.types.Node> = new Map();
+  t: typeof babel.types = babel.types;
 
   constructor() {
     this.babelPlugin = this.babelPlugin.bind(this);
@@ -30,23 +31,51 @@ class LinguiMessageCatalogParser {
     return new LinguiMessageCatalog(languageData, messages);
   }
 
-  visitTopLevelProperty(t: typeof babel.types, property: babel.types.Property) {
+  visitBodyStatement(statement: babel.types.Statement) {
+    const { t } = this;
+    if (
+      t.isExpressionStatement(statement) &&
+      t.isAssignmentExpression(statement.expression) &&
+      t.isObjectExpression(statement.expression.right)
+    ) {
+      this.visitModuleExports(statement.expression.right);
+    }
+  }
+
+  visitModuleExports(objectExpression: babel.types.ObjectExpression) {
+    const { t } = this;
+    for (let property of objectExpression.properties) {
+      if (t.isProperty(property)) {
+        this.visitModuleExport(property);
+      }
+    }
+  }
+
+  visitModuleExport(property: babel.types.Property) {
+    const { t } = this;
     if (t.isIdentifier(property.key)) {
       const { name } = property.key;
       const { value } = property;
       if (name === "languageData") {
-        if (t.isObjectExpression(value)) {
-          this.languageData = value;
-        }
+        this.visitLanguageDataExport(value);
       } else if (name === "messages") {
-        if (t.isObjectExpression(value)) {
-          for (let property of value.properties) {
-            if (t.isProperty(property)) {
-              if (t.isStringLiteral(property.key)) {
-                this.messages.set(property.key.value, property.value);
-              }
-            }
-          }
+        this.visitMessagesExport(value);
+      }
+    }
+  }
+
+  visitLanguageDataExport(value: babel.types.Node | null) {
+    if (this.t.isObjectExpression(value)) {
+      this.languageData = value;
+    }
+  }
+
+  visitMessagesExport(value: babel.types.Node | null) {
+    const { t } = this;
+    if (t.isObjectExpression(value)) {
+      for (let property of value.properties) {
+        if (t.isProperty(property) && t.isStringLiteral(property.key)) {
+          this.messages.set(property.key.value, property.value);
         }
       }
     }
@@ -54,23 +83,13 @@ class LinguiMessageCatalogParser {
 
   babelPlugin({ types: t }: { types: typeof babel.types }): babel.PluginObj {
     const self = this;
+    self.t = t;
 
     return {
       visitor: {
         Program(path) {
           for (let statement of path.node.body) {
-            if (t.isExpressionStatement(statement)) {
-              const { expression } = statement;
-              if (t.isAssignmentExpression(expression)) {
-                if (t.isObjectExpression(expression.right)) {
-                  for (let property of expression.right.properties) {
-                    if (t.isProperty(property)) {
-                      self.visitTopLevelProperty(t, property);
-                    }
-                  }
-                }
-              }
-            }
+            self.visitBodyStatement(statement);
           }
         },
       },

@@ -42,7 +42,7 @@ export const JumpArrow = (props: { to: string; altText: string }) => (
 export const BuildMyLetterButton = (props: { isHiddenMobile?: boolean }) => (
   <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
     <CenteredPrimaryButtonLink to={NorentRoutes.locale.letter.latestStep}>
-      <Trans> Build my letter </Trans>
+      <Trans>Build my letter</Trans>
     </CenteredPrimaryButtonLink>
   </span>
 );

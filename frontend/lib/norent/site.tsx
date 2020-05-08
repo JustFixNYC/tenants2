@@ -33,11 +33,16 @@ import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
-import { NorentLinguiI18n } from "./i18n-lingui";
+import { createLinguiCatalogLoader } from "../i18n-lingui";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
 }
+
+const NorentLinguiI18n = createLinguiCatalogLoader({
+  en: loadable.lib(() => import("../../../locales/en/norent.chunk") as any),
+  es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
+});
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,

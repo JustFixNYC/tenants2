@@ -6,8 +6,8 @@ import i18n, { SupportedLocale } from "./i18n";
 import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
 
 /**
- * We use code splitting to make sure that we only load the message
- * catalog needed for our currently selected locale.
+ * We use code splitting to make sure that we only load message
+ * catalogs needed for our currently selected locale.
  *
  * This defines the type of component whose children prop is a
  * callable that receives a Lingui message catalog as its only
@@ -15,26 +15,21 @@ import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
  */
 export type LoadableCatalog = LoadableLibrary<Catalog>;
 
-const EnCatalog: LoadableCatalog = loadable.lib(
-  () => import("../../locales/en/base.chunk") as any
-);
-
-const EsCatalog: LoadableCatalog = loadable.lib(
-  () => import("../../locales/es/base.chunk") as any
-);
+/**
+ * Maps supported locales to components that load a Lingui message
+ * catalog for them.
+ */
+export type LinguiCatalogMap = {
+  [k in SupportedLocale]: LoadableCatalog;
+};
 
 /**
- * Returns a component that loads the Lingui message catalog for
- * the given locale.
+ * The "base" catalog, which contains the most common strings.
  */
-function getLinguiCatalogForLanguage(locale: SupportedLocale): LoadableCatalog {
-  switch (locale) {
-    case "en":
-      return EnCatalog;
-    case "es":
-      return EsCatalog;
-  }
-}
+const BaseCatalogMap: LinguiCatalogMap = {
+  en: loadable.lib(() => import("../../locales/en/base.chunk") as any),
+  es: loadable.lib(() => import("../../locales/es/base.chunk") as any),
+};
 
 const SetupI18n: React.FC<
   LinguiI18nProps & {
@@ -63,7 +58,7 @@ export type LinguiI18nProps = {
 };
 
 /**
- * Loads the Lingui message catalog for the currently selected
+ * Loads the Lingui base message catalog for the currently selected
  * locale, as dictated by our global i18n module. Children
  * will then be rendered with the catalog loaded and ready
  * to translate.
@@ -78,8 +73,7 @@ export type LinguiI18nProps = {
  */
 export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
   const locale = i18n.locale;
-
-  const Catalog = getLinguiCatalogForLanguage(locale);
+  const Catalog = BaseCatalogMap[locale];
 
   return (
     <Catalog fallback={<p>Loading locale data...</p>}>
@@ -89,6 +83,28 @@ export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
 };
 
 /**
+ * Creates a component that will load an auxiliary message catalog for
+ * Lingui in the currently selected locale, as dictated by our global i18n module.
+ */
+export function createLinguiCatalogLoader(
+  catalogMap: LinguiCatalogMap
+): React.FC<LinguiI18nProps> {
+  return (props) => {
+    const locale = i18n.locale;
+    const Catalog = catalogMap[locale];
+
+    return (
+      <Catalog fallback={<p>Loading locale data...</p>}>
+        {(catalog) => {
+          mergeIntoLinguiCatalog(locale, catalog);
+          return props.children;
+        }}
+      </Catalog>
+    );
+  };
+}
+
+/**
  * A global instance of Lingui's I18n object, which can be used to perform
  * localization outside of React JSX. Note that this object is populated
  * by the <LinguiI18n> component, however, so it should only really be
@@ -96,12 +112,17 @@ export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
  */
 export const li18n = linguiSetupI18n();
 
+/**
+ * Internal global we maintain to keep track of all the messages we
+ * can translate across our various catalog chunks.
+ */
 const catalogs: Catalogs = {};
 
-export function mergeIntoLinguiCatalog(
-  locale: SupportedLocale,
-  catalog: Catalog
-) {
+/**
+ * Merge the given catalog for the given locale into our global
+ * catalog and activate the locale (if it's not already active).
+ */
+function mergeIntoLinguiCatalog(locale: SupportedLocale, catalog: Catalog) {
   const emptyCatalog: Catalog = { messages: {} };
   const currentCatalog: Catalog = catalogs[locale] || emptyCatalog;
   catalogs[locale] = {

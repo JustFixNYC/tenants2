@@ -15,20 +15,26 @@ class LinguiMessageCatalogParser {
   messages: Map<string, babel.types.Node> = new Map();
   t: typeof babel.types = babel.types;
 
-  constructor() {
-    this.babelPlugin = this.babelPlugin.bind(this);
+  private constructor(js: string) {
+    const file = babel.parseSync(js);
+    if (file && file.type === "File") {
+      this.visitProgram(file.program);
+    }
   }
 
   static parse(js: string): LinguiMessageCatalog {
-    const lmcp = new LinguiMessageCatalogParser();
-    babel.transformSync(js, {
-      plugins: [lmcp.babelPlugin],
-    });
+    const lmcp = new LinguiMessageCatalogParser(js);
     const { languageData, messages } = lmcp;
     if (!languageData) {
       throw new Error("languageData not found!");
     }
     return new LinguiMessageCatalog(languageData, messages);
+  }
+
+  visitProgram(program: babel.types.Program) {
+    for (let statement of program.body) {
+      this.visitBodyStatement(statement);
+    }
   }
 
   visitBodyStatement(statement: babel.types.Statement) {
@@ -89,21 +95,6 @@ class LinguiMessageCatalogParser {
     if (t.isProperty(property) && t.isStringLiteral(property.key)) {
       this.messages.set(property.key.value, property.value);
     }
-  }
-
-  babelPlugin({ types: t }: { types: typeof babel.types }): babel.PluginObj {
-    const self = this;
-    self.t = t;
-
-    return {
-      visitor: {
-        Program(path) {
-          for (let statement of path.node.body) {
-            self.visitBodyStatement(statement);
-          }
-        },
-      },
-    };
   }
 }
 

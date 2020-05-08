@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+<style>
+input[type="text"] {
+    min-width: 40em;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Create serving papers</h2>
+<p>
+  This form allows you to upload a PDF that represents serving papers on
+  behalf of <a href="{{ go_back_href }}">{{ sender.full_name }}</a>.
+</p>
+<p>
+  We've pre-filled the information for {{ sender.first_name }}'s landlord below,
+  but you can change any details depending on who needs to be served.
+</p>
+<form action="." method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for fieldset in adminform %}
+        {% include "admin/includes/fieldset.html" %}
+    {% endfor %}
+  <div class="submit-row">
+    <input type="submit" class="default" value="Create serving papers">
+  </div>
+</form>
+{% endblock %}

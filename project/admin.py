@@ -6,6 +6,7 @@ from .admin_download_data import DownloadDataViews
 from .admin_dashboard import DashboardViews
 from project.util.site_util import get_site_name
 from loc.admin_views import LocAdminViews
+from hpaction.admin_views import HPActionAdminViews
 
 
 class JustfixAdminSite(admin.AdminSite):
@@ -18,6 +19,7 @@ class JustfixAdminSite(admin.AdminSite):
         self.loc_views = LocAdminViews(self)
         self.download_data_views = DownloadDataViews(self)
         self.dashboard_views = DashboardViews(self)
+        self.hpaction_views = HPActionAdminViews(self)
 
     def get_urls(self):
         urls = super().get_urls()
@@ -27,5 +29,6 @@ class JustfixAdminSite(admin.AdminSite):
             *self.dashboard_views.get_urls(),
             *self.download_data_views.get_urls(),
             *self.loc_views.get_urls(),
+            *self.hpaction_views.get_urls(),
         ]
         return my_urls + urls

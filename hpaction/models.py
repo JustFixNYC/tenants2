@@ -8,10 +8,13 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import JSONField
 import PyPDF2
 
 from .hpactionvars import HarassmentAllegationsMS
 from project.util.site_util import absolute_reverse
+from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
+from project.util.mailing_address import MailingAddress
 from project import common_data
 from users.models import JustfixUser
 
@@ -622,6 +625,65 @@ class DocusignEnvelope(models.Model):
         max_length=30,
         choices=HP_DOCUSIGN_STATUS_CHOICES.choices,
         default=HP_DOCUSIGN_STATUS_CHOICES.IN_PROGRESS,
+    )
+
+
+class ServingPapers(MailingAddress):
+    '''
+    Represents papers to be served on behalf of a tenant.
+    '''
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    uploaded_by = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="The user who uploaded the papers.",
+        related_name="serving_papers_uploaded",
+    )
+
+    sender = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="The person serving the documents.",
+        related_name="serving_papers_sent",
+    )
+
+    name = models.CharField(
+        max_length=MAX_LOB_NAME_LEN,
+        help_text="The name of the person/company being served."
+    )
+
+    pdf_file = models.FileField(
+        upload_to='hp-action-serving-papers/',
+        help_text="The PDF file representing the papers to be served."
+    )
+
+    lob_letter_object = JSONField(
+        blank=True,
+        null=True,
+        help_text=(
+            "If the papers were sent via Lob, this is the JSON response of the API call that "
+            "was made to send them, documented at https://lob.com/docs/python#letters."
+        )
+    )
+
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text=(
+            "The tracking number for the papers."
+        ),
+    )
+
+    letter_sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the papers were mailed through the postal service."
     )
 
 

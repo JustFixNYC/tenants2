@@ -127,6 +127,13 @@ class PriorCaseInline(admin.TabularInline):
     extra = 1
 
 
+class ServingPapersInline(NoAddOrDeleteMixin, admin.StackedInline):
+    model = models.ServingPapers
+    fk_name = 'sender'
+    exclude = ['lob_letter_object']
+    readonly_fields = ['uploaded_by']
+
+
 @admin.register(HPUser)
 class HPUserAdmin(UserProxyAdmin):
     inlines = (
@@ -139,6 +146,7 @@ class HPUserAdmin(UserProxyAdmin):
         FeeWaiverDetailsInline,
         LandlordDetailsInline,
         HPActionDocumentsInline,
+        ServingPapersInline,
     )
 
     def filter_queryset_for_changelist_view(self, queryset):

@@ -33,6 +33,7 @@ import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
+import { NorentLinguiI18n } from "./i18n-lingui";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -136,7 +137,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
       </Link>
     );
     return (
-      <>
+      <NorentLinguiI18n>
         <section
           className={classnames(
             isPrimaryPage
@@ -170,7 +171,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           </div>
         </section>
         <NorentFooter />
-      </>
+      </NorentLinguiI18n>
     );
   }
 );

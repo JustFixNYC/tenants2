@@ -6,7 +6,7 @@
   "scripts": {
     "lingui": "lingui",
     "lingui:extract": "lingui extract",
-    "lingui:compile": "lingui compile && node locales/fix-message-catalogs.js",
+    "lingui:compile": "lingui compile && node localebuilder.js",
     "prettier": "prettier",
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
     "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",

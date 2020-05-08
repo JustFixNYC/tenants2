@@ -3,7 +3,7 @@ import { Catalog } from "@lingui/core";
 import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
 import i18n, { SupportedLocale } from "./i18n";
-import { setupI18n as linguiSetupI18n } from "@lingui/core";
+import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
 
 /**
  * We use code splitting to make sure that we only load the message
@@ -16,11 +16,11 @@ import { setupI18n as linguiSetupI18n } from "@lingui/core";
 export type LoadableCatalog = LoadableLibrary<Catalog>;
 
 const EnCatalog: LoadableCatalog = loadable.lib(
-  () => import("../../locales/en/messages") as any
+  () => import("../../locales/en/base.chunk") as any
 );
 
 const EsCatalog: LoadableCatalog = loadable.lib(
-  () => import("../../locales/es/messages") as any
+  () => import("../../locales/es/base.chunk") as any
 );
 
 /**
@@ -38,7 +38,7 @@ function getLinguiCatalogForLanguage(locale: SupportedLocale): LoadableCatalog {
 
 const SetupI18n: React.FC<
   LinguiI18nProps & {
-    locale: string;
+    locale: SupportedLocale;
     catalog: Catalog;
   }
 > = (props) => {
@@ -46,10 +46,7 @@ const SetupI18n: React.FC<
 
   // This useMemo() call might be overkill. -AV
   const ourLinguiI18n = useMemo(() => {
-    li18n.load({
-      [locale]: catalog,
-    });
-    li18n.activate(locale);
+    mergeIntoLinguiCatalog(locale, catalog);
     return li18n;
   }, [locale, catalog]);
 
@@ -98,3 +95,22 @@ export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
  * used by components that exist below it in the hierarchy.
  */
 export const li18n = linguiSetupI18n();
+
+const catalogs: Catalogs = {};
+
+export function mergeIntoLinguiCatalog(
+  locale: SupportedLocale,
+  catalog: Catalog
+) {
+  const emptyCatalog: Catalog = { messages: {} };
+  const currentCatalog: Catalog = catalogs[locale] || emptyCatalog;
+  catalogs[locale] = {
+    languageData: catalog.languageData,
+    messages: {
+      ...currentCatalog.messages,
+      ...catalog.messages,
+    },
+  };
+  li18n.load(catalogs);
+  li18n.activate(locale);
+}

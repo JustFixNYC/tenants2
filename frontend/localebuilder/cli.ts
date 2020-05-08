@@ -74,10 +74,20 @@ class LinguiMessageCatalogParser {
     const { t } = this;
     if (t.isObjectExpression(value)) {
       for (let property of value.properties) {
-        if (t.isProperty(property) && t.isStringLiteral(property.key)) {
-          this.messages.set(property.key.value, property.value);
-        }
+        this.visitMessageProperty(property);
       }
+    }
+  }
+
+  visitMessageProperty(
+    property:
+      | babel.types.ObjectMethod
+      | babel.types.ObjectProperty
+      | babel.types.SpreadElement
+  ) {
+    const { t } = this;
+    if (t.isProperty(property) && t.isStringLiteral(property.key)) {
+      this.messages.set(property.key.value, property.value);
     }
   }
 

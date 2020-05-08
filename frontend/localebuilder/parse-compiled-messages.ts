@@ -1,6 +1,6 @@
 import * as babel from "@babel/core";
 
-class CompiledMessageCatalog {
+export class CompiledMessageCatalog {
   constructor(
     readonly languageData: babel.types.ObjectExpression,
     readonly messages: Map<string, babel.types.Node>

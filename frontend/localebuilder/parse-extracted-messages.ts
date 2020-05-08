@@ -1,6 +1,6 @@
 import PO from "pofile";
 
-class ExtractedMessageCatalog {
+export class ExtractedMessageCatalog {
   constructor(readonly msgidSourceFiles: Map<string, string[]>) {}
 }
 
@@ -24,7 +24,6 @@ export function parseExtractedMessages(
   for (let item of po.items) {
     const filepaths = unique(item.references.map(getFilepath));
     msgidSourceFiles.set(item.msgid, filepaths);
-    console.log(item.msgid, filepaths.join(", "));
   }
   return new ExtractedMessageCatalog(msgidSourceFiles);
 }

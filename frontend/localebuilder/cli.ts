@@ -1,29 +1,169 @@
 import fs from "fs";
+import path from "path";
 import generate from "@babel/generator";
-import { parseCompiledMessages } from "./parse-compiled-messages";
-import { parseExtractedMessages } from "./parse-extracted-messages";
+import {
+  parseCompiledMessages,
+  CompiledMessageCatalog,
+} from "./parse-compiled-messages";
+import {
+  parseExtractedMessages,
+  ExtractedMessageCatalog,
+} from "./parse-extracted-messages";
 
-export function run() {
-  const messagesJs = fs.readFileSync("locales/es/messages.js", {
+const MY_DIR = __dirname;
+const LOCALES_DIR = path.resolve(path.join(MY_DIR, "..", "..", "locales"));
+const SPLIT_CHUNK_CONFIGS: SplitChunkConfig[] = [
+  {
+    name: "norent",
+    test: (s) => s.startsWith("frontend/lib/norent/"),
+  },
+  {
+    name: "base",
+    test: (s) => true,
+  },
+];
+
+type MessagePaths = {
+  locale: string;
+  rootDir: string;
+  js: string;
+  po: string;
+};
+
+type SplitChunkTestFunc = (sourceFile: string) => boolean;
+
+type SplitChunkConfig = {
+  name: string;
+  test: SplitChunkTestFunc;
+};
+
+type SplitConfig = {
+  locale: string;
+  rootDir: string;
+  chunks: SplitChunkConfig[];
+};
+
+function getAllMessagePaths(rootDir: string): MessagePaths[] {
+  const result: MessagePaths[] = [];
+
+  fs.readdirSync(rootDir).forEach((filename) => {
+    if (/^[._]/.test(filename)) return;
+    const abspath = path.join(LOCALES_DIR, filename);
+    const stat = fs.statSync(abspath);
+    if (!stat.isDirectory()) return;
+    const js = path.join(abspath, "messages.js");
+    const po = path.join(abspath, "messages.po");
+    if (fs.existsSync(js) && fs.existsSync(po)) {
+      result.push({ locale: filename, rootDir: abspath, js, po });
+    }
+  });
+
+  return result;
+}
+
+type CompiledMessage = { msgid: string; node: babel.types.Node };
+
+class MessageCatalogSplitter {
+  chunks: Map<string, CompiledMessage[]> = new Map();
+
+  constructor(
+    readonly extracted: ExtractedMessageCatalog,
+    readonly compiled: CompiledMessageCatalog,
+    readonly config: SplitConfig
+  ) {}
+
+  split() {
+    this.chunks.clear();
+
+    for (let [msgid, sourceFiles] of this.extracted.msgidSourceFiles) {
+      const node = this.compiled.messages.get(msgid);
+      if (!node)
+        throw new Error(
+          `Compiled message catalog does not contain msgid ${JSON.stringify(
+            msgid
+          )}`
+        );
+      this.pushToChunk(msgid, sourceFiles, node);
+    }
+    this.writeChunks();
+  }
+
+  private pushToChunk(
+    msgid: string,
+    sourceFiles: string[],
+    node: babel.types.Node
+  ) {
+    let foundChunk = false;
+    for (let chunkConfig of this.config.chunks) {
+      if (sourceFiles.every((s) => chunkConfig.test(s))) {
+        this.pushChunkMessage(chunkConfig.name, { msgid, node });
+        foundChunk = true;
+        break;
+      }
+    }
+    if (!foundChunk)
+      throw new Error(`Unable to find chunk for msgid ${msgid}!`);
+  }
+
+  private writeChunks() {
+    for (let chunkConfig of this.config.chunks) {
+      const messages = this.chunks.get(chunkConfig.name) || [];
+      const lines: string[] = [
+        "// @ts-nocheck",
+        "/* eslint-disable */",
+        "module.exports = {",
+      ];
+      lines.push(
+        `  languageData: ${generate(this.compiled.languageData).code},`
+      );
+      lines.push(`  messages: {`);
+      for (let message of messages) {
+        const key = JSON.stringify(message.msgid);
+        const value = generate(message.node).code;
+        lines.push(`    ${key}: ${value},`);
+      }
+      lines.push(`  },`);
+      lines.push("};");
+      const filename = `${chunkConfig.name}.chunk.js`;
+      const relpath = `${this.config.locale}/${filename}`;
+      const abspath = path.join(this.config.rootDir, filename);
+      console.log(`Writing ${messages.length} messages to ${relpath}.`);
+      fs.writeFileSync(abspath, lines.join("\n"));
+    }
+  }
+
+  private pushChunkMessage(name: string, message: CompiledMessage) {
+    let chunkMessages = this.chunks.get(name);
+    if (!chunkMessages) {
+      chunkMessages = [];
+      this.chunks.set(name, chunkMessages);
+    }
+    chunkMessages.push(message);
+  }
+}
+
+function processLocale(paths: MessagePaths) {
+  console.log(`Processing locale '${paths.locale}'.`);
+
+  const messagesJs = fs.readFileSync(paths.js, {
     encoding: "utf-8",
   });
   const compiled = parseCompiledMessages(messagesJs);
-  const src = generate(compiled.languageData);
-  console.log("languageData is", src.code);
-  for (let [message, value] of compiled.messages) {
-    const src = generate(value);
-    console.log(message, "is", src.code);
-  }
-  const messagesPo = fs.readFileSync("locales/es/messages.po", {
+  const messagesPo = fs.readFileSync(paths.po, {
     encoding: "utf-8",
   });
   var extracted = parseExtractedMessages(messagesPo);
-  for (let [msgid, sourceFiles] of extracted.msgidSourceFiles) {
-    console.log(msgid, sourceFiles.join(", "));
-    if (!compiled.messages.has(msgid)) {
-      throw new Error(
-        `JS message catalog does not contain msgid ${JSON.stringify(msgid)}`
-      );
-    }
+  const splitter = new MessageCatalogSplitter(extracted, compiled, {
+    locale: paths.locale,
+    rootDir: paths.rootDir,
+    chunks: SPLIT_CHUNK_CONFIGS,
+  });
+  splitter.split();
+}
+
+export function run() {
+  const allPaths = getAllMessagePaths(LOCALES_DIR);
+  for (let paths of allPaths) {
+    processLocale(paths);
   }
 }

@@ -42,15 +42,15 @@ class HPActionAdminViews:
     def view_with_perm(self, view_func, perm: str):
         return self.site.admin_view(permission_required(perm)(view_func))
 
-    def create_serving_papers(self, request, userid):
+    def _get_serving_papers_sender(self, userid: int) -> JustfixUser:
         sender = JustfixUser.objects.filter(pk=userid).first()
-        if not (sender and
-                hasattr(sender, 'onboarding_info') and
-                hasattr(sender, 'landlord_details')):
-            raise Http404("User not found and/or lacks required information")
+        if sender and models.ServingPapers.can_user_serve_papers(sender):
+            return sender
+        raise Http404("User not found and/or lacks required information")
 
+    def create_serving_papers(self, request, userid):
+        sender = self._get_serving_papers_sender(userid)
         go_back_href = reverse('admin:hpaction_hpuser_change', args=(sender.pk,))
-
         ld = sender.landlord_details
 
         if request.method == "POST":

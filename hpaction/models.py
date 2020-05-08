@@ -686,6 +686,10 @@ class ServingPapers(MailingAddress):
         help_text="When the papers were mailed through the postal service."
     )
 
+    @staticmethod
+    def can_user_serve_papers(user: JustfixUser) -> bool:
+        return hasattr(user, 'onboarding_info') and hasattr(user, 'landlord_details')
+
 
 def _get_latest_docs_or_tok(
     user: JustfixUser,

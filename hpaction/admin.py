@@ -170,6 +170,8 @@ class HPUserAdmin(UserProxyAdmin):
         allow_tags=True
     )
     def create_serving_papers(self, obj):
+        if not models.ServingPapers.can_user_serve_papers(obj):
+            return "We don't have enough information about this user to serve papers yet."
         return format_html(
             '<a class="button" href="{}">Create serving papers&hellip;</a>',
             reverse('admin:create-serving-papers', kwargs={'userid': obj.id})

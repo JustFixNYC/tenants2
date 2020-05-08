@@ -32,7 +32,6 @@ class HPActionAdminViews:
         return [
             path(
                 'serving-papers/create/<int:userid>/',
-                # TODO: Use a different permission
                 self.view_with_perm(self.create_serving_papers,
                                     ADD_SERVING_PAPERS_PERMISSION),
                 name='create-serving-papers'

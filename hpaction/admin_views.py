@@ -3,9 +3,13 @@ from django.http import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import permission_required
 from django.contrib.admin.helpers import AdminForm
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 from django import forms
+from django.utils import timezone
 
 from users.models import JustfixUser, ADD_SERVING_PAPERS_PERMISSION
+from loc import lob_api
 from . import models
 
 
@@ -22,6 +26,32 @@ class ServingPapersForm(forms.ModelForm):
             'zip_code',
             'pdf_file',
         ]
+
+    is_definitely_deliverable = forms.BooleanField(
+        required=False,
+        help_text=(
+            "This address is definitely deliverable "
+            "(manually override Lob's address verification)"
+        ),
+    )
+
+    def _validate_address(self, cleaned_data):
+        sp_data = {**cleaned_data}
+        is_definitely_deliverable = sp_data.pop('is_definitely_deliverable')
+        sp = models.ServingPapers(**sp_data)
+        if (sp.is_address_populated() and
+                (not is_definitely_deliverable) and
+                lob_api.is_address_undeliverable(**sp.as_lob_params())):
+            raise ValidationError(
+                'Lob thinks the recipient\'s address is undeliverable. '
+                'If you disagree, please check the "Is definitely deliverable" '
+                'checkbox to continue.'
+            )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        self._validate_address(cleaned_data)
+        return cleaned_data
 
 
 class HPActionAdminViews:
@@ -47,7 +77,37 @@ class HPActionAdminViews:
             return sender
         raise Http404("User not found and/or lacks required information")
 
+    def _ensure_lob_integration(self):
+        if not lob_api.is_lob_fully_enabled():
+            raise Http404("Lob integration is disabled")
+
+    def _send_papers(self, papers: models.ServingPapers):
+        response = lob_api.mail_certified_letter(
+            description="Serving papers",
+            to_address={
+                'name': papers.name,
+                **lob_api.verification_to_inline_address(
+                    lob_api.verify_address(**papers.as_lob_params())
+                )
+            },
+            from_address={
+                'name': papers.sender.full_name,
+                **lob_api.verification_to_inline_address(
+                    lob_api.verify_address(**papers.sender.onboarding_info.as_lob_params())
+                )
+            },
+            file=papers.pdf_file.open(),
+            color=False,
+            double_sided=False,
+            request_return_receipt=True,
+        )
+        papers.lob_letter_object = response
+        papers.tracking_number = response['tracking_number']
+        papers.letter_sent_at = timezone.now()
+        papers.save()
+
     def create_serving_papers(self, request, userid):
+        self._ensure_lob_integration()
         sender = self._get_serving_papers_sender(userid)
         go_back_href = reverse('admin:hpaction_hpuser_change', args=(sender.pk,))
         ld = sender.landlord_details
@@ -55,20 +115,19 @@ class HPActionAdminViews:
         if request.method == "POST":
             form = ServingPapersForm(request.POST, request.FILES)
             if form.is_valid():
-                sp = form.save(commit=False)
-                sp.uploaded_by = request.user
-                sp.sender = sender
-                sp.save()
+                papers = form.save(commit=False)
+                papers.uploaded_by = request.user
+                papers.sender = sender
+                self._send_papers(papers)
+                messages.success(
+                    request,
+                    'The recipient has been served! See below for more details.'
+                )
                 return HttpResponseRedirect(go_back_href)
         else:
             form = ServingPapersForm(initial={
                 'name': ld.name,
-                'primary_line': ld.primary_line,
-                'secondary_line': ld.secondary_line,
-                'urbanization': ld.urbanization,
-                'city': ld.city,
-                'state': ld.state,
-                'zip_code': ld.zip_code,
+                **ld.get_address_as_dict(),
             })
 
         # This makes it easier to manually test the form.

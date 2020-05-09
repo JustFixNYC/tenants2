@@ -11,22 +11,26 @@ input[type="text"] {
 {% endblock %}
 
 {% block content %}
-<h1>Create serving papers</h1>
+<h1>Create and mail serving papers via Lob</h1>
 <p>
   This form allows you to upload a PDF that represents serving papers on
-  behalf of <a href="{{ go_back_href }}">{{ sender.full_name }}</a>.
+  behalf of <a href="{{ go_back_href }}">{{ sender.full_name }}</a>,
+  and mail them via Lob.
 </p>
 <p>
   We've pre-filled the information for {{ sender.first_name }}'s landlord below,
   but you can change any details depending on who needs to be served.
 </p>
+{% for error in form.non_field_errors %}
+    <p class="errornote">{{ error }}</p>
+{% endfor %}
 <form action="." method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for fieldset in adminform %}
         {% include "admin/includes/fieldset.html" %}
     {% endfor %}
   <div class="submit-row">
-    <input type="submit" class="default" value="Create serving papers">
+    <input type="submit" class="default" value="Create and mail serving papers via Lob">
   </div>
 </form>
 {% endblock %}

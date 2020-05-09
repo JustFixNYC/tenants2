@@ -4,7 +4,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { TextualFormField } from "../forms/form-fields";

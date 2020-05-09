@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Routes, { getSignupIntentOnboardingInfo } from "../routes";
+import Routes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -43,7 +43,7 @@ import {
 } from "../forms/form-fields";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import { BeginDocusignMutation } from "../queries/BeginDocusignMutation";
-import { performHardOrSoftRedirect } from "../pages/login-page";
+import { performHardOrSoftRedirect } from "../browser-redirect";
 import { MoratoriumWarning, CovidEhpDisclaimer } from "../ui/covid-banners";
 import { StaticImage } from "../ui/static-image";
 import { VerifyEmailMiddleProgressStep } from "../pages/verify-email";

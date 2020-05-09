@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Navbar from "./ui/navbar";
 import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
-import Routes from "./routes";
+import Routes from "./justfix-routes";
 import { StaticImage } from "./ui/static-image";
 
 const JustfixBrand: React.FC<{}> = () => {

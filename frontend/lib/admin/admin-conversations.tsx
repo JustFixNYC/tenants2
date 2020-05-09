@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { AppContext } from "../app-context";
 import {
   AdminConversations,

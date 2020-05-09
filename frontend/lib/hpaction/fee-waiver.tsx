@@ -16,7 +16,7 @@ import { ProgressiveOtherCheckboxFormField } from "../forms/other-checkbox-form-
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { FeeWaiverPublicAssistanceMutation } from "../queries/FeeWaiverPublicAssistanceMutation";
 import { Link } from "react-router-dom";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { bulmaClasses } from "../ui/bulma";
 import { SessionStepBuilder } from "../progress/session-step-builder";
 

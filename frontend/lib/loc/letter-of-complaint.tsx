@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../ui/page";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { AppContext } from "../app-context";
 import { IssuesRoutes } from "../issues/issue-pages";
 import AccessDatesPage from "./access-dates";

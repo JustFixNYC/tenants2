@@ -1,49 +1,28 @@
 import React, { useContext } from "react";
 
 import Page from "../ui/page";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
 import { TextualFormField } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
 import { RouteComponentProps } from "react-router";
-import {
-  withAppContext,
-  AppContextType,
-  AppContext,
-  getGlobalAppServerInfo,
-} from "../app-context";
-import { History } from "history";
-import hardRedirect from "../hard-redirect";
+import { withAppContext, AppContextType, AppContext } from "../app-context";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { assertNotNull } from "../util/util";
 import { getPostOrQuerystringVar } from "../util/querystring";
 import { Link } from "react-router-dom";
 import { getPostOnboardingURL } from "../onboarding/signup-intent";
+import {
+  performHardOrSoftRedirect,
+  absolutifyURLToOurOrigin,
+} from "../browser-redirect";
 
 export const NEXT = "next";
 
 export interface LoginFormProps {
   next: string;
   redirectToLegacyAppURL: string;
-}
-
-/**
- * Based on the type of URL we're given, perform either a "hard" redirect
- * whereby we leave our single-page application (SPA), or a "soft" redirect,
- * in which we stay in our SPA.
- */
-export function performHardOrSoftRedirect(redirect: string, history: History) {
-  const localPath = unabsolutifyURLFromOurOrigin(redirect);
-  if (localPath && Routes.routeMap.exists(localPath)) {
-    history.push(localPath);
-  } else {
-    // This isn't a route we can serve from this single-page app,
-    // but it might be something our underlying Django app can
-    // serve, or it might be a trusted third-party site, so force
-    // a browser refresh.
-    hardRedirect(redirect);
-  }
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {
@@ -80,37 +59,6 @@ export class LoginForm extends React.Component<LoginFormProps> {
       </SessionUpdatingFormSubmitter>
     );
   }
-}
-
-/**
- * Given a URL, return everything after its origin if it is
- * rooted at our origin. If it's already a relative URL,
- * return it as-is. Otherwise, return null.
- */
-export function unabsolutifyURLFromOurOrigin(
-  url: string,
-  origin: string = getGlobalAppServerInfo().originURL
-): string | null {
-  if (url[0] === "/") return url;
-  if (url.indexOf(`${origin}/`) === 0) {
-    return url.slice(origin.length);
-  }
-  return null;
-}
-
-/**
- * Given a URL passed to us by an untrusted party, ensure that it has
- * the given origin, to mitigate the possibility of us being used as
- * an open redirect: http://cwe.mitre.org/data/definitions/601.html.
- */
-export function absolutifyURLToOurOrigin(url: string, origin: string): string {
-  if (url.indexOf(`${origin}/`) === 0) {
-    return url;
-  }
-  if (url[0] !== "/") {
-    url = `/${url}`;
-  }
-  return `${origin}${url}`;
 }
 
 const LoginPage = withAppContext(

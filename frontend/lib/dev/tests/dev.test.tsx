@@ -2,7 +2,7 @@ import React from "react";
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import DevRoutes from "../dev";
-import Routes from "../../routes";
+import Routes from "../../justfix-routes";
 
 describe("development pages", () => {
   afterEach(AppTesterPal.cleanup);

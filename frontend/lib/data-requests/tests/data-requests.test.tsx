@@ -1,7 +1,7 @@
 import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import DataRequestsRoutes from "../data-requests";
-import Routes from "../../routes";
+import Routes from "../../justfix-routes";
 import { DataRequestMultiLandlordQuery } from "../../queries/DataRequestMultiLandlordQuery";
 import { wait } from "@testing-library/react";
 

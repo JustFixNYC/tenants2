@@ -1,4 +1,4 @@
-import Routes, { getSignupIntentOnboardingInfo } from "../routes";
+import Routes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
 import { OnboardingInfoSignupIntent, Borough } from "../queries/globalTypes";
 import i18n from "../i18n";
 

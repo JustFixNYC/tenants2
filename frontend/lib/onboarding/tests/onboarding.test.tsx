@@ -2,7 +2,7 @@ import React from "react";
 
 import { FakeSessionInfo } from "../../tests/util";
 import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding-routes";
-import Routes from "../../routes";
+import Routes from "../../justfix-routes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { getLatestStep } from "../../progress/progress-redirection";
 import { AppTesterPal } from "../../tests/app-tester-pal";

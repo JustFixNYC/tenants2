@@ -11,7 +11,7 @@ import {
 } from "./networking/loading-page";
 import LoginPage from "./pages/login-page";
 import { LogoutPage } from "./pages/logout-page";
-import Routes from "./routes";
+import Routes from "./justfix-routes";
 import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
 import { getOnboardingRouteForIntent } from "./onboarding/signup-intent";
 import HelpPage from "./pages/help-page";

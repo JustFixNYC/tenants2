@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { AppContext } from "../app-context";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { NEXT } from "../pages/login-page";
 
 /**

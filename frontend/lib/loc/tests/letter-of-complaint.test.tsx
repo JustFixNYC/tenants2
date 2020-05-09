@@ -1,5 +1,5 @@
 import { getLOCProgressRoutesProps } from "../letter-of-complaint";
-import Routes from "../../routes";
+import Routes from "../../justfix-routes";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
 
 const tester = new ProgressRoutesTester(

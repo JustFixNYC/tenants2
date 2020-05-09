@@ -1,8 +1,12 @@
 import GraphQlClient from "../networking/graphql-client";
-import { AppServerInfo, AppContextType } from "../app-context";
+import {
+  AppServerInfo,
+  AppContextType,
+  setGlobalAppServerInfo,
+} from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from "../forms/form-errors";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -116,4 +120,15 @@ export function override<T>(defaults: T, overrides: Partial<T>): T {
     ...defaults,
     ...overrides,
   };
+}
+
+export function overrideGlobalAppServerInfo(
+  overrides: Partial<AppServerInfo> = {}
+): AppServerInfo {
+  const newInfo: AppServerInfo = {
+    ...FakeServerInfo,
+    ...overrides,
+  };
+  setGlobalAppServerInfo(newInfo);
+  return newInfo;
 }

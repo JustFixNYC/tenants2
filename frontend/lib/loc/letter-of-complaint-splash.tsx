@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { Link } from "react-router-dom";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../analytics/google-analytics";
 import { GetStartedButton } from "../ui/get-started-button";

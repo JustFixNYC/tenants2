@@ -1,6 +1,6 @@
 import React from "react";
 import { PrivacyPolicyLink, TermsOfUseLink } from "./privacy-info-modal";
-import Routes from "../routes";
+import Routes from "../justfix-routes";
 import { ROUTE_PREFIX } from "../util/route-util";
 
 const CreditForLHI = (props: { pathname?: string }) =>

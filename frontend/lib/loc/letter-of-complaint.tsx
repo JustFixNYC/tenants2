@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../ui/page";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import { AppContext } from "../app-context";
 import { IssuesRoutes } from "../issues/issue-pages";
 import AccessDatesPage from "./access-dates";
@@ -78,58 +78,58 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
 
 const LetterOfComplaintIssuesRoutes = () => (
   <IssuesRoutes
-    routes={Routes.locale.loc.issues}
-    toBack={Routes.locale.loc.welcome}
-    toNext={Routes.locale.loc.accessDates}
+    routes={JustfixRoutes.locale.loc.issues}
+    toBack={JustfixRoutes.locale.loc.welcome}
+    toNext={JustfixRoutes.locale.loc.accessDates}
   />
 );
 
 export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
-  toLatestStep: Routes.locale.loc.latestStep,
+  toLatestStep: JustfixRoutes.locale.loc.latestStep,
   label: "Letter of Complaint",
   welcomeSteps: [
     {
-      path: Routes.locale.loc.splash,
+      path: JustfixRoutes.locale.loc.splash,
       exact: true,
       component: LocSplash,
       isComplete: (s) => !!s.phoneNumber,
     },
     {
-      path: Routes.locale.loc.welcome,
+      path: JustfixRoutes.locale.loc.welcome,
       exact: true,
       component: Welcome,
     },
   ],
   stepsToFillOut: [
-    ...createJustfixCrossSiteVisitorSteps(Routes.locale.loc),
+    ...createJustfixCrossSiteVisitorSteps(JustfixRoutes.locale.loc),
     {
-      path: Routes.locale.loc.issues.prefix,
+      path: JustfixRoutes.locale.loc.issues.prefix,
       component: LetterOfComplaintIssuesRoutes,
     },
     {
-      path: Routes.locale.loc.accessDates,
+      path: JustfixRoutes.locale.loc.accessDates,
       exact: true,
       component: AccessDatesPage,
     },
     {
-      path: Routes.locale.loc.reliefAttempts,
+      path: JustfixRoutes.locale.loc.reliefAttempts,
       component: ReliefAttemptsPage,
       shouldBeSkipped: isUserNycha,
     },
     {
-      path: Routes.locale.loc.yourLandlord,
+      path: JustfixRoutes.locale.loc.yourLandlord,
       exact: true,
       component: LandlordDetailsPage,
     },
     {
-      path: Routes.locale.loc.preview,
+      path: JustfixRoutes.locale.loc.preview,
       component: LetterRequestPage,
       isComplete: (sess) => !!sess.letterRequest,
     },
   ],
   confirmationSteps: [
     {
-      path: Routes.locale.loc.confirmation,
+      path: JustfixRoutes.locale.loc.confirmation,
       exact: true,
       component: LetterConfirmation,
     },

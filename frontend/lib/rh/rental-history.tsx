@@ -4,7 +4,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { TextualFormField } from "../forms/form-fields";
@@ -59,7 +59,7 @@ function RentalHistorySplash(): JSX.Element {
               This service is free, secure, and confidential.
             </p>
             <GetStartedButton
-              to={Routes.locale.rh.form}
+              to={JustfixRoutes.locale.rh.form}
               intent="RH"
               pageType="splash"
             >
@@ -129,8 +129,8 @@ function RentalHistoryForm(): JSX.Element {
             resolved: assertNotNull(
               assertNotNull(output.session).rentalHistoryInfo
             ),
-            nextStep: Routes.locale.rh.preview,
-            confirmation: Routes.locale.rh.formAddressModal,
+            nextStep: JustfixRoutes.locale.rh.preview,
+            confirmation: JustfixRoutes.locale.rh.formAddressModal,
           })
         }
       >
@@ -171,15 +171,15 @@ function RentalHistoryForm(): JSX.Element {
         )}
       </SessionUpdatingFormSubmitter>
       <ClearSessionButton
-        to={Routes.locale.rh.splash}
+        to={JustfixRoutes.locale.rh.splash}
         portalRef={cancelControlRef}
         label="Cancel request"
       />
       <Route
-        path={Routes.locale.rh.formAddressModal}
+        path={JustfixRoutes.locale.rh.formAddressModal}
         exact
         render={() => (
-          <FormConfirmAddressModal toStep2={Routes.locale.rh.preview} />
+          <FormConfirmAddressModal toStep2={JustfixRoutes.locale.rh.preview} />
         )}
       />
     </Page>
@@ -244,11 +244,11 @@ function RentalHistoryPreview(): JSX.Element {
         </p>
       </DemoDeploymentNote>
       <div className="field is-grouped jf-two-buttons">
-        <BackButton label="Back" to={Routes.locale.rh.form} />
+        <BackButton label="Back" to={JustfixRoutes.locale.rh.form} />
         <SessionUpdatingFormSubmitter
           mutation={RhSendEmailMutation}
           initialState={{}}
-          onSuccessRedirect={Routes.locale.rh.confirmation}
+          onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
         >
           {(ctx) => (
             <NextButton label="Submit request" isLoading={ctx.isLoading} />
@@ -287,7 +287,7 @@ function RentalHistoryConfirmation(): JSX.Element {
         If you have more questions, please email us at <CustomerSupportLink />.
       </p>
       <Link
-        to={Routes.locale.homeWithSearch(onboardingInfo)}
+        to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
         className="button is-primary is-medium"
       >
         Explore our other tools
@@ -324,31 +324,31 @@ function RentalHistoryConfirmation(): JSX.Element {
 }
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
-  toLatestStep: Routes.locale.rh.latestStep,
+  toLatestStep: JustfixRoutes.locale.rh.latestStep,
   label: "Rent History",
   welcomeSteps: [
     {
-      path: Routes.locale.rh.splash,
+      path: JustfixRoutes.locale.rh.splash,
       exact: true,
       component: RentalHistorySplash,
     },
   ],
   stepsToFillOut: [
-    { path: Routes.locale.rh.form, exact: true, component: RentalHistoryForm },
+    { path: JustfixRoutes.locale.rh.form, exact: true, component: RentalHistoryForm },
     {
-      path: Routes.locale.rh.preview,
+      path: JustfixRoutes.locale.rh.preview,
       exact: true,
       component: RentalHistoryPreview,
     },
   ],
   confirmationSteps: [
     {
-      path: Routes.locale.rh.confirmation,
+      path: JustfixRoutes.locale.rh.confirmation,
       exact: true,
       component: RentalHistoryConfirmation,
     },
     {
-      path: Routes.locale.rh.formAddressModal,
+      path: JustfixRoutes.locale.rh.formAddressModal,
       exact: true,
       component: RentalHistoryForm,
     },

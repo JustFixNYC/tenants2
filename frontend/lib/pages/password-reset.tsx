@@ -3,7 +3,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import Page from "../ui/page";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import {
@@ -26,28 +26,28 @@ import { CustomerSupportLink } from "../ui/customer-support-link";
 
 function getPasswordResetRoutesProps(): ProgressRoutesProps {
   return {
-    toLatestStep: Routes.locale.passwordReset.latestStep,
+    toLatestStep: JustfixRoutes.locale.passwordReset.latestStep,
     label: "Reset your password",
     welcomeSteps: [],
     stepsToFillOut: [
       {
-        path: Routes.locale.passwordReset.start,
+        path: JustfixRoutes.locale.passwordReset.start,
         exact: true,
         component: Start,
       },
       {
-        path: Routes.locale.passwordReset.verify,
+        path: JustfixRoutes.locale.passwordReset.verify,
         exact: true,
         component: Verify,
       },
       {
-        path: Routes.locale.passwordReset.confirm,
+        path: JustfixRoutes.locale.passwordReset.confirm,
         exact: true,
         component: Confirm,
       },
     ],
     confirmationSteps: [
-      { path: Routes.locale.passwordReset.done, exact: true, component: Done },
+      { path: JustfixRoutes.locale.passwordReset.done, exact: true, component: Done },
     ],
   };
 }
@@ -63,7 +63,7 @@ function Start(props: {}) {
       <LegacyFormSubmitter
         mutation={PasswordResetMutation}
         initialState={BlankPasswordResetInput}
-        onSuccessRedirect={Routes.locale.passwordReset.verify}
+        onSuccessRedirect={JustfixRoutes.locale.passwordReset.verify}
       >
         {(ctx) => (
           <>
@@ -72,7 +72,7 @@ function Start(props: {}) {
               {...ctx.fieldPropsFor("phoneNumber")}
             />
             <ProgressButtons
-              back={Routes.locale.login}
+              back={JustfixRoutes.locale.login}
               isLoading={ctx.isLoading}
             />
           </>
@@ -93,7 +93,7 @@ function Verify(props: {}) {
       <LegacyFormSubmitter
         mutation={PasswordResetVerificationCodeMutation}
         initialState={BlankPasswordResetVerificationCodeInput}
-        onSuccessRedirect={Routes.locale.passwordReset.confirm}
+        onSuccessRedirect={JustfixRoutes.locale.passwordReset.confirm}
       >
         {(ctx) => (
           <>
@@ -107,7 +107,7 @@ function Verify(props: {}) {
               <CustomerSupportLink />.
             </p>
             <ProgressButtons
-              back={Routes.locale.passwordReset.start}
+              back={JustfixRoutes.locale.passwordReset.start}
               isLoading={ctx.isLoading}
             />
           </>
@@ -127,7 +127,7 @@ function Confirm(props: {}) {
       <LegacyFormSubmitter
         mutation={PasswordResetConfirmMutation}
         initialState={BlankPasswordResetConfirmInput}
-        onSuccessRedirect={Routes.locale.passwordReset.done}
+        onSuccessRedirect={JustfixRoutes.locale.passwordReset.done}
       >
         {(ctx) => (
           <>
@@ -143,7 +143,7 @@ function Confirm(props: {}) {
             />
             <br />
             <ProgressButtons
-              back={Routes.locale.passwordReset.verify}
+              back={JustfixRoutes.locale.passwordReset.verify}
               isLoading={ctx.isLoading}
             />
           </>
@@ -159,7 +159,7 @@ function Done(props: {}) {
       <h1 className="title is-4 is-spaced">Your password has been reset!</h1>
       <p className="subtitle is-6">
         You can now{" "}
-        <Link to={Routes.locale.login}>log in with your new password</Link>.
+        <Link to={JustfixRoutes.locale.login}>log in with your new password</Link>.
       </p>
     </Page>
   );

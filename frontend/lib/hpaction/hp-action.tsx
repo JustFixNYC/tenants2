@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import Routes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
+import JustfixRoutes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
 import Page from "../ui/page";
 import { ProgressButtons } from "../ui/buttons";
 import { IssuesRoutes } from "../issues/issue-pages";
@@ -155,7 +155,7 @@ const HPActionWelcome: React.FC<ProgressStepProps> = (props) => {
 
 const HPActionIssuesRoutes = MiddleProgressStep((props) => (
   <IssuesRoutes
-    routes={Routes.locale.hp.issues}
+    routes={JustfixRoutes.locale.hp.issues}
     introContent={
       <>
         This <strong>issue checklist</strong> will be the basis for your case.
@@ -174,7 +174,7 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
     </p>
     <p>This will take a little while, so sit tight.</p>
     <GeneratePDFForm
-      toWaitForUpload={Routes.locale.hp.waitForUpload}
+      toWaitForUpload={JustfixRoutes.locale.hp.waitForUpload}
       kind="NORMAL"
     >
       {(ctx) => (
@@ -191,9 +191,9 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
 const UploadStatus = () => (
   <ShowHPUploadStatus
     kind="NORMAL"
-    toWaitForUpload={Routes.locale.hp.waitForUpload}
-    toSuccess={Routes.locale.hp.confirmation}
-    toNotStarted={Routes.locale.hp.latestStep}
+    toWaitForUpload={JustfixRoutes.locale.hp.waitForUpload}
+    toSuccess={JustfixRoutes.locale.hp.confirmation}
+    toNotStarted={JustfixRoutes.locale.hp.latestStep}
   />
 );
 
@@ -309,109 +309,109 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   ),
 });
 
-const PreviousAttempts = createHPActionPreviousAttempts(() => Routes.locale.hp);
+const PreviousAttempts = createHPActionPreviousAttempts(() => JustfixRoutes.locale.hp);
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
-  toLatestStep: Routes.locale.hp.latestStep,
+  toLatestStep: JustfixRoutes.locale.hp.latestStep,
   label: "HP Action",
   welcomeSteps: [
     {
-      path: Routes.locale.hp.splash,
+      path: JustfixRoutes.locale.hp.splash,
       exact: true,
       component: HPActionSplash,
       isComplete: (s) => !!s.phoneNumber,
     },
     {
-      path: Routes.locale.hp.welcome,
+      path: JustfixRoutes.locale.hp.welcome,
       exact: true,
       component: HPActionWelcome,
     },
   ],
   stepsToFillOut: [
-    ...createJustfixCrossSiteVisitorSteps(Routes.locale.hp),
-    { path: Routes.locale.hp.sue, component: HpActionSue },
+    ...createJustfixCrossSiteVisitorSteps(JustfixRoutes.locale.hp),
+    { path: JustfixRoutes.locale.hp.sue, component: HpActionSue },
     {
-      path: Routes.locale.hp.issues.prefix,
+      path: JustfixRoutes.locale.hp.issues.prefix,
       component: HPActionIssuesRoutes,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.hp.tenantChildren,
+      path: JustfixRoutes.locale.hp.tenantChildren,
       component: TenantChildren,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.hp.accessForInspection,
+      path: JustfixRoutes.locale.hp.accessForInspection,
       component: AccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.hp.prevAttempts,
+      path: JustfixRoutes.locale.hp.prevAttempts,
       component: PreviousAttempts,
       shouldBeSkipped: (s) => isNotSuingForRepairs(s) || isUserNycha(s),
     },
     {
-      path: Routes.locale.hp.urgentAndDangerous,
+      path: JustfixRoutes.locale.hp.urgentAndDangerous,
       component: UrgentAndDangerous,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.hp.harassmentApartment,
+      path: JustfixRoutes.locale.hp.harassmentApartment,
       component: HarassmentApartment,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.hp.harassmentAllegations1,
+      path: JustfixRoutes.locale.hp.harassmentAllegations1,
       component: HarassmentAllegations1,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.hp.harassmentAllegations2,
+      path: JustfixRoutes.locale.hp.harassmentAllegations2,
       component: HarassmentAllegations2,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.hp.harassmentExplain,
+      path: JustfixRoutes.locale.hp.harassmentExplain,
       component: HarassmentExplain,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.hp.harassmentCaseHistory,
+      path: JustfixRoutes.locale.hp.harassmentCaseHistory,
       component: HarassmentCaseHistory,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.hp.feeWaiverStart,
+      path: JustfixRoutes.locale.hp.feeWaiverStart,
       exact: true,
       component: FeeWaiverStart,
     },
     {
-      path: Routes.locale.hp.feeWaiverMisc,
+      path: JustfixRoutes.locale.hp.feeWaiverMisc,
       component: FeeWaiverMisc,
       isComplete: hasFeeWaiverAnd((fw) => fw.askedBefore !== null),
     },
     {
-      path: Routes.locale.hp.feeWaiverIncome,
+      path: JustfixRoutes.locale.hp.feeWaiverIncome,
       component: FeeWaiverIncome,
       isComplete: hasFeeWaiverAnd((fw) => fw.incomeAmountMonthly !== null),
     },
     {
-      path: Routes.locale.hp.feeWaiverPublicAssistance,
+      path: JustfixRoutes.locale.hp.feeWaiverPublicAssistance,
       component: FeeWaiverPublicAssistance,
       isComplete: hasFeeWaiverAnd((fw) => fw.receivesPublicAssistance !== null),
     },
     {
-      path: Routes.locale.hp.feeWaiverExpenses,
+      path: JustfixRoutes.locale.hp.feeWaiverExpenses,
       component: FeeWaiverExpenses,
       isComplete: hasFeeWaiverAnd((fw) => fw.rentAmount !== null),
     },
     {
-      path: Routes.locale.hp.yourLandlord,
+      path: JustfixRoutes.locale.hp.yourLandlord,
       exact: true,
       component: HPActionYourLandlord,
     },
     {
-      path: Routes.locale.hp.ready,
+      path: JustfixRoutes.locale.hp.ready,
       exact: true,
       component: PrepareToGeneratePDF,
       isComplete: (s) => s.hpActionUploadStatus !== HPUploadStatus.NOT_STARTED,
@@ -419,13 +419,13 @@ export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   ],
   confirmationSteps: [
     {
-      path: Routes.locale.hp.waitForUpload,
+      path: JustfixRoutes.locale.hp.waitForUpload,
       exact: true,
       component: UploadStatus,
       isComplete: (s) => s.hpActionUploadStatus === HPUploadStatus.SUCCEEDED,
     },
     {
-      path: Routes.locale.hp.confirmation,
+      path: JustfixRoutes.locale.hp.confirmation,
       exact: true,
       component: HPActionConfirmation,
     },

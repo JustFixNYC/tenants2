@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import Page from "../ui/page";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
 import { TextualFormField } from "../forms/form-fields";
@@ -82,16 +82,16 @@ const LoginPage = withAppContext(
           <div className="content">
             <p>
               If you have trouble logging in, you can{" "}
-              <Link to={Routes.locale.passwordReset.start}>
+              <Link to={JustfixRoutes.locale.passwordReset.start}>
                 reset your password
               </Link>
               .
             </p>
             <p>
               Don't have an account yet? You can sign up for one by composing a{" "}
-              <Link to={Routes.locale.loc.splash}>Letter of Complaint</Link> or
+              <Link to={JustfixRoutes.locale.loc.splash}>Letter of Complaint</Link> or
               starting an{" "}
-              <Link to={Routes.locale.hp.latestStep}>HP Action</Link>!
+              <Link to={JustfixRoutes.locale.hp.latestStep}>HP Action</Link>!
             </p>
           </div>
         </div>

@@ -1,17 +1,17 @@
 import React from "react";
 
 import { IssuesRoutes, getIssueLabel, groupByTwo } from "../issue-pages";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { IssueAreaV2Input } from "../../queries/globalTypes";
 import ISSUE_AREA_SVGS from "../../svg/issues";
 import { IssueAreaChoices } from "../../../../common-data/issue-area-choices";
 import { IssueAreaV2Mutation_output } from "../../queries/IssueAreaV2Mutation";
 
-const routes = Routes.locale.loc.issues;
+const routes = JustfixRoutes.locale.loc.issues;
 
 const TestIssuesRoutes = () => (
-  <IssuesRoutes routes={Routes.locale.loc.issues} toBack="back" toNext="next" />
+  <IssuesRoutes routes={JustfixRoutes.locale.loc.issues} toBack="back" toNext="next" />
 );
 
 describe("issues checklist", () => {

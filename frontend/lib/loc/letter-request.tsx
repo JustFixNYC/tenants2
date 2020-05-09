@@ -5,7 +5,7 @@ import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-sub
 
 import { withAppContext, AppContextType } from "../app-context";
 import { NextButton, BackButton } from "../ui/buttons";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import {
   LetterRequestInput,
   LetterRequestMailChoice,
@@ -112,7 +112,7 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
       </DemoDeploymentNote>
       <div className="has-text-centered is-grouped">
         <ModalLink
-          to={Routes.locale.loc.previewSendConfirmModal}
+          to={JustfixRoutes.locale.loc.previewSendConfirmModal}
           className="button is-primary is-medium"
           render={() => <SendConfirmModal nextStep={nextStep} />}
         >

@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page, { PageTitle } from "../ui/page";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import {
   DataRequestMultiLandlordQuery,
   DataRequestMultiLandlordQuery_output,
@@ -147,11 +147,11 @@ function MultiLandlordPage(props: RouteComponentProps) {
 export default function DataRequestsRoutes(): JSX.Element {
   return (
     <Switch>
-      <Route path={Routes.locale.dataRequests.home} exact>
-        <Redirect to={Routes.locale.dataRequests.multiLandlord} />
+      <Route path={JustfixRoutes.locale.dataRequests.home} exact>
+        <Redirect to={JustfixRoutes.locale.dataRequests.multiLandlord} />
       </Route>
       <Route
-        path={Routes.locale.dataRequests.multiLandlord}
+        path={JustfixRoutes.locale.dataRequests.multiLandlord}
         exact
         component={MultiLandlordPage}
       />

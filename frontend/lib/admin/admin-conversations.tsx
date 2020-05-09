@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import { AppContext } from "../app-context";
 import {
   AdminConversations,
@@ -210,7 +210,7 @@ export function makeConversationsURL(
   rawQuery && params.set(QUERY_QS_VAR, rawQuery);
   phoneNumber && params.set(PHONE_QS_VAR, phoneNumber);
   const qs = params.toString();
-  return Routes.adminConversations + (qs ? `?${qs}` : "");
+  return JustfixRoutes.adminConversations + (qs ? `?${qs}` : "");
 }
 
 export function normalizeConversationQuery(query: string): string {
@@ -544,7 +544,7 @@ export default function AdminConversationsRoutes(): JSX.Element {
   return (
     <Switch>
       <Route
-        path={Routes.adminConversations}
+        path={JustfixRoutes.adminConversations}
         exact
         component={AdminConversationsPageWrapper}
       />

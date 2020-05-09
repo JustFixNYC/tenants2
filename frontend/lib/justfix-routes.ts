@@ -43,15 +43,15 @@ export function getSignupIntentOnboardingInfo(
 
     case OnboardingInfoSignupIntent.LOC:
       return {
-        preOnboarding: Routes.locale.loc.splash,
-        postOnboarding: Routes.locale.loc.latestStep,
-        onboarding: Routes.locale.onboarding,
+        preOnboarding: JustfixRoutes.locale.loc.splash,
+        postOnboarding: JustfixRoutes.locale.loc.latestStep,
+        onboarding: JustfixRoutes.locale.onboarding,
       };
 
     case OnboardingInfoSignupIntent.HP:
-      return Routes.locale.hp;
+      return JustfixRoutes.locale.hp;
     case OnboardingInfoSignupIntent.EHP:
-      return Routes.locale.ehp;
+      return JustfixRoutes.locale.ehp;
   }
 }
 
@@ -285,7 +285,7 @@ function createLocalizedRouteInfo(prefix: string) {
 /**
  * This is an ad-hoc structure that defines URL routes for our app.
  */
-const Routes = createRoutesForSite(createLocalizedRouteInfo, {
+const JustfixRoutes = createRoutesForSite(createLocalizedRouteInfo, {
   /**
    * The *admin* login page. We override Django's default admin login
    * here, so we need to make sure this URL matches the URL that Django
@@ -302,4 +302,4 @@ const Routes = createRoutesForSite(createLocalizedRouteInfo, {
   dev: createDevRouteInfo("/dev"),
 });
 
-export default Routes;
+export default JustfixRoutes;

@@ -1,14 +1,14 @@
-import Routes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
+import JustfixRoutes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
 import { OnboardingInfoSignupIntent, Borough } from "../queries/globalTypes";
 import i18n from "../i18n";
 
 test("Routes object responds to locale changes", () => {
   i18n.initialize("en");
-  expect(Routes.locale.home).toBe("/en/");
+  expect(JustfixRoutes.locale.home).toBe("/en/");
   i18n.initialize("es");
-  expect(Routes.locale.home).toBe("/es/");
+  expect(JustfixRoutes.locale.home).toBe("/es/");
   i18n.initialize("en");
-  expect(Routes.locale.home).toBe("/en/");
+  expect(JustfixRoutes.locale.home).toBe("/en/");
 });
 
 describe("getSignupIntentRouteInfo", () => {
@@ -24,7 +24,7 @@ describe("getSignupIntentRouteInfo", () => {
 describe("Routes.locale.homeWithSearch()", () => {
   it("works", () => {
     expect(
-      Routes.locale.homeWithSearch({
+      JustfixRoutes.locale.homeWithSearch({
         address: "654 park place",
         borough: Borough.BROOKLYN,
       })
@@ -32,9 +32,9 @@ describe("Routes.locale.homeWithSearch()", () => {
   });
 
   it("Returns home when not enough onboarding info is available", () => {
-    expect(Routes.locale.homeWithSearch(null)).toBe("/en/");
+    expect(JustfixRoutes.locale.homeWithSearch(null)).toBe("/en/");
     expect(
-      Routes.locale.homeWithSearch({ address: "blarg", borough: null })
+      JustfixRoutes.locale.homeWithSearch({ address: "blarg", borough: null })
     ).toBe("/en/");
   });
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { LetterRequestMutation_output } from "../../queries/LetterRequestMutation";
@@ -44,7 +44,7 @@ describe("landlord details page", () => {
 
   it("works when user chooses to mail the letter themselves", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.preview,
+      url: JustfixRoutes.locale.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
     });
     clickButtonAndExpectChoice(
@@ -56,7 +56,7 @@ describe("landlord details page", () => {
 
   it("works when user wants us to mail the letter", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.preview,
+      url: JustfixRoutes.locale.loc.preview,
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
     });
     pal.clickButtonOrLink(/looks good to me/i);

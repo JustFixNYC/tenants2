@@ -1,6 +1,6 @@
 import React from "react";
 
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { LandlordDetailsV2Input } from "../../queries/globalTypes";
@@ -19,7 +19,7 @@ describe("landlord details page", () => {
 
   it("works when details are not looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.yourLandlord,
+      url: JustfixRoutes.locale.loc.yourLandlord,
       session: { landlordDetails: BlankLandlordDetailsType },
     });
     pal.rr.getByText(/Please enter your landlord's name/i);
@@ -29,7 +29,7 @@ describe("landlord details page", () => {
 
   it("works when details are looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.yourLandlord,
+      url: JustfixRoutes.locale.loc.yourLandlord,
       session: { landlordDetails: LOOKED_UP_LANDLORD_DETAILS },
     });
     pal.rr.getByText(/This may be different .+ rent checks/i);
@@ -39,7 +39,7 @@ describe("landlord details page", () => {
 
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.yourLandlord,
+      url: JustfixRoutes.locale.loc.yourLandlord,
       session: { landlordDetails: BlankLandlordDetailsType },
     });
     const name = "Boop Jones";

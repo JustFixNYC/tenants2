@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { Link } from "react-router-dom";
-import Routes from "../justfix-routes";
+import JustfixRoutes from "../justfix-routes";
 import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../analytics/google-analytics";
 import { GetStartedButton } from "../ui/get-started-button";
@@ -37,7 +37,7 @@ export function LocSplash(): JSX.Element {
               . This service is free and secure.
             </p>
             <GetStartedButton
-              to={Routes.locale.onboarding.latestStep}
+              to={JustfixRoutes.locale.onboarding.latestStep}
               intent={OnboardingInfoSignupIntent.LOC}
               pageType="splash"
             >
@@ -45,7 +45,7 @@ export function LocSplash(): JSX.Element {
             </GetStartedButton>
             <p className="jf-secondary-cta">
               Already have an account?{" "}
-              <Link to={Routes.locale.login}>Sign in!</Link>
+              <Link to={JustfixRoutes.locale.login}>Sign in!</Link>
             </p>
             <br />
             <div className="jf-secondary-cta">
@@ -88,7 +88,7 @@ export function LocSplash(): JSX.Element {
             </li>
           </BigList>
           <GetStartedButton
-            to={Routes.locale.onboarding.latestStep}
+            to={JustfixRoutes.locale.onboarding.latestStep}
             intent={OnboardingInfoSignupIntent.LOC}
             pageType="splash"
           >

@@ -1,5 +1,5 @@
 import { getLOCProgressRoutesProps } from "../letter-of-complaint";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
 
 const tester = new ProgressRoutesTester(
@@ -11,7 +11,7 @@ tester.defineSmokeTests();
 
 describe("latest step redirector", () => {
   it("returns splash page by default", () => {
-    expect(tester.getLatestStep()).toBe(Routes.locale.loc.splash);
+    expect(tester.getLatestStep()).toBe(JustfixRoutes.locale.loc.splash);
   });
 
   it("returns welcome if user is logged in", () => {
@@ -19,7 +19,7 @@ describe("latest step redirector", () => {
       tester.getLatestStep({
         phoneNumber: "5551234567",
       })
-    ).toBe(Routes.locale.loc.welcome);
+    ).toBe(JustfixRoutes.locale.loc.welcome);
   });
 
   it("returns confirmation page if letter request has been submitted", () => {
@@ -27,6 +27,6 @@ describe("latest step redirector", () => {
       tester.getLatestStep({
         letterRequest: {} as any,
       })
-    ).toBe(Routes.locale.loc.confirmation);
+    ).toBe(JustfixRoutes.locale.loc.confirmation);
   });
 });

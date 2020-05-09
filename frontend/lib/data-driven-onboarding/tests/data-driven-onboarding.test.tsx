@@ -1,6 +1,6 @@
 import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import { BlankDDOSuggestionsResult } from "../../queries/DDOSuggestionsResult";
 import { DataDrivenOnboardingSuggestions_output } from "../../queries/DataDrivenOnboardingSuggestions";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
@@ -23,13 +23,13 @@ async function simulateResponse(
   const pal = new AppTesterPal(
     (
       <Route
-        path={Routes.locale.home}
+        path={JustfixRoutes.locale.home}
         exact
         component={DataDrivenOnboardingPage}
       />
     ),
     {
-      url: Routes.locale.home,
+      url: JustfixRoutes.locale.home,
     }
   );
   fetch.mockReturnJson(FakeGeoResults);

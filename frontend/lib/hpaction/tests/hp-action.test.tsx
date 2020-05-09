@@ -3,7 +3,7 @@ import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import HPActionRoutes, { getHPActionProgressRoutesProps } from "../hp-action";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 import { HPUploadStatus } from "../../queries/globalTypes";
 
 const tester = new ProgressRoutesTester(
@@ -60,12 +60,12 @@ describe("upload status page", () => {
 
 describe("latest step redirector", () => {
   it("returns splash page when user is not logged-in", () => {
-    expect(tester.getLatestStep()).toBe(Routes.locale.hp.splash);
+    expect(tester.getLatestStep()).toBe(JustfixRoutes.locale.hp.splash);
   });
 
   it("returns welcome page when user is logged-in", () => {
     expect(tester.getLatestStep({ phoneNumber: "123" })).toBe(
-      Routes.locale.hp.welcome
+      JustfixRoutes.locale.hp.welcome
     );
   });
 
@@ -74,7 +74,7 @@ describe("latest step redirector", () => {
       tester.getLatestStep({
         hpActionUploadStatus: HPUploadStatus.STARTED,
       })
-    ).toBe(Routes.locale.hp.waitForUpload);
+    ).toBe(JustfixRoutes.locale.hp.waitForUpload);
   });
 
   it("returns confirmation page when user has generated a PDF", () => {
@@ -83,6 +83,6 @@ describe("latest step redirector", () => {
         latestHpActionPdfUrl: "/boop.pdf",
         hpActionUploadStatus: HPUploadStatus.SUCCEEDED,
       })
-    ).toBe(Routes.locale.hp.confirmation);
+    ).toBe(JustfixRoutes.locale.hp.confirmation);
   });
 });

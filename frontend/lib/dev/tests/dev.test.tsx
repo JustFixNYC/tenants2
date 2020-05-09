@@ -2,7 +2,7 @@ import React from "react";
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import DevRoutes from "../dev";
-import Routes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-routes";
 
 describe("development pages", () => {
   afterEach(AppTesterPal.cleanup);
@@ -16,14 +16,14 @@ describe("development pages", () => {
 
   it("shows DDO dev page", () => {
     const pal = new AppTesterPal(<DevRoutes />, {
-      url: Routes.dev.examples.ddo,
+      url: JustfixRoutes.dev.examples.ddo,
     });
     pal.rr.getByText("Submit");
   });
 
   it("shows mapbox page", () => {
     const pal = new AppTesterPal(<DevRoutes />, {
-      url: Routes.dev.examples.mapbox,
+      url: JustfixRoutes.dev.examples.mapbox,
     });
     pal.rr.getByText(/Example Mapbox page/i);
   });

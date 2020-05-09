@@ -25,9 +25,26 @@ describe("performHardOrSoftRedirect()", () => {
   });
 
   it("takes into account the current site", () => {
-    overrideGlobalAppServerInfo({ originURL, siteType: "NORENT" });
+    const norentUrl = `${originURL}/en/letter`;
     const push = jest.fn();
-    performHardOrSoftRedirect(`${originURL}/en/letter`, { push } as any);
+
+    // JustFix should perform a hard redirect b/c it doesn't know
+    // about this NoRent-specific URL.
+    overrideGlobalAppServerInfo({ originURL, siteType: "JUSTFIX" });
+    performHardOrSoftRedirect(norentUrl, { push } as any);
+    expect(push.mock.calls.length).toBe(0);
+    expect(hardRedirect.mock.calls.length).toBe(1);
+    expect(hardRedirect.mock.calls[0][0]).toBe(
+      `${originURL}/en/letter`
+    );
+
+    push.mockClear();
+    hardRedirect.mockClear();
+
+    // NoRent should perform a soft redirect because it knows about
+    // this NoRent-specific URL.
+    overrideGlobalAppServerInfo({ originURL, siteType: "NORENT" });
+    performHardOrSoftRedirect(norentUrl, { push } as any);
     expect(hardRedirect.mock.calls.length).toBe(0);
     expect(push.mock.calls.length).toBe(1);
     expect(push.mock.calls[0][0]).toBe("/en/letter");

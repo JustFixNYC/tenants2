@@ -47,7 +47,11 @@ function getPasswordResetRoutesProps(): ProgressRoutesProps {
       },
     ],
     confirmationSteps: [
-      { path: JustfixRoutes.locale.passwordReset.done, exact: true, component: Done },
+      {
+        path: JustfixRoutes.locale.passwordReset.done,
+        exact: true,
+        component: Done,
+      },
     ],
   };
 }
@@ -159,7 +163,10 @@ function Done(props: {}) {
       <h1 className="title is-4 is-spaced">Your password has been reset!</h1>
       <p className="subtitle is-6">
         You can now{" "}
-        <Link to={JustfixRoutes.locale.login}>log in with your new password</Link>.
+        <Link to={JustfixRoutes.locale.login}>
+          log in with your new password
+        </Link>
+        .
       </p>
     </Page>
   );

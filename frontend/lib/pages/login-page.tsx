@@ -89,8 +89,10 @@ const LoginPage = withAppContext(
             </p>
             <p>
               Don't have an account yet? You can sign up for one by composing a{" "}
-              <Link to={JustfixRoutes.locale.loc.splash}>Letter of Complaint</Link> or
-              starting an{" "}
+              <Link to={JustfixRoutes.locale.loc.splash}>
+                Letter of Complaint
+              </Link>{" "}
+              or starting an{" "}
               <Link to={JustfixRoutes.locale.hp.latestStep}>HP Action</Link>!
             </p>
           </div>

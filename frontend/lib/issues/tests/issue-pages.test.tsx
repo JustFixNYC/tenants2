@@ -11,7 +11,11 @@ import { IssueAreaV2Mutation_output } from "../../queries/IssueAreaV2Mutation";
 const routes = JustfixRoutes.locale.loc.issues;
 
 const TestIssuesRoutes = () => (
-  <IssuesRoutes routes={JustfixRoutes.locale.loc.issues} toBack="back" toNext="next" />
+  <IssuesRoutes
+    routes={JustfixRoutes.locale.loc.issues}
+    toBack="back"
+    toNext="next"
+  />
 );
 
 describe("issues checklist", () => {

@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 
-import JustfixRoutes, { getSignupIntentOnboardingInfo } from "../justfix-routes";
+import JustfixRoutes, {
+  getSignupIntentOnboardingInfo,
+} from "../justfix-routes";
 import Page from "../ui/page";
 import { ProgressButtons } from "../ui/buttons";
 import { IssuesRoutes } from "../issues/issue-pages";
@@ -309,7 +311,9 @@ const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
   ),
 });
 
-const PreviousAttempts = createHPActionPreviousAttempts(() => JustfixRoutes.locale.hp);
+const PreviousAttempts = createHPActionPreviousAttempts(
+  () => JustfixRoutes.locale.hp
+);
 
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.hp.latestStep,

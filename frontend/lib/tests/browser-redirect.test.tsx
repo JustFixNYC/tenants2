@@ -34,9 +34,7 @@ describe("performHardOrSoftRedirect()", () => {
     performHardOrSoftRedirect(norentUrl, { push } as any);
     expect(push.mock.calls.length).toBe(0);
     expect(hardRedirect.mock.calls.length).toBe(1);
-    expect(hardRedirect.mock.calls[0][0]).toBe(
-      `${originURL}/en/letter`
-    );
+    expect(hardRedirect.mock.calls[0][0]).toBe(`${originURL}/en/letter`);
 
     push.mockClear();
     hardRedirect.mockClear();

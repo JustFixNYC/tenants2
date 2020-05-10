@@ -38,6 +38,7 @@ import { LinguiI18n } from "./i18n-lingui";
 import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
 import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./routes";
+import { ensureNextRedirectIsHard } from "./browser-redirect";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -245,17 +246,8 @@ export class AppWithoutRouter extends React.Component<
     const { userId, firstName, isStaff } = this.state.session;
     if (isStaff && areAnalyticsEnabled()) {
       // There's no way to disable analytics without reloading the page,
-      // so just reload it. But wait a little while just in case a page
-      // transition was just triggered, and let the user know so they
-      // aren't confused.
-      window.setTimeout(() => {
-        window.alert(
-          "Welcome, admin user! We're going to need to reload the page now to " +
-            "disable analytics and ensure no PII is leaked to third-party " +
-            "services."
-        );
-        window.location.reload();
-      }, 1000);
+      // so make sure we reload the page on the next navigation.
+      ensureNextRedirectIsHard();
     }
     if (window.FS && userId !== null) {
       // FullStory ignores '1' as a user ID because it might be unintentional,

@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { RouteComponentProps, withRouter } from "react-router";
 import { smoothlyScrollToTopOfPage } from "../util/scrolling";
 import { RetryableLoadingComponentProps } from "./loading-component-props";
+import { SmoothlyScrollToTopOnEnter } from "../ui/scroll-handlers";
 
 /**
  * The amount of time, in miliseconds, that we consider "imperceptible".
@@ -89,6 +90,7 @@ export function LoadingPage(props: {}): JSX.Element {
   return (
     <Page title="Loading...">
       <h1 className="jf-sr-only">Loading...</h1>
+      <SmoothlyScrollToTopOnEnter />
       <LoadingPageContext.Consumer>
         {(ctx) => <LoadingPageSignaler {...ctx} />}
       </LoadingPageContext.Consumer>

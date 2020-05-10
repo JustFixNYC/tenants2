@@ -14,6 +14,7 @@ import {
   TransitionContextType,
   withTransitionContext,
 } from "./transition-context";
+import { NoScrollOnEnter } from "./scroll-handlers";
 
 const ANIMATION_CLASS = "jf-fadein-half-second";
 
@@ -182,18 +183,15 @@ export class ModalWithoutRouter extends React.Component<
       ctx.modal = this.renderServerModal();
     }
 
-    if (!this.state.isActive) {
-      return null;
-    }
-
     const underlayClasses = [UNDERLAY_CLASS];
 
     if (this.state.animate) {
       underlayClasses.push(ANIMATION_CLASS);
     }
 
-    return (
-      <AriaModal
+    return <>
+      <NoScrollOnEnter />
+      {this.state.isActive && <AriaModal
         titleText={this.props.title}
         onExit={this.handleClose}
         includeDefaultStyles={false}
@@ -202,8 +200,8 @@ export class ModalWithoutRouter extends React.Component<
         focusDialog
       >
         {this.renderBody()}
-      </AriaModal>
-    );
+      </AriaModal>}
+    </>;
   }
 }
 

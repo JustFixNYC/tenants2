@@ -99,6 +99,7 @@ export class AppWithoutRouter extends React.Component<
   gqlClient: GraphQlClient;
   pageBodyRef: RefObject<HTMLDivElement>;
   jumpToTopOfPageRoutes: Set<string>;
+  scrollHandlers: Function[] = [];
 
   constructor(props: AppPropsWithRouter) {
     super(props);
@@ -203,6 +204,20 @@ export class AppWithoutRouter extends React.Component<
     hash: string,
     action: Action
   ) {
+    if (action === "PUSH" || action === "REPLACE") {
+      window.requestAnimationFrame(() => {
+        if (this.scrollHandlers.length) {
+          const scrollHandler = this.scrollHandlers[this.scrollHandlers.length - 1];
+          console.log("Executing scroll handler", scrollHandler.name);
+          scrollHandler();
+        } else {
+          console.log("No scroll handler, jumping to top of page.");
+          jumpToTopOfPage();
+        }
+      });
+    }
+    return;
+
     // We don't need to worry about scroll position when transitioning into a modal, and
     // we only need to adjust it when the user is navigating to a new page. This means
     // we need to watch for history pushes (regular link clicks and such) as well
@@ -268,6 +283,22 @@ export class AppWithoutRouter extends React.Component<
     // on the number of user sessions they can support).
   }
 
+  @autobind
+  pushScrollHandler(handler: Function) {
+    console.log("PUSH SCROLL HANDLER", handler.name);
+    this.scrollHandlers.push(handler);
+  }
+
+  @autobind
+  popScrollHandler(handler: Function) {
+    console.log("POP SCROLL HANDLER", handler.name);
+    const index = this.scrollHandlers.lastIndexOf(handler);
+    if (index === -1) {
+      throw new Error(`Handler ${handler.name} not found!`);
+    }
+    this.scrollHandlers.splice(index, 1);
+  }
+
   componentDidMount() {
     if (this.state.session.userId !== null) {
       this.handleLogin();
@@ -303,6 +334,8 @@ export class AppWithoutRouter extends React.Component<
       fetch: this.fetch,
       fetchWithoutErrorHandling: this.fetchWithoutErrorHandling,
       updateSession: this.handleSessionChange,
+      pushScrollHandler: this.pushScrollHandler,
+      popScrollHandler: this.popScrollHandler,
       legacyFormSubmission: this.props.legacyFormSubmission,
     };
   }

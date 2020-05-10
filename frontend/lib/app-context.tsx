@@ -204,6 +204,10 @@ export interface AppContextType {
 
   /** If a form was submitted via a non-JS browser, data will be here. */
   legacyFormSubmission?: AppLegacyFormSubmission;
+
+  pushScrollHandler: (handler: Function) => void;
+
+  popScrollHandler: (handler: Function) => void;
 }
 
 /* istanbul ignore next: this will never be executed in practice. */
@@ -244,6 +248,12 @@ export const defaultContext: AppContextType = {
   updateSession(session: Partial<AllSessionInfo>) {
     throw new UnimplementedError();
   },
+  pushScrollHandler() {
+    throw new UnimplementedError();
+  },
+  popScrollHandler() {
+    throw new UnimplementedError();
+  }
 };
 
 /**

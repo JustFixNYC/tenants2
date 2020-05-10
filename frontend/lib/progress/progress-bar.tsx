@@ -6,6 +6,7 @@ import { TransitionContextGroup } from "../ui/transition-context";
 import classnames from "classnames";
 import { getStepIndexForPathname } from "./progress-util";
 import { ProgressStepRoute, createStepRoute } from "./progress-step-route";
+import { SmoothlyScrollToTopOnEnter } from "../ui/scroll-handlers";
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -168,6 +169,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     return (
       <React.Fragment>
+        <SmoothlyScrollToTopOnEnter />
         {!this.props.hideBar && (
           <ProgressBar pct={pct}>
             {this.props.label && (

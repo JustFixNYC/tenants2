@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
 import Page from "../ui/page";
-import { IssuesRouteInfo, IssuesRouteAreaProps } from "../routes";
+import { IssuesRouteInfo, IssuesRouteAreaProps } from "../justfix-routes";
 import { Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";

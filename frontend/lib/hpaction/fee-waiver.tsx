@@ -16,7 +16,7 @@ import { ProgressiveOtherCheckboxFormField } from "../forms/other-checkbox-form-
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { FeeWaiverPublicAssistanceMutation } from "../queries/FeeWaiverPublicAssistanceMutation";
 import { Link } from "react-router-dom";
-import Routes from "../routes";
+import JustfixRoutes from "../justfix-routes";
 import { bulmaClasses } from "../ui/bulma";
 import { SessionStepBuilder } from "../progress/session-step-builder";
 
@@ -47,7 +47,7 @@ export const FeeWaiverStart = MiddleProgressStep((props) => (
     <div className="buttons jf-two-buttons jf-two-buttons--vertical">
       <BackButton to={props.prevStep} />
       <Link
-        to={Routes.locale.hp.yourLandlord}
+        to={JustfixRoutes.locale.hp.yourLandlord}
         className={bulmaClasses("button", "is-light", "is-medium")}
       >
         Skip

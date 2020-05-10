@@ -24,6 +24,12 @@ export type SiteRoutes = RouteInfo<
   CommonNonLocalizedSiteRoutes
 >;
 
+/**
+ * Return the routes for the currently active site.
+ *
+ * Note that only routes common to all our sites will be
+ * accessible through this object.
+ */
 export function getGlobalSiteRoutes(
   serverInfo: AppServerInfo = getGlobalAppServerInfo()
 ): SiteRoutes {

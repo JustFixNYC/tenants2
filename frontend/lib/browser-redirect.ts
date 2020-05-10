@@ -6,6 +6,21 @@ type HardRedirector = (url: string) => void;
 
 export type Redirector = (redirect: string, history: History) => void;
 
+/** Tracks whether or not the next redirect should be hard. */
+let shouldNextRedirectBeHard = false;
+
+/**
+ * Ensure that the next redirect is a hard one, forcing a full
+ * page reload.
+ *
+ * This can be useful if e.g. we want to force an update to the
+ * latest version of the codebase, or if we want to jettison
+ * third-party scripts from the page.
+ */
+export function ensureNextRedirectIsHard() {
+  shouldNextRedirectBeHard = true;
+}
+
 /* istanbul ignore next: mocking window.location is unreasonably hard in jest/jsdom. */
 let hardRedirector: HardRedirector = (redirect: string) => {
   window.location.href = redirect;
@@ -35,7 +50,11 @@ export function setHardRedirector(newValue: HardRedirector) {
 }
 
 export const performSoftRedirect: Redirector = (redirect, history) => {
-  history.push(redirect);
+  if (shouldNextRedirectBeHard) {
+    hardRedirector(redirect);
+  } else {
+    history.push(redirect);
+  }
 };
 
 /**

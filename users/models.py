@@ -13,6 +13,8 @@ from .permission_util import ModelPermissions
 
 FULL_NAME_MAXLEN = 150
 
+ADD_SERVING_PAPERS_PERMISSION = 'hpaction.add_servingpapers'
+
 VIEW_LETTER_REQUEST_PERMISSION = 'loc.view_letterrequest'
 
 CHANGE_LETTER_REQUEST_PERMISSION = 'loc.change_letterrequest'
@@ -45,6 +47,8 @@ ROLES['Outreach Coordinators'] = set([
     *ModelPermissions('hpaction', 'tenantchild').all,
     *ModelPermissions('hpaction', 'priorcase').all,
     *ModelPermissions('hpaction', 'hpactiondetails').all,
+    ADD_SERVING_PAPERS_PERMISSION,
+    'hpaction.change_servingpapers',
     'hpaction.change_hpuser',
     'onboarding.add_onboardinginfo',
     'onboarding.change_onboardinginfo',

@@ -13,13 +13,20 @@ MY_DIR = Path(__file__).parent.resolve()
 
 ONE_PAGE_PDF = MY_DIR / 'one-page.pdf'
 
+ONE_PAGE_READER = PyPDF2.PdfFileReader(ONE_PAGE_PDF.open('rb'))
+
+NUM_REPAIRS_PAGES = 5
+
+NUM_HARASSMENT_PAGES = 5
+
+NUM_BOTH_PAGES = 7
+
 
 def construct_fake_pdf(num_pages: int) -> bytes:
-    pdf_reader = PyPDF2.PdfFileReader(ONE_PAGE_PDF.open('rb'))
     pdf_writer = PyPDF2.PdfFileWriter()
 
     for i in range(num_pages):
-        pdf_writer.addPage(pdf_reader.getPage(0))
+        pdf_writer.addPage(ONE_PAGE_READER.getPage(0))
 
     new_pdf = BytesIO()
     pdf_writer.write(new_pdf)
@@ -53,7 +60,7 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=False, sue_for_repairs_tf=True))
 
-    pdf_data = construct_fake_pdf(5)
+    pdf_data = construct_fake_pdf(NUM_REPAIRS_PAGES)
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):
@@ -68,14 +75,14 @@ class HPActionDocumentsForHarassmentFactory(HPActionDocumentsFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=True, sue_for_repairs_tf=False))
 
-    pdf_data = construct_fake_pdf(5)
+    pdf_data = construct_fake_pdf(NUM_HARASSMENT_PAGES)
 
 
 class HPActionDocumentsForBothFactory(HPActionDocumentsFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=True, sue_for_repairs_tf=True))
 
-    pdf_data = construct_fake_pdf(7)
+    pdf_data = construct_fake_pdf(NUM_BOTH_PAGES)
 
 
 class UploadTokenFactory(factory.django.DjangoModelFactory):

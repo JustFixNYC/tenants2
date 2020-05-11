@@ -117,7 +117,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   Start my case
                 </GetStartedButton>
                 <div className="content has-text-centered">
-                  <p className="jf-secondary-cta has-text-weight-bold">
+                  <p className="jf-secondary-cta">
                     Would you prefer to have personal assistance to start your
                     case?
                     <br />

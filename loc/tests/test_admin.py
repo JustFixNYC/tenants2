@@ -9,7 +9,7 @@ from loc.admin import (
     LetterRequestForm)
 from loc.admin_views import LocAdminViews
 from loc.models import LetterRequest, LOC_MAILING_CHOICES
-from . import test_lob_api
+from . import lob_fixture
 from .test_forms import save_letter_request_form
 from .test_views import requires_pdf_rendering
 from .factories import (
@@ -62,7 +62,7 @@ class TestLobIntegrationField:
 
     def test_it_returns_info_when_already_mailed(self):
         lr = LetterRequest()
-        lr.lob_letter_object = test_lob_api.get_sample_letter()
+        lr.lob_letter_object = lob_fixture.SAMPLE_LETTER
         assert self.lob_integration(lr) == (
             'The letter was <a href="https://dashboard.lob.com/#/letters/ltr_4868c3b754655f90" '
             'rel="noreferrer noopener" target="_blank">'
@@ -83,22 +83,16 @@ class TestLobIntegrationField:
             'Unable to send mail via Lob because Lob integration is disabled.'
 
 
-@pytest.fixture
-def enable_lob(settings):
-    settings.LOB_SECRET_API_KEY = 'mysecret'
-    settings.LOB_PUBLISHABLE_API_KEY = 'mypub'
-
-
 def create_valid_letter_request():
     user = create_user_with_all_info()
     return LetterRequestFactory(user=user)
 
 
 class TestCreateMailConfirmationContext:
-    deliverable = test_lob_api.get_sample_verification(deliverability='deliverable')
-    deliverable_incorrect_unit = test_lob_api.get_sample_verification(
+    deliverable = lob_fixture.get_sample_verification(deliverability='deliverable')
+    deliverable_incorrect_unit = lob_fixture.get_sample_verification(
         deliverability='deliverable_incorrect_unit')
-    undeliverable = test_lob_api.get_sample_verification(deliverability='undeliverable')
+    undeliverable = lob_fixture.get_sample_verification(deliverability='undeliverable')
 
     def create(self, landlord_verification, user_verification, is_manually_overridden=False):
         return LocAdminViews(None)._create_mail_confirmation_context(
@@ -138,31 +132,22 @@ class TestCreateMailConfirmationContext:
 
 class TestMailViaLob:
     @pytest.fixture(autouse=True)
-    def setup_fixtures(self, db, enable_lob):
+    def setup_fixtures(self, db, mocklob):
         self.lr = create_valid_letter_request()
         self.url = f'/admin/lob/{self.lr.pk}/'
 
-    def test_get_works(self, admin_client, requests_mock):
-        requests_mock.post(
-            test_lob_api.LOB_VERIFICATIONS_URL,
-            json=test_lob_api.get_sample_verification()
-        )
+    def test_get_works(self, admin_client, mocklob):
         res = admin_client.get(self.url)
         assert res.status_code == 200
         assert b'Mail it with Lob!' in res.content
 
     @requires_pdf_rendering
-    def test_post_works(self, admin_client, requests_mock):
+    def test_post_works(self, admin_client, mocklob):
         signed_verifications = LocAdminViews(None)._create_mail_confirmation_context(
-            landlord_verification=test_lob_api.get_sample_verification(),
-            user_verification=test_lob_api.get_sample_verification(),
+            landlord_verification=lob_fixture.get_sample_verification(),
+            user_verification=lob_fixture.get_sample_verification(),
             is_manually_overridden=False
         )['signed_verifications']
-        sample_letter = test_lob_api.get_sample_letter()
-        requests_mock.post(
-            test_lob_api.LOB_LETTERS_URL,
-            json=sample_letter
-        )
         res = admin_client.post(
             self.url,
             data={'signed_verifications': signed_verifications}
@@ -170,7 +155,7 @@ class TestMailViaLob:
         assert res.status_code == 200
         assert b'Hooray, the letter was sent via Lob' in res.content
         self.lr.refresh_from_db()
-        assert self.lr.tracking_number == sample_letter['tracking_number']
+        assert self.lr.tracking_number == mocklob.sample_letter['tracking_number']
         assert self.lr.lob_letter_object['carrier'] == 'USPS'
 
 
@@ -178,36 +163,36 @@ class TestGetLobNomailReason:
     def test_it_works_when_lob_integration_is_disabled(self):
         assert get_lob_nomail_reason(LetterRequest()) == 'Lob integration is disabled'
 
-    def test_it_works_when_letter_has_no_pk(self, enable_lob):
+    def test_it_works_when_letter_has_no_pk(self, mocklob):
         assert get_lob_nomail_reason(LetterRequest()) == 'the letter has not yet been created'
 
-    def test_it_works_when_letter_has_been_sent_manually(self, enable_lob, db):
+    def test_it_works_when_letter_has_been_sent_manually(self, mocklob, db):
         lr = LetterRequestFactory(tracking_number='boop')
         assert get_lob_nomail_reason(lr) == 'the letter has already been mailed manually'
 
-    def test_it_works_when_letter_has_already_been_sent(self, enable_lob, db):
+    def test_it_works_when_letter_has_already_been_sent(self, mocklob, db):
         lr = LetterRequestFactory(lob_letter_object={'blah': 1})
         assert get_lob_nomail_reason(lr) == 'the letter has already been sent via Lob'
 
-    def test_it_works_when_we_rejected_the_letter(self, enable_lob, db):
+    def test_it_works_when_we_rejected_the_letter(self, mocklob, db):
         lr = LetterRequestFactory(rejection_reason="letter contains gibberish")
         assert get_lob_nomail_reason(lr) == 'we have rejected the letter'
 
-    def test_it_works_when_user_mails_letter_themselves(self, enable_lob, db):
+    def test_it_works_when_user_mails_letter_themselves(self, mocklob, db):
         lr = LetterRequestFactory(mail_choice=LOC_MAILING_CHOICES.USER_WILL_MAIL)
         assert get_lob_nomail_reason(lr) == \
             'the user wants to mail the letter themself'
 
-    def test_it_works_when_user_has_no_landlord_details(self, enable_lob, db):
+    def test_it_works_when_user_has_no_landlord_details(self, mocklob, db):
         lr = LetterRequestFactory()
         assert get_lob_nomail_reason(lr) == 'the user does not have landlord details'
 
-    def test_it_works_when_user_has_no_onboarding_info(self, enable_lob, db):
+    def test_it_works_when_user_has_no_onboarding_info(self, mocklob, db):
         lr = LetterRequestFactory()
         LandlordDetailsFactory(user=lr.user)
         assert get_lob_nomail_reason(lr) == 'the user does not have onboarding info'
 
-    def test_it_returns_none_when_letter_can_be_mailed_via_lob(self, enable_lob, db):
+    def test_it_returns_none_when_letter_can_be_mailed_via_lob(self, mocklob, db):
         assert get_lob_nomail_reason(create_valid_letter_request()) is None
 
 

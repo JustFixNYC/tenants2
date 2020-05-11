@@ -323,7 +323,7 @@ def use_norent_site(db):
 @pytest.fixture
 def mocklob(settings, requests_mock):
     '''
-    Enable Lob
+    Enable Lob integration and provide mocks to simulate Lob functionality.
     '''
 
     from loc.tests.lob_fixture import mocklob

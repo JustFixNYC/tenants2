@@ -18,6 +18,11 @@ SAMPLE_VERIFICATION = json.loads(VERIFICATION_JSON.read_text())
 
 
 class MockLob:
+    '''
+    A mock for the Lob API which enables Lob integration and
+    configures Lob's API calls to respond with common defaults.
+    '''
+
     def __init__(self, settings, requests_mock):
         self.settings = settings
         self.requests_mock = requests_mock
@@ -51,6 +56,10 @@ class MockLob:
 
 
 def mocklob(settings, requests_mock):
+    '''
+    Enable Lob integration and provide mocks to simulate Lob functionality.
+    '''
+
     yield MockLob(settings, requests_mock)
 
 

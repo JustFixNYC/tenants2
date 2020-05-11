@@ -31,6 +31,11 @@ TENANT_RECIPIENT_ID = '1'
 # identifier.
 HPA_DOCUMENT_ID = '1'
 
+# Number of pages at beginning of EHPA PDFs that represent cover sheet pages
+# that aren't part of the official forms
+NUM_COVER_SHEET_PAGES = 1
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -171,49 +176,52 @@ class FormsConfig(NamedTuple):
 
     @staticmethod
     def from_case_type(case_type: HPAType) -> 'FormsConfig':
+        # The "start page" where the official forms start.
+        s = NUM_COVER_SHEET_PAGES
+
         if case_type == HPAType.REPAIRS:
             return FormsConfig(
                 case_type=case_type,
-                expected_pages=4,
-                affadavit_page=4,
-                hpd_inspection_page=3,
-                sign_here_petition_coords=PageCoords(page=2, x=419, y=556),
-                sign_here_verification_coords=PageCoords(page=2, x=419, y=667),
-                contact_info_coords=PageCoords(page=2, x=350, y=730),
+                expected_pages=s + 4,
+                affadavit_page=s + 4,
+                hpd_inspection_page=s + 3,
+                sign_here_petition_coords=PageCoords(page=s + 2, x=419, y=556),
+                sign_here_verification_coords=PageCoords(page=s + 2, x=419, y=667),
+                contact_info_coords=PageCoords(page=s + 2, x=350, y=730),
                 date_signed_coords=[
-                    PageCoords(page=2, x=100, y=580),
-                    PageCoords(page=2, x=220, y=670),
-                    PageCoords(page=3, x=100, y=650),
+                    PageCoords(page=s + 2, x=100, y=580),
+                    PageCoords(page=s + 2, x=220, y=670),
+                    PageCoords(page=s + 3, x=100, y=650),
                 ],
             )
         elif case_type == HPAType.HARASSMENT:
             return FormsConfig(
                 case_type=case_type,
-                expected_pages=4,
-                affadavit_page=4,
+                expected_pages=s + 4,
+                affadavit_page=s + 4,
                 hpd_inspection_page=None,
-                sign_here_petition_coords=PageCoords(page=3, x=419, y=456),
-                sign_here_verification_coords=PageCoords(page=3, x=419, y=656),
-                contact_info_coords=PageCoords(page=3, x=350, y=730),
+                sign_here_petition_coords=PageCoords(page=s + 3, x=419, y=456),
+                sign_here_verification_coords=PageCoords(page=s + 3, x=419, y=656),
+                contact_info_coords=PageCoords(page=s + 3, x=350, y=730),
                 date_signed_coords=[
-                    PageCoords(page=3, x=100, y=475),
-                    PageCoords(page=3, x=210, y=650),
+                    PageCoords(page=s + 3, x=100, y=475),
+                    PageCoords(page=s + 3, x=210, y=650),
                 ],
             )
 
         assert case_type == HPAType.BOTH
         return FormsConfig(
             case_type=case_type,
-            expected_pages=6,
-            affadavit_page=6,
-            hpd_inspection_page=5,
-            sign_here_petition_coords=PageCoords(page=4, x=419, y=315),
-            sign_here_verification_coords=PageCoords(page=4, x=419, y=500),
-            contact_info_coords=PageCoords(page=4, x=350, y=730),
+            expected_pages=s + 6,
+            affadavit_page=s + 6,
+            hpd_inspection_page=s + 5,
+            sign_here_petition_coords=PageCoords(page=s + 4, x=419, y=315),
+            sign_here_verification_coords=PageCoords(page=s + 4, x=419, y=500),
+            contact_info_coords=PageCoords(page=s + 4, x=350, y=730),
             date_signed_coords=[
-                PageCoords(page=4, x=100, y=340),
-                PageCoords(page=4, x=210, y=500),
-                PageCoords(page=5, x=100, y=650),
+                PageCoords(page=s + 4, x=100, y=340),
+                PageCoords(page=s + 4, x=210, y=500),
+                PageCoords(page=s + 5, x=100, y=650),
             ],
         )
 

@@ -58,6 +58,21 @@ def get_create_url(userid):
     return reverse('admin:create-serving-papers', kwargs={'userid': userid})
 
 
+class TestCreateServingPapersViewPermissions:
+    def ensure_access_is_denied(self, client):
+        res = client.get(get_create_url(1))
+        assert res.status_code == 302
+        assert res['Location'].startswith('/admin/login/')
+
+    def test_it_denies_anonymous_users(self, client):
+        self.ensure_access_is_denied(client)
+
+    def test_it_denies_non_staff_users(self, client, db):
+        user = OnboardingInfoFactory().user
+        client.force_login(user)
+        self.ensure_access_is_denied(client)
+
+
 class TestCreateServingPapersView:
     @pytest.fixture(autouse=True)
     def setup_fixture(self, db, admin_client, disable_locale_middleware, settings):

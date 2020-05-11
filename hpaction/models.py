@@ -469,14 +469,16 @@ class HPActionDocuments(models.Model):
         num_pages: int = pdf_reader.numPages
         if num_pages <= NUM_INSTRUCTION_PAGES:
             return None
-        pdf_writer = PyPDF2.PdfFileWriter()
-        for i in range(NUM_INSTRUCTION_PAGES, num_pages):
-            pdf_writer.addPage(pdf_reader.getPage(i))
 
         aff_pdf_bytes = ehpa_affadavit.render_affadavit_pdf_for_user(self.user)
         aff_pdf_reader = PyPDF2.PdfFileReader(BytesIO(aff_pdf_bytes))
-        assert aff_pdf_reader.numPages == 1
-        pdf_writer.addPage(aff_pdf_reader.getPage(0))
+        assert aff_pdf_reader.numPages == ehpa_affadavit.TOTAL_PAGES
+
+        pdf_writer = PyPDF2.PdfFileWriter()
+        pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.COVER_SHEET_PAGE))
+        for i in range(NUM_INSTRUCTION_PAGES, num_pages):
+            pdf_writer.addPage(pdf_reader.getPage(i))
+        pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.FEE_WAIVER_PAGE))
 
         new_pdf = BytesIO()
         pdf_writer.write(new_pdf)

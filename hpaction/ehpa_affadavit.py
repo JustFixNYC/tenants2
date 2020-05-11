@@ -57,6 +57,17 @@ EXAMPLE_VARS = EHPAAffadavitVars(
     landlord_address='1 Cloud City Drive, Bespin OH 43201',
 )
 
+# The page number of the cover sheet, which is actually intended
+# to go at the beginning of the forms PDF rather than the end.
+COVER_SHEET_PAGE = 0
+
+# The page number that actually represents the fee waiver
+# itself, and should be at the end of the forms PDF.
+FEE_WAIVER_PAGE = 1
+
+# Total pages in the rendered PDF.
+TOTAL_PAGES = 2
+
 
 def render_affadavit_pdf_html(vars: EHPAAffadavitVars) -> str:
     return render_pdf_html(

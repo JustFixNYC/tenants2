@@ -6,7 +6,7 @@ from .factories import (
     HPActionDocumentsForRepairsFactory,
     HPActionDocumentsForHarassmentFactory,
     HPActionDocumentsForBothFactory,
-    FAKE_HPA_BOTH_PDF,
+    construct_fake_pdf,
     DocusignEnvelopeFactory
 )
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -123,11 +123,11 @@ class TestCreateEnvelopeDefinitionForHPA:
 
     def test_it_raises_error_on_unexpected_page_count(self, db, django_file_storage):
         docs = HPActionDocumentsForRepairsFactory(
-            pdf_data=FAKE_HPA_BOTH_PDF.read_bytes()
+            pdf_data=construct_fake_pdf(6)
         )
         with pytest.raises(
             ValueError,
-            match="Expected HPAType.REPAIRS PDF to have 4 pages but it has 6"
+            match="Expected HPAType.REPAIRS PDF to have 5 pages but it has 6"
         ):
             docusign.create_envelope_definition_for_hpa(docs)
 

@@ -35,7 +35,8 @@ class ServingPapersForm(forms.ModelForm):
         ),
     )
 
-    def _validate_address(self, cleaned_data):
+    @staticmethod
+    def validate_address(cleaned_data):
         sp_data = {**cleaned_data}
         is_definitely_deliverable = sp_data.pop('is_definitely_deliverable')
         sp = models.ServingPapers(**sp_data)
@@ -50,7 +51,7 @@ class ServingPapersForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        self._validate_address(cleaned_data)
+        self.validate_address(cleaned_data)
         return cleaned_data
 
 

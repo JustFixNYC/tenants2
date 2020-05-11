@@ -36,7 +36,7 @@ class MockLob:
     def mock_verifications_api(self, json=None, status_code=200):
         if json is None:
             json = self.sample_verification
-        self.requests_mock.post(
+        self.verifications_mock = self.requests_mock.post(
             LOB_VERIFICATIONS_URL,
             json=json,
             status_code=status_code,
@@ -45,7 +45,7 @@ class MockLob:
     def mock_letters_api(self, json=None, status_code=200):
         if json is None:
             json = self.sample_letter
-        self.requests_mock.post(
+        self.letters_mock = self.requests_mock.post(
             LOB_LETTERS_URL,
             json=json,
             status_code=status_code,

@@ -1,7 +1,12 @@
+from io import BytesIO
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 import pytest
 
 from project.tests.test_mailing_address import EXAMPLE_KWARGS as ADDRESS_KWARGS
+from onboarding.tests.factories import OnboardingInfoFactory
+from loc.tests.factories import LandlordDetailsV2Factory
+from hpaction.models import ServingPapers
 from hpaction.admin_views import (
     ServingPapersForm
 )
@@ -47,3 +52,63 @@ class TestServingPapersForm:
         form.is_valid()
         assert list(form.errors.keys()) == ['pdf_file']
         assert mocklob.verifications_mock.called is True
+
+
+def get_create_url(userid):
+    return reverse('admin:create-serving-papers', kwargs={'userid': userid})
+
+
+class TestCreateServingPapersView:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, db, admin_client, disable_locale_middleware, settings):
+        # Seems like we need this to get the actual Http404 reasons.
+        settings.DEBUG = True
+
+        self.db = db
+        self.client = admin_client
+
+    @pytest.fixture
+    def sender(self):
+        onb = OnboardingInfoFactory()
+        user = onb.user
+        LandlordDetailsV2Factory(user=user)
+        return user
+
+    def test_it_raises_404_if_lob_is_disabled(self):
+        res = self.client.get(get_create_url(1))
+        assert res.status_code == 404
+        assert b"Lob integration is disabled" in res.content
+
+    def test_it_raises_404_if_user_does_not_exist(self, mocklob):
+        res = self.client.get(get_create_url(51929))
+        assert res.status_code == 404
+        assert b"User not found" in res.content
+
+    def test_get_works(self, mocklob, sender):
+        res = self.client.get(get_create_url(sender.pk))
+        assert res.status_code == 200
+        assert res.context['go_back_href'].startswith('/admin/hpaction/hpuser/')
+        assert res.context['form'].initial['name'] == 'Landlordo Calrissian'
+
+    def test_post_with_form_errors_works(self, mocklob, sender):
+        res = self.client.post(get_create_url(sender.pk))
+        assert res.status_code == 200
+        assert res.context['form'].errors['pdf_file'] == ['This field is required.']
+
+    def test_post_redirects_when_successful(self, mocklob, sender, django_file_storage):
+        res = self.client.post(get_create_url(sender.pk), {
+            'name': 'Landlordo',
+            **ADDRESS_KWARGS,
+            'pdf_file': BytesIO(b'blah')
+        })
+        assert res.status_code == 302
+        assert res['Location'].startswith('/admin/hpaction/hpuser/')
+        sp = ServingPapers.objects.get(sender=sender)
+        assert sp.name == "Landlordo"
+        assert sp.pdf_file.open().read() == b"blah"
+        assert sp.tracking_number == mocklob.sample_letter["tracking_number"]
+
+        # It would be great if we could verify that the uploader is the
+        # admin_client user but that is apparently hard, so we'll just
+        # verify it's populated.
+        assert sp.uploaded_by is not None

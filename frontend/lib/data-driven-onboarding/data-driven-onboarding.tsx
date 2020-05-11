@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import classnames from "classnames";
-import Routes from "../routes";
+import JustfixRoutes from "../justfix-routes";
 import { RouteComponentProps } from "react-router";
 import Page, { PageTitle } from "../ui/page";
 import {
@@ -406,7 +406,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/letter.svg",
       cta: {
-        to: Routes.locale.loc.latestStep,
+        to: JustfixRoutes.locale.loc.latestStep,
         gaLabel: "loc",
         text: "Send a letter of complaint",
       },
@@ -457,7 +457,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: normalCovidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
-        to: Routes.locale.hp.latestStep,
+        to: JustfixRoutes.locale.hp.latestStep,
         gaLabel: "hp",
         text: "Sue your landlord",
         isBeta: true,
@@ -471,7 +471,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           indicators: [emergencyCovidMessage],
           fallbackMessage: emergencyCovidMessage,
           cta: {
-            to: Routes.locale.ehp.latestStep,
+            to: JustfixRoutes.locale.ehp.latestStep,
             gaLabel: "ehp",
             text: "Sue your landlord",
             isBeta: true,
@@ -509,7 +509,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       ),
       imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
-        to: Routes.locale.rh.splash,
+        to: JustfixRoutes.locale.rh.splash,
         gaLabel: "rh",
         text: "Order rent history",
       },

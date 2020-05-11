@@ -7,7 +7,7 @@ import {
 } from "./form-errors";
 import { BaseFormProps, Form, FormProps } from "./form";
 import { RouteComponentProps, Route } from "react-router";
-import { History } from "history";
+import { Redirector, performSoftRedirect } from "../browser-redirect";
 import autobind from "autobind-decorator";
 import { areFieldsEqual } from "./form-field-equality";
 import { ga } from "../analytics/google-analytics";
@@ -49,7 +49,7 @@ export type FormSubmitterProps<
    * This function is used to actually perform the browser redirect
    * made on successful form submission.
    */
-  performRedirect?: (redirect: string, history: History) => void;
+  performRedirect?: Redirector;
 
   /**
    * This specifies whether to ask the user if they're sure they
@@ -169,10 +169,6 @@ export function getSuccessRedirect<
   return null;
 }
 
-export function defaultPerformRedirect(redirect: string, history: History) {
-  history.push(redirect);
-}
-
 export class FormSubmitterWithoutRouter<
   FormInput,
   FormOutput extends WithServerFormFieldErrors
@@ -244,7 +240,7 @@ export class FormSubmitterWithoutRouter<
           const redirect = getSuccessRedirect(this.props, input, output);
           if (redirect) {
             const performRedirect =
-              this.props.performRedirect || defaultPerformRedirect;
+              this.props.performRedirect || performSoftRedirect;
             this.setState({
               lastSuccessRedirect: {
                 from: this.props.location.pathname,

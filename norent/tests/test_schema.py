@@ -15,7 +15,6 @@ from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
-from loc.tests import test_lob_api
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter
@@ -551,17 +550,8 @@ class TestNorentSendLetter:
             'This form can only be used from the NoRent site.')
 
     def test_it_works(self, allow_lambda_http, use_norent_site,
-                      requests_mock, mailoutbox, settings):
+                      requests_mock, mailoutbox, settings, mocklob):
         settings.IS_DEMO_DEPLOYMENT = False
-        requests_mock.post(
-            test_lob_api.LOB_VERIFICATIONS_URL,
-            json=test_lob_api.get_sample_verification()
-        )
-        sample_letter = test_lob_api.get_sample_letter()
-        requests_mock.post(
-            test_lob_api.LOB_LETTERS_URL,
-            json=sample_letter
-        )
         RentPeriodFactory()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
@@ -572,7 +562,7 @@ class TestNorentSendLetter:
         assert "unable to pay rent" in letter.html_content
         assert "Boop Jones" in letter.html_content
         assert letter.letter_sent_at is not None
-        assert letter.tracking_number == sample_letter['tracking_number']
+        assert letter.tracking_number == mocklob.sample_letter['tracking_number']
 
         assert len(mailoutbox) == 2
         ll_mail = mailoutbox[0]

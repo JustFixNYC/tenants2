@@ -6,7 +6,7 @@ import {
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import autobind from "autobind-decorator";
-import { OnboardingRouteInfo } from "../routes";
+import { OnboardingRouteInfo } from "../justfix-routes";
 import { ProgressButtons } from "../ui/buttons";
 import {
   CheckboxFormField,

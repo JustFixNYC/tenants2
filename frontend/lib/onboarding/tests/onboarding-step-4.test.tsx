@@ -3,11 +3,11 @@ import React from "react";
 import OnboardingStep4 from "../onboarding-step-4";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { Switch, Route } from "react-router";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 
 const PROPS = {
-  routes: Routes.locale.onboarding,
+  routes: JustfixRoutes.locale.onboarding,
   toSuccess: "/success",
   signupIntent: OnboardingInfoSignupIntent.HP,
 };

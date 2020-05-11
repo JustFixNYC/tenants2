@@ -24,6 +24,11 @@ li {
     padding-bottom: 1em;
 }
 
+.official-use-disclaimer {
+    padding-bottom: 1em;
+    border-bottom: 1px solid black;
+}
+
 /**
  * It's very intentional that we want the affadavit, which comprises the
  * top of the page, to have a specific height: this ensures that the

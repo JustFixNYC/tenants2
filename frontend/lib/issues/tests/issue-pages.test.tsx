@@ -39,12 +39,12 @@ describe("issues checklist", () => {
 
     pal
       .withFormMutation(IssueAreaV2Mutation)
-      .expectFormInput({
+      .expect({
         area: "HOME",
         issues: ["HOME__MICE"],
         customIssues: [],
       })
-      .respondWithFormOutput({
+      .respondWith({
         errors: [],
         session: { issues: ["HOME__MICE"], customIssuesV2: [] },
       });

@@ -29,12 +29,10 @@ describe("onboarding step 4 page", () => {
     );
 
     pal.clickButtonOrLink(/continue/i);
-    pal
-      .withFormMutation(OnboardingStep4Version2Mutation)
-      .respondWithFormOutput({
-        errors: [],
-        session: BlankAllSessionInfo,
-      });
+    pal.withFormMutation(OnboardingStep4Version2Mutation).respondWith({
+      errors: [],
+      session: BlankAllSessionInfo,
+    });
     await pal.rt.waitForElement(() => pal.rr.getByText("HOORAY"));
   });
 

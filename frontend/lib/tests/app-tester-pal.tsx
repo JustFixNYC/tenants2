@@ -226,7 +226,7 @@ class GraphQLFormMutationHelper<
    * Expect the given form input for this mutation, and ensure that
    * GraphQL for our mutation was sent over the network.
    */
-  expectFormInput(expected: FormInput) {
+  expect(expected: FormInput) {
     this.expectGraphQLForOurMutation();
     this.appPal.expectFormInput(expected);
     return this;
@@ -235,7 +235,7 @@ class GraphQLFormMutationHelper<
   /**
    * Respond with the given form output for our mutation.
    */
-  respondWithFormOutput(output: FormOutput) {
+  respondWith(output: FormOutput) {
     this.expectGraphQLForOurMutation();
     this.appPal.respondWithFormOutput(output);
     return this;

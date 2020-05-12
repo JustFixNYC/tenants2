@@ -39,7 +39,7 @@ describe("onboarding step 3 page", () => {
 
       pal.clickRadioOrCheckbox(new RegExp("^" + escapeRegExp(label)));
       pal.clickButtonOrLink("Next");
-      pal.withFormMutation(OnboardingStep3Mutation).respondWithFormOutput({
+      pal.withFormMutation(OnboardingStep3Mutation).respondWith({
         errors: [],
         session: {
           onboardingStep3: {

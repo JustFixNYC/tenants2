@@ -25,8 +25,8 @@ describe("landlord details page", () => {
     const extra = { trackingNumber: "", letterSentAt: null };
     pal
       .withFormMutation(LetterRequestMutation)
-      .expectFormInput({ mailChoice })
-      .respondWithFormOutput({
+      .expect({ mailChoice })
+      .respondWith({
         errors: [],
         session: { letterRequest: { updatedAt, mailChoice, ...extra } },
       });

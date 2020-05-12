@@ -58,14 +58,14 @@ describe("landlord details page", () => {
     pal.clickButtonOrLink("Preview letter");
     pal
       .withFormMutation(LandlordDetailsV2Mutation)
-      .expectFormInput({
+      .expect({
         name,
         primaryLine,
         city,
         state,
         zipCode,
       })
-      .respondWithFormOutput({
+      .respondWith({
         errors: [],
         isUndeliverable: null,
         session: {

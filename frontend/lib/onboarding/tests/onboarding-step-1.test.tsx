@@ -22,7 +22,7 @@ describe("onboarding step 1 page", () => {
   it("calls onCancel when cancel is clicked (progressively enhanced experience)", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     pal.clickButtonOrLink("Cancel");
-    pal.withFormMutation(LogoutMutation).expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("calls onCancel when cancel is clicked (baseline experience)", () => {
@@ -30,7 +30,7 @@ describe("onboarding step 1 page", () => {
       <OnboardingStep1 {...PROPS} disableProgressiveEnhancement />
     );
     pal.clickButtonOrLink("Cancel");
-    pal.withFormMutation(LogoutMutation).expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("has openable modals", async () => {
@@ -82,7 +82,7 @@ describe("onboarding step 1 page", () => {
     await fetch.resolvePromisesAndTimers();
     pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).expectFormInput({
+    pal.withFormMutation(OnboardingStep1Mutation).expect({
       firstName: "boop",
       lastName: "jones",
       aptNumber: "2",
@@ -105,7 +105,7 @@ describe("onboarding step 1 page", () => {
     ]);
     pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).respondWithFormOutput({
+    pal.withFormMutation(OnboardingStep1Mutation).respondWith({
       errors: [],
       session: {
         onboardingStep1: {

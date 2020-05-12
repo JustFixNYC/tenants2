@@ -16,7 +16,7 @@ describe("access dates page", () => {
 
     pal.fillFormFields([[/First access date/i, "2018-01-02"]]);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(AccessDatesMutation).respondWithFormOutput({
+    pal.withFormMutation(AccessDatesMutation).respondWith({
       errors: [],
       session: { accessDates: ["2018-01-02"] },
     });

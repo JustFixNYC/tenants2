@@ -33,8 +33,8 @@ describe("SessionUpdatingFormSubmitter", () => {
     pal.clickButtonOrLink("submit");
     pal
       .withFormMutation(SomeFormMutation)
-      .expectFormInput({ blarg: 1 })
-      .respondWithFormOutput({
+      .expect({ blarg: 1 })
+      .respondWith({
         errors: [],
         session: { csrfToken: "boop" },
       });

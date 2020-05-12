@@ -5,21 +5,42 @@ import {
   YesNoRadiosFormField,
   YES_NO_RADIOS_TRUE,
 } from "../forms/yes-no-radios-form-field";
-import { HarassmentApartmentMutation } from "../queries/HarassmentApartmentMutation";
-import { HarassmentExplainMutation } from "../queries/HarassmentExplainMutation";
+import {
+  HarassmentApartmentMutation,
+  HarassmentApartmentMutation_output,
+} from "../queries/HarassmentApartmentMutation";
+import {
+  HarassmentExplainMutation,
+  HarassmentExplainMutation_output,
+} from "../queries/HarassmentExplainMutation";
 import { CheckboxFormField } from "../forms/form-fields";
-import { HarassmentAllegations1Mutation } from "../queries/HarassmentAllegations1Mutation";
-import { HarassmentAllegations2Mutation } from "../queries/HarassmentAllegations2Mutation";
+import {
+  HarassmentAllegations1Mutation,
+  HarassmentAllegations1Mutation_output,
+} from "../queries/HarassmentAllegations1Mutation";
+import {
+  HarassmentAllegations2Mutation,
+  HarassmentAllegations2Mutation_output,
+} from "../queries/HarassmentAllegations2Mutation";
 import { HARASSMENT_DETAILS_MAX_LENGTH } from "../../../common-data/hp-action.json";
 import { TextareaWithCharsRemaining } from "../forms/chars-remaining";
 import {
   hideByDefault,
   ConditionalYesNoRadiosFormField,
 } from "../forms/conditional-form-fields";
+import {
+  HarassmentApartmentInput,
+  HarassmentAllegations1Input,
+  HarassmentAllegations2Input,
+  HarassmentExplainInput,
+} from "../queries/globalTypes";
 
 const stepBuilder = new SessionStepBuilder((sess) => sess.harassmentDetails);
 
-export const HarassmentApartment = stepBuilder.createStep((props) => ({
+export const HarassmentApartment = stepBuilder.createStep<
+  HarassmentApartmentInput,
+  HarassmentApartmentMutation_output
+>((props) => ({
   title: "Your building",
   mutation: HarassmentApartmentMutation,
   toFormInput: (h) =>
@@ -82,7 +103,10 @@ const AllegationsFieldset = (props: { children: any }) => (
   </fieldset>
 );
 
-export const HarassmentAllegations1 = stepBuilder.createStep((props) => ({
+export const HarassmentAllegations1 = stepBuilder.createStep<
+  HarassmentAllegations1Input,
+  HarassmentAllegations1Mutation_output
+>((props) => ({
   title: allegationsTitle(1),
   mutation: HarassmentAllegations1Mutation,
   toFormInput: (h) => h.finish(),
@@ -115,7 +139,10 @@ export const HarassmentAllegations1 = stepBuilder.createStep((props) => ({
   ),
 }));
 
-export const HarassmentAllegations2 = stepBuilder.createStep((props) => ({
+export const HarassmentAllegations2 = stepBuilder.createStep<
+  HarassmentAllegations2Input,
+  HarassmentAllegations2Mutation_output
+>((props) => ({
   title: allegationsTitle(2),
   mutation: HarassmentAllegations2Mutation,
   toFormInput: (h) => h.finish(),
@@ -154,7 +181,10 @@ export const HarassmentAllegations2 = stepBuilder.createStep((props) => ({
   ),
 }));
 
-export const HarassmentExplain = stepBuilder.createStep((props) => ({
+export const HarassmentExplain = stepBuilder.createStep<
+  HarassmentExplainInput,
+  HarassmentExplainMutation_output
+>((props) => ({
   title: "Harassment explanation",
   mutation: HarassmentExplainMutation,
   toFormInput: (h) => h.finish(),

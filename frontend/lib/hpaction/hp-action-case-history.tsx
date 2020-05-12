@@ -3,14 +3,19 @@ import { SessionStepBuilder } from "../progress/session-step-builder";
 import {
   PriorHpActionCasesMutation,
   BlankCasesPriorCaseFormFormSetInput,
+  PriorHpActionCasesMutation_output,
 } from "../queries/PriorHpActionCasesMutation";
 import { TextualFormField, CheckboxFormField } from "../forms/form-fields";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
+import { PriorHPActionCasesInput } from "../queries/globalTypes";
 
 const stepBuilder = new SessionStepBuilder((sess) => sess.priorHpActionCases);
 
-export const HarassmentCaseHistory = stepBuilder.createStep((props) => ({
+export const HarassmentCaseHistory = stepBuilder.createStep<
+  PriorHPActionCasesInput,
+  PriorHpActionCasesMutation_output
+>((props) => ({
   title: "Previous case history (optional)",
   mutation: PriorHpActionCasesMutation,
   toFormInput: (pc) => ({

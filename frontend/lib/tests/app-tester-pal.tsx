@@ -19,6 +19,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { History } from "history";
 import { assertNotNull } from "../util/util";
 import { HelmetProvider } from "react-helmet-async";
+import { FetchMutationInfo } from "../forms/forms-graphql";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -184,5 +185,51 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   expectFormInput<FormInput>(expected: FormInput) {
     const actual = this.getFirstRequest().variables["input"];
     expect(actual).toEqual(expected);
+  }
+
+  /**
+   * Returns a subset of this class's testing API that is typed against
+   * the given GraphQL form mutation.
+   */
+  withFormMutation<FormInput, FormOutput extends WithServerFormFieldErrors>(
+    mutation: FetchMutationInfo<FormInput, FormOutput>
+  ): GraphQLFormMutationHelper<FormInput, FormOutput> {
+    return new GraphQLFormMutationHelper(mutation, this);
+  }
+}
+
+/**
+ * A helper class for testing GraphQL form mutations.
+ */
+class GraphQLFormMutationHelper<
+  FormInput,
+  FormOutput extends WithServerFormFieldErrors
+> {
+  constructor(
+    readonly mutation: FetchMutationInfo<FormInput, FormOutput>,
+    readonly appPal: AppTesterPal
+  ) {}
+
+  private expectGraphQLForOurMutation() {
+    this.appPal.expectGraphQL(new RegExp(this.mutation.name));
+  }
+
+  /**
+   * Expect the given form input for this mutation, and ensure that
+   * GraphQL for our mutation was sent over the network.
+   */
+  expectFormInput(expected: FormInput) {
+    this.expectGraphQLForOurMutation();
+    this.appPal.expectFormInput(expected);
+    return this;
+  }
+
+  /**
+   * Respond with the given form output for our mutation.
+   */
+  respondWithFormOutput(output: FormOutput) {
+    this.expectGraphQLForOurMutation();
+    this.appPal.respondWithFormOutput(output);
+    return this;
   }
 }

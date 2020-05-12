@@ -97,7 +97,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">
-            <Trans>Why We Made This</Trans>
+            <Trans>Why we made this</Trans>
           </h2>
           <br />
           <p className="subtitle is-size-5">
@@ -116,7 +116,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h2 className="title is-spaced">
-            <Trans>Who We Are</Trans>
+            <Trans>Who we are</Trans>
           </h2>
           <br />
           <JustfixLogo isHyperlinked />

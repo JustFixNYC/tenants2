@@ -96,12 +96,8 @@ describe("<AdminConversationsPage>", () => {
       },
     });
 
-    const sidebarQuery = pal.withQuery(AdminConversations);
-
-    await wait(() => sidebarQuery.ensure());
-
-    // Load fake sidebar data.
-    sidebarQuery
+    (await pal.withQuery(AdminConversations).wait())
+      // Load fake sidebar data.
       .expect({
         query: "",
       })
@@ -127,12 +123,8 @@ describe("<AdminConversationsPage>", () => {
     pal.rr.getByText("5/24/2019, 1:44 PM");
     pal.rr.getByText(/Load more/);
 
-    const panelQuery = pal.withQuery(AdminConversation);
-
-    await wait(() => panelQuery.ensure());
-
-    // Load fake conversation panel data.
-    panelQuery
+    (await pal.withQuery(AdminConversation).wait())
+      // Load fake conversation panel data.
       .expect({
         phoneNumber: "+15551234567",
       })

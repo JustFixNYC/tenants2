@@ -21,6 +21,7 @@ import { assertNotNull } from "../util/util";
 import { HelmetProvider } from "react-helmet-async";
 import { FetchMutationInfo } from "../forms/forms-graphql";
 import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
+import { wait } from "@testing-library/react";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -188,20 +189,38 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 }
 
-/**
- * A helper class for testing GraphQL queries.
- */
-class GraphQLQueryHelper<Input, Output> {
+/** A base class for testing GraphQL queries/mutations. */
+class BaseGraphQLHelper {
   constructor(
-    readonly query: QueryLoaderQuery<Input, Output>,
+    private readonly graphQL: string,
     readonly appPal: AppTesterPal
   ) {}
 
   /**
-   * Assert that the latest request is for our GraphQL query.
+   * Assert that the latest request is for our GraphQL query/mutation.
    */
   ensure() {
-    expect(this.appPal.getLatestRequest().query).toEqual(this.query.graphQL);
+    expect(this.appPal.getLatestRequest().query).toEqual(this.graphQL);
+  }
+
+  /**
+   * Wait until the latest request is for our GraphQL query/mutation.
+   */
+  async wait() {
+    await wait(() => this.ensure());
+    return this;
+  }
+}
+
+/**
+ * A helper class for testing GraphQL queries.
+ */
+class GraphQLQueryHelper<Input, Output> extends BaseGraphQLHelper {
+  constructor(
+    readonly query: QueryLoaderQuery<Input, Output>,
+    readonly appPal: AppTesterPal
+  ) {
+    super(query.graphQL, appPal);
   }
 
   /**
@@ -231,14 +250,12 @@ class GraphQLQueryHelper<Input, Output> {
 class GraphQLFormMutationHelper<
   FormInput,
   FormOutput extends WithServerFormFieldErrors
-> {
+> extends BaseGraphQLHelper {
   constructor(
     readonly mutation: FetchMutationInfo<FormInput, FormOutput>,
     readonly appPal: AppTesterPal
-  ) {}
-
-  private expectGraphQLForOurMutation() {
-    expect(this.appPal.getLatestRequest().query).toEqual(this.mutation.graphQL);
+  ) {
+    super(mutation.graphQL, appPal);
   }
 
   /**
@@ -246,7 +263,7 @@ class GraphQLFormMutationHelper<
    * GraphQL for our mutation was sent over the network.
    */
   expect(expected: FormInput) {
-    this.expectGraphQLForOurMutation();
+    this.ensure();
     const actual = this.appPal.getLatestRequest().variables["input"];
     expect(actual).toEqual(expected);
     return this;
@@ -256,7 +273,7 @@ class GraphQLFormMutationHelper<
    * Respond with the given form output for our mutation.
    */
   respondWith(output: FormOutput) {
-    this.expectGraphQLForOurMutation();
+    this.ensure();
     this.appPal.getLatestRequest().resolve({ output });
     return this;
   }

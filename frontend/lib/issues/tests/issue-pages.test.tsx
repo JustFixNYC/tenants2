@@ -48,9 +48,7 @@ describe("issues checklist", () => {
         errors: [],
         session: { issues: ["HOME__MICE"], customIssuesV2: [] },
       });
-    await pal.rt.waitForElement(() =>
-      pal.rr.getByText("Apartment self-inspection")
-    );
+    await pal.rt.waitFor(() => pal.rr.getByText("Apartment self-inspection"));
   });
 });
 

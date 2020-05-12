@@ -12,7 +12,7 @@ import DataDrivenOnboardingPage, {
   isBuildingClassBorC,
 } from "../data-driven-onboarding";
 import { Route } from "react-router";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 
 async function simulateResponse(
   response: Partial<DataDrivenOnboardingSuggestions_output> | null
@@ -38,7 +38,7 @@ async function simulateResponse(
   fetch.mockReturnJson(FakeGeoResults);
   pal.fillFormFields([[/address/i, "150 cou"]]);
   jest.runAllTimers();
-  await wait(() => pal.clickListItem(/150 COURT STREET/));
+  await waitFor(() => pal.clickListItem(/150 COURT STREET/));
   pal.clickButtonOrLink(/search address/i);
   pal.withQuery(DataDrivenOnboardingSuggestions).respondWith({
     output,
@@ -51,12 +51,12 @@ describe("Data driven onboarding", () => {
 
   it("shows suggestions when they exist", async () => {
     const pal = await simulateResponse({ unitCount: 5 });
-    await wait(() => pal.rr.getByText(/No registration found./i));
+    await waitFor(() => pal.rr.getByText(/No registration found./i));
   });
 
   it("apologizes when we could not find anything", async () => {
     const pal = await simulateResponse(null);
-    await wait(() =>
+    await waitFor(() =>
       pal.rr.getByText(/sorry, we don't recognize the address/i)
     );
   });

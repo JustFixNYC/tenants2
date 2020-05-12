@@ -26,7 +26,7 @@ describe("onboarding step 3 page", () => {
       const pal = new AppTesterPal(<OnboardingStep3 {...PROPS} />);
 
       pal.clickButtonOrLink(`Learn more about ${label} leases`);
-      await pal.rt.waitForElement(() => pal.getDialogWithLabel(/.+/i));
+      await pal.rt.waitFor(() => pal.getDialogWithLabel(/.+/i));
     });
   });
 
@@ -48,7 +48,7 @@ describe("onboarding step 3 page", () => {
           },
         },
       });
-      await pal.rt.waitForElement(() => pal.getDialogWithLabel(/.+/i));
+      await pal.rt.waitFor(() => pal.getDialogWithLabel(/.+/i));
     });
   });
 });

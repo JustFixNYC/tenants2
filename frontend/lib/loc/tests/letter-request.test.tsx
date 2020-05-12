@@ -31,7 +31,7 @@ describe("landlord details page", () => {
         session: { letterRequest: { updatedAt, mailChoice, ...extra } },
       });
 
-    await pal.rt.waitForElement(() =>
+    await pal.rt.waitFor(() =>
       pal.rr.getByText(/your letter of complaint .*/i)
     );
     const { mock } = pal.appContext.updateSession;
@@ -59,7 +59,7 @@ describe("landlord details page", () => {
       session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
     });
     pal.clickButtonOrLink(/looks good to me/i);
-    await pal.rt.waitForElement(() => pal.getDialogWithLabel(/ready to go/i));
+    await pal.rt.waitFor(() => pal.getDialogWithLabel(/ready to go/i));
 
     clickButtonAndExpectChoice(
       pal,

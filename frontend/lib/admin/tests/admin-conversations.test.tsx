@@ -7,7 +7,7 @@ import AdminConversationsRoutes, {
 } from "../admin-conversations";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { UpdateTextingHistoryMutation } from "../../queries/UpdateTextingHistoryMutation";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import {
   AdminConversation_output_messages,
   AdminConversation,
@@ -116,7 +116,7 @@ describe("<AdminConversationsPage>", () => {
         },
       });
 
-    await wait(() => pal.rr.getByText("Boop Jones"));
+    await waitFor(() => pal.rr.getByText("Boop Jones"));
 
     // Now click on the sidebar entry.
     pal.rr.getByText("Boop Jones").click();
@@ -144,6 +144,6 @@ describe("<AdminConversationsPage>", () => {
         userDetails: null,
       });
 
-    await wait(() => pal.rr.getByText("here is an older message"));
+    await waitFor(() => pal.rr.getByText("here is an older message"));
   });
 });

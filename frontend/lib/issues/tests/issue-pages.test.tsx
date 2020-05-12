@@ -3,10 +3,9 @@ import React from "react";
 import { IssuesRoutes, getIssueLabel, groupByTwo } from "../issue-pages";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { IssueAreaV2Input } from "../../queries/globalTypes";
 import ISSUE_AREA_SVGS from "../../svg/issues";
 import { IssueAreaChoices } from "../../../../common-data/issue-area-choices";
-import { IssueAreaV2Mutation_output } from "../../queries/IssueAreaV2Mutation";
+import { IssueAreaV2Mutation } from "../../queries/IssueAreaV2Mutation";
 
 const routes = JustfixRoutes.locale.loc.issues;
 
@@ -38,15 +37,17 @@ describe("issues checklist", () => {
     pal.clickRadioOrCheckbox(/Mice/i);
     pal.clickButtonOrLink("Save");
 
-    pal.expectFormInput<IssueAreaV2Input>({
-      area: "HOME",
-      issues: ["HOME__MICE"],
-      customIssues: [],
-    });
-    pal.respondWithFormOutput<IssueAreaV2Mutation_output>({
-      errors: [],
-      session: { issues: ["HOME__MICE"], customIssuesV2: [] },
-    });
+    pal
+      .withFormMutation(IssueAreaV2Mutation)
+      .expectFormInput({
+        area: "HOME",
+        issues: ["HOME__MICE"],
+        customIssues: [],
+      })
+      .respondWithFormOutput({
+        errors: [],
+        session: { issues: ["HOME__MICE"], customIssuesV2: [] },
+      });
     await pal.rt.waitForElement(() =>
       pal.rr.getByText("Apartment self-inspection")
     );

@@ -145,6 +145,16 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
+   * Get the most recent network request made by any component in the
+   * heirarchy, throwing an error if no request has been made.
+   */
+  getLatestRequest(): queuedRequest {
+    const queue = this.client.getRequestQueue();
+    expect(queue.length).toBeGreaterThan(0);
+    return queue[queue.length - 1];
+  }
+
+  /**
    * Re-render with the given JSX. This will cause
    * React to do its diffing and unmount any components that aren't
    * present in the given JSX anymore, and so on.
@@ -159,37 +169,35 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
-   * Assuming that our GraphQL client has been issued a
-   * form request, responds with the given mock output.
+   * Responds to the most recent GraphQL form question with the given
+   * mock output.
    */
   respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(
     output: FormOutput
   ) {
-    this.getFirstRequest().resolve({ output });
+    this.getLatestRequest().resolve({ output });
   }
 
   /**
-   * Assuming that our GraphQL client has been issued a
-   * form request, asserts the request's GraphQL query
-   * matches the given pattern.
+   * Asserts the most recent GraphQL request's query matches the given
+   * pattern.
    */
   expectGraphQL(match: RegExp) {
-    expect(this.getFirstRequest().query).toMatch(match);
+    expect(this.getLatestRequest().query).toMatch(match);
   }
 
   /**
-   * Assuming that our GraphQL client has been issued
-   * a form request, asserts that the request's input
+   * Asserts that the most recent GraphQL form request's input
    * equals the given value.
    */
   expectFormInput<FormInput>(expected: FormInput) {
-    const actual = this.getFirstRequest().variables["input"];
+    const actual = this.getLatestRequest().variables["input"];
     expect(actual).toEqual(expected);
   }
 
   /**
-   * Returns a subset of this class's testing API that is typed against
-   * the given GraphQL form mutation.
+   * Returns a helper that is typed against the given GraphQL form mutation
+   * to make it easy to test.
    */
   withFormMutation<FormInput, FormOutput extends WithServerFormFieldErrors>(
     mutation: FetchMutationInfo<FormInput, FormOutput>

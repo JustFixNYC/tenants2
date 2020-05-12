@@ -66,8 +66,6 @@ describe("getNorentMetadataForUSState()", () => {
         await waitFor(() => pal.rr.getByText("LOADED"));
       });
 
-      afterAll(ReactTestingLibraryPal.cleanup);
-
       USStateChoices.forEach((state) => {
         it(`matches our assumptions about the data for ${state} (${locale})`, () => {
           const md = getNorentMetadataForUSState(state);

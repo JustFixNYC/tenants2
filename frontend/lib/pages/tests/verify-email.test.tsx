@@ -14,8 +14,6 @@ describe("VerifyEmail", () => {
     </Switch>
   );
 
-  afterEach(AppTesterPal.cleanup);
-
   it("works if user has no email address", () => {
     const pal = new AppTesterPal(routes, { url: "/verify" });
     pal.rr.getByText(/We don't seem to have an email/i);

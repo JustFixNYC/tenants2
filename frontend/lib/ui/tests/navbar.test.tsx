@@ -7,8 +7,6 @@ import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import { assertNotNull } from "../../util/util";
 
 describe("Navbar", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   const createNavbar = () => {
     const pal = new ReactTestingLibraryPal(
       (

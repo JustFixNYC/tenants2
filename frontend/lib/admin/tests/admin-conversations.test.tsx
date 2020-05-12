@@ -71,8 +71,6 @@ const BASE_MESSAGE: AdminConversation_output_messages = {
 };
 
 describe("<AdminConversationsPage>", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("redirects to login if user isn't logged in", () => {
     const pal = new AppTesterPal(<AdminConversationsRoutes />, {
       url: "/admin/conversations/",

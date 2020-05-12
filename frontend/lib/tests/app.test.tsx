@@ -39,8 +39,6 @@ describe("App", () => {
     return pal;
   };
 
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("notifies FullStory when user logs in", () => {
     const identify = jest.fn();
     window.FS = { identify };

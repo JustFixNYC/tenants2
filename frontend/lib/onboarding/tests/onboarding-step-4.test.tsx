@@ -15,8 +15,6 @@ const PROPS = {
 };
 
 describe("onboarding step 4 page", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("redirects on successful signup", async () => {
     const pal = new AppTesterPal(
       (

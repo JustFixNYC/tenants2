@@ -6,8 +6,6 @@ import { DataRequestMultiLandlordQuery } from "../../queries/DataRequestMultiLan
 import { waitFor } from "@testing-library/react";
 
 describe("Data requests", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("should work", async () => {
     const pal = new AppTesterPal(<DataRequestsRoutes />, {
       url: JustfixRoutes.locale.dataRequests.multiLandlord,

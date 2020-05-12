@@ -17,8 +17,6 @@ test("signupIntentFromOnboardingInfo() works", () => {
 });
 
 describe("getOnboardingRouteForIntent()", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("works", async () => {
     const pal = new AppTesterPal(
       getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC),

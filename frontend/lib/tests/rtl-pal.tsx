@@ -165,9 +165,4 @@ export default class ReactTestingLibraryPal {
       selector
     );
   }
-
-  /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */
-  static cleanup() {
-    rt.cleanup();
-  }
 }

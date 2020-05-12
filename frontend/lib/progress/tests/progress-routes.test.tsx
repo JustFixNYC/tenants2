@@ -17,8 +17,6 @@ const myRoutesProps: ProgressRoutesProps = {
 const MyRoutes = buildProgressRoutesComponent(() => myRoutesProps);
 
 describe("ProgressRoutes", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("Redirects to latest step", () => {
     const pal = new AppTesterPal(<MyRoutes />, {
       url: "/boop/latest-step",

@@ -35,8 +35,6 @@ describe("ProgressiveEnhancement", () => {
     mockConsoleError.mockRestore();
   });
 
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("renders baseline version on server-side", () => {
     const html = ReactDOMServer.renderToString(
       <ProgressiveEnhancement {...props} />
@@ -132,8 +130,6 @@ describe("ProgressiveEnhancement", () => {
 });
 
 describe("SimpleProgressiveEnhancement", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("renders children when enabled", () => {
     const pal = new ReactTestingLibraryPal(
       (
@@ -158,8 +154,6 @@ describe("SimpleProgressiveEnhancement", () => {
 });
 
 describe("NoScriptFallback", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   const Component = () => (
     <NoScriptFallback>
       <span>i am fallback content</span>
@@ -178,8 +172,6 @@ describe("NoScriptFallback", () => {
 });
 
 describe("useProgressiveEnhancement", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   function MyComponent() {
     const isMounted = useProgressiveEnhancement();
     return <p>{`isMounted is ${isMounted}`}</p>;

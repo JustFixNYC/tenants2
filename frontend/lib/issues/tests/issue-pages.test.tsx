@@ -18,8 +18,6 @@ const TestIssuesRoutes = () => (
 );
 
 describe("issues checklist", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("returns 404 for invalid area routes", () => {
     const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create("LOL"),

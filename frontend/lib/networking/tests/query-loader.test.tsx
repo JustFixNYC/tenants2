@@ -6,8 +6,6 @@ import { ExampleQuery } from "../../queries/ExampleQuery";
 import { nextTick } from "../../tests/util";
 
 describe("QueryLoader", () => {
-  afterEach(AppTesterPal.cleanup);
-
   const makePal = () =>
     new AppTesterPal(
       (

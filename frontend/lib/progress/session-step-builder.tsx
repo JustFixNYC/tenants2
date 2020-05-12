@@ -47,9 +47,6 @@ export type SessionStepOptions<
   /** The title of the step, visible both in the document title and as a heading. */
   title: string;
 
-  /** The mutation that submitting the form will trigger. */
-  mutation: MutationWithBlankInput<FormInput, FormOutput>;
-
   /**
    * Convert the session chunk to the form input.
    */
@@ -94,6 +91,7 @@ export class SessionStepBuilder<SessionChunk> {
    * Return a React stateless functional component that renders a form step.
    */
   createStep<FormInput, FormOutput extends SessionUpdatingFormOutput>(
+    mutation: MutationWithBlankInput<FormInput, FormOutput>,
     options:
       | SessionStepOptions<FormInput, FormOutput, SessionChunk>
       | ((
@@ -113,12 +111,12 @@ export class SessionStepBuilder<SessionChunk> {
             <div className="content">{o.renderIntro()}</div>
           ) : null}
           <SessionUpdatingFormSubmitter
-            mutation={o.mutation}
+            mutation={mutation}
             onSuccessRedirect={(o, i) => onSuccessRedirect(o, i) || nextStep}
             initialState={(session) =>
               getInitialFormInput(
                 fromSession(session),
-                o.blankInput || o.mutation.blankInput,
+                o.blankInput || mutation.blankInput,
                 o.toFormInput
               )
             }

@@ -6,10 +6,7 @@ import {
   YES_NO_RADIOS_TRUE,
   YES_NO_RADIOS_FALSE,
 } from "../forms/yes-no-radios-form-field";
-import {
-  HpActionPreviousAttemptsMutation,
-  HpActionPreviousAttemptsMutation_output,
-} from "../queries/HpActionPreviousAttemptsMutation";
+import { HpActionPreviousAttemptsMutation } from "../queries/HpActionPreviousAttemptsMutation";
 import { HPActionPreviousAttemptsInput } from "../queries/globalTypes";
 import {
   hideByDefault,
@@ -92,12 +89,8 @@ export const createHPActionPreviousAttempts = (
     prevAttempts311Modal: string;
   }
 ) =>
-  stepBuilder.createStep<
-    HPActionPreviousAttemptsInput,
-    HpActionPreviousAttemptsMutation_output
-  >((props) => ({
+  stepBuilder.createStep(HpActionPreviousAttemptsMutation, (props) => ({
     title: "Previous attempts to get help",
-    mutation: HpActionPreviousAttemptsMutation,
     toFormInput: (hp) =>
       hp
         .yesNoRadios(

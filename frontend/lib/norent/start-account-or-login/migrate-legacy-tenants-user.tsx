@@ -23,11 +23,15 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
         </p>
         <p>
           Meanwhile, whenever you want to sign into your "Build your case" or
-          Advocate Dashboard account, you can go directly to this URL:{" "}
+          Advocate Dashboard account, you can sign in with your old account
+          information at this URL:
+        </p>
+        <p className="has-text-centered">
           <OutboundLink href="https://beta.justfix.nyc">
             beta.justfix.nyc
           </OutboundLink>{" "}
-          and sign in with your old account information.{" "}
+        </p>
+        <p>
           <strong>Please write this URL down to remember it later.</strong>
         </p>
         <p>

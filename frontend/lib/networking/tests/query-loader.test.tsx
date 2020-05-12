@@ -32,9 +32,10 @@ describe("QueryLoader", () => {
 
   it("shows loading text and renders", async () => {
     const pal = makePal();
-    pal.expectGraphQL(/exampleQuery/);
     pal.rr.getByText("loading");
-    pal.getFirstRequest().resolve({ exampleQuery: { hello: "FOO" } });
+    pal.withQuery(ExampleQuery).respondWith({
+      exampleQuery: { hello: "FOO" },
+    });
     await nextTick();
     pal.rr.getByText("render FOO");
   });
@@ -42,7 +43,7 @@ describe("QueryLoader", () => {
   it("shows error text and allows for retrying", async () => {
     const pal = makePal();
     expect(pal.client.getRequestQueue()).toHaveLength(1);
-    pal.getFirstRequest().reject(new Error("kaboom"));
+    pal.getLatestRequest().reject(new Error("kaboom"));
     await nextTick();
     pal.rr.getByText("error");
     pal.rr.getByText("retry").click();

@@ -16,7 +16,6 @@ import {
   AppContext,
   AppContextType,
   AppLegacyFormSubmission,
-  AppSiteRoutes,
 } from "./app-context";
 import { ErrorBoundary } from "./error-boundary";
 import { isModalRoute } from "./util/route-util";
@@ -35,10 +34,11 @@ import {
 import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
-import { default as JustfixRoutes } from "./routes";
 import { LinguiI18n } from "./i18n-lingui";
-import { NorentRoutes, getNorentJumpToTopOfPageRoutes } from "./norent/routes";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
 import { SupportedLocale } from "./i18n";
+import { getGlobalSiteRoutes } from "./routes";
+import { ensureNextRedirectIsHard } from "./browser-redirect";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -246,17 +246,8 @@ export class AppWithoutRouter extends React.Component<
     const { userId, firstName, isStaff } = this.state.session;
     if (isStaff && areAnalyticsEnabled()) {
       // There's no way to disable analytics without reloading the page,
-      // so just reload it. But wait a little while just in case a page
-      // transition was just triggered, and let the user know so they
-      // aren't confused.
-      window.setTimeout(() => {
-        window.alert(
-          "Welcome, admin user! We're going to need to reload the page now to " +
-            "disable analytics and ensure no PII is leaked to third-party " +
-            "services."
-        );
-        window.location.reload();
-      }, 1000);
+      // so make sure we reload the page on the next navigation.
+      ensureNextRedirectIsHard();
     }
     if (window.FS && userId !== null) {
       // FullStory ignores '1' as a user ID because it might be unintentional,
@@ -308,7 +299,7 @@ export class AppWithoutRouter extends React.Component<
     return {
       server: this.props.server,
       session: this.state.session,
-      siteRoutes: this.getSiteRoutes(),
+      siteRoutes: getGlobalSiteRoutes(this.props.server),
       fetch: this.fetch,
       fetchWithoutErrorHandling: this.fetchWithoutErrorHandling,
       updateSession: this.handleSessionChange,
@@ -318,15 +309,6 @@ export class AppWithoutRouter extends React.Component<
 
   get isLoggedIn(): boolean {
     return !!this.state.session.phoneNumber;
-  }
-
-  getSiteRoutes(): AppSiteRoutes {
-    switch (this.props.server.siteType) {
-      case "JUSTFIX":
-        return JustfixRoutes;
-      case "NORENT":
-        return NorentRoutes;
-    }
   }
 
   getSiteComponent(): React.ComponentType<AppSiteProps> {

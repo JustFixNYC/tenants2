@@ -2,13 +2,13 @@ import React from "react";
 
 import OnboardingStep3 from "../onboarding-step-3";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { OnboardingStep3Mutation_output } from "../../queries/OnboardingStep3Mutation";
+import { OnboardingStep3Mutation } from "../../queries/OnboardingStep3Mutation";
 import { escapeRegExp } from "../../tests/util";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { getLeaseChoiceLabels } from "../../../../common-data/lease-choices";
 
 const PROPS = {
-  routes: Routes.locale.onboarding,
+  routes: JustfixRoutes.locale.onboarding,
 };
 
 const STEP_3 = new OnboardingStep3(PROPS);
@@ -39,7 +39,7 @@ describe("onboarding step 3 page", () => {
 
       pal.clickRadioOrCheckbox(new RegExp("^" + escapeRegExp(label)));
       pal.clickButtonOrLink("Next");
-      pal.respondWithFormOutput<OnboardingStep3Mutation_output>({
+      pal.withFormMutation(OnboardingStep3Mutation).respondWith({
         errors: [],
         session: {
           onboardingStep3: {

@@ -5,7 +5,7 @@ import RentalHistoryRoutes, {
   getRentalHistoryRoutesProps,
   GenerateUserRhFormInput,
 } from "../rental-history";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { browserStorage } from "../../browser-storage";
 import { FakeAppContext } from "../../tests/util";
@@ -17,6 +17,7 @@ import {
   Borough,
 } from "../../queries/globalTypes";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
+import { LogoutMutation } from "../../queries/LogoutMutation";
 
 const tester = new ProgressRoutesTester(
   getRentalHistoryRoutesProps(),
@@ -29,7 +30,7 @@ describe("Rental history frontend", () => {
   afterEach(AppTesterPal.cleanup);
 
   it("returns splash page by default", () => {
-    expect(tester.getLatestStep()).toBe(Routes.locale.rh.splash);
+    expect(tester.getLatestStep()).toBe(JustfixRoutes.locale.rh.splash);
   });
 
   it("returns splash even if user is logged in", () => {
@@ -37,7 +38,7 @@ describe("Rental history frontend", () => {
       tester.getLatestStep({
         phoneNumber: "5551234567",
       })
-    ).toBe(Routes.locale.rh.splash);
+    ).toBe(JustfixRoutes.locale.rh.splash);
   });
 
   it("shows user details on form if user is logged in", () => {
@@ -81,7 +82,7 @@ describe("Rental history frontend", () => {
 
   it("deletes user details on clicking cancel button", () => {
     const pal = new AppTesterPal(<RentalHistoryRoutes />, {
-      url: Routes.locale.rh.form,
+      url: JustfixRoutes.locale.rh.form,
       session: {
         rentalHistoryInfo: {
           firstName: "boop",
@@ -105,7 +106,7 @@ describe("Rental history frontend", () => {
     expect(inputPhone.value).toEqual("(212) 000-0000");
 
     pal.clickButtonOrLink("Cancel request");
-    pal.expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("shows an anonymous users address from DDO in form", () => {
@@ -113,7 +114,7 @@ describe("Rental history frontend", () => {
     browserStorage.update({ latestBorough: "MANHATTAN" });
 
     const pal = new AppTesterPal(<RentalHistoryRoutes />, {
-      url: Routes.locale.rh.form,
+      url: JustfixRoutes.locale.rh.form,
       session: {
         userId: null,
         rentalHistoryInfo: null,

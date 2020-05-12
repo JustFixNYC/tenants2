@@ -18,7 +18,7 @@ node_modules
 
 # These files are auto-generated.
 locales/_build/**/*.json
-locales/**/messages.js
+locales/**/*.js
 frontend/lib/queries
 lambda.js
 frontend/static

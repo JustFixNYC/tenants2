@@ -2,7 +2,7 @@ import React from "react";
 
 import { FakeSessionInfo } from "../../tests/util";
 import OnboardingRoutes, { OnboardingRoutesProps } from "../onboarding-routes";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { getLatestStep } from "../../progress/progress-redirection";
 import { AppTesterPal } from "../../tests/app-tester-pal";
@@ -11,7 +11,7 @@ import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 const PROPS: OnboardingRoutesProps = {
   toCancel: "/cancel",
   toSuccess: "/success",
-  routes: Routes.locale.onboarding,
+  routes: JustfixRoutes.locale.onboarding,
   signupIntent: OnboardingInfoSignupIntent.LOC,
 };
 
@@ -23,7 +23,7 @@ describe("latest step redirector", () => {
 
   it("returns step 1 by default", () => {
     expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(
-      Routes.locale.onboarding.step1
+      JustfixRoutes.locale.onboarding.step1
     );
   });
 
@@ -33,7 +33,7 @@ describe("latest step redirector", () => {
         ...FakeSessionInfo,
         onboardingStep1: {} as any,
       })
-    ).toBe(Routes.locale.onboarding.step3);
+    ).toBe(JustfixRoutes.locale.onboarding.step3);
   });
 
   it("returns step 4 when step 3 is complete", () => {
@@ -43,7 +43,7 @@ describe("latest step redirector", () => {
         onboardingStep1: {} as any,
         onboardingStep3: {} as any,
       })
-    ).toBe(Routes.locale.onboarding.step4);
+    ).toBe(JustfixRoutes.locale.onboarding.step4);
   });
 });
 
@@ -52,7 +52,7 @@ describe("Onboarding", () => {
 
   it("redirects to latest step", () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {
-      url: Routes.locale.onboarding.latestStep,
+      url: JustfixRoutes.locale.onboarding.latestStep,
     });
     expect(pal.history.location.pathname).toEqual("/en/onboarding/step/1");
     pal.rr.getByLabelText("First name");

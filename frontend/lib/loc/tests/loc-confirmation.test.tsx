@@ -1,5 +1,5 @@
 import React from "react";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { LetterRequestMailChoice } from "../../queries/globalTypes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
@@ -12,7 +12,7 @@ describe("letter of complaint confirmation", () => {
     trackingNumber: string = ""
   ) =>
     new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.confirmation,
+      url: JustfixRoutes.locale.loc.confirmation,
       session: {
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",

@@ -2,7 +2,7 @@ import React from "react";
 
 import Page from "../ui/page";
 import { Link } from "react-router-dom";
-import Routes from "../routes";
+import JustfixRoutes from "../justfix-routes";
 import { NextButton } from "../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LogoutMutation } from "../queries/LogoutMutation";
@@ -21,7 +21,7 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
             mutation={LogoutMutation}
             initialState={{}}
             // This looks odd but it's required for legacy POST to work.
-            onSuccessRedirect={Routes.locale.logout}
+            onSuccessRedirect={JustfixRoutes.locale.logout}
           >
             {(ctx) => (
               <NextButton isLoading={ctx.isLoading} label="Yes, sign out" />
@@ -35,7 +35,7 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
       <Page title="Signed out">
         <h1 className="title">You are now signed out.</h1>
         <p>
-          <Link to={Routes.locale.login}>Sign back in</Link>
+          <Link to={JustfixRoutes.locale.login}>Sign back in</Link>
         </p>
       </Page>
     );

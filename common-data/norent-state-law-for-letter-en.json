@@ -88,7 +88,7 @@
     "textOfLegislation": [
       "Governor Pritzker, COVID-19 Executive Order No. 28, April 23, 2020"
     ],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V2 hardship"
   },
   "IN": {
     "textOfLegislation": [
@@ -175,9 +175,9 @@
   },
   "NE": {
     "textOfLegislation": [
-      "US Congress, CARES Act Public Law 116-136, March 27, 2020"
+      "Governor Pete Ricketts, Executive Order 20-07, March 25, 2020"
     ],
-    "whichVersion": "V3 few protections"
+    "whichVersion": "V2 hardship"
   },
   "NH": {
     "textOfLegislation": [

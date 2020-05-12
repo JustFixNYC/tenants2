@@ -318,3 +318,14 @@ def use_norent_site(db):
     site = Site.objects.get(pk=1)
     site.name = "NoRent.org"
     site.save()
+
+
+@pytest.fixture
+def mocklob(settings, requests_mock):
+    '''
+    Enable Lob integration and provide mocks to simulate Lob functionality.
+    '''
+
+    from loc.tests.lob_fixture import mocklob
+
+    yield from mocklob(settings, requests_mock)

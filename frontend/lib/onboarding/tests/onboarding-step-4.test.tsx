@@ -3,11 +3,13 @@ import React from "react";
 import OnboardingStep4 from "../onboarding-step-4";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { Switch, Route } from "react-router";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
+import { OnboardingStep4Version2Mutation } from "../../queries/OnboardingStep4Version2Mutation";
+import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 
 const PROPS = {
-  routes: Routes.locale.onboarding,
+  routes: JustfixRoutes.locale.onboarding,
   toSuccess: "/success",
   signupIntent: OnboardingInfoSignupIntent.HP,
 };
@@ -27,7 +29,10 @@ describe("onboarding step 4 page", () => {
     );
 
     pal.clickButtonOrLink(/continue/i);
-    pal.respondWithFormOutput({ errors: [], session: {} });
+    pal.withFormMutation(OnboardingStep4Version2Mutation).respondWith({
+      errors: [],
+      session: BlankAllSessionInfo,
+    });
     await pal.rt.waitForElement(() => pal.rr.getByText("HOORAY"));
   });
 

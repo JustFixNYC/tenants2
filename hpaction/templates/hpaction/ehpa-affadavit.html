@@ -3,32 +3,35 @@
 {% block title %}AFFIDAVIT IN SUPPORT OF AN APPLICATION TO WAIVE COURT FEES{% endblock %}
 
 {% block body %}
-<section class="affadavit">
+<section class="instructions">
     <p class="has-text-right">INDEX NUMBER ____________________________</p>
 
-    <h2>AFFIDAVIT IN SUPPORT OF AN APPLICATION TO WAIVE COURT FEES </h2>
+    <p class="official-use-disclaimer">
+        (This page is for official use.)
+    </p>
 
-    <p>I, {{ tenant_name }}, hereby request the waiving of any and all statutory fees for
-        the defense or prosecution of this HP Action. I make this application based on
-        CPLR §1101. I do not have, nor am I able to obtain, the funds needed to pay
-        the court fees. I will be unable to proceed unless the Order is granted.</p>
+    <h2>HP ACTION FILING OF {{ tenant_name|upper }}</h2>
 
-    <div class="form-fields">
-        <div>
-            <div class="form-field form-field-1">
-                Date
-            </div>
+    <p>This filing has been submitted through the JustFix.nyc HP Action online tool.</p>
 
-            <div class="form-field form-field-2">
-                Tenant's full name
-                <div class="form-field-value">{{ tenant_name }}</div>
-            </div>
+    <p>To the attention of the attending Clerk:</p>
+    
+    <ol>
+        <li>
+            If approved, please refer this case to OCJ/HRA for attorney assignment.<br>
+            If rejected, please inform the tenant using the contact details provided below.
+        </li>
+        <li>
+            Please maintain this cover sheet together with the executed papers when
+            passing the case on to OCJ/HRA so that the attorney may have easy access
+            to the contact details for the parties involved.
+        </li>
+    </ol>
 
-            <div class="form-field form-field-3">
-                Tenant's signature
-            </div>
-        </div>
-    </div>
+    <p>
+    With Gratitude,<br>
+    JustFix.nyc Team
+    </p>
 </section>
 <section class="contact-details">
     <h2>CONTACT DETAILS FOR PARTIES INVOLVED</h2>
@@ -70,5 +73,32 @@
             <dd>{{ landlord_address }}</dd>
         </div>
     </dl>
+</section>
+<section class="affadavit">
+    <p class="has-text-right">INDEX NUMBER ____________________________</p>
+
+    <h2>AFFIDAVIT IN SUPPORT OF AN APPLICATION TO WAIVE COURT FEES </h2>
+
+    <p>I, {{ tenant_name }}, hereby request the waiving of any and all statutory fees for
+        the defense or prosecution of this HP Action. I make this application based on
+        CPLR §1101. I do not have, nor am I able to obtain, the funds needed to pay
+        the court fees. I will be unable to proceed unless the Order is granted.</p>
+
+    <div class="form-fields">
+        <div>
+            <div class="form-field form-field-1">
+                Date
+            </div>
+
+            <div class="form-field form-field-2">
+                Tenant's full name
+                <div class="form-field-value">{{ tenant_name }}</div>
+            </div>
+
+            <div class="form-field form-field-3">
+                Tenant's signature
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}

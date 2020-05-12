@@ -57,7 +57,7 @@
   },
   "IL": {
     "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
-    "whichVersion": "V1 non-payment"
+    "whichVersion": "V2 hardship"
   },
   "IN": {
     "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
@@ -117,7 +117,7 @@
   },
   "NE": {
     "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
-    "whichVersion": "V3 few protections"
+    "whichVersion": "V2 hardship"
   },
   "NH": {
     "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],

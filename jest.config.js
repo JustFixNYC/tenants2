@@ -9,6 +9,7 @@ module.exports = {
     "safe-mode-globals.d.ts",
     "webpack-defined-globals.d.ts",
     "/frontend/vendor/",
+    "/locales/",
   ],
   transformIgnorePatterns: ["/node_modules/(?!@justfixnyc).+\\.js$"],
   watchPathIgnorePatterns: ["<rootDir>/frontend/lib/queries/__generated__/"],

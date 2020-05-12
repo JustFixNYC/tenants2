@@ -80,7 +80,8 @@ def mail_certified_letter(
     from_address: Dict[str, Any],
     file: BinaryIO,
     color: bool,
-    double_sided: bool
+    double_sided: bool,
+    request_return_receipt: bool = False,
 ) -> Dict[str, Any]:
     '''
     Mail a certified letter via Lob:
@@ -94,6 +95,10 @@ def mail_certified_letter(
 
     with _lock:
         lob.api_key = settings.LOB_SECRET_API_KEY
+        if request_return_receipt:
+            extra_service = 'certified_return_receipt'
+        else:
+            extra_service = 'certified'
         return _to_plain_object(lob.Letter.create(
             description=description,
             to_address=truncate_name_in_address(to_address),
@@ -101,7 +106,7 @@ def mail_certified_letter(
             file=file,
             color=color,
             double_sided=double_sided,
-            extra_service='certified',
+            extra_service=extra_service,
         ))
 
 
@@ -189,3 +194,12 @@ def get_address_from_verification(verification: Dict[str, Any]) -> str:
         v['urbanization'],
         v['last_line']
     ]))
+
+
+def is_lob_fully_enabled() -> bool:
+    '''
+    Returns whether Lob integration is fully enabled (can verify addresses
+    and mail letters).
+    '''
+
+    return bool(settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY)

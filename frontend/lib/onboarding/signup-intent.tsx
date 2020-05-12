@@ -3,7 +3,7 @@ import { Route } from "react-router";
 
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { AllSessionInfo_onboardingInfo } from "../queries/AllSessionInfo";
-import { getSignupIntentOnboardingInfo } from "../routes";
+import { getSignupIntentOnboardingInfo } from "../justfix-routes";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import loadable from "@loadable/component";
 

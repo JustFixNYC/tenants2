@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { AppContext } from "../app-context";
-import Routes from "../routes";
+import JustfixRoutes from "../justfix-routes";
 import { NEXT } from "../pages/login-page";
 
 /**
@@ -19,7 +19,7 @@ export function staffOnlyView<P extends RouteComponentProps>(
       const search = `?${NEXT}=${encodeURIComponent(
         props.location.pathname + props.location.search
       )}`;
-      return <Redirect to={{ pathname: Routes.adminLogin, search }} />;
+      return <Redirect to={{ pathname: JustfixRoutes.adminLogin, search }} />;
     }
     return <Component {...props} />;
   };

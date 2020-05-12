@@ -3,7 +3,6 @@
     "webpack.config.js",
     "common-data",
     "frontend",
-    "locales",
     "twofactor/static",
     "findhelp/static",
     "project/tests",

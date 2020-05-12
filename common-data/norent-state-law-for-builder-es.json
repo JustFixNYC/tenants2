@@ -116,7 +116,7 @@
     "textOfLegislation": "TODO: Translate text of legislation to Spanish!"
   },
   "NE": {
-    "stateWithoutProtections": true,
+    "stateWithoutProtections": false,
     "textOfLegislation": "TODO: Translate text of legislation to Spanish!"
   },
   "NH": {

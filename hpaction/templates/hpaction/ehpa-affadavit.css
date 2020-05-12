@@ -20,6 +20,15 @@ h2 {
     margin-top: 0.5in;
 }
 
+li {
+    padding-bottom: 1em;
+}
+
+.official-use-disclaimer {
+    padding-bottom: 1em;
+    border-bottom: 1px solid black;
+}
+
 /**
  * It's very intentional that we want the affadavit, which comprises the
  * top of the page, to have a specific height: this ensures that the
@@ -69,7 +78,8 @@ h2 {
 
 .contact-details {
     border-top: 1pt solid black;
-    margin-top: 8em;
+    margin-top: 3em;
+    page-break-after: always;
 }
 
 dt {

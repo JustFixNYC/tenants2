@@ -33,11 +33,16 @@ import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
-import { li18n } from "../i18n-lingui";
+import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
 }
+
+const NorentLinguiI18n = createLinguiCatalogLoader({
+  en: loadable.lib(() => import("../../../locales/en/norent.chunk") as any),
+  es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
+});
 
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
   fallback: <LoadingPage />,
@@ -138,7 +143,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
       </Link>
     );
     return (
-      <>
+      <NorentLinguiI18n>
         <section
           className={classnames(
             isPrimaryPage
@@ -172,7 +177,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           </div>
         </section>
         <NorentFooter />
-      </>
+      </NorentLinguiI18n>
     );
   }
 );

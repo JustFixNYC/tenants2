@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import Routes, { getSignupIntentOnboardingInfo } from "../routes";
+import JustfixRoutes, {
+  getSignupIntentOnboardingInfo,
+} from "../justfix-routes";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -43,7 +45,7 @@ import {
 } from "../forms/form-fields";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import { BeginDocusignMutation } from "../queries/BeginDocusignMutation";
-import { performHardOrSoftRedirect } from "../pages/login-page";
+import { performHardOrSoftRedirect } from "../browser-redirect";
 import { MoratoriumWarning, CovidEhpDisclaimer } from "../ui/covid-banners";
 import { StaticImage } from "../ui/static-image";
 import { VerifyEmailMiddleProgressStep } from "../pages/verify-email";
@@ -115,7 +117,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   Start my case
                 </GetStartedButton>
                 <div className="content has-text-centered">
-                  <p className="jf-secondary-cta has-text-weight-bold">
+                  <p className="jf-secondary-cta">
                     Would you prefer to have personal assistance to start your
                     case?
                     <br />
@@ -258,7 +260,7 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
     </p>
     <p>This could take a while, so sit tight.</p>
     <GeneratePDFForm
-      toWaitForUpload={Routes.locale.ehp.waitForUpload}
+      toWaitForUpload={JustfixRoutes.locale.ehp.waitForUpload}
       kind="EMERGENCY"
     >
       {(ctx) => (
@@ -274,46 +276,48 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
 
 const stepBuilder = new SessionStepBuilder((sess) => sess);
 
-const YourLandlordOptionalDetails = stepBuilder.createStep({
-  title: "Optional landlord contact information",
-  mutation: OptionalLandlordDetailsMutation,
-  toFormInput: (sess) => ({
-    email: sess.data.landlordDetails?.email || "",
-    phoneNumber: sess.data.landlordDetails?.phoneNumber || "",
-  }),
-  renderIntro: () => (
-    <>
-      <p>
-        Do you have your landlord's email or phone number? If so, please provide
-        it below.
-      </p>
-      <p>
-        Your lawyer will use this information to contact your landlord and move
-        your case along faster.
-      </p>
-    </>
-  ),
-  renderForm: (ctx) => (
-    <>
-      <TextualFormField
-        type="email"
-        {...ctx.fieldPropsFor("email")}
-        label="Landlord email (highly recommended)"
-      />
-      <PhoneNumberFormField
-        {...ctx.fieldPropsFor("phoneNumber")}
-        label="Landlord phone number (highly recommended)"
-      />
-    </>
-  ),
-});
+const YourLandlordOptionalDetails = stepBuilder.createStep(
+  OptionalLandlordDetailsMutation,
+  {
+    title: "Optional landlord contact information",
+    toFormInput: (sess) => ({
+      email: sess.data.landlordDetails?.email || "",
+      phoneNumber: sess.data.landlordDetails?.phoneNumber || "",
+    }),
+    renderIntro: () => (
+      <>
+        <p>
+          Do you have your landlord's email or phone number? If so, please
+          provide it below.
+        </p>
+        <p>
+          Your lawyer will use this information to contact your landlord and
+          move your case along faster.
+        </p>
+      </>
+    ),
+    renderForm: (ctx) => (
+      <>
+        <TextualFormField
+          type="email"
+          {...ctx.fieldPropsFor("email")}
+          label="Landlord email (highly recommended)"
+        />
+        <PhoneNumberFormField
+          {...ctx.fieldPropsFor("phoneNumber")}
+          label="Landlord phone number (highly recommended)"
+        />
+      </>
+    ),
+  }
+);
 
 const UploadStatus = () => (
   <ShowHPUploadStatus
     kind="EMERGENCY"
-    toWaitForUpload={Routes.locale.ehp.waitForUpload}
-    toSuccess={Routes.locale.ehp.reviewForms}
-    toNotStarted={Routes.locale.ehp.latestStep}
+    toWaitForUpload={JustfixRoutes.locale.ehp.waitForUpload}
+    toSuccess={JustfixRoutes.locale.ehp.reviewForms}
+    toNotStarted={JustfixRoutes.locale.ehp.latestStep}
   />
 );
 
@@ -374,7 +378,7 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
     session.latestEmergencyHpActionPdfUrl &&
     `${session.latestEmergencyHpActionPdfUrl}`;
   const prevStep = assertNotNull(props.prevStep);
-  const nextUrl = Routes.locale.ehp.latestStep;
+  const nextUrl = JustfixRoutes.locale.ehp.latestStep;
 
   return (
     <Page title="You're almost there!" withHeading="big" className="content">
@@ -397,7 +401,7 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
       <div className="buttons jf-two-buttons jf-two-buttons--vertical">
         <BackButton to={prevStep} />
         <ModalLink
-          to={Routes.locale.ehp.reviewFormsSignModal}
+          to={JustfixRoutes.locale.ehp.reviewFormsSignModal}
           className="button is-primary is-medium"
           render={() => <SignModal nextUrl={nextUrl} />}
         >
@@ -492,92 +496,92 @@ const Confirmation: React.FC<{}> = () => {
 };
 
 const PreviousAttempts = createHPActionPreviousAttempts(
-  () => Routes.locale.ehp
+  () => JustfixRoutes.locale.ehp
 );
 
 export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
-  toLatestStep: Routes.locale.ehp.latestStep,
+  toLatestStep: JustfixRoutes.locale.ehp.latestStep,
   label: "Emergency HP Action",
   welcomeSteps: [
     {
-      path: Routes.locale.ehp.splash,
+      path: JustfixRoutes.locale.ehp.splash,
       exact: true,
       component: EmergencyHPActionSplash,
       isComplete: (s) => !!s.phoneNumber,
     },
     {
-      path: Routes.locale.ehp.welcome,
+      path: JustfixRoutes.locale.ehp.welcome,
       exact: true,
       component: EmergencyHPActionWelcome,
     },
   ],
   stepsToFillOut: [
-    ...createJustfixCrossSiteVisitorSteps(Routes.locale.ehp),
-    { path: Routes.locale.ehp.sue, component: HpActionSue },
+    ...createJustfixCrossSiteVisitorSteps(JustfixRoutes.locale.ehp),
+    { path: JustfixRoutes.locale.ehp.sue, component: HpActionSue },
     {
-      path: Routes.locale.ehp.issues,
+      path: JustfixRoutes.locale.ehp.issues,
       component: Issues,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.ehp.tenantChildren,
+      path: JustfixRoutes.locale.ehp.tenantChildren,
       component: TenantChildren,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.ehp.accessForInspection,
+      path: JustfixRoutes.locale.ehp.accessForInspection,
       component: EhpAccessForInspection,
       shouldBeSkipped: isNotSuingForRepairs,
     },
     {
-      path: Routes.locale.ehp.prevAttempts,
+      path: JustfixRoutes.locale.ehp.prevAttempts,
       component: PreviousAttempts,
       shouldBeSkipped: (s) => isNotSuingForRepairs(s) || isUserNycha(s),
     },
     {
-      path: Routes.locale.ehp.harassmentApartment,
+      path: JustfixRoutes.locale.ehp.harassmentApartment,
       component: HarassmentApartment,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.ehp.harassmentAllegations1,
+      path: JustfixRoutes.locale.ehp.harassmentAllegations1,
       component: HarassmentAllegations1,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.ehp.harassmentAllegations2,
+      path: JustfixRoutes.locale.ehp.harassmentAllegations2,
       component: HarassmentAllegations2,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.ehp.harassmentExplain,
+      path: JustfixRoutes.locale.ehp.harassmentExplain,
       component: HarassmentExplain,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.ehp.harassmentCaseHistory,
+      path: JustfixRoutes.locale.ehp.harassmentCaseHistory,
       component: HarassmentCaseHistory,
       shouldBeSkipped: isNotSuingForHarassment,
     },
     {
-      path: Routes.locale.ehp.yourLandlord,
+      path: JustfixRoutes.locale.ehp.yourLandlord,
       exact: true,
       component: HPActionYourLandlord,
     },
     {
-      path: Routes.locale.ehp.yourLandlordOptionalDetails,
+      path: JustfixRoutes.locale.ehp.yourLandlordOptionalDetails,
       exact: true,
       component: YourLandlordOptionalDetails,
       shouldBeSkipped: isUserNycha,
     },
     {
-      path: Routes.locale.ehp.verifyEmail,
+      path: JustfixRoutes.locale.ehp.verifyEmail,
       exact: true,
       component: VerifyEmailMiddleProgressStep,
       shouldBeSkipped: (s) => !!s.isEmailVerified,
     },
     {
-      path: Routes.locale.ehp.prepare,
+      path: JustfixRoutes.locale.ehp.prepare,
       exact: true,
       component: PrepareToGeneratePDF,
       neverGoBackTo: true,
@@ -587,7 +591,7 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   ],
   confirmationSteps: [
     {
-      path: Routes.locale.ehp.waitForUpload,
+      path: JustfixRoutes.locale.ehp.waitForUpload,
       exact: true,
       component: UploadStatus,
       neverGoBackTo: true,
@@ -595,13 +599,13 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
         s.emergencyHpActionUploadStatus === HPUploadStatus.SUCCEEDED,
     },
     {
-      path: Routes.locale.ehp.reviewForms,
+      path: JustfixRoutes.locale.ehp.reviewForms,
       component: ReviewForms,
       isComplete: (s) =>
         s.emergencyHpActionSigningStatus === HPDocusignStatus.SIGNED,
     },
     {
-      path: Routes.locale.ehp.confirmation,
+      path: JustfixRoutes.locale.ehp.confirmation,
       exact: true,
       component: Confirmation,
     },

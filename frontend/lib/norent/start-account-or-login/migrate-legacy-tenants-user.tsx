@@ -5,30 +5,41 @@ import { OutboundLink } from "../../analytics/google-analytics";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { PrepareLegacyTenantsAccountForMigrationMutation } from "../../queries/PrepareLegacyTenantsAccountForMigrationMutation";
+import { CustomerSupportLink } from "../../ui/customer-support-link";
 
 export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
   routes,
   ...props
 }) => {
   return (
-    <Page title="Hello, long-time JustFix.nyc user!" withHeading="big">
+    <Page
+      title="Hello, long-time JustFix.nyc user! We appreciate you."
+      withHeading="big"
+    >
       <div className="content">
         <p>
-          In order to proceed, you'll need to migrate your account to our new
-          system.
+          This is a new system. You will need a new account use it. We're happy
+          to set you up with one!
         </p>
         <p>
-          Once you migrate your account, you will only be able to access the
-          legacy JustFix.nyc services&mdash;tools like "Build your case", the
-          advocate dashboard, and so on&mdash;if you log into them at{" "}
+          Meanwhile, whenever you want to sign into your "Build your case" or
+          Advocate Dashboard account, you can sign in with your old account
+          information at this URL:
+        </p>
+        <p className="has-text-centered">
           <OutboundLink href="https://beta.justfix.nyc">
             beta.justfix.nyc
           </OutboundLink>{" "}
-          using your password for that system.
         </p>
         <p>
-          Your new account will have a different password and will be used to
-          access JustFix.nyc's new services.
+          <strong>Please write this URL down to remember it later.</strong>
+        </p>
+        <p>
+          Your new account will be used to access JustFix.nyc's new services.
+        </p>
+        <p>
+          If you have any questions, please feel free to email us at{" "}
+          <CustomerSupportLink />.
         </p>
         <SessionUpdatingFormSubmitter
           mutation={PrepareLegacyTenantsAccountForMigrationMutation}
@@ -37,7 +48,7 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
         >
           {(ctx) => (
             <ProgressButtons
-              nextLabel="Migrate my account"
+              nextLabel="Create new account"
               isLoading={ctx.isLoading}
               back={props.prevStep}
             ></ProgressButtons>

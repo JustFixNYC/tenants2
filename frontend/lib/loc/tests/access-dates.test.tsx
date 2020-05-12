@@ -1,22 +1,22 @@
 import React from "react";
 
 import { getInitialState } from "../access-dates";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { AccessDatesMutation_output } from "../../queries/AccessDatesMutation";
+import { AccessDatesMutation } from "../../queries/AccessDatesMutation";
 
 describe("access dates page", () => {
   afterEach(AppTesterPal.cleanup);
 
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
-      url: Routes.locale.loc.accessDates,
+      url: JustfixRoutes.locale.loc.accessDates,
     });
 
     pal.fillFormFields([[/First access date/i, "2018-01-02"]]);
     pal.clickButtonOrLink("Next");
-    pal.respondWithFormOutput<AccessDatesMutation_output>({
+    pal.withFormMutation(AccessDatesMutation).respondWith({
       errors: [],
       session: { accessDates: ["2018-01-02"] },
     });

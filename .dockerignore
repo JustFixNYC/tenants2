@@ -12,7 +12,7 @@ node_modules/
 tsc-build/
 coverage/
 locales/_build
-locales/**/messages.js
+locales/**/*.js
 locales/**/*.mo
 frontend/static/frontend/*.js
 frontend/static/frontend/*.css

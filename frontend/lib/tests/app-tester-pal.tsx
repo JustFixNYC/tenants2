@@ -169,30 +169,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
-   * Responds to the most recent GraphQL form question with the given
-   * mock output.
-   */
-  respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(
-    output: FormOutput
-  ) {
-    this.getLatestRequest().resolve({ output });
-  }
-
-  /**
    * Asserts the most recent GraphQL request's query matches the given
    * pattern.
    */
   expectGraphQL(match: RegExp) {
     expect(this.getLatestRequest().query).toMatch(match);
-  }
-
-  /**
-   * Asserts that the most recent GraphQL form request's input
-   * equals the given value.
-   */
-  expectFormInput<FormInput>(expected: FormInput) {
-    const actual = this.getLatestRequest().variables["input"];
-    expect(actual).toEqual(expected);
   }
 
   /**
@@ -228,7 +209,8 @@ class GraphQLFormMutationHelper<
    */
   expect(expected: FormInput) {
     this.expectGraphQLForOurMutation();
-    this.appPal.expectFormInput(expected);
+    const actual = this.appPal.getLatestRequest().variables["input"];
+    expect(actual).toEqual(expected);
     return this;
   }
 
@@ -237,7 +219,7 @@ class GraphQLFormMutationHelper<
    */
   respondWith(output: FormOutput) {
     this.expectGraphQLForOurMutation();
-    this.appPal.respondWithFormOutput(output);
+    this.appPal.getLatestRequest().resolve({ output });
     return this;
   }
 }

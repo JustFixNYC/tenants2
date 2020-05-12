@@ -14,7 +14,7 @@ type FaqCategoryLabels = {
   [k in FaqCategory]: string;
 };
 
-export function getLabelNameForFaqCategory(): FaqCategoryLabels {
+export function getFaqCategoryLabels(): FaqCategoryLabels {
   return {
     "Letter Builder": li18n._(t`Letter Builder`),
     "Tenant Rights": li18n._(t`Tenant Rights`),
@@ -28,7 +28,7 @@ export function getLabelNameForFaqCategory(): FaqCategoryLabels {
 
 export type Faq = {
   question: string; // Localized
-  category: FaqCategory; // Not localized here, but gets localized in the front-end by the getLabelNameForFaqCategory() function
+  category: FaqCategory; // Not localized here, but gets localized in the front-end by the getFaqCategoryLabels() function
   answerFull: React.ReactNode; // Localized
   previewOptions?: {
     priorityInPreview: number; // Not Localized

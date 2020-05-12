@@ -7,7 +7,7 @@ import {
   FaqsContent,
   Faq,
   FaqCategory,
-  getLabelNameForFaqCategory,
+  getFaqCategoryLabels,
 } from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
@@ -145,7 +145,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
                       id={formatCategoryID(category)}
                       className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless"
                     >
-                      {getLabelNameForFaqCategory()[category]}
+                      {getFaqCategoryLabels()[category]}
                     </h5>
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>

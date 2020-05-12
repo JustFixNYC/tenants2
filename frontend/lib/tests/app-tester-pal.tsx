@@ -170,14 +170,6 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
-   * Asserts the most recent GraphQL request's query matches the given
-   * pattern.
-   */
-  expectGraphQL(match: RegExp) {
-    expect(this.getLatestRequest().query).toMatch(match);
-  }
-
-  /**
    * Returns a helper for testing the given GraphQL query.
    */
   withQuery<Input, Output>(
@@ -209,7 +201,7 @@ class GraphQLQueryHelper<Input, Output> {
    * Assert that the latest request is for our GraphQL query.
    */
   ensure() {
-    this.appPal.expectGraphQL(new RegExp(this.query.name));
+    expect(this.appPal.getLatestRequest().query).toEqual(this.query.graphQL);
   }
 
   /**
@@ -246,7 +238,7 @@ class GraphQLFormMutationHelper<
   ) {}
 
   private expectGraphQLForOurMutation() {
-    this.appPal.expectGraphQL(new RegExp(this.mutation.name));
+    expect(this.appPal.getLatestRequest().query).toEqual(this.mutation.graphQL);
   }
 
   /**

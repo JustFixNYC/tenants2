@@ -4,7 +4,7 @@ import { NorentFaqsPage, STATES_WITH_LIMITED_PROTECTIONS_ID } from "../faqs";
 import { getHTMLElement } from "@justfixnyc/util";
 
 describe("<NorentFaqsPage>", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("has an entry for the states w/ limited protections ID", () => {
     const pal = new AppTesterPal(<NorentFaqsPage />);

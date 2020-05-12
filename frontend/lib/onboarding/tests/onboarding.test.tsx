@@ -48,7 +48,7 @@ describe("latest step redirector", () => {
 });
 
 describe("Onboarding", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("redirects to latest step", () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {

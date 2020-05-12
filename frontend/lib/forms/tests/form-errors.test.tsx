@@ -39,7 +39,7 @@ test("FormsetErrorMap type makes sense", () => {
 });
 
 describe("formatErrors()", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("concatenates errors", () => {
     const { errorHelp } = formatErrors({

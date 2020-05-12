@@ -13,7 +13,7 @@ const PRE_EXISTING_LETTER_REQUEST = {
 };
 
 describe("landlord details page", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   async function clickButtonAndExpectChoice(
     pal: AppTesterPal,

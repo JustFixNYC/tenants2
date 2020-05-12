@@ -50,10 +50,6 @@ interface AppTesterAppContext extends AppContextType {
  * This extends ReactTestingLibraryPal by wrapping your JSX in a
  * number of common React contexts and providing some
  * extra app-specific utilities.
- *
- * When using it, be sure to add the following to your test suite:
- *
- *   afterEach(AppTesterPal.cleanup);
  */
 export class AppTesterPal extends ReactTestingLibraryPal {
   /**

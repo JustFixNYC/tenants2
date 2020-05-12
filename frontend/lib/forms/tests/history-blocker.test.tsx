@@ -10,7 +10,7 @@ import {
 import { Route } from "react-router";
 
 describe("HistoryBlocker", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("blocks while mounted, does not block once unmounted", () => {
     const getUserConfirmation = jest.fn();

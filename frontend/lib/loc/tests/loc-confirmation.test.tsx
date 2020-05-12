@@ -5,7 +5,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 
 describe("letter of complaint confirmation", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   const createPal = (
     mailChoice: LetterRequestMailChoice,

@@ -13,7 +13,7 @@ describe("SessionUpdatingFormSubmitter", () => {
     },
   };
 
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("updates session and calls onSuccess if provided", async () => {
     const onSuccess = jest.fn();

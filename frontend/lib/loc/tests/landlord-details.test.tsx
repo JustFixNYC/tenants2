@@ -14,7 +14,7 @@ const LOOKED_UP_LANDLORD_DETAILS = {
 };
 
 describe("landlord details page", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("works when details are not looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {

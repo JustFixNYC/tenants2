@@ -9,7 +9,7 @@ import { assertNotNull } from "../../util/util";
 import { responsiveInt } from "../../../vendor/confetti";
 
 describe("Confetti", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("works", () => {
     jest.useFakeTimers();

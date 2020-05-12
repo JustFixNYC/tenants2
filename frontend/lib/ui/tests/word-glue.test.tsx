@@ -15,7 +15,7 @@ test("splitLastWord() works", () => {
 });
 
 describe("glueToLastWord", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("glues last word when given more than one word", () => {
     const pal = new ReactTestingLibraryPal(

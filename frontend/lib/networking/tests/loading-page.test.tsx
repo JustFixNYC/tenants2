@@ -27,7 +27,7 @@ function createLoadablePage<Props>(loader: ImportPromiseFunc<Props>) {
 const fakeForeverImportFn = () => new Promise(() => {});
 
 describe("LoadingPageWithRetry", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("renders error page", async () => {
     const pal = new ReactTestingLibraryPal(
@@ -45,7 +45,7 @@ describe("LoadingPageWithRetry", () => {
 });
 
 describe("LoadingPage", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("renders loading screen", () => {
     const LoadablePage = createLoadablePage(fakeForeverImportFn as any);
@@ -66,7 +66,7 @@ describe("LoadingOverlayManager", () => {
   const getOverlayDiv = (pal: AppTesterPal) =>
     pal.rr.container.querySelector(".jf-loading-overlay-wrapper");
 
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("renders children and does not render overlay by default", () => {
     const pal = new AppTesterPal(

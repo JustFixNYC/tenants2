@@ -17,7 +17,7 @@ const PROPS = {
 
 describe("onboarding step 1 page", () => {
   beforeEach(() => jest.clearAllTimers());
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("calls onCancel when cancel is clicked (progressively enhanced experience)", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);

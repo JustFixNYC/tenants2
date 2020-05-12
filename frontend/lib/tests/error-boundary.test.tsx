@@ -34,7 +34,7 @@ test("getErrorString() works", () => {
 });
 
 describe("ErrorBoundary", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   const simulateError = (props: { debug: boolean }) => {
     const oldError = window.console.error;

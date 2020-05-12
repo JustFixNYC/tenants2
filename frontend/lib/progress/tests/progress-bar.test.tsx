@@ -22,7 +22,7 @@ const fakeSteps: ProgressStepRoute[] = [
 ];
 
 describe("ProgressBar", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("works", () => {
     const fakeRaf = new FakeRequestAnimationFrame();
@@ -50,7 +50,7 @@ describe("ProgressBar", () => {
 });
 
 describe("RouteProgressBar", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("properly animates forward and backward", () => {
     const pal = new AppTesterPal(

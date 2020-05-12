@@ -25,7 +25,7 @@ describe("ModalWithoutRouter", () => {
 });
 
 describe("Modal", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("removes pre-rendered modal on mount", () => {
     const div = document.createElement("div");

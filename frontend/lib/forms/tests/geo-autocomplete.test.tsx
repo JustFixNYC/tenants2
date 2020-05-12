@@ -27,7 +27,7 @@ describe("GeoAutocomplete", () => {
     fetch.mockClear();
   });
 
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("shows suggestions and calls onChange() when one is clicked", async () => {
     fetch.mockReturnJson(FakeGeoResults);

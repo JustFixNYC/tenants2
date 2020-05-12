@@ -52,7 +52,7 @@ describe("OutboundLink", () => {
     gaMock.mock.calls[0][5].hitCallback();
   };
 
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   beforeEach(() => {
     jest.useFakeTimers();

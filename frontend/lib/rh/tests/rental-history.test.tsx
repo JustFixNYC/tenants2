@@ -27,7 +27,7 @@ const tester = new ProgressRoutesTester(
 tester.defineSmokeTests();
 
 describe("Rental history frontend", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("returns splash page by default", () => {
     expect(tester.getLatestStep()).toBe(JustfixRoutes.locale.rh.splash);

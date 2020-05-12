@@ -14,7 +14,7 @@ const MyThing: React.FC<{ value: string }> = ({ value }) => {
 };
 
 describe("useDebouncedValue()", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("works", () => {
     jest.useFakeTimers();

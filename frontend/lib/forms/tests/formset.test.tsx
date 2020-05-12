@@ -5,7 +5,7 @@ import { Formset, removeEmptyFormsAtEnd, addEmptyForms } from "../formset";
 import { TextualFormField } from "../form-fields";
 
 describe("Formset", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("works", () => {
     type MyItem = { foo: string; bar: string };

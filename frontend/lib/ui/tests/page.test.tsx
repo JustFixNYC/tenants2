@@ -6,7 +6,7 @@ import { HelmetProvider } from "react-helmet-async";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 
 describe("Page", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("Renders children", () => {
     const pal = new ReactTestingLibraryPal(

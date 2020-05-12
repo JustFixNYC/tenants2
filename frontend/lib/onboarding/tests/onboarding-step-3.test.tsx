@@ -14,7 +14,7 @@ const PROPS = {
 const STEP_3 = new OnboardingStep3(PROPS);
 
 describe("onboarding step 3 page", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   const labels = getLeaseChoiceLabels();
 

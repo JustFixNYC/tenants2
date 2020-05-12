@@ -27,7 +27,7 @@ const PageWithErrorHandling = withSessionErrorHandling(
 );
 
 describe("SessionErrorHandlingPage", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("shows page when not in error state", () => {
     const pal = new AppTesterPal(<PageWithErrorHandling foo="Boop" />);

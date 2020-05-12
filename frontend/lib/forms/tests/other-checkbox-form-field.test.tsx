@@ -26,7 +26,7 @@ function SimpleField(props: { disableProgressiveEnhancement?: boolean }) {
 }
 
 describe("EnhancedOtherCheckboxFormField", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("renders baseline field when not enhanced", () => {
     const pal = new ReactTestingLibraryPal(

@@ -5,7 +5,7 @@ import DevRoutes from "../dev";
 import JustfixRoutes from "../../justfix-routes";
 
 describe("development pages", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("shows development tools home", () => {
     const pal = new AppTesterPal(<DevRoutes />, {

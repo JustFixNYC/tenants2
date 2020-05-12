@@ -48,7 +48,7 @@ describe("CurrencyFormField", () => {
     return { label, onChange, props, pal, input, changeValue };
   };
 
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   it("sets initial input value to be human-friendly", () => {
     const { input } = initState();
@@ -83,7 +83,7 @@ describe("CurrencyFormField", () => {
       return s;
     };
 
-    afterEach(ReactTestingLibraryPal.cleanup);
+    
 
     it("does not commit input when changed", () => {
       const { input, changeValue, onChange } = initFocusedState();

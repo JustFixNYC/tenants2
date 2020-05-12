@@ -12,7 +12,7 @@ import { initNationalMetadataForTesting } from "./national-metadata-test-util";
 beforeAll(initNationalMetadataForTesting);
 
 describe("<NorentLbKnowYourRights>", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   const createPal = (state: string) => {
     return new AppTesterPal(createProgressStepJSX(NorentLbKnowYourRights), {

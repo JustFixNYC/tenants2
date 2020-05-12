@@ -13,7 +13,7 @@ const tester = new ProgressRoutesTester(
 tester.defineSmokeTests();
 
 describe("Review page", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("opens signing modal", () => {
     const pal = new AppTesterPal(

@@ -7,7 +7,7 @@ import { waitFor } from "@testing-library/react";
 import { getUSStateChoiceLabels } from "../../../common-data/us-state-choices";
 
 describe("<LinguiI18n>", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+  
 
   const linguified = (el: JSX.Element) => <LinguiI18n>{el}</LinguiI18n>;
 

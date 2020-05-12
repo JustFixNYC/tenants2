@@ -7,7 +7,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { AccessDatesMutation } from "../../queries/AccessDatesMutation";
 
 describe("access dates page", () => {
-  afterEach(AppTesterPal.cleanup);
+  
 
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {

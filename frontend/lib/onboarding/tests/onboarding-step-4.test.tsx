@@ -33,7 +33,7 @@ describe("onboarding step 4 page", () => {
       errors: [],
       session: BlankAllSessionInfo,
     });
-    await pal.rt.waitForElement(() => pal.rr.getByText("HOORAY"));
+    await pal.rt.waitFor(() => pal.rr.getByText("HOORAY"));
   });
 
   it("opens terms and conditions modal when link is clicked", async () => {

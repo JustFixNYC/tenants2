@@ -2,7 +2,7 @@ import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import NorentSite from "../site";
 import { Route } from "react-router-dom";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 
 describe("NorentSite", () => {
   const route = <Route render={(props) => <NorentSite {...props} />} />;
@@ -11,11 +11,11 @@ describe("NorentSite", () => {
 
   it("renders 404 page", () => {
     const pal = new AppTesterPal(route, { url: "/blarg" });
-    wait(() => pal.rr.getByText(/doesn't seem to exist/i));
+    waitFor(() => pal.rr.getByText(/doesn't seem to exist/i));
   });
 
   it("renders home page", () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
-    wait(() => pal.rr.getByText(/Can't pay rent/i));
+    waitFor(() => pal.rr.getByText(/Can't pay rent/i));
   });
 });

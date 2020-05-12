@@ -73,7 +73,7 @@ describe("landlord details page", () => {
         },
       });
 
-    await pal.rt.waitForElement(() =>
+    await pal.rt.waitFor(() =>
       pal.rr.getByText(/Review the letter of complaint/i)
     );
     const { mock } = pal.appContext.updateSession;

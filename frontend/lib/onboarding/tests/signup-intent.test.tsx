@@ -26,7 +26,7 @@ describe("getOnboardingRouteForIntent()", () => {
         url: "/en/onboarding/step/4",
       }
     );
-    const input = await pal.rt.waitForElement(() =>
+    const input = await pal.rt.waitFor(() =>
       pal.getElement("input", '[name="signupIntent"]')
     );
     expect(input && input.value).toBe("LOC");

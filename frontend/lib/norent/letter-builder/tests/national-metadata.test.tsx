@@ -13,7 +13,7 @@ import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
 import { initNationalMetadataForTesting } from "./national-metadata-test-util";
 import i18n from "../../../i18n";
 import ReactTestingLibraryPal from "../../../tests/rtl-pal";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import { LocaleChoices } from "../../../../../common-data/locale-choices";
 
 beforeAll(initNationalMetadataForTesting);
@@ -63,7 +63,7 @@ describe("getNorentMetadataForUSState()", () => {
         const pal = new ReactTestingLibraryPal(
           <LocalizedNationalMetadataProvider children={<p>LOADED</p>} />
         );
-        await wait(() => pal.rr.getByText("LOADED"));
+        await waitFor(() => pal.rr.getByText("LOADED"));
       });
 
       afterAll(ReactTestingLibraryPal.cleanup);

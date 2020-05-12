@@ -21,7 +21,7 @@ import { assertNotNull } from "../util/util";
 import { HelmetProvider } from "react-helmet-async";
 import { FetchMutationInfo } from "../forms/forms-graphql";
 import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -197,7 +197,7 @@ class BaseGraphQLHelper {
    * Wait until the latest request is for our GraphQL query/mutation.
    */
   async wait() {
-    await wait(() => this.ensure());
+    await waitFor(() => this.ensure());
     return this;
   }
 }

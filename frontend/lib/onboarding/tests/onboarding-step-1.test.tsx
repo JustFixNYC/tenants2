@@ -117,8 +117,6 @@ describe("onboarding step 1 page", () => {
         },
       },
     });
-    await pal.rt.waitForElement(() =>
-      pal.getDialogWithLabel(/Is this your address/i)
-    );
+    await pal.rt.waitFor(() => pal.getDialogWithLabel(/Is this your address/i));
   });
 });

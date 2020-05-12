@@ -6,6 +6,7 @@ import {
   FakeAppContext,
   FakeSessionInfo,
   overrideGlobalAppServerInfo,
+  override,
 } from "./util";
 import {
   MemoryRouter,
@@ -22,6 +23,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { FetchMutationInfo } from "../forms/forms-graphql";
 import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import { waitFor } from "@testing-library/react";
+import autobind from "autobind-decorator";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -36,6 +38,14 @@ interface AppTesterPalOptions {
 
   /** Any updates to the memory router. */
   router: Partial<MemoryRouterProps>;
+
+  /**
+   * Whether or not we actually update the session whenever
+   * a component calls AppContext.updateSession().  By default,
+   * we mock out the function but don't actually do anything
+   * when it's called.
+   */
+  updateSession?: boolean;
 }
 
 /**
@@ -60,7 +70,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   /**
    * A reference to the AppContext provided to the wrapped component.
    */
-  readonly appContext: AppTesterAppContext;
+  appContext: AppTesterAppContext;
 
   /**
    * A reference to the router's browsing history.
@@ -71,6 +81,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * The final computed options for this instance, including defaults.
    */
   readonly options: AppTesterPalOptions;
+
+  /**
+   * Used internally to remember the last JSX we rendered.
+   */
+  private latestEl: JSX.Element;
 
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
@@ -99,10 +114,24 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       )
     );
 
+    if (o.updateSession) {
+      appContext.updateSession = jest.fn(this.handleSessionChange);
+    }
+
     this.history = assertNotNull(history as History | null);
     this.appContext = appContext;
     this.client = client;
     this.options = o;
+    this.latestEl = el;
+  }
+
+  @autobind
+  handleSessionChange(updates: Partial<AllSessionInfo>) {
+    this.appContext = {
+      ...this.appContext,
+      session: override(this.appContext.session, updates),
+    };
+    this.rerender(this.latestEl);
   }
 
   private static generateJsx(
@@ -151,6 +180,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * https://github.com/kentcdodds/react-testing-library#rerender
    */
   rerender(el: JSX.Element) {
+    this.latestEl = el;
     this.rr.rerender(
       AppTesterPal.generateJsx(el, this.options, this.appContext)
     );

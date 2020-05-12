@@ -43,7 +43,7 @@ describe("QueryLoader", () => {
   it("shows error text and allows for retrying", async () => {
     const pal = makePal();
     expect(pal.client.getRequestQueue()).toHaveLength(1);
-    pal.getFirstRequest().reject(new Error("kaboom"));
+    pal.getLatestRequest().reject(new Error("kaboom"));
     await nextTick();
     pal.rr.getByText("error");
     pal.rr.getByText("retry").click();

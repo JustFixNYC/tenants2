@@ -58,9 +58,8 @@ export const FeeWaiverStart = MiddleProgressStep((props) => (
 
 const stepBuilder = new SessionStepBuilder((sess) => sess.feeWaiver);
 
-export const FeeWaiverMisc = stepBuilder.createStep({
+export const FeeWaiverMisc = stepBuilder.createStep(FeeWaiverMiscMutation, {
   title: "Prior fee waivers",
-  mutation: FeeWaiverMiscMutation,
   toFormInput: (feeWaiver) => feeWaiver.yesNoRadios("askedBefore").finish(),
   renderForm: (ctx) => (
     <>
@@ -72,24 +71,25 @@ export const FeeWaiverMisc = stepBuilder.createStep({
   ),
 });
 
-export const FeeWaiverPublicAssistance = stepBuilder.createStep({
-  title: "Public assistance",
-  mutation: FeeWaiverPublicAssistanceMutation,
-  toFormInput: (feeWaiver) =>
-    feeWaiver.yesNoRadios("receivesPublicAssistance").finish(),
-  renderForm: (ctx) => (
-    <>
-      <YesNoRadiosFormField
-        {...ctx.fieldPropsFor("receivesPublicAssistance")}
-        label="Do you receive public assistance?"
-      />
-    </>
-  ),
-});
+export const FeeWaiverPublicAssistance = stepBuilder.createStep(
+  FeeWaiverPublicAssistanceMutation,
+  {
+    title: "Public assistance",
+    toFormInput: (feeWaiver) =>
+      feeWaiver.yesNoRadios("receivesPublicAssistance").finish(),
+    renderForm: (ctx) => (
+      <>
+        <YesNoRadiosFormField
+          {...ctx.fieldPropsFor("receivesPublicAssistance")}
+          label="Do you receive public assistance?"
+        />
+      </>
+    ),
+  }
+);
 
-export const FeeWaiverIncome = stepBuilder.createStep({
+export const FeeWaiverIncome = stepBuilder.createStep(FeeWaiverIncomeMutation, {
   title: "Your income",
-  mutation: FeeWaiverIncomeMutation,
   toFormInput: (feeWaiver) => feeWaiver.finish(),
   renderForm: (ctx) => (
     <>
@@ -126,42 +126,50 @@ export const FeeWaiverIncome = stepBuilder.createStep({
   ),
 });
 
-export const FeeWaiverExpenses = stepBuilder.createStep({
-  title: "Your expenses",
-  mutation: FeeWaiverExpensesMutation,
-  toFormInput: (feeWaiver) => feeWaiver.finish(),
-  blankInput: INITIAL_EXPENSES_STATE,
-  renderIntro: () => (
-    <>
-      <p>
-        If you live with someone else, please put in only what{" "}
-        <strong>you</strong> pay.
-      </p>
-    </>
-  ),
-  renderForm: (ctx) => (
-    <>
-      <CurrencyFormField
-        label="How much do you pay in rent each month?"
-        {...ctx.fieldPropsFor("rentAmount")}
-      />
-      <br />
-      <h2 className="title is-5">What are your monthly expenses?</h2>
-      <CurrencyFormField
-        label="Utilities"
-        {...ctx.fieldPropsFor("expenseUtilities")}
-      />
-      <CurrencyFormField
-        label="Cable/TV"
-        {...ctx.fieldPropsFor("expenseCable")}
-      />
-      <CurrencyFormField
-        label="Childcare"
-        {...ctx.fieldPropsFor("expenseChildcare")}
-      />
-      <CurrencyFormField label="Phone" {...ctx.fieldPropsFor("expensePhone")} />
-      <CurrencyFormField label="Other" {...ctx.fieldPropsFor("expenseOther")} />
-      <br />
-    </>
-  ),
-});
+export const FeeWaiverExpenses = stepBuilder.createStep(
+  FeeWaiverExpensesMutation,
+  {
+    title: "Your expenses",
+    toFormInput: (feeWaiver) => feeWaiver.finish(),
+    blankInput: INITIAL_EXPENSES_STATE,
+    renderIntro: () => (
+      <>
+        <p>
+          If you live with someone else, please put in only what{" "}
+          <strong>you</strong> pay.
+        </p>
+      </>
+    ),
+    renderForm: (ctx) => (
+      <>
+        <CurrencyFormField
+          label="How much do you pay in rent each month?"
+          {...ctx.fieldPropsFor("rentAmount")}
+        />
+        <br />
+        <h2 className="title is-5">What are your monthly expenses?</h2>
+        <CurrencyFormField
+          label="Utilities"
+          {...ctx.fieldPropsFor("expenseUtilities")}
+        />
+        <CurrencyFormField
+          label="Cable/TV"
+          {...ctx.fieldPropsFor("expenseCable")}
+        />
+        <CurrencyFormField
+          label="Childcare"
+          {...ctx.fieldPropsFor("expenseChildcare")}
+        />
+        <CurrencyFormField
+          label="Phone"
+          {...ctx.fieldPropsFor("expensePhone")}
+        />
+        <CurrencyFormField
+          label="Other"
+          {...ctx.fieldPropsFor("expenseOther")}
+        />
+        <br />
+      </>
+    ),
+  }
+);

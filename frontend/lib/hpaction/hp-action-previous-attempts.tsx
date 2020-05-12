@@ -89,9 +89,8 @@ export const createHPActionPreviousAttempts = (
     prevAttempts311Modal: string;
   }
 ) =>
-  stepBuilder.createStep((props) => ({
+  stepBuilder.createStep(HpActionPreviousAttemptsMutation, (props) => ({
     title: "Previous attempts to get help",
-    mutation: HpActionPreviousAttemptsMutation,
     toFormInput: (hp) =>
       hp
         .yesNoRadios(

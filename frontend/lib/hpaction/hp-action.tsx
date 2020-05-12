@@ -288,28 +288,30 @@ const hpActionDetailsStepBuilder = new SessionStepBuilder(
   (sess) => sess.hpActionDetails
 );
 
-const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep({
-  title: "Urgency of issues",
-  mutation: HpActionUrgentAndDangerousMutation,
-  toFormInput: (hp) => hp.yesNoRadios("urgentAndDangerous").finish(),
-  renderIntro: () => (
-    <p>
-      We strongly suggest completing a city inspection because inspection
-      reports are valuable evidence when it comes to building your case.
-      However, if the issues in your apartment are urgent and immediately
-      dangerous, you can ask the court to go forward without inspection.
-    </p>
-  ),
-  renderForm: (ctx) => (
-    <>
-      <YesNoRadiosFormField
-        {...ctx.fieldPropsFor("urgentAndDangerous")}
-        label="Do you want to skip the inspection?"
-        noLabel="No, I do not want to skip the inspection"
-      />
-    </>
-  ),
-});
+const UrgentAndDangerous = hpActionDetailsStepBuilder.createStep(
+  HpActionUrgentAndDangerousMutation,
+  {
+    title: "Urgency of issues",
+    toFormInput: (hp) => hp.yesNoRadios("urgentAndDangerous").finish(),
+    renderIntro: () => (
+      <p>
+        We strongly suggest completing a city inspection because inspection
+        reports are valuable evidence when it comes to building your case.
+        However, if the issues in your apartment are urgent and immediately
+        dangerous, you can ask the court to go forward without inspection.
+      </p>
+    ),
+    renderForm: (ctx) => (
+      <>
+        <YesNoRadiosFormField
+          {...ctx.fieldPropsFor("urgentAndDangerous")}
+          label="Do you want to skip the inspection?"
+          noLabel="No, I do not want to skip the inspection"
+        />
+      </>
+    ),
+  }
+);
 
 const PreviousAttempts = createHPActionPreviousAttempts(
   () => JustfixRoutes.locale.hp

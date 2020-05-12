@@ -3,9 +3,8 @@ import React from "react";
 import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { LandlordDetailsV2Input } from "../../queries/globalTypes";
 import { BlankLandlordDetailsType } from "../../queries/LandlordDetailsType";
-import { LandlordDetailsV2Mutation_output } from "../../queries/LandlordDetailsV2Mutation";
+import { LandlordDetailsV2Mutation } from "../../queries/LandlordDetailsV2Mutation";
 
 const LOOKED_UP_LANDLORD_DETAILS = {
   ...BlankLandlordDetailsType,
@@ -57,20 +56,22 @@ describe("landlord details page", () => {
       [/zip/i, zipCode],
     ]);
     pal.clickButtonOrLink("Preview letter");
-    pal.expectFormInput<LandlordDetailsV2Input>({
-      name,
-      primaryLine,
-      city,
-      state,
-      zipCode,
-    });
-    pal.respondWithFormOutput<LandlordDetailsV2Mutation_output>({
-      errors: [],
-      isUndeliverable: null,
-      session: {
-        landlordDetails: { ...BlankLandlordDetailsType, name, address },
-      },
-    });
+    pal
+      .withFormMutation(LandlordDetailsV2Mutation)
+      .expect({
+        name,
+        primaryLine,
+        city,
+        state,
+        zipCode,
+      })
+      .respondWith({
+        errors: [],
+        isUndeliverable: null,
+        session: {
+          landlordDetails: { ...BlankLandlordDetailsType, name, address },
+        },
+      });
 
     await pal.rt.waitForElement(() =>
       pal.rr.getByText(/Review the letter of complaint/i)

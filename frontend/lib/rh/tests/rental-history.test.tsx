@@ -17,6 +17,7 @@ import {
   Borough,
 } from "../../queries/globalTypes";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
+import { LogoutMutation } from "../../queries/LogoutMutation";
 
 const tester = new ProgressRoutesTester(
   getRentalHistoryRoutesProps(),
@@ -105,7 +106,7 @@ describe("Rental history frontend", () => {
     expect(inputPhone.value).toEqual("(212) 000-0000");
 
     pal.clickButtonOrLink("Cancel request");
-    pal.expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("shows an anonymous users address from DDO in form", () => {

@@ -4,7 +4,7 @@ import { getInitialState } from "../access-dates";
 import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { AccessDatesMutation_output } from "../../queries/AccessDatesMutation";
+import { AccessDatesMutation } from "../../queries/AccessDatesMutation";
 
 describe("access dates page", () => {
   afterEach(AppTesterPal.cleanup);
@@ -16,7 +16,7 @@ describe("access dates page", () => {
 
     pal.fillFormFields([[/First access date/i, "2018-01-02"]]);
     pal.clickButtonOrLink("Next");
-    pal.respondWithFormOutput<AccessDatesMutation_output>({
+    pal.withFormMutation(AccessDatesMutation).respondWith({
       errors: [],
       session: { accessDates: ["2018-01-02"] },
     });

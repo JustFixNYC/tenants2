@@ -2,7 +2,10 @@ import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import JustfixRoutes from "../../justfix-routes";
 import { BlankDDOSuggestionsResult } from "../../queries/DDOSuggestionsResult";
-import { DataDrivenOnboardingSuggestions_output } from "../../queries/DataDrivenOnboardingSuggestions";
+import {
+  DataDrivenOnboardingSuggestions_output,
+  DataDrivenOnboardingSuggestions,
+} from "../../queries/DataDrivenOnboardingSuggestions";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
 import DataDrivenOnboardingPage, {
@@ -37,8 +40,9 @@ async function simulateResponse(
   jest.runAllTimers();
   await wait(() => pal.clickListItem(/150 COURT STREET/));
   pal.clickButtonOrLink(/search address/i);
-  pal.expectGraphQL(/ddoSuggestions/);
-  pal.getFirstRequest().resolve({ output });
+  pal.withQuery(DataDrivenOnboardingSuggestions).respondWith({
+    output,
+  });
   return pal;
 }
 

@@ -10,6 +10,7 @@ export interface QueryLoaderFetch<Input, Output> {
 
 export interface QueryLoaderQuery<Input, Output> {
   graphQL: string;
+  name: string;
   fetch: QueryLoaderFetch<Input, Output>;
 }
 

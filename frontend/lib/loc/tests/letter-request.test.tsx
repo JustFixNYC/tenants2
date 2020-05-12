@@ -2,11 +2,8 @@ import React from "react";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
-import { LetterRequestMutation_output } from "../../queries/LetterRequestMutation";
-import {
-  LetterRequestMailChoice,
-  LetterRequestInput,
-} from "../../queries/globalTypes";
+import { LetterRequestMutation } from "../../queries/LetterRequestMutation";
+import { LetterRequestMailChoice } from "../../queries/globalTypes";
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
@@ -24,13 +21,15 @@ describe("landlord details page", () => {
     mailChoice: LetterRequestMailChoice
   ) {
     pal.clickButtonOrLink(matcher);
-    pal.expectFormInput<LetterRequestInput>({ mailChoice });
     const updatedAt = "2018-01-01Tblahtime";
     const extra = { trackingNumber: "", letterSentAt: null };
-    pal.respondWithFormOutput<LetterRequestMutation_output>({
-      errors: [],
-      session: { letterRequest: { updatedAt, mailChoice, ...extra } },
-    });
+    pal
+      .withFormMutation(LetterRequestMutation)
+      .expect({ mailChoice })
+      .respondWith({
+        errors: [],
+        session: { letterRequest: { updatedAt, mailChoice, ...extra } },
+      });
 
     await pal.rt.waitForElement(() =>
       pal.rr.getByText(/your letter of complaint .*/i)

@@ -2,11 +2,12 @@ import React from "react";
 
 import OnboardingStep1 from "../onboarding-step-1";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { OnboardingStep1Mutation_output } from "../../queries/OnboardingStep1Mutation";
+import { OnboardingStep1Mutation } from "../../queries/OnboardingStep1Mutation";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
 import JustfixRoutes from "../../justfix-routes";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
+import { LogoutMutation } from "../../queries/LogoutMutation";
 
 const PROPS = {
   routes: JustfixRoutes.locale.onboarding,
@@ -21,8 +22,7 @@ describe("onboarding step 1 page", () => {
   it("calls onCancel when cancel is clicked (progressively enhanced experience)", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     pal.clickButtonOrLink("Cancel");
-    pal.expectGraphQL(/LogoutMutation/);
-    pal.expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("calls onCancel when cancel is clicked (baseline experience)", () => {
@@ -30,8 +30,7 @@ describe("onboarding step 1 page", () => {
       <OnboardingStep1 {...PROPS} disableProgressiveEnhancement />
     );
     pal.clickButtonOrLink("Cancel");
-    pal.expectGraphQL(/LogoutMutation/);
-    pal.expectFormInput({});
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 
   it("has openable modals", async () => {
@@ -83,7 +82,7 @@ describe("onboarding step 1 page", () => {
     await fetch.resolvePromisesAndTimers();
     pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink("Next");
-    pal.expectFormInput({
+    pal.withFormMutation(OnboardingStep1Mutation).expect({
       firstName: "boop",
       lastName: "jones",
       aptNumber: "2",
@@ -106,7 +105,7 @@ describe("onboarding step 1 page", () => {
     ]);
     pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink("Next");
-    pal.respondWithFormOutput<OnboardingStep1Mutation_output>({
+    pal.withFormMutation(OnboardingStep1Mutation).respondWith({
       errors: [],
       session: {
         onboardingStep1: {

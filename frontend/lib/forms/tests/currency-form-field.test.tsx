@@ -48,8 +48,6 @@ describe("CurrencyFormField", () => {
     return { label, onChange, props, pal, input, changeValue };
   };
 
-  
-
   it("sets initial input value to be human-friendly", () => {
     const { input } = initState();
     expect(input.value).toBe("1,234.00");
@@ -82,8 +80,6 @@ describe("CurrencyFormField", () => {
       s.pal.rt.fireEvent.focus(s.input);
       return s;
     };
-
-    
 
     it("does not commit input when changed", () => {
       const { input, changeValue, onChange } = initFocusedState();

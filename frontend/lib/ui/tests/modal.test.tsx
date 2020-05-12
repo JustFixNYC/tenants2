@@ -25,8 +25,6 @@ describe("ModalWithoutRouter", () => {
 });
 
 describe("Modal", () => {
-  
-
   it("removes pre-rendered modal on mount", () => {
     const div = document.createElement("div");
     div.id = "prerendered-modal";

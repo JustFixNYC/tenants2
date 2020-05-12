@@ -162,8 +162,6 @@ describe("createUseBrowserStorage", () => {
 
   beforeEach(() => bs.clear());
 
-  
-
   it("works", () => {
     const pal = new ReactTestingLibraryPal(<MyComponent />);
     pal.rr.getByText("counter is undefined");

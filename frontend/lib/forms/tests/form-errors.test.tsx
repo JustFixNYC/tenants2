@@ -39,8 +39,6 @@ test("FormsetErrorMap type makes sense", () => {
 });
 
 describe("formatErrors()", () => {
-  
-
   it("concatenates errors", () => {
     const { errorHelp } = formatErrors({
       errors: simpleFormErrors("foo", "bar"),

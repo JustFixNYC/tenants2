@@ -39,8 +39,6 @@ describe("App", () => {
     return pal;
   };
 
-  
-
   it("notifies FullStory when user logs in", () => {
     const identify = jest.fn();
     window.FS = { identify };

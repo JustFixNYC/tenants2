@@ -41,8 +41,6 @@ export class ProgressRoutesTester {
    */
   defineSmokeTests() {
     describe(`${this.name} steps`, () => {
-      
-
       this.allSteps.forEach((step) => {
         it(`${step.path} renders without throwing`, () => {
           new AppTesterPal(this.render(), { url: step.path });

@@ -47,8 +47,6 @@ async function simulateResponse(
 }
 
 describe("Data driven onboarding", () => {
-  
-
   it("shows suggestions when they exist", async () => {
     const pal = await simulateResponse({ unitCount: 5 });
     await waitFor(() => pal.rr.getByText(/No registration found./i));

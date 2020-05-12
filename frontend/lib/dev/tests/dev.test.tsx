@@ -5,8 +5,6 @@ import DevRoutes from "../dev";
 import JustfixRoutes from "../../justfix-routes";
 
 describe("development pages", () => {
-  
-
   it("shows development tools home", () => {
     const pal = new AppTesterPal(<DevRoutes />, {
       url: "/dev",

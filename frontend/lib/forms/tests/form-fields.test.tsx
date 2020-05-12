@@ -47,8 +47,6 @@ describe("TextualFormField", () => {
     );
   };
 
-  
-
   it("renders properly when it has no errors", () => {
     const html = makeField().rr.container.innerHTML;
     expect(html).toContain('aria-invalid="false"');
@@ -65,8 +63,6 @@ describe("TextualFormField", () => {
 });
 
 describe('TextualFormField with type="date"', () => {
-  
-
   it('clears value when "clear" is clicked', () => {
     const onChange = jest.fn();
     const pal = new ReactTestingLibraryPal(
@@ -94,8 +90,6 @@ describe("HiddenFormField", () => {
       <HiddenFormField {...defaultProps} {...props} />
     );
   };
-
-  
 
   it("renders name and value attrs", () => {
     for (let value of ["", "blah"]) {
@@ -141,8 +135,6 @@ describe("TextareaFormField", () => {
     );
   };
 
-  
-
   it("renders name attr and sets value", () => {
     const html = makeField({ name: "blarg", value: "boof" }).rr.container
       .innerHTML;
@@ -171,8 +163,6 @@ describe("SelectFormField", () => {
       <SelectFormField {...choiceFieldProps(props)} />
     );
   };
-
-  
 
   it("renders option values", () => {
     const html = makeSelect().rr.container.innerHTML;
@@ -206,8 +196,6 @@ describe("RadiosFormField", () => {
       <RadiosFormField {...choiceFieldProps(props)} />
     );
   };
-
-  
 
   it("renders name and value attrs", () => {
     const html = makeRadios().rr.container.innerHTML;
@@ -250,8 +238,6 @@ describe("MultiCheckboxFormField", () => {
     );
   };
 
-  
-
   it("toggles choice on click", () => {
     const onChange = jest.fn();
     const pal = makeMultiCheckbox({ onChange });
@@ -290,8 +276,6 @@ describe("CheckboxFormField", () => {
     );
   };
 
-  
-
   it("renders name attr", () => {
     const html = makeCheckbox().rr.container.innerHTML;
     expect(html).toContain('name="foo"');
@@ -311,8 +295,6 @@ describe("CheckboxFormField", () => {
 });
 
 describe("renderLabel()", () => {
-  
-
   it("defaults to rendering a simple label", () => {
     const pal = new ReactTestingLibraryPal(
       renderLabel("Boopy", { htmlFor: "u" })

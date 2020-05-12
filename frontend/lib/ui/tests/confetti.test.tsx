@@ -9,8 +9,6 @@ import { assertNotNull } from "../../util/util";
 import { responsiveInt } from "../../../vendor/confetti";
 
 describe("Confetti", () => {
-  
-
   it("works", () => {
     jest.useFakeTimers();
 

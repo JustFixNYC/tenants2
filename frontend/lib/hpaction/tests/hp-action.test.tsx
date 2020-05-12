@@ -14,8 +14,6 @@ const tester = new ProgressRoutesTester(
 tester.defineSmokeTests();
 
 describe("HP Action flow", () => {
-  
-
   it("should show PDF download link on confirmation page", () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/confirmation",
@@ -29,8 +27,6 @@ describe("HP Action flow", () => {
 });
 
 describe("upload status page", () => {
-  
-
   const makePal = (hpActionUploadStatus: HPUploadStatus) =>
     new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/wait",

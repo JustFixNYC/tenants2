@@ -48,8 +48,6 @@ describe("latest step redirector", () => {
 });
 
 describe("Onboarding", () => {
-  
-
   it("redirects to latest step", () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {
       url: JustfixRoutes.locale.onboarding.latestStep,

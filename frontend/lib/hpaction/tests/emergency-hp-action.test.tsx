@@ -13,8 +13,6 @@ const tester = new ProgressRoutesTester(
 tester.defineSmokeTests();
 
 describe("Review page", () => {
-  
-
   it("opens signing modal", () => {
     const pal = new AppTesterPal(
       <ProgressRoutes {...getEmergencyHPActionProgressRoutesProps()} />,

@@ -34,8 +34,6 @@ test("getErrorString() works", () => {
 });
 
 describe("ErrorBoundary", () => {
-  
-
   const simulateError = (props: { debug: boolean }) => {
     const oldError = window.console.error;
 

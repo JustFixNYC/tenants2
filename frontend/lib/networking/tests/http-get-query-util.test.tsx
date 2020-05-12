@@ -147,8 +147,6 @@ describe("QuerystringConverter.applyToFormFields()", () => {
 });
 
 describe("SyncQuerystringToFields", () => {
-  
-
   function makeHarness<T>(
     search: string,
     emptyInput: SupportedQsTypes<T>,

@@ -10,8 +10,6 @@ import {
 } from "../../queries/LandlordDetailsType";
 
 describe("HPActionYourLandlord", () => {
-  
-
   const landlordInfo: LandlordDetailsType = {
     ...BlankLandlordDetailsType,
     name: "Landlordo Calrissian",

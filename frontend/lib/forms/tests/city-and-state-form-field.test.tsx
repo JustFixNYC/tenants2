@@ -10,8 +10,6 @@ const ENABLE_MAPBOX = {
 };
 
 describe("<CityAndStateField>", () => {
-  
-
   const empty = createFormFieldPropsBuilder("");
   const columbus = createFormFieldPropsBuilder("Columbus");
   const ohio = createFormFieldPropsBuilder("OH");

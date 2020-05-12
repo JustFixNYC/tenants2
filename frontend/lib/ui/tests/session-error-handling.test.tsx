@@ -27,8 +27,6 @@ const PageWithErrorHandling = withSessionErrorHandling(
 );
 
 describe("SessionErrorHandlingPage", () => {
-  
-
   it("shows page when not in error state", () => {
     const pal = new AppTesterPal(<PageWithErrorHandling foo="Boop" />);
 

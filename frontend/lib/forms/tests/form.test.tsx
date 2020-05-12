@@ -19,8 +19,6 @@ describe("Form", () => {
     );
   }
 
-  
-
   it("submits field values", () => {
     const mockSubmit = jest.fn();
     const pal = new ReactTestingLibraryPal(

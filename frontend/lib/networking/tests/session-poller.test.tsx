@@ -5,8 +5,6 @@ import { SessionPoller } from "../session-poller";
 import { nextTick } from "../../tests/util";
 
 describe("session poller", () => {
-  
-
   it("should work", async () => {
     jest.useFakeTimers();
 

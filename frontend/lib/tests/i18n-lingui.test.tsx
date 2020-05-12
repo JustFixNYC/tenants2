@@ -7,8 +7,6 @@ import { waitFor } from "@testing-library/react";
 import { getUSStateChoiceLabels } from "../../../common-data/us-state-choices";
 
 describe("<LinguiI18n>", () => {
-  
-
   const linguified = (el: JSX.Element) => <LinguiI18n>{el}</LinguiI18n>;
 
   const helloWorldJSX = linguified(<Trans>Hello world</Trans>);

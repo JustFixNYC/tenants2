@@ -33,8 +33,6 @@ describe("AriaExpandableButton", () => {
   let props: AriaExpandableButtonProps;
   let onToggle: jest.Mock;
 
-  
-
   beforeEach(() => {
     onToggle = jest.fn();
     props = {
@@ -91,8 +89,6 @@ describe("AriaExpandableButton", () => {
 });
 
 describe("AriaAnnouncer", () => {
-  
-
   it("sets its text to the text of descendant announcements", () => {
     const pal = new ReactTestingLibraryPal(
       (
@@ -110,8 +106,6 @@ describe("AriaAnnouncer", () => {
 
 describe("AriaAnnouncement", () => {
   const AriaAnnouncement = AriaAnnouncementWithoutContext;
-
-  
 
   it("calls announce on mount and again when text changes", () => {
     const announce = jest.fn();

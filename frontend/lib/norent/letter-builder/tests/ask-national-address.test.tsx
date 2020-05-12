@@ -37,8 +37,6 @@ describe("getNationalAddressLines() works", () => {
 });
 
 describe("Asking for national address", () => {
-  
-
   it("renders confirm valid address modal", () => {
     const pal = new AppTesterPal(<ConfirmValidAddressModal nextStep="blah" />);
     pal.rr.getByText(/similar address/i);

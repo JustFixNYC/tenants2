@@ -33,8 +33,6 @@ describe("ConditionalYesNoRadiosFormField", () => {
   const createHidden = create.bind(null, true);
   const createVisible = create.bind(null, false);
 
-  
-
   it("can be hidden", () => {
     const pal = createHidden({});
     pal.getElement("input", '[type="hidden"]');

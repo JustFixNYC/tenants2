@@ -96,9 +96,16 @@ describe("<AdminConversationsPage>", () => {
       },
     });
 
-    await wait(() => {
-      // Load fake sidebar data.
-      pal.withQuery(AdminConversations).respondWith({
+    const sidebarQuery = pal.withQuery(AdminConversations);
+
+    await wait(() => sidebarQuery.ensure());
+
+    // Load fake sidebar data.
+    sidebarQuery
+      .expect({
+        query: "",
+      })
+      .respondWith({
         output: {
           messages: [
             {
@@ -112,7 +119,6 @@ describe("<AdminConversationsPage>", () => {
           hasNextPage: true,
         },
       });
-    });
 
     await wait(() => pal.rr.getByText("Boop Jones"));
 
@@ -121,9 +127,16 @@ describe("<AdminConversationsPage>", () => {
     pal.rr.getByText("5/24/2019, 1:44 PM");
     pal.rr.getByText(/Load more/);
 
+    const panelQuery = pal.withQuery(AdminConversation);
+
+    await wait(() => panelQuery.ensure());
+
     // Load fake conversation panel data.
-    await wait(() => {
-      pal.withQuery(AdminConversation).respondWith({
+    panelQuery
+      .expect({
+        phoneNumber: "+15551234567",
+      })
+      .respondWith({
         output: {
           messages: [
             BASE_MESSAGE,
@@ -138,7 +151,6 @@ describe("<AdminConversationsPage>", () => {
         },
         userDetails: null,
       });
-    });
 
     await wait(() => pal.rr.getByText("here is an older message"));
   });

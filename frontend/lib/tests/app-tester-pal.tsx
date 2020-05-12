@@ -205,7 +205,10 @@ class GraphQLQueryHelper<Input, Output> {
     readonly appPal: AppTesterPal
   ) {}
 
-  private expectGraphQLForOurQuery() {
+  /**
+   * Assert that the latest request is for our GraphQL query.
+   */
+  ensure() {
     this.appPal.expectGraphQL(new RegExp(this.query.name));
   }
 
@@ -214,7 +217,7 @@ class GraphQLQueryHelper<Input, Output> {
    * GraphQL for our query was sent over the network.
    */
   expect(expected: Input) {
-    this.expectGraphQLForOurQuery();
+    this.ensure();
     const actual = this.appPal.getLatestRequest().variables;
     expect(actual).toEqual(expected);
     return this;
@@ -224,7 +227,7 @@ class GraphQLQueryHelper<Input, Output> {
    * Respond with the given output for our query.
    */
   respondWith(output: Output) {
-    this.expectGraphQLForOurQuery();
+    this.ensure();
     this.appPal.getLatestRequest().resolve(output);
     return this;
   }

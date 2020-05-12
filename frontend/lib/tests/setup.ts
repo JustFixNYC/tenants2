@@ -1,11 +1,11 @@
-import { defaultContext, setGlobalAppServerInfo } from "../app-context";
-import { FakeAppContext, FakeServerInfo } from "./util";
+import { defaultContext } from "../app-context";
+import { FakeAppContext, overrideGlobalAppServerInfo } from "./util";
 import chalk from "chalk";
 import "../ui/tests/confetti.setup";
 import i18n from "../i18n";
 
 i18n.initialize("en");
-setGlobalAppServerInfo(FakeServerInfo);
+overrideGlobalAppServerInfo();
 
 Object.keys(FakeAppContext).forEach((prop) => {
   Object.defineProperty(defaultContext, prop, {

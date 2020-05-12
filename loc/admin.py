@@ -4,13 +4,13 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.conf import settings
 from django.db.models import Q, Count
 
 from users.models import JustfixUser
 from issues.admin import IssueInline, CustomIssueInline
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_field, admin_action, never_has_permission
+from loc.lob_api import is_lob_fully_enabled
 from users.admin_user_proxy import UserProxyAdmin
 from . import models
 
@@ -157,7 +157,7 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
 
     result: Optional[str] = None
 
-    if not (settings.LOB_SECRET_API_KEY and settings.LOB_PUBLISHABLE_API_KEY):
+    if not is_lob_fully_enabled():
         result = 'Lob integration is disabled'
     elif not letter.id:
         result = 'the letter has not yet been created'

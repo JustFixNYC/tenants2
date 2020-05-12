@@ -5,15 +5,15 @@ import { Icon } from "./icon";
 import { OutboundLink } from "../analytics/google-analytics";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
-import Routes from "../routes";
+import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
 
 const getRoutesWithMoratoriumBanner = () => [
-  Routes.locale.loc.splash,
-  Routes.locale.hp.splash,
-  Routes.locale.ehp.splash,
-  Routes.locale.rh.splash,
-  Routes.locale.home,
+  JustfixRoutes.locale.loc.splash,
+  JustfixRoutes.locale.hp.splash,
+  JustfixRoutes.locale.ehp.splash,
+  JustfixRoutes.locale.rh.splash,
+  JustfixRoutes.locale.home,
 ];
 
 /**

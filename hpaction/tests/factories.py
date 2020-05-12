@@ -1,5 +1,7 @@
 from datetime import date
 from pathlib import Path
+from io import BytesIO
+import PyPDF2
 import factory
 
 from users.tests.factories import UserFactory
@@ -9,11 +11,27 @@ from .. import models
 
 MY_DIR = Path(__file__).parent.resolve()
 
-FAKE_HPA_REPAIRS_PDF = MY_DIR / 'fake-hpa-repairs.pdf'
+ONE_PAGE_PDF = MY_DIR / 'one-page.pdf'
 
-FAKE_HPA_HARASSMENT_PDF = MY_DIR / 'fake-hpa-harassment.pdf'
+ONE_PAGE_READER = PyPDF2.PdfFileReader(ONE_PAGE_PDF.open('rb'))
 
-FAKE_HPA_BOTH_PDF = MY_DIR / 'fake-hpa-both.pdf'
+NUM_REPAIRS_PAGES = 5
+
+NUM_HARASSMENT_PAGES = 5
+
+NUM_BOTH_PAGES = 7
+
+
+def construct_fake_pdf(num_pages: int) -> bytes:
+    pdf_writer = PyPDF2.PdfFileWriter()
+
+    for i in range(num_pages):
+        pdf_writer.addPage(ONE_PAGE_READER.getPage(0))
+
+    new_pdf = BytesIO()
+    pdf_writer.write(new_pdf)
+    new_pdf.seek(0)
+    return new_pdf.getvalue()
 
 
 def make_hpa_xml(v: HPActionVariables) -> bytes:
@@ -42,7 +60,7 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=False, sue_for_repairs_tf=True))
 
-    pdf_data = FAKE_HPA_REPAIRS_PDF.read_bytes()
+    pdf_data = construct_fake_pdf(NUM_REPAIRS_PAGES)
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):
@@ -57,14 +75,14 @@ class HPActionDocumentsForHarassmentFactory(HPActionDocumentsFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=True, sue_for_repairs_tf=False))
 
-    pdf_data = FAKE_HPA_HARASSMENT_PDF.read_bytes()
+    pdf_data = construct_fake_pdf(NUM_HARASSMENT_PAGES)
 
 
 class HPActionDocumentsForBothFactory(HPActionDocumentsFactory):
     xml_data = make_hpa_xml(HPActionVariables(
         sue_for_harassment_tf=True, sue_for_repairs_tf=True))
 
-    pdf_data = FAKE_HPA_BOTH_PDF.read_bytes()
+    pdf_data = construct_fake_pdf(NUM_BOTH_PAGES)
 
 
 class UploadTokenFactory(factory.django.DjangoModelFactory):

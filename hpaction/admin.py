@@ -1,11 +1,15 @@
 from django.contrib import admin
 from django.db.models import Q
+from django.urls import reverse
+from django.utils.html import format_html
 
 from users.models import JustfixUser
 from issues.admin import IssueInline, CustomIssueInline
 from loc.admin import LandlordDetailsInline
+from loc.lob_api import is_lob_fully_enabled
 from onboarding.models import SIGNUP_INTENT_CHOICES
-from project.util.admin_util import admin_action, never_has_permission, make_edit_link
+from project.util.admin_util import (
+    admin_action, never_has_permission, make_edit_link, admin_field)
 from users.admin_user_proxy import UserProxyAdmin
 from . import models
 
@@ -127,8 +131,19 @@ class PriorCaseInline(admin.TabularInline):
     extra = 1
 
 
+class ServingPapersInline(NoAddOrDeleteMixin, admin.StackedInline):
+    model = models.ServingPapers
+    fk_name = 'sender'
+    exclude = ['lob_letter_object']
+    has_change_permission = never_has_permission
+
+
 @admin.register(HPUser)
 class HPUserAdmin(UserProxyAdmin):
+    fields = UserProxyAdmin.fields + ['create_serving_papers']
+
+    readonly_fields = fields
+
     inlines = (
         HPActionDetailsInline,
         IssueInline,
@@ -139,6 +154,7 @@ class HPUserAdmin(UserProxyAdmin):
         FeeWaiverDetailsInline,
         LandlordDetailsInline,
         HPActionDocumentsInline,
+        ServingPapersInline,
     )
 
     def filter_queryset_for_changelist_view(self, queryset):
@@ -148,4 +164,18 @@ class HPUserAdmin(UserProxyAdmin):
                 SIGNUP_INTENT_CHOICES.HP,
                 SIGNUP_INTENT_CHOICES.EHP
             ])
+        )
+
+    @admin_field(
+        short_description='Create serving papers',
+        allow_tags=True
+    )
+    def create_serving_papers(self, obj):
+        if not is_lob_fully_enabled():
+            return "Lob integration is disabled."
+        if not models.ServingPapers.can_user_serve_papers(obj):
+            return "We don't have enough information about this user to serve papers yet."
+        return format_html(
+            '<a class="button" href="{}">Create and mail serving papers via Lob&hellip;</a>',
+            reverse('admin:create-serving-papers', kwargs={'userid': obj.id})
         )

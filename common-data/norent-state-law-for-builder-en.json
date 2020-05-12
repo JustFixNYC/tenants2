@@ -112,7 +112,8 @@
     "stateWithoutProtections": true
   },
   "NE": {
-    "stateWithoutProtections": true
+    "stateWithoutProtections": false,
+    "textOfLegislation": "Tenants in Nebraska are protected from eviction until May 31, 2020 from non-payment of rent due on or after March 13, 2020 by Executive Order 20-07 issued by Governor Pete Ricketts. Tenants must be able to show the landlord evidence of lost income related to COVID-19 to delay eviction."
   },
   "NH": {
     "stateWithoutProtections": true
@@ -129,7 +130,7 @@
   },
   "NY": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in New York State are protected from eviction until June 19, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
+    "textOfLegislation": "Tenants in New York State are protected from eviction until June 20, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
   },
   "OH": {
     "stateWithoutProtections": true

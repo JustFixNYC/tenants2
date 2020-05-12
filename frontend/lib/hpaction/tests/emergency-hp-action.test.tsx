@@ -3,7 +3,7 @@ import { ProgressRoutesTester } from "../../progress/tests/progress-routes-teste
 import { getEmergencyHPActionProgressRoutesProps } from "../emergency-hp-action";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { ProgressRoutes } from "../../progress/progress-routes";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 
 const tester = new ProgressRoutesTester(
   getEmergencyHPActionProgressRoutesProps(),
@@ -19,7 +19,7 @@ describe("Review page", () => {
     const pal = new AppTesterPal(
       <ProgressRoutes {...getEmergencyHPActionProgressRoutesProps()} />,
       {
-        url: Routes.locale.ehp.reviewForms,
+        url: JustfixRoutes.locale.ehp.reviewForms,
       }
     );
     pal.clickButtonOrLink(/look good to me/);

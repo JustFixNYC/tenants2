@@ -11,7 +11,7 @@ import {
 } from "./networking/loading-page";
 import LoginPage from "./pages/login-page";
 import { LogoutPage } from "./pages/logout-page";
-import Routes from "./routes";
+import JustfixRoutes from "./justfix-routes";
 import { OnboardingInfoSignupIntent } from "./queries/globalTypes";
 import { getOnboardingRouteForIntent } from "./onboarding/signup-intent";
 import HelpPage from "./pages/help-page";
@@ -84,7 +84,7 @@ const LoadableAdminConversationsRoutes = loadable(
 const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;
   const { server, session } = useContext(AppContext);
-  if (!Routes.routeMap.exists(location.pathname)) {
+  if (!JustfixRoutes.routeMap.exists(location.pathname)) {
     return NotFound(props);
   }
   const enableEHP = server.enableEmergencyHPAction;
@@ -95,66 +95,66 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
   return (
     <Switch location={location}>
       <Route
-        path={Routes.locale.home}
+        path={JustfixRoutes.locale.home}
         exact
         component={LoadableDataDrivenOnboardingPage}
       />
-      <Route path={Routes.locale.help} component={HelpPage} />
+      <Route path={JustfixRoutes.locale.help} component={HelpPage} />
       <Route
-        path={Routes.locale.legacyDataDrivenOnboarding}
+        path={JustfixRoutes.locale.legacyDataDrivenOnboarding}
         exact
-        component={createRedirectWithSearch(Routes.locale.home)}
+        component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
-      <Route path={Routes.locale.login} exact component={LoginPage} />
-      <Route path={Routes.adminLogin} exact component={LoginPage} />
+      <Route path={JustfixRoutes.locale.login} exact component={LoginPage} />
+      <Route path={JustfixRoutes.adminLogin} exact component={LoginPage} />
       <Route
-        path={Routes.adminConversations}
+        path={JustfixRoutes.adminConversations}
         exact
         component={LoadableAdminConversationsRoutes}
       />
-      <Route path={Routes.locale.logout} exact component={LogoutPage} />
+      <Route path={JustfixRoutes.locale.logout} exact component={LogoutPage} />
       {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
       <Route
-        path={Routes.locale.loc.prefix}
+        path={JustfixRoutes.locale.loc.prefix}
         component={LoadableLetterOfComplaintRoutes}
       />
       {redirectToEHP && (
         <Route
-          path={Routes.locale.hp.splash}
+          path={JustfixRoutes.locale.hp.splash}
           exact
-          render={() => <Redirect to={Routes.locale.ehp.splash} />}
+          render={() => <Redirect to={JustfixRoutes.locale.ehp.splash} />}
         />
       )}
       {redirectToEHP && (
         <Route
-          path={Routes.locale.hp.welcome}
+          path={JustfixRoutes.locale.hp.welcome}
           exact
-          render={() => <Redirect to={Routes.locale.ehp.welcome} />}
+          render={() => <Redirect to={JustfixRoutes.locale.ehp.welcome} />}
         />
       )}
       {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
       <Route
-        path={Routes.locale.hp.prefix}
+        path={JustfixRoutes.locale.hp.prefix}
         component={LoadableHPActionRoutes}
       />
       {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
       {enableEHP && (
         <Route
-          path={Routes.locale.ehp.prefix}
+          path={JustfixRoutes.locale.ehp.prefix}
           component={LoadableEmergencyHPActionRoutes}
         />
       )}
       <Route
-        path={Routes.locale.rh.prefix}
+        path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}
       />
-      <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+      <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
       <Route
-        path={Routes.locale.dataRequests.prefix}
+        path={JustfixRoutes.locale.dataRequests.prefix}
         component={LoadableDataRequestsRoutes}
       />
       <Route
-        path={Routes.locale.passwordReset.prefix}
+        path={JustfixRoutes.locale.passwordReset.prefix}
         component={LoadablePasswordResetRoutes}
       />
       <Route render={NotFound} />

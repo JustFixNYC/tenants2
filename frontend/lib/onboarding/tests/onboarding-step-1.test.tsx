@@ -5,11 +5,11 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { OnboardingStep1Mutation_output } from "../../queries/OnboardingStep1Mutation";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
-import Routes from "../../routes";
+import JustfixRoutes from "../../justfix-routes";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 
 const PROPS = {
-  routes: Routes.locale.onboarding,
+  routes: JustfixRoutes.locale.onboarding,
   toCancel: "/cancel",
   signupIntent: OnboardingInfoSignupIntent.LOC,
 };

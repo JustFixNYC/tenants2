@@ -5,7 +5,7 @@ import {
   createTestGraphQlClient,
   FakeAppContext,
   FakeSessionInfo,
-  FakeServerInfo,
+  overrideGlobalAppServerInfo,
 } from "./util";
 import {
   MemoryRouter,
@@ -85,7 +85,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
     const appContext: AppTesterAppContext = {
       ...FakeAppContext,
       session: { ...FakeSessionInfo, ...o.session },
-      server: { ...FakeServerInfo, ...o.server },
+      server: overrideGlobalAppServerInfo(o.server),
       fetch: client.fetch,
       fetchWithoutErrorHandling: client.fetch,
       updateSession: jest.fn(),

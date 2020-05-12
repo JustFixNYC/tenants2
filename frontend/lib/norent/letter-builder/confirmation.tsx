@@ -16,11 +16,12 @@ import { SocialIcons } from "../components/social-icons";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
-const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
-const MH_ACTION_URL =
+export const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
+export const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
+export const MH_ACTION_URL =
   "https://actionnetwork.org/forms/join-mhactions-fight-to-ensure-all-families-have-a-place-to-call-home/";
-const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
+export const NORENT_FEEDBACK_FORM_URL =
+  "https://airtable.com/shrrnQD3kXUQv1xm3";
 
 export const NorentConfirmation = NorentRequireLoginStep(() => {
   const { session } = useContext(AppContext);

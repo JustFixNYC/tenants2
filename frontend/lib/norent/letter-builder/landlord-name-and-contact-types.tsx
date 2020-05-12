@@ -71,7 +71,7 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
         <>
           <TextualFormField
             {...ctx.fieldPropsFor("name")}
-            label="Landlord/management company's name"
+            label={li18n._(t`Landlord/management company's name`)}
           />
           <LetterBuilderAccordion
             question={li18n._(t`Where do I find this information?`)}

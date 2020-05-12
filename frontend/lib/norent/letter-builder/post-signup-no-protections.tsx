@@ -4,11 +4,12 @@ import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 export const PostSignupNoProtections: React.FC<ProgressStepProps> = (props) => {
   return (
-    <Page title="Your account is set up" withHeading="big">
+    <Page title={li18n._(t`Your account is set up`)} withHeading="big">
       <Trans>
         <p>
           Now that you have an account with us, we can let you know when any

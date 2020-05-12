@@ -70,7 +70,7 @@ function getInitialState(s: AllSessionInfo): OnboardingStep1Input {
 
 export const NorentLbAskNycAddress = NorentOnboardingStep((props) => {
   return (
-    <Page title="Your residence" withHeading="big">
+    <Page title={li18n._(t`Your residence`)} withHeading="big">
       <div className="content">
         <p>
           <Trans>

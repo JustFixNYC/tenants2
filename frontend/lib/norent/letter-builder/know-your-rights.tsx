@@ -18,7 +18,8 @@ import { NorentOptInToRttcCommsMutation } from "../../queries/NorentOptInToRttcC
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 /**
  * The default value of the RTTC checkbox; this will essentially determine if RTTC
@@ -133,7 +134,7 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const hasNoProtections = metadata.lawForBuilder.stateWithoutProtections;
 
   return (
-    <Page title="Know your rights">
+    <Page title={li18n._(t`Know your rights`)}>
       <h2 className="title">
         <Trans>
           You're in <span className="has-text-info">{stateName}</span>

@@ -17,7 +17,9 @@ describe("Data requests", () => {
     pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
     pal.clickButtonOrLink(/request data/i);
 
-    pal.withQuery(DataRequestMultiLandlordQuery).respondWith({
+    pal.withQuery(DataRequestMultiLandlordQuery).expect({
+      landlords: "Boop Jones",
+    }).respondWith({
       output: {
         snippetRows: JSON.stringify([["blargh"], ["boop"]]),
         snippetMaxRows: 20,

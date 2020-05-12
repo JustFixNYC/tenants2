@@ -215,7 +215,7 @@ class GraphQLQueryHelper<Input, Output> {
    */
   expect(expected: Input) {
     this.expectGraphQLForOurQuery();
-    const actual = this.appPal.getLatestRequest().variables["input"];
+    const actual = this.appPal.getLatestRequest().variables;
     expect(actual).toEqual(expected);
     return this;
   }

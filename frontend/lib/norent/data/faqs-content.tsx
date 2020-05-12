@@ -28,7 +28,7 @@ export function getLabelNameForFaqCategory(): FaqCategoryLabels {
 
 export type Faq = {
   question: string; // Localized
-  category: FaqCategory; // Not localized here, but get's localized in the front-end by the getLabelNameForFaqCategory() function
+  category: FaqCategory; // Not localized here, but gets localized in the front-end by the getLabelNameForFaqCategory() function
   answerFull: React.ReactNode; // Localized
   previewOptions?: {
     priorityInPreview: number; // Not Localized
@@ -265,9 +265,7 @@ export const FaqsContent: Faq[] = [
     ),
   },
   {
-    question: li18n._(
-      t`Do I have to go to the post office to mail  my letter?`
-    ),
+    question: li18n._(t`Do I have to go to the post office to mail my letter?`),
     category: "Letter Builder",
     previewOptions: {
       priorityInPreview: 3,

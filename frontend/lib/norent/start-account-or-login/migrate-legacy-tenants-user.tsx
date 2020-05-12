@@ -48,7 +48,7 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
         >
           {(ctx) => (
             <ProgressButtons
-              nextLabel="Create my new account"
+              nextLabel="Create new account"
               isLoading={ctx.isLoading}
               back={props.prevStep}
             ></ProgressButtons>

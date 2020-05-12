@@ -32,9 +32,10 @@ describe("QueryLoader", () => {
 
   it("shows loading text and renders", async () => {
     const pal = makePal();
-    pal.expectGraphQL(/exampleQuery/);
     pal.rr.getByText("loading");
-    pal.getFirstRequest().resolve({ exampleQuery: { hello: "FOO" } });
+    pal.withQuery(ExampleQuery).respondWith({
+      exampleQuery: { hello: "FOO" },
+    });
     await nextTick();
     pal.rr.getByText("render FOO");
   });

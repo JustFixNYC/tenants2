@@ -1,6 +1,7 @@
 import React from "react";
 import { LogoutPage } from "../logout-page";
 import { AppTesterPal } from "../../tests/app-tester-pal";
+import { LogoutMutation } from "../../queries/LogoutMutation";
 
 describe("logout page", () => {
   const pageWithPhoneNumber = (phoneNumber: string | null) =>
@@ -14,6 +15,6 @@ describe("logout page", () => {
     const pal = pageWithPhoneNumber("5551234567");
     pal.rr.getByText(/Are you sure/);
     pal.clickButtonOrLink(/sign out/i);
-    pal.expectGraphQL(/LogoutMutation/);
+    pal.withFormMutation(LogoutMutation).expect({});
   });
 });

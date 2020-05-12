@@ -6,13 +6,13 @@ import AdminConversationsRoutes, {
   BaseConversationMessage,
 } from "../admin-conversations";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { UpdateTextingHistoryMutation_output } from "../../queries/UpdateTextingHistoryMutation";
+import { UpdateTextingHistoryMutation } from "../../queries/UpdateTextingHistoryMutation";
 import { wait } from "@testing-library/react";
-import { LatestTextMessagesResult } from "../../queries/LatestTextMessagesResult";
 import {
-  AdminConversation_output,
   AdminConversation_output_messages,
+  AdminConversation,
 } from "../../queries/AdminConversation";
+import { AdminConversations } from "../../queries/AdminConversations";
 
 test("normalizeConversationQuery() works", () => {
   [
@@ -89,32 +89,29 @@ describe("<AdminConversationsPage>", () => {
     });
     expect(pal.history.location.pathname).toBe("/admin/conversations/");
     pal.rr.getByText(/Loading conversations/);
-    pal.expectGraphQL(/UpdateTextingHistoryMutation/);
-    const output: UpdateTextingHistoryMutation_output = {
-      authError: false,
-      latestMessage: "2019-05-24T17:44:50+00:00",
-    };
-
-    pal.getFirstRequest().resolve({ output });
+    pal.withQuery(UpdateTextingHistoryMutation).respondWith({
+      output: {
+        authError: false,
+        latestMessage: "2019-05-24T17:44:50+00:00",
+      },
+    });
 
     await wait(() => {
-      const secondRequest = pal.client.getRequestQueue()[1];
-      expect(secondRequest.query).toMatch(/LatestTextMessagesResult/);
-
       // Load fake sidebar data.
-      const output: LatestTextMessagesResult = {
-        messages: [
-          {
-            sid: "+15551234567",
-            userPhoneNumber: "+15551234567",
-            userFullName: "Boop Jones",
-            userId: 5,
-            ...BASE_MESSAGE,
-          },
-        ],
-        hasNextPage: true,
-      };
-      secondRequest.resolve({ output });
+      pal.withQuery(AdminConversations).respondWith({
+        output: {
+          messages: [
+            {
+              sid: "+15551234567",
+              userPhoneNumber: "+15551234567",
+              userFullName: "Boop Jones",
+              userId: 5,
+              ...BASE_MESSAGE,
+            },
+          ],
+          hasNextPage: true,
+        },
+      });
     });
 
     await wait(() => pal.rr.getByText("Boop Jones"));
@@ -126,21 +123,21 @@ describe("<AdminConversationsPage>", () => {
 
     // Load fake conversation panel data.
     await wait(() => {
-      const thirdRequest = pal.client.getRequestQueue()[2];
-      expect(thirdRequest.query).toMatch(/AdminConversation/);
-      const output: AdminConversation_output = {
-        messages: [
-          BASE_MESSAGE,
-          {
-            ...BASE_MESSAGE,
-            ordering: BASE_MESSAGE.ordering - 1.0,
-            sid: "new sid here",
-            body: "here is an older message",
-          },
-        ],
-        hasNextPage: false,
-      };
-      thirdRequest.resolve({ output });
+      pal.withQuery(AdminConversation).respondWith({
+        output: {
+          messages: [
+            BASE_MESSAGE,
+            {
+              ...BASE_MESSAGE,
+              ordering: BASE_MESSAGE.ordering - 1.0,
+              sid: "new sid here",
+              body: "here is an older message",
+            },
+          ],
+          hasNextPage: false,
+        },
+        userDetails: null,
+      });
     });
 
     await wait(() => pal.rr.getByText("here is an older message"));

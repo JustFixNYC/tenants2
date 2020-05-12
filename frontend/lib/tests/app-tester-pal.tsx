@@ -20,6 +20,7 @@ import { History } from "history";
 import { assertNotNull } from "../util/util";
 import { HelmetProvider } from "react-helmet-async";
 import { FetchMutationInfo } from "../forms/forms-graphql";
+import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -177,13 +178,55 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
-   * Returns a helper that is typed against the given GraphQL form mutation
-   * to make it easy to test.
+   * Returns a helper for testing the given GraphQL query.
+   */
+  withQuery<Input, Output>(
+    query: QueryLoaderQuery<Input, Output>
+  ): GraphQLQueryHelper<Input, Output> {
+    return new GraphQLQueryHelper(query, this);
+  }
+
+  /**
+   * Returns a helper for testing the given GraphQL form mutation.
    */
   withFormMutation<FormInput, FormOutput extends WithServerFormFieldErrors>(
     mutation: FetchMutationInfo<FormInput, FormOutput>
   ): GraphQLFormMutationHelper<FormInput, FormOutput> {
     return new GraphQLFormMutationHelper(mutation, this);
+  }
+}
+
+/**
+ * A helper class for testing GraphQL queries.
+ */
+class GraphQLQueryHelper<Input, Output> {
+  constructor(
+    readonly query: QueryLoaderQuery<Input, Output>,
+    readonly appPal: AppTesterPal
+  ) {}
+
+  private expectGraphQLForOurQuery() {
+    this.appPal.expectGraphQL(new RegExp(this.query.name));
+  }
+
+  /**
+   * Expect the given input for this query, and ensure that
+   * GraphQL for our query was sent over the network.
+   */
+  expect(expected: Input) {
+    this.expectGraphQLForOurQuery();
+    const actual = this.appPal.getLatestRequest().variables["input"];
+    expect(actual).toEqual(expected);
+    return this;
+  }
+
+  /**
+   * Respond with the given output for our query.
+   */
+  respondWith(output: Output) {
+    this.expectGraphQLForOurQuery();
+    this.appPal.getLatestRequest().resolve(output);
+    return this;
   }
 }
 

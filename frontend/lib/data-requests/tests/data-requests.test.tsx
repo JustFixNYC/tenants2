@@ -17,17 +17,13 @@ describe("Data requests", () => {
     pal.fillFormFields([[/landlords/i, "Boop Jones"]]);
     pal.clickButtonOrLink(/request data/i);
 
-    pal.expectGraphQL(/DataRequestMultiLandlordQuery/);
-
-    const response: DataRequestMultiLandlordQuery = {
+    pal.withQuery(DataRequestMultiLandlordQuery).respondWith({
       output: {
         snippetRows: JSON.stringify([["blargh"], ["boop"]]),
         snippetMaxRows: 20,
         csvUrl: "http://boop",
       },
-    };
-
-    pal.getFirstRequest().resolve(response);
+    });
     wait(() => pal.rr.getByText(/blargh/));
   });
 });

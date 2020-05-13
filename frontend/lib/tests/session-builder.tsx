@@ -38,6 +38,17 @@ export class SessionBuilder {
       ),
     });
   }
+
+  withLoggedInUser(): SessionBuilder {
+    return new SessionBuilder(
+      override(this.value, {
+        firstName: "Boop",
+        lastName: "Jones",
+        phoneNumber: "5551234567",
+        userId: 123,
+      })
+    );
+  }
 }
 
 /**

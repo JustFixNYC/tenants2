@@ -9,6 +9,10 @@ import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { QueryOrVerifyPhoneNumberMutation } from "../../../queries/QueryOrVerifyPhoneNumberMutation";
 import { newSb } from "../../../tests/session-builder";
 import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
+import { PasswordResetVerificationCodeMutation } from "../../../queries/PasswordResetVerificationCodeMutation";
+import { PasswordResetConfirmAndLoginMutation } from "../../../queries/PasswordResetConfirmAndLoginMutation";
+import { LoginMutation } from "../../../queries/LoginMutation";
+import { PasswordResetMutation } from "../../../queries/PasswordResetMutation";
 
 const sb = newSb();
 
@@ -69,14 +73,77 @@ describe("start-account-or-login flow", () => {
     pal.ensureLocation("/phone/ask");
   });
 
-  it("goes directly to end if account is new", async () => {
+  it("if account is new, goes directly to end", async () => {
     const pal = startFlow(PhoneNumberAccountStatus.NO_ACCOUNT);
     await pal.waitForLocation("/done");
   });
 
-  it("goes to phone number verification if account has no password", async () => {
-    const pal = startFlow(PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD);
+  it("if account has password, verifies it and logs user in", async () => {
+    const pal = startFlow(PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD);
+
+    await pal.waitForLocation("/password/verify");
+    pal.ensureLinkGoesTo(/back/i, "/phone/ask");
+    pal.fillFormFields([[/password/i, "passwordy"]]);
+    pal.clickButtonOrLink(/next/i);
+    pal
+      .withFormMutation(LoginMutation)
+      .expect({
+        phoneNumber: "5551234567",
+        password: "passwordy",
+      })
+      .respondWithSuccess({
+        session: newSb(pal.appContext.session).withLoggedInUser().value,
+      });
+    await pal.waitForLocation("/done");
+  });
+
+  it("if account has password, allows user to reset it", async () => {
+    const pal = startFlow(PhoneNumberAccountStatus.ACCOUNT_WITH_PASSWORD);
+
+    await pal.waitForLocation("/password/verify");
+    pal.clickButtonOrLink(/forgot/i);
+    pal.ensureLocation(routes.forgotPasswordModal);
+    pal.clickButtonOrLink(/send code/i);
+    pal
+      .withFormMutation(PasswordResetMutation)
+      .expect({
+        phoneNumber: "5551234567",
+      })
+      .respondWithSuccess({});
+
     await pal.waitForLocation("/phone/verify");
     pal.ensureLinkGoesTo(/back/i, "/phone/ask");
+  });
+
+  it("if account has no password, verifies phone, then sets password", async () => {
+    const pal = startFlow(PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD);
+
+    await pal.waitForLocation("/phone/verify");
+    pal.ensureLinkGoesTo(/back/i, "/phone/ask");
+    pal.fillFormFields([[/code/i, "12345"]]);
+    pal.clickButtonOrLink(/next/i);
+    pal
+      .withFormMutation(PasswordResetVerificationCodeMutation)
+      .expect({ code: "12345" })
+      .respondWithSuccess({});
+
+    await pal.waitForLocation("/password/set");
+    pal.ensureLinkGoesTo(/back/i, "/phone/verify");
+    pal.fillFormFields([
+      [/^new password/i, "passwordy"],
+      [/confirm/i, "passwordy"],
+    ]);
+    pal.clickButtonOrLink(/next/i);
+    pal
+      .withFormMutation(PasswordResetConfirmAndLoginMutation)
+      .expect({
+        password: "passwordy",
+        confirmPassword: "passwordy",
+      })
+      .respondWithSuccess({
+        session: newSb(pal.appContext.session).withLoggedInUser().value,
+      });
+
+    await pal.waitForLocation("/done");
   });
 });

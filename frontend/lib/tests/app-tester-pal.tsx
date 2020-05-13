@@ -24,6 +24,7 @@ import { FetchMutationInfo } from "../forms/forms-graphql";
 import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import { waitFor } from "@testing-library/react";
 import autobind from "autobind-decorator";
+import { newSb } from "./session-builder";
 
 /** Options for AppTester. */
 interface AppTesterPalOptions {
@@ -159,6 +160,13 @@ export class AppTesterPal extends ReactTestingLibraryPal {
         </MemoryRouter>
       </HelmetProvider>
     );
+  }
+
+  /**
+   * Returns a `SessionBuilder` pre-filled with the current session state.
+   */
+  get sessionBuilder() {
+    return newSb(this.appContext.session);
   }
 
   /**

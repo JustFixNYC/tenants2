@@ -203,6 +203,19 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   ): GraphQLFormMutationHelper<FormInput, FormOutput> {
     return new GraphQLFormMutationHelper(mutation, this);
   }
+
+  /** Asserts that the current location is the expected value. */
+  ensureLocation(pathname: string) {
+    expect(this.history.location.pathname).toBe(pathname);
+  }
+
+  /**
+   * Returns a promise that resolves once the current location has changed
+   * to the expected value.
+   */
+  waitForLocation(pathname: string): Promise<void> {
+    return waitFor(() => this.ensureLocation(pathname));
+  }
 }
 
 /** A base class for testing GraphQL queries/mutations. */
@@ -289,6 +302,19 @@ class GraphQLFormMutationHelper<
    * Respond with the given form output for our mutation.
    */
   respondWith(output: FormOutput) {
+    this.ensure();
+    this.appPal.getLatestRequest().resolve({ output });
+    return this;
+  }
+
+  /**
+   * Respond with the given successful form output for our mutation.
+   *
+   * This is like `respondWith()`, but automatically uses an empty
+   * array for the `errors` field to indicate a successful submission.
+   */
+  respondWithSuccess(output: Omit<FormOutput, "errors">) {
+    output = { ...output, errors: [] };
     this.ensure();
     this.appPal.getLatestRequest().resolve({ output });
     return this;

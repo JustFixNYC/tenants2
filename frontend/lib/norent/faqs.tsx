@@ -3,11 +3,16 @@ import { StaticImage } from "../ui/static-image";
 import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
-import { FaqsContent, Faq, FaqCategory } from "./data/faqs-content";
+import {
+  FaqsContent,
+  Faq,
+  FaqCategory,
+  getFaqCategoryLabels,
+} from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
 import { li18n } from "../i18n-lingui";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
@@ -69,12 +74,13 @@ export const NorentFaqsPreview = () => {
       <div className="hero-body">
         <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
           <h3 className="is-spaced has-text-weight-normal is-size-5">
-            Sending a letter to your landlord is a big step. Here are a few{" "}
-            {/* REPLACE once routes are set up */}
-            <Link to={NorentRoutes.locale.faqs}>
-              frequently asked questions
-            </Link>{" "}
-            from people who have used our tool:
+            <Trans>
+              Sending a letter to your landlord is a big step. Here are a few{" "}
+              <Link to={NorentRoutes.locale.faqs}>
+                frequently asked questions
+              </Link>{" "}
+              from people who have used our tool:
+            </Trans>
           </h3>
           <br />
           <div className="jf-space-below-2rem">
@@ -84,7 +90,7 @@ export const NorentFaqsPreview = () => {
             to={NorentRoutes.locale.faqs}
             className="is-size-5 has-text-weight-normal"
           >
-            See more FAQs
+            <Trans>See more FAQs</Trans>
           </Link>
         </div>
       </div>
@@ -99,18 +105,20 @@ export const NorentFaqsPage: React.FC<{}> = () => {
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">
             <h2 className="title is-spaced has-text-info">
-              Frequently Asked Questions
+              <Trans>Frequently Asked Questions</Trans>
             </h2>
             <br />
             <p className="subtitle">
-              Sending a letter to your landlord is a big step. Check out our
-              frequently asked questions from people who have used our tool:
+              <Trans>
+                Sending a letter to your landlord is a big step. Check out our
+                frequently asked questions from people who have used our tool:
+              </Trans>
             </p>
           </div>
         </div>
         <br />
         <div className="container jf-has-centered-images jf-space-below-2rem">
-          <JumpArrow to="#more-info" altText="Browse the FAQs" />
+          <JumpArrow to="#more-info" altText={li18n._(t`Browse the FAQs`)} />
           <br />
         </div>
       </section>
@@ -137,7 +145,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
                       id={formatCategoryID(category)}
                       className="is-size-7 is-uppercase has-text-info has-text-weight-bold is-marginless"
                     >
-                      {category}
+                      {getFaqCategoryLabels()[category]}
                     </h5>
                     <br />
                     <div>{generateFaqsListFromData(faqs)}</div>
@@ -146,7 +154,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
                         className="has-text-weight-normal"
                         to="#main"
                       >
-                        Back to top
+                        <Trans>Back to top</Trans>
                       </ScrollyLink>
                     </div>
                     <br />

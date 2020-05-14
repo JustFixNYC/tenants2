@@ -4,11 +4,9 @@ import { getInitialState } from "../access-dates";
 import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { AccessDatesMutation_output } from "../../queries/AccessDatesMutation";
+import { AccessDatesMutation } from "../../queries/AccessDatesMutation";
 
 describe("access dates page", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.accessDates,
@@ -16,12 +14,12 @@ describe("access dates page", () => {
 
     pal.fillFormFields([[/First access date/i, "2018-01-02"]]);
     pal.clickButtonOrLink("Next");
-    pal.respondWithFormOutput<AccessDatesMutation_output>({
+    pal.withFormMutation(AccessDatesMutation).respondWith({
       errors: [],
       session: { accessDates: ["2018-01-02"] },
     });
 
-    await pal.rt.waitForElement(() => pal.rr.getByText(/call 311/i));
+    await pal.rt.waitFor(() => pal.rr.getByText(/call 311/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({ accessDates: ["2018-01-02"] });

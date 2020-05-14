@@ -3,12 +3,10 @@ import i18n from "../i18n";
 import ReactTestingLibraryPal from "./rtl-pal";
 import { LinguiI18n, li18n } from "../i18n-lingui";
 import { Trans, t } from "@lingui/macro";
-import { wait } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import { getUSStateChoiceLabels } from "../../../common-data/us-state-choices";
 
 describe("<LinguiI18n>", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   const linguified = (el: JSX.Element) => <LinguiI18n>{el}</LinguiI18n>;
 
   const helloWorldJSX = linguified(<Trans>Hello world</Trans>);
@@ -16,7 +14,7 @@ describe("<LinguiI18n>", () => {
   it("Works in English", async () => {
     i18n.initialize("en");
     const pal = new ReactTestingLibraryPal(helloWorldJSX);
-    await wait(() => pal.rr.getByText("Hello world"));
+    await waitFor(() => pal.rr.getByText("Hello world"));
     expect(li18n.language).toBe("en");
     expect(li18n._(t`Hello world`)).toBe("Hello world");
   });
@@ -24,7 +22,7 @@ describe("<LinguiI18n>", () => {
   it("works in Spanish", async () => {
     i18n.initialize("es");
     const pal = new ReactTestingLibraryPal(helloWorldJSX);
-    await wait(() => pal.rr.getByText("Hola mundo"));
+    await waitFor(() => pal.rr.getByText("Hola mundo"));
     expect(li18n.language).toBe("es");
     expect(li18n._(t`Hello world`)).toBe("Hola mundo");
   });
@@ -33,6 +31,6 @@ describe("<LinguiI18n>", () => {
     i18n.initialize("es");
     const NewMexico = () => <p>{getUSStateChoiceLabels()["NM"]}</p>;
     const pal = new ReactTestingLibraryPal(linguified(<NewMexico />));
-    await wait(() => pal.rr.getByText("Nuevo México"));
+    await waitFor(() => pal.rr.getByText("Nuevo México"));
   });
 });

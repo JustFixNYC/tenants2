@@ -23,7 +23,7 @@ export const IMPERCEPTIBLE_MS = 16;
  * So we'll ensure that the loading indicator is visible for a minimum
  * amount of time, called the "friendly load time", before disappearing.
  */
-export const FRIENDLY_LOAD_MS = 1000;
+let friendlyLoadMs = 1000;
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -288,13 +288,23 @@ export function friendlyLoad<T>(promise: Promise<T>): Promise<T> {
   return new Promise<T>((resolve) => {
     const finallyCb = () => {
       const timeElapsed = Date.now() - start;
-      if (timeElapsed < IMPERCEPTIBLE_MS || timeElapsed >= FRIENDLY_LOAD_MS) {
+      if (timeElapsed < IMPERCEPTIBLE_MS || timeElapsed >= friendlyLoadMs) {
         resolve(promise);
       } else {
-        const ms = FRIENDLY_LOAD_MS - timeElapsed;
+        const ms = friendlyLoadMs - timeElapsed;
         window.setTimeout(() => resolve(promise), ms);
       }
     };
     promise.then(finallyCb).catch(finallyCb);
   });
+}
+
+/**
+ * Set the friendly load time (that is, the minimum amount of time we'll allow
+ * a loading screen to be shown for). This is primarily intended for use
+ * during testing, to ensure that tests don't take a long time to run if
+ * they happen to involve dynamically loading something.
+ */
+export function setFriendlyLoadMs(value: number) {
+  friendlyLoadMs = value;
 }

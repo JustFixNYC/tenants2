@@ -3,8 +3,6 @@ import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { NorentConfirmationModal } from "../confirmation-modal";
 
 describe("ConfirmationModal", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("should work", () => {
     const pal = new AppTesterPal(
       (

@@ -6,6 +6,7 @@ import {
   FakeAppContext,
   FakeSessionInfo,
   overrideGlobalAppServerInfo,
+  override,
 } from "./util";
 import {
   MemoryRouter,
@@ -19,9 +20,14 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { History } from "history";
 import { assertNotNull } from "../util/util";
 import { HelmetProvider } from "react-helmet-async";
+import { FetchMutationInfo } from "../forms/forms-graphql";
+import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
+import { waitFor } from "@testing-library/react";
+import autobind from "autobind-decorator";
+import { newSb } from "./session-builder";
 
 /** Options for AppTester. */
-interface AppTesterPalOptions {
+export interface AppTesterPalOptions {
   /** The URL to initially set the router context to. */
   url: string;
 
@@ -33,6 +39,14 @@ interface AppTesterPalOptions {
 
   /** Any updates to the memory router. */
   router: Partial<MemoryRouterProps>;
+
+  /**
+   * Whether or not we actually update the session whenever
+   * a component calls AppContext.updateSession().  By default,
+   * we mock out the function but don't actually do anything
+   * when it's called.
+   */
+  updateSession?: boolean;
 }
 
 /**
@@ -47,10 +61,6 @@ interface AppTesterAppContext extends AppContextType {
  * This extends ReactTestingLibraryPal by wrapping your JSX in a
  * number of common React contexts and providing some
  * extra app-specific utilities.
- *
- * When using it, be sure to add the following to your test suite:
- *
- *   afterEach(AppTesterPal.cleanup);
  */
 export class AppTesterPal extends ReactTestingLibraryPal {
   /**
@@ -61,7 +71,7 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   /**
    * A reference to the AppContext provided to the wrapped component.
    */
-  readonly appContext: AppTesterAppContext;
+  appContext: AppTesterAppContext;
 
   /**
    * A reference to the router's browsing history.
@@ -72,6 +82,11 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * The final computed options for this instance, including defaults.
    */
   readonly options: AppTesterPalOptions;
+
+  /**
+   * Used internally to remember the last JSX we rendered.
+   */
+  private latestEl: JSX.Element;
 
   constructor(el: JSX.Element, options?: Partial<AppTesterPalOptions>) {
     const o: AppTesterPalOptions = {
@@ -100,10 +115,24 @@ export class AppTesterPal extends ReactTestingLibraryPal {
       )
     );
 
+    if (o.updateSession) {
+      appContext.updateSession = jest.fn(this.handleSessionChange);
+    }
+
     this.history = assertNotNull(history as History | null);
     this.appContext = appContext;
     this.client = client;
     this.options = o;
+    this.latestEl = el;
+  }
+
+  @autobind
+  handleSessionChange(updates: Partial<AllSessionInfo>) {
+    this.appContext = {
+      ...this.appContext,
+      session: override(this.appContext.session, updates),
+    };
+    this.rerender(this.latestEl);
   }
 
   private static generateJsx(
@@ -134,13 +163,20 @@ export class AppTesterPal extends ReactTestingLibraryPal {
   }
 
   /**
-   * Get the first network request made by any component in the
+   * Returns a `SessionBuilder` pre-filled with the current session state.
+   */
+  get sessionBuilder() {
+    return newSb(this.appContext.session);
+  }
+
+  /**
+   * Get the most recent network request made by any component in the
    * heirarchy, throwing an error if no request has been made.
    */
-  getFirstRequest(): queuedRequest {
+  getLatestRequest(): queuedRequest {
     const queue = this.client.getRequestQueue();
     expect(queue.length).toBeGreaterThan(0);
-    return queue[0];
+    return queue[queue.length - 1];
   }
 
   /**
@@ -152,37 +188,143 @@ export class AppTesterPal extends ReactTestingLibraryPal {
    * https://github.com/kentcdodds/react-testing-library#rerender
    */
   rerender(el: JSX.Element) {
+    this.latestEl = el;
     this.rr.rerender(
       AppTesterPal.generateJsx(el, this.options, this.appContext)
     );
   }
 
   /**
-   * Assuming that our GraphQL client has been issued a
-   * form request, responds with the given mock output.
+   * Returns a helper for testing the given GraphQL query.
    */
-  respondWithFormOutput<FormOutput extends WithServerFormFieldErrors>(
-    output: FormOutput
+  withQuery<Input, Output>(
+    query: QueryLoaderQuery<Input, Output>
+  ): GraphQLQueryHelper<Input, Output> {
+    return new GraphQLQueryHelper(query, this);
+  }
+
+  /**
+   * Returns a helper for testing the given GraphQL form mutation.
+   */
+  withFormMutation<FormInput, FormOutput extends WithServerFormFieldErrors>(
+    mutation: FetchMutationInfo<FormInput, FormOutput>
+  ): GraphQLFormMutationHelper<FormInput, FormOutput> {
+    return new GraphQLFormMutationHelper(mutation, this);
+  }
+
+  /** Asserts that the current location is the expected value. */
+  ensureLocation(pathname: string) {
+    expect(this.history.location.pathname).toBe(pathname);
+  }
+
+  /**
+   * Returns a promise that resolves once the current location has changed
+   * to the expected value.
+   */
+  waitForLocation(pathname: string): Promise<void> {
+    return waitFor(() => this.ensureLocation(pathname));
+  }
+}
+
+/** A base class for testing GraphQL queries/mutations. */
+class BaseGraphQLHelper {
+  constructor(
+    private readonly graphQL: string,
+    readonly appPal: AppTesterPal
+  ) {}
+
+  /**
+   * Assert that the latest request is for our GraphQL query/mutation.
+   */
+  ensure() {
+    expect(this.appPal.getLatestRequest().query).toEqual(this.graphQL);
+  }
+
+  /**
+   * Wait until the latest request is for our GraphQL query/mutation.
+   */
+  async wait() {
+    await waitFor(() => this.ensure());
+    return this;
+  }
+}
+
+/**
+ * A helper class for testing GraphQL queries.
+ */
+class GraphQLQueryHelper<Input, Output> extends BaseGraphQLHelper {
+  constructor(
+    readonly query: QueryLoaderQuery<Input, Output>,
+    readonly appPal: AppTesterPal
   ) {
-    this.getFirstRequest().resolve({ output });
+    super(query.graphQL, appPal);
   }
 
   /**
-   * Assuming that our GraphQL client has been issued a
-   * form request, asserts the request's GraphQL query
-   * matches the given pattern.
+   * Expect the given input for this query, and ensure that
+   * GraphQL for our query was sent over the network.
    */
-  expectGraphQL(match: RegExp) {
-    expect(this.getFirstRequest().query).toMatch(match);
-  }
-
-  /**
-   * Assuming that our GraphQL client has been issued
-   * a form request, asserts that the request's input
-   * equals the given value.
-   */
-  expectFormInput<FormInput>(expected: FormInput) {
-    const actual = this.getFirstRequest().variables["input"];
+  expect(expected: Input) {
+    this.ensure();
+    const actual = this.appPal.getLatestRequest().variables;
     expect(actual).toEqual(expected);
+    return this;
+  }
+
+  /**
+   * Respond with the given output for our query.
+   */
+  respondWith(output: Output) {
+    this.ensure();
+    this.appPal.getLatestRequest().resolve(output);
+    return this;
+  }
+}
+
+/**
+ * A helper class for testing GraphQL form mutations.
+ */
+class GraphQLFormMutationHelper<
+  FormInput,
+  FormOutput extends WithServerFormFieldErrors
+> extends BaseGraphQLHelper {
+  constructor(
+    readonly mutation: FetchMutationInfo<FormInput, FormOutput>,
+    readonly appPal: AppTesterPal
+  ) {
+    super(mutation.graphQL, appPal);
+  }
+
+  /**
+   * Expect the given form input for this mutation, and ensure that
+   * GraphQL for our mutation was sent over the network.
+   */
+  expect(expected: FormInput) {
+    this.ensure();
+    const actual = this.appPal.getLatestRequest().variables["input"];
+    expect(actual).toEqual(expected);
+    return this;
+  }
+
+  /**
+   * Respond with the given form output for our mutation.
+   */
+  respondWith(output: FormOutput) {
+    this.ensure();
+    this.appPal.getLatestRequest().resolve({ output });
+    return this;
+  }
+
+  /**
+   * Respond with the given successful form output for our mutation.
+   *
+   * This is like `respondWith()`, but automatically uses an empty
+   * array for the `errors` field to indicate a successful submission.
+   */
+  respondWithSuccess(output: Omit<FormOutput, "errors">) {
+    output = { ...output, errors: [] };
+    this.ensure();
+    this.appPal.getLatestRequest().resolve({ output });
+    return this;
   }
 }

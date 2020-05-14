@@ -276,39 +276,41 @@ const PrepareToGeneratePDF = MiddleProgressStep((props) => (
 
 const stepBuilder = new SessionStepBuilder((sess) => sess);
 
-const YourLandlordOptionalDetails = stepBuilder.createStep({
-  title: "Optional landlord contact information",
-  mutation: OptionalLandlordDetailsMutation,
-  toFormInput: (sess) => ({
-    email: sess.data.landlordDetails?.email || "",
-    phoneNumber: sess.data.landlordDetails?.phoneNumber || "",
-  }),
-  renderIntro: () => (
-    <>
-      <p>
-        Do you have your landlord's email or phone number? If so, please provide
-        it below.
-      </p>
-      <p>
-        Your lawyer will use this information to contact your landlord and move
-        your case along faster.
-      </p>
-    </>
-  ),
-  renderForm: (ctx) => (
-    <>
-      <TextualFormField
-        type="email"
-        {...ctx.fieldPropsFor("email")}
-        label="Landlord email (highly recommended)"
-      />
-      <PhoneNumberFormField
-        {...ctx.fieldPropsFor("phoneNumber")}
-        label="Landlord phone number (highly recommended)"
-      />
-    </>
-  ),
-});
+const YourLandlordOptionalDetails = stepBuilder.createStep(
+  OptionalLandlordDetailsMutation,
+  {
+    title: "Optional landlord contact information",
+    toFormInput: (sess) => ({
+      email: sess.data.landlordDetails?.email || "",
+      phoneNumber: sess.data.landlordDetails?.phoneNumber || "",
+    }),
+    renderIntro: () => (
+      <>
+        <p>
+          Do you have your landlord's email or phone number? If so, please
+          provide it below.
+        </p>
+        <p>
+          Your lawyer will use this information to contact your landlord and
+          move your case along faster.
+        </p>
+      </>
+    ),
+    renderForm: (ctx) => (
+      <>
+        <TextualFormField
+          type="email"
+          {...ctx.fieldPropsFor("email")}
+          label="Landlord email (highly recommended)"
+        />
+        <PhoneNumberFormField
+          {...ctx.fieldPropsFor("phoneNumber")}
+          label="Landlord phone number (highly recommended)"
+        />
+      </>
+    ),
+  }
+);
 
 const UploadStatus = () => (
   <ShowHPUploadStatus

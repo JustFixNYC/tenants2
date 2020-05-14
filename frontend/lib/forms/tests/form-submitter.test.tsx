@@ -54,8 +54,6 @@ describe("FormSubmitter", () => {
     return { pal, client, onSuccess, getCtx, fillAndSubmit };
   };
 
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("optionally uses performRedirect() for redirection", async () => {
     const promise = Promise.resolve({ errors: [] });
     const performRedirect = jest.fn();

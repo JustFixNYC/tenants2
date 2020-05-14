@@ -10,9 +10,8 @@ const onboardingStepBuilder = new SessionStepBuilder(
 type HpType = "hp" | "ehp";
 
 const AccessForInspectionGenerator = (type: HpType) =>
-  onboardingStepBuilder.createStep({
+  onboardingStepBuilder.createStep(AccessForInspectionMutation, {
     title: "Access for Your HPD Inspection",
-    mutation: AccessForInspectionMutation,
     toFormInput: (onb) => onb.finish(),
     renderIntro: () => (
       <>

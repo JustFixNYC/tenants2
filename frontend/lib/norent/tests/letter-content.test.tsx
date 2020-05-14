@@ -9,7 +9,6 @@ import { initNationalMetadataForTesting } from "../letter-builder/tests/national
 beforeAll(initNationalMetadataForTesting);
 
 describe("<NorentLetterContent>", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
   it("works", () => {
     const props = noRentSampleLetterProps;
     const pal = new ReactTestingLibraryPal(<NorentLetterContent {...props} />);

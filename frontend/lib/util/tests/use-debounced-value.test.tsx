@@ -14,8 +14,6 @@ const MyThing: React.FC<{ value: string }> = ({ value }) => {
 };
 
 describe("useDebouncedValue()", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("works", () => {
     jest.useFakeTimers();
     const pal = new ReactTestingLibraryPal(<MyThing value="hi" />);
@@ -26,15 +24,21 @@ describe("useDebouncedValue()", () => {
     pal.rr.rerender(<MyThing value="bye" />);
 
     expect(getHTML()).toBe("value is bye, debounced is hi");
-    act(() => jest.runTimersToTime(3000));
+    act(() => {
+      jest.runTimersToTime(3000);
+    });
     expect(getHTML()).toBe("value is bye, debounced is hi");
 
     pal.rr.rerender(<MyThing value="hmm" />);
 
     expect(getHTML()).toBe("value is hmm, debounced is hi");
-    act(() => jest.runTimersToTime(3000));
+    act(() => {
+      jest.runTimersToTime(3000);
+    });
     expect(getHTML()).toBe("value is hmm, debounced is hi");
-    act(() => jest.runTimersToTime(3000));
+    act(() => {
+      jest.runTimersToTime(3000);
+    });
     expect(getHTML()).toBe("value is hmm, debounced is hmm");
   });
 });

@@ -11,6 +11,7 @@ from django.utils import timezone
 from users.models import JustfixUser, ADD_SERVING_PAPERS_PERMISSION
 from loc import lob_api
 from . import models
+from .normalize_serving_papers import convert_to_letter_pages
 
 
 class ServingPapersForm(forms.ModelForm):
@@ -97,7 +98,7 @@ class HPActionAdminViews:
                     lob_api.verify_address(**papers.sender.onboarding_info.as_lob_params())
                 )
             },
-            file=papers.pdf_file.open(),
+            file=convert_to_letter_pages(papers.pdf_file.open()),
             color=False,
             double_sided=False,
             request_return_receipt=True,

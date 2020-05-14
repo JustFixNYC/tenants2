@@ -7,6 +7,7 @@ import {
   IMPERCEPTIBLE_MS,
   LoadingPage,
   LoadingPageWithRetry,
+  setFriendlyLoadMs,
 } from "../loading-page";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { assertNotNull } from "../../util/util";
@@ -26,9 +27,11 @@ function createLoadablePage<Props>(loader: ImportPromiseFunc<Props>) {
 
 const fakeForeverImportFn = () => new Promise(() => {});
 
-describe("LoadingPageWithRetry", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
+beforeAll(() => {
+  setFriendlyLoadMs(1000);
+});
 
+describe("LoadingPageWithRetry", () => {
   it("renders error page", async () => {
     const pal = new ReactTestingLibraryPal(
       (
@@ -45,8 +48,6 @@ describe("LoadingPageWithRetry", () => {
 });
 
 describe("LoadingPage", () => {
-  afterEach(ReactTestingLibraryPal.cleanup);
-
   it("renders loading screen", () => {
     const LoadablePage = createLoadablePage(fakeForeverImportFn as any);
     const pal = new ReactTestingLibraryPal(
@@ -65,8 +66,6 @@ describe("LoadingPage", () => {
 describe("LoadingOverlayManager", () => {
   const getOverlayDiv = (pal: AppTesterPal) =>
     pal.rr.container.querySelector(".jf-loading-overlay-wrapper");
-
-  afterEach(AppTesterPal.cleanup);
 
   it("renders children and does not render overlay by default", () => {
     const pal = new AppTesterPal(
@@ -102,6 +101,7 @@ describe("LoadingOverlayManager", () => {
 
   it("saves DOM snapshot when location changes, renders it inertly during load", () => {
     const LoadablePage = createLoadablePage(fakeForeverImportFn as any);
+    const helloClick = jest.fn();
     const pal = new AppTesterPal(
       (
         <LoadingOverlayManager>
@@ -112,28 +112,31 @@ describe("LoadingOverlayManager", () => {
               return (
                 <>
                   <Link to="/boop">go to boop</Link>
-                  <Link to="/bap">go to bap</Link>
+                  <button onClick={helloClick}>hello</button>
                 </>
               );
             }}
           />
           <Route path="/boop" component={LoadablePage} />
-          <Route
-            path="/bap"
-            render={() => {
-              throw new Error("This should never be visited!");
-            }}
-          />
         </LoadingOverlayManager>
       )
     );
+
+    // While we're on the page with out button, we should be able to
+    // click it and the click handler should be called.
+    pal.clickButtonOrLink("hello");
+    expect(helloClick).toHaveBeenCalled();
+
+    // Now trigger the loading overlay...
     expect(getOverlayDiv(pal)).toBeNull();
     pal.clickButtonOrLink("go to boop");
     expect(getOverlayDiv(pal)).not.toBeNull();
 
-    // We should be able to *see* this link, but clicking it shouldn't do anything,
+    // We should be able to *see* this button, but clicking it shouldn't do anything,
     // because it's an inert clone of what used to be on the previous page.
-    pal.clickButtonOrLink("go to bap");
+    helloClick.mockReset();
+    pal.clickButtonOrLink("hello");
+    expect(helloClick).not.toHaveBeenCalled();
   });
 });
 

@@ -4,6 +4,8 @@ import { OutboundLink } from "../analytics/google-analytics";
 import { getImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 import { JustfixLogo } from "./components/logo";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 type PartnerLogo = {
   name: string;
@@ -11,34 +13,34 @@ type PartnerLogo = {
   href: string;
 };
 
-const partnerLogoItems: PartnerLogo[] = [
+const partnerLogoItems: () => PartnerLogo[] = () => [
   {
-    name: "Community Justice Project",
+    name: li18n._(t`Community Justice Project`),
     srcName: "cjp",
     href: "http://communityjusticeproject.com/",
   },
   {
-    name: "Right to the City",
+    name: li18n._(t`Right to the City`),
     srcName: "rttc",
     href: "https://righttothecity.org/",
   },
   {
-    name: "Movement Law Lab",
+    name: li18n._(t`Movement Law Lab`),
     srcName: "mll",
     href: "https://movementlawlab.org/",
   },
   {
-    name: "Manufactured Housing Action",
+    name: li18n._(t`Manufactured Housing Action`),
     srcName: "mha",
     href: "https://mhaction.org/",
   },
   {
-    name: "Strategic Actions for a Just Economy",
+    name: li18n._(t`Strategic Actions for a Just Economy`),
     srcName: "saje",
     href: "https://www.saje.net/",
   },
   {
-    name: "Housing Justice for All",
+    name: li18n._(t`Housing Justice for All`),
     srcName: "hj4a",
     href: "https://www.housingjusticeforall.org/",
   },
@@ -46,7 +48,7 @@ const partnerLogoItems: PartnerLogo[] = [
 
 export const PartnerLogos = () => (
   <div className="jf-partner-logos columns is-mobile is-multiline is-variable is-8-desktop">
-    {partnerLogoItems.map((partnerDetails, i) => (
+    {partnerLogoItems().map((partnerDetails, i) => (
       <div
         className="column is-one-third-tablet is-half-mobile jf-has-centered-images is-paddingless"
         key={i}
@@ -68,21 +70,25 @@ export const PartnerLogos = () => (
 );
 
 export const NorentAboutPage: React.FC<{}> = () => (
-  <Page title="About" className="content">
+  <Page title={li18n._(t`About`)} className="content">
     <section className="hero is-medium">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced has-text-info">About</h2>
+          <h2 className="title is-spaced has-text-info">
+            <Trans>About</Trans>
+          </h2>
           <br />
           <p className="subtitle">
-            Learn about why we made this tool, who we are, and who our partners
-            are.
+            <Trans>
+              Learn about why we made this tool, who we are, and who our
+              partners are.
+            </Trans>
           </p>
         </div>
       </div>
       <br />
       <div className="container jf-has-centered-images jf-space-below-2rem">
-        <JumpArrow to="#more-info" altText="Learn more" />
+        <JumpArrow to="#more-info" altText={li18n._(t`Learn more`)} />
         <br />
       </div>
     </section>
@@ -90,12 +96,16 @@ export const NorentAboutPage: React.FC<{}> = () => (
     <section className="hero" id="more-info">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced">Why We Made This</h2>
+          <h2 className="title is-spaced">
+            <Trans>Why we made this</Trans>
+          </h2>
           <br />
           <p className="subtitle is-size-5">
-            Tenants across the nation are being impacted by COVID-19 in ways
-            that are affecting their abilities to pay rent. We made this tool to
-            empower tenants to exercise their rights during this pandemic.
+            <Trans>
+              Tenants across the nation are being impacted by COVID-19 in ways
+              that are affecting their abilities to pay rent. We made this tool
+              to empower tenants to exercise their rights during this pandemic.
+            </Trans>
           </p>
           <br />
         </div>
@@ -105,22 +115,26 @@ export const NorentAboutPage: React.FC<{}> = () => (
     <section className="hero has-background-white-ter">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced">Who We Are</h2>
+          <h2 className="title is-spaced">
+            <Trans>Who we are</Trans>
+          </h2>
           <br />
           <JustfixLogo isHyperlinked />
           <p className="subtitle is-size-5">
-            NoRent.org is made by{" "}
-            <OutboundLink
-              className="has-text-weight-normal"
-              href="https://www.justfix.nyc/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              JustFix.nyc
-            </OutboundLink>
-            . JustFix.nyc co-designs and builds tools for tenants, housing
-            organizers, and legal advocates fighting displacement in New York
-            City.
+            <Trans>
+              NoRent.org is made by{" "}
+              <OutboundLink
+                className="has-text-weight-normal"
+                href="https://www.justfix.nyc/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                JustFix.nyc
+              </OutboundLink>
+              . JustFix.nyc co-designs and builds tools for tenants, housing
+              organizers, and legal advocates fighting displacement in New York
+              City.
+            </Trans>
           </p>
           <br />
           <OutboundLink
@@ -129,7 +143,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn more about our mission on our website
+            <Trans>Learn more about our mission on our website</Trans>
           </OutboundLink>
           <br />
         </div>
@@ -139,11 +153,15 @@ export const NorentAboutPage: React.FC<{}> = () => (
     <section className="hero">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
-          <h2 className="title is-spaced">Our Partners</h2>
+          <h2 className="title is-spaced">
+            <Trans>Our Partners</Trans>
+          </h2>
           <br />
           <p className="subtitle is-size-5">
-            NoRent.org is a collaboration between JustFix.nyc and legal
-            organizations and housing rights non-profits across the nation.
+            <Trans>
+              NoRent.org is a collaboration between JustFix.nyc and legal
+              organizations and housing rights non-profits across the nation.
+            </Trans>
           </p>
           <br />
         </div>

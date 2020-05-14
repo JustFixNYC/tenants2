@@ -1,6 +1,6 @@
 import * as rt from "@testing-library/react";
 import { getHTMLElement } from "@justfixnyc/util";
-import { queryHelpers } from "@testing-library/react";
+import { queryHelpers, Matcher } from "@testing-library/react";
 
 /**
  * A type for expressing how to fill out a form field.
@@ -166,8 +166,12 @@ export default class ReactTestingLibraryPal {
     );
   }
 
-  /** Quick access to rt.cleanup(), which can be used in afterEach() calls. */
-  static cleanup() {
-    rt.cleanup();
+  /**
+   * Asserts that the link specified by the given matcher has the
+   * given `href` attribute.
+   */
+  ensureLinkGoesTo(matcher: Matcher, href: string) {
+    const link = this.rr.getByText(matcher, { selector: "a" });
+    expect(link.getAttribute("href")).toBe(href);
   }
 }

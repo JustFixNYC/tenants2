@@ -22,8 +22,6 @@ const fakeSteps: ProgressStepRoute[] = [
 ];
 
 describe("ProgressBar", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("works", () => {
     const fakeRaf = new FakeRequestAnimationFrame();
     const pal = new AppTesterPal(<ProgressBar pct={0} />);
@@ -50,8 +48,6 @@ describe("ProgressBar", () => {
 });
 
 describe("RouteProgressBar", () => {
-  afterEach(AppTesterPal.cleanup);
-
   it("properly animates forward and backward", () => {
     const pal = new AppTesterPal(
       <RouteProgressBar label="foo" steps={fakeSteps} />,

@@ -12,6 +12,30 @@ export class ExtractedMessageCatalog {
      */
     readonly msgidSourceFiles: Map<string, string[]>
   ) {}
+
+  validateIdLengths(maxLength: number) {
+    for (let [id, sources] of this.msgidSourceFiles.entries()) {
+      if (id.length > maxLength) {
+        const EXCERPT_LEN = 20;
+        const excerpt = JSON.stringify(id.substring(0, EXCERPT_LEN));
+        const { length } = id;
+
+        // The id would actually take up 2x the space in our bundle because
+        // it will be used in the source code to reference an entry in
+        // the JS locale bundle.
+        const bundleSize = length * 2;
+
+        console.warn(
+          `Message id beginning with ${excerpt} is ${length} characters.`
+        );
+        console.warn(`This message is found in ${sources[0]}.`);
+        console.warn(
+          `Due to its size, this id would actually consume around ` +
+            `${bundleSize} bytes in our source code. Please shorten it!`
+        );
+      }
+    }
+  }
 }
 
 /**

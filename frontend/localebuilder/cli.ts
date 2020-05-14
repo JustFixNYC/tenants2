@@ -16,6 +16,11 @@ const MY_DIR = __dirname;
 const LOCALES_DIR = path.resolve(path.join(MY_DIR, "..", "..", "locales"));
 
 /**
+ * The maximum preferred length of a message id.
+ */
+const MAX_ID_LENGTH = 100;
+
+/**
  * This encapsulates our criteria for splitting up Lingui's
  * single message catalog into separate individual "chunks".
  */
@@ -40,7 +45,7 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
 /**
  * Split up the message catalog for a single locale.
  */
-function processLocale(paths: MessageCatalogPaths) {
+function processLocale(paths: MessageCatalogPaths, validate: boolean) {
   console.log(`Processing locale '${paths.locale}'.`);
 
   const messagesJs = fs.readFileSync(paths.js, {
@@ -51,6 +56,9 @@ function processLocale(paths: MessageCatalogPaths) {
     encoding: "utf-8",
   });
   var extracted = parseExtractedMessages(messagesPo);
+  if (validate) {
+    extracted.validateIdLengths(MAX_ID_LENGTH);
+  }
   const splitter = new MessageCatalogSplitter(extracted, compiled, {
     locale: paths.locale,
     rootDir: paths.rootDir,
@@ -64,7 +72,9 @@ function processLocale(paths: MessageCatalogPaths) {
  */
 export function run() {
   const allPaths = getAllMessageCatalogPaths(LOCALES_DIR);
+  let validate = true;
   for (let paths of allPaths) {
-    processLocale(paths);
+    processLocale(paths, validate);
+    validate = false;
   }
 }

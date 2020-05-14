@@ -1,8 +1,6 @@
 import { getNoRentLetterBuilderProgressRoutesProps } from "../steps";
-import { newSb, SessionBuilder } from "../../../tests/session-builder";
+import { newSb } from "../../../tests/session-builder";
 import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
-import { getAllSteps } from "../../../progress/progress-routes";
-import { getBestNextStep } from "../../../progress/progress-step-route";
 import { overrideGlobalAppServerInfo } from "../../../tests/util";
 import { initNationalMetadataForTesting } from "./national-metadata-test-util";
 import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
@@ -14,26 +12,7 @@ const tester = new ProgressRoutesTester(
 
 tester.defineSmokeTests();
 
-const prProps = getNoRentLetterBuilderProgressRoutesProps();
-
-const allSteps = getAllSteps(prProps);
-
 const sb = newSb();
-
-const welcome = "/en/letter/welcome";
-
-function nextSteps(count: number, sb: SessionBuilder, path = welcome) {
-  return Array.from(nextStepIter(sb, path)).slice(0, count);
-}
-
-function* nextStepIter(sb: SessionBuilder, path = welcome) {
-  while (true) {
-    const step = getBestNextStep(sb.value, path, allSteps);
-    if (!step) return;
-    path = step.path;
-    yield path;
-  }
-}
 
 describe("NoRent letter builder steps", () => {
   beforeAll(() => overrideGlobalAppServerInfo({ siteType: "NORENT" }));
@@ -41,7 +20,7 @@ describe("NoRent letter builder steps", () => {
 
   it("asks brand-new users for their name", () => {
     expect(
-      nextSteps(
+      tester.getNextSteps(
         2,
         sb.withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
       )
@@ -49,7 +28,7 @@ describe("NoRent letter builder steps", () => {
   });
 
   it("works w/ logged-in national users in states w/ protections", () => {
-    expect(nextSteps(2, sb.withLoggedInNationalUser())).toEqual([
+    expect(tester.getNextSteps(2, sb.withLoggedInNationalUser())).toEqual([
       "/en/letter/kyr",
       "/en/letter/landlord/name",
     ]);
@@ -57,7 +36,7 @@ describe("NoRent letter builder steps", () => {
 
   it("works w/ logged-in national users in states w/o protections", () => {
     expect(
-      nextSteps(
+      tester.getNextSteps(
         2,
         sb.withLoggedInNationalUser().withOnboardingInfo({
           state: "GA",
@@ -67,7 +46,7 @@ describe("NoRent letter builder steps", () => {
   });
 
   it("works w/ logged-in JustFix.nyc user who hasn't yet agreed to terms", () => {
-    expect(nextSteps(3, sb.withLoggedInJustfixUser())).toEqual([
+    expect(tester.getNextSteps(3, sb.withLoggedInJustfixUser())).toEqual([
       "/en/letter/terms",
       "/en/letter/kyr",
       "/en/letter/landlord/name",

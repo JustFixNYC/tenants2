@@ -49,4 +49,12 @@ describe("NoRent confirmation page", () => {
     pal.rr.getByText("Find out more");
     pal.rr.getByText("7 days");
   });
+
+  it("renders state-specific legal aid link", () => {
+    const pal = createPal("AK");
+    pal.ensureLinkGoesTo(
+      "your local legal aid provider",
+      "https://alaskalawhelp.org/"
+    );
+  });
 });

@@ -14,22 +14,28 @@ import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 import { NorentOnboardingStep } from "./step-decorators";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 export const NorentCreateAccount = NorentOnboardingStep((props) => {
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (
-    <Page title="Set up an account" withHeading="big">
+    <Page title={li18n._(t`Set up an account`)} withHeading="big">
       <div className="content">
         {isWritingLetter ? (
           <p>
-            Let’s set you up with an account. An account will enable you to save
-            your information, download your letter, and more.
+            <Trans>
+              Let’s set you up with an account. An account will enable you to
+              save your information, download your letter, and more.
+            </Trans>
           </p>
         ) : (
           <p>
-            Let's set you up with an account. This will enable you to save your
-            information, and receive updates.
+            <Trans>
+              Let's set you up with an account. This will enable you to save
+              your information, and receive updates.
+            </Trans>
           </p>
         )}
       </div>
@@ -42,27 +48,32 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
         {(ctx) => (
           <>
             <TextualFormField
-              label="Password"
+              label={li18n._(t`Password`)}
               type="password"
               {...ctx.fieldPropsFor("password")}
             />
             <TextualFormField
-              label="Confirm password"
+              label={li18n._(t`Confirm password`)}
               type="password"
               {...ctx.fieldPropsFor("confirmPassword")}
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
-              Yes, JustFix.nyc can text me to follow up about my housing issues.
+              <Trans>
+                Yes, JustFix.nyc can text me to follow up about my housing
+                issues.
+              </Trans>
             </CheckboxFormField>
             <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-              I agree to the{" "}
-              <ModalLink
-                to={NorentRoutes.locale.letter.createAccountTermsModal}
-                render={() => <PrivacyInfoModal />}
-              >
-                NoRent.org terms and conditions
-              </ModalLink>
-              .
+              <Trans>
+                I agree to the{" "}
+                <ModalLink
+                  to={NorentRoutes.locale.letter.createAccountTermsModal}
+                  render={() => <PrivacyInfoModal />}
+                >
+                  NoRent.org terms and conditions
+                </ModalLink>
+                .
+              </Trans>
             </CheckboxFormField>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

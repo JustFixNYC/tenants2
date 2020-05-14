@@ -25,6 +25,8 @@ import { hardFail } from "../../util/util";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 import { NorentOnboardingStep } from "./step-decorators";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const getRoutes = () => NorentRoutes.locale.letter;
 
@@ -56,12 +58,14 @@ const ScaffoldingAddress: React.FC<{}> = (props) => {
 const ConfirmValidAddressModal: React.FC<{ nextStep: string }> = (props) => {
   return (
     <NorentConfirmationModal
-      title="Confirming the address"
+      title={li18n._(t`Confirming the address`)}
       nextStep={props.nextStep}
     >
       <p>
-        Our records have shown us a similar address. Would you like to proceed
-        with this address:
+        <Trans>
+          Our records have shown us a similar address. Would you like to proceed
+          with this address:
+        </Trans>
       </p>
       <ScaffoldingAddress />
     </NorentConfirmationModal>
@@ -71,10 +75,14 @@ const ConfirmValidAddressModal: React.FC<{ nextStep: string }> = (props) => {
 const ConfirmInvalidAddressModal: React.FC<{ nextStep: string }> = (props) => {
   return (
     <NorentConfirmationModal
-      title="Our records tell us that this address is invalid."
+      title={li18n._(t`Our records tell us that this address is invalid.`)}
       nextStep={props.nextStep}
     >
-      <p>Are you sure you want to proceed with the following address?</p>
+      <p>
+        <Trans>
+          Are you sure you want to proceed with the following address?
+        </Trans>
+      </p>
       <ScaffoldingAddress />
     </NorentConfirmationModal>
   );
@@ -122,14 +130,20 @@ export const NorentLbAskNationalAddress = NorentOnboardingStep((props) => {
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (
-    <Page title="Your residence" withHeading="big">
+    <Page title={li18n._(t`Your residence`)} withHeading="big">
       <div className="content">
         {isWritingLetter ? (
-          <p>We'll include this information in the letter to your landlord.</p>
+          <p>
+            <Trans>
+              We'll include this information in the letter to your landlord.
+            </Trans>
+          </p>
         ) : (
           <p>
-            We’ll use this to reference the latest policies that protect your
-            rights as a tenant.
+            <Trans>
+              We’ll use this to reference the latest policies that protect your
+              rights as a tenant.
+            </Trans>
           </p>
         )}
       </div>
@@ -142,16 +156,16 @@ export const NorentLbAskNationalAddress = NorentOnboardingStep((props) => {
           <>
             <TextualFormField
               {...ctx.fieldPropsFor("street")}
-              label="Address"
+              label={li18n._(t`Address`)}
             />
             <AptNumberFormFields
               aptNumberProps={ctx.fieldPropsFor("aptNumber")}
               noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
-              aptNumberLabel="Unit/apt/lot/suite number"
+              aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
             />
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}
-              label="Zip code"
+              label={li18n._(t`Zip code`)}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

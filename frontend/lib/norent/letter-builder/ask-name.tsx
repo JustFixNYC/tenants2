@@ -5,12 +5,16 @@ import { NorentFullNameMutation } from "../../queries/NorentFullNameMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { NorentOnboardingStep } from "./step-decorators";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export const NorentLbAskName = NorentOnboardingStep((props) => {
   return (
-    <Page title="It’s your first time here!" withHeading="big">
+    <Page title={li18n._(t`It’s your first time here!`)} withHeading="big">
       <div className="content">
-        <p>Let's get to know you.</p>
+        <p>
+          <Trans>Let's get to know you.</Trans>
+        </p>
       </div>
       <br />
       <SessionUpdatingFormSubmitter
@@ -25,11 +29,11 @@ export const NorentLbAskName = NorentOnboardingStep((props) => {
           <>
             <TextualFormField
               {...ctx.fieldPropsFor("firstName")}
-              label="First name"
+              label={li18n._(t`First name`)}
             />
             <TextualFormField
               {...ctx.fieldPropsFor("lastName")}
-              label="Last name"
+              label={li18n._(t`Last name`)}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

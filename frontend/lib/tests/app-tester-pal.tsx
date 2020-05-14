@@ -27,7 +27,7 @@ import autobind from "autobind-decorator";
 import { newSb } from "./session-builder";
 
 /** Options for AppTester. */
-interface AppTesterPalOptions {
+export interface AppTesterPalOptions {
   /** The URL to initially set the router context to. */
   url: string;
 

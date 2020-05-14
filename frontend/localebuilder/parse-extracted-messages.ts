@@ -1,4 +1,5 @@
 import PO from "pofile";
+import chalk from "chalk";
 
 /**
  * Encapsulates information about a Lingui extracted message
@@ -16,7 +17,7 @@ export class ExtractedMessageCatalog {
   validateIdLengths(maxLength: number) {
     for (let [id, sources] of this.msgidSourceFiles.entries()) {
       if (id.length > maxLength) {
-        const EXCERPT_LEN = 20;
+        const EXCERPT_LEN = 30;
         const excerpt = JSON.stringify(id.substring(0, EXCERPT_LEN));
         const { length } = id;
 
@@ -26,9 +27,11 @@ export class ExtractedMessageCatalog {
         const bundleSize = length * 2;
 
         console.warn(
-          `Message id beginning with ${excerpt} is ${length} characters.`
+          `Message id beginning with ${chalk.whiteBright(
+            excerpt
+          )} is ${chalk.redBright(length.toString())} characters.`
         );
-        console.warn(`This message is found in ${sources[0]}.`);
+        console.warn(`This message is found in ${chalk.yellow(sources[0])}.`);
         console.warn(
           `Due to its size, this id would actually consume around ` +
             `${bundleSize} bytes in our source code. Please shorten it!`

@@ -91,7 +91,7 @@ jobs:
             node commondatabuilder.js --version
 
             yarn build
-            yarn test --runInBand
+            yarn test
             yarn lint
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
       - run:

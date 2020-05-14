@@ -25,8 +25,9 @@ describe("NoRent letter preview page", () => {
     );
 
   const checkEmbedOfLetterPreview = (pal: AppTesterPal) => {
-    const iframe = pal.rr.getByTitle("Preview of your NoRent.org letter");
-    expect(iframe.tagName).toBe("IFRAME");
+    const iframe = pal.getElement("iframe");
+    expect(iframe.title).toBe("Preview of your NoRent.org letter");
+    expect(iframe.src).toContain(NorentRoutes.locale.letterContent.html);
   };
 
   it("should work", () => {

@@ -29,7 +29,9 @@ describe("NoRent confirmation page", () => {
   it("should work", () => {
     const pal = createPal("NY", "1234Boopy");
     pal.rr.getByText("You've sent your letter");
-    pal.ensureLinkGoesTo("Sign the petition", CANCEL_RENT_PETITION_URL);
+    expect(pal.rr.getByText("Sign the petition").getAttribute("href")).toBe(
+      CANCEL_RENT_PETITION_URL
+    );
   });
 
   it("should work for users sending physical letters", () => {

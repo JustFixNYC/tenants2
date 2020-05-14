@@ -3,9 +3,11 @@ import { FakeAppContext, overrideGlobalAppServerInfo } from "./util";
 import chalk from "chalk";
 import "../ui/tests/confetti.setup";
 import i18n from "../i18n";
+import { setFriendlyLoadMs } from "../networking/loading-page";
 
 i18n.initialize("en");
 overrideGlobalAppServerInfo();
+setFriendlyLoadMs(1);
 
 Object.keys(FakeAppContext).forEach((prop) => {
   Object.defineProperty(defaultContext, prop, {

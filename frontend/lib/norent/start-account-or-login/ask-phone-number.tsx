@@ -8,7 +8,6 @@ import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { LetterBuilderAccordion } from "../letter-builder/welcome";
-import { NorentRoutes } from "../routes";
 import { ModalLink } from "../../ui/modal";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 
@@ -63,7 +62,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
                 Your privacy is very important to us! Everything on JustFix.nyc
                 is secure.{" "}
                 <ModalLink
-                  to={NorentRoutes.locale.letter.phoneNumberTermsModal}
+                  to={props.routes.phoneNumberTermsModal}
                   component={() => <PrivacyInfoModal />}
                   className="has-text-weight-normal"
                 >

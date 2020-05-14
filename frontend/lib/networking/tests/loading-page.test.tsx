@@ -7,6 +7,7 @@ import {
   IMPERCEPTIBLE_MS,
   LoadingPage,
   LoadingPageWithRetry,
+  setFriendlyLoadMs,
 } from "../loading-page";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { assertNotNull } from "../../util/util";
@@ -25,6 +26,10 @@ function createLoadablePage<Props>(loader: ImportPromiseFunc<Props>) {
 }
 
 const fakeForeverImportFn = () => new Promise(() => {});
+
+beforeAll(() => {
+  setFriendlyLoadMs(1000);
+});
 
 describe("LoadingPageWithRetry", () => {
   it("renders error page", async () => {

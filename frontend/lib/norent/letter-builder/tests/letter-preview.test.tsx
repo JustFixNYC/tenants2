@@ -61,4 +61,11 @@ describe("NoRent letter preview page", () => {
       pal.rr.queryByText(/will be attached in an email to your landlord/i)
     ).toBe(null);
   });
+
+  it("shows a modal allowing user to confirm before sending letter", () => {
+    const pal = createPal("landlordo@gmail.com", "123 Boop Lane");
+    pal.clickButtonOrLink("Next");
+    pal.rr.getByText("Shall we send your letter?");
+    pal.getByTextAndSelector("Yes", "button");
+  });
 });

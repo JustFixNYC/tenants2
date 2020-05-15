@@ -31,9 +31,9 @@ import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
-import { Trans, t } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
-import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
+import { createLinguiCatalogLoader } from "../i18n-lingui";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());

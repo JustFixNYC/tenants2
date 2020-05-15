@@ -17,7 +17,9 @@ export const LetterCounter = () => {
             {NORENT_LETTERS_SENT_PRE_LAUNCH + session.norentLettersSent}
           </p>
           <Trans>
-            <NorentLogo size="is-96x96" color="dark" />{" "}
+            <NorentLogo size="is-96x96" color="dark">
+              NoRent
+            </NorentLogo>{" "}
             <span className="subtitle">
               letters sent by tenants across the USA
             </span>

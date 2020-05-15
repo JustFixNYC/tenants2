@@ -93,7 +93,9 @@ export const NorentFooter: React.FC<{}> = () => (
               </p>
             </Trans>
             <Trans>
-              <NorentLogo size="is-64x64" color="white" />{" "}
+              <NorentLogo size="is-64x64" color="white">
+                NoRent
+              </NorentLogo>{" "}
               <span>brought to you by JustFix.nyc</span>
             </Trans>
           </div>

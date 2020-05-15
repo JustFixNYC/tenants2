@@ -135,11 +135,14 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
 
     const NorentBrand: React.FC<{}> = () => (
       <Link className="navbar-item" to={Routes.locale.home}>
-        <NorentLogo
-          size="is-96x96"
-          color={isPrimaryPage ? "default" : "white"}
-          altText={li18n._(t`Homepage`)}
-        />
+        <Trans>
+          <NorentLogo
+            size="is-96x96"
+            color={isPrimaryPage ? "default" : "white"}
+          >
+            Homepage
+          </NorentLogo>
+        </Trans>
       </Link>
     );
     return (

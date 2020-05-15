@@ -15,6 +15,7 @@ export class ExtractedMessageCatalog {
   ) {}
 
   validateIdLengths(maxLength: number) {
+    let numViolations = 0;
     for (let [id, sources] of this.msgidSourceFiles.entries()) {
       if (id.length > maxLength) {
         const EXCERPT_LEN = 30;
@@ -36,7 +37,13 @@ export class ExtractedMessageCatalog {
           `Due to its size, this id would actually consume around ` +
             `${bundleSize} bytes in our source code. Please shorten it!`
         );
+        numViolations += 1;
       }
+    }
+    if (numViolations > 0) {
+      throw new Error(
+        `${numViolations} message(s) are longer than ${maxLength} characters!`
+      );
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { ga } from "./analytics/google-analytics";
+import { getAmplitude } from "./analytics/amplitude";
 
 type ComponentStackInfo = {
   componentStack: string;
@@ -104,6 +105,7 @@ export class ErrorBoundary extends React.Component<
     if (window.Rollbar) {
       window.Rollbar.error("ErrorBoundary caught an error!", error);
     }
+    getAmplitude()?.logEvent('Exception occurred', { errorString });
     ga("send", "exception", {
       exDescription: errorString,
       exFatal: true,

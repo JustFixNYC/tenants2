@@ -1533,6 +1533,11 @@
     "@testing-library/dom" "^7.2.2"
     "@types/testing-library__react" "^10.0.1"
 
+"@types/amplitude-js@^5.11.0":
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-5.11.0.tgz#2d45f43e701d52407a5b57547a42d321c6d3c1b4"
+  integrity sha512-d+ELEiXtU8H/wVtmGPxTiPuyZW5HWEdKrOWGO99Y1eOvJuSLw3g/b6xlB9+snUOW5P8AYDhCHh8TzT6Vsz8jzQ==
+
 "@types/anymatch@*":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"

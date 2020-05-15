@@ -13,6 +13,7 @@ import { areFieldsEqual } from "./form-field-equality";
 import { ga } from "../analytics/google-analytics";
 import { HistoryBlocker } from "./history-blocker";
 import { getDataLayer } from "../analytics/google-tag-manager";
+import { getAmplitude, logAmplitudeFormSubmission } from "../analytics/amplitude";
 
 export type FormSubmitterProps<
   FormInput,
@@ -219,6 +220,14 @@ export class FormSubmitterWithoutRouter<
         if (this.state.currentSubmissionId !== submissionId) return;
         if (output.errors.length) {
           trackFormErrors(output.errors);
+          if (this.props.formKind) {
+            logAmplitudeFormSubmission({
+              pathname: this.props.location.pathname,
+              formKind: this.props.formKind,
+              formId: this.props.formId,
+              errors: output.errors
+            });
+          }
           this.setState({
             isLoading: false,
             latestOutput: output,
@@ -264,6 +273,12 @@ export class FormSubmitterWithoutRouter<
             redirect || undefined
           );
           if (this.props.formKind) {
+            logAmplitudeFormSubmission({
+              pathname: this.props.location.pathname,
+              formKind: this.props.formKind,
+              formId: this.props.formId,
+              redirect: redirect
+            });
             getDataLayer().push({
               event: "jf.formSuccess",
               "jf.formKind": this.props.formKind,

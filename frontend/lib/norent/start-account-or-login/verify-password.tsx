@@ -10,6 +10,8 @@ import { TextualFormField, HiddenFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
   routes,
@@ -17,14 +19,16 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
   const { session } = useContext(AppContext);
   return (
     <Modal
-      title="Reset your password"
+      title={li18n._(t`Reset your password`)}
       onCloseGoTo={BackOrUpOneDirLevel}
       withHeading
       render={(modalCtx) => (
         <>
           <p>
-            To begin the password reset process, we'll text you a verification
-            code.
+            <Trans>
+              To begin the password reset process, we'll text you a verification
+              code.
+            </Trans>
           </p>
           <LegacyFormSubmitter
             formId="resetPassword"
@@ -40,9 +44,12 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
                     {...modalCtx.getLinkCloseProps()}
                     className="button is-medium jf-is-back-button"
                   >
-                    Go back
+                    <Trans>Go back</Trans>
                   </Link>
-                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                  <NextButton
+                    isLoading={ctx.isLoading}
+                    label={li18n._(t`Send code`)}
+                  />
                 </div>
               </>
             )}
@@ -58,11 +65,13 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
   ...props
 }) => {
   return (
-    <Page title="You already have an account" withHeading="big">
+    <Page title={li18n._(t`You already have an account`)} withHeading="big">
       <div className="content">
         <p>
-          Now we just need your password. This is the same one you’ve used on
-          JustFix.nyc.
+          <Trans>
+            Now we just need your password. This is the same one you’ve used on
+            JustFix.nyc.
+          </Trans>
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -78,7 +87,7 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
           <>
             <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
             <TextualFormField
-              label="Password"
+              label={li18n._(t`Password`)}
               type="password"
               {...ctx.fieldPropsFor("password")}
             />
@@ -87,7 +96,7 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
                 to={routes.forgotPasswordModal}
                 className="is-size-6 has-text-weight-normal"
               >
-                I forgot my password
+                <Trans>I forgot my password</Trans>
               </Link>
             </div>
             <ProgressButtons

@@ -265,6 +265,10 @@ msgstr ""
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:56
+msgid "Click here to learn more about our privacy policy."
+msgstr ""
+
 #: frontend/lib/norent/homepage.tsx:298
 msgid "Collective action is a powerful tool for:"
 msgstr ""
@@ -279,6 +283,10 @@ msgstr ""
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:35
 msgid "Confirm password"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/set-password.tsx:22
+msgid "Confirm your new password"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:37
@@ -305,6 +313,10 @@ msgstr ""
 #: frontend/lib/norent/letter-builder/error-pages.tsx:28
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 msgid "Continue"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:52
+msgid "Create new account"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:245
@@ -404,6 +416,10 @@ msgstr ""
 msgid "Give us feedback"
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:39
+msgid "Go back"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:158
 msgid "Go to website"
 msgstr ""
@@ -421,6 +437,10 @@ msgstr ""
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
 msgid "Hello world"
 msgstr "Hola mundo"
+
+#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
+msgid "Hello, long-time JustFix.nyc user! We appreciate you."
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:386
 msgid "Help! My landlord is already trying to evict me."
@@ -487,6 +507,10 @@ msgstr ""
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:64
+msgid "I forgot my password"
+msgstr ""
+
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
 msgstr ""
@@ -497,6 +521,10 @@ msgstr ""
 
 #: common-data/us-state-choices.ts:77
 msgid "Idaho"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
+msgid "If you didn't receive a code, please contact <0/>."
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:33
@@ -641,6 +669,10 @@ msgstr ""
 msgid "Let's get to know you."
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/set-password.tsx:15
+msgid "Let's set you up with a new password, so you can easily login again."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/create-account.tsx:26
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
 msgstr ""
@@ -775,6 +807,10 @@ msgstr "Nuevo México"
 msgid "New York"
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/set-password.tsx:21
+msgid "New password"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/welcome.tsx:43
 msgid "Next"
 msgstr ""
@@ -806,6 +842,10 @@ msgstr ""
 
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
+msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
 msgstr ""
 
 #: common-data/us-state-choices.ts:100
@@ -850,11 +890,16 @@ msgid "Our records tell us that this address is undeliverable."
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:61
 msgid "Password"
 msgstr ""
 
 #: common-data/us-state-choices.ts:103
 msgid "Pennsylvania"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
+msgid "Phone number"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:81
@@ -874,6 +919,10 @@ msgstr ""
 msgid "Rent Strike 2020: A Resource List"
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
+msgid "Reset your password"
+msgstr ""
+
 #: common-data/us-state-choices.ts:105
 msgid "Rhode Island"
 msgstr ""
@@ -888,6 +937,10 @@ msgstr ""
 
 #: frontend/lib/norent/faqs.tsx:73
 msgid "See more FAQs"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
+msgid "Send code"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:41
@@ -908,6 +961,14 @@ msgstr ""
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:18
 msgid "Set up an account"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/set-password.tsx:10
+msgid "Set your new password"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/set-password.tsx:12
+msgid "Set your password"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:17
@@ -982,6 +1043,10 @@ msgstr ""
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:29
+msgid "To begin the password reset process, we'll text you a verification code."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:76
 msgid "To:"
 msgstr ""
@@ -1000,6 +1065,14 @@ msgstr ""
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
+msgid "Verification code"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:11
+msgid "Verify your phone number"
 msgstr ""
 
 #: common-data/us-state-choices.ts:111
@@ -1043,6 +1116,10 @@ msgstr ""
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:32
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:45
 msgid "We'll use this information to send your letter."
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:14
+msgid "We've just sent you a text message containing a verification code. Please enter it below."
 msgstr ""
 
 #: common-data/us-state-choices.ts:114
@@ -1109,12 +1186,20 @@ msgstr ""
 msgid "Where do I find this information?"
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
+msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:72
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr ""
 
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:40
+msgid "Why do you need this information?"
 msgstr ""
 
 #: frontend/lib/norent/the-letter.tsx:41
@@ -1152,6 +1237,10 @@ msgstr ""
 
 #: frontend/lib/norent/log-out.tsx:21
 msgid "Yes, Sign Out"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/verify-password.tsx:49
+msgid "You already have an account"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:58
@@ -1203,6 +1292,14 @@ msgstr ""
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr ""
 
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:27
+msgid "Your phone number"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
+msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:84
 #: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:42
 msgid "Your residence"
@@ -1219,6 +1316,14 @@ msgstr ""
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:60
 msgid "and"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
+msgid "norent.legacyUserBlurb"
+msgstr ""
+
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
+msgid "norent.whyIsPhoneNumberNeeded"
 msgstr ""
 
 #: frontend/lib/norent/components/helmet.tsx:13

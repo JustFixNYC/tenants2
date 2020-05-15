@@ -41,12 +41,12 @@ export type JustfixAmplitudeClient = Omit<
   logEvent(
     event: "Form submitted",
     data: {
-      pathname: string,
-      formKind: string,
-      formId?: string,
-      redirect?: string,
-      errorMessages?: string[],
-      errorCodes?: string[],
+      pathname: string;
+      formKind: string;
+      formId?: string;
+      redirect?: string;
+      errorMessages?: string[];
+      errorCodes?: string[];
     }
   ): LogReturn;
 
@@ -125,14 +125,14 @@ export function trackLogoutInAmplitude(s: AllSessionInfo) {
 }
 
 export function logAmplitudeFormSubmission(options: {
-  pathname: string,
-  formKind: string,
-  formId?: string,
-  redirect?: string | null,
-  errors?: ServerFormFieldError[]
+  pathname: string;
+  formKind: string;
+  formId?: string;
+  redirect?: string | null;
+  errors?: ServerFormFieldError[];
 }) {
-  let errorMessages: string[]|undefined = undefined;
-  let errorCodes: string[]|undefined = undefined;
+  let errorMessages: string[] | undefined = undefined;
+  let errorCodes: string[] | undefined = undefined;
   if (options.errors) {
     errorMessages = [];
     errorCodes = [];

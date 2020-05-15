@@ -10,7 +10,7 @@ import { li18n } from "../../i18n-lingui";
 export const PostSignupNoProtections: React.FC<ProgressStepProps> = (props) => {
   return (
     <Page title={li18n._(t`Your account is set up`)} withHeading="big">
-      <Trans>
+      <Trans id="norent.instructionsForNewAccountsCreatedInUnprotectedStates">
         <p>
           Now that you have an account with us, we can let you know when any
           important changes take place in your state.

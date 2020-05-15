@@ -1,11 +1,14 @@
 import { DevRouteInfo } from "./dev/routes";
-import { RouteInfo } from "./util/route-util";
+import { RouteInfo, ROUTE_PREFIX } from "./util/route-util";
 import { getGlobalAppServerInfo, AppServerInfo } from "./app-context";
 import { default as JustfixRoutes } from "./justfix-routes";
 import { NorentRoutes } from "./norent/routes";
 
 /** Common localized routes all our sites support. */
 type CommonLocalizedSiteRoutes = {
+  /** The locale prefix. */
+  [ROUTE_PREFIX]: string;
+
   /** The site home page. */
   home: string;
 };

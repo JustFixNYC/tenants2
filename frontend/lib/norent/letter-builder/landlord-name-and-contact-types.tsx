@@ -18,7 +18,7 @@ const ReadOnlyLandlordDetails: React.FC<
 > = ({ details, nextStep, prevStep }) => {
   return (
     <div className="content">
-      <Trans>
+      <Trans id="norent.detailsAboutNYCLandlordInfo">
         <p>
           This is your landlord’s information as registered with the{" "}
           <b>NYC Department of Housing and Preservation (HPD)</b>. This may be

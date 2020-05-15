@@ -29,31 +29,7 @@ msgstr ""
 msgid "<0/> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:358
-msgid "<0>After you send this letter, your landlord may get in touch with you to ask for more information or discuss a repayment plan. Make sure all your communication is documented by letter, email, or text message. Avoid engaging in negotiation other than agreeing to pay a reasonable portion of your rent that you are sure you can afford without putting your health at risk. Don’t agree to move. You can find further legal assistance at <1/>.</0><2>You should continue to collect documentation that shows you’ve been financially impacted by COVID-19.</2>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:264
-msgid "<0>An “eviction moratorium” can mean something different in every jurisdiction, but in short, a moratorium temporarily pauses certain types of evictions.</0><1>The exact means by which this pause is enforced and the types of cases that are paused, varies across cities and states. Depending on the jurisdiction, courts may simply be closed or not processing eviction filings, sheriffs may not be enforcing eviction orders, or there may be some combination of these and other methods of suspending evictions.</1><2>NoRent.org will support you with the process of navigating these different rules. You can also read more about the tenant protections in your jurisdiction at the Anti-Eviction Mapping Project’s <3/>.</2>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:200
-msgid "<0>Connect to organizers through the <1/>, a national alliance of organizers building the tenant movement since 2007. You can join their call for renters across the country to fight for the cancellation of rent at <2/>.</0>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:209
-msgid "<0>Connect to organizers through the <1/>, a national alliance of organizers building the tenant movement since 2007. You can join their call for renters across the country to fight for the cancellation of rent at <2/>.</0><3>You can also connect with your neighbors and organize your building to demand more by taking collective action. Read more about forming tenant unions and starting a rent strike at <4/>.</3>"
-msgstr ""
-
-#: frontend/lib/norent/components/footer.tsx:60
-msgid "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
-msgstr ""
-
-#: frontend/lib/norent/homepage.tsx:248
-msgid "<0>I am writing to inform you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent.</0><1/><2>Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020.</2><3/><4>Tenants in covered properties are also protected from eviction, fees, penalties, and other charges related to non-payment by the CARES Act (Title IV, Sec. 4024) enacted by Congress on March 27, 2020.</4><5/><6>Along with my neighbors, I am organizing, encouraging, and/or participating in a tenant organization so that we may support</6>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:388
+#: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr ""
 
@@ -61,75 +37,18 @@ msgstr ""
 msgid "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:238
-msgid "<0>If you’re not able to pay the rent this month because of a COVID-19 related issue (i.e. employment changes, loss of income, medical expenses, or loss of childcare) this tool is for you. Although the rules for exercising your rights will vary by state, NoRent.org can help walk you through the complexities and connect you to resources.</0>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:251
-msgid "<0>In some states, in order to benefit from the eviction protections that elected officials have put in place you should notify your landlord of your non-payment for reasons related to COVID-19. In the event that your landlord tries to evict you, the courts may view this as a proactive step that helps establish your defense.</0>"
-msgstr ""
-
-#: frontend/lib/norent/letter-builder/welcome.tsx:24
-msgid "<0>In the next few steps, we’ll build your letter using the following information. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:135
-#: frontend/lib/norent/data/faqs-content.tsx:145
-msgid "<0>It’s normal to feel anxious or scared that your landlord will retaliate. If your landlord is harassing you, denying you repairs, or trying to illegally evict you, reach out to legal assistance at <1/> and connect with tenant organizers at <2/>.</0>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:346
-msgid "<0>Join a movement of manufactured homeowners who are standing together to make their communities affordable, healthy, safe, and beautiful places to live. Mobile Home/Manufactured Home Owners: <1/> to hold corporate community owners accountable.</0>"
-msgstr ""
-
 #: frontend/lib/norent/data/faqs-content.tsx:179
 #: frontend/lib/norent/data/faqs-content.tsx:187
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:226
-msgid "<0>NoRent.org guides you through the process of notifying your landlord that you cannot pay the rent due to a COVID-19 related issue. We’ll also help you learn more about the rights that protect tenants in your state and refer you to resources to take legal or organizing action.</0>"
-msgstr ""
-
-#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:9
-msgid "<0>Now that you have an account with us, we can let you know when any important changes take place in your state.</0><1>In the meantime, you can read about what you can do next, from documenting your situation to connecting with others.</1>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:403
-msgid "<0>On a national level, Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020.</0><1>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</1><2>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <3/>.</2><4>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <5/>. You may also connect with local organizing groups affiliated with the national <6/>.</4><7>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <8/>.</7>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:289
-msgid "<0>Once a moratorium is lifted, eviction processes in courts and enforcement by local law enforcement may resume.</0><1>If we don’t win additional demands (such as a rent freeze and suspension of rent payments) before the end of these “eviction moratoriums”, then cases will restart, evictions will continue, and new cases will be filed.</1><2>We are working hard to push for an immediate rent freeze and rent suspension, among other demands. This is the time to organize! Get involved at <3/>.</2>"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:22
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:107
-msgid "<0>The most important place to start is where you live. Connect safely with other tenants in your building or home and start by organizing a means of communicating with one another to find out what issues and needs you share in common.</0><1>For more resources on forming a tenant union check out <2/>. You may also connect with local organizing groups affiliated with the national <3/>.</1>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:310
-msgid "<0>There’s a difference between a “rent strike”, or withholding rent, and not paying rent. This letter notifies the landlord that you’re not paying rent due to financial impacts of COVID-19, which is a way of delaying rent payments now.</0><1>Withholding your rent, or a rent strike, is declaring that you will not pay the rent, regardless of whether you’re able to. This may put you at risk of legal eviction for failure to pay the rent. You should never withhold rent alone and should only do so when you have gotten the support and buy-in of everyone in your building.</1><2>While this is risky, withholding rent can be an important tactic for tenants to build a movement. If your neighbors are considering a rent strike, you may want to refer to the resources below on how to organize, and to contact organizations that have provided tools and resources.</2>"
-msgstr ""
-
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
-msgid "<0>This is your landlord’s information as registered with the <1>NYC Department of Housing and Preservation (HPD)</1>. This may be different than where you send your rent checks.</0><2>We will use this address to ensure your landlord receives it.</2>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:34
-msgid "<0>While you wait for your landlord to respond, gather as much documentation as you can. Some types of documentation you can gather include:</0><1><2><3>Employer Letter</3>: A letter from your employer or a co-worker citing COVID-19 showing job loss or hours reduction as a result of COVID-19.</2><4><5>Unemployment Benefits Documents</5>: These are documents that show you’ve applied for or received benefits from the Employment Development Department.</4><6><7>Paystubs</7>: These can be paychecks from before you were terminated or laid-off. If you have had a change in hours, you can send your paychecks before and after that change.</6><8><9>COVID-19 related expenses</9>: These can be receipts showing that you have had increased expenses from issues resulting from the coronavirus, including childcare costs, expenses from complying with public health directives, or other related expenses.</8><10><11>Child’s Enrollment</11>: This might be a notice that your child’s school has closed due to COVID-19. Evidence of your child’s enrollment may also be included.</10><12><13>Financial Statements</13>: These can be budgets, bank statements, or personal records demonstrating how your income was interrupted by COVID-19 related disruption to your job or business. Be sure to avoid sending any sensitive personal financial information you may not want your landlord to view.</12><14><15>COVID-19 Medical records</15>: This might include extraordinary out-of-pocket medical expenses related to the diagnosis and testing for and/or treatment of COVID-19. Due to the sensitivity of medical records, you may not want to send these to your landlord. However, you should keep these expenses for your own record. This can be used as evidence in case you are asked in court proceedings to provide evidence of extraordinary out-of-pocket COVID-19-related medical expenses for you or a family member.</14><16><17>Other evidence of COVID-19 related financial impact</17>: This can be any other evidence that demonstrates how COVID-19 has impacted your ability to pay rent.</16></1>"
-msgstr ""
-
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:377
-msgid "<0>Yes, you’ll still owe rent after sending the letter because our state and federal governments have not adopted a rent cancellation policy. Call for cancellation of rent at <1/>.</0>"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:102
@@ -261,7 +180,7 @@ msgstr ""
 msgid "Click here to join MHAction’s movement"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:151
+#: frontend/lib/norent/letter-builder/confirmation.tsx:149
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr ""
 
@@ -408,11 +327,11 @@ msgstr ""
 msgid "Georgia"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:174
+#: frontend/lib/norent/letter-builder/confirmation.tsx:172
 msgid "Give feedback"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:163
+#: frontend/lib/norent/letter-builder/confirmation.tsx:161
 msgid "Give us feedback"
 msgstr ""
 
@@ -420,7 +339,7 @@ msgstr ""
 msgid "Go back"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:158
+#: frontend/lib/norent/letter-builder/confirmation.tsx:156
 msgid "Go to website"
 msgstr ""
 
@@ -442,7 +361,7 @@ msgstr "Hola mundo"
 msgid "Hello, long-time JustFix.nyc user! We appreciate you."
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:386
+#: frontend/lib/norent/data/faqs-content.tsx:374
 msgid "Help! My landlord is already trying to evict me."
 msgstr ""
 
@@ -482,20 +401,20 @@ msgstr ""
 msgid "Housing Justice for All"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:449
+#: frontend/lib/norent/data/faqs-content.tsx:437
 msgid "How can I build collective power with other tenants?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:339
-#: frontend/lib/norent/data/faqs-content.tsx:444
+#: frontend/lib/norent/data/faqs-content.tsx:327
+#: frontend/lib/norent/data/faqs-content.tsx:432
 msgid "How can I connect with a lawyer?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:439
+#: frontend/lib/norent/data/faqs-content.tsx:427
 msgid "How can I document my hardships related to COVID-19?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:334
+#: frontend/lib/norent/data/faqs-content.tsx:322
 msgid "How do I organize with other tenants in my building, block, or neighborhood?"
 msgstr ""
 
@@ -511,11 +430,7 @@ msgstr ""
 msgid "I forgot my password"
 msgstr ""
 
-#: frontend/lib/norent/components/social-icons.tsx:18
-msgid "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
-msgstr ""
-
-#: frontend/lib/norent/data/faqs-content.tsx:131
+#: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
 msgstr ""
 
@@ -547,10 +462,6 @@ msgstr ""
 msgid "Illinois"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:14
-msgid "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
-msgstr ""
-
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
 msgstr ""
@@ -571,7 +482,7 @@ msgstr ""
 msgid "Iowa"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:308
+#: frontend/lib/norent/data/faqs-content.tsx:296
 msgid "Is not paying my rent because of COVID-19 considered a “rent strike”?"
 msgstr ""
 
@@ -583,7 +494,7 @@ msgstr ""
 msgid "Is this free?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:236
+#: frontend/lib/norent/data/faqs-content.tsx:224
 msgid "Is this tool right for me?"
 msgstr ""
 
@@ -593,10 +504,6 @@ msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:11
 msgid "It’s your first time here!"
-msgstr ""
-
-#: frontend/lib/norent/letter-builder/confirmation.tsx:137
-msgid "Join millions of us to fight for a future free from debt and to win a national suspension on rent, mortgage and utility payments!"
 msgstr ""
 
 #: frontend/lib/norent/components/footer.tsx:32
@@ -767,7 +674,7 @@ msgstr ""
 msgid "Missouri"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:148
+#: frontend/lib/norent/letter-builder/confirmation.tsx:146
 msgid "Mobile/Manufactured Home Residents"
 msgstr ""
 
@@ -820,10 +727,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: frontend/lib/norent/components/social-icons.tsx:16
-msgid "No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org."
-msgstr ""
-
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
 msgstr ""
@@ -862,14 +765,6 @@ msgstr ""
 
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
-msgstr ""
-
-#: frontend/lib/norent/homepage.tsx:127
-msgid "Our free letter builder was built with <0>lawyers and non-profit tenants rights organizations</0> across the nation to ensure that your letter gives you the most protections based on your state."
-msgstr ""
-
-#: frontend/lib/norent/letter-builder/confirmation.tsx:129
-msgid "Our homes, health, and collective safety and futures are on the line. Millions of us don’t know how we are going to pay our rent, mortgage, or utilities on May 1st, yet landlords and banks are expecting payment as if it’s business as usual. It’s not."
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:204
@@ -975,11 +870,11 @@ msgstr ""
 msgid "Shall we send your letter?"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:180
+#: frontend/lib/norent/letter-builder/confirmation.tsx:178
 msgid "Share this tool"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:144
+#: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Sign the petition"
 msgstr ""
 
@@ -1016,10 +911,6 @@ msgstr ""
 msgid "Tenant Rights"
 msgstr ""
 
-#: frontend/lib/norent/about.tsx:79
-msgid "Tenants across the nation are being impacted by COVID-19 in ways that are affecting their abilities to pay rent. We made this tool to empower tenants to exercise their rights during this pandemic."
-msgstr ""
-
 #: common-data/us-state-choices.ts:108
 msgid "Tennessee"
 msgstr ""
@@ -1039,7 +930,7 @@ msgstr ""
 msgid "This is optional."
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:166
+#: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr ""
 
@@ -1150,15 +1041,15 @@ msgstr ""
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:262
+#: frontend/lib/norent/data/faqs-content.tsx:250
 msgid "What does an eviction moratorium mean?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:224
+#: frontend/lib/norent/data/faqs-content.tsx:212
 msgid "What does this tool do?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:356
+#: frontend/lib/norent/data/faqs-content.tsx:344
 msgid "What happens after I send this letter?"
 msgstr ""
 
@@ -1166,19 +1057,19 @@ msgstr ""
 msgid "What happens next?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:287
+#: frontend/lib/norent/data/faqs-content.tsx:275
 msgid "What happens when the eviction moratorium ends?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:344
+#: frontend/lib/norent/data/faqs-content.tsx:332
 msgid "What if I live in a manufactured or mobile home?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:401
+#: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "What if I live in a state without an eviction moratorium?"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:396
+#: frontend/lib/norent/data/faqs-content.tsx:384
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr ""
 
@@ -1206,7 +1097,7 @@ msgstr ""
 msgid "Why send a letter"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:249
+#: frontend/lib/norent/data/faqs-content.tsx:237
 msgid "Why should I notify my landlord if I can’t pay my rent?"
 msgstr ""
 
@@ -1214,7 +1105,7 @@ msgstr ""
 msgid "Why we made this"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:375
+#: frontend/lib/norent/data/faqs-content.tsx:363
 msgid "Will I still owe my rent after I send this letter?"
 msgstr ""
 
@@ -1318,12 +1209,116 @@ msgstr ""
 msgid "and"
 msgstr ""
 
+#: frontend/lib/norent/data/faqs-content.tsx:202
+msgid "norent.additionalInstructionsForConnectingWithOrganizers"
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/confirmation.tsx:128
+msgid "norent.callToActionForCancelRentCampaign"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:252
+msgid "norent.definitionOfEvictionMoratorium"
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
+msgid "norent.detailsAboutNYCLandlordInfo"
+msgstr ""
+
+#: frontend/lib/norent/components/social-icons.tsx:18
+msgid "norent.emailBodyTemplateForSharingNoRent"
+msgstr ""
+
+#: frontend/lib/norent/about.tsx:79
+msgid "norent.explanationAboutWhyWeMadeThisSite"
+msgstr ""
+
+#: frontend/lib/norent/homepage.tsx:127
+msgid "norent.explanationOfPartnerships"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:277
+msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:214
+msgid "norent.explanationOfWhatToolDoes"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:298
+msgid "norent.explanationOfWithholdingRent"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:334
+msgid "norent.howToConnectWithManufacturedHomeOwners"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:123
+msgid "norent.infoAboutCollectiveOrganizing"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:346
+msgid "norent.instructionsForAfterSendingLetter"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:115
+msgid "norent.instructionsForConnectingWithOrganizers"
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:9
+msgid "norent.instructionsForNewAccountsCreatedInUnprotectedStates"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:391
+msgid "norent.instructionsForStatesWithLimitedProtections"
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/welcome.tsx:14
+msgid "norent.introductionToLetterBuilderSteps"
+msgstr ""
+
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
 msgid "norent.legacyUserBlurb"
 msgstr ""
 
+#: frontend/lib/norent/components/footer.tsx:60
+msgid "norent.legalDisclaimer"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:34
+msgid "norent.listOfSuggestedNonpaymentDocumentation"
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/welcome.tsx:24
+msgid "norent.outlineOfLetterBuilderSteps"
+msgstr ""
+
+#: frontend/lib/norent/homepage.tsx:248
+msgid "norent.sampleNoRentLetter"
+msgstr ""
+
+#: frontend/lib/norent/components/social-icons.tsx:16
+msgid "norent.tweetTemplateForSharingNoRent"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:107
+msgid "norent.whatToDoIfLandlordRetaliates"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:226
+msgid "norent.whoThisToolIsFor"
+msgstr ""
+
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
 msgid "norent.whyIsPhoneNumberNeeded"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:239
+msgid "norent.whyYouShouldNotifyAboutNotPayingRent"
+msgstr ""
+
+#: frontend/lib/norent/data/faqs-content.tsx:365
+msgid "norent.whyYouStillOweRentAfterSendingLetter"
 msgstr ""
 
 #: frontend/lib/norent/components/helmet.tsx:13

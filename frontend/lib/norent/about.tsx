@@ -101,7 +101,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           </h2>
           <br />
           <p className="subtitle is-size-5">
-            <Trans>
+            <Trans id="norent.explanationAboutWhyWeMadeThisSite">
               Tenants across the nation are being impacted by COVID-19 in ways
               that are affecting their abilities to pay rent. We made this tool
               to empower tenants to exercise their rights during this pandemic.

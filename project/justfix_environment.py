@@ -112,6 +112,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # in the header metatags for the site.
     FACEBOOK_APP_ID: str = ''
 
+    # The Amplitude API key. If empty (the default), Amplitude integration
+    # will be disabled.
+    AMPLITUDE_API_KEY: str = ''
+
     # An access token for Rollbar with the 'post_client_item'
     # scope. If empty (the default), Rollbar is disabled on
     # the client-side.

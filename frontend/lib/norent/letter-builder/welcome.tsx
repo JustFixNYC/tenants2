@@ -18,7 +18,7 @@ const WelcomePage: React.FC<ProgressStepProps> = (props) => (
     withHeading="big"
   >
     <p>
-      <Trans>
+      <Trans id="norent.introductionToLetterBuilderSteps">
         In order to benefit from the eviction protections that local elected
         officials have put in place, you should notify your landlord of your
         non-payment for reasons related to COVID-19.{" "}
@@ -28,7 +28,7 @@ const WelcomePage: React.FC<ProgressStepProps> = (props) => (
         </span>
       </Trans>
     </p>
-    <Trans>
+    <Trans id="norent.outlineOfLetterBuilderSteps">
       <p>
         In the next few steps, we’ll build your letter using the following
         information. Have this information on hand if possible:
